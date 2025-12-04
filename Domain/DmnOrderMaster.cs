@@ -40,8 +40,9 @@ namespace Domain
         public string OtherAddText { get; set; }
         public string OtherDedText { get; set; }
         public int PickupOrderFlag { get; set; }
-        public int PkId { get; set; }       
-            
+        public int PkId { get; set; }
+      
+        
     }
 
 }

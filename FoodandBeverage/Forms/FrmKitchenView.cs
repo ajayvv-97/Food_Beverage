@@ -1168,12 +1168,12 @@ namespace FoodandBeverage.Forms
                                         tlp_product_box.RowStyles[2] = new RowStyle(SizeType.AutoSize);
                                     }
                                 }
-                                else
-                                {
-                                    pb_start.Visible = true;
-                                    pb_ready.Visible = true;
-                                    pb_cancelfood.Visible = true;
-                                }
+                                //else
+                                //{
+                                //    pb_start.Visible = true;
+                                //    pb_ready.Visible = true;
+                                //    pb_cancelfood.Visible = true;
+                                //}
 
                                 flp_order_view.Controls.Add(tlp_product_box);
                                 orderbox.Add(new datagrid

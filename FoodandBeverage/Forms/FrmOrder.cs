@@ -246,6 +246,8 @@ namespace FoodandBeverage.Forms
 
         public int McategoryID = 0;
         bool DirectPayBill = false;
+        int refundsmid = 0,Refundkitchenslno=0,Refundorderno=0;decimal refundtotal = 0,Refundproductwisetotal=0;
+        bool Refundproductflag = false;
         #endregion
         public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype)
         {
@@ -1427,6 +1429,8 @@ namespace FoodandBeverage.Forms
                         txtsalemasterid.Text = "0";
 
                     Pickup_ID = Convert.ToInt32(gridSourcemaster[0].PkId);
+                    Refundkitchenslno = Convert.ToInt32(gridSourcemaster[0].Kitchennumber);
+                    Refundorderno = Convert.ToInt32(gridSourcemaster[0].OrderNo);
 
                     txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
                     txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
@@ -1589,7 +1593,7 @@ namespace FoodandBeverage.Forms
                                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                     }
 
-                                    ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom; 
+                                    ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom; 
                                     r++;
                                     #endregion
                                 }
@@ -1729,7 +1733,7 @@ namespace FoodandBeverage.Forms
                         }
                         j = j + 1;
                     }
-                    txtGrandTotal.Text = Convert.ToString(gtotal);
+                    //txtGrandTotal.Text = Convert.ToString(gtotal);
 
                     //if (ordercount == orginalCount && PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.Billpage))
                     //{
@@ -1766,7 +1770,7 @@ namespace FoodandBeverage.Forms
                         if (rcount == 0)
                             Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
                     }
-                    netAmount();
+                    //netAmount();
                 }
                 else
                 {
@@ -6119,6 +6123,9 @@ namespace FoodandBeverage.Forms
                     if (Pickup_Status || combined_Pickup_Status)
                         netAmount = netAmount + Convert.ToDecimal(txtpkchrge_amt.Text);
 
+                    if (Refundproductflag)
+                        netAmount = netAmount - Refundproductwisetotal;
+
                     txtnetamount.Text = netAmount.ToString("N2");
                     label20.Text = "Net Amount : " + txtnetamount.Text;
                     label21.Text = "Net Amount : " + txtnetamount.Text;
@@ -7258,6 +7265,10 @@ namespace FoodandBeverage.Forms
                         else
                         {
                             #region Pickup order Order and print bill case
+                            bool reorderpickupflag = false;
+                            if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                                reorderpickupflag = true;
+
                             int GBL_pkid = 0, GBL_omid = 0;
                             if (KOT_saleprint_status)
                             {
@@ -7272,7 +7283,28 @@ namespace FoodandBeverage.Forms
                                     dmnordermaster.BookmasterId = Bookingmasterid;
                                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                                     dmnordermaster.EntryNo = "";
-                                    dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
+                                    int sumtemp = 0; decimal nettotatemp = 0;
+                                    int ntemp = Dgv_Selected_Item.RowCount;
+                                    if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                                    {
+                                        for (int i = 0; i < ntemp; i++)
+                                        {
+                                            if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != "")
+                                            {
+                                                if ((Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iMainProductStatusno].Value) == Convert.ToInt32(MainProductStatus.Primary)))
+                                                {
+                                                    sumtemp = sumtemp + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                                                    nettotatemp = nettotatemp + Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                                }
+                                                   
+                                            }
+
+                                        }
+                                        dmnordermaster.TotalQuantity = sumtemp;
+                                    }                                        
+                                    else
+                                        dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
+
                                     dmnordermaster.CustomerName = Convert.ToString(txtcusname.Text);
                                     dmnordermaster.Telephone = Convert.ToString(txtph.Text);
                                     dmnordermaster.Email = Convert.ToString(txtemailid.Text);
@@ -7298,13 +7330,20 @@ namespace FoodandBeverage.Forms
                                             dmnDmnPickup.Gender = 1;
                                         else
                                             dmnDmnPickup.Gender = 2;
-
-                                        dmnDmnPickup.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
+        
+                                        if (Convert.ToInt32(txtsalemasterid.Text) > 0)                                       
+                                            dmnDmnPickup.TotalQuantity = sumtemp;                                        
+                                        else
+                                            dmnDmnPickup.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
 
                                         dmnDmnPickup.DiscountAmt = Convert.ToDecimal(txtdis_amt.Text);
                                         dmnDmnPickup.DiscountPer = Convert.ToDecimal(txtdis_per.Text);
 
-                                        dmnDmnPickup.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+                                        if (Convert.ToInt32(txtsalemasterid.Text) > 0)                                        
+                                            dmnDmnPickup.NetAmount = nettotatemp;                                        
+                                        else
+                                            dmnDmnPickup.NetAmount = nettotatemp;
+
                                         dmnDmnPickup.CashRev = Convert.ToDecimal(txtpaidamount.Text);
 
                                         dmnDmnPickup.BalnceAmt = Convert.ToDecimal(txtrecvamount.Text);
@@ -7326,8 +7365,17 @@ namespace FoodandBeverage.Forms
                                     dmnordermaster.CreatedBy = FrmDashboard.UserId;
                                     dmnordermaster.Status = 1;
                                     dmnordermaster.Tid = tableId;
-                                    dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
-                                    dmnordermaster.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+
+                                    if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                                        dmnordermaster.NetAmount = nettotatemp;
+                                    else
+                                        dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+
+                                    if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                                        dmnordermaster.Kitchennumber = Convert.ToString(Refundkitchenslno);
+                                    else
+                                        dmnordermaster.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);                                   
+
                                     var InsertStatusor = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                                     if (InsertStatusor.OrderMasterId > 0)
                                     {
@@ -7389,7 +7437,7 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.BookingFlag = 1;
                                                     dmnorderdetail.KOTPrintStatus = 1;
                                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
-                                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+                                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);                                                    
                                                     dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
                                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                                     dmnorderdetail.PkId = GBL_pkid;
@@ -7464,9 +7512,19 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.Notes = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
                                                     dmnorderdetail.KOTPrintStatus = 1;
                                                     dmnorderdetail.BookingFlag = 0;
-                                                    dmnorderdetail.OrderNo = ResetFlagvalue;
+
+                                                    if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                                                        dmnorderdetail.OrderNo = Refundorderno;
+                                                    else
+                                                        dmnorderdetail.OrderNo = ResetFlagvalue;
+
                                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
-                                                    dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+
+                                                    if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                                                        dmnorderdetail.Kitchennumber = Convert.ToString(Refundkitchenslno);
+                                                    else
+                                                        dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
+      
                                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                                     dmnorderdetail.CCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iccodeno].Value);
                                                     dmnorderdetail.PkId = GBL_pkid;
@@ -7491,10 +7549,40 @@ namespace FoodandBeverage.Forms
                             #region Normal Save Salemaster And Saledetails
                             finaltotalqty();
 
+
+                            int sum = 0; decimal nettotal = 0;
+                            int n = Dgv_Selected_Item.RowCount;
+                            if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                            {
+                                for (int i = 0; i < n; i++)
+                                {
+                                    if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != "")
+                                    {
+                                        if ((Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iMainProductStatusno].Value) == Convert.ToInt32(MainProductStatus.Primary)))
+                                        {
+                                            sum = sum + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                                            nettotal = nettotal + Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                        }
+
+                                    }
+
+                                }
+                            }
                             dmnsalemaster.EntryNo = txtinvoiceno.Text;
-                            dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
-                            dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
-                            dmnsalemaster.GrandTot = Convert.ToDecimal(txtGrandTotal.Text);
+
+                            if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                            {
+                                dmnsalemaster.TotQty = sum;
+                                dmnsalemaster.TotalAmnt = nettotal;
+                                dmnsalemaster.GrandTot = nettotal;
+                            }
+                            else
+                            {
+                                dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
+                                dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
+                                dmnsalemaster.GrandTot = Convert.ToDecimal(txtGrandTotal.Text);
+                            }
+
                             dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                             dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
                             if (RFID_Status)
@@ -7523,8 +7611,15 @@ namespace FoodandBeverage.Forms
                                 else
                                     dmnsalemaster.Gender = 2;
                             }
-
-                            dmnsalemaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+                            if (Convert.ToInt32(txtsalemasterid.Text) > 0)
+                            {
+                                dmnsalemaster.NetAmount = nettotal;
+                            }
+                            else
+                            {
+                                dmnsalemaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
+                            }
+                
                             dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtpaidamount.Text);
                             dmnsalemaster.BalAmnt = Convert.ToDecimal(txtrecvamount.Text);
 
@@ -7609,79 +7704,88 @@ namespace FoodandBeverage.Forms
                             dmnsalemaster.PkChargeAmount = Convert.ToDecimal(txtpkchrge_amt.Text);
 
                             var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
-
-                            #region details
-                            if (InsertStatusP.SalesMasterId != 0)
+                            if (reorderpickupflag)
                             {
-                                if (payid == Convert.ToInt32(PaymentType.PART))
+                                #region details Reorder Pickup
+                                if (InsertStatusP.SalesMasterId != 0)
                                 {
-                                    DmnPayment dmnpayment = new DmnPayment();
-                                    Bllpayment bllpay = new Bllpayment();
-                                    for (int i = 0; i < dgv_part.RowCount; i++)
+                                    if (payid == Convert.ToInt32(PaymentType.PART))
                                     {
-                                        dmnpayment.PayId = 0;
-                                        dmnpayment.OrderMasterID = Convert.ToInt32(label18.Text);
-                                        dmnpayment.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
-                                        dmnpayment.PayType = Convert.ToInt32(dgv_part.Rows[i].Cells[4].Value);
-                                        dmnpayment.Amount = Convert.ToDecimal(dgv_part.Rows[i].Cells[1].Value);
-                                        dmnpayment.Tid = tableId;
-                                        dmnpayment.BranchId = FrmDashboard.BranchId;
-                                        dmnpayment.CreatedBy = FrmDashboard.UserId;
-                                        dmnpayment.Status = 1;
-                                        var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
-                                    }
-                                }
-                                if (gridSourcemaster.Count > 0)
-                                {
-                                    for (int i = 0; i < gridSourcemaster.Count; i++)
-                                    {
-                                        if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)
+                                        DmnPayment dmnpayment = new DmnPayment();
+                                        Bllpayment bllpay = new Bllpayment();
+                                        for (int i = 0; i < dgv_part.RowCount; i++)
                                         {
-                                            dmnsaledetails.SalesRate = Convert.ToDecimal(gridSourcemaster[i].Srate);
-                                            dmnsaledetails.ItemBarcode = Convert.ToString(gridSourcemaster[i].ItemBarCode);
-                                            txtsalemasterid.Text = Convert.ToString(InsertStatusP.SalesMasterId);
-                                            dmnsaledetails.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
-                                            dmnsaledetails.ItemName = Convert.ToString(gridSourcemaster[i].ItemName);
-                                            dmnsaledetails.UnitId = Convert.ToInt32(gridSourcemaster[i].UnitId);
-                                            dmnsaledetails.Quantity = Convert.ToInt32(gridSourcemaster[i].Quantity);
-                                            dmnsaledetails.DiscountPer = Convert.ToDecimal(gridSourcemaster[i].DiscountPer);
-                                            dmnsaledetails.DiscountAmount = Convert.ToDecimal(gridSourcemaster[i].DiscountAmount);
-                                            dmnsaledetails.TaxPer = Convert.ToDecimal(gridSourcemaster[i].TaxPer);
-                                            dmnsaledetails.TaxAmount = Convert.ToDecimal(gridSourcemaster[i].TaxAmount);
-                                            dmnsaledetails.Amount = Convert.ToDecimal(gridSourcemaster[i].Amount);
+                                            dmnpayment.PayId = 0;
+                                            dmnpayment.OrderMasterID = Convert.ToInt32(label18.Text);
+                                            dmnpayment.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                            dmnpayment.PayType = Convert.ToInt32(dgv_part.Rows[i].Cells[4].Value);
+                                            dmnpayment.Amount = Convert.ToDecimal(dgv_part.Rows[i].Cells[1].Value);
+                                            dmnpayment.Tid = tableId;
+                                            dmnpayment.BranchId = FrmDashboard.BranchId;
+                                            dmnpayment.CreatedBy = FrmDashboard.UserId;
+                                            dmnpayment.Status = 1;
+                                            var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
+                                        }
+                                    }
 
-                                            if (Convert.ToInt32(gridSourcemaster[i].AddonStatus) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                                    for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+                                    {
+                                        if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null && Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > 0 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[isubofferstatus].Value) == Convert.ToInt32(SubofferStatus.None) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                                        {
+                                            dmnsaledetails.SalesRate = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[israte].Value);
+                                            dmnsaledetails.ItemBarcode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ibarcode].Value);
+                                            txtsalemasterid.Text = Convert.ToString(InsertStatusP.SalesMasterId);
+
+                                            dmnsaledetails.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+
+                                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
+                                                dmnsaledetails.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+                                            else
+                                                dmnsaledetails.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+
+                                            dmnsaledetails.UnitId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iunitid].Value);
+                                            dmnsaledetails.Quantity = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+
+                                            dmnsaledetails.DiscountPer = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[idisper].Value);
+                                            dmnsaledetails.DiscountAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[idisamt].Value);
+
+                                            dmnsaledetails.TaxPer = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itaxper].Value);
+                                            dmnsaledetails.TaxAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itaxamt].Value);
+
+                                            dmnsaledetails.Amount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iamount].Value);
+
+                                            if ((Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value)) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
                                                 dmnsaledetails.NetAmount = 0;
                                             else
-                                                dmnsaledetails.NetAmount = Convert.ToDecimal(gridSourcemaster[i].NetAmount);
+                                                dmnsaledetails.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
 
-                                            dmnsaledetails.itemid = Convert.ToInt32(gridSourcemaster[i].ItemId);
-                                            dmnsaledetails.Prid = Convert.ToInt32(gridSourcemaster[i].PrId);
-                                            dmnsaledetails.Tax = Convert.ToString(gridSourcemaster[i].Tax);
-                                            dmnsaledetails.TaxType = Convert.ToString(gridSourcemaster[i].TaxType);
-                                            dmnsaledetails.MRP = Convert.ToDecimal(gridSourcemaster[i].MRP);
-                                            dmnsaledetails.ProductType = Convert.ToString(gridSourcemaster[i].TableType);
+                                            dmnsaledetails.itemid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value);
 
-                                            dmnsaledetails.IGSTAmount = Convert.ToDecimal(gridSourcemaster[i].IGSTAmount);
-                                            dmnsaledetails.CGSTAmount = Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
-                                            dmnsaledetails.SGSTAmount = Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
-                                            dmnsaledetails.VatAmount = Convert.ToDecimal(gridSourcemaster[i].VATAmount);
+                                            dmnsaledetails.Prid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
+                                            dmnsaledetails.MRP = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[imrp].Value);
+                                            dmnsaledetails.ProductType = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value);
 
-                                            dmnsaledetails.MarketPrice = Convert.ToDecimal(gridSourcemaster[i].MarketPrice);
-                                            dmnsaledetails.TableType = Convert.ToInt32(gridSourcemaster[i].TableType);
+                                            dmnsaledetails.Tax = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[itax].Value);
+                                            dmnsaledetails.TaxType = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[itaxtype].Value);
+                                            dmnsaledetails.IGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value);
+                                            dmnsaledetails.CGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value) / 2;
+                                            dmnsaledetails.SGSTAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value) / 2;
+                                            dmnsaledetails.VatAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value);
+
+                                            dmnsaledetails.MarketPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value);
+                                            dmnsaledetails.TableType = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value);
                                             dmnsaledetails.BranchId = FrmDashboard.BranchId;
                                             dmnsaledetails.CreatedBy = FrmDashboard.UserId;
                                             dmnsaledetails.Status = 1;
 
-                                            dmnsaledetails.Pavid = Convert.ToInt32(gridSourcemaster[i].Pavid);
-                                            dmnsaledetails.AddonStatus = Convert.ToInt32(gridSourcemaster[i].AddonStatus);
-                                            dmnsaledetails.AV_id = Convert.ToString(gridSourcemaster[i].AV_id);
-                                            dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
-                                            dmnsaledetails.VariatiionName = Convert.ToString(gridSourcemaster[i].VariatiionName);
+                                            dmnsaledetails.Pavid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipavidno].Value);
+                                            dmnsaledetails.AddonStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
+                                            dmnsaledetails.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
+                                            dmnsaledetails.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
+                                            dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
 
-                                            dmnsaledetails.OrderDetailsId = Convert.ToString(gridSourcemaster[i].OrderDetailsId);
-
-                                            dmnsaledetails.SalesDetailsId = Convert.ToInt32(gridSourcemaster[i].SalesDetailsId);
+                                            dmnsaledetails.OrderDetailsId = "0";
+                                            dmnsaledetails.SalesDetailsId = 0;
 
                                             if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
                                                 dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
@@ -7704,19 +7808,16 @@ namespace FoodandBeverage.Forms
                                                 countflag = countflag + 1;
 
                                             int saledetailsid = InsertStatus.SalesDetailsId;
-                                            int odid = Convert.ToInt32(gridSourcemaster[i].OrderDetailsId);
-                                            var existingOrder = orderDetailsInfoList.FirstOrDefault(row => row.OrderDetailsId == odid);
-                                            if (existingOrder != null)
-                                            {
-                                                int index = orderDetailsInfoList.IndexOf(existingOrder);
-                                                orderDetailsInfoList[index].saleDetailsId = saledetailsid;
-                                            }
+                                            //int odid = Convert.ToInt32(gridSourcemaster[i].OrderDetailsId);
+                                            //var existingOrder = orderDetailsInfoList.FirstOrDefault(row => row.OrderDetailsId == odid);
+                                            //if (existingOrder != null)
+                                            //{
+                                            //    int index = orderDetailsInfoList.IndexOf(existingOrder);
+                                            //    orderDetailsInfoList[index].saleDetailsId = saledetailsid;
+                                            //}
                                         }
                                     }
 
-                                }
-                                if (gridSourcemaster.Count == countflag)
-                                {
                                     if (payid == 0)
                                     {
                                         FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
@@ -7728,6 +7829,7 @@ namespace FoodandBeverage.Forms
                                             ResetTableViewPage();
                                         else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                                             ResetPickupViewPage();
+
                                         ResetBillpage();
                                         this.Close();
                                     }
@@ -7746,11 +7848,156 @@ namespace FoodandBeverage.Forms
 
                                         //ClearAll();
                                         this.Close();
-
                                     }
+                                   
                                 }
                                 #endregion
+                            }
+                            else
+                            {
 
+                                #region Sale details Normal
+                                if (InsertStatusP.SalesMasterId != 0)
+                                {
+                                    if (payid == Convert.ToInt32(PaymentType.PART))
+                                    {
+                                        DmnPayment dmnpayment = new DmnPayment();
+                                        Bllpayment bllpay = new Bllpayment();
+                                        for (int i = 0; i < dgv_part.RowCount; i++)
+                                        {
+                                            dmnpayment.PayId = 0;
+                                            dmnpayment.OrderMasterID = Convert.ToInt32(label18.Text);
+                                            dmnpayment.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                            dmnpayment.PayType = Convert.ToInt32(dgv_part.Rows[i].Cells[4].Value);
+                                            dmnpayment.Amount = Convert.ToDecimal(dgv_part.Rows[i].Cells[1].Value);
+                                            dmnpayment.Tid = tableId;
+                                            dmnpayment.BranchId = FrmDashboard.BranchId;
+                                            dmnpayment.CreatedBy = FrmDashboard.UserId;
+                                            dmnpayment.Status = 1;
+                                            var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
+                                        }
+                                    }
+                                    if (gridSourcemaster.Count > 0)
+                                    {
+                                        for (int i = 0; i < gridSourcemaster.Count; i++)
+                                        {
+                                            if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)
+                                            {
+                                                dmnsaledetails.SalesRate = Convert.ToDecimal(gridSourcemaster[i].Srate);
+                                                dmnsaledetails.ItemBarcode = Convert.ToString(gridSourcemaster[i].ItemBarCode);
+                                                txtsalemasterid.Text = Convert.ToString(InsertStatusP.SalesMasterId);
+                                                dmnsaledetails.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                                dmnsaledetails.ItemName = Convert.ToString(gridSourcemaster[i].ItemName);
+                                                dmnsaledetails.UnitId = Convert.ToInt32(gridSourcemaster[i].UnitId);
+                                                dmnsaledetails.Quantity = Convert.ToInt32(gridSourcemaster[i].Quantity);
+                                                dmnsaledetails.DiscountPer = Convert.ToDecimal(gridSourcemaster[i].DiscountPer);
+                                                dmnsaledetails.DiscountAmount = Convert.ToDecimal(gridSourcemaster[i].DiscountAmount);
+                                                dmnsaledetails.TaxPer = Convert.ToDecimal(gridSourcemaster[i].TaxPer);
+                                                dmnsaledetails.TaxAmount = Convert.ToDecimal(gridSourcemaster[i].TaxAmount);
+                                                dmnsaledetails.Amount = Convert.ToDecimal(gridSourcemaster[i].Amount);
+
+                                                if (Convert.ToInt32(gridSourcemaster[i].AddonStatus) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                                                    dmnsaledetails.NetAmount = 0;
+                                                else
+                                                    dmnsaledetails.NetAmount = Convert.ToDecimal(gridSourcemaster[i].NetAmount);
+
+                                                dmnsaledetails.itemid = Convert.ToInt32(gridSourcemaster[i].ItemId);
+                                                dmnsaledetails.Prid = Convert.ToInt32(gridSourcemaster[i].PrId);
+                                                dmnsaledetails.Tax = Convert.ToString(gridSourcemaster[i].Tax);
+                                                dmnsaledetails.TaxType = Convert.ToString(gridSourcemaster[i].TaxType);
+                                                dmnsaledetails.MRP = Convert.ToDecimal(gridSourcemaster[i].MRP);
+                                                dmnsaledetails.ProductType = Convert.ToString(gridSourcemaster[i].TableType);
+
+                                                dmnsaledetails.IGSTAmount = Convert.ToDecimal(gridSourcemaster[i].IGSTAmount);
+                                                dmnsaledetails.CGSTAmount = Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
+                                                dmnsaledetails.SGSTAmount = Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
+                                                dmnsaledetails.VatAmount = Convert.ToDecimal(gridSourcemaster[i].VATAmount);
+
+                                                dmnsaledetails.MarketPrice = Convert.ToDecimal(gridSourcemaster[i].MarketPrice);
+                                                dmnsaledetails.TableType = Convert.ToInt32(gridSourcemaster[i].TableType);
+                                                dmnsaledetails.BranchId = FrmDashboard.BranchId;
+                                                dmnsaledetails.CreatedBy = FrmDashboard.UserId;
+                                                dmnsaledetails.Status = 1;
+
+                                                dmnsaledetails.Pavid = Convert.ToInt32(gridSourcemaster[i].Pavid);
+                                                dmnsaledetails.AddonStatus = Convert.ToInt32(gridSourcemaster[i].AddonStatus);
+                                                dmnsaledetails.AV_id = Convert.ToString(gridSourcemaster[i].AV_id);
+                                                dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
+                                                dmnsaledetails.VariatiionName = Convert.ToString(gridSourcemaster[i].VariatiionName);
+
+                                                dmnsaledetails.OrderDetailsId = Convert.ToString(gridSourcemaster[i].OrderDetailsId);
+
+                                                dmnsaledetails.SalesDetailsId = Convert.ToInt32(gridSourcemaster[i].SalesDetailsId);
+
+                                                if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
+                                                    dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
+                                                else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && dmnsaledetails.AddonStatus == 0)
+                                                    dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid);
+                                                else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.DirectSale))
+                                                    dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.Prid);
+                                                else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.ComboProduct))
+                                                    dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid);
+                                                else
+                                                    dmnsaledetails.Cmid = "0";
+
+                                                var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
+                                                if (InsertStatus == null)
+                                                {
+                                                    MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                                    break;
+                                                }
+                                                else
+                                                    countflag = countflag + 1;
+
+                                                int saledetailsid = InsertStatus.SalesDetailsId;
+                                                int odid = Convert.ToInt32(gridSourcemaster[i].OrderDetailsId);
+                                                var existingOrder = orderDetailsInfoList.FirstOrDefault(row => row.OrderDetailsId == odid);
+                                                if (existingOrder != null)
+                                                {
+                                                    int index = orderDetailsInfoList.IndexOf(existingOrder);
+                                                    orderDetailsInfoList[index].saleDetailsId = saledetailsid;
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                    if (gridSourcemaster.Count == countflag)
+                                    {
+                                        if (payid == 0)
+                                        {
+                                            FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
+                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                            frmSalesInvoice.ShowDialog();
+                                            CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                            if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                                                ResetTableViewPage();
+                                            else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                                                ResetPickupViewPage();
+                                            ResetBillpage();
+                                            this.Close();
+                                        }
+                                        else if (payid != 12)
+                                        {
+                                            FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
+                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                            frmSalesInvoice.ShowDialog();
+                                            CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                            if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                                                ResetTableViewPage();
+                                            else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                                                ResetPickupViewPage();
+                                            ResetBillpage();
+
+                                            //ClearAll();
+                                            this.Close();
+
+                                        }
+                                    }
+                                  
+                                }
+                                #endregion
                             }
 
                             #endregion
@@ -12384,12 +12631,24 @@ namespace FoodandBeverage.Forms
                 if (frmExtraAccessChk.access == true)
                 {
 
-                    lblcanceltextorder.Text = $"Cash refund amount is {txtnetamount.Text}";
+                   
 
                     ttxdesc_cancelorder.Text = "Reason Type Here ...";
                     ttxdesc_cancelorder.ForeColor = Color.Gray;
-
-                    UIHelper.CenterAndResize(pnl_cancelorder, 25, 25);
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnSearch = new DmnSearch();
+                    dmnSearch.Select = "SalesMasterId Field1,NetAmount Field2";
+                    dmnSearch.Table = "tblSalesMaster";
+                    dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
+                    dmnSearch.OrderBy = "";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    if (gridSource.Count > 0)
+                    {
+                        refundsmid = Convert.ToInt32(gridSource[0].Field1);
+                        refundtotal = Convert.ToDecimal(gridSource[0].Field2);
+                    }
+                    lblcanceltextorder.Text = $"Total Cash refund amount is {refundtotal}";
+                    UIHelper.CenterAndResize(pnl_cancelorder, 25, 35);
                     UIHelper.RoundCorners(tlp_cancelorder, 25);
                     UIHelper.RoundCorners(pnl_cancelorder, 25);
                     UIHelper.RoundCorners(tlpnav_cancelorder, 25);
@@ -12447,27 +12706,44 @@ namespace FoodandBeverage.Forms
                     return;
                 }
                 pnl_cancelorder.Visible = false;
-                int smid = 0;
                 string reason = ttxdesc_cancelorder.Text.Trim();
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "SalesMasterId Field1";
-                dmnSearch.Table = "tblSalesMaster";
-                dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
-                dmnSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                if (gridSource.Count > 0)
-                {
-                    smid = Convert.ToInt32(gridSource[0].Field1);
-                }
+                
                 DmnCancelOrder cancelod = new DmnCancelOrder();
                 BllCancelOrder bllcancelod = new BllCancelOrder();
-                cancelod.SalesMasterId = smid;
+                cancelod.SalesMasterId = refundsmid;
                 cancelod.OrderMasterid = tableId;
                 cancelod.BranchId = FrmDashboard.BranchId;
                 cancelod.CreatedBy = FrmDashboard.UserId;
                 cancelod.CancelReason = reason;
                 var InsertStatusP = bllcancelod.CancelOrder("prdCancelOrder", cancelod);
+
+                DmnRefund dmnRefund = new DmnRefund();
+                BllRefund bllRefund = new BllRefund();
+
+                dmnRefund.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
+                dmnRefund.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                dmnRefund.RefundpayType = 1;
+                dmnRefund.RefundReason = 5;
+                dmnRefund.ReasonNote = "staff order Cancel";
+                dmnRefund.CashRefund = refundtotal;
+
+                //// Balances
+                //dmnRefund.CashBalance = Convert.ToDecimal(lblCashBal.Text);
+                //dmnRefund.BonusBalance = Convert.ToDecimal(lblBonusBal.Text);
+                //dmnRefund.PointBalnce = Convert.ToDecimal(lblPointBal.Text);  // Correct spelling
+                //dmnRefund.TokenBalance = Convert.ToDecimal(lblTokenBal.Text);
+
+                //// Refund amounts
+                //dmnRefund.CashBalanceRefund = dmnRefund.CashRefund;
+                //dmnRefund.BonusRefund = Convert.ToDecimal(lblReBonusBal.Text);
+                //dmnRefund.PointRefund = Convert.ToDecimal(lblRePointBal.Text);
+                //dmnRefund.TokenRefund = Convert.ToDecimal(lblReTokenBal.Text);
+
+                dmnRefund.CreatedBy = FrmDashboard.UserId;
+                dmnRefund.BranchId = FrmDashboard.BranchId;
+                dmnRefund.Status = 1;
+                //dmnRefund.CreatedDateTime = DateTime.Now;
+                var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
 
                 if (InsertStatusP.SalesMasterId > 0)
                     MessageBox.Show("Order cancelled successfully!", "Cancelled");
@@ -12509,9 +12785,15 @@ namespace FoodandBeverage.Forms
                 if (gridSource.Count > 0)
                 {
                     if(Convert.ToInt32(gridSource[0].Field7)==1)
+                    {
                         btnreconfirmorder.Visible = true;
+                        Refundproductflag = true;
+                    }                       
                     else
+                    {
                         btnreconfirmorder.Visible = false;
+                        Refundproductflag = false;
+                    }                       
 
                     decimal total = 0;
                     dgv_ordercancel.Rows.Add(gridSource.Count);
@@ -12532,6 +12814,7 @@ namespace FoodandBeverage.Forms
                         total = total + Convert.ToDecimal(gridSource[i].Field6);
                     }
                     lblpickupcnlamt.Text = total.ToString("N2");
+                    Refundproductwisetotal = total;
                 }
                 else
                     btnreconfirmorder.Visible = false;
