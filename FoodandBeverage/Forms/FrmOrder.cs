@@ -236,7 +236,6 @@ namespace FoodandBeverage.Forms
         public int McategoryID = 0;
         bool DirectPayBill = false;
         #endregion
-
         public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype)
         {
             tableId = tid;
@@ -505,7 +504,13 @@ namespace FoodandBeverage.Forms
                     {
                         btndirectpaybill.Visible = false;
                     }
-
+                    else if (sourcepage == Convert.ToInt32(SourcepageType.Billingpage))
+                    {
+                        btndirectpaybill.Visible = false;
+                        btn_savekot_print.Visible = false;
+                        btn_print_bill.Visible = false;
+                        btn_PrintCopy.Visible = false;
+                    }
                 }
                 else
                 {
@@ -1376,7 +1381,6 @@ namespace FoodandBeverage.Forms
                     label10.Visible = false;
                 }
                 textb_shape();
-
             }
             catch (Exception ex)
             {
@@ -1835,6 +1839,37 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  GridSlno_Refresh()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+        public void AddEmptyRowIfNeeded()
+        {
+            try
+            {
+                // If no rows → add first row
+                if (Dgv_Selected_Item.RowCount == 0)
+                {
+                    Dgv_Selected_Item.Rows.Add();
+                    return;
+                }
+
+                // Get last row
+                DataGridViewRow lastRow = Dgv_Selected_Item.Rows[Dgv_Selected_Item.RowCount - 1];
+
+                // Check if last row is empty (based on isubofferstatus column)
+                bool isLastRowEmpty =
+                    lastRow.Cells[isubofferstatus].Value == null ||
+                    string.IsNullOrWhiteSpace(lastRow.Cells[isubofferstatus].Value.ToString());
+
+                // If last row is NOT empty → add new row
+                if (!isLastRowEmpty)
+                {
+                    Dgv_Selected_Item.Rows.Add();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("AddEmptyRowIfNeeded()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
         public void CheckRe_order()
         {
             try
@@ -2009,7 +2044,8 @@ namespace FoodandBeverage.Forms
                                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                     }
 
-                                    ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                    ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                                     r++;
                                     #endregion
                                 }
@@ -8044,6 +8080,7 @@ namespace FoodandBeverage.Forms
                     btn_split_number.Visible = true;
                     txtpromocode.Enabled = true;
                     btn_save_promo.Enabled = true;
+                    AddEmptyRowIfNeeded();
                 }
                 else if (Booking_Status)
                 {
