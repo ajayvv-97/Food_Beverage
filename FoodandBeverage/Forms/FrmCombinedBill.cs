@@ -629,7 +629,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page CheckCombinedOrNot()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
 
@@ -674,7 +674,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page CheckCombinedOrNot_Tid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
 
@@ -779,7 +779,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page btn_select_Clicked", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
@@ -979,7 +979,7 @@ namespace FoodandBeverage.Forms
 
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page CompleteEventHandler", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
 
@@ -1002,7 +1002,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page tlp_category_com_MouseHover()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
 
@@ -1022,7 +1022,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page tlp_category_com_MouseLeave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
 
@@ -1049,7 +1049,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page btn_backCompleorder_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
 
@@ -1093,7 +1093,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page btn_serach_prev_bill_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
@@ -1229,7 +1229,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page btn_prevbill_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
@@ -1245,7 +1245,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page dgvorderview_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
@@ -1298,7 +1298,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page printBill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
@@ -1349,7 +1349,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page FillTablecode_Comb()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
@@ -1557,7 +1557,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page dgv_split_CellContentClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
 
