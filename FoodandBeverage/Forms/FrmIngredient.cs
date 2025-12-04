@@ -347,6 +347,7 @@ namespace FoodandBeverage.Forms
                 pnl_addon.Visible = false;
                 #endregion
 
+                chb_active.Checked = true;
                 chk_variation.Checked = false;
                 chk_addons.Checked = false;
                 SerachFlag = false;
@@ -411,6 +412,13 @@ namespace FoodandBeverage.Forms
                 {
                     CMessageBox.Show(this, "Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     CmbCategory.Focus();
+                    return false;
+                }
+                
+                else if (Convert.ToInt32(cmbpre_type.SelectedValue) == -1)
+                {
+                    CMessageBox.Show(this, "Please Select Preparation Mode", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbpre_type.Focus();
                     return false;
                 }
                 else if (string.IsNullOrWhiteSpace(cmbtax.Text))

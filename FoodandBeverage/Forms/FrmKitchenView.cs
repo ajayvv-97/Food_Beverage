@@ -110,15 +110,15 @@ namespace FoodandBeverage.Forms
         }
         private void PlaySound()
         {
-            try
-            {
-                soundPlayer.Play();
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Kitchen_View Page PlaySound()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
-            }
+        //    try
+        //    {
+        //        soundPlayer.Play();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        clsgen.LogException("Kitchen_View Page PlaySound()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+        //    }
         }
 
         #region TexBox Round function
