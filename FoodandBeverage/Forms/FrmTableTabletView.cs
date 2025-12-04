@@ -354,7 +354,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
         }
 
@@ -897,8 +897,7 @@ namespace FoodandBeverage.Forms
                 if (e.KeyChar == (char)Keys.Enter)
                 {
                     e.Handled = true; // ignore Enter key
-                }
-            
+                }           
 
         }
     }
