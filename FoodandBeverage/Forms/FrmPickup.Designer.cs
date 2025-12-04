@@ -40,6 +40,8 @@ namespace FoodandBeverage.Forms
             this.flp_pickup_view = new System.Windows.Forms.FlowLayoutPanel();
             this.pbempty = new System.Windows.Forms.PictureBox();
             this.AutoTimer = new System.Windows.Forms.Timer(this.components);
+            this.btn_cancle_pickup = new System.Windows.Forms.Button();
+            this.lblcanpickupcount = new System.Windows.Forms.Label();
             this.tlp_main.SuspendLayout();
             this.tlp_search.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbempty)).BeginInit();
@@ -66,16 +68,19 @@ namespace FoodandBeverage.Forms
             // tlp_search
             // 
             this.tlp_search.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.tlp_search.ColumnCount = 4;
+            this.tlp_search.ColumnCount = 6;
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_search.Controls.Add(this.btnaddnew, 3, 0);
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_search.Controls.Add(this.btnaddnew, 5, 0);
             this.tlp_search.Controls.Add(this.txtPkid_search, 0, 0);
-            this.tlp_search.Controls.Add(this.btn_refresh, 2, 0);
             this.tlp_search.Controls.Add(this.btnsearch, 1, 0);
+            this.tlp_search.Controls.Add(this.btn_cancle_pickup, 3, 0);
+            this.tlp_search.Controls.Add(this.btn_refresh, 2, 0);
+            this.tlp_search.Controls.Add(this.lblcanpickupcount, 4, 0);
             this.tlp_search.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_search.Location = new System.Drawing.Point(3, 13);
             this.tlp_search.Name = "tlp_search";
@@ -167,6 +172,35 @@ namespace FoodandBeverage.Forms
             this.AutoTimer.Interval = 2000;
             this.AutoTimer.Tick += new System.EventHandler(this.AutoTimer_Tick);
             // 
+            // btn_cancle_pickup
+            // 
+            this.btn_cancle_pickup.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_orderpage_cancelorder;
+            this.btn_cancle_pickup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_cancle_pickup.FlatAppearance.BorderSize = 0;
+            this.btn_cancle_pickup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_cancle_pickup.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_cancle_pickup.ForeColor = System.Drawing.Color.White;
+            this.btn_cancle_pickup.Location = new System.Drawing.Point(458, 3);
+            this.btn_cancle_pickup.Name = "btn_cancle_pickup";
+            this.btn_cancle_pickup.Size = new System.Drawing.Size(101, 43);
+            this.btn_cancle_pickup.TabIndex = 292;
+            this.btn_cancle_pickup.UseVisualStyleBackColor = true;
+            this.btn_cancle_pickup.Visible = false;
+            this.btn_cancle_pickup.Click += new System.EventHandler(this.btn_cancle_pickup_Click);
+            // 
+            // lblcanpickupcount
+            // 
+            this.lblcanpickupcount.AutoSize = true;
+            this.lblcanpickupcount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblcanpickupcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblcanpickupcount.Location = new System.Drawing.Point(565, 0);
+            this.lblcanpickupcount.Name = "lblcanpickupcount";
+            this.lblcanpickupcount.Size = new System.Drawing.Size(19, 49);
+            this.lblcanpickupcount.TabIndex = 293;
+            this.lblcanpickupcount.Text = "0";
+            this.lblcanpickupcount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblcanpickupcount.Visible = false;
+            // 
             // FrmPickup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -200,5 +234,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btnsearch;
         private System.Windows.Forms.Button btn_refresh;
         private System.Windows.Forms.PictureBox pbempty;
+        private System.Windows.Forms.Button btn_cancle_pickup;
+        private System.Windows.Forms.Label lblcanpickupcount;
     }
 }

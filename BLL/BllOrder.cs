@@ -219,6 +219,34 @@ namespace BLL
             parms.Add("RemoveNotes", objTestClass.RemoveNotes);
             parms.Add("AddonStatus", objTestClass.AddonStatus);
             parms.Add("Avid", objTestClass.AV_id);
+            parms.Add("CancelNotifyStatus", objTestClass.CancelNotifyStatus);
+            parms.Add("KitchenCancelStatus", objTestClass.KitchenCancelStatus);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+        public DmnOrderMaster CancelNotifyStatus_update(string procedureName, DmnOrderMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
+            parms.Add("CancelNotifyStatus", objTestClass.CancelNotifyStatus);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("PkId", objTestClass.PkId);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+        public DmnOrderMaster Reconfirmorder_update(string procedureName, DmnOrderMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
+            parms.Add("KitchenCancelStatus", objTestClass.KitchenCancelStatus);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("PkId", objTestClass.PkId);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

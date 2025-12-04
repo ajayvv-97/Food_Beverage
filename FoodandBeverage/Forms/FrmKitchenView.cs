@@ -95,7 +95,7 @@ namespace FoodandBeverage.Forms
         Dictionary<string, int> rowCounters = new Dictionary<string, int>(); // unique row key -> counter
         Dictionary<string, bool> rowColorState = new Dictionary<string, bool>(); // unique row key -> color state
         int blinkPeriod = 1; // number of updates before toggling
-
+        public int korderno = 0;
 
         private void btncolse_Click(object sender, EventArgs e)
         {
@@ -239,102 +239,164 @@ namespace FoodandBeverage.Forms
                                 string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                                 string readybuttonname = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                                 string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                string rprint = "reprintbutton_k_" + orders.Field1 + gridSourcedetails[0].Field17;
 
-                                PictureBox btn_ready = this.Controls.Find(readybuttonname, true).FirstOrDefault() as PictureBox;
-                                PictureBox btn_start = this.Controls.Find(startbuttonname, true).FirstOrDefault() as PictureBox;
-                                PictureBox btn_cancelfood = this.Controls.Find(cancelfoodbuttonname, true).FirstOrDefault() as PictureBox;
-                                DataGridView dgv_product_details = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
+                                string pnldesname = "pnl_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17;
 
-                                #region Grid Edit Cancel  product
+                                // ---------------- FIND ALL CONTROLS ----------------
 
-                                for (int k = 0; k < gridSourcedetails.Count; k++)
+                                // Start button
+                                PictureBox btn_start = this.Controls
+                                    .Find(startbuttonname, true)
+                                    .FirstOrDefault() as PictureBox;
+
+                                // Ready button
+                                PictureBox btn_ready = this.Controls
+                                    .Find(readybuttonname, true)
+                                    .FirstOrDefault() as PictureBox;
+
+                                // Cancel food button
+                                PictureBox btn_cancelfood = this.Controls
+                                    .Find(cancelfoodbuttonname, true)
+                                    .FirstOrDefault() as PictureBox;
+
+                                // Reprint button
+                                PictureBox pbrprint = this.Controls
+                                    .Find(rprint, true)
+                                    .FirstOrDefault() as PictureBox;
+
+                                // Description panel
+                                Panel pnldesccont = this.Controls
+                                    .Find(pnldesname, true)
+                                    .FirstOrDefault() as Panel;
+
+                                // TextBox inside panel
+                                TextBox txtdes = null;
+                                if (pnldesccont != null)
                                 {
-                                    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
-                                        flagstart_ready = true;
-                                    else if (Convert.ToInt32(gridSourcedetails[k].Field12) == 2)
-                                        flagstart_ready = false;
-
-                                    dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
-                                    dgv_product_details.Rows[k].Cells[dAVIDno].Value = gridSourcedetails[k].Field20;
-                                    dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
-
-                                    DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
-                                    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
-                                    {
-                                        var row = dgv_product_details.Rows[k];
-
-                                        // Create a unique key for this row (e.g., using order ID + product ID)
-                                        string rowKey = gridSourcedetails[k].Field1 + "_" + gridSourcedetails[k].Field11;
-
-                                        // UI setup (can be repeated safely)
-                                        row.ReadOnly = true;
-                                        row.Cells[dremnoteno].Value = gridSourcedetails[k].Field11;
-                                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                        cell.Value = Properties.Resources.orderview_cancelled;
-
-                                        // Initialize counter and color state if not exists
-                                        if (!rowCounters.ContainsKey(rowKey))
-                                            rowCounters[rowKey] = 0;
-                                        if (!rowColorState.ContainsKey(rowKey))
-                                            rowColorState[rowKey] = false; // start with white
-
-                                        // Increment counter
-                                        rowCounters[rowKey]++;
-
-                                        // Toggle color when counter reaches blinkPeriod
-                                        if (rowCounters[rowKey] >= blinkPeriod)
-                                        {
-                                            rowColorState[rowKey] = !rowColorState[rowKey];
-                                            row.DefaultCellStyle.BackColor = rowColorState[rowKey] ? Color.LightCoral : Color.White;
-
-                                            // Reset counter
-                                            rowCounters[rowKey] = 0;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        cell.Value = Properties.Resources.kitchenfood_cancel_icon;
-                                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                    }
-
-                                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
-                                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                    cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
-                                    if (Convert.ToInt32(gridSourcedetails[k].Field13) == Convert.ToInt32(Tabletype.ComboProduct))
-                                    {
-                                        cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
-                                    }
-                                    else if (Convert.ToInt32(gridSourcedetails[k].Field23) >= 1)
-                                    {
-                                        cellcolumntype.Value = Properties.Resources.addonbutton;
-                                        cellcolumntype.ToolTipText = "Addon [clcik view more...]";
-                                    }
-                                    else
-                                    {
-                                        if (Convert.ToInt32(k) % 2 == 0)
-                                            cellcolumntype.Value = Properties.Resources.orderview_blank;
-                                        else
-                                            cellcolumntype.Value = Properties.Resources.orderview_blank_2;               
-                                    }
-
+                                    // Finds first textbox inside panel
+                                    txtdes = pnldesccont.Controls
+                                        .OfType<TextBox>()
+                                        .FirstOrDefault();
                                 }
-                                #endregion
 
-                                #region Edit Ready and Close Button 
-                                if (flagstart_ready)
+                                // DataGridView
+                                DataGridView dgv_product_details = this.Controls
+                                    .Find(dgvname, true)
+                                    .FirstOrDefault() as DataGridView;
+
+
+                                if (Convert.ToInt32(gridSourcedetails[0].Field26) == 1)
                                 {
-                                    btn_start.Visible = true;
-                                    btn_cancelfood.Visible = true;
-                                    btn_ready.Visible = false;
+                                    if (btn_ready != null)
+                                        btn_ready.Visible = false;
+                                    if (btn_start != null)
+                                        btn_start.Visible = false;
+                                    if (btn_cancelfood != null)
+                                        btn_cancelfood.Visible = false;
+                                    if (pbrprint != null)
+                                        pbrprint.Visible = false;
+
+                                    if (txtdes != null)
+                                    {
+                                        txtdes.Visible = true;
+                                        txtdes.Text = "Waiting for customer confirmation.";
+                                    }
+                                    tlp_sele.RowStyles[2] = new RowStyle(SizeType.AutoSize);
                                 }
                                 else
                                 {
-                                    if (btn_start != null)
-                                        btn_start.Visible = false;
-                                    btn_ready.Visible = true;
-                                    btn_cancelfood.Visible = false;
+                                    #region Grid Edit Cancel  product
+
+                                    for (int k = 0; k < gridSourcedetails.Count; k++)
+                                    {
+                                        if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
+                                            flagstart_ready = true;
+                                        else if (Convert.ToInt32(gridSourcedetails[k].Field12) == 2)
+                                            flagstart_ready = false;
+
+                                        dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
+                                        dgv_product_details.Rows[k].Cells[dAVIDno].Value = gridSourcedetails[k].Field20;
+                                        dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
+
+                                        DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
+                                        if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
+                                        {
+                                            var row = dgv_product_details.Rows[k];
+
+                                            // Create a unique key for this row (e.g., using order ID + product ID)
+                                            string rowKey = gridSourcedetails[k].Field1 + "_" + gridSourcedetails[k].Field11;
+
+                                            // UI setup (can be repeated safely)
+                                            row.ReadOnly = true;
+                                            row.Cells[dremnoteno].Value = gridSourcedetails[k].Field11;
+                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                            cell.Value = Properties.Resources.orderview_cancelled;
+
+                                            // Initialize counter and color state if not exists
+                                            if (!rowCounters.ContainsKey(rowKey))
+                                                rowCounters[rowKey] = 0;
+                                            if (!rowColorState.ContainsKey(rowKey))
+                                                rowColorState[rowKey] = false; // start with white
+
+                                            // Increment counter
+                                            rowCounters[rowKey]++;
+
+                                            // Toggle color when counter reaches blinkPeriod
+                                            if (rowCounters[rowKey] >= blinkPeriod)
+                                            {
+                                                rowColorState[rowKey] = !rowColorState[rowKey];
+                                                row.DefaultCellStyle.BackColor = rowColorState[rowKey] ? Color.LightCoral : Color.White;
+
+                                                // Reset counter
+                                                rowCounters[rowKey] = 0;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            cell.Value = Properties.Resources.kitchenfood_cancel_icon;
+                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        }
+
+                                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
+                                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
+                                        if (Convert.ToInt32(gridSourcedetails[k].Field13) == Convert.ToInt32(Tabletype.ComboProduct))
+                                        {
+                                            cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
+                                        }
+                                        else if (Convert.ToInt32(gridSourcedetails[k].Field23) >= 1)
+                                        {
+                                            cellcolumntype.Value = Properties.Resources.addonbutton;
+                                            cellcolumntype.ToolTipText = "Addon [clcik view more...]";
+                                        }
+                                        else
+                                        {
+                                            if (Convert.ToInt32(k) % 2 == 0)
+                                                cellcolumntype.Value = Properties.Resources.orderview_blank;
+                                            else
+                                                cellcolumntype.Value = Properties.Resources.orderview_blank_2;
+                                        }
+
+                                    }
+                                    #endregion
+
+                                    #region Edit Ready and Close Button 
+                                    if (flagstart_ready)
+                                    {
+                                        btn_start.Visible = true;
+                                        btn_cancelfood.Visible = true;
+                                        btn_ready.Visible = false;
+                                    }
+                                    else
+                                    {
+                                        if (btn_start != null)
+                                            btn_start.Visible = false;
+                                        btn_ready.Visible = true;
+                                        btn_cancelfood.Visible = false;
+                                    }
+                                    #endregion
                                 }
-                                #endregion
 
                                 flp_order_view.ResumeLayout();
                             }
@@ -1093,6 +1155,26 @@ namespace FoodandBeverage.Forms
                                 tlp_product_box.Controls.Add(tlp_buttons, 0, 3);
                                 #endregion
 
+                                if (Convert.ToInt32(gridSourcedetails[0].Field27) == 1)
+                                {
+                                    pb_start.Visible = false;
+                                    pb_ready.Visible = false;
+                                    pb_cancelfood.Visible = false;
+                                    reprintbutton.Visible = false;
+                                    if (reprintbutton != null)
+                                    {
+                                        txt_Description.Visible = true;
+                                        txt_Description.Text = "Waiting for customer confirmation.";
+                                        tlp_product_box.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                                    }
+                                }
+                                else
+                                {
+                                    pb_start.Visible = true;
+                                    pb_ready.Visible = true;
+                                    pb_cancelfood.Visible = true;
+                                }
+
                                 flp_order_view.Controls.Add(tlp_product_box);
                                 orderbox.Add(new datagrid
                                 {
@@ -1500,16 +1582,8 @@ namespace FoodandBeverage.Forms
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
                 isCancelPrintingRunning = false;
-
-                this.Invoke(new Action(() =>
-                {
-                    lblprintloading.Visible = false;
-                }));
-
             }
         }
-
-
         //private void PrintcancelOrder()
         //{
 
@@ -1722,6 +1796,7 @@ namespace FoodandBeverage.Forms
                     DataGridView clickedDataGridView = sender as DataGridView;
                     if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 1)//  Food processing Not started
                     {
+                        korderno = 0;
                         tlp_main.Enabled = false;
                         txt_product_remove_des.Text = "Reason type here .....";
                         txt_product_remove_des.ForeColor = Color.LightGray;
@@ -1736,6 +1811,7 @@ namespace FoodandBeverage.Forms
                         pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                         tlp_products_descr_main.Dock = DockStyle.Fill;
                         lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
+                        korderno=Convert.ToInt32(clickedDataGridView.Tag);
                         //txt_product_remove_des.Focus();
                     }
                     else if (clickedDataGridView != null && Convert.ToInt32(clickedDataGridView.Rows[e.RowIndex].Cells[dstatusno].Value) == 2)//  Food processing started
@@ -2361,6 +2437,7 @@ namespace FoodandBeverage.Forms
 
                                     dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
                                     dmnRemove_order.Status = 0;
+                                    //dmnRemove_order.CancelNotifyStatus = 1;
                                     dmnRemove_order.OrderCancelNotes = txt_product_remove_des.Text;
                                     var InsertStatusP = bll_order.Remove_order_ALL("prd_remove_KitchenOrder", dmnRemove_order);
                                 }
@@ -2386,6 +2463,8 @@ namespace FoodandBeverage.Forms
                             PictureBox btnReady = this.Controls.Find(readyButtonName, true).FirstOrDefault() as PictureBox;
                             PictureBox btnStart = this.Controls.Find(startButtonName, true).FirstOrDefault() as PictureBox;
                             PictureBox btnCancelFood = this.Controls.Find(cancelFoodButtonName, true).FirstOrDefault() as PictureBox;
+
+
                             if (btnReady != null && btnStart != null && btnCancelFood != null && lblTime != null && lblTableCode != null)
                             {
                                 btnReady.Dispose();
@@ -2421,7 +2500,37 @@ namespace FoodandBeverage.Forms
                         dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
                         dmnRemove_order.Status = 0;
                         dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
+                        dmnRemove_order.CancelNotifyStatus = 1;
+                        dmnRemove_order.KitchenCancelStatus = 1;
                         var InsertStatusP = bll_order.Remove_order_KitchenOrder_ByProduct("prd_remove_Order", dmnRemove_order);
+
+                        string startbuttonname = "pb_start_k_" + korderno;
+                        string readybuttonname = "pb_ready_k_" + korderno;
+                        string cancelfoodbuttonname = "pictureBoxRemove_k_" + korderno;
+                        string rprint = "reprintbutton_k_" + korderno;
+                        string descrip = "txt_Description_k_" + korderno;
+                        string tlpname = "tlp_product_box_k_" +korderno;
+                        TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel; 
+                        PictureBox btn_ready = this.Controls.Find(readybuttonname, true).FirstOrDefault() as PictureBox;
+                        PictureBox btn_start = this.Controls.Find(startbuttonname, true).FirstOrDefault() as PictureBox;
+                        PictureBox btn_cancelfood = this.Controls.Find(cancelfoodbuttonname, true).FirstOrDefault() as PictureBox;
+                        TextBox txtdes = this.Controls.Find(descrip, true).FirstOrDefault() as TextBox;
+
+                        PictureBox pb_rprint = this.Controls.Find(rprint, true).FirstOrDefault() as PictureBox;
+                        if (btn_ready != null)
+                            btn_ready.Visible = false;
+                        if (btn_start != null)
+                            btn_start.Visible = false;
+                        if (btn_cancelfood != null)
+                            btn_cancelfood.Visible = false;
+                        if (pb_rprint != null)
+                            pb_rprint.Visible = false;
+                        if (txtdes != null)
+                        {
+                            txtdes.Visible = true;
+                            txtdes.Text = "Waiting for customer confirmation.";
+                        }
+                        tlp_sele.RowStyles[2] = new RowStyle(SizeType.AutoSize);
 
                         DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[dgv_view_rowno].Cells[dactionno];
                         cell.Value = Properties.Resources.orderview_cancelled;

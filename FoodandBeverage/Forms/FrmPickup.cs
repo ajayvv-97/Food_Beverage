@@ -29,14 +29,14 @@ namespace FoodandBeverage.Forms
         public Color Defaultfontcolor = Color.Black;
         public Color Ordertablefontcolor = Color.Green;
         public Color Netamountfontcolor = Color.Green;
-
+        public Color CancelProduct_order = ColorTranslator.FromHtml("#FFB3B3");
+        public Color BillingColor = Color.White;
         #endregion
         public FrmPickup(int type)
         {
             InitializeComponent();
             Searchmode = type;
         }
-
         #region Deafult Event and Fuction
         private void FrmPickup_Load(object sender, System.EventArgs e)
         {
@@ -179,7 +179,7 @@ namespace FoodandBeverage.Forms
                         Tag = item.Field3,
                         Text = "Pick Up \n " + item.Field6,
                         ForeColor = Defaultfontcolor,
-                        BackColor = Color.White,
+                        BackColor = Color.Transparent,
                         Font = new Font("Arial", 10, FontStyle.Bold),
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.TopCenter,
@@ -193,7 +193,7 @@ namespace FoodandBeverage.Forms
                         Tag = item.Field3,
                         //Text = "\u20B9" + Convert.ToString(item.Field4),
                         ForeColor = Netamountfontcolor,
-                        BackColor = Color.White,
+                        BackColor = Color.Transparent,
                         Font = new Font("Arial", 10, FontStyle.Bold),
                         Dock = DockStyle.Fill,
                         Visible = false,
@@ -203,14 +203,14 @@ namespace FoodandBeverage.Forms
 
                     #region Order Complete Check - Show Amount
                     BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                    dmnSearch.Select = "Status Field1";
+                    dmnSearch.Select = "CASE WHEN SUM(CASE WHEN Status<> 1 THEN 1 ELSE 0 END) > 0 THEN 1   ELSE 0 END AS Field1, SUM(CASE WHEN Status = 0 AND AddonStatus IN(1, 0)  AND CancelNotifyStatus = 1  THEN 1   ELSE 0  END ) AS Field2";
                     dmnSearch.Table = "tblOrderDetails";
                     dmnSearch.WhereNdGroupBy = "WHERE  AddonStatus in (1,0) AND OrderMasterId=" + item.Field3;
                     dmnSearch.OrderBy = "";
                     var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
                     int status = Convert.ToInt32(gridSource_order[0].Field1);
-                    bool hasCompleted = status != 1;
-                    if (hasCompleted)
+
+                    if (status == 1)
                     {
                         lblAmount.Visible = true;
                         tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
@@ -222,7 +222,6 @@ namespace FoodandBeverage.Forms
                         //lblAmount.Text = "\u20B9" + Convert.ToString(item.Field4);
                         lblName.TextAlign = ContentAlignment.MiddleCenter;
                         lblName.Dock = DockStyle.Fill;
-             
                     }
                     else
                     {
@@ -234,6 +233,19 @@ namespace FoodandBeverage.Forms
                         lblName.TextAlign = ContentAlignment.MiddleCenter;
                         //lblAmount.Text = "";
                         lblAmount.Text = "Paid " + Environment.NewLine + " Order Sent";
+                    }
+                    if (Convert.ToInt32(gridSource_order[0].Field2) > 0)
+                    {
+                        //btnCancelCount.Visible = true;
+                        //btnCancelCount.Text = gridSource_order[0].Field3;
+                        tlp.BackColor = CancelProduct_order;
+                        
+                    }
+                    else
+                    {
+                        //btnCancelCount.Visible = false;
+                        if (status == 1)
+                            tlp.BackColor = BillingColor;
                     }
                     #endregion
 
@@ -374,7 +386,7 @@ namespace FoodandBeverage.Forms
                                 Text = "Pick Up\n" + item.Field6,
                                 Dock = DockStyle.Fill,
                                 TextAlign = ContentAlignment.MiddleCenter,
-                                BackColor = Color.White,
+                                BackColor = Color.Transparent,
                                 ForeColor = Defaultfontcolor,
                                 Font = SharedFonts.Bold10,
                                 AccessibleDescription = item.Field1
@@ -387,7 +399,7 @@ namespace FoodandBeverage.Forms
                                 Tag = item.Field3,
                                 Dock = DockStyle.Fill,
                                 TextAlign = ContentAlignment.MiddleCenter,
-                                BackColor = Color.White,
+                                BackColor = Color.Transparent,
                                 ForeColor = Netamountfontcolor,
                                 Font = SharedFonts.Bold10,
                                 Visible = false,
@@ -441,17 +453,15 @@ namespace FoodandBeverage.Forms
         private void UpdateNetAmount(DmnGridFields item, TableLayoutPanel tlp, Label lblTable, Label lblAmount)
         {
             //// Query count
+            ///
             BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-            dmnSearch.Select = "status Field1";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
+            dmnSearch.Select = "CASE WHEN SUM(CASE WHEN Status<> 1 THEN 1 ELSE 0 END) > 0 THEN 1   ELSE 0 END AS Field1, SUM(CASE WHEN Status = 0 AND AddonStatus IN(1, 0)  AND CancelNotifyStatus = 1  THEN 1   ELSE 0  END ) AS Field2";
             dmnSearch.Table = "tblOrderDetails";
-            dmnSearch.WhereNdGroupBy = "WHERE AddonStatus in(1,0) and OrderMasterId = " + item.Field3;
+            dmnSearch.WhereNdGroupBy = "WHERE  AddonStatus in (1,0) AND OrderMasterId=" + item.Field3;
             dmnSearch.OrderBy = "";
             var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-
             int status = Convert.ToInt32(gridSource_order[0].Field1);
-            bool hasCompleted = status != 1;
-
-            if (hasCompleted)
+            if (status == 1)
             {
                 lblAmount.Visible = true;
                 //lblAmount.Text = "₹" + item.Field4;
@@ -469,6 +479,18 @@ namespace FoodandBeverage.Forms
                 //tlp.RowStyles[1].Height = 0;
                 tlp.RowStyles[0].Height = 50;
                 tlp.RowStyles[1].Height = 50;
+            }
+            if (Convert.ToInt32(gridSource_order[0].Field2) > 0)
+            {
+                //btnCancelCount.Visible = true;
+                //btnCancelCount.Text = gridSource_order[0].Field3;
+                tlp.BackColor = CancelProduct_order;
+            }
+            else
+            {
+                //btnCancelCount.Visible = false;
+                if (status == 1)
+                    tlp.BackColor = BillingColor;
             }
         }
 
@@ -1181,5 +1203,9 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void btn_cancle_pickup_Click(object sender, EventArgs e)
+        {
+            //lblcanpickupcount,btn_cancle_pickup
+        }
     }
 }

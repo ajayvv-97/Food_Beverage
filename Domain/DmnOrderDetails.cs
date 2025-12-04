@@ -60,6 +60,9 @@ namespace Domain
         public string VariatiionName { get; set; }
         public int SalesDetailsId { get; set; }
         public int PkId { get; set; }
+        public int CancelNotifyStatus { get; set; }
+        public int KitchenCancelStatus { get; set; }
 
-    } 
+    }
+    
 }
