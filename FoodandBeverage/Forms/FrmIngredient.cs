@@ -396,18 +396,18 @@ namespace FoodandBeverage.Forms
                     txtproductname.Focus();
                     return false;
                 }
-                else if ((string.IsNullOrWhiteSpace(txtprice.Text) || Convert.ToDecimal(txtprice.Text) <= 0) && flp_variation_data.Controls.Count==0)
-                {
-                    CMessageBox.Show(this, "Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtprice.Focus();
-                    return false;
-                }
-                else if ((string.IsNullOrWhiteSpace(txtmrp.Text) || Convert.ToDecimal(txtmrp.Text) <= 0) && flp_variation_data.Controls.Count == 0)
-                {
-                    CMessageBox.Show(this, "Please Enter MRP", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtmrp.Focus();
-                    return false;
-                }
+                //else if ((string.IsNullOrWhiteSpace(txtprice.Text) || Convert.ToDecimal(txtprice.Text) <= 0) && flp_variation_data.Controls.Count==0)
+                //{
+                //    CMessageBox.Show(this, "Please Enter Item Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtprice.Focus();
+                //    return false;
+                //}
+                //else if ((string.IsNullOrWhiteSpace(txtmrp.Text) || Convert.ToDecimal(txtmrp.Text) <= 0) && flp_variation_data.Controls.Count == 0)
+                //{
+                //    CMessageBox.Show(this, "Please Enter MRP", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtmrp.Focus();
+                //    return false;
+                //}
                 else if (Convert.ToInt32(CmbCategory.SelectedValue) == -1)
                 {
                     CMessageBox.Show(this, "Please Select Food Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);

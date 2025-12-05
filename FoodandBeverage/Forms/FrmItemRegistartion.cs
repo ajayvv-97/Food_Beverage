@@ -1181,7 +1181,7 @@ namespace FoodandBeverage.Forms
                         DmnSearch objSearch = new DmnSearch();
                         objSearch.Select = "i.*,pr.SRate,pr.PRate,pr.QOH,pr.Id as PrId";
                         objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
-                        objSearch.WhereNdGroupBy = "where i.status = 1 and itemid=" + incgreid;
+                        objSearch.WhereNdGroupBy = "where i.status = 1 and  pr.QOH>0 and itemid=" + incgreid;
                         objSearch.OrderBy = "";
                         var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
                         if (itemSource.Count == 1)
