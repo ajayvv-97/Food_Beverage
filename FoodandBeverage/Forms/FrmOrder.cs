@@ -4905,24 +4905,15 @@ namespace FoodandBeverage.Forms
                 {
                     if (j == 1)
                     {
-                        dmnSearch.Select =
-                            "p.Product as Field1, p.ProductId as Field2, 0 as Field3, q.Discountper Field4,q.Producttype Field5,p.Price Field6,0 Field7,1 Field8";
-                        dmnSearch.Table =
-                            "tblProduct p " +
-                            " LEFT JOIN tblMenu m ON m.ProductId=p.ProductId" +
-                            " OUTER APPLY(Select ofd.Discountper,ofd.Producttype,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1  AND ofm.OfferType = 0 AND ofd.Producttype= 1 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
-                            
-                        dmnSearch.WhereNdGroupBy =
-                            " where p.Status=1 and m.Status=1 and m.Quantity>0 ";
+                        dmnSearch.Select ="p.Product as Field1, p.ProductId as Field2, 0 as Field3, od.Discountper Field4,od.Producttype Field5,p.Price Field6,0 Field7,1 Field8";
+                        dmnSearch.Table = " tblOfferDetails OD LEFT JOIN tblOfferMaster OM ON OD.Omid = OM.Omid LEFT JOIN tblProduct p ON OD.ProductId = p.ProductId LEFT JOIN tblMenu m ON m.ProductId = p.ProductId";
+                        dmnSearch.WhereNdGroupBy = " where OM.Status = 1 and od.Status=1 and OfferType=0 and m.Status=1 and od.Producttype=1 AND GETDATE() >= OM.OfferstartDatetime AND GETDATE() <= OM.OfferEndDatetime and m.Quantity>0 ";
                     }
                     else
                     {
-                        dmnSearch.Select =
-                            "i.Itemname as Field1, i.ItemId as Field2, 1 as Field3, q.Discountper Field4, q.Producttype Field5,(select PRate from tblProductRate where ProductId = i.ItemId and Status=1) Field6,(select count(*) from tblProductRate where ProductId = i.ItemId and Status=1) Field7,2 Field8";
-                        dmnSearch.Table =
-                            "tblItem i " +
-                            " OUTER APPLY(Select ofd.Discountper,ofd.Producttype, ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype= 2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
-                        dmnSearch.WhereNdGroupBy =" where  i.Saletype=1 and i.Status=1 and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0";
+                        dmnSearch.Select = "p.Itemname as Field1, p.ItemId as Field2, 1 as Field3, od.Discountper Field4, od.Producttype Field5,(select PRate from tblProductRate where ProductId = p.ItemId and Status=1) Field6,(select count(*) from tblProductRate where ProductId = p.ItemId and Status=1) Field7,2 Field8";
+                        dmnSearch.Table = "tblOfferDetails OD LEFT JOIN tblOfferMaster OM ON OD.Omid = OM.Omid LEFT JOIN tblItem p ON OD.ProductId = p.ItemId ";
+                        dmnSearch.WhereNdGroupBy = " where  p.Saletype=1 and p.Status=1and om.OfferType=0 and  GETDATE() >= OM.OfferstartDatetime AND GETDATE() <= OM.OfferEndDatetime and  (Select sum(QOH) from tblProductRate where ProductId=p.ItemId) > 0 and od.Producttype=2 and od.Status=1 and om.Status=1";
                     }
                     var queryResult = bllSearch.GetSearchData("prdSearch", dmnSearch);
                     ProductData.AddRange(queryResult);

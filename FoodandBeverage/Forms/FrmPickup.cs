@@ -122,6 +122,17 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region Creation pickup
+        public class DoubleBufferedFlowLayoutPanel : FlowLayoutPanel
+        {
+            public DoubleBufferedFlowLayoutPanel()
+            {
+                this.DoubleBuffered = true;
+                this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+                this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+                this.UpdateStyles();
+            }
+        }
+
         public void LoadPickupView(int serachmode)
         {
             try
