@@ -772,6 +772,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                clsgen.Memoryrelease();
                 AutoTimer.Stop();
                 CheckedtableNames.Clear();
                 Control clickedControl = sender as Control;

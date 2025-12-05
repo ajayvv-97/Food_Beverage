@@ -83,6 +83,7 @@ namespace FoodandBeverage.Forms
         public int iccodeno = 42;
         public int iVariatiionNameno = 43;
         public int iPreparationModeno = 44;
+        public int isaledetailsidno = 45;
 
 
         public int Cbarcode = 0;
@@ -1415,7 +1416,7 @@ namespace FoodandBeverage.Forms
                 if (gridSourcemaster.Count > 0)
                 {
                     tlp_refund_ktcancel.Visible = true;
-                    //btn_showmenu.Enabled = false;
+                    btn_showmenu.Enabled = false;
                     dgv_ordercancel.Columns[cnactionno].Visible = false;
 
                     btn_cancle_pickup.Visible = true;
@@ -2494,15 +2495,16 @@ namespace FoodandBeverage.Forms
                     PictureBox picProduct = new PictureBox();
                     picProduct.Dock = DockStyle.Fill;
                     picProduct.SizeMode = PictureBoxSizeMode.Zoom;
-                    picProduct.Image = Properties.Resources.Deafult_food_pic;
+      
                     picProduct.Tag = productId;
                     picProduct.AccessibleDescription = Convert.ToString(Saletypeno);
 
-                    if (Saletypeno != 1)
-                    {
-                        int insType = (int)Interfaces.Inseration_Type.Product_Photo;
-                        _ = LoadImageAsync(picProduct, insType, productId);
-                    }
+                    //picProduct.Image = Properties.Resources.Deafult_food_pic;
+                    //if (Saletypeno != 1)
+                    //{
+                    //    int insType = (int)Interfaces.Inseration_Type.Product_Photo;
+                    //    _ = LoadImageAsync(picProduct, insType, productId);
+                    //}
                     picProduct.Click += PicProduct_Click;
                     tlpMain.Controls.Add(picProduct, 0, 0);
 
@@ -4660,12 +4662,15 @@ namespace FoodandBeverage.Forms
                     picProduct.Dock = DockStyle.Fill;
                     picProduct.BackColor = Color.White;
                     picProduct.SizeMode = PictureBoxSizeMode.Zoom;
-                    picProduct.Image = Properties.Resources.Deafult_food_pic;
+
                     picProduct.Name = "picProduct" + item.Field2;
                     picProduct.Tag = item.Field2;
                     picProduct.AccessibleDescription = item.Field3;
-                    int insType = (int)Interfaces.Inseration_Type.Product_Photo;
-                    _ = LoadImageAsync(picProduct, insType, cmphid);
+
+                    //picProduct.Image = Properties.Resources.Deafult_food_pic;
+                    //int insType = (int)Interfaces.Inseration_Type.Product_Photo;
+                    //_ = LoadImageAsync(picProduct, insType, cmphid);
+
                     picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
                     tblMain.Controls.Add(picProduct, 0, 0);
 
@@ -5057,12 +5062,13 @@ namespace FoodandBeverage.Forms
                     picProduct.Margin = new Padding(8, 5, 8, 0);
                     picProduct.SizeMode = PictureBoxSizeMode.Zoom;
                     picProduct.BackColor = Color.White;
-                    picProduct.Image = Properties.Resources.Deafult_food_pic;
+
                     picProduct.Name = "picProduct" + item.Field2;
                     picProduct.Tag = item.Field2;
                     picProduct.AccessibleDescription = item.Field3;
 
-                    _ = LoadImageAsync(picProduct, (int)Interfaces.Inseration_Type.Product_Photo, productId);
+                    //picProduct.Image = Properties.Resources.Deafult_food_pic;
+                    //_ = LoadImageAsync(picProduct, (int)Interfaces.Inseration_Type.Product_Photo, productId);
 
                     picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
@@ -5275,7 +5281,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 foreach (Control c in flp_productview.Controls)
                 {
                     foreach (Control child in c.Controls)
@@ -5322,16 +5327,16 @@ namespace FoodandBeverage.Forms
 
                     PictureBox picProduct = new PictureBox();
                     picProduct.Dock = DockStyle.Fill;
-                    picProduct.SizeMode = PictureBoxSizeMode.Zoom;
-                    picProduct.Image = Properties.Resources.Deafult_food_pic;
+                    picProduct.SizeMode = PictureBoxSizeMode.Zoom;                 
                     picProduct.Tag = productId;
                     picProduct.AccessibleDescription = Convert.ToString(Saletypeno);
 
-                    if (Saletypeno != 1)
-                    {
-                        int insType = (int)Interfaces.Inseration_Type.Product_Photo;
-                        _ = LoadImageAsync(picProduct, insType, productId);
-                    }
+                    //picProduct.Image = Properties.Resources.Deafult_food_pic;
+                    //if (Saletypeno != 1)
+                    //{
+                    //    int insType = (int)Interfaces.Inseration_Type.Product_Photo;
+                    //    _ = LoadImageAsync(picProduct, insType, productId);
+                    //}
                     picProduct.Click += PicProduct_Click;
                     tlpMain.Controls.Add(picProduct, 0, 0);
 
@@ -5665,16 +5670,16 @@ namespace FoodandBeverage.Forms
                         picProduct.Margin = new Padding(8, 5, 8, 0);
                         picProduct.SizeMode = PictureBoxSizeMode.Zoom;
                         picProduct.BackColor = Color.White;
-                        picProduct.Image = Properties.Resources.Deafult_food_pic;
                         picProduct.Name = "picProduct" + item.Field2;
                         picProduct.Tag = item.Field2;
                         picProduct.AccessibleDescription = item.Field3;
 
-                        if (Saletypeno != 1)
-                        {
-                            int insType = (int)Interfaces.Inseration_Type.Product_Photo;
-                            _ = LoadImageAsync(picProduct, insType, productId);
-                        }
+                        //picProduct.Image = Properties.Resources.Deafult_food_pic;
+                        //if (Saletypeno != 1)
+                        //{
+                        //    int insType = (int)Interfaces.Inseration_Type.Product_Photo;
+                        //    _ = LoadImageAsync(picProduct, insType, productId);
+                        //}
 
                         picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
@@ -5805,12 +5810,15 @@ namespace FoodandBeverage.Forms
                         picProduct.Dock = DockStyle.Fill;
                         picProduct.BackColor = Color.White;
                         picProduct.SizeMode = PictureBoxSizeMode.Zoom;
-                        picProduct.Image = Properties.Resources.Deafult_food_pic;
+
                         picProduct.Name = "picProduct" + item.Field2;
                         picProduct.Tag = item.Field2;
                         picProduct.AccessibleDescription = item.Field3;
-                        int insType = (int)Interfaces.Inseration_Type.Product_Photo;
-                        _ = LoadImageAsync(picProduct, insType, cmphid);
+
+                        //picProduct.Image = Properties.Resources.Deafult_food_pic;
+                        //int insType = (int)Interfaces.Inseration_Type.Product_Photo;
+                        //_ = LoadImageAsync(picProduct, insType, cmphid);
+
                         picProduct.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
                         tblMain.Controls.Add(picProduct, 0, 0);
 
@@ -7536,7 +7544,9 @@ namespace FoodandBeverage.Forms
                                                         break;
                                                     }
                                                     else
+                                                    {
                                                         Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value = InsertStatus.OrderDetailsId;
+                                                    }
                                                 }
                                             }
 
@@ -7548,7 +7558,6 @@ namespace FoodandBeverage.Forms
 
                             #region Normal Save Salemaster And Saledetails
                             finaltotalqty();
-
 
                             int sum = 0; decimal nettotal = 0;
                             int n = Dgv_Selected_Item.RowCount;
@@ -7704,8 +7713,8 @@ namespace FoodandBeverage.Forms
                             dmnsalemaster.PkChargeAmount = Convert.ToDecimal(txtpkchrge_amt.Text);
 
                             var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
-                            if (reorderpickupflag)
-                            {
+                            //if (reorderpickupflag)
+                            //{
                                 #region details Reorder Pickup
                                 if (InsertStatusP.SalesMasterId != 0)
                                 {
@@ -7784,7 +7793,7 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                             dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
 
-                                            dmnsaledetails.OrderDetailsId = "0";
+                                            dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                             dmnsaledetails.SalesDetailsId = 0;
 
                                             if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
@@ -7820,9 +7829,11 @@ namespace FoodandBeverage.Forms
 
                                     if (payid == 0)
                                     {
-                                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
+                                    using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno))
+                                    {
                                         frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                         frmSalesInvoice.ShowDialog();
+                                    }
                                         CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                         if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
@@ -7835,10 +7846,12 @@ namespace FoodandBeverage.Forms
                                     }
                                     else if (payid != 12)
                                     {
-                                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
+                                    using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno))
+                                    {
                                         frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                         frmSalesInvoice.ShowDialog();
-                                        CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
+                                        //CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                         if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
                                             ResetTableViewPage();
@@ -7852,153 +7865,153 @@ namespace FoodandBeverage.Forms
                                    
                                 }
                                 #endregion
-                            }
-                            else
-                            {
+                            //}
+                            //else
+                            //{
 
-                                #region Sale details Normal
-                                if (InsertStatusP.SalesMasterId != 0)
-                                {
-                                    if (payid == Convert.ToInt32(PaymentType.PART))
-                                    {
-                                        DmnPayment dmnpayment = new DmnPayment();
-                                        Bllpayment bllpay = new Bllpayment();
-                                        for (int i = 0; i < dgv_part.RowCount; i++)
-                                        {
-                                            dmnpayment.PayId = 0;
-                                            dmnpayment.OrderMasterID = Convert.ToInt32(label18.Text);
-                                            dmnpayment.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
-                                            dmnpayment.PayType = Convert.ToInt32(dgv_part.Rows[i].Cells[4].Value);
-                                            dmnpayment.Amount = Convert.ToDecimal(dgv_part.Rows[i].Cells[1].Value);
-                                            dmnpayment.Tid = tableId;
-                                            dmnpayment.BranchId = FrmDashboard.BranchId;
-                                            dmnpayment.CreatedBy = FrmDashboard.UserId;
-                                            dmnpayment.Status = 1;
-                                            var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
-                                        }
-                                    }
-                                    if (gridSourcemaster.Count > 0)
-                                    {
-                                        for (int i = 0; i < gridSourcemaster.Count; i++)
-                                        {
-                                            if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)
-                                            {
-                                                dmnsaledetails.SalesRate = Convert.ToDecimal(gridSourcemaster[i].Srate);
-                                                dmnsaledetails.ItemBarcode = Convert.ToString(gridSourcemaster[i].ItemBarCode);
-                                                txtsalemasterid.Text = Convert.ToString(InsertStatusP.SalesMasterId);
-                                                dmnsaledetails.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
-                                                dmnsaledetails.ItemName = Convert.ToString(gridSourcemaster[i].ItemName);
-                                                dmnsaledetails.UnitId = Convert.ToInt32(gridSourcemaster[i].UnitId);
-                                                dmnsaledetails.Quantity = Convert.ToInt32(gridSourcemaster[i].Quantity);
-                                                dmnsaledetails.DiscountPer = Convert.ToDecimal(gridSourcemaster[i].DiscountPer);
-                                                dmnsaledetails.DiscountAmount = Convert.ToDecimal(gridSourcemaster[i].DiscountAmount);
-                                                dmnsaledetails.TaxPer = Convert.ToDecimal(gridSourcemaster[i].TaxPer);
-                                                dmnsaledetails.TaxAmount = Convert.ToDecimal(gridSourcemaster[i].TaxAmount);
-                                                dmnsaledetails.Amount = Convert.ToDecimal(gridSourcemaster[i].Amount);
+                            //    #region Sale details Normal
+                            //    if (InsertStatusP.SalesMasterId != 0)
+                            //    {
+                            //        if (payid == Convert.ToInt32(PaymentType.PART))
+                            //        {
+                            //            DmnPayment dmnpayment = new DmnPayment();
+                            //            Bllpayment bllpay = new Bllpayment();
+                            //            for (int i = 0; i < dgv_part.RowCount; i++)
+                            //            {
+                            //                dmnpayment.PayId = 0;
+                            //                dmnpayment.OrderMasterID = Convert.ToInt32(label18.Text);
+                            //                dmnpayment.SalemasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                            //                dmnpayment.PayType = Convert.ToInt32(dgv_part.Rows[i].Cells[4].Value);
+                            //                dmnpayment.Amount = Convert.ToDecimal(dgv_part.Rows[i].Cells[1].Value);
+                            //                dmnpayment.Tid = tableId;
+                            //                dmnpayment.BranchId = FrmDashboard.BranchId;
+                            //                dmnpayment.CreatedBy = FrmDashboard.UserId;
+                            //                dmnpayment.Status = 1;
+                            //                var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
+                            //            }
+                            //        }
+                            //        if (gridSourcemaster.Count > 0)
+                            //        {
+                            //            for (int i = 0; i < gridSourcemaster.Count; i++)
+                            //            {
+                            //                if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)
+                            //                {
+                            //                    dmnsaledetails.SalesRate = Convert.ToDecimal(gridSourcemaster[i].Srate);
+                            //                    dmnsaledetails.ItemBarcode = Convert.ToString(gridSourcemaster[i].ItemBarCode);
+                            //                    txtsalemasterid.Text = Convert.ToString(InsertStatusP.SalesMasterId);
+                            //                    dmnsaledetails.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                            //                    dmnsaledetails.ItemName = Convert.ToString(gridSourcemaster[i].ItemName);
+                            //                    dmnsaledetails.UnitId = Convert.ToInt32(gridSourcemaster[i].UnitId);
+                            //                    dmnsaledetails.Quantity = Convert.ToInt32(gridSourcemaster[i].Quantity);
+                            //                    dmnsaledetails.DiscountPer = Convert.ToDecimal(gridSourcemaster[i].DiscountPer);
+                            //                    dmnsaledetails.DiscountAmount = Convert.ToDecimal(gridSourcemaster[i].DiscountAmount);
+                            //                    dmnsaledetails.TaxPer = Convert.ToDecimal(gridSourcemaster[i].TaxPer);
+                            //                    dmnsaledetails.TaxAmount = Convert.ToDecimal(gridSourcemaster[i].TaxAmount);
+                            //                    dmnsaledetails.Amount = Convert.ToDecimal(gridSourcemaster[i].Amount);
 
-                                                if (Convert.ToInt32(gridSourcemaster[i].AddonStatus) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
-                                                    dmnsaledetails.NetAmount = 0;
-                                                else
-                                                    dmnsaledetails.NetAmount = Convert.ToDecimal(gridSourcemaster[i].NetAmount);
+                            //                    if (Convert.ToInt32(gridSourcemaster[i].AddonStatus) == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                            //                        dmnsaledetails.NetAmount = 0;
+                            //                    else
+                            //                        dmnsaledetails.NetAmount = Convert.ToDecimal(gridSourcemaster[i].NetAmount);
 
-                                                dmnsaledetails.itemid = Convert.ToInt32(gridSourcemaster[i].ItemId);
-                                                dmnsaledetails.Prid = Convert.ToInt32(gridSourcemaster[i].PrId);
-                                                dmnsaledetails.Tax = Convert.ToString(gridSourcemaster[i].Tax);
-                                                dmnsaledetails.TaxType = Convert.ToString(gridSourcemaster[i].TaxType);
-                                                dmnsaledetails.MRP = Convert.ToDecimal(gridSourcemaster[i].MRP);
-                                                dmnsaledetails.ProductType = Convert.ToString(gridSourcemaster[i].TableType);
+                            //                    dmnsaledetails.itemid = Convert.ToInt32(gridSourcemaster[i].ItemId);
+                            //                    dmnsaledetails.Prid = Convert.ToInt32(gridSourcemaster[i].PrId);
+                            //                    dmnsaledetails.Tax = Convert.ToString(gridSourcemaster[i].Tax);
+                            //                    dmnsaledetails.TaxType = Convert.ToString(gridSourcemaster[i].TaxType);
+                            //                    dmnsaledetails.MRP = Convert.ToDecimal(gridSourcemaster[i].MRP);
+                            //                    dmnsaledetails.ProductType = Convert.ToString(gridSourcemaster[i].TableType);
 
-                                                dmnsaledetails.IGSTAmount = Convert.ToDecimal(gridSourcemaster[i].IGSTAmount);
-                                                dmnsaledetails.CGSTAmount = Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
-                                                dmnsaledetails.SGSTAmount = Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
-                                                dmnsaledetails.VatAmount = Convert.ToDecimal(gridSourcemaster[i].VATAmount);
+                            //                    dmnsaledetails.IGSTAmount = Convert.ToDecimal(gridSourcemaster[i].IGSTAmount);
+                            //                    dmnsaledetails.CGSTAmount = Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
+                            //                    dmnsaledetails.SGSTAmount = Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
+                            //                    dmnsaledetails.VatAmount = Convert.ToDecimal(gridSourcemaster[i].VATAmount);
 
-                                                dmnsaledetails.MarketPrice = Convert.ToDecimal(gridSourcemaster[i].MarketPrice);
-                                                dmnsaledetails.TableType = Convert.ToInt32(gridSourcemaster[i].TableType);
-                                                dmnsaledetails.BranchId = FrmDashboard.BranchId;
-                                                dmnsaledetails.CreatedBy = FrmDashboard.UserId;
-                                                dmnsaledetails.Status = 1;
+                            //                    dmnsaledetails.MarketPrice = Convert.ToDecimal(gridSourcemaster[i].MarketPrice);
+                            //                    dmnsaledetails.TableType = Convert.ToInt32(gridSourcemaster[i].TableType);
+                            //                    dmnsaledetails.BranchId = FrmDashboard.BranchId;
+                            //                    dmnsaledetails.CreatedBy = FrmDashboard.UserId;
+                            //                    dmnsaledetails.Status = 1;
 
-                                                dmnsaledetails.Pavid = Convert.ToInt32(gridSourcemaster[i].Pavid);
-                                                dmnsaledetails.AddonStatus = Convert.ToInt32(gridSourcemaster[i].AddonStatus);
-                                                dmnsaledetails.AV_id = Convert.ToString(gridSourcemaster[i].AV_id);
-                                                dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
-                                                dmnsaledetails.VariatiionName = Convert.ToString(gridSourcemaster[i].VariatiionName);
+                            //                    dmnsaledetails.Pavid = Convert.ToInt32(gridSourcemaster[i].Pavid);
+                            //                    dmnsaledetails.AddonStatus = Convert.ToInt32(gridSourcemaster[i].AddonStatus);
+                            //                    dmnsaledetails.AV_id = Convert.ToString(gridSourcemaster[i].AV_id);
+                            //                    dmnsaledetails.Addoncount = Convert.ToInt32(gridSourcemaster[i].Addoncount);
+                            //                    dmnsaledetails.VariatiionName = Convert.ToString(gridSourcemaster[i].VariatiionName);
 
-                                                dmnsaledetails.OrderDetailsId = Convert.ToString(gridSourcemaster[i].OrderDetailsId);
+                            //                    dmnsaledetails.OrderDetailsId = Convert.ToString(gridSourcemaster[i].OrderDetailsId);
 
-                                                dmnsaledetails.SalesDetailsId = Convert.ToInt32(gridSourcemaster[i].SalesDetailsId);
+                            //                    dmnsaledetails.SalesDetailsId = Convert.ToInt32(gridSourcemaster[i].SalesDetailsId);
 
-                                                if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
-                                                    dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
-                                                else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && dmnsaledetails.AddonStatus == 0)
-                                                    dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid);
-                                                else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.DirectSale))
-                                                    dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.Prid);
-                                                else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.ComboProduct))
-                                                    dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid);
-                                                else
-                                                    dmnsaledetails.Cmid = "0";
+                            //                    if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
+                            //                        dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
+                            //                    else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && dmnsaledetails.AddonStatus == 0)
+                            //                        dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid);
+                            //                    else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.DirectSale))
+                            //                        dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.Prid);
+                            //                    else if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.ComboProduct))
+                            //                        dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.itemid);
+                            //                    else
+                            //                        dmnsaledetails.Cmid = "0";
 
-                                                var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
-                                                if (InsertStatus == null)
-                                                {
-                                                    MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                                    break;
-                                                }
-                                                else
-                                                    countflag = countflag + 1;
+                            //                    var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
+                            //                    if (InsertStatus == null)
+                            //                    {
+                            //                        MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            //                        break;
+                            //                    }
+                            //                    else
+                            //                        countflag = countflag + 1;
 
-                                                int saledetailsid = InsertStatus.SalesDetailsId;
-                                                int odid = Convert.ToInt32(gridSourcemaster[i].OrderDetailsId);
-                                                var existingOrder = orderDetailsInfoList.FirstOrDefault(row => row.OrderDetailsId == odid);
-                                                if (existingOrder != null)
-                                                {
-                                                    int index = orderDetailsInfoList.IndexOf(existingOrder);
-                                                    orderDetailsInfoList[index].saleDetailsId = saledetailsid;
-                                                }
-                                            }
-                                        }
+                            //                    int saledetailsid = InsertStatus.SalesDetailsId;
+                            //                    int odid = Convert.ToInt32(gridSourcemaster[i].OrderDetailsId);
+                            //                    var existingOrder = orderDetailsInfoList.FirstOrDefault(row => row.OrderDetailsId == odid);
+                            //                    if (existingOrder != null)
+                            //                    {
+                            //                        int index = orderDetailsInfoList.IndexOf(existingOrder);
+                            //                        orderDetailsInfoList[index].saleDetailsId = saledetailsid;
+                            //                    }
+                            //                }
+                            //            }
 
-                                    }
-                                    if (gridSourcemaster.Count == countflag)
-                                    {
-                                        if (payid == 0)
-                                        {
-                                            FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
-                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                            frmSalesInvoice.ShowDialog();
-                                            CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //        }
+                            //        if (gridSourcemaster.Count == countflag)
+                            //        {
+                            //            if (payid == 0)
+                            //            {
+                            //                FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
+                            //                frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                            //                frmSalesInvoice.ShowDialog();
+                            //                CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                            if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
-                                                ResetTableViewPage();
-                                            else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
-                                                ResetPickupViewPage();
-                                            ResetBillpage();
-                                            this.Close();
-                                        }
-                                        else if (payid != 12)
-                                        {
-                                            FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
-                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                            frmSalesInvoice.ShowDialog();
-                                            CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //                if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                            //                    ResetTableViewPage();
+                            //                else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                            //                    ResetPickupViewPage();
+                            //                ResetBillpage();
+                            //                this.Close();
+                            //            }
+                            //            else if (payid != 12)
+                            //            {
+                            //                FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
+                            //                frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                            //                frmSalesInvoice.ShowDialog();
+                            //                CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                            if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
-                                                ResetTableViewPage();
-                                            else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
-                                                ResetPickupViewPage();
-                                            ResetBillpage();
+                            //                if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                            //                    ResetTableViewPage();
+                            //                else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                            //                    ResetPickupViewPage();
+                            //                ResetBillpage();
 
-                                            //ClearAll();
-                                            this.Close();
+                            //                //ClearAll();
+                            //                this.Close();
 
-                                        }
-                                    }
+                            //            }
+                            //        }
                                   
-                                }
-                                #endregion
-                            }
+                            //    }
+                            //    #endregion
+                            //}
 
                             #endregion
                         }
@@ -12433,7 +12446,7 @@ namespace FoodandBeverage.Forms
                         btnco.PerformClick();
                     return true;
 
-                case Keys.F9:
+                case Keys.F9:                   
                     btn_savekot_print.PerformClick();
                     return true;
                 case Keys.F11:

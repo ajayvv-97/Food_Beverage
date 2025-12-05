@@ -53,6 +53,7 @@ namespace Domain
         public string VariatiionName { get; set; }
         public string OrderDetailsId { get; set; }
         public int PreparationMode { get; set; }
+        public int Pkid { get; set; }
     }
     
 }

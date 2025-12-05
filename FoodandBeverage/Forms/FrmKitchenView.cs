@@ -162,19 +162,8 @@ namespace FoodandBeverage.Forms
         {
             refreshtimer.Start();
         }
-        public Task FillOrdersAsync()
+        public void  FillOrdersAsync()
         {
-            return Task.Run(() => FillOrders()); 
-        }
-    
-
-        public void FillOrders()
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new Action(FillOrders));
-                return;
-            }
             try
             {
                 GC.Collect();
@@ -204,7 +193,7 @@ namespace FoodandBeverage.Forms
 
                     countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
                     btnprintcount.Text = Convert.ToString(countpendingorder);
-           
+
                     var preserveNames = distinctOrders.Select(orders => "tlp_product_box_k_" + orders.Field1 + orders.Field2);
                     int l = 0;
                     foreach (Control control in flp_order_view.Controls.Cast<Control>().ToArray())
@@ -225,7 +214,7 @@ namespace FoodandBeverage.Forms
 
                         BllkitchenDataDetails<Dmnkitchendetails> KtDetails = new BllkitchenDataDetails<Dmnkitchendetails>();
                         Dmnkitchendetails dmnSearchtabledata = new Dmnkitchendetails();
-                        dmnSearchtabledata.OrderNo =Convert.ToInt32(orders.Field2);
+                        dmnSearchtabledata.OrderNo = Convert.ToInt32(orders.Field2);
                         dmnSearchtabledata.OrderMasterId = Convert.ToInt32(orders.Field1);
                         var gridSourcedetails = KtDetails.serachData("prdKitchendetails", dmnSearchtabledata);
                         if (gridSourcedetails.Count > 0)
@@ -472,7 +461,7 @@ namespace FoodandBeverage.Forms
                                     AutoSize = true,
                                     TextAlign = ContentAlignment.MiddleLeft,
 
-                                };                              
+                                };
                                 #endregion
 
                                 if (Convert.ToInt32(gridSourcedetails[0].Field25) > 0)
@@ -488,7 +477,7 @@ namespace FoodandBeverage.Forms
                                         lbl_tablecode.Font = new Font("Arial", 15, FontStyle.Bold);
                                     else
                                         lbl_tablecode.Font = new Font("Arial", 10, FontStyle.Bold);
-                    
+
                                 }
                                 #region Token No
 
@@ -1208,6 +1197,9 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View Page FillOrdersAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
+    
+
+
 
         private void PrintOrderAsync()
         {
@@ -2551,7 +2543,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Kitchen_View btn_rem_product_des_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
@@ -2560,8 +2551,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
-
                 // Assuming orderbox is a member of the class
                 foreach (var dataGridViewInfo in orderbox)
                 {
@@ -3950,13 +3939,10 @@ namespace FoodandBeverage.Forms
         private async void refreshtimer_Tick(object sender, EventArgs e)
         {
             refreshtimer.Stop();
-
-            await Task.Run(() => PrintcancelOrder());
-            await FillOrdersAsync();
-
+            PrintcancelOrder();
+            FillOrdersAsync();
             //if (Convert.ToInt32(btnprintcount.Text) > 0)
-            //    await Task.Run(() => PrintOrderAsync());
-
+            // PrintOrderAsync());
             refreshtimer.Start();
         }
 

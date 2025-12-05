@@ -4038,7 +4038,6 @@ namespace FoodandBeverage.Forms
 
         private void tmtime_Tick(object sender, EventArgs e)
         {
-
             lbl_time.Text = DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToShortDateString();
 
             // Get current process memory usage
