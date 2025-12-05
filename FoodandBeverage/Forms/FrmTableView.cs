@@ -36,8 +36,8 @@ namespace FoodandBeverage.Forms
         public Color CancelProduct_order = ColorTranslator.FromHtml("#FFB3B3");
 
         public Color Defaultfontcolor = Color.Black;
-        public Color Ordertablefontcolor = Color.Green;
-        public Color Netamountfontcolor = Color.Green;
+        public Color Ordertablefontcolor = Color.Red;
+        public Color Netamountfontcolor = Color.Red;
 
         ClsGeneral clsgen = new ClsGeneral();
         #endregion
@@ -194,7 +194,7 @@ namespace FoodandBeverage.Forms
                             Label netamountlabel = new Label
                             {
                                 Name = "lb_netamount" + gridSource[i].Field4,
-                                Text = "\u20B9" + Convert.ToString(gridSource[i].Field8),
+                                Text = "Checkout", //"\u20B9" + Convert.ToString(gridSource[i].Field8),
                                 Tag = gridSource[i].Field3,
                                 ForeColor = Netamountfontcolor,
                                 BackColor = Color.Transparent,
@@ -409,7 +409,7 @@ namespace FoodandBeverage.Forms
                 tlp_table_dashboard.ResumeLayout(); 
 
                 tlp_table_dashboard.Focus();
-                initTimer();
+               // initTimer();
             }
             catch (Exception ex)
             {
@@ -429,9 +429,14 @@ namespace FoodandBeverage.Forms
                 BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
                 DmnGridFields dmnSearchtabledata = new DmnGridFields();
                 dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
-                dmnSearchtabledata.Field29 = serachmode.ToString();
                 dmnSearchtabledata.Field28 = "0";
-
+                switch (serachmode)
+                {
+                    case 0: dmnSearchtabledata.Field29 = "0"; dmnSearch.WhereNdGroupBy = "where ti.Status=1"; break;
+                    case 1: dmnSearchtabledata.Field29 = "1"; dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1"; break;
+                    case 2: dmnSearchtabledata.Field29 = "2"; dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=1 and ti.OrderMasterId >0"; break;
+                    case 3: dmnSearchtabledata.Field29 = "3"; dmnSearch.WhereNdGroupBy = "where ti.Status=1 and ti.OrderStatus=0 and ti.OrderMasterId=0"; break;
+                }
                 var gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
                 if (gridSource.Count == 0)
                 { 
@@ -467,17 +472,23 @@ namespace FoodandBeverage.Forms
                         #region Normal Order -- not reservation order 
                         if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
                         {
+                            //BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
+                            //dmnSearch.Select = " SUM(CASE WHEN Status = 3 AND AddonStatus IN (1,0) THEN 1 ELSE 0 END) AS Field1," +
+                            //                    " (SELECT NetAmount FROM tblOrderMaster WHERE Status != 0 AND OrderMasterId = "+ gridSource[i].Field6 + ") AS Field2,"+
+                            //                    " SUM(CASE WHEN Status = 0 AND AddonStatus IN(1, 0) AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END ) AS Field3";
+                            //dmnSearch.Table = "tblOrderDetails";
+                            //dmnSearch.WhereNdGroupBy = "where AddonStatus IN (1,0)   AND OrderMasterId = " + gridSource[i].Field6;
+                            //dmnSearch.OrderBy = "";
+                            //var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
                             BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                            dmnSearch.Select = " CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1,"+
-                                                " (SELECT NetAmount FROM tblOrderMaster WHERE Status != 0 AND OrderMasterId = 118) AS Field2,"+
-                                                " SUM(CASE WHEN Status = 0 AND AddonStatus IN(1, 0) AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END ) AS Field3";
+                            dmnSearch.Select = "  SUM(CASE WHEN Status = 3 AND AddonStatus IN (1,0) THEN 1 ELSE 0 END) AS Field1,SUM(CASE WHEN Status = 0 AND AddonStatus IN (1,0) AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field2";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
                             dmnSearch.Table = "tblOrderDetails";
-                            dmnSearch.WhereNdGroupBy = "where AddonStatus IN (1,0)   AND OrderMasterId = " + gridSource[i].Field6;
+                            dmnSearch.WhereNdGroupBy = "WHERE OrderMasterId = " + gridSource[i].Field6;
                             dmnSearch.OrderBy = "";
                             var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
                             if (gridSource_order.Count > 0)
                             {
-                                if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
+                                if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
                                 {
                                     netamountlabel.Visible = false;
                                     tlp_table_inner.BackColor = OrderColor;
@@ -495,11 +506,11 @@ namespace FoodandBeverage.Forms
                                     tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.AutoSize);
                                     netamountlabel.Dock = DockStyle.Fill;
                                     lbltablename.Dock = DockStyle.Fill;
-                                    netamountlabel.Text = "\u20B9" + Convert.ToString(gridSource_order[0].Field2);
+                                    netamountlabel.Text = "Checkout";//"\u20B9" + Convert.ToString(gridSource_order[0].Field2);
                                     lbltablename.TextAlign = ContentAlignment.MiddleCenter;
                                     netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
                                 }
-                                if (Convert.ToInt32(gridSource_order[0].Field3) > 0)
+                                if (Convert.ToInt32(gridSource_order[0].Field2) == 1)
                                 {
                                     btnCancelCount.Visible = true;
                                     tlp_table_inner.BackColor = CancelProduct_order;
@@ -508,11 +519,10 @@ namespace FoodandBeverage.Forms
                                 else
                                 {
                                     btnCancelCount.Visible = false;
-
-                                    if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
-                                        tlp_table_inner.BackColor = BillingColor;
-                                    else
+                                    if (Convert.ToInt32(gridSource_order[0].Field1) == 1)
                                         tlp_table_inner.BackColor = OrderColor;
+                                    else
+                                        tlp_table_inner.BackColor = BillingColor;
                                 }
                             }
                         }
@@ -635,8 +645,9 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                tlp_table_dashboard.ResumeLayout(); // Resume after updates
+                tlp_table_dashboard.ResumeLayout(); 
                 tlp_table_dashboard.Dock = DockStyle.Fill;
+
                 initTimer();
             }
             catch (Exception ex)

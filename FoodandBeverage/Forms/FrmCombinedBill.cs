@@ -1217,12 +1217,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-
-                    controlToRemove = tlp_control.GetControlFromPosition(0, 1);
-                    tlp_control.Controls.Remove(controlToRemove);
-                    tlp_control.Controls.Add(pnl_empty_msg, 0, 1);
-                    pnl_empty_msg.Dock = DockStyle.Fill;
-                    pnl_empty_msg.Visible = true;
+                    SetEmptyIcon();
                 }
 
                 #endregion
@@ -1906,6 +1901,17 @@ namespace FoodandBeverage.Forms
             UIHelper.RoundCorners(flp_sidemenu, 25);
         }
 
+        private void btnclose_Click(object sender, EventArgs e)
+        {
+            FrmDashboard.Instance.Menuhome.PerformClick();
+            this.Close(); 
+        }
+
+        private void btn_pickup_Click(object sender, EventArgs e)
+        {
+            FrmDashboard.Instance.Pickuppage();
+            this.Close(); 
+        }
         public bool DrawerCheckBranch(int empid)
         {
             try

@@ -25,7 +25,6 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmDashboard : Form
     {
-
         #region Delcaration
         public static int BranchId = 0;
         public static int UserId = 0;
@@ -56,6 +55,7 @@ namespace FoodandBeverage.Forms
             this.WindowState = FormWindowState.Maximized;
 
             Instance = this;
+
             UserId = Convert.ToInt32(FrmLogin.UserId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
@@ -3990,12 +3990,13 @@ namespace FoodandBeverage.Forms
                         tlp_tablestatus.ResumeLayout();
 
                         _instanceFrmPickup.Visible = true;
-                       // _instanceFrmPickup.AutoTimer.Start();
-                        _instanceFrmPickup.Dock = DockStyle.Fill;
-                        ResizeForm(_instanceFrmPickup);
-                        panelDesktop.Controls.Add(_instanceFrmPickup);
-                        _instanceFrmPickup.Show();
-                        _instanceFrmPickup.BringToFront();
+                             _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                       //// _instanceFrmPickup.AutoTimer.Start();
+                       // _instanceFrmPickup.Dock = DockStyle.Fill;
+                       // ResizeForm(_instanceFrmPickup);
+                       // panelDesktop.Controls.Add(_instanceFrmPickup);
+                       // _instanceFrmPickup.Show();
+
                     }
                 }
                 else
@@ -4007,14 +4008,12 @@ namespace FoodandBeverage.Forms
                     btntrefresh.Visible = false;
                     btn_pickup.Visible = false;
                     tlp_tablestatus.ResumeLayout();
+                    using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
+                    {
+                        _instanceFrmPickup.ShowDialog();
+                        _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
 
-                    FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup));
-                    ResizeForm(_instanceFrmPickup);
-                    _instanceFrmPickup.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmPickup);
-                    _instanceFrmPickup.Show();
-                    _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmPickup.BringToFront();
 
                 }
 
@@ -4029,6 +4028,88 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        public void Pickuppage()
+        {
+            try
+            {
+                AssignDrawerCheck();
+                if (FrmDrawer.DrawerID == 0)
+                {
+                    return;
+                }
+
+                if (menutable_click)
+                {
+                    CloseTableViewPage();
+                }
+                ButtonID = Convert.ToInt32(Menubutton.Pickup);
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                {
+                    FrmDashboardReport _instanceFrmDashboardReport = Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                    _instanceFrmDashboardReport.Visible = false;
+                }
+                time_syn_lal.Stop();
+                reset_sync.Stop();
+                lblsync.Visible = false;
+
+                panelDesktop.SuspendLayout();
+
+                if (flp_operabuttons.Visible)
+                    flp_operabuttons.Visible = false;
+
+                if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
+                {
+                    FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                    if (_instanceFrmPickup.WindowState == FormWindowState.Minimized)
+                        _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        tlp_tablestatus.SuspendLayout();
+                        btn_rev.Visible = false;
+                        btn_running.Visible = false;
+                        btn_avial.Visible = false;
+                        btntrefresh.Visible = false;
+                        btn_pickup.Visible = false;
+                        tlp_tablestatus.ResumeLayout();
+
+                        _instanceFrmPickup.Visible = true;
+                        _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        //// _instanceFrmPickup.AutoTimer.Start();
+                        // _instanceFrmPickup.Dock = DockStyle.Fill;
+                        // ResizeForm(_instanceFrmPickup);
+                        // panelDesktop.Controls.Add(_instanceFrmPickup);
+                        // _instanceFrmPickup.Show();
+
+                    }
+                }
+                else
+                {
+                    tlp_tablestatus.SuspendLayout();
+                    btn_rev.Visible = false;
+                    btn_running.Visible = false;
+                    btn_avial.Visible = false;
+                    btntrefresh.Visible = false;
+                    btn_pickup.Visible = false;
+                    tlp_tablestatus.ResumeLayout();
+                    using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
+                    {
+                        _instanceFrmPickup.ShowDialog();
+                        _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+
+
+                }
+
+                clsgen.Memoryrelease();
+
+                menutable_click = true;
+                panelDesktop.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage Pickuppage", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
         private void btn_billsetting_Click(object sender, EventArgs e)
         {
             //tlp_main_sidebar_pnldesktop.Enabled = true;

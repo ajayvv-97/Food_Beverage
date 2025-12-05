@@ -1316,7 +1316,7 @@ namespace FoodandBeverage.Forms
             // 
             this.pnlgenralsetting.BackColor = System.Drawing.SystemColors.Control;
             this.pnlgenralsetting.Controls.Add(this.tableLayoutPanel8);
-            this.pnlgenralsetting.Location = new System.Drawing.Point(329, 8);
+            this.pnlgenralsetting.Location = new System.Drawing.Point(329, 48);
             this.pnlgenralsetting.Name = "pnlgenralsetting";
             this.pnlgenralsetting.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.pnlgenralsetting.Size = new System.Drawing.Size(505, 597);
@@ -5222,10 +5222,8 @@ namespace FoodandBeverage.Forms
         #endregion
         private System.Windows.Forms.Panel panelDesktop;
         private FontAwesome.Sharp.IconButton Menuoperation;
-        private FontAwesome.Sharp.IconButton Menubilling;
         private FontAwesome.Sharp.IconButton Menureport;
         private FontAwesome.Sharp.IconButton Menusetting;
-        private FontAwesome.Sharp.IconButton Menuhome;
         private System.Windows.Forms.Panel pnlappcolor;
         private System.Windows.Forms.CheckBox chkentercolor;
         private System.Windows.Forms.PictureBox pbappcoloepicker;
@@ -5285,7 +5283,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Panel pnl_empty_msg;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblmsg;
-        private FontAwesome.Sharp.IconButton Menutable;
         private FontAwesome.Sharp.IconButton ib_addon;
         private System.Windows.Forms.TableLayoutPanel tlp_tablestatus;
         private System.Windows.Forms.Button btntrefresh;
@@ -5295,7 +5292,6 @@ namespace FoodandBeverage.Forms
         public System.Windows.Forms.Timer time_syn_lal;
         public System.Windows.Forms.Label lblsync;
         private System.Windows.Forms.Timer reset_sync;
-        private System.Windows.Forms.Button btn_pickup;
         private System.Windows.Forms.Panel pnl_billsetting;
         private System.Windows.Forms.TableLayoutPanel tlp_appcolor_main;
         private System.Windows.Forms.Panel pnl_button_cntl;
@@ -5522,5 +5518,9 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tlp_des_lock;
         public System.Windows.Forms.PictureBox pbusericon;
         private FontAwesome.Sharp.IconButton ib_refund;
+        public FontAwesome.Sharp.IconButton Menutable;
+        public FontAwesome.Sharp.IconButton Menubilling;
+        public FontAwesome.Sharp.IconButton Menuhome;
+        public System.Windows.Forms.Button btn_pickup;
     }
 }

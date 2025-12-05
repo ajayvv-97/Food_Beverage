@@ -1157,12 +1157,21 @@ namespace FoodandBeverage.Forms
                                         tlp_product_box.RowStyles[2] = new RowStyle(SizeType.AutoSize);
                                     }
                                 }
-                                //else
-                                //{
-                                //    pb_start.Visible = true;
-                                //    pb_ready.Visible = true;
-                                //    pb_cancelfood.Visible = true;
-                                //}
+                                else
+                                {
+                                    if (flagstart_ready)
+                                    {
+                                        pb_start.Visible = true;
+                                        pb_cancelfood.Visible = true;
+                                        pb_ready.Visible = false;
+                                    }
+                                    else
+                                    {
+                                        pb_start.Visible = false;
+                                        pb_ready.Visible = true;
+                                        pb_cancelfood.Visible = false;
+                                    }
+                                }
 
                                 flp_order_view.Controls.Add(tlp_product_box);
                                 orderbox.Add(new datagrid
@@ -2522,7 +2531,9 @@ namespace FoodandBeverage.Forms
                             txtdes.Visible = true;
                             txtdes.Text = "Waiting for customer confirmation.";
                         }
-                        tlp_sele.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+
+                        if(tlp_sele!=null)
+                            tlp_sele.RowStyles[2] = new RowStyle(SizeType.AutoSize);
 
                         DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[dgv_view_rowno].Cells[dactionno];
                         cell.Value = Properties.Resources.orderview_cancelled;
@@ -3909,7 +3920,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Kitchen_View blinkTimer_Tick", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
@@ -3921,6 +3931,7 @@ namespace FoodandBeverage.Forms
                 refreshtimer.Start();
             }
         }
+
         //private void refreshtimer_Tick(object sender, EventArgs e)
         //{
         //    RunMethodInSeparateThread(PrintcancelOrder);
@@ -3936,6 +3947,7 @@ namespace FoodandBeverage.Forms
         //    }
 
         //}
+
         private async void refreshtimer_Tick(object sender, EventArgs e)
         {
             refreshtimer.Stop();

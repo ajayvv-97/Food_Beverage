@@ -1208,5 +1208,63 @@ namespace FoodandBeverage.Forms
         {
             //lblcanpickupcount,btn_cancle_pickup
         }
+        public void ResetBillpage()
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
+            {
+                FrmCombinedBill _instanceFrmCombinedBill = Application.OpenForms["FrmCombinedBill"] as FrmCombinedBill;
+                if (_instanceFrmCombinedBill.CheckedtableNames.Count() > 0)
+                {
+                    _instanceFrmCombinedBill.CheckedtableNames.Clear();
+
+                    _instanceFrmCombinedBill.cmb_tbl_names.Visible = false;
+                    _instanceFrmCombinedBill.lbl_tbl_totalcount.Visible = false;
+                    _instanceFrmCombinedBill.cmb_tbl_names.Items.Clear();
+                    _instanceFrmCombinedBill.lbl_tbl_totalcount.Text = "Total Tables : ";
+                }
+                _instanceFrmCombinedBill.BillCombineBill_Update();
+            }
+        }
+        public void ResetTableViewPage()
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
+            {
+                FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                _instanceFrmPickup.Visible = false;
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                _instanceFrmTableView.Visible = true;
+                _instanceFrmTableView.TableStaus(0);
+            }
+        }
+        public void ResetPickupViewPage()
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                _instanceFrmTableView.Visible = false;
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
+            {
+                FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                _instanceFrmPickup.Visible = true;
+                _instanceFrmPickup.UpdatePickupView(0);
+            }
+        }
+
+        private void btnclose_Click(object sender, EventArgs e)
+        {
+            ResetTableViewPage();
+            FrmDashboard.Instance.Menutable.PerformClick();
+            this.Close();
+        }
+
+        private void btn_backCompleorder_Click(object sender, EventArgs e)
+        {
+            FrmDashboard.Instance.Menubilling.PerformClick();
+            this.Close();
+        }
     }
 }
