@@ -12,6 +12,7 @@ using System.Threading;
 using FoodandBeverage.Classes;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace FoodandBeverage.Forms
 {
@@ -50,7 +51,7 @@ namespace FoodandBeverage.Forms
         int tileW = 0;
         int tileH = 0;
 
-        int Pagecount = Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
+        int Pagecount = 20;// Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
         int currentPage = 1;
         int pageSize = 0;
         int totalPages = 0;
@@ -357,7 +358,6 @@ namespace FoodandBeverage.Forms
 
                 TableData = new List<DmnGridFields>();
                 pagedatadata = new List<DmnGridFields>();
-                currentPage = 1;
 
                 dmnSearchtabledata.Field30 = Convert.ToString(FrmLogin.BookingInterwell);
                 dmnSearchtabledata.Field28 = Convert.ToString(categoryId);
@@ -667,7 +667,6 @@ namespace FoodandBeverage.Forms
 
                 TableData = new List<DmnGridFields>();
                 pagedatadata = new List<DmnGridFields>();
-                currentPage = 1;
 
                 DmnSearch dmnSearch = new DmnSearch();
                 BllTableView<DmnGridFields> SearchDetails = new BllTableView<DmnGridFields>();
@@ -1369,18 +1368,56 @@ namespace FoodandBeverage.Forms
              tileH = (int)(tileW * PRODUCT_HEIGHT_PERCENT);
         }
 
+        #region Next Previous Button
         private void btnprev_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (currentPage > 1) // <-- correct check
+                {
+                    AutoTimer.Stop();
+                    currentPage--;
+                    LoadTableStaus(0);
+                    //pagedatadata = TableData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                    //lblpagerinfo.Text = $"Page {currentPage} of {totalPages} | Total Records: {TableData.Count}";
+                    btnprev.Enabled = currentPage > 1;
+                    btnnext.Enabled = currentPage < totalPages;
 
+                    //UpdatePagerInfo(); // <-- ensure pager label updates
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btnprev_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
         }
 
         private void btnnext_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                if (currentPage < totalPages)
+                {
+                    AutoTimer.Stop();
+                    currentPage++;
+                    LoadTableStaus(0);
+                    //pagedatadata = TableData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                    //lblpagerinfo.Text = $"Page {currentPage} of {totalPages} | Total Records: {TableData.Count}";
+                    btnprev.Enabled = currentPage > 1;
+                    btnnext.Enabled = currentPage < totalPages;
+                    //UpdatePagerInfo(); // <-- update pager label
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btnnext_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
         }
+        #endregion
 
         private void btn_refresh_Click(object sender, EventArgs e)
         {
+            currentPage = 1;
             categoryId = 0;
             categorystatus = 0;
             SearchModetype =0;
