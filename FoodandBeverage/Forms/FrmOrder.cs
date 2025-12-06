@@ -13295,19 +13295,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void btn_midascard_Click_1(object sender, EventArgs e)
-        {
-            //UIHelper.CenterAndResize(pnl_cardAcoount, 30, 25);
-            //UIHelper.RoundCorners(pnl_cardAcoount, 25);
-            //UIHelper.RoundCorners(tlp_card_header, 25);
-            //UIHelper.RoundCorners(tlp_cardAcoount, 25);
-            ////ApplyRoundedTextBox(txtentrie_descr, 10);
-            ///
-            Pnl_wifiPopup.Show();
-            Pnl_wifiPopup.BringToFront();
-            Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
-            tm_midascard.Start();
-        }
+
 
         private void tm_midascard_Tick(object sender, EventArgs e)
         {
@@ -13349,6 +13337,21 @@ namespace FoodandBeverage.Forms
         {
 
         }
+
+        private void btn_midascard_Click(object sender, EventArgs e)
+        {
+            //UIHelper.CenterAndResize(pnl_cardAcoount, 30, 25);
+            //UIHelper.RoundCorners(pnl_cardAcoount, 25);
+            //UIHelper.RoundCorners(tlp_card_header, 25);
+            //UIHelper.RoundCorners(tlp_cardAcoount, 25);
+            ////ApplyRoundedTextBox(txtentrie_descr, 10);
+            ///
+            Pnl_wifiPopup.Show();
+            Pnl_wifiPopup.BringToFront();
+            Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
+            tm_midascard.Start();
+        }
+
 
         public bool CheckGroupsaleExpire(string cardno)
         {
@@ -13439,15 +13442,6 @@ namespace FoodandBeverage.Forms
 
 
             }
-        }
-        private void btn_midascard_Click(object sender, EventArgs e)
-        {
-            tlp_main.Enabled = false;
-            payid = Convert.ToInt32(PaymentType.MidasCard);
-            Pnl_wifiPopup.Show();
-            Pnl_wifiPopup.BringToFront();
-            Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
-            tm_midascard.Start();
         }
 
         #endregion
