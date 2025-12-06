@@ -6559,14 +6559,40 @@ namespace FoodandBeverage.Forms
 
             try
             {
-                int sum = 0;
-                int n = gridSourcemaster.Count;
-                for (int i = 0; i < n; i++)
+                if(gridSourcemaster.Count > 0)
                 {
-                    if (Convert.ToInt32(gridSourcemaster[i].Quantity) != null && Convert.ToInt32(gridSourcemaster[i].Quantity) > 0 && Convert.ToInt32(gridSourcemaster[i].Status) == 3)
-                        sum = sum + Convert.ToInt32(gridSourcemaster[i].Quantity);
+                    int sum = 0;
+                    int n = gridSourcemaster.Count;
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (Convert.ToInt32(gridSourcemaster[i].Quantity) != null && Convert.ToInt32(gridSourcemaster[i].Quantity) > 0 && Convert.ToInt32(gridSourcemaster[i].Status) == 3)
+                            sum = sum + Convert.ToInt32(gridSourcemaster[i].Quantity);
+                    }
+                    finalqty = Convert.ToInt32(txttotalQTY.Text) + sum;
                 }
-                finalqty = Convert.ToInt32(txttotalQTY.Text) + sum;
+                else
+                {
+                    int sum = 0;
+                    int n = Dgv_Selected_Item.Rows.Count;
+                    for (int i = 0; i < n; i++)
+                    {
+                        var qtyValue = Dgv_Selected_Item.Rows[i].Cells[iqty].Value;
+                        var statusValue = Dgv_Selected_Item.Rows[i].Cells[istatusno].Value;
+
+                        if (qtyValue != null
+                            && statusValue != null
+                            && int.TryParse(qtyValue.ToString(), out int qty)
+                            && int.TryParse(statusValue.ToString(), out int status)
+                            && qty > 0
+                            && status == 3)
+
+                            sum = sum + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty]);
+                    }
+                    finalqty = Convert.ToInt32(txttotalQTY.Text) + sum;
+                }
+                
+
+                
             }
             catch (Exception ex)
             {
@@ -6577,19 +6603,45 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0;
-                for (int i = 0; i < gridSourcemaster.Count; i++)
+                if (gridSourcemaster.Count > 0)
                 {
-                    if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)
+                    TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0;
+                    for (int i = 0; i < gridSourcemaster.Count; i++)
                     {
-                        TotalIGST = TotalIGST + Convert.ToDecimal(gridSourcemaster[i].IGSTAmount);
-                        TotalCGST = TotalCGST + Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
-                        TotalSGST = TotalSGST + Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
-                        TotalVAT = TotalVAT + Convert.ToDecimal(gridSourcemaster[i].VATAmount);
-                        //Totaldis = Totaldis + Convert.ToDecimal(dgv_exitsting_product.Rows[i].Cells[pDisAmnt].Value);
+                        if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)
+                        {
+                            TotalIGST = TotalIGST + Convert.ToDecimal(gridSourcemaster[i].IGSTAmount);
+                            TotalCGST = TotalCGST + Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
+                            TotalSGST = TotalSGST + Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
+                            TotalVAT = TotalVAT + Convert.ToDecimal(gridSourcemaster[i].VATAmount);
+                            //Totaldis = Totaldis + Convert.ToDecimal(dgv_exitsting_product.Rows[i].Cells[pDisAmnt].Value);
+                        }
                     }
+                    TotalTax = TotalIGST + TotalVAT;
                 }
-                TotalTax = TotalIGST + TotalVAT;
+                else
+                {
+                    TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0;
+                    for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+                    {
+                        //if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)
+                        //{
+                        decimal igstAmt = 0;
+                        decimal vatAmt = 0;
+
+                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value), out igstAmt);
+                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value), out vatAmt);
+
+                        TotalIGST += igstAmt;
+                        TotalCGST += igstAmt / 2;
+                        TotalSGST += igstAmt / 2;
+                        TotalVAT += vatAmt;
+                        //Totaldis = Totaldis + Convert.ToDecimal(dgv_exitsting_product.Rows[i].Cells[pDisAmnt].Value);
+                        //}
+                    }
+                    TotalTax = TotalIGST + TotalVAT;
+                }
+                    
             }
             catch (Exception ex)
             {
