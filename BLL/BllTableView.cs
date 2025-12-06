@@ -17,7 +17,9 @@ namespace BLL
             parms.Add("categoryid", objSearch.Field28);
             parms.Add("serachBytablcodeStatus", objSearch.Field26);
             parms.Add("Tablcode", objSearch.Field27);
-            var listData = dapper.SelectQuery(Procedure, parms);
+            parms.Add("serachBycategoryStatus", objSearch.Field25);
+            parms.Add("Pagecount", objSearch.Field24); 
+             var listData = dapper.SelectQuery(Procedure, parms);
             return listData;
         }
 
