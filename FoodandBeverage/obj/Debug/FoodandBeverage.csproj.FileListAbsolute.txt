@@ -540,6 +540,9 @@ C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBe
 C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
+C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\EPPlus.xml
+C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
+C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\FoodandBeverage.pdb
@@ -624,7 +627,6 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\ClosedXML.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe.config
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\DocumentFormat.OpenXml.xml
-C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\EPPlus.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\ExcelNumberFormat.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\itextsharp.xml
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\LiveCharts.pdb
@@ -713,5 +715,3 @@ C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cs
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
-C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.pdb
-C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\bin\Debug\CustomMessageBox.exe.config
