@@ -66,8 +66,9 @@ namespace FoodandBeverage.Interfaces
         CREDIT = 8,
         NEFTRTGS = 9,
         COMPLEMENTRY = 10,
-        PART = 11,
-        SPLIT = 12
+        MidasCard = 11,
+        PART = 12,
+        SPLIT = 13
     };
     public enum Reservation
     {
@@ -484,5 +485,14 @@ namespace FoodandBeverage.Interfaces
         FreshCooked = 2,
 
     };
+    public enum CardType
+    {
+        NormalCard = 0,
+        VipCard = 1,
+        GroupCard = 2,
+        FamilyCard = 3,
+        FamilyCardMaster = 4,
+        EmployeeCard = 5
+    }
 }
 

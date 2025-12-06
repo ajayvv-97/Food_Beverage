@@ -187,10 +187,10 @@ namespace FoodandBeverage.Forms
             // flp_sidemenu
             // 
             this.flp_sidemenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.flp_sidemenu.Location = new System.Drawing.Point(232, 219);
+            this.flp_sidemenu.Location = new System.Drawing.Point(135, 163);
             this.flp_sidemenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.flp_sidemenu.Name = "flp_sidemenu";
-            this.flp_sidemenu.Size = new System.Drawing.Size(110, 237);
+            this.flp_sidemenu.Size = new System.Drawing.Size(207, 293);
             this.flp_sidemenu.TabIndex = 21;
             this.flp_sidemenu.Visible = false;
             // 

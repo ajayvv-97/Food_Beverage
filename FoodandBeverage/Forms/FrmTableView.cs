@@ -420,6 +420,7 @@ namespace FoodandBeverage.Forms
                         BackColor = Color.Transparent,
                         //Margin = new Padding(10),
                         Size = new Size(tileW, tileH),
+                        Tag = pagedatadata[i].Field3,
                         Margin = new Padding(10),
                         BorderStyle = BorderStyle.None,
                         Width = 140,
@@ -432,6 +433,7 @@ namespace FoodandBeverage.Forms
                         Dock = DockStyle.Fill,
                         ColumnCount = 1,
                         RowCount = 2,
+                        Tag = pagedatadata[i].Field3,
                         BackColor = Color.Yellow,
                         Margin = new Padding(0),
                         Padding = new Padding(0),
@@ -445,7 +447,7 @@ namespace FoodandBeverage.Forms
                         Tag = pagedatadata[i].Field3,
                         Text = pagedatadata[i].Field4,
                         BackColor = Color.Transparent,
-                        Font = AppFonts.GetFont(10),
+                        Font = new Font(this.Font, FontStyle.Bold),
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
                         ForeColor = Convert.ToInt32(pagedatadata[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor,
@@ -463,6 +465,10 @@ namespace FoodandBeverage.Forms
                         TextAlign = ContentAlignment.MiddleCenter,
                         Visible = false
                     };
+
+                    tlp_table_inner.AccessibleDescription = "0";
+                    lbltablename.AccessibleDescription = "0";
+                    netamountlabel.AccessibleDescription = "0";
 
                     // Add Labels into TLP
                     tlp_table_inner.Controls.Add(lbltablename, 0, 0);
@@ -487,8 +493,8 @@ namespace FoodandBeverage.Forms
                         UseCompatibleTextRendering = true,
                         TextAlign = ContentAlignment.MiddleCenter
                     };
-                    btnCancelCount.FlatAppearance.BorderSize = 0;
 
+                    btnCancelCount.FlatAppearance.BorderSize = 0;
                     // Make round button
                     using (var gp = new System.Drawing.Drawing2D.GraphicsPath())
                     {
@@ -640,6 +646,7 @@ namespace FoodandBeverage.Forms
                     }
                     #endregion
 
+                    
                     lbltablename.Click += tableClickEventHandler;
                     pnl_container.Click += tableClickEventHandler;
                     netamountlabel.Click += tableClickEventHandler;
@@ -733,8 +740,10 @@ namespace FoodandBeverage.Forms
                     Button btnCancelCount = this.Controls.Find("btnCancelCount" + pagedatadata[i].Field4, true).FirstOrDefault() as Button;
 
                     lbltablename.ForeColor = Convert.ToInt32(pagedatadata[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor;
+
                     tlp_table_inner.AccessibleDescription = "0";
                     lbltablename.AccessibleDescription = "0";
+                    netamountlabel.AccessibleDescription = "0";
 
                     // Update NetAmount & color logic for normal/reservation orders
 
@@ -877,7 +886,6 @@ namespace FoodandBeverage.Forms
                             tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                             lbltablename.Dock = DockStyle.Fill;
                             lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-
                             tlp_table_inner.AccessibleDescription = "0";
                             lbltablename.AccessibleDescription = "0";
 

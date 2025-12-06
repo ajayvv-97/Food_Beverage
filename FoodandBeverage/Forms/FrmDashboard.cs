@@ -144,6 +144,9 @@ namespace FoodandBeverage.Forms
         public static string DefaultTaxType = "";
 
         private FrmOrder _instanceFrmTableView;
+
+        public static bool EnableFamilyCardInPayment = false;
+        public static bool EnableGroupCardInPayment = false;
         #endregion
 
         // Function to create a rounded rectangle region
