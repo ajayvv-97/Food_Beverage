@@ -49,9 +49,9 @@ namespace FoodandBeverage.Forms
                 dtColumnAlign.Columns.Add();
                 DmnSearch _objSearch = new DmnSearch();
                 _objSearch.ColumnHeaders = "ID,Token No,Net Amount,Created Date";
-                _objSearch.Select = "SalesMasterId as Id,PkId Field1,NetAmount Field2,CreatedDateTime as Field3";
+                _objSearch.Select = "SalesMasterId as Id,EntryNo Field1,NetAmount Field2,CreatedDateTime as Field3";
                 _objSearch.Table = "tblSalesMaster ";
-                _objSearch.WhereNdGroupBy = "where Status = 1";
+                _objSearch.WhereNdGroupBy = "where Status = 1 AND ISNULL(RefundStatus, 0) <> 1";
                 _objSearch.OrderBy = " ORDER BY id DEsc";
                 var gridSourceserach = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSourceserach.Count == 0)

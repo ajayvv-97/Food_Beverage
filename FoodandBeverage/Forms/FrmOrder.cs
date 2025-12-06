@@ -11735,7 +11735,9 @@ namespace FoodandBeverage.Forms
             txtdiscountamt_promo.Text = "0";
             txtpromocode.Text = "0";
             btn_promo_reset.Visible = false;
+            btn_save_promo.Enabled = true;
             txtpromocode.Enabled = true;
+            netAmount();
         }
         private void cmb_tblcode_SelectionChangeCommitted(object sender, EventArgs e)
         {

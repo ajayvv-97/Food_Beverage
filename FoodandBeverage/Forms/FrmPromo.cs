@@ -215,84 +215,7 @@ namespace FoodandBeverage.Forms
 			}
 		}
 
-		private void btnserach_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				string returnValue = string.Empty;
-				DmnSearch _objSearch = new DmnSearch();
-				_objSearch.ColumnHeaders = "Id,Caption,Minimum BillAmt,PromoLabel,TotalPromo,MaxDiscount";
-				_objSearch.Select = "PromoMId Id,Caption Field1,MinBillAmt Field2,PromoLabel Field3,TotalPromo Field4,MaxDiscount Field6";
-				_objSearch.Table = "tblPromoMaster";
-				_objSearch.WhereNdGroupBy = " where Status=1";
-				_objSearch.OrderBy = " ";
-				using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
-				{
-					var dialogResult = search.ShowDialog();
-					if (dialogResult == DialogResult.OK)
-					{
-						returnValue = Convert.ToString(search._retValue);
-					}
-				}
-				if (returnValue.ToString() != null && returnValue.ToString() != "")
-				{
-					BllSearch<DmnPromoMaster> bllSearch = new BllSearch<DmnPromoMaster>();
-					DmnSearch objSearch = new DmnSearch();
-					objSearch.Select = "*";
-					objSearch.Table = "tblPromoMaster";
-					objSearch.WhereNdGroupBy = " where Status=1 and PromoMId=" + returnValue;
-					var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-					if (gridSource.Count > 0)
-					{
-						txtPromoMId.Text = Convert.ToString(gridSource[0].PromoMId);
-						txtprocap.Text = gridSource[0].Caption;
-						txtprodesc.Text = gridSource[0].Description;
-						dtpto.MinDate = Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
-						dtpfrom.MinDate = Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
-						dtpto.Value = Convert.ToDateTime(gridSource[0].EndDate.ToString("dd-MM-yyyy"));
-						dtptotime.Value = Convert.ToDateTime(gridSource[0].EndDate.ToString("hh:mm:ss"));
-						dtpfrom.Value = Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
-						dtpfromtime.Value = Convert.ToDateTime(gridSource[0].StartDate.ToString("hh:mm:ss"));
-						txtgrt.Text = Convert.ToString(gridSource[0].MinBillAmt);
-						txtmaxdis.Text = Convert.ToString(gridSource[0].MaxDiscount);
-						txtdiscper.Text = Convert.ToString(gridSource[0].DiscountPer);
-						txtproLbl.Text = Convert.ToString(gridSource[0].PromoLabel);
-						txttotPro.Text = Convert.ToString(gridSource[0].TotalPromo);
-					
-						BllSearch<DmnPromoDetails> bllSearch1 = new BllSearch<DmnPromoDetails>();
-						objSearch.Select = "*";
-						objSearch.Table = "tblPromoDetails";
-						objSearch.WhereNdGroupBy = " where Status>0 and PromoMId=" + returnValue;
-						objSearch.OrderBy = " order by Status ";
-						var gridSource1 = bllSearch1.GetSearchData("prdSearch", objSearch);
-						dgvProCode.Rows.Clear();
-						dgvProCode.Rows.Add(gridSource1.Count());
-						for (int i = 0; i < dgvProCode.Rows.Count; i++)
-						{
-							if (gridSource1[i].Status == 2)
-							{
-								btnSave.Visible = false;
-								dgvProCode.Rows[i].DefaultCellStyle.BackColor = Color.LightGray;
-							}
-							dgvProCode.Rows[i].Cells[1].Value = i + 1;
-							dgvProCode.Rows[i].Cells[2].Value = gridSource1[i].Code;
-							if (Convert.ToInt32(gridSource1[i].Status) == 2)
-								dgvProCode.Rows[i].Cells[4].Value = "Promo Applied"; 
-						}
-						if (Convert.ToInt32(gridSource[0].TotalPromo) < Convert.ToInt32(gridSource1.Count))						
-							btngen.Visible = false;
-						else
-							btngen.Visible = true;
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				clsgen.LogException("PromoCode page btnserach_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
-			}
-
-		}
+		
 		private void btncancel_Click(object sender, EventArgs e)
 		{
 			this.Close();
@@ -532,5 +455,83 @@ namespace FoodandBeverage.Forms
         {
 			this.Close();
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+			try
+			{
+				string returnValue = string.Empty;
+				DmnSearch _objSearch = new DmnSearch();
+				_objSearch.ColumnHeaders = "Id,Caption,Minimum BillAmt,PromoLabel,TotalPromo,MaxDiscount";
+				_objSearch.Select = "PromoMId Id,Caption Field1,MinBillAmt Field2,PromoLabel Field3,TotalPromo Field4,MaxDiscount Field5";
+				_objSearch.Table = "tblPromoMaster";
+				_objSearch.WhereNdGroupBy = " where Status=1";
+				_objSearch.OrderBy = " ";
+				using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20))
+				{
+					var dialogResult = search.ShowDialog();
+					if (dialogResult == DialogResult.OK)
+					{
+						returnValue = Convert.ToString(search._retValue);
+					}
+				}
+				if (returnValue.ToString() != null && returnValue.ToString() != "")
+				{
+					BllSearch<DmnPromoMaster> bllSearch = new BllSearch<DmnPromoMaster>();
+					DmnSearch objSearch = new DmnSearch();
+					objSearch.Select = "*";
+					objSearch.Table = "tblPromoMaster";
+					objSearch.WhereNdGroupBy = " where Status=1 and PromoMId=" + returnValue;
+					var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+					if (gridSource.Count > 0)
+					{
+						txtPromoMId.Text = Convert.ToString(gridSource[0].PromoMId);
+						txtprocap.Text = gridSource[0].Caption;
+						txtprodesc.Text = gridSource[0].Description;
+						dtpto.MinDate = Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
+						dtpfrom.MinDate = Convert.ToDateTime(gridSource[0].StartDate.ToString("dd-MM-yyyy"));
+						dtpfrom.Value = gridSource[0].StartDate;
+						dtpfromtime.Value = Convert.ToDateTime(gridSource[0].StartDate.ToString("hh:mm:ss"));
+						dtpto.Value = gridSource[0].EndDate;
+						dtptotime.Value = Convert.ToDateTime(gridSource[0].EndDate.ToString("hh:mm:ss"));						
+						txtgrt.Text = Convert.ToString(gridSource[0].MinBillAmt);
+						txtmaxdis.Text = Convert.ToString(gridSource[0].MaxDiscount);
+						txtdiscper.Text = Convert.ToString(gridSource[0].DiscountPer);
+						txtproLbl.Text = Convert.ToString(gridSource[0].PromoLabel);
+						txttotPro.Text = Convert.ToString(gridSource[0].TotalPromo);
+
+						BllSearch<DmnPromoDetails> bllSearch1 = new BllSearch<DmnPromoDetails>();
+						objSearch.Select = "*";
+						objSearch.Table = "tblPromoDetails";
+						objSearch.WhereNdGroupBy = " where Status>0 and PromoMId=" + returnValue;
+						objSearch.OrderBy = " order by Status ";
+						var gridSource1 = bllSearch1.GetSearchData("prdSearch", objSearch);
+						dgvProCode.Rows.Clear();
+						dgvProCode.Rows.Add(gridSource1.Count());
+						for (int i = 0; i < dgvProCode.Rows.Count; i++)
+						{
+							if (gridSource1[i].Status == 2)
+							{
+								btnSave.Visible = false;
+								dgvProCode.Rows[i].DefaultCellStyle.BackColor = Color.LightGray;
+							}
+							dgvProCode.Rows[i].Cells[1].Value = i + 1;
+							dgvProCode.Rows[i].Cells[2].Value = gridSource1[i].Code;
+							if (Convert.ToInt32(gridSource1[i].Status) == 2)
+								dgvProCode.Rows[i].Cells[4].Value = "Promo Applied";
+						}
+						if (Convert.ToInt32(gridSource[0].TotalPromo) < Convert.ToInt32(gridSource1.Count))
+							btngen.Visible = false;
+						else
+							btngen.Visible = true;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				//CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				clsgen.LogException("PromoCode page btnserch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.PromoCode));
+			}
+		}
     }
 }
