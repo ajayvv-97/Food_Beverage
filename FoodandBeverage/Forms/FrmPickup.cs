@@ -839,9 +839,7 @@ namespace FoodandBeverage.Forms
                                    CheckedtableNames, Convert.ToInt32(PageType.Billpage),
                                    0, Convert.ToInt32(SourcepageType.Pickuppage)))
                     {
-                        frm.Opacity = 0;
-                        frm.Visible = false;
-                        frm.WindowState = FormWindowState.Maximized;
+                      
                         frm.ShowDialog();
                     }
 

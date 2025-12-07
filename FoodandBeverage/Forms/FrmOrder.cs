@@ -262,6 +262,7 @@ namespace FoodandBeverage.Forms
         int payid = 0;
         #endregion
 
+        private Timer AutoCloseTimer = new Timer();
         #endregion
         public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype)
         {
@@ -272,6 +273,7 @@ namespace FoodandBeverage.Forms
             PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
             OmId = Ordermasterid;
+
             InitializeComponent();
 
             f11 = AppFonts.GetFont(11);
@@ -304,10 +306,19 @@ namespace FoodandBeverage.Forms
 
         #region Default Fuction and Events 
         //public FrmOrder(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int pkid)
+        private void AutoCloseTimer_Tick(object sender, EventArgs e)
+        {
+            AutoCloseTimer.Stop();
+            this.Close();   // safely return to FrmTableView
+        }
         private async void FrmOrder_Load(object sender, EventArgs e)
         {
             try
             {
+                AutoCloseTimer.Interval = 3000; // close after 3 sec
+                AutoCloseTimer.Tick += AutoCloseTimer_Tick;
+                AutoCloseTimer.Start();
+
                 pageSize = Pagecount;
 
                 //tlp_footer.Visible = false;
@@ -430,7 +441,7 @@ namespace FoodandBeverage.Forms
                 #endregion
 
                 textb_shape();
-                ShowLoadingdGif();
+                //ShowLoadingdGif();
                 setperfixsale();
                 settablecode();
 
@@ -1806,6 +1817,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  CheckRe_Pickuporder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+
         public void checksave_refresh()
         {
             try
@@ -2618,6 +2630,7 @@ namespace FoodandBeverage.Forms
             PictureBox pic = sender as PictureBox;
             DashboardButtonClickEventHandler(pic.Parent, e);
         }
+
         public void MakeRounded(Panel panel, int radius)
         {
             GraphicsPath path = new GraphicsPath();
@@ -2629,6 +2642,8 @@ namespace FoodandBeverage.Forms
             path.CloseFigure();
             panel.Region = new Region(path);
         }
+
+
         private async Task LoadImageAsync(PictureBox pb, int insType, int productId)
         {
             await Task.Run(() =>
@@ -3134,7 +3149,7 @@ namespace FoodandBeverage.Forms
                         r1 = Dgv_Selected_Item.RowCount - 1;
                         Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
 
-                        Dgv_Selected_Item.Rows[r1].Cells[iaction].Value = ImgClose;
+                        
                         Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.NullValue = null;
                         ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
@@ -3238,6 +3253,17 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                foreach (Control c in tlp_price_list.Controls.Cast<Control>().ToList())
+                {
+                    c.Click -= MyButtonClickEventHandler;
+                    c.Click -= closebuttonClickEventHandler;
+                    foreach (Control child in c.Controls) child.Click -= MyButtonClickEventHandler;
+                    c.Dispose();
+                }
+                tlp_price_list.Controls.Clear();
+                tlp_price_list.RowStyles.Clear();
+                tlp_price_list.RowCount = 0;
+
                 BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "i.Itemname Field1, pr.SRate Field2, pr.QOH Field3,pr.Id Field4,i.ItemId Field5";
@@ -5961,23 +5987,25 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Create a new GraphicsPath object
-                GraphicsPath path = new GraphicsPath();
-                // Define the shape of the path using a rounded rectangle
-                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-                path.CloseAllFigures();
-                // Set the Region property of the textbox to the new path
-                textBox.Region = new Region(path);
+                using (GraphicsPath path = new GraphicsPath())
+                {
+                    Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                    path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                    path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                    path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                    path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                    path.CloseAllFigures();
+
+                    textBox.Region?.Dispose(); // Clean previous region (important)
+                    textBox.Region = new Region(path);
+                }
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+
 
         #endregion
 

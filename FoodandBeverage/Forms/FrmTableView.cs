@@ -20,8 +20,6 @@ namespace FoodandBeverage.Forms
     {
 
         #region Declaration
-        private ToolTip _toolTip = new ToolTip();
-        //public Timer AutoTimer;
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
 
         public int panelsPerRow = 0;
@@ -51,12 +49,26 @@ namespace FoodandBeverage.Forms
         int tileW = 0;
         int tileH = 0;
 
-        int Pagecount = 20;// Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
+        int Pagecount = 60;// Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
         int currentPage = 1;
         int pageSize = 0;
         int totalPages = 0;
         private List<DmnGridFields> TableData;
         private List<DmnGridFields> pagedatadata;
+
+     
+        private ToolTip menuTooltip = new ToolTip();
+        private Image menuButtonImage = (Image)Properties.Resources.fb_sidemenu.Clone();
+
+
+        private System.Windows.Forms.Timer AutoRunTimer = new System.Windows.Forms.Timer();
+        private int AutoRunIndex = 0;
+        private List<Control> TableList = new List<Control>();
+        private bool AutoRunEnabled = true;
+
+        int count = 0;
+
+
         #endregion
 
         #region Fields
@@ -78,11 +90,6 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
             //InitializeTableView();
-
-            _toolTip.AutoPopDelay = 5000;    // Time the tooltip stays visible (ms)
-            _toolTip.InitialDelay = 500;     // Delay before showing tooltip (ms)
-            _toolTip.ReshowDelay = 100;      // Delay for subsequent tooltips (ms)
-            _toolTip.ShowAlways = true;
             SearchModetype = type;
         }
 
@@ -320,7 +327,38 @@ namespace FoodandBeverage.Forms
                 //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
             }
             LoadTableStaus(tabletype);
+
+            TableList = flp_tableview.Controls.Cast<Control>().ToList();
+
+            AutoRunTimer.Interval = 2000; // open next table every 2 sec
+            AutoRunTimer.Tick += AutoRunTimer_Tick;
+            AutoRunTimer.Start();
+
         }
+
+        private void AutoRunTimer_Tick(object sender, EventArgs e)
+        {
+            if (!AutoRunEnabled) return;
+
+            if (AutoRunIndex >= TableList.Count)
+                AutoRunIndex = 0;
+
+            Control table = TableList[AutoRunIndex];
+            AutoRunIndex++;
+
+            int tableId = Convert.ToInt32(table.Tag);
+
+            AutoRunTimer.Stop();   // stop main timer when opening form
+
+            using (FrmOrder memtest = new FrmOrder(Convert.ToInt32(tableId), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+            {
+                memtest.ShowDialog();
+            }
+            count = count + 1;
+            lblpagerinfo.Text = Convert.ToString(count);
+            AutoRunTimer.Start();
+        }
+
 
         #region Table Creation & Updation    
 
@@ -656,7 +694,7 @@ namespace FoodandBeverage.Forms
                 }
                 flp_tableview.ResumeLayout();
                 clsgen.Memoryrelease();
-                initTimer();
+                //initTimer();
             }
             catch (Exception ex)
             {
@@ -718,7 +756,7 @@ namespace FoodandBeverage.Forms
                 //}
                 LoadPagedata();
                 flp_tableview.ResumeLayout();
-                initTimer();
+           
             }
             catch (Exception ex)
             {
@@ -909,6 +947,8 @@ namespace FoodandBeverage.Forms
                     }
 
                 }
+
+                //initTimer();
             }
             catch (Exception ex)
             {
@@ -1009,10 +1049,14 @@ namespace FoodandBeverage.Forms
                             int tagValue;
                             if (clickedControl.Tag != null)
                             {
-                                using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+                                using (FrmOrderConsole memtest = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
                                 {
-                                    _instanceFrmOrder.ShowDialog();
+                                    memtest.ShowDialog();
                                 }
+                                //using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+                                //{
+                                //    _instanceFrmOrder.ShowDialog();
+                                //}
                             }
                         }
 
@@ -1087,7 +1131,7 @@ namespace FoodandBeverage.Forms
                 if (tlp != null)
                 {
                     tlp.BackColor = Color.LightBlue;
-                    _toolTip.SetToolTip(tlp, tlpcate.Tag.ToString());
+                    //_toolTip.SetToolTip(tlp, tlpcate.Tag.ToString());
                 }
             }
             catch (Exception ex)
@@ -1233,6 +1277,11 @@ namespace FoodandBeverage.Forms
 
         private void AutoTimer_Tick(object sender, EventArgs e)
         {
+            Process currentProcess = Process.GetCurrentProcess();
+            long memoryInBytes = currentProcess.PrivateMemorySize64;
+            double memoryInMB = memoryInBytes / (1024.0 * 1024.0);
+            lblmemory.Text = $"Memory: {memoryInMB:F2} MB";
+
             TableStaus(0);
         }
 
@@ -1248,16 +1297,23 @@ namespace FoodandBeverage.Forms
         private void btn_showmenu_Click(object sender, EventArgs e)
         {
             clsgen.Memoryrelease();
-            flp_sidemenu.Visible = !flp_sidemenu.Visible;
 
+            flp_sidemenu.Visible = !flp_sidemenu.Visible;
             if (!flp_sidemenu.Visible)
                 return;
 
+            // 1. Dispose old controls safely
             foreach (Control ctrl in flp_sidemenu.Controls)
+            {
+                menuTooltip.SetToolTip(ctrl, null);  // unlink tooltip
                 ctrl.Dispose();
+            }
             flp_sidemenu.Controls.Clear();
+
+            flp_sidemenu.AutoScroll = false;
             flp_sidemenu.Refresh();
 
+            // 2. Setup panel
             flp_sidemenu.FlowDirection = FlowDirection.LeftToRight;
             flp_sidemenu.Width = btn_showmenu.Width;
             flp_sidemenu.Height = (int)(this.Height * 0.5);
@@ -1268,6 +1324,7 @@ namespace FoodandBeverage.Forms
             flp_sidemenu.VerticalScroll.Enabled = false;
             flp_sidemenu.VerticalScroll.Visible = false;
 
+            // 3. Positioning
             Point btnScreen = btn_showmenu.PointToScreen(Point.Empty);
             int desiredX = btnScreen.X + (btn_showmenu.Width / 2) - (flp_sidemenu.Width / 2);
             int desiredY = btnScreen.Y + btn_showmenu.Height + 20;
@@ -1289,10 +1346,11 @@ namespace FoodandBeverage.Forms
             Point clientPos = this.PointToClient(new Point(desiredX, desiredY));
             flp_sidemenu.Location = clientPos;
 
-            int bheight =(int)(btn_showmenu.Height * 0.9);
+            // 4. Button sizing
+            int bheight = (int)(btn_showmenu.Height * 0.9);
             int bWidth = btn_showmenu.Width - 25;
 
-
+            // 5. Fetch categories
             BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
             DmnSearch objSearch = new DmnSearch
             {
@@ -1304,8 +1362,7 @@ namespace FoodandBeverage.Forms
 
             var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
 
-            ToolTip tooltip = new ToolTip();
-
+            // 6. ADD "ALL" BUTTON
             Button btnAll = new Button
             {
                 Name = "btnSideMenu_All",
@@ -1317,15 +1374,15 @@ namespace FoodandBeverage.Forms
                 Dock = DockStyle.Top,
                 FlatStyle = FlatStyle.Flat,
                 Font = AppFonts.GetFont(10),
-                BackgroundImage = Properties.Resources.fb_sidemenu,
+                BackgroundImage = (Image)menuButtonImage.Clone(), // SAFE IMAGE
                 BackgroundImageLayout = ImageLayout.Stretch,
-
             };
             btnAll.FlatAppearance.BorderSize = 0;
             btnAll.Click += SideMenuClick;
-            tooltip.SetToolTip(btnAll, "All");
+            menuTooltip.SetToolTip(btnAll, "All");
             flp_sidemenu.Controls.Add(btnAll);
 
+            // 7. ADD CATEGORY BUTTONS
             if (itemSource != null && itemSource.Count > 0)
             {
                 foreach (var item in itemSource)
@@ -1341,28 +1398,36 @@ namespace FoodandBeverage.Forms
                         BackColor = Color.Transparent,
                         ForeColor = Color.White,
                         Font = AppFonts.GetFont(10),
-                        BackgroundImage = Properties.Resources.fb_sidemenu,
+                        BackgroundImage = (Image)menuButtonImage.Clone(),
                         BackgroundImageLayout = ImageLayout.Stretch,
-
                     };
 
                     btn.FlatAppearance.BorderSize = 0;
                     btn.Click += SideMenuClick;
-                    tooltip.SetToolTip(btn, item.CategoryName);
+
+                    menuTooltip.SetToolTip(btn, item.CategoryName);
+
                     flp_sidemenu.Controls.Add(btn);
                 }
             }
+
+            // 8. Round Corners (SAFE)
             UIHelper.RoundCorners(flp_sidemenu, 25);
         }
+
         private void SideMenuClick(object sender, EventArgs e)
         {
             Button btn = sender as Button;
+
             categoryId = Convert.ToInt32(btn.Tag);
             categorystatus = 1;
+
             flp_sidemenu.Visible = false;
+
             AutoTimer.Stop();
             LoadTableStaus(0);
         }
+
 
         private void FrmTableView_Resize(object sender, EventArgs e)
         {
@@ -1422,6 +1487,13 @@ namespace FoodandBeverage.Forms
             }
         }
         #endregion
+
+        private void btnclose_Click(object sender, EventArgs e)
+        {
+            FrmDashboard.Instance.Menuhome.PerformClick();
+            this.Close();
+          
+        }
 
         private void btn_refresh_Click(object sender, EventArgs e)
         {
