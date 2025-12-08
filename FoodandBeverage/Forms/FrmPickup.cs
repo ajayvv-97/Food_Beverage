@@ -162,7 +162,11 @@ namespace FoodandBeverage.Forms
                 btnnext.Enabled = currentPage < totalPages;
 
                 if (TableData.Count == 0)
+                {
+                    AutoTimer.Start();
                     return;
+                }
+                    
 
                 #region Clear existing controls (except Add New)
                 string addbuttonname = "tlp_addnew";
@@ -308,7 +312,6 @@ namespace FoodandBeverage.Forms
 
                 flp_pickup_view.ResumeLayout();
                 AutoTimer.Start();
-
             }
             catch (Exception ex)
             {
@@ -324,7 +327,6 @@ namespace FoodandBeverage.Forms
             {
                 AutoTimer.Stop();
                 ShowEmptyOrderIcon();
-
                 ShowEmptyOrderIcon();
                 BllPickupview<DmnGridFields> SearchDetails = new BllPickupview<DmnGridFields>();
                 DmnGridFields dmnSearchpickdata = new DmnGridFields();
@@ -835,7 +837,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    using (FrmOrder frm = new FrmOrder(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0,
+                    using (FrmOrderConsole frm = new FrmOrderConsole(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0,
                                    CheckedtableNames, Convert.ToInt32(PageType.Billpage),
                                    0, Convert.ToInt32(SourcepageType.Pickuppage)))
                     {

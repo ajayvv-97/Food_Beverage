@@ -36,6 +36,7 @@ namespace FoodandBeverage.Forms
             this.btnprev = new System.Windows.Forms.Button();
             this.lblpagerinfo = new System.Windows.Forms.Label();
             this.btnnext = new System.Windows.Forms.Button();
+            this.lblmemory = new System.Windows.Forms.Label();
             this.tlp_search = new System.Windows.Forms.TableLayoutPanel();
             this.btnaddnew = new System.Windows.Forms.Button();
             this.txtPkid_search = new System.Windows.Forms.TextBox();
@@ -48,7 +49,6 @@ namespace FoodandBeverage.Forms
             this.flp_pickup_view = new System.Windows.Forms.FlowLayoutPanel();
             this.pbempty = new System.Windows.Forms.PictureBox();
             this.AutoTimer = new System.Windows.Forms.Timer(this.components);
-            this.lblmemory = new System.Windows.Forms.Label();
             this.tlp_main.SuspendLayout();
             this.tlp_footer.SuspendLayout();
             this.tlp_search.SuspendLayout();
@@ -78,7 +78,7 @@ namespace FoodandBeverage.Forms
             this.tlp_footer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.tlp_footer.ColumnCount = 4;
             this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
+            this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 171F));
             this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_footer.Controls.Add(this.btnprev, 0, 0);
@@ -111,9 +111,9 @@ namespace FoodandBeverage.Forms
             // 
             this.lblpagerinfo.AutoSize = true;
             this.lblpagerinfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblpagerinfo.Location = new System.Drawing.Point(201, 0);
+            this.lblpagerinfo.Location = new System.Drawing.Point(240, 0);
             this.lblpagerinfo.Name = "lblpagerinfo";
-            this.lblpagerinfo.Size = new System.Drawing.Size(686, 43);
+            this.lblpagerinfo.Size = new System.Drawing.Size(647, 43);
             this.lblpagerinfo.TabIndex = 0;
             this.lblpagerinfo.Text = "Midasfun";
             this.lblpagerinfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -131,6 +131,18 @@ namespace FoodandBeverage.Forms
             this.btnnext.TabIndex = 291;
             this.btnnext.UseVisualStyleBackColor = true;
             this.btnnext.Click += new System.EventHandler(this.btnnext_Click);
+            // 
+            // lblmemory
+            // 
+            this.lblmemory.AutoSize = true;
+            this.lblmemory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblmemory.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblmemory.Location = new System.Drawing.Point(69, 0);
+            this.lblmemory.Name = "lblmemory";
+            this.lblmemory.Size = new System.Drawing.Size(165, 43);
+            this.lblmemory.TabIndex = 292;
+            this.lblmemory.Text = "Memeory";
+            this.lblmemory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tlp_search
             // 
@@ -307,17 +319,6 @@ namespace FoodandBeverage.Forms
             // 
             this.AutoTimer.Interval = 2000;
             this.AutoTimer.Tick += new System.EventHandler(this.AutoTimer_Tick);
-            // 
-            // lblmemory
-            // 
-            this.lblmemory.AutoSize = true;
-            this.lblmemory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblmemory.Location = new System.Drawing.Point(69, 0);
-            this.lblmemory.Name = "lblmemory";
-            this.lblmemory.Size = new System.Drawing.Size(126, 43);
-            this.lblmemory.TabIndex = 292;
-            this.lblmemory.Text = "Memeory";
-            this.lblmemory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FrmPickup
             // 
