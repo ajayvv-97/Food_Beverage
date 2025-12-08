@@ -1,19 +1,25 @@
 ﻿using BLL;
 using Domain;
 using FoodandBeverage.Classes;
+using FoodandBeverage.Forms.UserControls;
 using System;
-using System.Data;
 using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
+using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Text.RegularExpressions;
+using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Interfaces;
 using System.Drawing.Drawing2D;
-using System.Linq;
+
+
 using System.Runtime.InteropServices;
 using CustomMessageBox;
-using System.Net;
-using System.IO;
-using System.Drawing.Imaging;
-using System.Text.RegularExpressions;
 
 namespace FoodandBeverage.Forms
 {
@@ -21,21 +27,12 @@ namespace FoodandBeverage.Forms
     {
         ClsDocument clsDocument = new ClsDocument();
         ClsGeneral clsgen = new ClsGeneral();
+        FilterInfoCollection FilterInfoCollection;
+        VideoCaptureDevice VideoCaptureDevice;
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
-        long BranchId;// Forms.frmLogin.BranchId;//16
-        long UserId;// Forms.frmLogin.UserId;//1
-                    //long FinancialYearId = Convert.ToInt64(FrmDashBoard.FinancialYearId);//10
-        Bitmap bitmap;
-        string _retValue;
-        long AccID;
-        static string hostName = "ftp://anikayaj.com/";
-        static string ftppath = "app.ayjsoft.com/";
-        static string ftproot = "app.ayjsoft.com/";
-        static string ftpusername = "anikayaj_2021";
-        static string ftppwd = "anikayaj@123#";
-        static string ftpsubfolder = "/App_Update/";
-        string DownLoad_directorypath = @"C:\ProgramData\iCard\iCard_Update\";
-        string Remote_File_Dir = hostName + "/" + ftproot + "/" + ftpsubfolder + "/" + "iCard_WinSetup.msi";
+        long BranchId = FrmDashboard.BranchId;
+        long UserId = Forms.FrmLogin.UserId;
+        public int VideoCaptureDevice_NewFrame { get; private set; }
         public static string empImgExt = "";
 
         public int Id = 0;
@@ -690,74 +687,7 @@ namespace FoodandBeverage.Forms
         }  
 
 
-        private void pbAdd_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb1.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("company Page pbAdd_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
-
-        }
-
-
-        private void cboProof1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb2.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("company Page cboProof1_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
-
-        }
-
-        private void cboProof2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb2.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("company Page cboProof2_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
-
-
-        }
-
+        
 
         public void filldetails()
         {
@@ -1037,35 +967,38 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.CreatedBy = FrmDashboard.UserId;
                 dmnRegistration.BranchId = FrmDashboard.BranchId;
                 dmnRegistration.Status = 1;
-                var InsertStatus = bllregistration.AddEditData("prdInsert_Upd_HotelReg", dmnRegistration);
-                if (InsertStatus.Id != 0)
+                if (empImgExt != "")
                 {
-                    if (pb1.BackgroundImage != null)
+                    if (!Directory.Exists(Compressedimg))
                     {
-                        Bitmap bm = new Bitmap(pb1.BackgroundImage);
-                        clsDocument.UploadImage(bm, InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
-                    }
-                    if (pb2.BackgroundImage != null)
-                    {
-                        Bitmap bm2 = new Bitmap(pb2.BackgroundImage);
-                        clsDocument.UploadImage(bm2, InsertStatus.Id + "_2.jpeg", DocumentType.HotelRegistrationProofPics);
-                    }
-                    if (pb3.BackgroundImage != null)
-                    {
-                        Bitmap bm3 = new Bitmap(pb3.BackgroundImage);
-                        clsDocument.UploadImage(bm3, InsertStatus.Id + "_3.jpeg", DocumentType.HotelRegistrationProofPics);
+                        Directory.CreateDirectory(Compressedimg);
+                        DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                        DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                        dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                        dInfo.SetAccessControl(dSecurity);
                     }
                     else
                     {
-                        bool imageExist = clsDocument.FileExistOrNot(InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
-                        if (imageExist)
-                            clsDocument.DeleteImage(InsertStatus.Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
-                        InsertStatus.Photo = "";
-                        InsertStatus.Photo = "";
+                        foreach (string file in Directory.GetFiles(Compressedimg))
+                        {
+                            System.GC.Collect();
+                            System.GC.WaitForPendingFinalizers();
+                            File.Delete(file);
+                        }
                     }
-                    FrmDashboard.BranchId = InsertStatus.Id;
-                    FrmLogin.BranchId = InsertStatus.Id;
+                    ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
+
+
+                }
+                var InsertStatus = bllregistration.AddEditData("prdInsert_Upd_HotelReg", dmnRegistration);
+                if (InsertStatus.Id != 0)
+                {
                     txtcid.Text = Convert.ToString(InsertStatus.Id);
+
+                    
+
+                    
+                    
 
                     if (Convert.ToInt32(txtcid.Text) > 0)
                     {
@@ -1137,101 +1070,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void btn_certipic1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb1.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("company Page btn_certipic1_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
-
-        }
-
-        private void btn_certipic2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb2.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("company Page btn_certipic2_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
-           
-        }
-
-        private void btn_certipic3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb3.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("company Page btn_certipic3_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
-        }
-
-        private void btn_cert1_dow_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-                if (!ImagesAreEqual(pb1.BackgroundImage, FoodandBeverage.Properties.Resources.reg_certificate_icon))
-                {
-                    SaveFileDialog saveFileDialog = new SaveFileDialog
-                    {
-                        Filter = "JPEG Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif|PNG Image|*.png",
-                        Title = "Save an Image File",
-                        DefaultExt = "jpg"
-                    };
-
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        pb1.BackgroundImage.Save(saveFileDialog.FileName);
-                    }
-                }
-                else
-                {
-                    CMessageBox.Show("No image to Download.");
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("company Page btn_cert1_dow_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
-        }
+   
         private bool ImagesAreEqual(Image img1, Image img2)
         {
             try
@@ -1265,7 +1104,37 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("company Page ImagesAreEqual()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
                 return false;
             }
-        
+
+        }
+        private void btn_cert1_dow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (!ImagesAreEqual(pb1.BackgroundImage, FoodandBeverage.Properties.Resources.reg_certificate_icon))
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog
+                    {
+                        Filter = "JPEG Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif|PNG Image|*.png",
+                        Title = "Save an Image File",
+                        DefaultExt = "jpg"
+                    };
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        pb1.BackgroundImage.Save(saveFileDialog.FileName);
+                    }
+                }
+                else
+                {
+                    CMessageBox.Show("No image to Download.");
+                }
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page btn_cert1_dow_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+            }
         }
 
         private void btn_cert2_dow_Click(object sender, EventArgs e)
@@ -1447,6 +1316,76 @@ namespace FoodandBeverage.Forms
         private void btn_cert_upload_Click(object sender, EventArgs e)
         {
             panel1.Visible = true;
+            panel1.Left = (this.ClientSize.Width - panel1.Width) / 2;
+            panel1.Top = (this.ClientSize.Height - panel1.Height) / 2;
+        }
+
+        private void proof1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                DialogResult dialogResult = openFileDialog.ShowDialog();
+                if (openFileDialog.FileName != "")
+                {
+                    empImgExt = openFileDialog.FileName;
+                    pb1.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page proof1_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+            }
+        }
+
+        private void proof2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                DialogResult dialogResult = openFileDialog.ShowDialog();
+                if (openFileDialog.FileName != "")
+                {
+                    empImgExt = openFileDialog.FileName;
+                    pb2.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page proof2_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+            }
+        }
+
+        private void proof3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
+                DialogResult dialogResult = openFileDialog.ShowDialog();
+                if (openFileDialog.FileName != "")
+                {
+                    empImgExt = openFileDialog.FileName;
+                    pb3.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page proof3_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+            }
+        }
+
+        private void btn_cert_ok__Click(object sender, EventArgs e)
+        {
+            panel1.Visible = false;
         }
     }
 }
