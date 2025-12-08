@@ -33,12 +33,14 @@ namespace FoodandBeverage.Forms
         public Color CancelProduct_order = ColorTranslator.FromHtml("#FFB3B3");
         public Color BillingColor = Color.White;
 
-        int Pagecount = 2;// Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
+        int Pagecount = 60;// Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
         int currentPage = 1;
         int pageSize = 0;
         int totalPages = 0;
         private List<DmnGridFields> TableData;
         private List<DmnGridFields> pagedatadata;
+        private Dictionary<string, TableLayoutPanel> PickupCache = new Dictionary<string, TableLayoutPanel>();
+
         #endregion
         public FrmPickup(int type)
         {
@@ -141,8 +143,311 @@ namespace FoodandBeverage.Forms
                 this.UpdateStyles();
             }
         }
-
         public void LoadPickupView(int serachmode)
+        {
+            try
+            {
+                BllPickupview<DmnGridFields> SearchDetails = new BllPickupview<DmnGridFields>();
+                DmnGridFields dmnSearchpickdata = new DmnGridFields
+                {
+                    Field30 = Convert.ToString(FrmLogin.BookingInterwell),
+                    Field29 = "1"
+                };
+
+                TableData = SearchDetails.SerachData("Prd_Pickupview", dmnSearchpickdata);
+                totalPages = (int)Math.Ceiling((double)TableData.Count / pageSize);
+
+                pagedatadata = TableData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                lblpagerinfo.Text = $"Page {currentPage} of {totalPages} | Total Records: {TableData.Count}";
+                btnprev.Enabled = currentPage > 1;
+                btnnext.Enabled = currentPage < totalPages;
+
+                if (TableData.Count == 0)
+                {
+                    AutoTimer.Start();
+                    return;
+                }
+
+                flp_pickup_view.SuspendLayout();
+
+                // --- Clear UI EXCEPT AddNew button
+                string addbuttonname = "tlp_addnew";
+                foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToList())
+                {
+                    if (ctrl.Name != addbuttonname && !PickupCache.ContainsValue((TableLayoutPanel)ctrl))
+                    {
+                        flp_pickup_view.Controls.Remove(ctrl);
+                    }
+                }
+
+                // --- Main Loop
+                foreach (var item in pagedatadata)
+                {
+                    TableLayoutPanel tlp;
+
+                    // If exists: reuse
+                    if (PickupCache.TryGetValue(item.Field3, out tlp))
+                    {
+                        UpdatePickupPanel(tlp, item);
+                    }
+                    else
+                    {
+                        // Create once
+                        tlp = CreatePickupPanel(item);
+                        PickupCache[item.Field3] = tlp;
+
+                        UpdatePickupPanel(tlp, item);
+                        flp_pickup_view.Controls.Add(tlp);
+                    }
+
+                    tlp.Visible = true;
+                }
+
+                flp_pickup_view.ResumeLayout();
+                AutoTimer.Start();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Pickuppage LoadPickupView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+            }
+        }
+        private TableLayoutPanel CreatePickupPanel(DmnGridFields item)
+        {
+            TableLayoutPanel tlp = new TableLayoutPanel
+            {
+                RowCount = 2,
+                Name = "tlpboxpkup_add_" + item.Field3,
+                Tag = item.Field3,
+                BackColor = Color.White,
+                Margin = new Padding(15, 10, 15, 10)
+            };
+
+            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+
+            Label lblName = new Label
+            {
+                Name = "lbtablename_pkup_" + item.Field3,
+                Dock = DockStyle.Fill,
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = Color.Transparent
+            };
+
+            Label lblAmount = new Label
+            {
+                Name = "lb_netamount_pkup_" + item.Field3,
+                Dock = DockStyle.Fill,
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = Color.Transparent
+            };
+
+            // Add Controls
+            tlp.Controls.Add(lblName, 0, 0);
+            tlp.Controls.Add(lblAmount, 0, 1);
+
+            // One-time event handlers
+            tlp.Click += PickupboxClickEventHandler;
+            lblName.Click += PickupboxClickEventHandler;
+            lblAmount.Click += PickupboxClickEventHandler;
+
+            return tlp;
+        }
+        private void UpdatePickupPanel(TableLayoutPanel tlp, DmnGridFields item)
+        {
+            Label lblName = tlp.Controls[0] as Label;
+            Label lblAmount = tlp.Controls[1] as Label;
+
+            lblName.Text = "Pick Up\n" + item.Field6;
+
+            // Order completion check
+            BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
+            DmnSearch dmnSearch = new DmnSearch();
+            dmnSearch.Select = "CASE WHEN SUM(CASE WHEN Status<> 1 THEN 1 ELSE 0 END) > 0 THEN 1 ELSE 0 END AS Field1, " +
+                               "SUM(CASE WHEN Status = 0 AND AddonStatus IN(1, 0) AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END ) AS Field2";
+            dmnSearch.Table = "tblOrderDetails";
+            dmnSearch.WhereNdGroupBy = "WHERE AddonStatus in (1,0) AND OrderMasterId=" + item.Field3;
+
+            var grid = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
+            int status = Convert.ToInt32(grid[0].Field1);
+            int cancelCount = Convert.ToInt32(grid[0].Field2);
+
+            // UI Updates
+            if (status == 1)
+            {
+                lblAmount.Text = "Paid\nCooking Started";
+                tlp.BackColor = BillingColor;
+            }
+            else
+            {
+                lblAmount.Text = "Paid\nOrder Sent";
+                tlp.BackColor = Color.White;
+            }
+
+            if (cancelCount > 0)
+            {
+                tlp.BackColor = CancelProduct_order;
+            }
+
+            // Resize
+            if (screenWidth > 1366)
+            {
+                tlp.Width = 300;
+                tlp.Height = 100;
+            }
+            else
+            {
+                tlp.Width = 120;
+                tlp.Height = 100;
+            }
+        }
+        public void UpdatePickupView(int searchMode)
+        {
+            try
+            {
+                AutoTimer.Stop();
+                ShowEmptyOrderIcon();
+
+                BllPickupview<DmnGridFields> SearchDetails = new BllPickupview<DmnGridFields>();
+
+                DmnGridFields dmn = new DmnGridFields
+                {
+                    Field30 = Convert.ToString(FrmLogin.BookingInterwell),
+                    Field29 = "1"
+                };
+
+                TableData = SearchDetails.SerachData("Prd_Pickupview", dmn);
+                totalPages = (int)Math.Ceiling((double)TableData.Count / pageSize);
+
+                pagedatadata = TableData
+                    .Skip((currentPage - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                lblpagerinfo.Text = $"Page {currentPage} of {totalPages} | Total Records: {TableData.Count}";
+                btnprev.Enabled = currentPage > 1;
+                btnnext.Enabled = currentPage < totalPages;
+
+                LoadPagedataOptimized();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Pickuppage UpdatePickupView()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+            }
+        }
+
+        private void LoadPagedataOptimized()
+        {
+            try
+            {
+                flp_pickup_view.SuspendLayout();
+
+                // VALID PANEL LIST FOR CURRENT PAGE
+                HashSet<string> validNames = pagedatadata
+                    .Select(x => "tlpboxpkup_add_" + x.Field3)
+                    .ToHashSet();
+
+                // REMOVE unused controls (except AddNew)
+                string addButtonName = "tlp_addnew";
+
+                foreach (var ctrl in flp_pickup_view.Controls.Cast<Control>().ToList())
+                {
+                    if (ctrl.Name == addButtonName)
+                        continue;
+
+                    if (!validNames.Contains(ctrl.Name))
+                        ctrl.Visible = false;
+                }
+
+                // CREATE / UPDATE PANELS
+                foreach (var item in pagedatadata)
+                {
+                    TableLayoutPanel tlp;
+
+                    // REUSE EXISTING PANEL (cached)
+                    if (PickupCache.TryGetValue(item.Field3, out tlp))
+                    {
+                        UpdatePickupPanelCache(tlp, item);
+                        tlp.Visible = true;
+
+                        if (!flp_pickup_view.Controls.Contains(tlp))
+                            flp_pickup_view.Controls.Add(tlp);
+                    }
+                    else
+                    {
+                        // CREATE ONCE
+                        tlp = CreatePickupPanel(item);
+                        PickupCache[item.Field3] = tlp;
+
+                        UpdatePickupPanelCache(tlp, item);
+
+                        flp_pickup_view.Controls.Add(tlp);
+                    }
+                }
+
+                flp_pickup_view.ResumeLayout();
+                AutoTimer.Start();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("LoadPagedataOptimized()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+            }
+        }
+
+        private void UpdatePickupPanelCache(TableLayoutPanel tlp, DmnGridFields item)
+        {
+            Label lblTable = tlp.Controls[0] as Label;
+            Label lblAmount = tlp.Controls[1] as Label;
+
+            lblTable.Text = "Pick Up\n" + item.Field6;
+
+            // Fetch status only ONCE
+            var (status, cancelCount) = CheckOrderStatus(item.Field3);
+
+            if (status == 1)
+            {
+                lblAmount.Visible = true;
+                lblAmount.Text = "Paid\nCooking Started";
+                tlp.BackColor = BillingColor;
+            }
+            else
+            {
+                lblAmount.Visible = true;
+                lblAmount.Text = "Paid\nOrder Sent";
+                tlp.BackColor = Color.White;
+            }
+
+            if (cancelCount > 0)
+            {
+                tlp.BackColor = CancelProduct_order;
+            }
+
+            // Resize
+            tlp.Width = screenWidth > 1366 ? 300 : 120;
+            tlp.Height = 100;
+        }
+        private (int status, int cancelCount) CheckOrderStatus(string orderId)
+        {
+            BllSearch<DmnGridFields> bll = new BllSearch<DmnGridFields>();
+
+            DmnSearch dmn = new DmnSearch
+            {
+                Select = "CASE WHEN SUM(CASE WHEN Status<>1 THEN 1 ELSE 0 END) > 0 THEN 1 ELSE 0 END AS Field1, " +
+                         "SUM(CASE WHEN Status = 0 AND AddonStatus IN(1, 0) AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field2",
+                Table = "tblOrderDetails",
+                WhereNdGroupBy = "WHERE AddonStatus IN (1,0) AND OrderMasterId=" + orderId
+            };
+
+            var r = bll.GetSearchData("prdSearch", dmn);
+
+            return (Convert.ToInt32(r[0].Field1), Convert.ToInt32(r[0].Field2));
+        }
+
+
+        /*public void LoadPickupView(int serachmode)
         {
             try
             {
@@ -166,8 +471,8 @@ namespace FoodandBeverage.Forms
                     AutoTimer.Start();
                     return;
                 }
-                    
 
+                flp_pickup_view.SuspendLayout();
                 #region Clear existing controls (except Add New)
                 string addbuttonname = "tlp_addnew";
 
@@ -181,7 +486,7 @@ namespace FoodandBeverage.Forms
                 }
                 #endregion
 
-                flp_pickup_view.SuspendLayout();
+          
 
                 foreach (var item in pagedatadata)
                 {
@@ -293,14 +598,12 @@ namespace FoodandBeverage.Forms
                     #endregion
 
                     #region Rounded Corners (Safe, No Leak)
-                    UIHelper.RoundCorners(tlp, 25); 
+                    //UIHelper.RoundCorners(tlp, 25); 
                     #endregion
 
-                    // ADD CONTROLS
                     tlp.Controls.Add(lblName, 0, 0);
                     tlp.Controls.Add(lblAmount, 0, 1);
 
-                    // CLICK EVENTS
                     EventHandler ev = new EventHandler(PickupboxClickEventHandler);
                     lblName.Click += ev;
                     lblAmount.Click += ev;
@@ -317,16 +620,19 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException("Pickuppage page  LoadPickupView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
-        }
+        }*/
+
         #endregion
 
         #region Updation pickup
+
+
+        /*
         public void UpdatePickupView(int searchMode)
         {
             try
             {
                 AutoTimer.Stop();
-                ShowEmptyOrderIcon();
                 ShowEmptyOrderIcon();
                 BllPickupview<DmnGridFields> SearchDetails = new BllPickupview<DmnGridFields>();
                 DmnGridFields dmnSearchpickdata = new DmnGridFields();
@@ -475,15 +781,13 @@ namespace FoodandBeverage.Forms
                             }
 
                             #region Rounded Corners (Safe, No Leak)
-                            UIHelper.RoundCorners(tlp, 25);
+                            //UIHelper.RoundCorners(tlp, 25);
                             #endregion
 
                             UpdateNetAmount(item, tlp, lblTable, lblAmount);
                         }
                     }
-
-                    flp_pickup_view.ResumeLayout(true);
-
+                    flp_pickup_view.ResumeLayout();
                     AutoTimer.Start();
                 }
             }
@@ -779,9 +1083,9 @@ namespace FoodandBeverage.Forms
                 int pkid = Convert.ToInt32(clickedControl.AccessibleDescription);
                 if (clickedControl != null)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
+                    if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
                     {
-                        FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
+                        FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
                         if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
                         {
                             _instanceFrmOrder.WindowState = FormWindowState.Maximized;
@@ -789,20 +1093,15 @@ namespace FoodandBeverage.Forms
                         else
                         {
                             _instanceFrmOrder.ShowDialog();
-                            _instanceFrmOrder.BringToFront();
                         }
                     }
                     else
                     {
                         if (clickedControl.Tag != null)
                         {
-                            using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage)))
+                            using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage)))
                             {
-                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                _instanceFrmOrder.Opacity = 0;
-                                _instanceFrmOrder.Visible = false;
                                 _instanceFrmOrder.ShowDialog();
-                                _instanceFrmOrder.BringToFront();
                             }
                         }
                     }
@@ -841,10 +1140,8 @@ namespace FoodandBeverage.Forms
                                    CheckedtableNames, Convert.ToInt32(PageType.Billpage),
                                    0, Convert.ToInt32(SourcepageType.Pickuppage)))
                     {
-                      
                         frm.ShowDialog();
                     }
-
                 }
                 clsgen.Memoryrelease();
             }

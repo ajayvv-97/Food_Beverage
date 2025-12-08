@@ -66,7 +66,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Controls.Add(this.flp_tableview, 0, 2);
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
-            this.tlp_main.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tlp_main.Margin = new System.Windows.Forms.Padding(2);
             this.tlp_main.Name = "tlp_main";
             this.tlp_main.RowCount = 4;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
@@ -271,7 +271,7 @@ namespace FoodandBeverage.Forms
             // 
             this.flp_tableview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_tableview.Location = new System.Drawing.Point(2, 64);
-            this.flp_tableview.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flp_tableview.Margin = new System.Windows.Forms.Padding(2);
             this.flp_tableview.Name = "flp_tableview";
             this.flp_tableview.Size = new System.Drawing.Size(710, 415);
             this.flp_tableview.TabIndex = 22;
@@ -280,7 +280,7 @@ namespace FoodandBeverage.Forms
             // 
             this.flp_sidemenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.flp_sidemenu.Location = new System.Drawing.Point(135, 163);
-            this.flp_sidemenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flp_sidemenu.Margin = new System.Windows.Forms.Padding(2);
             this.flp_sidemenu.Name = "flp_sidemenu";
             this.flp_sidemenu.Size = new System.Drawing.Size(207, 293);
             this.flp_sidemenu.TabIndex = 21;
