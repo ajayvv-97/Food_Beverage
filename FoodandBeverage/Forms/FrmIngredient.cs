@@ -302,8 +302,8 @@ namespace FoodandBeverage.Forms
 
                 pb_view_pic.BackgroundImage = null;
 
-                pb_menupic.BackgroundImage = null;
-                pb_menupic.BackgroundImage = Properties.Resources.FoodPic;
+                //pb_menupic.BackgroundImage = null;
+                //pb_menupic.BackgroundImage = Properties.Resources.FoodPic;
 
                 empImgExt = "";
                 txtqty.Text = "";
@@ -839,7 +839,7 @@ namespace FoodandBeverage.Forms
                             int pPid = Convert.ToInt32(txtPpid.Text);
                             int ins_type = Convert.ToInt32(Inseration_Type.Product_Photo);
                             pb_view_pic.Image = clsDocument.DownloadImageDatabase(ins_type,pPid);
-                            pb_menupic.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
+                            //pb_menupic.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
                         }
 
                     }
@@ -1165,25 +1165,24 @@ namespace FoodandBeverage.Forms
                     cmbIgstPrcnt.Dock = DockStyle.Fill;
 
                     //row1
-                    tlp_registration.Controls.Add(lbltax, 1, 5);
-                    tlp_registration.Controls.Add(lbltaxtype, 2, 5);
-                    tlp_registration.Controls.Add(lbligst, 3, 5);            
+                    tlp_registration.Controls.Add(lbltax, 0, 5);
+                    tlp_registration.Controls.Add(lbltaxtype, 1, 5);
+                    tlp_registration.Controls.Add(lbligst, 2, 5);
+                    tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 5);
 
                     //row2
-                    tlp_registration.Controls.Add(cmbtax, 1, 6);
-                    tlp_registration.Controls.Add(cmbTaxType, 2, 6);
-                    tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
+                    tlp_registration.Controls.Add(cmbtax, 0, 6);
+                    tlp_registration.Controls.Add(cmbTaxType, 1, 6);
+                    tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 6);
+                    tlp_registration.Controls.Add(tlp_S_C_text, 3, 6);
 
                     //row3
-                    tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 0, 7);
-                    tlp_registration.Controls.Add(lbldes, 1, 7);
+                    tlp_registration.Controls.Add(lbldes, 0, 7);
 
                     ////row4
-
-                    tlp_registration.Controls.Add(tlp_S_C_text, 0, 8);
-                    tlp_registration.Controls.Add(txtdes, 1, 8);
-                    tlp_registration.Controls.Add(tlp_vari_addon, 2, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 3, 8);
+                    tlp_registration.Controls.Add(txtdes, 0, 8);
+                    tlp_registration.Controls.Add(tlp_vari_addon, 1, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
 
                     txtdes.Dock = DockStyle.Fill;
                     ApplyRoundedTextBox(txtdes, 10);
@@ -1194,18 +1193,19 @@ namespace FoodandBeverage.Forms
                     lblvat.Dock = DockStyle.Fill;
 
                     //row1
-                    tlp_registration.Controls.Add(lbltax, 1, 5);
-                    tlp_registration.Controls.Add(lbltaxtype, 2, 5);
-                    tlp_registration.Controls.Add(lblvat, 3, 5);
+                    tlp_registration.Controls.Add(lbltax, 0, 5);
+                    tlp_registration.Controls.Add(lbltaxtype, 1, 5);
+                    tlp_registration.Controls.Add(lblvat, 2, 5);
 
                     //row2
-                    tlp_registration.Controls.Add(cmbtax, 1, 6);
-                    tlp_registration.Controls.Add(cmbTaxType, 2, 6);
-                    tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
+                    tlp_registration.Controls.Add(cmbtax, 0, 6);
+                    tlp_registration.Controls.Add(cmbTaxType, 1, 6);
+                    tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
 
                     //row3
                     tlp_registration.Controls.Add(lbldes, 0, 7);
 
+                    //row4
                     tlp_registration.Controls.Add(txtdes, 0, 8);    
                     tlp_registration.Controls.Add(tlp_vari_addon, 1, 8);
                     tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
@@ -1408,9 +1408,9 @@ namespace FoodandBeverage.Forms
                         pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
                         pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
 
-                        pb_menupic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                        pb_menupic.BackgroundImageLayout = ImageLayout.Stretch;
-                        pb_menupic.Image = null;
+                        //pb_menupic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                        //pb_menupic.BackgroundImageLayout = ImageLayout.Stretch;
+                        //pb_menupic.Image = null;
 
                         pb_view_pic.Image = null;
                     }
