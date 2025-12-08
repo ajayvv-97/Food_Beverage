@@ -774,8 +774,8 @@ namespace FoodandBeverage.Forms
                     Label lbltablename = this.Controls.Find("lbtablename" + pagedatadata[i].Field4, true).FirstOrDefault() as Label;
                     Label netamountlabel = this.Controls.Find("lb_netamount" + pagedatadata[i].Field4, true).FirstOrDefault() as Label;
                     Button btnCancelCount = this.Controls.Find("btnCancelCount" + pagedatadata[i].Field4, true).FirstOrDefault() as Button;
-
-                    lbltablename.ForeColor = Convert.ToInt32(pagedatadata[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor;
+                    if(lbltablename!=null)
+                        lbltablename.ForeColor = Convert.ToInt32(pagedatadata[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor;
 
                     tlp_table_inner.AccessibleDescription = "0";
                     lbltablename.AccessibleDescription = "0";

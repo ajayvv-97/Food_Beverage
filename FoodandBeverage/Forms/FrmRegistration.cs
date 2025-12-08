@@ -961,7 +961,7 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.Country = Convert.ToString(cmbcountry.SelectedValue);
                 dmnRegistration.State = Convert.ToString(cmdstate.SelectedValue);
                 dmnRegistration.City = Convert.ToString(cmdcity.Text);
-              
+
                 dmnRegistration.BookingInerwell = Convert.ToInt32(tbl_BookingIn.Text);
                 //pb2.BackgroundImage = DocumentType.HotelRegistrationProofPics;
                 dmnRegistration.CreatedBy = FrmDashboard.UserId;
@@ -995,11 +995,79 @@ namespace FoodandBeverage.Forms
                 {
                     txtcid.Text = Convert.ToString(InsertStatus.Id);
 
-                    
+                    #region certificate upload
+                    if (pb1.Image != null)
+                    {
+                        if (!Directory.Exists(Compressedimg))
+                        {
+                            Directory.CreateDirectory(Compressedimg);
+                            DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
+                            DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                            dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                            dInfo.SetAccessControl(dSecurity);
+                        }
+                        else
+                        {
+                            foreach (string file in Directory.GetFiles(Compressedimg))
+                            {
+                                System.GC.Collect();
+                                System.GC.WaitForPendingFinalizers();
+                                File.Delete(file);
+                            }
+                        }
+                        if (empImgExt != null && empImgExt != "")
+                            ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
 
-                    
-                    
+                        if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                        {
+                            #region  certificate photo upload in Database
+                            if (pb1.Image != null && (empImgExt != null && empImgExt != ""))
+                            {
+                                Bitmap bitmap = new Bitmap(Compressedimg + "\\C1.jpeg");
+                                int ePid = Convert.ToInt32(txtcid.Text);
+                                int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
+                                int Upstatus = Convert.ToInt32(1);
+                                int Emp_userid = Convert.ToInt32(FrmLogin.UserId);
+                                int cid = InsertStatus.Id;
+                                int ins_type = Convert.ToInt32(Interfaces.Inseration_Type.Hotel_Cert_Photo);
+                                clsDocument.UploadImage_Database(bitmap, ePid, ins_type, cid, Emp_branchid, Upstatus, Emp_userid);
+                                FrmDashboard.Instance.ProfilPIC_update();
+                            }
+                            if (pb2.Image != null && (empImgExt != null && empImgExt != ""))
+                            {
+                                Bitmap bitmap = new Bitmap(Compressedimg + "\\C2.jpeg");
+                                int ePid = Convert.ToInt32(txtcid.Text);
+                                int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
+                                int Upstatus = Convert.ToInt32(1);
+                                int Emp_userid = Convert.ToInt32(FrmLogin.UserId);
+                                int cid = InsertStatus.Id;
+                                int ins_type = Convert.ToInt32(Interfaces.Inseration_Type.Hotel_Cert_Photo);
+                                clsDocument.UploadImage_Database(bitmap, ePid, ins_type, cid, Emp_branchid, Upstatus, Emp_userid);
+                                FrmDashboard.Instance.ProfilPIC_update();
+                            }
+                            if (pb3.Image != null && (empImgExt != null && empImgExt != ""))
+                            {
+                                Bitmap bitmap = new Bitmap(Compressedimg + "\\C3.jpeg");
+                                int ePid = Convert.ToInt32(txtcid.Text);
+                                int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
+                                int Upstatus = Convert.ToInt32(1);
+                                int Emp_userid = Convert.ToInt32(FrmLogin.UserId);
+                                int cid = InsertStatus.Id;
+                                int ins_type = Convert.ToInt32(Interfaces.Inseration_Type.Hotel_Cert_Photo);
+                                clsDocument.UploadImage_Database(bitmap, ePid, ins_type, cid, Emp_branchid, Upstatus, Emp_userid);
+                                FrmDashboard.Instance.ProfilPIC_update();
+                            }
 
+
+                        }
+
+                        #endregion
+                    }
+
+
+
+
+                    #endregion
                     if (Convert.ToInt32(txtcid.Text) > 0)
                     {
                         CMessageBox.Show("update Successfully ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1009,20 +1077,24 @@ namespace FoodandBeverage.Forms
                         CMessageBox.Show("Registration Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
+
                 }
+
                 else
                 {
                     CMessageBox.Show("Save Failed", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
-            }
-            catch (Exception ex)
-            {
+        }
+
+        catch (Exception ex)
+        {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("company Page btsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
-            }
+        }
 
         }
+
 
         private void btfresh_Click(object sender, EventArgs e)
         {
