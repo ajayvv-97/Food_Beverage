@@ -328,12 +328,10 @@ namespace FoodandBeverage.Forms
             }
             LoadTableStaus(tabletype);
 
-            TableList = flp_tableview.Controls.Cast<Control>().ToList();
-
-            AutoRunTimer.Interval = 2000; // open next table every 2 sec
-            AutoRunTimer.Tick += AutoRunTimer_Tick;
-            AutoRunTimer.Start();
-
+            //TableList = flp_tableview.Controls.Cast<Control>().ToList();
+            //AutoRunTimer.Interval = 2000; // open next table every 2 sec
+            //AutoRunTimer.Tick += AutoRunTimer_Tick;
+            ////AutoRunTimer.Start();            
         }
 
         private void AutoRunTimer_Tick(object sender, EventArgs e)
