@@ -595,8 +595,15 @@ namespace FoodandBeverage.SaleBill
 
         private void btn_print_Click(object sender, EventArgs e)
         {
-            ReportDocument reportDocument = crvSalesBill.ReportSource as ReportDocument;
-            reportDocument.PrintToPrinter(1, false, 0, 0);
+            try
+            {
+                ReportDocument reportDocument = crvSalesBill.ReportSource as ReportDocument;
+                reportDocument.PrintToPrinter(1, false, 0, 0);
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
         #region TexBox Round function
         public void textb_shape()

@@ -127,7 +127,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtorderid_search, txttablecode, txt_product_remove_des, txt_product_remove_des })
+                foreach (TextBox textBox in new TextBox[] { txtsearchData, txt_product_remove_des, txt_product_remove_des })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -177,6 +177,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
                 DmnGridFields dmnSearchKitchendata = new DmnGridFields();
+                dmnSearchKitchendata.Searchtype = Convert.ToInt32(KitchenSearchType.AllOrders);
                 var gridSourcemaster = SearchDetails.serachreport("prdKitchenData", dmnSearchKitchendata);
                 if (gridSourcemaster.Count > 0)
                 {
@@ -1743,8 +1744,7 @@ namespace FoodandBeverage.Forms
                 dgv_viewmore.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgv_viewmore.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-                txtorderid_search.Text = "Order Id ....";
-                txttablecode.Text = "Table Code....";
+                txtsearchData.Text = "Order Id ....";
                 txt_product_remove_des.Text = "Reason type here .....";
                 textb_shape();
                 tlp_order_col.Dock = DockStyle.Fill;
@@ -1763,29 +1763,7 @@ namespace FoodandBeverage.Forms
         }
 
 
-        //public class datagrid
-        //{
-        //    public int Id { get; set; }
-        //    public string datagridviewname { get; set; }
-        //    public DateTime createtime { get; set; }
 
-        //}
-
-        //private void ApplyRoundedCorners(TableLayoutPanel panel)
-        //{
-        //    int cornerRadius = 10; // Adjust the corner radius as needed
-        //    // Override the OnPaint event to create rounded corners
-        //    panel.Paint += (sender, e) =>
-        //    {
-        //        GraphicsPath path = new GraphicsPath();
-        //        path.AddArc(0, 0, cornerRadius * 2, cornerRadius * 2, 180, 90);
-        //        path.AddArc(panel.Width - cornerRadius * 2, 0, cornerRadius * 2, cornerRadius * 2, 270, 90);
-        //        path.AddArc(panel.Width - cornerRadius * 2, panel.Height - cornerRadius * 2, cornerRadius * 2, cornerRadius * 2, 0, 90);
-        //        path.AddArc(0, panel.Height - cornerRadius * 2, cornerRadius * 2, cornerRadius * 2, 90, 90);
-
-        //        panel.Region = new Region(path);
-        //    };
-        //}
 
         private void dgv_product_details_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -2595,19 +2573,19 @@ namespace FoodandBeverage.Forms
 
         private void txtorderid_search_Leave(object sender, EventArgs e)
         {
-            if (txtorderid_search.Text == "")
+            if (txtsearchData.Text == "")
             {
-                txtorderid_search.Text = "Order Id ....";
-                txtorderid_search.ForeColor = Color.DarkGray;
+                txtsearchData.Text = "Order Id ....";
+                txtsearchData.ForeColor = Color.DarkGray;
             }
         }
 
         private void txtorderid_search_Enter(object sender, EventArgs e)
         {
-            if (txtorderid_search.Text == "Order Id ....")
+            if (txtsearchData.Text == "Order Id ....")
             {
-                txtorderid_search.Text = "";
-                txtorderid_search.ForeColor = Color.Black;
+                txtsearchData.Text = "";
+                txtsearchData.ForeColor = Color.Black;
             }
 
         }
@@ -2631,7 +2609,7 @@ namespace FoodandBeverage.Forms
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    if (txtorderid_search.Text != "")
+                    if (txtsearchData.Text != "")
                     {
                         #region Fill Orders in Datagrid
 
@@ -2641,7 +2619,7 @@ namespace FoodandBeverage.Forms
                         DmnSearch dmnSearch = new DmnSearch();
                         dmnSearch.Select = "ko.OrderMasterId Field1,OrderNo Field2";
                         dmnSearch.Table = " tblkitchenOrder ko  LEFT JOIN tblOrderMaster om on om.OrderMasterId=ko.OrderMasterId";
-                        dmnSearch.WhereNdGroupBy = "where ko.status IN(1,2) and ko.OrderMasterId= " + txtorderid_search.Text;
+                        dmnSearch.WhereNdGroupBy = "where ko.status IN(1,2) and ko.OrderMasterId= " + txtsearchData.Text;
                         dmnSearch.OrderBy = "";
                         var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
                         if (gridSourcemaster.Count > 0)
@@ -3191,607 +3169,15 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void txttablecode_Leave(object sender, EventArgs e)
-        {
-            if (txttablecode.Text == "")
-            {
-                txttablecode.Text = "Table Code....";
-                txttablecode.ForeColor = Color.DarkGray;
-            }
-        }
-
-        private void txttablecode_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txttablecode_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    if (txttablecode.Text != "")
-                    {
-                        #region Fill Orders in Datagrid
-
-                        txt_product_remove_des.Text = "Reason type here .....";
-                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                        BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
-                        DmnSearch dmnSearch = new DmnSearch();
-                        dmnSearch.Select = "ko.OrderMasterId Field1,OrderNo Field2";
-                        dmnSearch.Table = " tblkitchenOrder ko  LEFT JOIN tblOrderMaster om on om.OrderMasterId=ko.OrderMasterId left join tblTable_info ti on ti.tid=om.tid";
-                        dmnSearch.WhereNdGroupBy = "where ko.status IN(1,2) and ti.TableCode= '" + txttablecode.Text + "'";
-                        dmnSearch.OrderBy = "";
-                        var gridSourcemaster = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                        if (gridSourcemaster.Count > 0)
-                        {
-                            pnl_empty_msg.Visible = false;
-                            flp_order_view.Visible = false;
-                            var distinctOrders = gridSourcemaster
-                               .GroupBy(order => new { order.Field1, order.Field2 })
-                               .Select(group => group.First())
-                               .OrderBy(order => order.Field1)
-                               .ThenBy(order => order.Field2)
-                               .ToList();
-
-                            flp_order_view.Controls.Clear();
-                            TableLayoutPanel tlp_order_col = new TableLayoutPanel();
-                            tlp_order_col.Dock = DockStyle.Fill;
-
-                            foreach (var orders in distinctOrders)
-                            {
-                                bool flagstart_ready = false;
-                                dmnSearch.Select = "om.OrderMasterId Field1,ti.TableCode Field2,om.status Field3,od.itemName Field4,od.Quantity Field5,od.Notes Field6,od.OrderNo Field7,od.CreatedDateTime Fielddatetime,ko.koid Field8,ko.OrderDetailsId Field9,om.Tid Field10,ko.RemoveNotes Field11,ko.Status Field12";
-                                dmnSearch.Table = "tblkitchenOrder ko " +
-                                    "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
-                                    "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
-                                    "Left Join tblTable_info  ti on ti.Tid=om.Tid";
-                                dmnSearch.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;
-                                dmnSearch.OrderBy = "order by ko.koid DESC";
-                                var gridSourcedetails = bllSearch_details.GetSearchData("prdSearch", dmnSearch);
-                                if (gridSourcedetails.Count > 0)
-                                {
-                                    string tlpname = "tlp_product_box" + gridSourcedetails[0].Field8;
-                                    TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                                    if (tlp_sele != null)
-                                    {
-
-                                        string dgvname = "dgv_product_details" + gridSourcedetails[0].Field8;
-                                        string startbuttonname = "pb_start" + gridSourcedetails[0].Field8;
-                                        string readybuttonname = "pb_ready" + gridSourcedetails[0].Field8;
-                                        string cancelfoodbuttonname = "pictureBoxRemove" + gridSourcedetails[0].Field8;
-
-                                        PictureBox btn_ready = this.Controls.Find(readybuttonname, true).FirstOrDefault() as PictureBox;
-                                        PictureBox btn_start = this.Controls.Find(startbuttonname, true).FirstOrDefault() as PictureBox;
-                                        PictureBox btn_cancelfood = this.Controls.Find(cancelfoodbuttonname, true).FirstOrDefault() as PictureBox;
-                                        DataGridView dgv_product_details = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
-
-                                        #region Grid Edit Cancel  product
-                                        for (int k = 0; k < gridSourcedetails.Count; k++)
-                                        {
-                                            if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
-                                            {
-                                                flagstart_ready = true;
-                                            }
-                                            dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
-
-                                            dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
-
-                                            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
-                                            if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
-                                            {
-                                                cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                                cell.Value = Properties.Resources.orderview_cancelled;
-                                                dgv_product_details.Rows[k].ReadOnly = true;
-                                            }
-                                            else
-                                            {
-                                                cell.Value = Properties.Resources.close_price_change;
-                                                cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                            }
-
-                                        }
-                                        #endregion
-
-                                        #region Edit Ready and Close Button 
-                                        if (flagstart_ready)
-                                        {
-                                            btn_start.Visible = true;
-                                            btn_cancelfood.Visible = true;
-                                            btn_ready.Visible = false;
-                                        }
-                                        else
-                                        {
-                                            btn_start.Visible = false;
-                                            btn_ready.Visible = true;
-                                            btn_cancelfood.Visible = false;
-                                        }
-                                        #endregion
-
-                                    }
-                                    else
-                                    {
-                                        #region Main TableLayoutPanel 
-                                        // Main TableLayoutPanel for each product
-                                        TableLayoutPanel tlp_product_box = new TableLayoutPanel();
-                                        tlp_product_box.Name = "tlp_product_box" + gridSourcedetails[0].Field8;
-                                        tlp_product_box.Dock = DockStyle.Top;
-                                        if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                                        {
-                                            FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                                            if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View)))
-                                                tlp_product_box.Enabled = true;
-                                            else
-                                                tlp_product_box.Enabled = false;
-                                        }
-                                        int WidthPercentage = 30;
-                                        int heightPercentage = 30;
-                                        int controlWidth = (int)(this.Width * WidthPercentage / 100);
-                                        int controlHeight = (int)(this.Height * heightPercentage / 100);
-                                        tlp_product_box.Size = new Size(controlWidth, controlHeight);
-
-
-
-                                        tlp_product_box.BackColor = boxcolor;
-                                        tlp_product_box.RowCount = 4;
-                                        //tlp_product_box.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
-                                        tlp_product_box.Margin = new Padding(20, 10, 0, 0);
-                                        tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                                        tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // 50% height
-                                        tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                                        tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                                        //ApplyRoundedCorners(tlp_product_box);
-                                        #endregion
-
-                                        #region Heading Time and Tablecode Frist Row
-                                        // Sub TableLayoutPanel for Heading
-                                        TableLayoutPanel tlp_product_heading = new TableLayoutPanel();
-                                        tlp_product_heading.Name = "tlp_product_heading" + gridSourcedetails[0].Field8;
-                                        tlp_product_heading.Dock = DockStyle.Top;
-                                        if (screenWidth > 1367 && screenHeight > 769)
-                                        {
-                                            tlp_product_heading.Height = 50;
-                                        }
-                                        else
-                                        {
-                                            tlp_product_heading.Height = 20;
-                                        }
-
-                                        tlp_product_heading.ColumnCount = 2;
-                                        tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-                                        tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-
-                                        Label lbl_tablecode = new Label()
-                                        {
-                                            Text = gridSourcedetails[0].Field2,
-                                            Name = "lbl_tablecode" + gridSourcedetails[0].Field8,
-                                            Dock = DockStyle.Fill,
-                                            ForeColor = Color.White,
-
-                                        };
-                                        if (screenWidth > 1367 && screenHeight > 769)
-                                            lbl_tablecode.Font = new Font("Arial", 15, FontStyle.Bold);
-                                        else
-                                            lbl_tablecode.Font = new Font("Arial", 10, FontStyle.Bold);
-
-                                        DateTime startTime = gridSourcedetails[0].Fielddatetime;
-                                        DateTime currentTime = DateTime.Now;
-                                        TimeSpan timeDifference = currentTime - startTime;
-                                        int hoursDifference = timeDifference.Hours;
-                                        int minutesDifference = timeDifference.Minutes;
-                                        int secondsDifference = timeDifference.Seconds;
-                                        string timeDifferenceString = $"{hoursDifference} hours, {minutesDifference} minutes {secondsDifference}";//,  seconds
-
-                                        Label lbl_time = new Label()
-                                        {
-                                            Text = timeDifferenceString,
-                                            Name = "lbl_time" + gridSourcedetails[0].Field8,
-                                            Dock = DockStyle.Fill,
-                                            ForeColor = Color.White,
-
-                                        };
-                                        if (screenWidth > 1367 && screenHeight > 769)
-                                            lbl_time.Font = new Font("Arial", 13, FontStyle.Bold);
-                                        else
-                                            lbl_time.Font = new Font("Arial", 8, FontStyle.Bold);
-
-                                        tlp_product_heading.Controls.Add(lbl_tablecode, 0, 0);
-                                        tlp_product_heading.Controls.Add(lbl_time, 1, 0);
-
-                                        // Adding Heading TableLayoutPanel to the first row
-                                        tlp_product_box.Controls.Add(tlp_product_heading, 0, 0);
-                                        #endregion
-
-                                        #region DataGridView Second Row
-                                        // DataGridView for product details
-                                        DataGridView dgv_product_details = new DataGridView();
-                                        dgv_product_details.CellClick += dgv_product_details_CellClick;
-                                        dgv_product_details.AllowUserToDeleteRows = true;
-                                        // Prevent the user from adding new rows
-                                        dgv_product_details.AllowUserToAddRows = false;
-                                        dgv_product_details.Name = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                        dgv_product_details.Tag = orders.Field1 + gridSourcedetails[0].Field17;
-                                        // Enable double buffering for the DataGridView
-                                        dgv_product_details.DoubleBuffered(true);
-
-
-                                        dgv_product_details.BorderStyle = BorderStyle.None;
-                                        dgv_product_details.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-                                        dgv_product_details.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-                                        dgv_product_details.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-                                        dgv_product_details.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-                                        dgv_product_details.BackgroundColor = Color.White;
-
-                                        dgv_product_details.EnableHeadersVisualStyles = false;
-                                        dgv_product_details.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                                        dgv_product_details.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                                        dgv_product_details.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
-                                        if (screenWidth > 1367 && screenHeight > 769)
-                                        {
-                                            dgv_product_details.ColumnHeadersHeight = 50;
-                                            dgv_product_details.RowTemplate.Height = 50;
-                                        }
-                                        else
-                                        {
-                                            dgv_product_details.ColumnHeadersHeight = 30;
-                                            dgv_product_details.RowTemplate.Height = 30;
-                                        }
-
-                                        dgv_product_details.RowHeadersVisible = false;
-                                        // Add columns with specific cell type
-                                        DataGridViewTextBoxColumn columnSlno = new DataGridViewTextBoxColumn();
-                                        DataGridViewImageColumn pbremove = new DataGridViewImageColumn();
-                                        DataGridViewImageColumn columnptype = new DataGridViewImageColumn();
-                                        DataGridViewTextBoxColumn columnItemName = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnQty = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnNotes = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnRemNotes = new DataGridViewTextBoxColumn();
-
-                                        DataGridViewTextBoxColumn columnorderdetailsid = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnkoid = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columntid = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnmasterid = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columndate = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnstatus = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnitemid = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columntabletype = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnorderno = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnAddonStatusno = new DataGridViewTextBoxColumn();
-                                        DataGridViewTextBoxColumn columnAVIDno = new DataGridViewTextBoxColumn();
-
-                                        dgv_product_details.Columns.Add(columnSlno);
-                                        dgv_product_details.Columns.Add(pbremove);
-                                        dgv_product_details.Columns.Add(columnptype);
-                                        dgv_product_details.Columns.Add(columnItemName);
-                                        dgv_product_details.Columns.Add(columnQty);
-                                        dgv_product_details.Columns.Add(columnNotes);
-                                        dgv_product_details.Columns.Add(columnRemNotes);
-                                        dgv_product_details.Columns.Add(columnorderdetailsid);
-                                        dgv_product_details.Columns.Add(columnkoid);
-                                        dgv_product_details.Columns.Add(columntid);
-                                        dgv_product_details.Columns.Add(columnmasterid);
-                                        dgv_product_details.Columns.Add(columndate);
-                                        dgv_product_details.Columns.Add(columnstatus);
-                                        dgv_product_details.Columns.Add(columnitemid);
-                                        dgv_product_details.Columns.Add(columntabletype);
-                                        dgv_product_details.Columns.Add(columnorderno);
-                                        dgv_product_details.Columns.Add(columnAddonStatusno);
-                                        dgv_product_details.Columns.Add(columnAVIDno);
-
-                                        dgv_product_details.Columns[dslno].HeaderText = "Slno";
-                                        dgv_product_details.Columns[ditemno].HeaderText = "Item Name";
-                                        dgv_product_details.Columns[dptypeno].HeaderText = "PType";
-                                        dgv_product_details.Columns[dqtyno].HeaderText = "Qty";
-                                        dgv_product_details.Columns[dnotes].HeaderText = "Notes";
-                                        dgv_product_details.Columns[dremnoteno].HeaderText = "Remove Notes";
-                                        dgv_product_details.Columns[ddetailsidno].HeaderText = "orderdetailsid";
-                                        dgv_product_details.Columns[dkoidno].HeaderText = "koid";
-                                        dgv_product_details.Columns[dtidno].HeaderText = "tid";
-                                        dgv_product_details.Columns[dactionno].HeaderText = "Action";
-                                        dgv_product_details.Columns[dordermasteridno].HeaderText = "Ordermasterid";
-                                        dgv_product_details.Columns[ddatetimeno].HeaderText = "datetime";
-                                        dgv_product_details.Columns[dstatusno].HeaderText = "status";
-                                        dgv_product_details.Columns[ditemidno].HeaderText = "itemid";
-                                        dgv_product_details.Columns[dtabletypeno].HeaderText = "tabletype";
-                                        dgv_product_details.Columns[dorderno].HeaderText = "orderno";
-                                        dgv_product_details.Columns[dAddonStatusno].HeaderText = "AddonStatus";
-                                        dgv_product_details.Columns[dAVIDno].HeaderText = "AVID";
-
-                                        dgv_product_details.Columns[dslno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dptypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                                        dgv_product_details.Columns[dqtyno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dnotes].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dremnoteno].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                                        dgv_product_details.Columns[ddetailsidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dkoidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dtidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dactionno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dordermasteridno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[ddatetimeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dstatusno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[ditemidno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dtabletypeno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dorderno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dAddonStatusno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                                        dgv_product_details.Columns[dAVIDno].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-
-                                        dgv_product_details.Columns[dslno].Visible = false;
-                                        dgv_product_details.Columns[ddetailsidno].Visible = false;
-                                        dgv_product_details.Columns[dkoidno].Visible = false;
-                                        dgv_product_details.Columns[dtidno].Visible = false;
-                                        dgv_product_details.Columns[dordermasteridno].Visible = false;
-                                        dgv_product_details.Columns[ddatetimeno].Visible = false;
-                                        dgv_product_details.Columns[dstatusno].Visible = false;
-                                        dgv_product_details.Columns[ditemidno].Visible = false;
-                                        dgv_product_details.Columns[dtabletypeno].Visible = false;
-                                        dgv_product_details.Columns[dorderno].Visible = false;
-                                        dgv_product_details.Columns[dAddonStatusno].Visible = false;
-                                        dgv_product_details.Columns[dAVIDno].Visible = false;
-
-                                        dgv_product_details.Rows.Clear();
-                                        for (int k = 0; k < gridSourcedetails.Count; k++)
-                                        {
-                                            if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
-                                            {
-                                                flagstart_ready = true;
-                                            }
-
-                                            //#region Update Prnt Staus Set to2
-                                            //BllKitchenorder bllkitchen = new BllKitchenorder();
-                                            //Dmnkitchen dmnkitchen = new Dmnkitchen();
-                                            //dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
-                                            //dmnkitchen.CreatedBy = FrmDashboard.UserId;
-                                            //dmnkitchen.KOTPrintStatus = 2;
-                                            //dmnkitchen.BranchId = 1030;
-                                            //var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
-                                            //#endregion
-
-                                            dgv_product_details.Rows.Add();
-                                            dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
-                                            dgv_product_details.Rows[k].Cells[ditemno].Value = gridSourcedetails[k].Field4;
-                                            DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
-                                            if (Convert.ToInt32(gridSourcedetails[k].Field13) == 3)
-                                            {
-                                                cellcolumntype.Value = Properties.Resources.combo_kicthenview_dgv;
-                                                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                                cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
-                                            }
-                                            if (Convert.ToInt32(gridSourcedetails[k].Field19) == 1)
-                                            {
-                                                cellcolumntype.Value = Properties.Resources.addonbutton;
-                                                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                                cellcolumntype.ToolTipText = "Addon [clcik view more...]";
-                                            }
-                                            else
-                                            {
-                                                cellcolumntype.Value = Properties.Resources.grid_select;
-                                                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                                cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
-                                            }
-                                            decimal originalValue = Convert.ToDecimal(gridSourcedetails[k].Field5);
-                                            dgv_product_details.Rows[k].Cells[dqtyno].Value = (int)Math.Floor(originalValue);
-
-                                            dgv_product_details.Rows[k].Cells[dnotes].Value = gridSourcedetails[k].Field6;
-                                            dgv_product_details.Rows[k].Cells[dremnoteno].Value = gridSourcedetails[k].Field11;
-                                            dgv_product_details.Rows[k].Cells[ddetailsidno].Value = gridSourcedetails[k].Field9;
-                                            dgv_product_details.Rows[k].Cells[dkoidno].Value = gridSourcedetails[k].Field8;
-                                            dgv_product_details.Rows[k].Cells[dtidno].Value = gridSourcedetails[k].Field10;
-                                            dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
-                                            dgv_product_details.Rows[k].Cells[dordermasteridno].Value = gridSourcedetails[k].Field1;
-                                            dgv_product_details.Rows[k].Cells[ddatetimeno].Value = gridSourcedetails[k].Fielddatetime;
-                                            dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
-                                            dgv_product_details.Rows[k].Cells[ditemidno].Value = gridSourcedetails[k].Field14;
-                                            dgv_product_details.Rows[k].Cells[dtabletypeno].Value = gridSourcedetails[k].Field15;
-                                            dgv_product_details.Rows[k].Cells[dorderno].Value = gridSourcedetails[k].Field17;
-
-                                            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
-                                            if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
-                                            {
-                                                cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                                cell.Value = Properties.Resources.orderview_cancelled;
-                                                dgv_product_details.Rows[k].ReadOnly = true;
-                                            }
-                                            else
-                                            {
-                                                cell.Value = Properties.Resources.close_price_change;
-                                                cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                            }
-
-                                            if (Convert.ToInt32(gridSourcedetails[k].Field19) == Convert.ToInt32(AddonType.AddonType))
-                                            {
-                                                dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.AddonType);
-                                                dgv_product_details.Rows[k].Cells[dAVIDno].Value = gridSourcedetails[k].Field20;
-                                            }
-                                            else
-                                                dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.None);
-                                        }
-                                        for (int x = 0; x < dgv_product_details.RowCount; x++)
-                                        {
-                                            //if (x != dactionno)
-                                            dgv_product_details.Rows[x].ReadOnly = true;
-                                        }
-
-                                        // Adding DataGridView to the second row
-                                        tlp_product_box.Controls.Add(dgv_product_details, 0, 1);
-                                        dgv_product_details.Dock = DockStyle.Fill;
-
-                                        #endregion
-
-                                        #region Description
-                                        Label lbl_Description = new Label()
-                                        {
-                                            Text = "Note :   " + gridSourcedetails[0].Field16,
-                                            Name = "lbl_Description" + gridSourcedetails[0].Field1,
-                                            Dock = DockStyle.Fill,
-                                            ForeColor = Color.White,
-                                            AutoSize = true
-
-                                        };
-                                        if (gridSourcedetails[0].Field16 != null && gridSourcedetails[0].Field16 != "")
-                                            tlp_product_box.Controls.Add(lbl_Description, 0, 2);
-                                        #endregion
-
-                                        #region Ready and Close Button Thrid Row
-
-                                        // Sub TableLayoutPanel for Buttons
-                                        TableLayoutPanel tlp_buttons = new TableLayoutPanel();
-                                        tlp_buttons.Name = "tlp_buttons" + gridSourcedetails[0].Field8;
-                                        tlp_buttons.Dock = DockStyle.Top;
-                                        if (screenWidth > 1367 && screenHeight > 769)
-                                        {
-                                            tlp_buttons.Height = 45;
-                                        }
-                                        else
-                                        {
-                                            tlp_buttons.Height = 30;
-                                        }
-
-                                        tlp_buttons.ColumnCount = 3;
-                                        tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-                                        tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-                                        tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-
-                                        PictureBox pb_start = new PictureBox()
-                                        {
-                                            Name = "pb_start" + gridSourcedetails[0].Field8,
-                                            Image = Properties.Resources.start,
-                                            SizeMode = PictureBoxSizeMode.StretchImage,
-                                            Dock = DockStyle.None,
-                                            Tag = gridSourcedetails[0].Field8,
-                                        };
-                                        if (screenWidth > 1367 && screenHeight > 769)
-                                        {
-                                            pb_start.Height = 40;
-                                            pb_start.Width = 120;
-                                        }
-                                        else
-                                        {
-                                            pb_start.Height = 30;
-                                            pb_start.Width = 60;
-                                        }
-                                        pb_start.Click += pbstart_Click;
-
-                                        PictureBox pb_ready = new PictureBox()
-                                        {
-                                            Name = "pb_ready" + gridSourcedetails[0].Field8,
-                                            Image = Properties.Resources.ready_button,
-                                            SizeMode = PictureBoxSizeMode.StretchImage,
-                                            Dock = DockStyle.None,
-                                            Tag = gridSourcedetails[0].Field8,
-
-                                        };
-                                        if (screenWidth > 1367 && screenHeight > 769)
-                                        {
-                                            pb_ready.Height = 40;
-                                            pb_ready.Width = 120;
-                                        }
-                                        else
-                                        {
-                                            pb_ready.Height = 30;
-                                            pb_ready.Width = 60;
-                                        }
-                                        pb_ready.Click += pbreadyfood_Click;
-
-                                        PictureBox pb_cancelfood = new PictureBox()
-                                        {
-                                            Name = "pictureBoxRemove" + gridSourcedetails[0].Field8,
-                                            Image = Properties.Resources.close_price_change,  // Replace "YourRemoveImage" with the name of your resource image
-                                            SizeMode = PictureBoxSizeMode.StretchImage,
-                                            Dock = DockStyle.None,
-                                            Tag = gridSourcedetails[0].Field8,
-                                        };
-                                        if (screenWidth > 1367 && screenHeight > 769)
-                                        {
-                                            pb_cancelfood.Height = 40;
-                                            pb_cancelfood.Width = 120;
-                                        }
-                                        else
-                                        {
-                                            pb_cancelfood.Height = 30;
-                                            pb_cancelfood.Width = 60;
-                                        }
-                                        pb_cancelfood.Click += pbcancelfood_Click;
-
-                                        if (flagstart_ready)
-                                        {
-                                            pb_start.Visible = true;
-                                            pb_cancelfood.Visible = true;
-                                            pb_ready.Visible = false;
-                                        }
-                                        else
-                                        {
-                                            pb_start.Visible = false;
-                                            pb_ready.Visible = true;
-                                            pb_cancelfood.Visible = false;
-                                        }
-
-                                        tlp_buttons.Controls.Add(pb_start, 0, 0);
-                                        tlp_buttons.Controls.Add(pb_ready, 1, 0);
-                                        tlp_buttons.Controls.Add(pb_cancelfood, 2, 0);
-
-                                        // Adding Buttons TableLayoutPanel to the last row
-                                        tlp_product_box.Controls.Add(tlp_buttons, 0, 3);
-                                        #endregion
-
-                                        flp_order_view.Controls.Add(tlp_product_box);
-
-                                        orderbox.Add(new datagrid
-                                        {
-                                            Id = Convert.ToInt32(gridSourcedetails[0].Field8),
-                                            datagridviewname = dgv_product_details.Name,
-                                            createtime = gridSourcedetails[0].Fielddatetime
-                                        });
-                                    }
-
-                                }
-
-                            }
-                            flp_order_view.Visible = true;
-                            timer1.Start();
-
-                        }
-                        else
-                        {
-                            timer1.Stop();
-                            flp_order_view.Controls.Clear();
-                            pnl_empty_msg.Location = new Point(this.Width / 2 - pnl_empty_msg.Size.Width / 2, this.Height / 2 - pnl_empty_msg.Size.Height / 2);
-                            pnl_empty_msg.Visible = true;
-                        }
-
-                        #endregion
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Kitchen_View txttablecode_KeyDown", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
-            }
-        }
-        private void txttablecode_Enter(object sender, EventArgs e)
-        {
-            if (txttablecode.Text == "Table Code....")
-            {
-                txttablecode.Text = "";
-                txttablecode.ForeColor = Color.Black;
-            }
-        }
 
         private void btn_refresh_Click(object sender, EventArgs e)
         {
             try
             {
+                cmbserachtype.SelectedIndex = 0;
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
                 btn_viewmore_order.Visible = true;
-                txttablecode.Text = "Table Code....";
-                txttablecode.ForeColor = Color.DarkGray;
-                txtorderid_search.Text = "Order Id ....";
+                txtsearchData.Text = "Order Id ....";
                 pnl_empty_msg.Visible = false;
                 refreshtimer.Start();
             }
@@ -4115,6 +3501,1080 @@ namespace FoodandBeverage.Forms
             lblmemory.Text = $"Memory: {memoryInMB:F2} MB";
         }
 
-     
+        private void btnsearch_Click(object sender, EventArgs e)
+        {
+            // Mandatory textbox check
+            if (string.IsNullOrWhiteSpace(txtsearchData.Text))
+            {
+                MessageBox.Show("Please enter search text.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtsearchData.Focus();
+                return;
+            }
+
+            // Mandatory combobox check
+            if (cmbserachtype.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select search type.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbserachtype.DroppedDown = true;
+                return;
+            }
+
+            string searchText = txtsearchData.Text.Trim();
+            int stype = cmbserachtype.SelectedIndex;
+            if (stype == 0)
+                SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByKitchenNumber));
+            else if (stype == 1)
+                SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByTableCode));
+            else if (stype == 2)
+                SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByPkId));
+
+        }
+        public void SerachTable_Pickup(string sdata,int serachtype)
+        {
+            try
+            {
+                GC.Collect();
+
+                refreshtimer.Stop();
+                #region Fill Orders in Datagrid
+                txt_product_remove_des.Text = "Reason type here .....";
+                int countpendingorder = 0;
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
+                DmnGridFields dmnSearchKitchendata = new DmnGridFields();
+                dmnSearchKitchendata.Searchtype =serachtype;
+                dmnSearchKitchendata.Field30 = sdata;
+                var gridSourcemaster = SearchDetails.serachreport("prdKitchenData", dmnSearchKitchendata);
+                if (gridSourcemaster.Count > 0)
+                {
+                    //pnl_empty_msg.Visible = false;
+                    //flp_order_view.Visible = false;
+                    var distinctOrders = gridSourcemaster
+                       .GroupBy(order => new { order.Field1, order.Field2 })
+                       .Select(group => group.First())
+                       .OrderBy(order => order.Field1)
+                       .ThenBy(order => order.Field2)
+                       .ToList();
+
+                    btntotalorders.Text = Convert.ToString(distinctOrders.Count);
+
+                    countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
+                    btnprintcount.Text = Convert.ToString(countpendingorder);
+
+                    var preserveNames = distinctOrders.Select(orders => "tlp_product_box_k_" + orders.Field1 + orders.Field2);
+                    int l = 0;
+                    foreach (Control control in flp_order_view.Controls.Cast<Control>().ToArray())
+                    {
+                        if (control is TableLayoutPanel tlp && !preserveNames.Contains(tlp.Name))
+                        {
+                            flp_order_view.Controls.Remove(control);
+                            control.Dispose();
+                            clsgen.Memoryrelease();
+                        }
+                        l = l + 1;
+                    }
+                    int rowCountDisplay = 0;
+                    //flp_order_view.Controls.Clear();
+                    foreach (var orders in distinctOrders)
+                    {
+                        bool flagstart_ready = false;
+
+                        BllkitchenDataDetails<Dmnkitchendetails> KtDetails = new BllkitchenDataDetails<Dmnkitchendetails>();
+                        Dmnkitchendetails dmnSearchtabledata = new Dmnkitchendetails();
+                        dmnSearchtabledata.OrderNo = Convert.ToInt32(orders.Field2);
+                        dmnSearchtabledata.OrderMasterId = Convert.ToInt32(orders.Field1);
+                        var gridSourcedetails = KtDetails.serachData("prdKitchendetails", dmnSearchtabledata);
+                        if (gridSourcedetails.Count > 0)
+                        {
+                            string tlpname = "tlp_product_box_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                            TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+                            if (tlp_sele != null)
+                            {
+                                flp_order_view.SuspendLayout();
+                                string dgvname = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                string readybuttonname = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                string rprint = "reprintbutton_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+
+                                string pnldesname = "pnl_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+
+                                // ---------------- FIND ALL CONTROLS ----------------
+
+                                // Start button
+                                PictureBox btn_start = this.Controls
+                                    .Find(startbuttonname, true)
+                                    .FirstOrDefault() as PictureBox;
+
+                                // Ready button
+                                PictureBox btn_ready = this.Controls
+                                    .Find(readybuttonname, true)
+                                    .FirstOrDefault() as PictureBox;
+
+                                // Cancel food button
+                                PictureBox btn_cancelfood = this.Controls
+                                    .Find(cancelfoodbuttonname, true)
+                                    .FirstOrDefault() as PictureBox;
+
+                                // Reprint button
+                                PictureBox pbrprint = this.Controls
+                                    .Find(rprint, true)
+                                    .FirstOrDefault() as PictureBox;
+
+                                // Description panel
+                                Panel pnldesccont = this.Controls
+                                    .Find(pnldesname, true)
+                                    .FirstOrDefault() as Panel;
+
+                                // TextBox inside panel
+                                TextBox txtdes = null;
+                                if (pnldesccont != null)
+                                {
+                                    // Finds first textbox inside panel
+                                    txtdes = pnldesccont.Controls
+                                        .OfType<TextBox>()
+                                        .FirstOrDefault();
+                                }
+
+                                // DataGridView
+                                DataGridView dgv_product_details = this.Controls
+                                    .Find(dgvname, true)
+                                    .FirstOrDefault() as DataGridView;
+
+
+                                if (Convert.ToInt32(gridSourcedetails[0].Field26) == 1)
+                                {
+                                    if (btn_ready != null)
+                                        btn_ready.Visible = false;
+                                    if (btn_start != null)
+                                        btn_start.Visible = false;
+                                    if (btn_cancelfood != null)
+                                        btn_cancelfood.Visible = false;
+                                    if (pbrprint != null)
+                                        pbrprint.Visible = false;
+
+                                    if (txtdes != null)
+                                    {
+                                        txtdes.Visible = true;
+                                        txtdes.Text = "Waiting for customer confirmation.";
+                                    }
+                                    tlp_sele.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                                }
+                                else
+                                {
+                                    #region Grid Edit Cancel  product
+
+                                    for (int k = 0; k < gridSourcedetails.Count; k++)
+                                    {
+                                        if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
+                                            flagstart_ready = true;
+                                        else if (Convert.ToInt32(gridSourcedetails[k].Field12) == 2)
+                                            flagstart_ready = false;
+
+                                        dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
+                                        dgv_product_details.Rows[k].Cells[dAVIDno].Value = gridSourcedetails[k].Field20;
+                                        dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
+
+                                        DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
+                                        if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
+                                        {
+                                            var row = dgv_product_details.Rows[k];
+
+                                            // Create a unique key for this row (e.g., using order ID + product ID)
+                                            string rowKey = gridSourcedetails[k].Field1 + "_" + gridSourcedetails[k].Field11;
+
+                                            // UI setup (can be repeated safely)
+                                            row.ReadOnly = true;
+                                            row.Cells[dremnoteno].Value = gridSourcedetails[k].Field11;
+                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                            cell.Value = Properties.Resources.orderview_cancelled;
+
+                                            // Initialize counter and color state if not exists
+                                            if (!rowCounters.ContainsKey(rowKey))
+                                                rowCounters[rowKey] = 0;
+                                            if (!rowColorState.ContainsKey(rowKey))
+                                                rowColorState[rowKey] = false; // start with white
+
+                                            // Increment counter
+                                            rowCounters[rowKey]++;
+
+                                            // Toggle color when counter reaches blinkPeriod
+                                            if (rowCounters[rowKey] >= blinkPeriod)
+                                            {
+                                                rowColorState[rowKey] = !rowColorState[rowKey];
+                                                row.DefaultCellStyle.BackColor = rowColorState[rowKey] ? Color.LightCoral : Color.White;
+
+                                                // Reset counter
+                                                rowCounters[rowKey] = 0;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            cell.Value = Properties.Resources.kitchenfood_cancel_icon;
+                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        }
+
+                                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
+                                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
+                                        if (Convert.ToInt32(gridSourcedetails[k].Field13) == Convert.ToInt32(Tabletype.ComboProduct))
+                                        {
+                                            cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
+                                        }
+                                        else if (Convert.ToInt32(gridSourcedetails[k].Field23) >= 1)
+                                        {
+                                            cellcolumntype.Value = Properties.Resources.addonbutton;
+                                            cellcolumntype.ToolTipText = "Addon [clcik view more...]";
+                                        }
+                                        else
+                                        {
+                                            if (Convert.ToInt32(k) % 2 == 0)
+                                                cellcolumntype.Value = Properties.Resources.orderview_blank;
+                                            else
+                                                cellcolumntype.Value = Properties.Resources.orderview_blank_2;
+                                        }
+
+                                    }
+                                    #endregion
+
+                                    #region Edit Ready and Close Button 
+                                    if (flagstart_ready)
+                                    {
+                                        btn_start.Visible = true;
+                                        btn_cancelfood.Visible = true;
+                                        btn_ready.Visible = false;
+                                    }
+                                    else
+                                    {
+                                        if (btn_start != null)
+                                            btn_start.Visible = false;
+                                        btn_ready.Visible = true;
+                                        btn_cancelfood.Visible = false;
+                                    }
+                                    #endregion
+                                }
+
+                                flp_order_view.ResumeLayout();
+                            }
+                            else
+                            {
+                                if (rowCountDisplay >= KitchenDisplayCount)
+                                    break;
+
+                                flp_order_view.SuspendLayout();
+                                refreshtimer.Stop();
+
+                                #region Main TableLayoutPanel 
+                                // Main TableLayoutPanel for each product
+                                TableLayoutPanel tlp_product_box = new TableLayoutPanel();
+                                tlp_product_box.Name = "tlp_product_box_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                tlp_product_box.Dock = DockStyle.Top;
+
+                                tlp_product_box.Visible = false;
+                                tlp_product_box.SuspendLayout();
+
+                                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                                {
+                                    FrmDashboard _instanceFrmdash = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                                    if (_instanceFrmdash.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View)))
+                                        tlp_product_box.Enabled = true;
+                                    else
+                                        tlp_product_box.Enabled = false;
+                                }
+
+                                int WidthPercentage = 30;
+                                int heightPercentage = 40;
+                                int controlWidth = (int)(this.Width * WidthPercentage / 100);
+                                int controlHeight = (int)(this.Height * heightPercentage / 100);
+                                tlp_product_box.Size = new Size(controlWidth, controlHeight);
+
+                                tlp_product_box.BackColor = boxcolor;
+                                tlp_product_box.RowCount = 4;
+                                //tlp_product_box.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
+                                tlp_product_box.Margin = new Padding(20, 10, 0, 0);
+                                tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                                tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // 50% height
+                                tlp_product_box.RowStyles.Add(new RowStyle(SizeType.Percent, 25));
+                                tlp_product_box.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                                //ApplyRoundedCorners(tlp_product_box);
+                                #endregion
+
+                                #region Heading Time and Tablecode Frist Row
+                                // Sub TableLayoutPanel for Heading
+                                TableLayoutPanel tlp_product_heading = new TableLayoutPanel();
+                                tlp_product_heading.Name = "tlp_product_heading_k_" + orders.Field1 + gridSourcedetails[0].Field17; ;
+                                tlp_product_heading.Dock = DockStyle.Top;
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                {
+                                    tlp_product_heading.Height = 50;
+                                }
+                                else
+                                {
+                                    tlp_product_heading.Height = 20;
+                                }
+
+                                tlp_product_heading.ColumnCount = 3;
+                                tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));//33.33F
+                                tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+                                tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+
+                                #region Table Name 
+                                Label lbl_tablecode = new Label()
+                                {
+
+                                    Name = "lbl_tablecod_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Dock = DockStyle.Fill,
+                                    ForeColor = Color.White,
+                                    AutoSize = true,
+                                    TextAlign = ContentAlignment.MiddleLeft,
+
+                                };
+                                #endregion
+
+                                if (Convert.ToInt32(gridSourcedetails[0].Field25) > 0)
+                                {
+                                    lbl_tablecode.Text = "Pick Up  " + gridSourcedetails[0].Field25;
+                                    lbl_tablecode.Font = new Font("Arial", 12, FontStyle.Bold);
+                                }
+                                else
+                                {
+                                    lbl_tablecode.Text = gridSourcedetails[0].Field2;
+
+                                    if (screenWidth > 1367 && screenHeight > 769)
+                                        lbl_tablecode.Font = new Font("Arial", 15, FontStyle.Bold);
+                                    else
+                                        lbl_tablecode.Font = new Font("Arial", 10, FontStyle.Bold);
+
+                                }
+                                #region Token No
+
+                                Label lbl_tokkenno = new Label()
+                                {
+                                    Text = "Token No: " + gridSourcedetails[0].Field22,
+                                    Name = "lbl_tokkenno_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Dock = DockStyle.Fill,
+                                    ForeColor = Color.White,
+                                    AutoSize = true,
+                                    TextAlign = ContentAlignment.MiddleCenter,
+                                };
+
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                    lbl_tokkenno.Font = new Font("Arial", 15, FontStyle.Bold);
+                                else
+                                    lbl_tokkenno.Font = new Font("Arial", 12, FontStyle.Bold);
+
+                                #endregion
+
+                                #region Time Duration
+                                DateTime startTime = gridSourcedetails[0].Fielddatetime;
+                                DateTime currentTime = DateTime.Now;
+                                TimeSpan timeDifference = currentTime - startTime;
+                                int hoursDifference = timeDifference.Hours;
+                                int minutesDifference = timeDifference.Minutes;
+                                int secondsDifference = timeDifference.Seconds;
+                                string timeDifferenceString = $"{hoursDifference} h, {minutesDifference} min {secondsDifference}";//,  seconds
+
+                                Label lbl_time = new Label()
+                                {
+                                    Text = timeDifferenceString,
+                                    Name = "lbl_time_K_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Dock = DockStyle.Fill,
+                                    ForeColor = Color.White,
+                                    AutoSize = true,
+                                    TextAlign = ContentAlignment.MiddleRight,
+
+                                };
+
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                    lbl_time.Font = new Font("Arial", 11, FontStyle.Bold);
+                                else
+                                    lbl_time.Font = new Font("Arial", 8, FontStyle.Bold);
+                                #endregion
+
+                                tlp_product_heading.Controls.Add(lbl_tablecode, 0, 0);
+                                tlp_product_heading.Controls.Add(lbl_tokkenno, 1, 0);
+                                tlp_product_heading.Controls.Add(lbl_time, 2, 0);
+
+                                // Adding Heading TableLayoutPanel to the first row
+                                tlp_product_box.Controls.Add(tlp_product_heading, 0, 0);
+                                #endregion
+
+                                #region DataGridView Second Row
+                                bool comboflag = false, addonflag = false;
+
+                                #region dgv_product_details Declaration
+                                // DataGridView for product details
+                                DataGridView dgv_product_details = new DataGridView();
+
+                                // Basic config
+                                dgv_product_details.CellClick += dgv_product_details_CellClick;
+                                dgv_product_details.AllowUserToDeleteRows = true;
+                                dgv_product_details.ColumnHeadersDefaultCellStyle.Font = new Font(dgv_product_details.Font, FontStyle.Bold);
+                                dgv_product_details.ColumnHeadersDefaultCellStyle.Font =
+                                    new Font(dgv_product_details.ColumnHeadersDefaultCellStyle.Font.FontFamily, 12, FontStyle.Bold);
+
+                                dgv_product_details.AllowUserToAddRows = false;
+                                dgv_product_details.Name = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                dgv_product_details.Tag = orders.Field1 + gridSourcedetails[0].Field17;
+
+                                dgv_product_details.DoubleBuffered(true);
+                                dgv_product_details.BorderStyle = BorderStyle.None;
+                                dgv_product_details.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                                dgv_product_details.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                                dgv_product_details.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                                dgv_product_details.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                                dgv_product_details.BackgroundColor = Color.White;
+
+                                dgv_product_details.EnableHeadersVisualStyles = false;
+                                dgv_product_details.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                                dgv_product_details.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                                dgv_product_details.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                                dgv_product_details.AllowUserToResizeRows = false;
+
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                {
+                                    dgv_product_details.ColumnHeadersHeight = 70;
+                                    dgv_product_details.RowTemplate.Height = 70;
+                                }
+                                else
+                                {
+                                    dgv_product_details.ColumnHeadersHeight = 30;
+                                    dgv_product_details.RowTemplate.Height = 30;
+                                }
+
+                                dgv_product_details.RowHeadersVisible = false;
+
+                                // Add columns
+                                DataGridViewTextBoxColumn columnSlno = new DataGridViewTextBoxColumn();
+                                DataGridViewImageColumn pbremove = new DataGridViewImageColumn();
+                                DataGridViewImageColumn columnptype = new DataGridViewImageColumn();
+                                DataGridViewTextBoxColumn columnItemName = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnQty = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnNotes = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnRemNotes = new DataGridViewTextBoxColumn();
+
+                                DataGridViewTextBoxColumn columnorderdetailsid = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnkoid = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columntid = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnmasterid = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columndate = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnstatus = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnitemid = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columntabletype = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnorderno = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnAddonStatusno = new DataGridViewTextBoxColumn();
+                                DataGridViewTextBoxColumn columnAVIDno = new DataGridViewTextBoxColumn();
+
+                                dgv_product_details.Columns.Add(columnSlno);
+                                dgv_product_details.Columns.Add(pbremove);
+                                dgv_product_details.Columns.Add(columnptype);
+                                dgv_product_details.Columns.Add(columnItemName);
+                                dgv_product_details.Columns.Add(columnQty);
+                                dgv_product_details.Columns.Add(columnNotes);
+                                dgv_product_details.Columns.Add(columnRemNotes);
+                                dgv_product_details.Columns.Add(columnorderdetailsid);
+                                dgv_product_details.Columns.Add(columnkoid);
+                                dgv_product_details.Columns.Add(columntid);
+                                dgv_product_details.Columns.Add(columnmasterid);
+                                dgv_product_details.Columns.Add(columndate);
+                                dgv_product_details.Columns.Add(columnstatus);
+                                dgv_product_details.Columns.Add(columnitemid);
+                                dgv_product_details.Columns.Add(columntabletype);
+                                dgv_product_details.Columns.Add(columnorderno);
+                                dgv_product_details.Columns.Add(columnAddonStatusno);
+                                dgv_product_details.Columns.Add(columnAVIDno);
+
+                                // Header text
+                                dgv_product_details.Columns[dslno].HeaderText = "Slno";
+                                dgv_product_details.Columns[ditemno].HeaderText = "Item Name";
+                                dgv_product_details.Columns[dptypeno].HeaderText = "PType";
+                                dgv_product_details.Columns[dqtyno].HeaderText = "Qty";
+                                dgv_product_details.Columns[dnotes].HeaderText = "Notes";
+                                dgv_product_details.Columns[dremnoteno].HeaderText = "Remove Notes";
+                                dgv_product_details.Columns[ddetailsidno].HeaderText = "orderdetailsid";
+                                dgv_product_details.Columns[dkoidno].HeaderText = "koid";
+                                dgv_product_details.Columns[dtidno].HeaderText = "tid";
+                                dgv_product_details.Columns[dactionno].HeaderText = "Action";
+                                dgv_product_details.Columns[dordermasteridno].HeaderText = "Ordermasterid";
+                                dgv_product_details.Columns[ddatetimeno].HeaderText = "datetime";
+                                dgv_product_details.Columns[dstatusno].HeaderText = "status";
+                                dgv_product_details.Columns[ditemidno].HeaderText = "itemid";
+                                dgv_product_details.Columns[dtabletypeno].HeaderText = "tabletype";
+                                dgv_product_details.Columns[dorderno].HeaderText = "orderno";
+                                dgv_product_details.Columns[dAddonStatusno].HeaderText = "AddonStatus";
+                                dgv_product_details.Columns[dAVIDno].HeaderText = "AVID";
+
+                                // Hide backend columns
+                                dgv_product_details.Columns[dslno].Visible = false;
+                                dgv_product_details.Columns[ddetailsidno].Visible = false;
+                                dgv_product_details.Columns[dkoidno].Visible = false;
+                                dgv_product_details.Columns[dtidno].Visible = false;
+                                dgv_product_details.Columns[dordermasteridno].Visible = false;
+                                dgv_product_details.Columns[ddatetimeno].Visible = false;
+                                dgv_product_details.Columns[dstatusno].Visible = false;
+                                dgv_product_details.Columns[ditemidno].Visible = false;
+                                dgv_product_details.Columns[dtabletypeno].Visible = false;
+                                dgv_product_details.Columns[dorderno].Visible = false;
+                                dgv_product_details.Columns[dAddonStatusno].Visible = false;
+                                dgv_product_details.Columns[dAVIDno].Visible = false;
+
+                                // Bold text
+                                Font boldFont = new Font(dgv_product_details.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Bold);
+                                dgv_product_details.Columns[ditemno].DefaultCellStyle.Font = boldFont;
+                                dgv_product_details.Columns[dqtyno].DefaultCellStyle.Font = boldFont;
+                                dgv_product_details.Columns[dnotes].DefaultCellStyle.Font = boldFont;
+                                dgv_product_details.Columns[dremnoteno].DefaultCellStyle.Font = boldFont;
+
+
+                                // =====================================================================
+                                // FINAL SCROLL + WIDTH SETTINGS (correct position — after columns added)
+                                // =====================================================================
+
+                                // Disable autosize fully
+                                dgv_product_details.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                                dgv_product_details.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                                // Full scrollbars
+                                dgv_product_details.ScrollBars = ScrollBars.Both;
+
+                                // Prevent wrap (no height increase)
+                                dgv_product_details.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+                                // Item name column — long width for scrolling
+                                dgv_product_details.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                                dgv_product_details.Columns[ditemno].Width = 450;
+
+                                // Image columns fixed width
+                                dgv_product_details.Columns[dactionno].Width = 60;
+                                dgv_product_details.Columns[dptypeno].Width = 60;
+
+                                // Hidden columns width fix
+                                foreach (DataGridViewColumn col in dgv_product_details.Columns)
+                                {
+                                    if (!col.Visible)
+                                    {
+                                        col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                                        col.Width = 1;
+                                    }
+                                }
+
+                                // Prevent resizing
+                                dgv_product_details.AllowUserToResizeColumns = false;
+
+                                #endregion
+
+                                //#region dgv_product_details Declaration
+                                //// DataGridView for product details
+                                //DataGridView dgv_product_details = new DataGridView();
+
+                                //// 1. Disable AUTO sizing completely
+                                //dgv_product_details.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                                //dgv_product_details.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+                                //// 2. Full scrollbars
+                                //dgv_product_details.ScrollBars = ScrollBars.Both;
+
+                                //// 3. Important: Wrap OFF so rows do not increase height
+                                //dgv_product_details.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+                                //// 4. Set fixed width for Item Name (show full text)
+                                //dgv_product_details.Columns[ditemno].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                                //dgv_product_details.Columns[ditemno].Width = 450;   // adjust as needed
+
+                                //// 5. Fix widths for image columns
+                                //dgv_product_details.Columns[dactionno].Width = 60;
+                                //dgv_product_details.Columns[dptypeno].Width = 60;
+
+                                //// 6. Hidden columns must not take width (VERY IMPORTANT)
+                                //foreach (DataGridViewColumn col in dgv_product_details.Columns)
+                                //{
+                                //    if (!col.Visible)
+                                //    {
+                                //        col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                                //        col.Width = 1;
+                                //    }
+                                //}
+
+                                //// 7. Prevent user resizing columns
+                                //dgv_product_details.AllowUserToResizeColumns = false;
+
+                                //dgv_product_details.CellClick += dgv_product_details_CellClick;
+                                //dgv_product_details.AllowUserToDeleteRows = true;
+                                //dgv_product_details.ColumnHeadersDefaultCellStyle.Font = new Font(dgv_product_details.Font, FontStyle.Bold);
+                                //dgv_product_details.ColumnHeadersDefaultCellStyle.Font = new Font(dgv_product_details.ColumnHeadersDefaultCellStyle.Font.FontFamily, 12, FontStyle.Bold);
+                                //// Prevent the user from adding new rows
+                                //dgv_product_details.AllowUserToAddRows = false;
+                                //dgv_product_details.Name = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                //dgv_product_details.Tag = orders.Field1 + gridSourcedetails[0].Field17;
+                                //// Enable double buffering for the DataGridView
+                                //dgv_product_details.DoubleBuffered(true);
+
+
+                                //dgv_product_details.BorderStyle = BorderStyle.None;
+                                //dgv_product_details.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                                //dgv_product_details.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                                //dgv_product_details.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                                //dgv_product_details.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                                //dgv_product_details.BackgroundColor = Color.White;
+
+                                //dgv_product_details.EnableHeadersVisualStyles = false;
+                                //dgv_product_details.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                                //dgv_product_details.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                                //dgv_product_details.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                                //dgv_product_details.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                                //dgv_product_details.AllowUserToResizeRows = false;
+
+                                //if (screenWidth > 1367 && screenHeight > 769)
+                                //{
+                                //    dgv_product_details.ColumnHeadersHeight = 70;
+                                //    dgv_product_details.RowTemplate.Height = 70;
+                                //}
+                                //else
+                                //{
+                                //    dgv_product_details.ColumnHeadersHeight = 30;
+                                //    dgv_product_details.RowTemplate.Height = 30;
+                                //}
+
+                                //dgv_product_details.RowHeadersVisible = false;
+                                //// Add columns with specific cell type
+                                //DataGridViewTextBoxColumn columnSlno = new DataGridViewTextBoxColumn();
+                                //DataGridViewImageColumn pbremove = new DataGridViewImageColumn();
+                                //DataGridViewImageColumn columnptype = new DataGridViewImageColumn();
+                                //DataGridViewTextBoxColumn columnItemName = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnQty = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnNotes = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnRemNotes = new DataGridViewTextBoxColumn();
+
+                                //DataGridViewTextBoxColumn columnorderdetailsid = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnkoid = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columntid = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnmasterid = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columndate = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnstatus = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnitemid = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columntabletype = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnorderno = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnAddonStatusno = new DataGridViewTextBoxColumn();
+                                //DataGridViewTextBoxColumn columnAVIDno = new DataGridViewTextBoxColumn();
+
+                                //dgv_product_details.Columns.Add(columnSlno);
+                                //dgv_product_details.Columns.Add(pbremove);
+                                //dgv_product_details.Columns.Add(columnptype);
+                                //dgv_product_details.Columns.Add(columnItemName);
+                                //dgv_product_details.Columns.Add(columnQty);
+                                //dgv_product_details.Columns.Add(columnNotes);
+                                //dgv_product_details.Columns.Add(columnRemNotes);
+                                //dgv_product_details.Columns.Add(columnorderdetailsid);
+                                //dgv_product_details.Columns.Add(columnkoid);
+                                //dgv_product_details.Columns.Add(columntid);
+                                //dgv_product_details.Columns.Add(columnmasterid);
+                                //dgv_product_details.Columns.Add(columndate);
+                                //dgv_product_details.Columns.Add(columnstatus);
+                                //dgv_product_details.Columns.Add(columnitemid);
+                                //dgv_product_details.Columns.Add(columntabletype);
+                                //dgv_product_details.Columns.Add(columnorderno);
+                                //dgv_product_details.Columns.Add(columnAddonStatusno);
+                                //dgv_product_details.Columns.Add(columnAVIDno);
+
+                                //dgv_product_details.Columns[dslno].HeaderText = "Slno";
+                                //dgv_product_details.Columns[ditemno].HeaderText = "Item Name";
+                                //dgv_product_details.Columns[dptypeno].HeaderText = "PType";
+                                //dgv_product_details.Columns[dqtyno].HeaderText = "Qty";
+                                //dgv_product_details.Columns[dnotes].HeaderText = "Notes";
+                                //dgv_product_details.Columns[dremnoteno].HeaderText = "Remove Notes";
+                                //dgv_product_details.Columns[ddetailsidno].HeaderText = "orderdetailsid";
+                                //dgv_product_details.Columns[dkoidno].HeaderText = "koid";
+                                //dgv_product_details.Columns[dtidno].HeaderText = "tid";
+                                //dgv_product_details.Columns[dactionno].HeaderText = "Action";
+                                //dgv_product_details.Columns[dordermasteridno].HeaderText = "Ordermasterid";
+                                //dgv_product_details.Columns[ddatetimeno].HeaderText = "datetime";
+                                //dgv_product_details.Columns[dstatusno].HeaderText = "status";
+                                //dgv_product_details.Columns[ditemidno].HeaderText = "itemid";
+                                //dgv_product_details.Columns[dtabletypeno].HeaderText = "tabletype";
+                                //dgv_product_details.Columns[dorderno].HeaderText = "orderno";
+                                //dgv_product_details.Columns[dAddonStatusno].HeaderText = "AddonStatus";
+                                //dgv_product_details.Columns[dAVIDno].HeaderText = "AVID";
+
+                                //dgv_product_details.Columns[dslno].Visible = false;
+                                //dgv_product_details.Columns[ddetailsidno].Visible = false;
+                                //dgv_product_details.Columns[dkoidno].Visible = false;
+                                //dgv_product_details.Columns[dtidno].Visible = false;
+                                //dgv_product_details.Columns[dordermasteridno].Visible = false;
+                                //dgv_product_details.Columns[ddatetimeno].Visible = false;
+                                //dgv_product_details.Columns[dstatusno].Visible = false;
+                                //dgv_product_details.Columns[ditemidno].Visible = false;
+                                //dgv_product_details.Columns[dtabletypeno].Visible = false;
+                                //dgv_product_details.Columns[dorderno].Visible = false;
+                                //dgv_product_details.Columns[dAddonStatusno].Visible = false;
+                                //dgv_product_details.Columns[dAVIDno].Visible = false;
+
+                                //Font boldFont = new Font(dgv_product_details.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Bold);
+                                //dgv_product_details.Columns[ditemno].DefaultCellStyle.Font = boldFont;
+                                //dgv_product_details.Columns[dqtyno].DefaultCellStyle.Font = boldFont;
+                                //dgv_product_details.Columns[dnotes].DefaultCellStyle.Font = boldFont;
+                                //dgv_product_details.Columns[dremnoteno].DefaultCellStyle.Font = boldFont;
+                                //#endregion
+
+                                dgv_product_details.Rows.Clear();
+                                for (int k = 0; k < gridSourcedetails.Count; k++)
+                                {
+                                    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)//check ready or not
+                                    {
+                                        flagstart_ready = true;
+                                    }
+
+                                    //#region Update Prnt Staus Set to2
+                                    //BllKitchenorder bllkitchen = new BllKitchenorder();
+                                    //Dmnkitchen dmnkitchen = new Dmnkitchen();
+                                    //dmnkitchen.Koid = Convert.ToInt32(gridSourcedetails[k].Field8);
+                                    //dmnkitchen.CreatedBy = FrmDashboard.UserId;
+                                    //dmnkitchen.KOTPrintStatus = 2;
+                                    //dmnkitchen.BranchId = 1030;
+                                    //var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
+                                    //#endregion
+
+                                    dgv_product_details.Rows.Add();
+                                    dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
+                                    int AddonCount = Convert.ToInt32(gridSourcedetails[k].Field23);
+                                    string vrianame = Convert.ToString(gridSourcedetails[k].Field24);
+                                    string itemname = Convert.ToString(gridSourcedetails[k].Field4);
+
+                                    //if (AddonCount > 0 && vrianame != null && vrianame != "")
+                                    //    dgv_product_details.Rows[k].Cells[ditemno].Value = itemname + "(" + vrianame + ")";
+                                    //else if (AddonCount > 0)
+                                    //    dgv_product_details.Rows[k].Cells[ditemno].Value = itemname;
+                                    if (vrianame != null && vrianame != "")
+                                        dgv_product_details.Rows[k].Cells[ditemno].Value = itemname + "(" + vrianame + ")";
+                                    else
+                                        dgv_product_details.Rows[k].Cells[ditemno].Value = itemname;
+
+
+                                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
+                                    if (Convert.ToInt32(gridSourcedetails[k].Field13) == Convert.ToInt32(Tabletype.ComboProduct))
+                                    {
+                                        comboflag = true;
+                                        cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
+                                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
+                                    }
+                                    else if (Convert.ToInt32(gridSourcedetails[k].Field23) >= 1)
+                                    {
+                                        addonflag = true;
+                                        cellcolumntype.Value = Properties.Resources.addonbutton;
+                                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        cellcolumntype.ToolTipText = "Addon [clcik view more...]";
+                                    }
+                                    else
+                                    {
+                                        if (Convert.ToInt32(k) % 2 == 0)
+                                            cellcolumntype.Value = Properties.Resources.orderview_blank;
+                                        else
+                                            cellcolumntype.Value = Properties.Resources.orderview_blank_2;
+
+                                        //cellcolumntype.Value = Properties.Resources.grid_select;
+                                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
+                                    }
+
+                                    decimal originalValue = Convert.ToDecimal(gridSourcedetails[k].Field5);
+                                    dgv_product_details.Rows[k].Cells[dqtyno].Value = (int)Math.Floor(originalValue);
+
+                                    dgv_product_details.Rows[k].Cells[dnotes].Value = gridSourcedetails[k].Field6;
+                                    dgv_product_details.Rows[k].Cells[dremnoteno].Value = gridSourcedetails[k].Field11;
+                                    dgv_product_details.Rows[k].Cells[ddetailsidno].Value = gridSourcedetails[k].Field9;
+                                    dgv_product_details.Rows[k].Cells[dkoidno].Value = gridSourcedetails[k].Field8;
+                                    dgv_product_details.Rows[k].Cells[dtidno].Value = gridSourcedetails[k].Field10;
+                                    dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
+                                    dgv_product_details.Rows[k].Cells[dordermasteridno].Value = gridSourcedetails[k].Field1;
+                                    dgv_product_details.Rows[k].Cells[ddatetimeno].Value = gridSourcedetails[k].Fielddatetime;
+                                    dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
+                                    dgv_product_details.Rows[k].Cells[ditemidno].Value = gridSourcedetails[k].Field14;
+                                    dgv_product_details.Rows[k].Cells[dtabletypeno].Value = gridSourcedetails[k].Field15;
+                                    dgv_product_details.Rows[k].Cells[dorderno].Value = gridSourcedetails[k].Field17;
+
+                                    DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
+                                    if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
+                                    {
+                                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                        cell.Value = Properties.Resources.orderview_cancelled;
+                                        dgv_product_details.Rows[k].ReadOnly = true;
+                                    }
+                                    else
+                                    {
+                                        cell.Value = Properties.Resources.kitchenfood_cancel_icon;
+                                        cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                    }
+
+                                    if (Convert.ToInt32(gridSourcedetails[k].Field19) == Convert.ToInt32(AddonType.AddonType))
+                                    {
+                                        dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.AddonType);
+                                        dgv_product_details.Rows[k].Cells[dAVIDno].Value = gridSourcedetails[k].Field20;
+                                    }
+                                    else
+                                        dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.None);
+                                }
+
+                                for (int x = 0; x < dgv_product_details.RowCount; x++)
+                                {
+                                    //if (x != dactionno)
+                                    dgv_product_details.Rows[x].ReadOnly = true;
+                                }
+                                if (addonflag != true && comboflag != true)
+                                    dgv_product_details.Columns[dptypeno].Visible = false;
+
+                                tlp_product_box.Controls.Add(dgv_product_details, 0, 1);
+                                dgv_product_details.Dock = DockStyle.Fill;
+
+                                //clsgen.GridAutoSizeSmart(dgv_product_details);
+                                #endregion
+
+                                #region Description
+                                Panel pnldesc = new Panel();
+                                pnldesc.Name = "pnl_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                pnldesc.AutoScroll = true;
+                                pnldesc.Dock = DockStyle.Fill;
+
+                                //pnldesc.Padding = new Padding(8, 8, 8, 8);
+                                //Label lbl_Description = new Label()
+                                //{
+                                //    Text = "Note :   " + gridSourcedetails[0].Field16,
+                                //    Name = "lbl_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                //    Dock = DockStyle.Fill,
+                                //    ForeColor = Color.White,
+                                //    AutoSize = true,
+                                //    BackColor = Color.Transparent,
+                                //};
+                                TextBox txt_Description = new TextBox()
+                                {
+                                    Text = "Note :   " + gridSourcedetails[0].Field16,
+                                    Name = "txt_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Dock = DockStyle.Fill,
+                                    ForeColor = Color.White,
+                                    BackColor = boxcolor,
+                                    ReadOnly = true,
+                                    Multiline = true,
+                                    ScrollBars = ScrollBars.Vertical,
+                                    BorderStyle = BorderStyle.None,
+                                    Visible = false,
+                                };
+
+                                pnldesc.Controls.Add(txt_Description);
+                                if (gridSourcedetails[0].Field16 != null && gridSourcedetails[0].Field16 != "")
+                                {
+                                    tlp_product_box.Controls.Add(pnldesc, 0, 2);
+                                    txt_Description.Visible = true;
+                                }
+                                else
+                                {
+                                    txt_Description.Visible = false;
+                                    tlp_product_box.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                                }
+
+                                #endregion
+
+                                #region Ready and Close Button,Reprint buttons Thrid Row
+                                // Sub TableLayoutPanel for Buttons
+                                TableLayoutPanel tlp_buttons = new TableLayoutPanel();
+                                tlp_buttons.Name = "tlp_buttons_k_" + orders.Field1 + gridSourcedetails[0].Field17;
+                                tlp_buttons.Dock = DockStyle.Top;
+
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                {
+                                    tlp_buttons.Height = 45;
+                                }
+                                else
+                                {
+                                    tlp_buttons.Height = 35;
+                                }
+
+                                tlp_buttons.ColumnCount = 4;
+                                tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+                                tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+                                tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+                                tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+
+                                #region start Button
+                                PictureBox pb_start = new PictureBox()
+                                {
+                                    Name = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Image = Properties.Resources.start,
+                                    SizeMode = PictureBoxSizeMode.StretchImage,
+                                    Dock = DockStyle.None,
+                                    Tag = gridSourcedetails[0].Field17,
+                                    AccessibleDescription = orders.Field1,
+                                };
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                {
+                                    pb_start.Height = 40;
+                                    pb_start.Width = 120;
+                                }
+                                else
+                                {
+                                    pb_start.Height = 30;
+                                    pb_start.Width = 80;
+                                }
+                                pb_start.Click += pbstart_Click;
+                                #endregion
+
+                                #region Ready Button
+                                PictureBox pb_ready = new PictureBox()
+                                {
+                                    Name = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Image = Properties.Resources.ready_button,
+                                    SizeMode = PictureBoxSizeMode.StretchImage,
+                                    Dock = DockStyle.None,
+                                    Tag = gridSourcedetails[0].Field17,
+                                    AccessibleDescription = orders.Field1,
+
+                                };
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                {
+                                    pb_ready.Height = 40;
+                                    pb_ready.Width = 120;
+                                }
+                                else
+                                {
+                                    pb_ready.Height = 30;
+                                    pb_ready.Width = 80;
+                                }
+                                pb_ready.Click += pbreadyfood_Click;
+                                #endregion
+
+                                #region Cancel Button
+                                PictureBox pb_cancelfood = new PictureBox()
+                                {
+                                    Name = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Image = Properties.Resources.Kitchen_Ordercancel,
+                                    SizeMode = PictureBoxSizeMode.StretchImage,
+                                    Dock = DockStyle.None,
+                                    Tag = gridSourcedetails[0].Field17,
+                                    AccessibleDescription = orders.Field1,
+                                };
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                {
+                                    pb_cancelfood.Height = 40;
+                                    pb_cancelfood.Width = 120;
+                                }
+                                else
+                                {
+                                    pb_cancelfood.Height = 30;
+                                    pb_cancelfood.Width = 80;
+                                }
+                                pb_cancelfood.Click += pbcancelfood_Click;
+                                #endregion
+
+                                #region Reprint Button
+                                PictureBox reprintbutton = new PictureBox()
+                                {
+                                    Name = "reprintbutton_k_" + orders.Field1 + gridSourcedetails[0].Field17,
+                                    Image = Properties.Resources.reprint,
+                                    SizeMode = PictureBoxSizeMode.StretchImage,
+                                    Dock = DockStyle.None,
+                                    Tag = gridSourcedetails[0].Field17,
+                                    AccessibleDescription = orders.Field1,
+                                };
+
+
+                                if (screenWidth > 1367 && screenHeight > 769)
+                                {
+                                    reprintbutton.Height = 40;
+                                    reprintbutton.Width = 120;
+                                }
+                                else
+                                {
+                                    reprintbutton.Height = 30;
+                                    reprintbutton.Width = 80;
+                                }
+                                reprintbutton.Click += reprintbutton_Click;
+                                #endregion
+
+                                if (flagstart_ready)
+                                {
+                                    pb_start.Visible = true;
+                                    pb_cancelfood.Visible = true;
+                                    pb_ready.Visible = false;
+                                }
+                                else
+                                {
+                                    pb_start.Visible = false;
+                                    pb_ready.Visible = true;
+                                    pb_cancelfood.Visible = false;
+                                }
+
+                                tlp_buttons.Controls.Add(pb_start, 0, 0);
+                                tlp_buttons.Controls.Add(pb_ready, 1, 0);
+                                tlp_buttons.Controls.Add(pb_cancelfood, 2, 0);
+                                tlp_buttons.Controls.Add(reprintbutton, 3, 0);
+
+                                // Adding Buttons TableLayoutPanel to the last row
+                                tlp_product_box.Controls.Add(tlp_buttons, 0, 3);
+                                #endregion
+
+                                if (Convert.ToInt32(gridSourcedetails[0].Field27) == 1)
+                                {
+                                    pb_start.Visible = false;
+                                    pb_ready.Visible = false;
+                                    pb_cancelfood.Visible = false;
+                                    reprintbutton.Visible = false;
+                                    if (reprintbutton != null)
+                                    {
+                                        txt_Description.Visible = true;
+                                        txt_Description.Text = "Waiting for customer confirmation.";
+                                        tlp_product_box.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                                    }
+                                }
+                                else
+                                {
+                                    if (flagstart_ready)
+                                    {
+                                        pb_start.Visible = true;
+                                        pb_cancelfood.Visible = true;
+                                        pb_ready.Visible = false;
+                                    }
+                                    else
+                                    {
+                                        pb_start.Visible = false;
+                                        pb_ready.Visible = true;
+                                        pb_cancelfood.Visible = false;
+                                    }
+                                }
+
+                                flp_order_view.Controls.Add(tlp_product_box);
+                                orderbox.Add(new datagrid
+                                {
+                                    Id = Convert.ToInt32(gridSourcedetails[0].Field8),
+                                    datagridviewname = dgv_product_details.Name,
+                                    createtime = gridSourcedetails[0].Fielddatetime
+                                });
+
+                                tlp_product_box.ResumeLayout();
+                                tlp_product_box.Visible = true;
+                                flp_order_view.ResumeLayout();
+                            }
+                            rowCountDisplay++;
+                        }
+                    }
+
+                    //timer1.Start();
+                    //refreshtimer.Start();
+                }
+                else
+                {
+                    btntotalorders.Text = "0";
+                    timer1.Stop();
+                    flp_order_view.Controls.Clear();
+                    pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Kitchen_View Page SerachTable_Pickup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+            }
+        }
     }
 }

@@ -494,5 +494,13 @@ namespace FoodandBeverage.Interfaces
         FamilyCardMaster = 4,
         EmployeeCard = 5
     }
+    public enum KitchenSearchType
+    {
+        AllOrders = 0,          // status in (1,2) and addon
+        ByTableCode = 1,        // search by table code
+        ByPkId = 2,             // search by PkId
+        ByKitchenNumber = 3     // search by KitchenNumber
+    }
+
 }
 

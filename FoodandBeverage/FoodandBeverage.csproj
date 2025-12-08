@@ -1916,6 +1916,8 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\N_refreshicon.png" />
+    <None Include="Resources\N_searchicon.png" />
     <None Include="Resources\Admin.png" />
     <None Include="Resources\RFID_1.png" />
     <None Include="Resources\N_genratecode.png" />

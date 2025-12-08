@@ -2042,6 +2042,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap N_refreshicon {
+            get {
+                object obj = ResourceManager.GetObject("N_refreshicon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap N_SEARCH {
             get {
                 object obj = ResourceManager.GetObject("N_SEARCH", resourceCulture);
@@ -2055,6 +2065,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap N_searchbutton {
             get {
                 object obj = ResourceManager.GetObject("N_searchbutton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap N_searchicon {
+            get {
+                object obj = ResourceManager.GetObject("N_searchicon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -43,6 +43,7 @@ namespace Domain
         public DateTime EndDate { get; set; }
 
         public int SearchData { get; set; }
+        public int Searchtype { get; set; }
 
     }
 }
