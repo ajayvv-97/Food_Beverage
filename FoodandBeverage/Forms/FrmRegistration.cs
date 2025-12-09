@@ -58,7 +58,7 @@ namespace FoodandBeverage.Forms
                 {
                     AppSession.RegisterForm(this, (int)LogoutFormList.operation);
                 }
-                panel1.Visible = false;
+                pnl_certview.Visible = false;
                 ActiveControl = txtname;
                 txtname.Focus();
                 FillCombo();
@@ -1389,9 +1389,9 @@ namespace FoodandBeverage.Forms
 
         private void btn_cert_upload_Click(object sender, EventArgs e)
         {
-            panel1.Visible = true;
-            panel1.Left = (this.ClientSize.Width - panel1.Width) / 2;
-            panel1.Top = (this.ClientSize.Height - panel1.Height) / 2;
+            pnl_certview.Visible = true;
+            pnl_certview.Left = (this.ClientSize.Width - pnl_certview.Width) / 2;
+            pnl_certview.Top = (this.ClientSize.Height - pnl_certview.Height) / 2;
         }
 
         private void proof1_Click(object sender, EventArgs e)
@@ -1459,7 +1459,7 @@ namespace FoodandBeverage.Forms
 
         private void btn_cert_ok__Click(object sender, EventArgs e)
         {
-            panel1.Visible = false;
+            pnl_certview.Visible = false;
         }
     }
 }
