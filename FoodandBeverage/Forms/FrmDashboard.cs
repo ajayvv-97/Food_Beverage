@@ -3060,31 +3060,31 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (System.Windows.Forms.Application.OpenForms["FrmReservation"] != null)
-                {
-                    FrmReservation _instanceFrmres = Application.OpenForms["FrmReservation"] as FrmReservation;
-                    if (_instanceFrmres.WindowState == FormWindowState.Minimized)
-                        _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    else
-                    {
-                        _instanceFrmres.Dock = DockStyle.None;
-                        ResizeForm(_instanceFrmres);
-                        panelDesktop.Controls.Add(_instanceFrmres);
-                        _instanceFrmres.Show();
-                        _instanceFrmres.BringToFront();
-                    }
-                }
-                else
-                {
-                    FrmReservation _instanceFrmres = new FrmReservation();
-                    ResizeForm(_instanceFrmres);
-                    _instanceFrmres.TopLevel = false;
-                    _instanceFrmres.Dock = DockStyle.None;
-                    panelDesktop.Controls.Add(_instanceFrmres);
-                    _instanceFrmres.Show();
-                    _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmres.BringToFront();
-                }
+                //if (System.Windows.Forms.Application.OpenForms["FrmReservation"] != null)
+                //{
+                //    FrmReservation _instanceFrmres = Application.OpenForms["FrmReservation"] as FrmReservation;
+                //    if (_instanceFrmres.WindowState == FormWindowState.Minimized)
+                //        _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                //    else
+                //    {
+                //        _instanceFrmres.Dock = DockStyle.None;
+                //        ResizeForm(_instanceFrmres);
+                //        panelDesktop.Controls.Add(_instanceFrmres);
+                //        _instanceFrmres.Show();
+                //        _instanceFrmres.BringToFront();
+                //    }
+                //}
+                //else
+                //{
+                //    FrmReservation _instanceFrmres = new FrmReservation();
+                //    ResizeForm(_instanceFrmres);
+                //    _instanceFrmres.TopLevel = false;
+                //    _instanceFrmres.Dock = DockStyle.None;
+                //    panelDesktop.Controls.Add(_instanceFrmres);
+                //    _instanceFrmres.Show();
+                //    _instanceFrmres.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                //    _instanceFrmres.BringToFront();
+                //}
             }
             catch (Exception ex)
             {
