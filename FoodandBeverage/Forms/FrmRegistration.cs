@@ -996,7 +996,7 @@ namespace FoodandBeverage.Forms
                     txtcid.Text = Convert.ToString(InsertStatus.Id);
 
                     #region certificate upload
-                    if (pb1.Image != null)
+                    if (pb1.BackgroundImage != null)
                     {
                         if (!Directory.Exists(Compressedimg))
                         {
@@ -1021,9 +1021,11 @@ namespace FoodandBeverage.Forms
                         if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
                         {
                             #region  certificate photo upload in Database
-                            if (pb1.Image != null && (empImgExt != null && empImgExt != ""))
+                           
+                           
+                            if (pb1.BackgroundImage != null && (empImgExt != null && empImgExt != ""))
                             {
-                                Bitmap bitmap = new Bitmap(Compressedimg + "\\C1.jpeg");
+                                Bitmap bitmap = new Bitmap(new Bitmap(pb1.BackgroundImage));
                                 int ePid = Convert.ToInt32(txtcid.Text);
                                 int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
                                 int Upstatus = Convert.ToInt32(1);
@@ -1033,9 +1035,9 @@ namespace FoodandBeverage.Forms
                                 clsDocument.UploadImage_Database(bitmap, ePid, ins_type, cid, Emp_branchid, Upstatus, Emp_userid);
                                 FrmDashboard.Instance.ProfilPIC_update();
                             }
-                            if (pb2.Image != null && (empImgExt != null && empImgExt != ""))
+                            if (pb2.BackgroundImage != null && (empImgExt != null && empImgExt != ""))
                             {
-                                Bitmap bitmap = new Bitmap(Compressedimg + "\\C2.jpeg");
+                                Bitmap bitmap = new Bitmap(new Bitmap(pb2.BackgroundImage));
                                 int ePid = Convert.ToInt32(txtcid.Text);
                                 int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
                                 int Upstatus = Convert.ToInt32(1);
@@ -1045,9 +1047,9 @@ namespace FoodandBeverage.Forms
                                 clsDocument.UploadImage_Database(bitmap, ePid, ins_type, cid, Emp_branchid, Upstatus, Emp_userid);
                                 FrmDashboard.Instance.ProfilPIC_update();
                             }
-                            if (pb3.Image != null && (empImgExt != null && empImgExt != ""))
+                            if (pb3.BackgroundImage != null && (empImgExt != null && empImgExt != ""))
                             {
-                                Bitmap bitmap = new Bitmap(Compressedimg + "\\C3.jpeg");
+                                Bitmap bitmap = new Bitmap(new Bitmap(pb3.BackgroundImage));
                                 int ePid = Convert.ToInt32(txtcid.Text);
                                 int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
                                 int Upstatus = Convert.ToInt32(1);
