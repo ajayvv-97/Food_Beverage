@@ -383,33 +383,42 @@ namespace FoodandBeverage.Forms
                 tlp_product_list.Location = new Point(this.ClientSize.Width / 2 - tlp_product_list.Size.Width / 2, this.ClientSize.Height / 2 - tlp_product_list.Size.Height / 2);
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch _objSearch = new DmnSearch();
-                _objSearch.Select = "p.ProductId as Id,p.Product as Field1,p.Price as Field2,p.DiscountPer as Field3,p.DiscountAmt as Field4 ,0 as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,p.ItemCode as Field8,OfferName Field9,OfferstartDatetime Field10,OfferEndDatetime Field11,fm.Omid Field12";
+                _objSearch.Select = "    P.ProductId AS Id,P.Product AS Field1,P.Price AS Field2,P.DiscountPer AS Field3,P.DiscountAmt AS Field4,0 AS Field5,C.CategoryName AS Field6,C.Fcid AS Field7,P.ItemCode AS Field8,O.OfferName AS Field9,O.OfferStartDatetime AS Field10,O.OfferEndDatetime AS Field11,O.Omid AS Field12";
                 if (fcid == 0)
                 {
-                    _objSearch.Table = "tblProduct p" +
-                        " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  " +
+                    _objSearch.Table = "tblProduct P" +
+                        " LEFT JOIN tblMenu M ON P.ProductId = M.ProductId AND M.Status = 1  " +
                         " LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid " +
-                        " left join tblOfferDetails fd on fd.ProductId=p.ProductId and fd.Status=1 " +
-                        " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime where p.Status=1 and m.Status=1  " +
-                " union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8,OfferName Field9,OfferstartDatetime Field10,OfferEndDatetime Field11,fm.Omid Field12 from " +
-                         " tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid" +
-                         " left join tblOfferDetails fd on fd.ProductId=i.ItemId and fd.Status=1 " +
-                         " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime ";
-                    _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype=1";
+                        " OUTER APPLY ( SELECT TOP 1 fm.Omid,fm.OfferName,fm.OfferStartDatetime,fm.OfferEndDatetime FROM tblOfferDetails fd JOIN tblOfferMaster fm ON fm.Omid = fd.Omid WHERE fd.ProductId = P.ProductId AND fd.Status = 1 " +
+                        " AND fm.Status = 1 AND SYSDATETIME() BETWEEN fm.OfferStartDatetime AND fm.OfferEndDatetime ORDER BY fm.OfferStartDatetime DESC) O WHERE P.Status = 1" +
+                        " union SELECT I.ItemId AS Id,I.ItemName AS Field1,0 AS Field2,0 AS Field3,0 AS Field4,I.Saletype AS Field5,C.CategoryName AS Field6,C.Fcid AS Field7,I.ItemCode_UPC AS Field8,O2.OfferName AS Field9,O2.OfferStartDatetime AS Field10,O2.OfferEndDatetime AS Field11,O2.Omid AS Field12 " +
+                        " FROM tblItem I LEFT JOIN tblCategory_FTI C ON C.Fcid = I.Fcid " +
+                        "OUTER APPLY ( SELECT TOP 1fm.Omid,fm.OfferName,fm.OfferStartDatetime,fm.OfferEndDatetime FROM tblOfferDetails fd JOIN tblOfferMaster fm ON fm.Omid = fd.Omid WHERE fd.ProductId = I.ItemId AND fd.Status = 1 AND fm.Status = 1AND SYSDATETIME() BETWEEN fm.OfferStartDatetime AND fm.OfferEndDatetime ORDER BY fm.OfferStartDatetime DESC ) O2";
+                    _objSearch.WhereNdGroupBy = "where I.Status=1 and I.Saletype=1";
                 }
                 else
                 {
-                    _objSearch.Table = "tblProduct p" +
-                        " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  " +
+                    _objSearch.Table = "tblProduct P" +
+                        " LEFT JOIN tblMenu M ON P.ProductId = M.ProductId AND M.Status = 1  " +
                         " LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid " +
-                        " left join tblOfferDetails fd on fd.ProductId=p.ProductId and fd.Status=1 " +
-                        " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime " +
-                        "where p.Status=1 and m.Status=1  and p.Fcid=" + fcid+
-                    " union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8,OfferName Field9,OfferstartDatetime Field10,OfferEndDatetime Field11,fm.Omid Field12 from " +
-                         " tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid" +
-                         " left join tblOfferDetails fd on fd.ProductId=i.ItemId and fd.Status=1 " +
-                         " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime ";
-                    _objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype= 1 and i.Fcid=" + fcid;
+                        " OUTER APPLY ( SELECT TOP 1 fm.Omid,fm.OfferName,fm.OfferStartDatetime,fm.OfferEndDatetime FROM tblOfferDetails fd JOIN tblOfferMaster fm ON fm.Omid = fd.Omid WHERE fd.ProductId = P.ProductId AND fd.Status = 1 " +
+                        " AND fm.Status = 1 AND SYSDATETIME() BETWEEN fm.OfferStartDatetime AND fm.OfferEndDatetime ORDER BY fm.OfferStartDatetime DESC) O WHERE P.Status = 1  and P.Fcid=" + fcid +
+                        " union SELECT I.ItemId AS Id,I.ItemName AS Field1,0 AS Field2,0 AS Field3,0 AS Field4,I.Saletype AS Field5,C.CategoryName AS Field6,C.Fcid AS Field7,I.ItemCode_UPC AS Field8,O2.OfferName AS Field9,O2.OfferStartDatetime AS Field10,O2.OfferEndDatetime AS Field11,O2.Omid AS Field12 " +
+                        " FROM tblItem I LEFT JOIN tblCategory_FTI C ON C.Fcid = I.Fcid " +
+                        "OUTER APPLY ( SELECT TOP 1fm.Omid,fm.OfferName,fm.OfferStartDatetime,fm.OfferEndDatetime FROM tblOfferDetails fd JOIN tblOfferMaster fm ON fm.Omid = fd.Omid WHERE fd.ProductId = I.ItemId AND fd.Status = 1 AND fm.Status = 1 AND SYSDATETIME() BETWEEN fm.OfferStartDatetime AND fm.OfferEndDatetime ORDER BY fm.OfferStartDatetime DESC ) O2";
+                    _objSearch.WhereNdGroupBy = "where I.Status=1 and I.Saletype=1 and I.Fcid=" + fcid;
+
+                    //_objSearch.Table = "tblProduct p" +
+                    //    " LEFT JOIN tblMenu m ON p.ProductId=m.ProductId  " +
+                    //    " LEFT JOIN tblCategory_FTI  c ON c.Fcid=p.Fcid " +
+                    //    " left join tblOfferDetails fd on fd.ProductId=p.ProductId and fd.Status=1 " +
+                    //    " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime " +
+                    //    "where p.Status=1 and m.Status=1  and p.Fcid=" + fcid+
+                    //" union select  itemid as Id,itemname as Field1,0 Field2,0 as Field3,0 as Field4,Saletype as Field5,c.CategoryName as Field6 ,c.Fcid as Field7,i.ItemCode_UPC as Field8,OfferName Field9,OfferstartDatetime Field10,OfferEndDatetime Field11,fm.Omid Field12 from " +
+                    //     " tblItem i LEFT JOIN tblCategory_FTI  c ON c.Fcid=i.Fcid" +
+                    //     " left join tblOfferDetails fd on fd.ProductId=i.ItemId and fd.Status=1 " +
+                    //     " left join tblOfferMaster fm on fm.Omid = fd.Omid and fm.Status = 1 and SYSDATETIME() > fm.OfferstartDatetime  and SYSDATETIME() < fm.OfferEndDatetime ";
+                    //_objSearch.WhereNdGroupBy = "where i.Status=1 and i.Saletype= 1 and i.Fcid=" + fcid;
                 }
                 _objSearch.OrderBy = "";
                 var Datasource = bllSearch.GetSearchData("prdSearch", _objSearch);
