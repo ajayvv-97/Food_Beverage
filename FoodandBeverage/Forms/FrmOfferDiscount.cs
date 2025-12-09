@@ -461,29 +461,49 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Discount_And_Offer page ProductPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Discount_And_Offer));
             }
         }
-        public void CheckOffer_product_Date()
+        public bool CheckOffer_product_Date()
         {
             try
             {
-                DateTime offerdatetime_start = dtp_from_date_s.Value.Date + dtp_from_time_s.Value.TimeOfDay;
-                DateTime offerdatetime_end = dtp_to_date_s.Value.Date + dtp_to_time_s.Value.TimeOfDay;
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "*";
-                objSearch.Table = "tblOfferDetails fd left join tblOfferMaster fm on fm.Omid=fd.Omid";
-                objSearch.WhereNdGroupBy = "where fm.Status = 1 and ProductId = " + pid + " and offertype = 0  and  (SELECT CONVERT(datetime, '" + offerdatetime_start + "', 105))  > fm.OfferstartDatetime and (SELECT CONVERT(datetime, '" + offerdatetime_end + "', 105))  < fm.OfferEndDatetime ";
-                objSearch.OrderBy = "";
-                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (itemSource.Count > 0)
+                if (Convert.ToInt32(txtomid.Text) == 0)
                 {
-                    CMessageBox.Show("offer Already Running On This Product ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DateTime offerdatetime_start = dtp_from_date_s.Value.Date + dtp_from_time_s.Value.TimeOfDay;
+                    DateTime offerdatetime_end = dtp_to_date_s.Value.Date + dtp_to_time_s.Value.TimeOfDay;
+
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch objSearch = new DmnSearch();
+
+                    objSearch.Select = "*";
+                    objSearch.Table = "tblOfferDetails fd left join tblOfferMaster fm on fm.Omid=fd.Omid";
+                    objSearch.WhereNdGroupBy =
+                        "where fm.Status = 1 " +
+                        " and offertype = 0 and '" + offerdatetime_start +
+                        "' > fm.OfferstartDatetime and '" + offerdatetime_end +
+                        "' < fm.OfferEndDatetime";
+
+                    objSearch.OrderBy = "";
+
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+
+                    if (itemSource.Count > 0)
+                    {
+                        CMessageBox.Show("offer Already Running On This Duration",
+                            "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return false;
+                    }
+
+                    return true;
                 }
+
+                // If txtomid.Text == 0, return true (or false based on your logic)
+                return true;
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Discount_And_Offer page CheckOffer_product_Date()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Discount_And_Offer));
+                clsgen.LogException("Discount_And_Offer page CheckOffer_product_Date()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Discount_And_Offer));
 
+                return false;   // Always return something in catch
             }
         }
 
@@ -804,7 +824,7 @@ namespace FoodandBeverage.Forms
                 if (tlp_single_main.Visible)
                 {
                     if (MandatoryCheck_single())
-                    {
+                    { 
                         DmnOfferMaster dmnOffermaster = new DmnOfferMaster();
                         DmnOfferMaster InsertStatusM = new DmnOfferMaster();
                         BllOffer bllmaster = new BllOffer();
@@ -1079,7 +1099,15 @@ namespace FoodandBeverage.Forms
                     txtofferdsiper_s.Focus();
                     return false;
                 }
-                return true;
+                else if(!CheckOffer_product_Date())
+                {
+                    return false;  
+                }
+                else
+                {
+                    return true;
+                }
+                
             }
             catch (Exception ex)
             {
