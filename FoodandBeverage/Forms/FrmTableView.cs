@@ -473,6 +473,7 @@ namespace FoodandBeverage.Forms
                         BackColor = Color.Yellow,
                         Margin = new Padding(0),
                         Padding = new Padding(0),
+                        AccessibleName = "0",
                     };
                     tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 70));  // Table Name
                     tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 30));  // Net Amount
@@ -487,6 +488,7 @@ namespace FoodandBeverage.Forms
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
                         ForeColor = Convert.ToInt32(pagedatadata[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor,
+                        AccessibleName = "0",
                     };
 
                     Label netamountlabel = new Label
@@ -499,7 +501,8 @@ namespace FoodandBeverage.Forms
                         Font = new Font(this.Font, FontStyle.Bold),
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
-                        Visible = false
+                        Visible = false,
+                        AccessibleName = "0",
                     };
 
                     tlp_table_inner.AccessibleDescription = "0";
@@ -585,7 +588,6 @@ namespace FoodandBeverage.Forms
                             else
                                 tlp_table_inner.BackColor = OrderColor;
                         }
-
                     }
                     #endregion
 
@@ -682,7 +684,27 @@ namespace FoodandBeverage.Forms
                     }
                     #endregion
 
-                    
+                    if (Convert.ToInt32(pagedatadata[i].Field9) == 1)
+                    {
+                        tlp_table_inner.BackColor = CancelProduct_order;
+                        netamountlabel.TextAlign = ContentAlignment.TopRight;
+                        netamountlabel.Text = "Cancelled by Kitchen";
+                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
+                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
+                        netamountlabel.Visible = true;
+                    }
+                    else
+                    {
+                        netamountlabel.Visible = false;
+                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                        netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+                        //if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
+                        //    tlp_table_inner.BackColor = BillingColor;
+                        //else
+                        tlp_table_inner.BackColor = DefaultColor;
+                    }
+
                     lbltablename.Click += tableClickEventHandler;
                     pnl_container.Click += tableClickEventHandler;
                     netamountlabel.Click += tableClickEventHandler;
@@ -769,7 +791,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 for (int i = 0; i < pagedatadata.Count; i++)
                 {
-                    ///Panel pnlcont = this.Controls.Find("pnl_container" + gridSource[i].Field4, true).FirstOrDefault() as Panel;
+                    Panel pnlcont = this.Controls.Find("pnl_container" + pagedatadata[i].Field4, true).FirstOrDefault() as Panel;
                     TableLayoutPanel tlp_table_inner = this.Controls.Find("tlp_table_inner" + pagedatadata[i].Field4, true).FirstOrDefault() as TableLayoutPanel;
                     Label lbltablename = this.Controls.Find("lbtablename" + pagedatadata[i].Field4, true).FirstOrDefault() as Label;
                     Label netamountlabel = this.Controls.Find("lb_netamount" + pagedatadata[i].Field4, true).FirstOrDefault() as Label;
@@ -829,6 +851,8 @@ namespace FoodandBeverage.Forms
                             else
                                 tlp_table_inner.BackColor = OrderColor;
                         }
+
+              
 
                     }
                     #endregion
@@ -946,6 +970,34 @@ namespace FoodandBeverage.Forms
                         lbltablename.AccessibleDescription = "0";
                     }
 
+                    if (Convert.ToInt32(pagedatadata[i].Field9) == 1)
+                    {
+                        tlp_table_inner.BackColor = CancelProduct_order;
+                        netamountlabel.TextAlign = ContentAlignment.TopRight;
+                        netamountlabel.Text = "Cancelled by Kitchen";
+                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
+                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
+                        netamountlabel.Visible = true;
+
+                        lbltablename.AccessibleName ="1";
+                        pnlcont.AccessibleName = "1";
+                        netamountlabel.AccessibleName = "1";
+                    }
+                    else
+                    {
+                        lbltablename.AccessibleName = "0";
+                        pnlcont.AccessibleName = "0";
+                        netamountlabel.AccessibleName = "0";
+
+                        netamountlabel.Visible = false;
+                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                        netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+                        //if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
+                        //    tlp_table_inner.BackColor = BillingColor;
+                        //else
+                        tlp_table_inner.BackColor = DefaultColor;
+                    }
                 }
 
                 //initTimer();
@@ -1012,6 +1064,7 @@ namespace FoodandBeverage.Forms
                 CheckedtableNames.Clear();
                 Control clickedControl = sender as Control;
                 string textvalue = clickedControl.AccessibleDescription;
+                int Cancelorderstatus = Convert.ToInt32(clickedControl.AccessibleName);
                 string[] parts = textvalue.Split(',');
                 string bmasterid = "";
                 int Btype = 0;
@@ -1049,7 +1102,7 @@ namespace FoodandBeverage.Forms
                             int tagValue;
                             if (clickedControl.Tag != null)
                             {
-                                using (FrmOrderConsole memtest = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+                                using (FrmOrderConsole memtest = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage), Cancelorderstatus))
                                 {
                                     memtest.ShowDialog();
                                 }

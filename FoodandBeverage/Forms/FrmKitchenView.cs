@@ -1247,8 +1247,14 @@ namespace FoodandBeverage.Forms
                 {
                     btntotalorders.Text = "0";
                     timer1.Stop();
+                    foreach (Control ctrl in flp_order_view.Controls)
+                    {
+                        ctrl.Dispose();
+                    }
+
                     flp_order_view.Controls.Clear();
-                    pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
+
+                    // pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
                 }
                 SetEmptyIcon();
                 #endregion
@@ -1772,8 +1778,6 @@ namespace FoodandBeverage.Forms
         //    }
         //}
 
-
-
         private void dgv_product_details_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -2090,7 +2094,6 @@ namespace FoodandBeverage.Forms
                 GC.WaitForPendingFinalizers();
             }
         }
-
         private void reprintbutton_Click(object sender, EventArgs e)
         {
             ReprintOrderNo = 0;
@@ -2259,7 +2262,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View pbstart_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
-
         private void pbreadyfood_Click(object sender, EventArgs e)
         {
             try
@@ -2341,7 +2343,6 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
         private void txt_product_remove_des_Enter(object sender, EventArgs e)
         {
             if (txt_product_remove_des.Text == "Reason type here .....")
@@ -2350,7 +2351,6 @@ namespace FoodandBeverage.Forms
             }
             txt_product_remove_des.ForeColor = Color.Black;
         }
-
         private void txt_product_remove_des_Leave(object sender, EventArgs e)
         {
             if (txt_product_remove_des.Text == "")
@@ -2360,7 +2360,6 @@ namespace FoodandBeverage.Forms
             }
             txt_product_remove_des.ForeColor = Color.DarkGray;
         }
-
         private void btn_cancel_product_des_Click(object sender, EventArgs e)
         {
             tlp_main.Enabled = true;
@@ -2368,7 +2367,6 @@ namespace FoodandBeverage.Forms
             txt_product_remove_des.Text = "Reason type here .....";
             refreshtimer.Start();
         }
-
         private void btn_close_prod_des_Click(object sender, EventArgs e)
         {
             tlp_main.Enabled = true;
@@ -2542,7 +2540,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View btn_rem_product_des_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
@@ -2591,7 +2588,6 @@ namespace FoodandBeverage.Forms
                     return "Enter Value...";
             }
         }
-
         private void txtorderid_search_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtsearchData.Text))
@@ -2600,8 +2596,6 @@ namespace FoodandBeverage.Forms
                 txtsearchData.ForeColor = Color.DarkGray;
             }
         }
-
-
         private void txtorderid_search_Enter(object sender, EventArgs e)
         {
             string placeholder = GetPlaceholder();
@@ -2612,8 +2606,6 @@ namespace FoodandBeverage.Forms
                 txtsearchData.ForeColor = Color.Black;
             }
         }
-
-
         private void txtorderid_search_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r') // Check for Enter key
@@ -2626,7 +2618,6 @@ namespace FoodandBeverage.Forms
                 e.Handled = true;
             }
         }
-
         private void txtorderid_search_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -2641,8 +2632,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View txtorderid_search_KeyDown", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
-
-
         private void btn_refresh_Click(object sender, EventArgs e)
         {
             try
@@ -2669,7 +2658,6 @@ namespace FoodandBeverage.Forms
                 );
             }
         }
-
         private void pnl_products_rem_descr_Paint(object sender, PaintEventArgs e)
         {
             try
@@ -2694,7 +2682,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View pnl_products_rem_descr_Paint", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
-
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             switch (keyData)
@@ -2722,13 +2709,11 @@ namespace FoodandBeverage.Forms
                     return base.ProcessCmdKey(ref msg, keyData);
             }
         }
-
         private void btn_close_viewmore_Click(object sender, EventArgs e)
         {
             tlp_main.Enabled = true;
             pnlproductviewmore.Visible = false;
         }
-
         private void FrmKitchenView_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
@@ -2746,7 +2731,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View FrmKitchenView_FormClosing", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
-
         private void flp_order_view_Scroll(object sender, ScrollEventArgs e)
         {
             try
@@ -2760,7 +2744,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View flp_order_view_Scroll", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
-
         private void txtdisplaycount_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r') // Check for Enter key
@@ -2773,13 +2756,11 @@ namespace FoodandBeverage.Forms
                 e.Handled = true;
             }
         }
-
         private void btn_viewmore_order_Click(object sender, EventArgs e)
         {
             KitchenDisplayCount = 25;
             btn_viewmore_order.Visible = false;
         }
-
         private void blinkTimer_Tick(object sender, EventArgs e)
         {
             try
@@ -2792,7 +2773,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Kitchen_View blinkTimer_Tick", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
-
         private void btnprintcount_Click(object sender, EventArgs e)
         {
             if (refreshtimer.Enabled)
@@ -4051,8 +4031,13 @@ namespace FoodandBeverage.Forms
                 {
                     btntotalorders.Text = "0";
                     timer1.Stop();
+                    foreach (Control ctrl in flp_order_view.Controls)
+                    {
+                        ctrl.Dispose();
+                    }
+
                     flp_order_view.Controls.Clear();
-                    pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
+                    // pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
                 }
 
                 SetEmptyIcon();

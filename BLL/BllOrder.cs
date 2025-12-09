@@ -250,6 +250,19 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnOrderMaster OrderCancelNotify_update(string procedureName, DmnOrderMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
+            parms.Add("KitchenCancelStatus", objTestClass.KitchenCancelStatus);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("PkId", objTestClass.PkId);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
         public DmnOrderMaster Remove_order_orderview(string procedureName, DmnOrderMaster objTestClass)
         {
             DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();

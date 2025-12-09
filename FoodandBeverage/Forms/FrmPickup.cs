@@ -1099,7 +1099,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (clickedControl.Tag != null)
                         {
-                            using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage)))
+                            using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage),0))
                             {
                                 _instanceFrmOrder.ShowDialog();
                             }
@@ -1138,7 +1138,7 @@ namespace FoodandBeverage.Forms
                 {
                     using (FrmOrderConsole frm = new FrmOrderConsole(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0,
                                    CheckedtableNames, Convert.ToInt32(PageType.Billpage),
-                                   0, Convert.ToInt32(SourcepageType.Pickuppage)))
+                                   0, Convert.ToInt32(SourcepageType.Pickuppage),0))
                     {
                         frm.ShowDialog();
                     }

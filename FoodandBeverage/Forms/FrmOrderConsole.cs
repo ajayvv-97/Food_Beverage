@@ -29,6 +29,7 @@ namespace FoodandBeverage.Forms
         public int PageType = 0;
         public int OmId = 0;
         public int sourcepage = 0;
+        public int OrderCancelStatus = 0;
         private List<DmnNameList> checkedtableNames;
 
         ClsDocument clsDocument = new ClsDocument();
@@ -268,8 +269,7 @@ namespace FoodandBeverage.Forms
             public int BillNumber { get; set; }
         }
         #endregion
-
-        public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype)
+        public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype,int cdstatus)
         {
             tableId = tid;
             sourcepage = sourcepagetype;
@@ -278,6 +278,7 @@ namespace FoodandBeverage.Forms
             PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
             OmId = Ordermasterid;
+            OrderCancelStatus = cdstatus;
 
             InitializeComponent();
 
@@ -371,14 +372,27 @@ namespace FoodandBeverage.Forms
             #region BookingType Checking [Normalorder ,Reverse_overtime_Cancel , CombinedOrderBill,Pickup Order]
             if (BookingType == Convert.ToInt32(DashboardTableType.Normalorder))
             {
+                if (OrderCancelStatus == 1)
+                {
+                    btncancelnotify.Visible = true;
+                }
+                else
+                    btncancelnotify.Visible = false;
+
                 CheckRe_order();
                 ChecktablekitchenCancel();
             }
-
             else if (BookingType == Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel))
                 CheckRe_Bookingorder();
             else if (BookingType == Convert.ToInt32(DashboardTableType.CombinedOrderBill))
             {
+                if (OrderCancelStatus == 1)
+                {
+                    btncancelnotify.Visible = true;
+                }
+                else
+                    btncancelnotify.Visible = false;
+
                 combined_Status = true;
                 //Btnpartpayment.Visible = false;
                 //btn_splitpayment.Visible = false;
@@ -8799,6 +8813,27 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 return string.Empty;
             }
         }
+
+        private void btncancelnotify_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                BllOrder bll_order = new BllOrder();
+                dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                dmnRemove_order.OrderDetailsId = 0;
+                dmnRemove_order.KitchenCancelStatus = 0;
+                dmnRemove_order.PkId = 1;
+                dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                var InsertStatusP = bll_order.OrderCancelNotify_update("prd_CompleteCancelNotifyStatus_update", dmnRemove_order);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btncancelnotify_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order)); // Replace 'YourFormType' with the appropriate form type
+            }
+        }
+
         private void btn_midascard_Click(object sender, EventArgs e)
         {
             //UIHelper.CenterAndResize(pnl_cardAcoount, 30, 25);
