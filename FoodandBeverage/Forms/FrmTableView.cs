@@ -461,6 +461,7 @@ namespace FoodandBeverage.Forms
                         BorderStyle = BorderStyle.None,
                         Width = 140,
                         Height = 110,
+                        AccessibleName = "0",
                     };
 
                     TableLayoutPanel tlp_table_inner = new TableLayoutPanel
@@ -686,8 +687,12 @@ namespace FoodandBeverage.Forms
 
                     if (Convert.ToInt32(pagedatadata[i].Field9) == 1)
                     {
+                        tlp_table_inner.AccessibleName = "1";
+                        lbltablename.AccessibleName = "1";
+                        netamountlabel.AccessibleName = "1";
+
                         tlp_table_inner.BackColor = CancelProduct_order;
-                        netamountlabel.TextAlign = ContentAlignment.TopRight;
+                        netamountlabel.TextAlign = ContentAlignment.TopLeft;
                         netamountlabel.Text = "Cancelled by Kitchen";
                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
@@ -695,6 +700,10 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
+                        tlp_table_inner.AccessibleName = "0";
+                        lbltablename.AccessibleName = "0";
+                        netamountlabel.AccessibleName = "0";
+
                         netamountlabel.Visible = false;
                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
@@ -714,7 +723,7 @@ namespace FoodandBeverage.Forms
                 }
                 flp_tableview.ResumeLayout();
                 clsgen.Memoryrelease();
-                //initTimer();
+                initTimer();
             }
             catch (Exception ex)
             {
@@ -973,7 +982,7 @@ namespace FoodandBeverage.Forms
                     if (Convert.ToInt32(pagedatadata[i].Field9) == 1)
                     {
                         tlp_table_inner.BackColor = CancelProduct_order;
-                        netamountlabel.TextAlign = ContentAlignment.TopRight;
+                        netamountlabel.TextAlign = ContentAlignment.TopLeft;
                         netamountlabel.Text = "Cancelled by Kitchen";
                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 50);

@@ -41,8 +41,9 @@ namespace Domain
         public string OtherDedText { get; set; }
         public int PickupOrderFlag { get; set; }
         public int PkId { get; set; }
-      
-        
+            
+
+
     }
 
 }

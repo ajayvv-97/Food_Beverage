@@ -256,7 +256,8 @@ namespace BLL
             DynamicParameters parms = new DynamicParameters();
             parms.Add("OrderMasterId", objTestClass.OrderMasterId);
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
-            parms.Add("KitchenCancelStatus", objTestClass.KitchenCancelStatus);
+            parms.Add("SalesMasterId", objTestClass.SalesMasterId);
+            parms.Add("Tid", objTestClass.Tid);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("PkId", objTestClass.PkId);

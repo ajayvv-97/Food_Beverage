@@ -375,6 +375,18 @@ namespace FoodandBeverage.Forms
                 if (OrderCancelStatus == 1)
                 {
                     btncancelnotify.Visible = true;
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnSearch = new DmnSearch();
+                    dmnSearch.Select = "OrderMasterId Field1,SalesMasterId Field2,PkId Field3";
+                    dmnSearch.Table = "tblOrderMaster";
+                    dmnSearch.WhereNdGroupBy = "WHERE Status=0 and tid = " + tableId;
+                    dmnSearch.OrderBy = " order by OrderMasterId desc";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    dgv_ordercancel.Rows.Clear();
+                    if (gridSource.Count > 0)
+                    {
+                        txtordermasterid.Text = gridSource[0].Field1;
+                    }
                 }
                 else
                     btncancelnotify.Visible = false;
@@ -405,6 +417,26 @@ namespace FoodandBeverage.Forms
             }
             else if (BookingType == Convert.ToInt32(DashboardTableType.PickupOrder))
             {
+                if (OrderCancelStatus == 1)
+                {
+                    btncancelnotify.Visible = true;
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnSearch = new DmnSearch();
+                    dmnSearch.Select = "OrderMasterId Field1,SalesMasterId Field2,PkId Field3";
+                    dmnSearch.Table = "tblOrderMaster";
+                    dmnSearch.WhereNdGroupBy = "WHERE Status=0 and OrderMasterId = " + OmId;
+                    dmnSearch.OrderBy = " order by OrderMasterId desc";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    dgv_ordercancel.Rows.Clear();
+                    if (gridSource.Count > 0)
+                    {
+                        txtordermasterid.Text = gridSource[0].Field1;
+                        txtsalemasterid.Text = gridSource[0].Field2;
+                    }
+                }
+                else
+                    btncancelnotify.Visible = false;
+
                 CheckRe_Pickuporder();
                 CheckPickupkitchenCancel();
             }
@@ -2562,56 +2594,62 @@ namespace FoodandBeverage.Forms
                 btn_frm_close.Visible = true;
                 int rowToRemove = 0;
                 List<int> columnsToRemove = new List<int> { 1, 2, 3 };
-
-                if (typeno == 1)
+                if (OrderCancelStatus == 0)
                 {
-                    btn_frm_close.Dock = DockStyle.Left;
-                    btn_saveKOT.Visible = true;
-                    btn_savekot_print.Visible = false;
-                    btn_print_bill.Visible = false;
-                    btn_promo_code.Visible = false;
-                    btn_PrintCopy.Visible = false;
-                    if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                    if (typeno == 1)
                     {
-                        btndirectpaybill.Visible = true;
-                        btn_savekot_print.Visible = true;
-                        btn_saveKOT.Visible = false;
-                        btn_promo_code.Visible = true;
-                    }
-                }
-                else if (typeno == 2)
-                {
-                    btn_frm_close.Dock = DockStyle.Left;
-                    btn_saveKOT.Visible = false;
-                    btn_savekot_print.Visible = false;
-                    btn_print_bill.Visible = true;
-                    btn_PrintCopy.Visible = true;
-                    btn_promo_code.Visible = true;
-                    btndirectpaybill.Visible = true;
-                    btn_entire_desc.Visible = false;
-                    if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
-                    {
-                        btndirectpaybill.Visible = false;
-                    }
-                    else if (sourcepage == Convert.ToInt32(SourcepageType.Billingpage))
-                    {
-                        btndirectpaybill.Visible = false;
+                        btn_frm_close.Dock = DockStyle.Left;
+                        btn_saveKOT.Visible = true;
                         btn_savekot_print.Visible = false;
                         btn_print_bill.Visible = false;
+                        btn_promo_code.Visible = false;
                         btn_PrintCopy.Visible = false;
+                        if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                        {
+                            btndirectpaybill.Visible = true;
+                            btn_savekot_print.Visible = true;
+                            btn_saveKOT.Visible = false;
+                            btn_promo_code.Visible = true;
+                        }
+                    }
+                    else if (typeno == 2)
+                    {
+                        btn_frm_close.Dock = DockStyle.Left;
+                        btn_saveKOT.Visible = false;
+                        btn_savekot_print.Visible = false;
+                        btn_print_bill.Visible = true;
+                        btn_PrintCopy.Visible = true;
+                        btn_promo_code.Visible = true;
+                        btndirectpaybill.Visible = true;
+                        btn_entire_desc.Visible = false;
+                        if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                        {
+                            btndirectpaybill.Visible = false;
+                        }
+                        else if (sourcepage == Convert.ToInt32(SourcepageType.Billingpage))
+                        {
+                            btndirectpaybill.Visible = false;
+                            btn_savekot_print.Visible = false;
+                            btn_print_bill.Visible = false;
+                            btn_PrintCopy.Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        btn_frm_close.Dock = DockStyle.Left;
+                        btn_saveKOT.Visible = false;
+                        btn_savekot_print.Visible = false;
+                        btn_print_bill.Visible = false;
+                        btn_promo_code.Visible = false;
+                        btn_entire_desc.Visible = false;
+                        btn_PrintCopy.Visible = false;
+                        btndirectpaybill.Visible = false;
+
                     }
                 }
                 else
                 {
                     btn_frm_close.Dock = DockStyle.Left;
-                    btn_saveKOT.Visible = false;
-                    btn_savekot_print.Visible = false;
-                    btn_print_bill.Visible = false;
-                    btn_promo_code.Visible = false;
-                    btn_entire_desc.Visible = false;
-                    btn_PrintCopy.Visible = false;
-                    btndirectpaybill.Visible = false;
-
                 }
             }
             catch (Exception ex)
@@ -8821,12 +8859,18 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
                 BllOrder bll_order = new BllOrder();
                 dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                dmnRemove_order.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
                 dmnRemove_order.OrderDetailsId = 0;
-                dmnRemove_order.KitchenCancelStatus = 0;
-                dmnRemove_order.PkId = 1;
+                dmnRemove_order.Tid = tableId;
+                dmnRemove_order.PkId = Pickup_ID;
                 dmnRemove_order.CreatedBy = FrmDashboard.UserId;
                 dmnRemove_order.BranchId = FrmDashboard.BranchId;
                 var InsertStatusP = bll_order.OrderCancelNotify_update("prd_CompleteCancelNotifyStatus_update", dmnRemove_order);
+                if(InsertStatusP!=null)
+                {
+                    if (tableId > 0)
+                        OrderCancelStatus = 0;
+                }
             }
             catch (Exception ex)
             {
