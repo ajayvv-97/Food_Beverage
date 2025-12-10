@@ -7305,6 +7305,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         dmnsalemaster.FMCardType = 0;
                                     }
                                     dmnsalemaster.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                    dmnsalemaster.DBname = GameDB;
                                     if (decimal.TryParse(payment.PartAmount, out decimal amt))
                                     {
                                         dmnsalemaster.PartAmount = amt.ToString("0.##");
@@ -7314,7 +7315,17 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 }
                             }
                             #endregion
-
+                            #region Midascard
+                            if (payid == Convert.ToInt32(PaymentType.MidasCard))
+                            {
+                                dmnsalemaster.DebitLedgerId = DebitCustomerId;
+                                dmnsalemaster.DebitICardNo = DebitCardNumber;
+                                dmnsalemaster.CardType = CardTypeno;
+                                dmnsalemaster.FMCardType = Fmcardtypeno;
+                                dmnsalemaster.DBname = GameDB;
+                                var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                            }
+                            #endregion
 
                             for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                             {
@@ -7623,6 +7634,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                             dmnsalemaster.FMCardType = 0;
                                         }
                                         dmnsalemaster.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                        dmnsalemaster.DBname = GameDB;
                                         if (decimal.TryParse(payment.PartAmount, out decimal amt))
                                         {
                                             dmnsalemaster.PartAmount = amt.ToString("0.##");
@@ -7631,6 +7643,17 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         var InsertStatus1 = bllSales.AddEditSplit("prdInsert_PartPaymentDetails", dmnsalemaster);
                                     }
                                 }
+                                #region Midascard
+                                if (payid == Convert.ToInt32(PaymentType.MidasCard))
+                                {
+                                    dmnsalemaster.DebitLedgerId = DebitCustomerId;
+                                    dmnsalemaster.DebitICardNo = DebitCardNumber;
+                                    dmnsalemaster.CardType = CardTypeno;
+                                    dmnsalemaster.FMCardType = Fmcardtypeno;
+                                    dmnsalemaster.DBname = GameDB;
+                                    var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                }
+                                #endregion
                                 #endregion
 
 
@@ -8243,6 +8266,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                 dmnsalemaster.FMCardType = 0;
                                             }
                                             dmnsalemaster.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                            dmnsalemaster.DBname = GameDB;
                                             if (decimal.TryParse(payment.PartAmount, out decimal amt))
                                             {
                                                 dmnsalemaster.PartAmount = amt.ToString("0.##");
@@ -8252,7 +8276,17 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         }
                                     }
                                     #endregion
-
+                                    #region Midascard
+                                    if (payid == Convert.ToInt32(PaymentType.MidasCard))
+                                    {
+                                        dmnsalemaster.DebitLedgerId = DebitCustomerId;
+                                        dmnsalemaster.DebitICardNo = DebitCardNumber;
+                                        dmnsalemaster.CardType = CardTypeno;
+                                        dmnsalemaster.FMCardType = Fmcardtypeno;
+                                        dmnsalemaster.DBname = GameDB;
+                                        var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                    }
+                                    #endregion
 
                                     for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                                     {
@@ -8428,6 +8462,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                 dmnsalemaster.FMCardType = 0;
                                             }
                                             dmnsalemaster.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                            dmnsalemaster.DBname = GameDB;
                                             if (decimal.TryParse(payment.PartAmount, out decimal amt))
                                             {
                                                 dmnsalemaster.PartAmount = amt.ToString("0.##");
@@ -8436,6 +8471,17 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                             var InsertStatus1 = bllSales.AddEditSplit("prdInsert_PartPaymentDetails", dmnsalemaster);
                                         }
                                     }
+                                    #region Midascard
+                                    if (payid == Convert.ToInt32(PaymentType.MidasCard))
+                                    {
+                                        dmnsalemaster.DebitLedgerId = DebitCustomerId;
+                                        dmnsalemaster.DebitICardNo = DebitCardNumber;
+                                        dmnsalemaster.CardType = CardTypeno;
+                                        dmnsalemaster.FMCardType = Fmcardtypeno;
+                                        dmnsalemaster.DBname = GameDB;
+                                        var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                    }
+                                    #endregion
                                     #endregion
                                     if (gridSourcemaster.Count > 0)
                                     {
