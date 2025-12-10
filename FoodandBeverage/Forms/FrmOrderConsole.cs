@@ -7421,7 +7421,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 ResetBillpage();
                                 this.Close();
                             }
-                            else if (payid != 12)
+                            else
                             {
                                 FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
                                 frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
@@ -7601,6 +7601,38 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     }
                                 }
                                 #endregion
+                                #region To Save partpayment Table 
+                                if (payid == Convert.ToInt32(PaymentType.SPLIT))
+                                {
+                                    foreach (var payment in partPayments)
+                                    {
+                                        dmnsalemaster.PartPayId = payment.PartPayId;
+                                        dmnsalemaster.FormType = Convert.ToInt32(TapType.FandBPayment);
+                                        if (Convert.ToInt32(dmnsalemaster.PartPayId) == Convert.ToInt32(PaymentType.MidasCard))
+                                        {
+                                            dmnsalemaster.DebitLedgerId = DebitCustomerId;
+                                            dmnsalemaster.DebitICardNo = DebitCardNumber;
+                                            dmnsalemaster.CardType = CardTypeno;
+                                            dmnsalemaster.FMCardType = Fmcardtypeno;
+                                        }
+                                        else
+                                        {
+                                            dmnsalemaster.DebitLedgerId = 0;
+                                            dmnsalemaster.DebitICardNo = null;
+                                            dmnsalemaster.CardType = 0;
+                                            dmnsalemaster.FMCardType = 0;
+                                        }
+                                        dmnsalemaster.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                        if (decimal.TryParse(payment.PartAmount, out decimal amt))
+                                        {
+                                            dmnsalemaster.PartAmount = amt.ToString("0.##");
+                                        }
+
+                                        var InsertStatus1 = bllSales.AddEditSplit("prdInsert_PartPaymentDetails", dmnsalemaster);
+                                    }
+                                }
+                                #endregion
+
 
                                 if (dgv_combined.RowCount > 0)
                                 {
@@ -7694,8 +7726,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 }
                                 if (dgv_combined.RowCount == countflag)
                                 {
-                                    if (payid != 12)
-                                    {
+                                    //if (payid != 12)
+                                    //{
                                         FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
                                         frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                         frmSalesInvoice.ShowDialog();
@@ -7709,7 +7741,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         ResetBillpage();
                                         //ClearAll();
                                         this.Close();
-                                    }
+                                    //}
                                 }
 
                             }
@@ -8189,6 +8221,38 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                             var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                                         }
                                     }
+                                    #region To Save partpayment Table 
+                                    if (payid == Convert.ToInt32(PaymentType.SPLIT))
+                                    {
+                                        foreach (var payment in partPayments)
+                                        {
+                                            dmnsalemaster.PartPayId = payment.PartPayId;
+                                            dmnsalemaster.FormType = Convert.ToInt32(TapType.FandBPayment);
+                                            if (Convert.ToInt32(dmnsalemaster.PartPayId) == Convert.ToInt32(PaymentType.MidasCard))
+                                            {
+                                                dmnsalemaster.DebitLedgerId = DebitCustomerId;
+                                                dmnsalemaster.DebitICardNo = DebitCardNumber;
+                                                dmnsalemaster.CardType = CardTypeno;
+                                                dmnsalemaster.FMCardType = Fmcardtypeno;
+                                            }
+                                            else
+                                            {
+                                                dmnsalemaster.DebitLedgerId = 0;
+                                                dmnsalemaster.DebitICardNo = null;
+                                                dmnsalemaster.CardType = 0;
+                                                dmnsalemaster.FMCardType = 0;
+                                            }
+                                            dmnsalemaster.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                            if (decimal.TryParse(payment.PartAmount, out decimal amt))
+                                            {
+                                                dmnsalemaster.PartAmount = amt.ToString("0.##");
+                                            }
+
+                                            var InsertStatus1 = bllSales.AddEditSplit("prdInsert_PartPaymentDetails", dmnsalemaster);
+                                        }
+                                    }
+                                    #endregion
+
 
                                     for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                                     {
@@ -8297,7 +8361,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         ResetBillpage();
                                         this.Close();
                                     }
-                                    else if (payid != 12)
+                                    else
                                     {
                                         using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno))
                                         {
@@ -8342,6 +8406,37 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                             var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                                         }
                                     }
+                                    #region To Save partpayment Table 
+                                    if (payid == Convert.ToInt32(PaymentType.SPLIT))
+                                    {
+                                        foreach (var payment in partPayments)
+                                        {
+                                            dmnsalemaster.PartPayId = payment.PartPayId;
+                                            dmnsalemaster.FormType = Convert.ToInt32(TapType.FandBPayment);
+                                            if (Convert.ToInt32(dmnsalemaster.PartPayId) == Convert.ToInt32(PaymentType.MidasCard))
+                                            {
+                                                dmnsalemaster.DebitLedgerId = DebitCustomerId;
+                                                dmnsalemaster.DebitICardNo = DebitCardNumber;
+                                                dmnsalemaster.CardType = CardTypeno;
+                                                dmnsalemaster.FMCardType = Fmcardtypeno;
+                                            }
+                                            else
+                                            {
+                                                dmnsalemaster.DebitLedgerId = 0;
+                                                dmnsalemaster.DebitICardNo = null;
+                                                dmnsalemaster.CardType = 0;
+                                                dmnsalemaster.FMCardType = 0;
+                                            }
+                                            dmnsalemaster.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                            if (decimal.TryParse(payment.PartAmount, out decimal amt))
+                                            {
+                                                dmnsalemaster.PartAmount = amt.ToString("0.##");
+                                            }
+
+                                            var InsertStatus1 = bllSales.AddEditSplit("prdInsert_PartPaymentDetails", dmnsalemaster);
+                                        }
+                                    }
+                                    #endregion
                                     if (gridSourcemaster.Count > 0)
                                     {
                                         for (int i = 0; i < gridSourcemaster.Count; i++)
@@ -8442,7 +8537,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                             ResetBillpage();
                                             this.Close();
                                         }
-                                        else if (payid != 12)
+                                        else
                                         {
                                             FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
                                             frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
