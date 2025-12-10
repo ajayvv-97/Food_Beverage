@@ -67,8 +67,8 @@ namespace FoodandBeverage.Interfaces
         NEFTRTGS = 9,
         COMPLEMENTRY = 10,
         MidasCard = 11,
-        PART = 12,
-        SPLIT = 13
+        SPLIT = 12,
+        PART = 13
     };
     public enum Reservation
     {

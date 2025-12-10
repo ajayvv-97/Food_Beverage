@@ -110,6 +110,16 @@ namespace Domain
         public int PkId { get; set; }
         public decimal PkChargeAmount { get; set; }
         public bool IsDirectSale { get; set; }
+
+        public string DebitICardNo { get; set; }
+        public int DebitLedgerId { get; set; }
+        public int CardType { get; set; }
+        public int FMCardType { get; set; }
+        public string PartPayId { get; set; }
+        public string PartAmount { get; set; }
+        public string Caption { get; set; }
+        public int FormType { get; set; }
+        public string DBname { get; set; }
     }
     
 
