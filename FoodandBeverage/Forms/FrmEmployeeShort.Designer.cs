@@ -139,6 +139,7 @@ namespace FoodandBeverage.Forms
             this.pbwifi = new System.Windows.Forms.PictureBox();
             this.btnwificancel = new System.Windows.Forms.Button();
             this.txtepid = new System.Windows.Forms.TextBox();
+            this.chktabletmode = new System.Windows.Forms.CheckBox();
             this.tb_empolyee.SuspendLayout();
             this.tp_employee.SuspendLayout();
             this.tlp_employe_reg_outer.SuspendLayout();
@@ -732,14 +733,16 @@ namespace FoodandBeverage.Forms
             // 
             this.tlp_checkControls.ColumnCount = 1;
             this.tlp_checkControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_checkControls.Controls.Add(this.chktabletmode, 0, 2);
             this.tlp_checkControls.Controls.Add(this.chkactive, 0, 1);
             this.tlp_checkControls.Controls.Add(this.chk_Rfid_Login, 0, 0);
             this.tlp_checkControls.Dock = System.Windows.Forms.DockStyle.Top;
             this.tlp_checkControls.Location = new System.Drawing.Point(0, 0);
             this.tlp_checkControls.Name = "tlp_checkControls";
-            this.tlp_checkControls.RowCount = 2;
+            this.tlp_checkControls.RowCount = 3;
             this.tlp_checkControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_checkControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_checkControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tlp_checkControls.Size = new System.Drawing.Size(211, 90);
             this.tlp_checkControls.TabIndex = 0;
             // 
@@ -752,9 +755,9 @@ namespace FoodandBeverage.Forms
             this.chkactive.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkactive.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.chkactive.ForeColor = System.Drawing.Color.DarkRed;
-            this.chkactive.Location = new System.Drawing.Point(3, 48);
+            this.chkactive.Location = new System.Drawing.Point(3, 35);
             this.chkactive.Name = "chkactive";
-            this.chkactive.Size = new System.Drawing.Size(205, 39);
+            this.chkactive.Size = new System.Drawing.Size(205, 26);
             this.chkactive.TabIndex = 0;
             this.chkactive.Text = "IsActive";
             this.chkactive.UseVisualStyleBackColor = false;
@@ -768,7 +771,7 @@ namespace FoodandBeverage.Forms
             this.chk_Rfid_Login.ForeColor = System.Drawing.Color.DarkRed;
             this.chk_Rfid_Login.Location = new System.Drawing.Point(3, 3);
             this.chk_Rfid_Login.Name = "chk_Rfid_Login";
-            this.chk_Rfid_Login.Size = new System.Drawing.Size(205, 39);
+            this.chk_Rfid_Login.Size = new System.Drawing.Size(205, 26);
             this.chk_Rfid_Login.TabIndex = 1;
             this.chk_Rfid_Login.Text = "Login With RFID Card ";
             this.chk_Rfid_Login.UseVisualStyleBackColor = false;
@@ -1733,6 +1736,20 @@ namespace FoodandBeverage.Forms
             this.txtepid.TabIndex = 289;
             this.txtepid.Visible = false;
             // 
+            // chktabletmode
+            // 
+            this.chktabletmode.AutoSize = true;
+            this.chktabletmode.BackColor = System.Drawing.Color.Transparent;
+            this.chktabletmode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chktabletmode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.chktabletmode.ForeColor = System.Drawing.Color.DarkRed;
+            this.chktabletmode.Location = new System.Drawing.Point(3, 67);
+            this.chktabletmode.Name = "chktabletmode";
+            this.chktabletmode.Size = new System.Drawing.Size(205, 20);
+            this.chktabletmode.TabIndex = 2;
+            this.chktabletmode.Text = "Tablet Mode";
+            this.chktabletmode.UseVisualStyleBackColor = false;
+            // 
             // FrmEmployeeShort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1906,5 +1923,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewCheckBoxColumn Read;
         private System.Windows.Forms.TableLayoutPanel tlp_role_design;
         private System.Windows.Forms.TextBox txtepid;
+        private System.Windows.Forms.CheckBox chktabletmode;
     }
 }

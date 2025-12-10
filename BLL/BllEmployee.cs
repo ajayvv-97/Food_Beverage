@@ -67,9 +67,11 @@ namespace BLL
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("Status", objTestClass.Status);
             parms.Add("RFID_Login_Status", objTestClass.RFID_Login_Status);
+            parms.Add("TabletModestatus", objTestClass.TabletModestatus);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        
         public DmnEmployee getDataById(string procedureName, DmnEmployee objTestClass)
         {
             DAL.DapperRepository<DmnEmployee> objDapperRepository = new DAL.DapperRepository<DmnEmployee>();
@@ -137,9 +139,11 @@ namespace BLL
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("ModifiedBy", objTestClass.ModifiedBy);
             parms.Add("RFID_Login_Status", objTestClass.RFID_Login_Status);
+            parms.Add("TabletModestatus", objTestClass.TabletModestatus);
             var lstData = objDapperRepository.Update(procedureName, parms);
             return lstData;
         }
+        
         public bool DeleteById(string procedureName, DmnEmployee objTestClass)
         {
             DAL.DapperRepository<DmnEmployee> objDapperRepository = new DAL.DapperRepository<DmnEmployee>();

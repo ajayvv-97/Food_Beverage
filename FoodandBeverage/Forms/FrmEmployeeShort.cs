@@ -939,6 +939,7 @@ namespace FoodandBeverage.Forms
             {
                 dgvforms.Visible = false;
                 chk_Rfid_Login.Checked = false;
+                chktabletmode.Checked = false; 
                 txtempcode.Text = "";
                 txtEmpName.Text = "";
                 mcmbDesignationId.Text = "";
@@ -1105,6 +1106,8 @@ namespace FoodandBeverage.Forms
                     dmnEmployee.Status = Convert.ToInt32(chkactive.CheckState);
                     dmnEmployee.ModifiedBy = FrmLogin.UserId;
                     dmnEmployee.CreatedBy = FrmLogin.UserId;
+
+                    dmnEmployee.TabletModestatus = Convert.ToInt32(chktabletmode.CheckState);
                     //dmnEmployee.UserAccountTypeId = Convert.ToInt32(mcmbaccounttype.SelectedValue);
                     if (empImgExt != "")
                     {

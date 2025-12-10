@@ -57,6 +57,34 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
+
+        public static void AutoFitLabelFont(Label lbl)
+        {
+            if (lbl == null || string.IsNullOrEmpty(lbl.Text)) return;
+
+            int maxWidth = lbl.Width - 4;   // padding
+            int maxHeight = lbl.Height - 4;
+
+            float fontSize = lbl.Font.Size;
+
+            using (Graphics g = lbl.CreateGraphics())
+            {
+                SizeF size = g.MeasureString(lbl.Text, lbl.Font);
+
+                while ((size.Width > maxWidth || size.Height > maxHeight) && fontSize > 5f)
+                {
+                    fontSize -= 0.5f;
+
+                    lbl.Font = new Font(
+                        lbl.Font.FontFamily,
+                        fontSize,
+                        lbl.Font.Style
+                    );
+
+                    size = g.MeasureString(lbl.Text, lbl.Font);
+                }
+            }
+        }
         public static void MakeDashboardTile(Control ctrl,
                                      int radius = 20,
                                      Color backColor = default,
@@ -210,7 +238,25 @@ namespace FoodandBeverage.Classes
 
             ctrl.Size = new Size(newWidth, newHeight);
         }
+        public static void ShowCentered(Control parent, Control child)
+        {
+            if (parent == null || child == null) return;
 
+            // Center Position
+            int x = (parent.ClientSize.Width - child.Width) / 2;
+            int y = (parent.ClientSize.Height - child.Height) / 2;
+
+            child.Location = new Point(x, y);
+
+            // Show
+            child.Visible = true;
+
+            // Bring to front (above all other controls)
+            child.BringToFront();
+
+            // Focus
+            child.Focus();
+        }
         public static void ApplyRoundedCorners(Form form, int borderRadius)
         {
             try
