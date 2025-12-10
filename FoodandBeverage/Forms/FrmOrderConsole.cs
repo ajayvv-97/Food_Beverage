@@ -104,6 +104,11 @@ namespace FoodandBeverage.Forms
 
         public int Productrate_ID = 0;
 
+        public static Decimal midas_balance = 0;
+        private List<(string PartPayId, string PartAmount)> partPayments = new List<(string, string)>();
+        int partCount = 0;
+        public static bool exitstatus = false;
+
         #region Grid Declaration 
         // Registration Grid
         public int iaction = 0;
@@ -6820,53 +6825,78 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     case "btncreditcard":
                         payid = Convert.ToInt32(PaymentType.CREDITCARD);
                         break;
+                    case "btncomple":
+                        payid = Convert.ToInt32(PaymentType.COMPLEMENTRY);
+                        break;
+                    case "btn_other":
+                        pnlPaymode.Visible = false;
+                        btnPartPaynow.Visible = false;
+                        payid = Convert.ToInt32(PaymentType.SPLIT);
+                        pnlSplit.Show();
+                        pnlSplit.BringToFront();
+                        pnlSplit.Location = new Point(this.ClientSize.Width / 2 - pnl_partpayment.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_partpayment.Size.Height / 2));
+                        partPayments.Clear();
+                        lblpartpayment1.Text = "Payment 1";
+                        lblpartpayment2.Text = "Payment 2";
+                        lblpartAmt1.Text = "0.00";
+                        lblpartAmt2.Text = "0.00";
+                        cash_part.Enabled = true;
+                        credit_part.Enabled = true;
+                        Debit_part.Enabled = true;
+                        upi_part.Enabled = true;
+                        netbanking_part.Enabled = true;
+                        midas_part.Enabled = true;
 
-                    //case "Btnpartpayment":
-                    //    payid = Convert.ToInt32(PaymentType.PART);
-                    //    dgv_part.BorderStyle = BorderStyle.None;
-                    //    dgv_part.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-                    //    dgv_part.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-                    //    dgv_part.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-                    //    dgv_part.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-                    //    dgv_part.BackgroundColor = Color.White;
+                        lblPartNetAmt.Text = txtnetamount.Text;
+                        lblPartBalAmt.Text = txtnetamount.Text;
+                        break;
 
-                    //    dgv_part.EnableHeadersVisualStyles = false;
-                    //    dgv_part.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                    //    dgv_part.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-                    //    dgv_part.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                        //case "Btnpartpayment":
+                        //    payid = Convert.ToInt32(PaymentType.PART);
+                        //    dgv_part.BorderStyle = BorderStyle.None;
+                        //    dgv_part.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                        //    dgv_part.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                        //    dgv_part.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                        //    dgv_part.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                        //    dgv_part.BackgroundColor = Color.White;
 
-                    //    UIHelper.CenterAndResize(pnl_partpayment, 40, 40);
-                    //    UIHelper.RoundCorners(pnl_partpayment, 25);
-                    //    UIHelper.RoundCorners(tlp_part_navbar, 25);
-                    //    UIHelper.RoundCorners(tlp_main_part, 25);
+                        //    dgv_part.EnableHeadersVisualStyles = false;
+                        //    dgv_part.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                        //    dgv_part.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                        //    dgv_part.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
-                    //    dgv_part.Rows.Clear();
-                    //    foreach (Control control in flppart_paymentbutton.Controls)
-                    //    {
-                    //        if (control is Button)
-                    //        {
-                    //            ((Button)control).Visible = true;
-                    //            ((Button)control).Enabled = true;
-                    //        }
-                    //    }
-                    //    btnconfirm_part.Visible = false;
-                    //    break;
-                    //case "btn_splitpayment":
-                    //    tlp_main_split.RowStyles[4] = new RowStyle(SizeType.AutoSize);
-                    //    payid = Convert.ToInt32(PaymentType.SPLIT);
-                    //    pnl_split.Visible = true;
-                    //    panelWidthPercentage = 50;
-                    //    panelheightPercentage = 70;
-                    //    panelWidth = (int)(this.Width * panelWidthPercentage / 100);
-                    //    panelHeight = (int)(this.Height * panelheightPercentage / 100);
-                    //    pnl_split.Size = new Size(panelWidth, panelHeight);
+                        //    UIHelper.CenterAndResize(pnl_partpayment, 40, 40);
+                        //    UIHelper.RoundCorners(pnl_partpayment, 25);
+                        //    UIHelper.RoundCorners(tlp_part_navbar, 25);
+                        //    UIHelper.RoundCorners(tlp_main_part, 25);
 
-                    //    pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
-                    //    dgv_split.Rows.Clear();
-                    //    break;
+                        //    dgv_part.Rows.Clear();
+                        //    foreach (Control control in flppart_paymentbutton.Controls)
+                        //    {
+                        //        if (control is Button)
+                        //        {
+                        //            ((Button)control).Visible = true;
+                        //            ((Button)control).Enabled = true;
+                        //        }
+                        //    }
+                        //    btnconfirm_part.Visible = false;
+                        //    break;
+                        //case "btn_splitpayment":
+                        //    tlp_main_split.RowStyles[4] = new RowStyle(SizeType.AutoSize);
+                        //    payid = Convert.ToInt32(PaymentType.SPLIT);
+                        //    pnl_split.Visible = true;
+                        //    panelWidthPercentage = 50;
+                        //    panelheightPercentage = 70;
+                        //    panelWidth = (int)(this.Width * panelWidthPercentage / 100);
+                        //    panelHeight = (int)(this.Height * panelheightPercentage / 100);
+                        //    pnl_split.Size = new Size(panelWidth, panelHeight);
+
+                        //    pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
+                        //    dgv_split.Rows.Clear();
+                        //    break;
                 }
                 pnlPaymode.Visible = false;
-                if (clickedButton.Name != "Btnpartpayment" && clickedButton.Name != "btnothers" && clickedButton.Name != "btn_splitpayment")
+                if (clickedButton.Name != "Btnpartpayment" && clickedButton.Name != "btn_other" && clickedButton.Name != "btn_splitpayment")
                     paybillcal(payid);
             }
             catch (Exception ex)
@@ -7252,6 +7282,39 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                                 }
                             }
+
+                            #region To Save partpayment Table 
+                            if (payid == Convert.ToInt32(PaymentType.SPLIT))
+                            {
+                                foreach (var payment in partPayments)
+                                {
+                                    dmnsalemaster.PartPayId = payment.PartPayId;
+                                    dmnsalemaster.FormType = Convert.ToInt32(TapType.FandBPayment);
+                                    if (Convert.ToInt32(dmnsalemaster.PartPayId) == Convert.ToInt32(PaymentType.MidasCard))
+                                    {
+                                        dmnsalemaster.DebitLedgerId = DebitCustomerId;
+                                        dmnsalemaster.DebitICardNo = DebitCardNumber;
+                                        dmnsalemaster.CardType = CardTypeno;
+                                        dmnsalemaster.FMCardType = Fmcardtypeno;
+                                    }
+                                    else
+                                    {
+                                        dmnsalemaster.DebitLedgerId = 0;
+                                        dmnsalemaster.DebitICardNo = null;
+                                        dmnsalemaster.CardType = 0;
+                                        dmnsalemaster.FMCardType = 0;
+                                    }
+                                    dmnsalemaster.SalesMasterId = Convert.ToInt32(InsertStatusP.SalesMasterId);
+                                    if (decimal.TryParse(payment.PartAmount, out decimal amt))
+                                    {
+                                        dmnsalemaster.PartAmount = amt.ToString("0.##");
+                                    }
+
+                                    var InsertStatus1 = bllSales.AddEditSplit("prdInsert_PartPaymentDetails", dmnsalemaster);
+                                }
+                            }
+                            #endregion
+
 
                             for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                             {
@@ -8737,27 +8800,27 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                     if (itemSource.Count > 0)
                     {
-                        if (pnl_partpayment.Visible)
+                        if (pnlSplit.Visible)
                         {
-                            //if (decimal.TryParse(lblPartBalAmt.Text, out decimal netAmount))
-                            //{
-                            //    midas_balance = Convert.ToDecimal(itemSource[0].Field2);
-                            //    if (midas_balance <= 0)
-                            //    {
-                            //        MessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            //        tm_part_midascard.Start();
-                            //    }
-                            //    else
-                            //    {
-                            //        tm_part_midascard.Stop();
-                            //        Pnl_wifiPopup.Hide();
-                            //        DebitCustomerId = Convert.ToInt32(itemSource[0].Field1);
-                            //        DebitCardNumber = cardno;
-                            //        #region Fetch midascard at payment Type table 
-                            //        Fetch_midas();
-                            //        #endregion
-                            //    }
-                            //}
+                            if (decimal.TryParse(lblPartBalAmt.Text, out decimal netAmount))
+                            {
+                                midas_balance = Convert.ToDecimal(itemSource[0].Field2);
+                                if (midas_balance <= 0)
+                                {
+                                    MessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    tm_midascard.Start();
+                                }
+                                else
+                                {
+                                    tm_midascard.Stop();
+                                    Pnl_wifiPopup.Hide();
+                                    DebitCustomerId = Convert.ToInt32(itemSource[0].Field1);
+                                    DebitCardNumber = cardno;
+                                    #region Fetch midascard at payment Type table 
+                                    Fetch_midas();
+                                    #endregion
+                                }
+                            }
                         }
                         else
                         {
@@ -8877,7 +8940,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 clsgen.LogException("Order page btncancelnotify_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order)); // Replace 'YourFormType' with the appropriate form type
             }
         }
-
+       
         private void btn_midascard_Click(object sender, EventArgs e)
         {
             //UIHelper.CenterAndResize(pnl_cardAcoount, 30, 25);
@@ -8981,5 +9044,623 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             }
         }
         #endregion
+        #region Part Payment
+        private void cash_part_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                partCount = Convert.ToInt32(partPayments.Count);
+                decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
+                if (partCount == 0)
+                {
+
+
+                    decimal kdata = 0;
+                    using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
+                    {
+                        frm.ShowDialog();
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                        frm.Dispose();
+                    }
+
+                    if (kdata >= bal || kdata <= 0)
+                    {
+                        if (exitstatus == false)
+                            MessageBox.Show(
+    "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
+    "Warning",
+    MessageBoxButtons.RetryCancel,
+    MessageBoxIcon.Warning
+);
+                        lblpartAmt1.Text = "0.00";
+                    }
+                    else
+                    {
+                        txtPayid1.Text = Convert.ToInt32(PaymentType.CASH).ToString();
+                        lblpartpayment1.Text = "CASH";
+                        lblpartAmt1.Text = kdata.ToString("0.##");
+                        partPayments.Add((txtPayid1.Text, lblpartAmt1.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt1.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+
+
+
+
+                }
+                else if (partCount == 1)
+                {
+                    if (txtPayid1.Text != Convert.ToInt32(PaymentType.CASH).ToString())
+                    {
+                        txtPayid2.Text = Convert.ToInt32(PaymentType.CASH).ToString();
+                        lblpartpayment2.Text = "CASH";
+                        lblpartAmt2.Text = bal.ToString("0.##");
+                        partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        lblpartpayment2.Text = "Payment 2";
+                    }
+
+
+                }
+                if (string.IsNullOrWhiteSpace(lblPartBalAmt.Text) || lblPartBalAmt.Text == "0.00")
+                {
+                    if (partPayments.Count == 2)
+                    {
+                        btnPartPaynow.Visible = true;
+                        cash_part.Enabled = false;
+                        Debit_part.Enabled = false;
+                        credit_part.Enabled = false;
+                        netbanking_part.Enabled = false;
+                        midas_part.Enabled = false;
+                        upi_part.Enabled = false;
+                    }
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsgen.LogException("POSDashboard page cash_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+        }
+
+        private void Debit_part_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                partCount = Convert.ToInt32(partPayments.Count);
+                decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
+                if (partCount == 0)
+                {
+
+
+                    decimal kdata = 0;
+                    using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
+                    {
+                        frm.ShowDialog();
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                        frm.Dispose();
+                    }
+
+                    if (kdata >= bal || kdata <= 0)
+                    {
+                        if (exitstatus == false)
+                            MessageBox.Show(
+    "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
+    "Warning",
+    MessageBoxButtons.RetryCancel,
+    MessageBoxIcon.Warning
+);
+                        lblpartAmt1.Text = "0.00";
+                    }
+                    else
+                    {
+                        txtPayid1.Text = Convert.ToInt32(PaymentType.DEBITCARD).ToString();
+                        lblpartpayment1.Text = "DEBITCARD";
+                        lblpartAmt1.Text = kdata.ToString("0.##");
+                        partPayments.Add((txtPayid1.Text, lblpartAmt1.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt1.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+
+
+
+                }
+                else if (partCount == 1)
+                {
+                    if (txtPayid1.Text != Convert.ToInt32(PaymentType.DEBITCARD).ToString())
+                    {
+
+                        txtPayid2.Text = Convert.ToInt32(PaymentType.DEBITCARD).ToString();
+                        lblpartpayment2.Text = "DEBITCARD";
+                        lblpartAmt2.Text = bal.ToString("0.##");
+                        partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        lblpartpayment2.Text = "Payment 2";
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(lblPartBalAmt.Text) || lblPartBalAmt.Text == "0.00")
+                {
+                    if (partPayments.Count == 2)
+                    {
+                        btnPartPaynow.Visible = true;
+                        cash_part.Enabled = false;
+                        Debit_part.Enabled = false;
+                        credit_part.Enabled = false;
+                        netbanking_part.Enabled = false;
+                        midas_part.Enabled = false;
+                        upi_part.Enabled = false;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("POSDashboard page Debit_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+        }
+        private void upi_part_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                partCount = Convert.ToInt32(partPayments.Count);
+                decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
+                if (partCount == 0)
+                {
+
+                    decimal kdata = 0;
+                    using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
+                    {
+                        frm.ShowDialog();
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                        frm.Dispose();
+                    }
+
+                    if (kdata >= bal || kdata <= 0)
+                    {
+                        if (exitstatus == false)
+                            MessageBox.Show(
+    "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
+    "Warning",
+    MessageBoxButtons.RetryCancel,
+    MessageBoxIcon.Warning
+);
+                        lblpartAmt1.Text = "0.00";
+                    }
+                    else
+                    {
+                        txtPayid1.Text = Convert.ToInt32(PaymentType.UPI).ToString();
+                        lblpartpayment1.Text = "UPI";
+                        lblpartAmt1.Text = kdata.ToString("0.##");
+                        partPayments.Add((txtPayid1.Text, lblpartAmt1.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt1.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+
+
+
+                }
+                else if (partCount == 1)
+                {
+                    if (txtPayid1.Text != Convert.ToInt32(PaymentType.UPI).ToString())
+                    {
+
+                        txtPayid2.Text = Convert.ToInt32(PaymentType.UPI).ToString();
+                        lblpartpayment2.Text = "UPI";
+                        lblpartAmt2.Text = bal.ToString("0.##");
+                        partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        lblpartpayment2.Text = "Payment 2";
+                    }
+
+                }
+                if (string.IsNullOrWhiteSpace(lblPartBalAmt.Text) || lblPartBalAmt.Text == "0.00")
+                {
+                    if (partPayments.Count == 2)
+                    {
+                        btnPartPaynow.Visible = true;
+                        cash_part.Enabled = false;
+                        Debit_part.Enabled = false;
+                        credit_part.Enabled = false;
+                        netbanking_part.Enabled = false;
+                        midas_part.Enabled = false;
+                        upi_part.Enabled = false;
+                    }
+
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsgen.LogException("POSDashboard page upi_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+        }
+
+        private void netbanking_part_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                partCount = Convert.ToInt32(partPayments.Count);
+                decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
+                if (partCount == 0)
+                {
+                    decimal kdata = 0;
+                    using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
+                    {
+                        frm.ShowDialog();
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                        frm.Dispose();
+                    }
+                    if (kdata >= bal || kdata <= 0)
+                    {
+                        if (exitstatus == false)
+                            MessageBox.Show(
+    "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
+    "Warning",
+    MessageBoxButtons.RetryCancel,
+    MessageBoxIcon.Warning
+);
+                        lblpartAmt1.Text = "0.00";
+                    }
+                    else
+                    {
+                        txtPayid1.Text = Convert.ToInt32(PaymentType.BANKINGONLINE).ToString();
+                        lblpartpayment1.Text = "NETBANKING";
+                        lblpartAmt1.Text = kdata.ToString("0.##");
+                        partPayments.Add((txtPayid1.Text, lblpartAmt1.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt1.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+                }
+                else if (partCount == 1)
+                {
+                    if (txtPayid1.Text != Convert.ToInt32(PaymentType.BANKINGONLINE).ToString())
+                    {
+
+                        txtPayid2.Text = Convert.ToInt32(PaymentType.BANKINGONLINE).ToString();
+                        lblpartpayment2.Text = "NETBANKING";
+                        lblpartAmt2.Text = bal.ToString("0.##");
+                        partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        lblpartpayment2.Text = "Payment 2";
+                    }
+
+                }
+                if (string.IsNullOrWhiteSpace(lblPartBalAmt.Text) || lblPartBalAmt.Text == "0.00")
+                {
+                    if (partPayments.Count == 2)
+                    {
+                        btnPartPaynow.Visible = true;
+                        cash_part.Enabled = false;
+                        Debit_part.Enabled = false;
+                        credit_part.Enabled = false;
+                        netbanking_part.Enabled = false;
+                        midas_part.Enabled = false;
+                        upi_part.Enabled = false;
+                    }
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsgen.LogException("POSDashboard page netbanking_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+        }
+
+        private void credit_part_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                partCount = Convert.ToInt32(partPayments.Count);
+                decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
+                if (partCount == 0)
+                {
+
+                    decimal kdata = 0;
+                    using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
+                    {
+                        frm.ShowDialog();
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                        frm.Dispose();
+                    }
+                    if (kdata >= bal || kdata <= 0)
+                    {
+                        if (exitstatus == false)
+                            MessageBox.Show(
+    "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
+    "Warning",
+    MessageBoxButtons.RetryCancel,
+    MessageBoxIcon.Warning
+);
+                        lblpartAmt1.Text = "0.00";
+                    }
+                    else
+                    {
+                        txtPayid1.Text = Convert.ToInt32(PaymentType.CREDITCARD).ToString();
+                        lblpartpayment1.Text = "CREDITCARD";
+                        lblpartAmt1.Text = kdata.ToString("0.##");
+                        partPayments.Add((txtPayid1.Text, lblpartAmt1.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt1.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+
+                }
+
+                else if (partCount == 1)
+                {
+                    if (txtPayid1.Text != Convert.ToInt32(PaymentType.CREDITCARD).ToString())
+                    {
+                        txtPayid2.Text = Convert.ToInt32(PaymentType.CREDITCARD).ToString();
+                        lblpartpayment2.Text = "CREDITCARD";
+                        lblpartAmt2.Text = bal.ToString("0.##");
+                        partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
+                        decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
+
+                        decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                            ? Convert.ToDecimal(lblPartNetAmt.Text)
+                            : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                        decimal balAmt = currentBalance - amt2;
+                        lblPartBalAmt.Text = balAmt.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        lblpartpayment2.Text = "Payment 2";
+                    }
+
+                }
+                if (string.IsNullOrWhiteSpace(lblPartBalAmt.Text) || lblPartBalAmt.Text == "0.00")
+                {
+                    if (partPayments.Count == 2)
+                    {
+                        btnPartPaynow.Visible = true;
+                        cash_part.Enabled = false;
+                        Debit_part.Enabled = false;
+                        credit_part.Enabled = false;
+                        netbanking_part.Enabled = false;
+                        midas_part.Enabled = false;
+                        upi_part.Enabled = false;
+                    }
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                clsgen.LogException("POSDashboard page credit_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+        }
+
+        private void midas_part_Click(object sender, EventArgs e)
+        {
+            Pnl_wifiPopup.Show();
+            Pnl_wifiPopup.BringToFront();
+            Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
+            tm_midascard.Start();
+        }
+
+        private void btnPartPaynow_Click(object sender, EventArgs e)
+        {
+            pnl_partpayment.Visible = false;
+            paybillcal(Convert.ToInt32(PaymentType.SPLIT));
+            Memoryrelease();
+        }
+
+        private void btnPartRefresh_Click(object sender, EventArgs e)
+        {
+            partPayments.Clear();
+            lblpartpayment1.Text = "Payment 1";
+            lblpartpayment2.Text = "Payment 2";
+            lblpartAmt1.Text = "0.00";
+            lblpartAmt2.Text = "0.00";
+            lblPartBalAmt.Text = lblPartNetAmt.Text;
+            btnPartPaynow.Visible = false;
+            cash_part.Enabled = true;
+            Debit_part.Enabled = true;
+            credit_part.Enabled = true;
+            netbanking_part.Enabled = true;
+            midas_part.Enabled = true;
+            upi_part.Enabled = true;
+        }
+
+
+
+        private void btnPartClose_Click(object sender, EventArgs e)
+        {
+            pnlSplit.Visible = false;
+            pnlPaymode.Visible = true;
+            partPayments.Clear();
+            lblpartpayment1.Text = "Payment 1";
+            lblpartpayment2.Text = "Payment 2";
+            lblpartAmt1.Text = "0.00";
+            lblpartAmt2.Text = "0.00";
+
+        }
+
+        
+
+        public void Fetch_midas()
+        {
+            try
+            {
+                partCount = Convert.ToInt32(partPayments.Count);
+                if (partCount == 0)
+                {
+
+                    
+                        decimal kdata = 0;
+                        using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
+                        {
+                            frm.ShowDialog();
+                            kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                            frm.Dispose();
+                        }
+                        decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
+                        if (kdata > midas_balance)
+                        {
+                            MessageBox.Show("Card Not have Sufficient Balance. \nNeed Balance Payment :" + bal, "Information", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
+                            lblpartAmt1.Text = "0.00";
+                        }
+                        else if (kdata >= bal || kdata <= 0)
+                        {
+                            if (exitstatus == false)
+                                MessageBox.Show("Amount should not be greater than TotalAmount. \nCURRENT BALANCE :" + bal, "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                            lblpartAmt1.Text = "0.00";
+                        }
+                        else
+                        {
+                            txtPayid1.Text = Convert.ToInt32(PaymentType.MidasCard).ToString();
+                            lblpartpayment1.Text = "MIDASCARD";
+                            lblpartAmt1.Text = kdata.ToString("0.##");
+                            partPayments.Add((txtPayid1.Text, lblpartAmt1.Text));
+                            decimal amt2 = Convert.ToDecimal(lblpartAmt1.Text);
+
+                            decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                                ? Convert.ToDecimal(lblPartNetAmt.Text)
+                                : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                            decimal balAmt = currentBalance - amt2;
+                            lblPartBalAmt.Text = balAmt.ToString();
+                        }
+                    
+                }
+                else if (partCount == 1)
+                {
+                    if (txtPayid1.Text != Convert.ToInt32(PaymentType.MidasCard).ToString())
+                    {
+                        decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
+                        if (bal > midas_balance)
+                        {
+                            MessageBox.Show("Card Not have Sufficient Balance. \nNeed Balance Payment :" + bal, "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                            lblpartAmt2.Text = "0.00";
+                        }
+                        else
+                        {
+                            txtPayid2.Text = Convert.ToInt32(PaymentType.MidasCard).ToString();
+                            lblpartpayment2.Text = "MIDASCARD";
+                            lblpartAmt2.Text = lblPartBalAmt.Text;
+                            partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
+                            decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
+
+                            decimal currentBalance = string.IsNullOrWhiteSpace(lblPartBalAmt.Text)
+                                ? Convert.ToDecimal(lblPartNetAmt.Text)
+                                : Convert.ToDecimal(lblPartBalAmt.Text);
+
+                            decimal balAmt = currentBalance - amt2;
+                            lblPartBalAmt.Text = balAmt.ToString();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        lblpartpayment2.Text = "Payment 2";
+                    }
+
+                }
+                if (string.IsNullOrWhiteSpace(lblPartBalAmt.Text) || lblPartBalAmt.Text == "0.00")
+                {
+                    if (partPayments.Count == 2)
+                    {
+                        btnPartPaynow.Visible = true;
+                        cash_part.Enabled = false;
+                        Debit_part.Enabled = false;
+                        credit_part.Enabled = false;
+                        netbanking_part.Enabled = false;
+                        midas_part.Enabled = false;
+                        upi_part.Enabled = false;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(" page Fetch_midas()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+        #endregion
+
     }
 }
