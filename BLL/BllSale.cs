@@ -143,6 +143,7 @@ namespace BLL
             parms.Add("CardSalesMasterId", objTestClass.SalesMasterId);
             parms.Add("PartPayId", objTestClass.PartPayId);
             parms.Add("PartAmount", objTestClass.PartAmount);
+            parms.Add("Amount", objTestClass.NetAmount);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("ModifiedBy", objTestClass.ModifiedBy);
@@ -155,7 +156,21 @@ namespace BLL
             parms.Add("mDeviceIP", objTestClass.mDeviceIP);
             parms.Add("FormType", objTestClass.FormType);
             parms.Add("Status", objTestClass.Status);
-            parms.Add("@DBname", objTestClass.DBname);
+            parms.Add("DBname", objTestClass.DBname);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+
+        }
+        public DmnSalemaster AddEditmidas(string procedureName, DmnSalemaster objTestClass)
+        {
+            DAL.DapperRepository<DmnSalemaster> dapperRepository = new DAL.DapperRepository<DmnSalemaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("DebitLedgerId", objTestClass.DebitLedgerId);
+            parms.Add("DebitICardNo", objTestClass.DebitICardNo);
+            parms.Add("CardType", objTestClass.CardType);
+            parms.Add("FMCardType", objTestClass.FMCardType);
+            parms.Add("Amount", objTestClass.NetAmount);         
+            parms.Add("DBname", objTestClass.DBname);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
 
