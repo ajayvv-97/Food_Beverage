@@ -425,6 +425,12 @@
     <Compile Include="Forms\FrmOrderConsole.Designer.cs">
       <DependentUpon>FrmOrderConsole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmOrderConsoleTabletmode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmOrderConsoleTabletmode.Designer.cs">
+      <DependentUpon>FrmOrderConsoleTabletmode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmOrderView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -873,6 +879,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmOrderConsole.resx">
       <DependentUpon>FrmOrderConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmOrderConsoleTabletmode.resx">
+      <DependentUpon>FrmOrderConsoleTabletmode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmOrderView.resx">
       <DependentUpon>FrmOrderView.cs</DependentUpon>

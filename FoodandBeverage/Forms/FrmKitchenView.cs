@@ -95,8 +95,6 @@ namespace FoodandBeverage.Forms
         Dictionary<string, bool> rowColorState = new Dictionary<string, bool>(); 
         int blinkPeriod = 1; 
         public int korderno = 0;
-
-
         private void FrmKitchenView_Load(object sender, EventArgs e)
         {
             try
@@ -218,6 +216,7 @@ namespace FoodandBeverage.Forms
             {
                 GC.Collect();
                 SetEmptyIcon();
+
                 #region Fill Orders in Datagrid
                 txt_product_remove_des.Text = "Reason type here .....";
                 int countpendingorder = 0;
@@ -929,7 +928,7 @@ namespace FoodandBeverage.Forms
                                     //else if (AddonCount > 0)
                                     //    dgv_product_details.Rows[k].Cells[ditemno].Value = itemname;
                                     if (vrianame != null && vrianame != "")
-                                        dgv_product_details.Rows[k].Cells[ditemno].Value = itemname + "(" + vrianame + ")";
+                                        dgv_product_details.Rows[k].Cells[ditemno].Value = itemname + " ( " + vrianame + " )";
                                     else
                                         dgv_product_details.Rows[k].Cells[ditemno].Value = itemname;
 
@@ -3713,7 +3712,7 @@ namespace FoodandBeverage.Forms
                                     //else if (AddonCount > 0)
                                     //    dgv_product_details.Rows[k].Cells[ditemno].Value = itemname;
                                     if (vrianame != null && vrianame != "")
-                                        dgv_product_details.Rows[k].Cells[ditemno].Value = itemname + "(" + vrianame + ")";
+                                        dgv_product_details.Rows[k].Cells[ditemno].Value = itemname + " ( " + vrianame + " )";
                                     else
                                         dgv_product_details.Rows[k].Cells[ditemno].Value = itemname;
 

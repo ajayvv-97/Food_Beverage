@@ -36,8 +36,16 @@ namespace FoodandBeverage
                         FoodandBeverage.Classes.CrystalInstaller.EnsureCrystalInstalled();
                     }
 
-                   // Application.Run(new Forms.FrmOrder(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, null, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Pickuppage)));
-                    Application.Run(new Forms.FrmLogin());
+                    // Application.Run(new Forms.FrmOrder(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, null, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Pickuppage)));
+                    string tabletmode = ConfigurationManager.AppSettings["TabletModestatus"];
+                    if (tabletmode == "0")
+                    {
+                        Application.Run(new Forms.FrmLogin());
+                    }
+                    else
+                    {
+                        Application.Run(new Forms.FrmloginTablet());
+                    }
                 }
                 else
                 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace FoodandBeverage.Classes
@@ -55,6 +56,34 @@ namespace FoodandBeverage.Classes
                     }
                 };
                 ctrl.Invalidate(); // force repaint to show border
+            }
+        }
+
+        public static void AutoFitLabelFont(Label lbl)
+        {
+            if (lbl == null || string.IsNullOrEmpty(lbl.Text)) return;
+
+            int maxWidth = lbl.Width - 4;   // padding
+            int maxHeight = lbl.Height - 4;
+
+            float fontSize = lbl.Font.Size;
+
+            using (Graphics g = lbl.CreateGraphics())
+            {
+                SizeF size = g.MeasureString(lbl.Text, lbl.Font);
+
+                while ((size.Width > maxWidth || size.Height > maxHeight) && fontSize > 5f)
+                {
+                    fontSize -= 0.5f;
+
+                    lbl.Font = new Font(
+                        lbl.Font.FontFamily,
+                        fontSize,
+                        lbl.Font.Style
+                    );
+
+                    size = g.MeasureString(lbl.Text, lbl.Font);
+                }
             }
         }
         public static void MakeDashboardTile(Control ctrl,
@@ -123,6 +152,16 @@ namespace FoodandBeverage.Classes
                 }
                 label.Font = new Font(label.Font.FontFamily, fontSize, label.Font.Style);
             }
+        }
+        public static void RoundControl_2(Control ctrl, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddArc(0, 0, radius, radius, 180, 90);
+            path.AddArc(ctrl.Width - radius, 0, radius, radius, 270, 90);
+            path.AddArc(ctrl.Width - radius, ctrl.Height - radius, radius, radius, 0, 90);
+            path.AddArc(0, ctrl.Height - radius, radius, radius, 90, 90);
+            path.CloseFigure();
+            ctrl.Region = new Region(path);
         }
 
         public static void RoundControl(Control ctrl, int radius, Color? borderColor = null, int borderWidth = 2)
@@ -210,7 +249,70 @@ namespace FoodandBeverage.Classes
 
             ctrl.Size = new Size(newWidth, newHeight);
         }
+        public static void AutoScaleFont(Control ctrl, int baseSize)
+        {
+            if (ctrl.Width <= 0 || ctrl.Height <= 0) return;
 
+            float scale = Math.Min(ctrl.Width / 150f, ctrl.Height / 50f); // base size
+            float newSize = baseSize * scale;
+
+            if (newSize < 8f) newSize = 8f; // minimum readable
+
+            ctrl.Font = new Font(ctrl.Font.FontFamily, newSize, ctrl.Font.Style);
+        }
+        public static void AutoResizeFlowPanel(
+          FlowLayoutPanel panel,
+          int btnWidth,
+          int btnHeight,
+          int spacing,
+          int visibleCount
+      )
+        {
+            if (visibleCount == 0) return;
+
+            panel.WrapContents = true;       // IMPORTANT
+            panel.AutoSize = false;          // So we can manually set height/width
+            panel.PerformLayout();           // Refresh layout before measuring
+
+            int maxColumns = 4;
+            int columns = Math.Min(visibleCount, maxColumns);
+
+            // Calculate rows (max 2)
+            int rows = (int)Math.Ceiling(visibleCount / (double)maxColumns);
+            rows = Math.Min(rows, 2);
+
+            // Calculate final size
+            int width = (btnWidth * columns) + (spacing * (columns + 1));
+            int height = (btnHeight * rows) + (spacing * (rows + 1));
+
+            panel.SuspendLayout();           // Prevent flickering while resizing
+            panel.Width = width;
+            panel.Height = btnHeight *2;
+            panel.ResumeLayout();
+        }
+
+
+
+
+        public static void ShowCentered(Control parent, Control child)
+        {
+            if (parent == null || child == null) return;
+
+            // Center Position
+            int x = (parent.ClientSize.Width - child.Width) / 2;
+            int y = (parent.ClientSize.Height - child.Height) / 2;
+
+            child.Location = new Point(x, y);
+
+            // Show
+            child.Visible = true;
+
+            // Bring to front (above all other controls)
+            child.BringToFront();
+
+            // Focus
+            child.Focus();
+        }
         public static void ApplyRoundedCorners(Form form, int borderRadius)
         {
             try

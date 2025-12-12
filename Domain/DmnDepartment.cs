@@ -19,6 +19,7 @@ namespace Domain
         public int Status { get; set; }
         public int Count { get; set; }
         public int RFID_Login_Status { get; set; }
+        public int TabletModestatus { get; set; }
 
     }
 }

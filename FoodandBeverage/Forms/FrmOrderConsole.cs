@@ -273,6 +273,9 @@ namespace FoodandBeverage.Forms
             public int saleDetailsId { get; set; }
             public int BillNumber { get; set; }
         }
+
+        public int saletype = 0;
+        public int Proid_Prid = 0;
         #endregion
         public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype,int cdstatus)
         {
@@ -6066,8 +6069,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             pnl_order_desc.Visible = false;
         }
 
-
-
         private void btn_pa__toggle_Click(object sender, EventArgs e)
         {
             if (!isOperationShown)
@@ -7323,7 +7324,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 dmnsalemaster.CardType = CardTypeno;
                                 dmnsalemaster.FMCardType = Fmcardtypeno;
                                 dmnsalemaster.DBname = GameDB;
-                                var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                //var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                             }
                             #endregion
 
@@ -7651,7 +7652,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     dmnsalemaster.CardType = CardTypeno;
                                     dmnsalemaster.FMCardType = Fmcardtypeno;
                                     dmnsalemaster.DBname = GameDB;
-                                    var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                    ///var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                                 }
                                 #endregion
                                 #endregion
@@ -8284,7 +8285,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         dmnsalemaster.CardType = CardTypeno;
                                         dmnsalemaster.FMCardType = Fmcardtypeno;
                                         dmnsalemaster.DBname = GameDB;
-                                        var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                        //var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                                     }
                                     #endregion
 
@@ -8479,7 +8480,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         dmnsalemaster.CardType = CardTypeno;
                                         dmnsalemaster.FMCardType = Fmcardtypeno;
                                         dmnsalemaster.DBname = GameDB;
-                                        var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                        //var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                                     }
                                     #endregion
                                     #endregion
@@ -9662,6 +9663,689 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
             tm_midascard.Start();
         }
+
+        #region Place Holder Setting
+        private void txtname_search_Enter(object sender, EventArgs e)
+        {
+            txtitemcode_serach.Text = "Item Code .....";
+            txtitemcode_serach.ForeColor = Color.DarkGray;
+            if (txtname_search.Text == "Food Name .....")
+            {
+                txtname_search.Text = "";
+                txtname_search.ForeColor = Color.Black;
+            }
+
+        }
+        private void txtitemcode_serach_Enter(object sender, EventArgs e)
+        {
+            txtname_search.Text = "Food Name .....";
+            txtname_search.ForeColor = Color.DarkGray;
+            if (txtitemcode_serach.Text == "Item Code .....")
+            {
+
+                txtitemcode_serach.Text = "";
+                txtitemcode_serach.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtname_search_Leave(object sender, EventArgs e)
+        {
+            if (txtname_search.Text == "")
+            {
+                txtname_search.Text = "Food Name .....";
+                txtname_search.ForeColor = Color.DarkGray;
+            }
+
+        }
+        private void txtitemcode_serach_Leave(object sender, EventArgs e)
+        {
+            if (txtitemcode_serach.Text == "")
+            {
+                txtitemcode_serach.Text = "Item Code .....";
+                txtitemcode_serach.ForeColor = Color.DarkGray;
+            }
+        }
+        #endregion
+
+        private void Dgv_Selected_Item_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0) return;
+                if (e.ColumnIndex == iname)
+                {
+                    saletype = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[itabletype].Value);
+                    txt_product_des.Text = "Description Type Here .....";
+                    txt_product_des.ForeColor = Color.Gray;
+
+                    UIHelper.CenterAndResize(pnl_products_descr, 25, 25);
+                    UIHelper.RoundCorners(tlp_products_descr_main, 25);
+                    UIHelper.RoundCorners(pnl_products_descr, 25);
+                    UIHelper.RoundCorners(tlp_product_desc_nav, 25);
+
+                    if (saletype == Convert.ToInt32(Tabletype.DirectSale))
+                    {
+                        Proid_Prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ipridno].Value);
+                        for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        {
+                            if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "" && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.DirectSale))
+                            {
+                                txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                                txt_product_des.ForeColor = Color.Black;
+                                break;
+                            }
+                        }
+                    }
+                    else if (saletype == Convert.ToInt32(Tabletype.ComboProduct))
+                    {
+                        Proid_Prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iitemid].Value);
+                        for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        {
+                            if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "" && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
+                            {
+                                txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                                txt_product_des.ForeColor = Color.Black;
+                                break;
+                            }
+                        }
+                    }
+                    else if (saletype == Convert.ToInt32(Tabletype.Product))//Product Items
+                    {
+                        Proid_Prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iitemid].Value);
+                        for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        {
+                            if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "")
+                            {
+                                txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                                txt_product_des.ForeColor = Color.Black;
+                                break;
+                            }
+                        }
+                    }
+                    else if (saletype == Convert.ToInt32(Tabletype.Variation_Addon))//Product wth addon Items
+                    {
+                        addon_Vari_Id = Convert.ToString(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iavid].Value);
+                        for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        {
+                            if (addon_Vari_Id == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value) && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != null && Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value) != "")
+                            {
+                                txt_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value);
+                                txt_product_des.ForeColor = Color.Black;
+                                break;
+                            }
+                        }
+                    }
+                    lblheader_product_des.Text = Convert.ToString(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iname].Value);
+
+                }
+                if (e.ColumnIndex == iqty)
+                {
+                    decimal totalamt = 0;
+                    saletype = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[itabletype].Value);
+                    decimal kdata = 0;
+                    using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoDecimal)))
+                    {
+                        frm.ShowDialog();
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                    }
+                    if (kdata == 0)
+                        return;
+
+                    int prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ipridno].Value);
+                    int pid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iitemid].Value);
+                    string Av_ID = Convert.ToString(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iavid].Value);
+
+                    if (saletype == Convert.ToInt32(Tabletype.DirectSale))
+                    {
+                        #region Existing Product
+                        int rowno = 0;
+                        for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        {
+                            if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.DirectSale))
+                            {
+                                //int availableQty = ProductQtyCheckMenuQty(Convert.ToInt32(pid), 0);
+
+                                //// 1. Out-of-stock check
+                                //if (availableQty <= 0)
+                                //{
+                                //    MessageBox.Show("Stock Out! This item is not available.",
+                                //                    "Out of Stock",
+                                //                    MessageBoxButtons.OK,
+                                //                    MessageBoxIcon.Warning);
+                                //    return;
+                                //}
+
+                                //// 2. Entered qty exceeds available stock
+                                //if (kdata > availableQty)
+                                //{
+                                //    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                //                    "Stock Warning",
+                                //                    MessageBoxButtons.OK,
+                                //                    MessageBoxIcon.Warning);
+                                //    return;
+                                //}
+                                decimal cqoh = kdata;
+                                if (cqoh > Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
+                                {
+                                    CMessageBox.Show("Aviablle Quantity is : " + Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value), "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    return;
+                                }
+
+                                Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
+                                totalcellamount(i);
+                                rowno = i;
+                                break;
+                            }
+                        }
+                        decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[itotal].Value); // OLD row total
+                        Dgv_Selected_Item.Rows[rowno].Cells[iqty].Value = kdata;
+                        totalcellamount(rowno);
+                        decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[itotal].Value);
+                        decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                        grand = grand - oldTotal + newTotal;
+                        txtGrandTotal.Text = grand.ToString();
+                        txtnetamount.Text = grand.ToString();
+                        netAmount();
+                        #endregion
+                    }
+                    else if (saletype == Convert.ToInt32(Tabletype.ComboProduct))
+                    {
+                        #region Existing combo product
+                        for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        {
+                            if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                            {
+                                int prep = 0;
+                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+                                int availableQty = dataresult.Quantity;
+                                prep = dataresult.PreparationMode;
+                                if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                {
+                                    MessageBox.Show("Stock Out! This item is not available.",
+                                                    "Out of Stock",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                // 2. Entered qty exceeds available stock
+                                if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                {
+                                    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                    "Stock Warning",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
+                                Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
+                                totalcellamount(i);
+                                decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                                grand = grand - oldTotal + newTotal;
+                                txtGrandTotal.Text = grand.ToString();
+                                txtnetamount.Text = grand.ToString();
+
+                                netAmount();
+                                break;
+                            }
+                        }
+                        #endregion
+                    }
+                    else if (saletype == Convert.ToInt32(Tabletype.Product))
+                    {
+                        for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        {
+                            if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                            {
+                                int prep = 0;
+                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+                                int availableQty = dataresult.Quantity;
+                                prep = dataresult.PreparationMode;
+                                if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                {
+
+                                    MessageBox.Show("Stock Out! This item is not available.",
+                                                        "Out of Stock",
+                                                        MessageBoxButtons.OK,
+                                                        MessageBoxIcon.Warning);
+                                    return;
+
+                                }
+
+                                if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                {
+                                    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                    "Stock Warning",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
+                                Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
+                                totalcellamount(i);
+                                decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                                grand = grand - oldTotal + newTotal;
+                                txtGrandTotal.Text = grand.ToString();
+                                txtnetamount.Text = grand.ToString();
+
+                                netAmount();
+                                break;
+                            }
+                        }
+                    }
+                    else if (saletype == Convert.ToInt32(Tabletype.Variation_Addon))
+                    {
+                        #region Existing Product
+                        decimal Addon_amount = 0;
+                        for (int i = 0; i < Dgv_Selected_Item.RowCount; i++)
+                        {
+                            if (Av_ID == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value) && (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation)) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                            {
+                                int prep = 0;
+                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+                                int availableQty = dataresult.Quantity;
+                                prep = dataresult.PreparationMode;
+                                if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                {
+                                    MessageBox.Show("Stock Out! This item is not available.",
+                                                    "Out of Stock",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                // 2. Entered qty exceeds available stock
+                                if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                {
+                                    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                                    "Stock Warning",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
+                                Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
+                                totalcellamount(i);
+                                decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                                grand = grand - oldTotal + newTotal;
+                                txtGrandTotal.Text = grand.ToString();
+                                txtnetamount.Text = grand.ToString();
+
+                                netAmount();
+                                break;
+                            }
+                        }
+                        #endregion
+                    }
+                }
+                else if (e.ColumnIndex == iaction)
+                {
+                    int rowType = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[itabletype].Value);
+                    int pid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iitemid].Value);
+                    decimal qty = Convert.ToDecimal(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iqty].Value);
+                    int vid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ividno].Value);
+                    string avid = Convert.ToString(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iavid].Value);
+                    int prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ipridno].Value);
+                    int addonitem = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ivaraiationstatusno].Value);
+
+                    if (rowType == Convert.ToInt32(Tabletype.DirectSale))
+                    {
+                        decimal TotalPrice = 0;
+                        int rowno = 0;
+                        for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        {
+                            if (prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.DirectSale) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                            {
+                                rowno = i;
+                                break;
+                            }
+                        }
+                        TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[ioriginalprice].Value) * Convert.ToInt32(Dgv_Selected_Item.Rows[rowno].Cells[iqty].Value);
+                        decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
+                        txtGrandTotal.Text = Convert.ToString(totalamt);
+                        Dgv_Selected_Item.Rows.RemoveAt(rowno);
+                    }
+                    else if (rowType == Convert.ToInt32(Tabletype.ComboProduct))
+                    {
+                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "ofm.omid id , ofm.OfferName Field1 ,ofm.Discountper Field2, ofm.tax Field3 ,ofm.taxtype Field4,ofm.TaxSettingsId Field5,ofm.FinalPrice Field6,ofd.Productname Field7";
+                        dmnSearch.Table = "tblOfferMaster ofm LEFT JOIN tblOfferDetails ofd on ofd.Omid=ofm.Omid";
+                        dmnSearch.WhereNdGroupBy = "where ofm.Status=1 and ofd.Omid = " + pid;
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
+                        {
+                            if (Booking_Status == false)
+                            {
+                                if (string.IsNullOrEmpty(txtGrandTotal.Text))
+                                    txtGrandTotal.Text = "0";
+                            }
+                            int n = Dgv_Selected_Item.RowCount - 1;
+                            for (int i = 0; i < n; i++)
+                            {
+                                if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                                {
+                                    decimal TotalPrice = Convert.ToDecimal(Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value)) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                                    decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
+                                    txtGrandTotal.Text = Convert.ToString(totalamt);
+                                    txtnetamount.Text = Convert.ToString(totalamt);
+                                    Dgv_Selected_Item.Rows.RemoveAt(i);
+                                    break;
+                                }
+
+                            }
+                            for (int i = n - 1; i >= 0; i--)
+                            {
+                                if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[isubofferid].Value))
+                                    Dgv_Selected_Item.Rows.RemoveAt(i);
+                            }
+                            //checksave_refresh();
+                        }
+                    }
+                    else if (rowType == Convert.ToInt32(Tabletype.Product))
+                    {
+                        if (addonitem == Convert.ToInt32(Product_Addon_Variation_Type.Variation) || addonitem == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                        {
+                            #region Addon or Variation 
+                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iMainProductStatusno].Value) == Convert.ToInt32(MainProductStatus.Primary))
+                            {
+                                int dgvcount = Dgv_Selected_Item.RowCount - 1;
+                                for (int i = dgvcount; i >= 0; i--)
+                                {
+                                    if (avid == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value))
+                                    {
+                                        if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                                        {
+                                            decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                                            decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
+                                            txtGrandTotal.Text = Convert.ToString(totalamt);
+                                            txtnetamount.Text = Convert.ToString(totalamt);
+                                            Dgv_Selected_Item.Rows.RemoveAt(i);
+                                        }
+                                        else
+                                        {
+                                            Dgv_Selected_Item.Rows.RemoveAt(i);
+                                        }
+                                    }
+                                }
+                            }
+                            #endregion
+                        }
+                        else
+                        {
+                            #region Normal Product
+                            for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                            {
+                                if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                                {
+                                    decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+                                    decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
+                                    txtGrandTotal.Text = Convert.ToString(totalamt);
+                                    txtnetamount.Text = Convert.ToString(totalamt);
+                                    Dgv_Selected_Item.Rows.RemoveAt(i);
+                                    Dgv_Selected_Item.Update();
+                                    break;
+                                }
+                            }
+                            #endregion
+                        }
+                        checksave_refresh();
+                    }
+
+                    netAmount();
+                    GridSlno_Refresh();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page Dgv_Selected_Item_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+        private void Dgv_Selected_Item_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+            {
+                e.CellStyle.ForeColor = Color.Black;
+            }
+            if (e.RowIndex == -1)
+            {
+                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+                e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+                e.AdvancedBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
+                e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+                e.PaintBackground(e.CellBounds, true);
+                e.PaintContent(e.CellBounds);
+                e.Handled = true;
+            }
+        }
+
+        #region Product Description
+
+        private void txt_product_des_Enter(object sender, EventArgs e)
+        {
+            if (txt_product_des.Text == "Description Type Here .....")
+            {
+                txt_product_des.Text = "";
+                txt_product_des.ForeColor = Color.Black;
+            }
+        }
+
+        private void txt_product_des_Leave(object sender, EventArgs e)
+        {
+            if (txt_product_des.Text == "")
+            {
+                txt_product_des.Text = "Description Type Here .....";
+                txt_product_des.ForeColor = Color.DarkGray;
+            }
+        }
+     
+        private void btn_save_product_des_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (saletype == Convert.ToInt32(Tabletype.DirectSale))
+                {
+                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                    {
+                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value))
+                        {
+                            string name = Dgv_Selected_Item.Rows[i].Cells[iname].Value.ToString();
+                            if (txt_product_des.Text != "Description Type Here .....")
+                                Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
+                            break;
+                        }
+                    }
+                }
+                else if (saletype == Convert.ToInt32(Tabletype.ComboProduct))
+                {
+                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                    {
+                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value))
+                        {
+                            string name = Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value.ToString();
+                            if (txt_product_des.Text != "Description Type Here .....")
+                                Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
+                            break;
+                        }
+                    }
+                }
+                else if (saletype == Convert.ToInt32(Tabletype.Product))//Product Item
+                {
+                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                    {
+                        if (Proid_Prid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value))
+                        {
+                            // string name = Dgv_Selected_Item.Rows[i].Cells[iname].Value.ToString();
+                            if (txt_product_des.Text != "Description Type Here .....")
+                                Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
+                            break;
+                        }
+                    }
+                }
+                else if (saletype == Convert.ToInt32(Tabletype.Variation_Addon))//Product Item
+                {
+                    for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                    {
+                        if (addon_Vari_Id == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value))
+                        {
+                            // string name = Dgv_Selected_Item.Rows[i].Cells[iname].Value.ToString();
+                            if (txt_product_des.Text != "Description Type Here .....")
+                                Dgv_Selected_Item.Rows[i].Cells[iprodesno].Value = txt_product_des.Text;
+                            break;
+                        }
+                    }
+                }
+                pnl_products_descr.Visible = false;
+                pnl_main.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Order page  btn_save_product_des_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+        }
+        private void btn_close_prod_des_Click(object sender, EventArgs e)
+        {
+            pnl_main.Enabled = true;
+            pnl_products_descr.Visible = false;
+        }
+
+        #endregion
+
+        private void txtpaidamount_TextChanged(object sender, EventArgs e)
+        {
+            if (txtpaidamount.Text != "." && txtpaidamount.Text != "")
+            {
+                netAmount();
+            }
+
+        }
+        #region Customer Registration 
+
+        private void txtph_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                e.Handled = true;
+            }
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtemailid_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtcusname_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                e.Handled = true;
+            }
+        }
+        private void txtemailid_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtemailid.Text))
+                {
+                    if (clsgen.CheckEmailId(this, txtemailid.Text) != true)
+                        txtemailid.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page txtemailid_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
+        private void txtph_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtph.Text))
+                {
+                    if (txtph.Text.Length > 10)
+                    {
+                        CMessageBox.Show("Please Enter a Valid Phone Number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        txtph.Focus();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page txtph_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
+        private void btn_edit_cus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //txtph.Enabled = true;
+                //txtemailid.Enabled = true;
+                //txtaddress.Enabled = true;
+                //txtcusname.Enabled = true;
+                //rb_female.Enabled = true;
+                //rb_male.Enabled = true;
+                pnl_userreg.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btn_edit_cus_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
+        private void btn_clear_cus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                txtph.Text = "";
+                txtemailid.Text = "";
+                txtaddress.Text = "";
+                txtcusname.Text = "";
+                rb_female.Checked = false;
+                rb_male.Checked = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btn_clear_cus_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+        private void btn_userreg_submit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //txtph.Enabled = true;
+                //txtemailid.Enabled = true;
+                //txtaddress.Enabled = true;
+                //txtcusname.Enabled = true;
+                //rb_female.Enabled = true;
+                //rb_male.Enabled = true;
+                pnl_userreg.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btn_edit_cus_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+        #endregion
+
+
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
         {

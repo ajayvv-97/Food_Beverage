@@ -134,7 +134,7 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-        #region Creation pickup
+        #region Creation & updation pickup
         public class DoubleBufferedFlowLayoutPanel : FlowLayoutPanel
         {
             public DoubleBufferedFlowLayoutPanel()
@@ -172,52 +172,65 @@ namespace FoodandBeverage.Forms
 
                 flp_pickup_view.SuspendLayout();
 
-                // --- Clear UI EXCEPT AddNew button
-                string addbuttonname = "tlp_addnew";
-                foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToList())
+                #region Remove completed order
+                // If NO active orders in paged data → remove ALL pickup controls
+                if (pagedatadata.Count == 0)
                 {
-                    if (ctrl.Name != addbuttonname)
+                    foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToList())
                     {
-                        bool isInCache = PickupCache.Any(k => k.Value.Panel == ctrl);
-
-                        if (!isInCache)
+                        if (!ctrl.Name.StartsWith("tlpboxpkup_add_"))
+                        {
                             flp_pickup_view.Controls.Remove(ctrl);
+                            ctrl.Dispose();
+                        }
+                    }
+                    PickupCache.Clear();
+
+                }
+                else
+                {
+                    // Normal mode: remove only those not found in pagedatadata
+                    var validIds = pagedatadata.Select(x => x.Field3).ToHashSet();
+
+                    foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToList())
+                    {
+                        if (!ctrl.Name.StartsWith("tlpboxpkup_add_"))
+                        {
+                            string orderId = ctrl.Tag?.ToString();
+
+                            if (!validIds.Contains(orderId))
+                            {
+                                flp_pickup_view.Controls.Remove(ctrl);
+                                ctrl.Dispose();
+
+                                if (PickupCache.ContainsKey(orderId))
+                                    PickupCache.Remove(orderId);
+                            }
+                        }
                     }
                 }
 
+                #endregion
 
-                // --- Main Loop
                 foreach (var item in pagedatadata)
                 {
                     (TableLayoutPanel Panel, int Status) cacheItem;
-
-                    // Field7 = Cancel / Item Status
                     int status = Convert.ToInt32(item.Field7);
 
                     if (PickupCache.TryGetValue(item.Field3, out cacheItem))
                     {
-                        // Reuse existing panel
                         UpdatePickupPanel(cacheItem.Panel, item);
-
-                        // Update only status
                         PickupCache[item.Field3] = (cacheItem.Panel, status);
                     }
                     else
                     {
-                        // Create new panel
                         var panel = CreatePickupPanel(item);
-
                         PickupCache[item.Field3] = (panel, status);
-
                         UpdatePickupPanel(panel, item);
                         flp_pickup_view.Controls.Add(panel);
                     }
-
-                    // Ensure visible
                     PickupCache[item.Field3].Panel.Visible = true;
                 }
-
-
                 flp_pickup_view.ResumeLayout();
                 AutoTimer.Start();
             }
@@ -228,60 +241,70 @@ namespace FoodandBeverage.Forms
         }
         private TableLayoutPanel CreatePickupPanel(DmnGridFields item)
         {
-            TableLayoutPanel tlp = new TableLayoutPanel
+            try
             {
-                RowCount = 2,
-                Name = "tlpboxpkup_add_" + item.Field3,
-                Tag = item.Field3,
-                BackColor = Color.White,
-                Margin = new Padding(15, 10, 15, 10),
-                AccessibleName = "0"
-            };
+                TableLayoutPanel tlp = new TableLayoutPanel
+                {
+                    RowCount = 2,
+                    Name = "tlpboxpkup_add_" + item.Field3,
+                    Tag = item.Field3,
+                    BackColor = Color.White,
+                    Margin = new Padding(15, 10, 15, 10),
+                    AccessibleName = "0"
+                };
 
-            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+                tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
+                tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
 
-            Label lblName = new Label
+                Label lblName = new Label
+                {
+                    Name = "lbtablename_pkup_" + item.Field3,
+                    Dock = DockStyle.Fill,
+                    Tag = item.Field3,
+                    Font = new Font("Arial", 10, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    BackColor = Color.Transparent,
+                    AccessibleName = "0"
+                };
+
+                Label lblAmount = new Label
+                {
+                    Name = "lb_netamount_pkup_" + item.Field3,
+                    Dock = DockStyle.Fill,
+                    Tag = item.Field3,
+                    Font = new Font("Arial", 10, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    BackColor = Color.Transparent,
+                    AccessibleName = "0"
+                };
+
+
+                tlp.Controls.Add(lblName, 0, 0);
+                tlp.Controls.Add(lblAmount, 0, 1);
+
+
+                tlp.Click += PickupboxClickEventHandler;
+                lblName.Click += PickupboxClickEventHandler;
+                lblAmount.Click += PickupboxClickEventHandler;
+
+                return tlp;
+            }
+            catch (Exception ex)
             {
-                Name = "lbtablename_pkup_" + item.Field3,
-                Dock = DockStyle.Fill,
-                Tag = item.Field3,
-                Font = new Font("Arial", 10, FontStyle.Bold),
-                TextAlign = ContentAlignment.MiddleCenter,
-                BackColor = Color.Transparent,
-                AccessibleName = "0"
-        };
-
-            Label lblAmount = new Label
-            {
-                Name = "lb_netamount_pkup_" + item.Field3,
-                Dock = DockStyle.Fill,
-                Tag = item.Field3,
-                Font = new Font("Arial", 10, FontStyle.Bold),
-                TextAlign = ContentAlignment.MiddleCenter,
-                BackColor = Color.Transparent,
-                AccessibleName = "0"
-            };
-
-            // Add Controls
-            tlp.Controls.Add(lblName, 0, 0);
-            tlp.Controls.Add(lblAmount, 0, 1);
-
-            // One-time event handlers
-            tlp.Click += PickupboxClickEventHandler;
-            lblName.Click += PickupboxClickEventHandler;
-            lblAmount.Click += PickupboxClickEventHandler;
-
-            return tlp;
+                clsgen.LogException("Pickuppage CreatePickupPanel()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                return null;
+            }
         }
         private void UpdatePickupPanel(TableLayoutPanel tlp, DmnGridFields item)
         {
+            try
+            {
             Label lblName = tlp.Controls[0] as Label;
             Label lblAmount = tlp.Controls[1] as Label;
 
             lblName.Text = "Pick Up\n" + item.Field6;
 
-            // DB Query
+
             BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
             DmnSearch dmnSearch = new DmnSearch();
 
@@ -315,7 +338,7 @@ namespace FoodandBeverage.Forms
                 tlp.BackColor = CancelProduct_order;
             }
 
-            // FIXED FIELD9 CONDITION
+
             if (Convert.ToInt32(item.Field7) == 1)
             {
                 tlp.BackColor = CancelProduct_order;
@@ -336,12 +359,17 @@ namespace FoodandBeverage.Forms
                 lblAmount.AccessibleName = "0";
             }
 
-            // Resize
             tlp.Width = 140;
             tlp.Height = 110;
-            UIHelper.RoundCorners(tlp, 25, null);
-        }
 
+            UIHelper.RoundCorners(tlp, 25, null);
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Pickuppage UpdatePickupPanel()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+            }
+        }
         public void UpdatePickupView(int searchMode)
         {
             try
@@ -373,63 +401,71 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage UpdatePickupView()", ex, FrmLogin.EmployeName,
-                    FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                clsgen.LogException("Pickuppage UpdatePickupView()", ex, FrmLogin.EmployeName,FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
         }
-
         private void LoadPagedataOptimized()
         {
             try
             {
                 flp_pickup_view.SuspendLayout();
 
-                // VALID PANEL LIST FOR CURRENT PAGE
                 HashSet<string> validNames = pagedatadata
                     .Select(x => "tlpboxpkup_add_" + x.Field3)
                     .ToHashSet();
 
-              
-                // --- Clear UI EXCEPT AddNew button
-                string addbuttonname = "tlp_addnew";
-                foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToList())
+                #region Remove completed order
+                // If NO active orders in paged data → remove ALL pickup controls
+                if (pagedatadata.Count == 0)
                 {
-                    if (ctrl.Name != addbuttonname)
+                    foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToList())
                     {
-                        bool isInCache = PickupCache.Any(k => k.Value.Panel == ctrl);
+                        flp_pickup_view.Controls.Remove(ctrl);
+                        ctrl.Dispose();
+                    }
 
-                        if (!isInCache)
-                            flp_pickup_view.Controls.Remove(ctrl);
+                    PickupCache.Clear();
+                }
+                else
+                {
+                    // Normal mode: remove only those not found in pagedatadata
+                    var validIds = pagedatadata.Select(x => x.Field3).ToHashSet();
+                    foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToList())
+                    {
+                        if (ctrl.Name.StartsWith("tlpboxpkup_add_"))
+                        {
+                            string orderId = ctrl.Tag?.ToString();
+                            if (!validIds.Contains(orderId))
+                            {
+                                flp_pickup_view.Controls.Remove(ctrl);
+                                ctrl.Dispose();
+
+                                if (PickupCache.ContainsKey(orderId))
+                                    PickupCache.Remove(orderId);
+                            }
+                        }
                     }
                 }
-                // --- Main Loop
+
+                #endregion
+
                 foreach (var item in pagedatadata)
                 {
                     (TableLayoutPanel Panel, int Status) cacheItem;
-
-                    // Field7 = Cancel / Item Status
                     int status = Convert.ToInt32(item.Field7);
 
                     if (PickupCache.TryGetValue(item.Field3, out cacheItem))
                     {
-                        // Reuse existing panel
                         UpdatePickupPanel(cacheItem.Panel, item);
-
-                        // Update only status
                         PickupCache[item.Field3] = (cacheItem.Panel, status);
                     }
                     else
-                    {
-                        // Create new panel
+                    { 
                         var panel = CreatePickupPanel(item);
-
                         PickupCache[item.Field3] = (panel, status);
-
                         UpdatePickupPanel(panel, item);
                         flp_pickup_view.Controls.Add(panel);
                     }
-
-                    // Ensure visible
                     PickupCache[item.Field3].Panel.Visible = true;
                 }
 
@@ -438,44 +474,11 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("LoadPagedataOptimized()", ex, FrmLogin.EmployeName,
-                    FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                clsgen.LogException("LoadPagedataOptimized()", ex, FrmLogin.EmployeName,FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
         }
 
-        private void UpdatePickupPanelCache(TableLayoutPanel tlp, DmnGridFields item)
-        {
-            Label lblTable = tlp.Controls[0] as Label;
-            Label lblAmount = tlp.Controls[1] as Label;
 
-            lblTable.Text = "Pick Up\n" + item.Field6;
-
-            // Fetch status only ONCE
-            var (status, cancelCount) = CheckOrderStatus(item.Field3);
-
-            if (status == 1)
-            {
-                lblAmount.Visible = true;
-                lblAmount.Text = "Paid\nCooking Started";
-                tlp.BackColor = BillingColor;
-            }
-            else
-            {
-                lblAmount.Visible = true;
-                lblAmount.Text = "Paid\nOrder Sent";
-                tlp.BackColor = Color.White;
-            }
-
-            if (cancelCount > 0)
-            {
-                tlp.BackColor = CancelProduct_order;
-            }
-
-            // Resize
-            tlp.Width = 140;
-            tlp.Height = 110;
-            UIHelper.RoundCorners(tlp, 25, null);
-        }
         private (int status, int cancelCount) CheckOrderStatus(string orderId)
         {
             BllSearch<DmnGridFields> bll = new BllSearch<DmnGridFields>();

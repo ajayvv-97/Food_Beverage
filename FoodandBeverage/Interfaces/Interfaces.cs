@@ -278,7 +278,8 @@ namespace FoodandBeverage.Interfaces
         YZout = 34,
         Refund = 35,
         ExtraLoginAccess = 36,
-        Drawer = 37
+        Drawer = 37,
+        TabletTableView = 38,
 
     };
     public enum Menubutton

@@ -714,3 +714,4 @@ C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBe
 C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
 C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmOrderConsole.resources
+C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmOrderConsoleTabletmode.resources
