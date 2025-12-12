@@ -8659,6 +8659,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         {
 
         }
+
         private void btn_cancle_pickup_Click(object sender, EventArgs e)
         {
             try
@@ -8709,7 +8710,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             {
                 clsgen.LogException("Order page  btn_cancle_pickup_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
-
         }
 
         private void btnreconfirmorder_Click(object sender, EventArgs e)
