@@ -989,17 +989,34 @@ namespace FoodandBeverage.SaleBill
 
                 #region General Information
                 DmnSearch dmnSearchGeninfo = new DmnSearch();
-                dmnSearchGeninfo.Select = "[CREDIT CARD] as TotalCreditAmt,[DEBIT CARD] as TotalDebitAmt, [UPI] as TotalUPI, [BANKING ONLINE] as TotalBankonline, [CASH] as TotalCash, [OTHERS] as Others, [COMPLEMENTRY] as TotalCompAmt,[Discount] as TotalDiscount,[TotalTax] as Totaltax,[NetAmount] as TotalAmount,[TotalQuantity] as TotalQuantity";
+                dmnSearchGeninfo.Select = "[CREDIT CARD] as TotalCreditAmt,[DEBIT CARD] as TotalDebitAmt, [UPI] as TotalUPI, [BANKING ONLINE] as TotalBankonline, [CASH] as TotalCash, [OTHERS] as Others, [COMPLEMENTRY] as TotalCompAmt,[Discount] as TotalDiscount,[TotalTax] as Totaltax,[NetAmount] as TotalAmount,[TotalQuantity] as TotalQuantity,[TotalPreTaxAmt] AS TotalPreTaxAmt,[MIDASCARD] as Totalmidascard";
                 dmnSearchGeninfo.Table = "(select g.Caption as Caption,CAST(Sum(sm.NetAmount) AS decimal(18,2))  as amount from tblSalesMaster sm left join tblGeneralOptions g on g.GTypeSubId =sm.PaymentMode and g.GTypeId = 2 where sm.status = 1 and sm.BranchId = " + BranchId + " and sm.CreatedBy = " + FrmLogin.UserId + " and sm.CreatedDateTime >= '" + Drawerassigntime + "' AND sm.CreatedDateTime <= SYSDATETIME() GROUP BY  g.Caption,sm.NetAmount" +
                     " union all Select 'Discount' Caption ,CAST(Sum(DiscountAmount) AS decimal(18,2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
+                    " Union all Select 'TotalPreTaxAmt', CAST(SUM(NetAmount) - SUM(TotalTax) AS decimal(18, 2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " AND Status = 1 AND CreatedBy = " + FrmLogin.UserId + " AND CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
                     " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                     " Union all Select 'NetAmount' Caption,CAST(Sum(NetAmount) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                     " Union all Select 'TotalQuantity',Sum(TotalQuantity) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1 and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
-                    ")ps PIVOT (SUM(amount)FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS],[COMPLEMENTRY],[Discount],[TotalTax],[NetAmount],[TotalQuantity])) AS pvt  ";
+                    " UNION ALL SELECT g.Caption AS Caption,CAST(SUM(p.paidAmt) AS decimal(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = p.PayMode AND g.GTypeId = 2 WHERE p.PayMode!= 11 AND s.BranchId= " + BranchId + " AND s.PaymentMode = 12 AND s.Status = 1 AND s.CreatedBy = " + FrmLogin.UserId + " and s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME() GROUP BY g.Caption" +
+                    " UNION ALL  SELECT 'MIDASCARD' AS Caption, CAST(SUM(p.paidAmt) AS DECIMAL(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId WHERE p.PayMode = 11 AND s.PaymentMode = 12 AND s.BranchId= " + BranchId + " AND s.Status = 1 AND s.CreatedBy = " + FrmLogin.UserId + "AND s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME()" +
+                    ")ps PIVOT (SUM(amount)FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS],[COMPLEMENTRY],[Discount],[TotalTax],[NetAmount],[TotalQuantity],[MIDASCARD],[TotalPreTaxAmt])) AS pvt  ";
                 dmnSearchGeninfo.WhereNdGroupBy = "";
                 var GenInfoResult = bllGeninfo.GetSearchData("prdSearch", dmnSearchGeninfo);
-                using (var reader = ObjectReader.Create(GenInfoResult, "TotalCompAmt", "Others", "TotalCash", "TotalBankonline", "TotalUPI", "TotalDebitAmt", "TotalCreditAmt", "TotalQuantity", "TotalDiscount", "Totaltax", "TotalAmount"))
+                using (var reader = ObjectReader.Create(GenInfoResult,
+                    "TotalCreditAmt",
+                    "TotalDebitAmt",
+                    "TotalUPI",
+                    "TotalBankonline",
+                    "TotalCash",
+                    "Others",
+                    "TotalCompAmt",
+                    "TotalDiscount",
+                    "TotalQuantity",
+                    "Totaltax",
+                    "TotalAmount",
+                    "TotalPreTaxAmt",
+                    "Totalmidascard"))
                 {
+
                     DT_Geninfo.Load(reader);
                 }
                 #endregion
@@ -1186,17 +1203,34 @@ namespace FoodandBeverage.SaleBill
 
                 #region General Information
                 DmnSearch dmnSearchGeninfo = new DmnSearch();
-                dmnSearchGeninfo.Select = "[CREDIT CARD] as TotalCreditAmt,[DEBIT CARD] as TotalDebitAmt, [UPI] as TotalUPI, [BANKING ONLINE] as TotalBankonline, [CASH] as TotalCash, [OTHERS] as Others, [COMPLEMENTRY] as TotalCompAmt,[Discount] as TotalDiscount,[TotalTax] as Totaltax,[NetAmount] as TotalAmount,[TotalQuantity] as TotalQuantity";
+                dmnSearchGeninfo.Select = "[CREDIT CARD] as TotalCreditAmt,[DEBIT CARD] as TotalDebitAmt, [UPI] as TotalUPI, [BANKING ONLINE] as TotalBankonline, [CASH] as TotalCash, [OTHERS] as Others, [COMPLEMENTRY] as TotalCompAmt,[Discount] as TotalDiscount,[TotalTax] as Totaltax,[NetAmount] as TotalAmount,[TotalQuantity] as TotalQuantity,[TotalPreTaxAmt] AS TotalPreTaxAmt,[MIDASCARD] as Totalmidascard";
                 dmnSearchGeninfo.Table = "(select g.Caption as Caption,CAST(Sum(sm.NetAmount) AS decimal(18,2))  as amount from tblSalesMaster sm left join tblGeneralOptions g on g.GTypeSubId =sm.PaymentMode and g.GTypeId = 2 where sm.status = 1 and sm.BranchId = " + BranchId + " and sm.CreatedBy = " + FrmLogin.UserId + " and sm.CreatedDateTime >= '" + Drawerassigntime + "' AND sm.CreatedDateTime <= SYSDATETIME() GROUP BY  g.Caption,sm.NetAmount" +
                     " union all Select 'Discount' Caption ,CAST(Sum(DiscountAmount) AS decimal(18,2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
+                    " Union all Select 'TotalPreTaxAmt', CAST(SUM(NetAmount) - SUM(TotalTax) AS decimal(18, 2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " AND Status = 1 AND CreatedBy = " + FrmLogin.UserId + " AND CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
                     " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                     " Union all Select 'NetAmount' Caption,CAST(Sum(NetAmount) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                     " Union all Select 'TotalQuantity',Sum(TotalQuantity) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1 and CreatedBy = " + FrmLogin.UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
-                    ")ps PIVOT (SUM(amount)FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS],[COMPLEMENTRY],[Discount],[TotalTax],[NetAmount],[TotalQuantity])) AS pvt  ";
+                    " UNION ALL SELECT g.Caption AS Caption,CAST(SUM(p.paidAmt) AS decimal(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = p.PayMode AND g.GTypeId = 2 WHERE p.PayMode!= 11 AND s.BranchId= " + BranchId + " AND s.PaymentMode = 12 AND s.Status = 1 AND s.CreatedBy = " + FrmLogin.UserId + " and s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME() GROUP BY g.Caption" +
+                    " UNION ALL  SELECT 'MIDASCARD' AS Caption, CAST(SUM(p.paidAmt) AS DECIMAL(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId WHERE p.PayMode = 11 AND s.PaymentMode = 12 AND s.BranchId= " + BranchId + " AND s.Status = 1 AND s.CreatedBy = " + FrmLogin.UserId + "AND s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME()" +
+                    ")ps PIVOT (SUM(amount)FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS],[COMPLEMENTRY],[Discount],[TotalTax],[NetAmount],[TotalQuantity],[MIDASCARD],[TotalPreTaxAmt])) AS pvt  ";
                 dmnSearchGeninfo.WhereNdGroupBy = "";
                 var GenInfoResult = bllGeninfo.GetSearchData("prdSearch", dmnSearchGeninfo);
-                using (var reader = ObjectReader.Create(GenInfoResult, "TotalCompAmt", "Others", "TotalCash", "TotalBankonline", "TotalUPI", "TotalDebitAmt", "TotalCreditAmt", "TotalQuantity", "TotalDiscount", "Totaltax", "TotalAmount"))
+                using (var reader = ObjectReader.Create(GenInfoResult,
+                    "TotalCreditAmt",
+                    "TotalDebitAmt",
+                    "TotalUPI",
+                    "TotalBankonline",
+                    "TotalCash",
+                    "Others",
+                    "TotalCompAmt",
+                    "TotalDiscount",
+                    "TotalQuantity",
+                    "Totaltax",
+                    "TotalAmount",
+                    "TotalPreTaxAmt",
+                    "Totalmidascard"))
                 {
+                   
                     DT_Geninfo.Load(reader);
                 }
                 #endregion

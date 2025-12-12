@@ -7345,7 +7345,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 dmnsalemaster.CardType = CardTypeno;
                                 dmnsalemaster.FMCardType = Fmcardtypeno;
                                 dmnsalemaster.DBname = GameDB;
-                                //var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                             }
                             #endregion
 
@@ -7673,7 +7673,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     dmnsalemaster.CardType = CardTypeno;
                                     dmnsalemaster.FMCardType = Fmcardtypeno;
                                     dmnsalemaster.DBname = GameDB;
-                                    ///var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                    var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                                 }
                                 #endregion
                                 #endregion
@@ -8306,7 +8306,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         dmnsalemaster.CardType = CardTypeno;
                                         dmnsalemaster.FMCardType = Fmcardtypeno;
                                         dmnsalemaster.DBname = GameDB;
-                                        //var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                        var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                                     }
                                     #endregion
 
@@ -8501,7 +8501,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         dmnsalemaster.CardType = CardTypeno;
                                         dmnsalemaster.FMCardType = Fmcardtypeno;
                                         dmnsalemaster.DBname = GameDB;
-                                        //var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
+                                        var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                                     }
                                     #endregion
                                     #endregion

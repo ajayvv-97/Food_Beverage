@@ -236,6 +236,16 @@ namespace FoodandBeverage.Forms
                     return;
                 }
             }
+            if (cmbRefundPayType.SelectedIndex == 1)
+            { 
+                if (string.IsNullOrWhiteSpace(lblcashrefundamt.Text) || lblcashrefundamt.Text == "0.00")
+                {
+                    MessageBox.Show("Please Enter The Amount to Refund.",
+                        "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            
 
             DmnRefund dmnRefund = new DmnRefund();
             BllRefund bllRefund = new BllRefund();
@@ -245,7 +255,14 @@ namespace FoodandBeverage.Forms
             dmnRefund.RefundpayType = Convert.ToInt32(cmbRefundPayType.SelectedValue);
             dmnRefund.RefundReason = Convert.ToInt32(cmbRefundReson.SelectedValue);
             dmnRefund.ReasonNote = txtRenote.Text;
-            dmnRefund.CashRefund = Convert.ToDecimal(lblcashrefundamt.Text);
+            if(cmbRefundPayType.SelectedIndex == 1)
+            {
+                dmnRefund.CashRefund = Convert.ToDecimal(lblcashrefundamt.Text);
+            }
+            if (cmbRefundPayType.SelectedIndex == 2)
+            {
+                dmnRefund.CashBalanceRefund = Convert.ToDecimal(lblnetamount.Text);
+            }
 
             //// Balances
             //dmnRefund.CashBalance = Convert.ToDecimal(lblCashBal.Text);
@@ -304,9 +321,18 @@ namespace FoodandBeverage.Forms
                 }
                 if (kdata > 0)
                 {
-                    lblcashrefundamt.Text = kdata.ToString();
-                    pnl_cus_cash_details.Visible = true;
-                    tlp_cashrefund.BringToFront();
+                    if(kdata > Convert.ToDecimal(lblnetamount.Text))
+                    {
+                        MessageBox.Show("Refund Amount cannot be greater than Payable Amount",
+                       "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        lblcashrefundamt.Text = kdata.ToString();
+                        pnl_cus_cash_details.Visible = true;
+                        tlp_cashrefund.BringToFront();
+                    }
+                    
                 }
             }
         }

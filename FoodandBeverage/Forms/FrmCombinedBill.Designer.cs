@@ -125,7 +125,7 @@ namespace FoodandBeverage.Forms
             this.pnl_complebill_prevbill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_complebill_prevbill.Location = new System.Drawing.Point(0, 0);
             this.pnl_complebill_prevbill.Name = "pnl_complebill_prevbill";
-            this.pnl_complebill_prevbill.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pnl_complebill_prevbill.Padding = new System.Windows.Forms.Padding(3);
             this.pnl_complebill_prevbill.Size = new System.Drawing.Size(824, 609);
             this.pnl_complebill_prevbill.TabIndex = 2;
             this.pnl_complebill_prevbill.Visible = false;
@@ -136,7 +136,7 @@ namespace FoodandBeverage.Forms
             this.pnl_split.Controls.Add(this.tlp_main_split);
             this.pnl_split.Location = new System.Drawing.Point(93, 214);
             this.pnl_split.Name = "pnl_split";
-            this.pnl_split.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pnl_split.Padding = new System.Windows.Forms.Padding(5);
             this.pnl_split.Size = new System.Drawing.Size(304, 322);
             this.pnl_split.TabIndex = 18;
             this.pnl_split.Visible = false;
@@ -296,7 +296,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Controls.Add(this.tlp_control, 0, 0);
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(3, 3);
-            this.tlp_main.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tlp_main.Margin = new System.Windows.Forms.Padding(2);
             this.tlp_main.Name = "tlp_main";
             this.tlp_main.RowCount = 1;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -311,7 +311,7 @@ namespace FoodandBeverage.Forms
             this.tlp_control.Controls.Add(this.pnl_showrepirtbtn_prev, 0, 0);
             this.tlp_control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_control.Location = new System.Drawing.Point(2, 2);
-            this.tlp_control.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tlp_control.Margin = new System.Windows.Forms.Padding(2);
             this.tlp_control.Name = "tlp_control";
             this.tlp_control.RowCount = 2;
             this.tlp_control.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.976744F));
@@ -325,7 +325,7 @@ namespace FoodandBeverage.Forms
             this.pnl_showrepirtbtn_prev.Controls.Add(this.tlp_tblcount_namelist);
             this.pnl_showrepirtbtn_prev.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_showrepirtbtn_prev.Location = new System.Drawing.Point(2, 2);
-            this.pnl_showrepirtbtn_prev.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnl_showrepirtbtn_prev.Margin = new System.Windows.Forms.Padding(2);
             this.pnl_showrepirtbtn_prev.Name = "pnl_showrepirtbtn_prev";
             this.pnl_showrepirtbtn_prev.Size = new System.Drawing.Size(810, 37);
             this.pnl_showrepirtbtn_prev.TabIndex = 0;
@@ -354,7 +354,7 @@ namespace FoodandBeverage.Forms
             this.tlp_outbtn.Controls.Add(this.btnclose, 9, 0);
             this.tlp_outbtn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_outbtn.Location = new System.Drawing.Point(0, 0);
-            this.tlp_outbtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tlp_outbtn.Margin = new System.Windows.Forms.Padding(2);
             this.tlp_outbtn.Name = "tlp_outbtn";
             this.tlp_outbtn.RowCount = 1;
             this.tlp_outbtn.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -549,7 +549,7 @@ namespace FoodandBeverage.Forms
             this.lbl_tbl_totalcount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_tbl_totalcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_tbl_totalcount.Location = new System.Drawing.Point(570, 3);
-            this.lbl_tbl_totalcount.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.lbl_tbl_totalcount.Margin = new System.Windows.Forms.Padding(3);
             this.lbl_tbl_totalcount.Name = "lbl_tbl_totalcount";
             this.lbl_tbl_totalcount.Size = new System.Drawing.Size(237, 31);
             this.lbl_tbl_totalcount.TabIndex = 4;
@@ -576,7 +576,7 @@ namespace FoodandBeverage.Forms
             this.pnl_previous_bill.Controls.Add(this.tlp_previous_bill);
             this.pnl_previous_bill.Location = new System.Drawing.Point(85, 407);
             this.pnl_previous_bill.Name = "pnl_previous_bill";
-            this.pnl_previous_bill.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pnl_previous_bill.Padding = new System.Windows.Forms.Padding(5);
             this.pnl_previous_bill.Size = new System.Drawing.Size(462, 154);
             this.pnl_previous_bill.TabIndex = 16;
             this.pnl_previous_bill.Visible = false;
@@ -865,7 +865,7 @@ namespace FoodandBeverage.Forms
             // 
             this.flp_sidemenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.flp_sidemenu.Location = new System.Drawing.Point(320, 425);
-            this.flp_sidemenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flp_sidemenu.Margin = new System.Windows.Forms.Padding(2);
             this.flp_sidemenu.Name = "flp_sidemenu";
             this.flp_sidemenu.Size = new System.Drawing.Size(251, 88);
             this.flp_sidemenu.TabIndex = 20;
@@ -874,7 +874,7 @@ namespace FoodandBeverage.Forms
             // flp_billlayout
             // 
             this.flp_billlayout.Location = new System.Drawing.Point(337, 280);
-            this.flp_billlayout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flp_billlayout.Margin = new System.Windows.Forms.Padding(2);
             this.flp_billlayout.Name = "flp_billlayout";
             this.flp_billlayout.Size = new System.Drawing.Size(234, 81);
             this.flp_billlayout.TabIndex = 22;
