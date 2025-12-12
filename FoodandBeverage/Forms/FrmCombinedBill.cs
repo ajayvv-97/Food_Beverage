@@ -1468,6 +1468,13 @@ namespace FoodandBeverage.Forms
                         FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
                         FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                     }
+                    #region Close all form Return Login page
+                    foreach (Form openForm in Application.OpenForms.Cast<Form>().ToList())
+                    {
+                        if (!(openForm is FoodandBeverage.Forms.FrmLogin) && !(openForm is FoodandBeverage.Forms.FrmSplash))
+                            openForm.Close();
+                    }
+                    #endregion
 
                 }
                 else

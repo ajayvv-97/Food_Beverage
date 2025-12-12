@@ -42,6 +42,9 @@ namespace Domain
         public decimal TotalDebitAmt { get; set; }
         public decimal TotalCreditAmt { get; set; }
         public decimal Totaltax { get; set; }
+        public decimal TotalPreTaxAmt { get; set; }
+        public decimal Totalmidascard { get; set; }
+
     }
 
     public class DmnReturn
