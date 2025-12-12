@@ -17,9 +17,8 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmTableTabletView : Form
     {
+
         #region Decalarion
-
-
         ClsGeneral clsgen = new ClsGeneral();
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
         int categoryId=0;
@@ -28,8 +27,10 @@ namespace FoodandBeverage.Forms
         ClsDocument clsDocument = new ClsDocument();
 
         public Color DefaultColor = Color.White;
-        public Color OrderColor = System.Drawing.ColorTranslator.FromHtml("#ADD8E6");
-        public Color BillingColor = System.Drawing.ColorTranslator.FromHtml("#ADD8E6");
+        public Color OrderColor = ColorTranslator.FromHtml("#6EC1E4");  // Light Modern Blue
+        public Color BillingColor = ColorTranslator.FromHtml("#F8C471");  // Soft Orange for Billing
+
+
         public Color ReservationColor = Color.YellowGreen;
         public Color ExpiredColor = Color.Red;
         public Color CancelProduct_order = ColorTranslator.FromHtml("#FFB3B3");
@@ -41,8 +42,9 @@ namespace FoodandBeverage.Forms
         private List<DmnGridFields> TableData;
         private List<DmnGridFields> pagedatadata;
 
-        float PRODUCT_WIDTH_PERCENT = 1.5f;
-        float PRODUCT_HEIGHT_PERCENT = 1f;
+        float  PRODUCT_WIDTH_PERCENT = 2f;
+        float PRODUCT_HEIGHT_PERCENT = 0.70f;
+
         int maxColumns = 10;
         int tileW = 0;
         int tileH = 0;
@@ -53,10 +55,27 @@ namespace FoodandBeverage.Forms
         int totalPages = 0;
 
         int  SearchModetype = 0, categorystatus = 0;
+
+        private Font f11;
+        private Font f9;
+        private Font f10;
+        private Font f8;
+        private Font f5;
+        private Font f10Strike;
+        private Font f10Bold;
+        public readonly Font normalFont = new Font("Segoe UI", 10, FontStyle.Regular);
         #endregion
+
         public FrmTableTabletView()
         {
             InitializeComponent();
+
+            f11 = new Font("Microsoft Sans Serif", 6f, FontStyle.Bold);
+            f9 = new Font("Microsoft Sans Serif", 4f, FontStyle.Bold);
+            f10 = new Font("Microsoft Sans Serif", 5f, FontStyle.Bold);
+            f8 = new Font("Microsoft Sans Serif", 7f, FontStyle.Bold);
+            f10Strike = new Font(f10, FontStyle.Strikeout);
+            f10Bold = new Font(f10, FontStyle.Bold);
         }
         public void sidemenutable()
         {
@@ -85,7 +104,7 @@ namespace FoodandBeverage.Forms
                     ToolTip tooltip = new ToolTip();
 
                     int padding = 20; // total horizontal padding/margin to leave
-                    int btnHeight = 50; // fixed button height
+                    int btnHeight = 30; // fixed button height
 
                     // --- Add default "All" button ---
                     Button btnAll = new Button();
@@ -99,7 +118,7 @@ namespace FoodandBeverage.Forms
                     btnAll.FlatAppearance.BorderSize = 0;
                     btnAll.BackColor = Color.Transparent;
                     btnAll.ForeColor = Color.White;
-                    btnAll.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+                    btnAll.Font = f8;
                     btnAll.Margin = new Padding(0, 5, 0, 5);
 
                     btnAll.BackgroundImage = Properties.Resources.fb_sidemenu;
@@ -130,8 +149,8 @@ namespace FoodandBeverage.Forms
                         btn.FlatAppearance.BorderSize = 0;
                         btn.BackColor = Color.Transparent;
                         btn.ForeColor = Color.White;
-                        btn.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-                        btn.Margin = new Padding(0, 5, 0, 5);
+                        btn.Font = f8;
+                        btn.Margin = new Padding(0, 2, 0, 2);
 
                         btn.BackgroundImage = Properties.Resources.fb_sidemenu;
                         btn.BackgroundImageLayout = ImageLayout.Stretch;
@@ -255,11 +274,11 @@ namespace FoodandBeverage.Forms
                         ColumnCount = 1,
                         RowCount = 2,
                         Tag = pagedatadata[i].Field3,
-                        BackColor = Color.White,   // IMPORTANT: visible border
+                        BackColor = Color.Transparent,   // IMPORTANT: visible border
                         Margin = new Padding(0),
-                        Padding = new Padding(2),
+                       // Padding = new Padding(2),
                         AccessibleName = "0",
-                        //CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,  // SHOW BORDER
+                        CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,  // SHOW BORDER
                     };
 
                     tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 70));  // Table Name
@@ -271,12 +290,17 @@ namespace FoodandBeverage.Forms
                         Tag = pagedatadata[i].Field3,
                         Text = pagedatadata[i].Field4,
                         BackColor = Color.Transparent,
-                        Font = new Font(this.Font, FontStyle.Bold),
+                        Font = f8,
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
                         ForeColor = Convert.ToInt32(pagedatadata[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor,
                         AccessibleName = "0",
+                        AutoSize = false,
+                        AutoEllipsis = true,           // ← IMPORTANT (shows ... when text long)
+                        Padding = new Padding(2),      // ← gives breathing space
+                        Margin = new Padding(0)
                     };
+
 
                     Label netamountlabel = new Label
                     {
@@ -285,7 +309,7 @@ namespace FoodandBeverage.Forms
                         Tag = pagedatadata[i].Field3,
                         ForeColor = Netamountfontcolor,
                         BackColor = Color.Transparent,
-                        Font = new Font(this.Font, FontStyle.Bold),
+                        Font = f8,
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
                         Visible = false,
@@ -300,11 +324,11 @@ namespace FoodandBeverage.Forms
                     tlp_table_inner.Controls.Add(lbltablename, 0, 0);
                     tlp_table_inner.Controls.Add(netamountlabel, 0, 1);
 
-                    this.BeginInvoke(new Action(() =>
-                    {
-                        UIHelper.AutoFitLabelFont(lbltablename);
-                        UIHelper.AutoFitLabelFont(netamountlabel);
-                    }));
+                    //this.BeginInvoke(new Action(() =>
+                    //{
+                    //    UIHelper.AutoFitLabelFont(lbltablename);
+                    //    UIHelper.AutoFitLabelFont(netamountlabel);
+                    //}));
 
                     // Add TLP to Panel
                     pnl_container.Controls.Add(tlp_table_inner);
@@ -316,7 +340,7 @@ namespace FoodandBeverage.Forms
                         Height = 22,
                         BackColor = Color.White,
                         ForeColor = Color.Black,
-                        Font = new Font(this.Font, FontStyle.Bold),
+                        Font = f8,
                         FlatStyle = FlatStyle.Flat,
                         Text = "5",
                         Visible = false,
@@ -504,14 +528,14 @@ namespace FoodandBeverage.Forms
                         //if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
                         //    tlp_table_inner.BackColor = BillingColor;
                         //else
-                        tlp_table_inner.BackColor = DefaultColor;
+                        //tlp_table_inner.BackColor = DefaultColor;
                     }
 
                     lbltablename.Click += tableClickEventHandler;
                     pnl_container.Click += tableClickEventHandler;
                     netamountlabel.Click += tableClickEventHandler;
 
-                    UIHelper.RoundCorners(pnl_container, 25, null);
+                    //UIHelper.RoundCorners(pnl_container, 25, null);
                     flp_tableview.Controls.Add(pnl_container);
                 }
                 flp_tableview.ResumeLayout();
@@ -579,7 +603,9 @@ namespace FoodandBeverage.Forms
                 //            pnl.Visible = shouldShow;
                 //    }
                 //}
+
                 LoadPagedata();
+
                 flp_tableview.ResumeLayout();
 
             }
@@ -656,9 +682,6 @@ namespace FoodandBeverage.Forms
                             else
                                 tlp_table_inner.BackColor = OrderColor;
                         }
-
-
-
                     }
                     #endregion
 
@@ -798,14 +821,14 @@ namespace FoodandBeverage.Forms
                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                         netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+
                         //if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
                         //    tlp_table_inner.BackColor = BillingColor;
                         //else
-                        tlp_table_inner.BackColor = DefaultColor;
+                        //tlp_table_inner.BackColor = DefaultColor;
                     }
                 }
-
-                //initTimer();
+                initTimer();
             }
             catch (Exception ex)
             {
@@ -1109,7 +1132,7 @@ namespace FoodandBeverage.Forms
                         Tag = gridSource[i].Field3,
                         Text = gridSource[i].Field4,
                         BackColor = Color.Transparent,
-                        Font = AppFonts.GetFont(8),
+                        Font = f8,
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
                         ForeColor = Convert.ToInt32(gridSource[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor,
@@ -1122,7 +1145,7 @@ namespace FoodandBeverage.Forms
                         Tag = gridSource[i].Field3,
                         ForeColor = Netamountfontcolor,
                         BackColor = Color.Transparent,
-                        Font = AppFonts.GetFont(10),
+                        Font = f8,
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
                         Visible = false
@@ -1142,9 +1165,9 @@ namespace FoodandBeverage.Forms
                         Height = 22,
                         BackColor = Color.White,
                         ForeColor = Color.Black,
-                        Font = AppFonts.GetFont(3),
+                        Font =f8,
                         FlatStyle = FlatStyle.Flat,
-                        Text = "5",
+                        Text = "0",
                         Visible = false,
                         Anchor = AnchorStyles.Top | AnchorStyles.Right,
                         Cursor = Cursors.Hand,
@@ -1344,14 +1367,14 @@ namespace FoodandBeverage.Forms
             lbl_edesign.Text = FrmloginTablet.Designation;
             lbl_edepart.Text = FrmloginTablet.departmentname;
 
-            lbl_ename.Font = AppFonts.GetFont(10);
-            lbl_edesign.Font = AppFonts.GetFont(10);
-            lbl_edepart.Font = AppFonts.GetFont(10);
+            lbl_ename.Font = f10;
+            lbl_edesign.Font = f10;
+            lbl_edepart.Font = f10;
 
-            btn_elogout.Font = AppFonts.GetFont(10);
-            btn_lock.Font = AppFonts.GetFont(10);
+            btn_elogout.Font = f10;
+            btn_lock.Font = f10;
 
-            UIHelper.ResizeOnly(pnl_userdetails, 15, 45);
+            UIHelper.ResizeOnly(pnl_userdetails, 25, 45);
             UIHelper.RoundCorners(pnl_userdetails, 25,Color.White);
             Point iconScreen = pbusericon.PointToScreen(Point.Empty);
             int desiredX = iconScreen.X + (pbusericon.Width / 2) - (pnl_userdetails.Width / 2);
@@ -1429,7 +1452,7 @@ namespace FoodandBeverage.Forms
         private void FrmTableTabletView_Resize(object sender, EventArgs e)
         {
             int containerWidth = flp_tableview.ClientSize.Width;
-            tileW = (int)(containerWidth * PRODUCT_WIDTH_PERCENT / maxColumns);
+            tileW =  (int)(containerWidth * PRODUCT_WIDTH_PERCENT / maxColumns);
             tileH = (int)(tileW * PRODUCT_HEIGHT_PERCENT);
         }
 

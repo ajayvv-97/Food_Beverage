@@ -2718,23 +2718,42 @@ namespace FoodandBeverage.Forms
             try
             {
                 if (Dgv_Selected_Item.RowCount == 0)
-                    Dgv_Selected_Item.Rows.Add();
+                    return;
 
-                int i = 1;
+                int mainNo = 1;
+                int subNo = 1;
+
                 for (int j = 0; j < Dgv_Selected_Item.RowCount; j++)
                 {
-                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[j].Cells[isubofferstatus].Value) == 0 && Dgv_Selected_Item.Rows[j].Cells[isubofferstatus].Value != null)
+                    var itemId = Dgv_Selected_Item.Rows[j].Cells[iqty].Value;
+                    if (itemId == null || Convert.ToInt32(itemId) <= 0)//|| Convert.ToInt32(Dgv_Selected_Item.Rows[j].Cells[iMainProductStatusno].Value)== (int)MainProductStatus.Secondary
+                        continue;
+
+                    int prodStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[j].Cells[iMainProductStatusno].Value);
+
+                    // MAIN PRODUCT
+                    if (prodStatus == (int)MainProductStatus.Primary)
                     {
-                        Dgv_Selected_Item.Rows[j].Cells[islno].Value = i;
-                        i = i + 1;
+                        Dgv_Selected_Item.Rows[j].Cells[islno].Value = mainNo;
+                        Dgv_Selected_Item.Rows[j].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        mainNo++;
+                        subNo = 1;
+                    }
+                    // SUB PRODUCT
+                    else if (prodStatus == (int)MainProductStatus.Secondary)
+                    {
+                        Dgv_Selected_Item.Rows[j].Cells[islno].Value = subNo;
+                        Dgv_Selected_Item.Rows[j].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                        subNo++;
                     }
                 }
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page  GridSlno_Refresh()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page GridSlno_Refresh()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+
         public void AddEmptyRowIfNeeded()
         {
             try
@@ -5925,8 +5944,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         Dgv_Selected_Item.Rows[r1].Cells[iVariatiionNameno].Value = vrianame;
                         Dgv_Selected_Item.Rows[r1].Cells[iPreparationModeno].Value = Convert.ToInt32(gridSource[0].Field13);
 
-                        Dgv_Selected_Item.Rows.Add(1);
-                        GridSlno_Refresh();
+                        Dgv_Selected_Item.Rows.Add(1);  
 
                         #region Variation or Addon Grid Inseration
                         decimal Total_Addon_Amt = 0;
@@ -6003,7 +6021,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                         checksave_refresh();
                     }
+
+                    GridSlno_Refresh();
                     pnl_main.Enabled = true;
+
                     #endregion
                 }
                 Checked_VariationAddon_List.Clear();

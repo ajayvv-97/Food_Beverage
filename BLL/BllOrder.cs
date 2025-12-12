@@ -16,12 +16,6 @@ namespace BLL
             parms.Add("BookmasterId", objTestClass.BookmasterId);
             parms.Add("EntryNo", objTestClass.EntryNo);
 
-            parms.Add("CustomerName", objTestClass.CustomerName);
-            parms.Add("Address", objTestClass.Address);
-            parms.Add("Telephone", objTestClass.Telephone);
-            parms.Add("Email", objTestClass.Email);
-            parms.Add("Gender", objTestClass.Gender);
-
             parms.Add("TotQty", objTestClass.TotalQuantity);
             parms.Add("Remark", objTestClass.Remarks);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
@@ -31,8 +25,21 @@ namespace BLL
             parms.Add("NetAmount", objTestClass.NetAmount);
             parms.Add("PickupOrderFlag", objTestClass.PickupOrderFlag);
             parms.Add("PkId", objTestClass.PkId);
-            parms.Add("Kitchennumber", objTestClass.Kitchennumber); 
-             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("Kitchennumber", objTestClass.Kitchennumber);
+
+            // ---------------------------
+            // NEW CUSTOMER DETAILS (ADDED)
+            // ---------------------------
+            parms.Add("FirstName", objTestClass.FirstName);
+            parms.Add("SecondName", objTestClass.SecondName);
+            parms.Add("CompanyName", objTestClass.CompanyName);
+            parms.Add("GSTNo", objTestClass.GSTNo);
+            parms.Add("PhoneNumber", objTestClass.PhoneNumber);
+            parms.Add("EmailAddress", objTestClass.EmailAddress);
+            parms.Add("FullAddress", objTestClass.FullAddress);
+            parms.Add("Gender", objTestClass.Gender);
+
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
         public DmnOrderMaster AddData(string procedureName, DmnOrderMaster objTestClass)

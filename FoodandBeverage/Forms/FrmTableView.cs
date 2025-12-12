@@ -544,7 +544,7 @@ namespace FoodandBeverage.Forms
                     pnl_container.Controls.Add(btnCancelCount);
                     btnCancelCount.Location = new Point(pnl_container.Width - btnCancelCount.Width - 5, 5);
                     btnCancelCount.BringToFront();
-
+                    bool ordstatus = flag;
                     #region Normal Order 
                     if (Convert.ToInt32(pagedatadata[i].Field5) == 1)//not reservation order 
                     {
@@ -557,6 +557,7 @@ namespace FoodandBeverage.Forms
 
                         if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
                         {
+                            ordstatus = true;
                             netamountlabel.Visible = true;
                             tlp_table_inner.BackColor = BillingColor;
                             tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
@@ -708,10 +709,11 @@ namespace FoodandBeverage.Forms
                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                         netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                        //if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
+
+                        //if (ordstatus)
                         //    tlp_table_inner.BackColor = BillingColor;
                         //else
-                        tlp_table_inner.BackColor = DefaultColor;
+                        //    tlp_table_inner.BackColor = OrderColor;
                     }
 
                     lbltablename.Click += tableClickEventHandler;
@@ -815,7 +817,7 @@ namespace FoodandBeverage.Forms
                     netamountlabel.AccessibleDescription = "0";
 
                     // Update NetAmount & color logic for normal/reservation orders
-
+                    bool ordstatus = false;
                     #region Normal Order 
                     if (Convert.ToInt32(pagedatadata[i].Field5) == 1)//not reservation order 
                     {
@@ -828,6 +830,7 @@ namespace FoodandBeverage.Forms
 
                         if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
                         {
+                            ordstatus = true;
                             netamountlabel.Visible = true;
                             tlp_table_inner.BackColor = BillingColor;
                             tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.AutoSize);
@@ -1002,14 +1005,15 @@ namespace FoodandBeverage.Forms
                         tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                         tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
                         netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                        //if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
+
+                        //if (ordstatus)
                         //    tlp_table_inner.BackColor = BillingColor;
                         //else
-                        tlp_table_inner.BackColor = DefaultColor;
+                        //    tlp_table_inner.BackColor = OrderColor;
                     }
                 }
 
-                //initTimer();
+                initTimer();
             }
             catch (Exception ex)
             {

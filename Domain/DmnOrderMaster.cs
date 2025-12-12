@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnOrderMaster:DmnOrderDetails
+    public class DmnOrderMaster : DmnOrderDetails
     {
         public int OrderMasterId { get; set; }
         public string EntryNo { get; set; }
@@ -28,7 +28,6 @@ namespace Domain
         public decimal ReservationTotal { get; set; }
         public decimal AdvancePay { get; set; }
         public string CustomerName { get; set; }
-        public int Gender { get; set; }
         public int Tablecount { get; set; }
         public int OrderDetailsId { get; set; }
         public int AddonStatus { get; set; }
@@ -41,9 +40,19 @@ namespace Domain
         public string OtherDedText { get; set; }
         public int PickupOrderFlag { get; set; }
         public int PkId { get; set; }
-            
 
+        // ============================
+        // NEW CUSTOMER DETAILS (ADDED)
+        // ============================
 
+        public int cusid { get; set; }
+        public string FirstName { get; set; }      
+        public string SecondName { get; set; }      
+        public string CompanyName { get; set; }     
+        public string GSTNo { get; set; }           
+        public string PhoneNumber { get; set; }    
+        public string EmailAddress { get; set; }
+        public string FullAddress { get; set; }
+        public int Gender { get; set; }
     }
-
 }

@@ -468,6 +468,30 @@ namespace FoodandBeverage.Forms
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
+                    var data = gridSourcemaster[0];  
+                    // ========== BASIC CUSTOMER DETAILS ==========
+                    txtfristname.Text = data.FirstName;
+                    txtsecondname.Text = data.SecondName;
+                    txtcompanyname.Text = data.CompanyName;
+                    txtgstno.Text = data.GSTNo;
+                    txtph.Text = data.PhoneNumber;
+                    txtemailid.Text = data.EmailAddress;
+                    txtaddress.Text = data.FullAddress;
+                    string gender = Convert.ToString(gridSourcemaster[0].Gender);
+                    if (!string.IsNullOrEmpty(gender))
+                    {
+                        if (gender == "Male" || gender == "M" || gender == "1")
+                        {
+                            rb_male.Checked = true;
+                            rb_female.Checked = false;
+                        }
+                        else if (gender == "Female" || gender == "F" || gender == "2")
+                        {
+                            rb_female.Checked = true;
+                            rb_male.Checked = false;
+                        }
+                    }
+
                     Neworderflag = false;
                     tlp_refund_ktcancel.Visible = false;
                     dgv_ordercancel.Columns[cnactionno].Visible = true;
@@ -480,23 +504,14 @@ namespace FoodandBeverage.Forms
                     else
                         txtsalemasterid.Text = "0";
 
-                    txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
-                    txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
-                    txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
-                    txtcusname.Text = Convert.ToString(gridSourcemaster[0].CustomerName);
-                    if (Convert.ToInt32(gridSourcemaster[0].Gender) == 1)
-                        rb_male.Checked = true;
-                    else
-                        rb_female.Checked = true;
-
-                    txtph.Enabled = false;
-                    txtemailid.Enabled = false;
-                    txtaddress.Enabled = false;
-                    txtcusname.Enabled = false;
-                    rb_female.Enabled = false;
-                    rb_male.Enabled = false;
-                    btn_userreg_submit.Visible = true;
-                    btn_clear_cus.Visible = true;
+                    //txtph.Enabled = false;
+                    //txtemailid.Enabled = false;
+                    //txtaddress.Enabled = false;
+                    //txtfristname.Enabled = false;
+                    //rb_female.Enabled = false;
+                    //rb_male.Enabled = false;
+                    //btn_userreg_submit.Visible = true;
+                    //btn_clear_cus.Visible = true;
 
                     ordercount = 0;
                     OrderRunning_Status = true;
@@ -1202,21 +1217,39 @@ namespace FoodandBeverage.Forms
             try
             {
                 if (Dgv_Selected_Item.RowCount == 0)
-                    Dgv_Selected_Item.Rows.Add();
+                    return;
 
-                int i = 1;
+                int mainNo = 1;
+                int subNo = 1;
+
                 for (int j = 0; j < Dgv_Selected_Item.RowCount; j++)
                 {
-                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[j].Cells[isubofferstatus].Value) == 0 && Dgv_Selected_Item.Rows[j].Cells[isubofferstatus].Value != null)
+                    var itemId = Dgv_Selected_Item.Rows[j].Cells[iqty].Value;
+                    if (itemId == null || Convert.ToInt32(itemId) <= 0)//|| Convert.ToInt32(Dgv_Selected_Item.Rows[j].Cells[iMainProductStatusno].Value)== (int)MainProductStatus.Secondary
+                        continue;
+
+                    int prodStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[j].Cells[iMainProductStatusno].Value);
+
+                    // MAIN PRODUCT
+                    if (prodStatus == (int)MainProductStatus.Primary)
                     {
-                        Dgv_Selected_Item.Rows[j].Cells[islno].Value = i;
-                        i = i + 1;
+                        Dgv_Selected_Item.Rows[j].Cells[islno].Value = mainNo;
+                        Dgv_Selected_Item.Rows[j].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        mainNo++;
+                        subNo = 1;   
+                    }
+                    // SUB PRODUCT
+                    else if (prodStatus == (int)MainProductStatus.Secondary)
+                    {
+                        Dgv_Selected_Item.Rows[j].Cells[islno].Value = subNo;
+                        Dgv_Selected_Item.Rows[j].Cells[islno].Style.Alignment =   DataGridViewContentAlignment.MiddleRight;
+                        subNo++;  
                     }
                 }
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page  GridSlno_Refresh()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page GridSlno_Refresh()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
         public void AddEmptyRowIfNeeded()
@@ -2456,7 +2489,6 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region All menu button Click
-
         private void DashboardButtonClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -2793,7 +2825,7 @@ namespace FoodandBeverage.Forms
                 int panelW = pnl_variation_addon.Width;
                 int panelH = pnl_variation_addon.Height;
 
-                int variationWidth = (int)(panelW * 0.40);   // wider (+3%)
+                int variationWidth = (int)(panelW * 0.20);   // wider (+3%)
                 int variationHeight = (int)(panelH * 0.10);  // shorter (-10%)
                 // Addon area dynamic allocation
                 int addonWidth = (int)(panelW * 0.30);
@@ -2823,56 +2855,85 @@ namespace FoodandBeverage.Forms
                 {
                     if (Convert.ToInt32(item.Field6) == 1)
                     {
-                        // === MAIN CONTAINER ===
-                        TableLayoutPanel tbl = new TableLayoutPanel();
-                        tbl.Name = "tbl_vari_" + item.Field1;
-                        tbl.AutoSize = false;
-                        tbl.Width = variationWidth;
-                        tbl.Height = variationHeight;
-                        tbl.Margin = new Padding(5);
-                        //tbl.Padding = new Padding(2);
-                        tbl.RowCount = 1;
-                        tbl.ColumnCount = 2;
-                        tbl.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-                        tbl.Tag = item.Field1;
-
-                        // Column Styles
-                        tbl.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60)); // button
-                        tbl.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40)); // price
-
-                        // === VARIATION BUTTON ===
                         Button btn = new Button();
-                        btn.Text = item.Field2;
-                        btn.Dock = DockStyle.Fill;
+                        btn.Width = variationWidth;      // same size as before
+                        btn.Height = variationHeight;
+                        btn.Margin = new Padding(5);
                         btn.Name = "btnVariation_" + item.Field1;
                         btn.Tag = item.Field1;
                         btn.AccessibleDescription = item.Field3;
+
+                        string name = item.Field2;
+                        string price = item.Field3;
+
+                        btn.Text = $"{name}\n₹{price}";
                         btn.BackColor = ColorTranslator.FromHtml("#3f88c5");
                         btn.Font = new Font("Arial", 7, FontStyle.Bold);
+                        btn.TextAlign = ContentAlignment.MiddleCenter;
                         btn.Click += ButtonVariation_Click;
 
-                        //UIHelper.AutoScaleFont(btn, 14);
-
-                        // === PRICE LABEL ===
-                        Label lbl = new Label();
-                        lbl.Tag = item.Field1;
-                        lbl.Text = item.Field3;
-                        lbl.Dock = DockStyle.Fill;
-                        lbl.TextAlign = ContentAlignment.MiddleCenter;
-                        lbl.Font = new Font("Arial", 7, FontStyle.Bold);
-
-                       // UIHelper.AutoScaleFont(lbl, 12);
-
-                        // Add controls to row
-                        tbl.Controls.Add(btn, 0, 0);
-                        tbl.Controls.Add(lbl, 1, 0);
-
-                        // Add layout panel into flow panel
-                        flp_variation.Controls.Add(tbl);
+                        // Add directly to flow panel
+                        flp_variation.Controls.Add(btn);
 
                         variflag = false;
                     }
                 }
+
+
+                /*  foreach (var item in listData)
+                  {
+                      if (Convert.ToInt32(item.Field6) == 1)
+                      {
+                          // === MAIN CONTAINER ===
+                          TableLayoutPanel tbl = new TableLayoutPanel();
+                          tbl.Name = "tbl_vari_" + item.Field1;
+                          tbl.AutoSize = false;
+                          tbl.Width = variationWidth;
+                          tbl.Height = variationHeight;
+                          tbl.Margin = new Padding(5);
+                          //tbl.Padding = new Padding(2);
+                          tbl.RowCount = 1;
+                          tbl.ColumnCount = 2;
+                          tbl.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                          tbl.Tag = item.Field1;
+
+                          // Column Styles
+                          tbl.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60)); // button
+                          tbl.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40)); // price
+
+                          // === VARIATION BUTTON ===
+                          Button btn = new Button();
+                          btn.Text = item.Field2;
+                          btn.Dock = DockStyle.Fill;
+                          btn.Name = "btnVariation_" + item.Field1;
+                          btn.Tag = item.Field1;
+                          btn.AccessibleDescription = item.Field3;
+                          btn.BackColor = ColorTranslator.FromHtml("#3f88c5");
+                          btn.Font = new Font("Arial", 7, FontStyle.Bold);
+                          btn.Click += ButtonVariation_Click;
+
+                          //UIHelper.AutoScaleFont(btn, 14);
+
+                          // === PRICE LABEL ===
+                          Label lbl = new Label();
+                          lbl.Tag = item.Field1;
+                          lbl.Text = item.Field3;
+                          lbl.Dock = DockStyle.Fill;
+                          lbl.TextAlign = ContentAlignment.MiddleCenter;
+                          lbl.Font = new Font("Arial", 7, FontStyle.Bold);
+
+                         // UIHelper.AutoScaleFont(lbl, 12);
+
+                          // Add controls to row
+                          tbl.Controls.Add(btn, 0, 0);
+                          tbl.Controls.Add(lbl, 1, 0);
+
+                          // Add layout panel into flow panel
+                          flp_variation.Controls.Add(tbl);
+
+                          variflag = false;
+                      }
+                  }*/
 
 
                 // ========== ADDONS ==========
@@ -3167,7 +3228,6 @@ namespace FoodandBeverage.Forms
                     }
                     clickedControl.BackColor = Color.Red;
                     previousClickedButton = clickedControl;
-
 
                     var existingItem = Checked_VariationAddon_List.FirstOrDefault(item => item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Variation));
                     if (existingItem != null)
@@ -5325,7 +5385,7 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[iaction].Value = Properties.Resources.close_price_change;
                         Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.NullValue = null;
-                        Dgv_Selected_Item.Rows[r1].Height = 40;
+                        Dgv_Selected_Item.Rows[r1].Height = Gridrowheight;
                         ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
 
                         Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -5374,7 +5434,6 @@ namespace FoodandBeverage.Forms
                         Dgv_Selected_Item.Rows[r1].Cells[iPreparationModeno].Value = Convert.ToInt32(gridSource[0].Field13);
 
                         Dgv_Selected_Item.Rows.Add(1);
-                        GridSlno_Refresh();
 
                         #region Variation or Addon Grid Inseration
                         decimal Total_Addon_Amt = 0;
@@ -5384,13 +5443,14 @@ namespace FoodandBeverage.Forms
                             var item = Checked_VariationAddon_List[i];
                             if (item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
                             {
+                                Dgv_Selected_Item.Rows[r1].Height = Gridrowheight;
                                 r1 = Dgv_Selected_Item.RowCount - 1;
                                 Dgv_Selected_Item.Rows[r1].Cells[islno].Value = i + 1;
 
-                                Dgv_Selected_Item.Rows[r1].Cells[iaction].Value = Properties.Resources.addon_comb_item;
+                                //Dgv_Selected_Item.Rows[r1].Cells[iaction].Value = Properties.Resources.addon_comb_item;
                                 Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                                 Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.NullValue = null;
-                                ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                //((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
 
                                 Dgv_Selected_Item.Rows[r1].ReadOnly = true;
                                 Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -5454,6 +5514,7 @@ namespace FoodandBeverage.Forms
                     tlp_main.Enabled = true;
                     #endregion
                 }
+                GridSlno_Refresh();
                 Checked_VariationAddon_List.Clear();
                 pnl_variation_addon.ResumeLayout();
             }
@@ -5537,6 +5598,7 @@ namespace FoodandBeverage.Forms
                     setKitchenperfix();
                     bool flage = false;
                     int GBL_pkid = 0;
+
                     DmnOrderMaster dmnordermaster = new DmnOrderMaster();
                     DmnOrderDetails dmnorderdetail = new DmnOrderDetails();
                     BllOrder bll_order = new BllOrder();
@@ -5544,7 +5606,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                     dmnordermaster.EntryNo = "";
                     dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
-                    dmnordermaster.CustomerName = Convert.ToString(txtcusname.Text);
+                    dmnordermaster.CustomerName = Convert.ToString(txtfristname.Text);
                     dmnordermaster.Telephone = Convert.ToString(txtph.Text);
                     dmnordermaster.Email = Convert.ToString(txtemailid.Text);
                     dmnordermaster.Address = Convert.ToString(txtaddress.Text);
@@ -5559,7 +5621,7 @@ namespace FoodandBeverage.Forms
                         DmnPickup dmnDmnPickup = new DmnPickup();
                         BllPickup bll_Pickup = new BllPickup();
                         dmnDmnPickup.PkId = 0;
-                        dmnDmnPickup.CusName = Convert.ToString(txtcusname.Text);
+                        dmnDmnPickup.CusName = Convert.ToString(txtfristname.Text);
                         dmnDmnPickup.Mobile = Convert.ToString(txtph.Text);
                         dmnDmnPickup.Address = Convert.ToString(txtaddress.Text);
                         dmnDmnPickup.EmailId = Convert.ToString(txtemailid.Text);
@@ -5600,13 +5662,22 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
                     dmnordermaster.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
 
+                    dmnordermaster.FirstName = txtfristname.Text.Trim();      // First name
+                    dmnordermaster.SecondName = txtsecondname.Text.Trim();     // Second name
+                    dmnordermaster.CompanyName = txtcompanyname.Text.Trim();    // Company
+                    dmnordermaster.GSTNo = txtgstno.Text.Trim();          // GST
+                    dmnordermaster.PhoneNumber = txtph.Text.Trim();             // Phone number
+                    dmnordermaster.EmailAddress = txtemailid.Text.Trim();        // Email
+                    dmnordermaster.FullAddress = txtaddress.Text.Trim();        // Address
+                    if (rb_male.Checked)
+                        dmnordermaster.Gender = 1;        // Male
+                    else if (rb_female.Checked)
+                        dmnordermaster.Gender = 2;        // Female
 
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                     if (InsertStatusP.OrderMasterId > 0)
                     {
                         ResetFlag(Convert.ToInt32(txtordermasterid.Text));
-
-
                         for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                         {
                             if (Booking_Status)
@@ -5823,7 +5894,7 @@ namespace FoodandBeverage.Forms
                 txtph.Text = "";
                 txtemailid.Text = "";
                 txtaddress.Text = "";
-                txtcusname.Text = "";
+                txtfristname.Text = "";
 
                 rb_female.Checked = false;
                 rb_male.Checked = false;
@@ -5994,10 +6065,15 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+
                 txtph.Text = "";
                 txtemailid.Text = "";
                 txtaddress.Text = "";
-                txtcusname.Text = "";
+                txtfristname.Text = "";
+                txtsecondname.Text = "";
+                txtcompanyname.Text = "";
+                txtgstno.Text = "";
+
                 rb_female.Checked = false;
                 rb_male.Checked = false;
             }
@@ -6006,6 +6082,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page btn_clear_cus_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+
         private void btn_userreg_cls_Click(object sender, EventArgs e)
         {
             pnl_userreg.Visible = false;
@@ -6021,7 +6098,9 @@ namespace FoodandBeverage.Forms
                 //txtcusname.Enabled = true;
                 //rb_female.Enabled = true;
                 //rb_male.Enabled = true;
+
                 pnl_userreg.Visible = false;
+
             }
             catch (Exception ex)
             {
