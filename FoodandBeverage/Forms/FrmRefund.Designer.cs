@@ -117,7 +117,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 8;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -219,7 +219,7 @@ namespace FoodandBeverage.Forms
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Location = new System.Drawing.Point(298, 4);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(95, 31);
             this.btnSearch.TabIndex = 1;
@@ -633,7 +633,7 @@ namespace FoodandBeverage.Forms
             this.tlp_custom.ColumnCount = 3;
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.63039F));
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.36961F));
-            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
+            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
             this.tlp_custom.Controls.Add(this.lblcardno, 0, 1);
             this.tlp_custom.Controls.Add(this.lblcbalance, 0, 1);
             this.tlp_custom.Controls.Add(this.lblrefunbalance, 0, 1);
@@ -655,7 +655,7 @@ namespace FoodandBeverage.Forms
             this.lblcardno.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblcardno.Location = new System.Drawing.Point(3, 35);
             this.lblcardno.Name = "lblcardno";
-            this.lblcardno.Size = new System.Drawing.Size(186, 20);
+            this.lblcardno.Size = new System.Drawing.Size(185, 20);
             this.lblcardno.TabIndex = 5;
             this.lblcardno.Text = "label10";
             this.lblcardno.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -664,7 +664,7 @@ namespace FoodandBeverage.Forms
             // 
             this.lblcbalance.AutoSize = true;
             this.lblcbalance.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblcbalance.Location = new System.Drawing.Point(195, 35);
+            this.lblcbalance.Location = new System.Drawing.Point(194, 35);
             this.lblcbalance.Name = "lblcbalance";
             this.lblcbalance.Size = new System.Drawing.Size(286, 20);
             this.lblcbalance.TabIndex = 4;
@@ -675,9 +675,9 @@ namespace FoodandBeverage.Forms
             // 
             this.lblrefunbalance.AutoSize = true;
             this.lblrefunbalance.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblrefunbalance.Location = new System.Drawing.Point(487, 35);
+            this.lblrefunbalance.Location = new System.Drawing.Point(486, 35);
             this.lblrefunbalance.Name = "lblrefunbalance";
-            this.lblrefunbalance.Size = new System.Drawing.Size(109, 20);
+            this.lblrefunbalance.Size = new System.Drawing.Size(110, 20);
             this.lblrefunbalance.TabIndex = 3;
             this.lblrefunbalance.Text = "label8";
             this.lblrefunbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -689,7 +689,7 @@ namespace FoodandBeverage.Forms
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.label5.Location = new System.Drawing.Point(3, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(186, 35);
+            this.label5.Size = new System.Drawing.Size(185, 35);
             this.label5.TabIndex = 2;
             this.label5.Text = "Card No";
             // 
@@ -698,9 +698,9 @@ namespace FoodandBeverage.Forms
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label4.Location = new System.Drawing.Point(487, 0);
+            this.label4.Location = new System.Drawing.Point(486, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(109, 35);
+            this.label4.Size = new System.Drawing.Size(110, 35);
             this.label4.TabIndex = 1;
             this.label4.Text = "Refund Balance";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -710,7 +710,7 @@ namespace FoodandBeverage.Forms
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label3.Location = new System.Drawing.Point(195, 0);
+            this.label3.Location = new System.Drawing.Point(194, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(286, 35);
             this.label3.TabIndex = 0;
@@ -762,7 +762,7 @@ namespace FoodandBeverage.Forms
             this.pnlwifi.Controls.Add(this.tlp_wifiPopup);
             this.pnlwifi.Location = new System.Drawing.Point(650, 89);
             this.pnlwifi.Name = "pnlwifi";
-            this.pnlwifi.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.pnlwifi.Padding = new System.Windows.Forms.Padding(10);
             this.pnlwifi.Size = new System.Drawing.Size(358, 304);
             this.pnlwifi.TabIndex = 300;
             this.pnlwifi.Visible = false;
@@ -777,7 +777,7 @@ namespace FoodandBeverage.Forms
             this.tlp_wifiPopup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_wifiPopup.Location = new System.Drawing.Point(10, 10);
             this.tlp_wifiPopup.Name = "tlp_wifiPopup";
-            this.tlp_wifiPopup.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_wifiPopup.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_wifiPopup.RowCount = 2;
             this.tlp_wifiPopup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.tlp_wifiPopup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
