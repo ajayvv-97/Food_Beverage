@@ -1122,6 +1122,30 @@ namespace FoodandBeverage.Forms
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
+                    var data = gridSourcemaster[0];
+                    // ========== BASIC CUSTOMER DETAILS ==========
+                    txtfristname.Text = data.FirstName;
+                    txtsecondname.Text = data.SecondName;
+                    txtcompanyname.Text = data.CompanyName;
+                    txtgstno.Text = data.GSTNo;
+                    txtph.Text = data.PhoneNumber;
+                    txtemailid.Text = data.EmailAddress;
+                    txtaddress.Text = data.FullAddress;
+                    string gender = Convert.ToString(gridSourcemaster[0].Gender);
+                    if (!string.IsNullOrEmpty(gender))
+                    {
+                        if (gender == "Male" || gender == "M" || gender == "1")
+                        {
+                            rb_male.Checked = true;
+                            rb_female.Checked = false;
+                        }
+                        else if (gender == "Female" || gender == "F" || gender == "2")
+                        {
+                            rb_female.Checked = true;
+                            rb_male.Checked = false;
+                        }
+                    }
+
                     tlp_refund_ktcancel.Visible = true;
                     btn_showmenu.Enabled = false;
                     dgv_ordercancel.Columns[cnactionno].Visible = false;
@@ -1139,24 +1163,6 @@ namespace FoodandBeverage.Forms
                     Pickup_ID = Convert.ToInt32(gridSourcemaster[0].PkId);
                     Refundkitchenslno = Convert.ToInt32(gridSourcemaster[0].Kitchennumber);
                     Refundorderno = Convert.ToInt32(gridSourcemaster[0].OrderNo);
-
-                    txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
-                    txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
-                    txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
-                    txtcusname.Text = Convert.ToString(gridSourcemaster[0].CustomerName);
-                    if (Convert.ToInt32(gridSourcemaster[0].Gender) == 1)
-                        rb_male.Checked = true;
-                    else
-                        rb_female.Checked = true;
-
-                    txtph.Enabled = false;
-                    txtemailid.Enabled = false;
-                    txtaddress.Enabled = false;
-                    txtcusname.Enabled = false;
-                    rb_female.Enabled = false;
-                    rb_male.Enabled = false;
-                    btn_userreg_submit.Visible = true;
-                    btn_clear_cus.Visible = true;
 
                     lbladvanceamt.Visible = false;
                     txtadvance.Visible = false;
@@ -1983,6 +1989,30 @@ namespace FoodandBeverage.Forms
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
+                    var data = gridSourcemaster[0];
+                    // ========== BASIC CUSTOMER DETAILS ==========
+                    txtfristname.Text = data.FirstName;
+                    txtsecondname.Text = data.SecondName;
+                    txtcompanyname.Text = data.CompanyName;
+                    txtgstno.Text = data.GSTNo;
+                    txtph.Text = data.PhoneNumber;
+                    txtemailid.Text = data.EmailAddress;
+                    txtaddress.Text = data.FullAddress;
+                    string gender = Convert.ToString(gridSourcemaster[0].Gender);
+                    if (!string.IsNullOrEmpty(gender))
+                    {
+                        if (gender == "Male" || gender == "M" || gender == "1")
+                        {
+                            rb_male.Checked = true;
+                            rb_female.Checked = false;
+                        }
+                        else if (gender == "Female" || gender == "F" || gender == "2")
+                        {
+                            rb_female.Checked = true;
+                            rb_male.Checked = false;
+                        }
+                    }
+
                     tlp_refund_ktcancel.Visible = false;
                     dgv_ordercancel.Columns[cnactionno].Visible = true;
                     int orginalCount = gridSourcemaster.Count(item => item.AddonStatus == 1 || item.AddonStatus == 0);
@@ -1992,25 +2022,7 @@ namespace FoodandBeverage.Forms
                     if (Convert.ToInt32(gridSourcemaster[0].SalesMasterId) > 0)
                         txtsalemasterid.Text = Convert.ToString(gridSourcemaster[0].SalesMasterId);
                     else
-                        txtsalemasterid.Text = "0";
-
-                    txtph.Text = Convert.ToString(gridSourcemaster[0].Telephone);
-                    txtemailid.Text = Convert.ToString(gridSourcemaster[0].Email);
-                    txtaddress.Text = Convert.ToString(gridSourcemaster[0].Address);
-                    txtcusname.Text = Convert.ToString(gridSourcemaster[0].CustomerName);
-                    if (Convert.ToInt32(gridSourcemaster[0].Gender) == 1)
-                        rb_male.Checked = true;
-                    else
-                        rb_female.Checked = true;
-
-                    txtph.Enabled = false;
-                    txtemailid.Enabled = false;
-                    txtaddress.Enabled = false;
-                    txtcusname.Enabled = false;
-                    rb_female.Enabled = false;
-                    rb_male.Enabled = false;
-                    btn_userreg_submit.Visible = true;
-                    btn_clear_cus.Visible = true;
+                        txtsalemasterid.Text = "0";                 
 
                     ordercount = 0;
                     OrderRunning_Status = true;
@@ -6460,7 +6472,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                     dmnordermaster.EntryNo = "";
                     dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
-                    dmnordermaster.CustomerName = Convert.ToString(txtcusname.Text);
+                    dmnordermaster.CustomerName = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
                     dmnordermaster.Telephone = Convert.ToString(txtph.Text);
                     dmnordermaster.Email = Convert.ToString(txtemailid.Text);
                     dmnordermaster.Address = Convert.ToString(txtaddress.Text);
@@ -6475,7 +6487,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         DmnPickup dmnDmnPickup = new DmnPickup();
                         BllPickup bll_Pickup = new BllPickup();
                         dmnDmnPickup.PkId = Pickup_ID;
-                        dmnDmnPickup.CusName = Convert.ToString(txtcusname.Text);
+                        dmnDmnPickup.CusName = Convert.ToString(txtfristname.Text)+ Convert.ToString(txtsecondname.Text);
                         dmnDmnPickup.Mobile = Convert.ToString(txtph.Text);
                         dmnDmnPickup.Address = Convert.ToString(txtaddress.Text);
                         dmnDmnPickup.EmailId = Convert.ToString(txtemailid.Text);
@@ -7202,7 +7214,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         }
                         else
                         {
-                            dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                            dmnsalemaster.Name = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
                             dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
                             dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
                             dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
@@ -7513,7 +7525,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             }
                             else
                             {
-                                dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                                dmnsalemaster.Name = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
                                 dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
                                 dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
                                 dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
@@ -7838,7 +7850,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     else
                                         dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
 
-                                    dmnordermaster.CustomerName = Convert.ToString(txtcusname.Text);
+                                    dmnordermaster.CustomerName = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
                                     dmnordermaster.Telephone = Convert.ToString(txtph.Text);
                                     dmnordermaster.Email = Convert.ToString(txtemailid.Text);
                                     dmnordermaster.Address = Convert.ToString(txtaddress.Text);
@@ -7853,7 +7865,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         DmnPickup dmnDmnPickup = new DmnPickup();
                                         BllPickup bll_Pickup = new BllPickup();
                                         dmnDmnPickup.PkId = Pickup_ID;
-                                        dmnDmnPickup.CusName = Convert.ToString(txtcusname.Text);
+                                        dmnDmnPickup.CusName = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
                                         dmnDmnPickup.Mobile = Convert.ToString(txtph.Text);
                                         dmnDmnPickup.Address = Convert.ToString(txtaddress.Text);
                                         dmnDmnPickup.EmailId = Convert.ToString(txtemailid.Text);
@@ -8139,7 +8151,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             }
                             else
                             {
-                                dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                                dmnsalemaster.Name = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
                                 dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
                                 dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
                                 dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
@@ -8792,10 +8804,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 txtpromocode.Enabled = true;
                 btn_save_promo.Enabled = true;
 
+
                 txtph.Text = "";
                 txtemailid.Text = "";
                 txtaddress.Text = "";
-                txtcusname.Text = "";
+                txtfristname.Text = "";
+                txtsecondname.Text = "";
+                txtcompanyname.Text = "";
+                txtgstno.Text = "";
 
                 rb_female.Checked = false;
                 rb_male.Checked = false;
@@ -10249,35 +10265,9 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             }
 
         }
+
         #region Customer Registration 
 
-        private void txtph_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
-            }
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txtemailid_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txtcusname_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
-            }
-        }
         private void txtemailid_Leave(object sender, EventArgs e)
         {
             try
@@ -10312,61 +10302,77 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 clsgen.LogException("Order page txtph_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
-
-        private void btn_edit_cus_Click(object sender, EventArgs e)
+        private void btn_clear_cus_Click_1(object sender, EventArgs e)
         {
-            try
-            {
-                //txtph.Enabled = true;
-                //txtemailid.Enabled = true;
-                //txtaddress.Enabled = true;
-                //txtcusname.Enabled = true;
-                //rb_female.Enabled = true;
-                //rb_male.Enabled = true;
-                pnl_userreg.Visible = false;
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Order page btn_edit_cus_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
-            }
+
+            txtph.Text = "";
+            txtemailid.Text = "";
+            txtaddress.Text = "";
+            txtfristname.Text = "";
+            txtsecondname.Text = "";
+            txtcompanyname.Text = "";
+            txtgstno.Text = "";
+
+            rb_female.Checked = false;
+            rb_male.Checked = false;
         }
 
-        private void btn_clear_cus_Click(object sender, EventArgs e)
+        private void btn_skipcusreg_Click(object sender, EventArgs e)
         {
-            try
-            {
-                txtph.Text = "";
-                txtemailid.Text = "";
-                txtaddress.Text = "";
-                txtcusname.Text = "";
-                rb_female.Checked = false;
-                rb_male.Checked = false;
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Order page btn_clear_cus_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
-            }
+            pnl_userreg.Visible = false;
         }
+
         private void btn_userreg_submit_Click(object sender, EventArgs e)
         {
-            try
+            pnl_userreg.Visible = false;
+        }
+
+        private void btn_userreg_cls_Click(object sender, EventArgs e)
+        {
+            pnl_userreg.Visible = false;
+        }
+        private void txtph_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
             {
-                //txtph.Enabled = true;
-                //txtemailid.Enabled = true;
-                //txtaddress.Enabled = true;
-                //txtcusname.Enabled = true;
-                //rb_female.Enabled = true;
-                //rb_male.Enabled = true;
-                pnl_userreg.Visible = false;
+                e.Handled = true;
             }
-            catch (Exception ex)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
-                clsgen.LogException("Order page btn_edit_cus_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                e.Handled = true;
+            }
+        }
+
+        private void txtemailid_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                e.Handled = true;
             }
         }
         #endregion
 
 
+        private void btn_va_close_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisposeControls(flp_addons);
+                DisposeControls(flp_variation);
+
+                pnl_variation_addon.Visible = false;
+                Checked_VariationAddon_List.Clear();
+                lblsizetotal.Text = "0";
+                lbladdontotal.Text = "0";
+                pnl_main.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btn_va_cancel_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
+   
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
         {

@@ -147,6 +147,8 @@ namespace FoodandBeverage.Forms
 
         public static bool EnableFamilyCardInPayment = false;
         public static bool EnableGroupCardInPayment = false;
+
+        int syncValue = 0;
         #endregion
 
         // Function to create a rounded rectangle region
@@ -3151,6 +3153,8 @@ namespace FoodandBeverage.Forms
                 //UIHelper.RoundCorners(pnl_navbar, 25, ColorTranslator.FromHtml("#AC3CC6"));
                 //UIHelper.RoundCorners(panelDesktop, 25, ColorTranslator.FromHtml("#AC3CC6"));
                 //UIHelper.RoundCorners(pnl_footer, 25, ColorTranslator.FromHtml("#AC3CC6"));
+
+                CenterSyncPanel();
             }
             catch (Exception ex)
             {
@@ -5409,6 +5413,8 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("homepage reset_sync_Tick", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+
+
         public void TaxDeafult()
         {
             try
@@ -5509,7 +5515,47 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+        #region Sync Animation
+        public void StartSyncAnimation()
+        {
+            CenterSyncPanel();
+            pnl_datasync.Visible = true;
 
+            syncValue = 0;
+            pbsync.Value = 0;
+            lblsynctext.Text = "Syncing... 0%";
+
+            timerSync.Interval = 30;   // Smooth animation
+            timerSync.Start();
+        }
+
+        private void CenterSyncPanel()
+        {
+            int x = (this.Width - pnl_datasync.Width) / 2;
+            int y = (this.Height - pnl_datasync.Height) / 2;
+            pnl_datasync.Location = new Point(x, y);
+        }
+
+        private void timerSync_Tick(object sender, EventArgs e)
+        {
+            syncValue++;
+
+            if (syncValue > 100)
+            {
+                timerSync.Stop();
+                pnl_datasync.Visible = false;   // Hide sync panel
+                syncValue = 0;
+                pbsync.Value = 0;
+
+                FrmDashboard.Instance.Menuhome.PerformClick();
+                return;
+            }
+
+            pbsync.Value = syncValue;
+            lblsynctext.Text = "Syncing... " + syncValue + "%";
+        }
+
+        #endregion
     }
 
 }

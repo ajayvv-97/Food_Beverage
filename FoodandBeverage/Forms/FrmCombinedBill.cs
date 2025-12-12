@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FoodandBeverage.Forms.UserControl;
+using System.Diagnostics;
 
 namespace FoodandBeverage.Forms
 {
@@ -1928,8 +1929,19 @@ namespace FoodandBeverage.Forms
 
         private void btn_pickup_Click(object sender, EventArgs e)
         {
-            FrmDashboard.Instance.Pickuppage();
-            this.Close(); 
+            long mem = Process.GetCurrentProcess().PrivateMemorySize64 / (1024 * 1024); // MB
+
+            if (mem > 1000)
+            {
+                this.Close();
+                FrmDashboard.Instance.StartSyncAnimation();
+            }
+            else
+            {
+                FrmDashboard.Instance.Pickuppage();
+                this.Close();
+            }
+           
         }
         public bool DrawerCheckBranch(int empid)
         {
