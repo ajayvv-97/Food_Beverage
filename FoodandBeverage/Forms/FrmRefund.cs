@@ -261,6 +261,7 @@ namespace FoodandBeverage.Forms
             }
             if (cmbRefundPayType.SelectedIndex == 2)
             {
+                dmnRefund.IcardNo = Convert.ToString(lblcardno.Text);
                 dmnRefund.CashBalanceRefund = Convert.ToDecimal(lblnetamount.Text);
             }
 
@@ -393,6 +394,7 @@ namespace FoodandBeverage.Forms
                             lblcbalance.Text = Convert.ToString(gridSource[0].CardBalance);
                             decimal gtotal = Convert.ToDecimal(gridSource[0].CardBalance) + Convert.ToDecimal(lblnetamount.Text);
                             lblrefunbalance.Text =Convert.ToString(gtotal);
+                            wificard_timer.Stop();
                         }
                         else
                         {

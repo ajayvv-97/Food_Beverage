@@ -633,7 +633,7 @@ namespace FoodandBeverage.Forms
             this.tlp_custom.ColumnCount = 3;
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.63039F));
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.36961F));
-            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 116F));
             this.tlp_custom.Controls.Add(this.lblcardno, 0, 1);
             this.tlp_custom.Controls.Add(this.lblcbalance, 0, 1);
             this.tlp_custom.Controls.Add(this.lblrefunbalance, 0, 1);
@@ -666,7 +666,7 @@ namespace FoodandBeverage.Forms
             this.lblcbalance.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblcbalance.Location = new System.Drawing.Point(194, 35);
             this.lblcbalance.Name = "lblcbalance";
-            this.lblcbalance.Size = new System.Drawing.Size(286, 20);
+            this.lblcbalance.Size = new System.Drawing.Size(285, 20);
             this.lblcbalance.TabIndex = 4;
             this.lblcbalance.Text = "label9";
             this.lblcbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -675,9 +675,9 @@ namespace FoodandBeverage.Forms
             // 
             this.lblrefunbalance.AutoSize = true;
             this.lblrefunbalance.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblrefunbalance.Location = new System.Drawing.Point(486, 35);
+            this.lblrefunbalance.Location = new System.Drawing.Point(485, 35);
             this.lblrefunbalance.Name = "lblrefunbalance";
-            this.lblrefunbalance.Size = new System.Drawing.Size(110, 20);
+            this.lblrefunbalance.Size = new System.Drawing.Size(111, 20);
             this.lblrefunbalance.TabIndex = 3;
             this.lblrefunbalance.Text = "label8";
             this.lblrefunbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -698,9 +698,9 @@ namespace FoodandBeverage.Forms
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label4.Location = new System.Drawing.Point(486, 0);
+            this.label4.Location = new System.Drawing.Point(485, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(110, 35);
+            this.label4.Size = new System.Drawing.Size(111, 35);
             this.label4.TabIndex = 1;
             this.label4.Text = "Refund Balance";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -712,7 +712,7 @@ namespace FoodandBeverage.Forms
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.label3.Location = new System.Drawing.Point(194, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(286, 35);
+            this.label3.Size = new System.Drawing.Size(285, 35);
             this.label3.TabIndex = 0;
             this.label3.Text = "Current Balance";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

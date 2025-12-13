@@ -21,6 +21,8 @@ namespace BLL
             parms.Add("@RefundType", dmnRefund.RefundpayType);
             parms.Add("@RefundReason", dmnRefund.RefundReason);
             parms.Add("@CashRefund", dmnRefund.CashRefund);
+            parms.Add("@CashBalanceRefund", dmnRefund.CashBalanceRefund);
+            parms.Add("@IcardNo", dmnRefund.IcardNo);
 
             //// Card details
             //parms.Add("@IcardNo", dmnRefund.IcardNo);
