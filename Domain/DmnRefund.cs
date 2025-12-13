@@ -29,6 +29,11 @@ namespace Domain
         public int Status { get; set; }
         public int BranchId { get; set; }
         public int CreatedBy { get; set; }
+        public String DebitICardNo { get; set; }
+        public int DebitLedgerId { get; set; }
+        public int CardType { get; set; }
+        public int FMCardType { get; set; }
         public DateTime CreatedDateTime { get; set; }
+        public String DBname { get; set; }
     }
 }

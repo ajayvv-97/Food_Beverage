@@ -8,6 +8,7 @@ using System;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace FoodandBeverage.Forms
 {
@@ -16,6 +17,18 @@ namespace FoodandBeverage.Forms
         #region Declaration
         ClsGeneral clsgen = new ClsGeneral();
         string reading_RFID = "";
+        public string GameDB = Convert.ToString(ConfigurationManager.AppSettings["GameDB"]);
+        #region Midascard
+        public int CTyp = 0;
+        public int DebitCustomerId = 0;
+        public string DebitCardNumber = "";
+        public int CardTypeno = 0;
+        public int fmasterid = 0;
+        public int Fmcardtypeno = 0;
+        private bool isReadingCard = false;
+        int payid = 0;
+        #endregion
+
         #endregion
         public FrmRefund()
         {
@@ -70,14 +83,14 @@ namespace FoodandBeverage.Forms
                         }
                     }
                     if (returnValue != "")
-                    {                     
+                    {
                         BllSearch<DmnGridFields> bllSearchsd = new BllSearch<DmnGridFields>();
                         DmnSearch objSearch = new DmnSearch();
                         objSearch.Select = "sm.SalesMasterId Field1,sm.PkId Field2,sm.NetAmount Field3,g.Caption Field4,sd.ItemName Field5,sd.Quantity Field6,sd.NetAmount Field7,sm.PaymentMode Field8,sm.OrderMasterid Field9";
                         objSearch.Table = "tblSalesMaster sm " +
                             "left join tblSalesDetails sd on sd.SalesMasterId=sm.SalesMasterId " +
                             "left join tblGeneralOptions g on g.GTypeId = 2 and g.GTypeSubId=sm.PaymentMode";
-                        objSearch.WhereNdGroupBy = "where sm.SalesMasterId = "+ returnValue;
+                        objSearch.WhereNdGroupBy = "where sm.SalesMasterId = " + returnValue;
                         objSearch.OrderBy = "";
                         var gridSourceserachsd = bllSearchsd.GetSearchData("prdSearch", objSearch);
                         if (gridSourceserachsd.Count > 0)
@@ -90,9 +103,9 @@ namespace FoodandBeverage.Forms
                             {
                                 dgv_productlist.Rows.Add(
                                     slno,
-                                    item.Field5,    
-                                    item.Field6,     
-                                    item.Field7     
+                                    item.Field5,
+                                    item.Field6,
+                                    item.Field7
                                 );
 
                                 slno++;
@@ -237,7 +250,7 @@ namespace FoodandBeverage.Forms
                 }
             }
             if (cmbRefundPayType.SelectedIndex == 1)
-            { 
+            {
                 if (string.IsNullOrWhiteSpace(lblcashrefundamt.Text) || lblcashrefundamt.Text == "0.00")
                 {
                     MessageBox.Show("Please Enter The Amount to Refund.",
@@ -245,7 +258,7 @@ namespace FoodandBeverage.Forms
                     return;
                 }
             }
-            
+
 
             DmnRefund dmnRefund = new DmnRefund();
             BllRefund bllRefund = new BllRefund();
@@ -255,12 +268,16 @@ namespace FoodandBeverage.Forms
             dmnRefund.RefundpayType = Convert.ToInt32(cmbRefundPayType.SelectedValue);
             dmnRefund.RefundReason = Convert.ToInt32(cmbRefundReson.SelectedValue);
             dmnRefund.ReasonNote = txtRenote.Text;
-            if(cmbRefundPayType.SelectedIndex == 1)
+            if (cmbRefundPayType.SelectedIndex == 1)
             {
                 dmnRefund.CashRefund = Convert.ToDecimal(lblcashrefundamt.Text);
             }
             if (cmbRefundPayType.SelectedIndex == 2)
             {
+                dmnRefund.DebitLedgerId = Convert.ToInt32(lblDebitLedgerId.Text);
+                dmnRefund.CardType = Convert.ToInt32(lblCardType.Text);
+                dmnRefund.FMCardType = Convert.ToInt32(lblFMCardType.Text);
+                dmnRefund.DebitICardNo = Convert.ToString(lblcardno.Text);
                 dmnRefund.CashBalanceRefund = Convert.ToDecimal(lblnetamount.Text);
             }
 
@@ -280,10 +297,13 @@ namespace FoodandBeverage.Forms
             dmnRefund.CreatedBy = FrmDashboard.UserId;
             dmnRefund.BranchId = FrmDashboard.BranchId;
             dmnRefund.Status = 1;
+            dmnRefund.DBname = GameDB;
             dmnRefund.CreatedDateTime = DateTime.Now;
             var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
             if (data.Id > 0)
-                clearall();
+               MessageBox.Show("Refund Amount Completed",
+                      "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            clearall();
         }
 
         private void cmbRefundPayType_SelectionChangeCommitted(object sender, EventArgs e)
@@ -293,14 +313,14 @@ namespace FoodandBeverage.Forms
                 btnrefund_cash_point.Text = "Cash Refund";
                 btnrefund_cash_point.Tag = 1;
                 btnrefund_cash_point.Visible = true;
-            }                
+            }
             else if (cmbRefundPayType.SelectedIndex == 2)
             {
                 btnrefund_cash_point.Text = "Card Tap";
                 btnrefund_cash_point.Tag = 2;
                 btnrefund_cash_point.Visible = true;
             }
-            
+
         }
 
         private void btnrefund_cash_point_Click(object sender, EventArgs e)
@@ -321,7 +341,7 @@ namespace FoodandBeverage.Forms
                 }
                 if (kdata > 0)
                 {
-                    if(kdata > Convert.ToDecimal(lblnetamount.Text))
+                    if (kdata > Convert.ToDecimal(lblnetamount.Text))
                     {
                         MessageBox.Show("Refund Amount cannot be greater than Payable Amount",
                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -332,7 +352,7 @@ namespace FoodandBeverage.Forms
                         pnl_cus_cash_details.Visible = true;
                         tlp_cashrefund.BringToFront();
                     }
-                    
+
                 }
             }
         }
@@ -353,7 +373,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Order page RemoveSpecialCharacters()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order)); 
+                clsgen.LogException("Order page RemoveSpecialCharacters()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
                 return string.Empty;
             }
         }
@@ -361,56 +381,249 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                reading_RFID = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul(FrmLogin.Compid);
-                if (reading_RFID != "Card not in contact")
+                if (isReadingCard) return;
+                isReadingCard = true;
+                string str1 = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul(FrmLogin.CorpID);
+                
+                if (str1 != "Card not in contact")
                 {
                     wificard_timer.Stop();
-                    if (reading_RFID == "" || reading_RFID == "empty" || string.IsNullOrWhiteSpace(reading_RFID) || reading_RFID == "FailAuthenticationFailAuthenticationFailAuthentication")
-                        reading_RFID = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi(FrmLogin.Compid);
-                    reading_RFID = RemoveSpecialCharacters(reading_RFID.Trim());
-                    if (reading_RFID == "" || string.IsNullOrWhiteSpace(reading_RFID) || reading_RFID == "FailAuthenticationFailAuthenticationFailAuthentication" || reading_RFID == "Cardnotincontact")
+                    if (str1 == "" || str1 == "empty" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Invalid Card")
+                        str1 = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi(FrmLogin.CorpID);
+                    str1 = RemoveSpecialCharacters(str1.Trim());
+                    if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact" || str1 == "InvalidCard")
                     {
-                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                        MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        pnlwifi.Visible = false;
                     }
                     else
                     {
                         wificard_timer.Stop();
+                        MidascardCheck(str1);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page tm_midascard_Tick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
 
-                        BllSearch<DmnAccountLedger> bllSearch = new BllSearch<DmnAccountLedger>();
-                        DmnSearch dmnSearch = new DmnSearch();
-                        dmnSearch.Select = "*";
-                        dmnSearch.Table = " mPOS_DBNew.dbo.tblAccountLedger";
-                        dmnSearch.WhereNdGroupBy = "Where status = 1 and  ICardNo = '" + reading_RFID + "'";
-                        dmnSearch.OrderBy = "";
-                        var gridSource = bllSearch.GetSearchData_CardAcc("prdSearch", dmnSearch);
-                        if (gridSource.Count > 0)
-                        {
-                            pnl_cus_cash_details.Visible = true;
-                            tlp_custom.BringToFront();
-                            string modified_cardno = "XXXX XX" + reading_RFID.Substring(reading_RFID.Length - 6, 6);
-                            lblcardno.Text = Convert.ToString(modified_cardno);
-                            lblcbalance.Text = Convert.ToString(gridSource[0].CardBalance);
-                            decimal gtotal = Convert.ToDecimal(gridSource[0].CardBalance) + Convert.ToDecimal(lblnetamount.Text);
-                            lblrefunbalance.Text =Convert.ToString(gtotal);
-                        }
-                        else
-                        {
-                            CMessageBox.Show("No account found for the tapped card. Please try again with a different card.", "Card Not Recognized", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            wificard_timer.Start();
-                        }
+            }
+            finally
+            {
+                isReadingCard = false;
+            }
+        }
+        public void MidascardCheck(string cardno)
+        {
+            try
+            {
+                if (CheckEmployeeCard(cardno))
+                {
+                    MessageBox.Show("Employee ID cards cannot be used for purchases or recharges.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    CTyp = CheckCardType(cardno);
+                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch objSearch = new DmnSearch();
+                    switch ((CardType)CTyp)
+                    {
+                        case CardType.FamilyCard:
+                            if (!FrmDashboard.EnableFamilyCardInPayment)
+                            {
+                                MessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                wificard_timer.Start();
+                                return;
+                            }
+                            CardTypeno = Convert.ToInt32(CardType.FamilyCard);
+                            if (Fmcardtypeno == 1)
+                            {
+                                objSearch.Select = "FcardDetId Field1, CashBalance Field2";
+                                objSearch.Table = GameDB + ".dbo.tblFamilyCardDetails";
+                                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CardNo = '" + cardno + "'";
+                            }
+                            else
+                            {
+                                objSearch.Select = "FCardId Field1, CashBalance Field2";
+                                objSearch.Table = GameDB + ".dbo.tblFamilyCardsMaster";
+                                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND FCardId = " + fmasterid;
+                            }
+                            break;
+
+                        case CardType.FamilyCardMaster:
+                            if (!FrmDashboard.EnableFamilyCardInPayment)
+                            {
+                                MessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                wificard_timer.Start();
+                                return;
+                            }
+                            CardTypeno = Convert.ToInt32(CardType.FamilyCardMaster);
+                            if (Fmcardtypeno == 1)
+                            {
+                                objSearch.Select = "FcardDetId Field1, CashBalance Field2";
+                                objSearch.Table = GameDB + ".dbo.tblFamilyCardDetails";
+                                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CardNo = '" + cardno + "'";
+                            }
+                            else
+                            {
+                                objSearch.Select = "FCardId Field1, CashBalance Field2";
+                                objSearch.Table = GameDB + ".dbo.tblFamilyCardsMaster";
+                                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND MasterCardNo = '" + cardno + "'";
+                            }
+                            break;
+
+                        case CardType.NormalCard:
+                            CardTypeno = Convert.ToInt32(CardType.NormalCard);
+                            objSearch.Select = "LedgerId Field1, CardBalance Field2";
+                            objSearch.Table = GameDB + ".dbo.tblAccountLedger";
+                            objSearch.WhereNdGroupBy = "WHERE Status = 1 AND ICardNo = '" + cardno + "'";
+                            break;
+
+                        case CardType.GroupCard:
+                            if (!FrmDashboard.EnableGroupCardInPayment)
+                            {
+                                MessageBox.Show("Group Sale card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                wificard_timer.Start();
+                                return;
+                            }
+                            if (CheckGroupsaleExpire(cardno))
+                            {
+                                wificard_timer.Stop();
+                                MessageBox.Show("This Group Sale Card has expired or has no active member.\nPayment cannot be processed for expired cards.", "Group Card Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+                            CardTypeno = Convert.ToInt32(CardType.GroupCard);
+                            objSearch.Select = "GLedgerId Field1,CardBalance Field2";
+                            objSearch.Table = GameDB + ".dbo.tblGroup_AccountLedger";
+                            objSearch.WhereNdGroupBy = "WHERE Status = 1 AND ICardNo = '" + cardno + "'";
+                            break;
+
+                        default:
+                            MessageBox.Show("Invalid or unknown card type.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                    }
+                    objSearch.OrderBy = "";
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    if (itemSource.Count > 0)
+                    {
+                        pnl_cus_cash_details.Visible = true;
+                        tlp_custom.BringToFront();
+                        string modified_cardno = "XXXX XX" + cardno.Substring(cardno.Length - 6, 6);
+                        lblcardno.Text = Convert.ToString(modified_cardno);
+                        lblDebitLedgerId.Text = Convert.ToString(itemSource[0].Field1);
+                        lblCardType.Text = Convert.ToString(CardTypeno);
+                        lblFMCardType.Text = Convert.ToString(Fmcardtypeno);
+                        lblcbalance.Text = Convert.ToString(itemSource[0].Field2);
+                        decimal gtotal = Convert.ToDecimal(itemSource[0].Field2) + Convert.ToDecimal(lblnetamount.Text);
+                        lblrefunbalance.Text = Convert.ToString(gtotal);
+                        wificard_timer.Stop();
                     }
                 }
             }
             catch (Exception ex)
             {
                 clsgen.LogException("Order page wificard_timer_Tick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+
             }
         }
 
+        public bool CheckEmployeeCard(string cardno)
+        {
+            try
+            {
+                string mastercardfullno = cardno;
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "SUM(cnt) AS Field1";
+                objSearch.Table = " ( SELECT COUNT(*) AS cnt FROM " + GameDB + ".dbo.tblEmployee WHERE Status=1 and ICardNo = '" + cardno + "' ) AS counts";
+                objSearch.WhereNdGroupBy = "";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    return Convert.ToInt32(itemSource[0].Field1) != 0;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page  CheckEmployeeCard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                return false;
+            }
+        }
+        public int CheckCardType(string cardno)
+        {
+            try
+            {
+                string mastercardfullno = cardno;
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = " " + Convert.ToInt32(CardType.FamilyCard) + " as Field1,FCardId Field2,CardAcessType Field3 from " + GameDB + ".dbo.tblFamilyCardDetails where CardNo='" + cardno + "' and Status=1 " +
+                    " Union All Select " + Convert.ToInt32(CardType.FamilyCardMaster) + " as Field1,FCardId Field2,CardAcessType Field3 from " + GameDB + ".dbo.tblFamilyCardsMaster where MasterCardNo='" + cardno + "' and Status=1" +
+                    " Union All Select " + Convert.ToInt32(CardType.NormalCard) + " as Field1,0 Field2,0 Field3 from " + GameDB + ".dbo.tblAccountLedger where ICardNo='" + cardno + "' and Status=1" +
+                    " Union All Select " + Convert.ToInt32(CardType.GroupCard) + " as Field1,0 Field2,0 Field3";
+                objSearch.Table = GameDB + ".dbo.tblGroup_AccountLedger";
+                objSearch.WhereNdGroupBy = " where ICardNo='" + cardno + "' and Status=1";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    Fmcardtypeno = Convert.ToInt32(itemSource[0].Field3);
+                    fmasterid = Convert.ToInt32(itemSource[0].Field2);
+                    return Convert.ToInt32(itemSource[0].Field1);
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+                clsgen.LogException("Order page  CheckCardType()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+
+
+            }
+        }
+        public bool CheckGroupsaleExpire(string cardno)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch1 = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "count(*) Field1";
+                dmnSearch.Table = GameDB + ".dbo.tblGroup_AccountLedger";
+                dmnSearch.WhereNdGroupBy = "where Status=1 and ICardNo='" + cardno + "' and ExpireDate>SYSDATETIME();";
+                var itemsource = bllSearch1.GetSearchData("prdsearch", dmnSearch);
+                if (itemsource.Count > 0)
+                {
+                    int activeCount = Convert.ToInt32(itemsource[0].Field1);
+                    if (activeCount == 0)
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+                clsgen.LogException("Order page  CheckGroupsaleExpire()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
         private void btnwificancel_Click(object sender, EventArgs e)
         {
             pnlwifi.Visible = false;
+        }
+
+        private void tlp_custom_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

@@ -21,6 +21,11 @@ namespace BLL
             parms.Add("@RefundType", dmnRefund.RefundpayType);
             parms.Add("@RefundReason", dmnRefund.RefundReason);
             parms.Add("@CashRefund", dmnRefund.CashRefund);
+            parms.Add("@CashBalanceRefund", dmnRefund.CashBalanceRefund);
+            parms.Add("@DebitICardNo", dmnRefund.DebitICardNo);
+            parms.Add("@DebitLedgerId", dmnRefund.DebitLedgerId);
+            parms.Add("@FMCardType", dmnRefund.FMCardType);
+            parms.Add("@CardType", dmnRefund.CardType);
 
             //// Card details
             //parms.Add("@IcardNo", dmnRefund.IcardNo);
@@ -40,7 +45,8 @@ namespace BLL
 
             //// Other fields
 
-
+            
+            parms.Add("@DBname", dmnRefund.DBname);
             parms.Add("@Status", dmnRefund.Status);
             parms.Add("@BranchId", dmnRefund.BranchId);
             parms.Add("@CreatedBy", dmnRefund.CreatedBy);
