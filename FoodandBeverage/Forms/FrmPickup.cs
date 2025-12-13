@@ -41,8 +41,6 @@ namespace FoodandBeverage.Forms
         private List<DmnGridFields> pagedatadata;
         private Dictionary<string, (TableLayoutPanel Panel, int Status)> PickupCache = new Dictionary<string, (TableLayoutPanel, int)>();
 
-
-
         #endregion
         public FrmPickup(int type)
         {
@@ -1677,9 +1675,20 @@ namespace FoodandBeverage.Forms
 
         private void btn_backCompleorder_Click(object sender, EventArgs e)
         {
-            FrmDashboard.Instance.Menubilling.PerformClick();
-            this.Close();
+            long mem = Process.GetCurrentProcess().PrivateMemorySize64 / (1024 * 1024); // MB
+
+            if (mem > 1000)
+            {
+                this.Close();
+                FrmDashboard.Instance.StartSyncAnimation();
+            }
+            else
+            {
+                FrmDashboard.Instance.Menubilling.PerformClick();
+                this.Close();
+            }
         }
+
 
         #region Next Previous Button
         private void btnprev_Click(object sender, EventArgs e)

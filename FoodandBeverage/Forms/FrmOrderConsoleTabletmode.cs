@@ -373,10 +373,14 @@ namespace FoodandBeverage.Forms
             }
             else if (BookingType == Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel))
                 CheckRe_Bookingorder();
-            
+
             #endregion
 
             #region Palce Holder  Textboxes setting
+
+            txtdiscount.Text = "Discount Amt / %";
+            txtdiscount.ForeColor = Color.Gray;
+
             txtname_search.Text = "Food Name .....";
             txtitemcode_serach.Text = "Item Code .....";
             //txtentrie_descr.Text = "Description Type here .....";
@@ -4285,17 +4289,20 @@ namespace FoodandBeverage.Forms
                 flp_oper_buttons.Visible = false;
                 return;
             }
+    
 
             textb_shape_paymnet();
-            int visibleControls = 3;// flp_oper_buttons.Controls.Cast<Control>().Where(c => c.Visible).ToList();
+            int visibleControls = 3; // flp_oper_buttons.Controls.Cast<Control>().Where(c => c.Visible).ToList();
             UIHelper.AutoResizeFlowPanel(
            flp_oper_buttons,
            btnWidth: btn_savekot_print.Width,
            btnHeight: 79,
            spacing: 3,Convert.ToInt32(visibleControls)
-       );
+            );
             // Center panel
             UIHelper.ShowCentered(this, flp_oper_buttons);
+            flp_oper_buttons.Visible = true;
+            flp_oper_buttons.BringToFront();
         }
 
 
@@ -4547,55 +4554,41 @@ namespace FoodandBeverage.Forms
             UIHelper.ShowCentered(this, flp_moreoptions);
         }
 
-        private void btn_custom_details_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //rb_female,rb_male,label32,label31,label30,label29,label28
-                if (pnl_userreg.Visible == false)
-                {
-                    if (!Neworderflag)
-                        btn_skipcusreg.Visible = false;
-
-                    UIHelper.CenterAndResize(pnl_userreg, 60, 80);
-                    UIHelper.RoundCorners(pnl_userreg, 25);
-                    UIHelper.RoundCorners(tlp_userreg, 25);
-                    UIHelper.RoundCorners(tlp_userreg_nav, 25);
-                    pnl_userreg.BringToFront();
-                }
-                else
-                {
-                    pnl_userreg.Visible = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Order page btn_custom_details_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
-            }
-        }
-
         private void btn_offer_calc_Click(object sender, EventArgs e)
         {
             try
             {
-                decimal kdata = 0;
-                using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
+                if (pnldiscount.Visible == false)
                 {
-                    frm.ShowDialog();
-                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
-                }
-                if (UserControl.Frmnumdiskeypad.flagpercentage)
-                {
-                    txtdis_per.Text = kdata.ToString("0.##");
-                    discountAmnt();
-                    netAmount();
+                    UIHelper.CenterAndResize(pnldiscount, 60, 80);
+                    UIHelper.RoundCorners(pnldiscount, 25);
+                    UIHelper.RoundCorners(tlp_discount_nav, 25);
+                    pnldiscount.BringToFront();
                 }
                 else
                 {
-                    txtdis_amt.Text = kdata.ToString("0.##");
-                    discountPer();
-                    netAmount();
+                    pnldiscount.Visible = false;
                 }
+
+                //decimal kdata = 0;
+                //using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
+                //{
+                //    frm.ShowDialog();
+                //    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                //}
+                //if (UserControl.Frmnumdiskeypad.flagpercentage)
+                //{
+                //    txtdis_per.Text = kdata.ToString("0.##");
+                //    discountAmnt();
+                //    netAmount();
+                //}
+                //else
+                //{
+                //    txtdis_amt.Text = kdata.ToString("0.##");
+                //    discountPer();
+                //    netAmount();
+                //}
+
             }
             catch (Exception ex)
             {
@@ -6215,9 +6208,216 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+
         #endregion
 
-    
+        #region Discount
+        private void txtdiscount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+
+            if (char.IsDigit(e.KeyChar))
+            {
+                return;
+            }
+
+
+            if (e.KeyChar == '.' && !txt.Text.Contains("."))
+            {
+                return;
+            }
+
+            e.Handled = true;
+
+            if (txt.Text.Contains("."))
+            {
+                string[] parts = txt.Text.Split('.');
+                if (parts.Length > 1 && parts[1].Length >= 2)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+
+        private void btn_disamount_Click(object sender, EventArgs e)
+        {
+            pnldiscount.Visible = false;
+            decimal kdata = Convert.ToDecimal(txtdiscount.Text);
+            txtdis_amt.Text = kdata.ToString("0.##");
+            discountPer();
+            netAmount();
+        }
+
+        private void btn_percentage_Click(object sender, EventArgs e)
+        {
+            pnldiscount.Visible = false;
+            decimal kdata = Convert.ToDecimal(txtdiscount.Text);
+            txtdis_per.Text = kdata.ToString("0.##");
+            discountAmnt();
+            netAmount();
+
+        }
+
+        private void btn_disc_close_Click(object sender, EventArgs e)
+        {
+            pnldiscount.Visible = false;
+        }
+        private void btn_offer_calc_Click_1(object sender, EventArgs e)
+        {
+
+            try
+            {
+                if (pnldiscount.Visible == false)
+                {
+                    UIHelper.CenterAndResize(pnldiscount, 55, 25);
+                    UIHelper.RoundCorners(pnldiscount, 25);
+                    UIHelper.RoundCorners(tlp_discount_nav, 25);
+                    pnldiscount.BringToFront();
+                }
+                else
+                {
+                    pnldiscount.Visible = false;
+                }
+
+                //decimal kdata = 0;
+                //using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
+                //{
+                //    frm.ShowDialog();
+                //    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                //}
+                //if (UserControl.Frmnumdiskeypad.flagpercentage)
+                //{
+                //    txtdis_per.Text = kdata.ToString("0.##");
+                //    discountAmnt();
+                //    netAmount();
+                //}
+                //else
+                //{
+                //    txtdis_amt.Text = kdata.ToString("0.##");
+                //    discountPer();
+                //    netAmount();
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page  btn_offer_calc_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+        }
+
+        private void txtdiscount_Enter(object sender, EventArgs e)
+        {
+            if (txtdiscount.Text == "Discount Amt / %")
+            {
+                txtdiscount.Text = "";
+                txtdiscount.ForeColor = Color.Black;
+            }
+        }
+        private void txtdiscount_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtdiscount.Text))
+            {
+                txtdiscount.Text = "Discount Amt / %";
+                txtdiscount.ForeColor = Color.Gray;
+            }
+        }
+
+        #endregion
+
+        private void btn_custom_details_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //rb_female,rb_male,label32,label31,label30,label29,label28
+                if (pnl_userreg.Visible == false)
+                {
+                    if (!Neworderflag)
+                        btn_skipcusreg.Visible = false;
+
+                    UIHelper.CenterAndResize(pnl_userreg, 60, 80);
+                    UIHelper.RoundCorners(pnl_userreg, 25);
+                    UIHelper.RoundCorners(tlp_userreg, 25);
+                    UIHelper.RoundCorners(tlp_userreg_nav, 25);
+                    pnl_userreg.BringToFront();
+                }
+                else
+                {
+                    pnl_userreg.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btn_custom_details_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
+        private void btn_refresh_Click(object sender, EventArgs e)
+        {
+            ClearAll();
+        }
+
+        private void btn_frm_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btn_cancle_pickup_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnreconfirmorder_Click(object sender, EventArgs e)
+        {
+            DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+            BllOrder bll_order = new BllOrder();
+            dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+            dmnRemove_order.OrderDetailsId = 0;
+            dmnRemove_order.KitchenCancelStatus = 0;
+            dmnRemove_order.PkId = 1;
+            dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+            dmnRemove_order.BranchId = FrmDashboard.BranchId;
+            var InsertStatusP = bll_order.Reconfirmorder_update("prd_KitchenCancelStatus_update", dmnRemove_order);
+
+            if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                ResetTableViewPage();
+
+            this.Close();
+        }
+
+
+        private void btncancelnotify_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                BllOrder bll_order = new BllOrder();
+                dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                dmnRemove_order.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
+                dmnRemove_order.OrderDetailsId = 0;
+                dmnRemove_order.Tid = tableId;
+                dmnRemove_order.PkId = 0;
+                dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                var InsertStatusP = bll_order.OrderCancelNotify_update("prd_CompleteCancelNotifyStatus_update", dmnRemove_order);
+                if (InsertStatusP != null)
+                {
+                    if (tableId > 0)
+                        OrderCancelStatus = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page btncancelnotify_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order)); // Replace 'YourFormType' with the appropriate form type
+            }
+        }
 
         private void txtitemcode_serach_KeyDown(object sender, KeyEventArgs e)
         {

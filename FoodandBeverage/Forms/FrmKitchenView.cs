@@ -95,6 +95,8 @@ namespace FoodandBeverage.Forms
         Dictionary<string, bool> rowColorState = new Dictionary<string, bool>(); 
         int blinkPeriod = 1; 
         public int korderno = 0;
+
+   
         private void FrmKitchenView_Load(object sender, EventArgs e)
         {
             try
@@ -149,6 +151,792 @@ namespace FoodandBeverage.Forms
             this.Close();
             this.Dispose();
         }
+
+        #region KitchenView - Cached card UI (Layout A) and blinking
+
+        // Cache holder for each order card (C# 7.3 compatible)
+        public class OrderCardCache
+        {
+            public TableLayoutPanel CardPanel;   // main card container
+            public DataGridView Grid;           // product grid
+            public Label TimeLabel;             // live time counter label in header
+            public TextBox Description;         // description box
+            public PictureBox BtnStart;         // START button
+            public PictureBox BtnCancel;        // CANCEL button
+            public PictureBox BtnReprint;       // REPRINT button
+            public DateTime CreatedTime;        // created time reference
+
+            public Panel DescriptionPanel;         
+
+        }
+
+        // Dictionary cache: key = OrderMasterId + "_" + OrderNo
+        private Dictionary<string, OrderCardCache> KitchenCardCache =
+            new Dictionary<string, OrderCardCache>();
+
+        // blinking memory (global per form)
+        private Dictionary<string, int> RowBlinkCounter = new Dictionary<string, int>();
+        private Dictionary<string, bool> RowBlinkState = new Dictionary<string, bool>();
+        private const int BlinkThreshold = 1; // same idea as previous behavior
+
+        /// <summary>
+        /// Main optimized FillOrdersAsync - creates cards once and updates on subsequent calls.
+        /// </summary>
+        public void FillOrders()
+        {
+            try
+            {
+                GC.Collect();
+                SetEmptyIcon();
+
+                txt_product_remove_des.Text = "Reason type here .....";
+
+                // single master fetch
+                BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
+                DmnGridFields dmnSearchKitchendata = new DmnGridFields();
+                dmnSearchKitchendata.Searchtype = Convert.ToInt32(KitchenSearchType.AllOrders);
+                var gridSourcemaster = SearchDetails.serachreport("prdKitchenData", dmnSearchKitchendata);
+
+                if (gridSourcemaster == null || gridSourcemaster.Count == 0)
+                {
+                    btntotalorders.Text = "0";
+                    ClearKitchenUI();
+                    SetEmptyIcon();
+                    return;
+                }
+
+                // distinct orders grouping
+                var distinctOrders = gridSourcemaster
+                   .GroupBy(order => new { order.Field1, order.Field2 })
+                   .Select(group => group.First())
+                   .OrderBy(order => order.Field1)
+                   .ThenBy(order => order.Field2)
+                   .ToList();
+
+                btntotalorders.Text = Convert.ToString(distinctOrders.Count);
+                int countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
+                btnprintcount.Text = Convert.ToString(countpendingorder);
+
+                // build set of keys present now
+                HashSet<string> currentKeys = new HashSet<string>();
+                foreach (var od in distinctOrders)
+                {
+                    // unique key: Field1 (OrderMasterId) + '_' + Field17 (OrderNo will be fetched later with details, but use Field2? we will fetch details soon)
+                    // We'll use Field1 + "_" + Field2 initially; after fetching details we will actually use Field1 + "_" + Field17.
+                    // To keep consistent, we'll fetch details below and compute the real key.
+                    // For removal, compute keys from existing cache and then check existence after creating keys list below.
+                }
+
+                // Build new keys list by fetching details (but avoid over-fetching by limiting to KitchenDisplayCount)
+                List<string> newKeysInOrder = new List<string>();
+                Dictionary<string, (DmnGridFields Header, List<Dmnkitchendetails> Details)> orderDataMap =
+                    new Dictionary<string, (DmnGridFields, List<Dmnkitchendetails>)>();
+
+                int rowCountDisplay = 0;
+                foreach (var orders in distinctOrders)
+                {
+                    if (rowCountDisplay >= KitchenDisplayCount) break;
+
+                    BllkitchenDataDetails<Dmnkitchendetails> KtDetails = new BllkitchenDataDetails<Dmnkitchendetails>();
+                    Dmnkitchendetails dmnSearchtabledata = new Dmnkitchendetails();
+                    dmnSearchtabledata.OrderNo = Convert.ToInt32(orders.Field2); // fallback; real token/order no used below
+                    dmnSearchtabledata.OrderMasterId = Convert.ToInt32(orders.Field1);
+                    var gridSourcedetails = KtDetails.serachData("prdKitchendetails", dmnSearchtabledata);
+
+                    if (gridSourcedetails == null || gridSourcedetails.Count == 0)
+                        continue;
+
+                    // Unique key: Field1 + "_" + Field17 (OrderNo from details)
+                    string orderNoSuffix = Convert.ToString(gridSourcedetails[0].Field17);
+                    string key = orders.Field1 + "_" + orderNoSuffix;
+
+                    newKeysInOrder.Add(key);
+                    orderDataMap[key] = (orders, gridSourcedetails);
+
+                    rowCountDisplay++;
+                }
+
+                // Remove cached cards that are no longer present
+                List<string> toRemove = new List<string>();
+                foreach (var existingKey in KitchenCardCache.Keys)
+                {
+                    if (!newKeysInOrder.Contains(existingKey))
+                        toRemove.Add(existingKey);
+                }
+                foreach (var rem in toRemove)
+                {
+                    try
+                    {
+                        var dead = KitchenCardCache[rem];
+                        if (dead != null && dead.CardPanel != null)
+                        {
+                            flp_order_view.Controls.Remove(dead.CardPanel);
+                            dead.CardPanel.Dispose();
+                        }
+                    }
+                    catch { }
+                    KitchenCardCache.Remove(rem);
+                }
+
+                // Add or update cards
+                foreach (var kv in orderDataMap)
+                {
+                    string key = kv.Key;
+                    DmnGridFields header = kv.Value.Header;
+                    List<Dmnkitchendetails> details = kv.Value.Details;
+
+                    OrderCardCache cache;
+                    if (!KitchenCardCache.TryGetValue(key, out cache))
+                    {
+                        // create new card (build and add)
+                        cache = BuildOrderCard(header, details);
+                        if (cache != null && cache.CardPanel != null)
+                        {
+                            KitchenCardCache[key] = cache;
+                            flp_order_view.Controls.Add(cache.CardPanel);
+                        }
+                    }
+                    else
+                    {
+                        // update existing
+                        UpdateOrderCard(cache, header, details);
+                    }
+                }
+
+                timer1.Start();
+                refreshtimer.Start();
+                SetEmptyIcon();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Kitchen_View Page FillOrdersAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+            }
+        }
+
+        /// <summary>
+        /// Create a full card (Layout A) for an order and return cache object.
+        /// </summary>
+        private OrderCardCache BuildOrderCard(DmnGridFields orders, List<Dmnkitchendetails> details)
+        {
+            try
+            {
+                if (details == null || details.Count == 0) return null;
+
+                // Key suffix
+                string suffix = Convert.ToString(details[0].Field17);
+                string orderKey = Convert.ToString(orders.Field1) + "_" + suffix;
+
+                OrderCardCache cache = new OrderCardCache();
+
+                // MAIN CARD (TableLayoutPanel)
+                TableLayoutPanel card = new TableLayoutPanel();
+                card.Name = "tlp_product_box_k_" + orders.Field1 + suffix;
+                card.Dock = DockStyle.Top;
+                card.BackColor = boxcolor; // keep boxcolor from your form
+                card.Margin = new Padding(20, 10, 0, 0);
+                card.RowCount = 4;
+                card.ColumnCount = 1;
+                // rows: header, grid, description (auto), buttons
+                card.RowStyles.Add(new RowStyle(SizeType.AutoSize));   // header
+                card.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // grid
+                card.RowStyles.Add(new RowStyle(SizeType.AutoSize));   // description
+                card.RowStyles.Add(new RowStyle(SizeType.AutoSize));   // buttons
+
+                int WidthPercentage = 30;
+                int heightPercentage = 40;
+                int controlWidth = (int)(this.Width * WidthPercentage / 100);
+                int controlHeight = (int)(this.Height * heightPercentage / 100);
+                card.Size = new Size(controlWidth, controlHeight);
+
+
+                // Header
+                TableLayoutPanel header = BuildHeader(orders, details);
+                card.Controls.Add(header, 0, 0);
+
+                // Grid
+                DataGridView dgv = BuildProductGrid(orders, details);
+                card.Controls.Add(dgv, 0, 1);
+                dgv.Dock = DockStyle.Fill;
+
+                // Description area
+                // ======== DESCRIPTION PANEL ALWAYS CREATED ========
+                Panel pnldesc = new Panel();
+                pnldesc.Name = "pnl_Description_k_" + orders.Field1 + suffix;
+                pnldesc.AutoScroll = true;
+                pnldesc.Dock = DockStyle.Fill;
+
+                TextBox txtDesc = BuildDescription(orders, details);
+                pnldesc.Controls.Add(txtDesc);
+
+                // Add description panel ALWAYS (important!)
+                card.Controls.Add(pnldesc, 0, 2);
+
+                // Set initial visibility based on Field16
+                bool hasDescription = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
+                txtDesc.Visible = hasDescription;
+                pnldesc.Visible = hasDescription;
+
+                // Save references to cache
+                cache.Description = txtDesc;
+                cache.DescriptionPanel = pnldesc;
+
+                // Buttons
+                PictureBox startBtn, readyBtn, cancelBtn, reprintBtn;
+                TableLayoutPanel btnPanel = BuildButtons(orders, details, out startBtn, out readyBtn, out cancelBtn, out reprintBtn);
+                card.Controls.Add(btnPanel, 0, 3);
+
+                // Finalize
+                card.ResumeLayout();
+                card.Visible = true;
+
+                // Fill cache
+                cache.CardPanel = card;
+                cache.Grid = dgv;
+                cache.TimeLabel = header.Controls.Find("lbl_time_K_" + orders.Field1 + suffix, true).OfType<Label>().FirstOrDefault();
+                cache.Description = txtDesc;
+                cache.BtnStart = startBtn;
+                cache.BtnCancel = cancelBtn;
+                cache.BtnReprint = reprintBtn;
+
+                DateTime created = details[0].Fielddatetime;
+                cache.CreatedTime = created;
+
+                // populate grid initially
+                UpdateGrid(cache.Grid, details);
+
+                return cache;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Pickuppage BuildOrderCard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Header builder: creates blue header with table/pickup, token no and time label.
+        /// </summary>
+        private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetails> details)
+        {
+            string suffix = Convert.ToString(details[0].Field17);
+
+            TableLayoutPanel tlp_product_heading = new TableLayoutPanel();
+            tlp_product_heading.Name = "tlp_product_heading_k_" + orders.Field1 + suffix;
+            tlp_product_heading.Dock = DockStyle.Top;
+            tlp_product_heading.ColumnCount = 3;
+            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlp_product_heading.Height = (screenWidth > 1367 && screenHeight > 769) ? 50 : 28;
+            tlp_product_heading.BackColor = Color.FromArgb(60, 90, 160); // stronger blue header
+
+            // Table code / pickup
+            Label lbl_tablecode = new Label();
+            lbl_tablecode.Name = "lbl_tablecod_k_" + orders.Field1 + suffix;
+            lbl_tablecode.Dock = DockStyle.Fill;
+            lbl_tablecode.ForeColor = Color.White;
+            lbl_tablecode.AutoSize = true;
+            lbl_tablecode.TextAlign = ContentAlignment.MiddleLeft;
+
+            int pickupNo = 0;
+            int.TryParse(Convert.ToString(details[0].Field25), out pickupNo);
+            if (pickupNo > 0)
+            {
+                lbl_tablecode.Text = "Pick Up  " + pickupNo;
+                lbl_tablecode.Font = new Font("Arial", 12, FontStyle.Bold);
+            }
+            else
+            {
+                lbl_tablecode.Text = Convert.ToString(details[0].Field2);
+                lbl_tablecode.Font = (screenWidth > 1367 && screenHeight > 769) ? new Font("Arial", 15, FontStyle.Bold)
+                                                                             : new Font("Arial", 10, FontStyle.Bold);
+            }
+
+            // Token no
+            Label lbl_tokkenno = new Label();
+            lbl_tokkenno.Text = "Token No: " + Convert.ToString(details[0].Field22);
+            lbl_tokkenno.Name = "lbl_tokkenno_k_" + orders.Field1 + suffix;
+            lbl_tokkenno.Dock = DockStyle.Fill;
+            lbl_tokkenno.ForeColor = Color.White;
+            lbl_tokkenno.AutoSize = true;
+            lbl_tokkenno.TextAlign = ContentAlignment.MiddleCenter;
+            lbl_tokkenno.Font = (screenWidth > 1367 && screenHeight > 769) ? new Font("Arial", 15, FontStyle.Bold)
+                                                                             : new Font("Arial", 12, FontStyle.Bold);
+
+            // Time label
+            Label lbl_time = new Label();
+            lbl_time.Text = ""; // will be updated by UpdateOrderCard
+            lbl_time.Name = "lbl_time_K_" + orders.Field1 + suffix;
+            lbl_time.Dock = DockStyle.Fill;
+            lbl_time.ForeColor = Color.White;
+            lbl_time.AutoSize = true;
+            lbl_time.TextAlign = ContentAlignment.MiddleRight;
+            lbl_time.Font = (screenWidth > 1367 && screenHeight > 769) ? new Font("Arial", 11, FontStyle.Bold)
+                                                                          : new Font("Arial", 8, FontStyle.Bold);
+
+            tlp_product_heading.Controls.Add(lbl_tablecode, 0, 0);
+            tlp_product_heading.Controls.Add(lbl_tokkenno, 1, 0);
+            tlp_product_heading.Controls.Add(lbl_time, 2, 0);
+
+            return tlp_product_heading;
+        }
+
+        /// <summary>
+        /// Build the DataGridView for kitchen card (uses your column indices).
+        /// </summary>
+        private DataGridView BuildProductGrid(DmnGridFields orders, List<Dmnkitchendetails> details)
+        {
+            DataGridView dgv_product_details = new DataGridView();
+            string suffix = Convert.ToString(details[0].Field17);
+
+            dgv_product_details.Name = "dgv_product_details_k_" + orders.Field1 + suffix;
+            dgv_product_details.Tag = orders.Field1 + suffix;
+            dgv_product_details.CellClick += dgv_product_details_CellClick;
+            dgv_product_details.AllowUserToAddRows = false;
+            dgv_product_details.AllowUserToDeleteRows = true;
+            dgv_product_details.RowHeadersVisible = false;
+            dgv_product_details.BorderStyle = BorderStyle.None;
+            dgv_product_details.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_product_details.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_product_details.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_product_details.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_product_details.BackgroundColor = Color.White;
+            dgv_product_details.EnableHeadersVisualStyles = false;
+            dgv_product_details.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_product_details.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_product_details.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_product_details.AllowUserToResizeRows = false;
+
+            if (screenWidth > 1367 && screenHeight > 769)
+            {
+                dgv_product_details.ColumnHeadersHeight = 50;
+                dgv_product_details.RowTemplate.Height = 50;
+            }
+            else
+            {
+                dgv_product_details.ColumnHeadersHeight = 30;
+                dgv_product_details.RowTemplate.Height = 30;
+            }
+
+            // create columns in same order as your indices
+            dgv_product_details.Columns.Clear();
+
+            // 0 - Slno (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Slno", HeaderText = "Slno" });
+
+            // 1 - Action (image)
+            dgv_product_details.Columns.Add(new DataGridViewImageColumn() { Name = "Action", HeaderText = "Action" });
+
+            // 2 - PType (image)
+            dgv_product_details.Columns.Add(new DataGridViewImageColumn() { Name = "PType", HeaderText = "PType" });
+
+            // 3 - Item Name
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "ItemName", HeaderText = "Item Name" });
+
+            // 4 - Qty
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Qty", HeaderText = "Qty" });
+
+            // 5 - Notes
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Notes", HeaderText = "Notes" });
+
+            // 6 - Remove Notes
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "RemoveNotes", HeaderText = "Remove Notes" });
+
+            // 7 - orderdetailsid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "orderdetailsid", HeaderText = "orderdetailsid" });
+
+            // 8 - koid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "koid", HeaderText = "koid" });
+
+            // 9 - tid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "tid", HeaderText = "tid" });
+
+            // 10 - Ordermasterid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Ordermasterid", HeaderText = "Ordermasterid" });
+
+            // 11 - datetime (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "datetime", HeaderText = "datetime" });
+
+            // 12 - status (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "status", HeaderText = "status" });
+
+            // 13 - itemid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "itemid", HeaderText = "itemid" });
+
+            // 14 - tabletype (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "tabletype", HeaderText = "tabletype" });
+
+            // 15 - orderno (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "orderno", HeaderText = "orderno" });
+
+            // 16 - AddonStatus (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "AddonStatus", HeaderText = "AddonStatus" });
+
+            // 17 - AVID (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "AVID", HeaderText = "AVID" });
+
+            // Hide backend columns
+            dgv_product_details.Columns[0].Visible = false; // Slno
+            for (int i = 7; i <= 17; i++)
+            {
+                dgv_product_details.Columns[i].Visible = false;
+                dgv_product_details.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv_product_details.Columns[i].Width = 1;
+            }
+
+            // fix widths
+            dgv_product_details.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dgv_product_details.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgv_product_details.ScrollBars = ScrollBars.Both;
+            dgv_product_details.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            // item name wide
+            dgv_product_details.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgv_product_details.Columns[3].Width = 260;
+
+            // image columns width
+            dgv_product_details.Columns[1].Width = 60;
+            dgv_product_details.Columns[2].Width = 80;
+
+            dgv_product_details.AllowUserToResizeColumns = false;
+
+            return dgv_product_details;
+        }
+
+        /// <summary>
+        /// Build description textbox
+        /// </summary>
+        private TextBox BuildDescription(DmnGridFields orders, List<Dmnkitchendetails> details)
+        {
+            TextBox txt_Description = new TextBox();
+            txt_Description.Text = "Note :   " + Convert.ToString(details[0].Field16);
+            txt_Description.Name = "txt_Description_k_" + orders.Field1 + details[0].Field17;
+            txt_Description.Dock = DockStyle.Fill;
+            txt_Description.ForeColor = Color.White;
+            txt_Description.BackColor = boxcolor;
+            txt_Description.ReadOnly = true;
+            txt_Description.Multiline = true;
+            txt_Description.ScrollBars = ScrollBars.Vertical;
+            txt_Description.BorderStyle = BorderStyle.None;
+            txt_Description.Visible = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
+            txt_Description.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            return txt_Description;
+        }
+
+        /// <summary>
+        /// Build bottom buttons and return panel; out parameters for buttons.
+        /// </summary>
+        private TableLayoutPanel BuildButtons(DmnGridFields orders, List<Dmnkitchendetails> details,
+            out PictureBox startBtn, out PictureBox readyBtn, out PictureBox cancelBtn, out PictureBox reprintBtn)
+        {
+            string suffix = Convert.ToString(details[0].Field17);
+
+            TableLayoutPanel tlp_buttons = new TableLayoutPanel();
+            tlp_buttons.Name = "tlp_buttons_k_" + orders.Field1 + suffix;
+            tlp_buttons.Dock = DockStyle.Top;
+            tlp_buttons.ColumnCount = 4;
+            tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlp_buttons.Height = (screenWidth > 1367 && screenHeight > 769) ? 45 : 35;
+            tlp_buttons.BackColor = Color.FromArgb(60, 90, 160); // same blue as header base
+
+            startBtn = new PictureBox();
+            startBtn.Name = "pb_start_k_" + orders.Field1 + suffix;
+            startBtn.Image = Properties.Resources.start;
+            startBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+            startBtn.Dock = DockStyle.None;
+            startBtn.Tag = suffix;
+            startBtn.AccessibleDescription = Convert.ToString(orders.Field1);
+            startBtn.Click += pbstart_Click;
+            startBtn.Width = (screenWidth > 1367 && screenHeight > 769) ? 120 : 80;
+            startBtn.Height = (screenWidth > 1367 && screenHeight > 769) ? 40 : 30;
+
+            readyBtn = new PictureBox();
+            readyBtn.Name = "pb_ready_k_" + orders.Field1 + suffix;
+            readyBtn.Image = Properties.Resources.ready_button;
+            readyBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+            readyBtn.Dock = DockStyle.None;
+            readyBtn.Tag = suffix;
+            readyBtn.AccessibleDescription = Convert.ToString(orders.Field1);
+            readyBtn.Click += pbreadyfood_Click;
+            readyBtn.Width = startBtn.Width;
+            readyBtn.Height = startBtn.Height;
+
+            cancelBtn = new PictureBox();
+            cancelBtn.Name = "pictureBoxRemove_k_" + orders.Field1 + suffix;
+            cancelBtn.Image = Properties.Resources.Kitchen_Ordercancel;
+            cancelBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+            cancelBtn.Dock = DockStyle.None;
+            cancelBtn.Tag = suffix;
+            cancelBtn.AccessibleDescription = Convert.ToString(orders.Field1);
+            cancelBtn.Click += pbcancelfood_Click;
+            cancelBtn.Width = startBtn.Width;
+            cancelBtn.Height = startBtn.Height;
+
+            reprintBtn = new PictureBox();
+            reprintBtn.Name = "reprintbutton_k_" + orders.Field1 + suffix;
+            reprintBtn.Image = Properties.Resources.reprint;
+            reprintBtn.SizeMode = PictureBoxSizeMode.StretchImage;
+            reprintBtn.Dock = DockStyle.None;
+            reprintBtn.Tag = suffix;
+            reprintBtn.AccessibleDescription = Convert.ToString(orders.Field1);
+            reprintBtn.Click += reprintbutton_Click;
+            reprintBtn.Width = startBtn.Width;
+            reprintBtn.Height = startBtn.Height;
+
+            // decide initial visibility based on details statuses
+            bool flagstart_ready = details.Any(d => Convert.ToInt32(d.Field12) == 1);
+            if (flagstart_ready)
+            {
+                startBtn.Visible = true;
+                cancelBtn.Visible = true;
+                readyBtn.Visible = false;
+            }
+            else
+            {
+                startBtn.Visible = false;
+                readyBtn.Visible = true;
+                cancelBtn.Visible = false;
+            }
+
+            tlp_buttons.Controls.Add(startBtn, 0, 0);
+            tlp_buttons.Controls.Add(readyBtn, 1, 0);
+            tlp_buttons.Controls.Add(cancelBtn, 2, 0);
+            tlp_buttons.Controls.Add(reprintBtn, 3, 0);
+
+            return tlp_buttons;
+        }
+
+        /// <summary>
+        /// Update a card's dynamic parts: time, description, buttons and grid
+        /// </summary>
+        private void UpdateOrderCard(OrderCardCache cache, DmnGridFields orders, List<Dmnkitchendetails> details)
+        {
+            try
+            {
+                if (cache == null) return;
+
+                // Update time label
+                if (cache.TimeLabel != null && details != null && details.Count > 0)
+                {
+                    TimeSpan tt = DateTime.Now - details[0].Fielddatetime;
+                    cache.TimeLabel.Text = string.Format("{0} h, {1} min {2} s", tt.Hours, tt.Minutes, tt.Seconds);
+                }
+
+                // Update grid content with blinking logic
+                UpdateGrid(cache.Grid, details);
+
+                // Update description
+                if (cache.Description != null)
+                {
+                    cache.Description.Text = "Note :   " + Convert.ToString(details[0].Field16);
+                    cache.Description.Visible = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
+                }
+
+                // Update buttons based on status and field27
+                bool flagstart_ready = details.Any(d => Convert.ToInt32(d.Field12) == 1);
+                if (cache.BtnStart != null) cache.BtnStart.Visible = flagstart_ready;
+                if (cache.BtnCancel != null) cache.BtnCancel.Visible = flagstart_ready;
+                if (cache.BtnReprint != null) cache.BtnReprint.Visible = true; // reprint always visible unless field27 indicates waiting
+
+                if (Convert.ToInt32(details[0].Field27) == 1)
+                {
+                    if (cache.BtnStart != null) cache.BtnStart.Visible = false;
+                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = false;
+                    if (cache.BtnReprint != null) cache.BtnReprint.Visible = false;
+                    if (cache.Description != null)
+                    {
+                        cache.Description.Visible = true;
+                        cache.DescriptionPanel.Visible = true;
+                        cache.Description.Text = "Waiting for customer confirmation.";
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Pickuppage UpdateOrderCard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+            }
+        }
+
+        /// <summary>
+        /// UpdateGrid with blinking canceled rows logic.
+        /// Uses KOID (Field8) as unique row key; falls back to orderdetailsid (Field9)
+        /// </summary>
+        private void UpdateGrid(DataGridView dgv_product_details, List<Dmnkitchendetails> gridSourcedetails)
+        {
+            if (dgv_product_details == null) return;
+
+            dgv_product_details.SuspendLayout();
+
+            dgv_product_details.Rows.Clear();
+
+            bool comboflag = false, addonflag = false;
+
+            for (int k = 0; k < gridSourcedetails.Count; k++)
+            {
+                var rowObj = gridSourcedetails[k];
+                dgv_product_details.Rows.Add();
+
+                // Unique key for blinking: KOID or detailsid
+                string keyRow = Convert.ToString(rowObj.Field8);
+                if (string.IsNullOrEmpty(keyRow))
+                    keyRow = Convert.ToString(rowObj.Field9);
+
+                if (!RowBlinkCounter.ContainsKey(keyRow)) RowBlinkCounter[keyRow] = 0;
+                if (!RowBlinkState.ContainsKey(keyRow)) RowBlinkState[keyRow] = false;
+
+                // Slno
+                dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
+
+                // Item name + variant
+                string vrianame = Convert.ToString(rowObj.Field24);
+                string itemname = Convert.ToString(rowObj.Field4);
+                dgv_product_details.Rows[k].Cells[ditemno].Value =
+                    !string.IsNullOrEmpty(vrianame) ? itemname + " ( " + vrianame + " )" : itemname;
+
+                // PType column icon
+                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
+                if (Convert.ToInt32(rowObj.Field13) == Convert.ToInt32(Tabletype.ComboProduct))
+                {
+                    comboflag = true;
+                    cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
+                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    cellcolumntype.ToolTipText = rowObj.Field4;
+                }
+                else if (Convert.ToInt32(rowObj.Field23) >= 1)
+                {
+                    addonflag = true;
+                    cellcolumntype.Value = Properties.Resources.addonbutton;
+                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    cellcolumntype.ToolTipText = "Addon (Click view more...)";
+                }
+                else
+                {
+                    cellcolumntype.Value = (k % 2 == 0) ? Properties.Resources.orderview_blank : Properties.Resources.orderview_blank_2;
+                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    cellcolumntype.ToolTipText = rowObj.Field4;
+                }
+
+                // Qty
+                decimal originalValue = 0;
+                decimal.TryParse(Convert.ToString(rowObj.Field5), out originalValue);
+                dgv_product_details.Rows[k].Cells[dqtyno].Value = (int)Math.Floor(originalValue);
+
+                // Notes / Remove notes / backend fields
+                dgv_product_details.Rows[k].Cells[dnotes].Value = rowObj.Field6;
+                dgv_product_details.Rows[k].Cells[dremnoteno].Value = rowObj.Field11;
+                dgv_product_details.Rows[k].Cells[ddetailsidno].Value = rowObj.Field9;
+                dgv_product_details.Rows[k].Cells[dkoidno].Value = rowObj.Field8;
+                dgv_product_details.Rows[k].Cells[dtidno].Value = rowObj.Field10;
+                dgv_product_details.Rows[k].Cells[dordermasteridno].Value = rowObj.Field1;
+                dgv_product_details.Rows[k].Cells[ddatetimeno].Value = rowObj.Fielddatetime;
+                dgv_product_details.Rows[k].Cells[dstatusno].Value = rowObj.Field12;
+                dgv_product_details.Rows[k].Cells[ditemidno].Value = rowObj.Field14;
+                dgv_product_details.Rows[k].Cells[dtabletypeno].Value = rowObj.Field15;
+                dgv_product_details.Rows[k].Cells[dorderno].Value = rowObj.Field17;
+
+                if (Convert.ToInt32(rowObj.Field19) == Convert.ToInt32(AddonType.AddonType))
+                {
+                    dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.AddonType);
+                    dgv_product_details.Rows[k].Cells[dAVIDno].Value = rowObj.Field20;
+                }
+                else
+                {
+                    dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.None);
+                }
+
+                // Action column + blinking for status==0
+                DataGridViewImageCell actionCell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
+                int status = 0;
+                int.TryParse(Convert.ToString(rowObj.Field12), out status);
+
+                if (status == 0)
+                {
+                    // canceled - blink
+                    RowBlinkCounter[keyRow]++;
+                    if (RowBlinkCounter[keyRow] >= BlinkThreshold)
+                    {
+                        RowBlinkCounter[keyRow] = 0;
+                        RowBlinkState[keyRow] = !RowBlinkState[keyRow];
+                    }
+
+                    if (RowBlinkState[keyRow])
+                    {
+                        dgv_product_details.Rows[k].DefaultCellStyle.BackColor = Color.LightCoral;
+                        actionCell.Value = Properties.Resources.orderview_cancelled; // red icon
+                        actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    }
+                    else
+                    {
+                        dgv_product_details.Rows[k].DefaultCellStyle.BackColor = Color.White;
+                        // if you have a white version icon use it; else reuse cancelled icon
+                        actionCell.Value = Properties.Resources.orderview_cancelled;
+                        actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    }
+
+                    dgv_product_details.Rows[k].ReadOnly = true;
+                }
+                else
+                {
+                    dgv_product_details.Rows[k].DefaultCellStyle.BackColor = Color.White;
+                    actionCell.Value = Properties.Resources.kitchenfood_cancel_icon;
+                    actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                }
+            }
+
+            // Make rows readonly
+            for (int x = 0; x < dgv_product_details.RowCount; x++)
+            {
+                dgv_product_details.Rows[x].ReadOnly = true;
+            }
+
+            // Show/hide PType column based on flags
+            dgv_product_details.Columns[dptypeno].Visible = comboflag || addonflag;
+
+            dgv_product_details.ResumeLayout();
+        }
+
+        /// <summary>
+        /// Clear all cached UI and dispose controls
+        /// </summary>
+        private void ClearKitchenUI()
+        {
+            try
+            {
+                refreshtimer.Stop();
+                timer1.Stop();
+
+                foreach (KeyValuePair<string, OrderCardCache> kv in KitchenCardCache.ToList())
+                {
+                    try
+                    {
+                        if (kv.Value != null && kv.Value.CardPanel != null)
+                        {
+                            flp_order_view.Controls.Remove(kv.Value.CardPanel);
+                            kv.Value.CardPanel.Dispose();
+                        }
+                    }
+                    catch { }
+                }
+                KitchenCardCache.Clear();
+
+                foreach (Control ctrl in flp_order_view.Controls)
+                {
+                    try { ctrl.Dispose(); } catch { }
+                }
+                flp_order_view.Controls.Clear();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Pickuppage ClearKitchenUI()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+            }
+        }
+
+        #endregion
+
 
         private void btnmini_Click(object sender, EventArgs e)
         {
@@ -2800,7 +3588,8 @@ namespace FoodandBeverage.Forms
         {
             refreshtimer.Stop();
             PrintcancelOrder();
-            FillOrdersAsync();
+            ///FillOrdersAsync();
+            FillOrders();
             //if (Convert.ToInt32(btnprintcount.Text) > 0)
             // PrintOrderAsync());
             refreshtimer.Start();

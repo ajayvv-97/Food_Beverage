@@ -1460,9 +1460,6 @@
     <None Include="Resources\plus.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\loading_gif.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\down-arrow.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1925,6 +1922,7 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\loading_gif.gif" />
     <None Include="Resources\N_refreshicon.png" />
     <None Include="Resources\N_searchicon.png" />
     <None Include="Resources\Admin.png" />
