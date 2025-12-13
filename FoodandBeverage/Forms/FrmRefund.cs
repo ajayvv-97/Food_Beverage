@@ -206,6 +206,9 @@ namespace FoodandBeverage.Forms
 
                 dgv_productlist.Rows.Clear();
                 dgv_productlist.Refresh();
+                cmbRefundPayType.SelectedIndex = 0;
+                cmbRefundReson.SelectedIndex = 0;
+                
             }
             catch (Exception ex)
             {
@@ -516,7 +519,7 @@ namespace FoodandBeverage.Forms
                         lblcbalance.Text = Convert.ToString(itemSource[0].Field2);
                         decimal gtotal = Convert.ToDecimal(itemSource[0].Field2) + Convert.ToDecimal(lblnetamount.Text);
                         lblrefunbalance.Text = Convert.ToString(gtotal);
-                        wificard_timer.Stop();
+                        pnlwifi.Visible = false;
                     }
                 }
             }

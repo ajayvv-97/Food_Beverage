@@ -35,6 +35,20 @@ namespace FoodandBeverage.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRefund));
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
+            this.pnl_cus_cash_details = new System.Windows.Forms.Panel();
+            this.tlp_custom = new System.Windows.Forms.TableLayoutPanel();
+            this.lblDebitLedgerId = new System.Windows.Forms.Label();
+            this.lblFMCardType = new System.Windows.Forms.Label();
+            this.lblcardno = new System.Windows.Forms.Label();
+            this.lblcbalance = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblCardType = new System.Windows.Forms.Label();
+            this.lblrefunbalance = new System.Windows.Forms.Label();
+            this.tlp_cashrefund = new System.Windows.Forms.TableLayoutPanel();
+            this.lblcashrefundamt = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.btnmini = new System.Windows.Forms.Button();
@@ -66,17 +80,6 @@ namespace FoodandBeverage.Forms
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.pnl_cus_cash_details = new System.Windows.Forms.Panel();
-            this.tlp_cashrefund = new System.Windows.Forms.TableLayoutPanel();
-            this.lblcashrefundamt = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tlp_custom = new System.Windows.Forms.TableLayoutPanel();
-            this.lblcardno = new System.Windows.Forms.Label();
-            this.lblcbalance = new System.Windows.Forms.Label();
-            this.lblrefunbalance = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.txtsalemasterid = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtordermasterid = new System.Windows.Forms.TextBox();
@@ -86,19 +89,16 @@ namespace FoodandBeverage.Forms
             this.tlp_wifiPopup = new System.Windows.Forms.TableLayoutPanel();
             this.pbwifi = new System.Windows.Forms.PictureBox();
             this.btnwificancel = new System.Windows.Forms.Button();
-            this.lblCardType = new System.Windows.Forms.Label();
-            this.lblFMCardType = new System.Windows.Forms.Label();
-            this.lblDebitLedgerId = new System.Windows.Forms.Label();
             this.tlp_main.SuspendLayout();
+            this.pnl_cus_cash_details.SuspendLayout();
+            this.tlp_custom.SuspendLayout();
+            this.tlp_cashrefund.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_button.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_productlist)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tlp_token_net_pay.SuspendLayout();
-            this.pnl_cus_cash_details.SuspendLayout();
-            this.tlp_cashrefund.SuspendLayout();
-            this.tlp_custom.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlwifi.SuspendLayout();
             this.tlp_wifiPopup.SuspendLayout();
@@ -132,6 +132,178 @@ namespace FoodandBeverage.Forms
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.Size = new System.Drawing.Size(615, 482);
             this.tlp_main.TabIndex = 14;
+            // 
+            // pnl_cus_cash_details
+            // 
+            this.pnl_cus_cash_details.Controls.Add(this.tlp_custom);
+            this.pnl_cus_cash_details.Controls.Add(this.tlp_cashrefund);
+            this.pnl_cus_cash_details.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnl_cus_cash_details.Location = new System.Drawing.Point(8, 261);
+            this.pnl_cus_cash_details.Name = "pnl_cus_cash_details";
+            this.pnl_cus_cash_details.Size = new System.Drawing.Size(599, 55);
+            this.pnl_cus_cash_details.TabIndex = 22;
+            this.pnl_cus_cash_details.Visible = false;
+            // 
+            // tlp_custom
+            // 
+            this.tlp_custom.ColumnCount = 4;
+            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.53659F));
+            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.46341F));
+            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
+            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tlp_custom.Controls.Add(this.lblDebitLedgerId, 0, 2);
+            this.tlp_custom.Controls.Add(this.lblFMCardType, 3, 1);
+            this.tlp_custom.Controls.Add(this.lblCardType, 3, 0);
+            this.tlp_custom.Controls.Add(this.lblcardno, 0, 1);
+            this.tlp_custom.Controls.Add(this.lblcbalance, 0, 1);
+            this.tlp_custom.Controls.Add(this.lblrefunbalance, 2, 1);
+            this.tlp_custom.Controls.Add(this.label4, 2, 0);
+            this.tlp_custom.Controls.Add(this.label3, 1, 0);
+            this.tlp_custom.Controls.Add(this.label5, 0, 0);
+            this.tlp_custom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_custom.Location = new System.Drawing.Point(0, 0);
+            this.tlp_custom.Name = "tlp_custom";
+            this.tlp_custom.RowCount = 3;
+            this.tlp_custom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_custom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tlp_custom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tlp_custom.Size = new System.Drawing.Size(599, 55);
+            this.tlp_custom.TabIndex = 22;
+            this.tlp_custom.Paint += new System.Windows.Forms.PaintEventHandler(this.tlp_custom_Paint);
+            // 
+            // lblDebitLedgerId
+            // 
+            this.lblDebitLedgerId.AutoSize = true;
+            this.lblDebitLedgerId.Location = new System.Drawing.Point(3, 47);
+            this.lblDebitLedgerId.Name = "lblDebitLedgerId";
+            this.lblDebitLedgerId.Size = new System.Drawing.Size(0, 8);
+            this.lblDebitLedgerId.TabIndex = 8;
+            this.lblDebitLedgerId.Visible = false;
+            // 
+            // lblFMCardType
+            // 
+            this.lblFMCardType.AutoSize = true;
+            this.lblFMCardType.Location = new System.Drawing.Point(570, 15);
+            this.lblFMCardType.Name = "lblFMCardType";
+            this.lblFMCardType.Size = new System.Drawing.Size(0, 13);
+            this.lblFMCardType.TabIndex = 7;
+            this.lblFMCardType.Visible = false;
+            // 
+            // lblcardno
+            // 
+            this.lblcardno.AutoSize = true;
+            this.lblcardno.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblcardno.Location = new System.Drawing.Point(190, 15);
+            this.lblcardno.Name = "lblcardno";
+            this.lblcardno.Size = new System.Drawing.Size(193, 32);
+            this.lblcardno.TabIndex = 5;
+            this.lblcardno.Text = "label10";
+            this.lblcardno.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblcbalance
+            // 
+            this.lblcbalance.AutoSize = true;
+            this.lblcbalance.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblcbalance.Location = new System.Drawing.Point(3, 15);
+            this.lblcbalance.Name = "lblcbalance";
+            this.lblcbalance.Size = new System.Drawing.Size(181, 32);
+            this.lblcbalance.TabIndex = 4;
+            this.lblcbalance.Text = "label9";
+            this.lblcbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.label5.Location = new System.Drawing.Point(3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 15);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Card No";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.label4.Location = new System.Drawing.Point(389, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(175, 15);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Refund Balance";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.label3.Location = new System.Drawing.Point(190, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(114, 15);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Current Balance";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCardType
+            // 
+            this.lblCardType.AutoSize = true;
+            this.lblCardType.Location = new System.Drawing.Point(570, 0);
+            this.lblCardType.Name = "lblCardType";
+            this.lblCardType.Size = new System.Drawing.Size(0, 13);
+            this.lblCardType.TabIndex = 6;
+            this.lblCardType.Visible = false;
+            // 
+            // lblrefunbalance
+            // 
+            this.lblrefunbalance.AutoSize = true;
+            this.lblrefunbalance.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblrefunbalance.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblrefunbalance.Location = new System.Drawing.Point(389, 15);
+            this.lblrefunbalance.Name = "lblrefunbalance";
+            this.lblrefunbalance.Size = new System.Drawing.Size(175, 32);
+            this.lblrefunbalance.TabIndex = 3;
+            this.lblrefunbalance.Text = "label8";
+            this.lblrefunbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tlp_cashrefund
+            // 
+            this.tlp_cashrefund.ColumnCount = 2;
+            this.tlp_cashrefund.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_cashrefund.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_cashrefund.Controls.Add(this.lblcashrefundamt, 1, 0);
+            this.tlp_cashrefund.Controls.Add(this.label8, 0, 0);
+            this.tlp_cashrefund.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_cashrefund.Location = new System.Drawing.Point(0, 0);
+            this.tlp_cashrefund.Name = "tlp_cashrefund";
+            this.tlp_cashrefund.RowCount = 1;
+            this.tlp_cashrefund.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_cashrefund.Size = new System.Drawing.Size(599, 55);
+            this.tlp_cashrefund.TabIndex = 23;
+            // 
+            // lblcashrefundamt
+            // 
+            this.lblcashrefundamt.AutoSize = true;
+            this.lblcashrefundamt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblcashrefundamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblcashrefundamt.Location = new System.Drawing.Point(164, 0);
+            this.lblcashrefundamt.Name = "lblcashrefundamt";
+            this.lblcashrefundamt.Size = new System.Drawing.Size(432, 55);
+            this.lblcashrefundamt.TabIndex = 1;
+            this.lblcashrefundamt.Text = "0.00";
+            this.lblcashrefundamt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(3, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(155, 55);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Refund Amount";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tlp_navbar
             // 
@@ -581,152 +753,6 @@ namespace FoodandBeverage.Forms
             this.label7.Text = "Payment Mode";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pnl_cus_cash_details
-            // 
-            this.pnl_cus_cash_details.Controls.Add(this.tlp_custom);
-            this.pnl_cus_cash_details.Controls.Add(this.tlp_cashrefund);
-            this.pnl_cus_cash_details.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_cus_cash_details.Location = new System.Drawing.Point(8, 261);
-            this.pnl_cus_cash_details.Name = "pnl_cus_cash_details";
-            this.pnl_cus_cash_details.Size = new System.Drawing.Size(599, 55);
-            this.pnl_cus_cash_details.TabIndex = 22;
-            this.pnl_cus_cash_details.Visible = false;
-            // 
-            // tlp_cashrefund
-            // 
-            this.tlp_cashrefund.ColumnCount = 2;
-            this.tlp_cashrefund.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_cashrefund.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_cashrefund.Controls.Add(this.lblcashrefundamt, 1, 0);
-            this.tlp_cashrefund.Controls.Add(this.label8, 0, 0);
-            this.tlp_cashrefund.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_cashrefund.Location = new System.Drawing.Point(0, 0);
-            this.tlp_cashrefund.Name = "tlp_cashrefund";
-            this.tlp_cashrefund.RowCount = 1;
-            this.tlp_cashrefund.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_cashrefund.Size = new System.Drawing.Size(599, 55);
-            this.tlp_cashrefund.TabIndex = 23;
-            // 
-            // lblcashrefundamt
-            // 
-            this.lblcashrefundamt.AutoSize = true;
-            this.lblcashrefundamt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblcashrefundamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblcashrefundamt.Location = new System.Drawing.Point(164, 0);
-            this.lblcashrefundamt.Name = "lblcashrefundamt";
-            this.lblcashrefundamt.Size = new System.Drawing.Size(432, 55);
-            this.lblcashrefundamt.TabIndex = 1;
-            this.lblcashrefundamt.Text = "0.00";
-            this.lblcashrefundamt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(3, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(155, 55);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Refund Amount";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tlp_custom
-            // 
-            this.tlp_custom.ColumnCount = 4;
-            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.53659F));
-            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.46341F));
-            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
-            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tlp_custom.Controls.Add(this.lblDebitLedgerId, 0, 2);
-            this.tlp_custom.Controls.Add(this.lblFMCardType, 3, 1);
-            this.tlp_custom.Controls.Add(this.lblcardno, 0, 1);
-            this.tlp_custom.Controls.Add(this.lblcbalance, 0, 1);
-            this.tlp_custom.Controls.Add(this.label5, 0, 0);
-            this.tlp_custom.Controls.Add(this.label4, 1, 0);
-            this.tlp_custom.Controls.Add(this.label3, 0, 0);
-            this.tlp_custom.Controls.Add(this.lblCardType, 3, 0);
-            this.tlp_custom.Controls.Add(this.lblrefunbalance, 2, 1);
-            this.tlp_custom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_custom.Location = new System.Drawing.Point(0, 0);
-            this.tlp_custom.Name = "tlp_custom";
-            this.tlp_custom.RowCount = 3;
-            this.tlp_custom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_custom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tlp_custom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.tlp_custom.Size = new System.Drawing.Size(599, 55);
-            this.tlp_custom.TabIndex = 22;
-            this.tlp_custom.Paint += new System.Windows.Forms.PaintEventHandler(this.tlp_custom_Paint);
-            // 
-            // lblcardno
-            // 
-            this.lblcardno.AutoSize = true;
-            this.lblcardno.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblcardno.Location = new System.Drawing.Point(3, 15);
-            this.lblcardno.Name = "lblcardno";
-            this.lblcardno.Size = new System.Drawing.Size(182, 32);
-            this.lblcardno.TabIndex = 5;
-            this.lblcardno.Text = "label10";
-            this.lblcardno.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblcbalance
-            // 
-            this.lblcbalance.AutoSize = true;
-            this.lblcbalance.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblcbalance.Location = new System.Drawing.Point(191, 15);
-            this.lblcbalance.Name = "lblcbalance";
-            this.lblcbalance.Size = new System.Drawing.Size(193, 32);
-            this.lblcbalance.TabIndex = 4;
-            this.lblcbalance.Text = "label9";
-            this.lblcbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblrefunbalance
-            // 
-            this.lblrefunbalance.AutoSize = true;
-            this.lblrefunbalance.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblrefunbalance.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblrefunbalance.Location = new System.Drawing.Point(390, 15);
-            this.lblrefunbalance.Name = "lblrefunbalance";
-            this.lblrefunbalance.Size = new System.Drawing.Size(175, 32);
-            this.lblrefunbalance.TabIndex = 3;
-            this.lblrefunbalance.Text = "label8";
-            this.lblrefunbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label5.Location = new System.Drawing.Point(191, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 15);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Card No";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label4.Location = new System.Drawing.Point(390, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(175, 15);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Refund Balance";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(182, 15);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Current Balance";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // txtsalemasterid
             // 
             this.txtsalemasterid.Location = new System.Drawing.Point(33, 4);
@@ -821,30 +847,6 @@ namespace FoodandBeverage.Forms
             this.btnwificancel.UseVisualStyleBackColor = true;
             this.btnwificancel.Click += new System.EventHandler(this.btnwificancel_Click);
             // 
-            // lblCardType
-            // 
-            this.lblCardType.AutoSize = true;
-            this.lblCardType.Location = new System.Drawing.Point(571, 0);
-            this.lblCardType.Name = "lblCardType";
-            this.lblCardType.Size = new System.Drawing.Size(0, 13);
-            this.lblCardType.TabIndex = 6;
-            // 
-            // lblFMCardType
-            // 
-            this.lblFMCardType.AutoSize = true;
-            this.lblFMCardType.Location = new System.Drawing.Point(571, 15);
-            this.lblFMCardType.Name = "lblFMCardType";
-            this.lblFMCardType.Size = new System.Drawing.Size(0, 13);
-            this.lblFMCardType.TabIndex = 7;
-            // 
-            // lblDebitLedgerId
-            // 
-            this.lblDebitLedgerId.AutoSize = true;
-            this.lblDebitLedgerId.Location = new System.Drawing.Point(3, 47);
-            this.lblDebitLedgerId.Name = "lblDebitLedgerId";
-            this.lblDebitLedgerId.Size = new System.Drawing.Size(0, 8);
-            this.lblDebitLedgerId.TabIndex = 8;
-            // 
             // FrmRefund
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -859,6 +861,11 @@ namespace FoodandBeverage.Forms
             this.Load += new System.EventHandler(this.FrmRefund_Load);
             this.Resize += new System.EventHandler(this.FrmRefund_Resize);
             this.tlp_main.ResumeLayout(false);
+            this.pnl_cus_cash_details.ResumeLayout(false);
+            this.tlp_custom.ResumeLayout(false);
+            this.tlp_custom.PerformLayout();
+            this.tlp_cashrefund.ResumeLayout(false);
+            this.tlp_cashrefund.PerformLayout();
             this.tlp_navbar.ResumeLayout(false);
             this.tlp_navbar.PerformLayout();
             this.tlp_button.ResumeLayout(false);
@@ -868,11 +875,6 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2.PerformLayout();
             this.tlp_token_net_pay.ResumeLayout(false);
             this.tlp_token_net_pay.PerformLayout();
-            this.pnl_cus_cash_details.ResumeLayout(false);
-            this.tlp_cashrefund.ResumeLayout(false);
-            this.tlp_cashrefund.PerformLayout();
-            this.tlp_custom.ResumeLayout(false);
-            this.tlp_custom.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.pnlwifi.ResumeLayout(false);
