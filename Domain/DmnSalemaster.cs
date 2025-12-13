@@ -13,7 +13,7 @@ namespace Domain
             public int Product_id { get; set; }
             public string Barcode { get; set; }
 
-            public string Name { get; set; }
+
             public string Unit { get; set; }
             public decimal QTY { get; set; }
             public string Type { get; set; }
@@ -46,11 +46,7 @@ namespace Domain
             public DateTime CardDate { get; set; }
             public string DocNo { get; set; }
             public DateTime DocDate { get; set; }
-            public string Customer { get; set; }
-            public int CustomerId { get; set; }
-            public string Address { get; set; }
-            public string ContactNo { get; set; }
-            public string Email { get; set; }
+
             public decimal TotQty { get; set; }
             public decimal GrandTot { get; set; }
             public decimal TotalDiscount { get; set; }
@@ -97,7 +93,6 @@ namespace Domain
         public int BookmasterId { get; set; }
         public decimal AdvanceAmount { get; set; }
         public decimal ReservationTotal { get; set; }
-        public int Gender { get; set; }
         public int TimeDuration { get; set; }
         public int Rev_Status { get; set; }
         public string ICardNo { get; set; }
@@ -120,6 +115,20 @@ namespace Domain
         public string Caption { get; set; }
         public int FormType { get; set; }
         public string DBname { get; set; }
+
+        // ============================
+        // NEW CUSTOMER DETAILS (ADDED)
+        // ============================
+
+        public int cusid { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string CompanyName { get; set; }
+        public string GSTNo { get; set; }
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
+        public string FullAddress { get; set; }
+        public int Gender { get; set; }
     }
     
 

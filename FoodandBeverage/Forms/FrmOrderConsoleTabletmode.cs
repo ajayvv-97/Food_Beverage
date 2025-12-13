@@ -5598,15 +5598,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.BookmasterId = Bookingmasterid;
                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                     dmnordermaster.EntryNo = "";
-                    dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
-                    dmnordermaster.CustomerName = Convert.ToString(txtfristname.Text);
-                    dmnordermaster.Telephone = Convert.ToString(txtph.Text);
-                    dmnordermaster.Email = Convert.ToString(txtemailid.Text);
-                    dmnordermaster.Address = Convert.ToString(txtaddress.Text);
-                    if (rb_male.Checked)
-                        dmnordermaster.Gender = 1;
-                    else
-                        dmnordermaster.Gender = 2;
+                    dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);   
 
                     if (BookingType == Convert.ToInt32(DashboardTableType.PickupOrder))
                     {
@@ -5666,6 +5658,7 @@ namespace FoodandBeverage.Forms
                         dmnordermaster.Gender = 1;        // Male
                     else if (rb_female.Checked)
                         dmnordermaster.Gender = 2;        // Female
+                    //dmnordermaster.cusid=txt
 
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                     if (InsertStatusP.OrderMasterId > 0)

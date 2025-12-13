@@ -49,11 +49,7 @@ namespace BLL
             parms.Add("ReservationTotal", objTestClass.ReservationTotal);
             parms.Add("AdvanceAmount", objTestClass.AdvanceAmount);
 
-            parms.Add("Name", objTestClass.Name);
-            parms.Add("Address", objTestClass.Address);
-            parms.Add("ContactNo", objTestClass.ContactNo);
-            parms.Add("Email", objTestClass.Email);
-            parms.Add("Gender", objTestClass.Gender);
+
             parms.Add("TimeDuration", objTestClass.TimeDuration);
             parms.Add("Rev_Status", objTestClass.Rev_Status);
             parms.Add("ICardNo", objTestClass.ICardNo);
@@ -68,6 +64,19 @@ namespace BLL
             parms.Add("PkChargeAmount", objTestClass.PkChargeAmount);
             parms.Add("IsDirectSale", objTestClass.IsDirectSale);
 
+            // ---------------------------
+            // NEW CUSTOMER DETAILS (ADDED)
+            // ---------------------------
+            parms.Add("FirstName", objTestClass.FirstName);
+            parms.Add("SecondName", objTestClass.SecondName);
+            parms.Add("CompanyName", objTestClass.CompanyName);
+            parms.Add("GSTNo", objTestClass.GSTNo);
+            parms.Add("PhoneNumber", objTestClass.PhoneNumber);
+            parms.Add("EmailAddress", objTestClass.EmailAddress);
+            parms.Add("FullAddress", objTestClass.FullAddress);
+            parms.Add("Gender", objTestClass.Gender);
+            parms.Add("Cusid", objTestClass.cusid);
+            
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

@@ -6860,32 +6860,32 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.GrandTot = Convert.ToDecimal(txtGrandTotal.Text);
                         dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                         dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
-                        if (RFID_Status)
-                        {
-                            dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
-                            dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
-                            dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
-                            dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
-                            dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
+                        //if (RFID_Status)
+                        //{
+                        //    dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
+                        //    dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
+                        //    dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
+                        //    dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
+                        //    dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
 
-                            if (lbl_cardgender.Text == "Male")
-                                dmnsalemaster.Gender = 1;
-                            else if (lbl_cardgender.Text == "Female")
-                                dmnsalemaster.Gender = 2;
-                            else if (lbl_cardgender.Text == "Others")
-                                dmnsalemaster.Gender = 3;
-                        }
-                        else
-                        {
-                            dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
-                            dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
-                            dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
-                            dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
-                            if (rb_male.Checked)
-                                dmnsalemaster.Gender = 1;
-                            else
-                                dmnsalemaster.Gender = 2;
-                        }
+                        //    if (lbl_cardgender.Text == "Male")
+                        //        dmnsalemaster.Gender = 1;
+                        //    else if (lbl_cardgender.Text == "Female")
+                        //        dmnsalemaster.Gender = 2;
+                        //    else if (lbl_cardgender.Text == "Others")
+                        //        dmnsalemaster.Gender = 3;
+                        //}
+                        //else
+                        //{
+                        //    dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                        //    dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
+                        //    dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
+                        //    dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
+                        //    if (rb_male.Checked)
+                        //        dmnsalemaster.Gender = 1;
+                        //    else
+                        //        dmnsalemaster.Gender = 2;
+                        //}
 
                         dmnsalemaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
                         dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtpaidamount.Text);
@@ -7126,32 +7126,32 @@ namespace FoodandBeverage.Forms
 
                             dmnsalemaster.EntryNo = txtinvoiceno.Text;
 
-                            if (RFID_Status)
-                            {
-                                dmnsalemaster.CombineStatus = 1;
-                                dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
-                                dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
-                                dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
-                                dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
-                                dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
-                                if (lbl_cardgender.Text == "Male")
-                                    dmnsalemaster.Gender = 1;
-                                else if (lbl_cardgender.Text == "Female")
-                                    dmnsalemaster.Gender = 2;
-                                else if (lbl_cardgender.Text == "Others")
-                                    dmnsalemaster.Gender = 3;
-                            }
-                            else
-                            {
-                                dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
-                                dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
-                                dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
-                                dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
-                                if (rb_male.Checked)
-                                    dmnsalemaster.Gender = 1;
-                                else
-                                    dmnsalemaster.Gender = 2;
-                            }
+                            //if (RFID_Status)
+                            //{
+                            //    dmnsalemaster.CombineStatus = 1;
+                            //    dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
+                            //    dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
+                            //    dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
+                            //    dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
+                            //    dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
+                            //    if (lbl_cardgender.Text == "Male")
+                            //        dmnsalemaster.Gender = 1;
+                            //    else if (lbl_cardgender.Text == "Female")
+                            //        dmnsalemaster.Gender = 2;
+                            //    else if (lbl_cardgender.Text == "Others")
+                            //        dmnsalemaster.Gender = 3;
+                            //}
+                            //else
+                            //{
+                            //    dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                            //    dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
+                            //    dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
+                            //    dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
+                            //    if (rb_male.Checked)
+                            //        dmnsalemaster.Gender = 1;
+                            //    else
+                            //        dmnsalemaster.Gender = 2;
+                            //}
 
                             dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
                             dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
@@ -7702,32 +7702,32 @@ namespace FoodandBeverage.Forms
 
                             dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                             dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
-                            if (RFID_Status)
-                            {
-                                dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
-                                dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
-                                dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
-                                dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
-                                dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
+                            //if (RFID_Status)
+                            //{
+                            //    dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
+                            //    dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
+                            //    dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
+                            //    dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
+                            //    dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
 
-                                if (lbl_cardgender.Text == "Male")
-                                    dmnsalemaster.Gender = 1;
-                                else if (lbl_cardgender.Text == "Female")
-                                    dmnsalemaster.Gender = 2;
-                                else if (lbl_cardgender.Text == "Others")
-                                    dmnsalemaster.Gender = 3;
-                            }
-                            else
-                            {
-                                dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
-                                dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
-                                dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
-                                dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
-                                if (rb_male.Checked)
-                                    dmnsalemaster.Gender = 1;
-                                else
-                                    dmnsalemaster.Gender = 2;
-                            }
+                            //    if (lbl_cardgender.Text == "Male")
+                            //        dmnsalemaster.Gender = 1;
+                            //    else if (lbl_cardgender.Text == "Female")
+                            //        dmnsalemaster.Gender = 2;
+                            //    else if (lbl_cardgender.Text == "Others")
+                            //        dmnsalemaster.Gender = 3;
+                            //}
+                            //else
+                            //{
+                            //    dmnsalemaster.Name = Convert.ToString(txtcusname.Text);
+                            //    dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
+                            //    dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
+                            //    dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
+                            //    if (rb_male.Checked)
+                            //        dmnsalemaster.Gender = 1;
+                            //    else
+                            //        dmnsalemaster.Gender = 2;
+                            //}
                             if (Convert.ToInt32(txtsalemasterid.Text) > 0)
                             {
                                 dmnsalemaster.NetAmount = nettotal;
@@ -10842,11 +10842,11 @@ namespace FoodandBeverage.Forms
                         {
                             blinkTimer.Stop();
                             lbl_card_netamount.Text = txtnetamount.Text;
-                            txt_cardbalance.Text = Convert.ToString(gridSource[0].CardBalance);
-                            txt_cardaddress.Text = Convert.ToString(gridSource[0].LedgerAddress);
-                            txtcardemail.Text = Convert.ToString(gridSource[0].EmailId);
-                            txt_cardph.Text = Convert.ToString(gridSource[0].Mobile);
-                            txt_cardaccname.Text = Convert.ToString(gridSource[0].LedgerName);
+                            //txt_cardbalance.Text = Convert.ToString(gridSource[0].CardBalance);
+                            //txt_cardaddress.Text = Convert.ToString(gridSource[0].LedgerAddress);
+                            //txtcardemail.Text = Convert.ToString(gridSource[0].EmailId);
+                            //txt_cardph.Text = Convert.ToString(gridSource[0].Mobile);
+                            //txt_cardaccname.Text = Convert.ToString(gridSource[0].LedgerName);
 
                             string modified_cardno = "XXXX XX" + reading_RFID.Substring(reading_RFID.Length - 6, 6);
                             txt_cardno.Text = Convert.ToString(modified_cardno);
@@ -10858,33 +10858,33 @@ namespace FoodandBeverage.Forms
                             else
                                 lbl_cardgender.Text = "Others";
 
-                            int LedgerId = Convert.ToInt32(gridSource[0].LedgerId);
-                            txt_LedgerId.Text = Convert.ToString(gridSource[0].LedgerId);
-                            bool imageExist = clsDocument.FileExistOrNot(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
+                            //int LedgerId = Convert.ToInt32(gridSource[0].LedgerId);
+                            //txt_LedgerId.Text = Convert.ToString(gridSource[0].LedgerId);
+                            //bool imageExist = clsDocument.FileExistOrNot(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
                             pb_cardprofile.Image = null;
-                            if (imageExist)
-                            {
-                                pb_cardprofile.Image = null;
+                            //if (imageExist)
+                            //{
+                            //    pb_cardprofile.Image = null;
 
-                                if (pb_cardprofile.BackgroundImage != null)
-                                {
-                                    pb_cardprofile.BackgroundImage.Dispose();
-                                    pb_cardprofile.BackgroundImage = null;
-                                }
-                                pb_cardprofile.BackgroundImage = clsDocument.DownloadImage(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
-                                pb_cardprofile.BackgroundImageLayout = ImageLayout.Stretch;
-                            }
-                            else
-                            {
-                                if (Convert.ToInt32(gridSource[0].Gender) == 1)
-                                    pb_cardprofile.BackgroundImage = Properties.Resources.employe_male_icon;
-                                else if (Convert.ToInt32(gridSource[0].Gender) == 2)
-                                    pb_cardprofile.BackgroundImage = Properties.Resources.employe_female_icon;
-                                else
-                                    pb_cardprofile.BackgroundImage = Properties.Resources.user_add_edit;
+                            //    if (pb_cardprofile.BackgroundImage != null)
+                            //    {
+                            //        pb_cardprofile.BackgroundImage.Dispose();
+                            //        pb_cardprofile.BackgroundImage = null;
+                            //    }
+                            //    //pb_cardprofile.BackgroundImage = clsDocument.DownloadImage(LedgerId.ToString() + ".jpeg", DocumentType.CustomerPhoto);
+                            //    pb_cardprofile.BackgroundImageLayout = ImageLayout.Stretch;
+                            //}
+                            //else
+                            //{
+                            //    if (Convert.ToInt32(gridSource[0].Gender) == 1)
+                            //        pb_cardprofile.BackgroundImage = Properties.Resources.employe_male_icon;
+                            //    else if (Convert.ToInt32(gridSource[0].Gender) == 2)
+                            //        pb_cardprofile.BackgroundImage = Properties.Resources.employe_female_icon;
+                            //    else
+                            //        pb_cardprofile.BackgroundImage = Properties.Resources.user_add_edit;
 
-                                pb_cardprofile.BackgroundImageLayout = ImageLayout.Stretch;
-                            }
+                            //    pb_cardprofile.BackgroundImageLayout = ImageLayout.Stretch;
+                            //}
                             if (pnl_partpayment.Visible != true)
                             {
                                 if (Convert.ToDecimal(gridSource[0].CardBalance) < Convert.ToDecimal(txtnetamount.Text))

@@ -757,46 +757,10 @@
       <DependentUpon>CR_Bill.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SaleBill\CR_Bill_withoutQR_Logo.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CR_Bill_withoutQR_Logo.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SaleBill\CR_Bill_withoutQR_Logo_QR_CUS.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CR_Bill_withoutQR_Logo_QR_CUS.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SaleBill\CR_Bill_Without_CUS.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CR_Bill_Without_CUS.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SaleBill\CR_Bill_Without_Logo.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CR_Bill_Without_Logo.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SaleBill\CR_Bill_Without_QR.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CR_Bill_Without_QR.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="SaleBill\CR_PickupBill.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CR_PickupBill.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SaleBill\CR_TEST.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CR_TEST.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SaleBill\CR_Zout.cs">
@@ -1064,33 +1028,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_Bill.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\CR_Bill_withoutQR_Logo.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CR_Bill_withoutQR_Logo.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\CR_Bill_withoutQR_Logo_QR_CUS.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CR_Bill_withoutQR_Logo_QR_CUS.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\CR_Bill_Without_CUS.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CR_Bill_Without_CUS.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\CR_Bill_Without_Logo.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CR_Bill_Without_Logo.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\CR_Bill_Without_QR.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CR_Bill_Without_QR.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\CR_PickupBill.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_PickupBill.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaleBill\CR_TEST.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CR_TEST.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\CR_Zout.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1922,6 +1862,7 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\GST.png" />
     <None Include="Resources\loading_gif.gif" />
     <None Include="Resources\N_refreshicon.png" />
     <None Include="Resources\N_searchicon.png" />

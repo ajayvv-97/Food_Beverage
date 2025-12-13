@@ -25,7 +25,7 @@ namespace Domain
         public string PaymentMode { get; set; }
         public string SalesAddress { get; set; }
         public string Telephone { get; set; }
-        public string GSTNo { get; set; }
+
         public string TransportationNo { get; set; }
         public string Remarks { get; set; }
         public string Email { get; set; }
@@ -40,7 +40,12 @@ namespace Domain
         public int Rev_Status { get; set; }
         public int OrderType { get; set; }
         public int PkId { get; set; }
-
+        public int Cusid { get; set; }
+        public string CompanyName { get; set; }
+        public string GSTNo { get; set; }
+        public int Gender { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
     }
-    
+
 }

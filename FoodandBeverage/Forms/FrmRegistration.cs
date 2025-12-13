@@ -413,28 +413,28 @@ namespace FoodandBeverage.Forms
                 _objSearch.OrderBy = " ORDER BY L.LedgerName ASC";
                 if (returnValue.ToString() != "")
                 {
-                    txtcid.Text = Convert.ToString(returnValue);
-                    Id = Convert.ToInt32(txtcid.Text);
-                    BllSearch<DmnCustAccount> bllSearch = new BllSearch<DmnCustAccount>();
-                    DmnSearch objSearch = new DmnSearch();
-                    objSearch = new DmnSearch();
-                    objSearch.Select = "*";
-                    objSearch.Table = " tblCustomer ";
-                    objSearch.WhereNdGroupBy = "Where LedgerId = " + Id;
-                    objSearch.OrderBy = "Order By LedgerName ";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                    txtname.Text = Convert.ToString(gridSource[0].LedgerName);
-                    txtaddress.Text = Convert.ToString(gridSource[0].LedgerAddress);
-                    txtpin.Text = gridSource[0].ZipCode.ToString();
-                    txtph.Text = gridSource[0].Mobile;
-                    int i = gridSource[0].AllowSMS;
-                    cmbcountry.SelectedValue = Convert.ToInt64(gridSource[0].cCountry);//change
-                    cmdstate.SelectedValue = Convert.ToInt64(gridSource[0].State);//change
-                    cmdcity.Text = gridSource[0].City;
-                    var imageExist = clsDocument.FileExistOrNot(Id.ToString() + ".jpeg", DocumentType.CustomerPhoto);
-                    if (imageExist)
-                        pb1.BackgroundImage = clsDocument.DownloadImage(Id.ToString() + ".jpeg", DocumentType.CustomerPhoto);
-                    pb1.BackgroundImageLayout = ImageLayout.Stretch;
+                    //txtcid.Text = Convert.ToString(returnValue);
+                    //Id = Convert.ToInt32(txtcid.Text);
+                    //BllSearch<DmnCustAccount> bllSearch = new BllSearch<DmnCustAccount>();
+                    //DmnSearch objSearch = new DmnSearch();
+                    //objSearch = new DmnSearch();
+                    //objSearch.Select = "*";
+                    //objSearch.Table = " tblCustomer ";
+                    //objSearch.WhereNdGroupBy = "Where LedgerId = " + Id;
+                    //objSearch.OrderBy = "Order By LedgerName ";
+                    //var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                    //txtname.Text = Convert.ToString(gridSource[0].LedgerName);
+                    //txtaddress.Text = Convert.ToString(gridSource[0].LedgerAddress);
+                    //txtpin.Text = gridSource[0].ZipCode.ToString();
+                    //txtph.Text = gridSource[0].Mobile;
+                    //int i = gridSource[0].AllowSMS;
+                    //cmbcountry.SelectedValue = Convert.ToInt64(gridSource[0].cCountry);//change
+                    //cmdstate.SelectedValue = Convert.ToInt64(gridSource[0].State);//change
+                    //cmdcity.Text = gridSource[0].City;
+                    //var imageExist = clsDocument.FileExistOrNot(Id.ToString() + ".jpeg", DocumentType.CustomerPhoto);
+                    //if (imageExist)
+                    //    pb1.BackgroundImage = clsDocument.DownloadImage(Id.ToString() + ".jpeg", DocumentType.CustomerPhoto);
+                    //pb1.BackgroundImageLayout = ImageLayout.Stretch;
 
                 }
             }

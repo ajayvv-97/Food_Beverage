@@ -19,6 +19,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing;
 using FoodandBeverage.Interfaces;
 using System.Linq;
+using FoodandBeverage.Forms.UserControls;
 
 namespace FoodandBeverage.SaleBill
 {
@@ -39,7 +40,8 @@ namespace FoodandBeverage.SaleBill
         public string cusname_api;
         public string invoiceno_api;
         public string pdfPath = "";
-
+        bool GstBillflag = false;
+        ReportDocument reportDocument = new ReportDocument();
         public FrmSaleInvoice(int masterId,int paytype,int paytid,int BillType )
         {
             SalesMasterId = masterId;
@@ -151,7 +153,20 @@ namespace FoodandBeverage.SaleBill
                 var  invpayment = new List<DmnGridFields>();
 
                 #region Crystal Report Dclaration
-                ReportDocument reportDocument = new ReportDocument();
+
+
+                if (crvSalesBill.ReportSource != null)
+                    crvSalesBill.ReportSource = null;
+
+                if (reportDocument != null)
+                {
+                    reportDocument.Close();
+                    reportDocument.Dispose();
+                    reportDocument = null;
+                }
+
+                reportDocument = new ReportDocument();
+
                 DataSet dsReport = new DataSet();
                 DataTable dtSalesHeader = new DataTable("DT_SaleHeader");
                 DataTable dtSalesMaster = new DataTable("DT_salemaster");
@@ -170,12 +185,23 @@ namespace FoodandBeverage.SaleBill
                 var invoiceBillHeaders = bllSearchHeaders.GetSearchData("prdSearch", dmnSearchInvoiceHeaders);
                 //locationname_api = invoiceBillHeaders[0].Name;
                 DmnSearch dmnSearchInvoiceBill = new DmnSearch();
-                dmnSearchInvoiceBill.Select = " S.EntryNo,S.CreatedDateTime as EntryDate, " +
-                                              " (Select Username from tblUserAccount where UserAccountId = '" + UserId + "') as Username, " +
-                                              " S.TotalAmount,S.DiscountAmount,S.TotalDiscount,S.TotalTax,S.TotalCGST,S.TotalSGST,S.TotalVAT,S.TotalQuantity," +
-                                              " S.NetAmount,S.BalAmnt,s.RcvAmnt,s.CusName,s.Email,s.Telephone,s.SalesAddress,s.OaAmount,s.OdAmount,Remarks,PaymentMode,s.PromoDId,s.PromoAmount,AdvanceAmount,ReservationTotal,s.PkChargeAmount,s.Rev_Status,s.OrderType,S.PkId";
-                dmnSearchInvoiceBill.Table = " tblSalesMaster as S";
-                dmnSearchInvoiceBill.WhereNdGroupBy = " where S.SalesMasterId =" + SalesMasterId;
+                dmnSearchInvoiceBill.Select =
+                   " S.EntryNo, S.CreatedDateTime AS EntryDate, " +
+                   " (SELECT Username FROM tblUserAccount WHERE UserAccountId = '" + UserId + "') AS Username, " +
+                   " S.TotalAmount, S.DiscountAmount, S.TotalDiscount, S.TotalTax, " +
+                   " S.TotalCGST, S.TotalSGST, S.TotalVAT, S.TotalQuantity, " +
+                   " S.NetAmount, S.BalAmnt, S.RcvAmnt, " +
+
+                  " (LTRIM(RTRIM(ISNULL(S.FirstName,''))) + ' ' + LTRIM(RTRIM(ISNULL(S.SecondName,'')))) AS CusName, " +
+                   " S.EmailAddress as Email, S.PhoneNumber as Telephone, S.FullAddress as SalesAddress,s.CompanyName,s.GSTNo, " +
+
+                   " S.OaAmount, S.OdAmount, S.Remarks, S.PaymentMode, " +
+                   " S.PromoDId, S.PromoAmount, S.AdvanceAmount, " +
+                   " S.ReservationTotal, S.PkChargeAmount, " +
+                   " S.Rev_Status, S.OrderType, S.PkId ,s.Cusid,s.Gender,s.FirstName,s.SecondName";
+
+                dmnSearchInvoiceBill.Table = " tblSalesMaster AS S";
+                dmnSearchInvoiceBill.WhereNdGroupBy = " WHERE S.SalesMasterId = " + SalesMasterId;
                 var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
                 netamount_api = invoiceBillMasters[0].NetAmount;
                 invoiceno_api = invoiceBillMasters[0].EntryNo;
@@ -191,8 +217,37 @@ namespace FoodandBeverage.SaleBill
                 }
                 else if (invoiceBillMasters[0].Email == "" || invoiceBillMasters[0].Email == null)
                 {
-                    invoiceBillHeaders[0].Full_Address = invoiceBillHeaders[0].Address +  invoiceBillHeaders[0].Phone;
+                    invoiceBillHeaders[0].Full_Address = invoiceBillHeaders[0].Address + invoiceBillHeaders[0].Phone;
                 }
+
+                 if (invoiceBillMasters[0].Cusid >0)
+                {
+                    txtcusid.Text = Convert.ToString(invoiceBillMasters[0].Cusid);
+                    LoadCustomer(Convert.ToInt32(txtcusid.Text));
+                }
+
+                //txtfristname.Text = invoiceBillMasters[0].FirstName ?? "";
+                //txtsecondname.Text = invoiceBillMasters[0].SecondName ?? "";
+                //txtcompanyname.Text = invoiceBillMasters[0].CompanyName ?? "";
+                //txtgstno.Text = invoiceBillMasters[0].GSTNo ?? "";
+                //txtph.Text = invoiceBillMasters[0].Telephone ?? "";
+                //txtemailid.Text = invoiceBillMasters[0].Email ?? "";
+                //txtaddress.Text = invoiceBillMasters[0].SalesAddress ?? "";
+
+                //// Set gender radio buttons
+                //if (invoiceBillMasters[0].Gender == 1) // Male
+                //{
+                //    rb_male.Checked = true;
+                //    rb_female.Checked = false;
+                //}
+                //else if (invoiceBillMasters[0].Gender == 2) // Female
+                //{
+                //    rb_male.Checked = false;
+                //    rb_female.Checked = true;
+                //}
+
+
+
 
                 GenerateBarcode(invoiceBillMasters[0].EntryNo);
                 //header part set data to dataset
@@ -385,7 +440,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId"))
+    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId", "CompanyName","GSTNo"))
                 {
                     dtSalesMaster.Load(reader);
                 }               
@@ -397,38 +452,7 @@ namespace FoodandBeverage.SaleBill
                 if(BillTypeData == Convert.ToInt32(BillType.NormalBill))
                 {
                     reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); 
-                    //if (Logo_Status && QR_Status)
-                    //    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); 
-                    //else if (!Logo_Status)
-                    //    reportDocument.Load(RPTPath + @"\CR_Bill_Without_Logo.rpt"); 
-                    //else if (!QR_Status)
-                    //    reportDocument.Load(RPTPath + @"\CR_Bill_Without_QR.rpt");
-                    //else if (!Customer_Status)
-                    //    reportDocument.Load(RPTPath + @"\CR_Bill_CR_Bill_Without_CUS.rpt");
-                    //else if (!Logo_Status && !QR_Status)
-                    //    reportDocument.Load(RPTPath + @"\CR_Bill_withoutQR_Logo.rpt");
-                    //else if (!Logo_Status && !QR_Status && !Customer_Status)
-                    //    reportDocument.Load(RPTPath + @"\CR_Bill_withoutQR_Logo_QR_CUS.rpt.rpt");
-
                     string reportFileName = "";
-                    //if (Logo_Status && QR_Status && Customer_Status)
-                    //    reportFileName = "CR_Bill.rpt";
-                    //else if (Logo_Status && !QR_Status && Customer_Status)
-                    //    reportFileName = "CR_Bill_Without_QR.rpt";
-                    //else if (!Logo_Status && QR_Status && Customer_Status)
-                    //    reportFileName = "CR_Bill_Without_Logo.rpt";
-                    //else if (Logo_Status && QR_Status && !Customer_Status)
-                    //    reportFileName = "CR_Bill_Without_CUS.rpt";
-
-                    //else if (!Logo_Status && !QR_Status && Customer_Status)
-                    //    reportFileName = "CR_Bill_withoutQR_Logo.rpt";
-                    //else if (!Logo_Status && QR_Status && !Customer_Status)
-                    //    reportFileName = "CR_Bill_withoutLogo_CUS.rpt";
-                    //else if (Logo_Status && !QR_Status && !Customer_Status)
-                    //    reportFileName = "CR_Bill_withoutQR_CUS.rpt";
-                    //else if (!Logo_Status && !QR_Status && !Customer_Status)
-                    //    reportFileName = "CR_Bill_withoutQR_Logo_CUS.rpt";
-
                     reportFileName = "CR_Bill.rpt";
                     string xy = RPTPath + @"\CR_Bill.rpt";
                 }
@@ -440,6 +464,10 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.Load(RPTPath + @"\CR_PickupBill.rpt"); 
 
                 reportDocument.SetDataSource(dsReport);
+                if(GstBillflag)
+                    reportDocument.SetParameterValue("Gstbill", 1);
+                else
+                    reportDocument.SetParameterValue("Gstbill", 0);
 
                 reportDocument.SetParameterValue("payname", payname);
                 reportDocument.SetParameterValue("cashamount",cashamount);
@@ -457,8 +485,6 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.SetParameterValue("Adv_pkc_label", "Packing Charge");
                     reportDocument.SetParameterValue("Adv_pkc_amt", invoiceBillMasters[0].PkChargeAmount);
                 }
-
-
                 crvSalesBill.RefreshReport();
                 crvSalesBill.ReportSource = reportDocument;
 
@@ -656,6 +682,215 @@ namespace FoodandBeverage.SaleBill
             {
                 e.Handled = true; // Suppress the Enter key
             }
+        }
+
+        private void btn_userreg_cls_Click(object sender, EventArgs e)
+        {
+            pnl_userreg.Visible = false;
+        }
+
+        private void btn_userreg_submit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DmnAccountLedger customer = new DmnAccountLedger();
+
+                customer.CusId = string.IsNullOrEmpty(txtcusid.Text)
+                                    ? 0
+                                    : Convert.ToInt32(txtcusid.Text);
+
+                customer.FirstName = txtfristname.Text.Trim();
+                customer.SecondName = txtsecondname.Text.Trim();
+                customer.CompanyName = txtcompanyname.Text.Trim();
+                customer.GSTNo = txtgstno.Text.Trim();
+                customer.PhoneNumber = txtph.Text.Trim();
+                customer.EmailAddress = txtemailid.Text.Trim();
+                customer.FullAddress = txtaddress.Text.Trim();
+
+                customer.Gender = rb_male.Checked
+                                    ? 1
+                                    : (rb_female.Checked ? 2 : 0);
+
+                customer.Status = 1;
+                customer.BranchId = FrmDashboard.BranchId;
+                customer.CreatedBy = FrmDashboard.UserId;
+                customer.SalesMasterId = SalesMasterId;
+
+
+                BllCutomerAccount bllCustomer = new BllCutomerAccount();
+                var InsertStatus = bllCustomer.AddEditCustomer("prdInsert_Upd_Customer", customer); 
+                pnl_userreg.Visible = false;
+                GstBillflag = true;
+                if(InsertStatus.CusId>0)
+                    PrintBill();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving customer details: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void btngst_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtcusid.Text, out int customerId) && customerId > 0)
+            {
+                // Check if the important fields are empty
+                bool isPhoneEmpty = string.IsNullOrWhiteSpace(txtph.Text);
+                bool isCompanyEmpty = string.IsNullOrWhiteSpace(txtcompanyname.Text);
+                bool isGSTEmpty = string.IsNullOrWhiteSpace(txtgstno.Text);
+
+                if (isPhoneEmpty || isCompanyEmpty || isGSTEmpty)
+                {
+                    pnl_userreg.Visible = true;
+                    pnl_userreg.BringToFront();
+                    pnl_userreg.Left = (this.ClientSize.Width - pnl_userreg.Width) / 2;
+                    pnl_userreg.Top = (this.ClientSize.Height - pnl_userreg.Height) / 2;
+                }
+                else
+                {
+                    GstBillflag = true;
+                    PrintBill();
+                }
+            }
+            else
+            {
+                pnl_userreg.Visible = true;
+                pnl_userreg.BringToFront();
+                pnl_userreg.Left = (this.ClientSize.Width - pnl_userreg.Width) / 2;
+                pnl_userreg.Top = (this.ClientSize.Height - pnl_userreg.Height) / 2;
+            }
+        }
+
+
+        private void btncuslist_Click(object sender, EventArgs e)
+        {
+            LedgerPopup();
+        }
+        public void LoadCustomer(int id)
+        {
+            try
+            {
+                BllSearch<DmnAccountLedger> bllCustomer = new BllSearch<DmnAccountLedger>();
+                DmnSearch custSearch = new DmnSearch();
+
+                custSearch.Select = "*";  // Select all columns from tblCustomer
+                custSearch.Table = " tblCustomer ";
+                custSearch.WhereNdGroupBy = " WHERE CusId = " + id;
+
+                var custData = bllCustomer.GetSearchData("prdSearch", custSearch);
+
+                if (custData != null && custData.Count > 0)
+                {
+                    txtfristname.Text = custData[0].FirstName ?? "";
+                    txtsecondname.Text = custData[0].SecondName ?? "";
+                    txtcompanyname.Text = custData[0].CompanyName ?? "";
+                    txtgstno.Text = custData[0].GSTNo ?? "";
+                    txtph.Text = custData[0].PhoneNumber ?? "";
+                    txtemailid.Text = custData[0].EmailAddress ?? "";
+                    txtaddress.Text = custData[0].FullAddress ?? "";
+
+                    // Set gender radio buttons
+                    if (custData[0].Gender == 1) // Male
+                    {
+                        rb_male.Checked = true;
+                        rb_female.Checked = false;
+                    }
+                    else if (custData[0].Gender == 2) // Female
+                    {
+                        rb_male.Checked = false;
+                        rb_female.Checked = true;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        public void LedgerPopup()
+        {
+            try
+            {
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+
+                // Search object for customer
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "CusId,FirstName,SecondName,CompanyName,GSTNo,PhoneNumber,EmailAddress,FullAddress";
+                _objSearch.Select = "CusId,FirstName,SecondName,CompanyName,GSTNo,PhoneNumber,EmailAddress,FullAddress,Gender";
+                _objSearch.Table = " tblCustomer ";
+                _objSearch.WhereNdGroupBy = " WHERE Status = 1 ";
+                _objSearch.OrderBy = " ORDER BY CusId DESC";
+
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter,
+                    this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToString(search._retValue);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(returnValue))
+                {
+                    int cusId = Convert.ToInt32(returnValue);
+                    txtcusid.Text = cusId.ToString();
+
+                    BllSearch<DmnAccountLedger> bllCustomer = new BllSearch<DmnAccountLedger>();
+                    DmnSearch custSearch = new DmnSearch();
+
+                    custSearch.Select = "*";  
+                    custSearch.Table = " tblCustomer ";
+                    custSearch.WhereNdGroupBy = " WHERE CusId = " + cusId;
+
+                    var custData = bllCustomer.GetSearchData("prdSearch", custSearch);
+
+                    if (custData != null && custData.Count > 0)
+                    {
+                        txtfristname.Text = custData[0].FirstName ?? "";
+                        txtsecondname.Text = custData[0].SecondName ?? "";
+                        txtcompanyname.Text = custData[0].CompanyName ?? "";
+                        txtgstno.Text = custData[0].GSTNo ?? "";
+                        txtph.Text = custData[0].PhoneNumber ?? "";
+                        txtemailid.Text = custData[0].EmailAddress ?? "";
+                        txtaddress.Text = custData[0].FullAddress ?? "";
+
+                        // Set gender radio buttons
+                        if (custData[0].Gender == 1) // Male
+                        {
+                            rb_male.Checked = true;
+                            rb_female.Checked = false;
+                        }
+                        else if (custData[0].Gender == 2) // Female
+                        {
+                            rb_male.Checked = false;
+                            rb_female.Checked = true;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+               // clsgen.LogException("Customer Registration page LedgerPopup()", ex,FrmLogin.EmployeName,FrmLogin.Designation,Convert.ToInt32(FormType.Order));
+            }
+        }
+
+        private void FrmSaleInvoice_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            reportDocument.Close();
+            reportDocument.Dispose();
+
+            if (crvSalesBill.ReportSource != null)
+            {
+                crvSalesBill.ReportSource = null;
+                crvSalesBill.Dispose();
+            }
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }

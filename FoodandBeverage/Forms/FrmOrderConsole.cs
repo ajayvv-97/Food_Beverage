@@ -6472,14 +6472,20 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                     dmnordermaster.EntryNo = "";
                     dmnordermaster.TotalQuantity = Convert.ToInt32(txttotalQTY.Text);
-                    dmnordermaster.CustomerName = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
-                    dmnordermaster.Telephone = Convert.ToString(txtph.Text);
-                    dmnordermaster.Email = Convert.ToString(txtemailid.Text);
-                    dmnordermaster.Address = Convert.ToString(txtaddress.Text);
+
+
+                    dmnordermaster.FirstName = txtfristname.Text.Trim();      // First name
+                    dmnordermaster.SecondName = txtsecondname.Text.Trim();     // Second name
+                    dmnordermaster.CompanyName = txtcompanyname.Text.Trim();    // Company
+                    dmnordermaster.GSTNo = txtgstno.Text.Trim();          // GST
+                    dmnordermaster.PhoneNumber = txtph.Text.Trim();             // Phone number
+                    dmnordermaster.EmailAddress = txtemailid.Text.Trim();        // Email
+                    dmnordermaster.FullAddress = txtaddress.Text.Trim();        // Address
                     if (rb_male.Checked)
-                        dmnordermaster.Gender = 1;
-                    else
-                        dmnordermaster.Gender = 2;
+                        dmnordermaster.Gender = 1;        // Male
+                    else if (rb_female.Checked)
+                        dmnordermaster.Gender = 2;        // Female
+                    dmnordermaster.cusid =Convert.ToInt32(txtcusid.Text);
 
                     if (BookingType == Convert.ToInt32(DashboardTableType.PickupOrder))
                     {
@@ -6528,8 +6534,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     dmnordermaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
                     dmnordermaster.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
 
-
-                    var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
+                    var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster); 
                     if (InsertStatusP.OrderMasterId > 0)
                     {
                         ResetFlag(Convert.ToInt32(txtordermasterid.Text));
@@ -7197,32 +7202,48 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         dmnsalemaster.GrandTot = Convert.ToDecimal(txtGrandTotal.Text);
                         dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                         dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
-                        if (RFID_Status)
-                        {
-                            dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
-                            dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
-                            dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
-                            dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
-                            dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
 
-                            if (lbl_cardgender.Text == "Male")
-                                dmnsalemaster.Gender = 1;
-                            else if (lbl_cardgender.Text == "Female")
-                                dmnsalemaster.Gender = 2;
-                            else if (lbl_cardgender.Text == "Others")
-                                dmnsalemaster.Gender = 3;
-                        }
-                        else
-                        {
-                            dmnsalemaster.Name = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
-                            dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
-                            dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
-                            dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
-                            if (rb_male.Checked)
-                                dmnsalemaster.Gender = 1;
-                            else
-                                dmnsalemaster.Gender = 2;
-                        }
+                        #region Customer Registartion
+                        dmnsalemaster.cusid = Convert.ToInt32(txtcusid.Text);
+                        dmnsalemaster.FirstName = Convert.ToString(txtfristname.Text).Trim();
+                        dmnsalemaster.SecondName = Convert.ToString(txtsecondname.Text).Trim();
+                        dmnsalemaster.CompanyName = Convert.ToString(txtcompanyname.Text).Trim();
+                        dmnsalemaster.GSTNo = Convert.ToString(txtgstno.Text).Trim();
+                        dmnsalemaster.PhoneNumber = Convert.ToString(txtph.Text).Trim();
+                        dmnsalemaster.EmailAddress = Convert.ToString(txtemailid.Text).Trim();
+                        dmnsalemaster.FullAddress = Convert.ToString(txtaddress.Text).Trim();
+                        if (rb_male.Checked)
+                            dmnsalemaster.Gender = 1;
+                        else if (rb_female.Checked)
+                            dmnsalemaster.Gender = 2;
+                        #endregion
+
+                        //if (RFID_Status)
+                        //{
+                        //    dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
+                        //    dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
+                        //    dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
+                        //    dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
+                        //    dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
+
+                        //    if (lbl_cardgender.Text == "Male")
+                        //        dmnsalemaster.Gender = 1;
+                        //    else if (lbl_cardgender.Text == "Female")
+                        //        dmnsalemaster.Gender = 2;
+                        //    else if (lbl_cardgender.Text == "Others")
+                        //        dmnsalemaster.Gender = 3;
+                        //}
+                        //else
+                        //{
+                        //    dmnsalemaster.Name = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
+                        //    dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
+                        //    dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
+                        //    dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
+                        //    if (rb_male.Checked)
+                        //        dmnsalemaster.Gender = 1;
+                        //    else
+                        //        dmnsalemaster.Gender = 2;
+                        //}
 
                         dmnsalemaster.NetAmount = Convert.ToDecimal(txtnetamount.Text);
                         dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtpaidamount.Text);
@@ -7508,32 +7529,21 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                             dmnsalemaster.EntryNo = txtinvoiceno.Text;
 
-                            if (RFID_Status)
-                            {
-                                dmnsalemaster.CombineStatus = 1;
-                                dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
-                                dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
-                                dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
-                                dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
-                                dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
-                                if (lbl_cardgender.Text == "Male")
-                                    dmnsalemaster.Gender = 1;
-                                else if (lbl_cardgender.Text == "Female")
-                                    dmnsalemaster.Gender = 2;
-                                else if (lbl_cardgender.Text == "Others")
-                                    dmnsalemaster.Gender = 3;
-                            }
-                            else
-                            {
-                                dmnsalemaster.Name = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
-                                dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
-                                dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
-                                dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
-                                if (rb_male.Checked)
-                                    dmnsalemaster.Gender = 1;
-                                else
-                                    dmnsalemaster.Gender = 2;
-                            }
+                            #region Customer Registartion
+                            dmnsalemaster.cusid = Convert.ToInt32(txtcusid.Text);
+                            dmnsalemaster.FirstName = Convert.ToString(txtfristname.Text).Trim();
+                            dmnsalemaster.SecondName = Convert.ToString(txtsecondname.Text).Trim();
+                            dmnsalemaster.CompanyName = Convert.ToString(txtcompanyname.Text).Trim();
+                            dmnsalemaster.GSTNo = Convert.ToString(txtgstno.Text).Trim();
+                            dmnsalemaster.PhoneNumber = Convert.ToString(txtph.Text).Trim();
+                            dmnsalemaster.EmailAddress = Convert.ToString(txtemailid.Text).Trim();
+                            dmnsalemaster.FullAddress = Convert.ToString(txtaddress.Text).Trim();
+                            if (rb_male.Checked)
+                                dmnsalemaster.Gender = 1;
+                            else if (rb_female.Checked)
+                                dmnsalemaster.Gender = 2;
+                            #endregion
+
 
                             dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
                             dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
@@ -8134,32 +8144,22 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                             dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                             dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
-                            if (RFID_Status)
-                            {
-                                dmnsalemaster.Name = Convert.ToString(txt_cardaccname.Text);
-                                dmnsalemaster.ContactNo = Convert.ToString(txt_cardph.Text);
-                                dmnsalemaster.Email = Convert.ToString(txtcardemail.Text);
-                                dmnsalemaster.Address = Convert.ToString(txt_cardaddress.Text);
-                                dmnsalemaster.LedgerId = Convert.ToInt32(txt_LedgerId.Text);
 
-                                if (lbl_cardgender.Text == "Male")
-                                    dmnsalemaster.Gender = 1;
-                                else if (lbl_cardgender.Text == "Female")
-                                    dmnsalemaster.Gender = 2;
-                                else if (lbl_cardgender.Text == "Others")
-                                    dmnsalemaster.Gender = 3;
-                            }
-                            else
-                            {
-                                dmnsalemaster.Name = Convert.ToString(txtfristname.Text) + Convert.ToString(txtsecondname.Text);
-                                dmnsalemaster.ContactNo = Convert.ToString(txtph.Text);
-                                dmnsalemaster.Email = Convert.ToString(txtemailid.Text);
-                                dmnsalemaster.Address = Convert.ToString(txtaddress.Text);
-                                if (rb_male.Checked)
-                                    dmnsalemaster.Gender = 1;
-                                else
-                                    dmnsalemaster.Gender = 2;
-                            }
+                            #region Customer Registartion
+                            dmnsalemaster.cusid = Convert.ToInt32(txtcusid.Text);
+                            dmnsalemaster.FirstName = Convert.ToString(txtfristname.Text).Trim();
+                            dmnsalemaster.SecondName = Convert.ToString(txtsecondname.Text).Trim();
+                            dmnsalemaster.CompanyName = Convert.ToString(txtcompanyname.Text).Trim();
+                            dmnsalemaster.GSTNo = Convert.ToString(txtgstno.Text).Trim();
+                            dmnsalemaster.PhoneNumber = Convert.ToString(txtph.Text).Trim();
+                            dmnsalemaster.EmailAddress = Convert.ToString(txtemailid.Text).Trim();
+                            dmnsalemaster.FullAddress = Convert.ToString(txtaddress.Text).Trim();
+                            if (rb_male.Checked)
+                                dmnsalemaster.Gender = 1;
+                            else if (rb_female.Checked)
+                                dmnsalemaster.Gender = 2;
+                            #endregion
+
                             if (Convert.ToInt32(txtsalemasterid.Text) > 0)
                             {
                                 dmnsalemaster.NetAmount = nettotal;
@@ -10372,7 +10372,90 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             }
         }
 
+        private void btncuslist_Click(object sender, EventArgs e)
+        {
+            LedgerPopup();
+        }
+        public void LedgerPopup()
+        {
+            try
+            {
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+
+                // Search object for customer
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "CusId,FirstName,SecondName,CompanyName,GSTNo,PhoneNumber,EmailAddress,FullAddress";
+                _objSearch.Select = "CusId,FirstName,SecondName,CompanyName,GSTNo,PhoneNumber,EmailAddress,FullAddress,Gender";
+                _objSearch.Table = " tblCustomer ";
+                _objSearch.WhereNdGroupBy = " WHERE Status = 1 ";
+                _objSearch.OrderBy = " ORDER BY CusId DESC";
+
+                using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter,
+                    this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToString(search._retValue);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(returnValue))
+                {
+                    int cusId = Convert.ToInt32(returnValue);
+                    txtcusid.Text = cusId.ToString();
+
+                    BllSearch<DmnAccountLedger> bllCustomer = new BllSearch<DmnAccountLedger>();
+                    DmnSearch custSearch = new DmnSearch();
+
+                    custSearch.Select = "*";  // Select all columns from tblCustomer
+                    custSearch.Table = " tblCustomer ";
+                    custSearch.WhereNdGroupBy = " WHERE CusId = " + cusId;
+
+                    var custData = bllCustomer.GetSearchData("prdSearch", custSearch);
+
+                    if (custData != null && custData.Count > 0)
+                    {
+                        txtfristname.Text = custData[0].FirstName ?? "";
+                        txtsecondname.Text = custData[0].SecondName ?? "";
+                        txtcompanyname.Text = custData[0].CompanyName ?? "";
+                        txtgstno.Text = custData[0].GSTNo ?? "";
+                        txtph.Text = custData[0].PhoneNumber ?? "";
+                        txtemailid.Text = custData[0].EmailAddress ?? "";
+                        txtaddress.Text = custData[0].FullAddress ?? "";
+
+                        // Set gender radio buttons
+                        if (custData[0].Gender == 1) // Male
+                        {
+                            rb_male.Checked = true;
+                            rb_female.Checked = false;
+                        }
+                        else if (custData[0].Gender == 2) // Female
+                        {
+                            rb_male.Checked = false;
+                            rb_female.Checked = true;
+                        }
    
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Customer Registration page LedgerPopup()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order)
+                );
+            }
+        }
+
+        private void btnupi_part_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
         {

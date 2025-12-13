@@ -166,7 +166,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 4;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -210,7 +210,7 @@ namespace FoodandBeverage.Forms
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Location = new System.Drawing.Point(105, 4);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(95, 31);
             this.btnSearch.TabIndex = 1;
@@ -408,7 +408,7 @@ namespace FoodandBeverage.Forms
             this.pnl_serachBox.Controls.Add(this.tlp_search_main);
             this.pnl_serachBox.Location = new System.Drawing.Point(26, 218);
             this.pnl_serachBox.Name = "pnl_serachBox";
-            this.pnl_serachBox.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.pnl_serachBox.Padding = new System.Windows.Forms.Padding(3);
             this.pnl_serachBox.Size = new System.Drawing.Size(606, 194);
             this.pnl_serachBox.TabIndex = 19;
             this.pnl_serachBox.Visible = false;

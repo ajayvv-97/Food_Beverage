@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain
 {
-    public class DmnCustAccount : DmnAccountLedger
+    public class DmnCustAccount 
     {
 
         public int AccID { get; set; }

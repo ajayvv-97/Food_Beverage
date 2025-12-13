@@ -38,6 +38,7 @@ namespace BLL
             parms.Add("EmailAddress", objTestClass.EmailAddress);
             parms.Add("FullAddress", objTestClass.FullAddress);
             parms.Add("Gender", objTestClass.Gender);
+            parms.Add("cusid", objTestClass.cusid);
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
