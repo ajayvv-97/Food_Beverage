@@ -705,10 +705,10 @@ namespace FoodandBeverage.Forms
                         lbltablename.AccessibleName = "0";
                         netamountlabel.AccessibleName = "0";
 
-                        netamountlabel.Visible = false;
-                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
-                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
-                        netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+                        //netamountlabel.Visible = false;
+                        //tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                        //tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                        //netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
 
                         //if (ordstatus)
                         //    tlp_table_inner.BackColor = BillingColor;
@@ -725,7 +725,7 @@ namespace FoodandBeverage.Forms
                 }
                 flp_tableview.ResumeLayout();
                 clsgen.Memoryrelease();
-                initTimer();
+               // initTimer();
             }
             catch (Exception ex)
             {

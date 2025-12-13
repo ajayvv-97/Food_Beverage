@@ -4289,7 +4289,7 @@ namespace FoodandBeverage.Forms
                 flp_oper_buttons.Visible = false;
                 return;
             }
-    
+
 
             textb_shape_paymnet();
             int visibleControls = 3; // flp_oper_buttons.Controls.Cast<Control>().Where(c => c.Visible).ToList();
@@ -4297,7 +4297,7 @@ namespace FoodandBeverage.Forms
            flp_oper_buttons,
            btnWidth: btn_savekot_print.Width,
            btnHeight: 79,
-           spacing: 3,Convert.ToInt32(visibleControls)
+           spacing: 3, Convert.ToInt32(visibleControls)
             );
             // Center panel
             UIHelper.ShowCentered(this, flp_oper_buttons);
@@ -5932,11 +5932,11 @@ namespace FoodandBeverage.Forms
                     dmnSearch.Table =
                         "tblProduct p " +
                         "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                        " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
+                        " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId and ofd.Producttype=1" +
                         " where p.Status=1 and m.Status=1 and p.Product like '%" + txtname_search.Text.Trim() + "%'" +
                         " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
                         " tblItem i " +
-                        " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
+                        " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and ofd.Producttype=2 ";
                     dmnSearch.WhereNdGroupBy =
                         " where i.Fcid= " + 2 + " and i.Saletype=1 and i.Status=1  " +
                         " and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0 and i.Itemname like '%" + txtname_search.Text.Trim() + "%'";

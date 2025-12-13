@@ -153,8 +153,6 @@ namespace FoodandBeverage.Forms
         }
 
         #region KitchenView - Cached card UI (Layout A) and blinking
-
-        // Cache holder for each order card (C# 7.3 compatible)
         public class OrderCardCache
         {
             public TableLayoutPanel CardPanel;   // main card container
@@ -169,15 +167,10 @@ namespace FoodandBeverage.Forms
             public Panel DescriptionPanel;         
 
         }
-
-        // Dictionary cache: key = OrderMasterId + "_" + OrderNo
-        private Dictionary<string, OrderCardCache> KitchenCardCache =
-            new Dictionary<string, OrderCardCache>();
-
-        // blinking memory (global per form)
+        private Dictionary<string, OrderCardCache> KitchenCardCache =  new Dictionary<string, OrderCardCache>();
         private Dictionary<string, int> RowBlinkCounter = new Dictionary<string, int>();
         private Dictionary<string, bool> RowBlinkState = new Dictionary<string, bool>();
-        private const int BlinkThreshold = 1; // same idea as previous behavior
+        private const int BlinkThreshold = 1;
 
         /// <summary>
         /// Main optimized FillOrdersAsync - creates cards once and updates on subsequent calls.
@@ -217,7 +210,7 @@ namespace FoodandBeverage.Forms
                 int countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
                 btnprintcount.Text = Convert.ToString(countpendingorder);
 
-                // build set of keys present now
+
                 HashSet<string> currentKeys = new HashSet<string>();
                 foreach (var od in distinctOrders)
                 {
@@ -226,8 +219,6 @@ namespace FoodandBeverage.Forms
                     // To keep consistent, we'll fetch details below and compute the real key.
                     // For removal, compute keys from existing cache and then check existence after creating keys list below.
                 }
-
-                // Build new keys list by fetching details (but avoid over-fetching by limiting to KitchenDisplayCount)
                 List<string> newKeysInOrder = new List<string>();
                 Dictionary<string, (DmnGridFields Header, List<Dmnkitchendetails> Details)> orderDataMap =
                     new Dictionary<string, (DmnGridFields, List<Dmnkitchendetails>)>();
@@ -2059,6 +2050,16 @@ namespace FoodandBeverage.Forms
             ReportDocument reportDocument = new ReportDocument();
             try
             {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                BllKitchenOrderPrint<DmnGridFields> SearchDetails = new BllKitchenOrderPrint<DmnGridFields>();
+                DmnGridFields dmnSearchKitchendata = new DmnGridFields();
+                var gridSourcemaster = SearchDetails.serachreport("prdPrintOrder", dmnSearchKitchendata);
+                if (gridSourcemaster == null || gridSourcemaster.Count == 0)
+                {
+                    return;
+                }
                 if (this.IsHandleCreated)
                 {
                     this.Invoke(new Action(() =>
@@ -2067,19 +2068,6 @@ namespace FoodandBeverage.Forms
                         refreshtimer.Stop();
                     }));
                 }
-
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-                BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
-                DmnGridFields dmnSearchKitchendata = new DmnGridFields();
-                var gridSourcemaster = SearchDetails.serachreport("prdPrintOrder", dmnSearchKitchendata);
-
-                if (gridSourcemaster == null || gridSourcemaster.Count == 0)
-                {
-                    return;
-                }
-
                 var distinctOrders = gridSourcemaster
                     .GroupBy(order => new { order.Field1, order.Field2 })
                     .Select(group => group.First())
@@ -2427,143 +2415,6 @@ namespace FoodandBeverage.Forms
                 isCancelPrintingRunning = false;
             }
         }
-
-        //private void PrintcancelOrder()
-        //{
-
-        //    try
-        //    {
-        //        if (this.IsHandleCreated)
-        //        {
-        //            this.Invoke(new Action(() =>
-        //            {
-        //                refreshtimer.Stop();
-        //            }));
-        //        }
-        //        BllCancelsale<DmnOrderCancel> SearchDetails = new BllCancelsale<DmnOrderCancel>();
-        //        DmnOrderCancel dmncancel = new DmnOrderCancel();
-        //        var gridSourcemaster = SearchDetails.serachreport("prdPrintcancelOrder", dmncancel);
-        //        if (gridSourcemaster == null || gridSourcemaster.Count == 0)
-        //        {
-        //            if (this.IsHandleCreated)
-        //            {
-        //                this.Invoke(new Action(() =>
-        //                {
-        //                    refreshtimer.Start();
-        //                }));
-        //            }
-        //            return;
-        //        }
-
-        //        ReportDocument reportDocument = new ReportDocument();
-        //        DataSet dsReport = new DataSet();
-        //        DataTable DT_cancel = new DataTable("DT_CancelOrder");
-        //        foreach (var orders in gridSourcemaster)
-        //        {
-        //            if (orders.CancelPrintStatus == 1)
-        //            {
-        //                if (this.IsHandleCreated)
-        //                {
-        //                    this.Invoke(new Action(() =>
-        //                    {
-        //                        blinkTimer.Start();
-        //                    }));
-        //                }
-
-        //                #region Crystal Report Declaration
-
-        //                if (this.IsHandleCreated)
-        //                {
-        //                    this.Invoke(new Action(() =>
-        //                    {
-        //                        using (var reader = ObjectReader.Create(gridSourcemaster,
-        //                            "SalesMasterId",
-        //                            "OrderMasterId",
-        //                            "CancelPrintStatus",
-        //                            "CancelDescription",
-        //                            "TableCode",
-        //                            "Pkid",
-        //                            "Station",
-        //                            "EmployeeName",
-        //                            "Tid"
-        //                        ))
-        //                        {
-        //                            DT_cancel.Load(reader);
-        //                        }
-        //                        dsReport.Tables.Add(DT_cancel);
-        //                        string reportPath = "";
-        //                        reportPath = RPTPath + "CRCancelPrint.rpt";
-        //                        if (!File.Exists(reportPath))
-        //                        {
-        //                            CMessageBox.Show(this, "Report file not found: " + reportPath,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //                            throw new FileNotFoundException("Report file not found.", reportPath);
-        //                        }
-
-        //                        reportDocument.Load(reportPath);
-        //                        reportDocument.SetDataSource(dsReport);
-        //                        crvkitchenbill.ReportSource = reportDocument;
-        //                        reportDocument.PrintToPrinter(1, false, 0, 0);
-
-        //                    }));
-        //                }
-        //                #endregion
-
-        //                #region Update Print Status to 0
-        //                BllKitchenorder bllkitchen = new BllKitchenorder();
-        //                DmnOrderCancel dmncnl = new DmnOrderCancel
-        //                {
-        //                    SalesMasterId = Convert.ToInt32(orders.SalesMasterId),
-        //                    CreatedBy = FrmDashboard.UserId,    
-        //                    BranchId = FrmDashboard.BranchId
-        //                };
-        //               var InsertStatus = bllkitchen.Cancel_statusupdate("prd_updateCancelprintstatus", dmncnl);
-        //                #endregion
-
-        //                if (this.IsHandleCreated)
-        //                {
-        //                    this.Invoke(new Action(() =>
-        //                    {
-        //                        PlaySound();
-        //                        int c = Convert.ToInt32(btn_cancelprintcount.Text) - 1;
-        //                        if (c < 0)
-        //                            btn_cancelprintcount.Text = "0";
-        //                        else
-        //                            btn_cancelprintcount.Text = Convert.ToString(c);
-        //                    }));
-        //                }
-        //            }
-        //        }
-
-        //        if (this.IsHandleCreated)
-        //        {
-        //            this.Invoke(new Action(() =>
-        //            {
-        //                blinkTimer.Stop();
-        //                refreshtimer.Start();
-        //            }));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (this.IsHandleCreated)
-        //        {
-        //            this.Invoke(new Action(() =>
-        //            {
-        //                blinkTimer.Stop();
-        //                lblprintloading.Text = "Printing Stopped";
-        //                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //                clsgen.LogException("Kitchen_View Page PrintOrderAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
-        //            }));
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        reportDocument.Close();
-        //        reportDocument.Dispose();
-        //        GC.Collect();
-        //        GC.WaitForPendingFinalizers();
-        //    }
-        //}
 
         private void dgv_product_details_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -3584,15 +3435,19 @@ namespace FoodandBeverage.Forms
 
         //}
 
-        private async void refreshtimer_Tick(object sender, EventArgs e)
+        private void refreshtimer_Tick(object sender, EventArgs e)
         {
             refreshtimer.Stop();
-            PrintcancelOrder();
-            ///FillOrdersAsync();
-            FillOrders();
-            //if (Convert.ToInt32(btnprintcount.Text) > 0)
-            // PrintOrderAsync());
-            refreshtimer.Start();
+            try
+            {
+                PrintcancelOrder();   
+                FillOrders();
+                PrintOrderAsync();
+            }
+            finally
+            {
+                refreshtimer.Start();
+            }
         }
 
         private static void RunMethodInSeparateThread(Action action)
