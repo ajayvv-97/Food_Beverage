@@ -152,7 +152,7 @@ namespace BLL
             parms.Add("CardSalesMasterId", objTestClass.SalesMasterId);
             parms.Add("PartPayId", objTestClass.PartPayId);
             parms.Add("PartAmount", objTestClass.PartAmount);
-            parms.Add("Amount", objTestClass.NetAmount);
+          
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("ModifiedBy", objTestClass.ModifiedBy);
