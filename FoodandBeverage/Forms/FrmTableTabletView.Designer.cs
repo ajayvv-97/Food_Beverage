@@ -27,7 +27,7 @@ namespace FoodandBeverage.Forms
             this.tlp_racbutton = new System.Windows.Forms.TableLayoutPanel();
             this.btncanceltable = new System.Windows.Forms.Button();
             this.btnaviltable = new System.Windows.Forms.Button();
-            this.btn_pickup = new System.Windows.Forms.Button();
+            this.btn_running = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.txttablecode_search = new System.Windows.Forms.TextBox();
             this.btnsearch = new System.Windows.Forms.Button();
@@ -156,7 +156,7 @@ namespace FoodandBeverage.Forms
             this.tlp_racbutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.24837F));
             this.tlp_racbutton.Controls.Add(this.btncanceltable, 1, 0);
             this.tlp_racbutton.Controls.Add(this.btnaviltable, 1, 0);
-            this.tlp_racbutton.Controls.Add(this.btn_pickup, 1, 0);
+            this.tlp_racbutton.Controls.Add(this.btn_running, 1, 0);
             this.tlp_racbutton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_racbutton.Location = new System.Drawing.Point(3, 33);
             this.tlp_racbutton.Name = "tlp_racbutton";
@@ -199,22 +199,22 @@ namespace FoodandBeverage.Forms
             this.btnaviltable.UseVisualStyleBackColor = true;
             this.btnaviltable.Click += new System.EventHandler(this.btnaviltable_Click);
             // 
-            // btn_pickup
+            // btn_running
             // 
-            this.btn_pickup.BackgroundImage = global::FoodandBeverage.Properties.Resources.fb_Pickup;
-            this.btn_pickup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_pickup.FlatAppearance.BorderSize = 0;
-            this.btn_pickup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_pickup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_pickup.ForeColor = System.Drawing.Color.White;
-            this.btn_pickup.Location = new System.Drawing.Point(123, 4);
-            this.btn_pickup.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_pickup.Name = "btn_pickup";
-            this.btn_pickup.Size = new System.Drawing.Size(87, 26);
-            this.btn_pickup.TabIndex = 9;
-            this.btn_pickup.Text = "Runing";
-            this.btn_pickup.UseVisualStyleBackColor = true;
-            this.btn_pickup.Click += new System.EventHandler(this.btn_pickup_Click);
+            this.btn_running.BackgroundImage = global::FoodandBeverage.Properties.Resources.fb_Pickup;
+            this.btn_running.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_running.FlatAppearance.BorderSize = 0;
+            this.btn_running.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_running.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_running.ForeColor = System.Drawing.Color.White;
+            this.btn_running.Location = new System.Drawing.Point(123, 4);
+            this.btn_running.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_running.Name = "btn_running";
+            this.btn_running.Size = new System.Drawing.Size(87, 26);
+            this.btn_running.TabIndex = 9;
+            this.btn_running.Text = "Runing";
+            this.btn_running.UseVisualStyleBackColor = true;
+            this.btn_running.Click += new System.EventHandler(this.btn_running_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -382,7 +382,7 @@ namespace FoodandBeverage.Forms
             // pnl_userdetails
             // 
             this.pnl_userdetails.Controls.Add(this.tlp_userdetails);
-            this.pnl_userdetails.Location = new System.Drawing.Point(389, 39);
+            this.pnl_userdetails.Location = new System.Drawing.Point(389, 128);
             this.pnl_userdetails.Margin = new System.Windows.Forms.Padding(2);
             this.pnl_userdetails.Name = "pnl_userdetails";
             this.pnl_userdetails.Padding = new System.Windows.Forms.Padding(2);
@@ -563,7 +563,7 @@ namespace FoodandBeverage.Forms
         private TableLayoutPanel tlp_racbutton;
         private Button btncanceltable;
         private Button btnaviltable;
-        private Button btn_pickup;
+        private Button btn_running;
         private TableLayoutPanel tableLayoutPanel3;
         private Button btnsearch;
         private TableLayoutPanel tlp_side_tableview;

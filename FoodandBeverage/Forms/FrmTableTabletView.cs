@@ -207,7 +207,7 @@ namespace FoodandBeverage.Forms
                 dmnSearchtabledata.Field25 = Convert.ToString(categorystatus);
                 dmnSearchtabledata.Field24 = Convert.ToString(Pagecount);
 
-                TableData = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
+                TableData = SearchDetails.serachreport("prdTableView", dmnSearchtabledata); Convert.ToInt32(ButtonType.refresh);
                 totalPages = (int)Math.Ceiling((double)TableData.Count / pageSize);
 
                 pagedatadata = TableData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
@@ -1053,6 +1053,8 @@ namespace FoodandBeverage.Forms
             try
             {
                 clsgen.Memoryrelease();
+                TableData = new List<DmnGridFields>();
+                pagedatadata = new List<DmnGridFields>();
 
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
@@ -1063,25 +1065,33 @@ namespace FoodandBeverage.Forms
                 dmnSearchtabledata.Field28 = Convert.ToString(categoryId);
                 dmnSearchtabledata.Field26 = Convert.ToString("1");
                 dmnSearchtabledata.Field27 = Convert.ToString(txttablecode_search.Text);
-                var gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
+
+                TableData = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
+                totalPages = (int)Math.Ceiling((double)TableData.Count / pageSize);
+
+                pagedatadata = TableData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                lblpagerinfo.Text = $"Page {currentPage} of {totalPages} | Total Records: {TableData.Count}";
+                btnprev.Enabled = currentPage > 1;
+                btnnext.Enabled = currentPage < totalPages;
+
 
                 bool flag = false;
-                for (int j = 0; j < gridSource.Count; j++)
+                for (int j = 0; j < pagedatadata.Count; j++)
                 {
-                    if (gridSource[j].EndDate != null && gridSource[j].Field7 != null &&
-                        Convert.ToInt32(gridSource[j].Field7) > 1 && Convert.ToInt32(gridSource[j].Field10) == 0)
+                    if (pagedatadata[j].EndDate != null && pagedatadata[j].Field7 != null &&
+                        Convert.ToInt32(pagedatadata[j].Field7) > 1 && Convert.ToInt32(pagedatadata[j].Field10) == 0)
                     {
-                        if (Convert.ToInt32(gridSource[j].Field7) > 0)
+                        if (Convert.ToInt32(pagedatadata[j].Field7) > 0)
                         {
-                            CheckexpireTable(Convert.ToInt32(gridSource[j].Field3), Convert.ToInt32(gridSource[j].Field7));
+                            CheckexpireTable(Convert.ToInt32(pagedatadata[j].Field3), Convert.ToInt32(pagedatadata[j].Field7));
                             flag = true;
                         }
                     }
                 }
                 if (flag)
-                    gridSource = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
+                    pagedatadata = SearchDetails.serachreport("prdTableView", dmnSearchtabledata);
 
-                if (gridSource.Count == 0)
+                if (pagedatadata.Count == 0)
                     return;
 
                 flp_tableview.SuspendLayout();
@@ -1098,84 +1108,104 @@ namespace FoodandBeverage.Forms
                 flp_tableview.FlowDirection = FlowDirection.LeftToRight;
                 flp_tableview.BackColor = Color.Transparent;
 
-                for (int i = 0; i < gridSource.Count; i++)
+                for (int i = 0; i < pagedatadata.Count; i++)
                 {
                     // Parent panel
                     Panel pnl_container = new Panel
                     {
-                        Name = "pnl_container" + gridSource[i].Field4,
+                        Name = "pnl_container" + pagedatadata[i].Field4,
                         BackColor = Color.Transparent,
                         //Margin = new Padding(10),
                         Size = new Size(tileW, tileH),
+                        Tag = pagedatadata[i].Field3,
                         Margin = new Padding(10),
                         BorderStyle = BorderStyle.None,
-                        Width = 140,
-                        Height = 110,
+                        AccessibleName = "0",
                     };
-
                     TableLayoutPanel tlp_table_inner = new TableLayoutPanel
                     {
-                        Name = "tlp_table_inner" + gridSource[i].Field4,
+                        Name = "tlp_table_inner" + pagedatadata[i].Field4,
                         Dock = DockStyle.Fill,
                         ColumnCount = 1,
                         RowCount = 2,
-                        BackColor = Color.Yellow,
+                        Tag = pagedatadata[i].Field3,
+                        BackColor = Color.Transparent,   // IMPORTANT: visible border
                         Margin = new Padding(0),
-                        Padding = new Padding(0),
+                        // Padding = new Padding(2),
+                        AccessibleName = "0",
+                        CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,  // SHOW BORDER
                     };
+
                     tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 70));  // Table Name
                     tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 30));  // Net Amount
 
                     Label lbltablename = new Label
                     {
-                        Name = "lbtablename" + gridSource[i].Field4,
-                        Tag = gridSource[i].Field3,
-                        Text = gridSource[i].Field4,
+                        Name = "lbtablename" + pagedatadata[i].Field4,
+                        Tag = pagedatadata[i].Field3,
+                        Text = pagedatadata[i].Field4,
                         BackColor = Color.Transparent,
                         Font = f8,
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
-                        ForeColor = Convert.ToInt32(gridSource[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor,
+                        ForeColor = Convert.ToInt32(pagedatadata[i].Field5) == 1 ? Ordertablefontcolor : Defaultfontcolor,
+                        AccessibleName = "0",
+                        AutoSize = false,
+                        AutoEllipsis = true,           // ← IMPORTANT (shows ... when text long)
+                        Padding = new Padding(2),      // ← gives breathing space
+                        Margin = new Padding(0)
                     };
+
 
                     Label netamountlabel = new Label
                     {
-                        Name = "lb_netamount" + gridSource[i].Field4,
+                        Name = "lb_netamount" + pagedatadata[i].Field4,
                         Text = "Checkout",
-                        Tag = gridSource[i].Field3,
+                        Tag = pagedatadata[i].Field3,
                         ForeColor = Netamountfontcolor,
                         BackColor = Color.Transparent,
                         Font = f8,
                         Dock = DockStyle.Fill,
                         TextAlign = ContentAlignment.MiddleCenter,
-                        Visible = false
+                        Visible = false,
+                        AccessibleName = "0",
                     };
+
+                    tlp_table_inner.AccessibleDescription = "0";
+                    lbltablename.AccessibleDescription = "0";
+                    netamountlabel.AccessibleDescription = "0";
 
                     // Add Labels into TLP
                     tlp_table_inner.Controls.Add(lbltablename, 0, 0);
                     tlp_table_inner.Controls.Add(netamountlabel, 0, 1);
+
+                    //this.BeginInvoke(new Action(() =>
+                    //{
+                    //    UIHelper.AutoFitLabelFont(lbltablename);
+                    //    UIHelper.AutoFitLabelFont(netamountlabel);
+                    //}));
 
                     // Add TLP to Panel
                     pnl_container.Controls.Add(tlp_table_inner);
 
                     Button btnCancelCount = new Button
                     {
-                        Name = "btnCancelCount" + gridSource[i].Field4,
+                        Name = "btnCancelCount" + pagedatadata[i].Field4,
                         Width = 22,
                         Height = 22,
                         BackColor = Color.White,
                         ForeColor = Color.Black,
-                        Font =f8,
+                        Font = f8,
                         FlatStyle = FlatStyle.Flat,
-                        Text = "0",
+                        Text = "5",
                         Visible = false,
                         Anchor = AnchorStyles.Top | AnchorStyles.Right,
                         Cursor = Cursors.Hand,
                         UseCompatibleTextRendering = true,
                         TextAlign = ContentAlignment.MiddleCenter
                     };
-                    btnCancelCount.FlatAppearance.BorderSize = 0;
 
+                    btnCancelCount.FlatAppearance.BorderSize = 0;
                     // Make round button
                     using (var gp = new System.Drawing.Drawing2D.GraphicsPath())
                     {
@@ -1187,12 +1217,12 @@ namespace FoodandBeverage.Forms
                     btnCancelCount.BringToFront();
 
                     #region Normal Order 
-                    if (Convert.ToInt32(gridSource[i].Field5) == 1)//not reservation order 
+                    if (Convert.ToInt32(pagedatadata[i].Field5) == 1)//not reservation order 
                     {
                         BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                         dmnSearch.Select = "  SUM(CASE WHEN Status = 3 AND AddonStatus IN (1,0) THEN 1 ELSE 0 END) AS Field1,SUM(CASE WHEN Status = 0 AND AddonStatus IN (1,0) AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field2";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
                         dmnSearch.Table = "tblOrderDetails";
-                        dmnSearch.WhereNdGroupBy = "WHERE OrderMasterId = " + gridSource[i].Field6;
+                        dmnSearch.WhereNdGroupBy = "WHERE OrderMasterId = " + pagedatadata[i].Field6;
                         dmnSearch.OrderBy = "";
                         var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
@@ -1230,22 +1260,21 @@ namespace FoodandBeverage.Forms
                             else
                                 tlp_table_inner.BackColor = OrderColor;
                         }
-
                     }
                     #endregion
 
                     #region Rservation Bokking Order
                     else//reservation booking order
                     {
-                        if (gridSource[i].EndDate != null && gridSource[i].Field7 != null)
+                        if (pagedatadata[i].EndDate != null && pagedatadata[i].Field7 != null)
                         {
                             #region order sent to kitchen ( running or complete )
-                            if (Convert.ToInt32(gridSource[i].Field6) > 0)//order sent to kitchen ( running or complete )
+                            if (Convert.ToInt32(pagedatadata[i].Field6) > 0)//order sent to kitchen ( running or complete )
                             {
                                 BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
                                 dmnSearch.Select = "COUNT(*)  Field1";//;= SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS
                                 dmnSearch.Table = "tblOrderDetails";
-                                dmnSearch.WhereNdGroupBy = "WHERE status=3 and AddonStatus in(1,0) and OrderMasterId = " + gridSource[i].Field6;
+                                dmnSearch.WhereNdGroupBy = "WHERE status=3 and AddonStatus in(1,0) and OrderMasterId = " + pagedatadata[i].Field6;
                                 dmnSearch.OrderBy = "";
                                 var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
 
@@ -1271,23 +1300,23 @@ namespace FoodandBeverage.Forms
                                 }
 
                                 lbltablename.ForeColor = Ordertablefontcolor;
-                                tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + pagedatadata[i].Field7;
+                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + pagedatadata[i].Field7;
                             }
                             #endregion
 
                             #region order not  sent to kitchen reservation or overtime 
                             else //order not  sent to kitchen reservation or overtime 
                             {
-                                DateTime modifiedEndDate_before = gridSource[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
-                                DateTime modifiedEndDate_after = gridSource[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell))
+                                DateTime modifiedEndDate_before = pagedatadata[i].EndDate.AddMinutes(-Convert.ToDouble(FrmLogin.BookingInterwell));
+                                DateTime modifiedEndDate_after = pagedatadata[i].EndDate;//.AddMinutes(Convert.ToDouble(FrmLogin.BookingInterwell))
                                 DateTime ExpdateNow = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-                                DateTime Bookdate = Convert.ToDateTime(gridSource[i].EndDate.ToString("yyyy-MM-dd HH:mm"));
+                                DateTime Bookdate = Convert.ToDateTime(pagedatadata[i].EndDate.ToString("yyyy-MM-dd HH:mm"));
                                 if (ExpdateNow >= modifiedEndDate_before && ExpdateNow <= modifiedEndDate_after)
                                 {
 
-                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
-                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + gridSource[i].Field7;
+                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + pagedatadata[i].Field7;
+                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + pagedatadata[i].Field7;
                                     tlp_table_inner.BackColor = ReservationColor;
 
                                     tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
@@ -1299,8 +1328,8 @@ namespace FoodandBeverage.Forms
                                 else if (ExpdateNow > Bookdate)// set expired  icon .AddMinutes(FrmLogin.BookingInterwell))
                                 {
                                     tlp_table_inner.BackColor = ExpiredColor;
-                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
-                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + gridSource[i].Field7;
+                                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + pagedatadata[i].Field7;
+                                    lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + pagedatadata[i].Field7;
 
                                     tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
                                     tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
@@ -1327,19 +1356,45 @@ namespace FoodandBeverage.Forms
                     }
                     #endregion
 
+                    if (Convert.ToInt32(pagedatadata[i].Field9) == 1)
+                    {
+                        tlp_table_inner.AccessibleName = "1";
+                        lbltablename.AccessibleName = "1";
+                        netamountlabel.AccessibleName = "1";
+
+                        tlp_table_inner.BackColor = CancelProduct_order;
+                        netamountlabel.TextAlign = ContentAlignment.TopLeft;
+                        netamountlabel.Text = "Cancelled by Kitchen";
+                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
+                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
+                        netamountlabel.Visible = true;
+                    }
+                    else
+                    {
+                        tlp_table_inner.AccessibleName = "0";
+                        lbltablename.AccessibleName = "0";
+                        netamountlabel.AccessibleName = "0";
+
+                        netamountlabel.Visible = false;
+                        tlp_table_inner.RowStyles[0] = new RowStyle(SizeType.Percent, 100);
+                        tlp_table_inner.RowStyles[1] = new RowStyle(SizeType.Percent, 0);
+                        netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+
+                        //if (Convert.ToInt32(gridSource_order[0].Field1) > 0)
+                        //    tlp_table_inner.BackColor = BillingColor;
+                        //else
+                        //tlp_table_inner.BackColor = DefaultColor;
+                    }
+
                     lbltablename.Click += tableClickEventHandler;
                     pnl_container.Click += tableClickEventHandler;
                     netamountlabel.Click += tableClickEventHandler;
 
-                    UIHelper.RoundCorners(pnl_container, 25, null);
+                    //UIHelper.RoundCorners(pnl_container, 25, null);
                     flp_tableview.Controls.Add(pnl_container);
                 }
-
-                //BuildPanelLookup();
-
                 flp_tableview.ResumeLayout();
-
-                //initTimer();
+                clsgen.Memoryrelease();
             }
             catch (Exception ex)
             {
@@ -1423,14 +1478,17 @@ namespace FoodandBeverage.Forms
             TableStaus(0);
         }
 
-        private void btn_pickup_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void btnaviltable_Click(object sender, EventArgs e)
         {
-
+            txttablecode_search.Text = "";
+            currentPage = 1;
+            categoryId = 0;
+            categorystatus = 0;
+            SearchModetype = 0;
+            AutoTimer.Stop();
+            LoadTableStaus(0);
         }
 
         private void btncanceltable_Click(object sender, EventArgs e)
@@ -1502,6 +1560,17 @@ namespace FoodandBeverage.Forms
             }
         }
         #endregion
+
+        private void btn_running_Click(object sender, EventArgs e)
+        {
+            txttablecode_search.Text = "";
+            currentPage = 1;
+            categoryId = 0;
+            categorystatus = 0;
+            SearchModetype = 0;
+            AutoTimer.Stop();
+            LoadTableStaus(0);
+        }
 
         private void btn_minimium_Click(object sender, EventArgs e)
         {
