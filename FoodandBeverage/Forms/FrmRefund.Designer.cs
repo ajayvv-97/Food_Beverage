@@ -30,22 +30,22 @@ namespace FoodandBeverage.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRefund));
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.pnl_cus_cash_details = new System.Windows.Forms.Panel();
             this.tlp_custom = new System.Windows.Forms.TableLayoutPanel();
             this.lblDebitLedgerId = new System.Windows.Forms.Label();
             this.lblFMCardType = new System.Windows.Forms.Label();
+            this.lblCardType = new System.Windows.Forms.Label();
             this.lblcardno = new System.Windows.Forms.Label();
             this.lblcbalance = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblrefunbalance = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lblCardType = new System.Windows.Forms.Label();
-            this.lblrefunbalance = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.tlp_cashrefund = new System.Windows.Forms.TableLayoutPanel();
             this.lblcashrefundamt = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -150,7 +150,7 @@ namespace FoodandBeverage.Forms
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.53659F));
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.46341F));
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
-            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tlp_custom.Controls.Add(this.lblDebitLedgerId, 0, 2);
             this.tlp_custom.Controls.Add(this.lblFMCardType, 3, 1);
             this.tlp_custom.Controls.Add(this.lblCardType, 3, 0);
@@ -183,11 +183,20 @@ namespace FoodandBeverage.Forms
             // lblFMCardType
             // 
             this.lblFMCardType.AutoSize = true;
-            this.lblFMCardType.Location = new System.Drawing.Point(570, 15);
+            this.lblFMCardType.Location = new System.Drawing.Point(569, 15);
             this.lblFMCardType.Name = "lblFMCardType";
             this.lblFMCardType.Size = new System.Drawing.Size(0, 13);
             this.lblFMCardType.TabIndex = 7;
             this.lblFMCardType.Visible = false;
+            // 
+            // lblCardType
+            // 
+            this.lblCardType.AutoSize = true;
+            this.lblCardType.Location = new System.Drawing.Point(569, 0);
+            this.lblCardType.Name = "lblCardType";
+            this.lblCardType.Size = new System.Drawing.Size(0, 13);
+            this.lblCardType.TabIndex = 6;
+            this.lblCardType.Visible = false;
             // 
             // lblcardno
             // 
@@ -195,7 +204,7 @@ namespace FoodandBeverage.Forms
             this.lblcardno.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblcardno.Location = new System.Drawing.Point(190, 15);
             this.lblcardno.Name = "lblcardno";
-            this.lblcardno.Size = new System.Drawing.Size(193, 32);
+            this.lblcardno.Size = new System.Drawing.Size(192, 32);
             this.lblcardno.TabIndex = 5;
             this.lblcardno.Text = "label10";
             this.lblcardno.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -211,23 +220,24 @@ namespace FoodandBeverage.Forms
             this.lblcbalance.Text = "label9";
             this.lblcbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // lblrefunbalance
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label5.Location = new System.Drawing.Point(3, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 15);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Card No";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblrefunbalance.AutoSize = true;
+            this.lblrefunbalance.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblrefunbalance.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblrefunbalance.Location = new System.Drawing.Point(388, 15);
+            this.lblrefunbalance.Name = "lblrefunbalance";
+            this.lblrefunbalance.Size = new System.Drawing.Size(175, 32);
+            this.lblrefunbalance.TabIndex = 3;
+            this.lblrefunbalance.Text = "label8";
+            this.lblrefunbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label4.Location = new System.Drawing.Point(389, 0);
+            this.label4.Location = new System.Drawing.Point(388, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(175, 15);
             this.label4.TabIndex = 1;
@@ -245,26 +255,16 @@ namespace FoodandBeverage.Forms
             this.label3.Text = "Current Balance";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblCardType
+            // label5
             // 
-            this.lblCardType.AutoSize = true;
-            this.lblCardType.Location = new System.Drawing.Point(570, 0);
-            this.lblCardType.Name = "lblCardType";
-            this.lblCardType.Size = new System.Drawing.Size(0, 13);
-            this.lblCardType.TabIndex = 6;
-            this.lblCardType.Visible = false;
-            // 
-            // lblrefunbalance
-            // 
-            this.lblrefunbalance.AutoSize = true;
-            this.lblrefunbalance.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblrefunbalance.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblrefunbalance.Location = new System.Drawing.Point(389, 15);
-            this.lblrefunbalance.Name = "lblrefunbalance";
-            this.lblrefunbalance.Size = new System.Drawing.Size(175, 32);
-            this.lblrefunbalance.TabIndex = 3;
-            this.lblrefunbalance.Text = "label8";
-            this.lblrefunbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.label5.Location = new System.Drawing.Point(3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 15);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Card No";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tlp_cashrefund
             // 
@@ -459,14 +459,14 @@ namespace FoodandBeverage.Forms
             this.dgv_productlist.AllowUserToResizeRows = false;
             this.dgv_productlist.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_productlist.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_productlist.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_productlist.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgv_productlist.ColumnHeadersHeight = 60;
             this.dgv_productlist.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.no,
@@ -479,8 +479,8 @@ namespace FoodandBeverage.Forms
             this.dgv_productlist.Name = "dgv_productlist";
             this.dgv_productlist.RowHeadersVisible = false;
             this.dgv_productlist.RowHeadersWidth = 51;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgv_productlist.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgv_productlist.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dgv_productlist.RowTemplate.Height = 30;
             this.dgv_productlist.Size = new System.Drawing.Size(599, 107);
             this.dgv_productlist.TabIndex = 18;
@@ -513,10 +513,10 @@ namespace FoodandBeverage.Forms
             // Quantity
             // 
             this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle5.NullValue = "0";
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle11.NullValue = "0";
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle11;
             this.Quantity.HeaderText = "Quantity";
             this.Quantity.MinimumWidth = 6;
             this.Quantity.Name = "Quantity";

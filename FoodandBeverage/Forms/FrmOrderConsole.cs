@@ -9002,6 +9002,28 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 }
                             }
                         }
+                        else if(pnl_Refund_paymode.Visible)
+                        {
+                            if (decimal.TryParse(lblpickupcnlamt.Text, out decimal netAmount))
+                            {
+                                midas_balance = Convert.ToDecimal(itemSource[0].Field2);
+                                if (midas_balance <= 0)
+                                {
+                                    MessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    tm_midascard.Start();
+                                }
+                                else
+                                {
+                                    tm_midascard.Stop();
+                                    Pnl_wifiPopup.Hide();
+                                    DebitCustomerId = Convert.ToInt32(itemSource[0].Field1);
+                                    DebitCardNumber = cardno;
+                                    #region To save Refund Amt throgh Midas card 
+                                    Refund(2);
+                                    #endregion
+                                }
+                            }
+                        }
                         else
                         {
                             if (decimal.TryParse(txtnetamount.Text, out decimal netAmount))
@@ -9976,15 +9998,48 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         }
         private void btnktcancelrefund_Click(object sender, EventArgs e)
         {
+            pnl_cancelledlist.Visible = false;
+            pnl_Refund_paymode.Visible = true;
+            pnl_Refund_paymode.Location = new Point(this.ClientSize.Width / 2 - pnl_Refund_paymode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Refund_paymode.Size.Height / 2));
+
+
+        }
+        private void cashRefund_Click(object sender, EventArgs e)
+        {
+            Refund(1);
+        }
+        private void cardRefund_Click(object sender, EventArgs e)
+        {
+            Pnl_wifiPopup.Show();
+            Pnl_wifiPopup.BringToFront();
+            Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
+            tm_midascard.Start(); 
+            //Refund(2);
+        }
+        private void Refund(int RefundpayType)
+        {
+            
             DmnRefund dmnRefund = new DmnRefund();
             BllRefund bllRefund = new BllRefund();
+            if(RefundpayType == 1)
+            {
+                dmnRefund.CashRefund = Convert.ToDecimal(lblpickupcnlamt.Text);
+            }
+            else if (RefundpayType == 2)
+            {
+                dmnRefund.DebitLedgerId = DebitCustomerId;
+                dmnRefund.CardType = CardTypeno;
+                dmnRefund.FMCardType = Fmcardtypeno;
+                dmnRefund.DebitICardNo = DebitCardNumber; ;
+                dmnRefund.CashBalanceRefund = Convert.ToDecimal(lblpickupcnlamt.Text);
+            }
 
             dmnRefund.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
             dmnRefund.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
-            dmnRefund.RefundpayType = 1;
+            dmnRefund.RefundpayType = RefundpayType;
             dmnRefund.RefundReason = 5;
             dmnRefund.ReasonNote = "Kitchen staff Cancel";
-            dmnRefund.CashRefund = Convert.ToDecimal(lblpickupcnlamt.Text);
+            
 
             //// Balances
             //dmnRefund.CashBalance = Convert.ToDecimal(lblCashBal.Text);
@@ -10015,7 +10070,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
             MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             this.Close();
-
         }
 
         #region Part Payment
