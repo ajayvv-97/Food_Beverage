@@ -51,6 +51,8 @@ namespace FoodandBeverage.Forms
         public int Drawerassginstaffid;
 
         public string Drawersystemname;
+        FoodandBeverage.Forms.FrmLogin existingLogin = Application.OpenForms.OfType<FoodandBeverage.Forms.FrmLogin>().FirstOrDefault();
+
 
         #region Grid Declaration
         public static int cslno = 0;
@@ -1474,6 +1476,19 @@ namespace FoodandBeverage.Forms
                     {
                         if (!(openForm is FoodandBeverage.Forms.FrmLogin) && !(openForm is FoodandBeverage.Forms.FrmSplash))
                             openForm.Close();
+                    }
+
+                    System.Threading.Thread.Sleep(500);
+                    if (existingLogin == null)
+                    {
+                        FoodandBeverage.Forms.FrmLogin loginForm = new FoodandBeverage.Forms.FrmLogin();
+                        loginForm.Show();
+                    }
+                    else
+                    {
+                        existingLogin.Opacity = 100;
+                        existingLogin.BringToFront();
+                        existingLogin.Focus();
                     }
                     #endregion
 

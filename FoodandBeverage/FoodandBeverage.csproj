@@ -1862,8 +1862,8 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
-    <None Include="Resources\GST.png" />
     <None Include="Resources\loading_gif.gif" />
+    <None Include="Resources\GST.png" />
     <None Include="Resources\N_refreshicon.png" />
     <None Include="Resources\N_searchicon.png" />
     <None Include="Resources\Admin.png" />

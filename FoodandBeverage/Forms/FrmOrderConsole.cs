@@ -1117,7 +1117,8 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearchmaster = new DmnSearch();
                 dmnSearchmaster.Select = "*";
                 dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3) ";
-                dmnSearchmaster.WhereNdGroupBy = "where om.OrderMasterId = " + OmId + " and om.Status=1";
+                dmnSearchmaster.WhereNdGroupBy = "where om.OrderMasterId = " + OmId;
+                    //" and om.Status=1";
                 dmnSearchmaster.OrderBy = " order by OrderNo ";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
@@ -9973,7 +9974,50 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 );
             }
         }
-      
+        private void btnktcancelrefund_Click(object sender, EventArgs e)
+        {
+            DmnRefund dmnRefund = new DmnRefund();
+            BllRefund bllRefund = new BllRefund();
+
+            dmnRefund.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
+            dmnRefund.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+            dmnRefund.RefundpayType = 1;
+            dmnRefund.RefundReason = 5;
+            dmnRefund.ReasonNote = "Kitchen staff Cancel";
+            dmnRefund.CashRefund = Convert.ToDecimal(lblpickupcnlamt.Text);
+
+            //// Balances
+            //dmnRefund.CashBalance = Convert.ToDecimal(lblCashBal.Text);
+            //dmnRefund.BonusBalance = Convert.ToDecimal(lblBonusBal.Text);
+            //dmnRefund.PointBalnce = Convert.ToDecimal(lblPointBal.Text);  // Correct spelling
+            //dmnRefund.TokenBalance = Convert.ToDecimal(lblTokenBal.Text);
+
+            //// Refund amounts
+            //dmnRefund.CashBalanceRefund = dmnRefund.CashRefund;
+            //dmnRefund.BonusRefund = Convert.ToDecimal(lblReBonusBal.Text);
+            //dmnRefund.PointRefund = Convert.ToDecimal(lblRePointBal.Text);
+            //dmnRefund.TokenRefund = Convert.ToDecimal(lblReTokenBal.Text);
+
+            dmnRefund.CreatedBy = FrmDashboard.UserId;
+            dmnRefund.BranchId = FrmDashboard.BranchId;
+            dmnRefund.Status = 1;
+            dmnRefund.CreatedDateTime = DateTime.Now;
+            var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
+
+            DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+            BllOrder bll_order = new BllOrder();
+            dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+            dmnRemove_order.OrderDetailsId = 0;
+            dmnRemove_order.CancelNotifyStatus = 0;
+            dmnRemove_order.PkId = 1;
+            dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+            dmnRemove_order.BranchId = FrmDashboard.BranchId;
+            var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
+            MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            this.Close();
+
+        }
+
         #region Part Payment
         private void cash_part_Click(object sender, EventArgs e)
         {
@@ -10450,6 +10494,16 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             Pnl_wifiPopup.BringToFront();
             Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
             tm_midascard.Start();
+        }
+
+        private void btn_ktcancelrefund_Click(object sender, EventArgs e)
+        {
+            pnl_cancelledlist.Visible = false;
+        }
+
+        private void btn_cancel_list_Click(object sender, EventArgs e)
+        {
+            pnl_cancelledlist.Visible = false;
         }
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
