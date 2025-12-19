@@ -163,7 +163,8 @@ namespace FoodandBeverage.Forms
             public PictureBox BtnReprint;       // REPRINT button
             public DateTime CreatedTime;        // created time reference
 
-            public Panel DescriptionPanel;         
+            public Panel DescriptionPanel;
+            public int CancelStatus { get; set; } = -1;
 
         }
         private Dictionary<string, OrderCardCache> KitchenCardCache =  new Dictionary<string, OrderCardCache>();
@@ -321,6 +322,7 @@ namespace FoodandBeverage.Forms
                 // MAIN CARD (TableLayoutPanel)
                 TableLayoutPanel card = new TableLayoutPanel();
                 card.Name = "tlp_product_box_k_" + orders.Field1 + suffix;
+                card.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
                 card.Dock = DockStyle.Top;
                 card.BackColor = boxcolor; // keep boxcolor from your form
                 card.Margin = new Padding(20, 10, 0, 0);
@@ -391,6 +393,33 @@ namespace FoodandBeverage.Forms
                 DateTime created = details[0].Fielddatetime;
                 cache.CreatedTime = created;
 
+                int currentField27 = Convert.ToInt32(details[0].Field27);
+
+                if (cache.CancelStatus != currentField27)
+                {
+                    if (Convert.ToInt32(details[0].Field27) == 1)
+                    {
+                        if (cache.BtnStart != null) cache.BtnStart.Visible = false;
+                        if (cache.BtnCancel != null) cache.BtnCancel.Visible = false;
+                        if (cache.BtnReprint != null) cache.BtnReprint.Visible = false;
+
+                        cache.Description.Text = "Waiting for customer confirmation.";
+                        cache.Description.Visible = true;
+                        cache.DescriptionPanel.Visible = true;
+
+                        ToggleDescriptionRow(cache.CardPanel, true);
+                    }
+                    else
+                    {
+                        bool hasDesc = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
+
+                        cache.Description.Visible = hasDesc;
+                        cache.DescriptionPanel.Visible = hasDesc;
+
+                        ToggleDescriptionRow(cache.CardPanel, hasDesc);
+                    }
+                    cache.CancelStatus = currentField27;
+                }
                 // populate grid initially
                 UpdateGrid(cache.Grid, details);
 
@@ -402,11 +431,11 @@ namespace FoodandBeverage.Forms
                 return null;
             }
         }
-
-        /// <summary>
-        /// Header builder: creates blue header with table/pickup, token no and time label.
-        /// </summary>
-        private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetails> details)
+     
+/// <summary>
+/// Header builder: creates blue header with table/pickup, token no and time label.
+/// </summary>
+private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetails> details)
         {
             string suffix = Convert.ToString(details[0].Field17);
 
@@ -414,9 +443,9 @@ namespace FoodandBeverage.Forms
             tlp_product_heading.Name = "tlp_product_heading_k_" + orders.Field1 + suffix;
             tlp_product_heading.Dock = DockStyle.Top;
             tlp_product_heading.ColumnCount = 3;
-            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             tlp_product_heading.Height = (screenWidth > 1367 && screenHeight > 769) ? 50 : 28;
             tlp_product_heading.BackColor = Color.FromArgb(60, 90, 160); // stronger blue header
 
@@ -444,7 +473,7 @@ namespace FoodandBeverage.Forms
 
             // Token no
             Label lbl_tokkenno = new Label();
-            lbl_tokkenno.Text = "Token No: " + Convert.ToString(details[0].Field22);
+            lbl_tokkenno.Text = "Kitchen Token No: " + Convert.ToString(details[0].Field22);
             lbl_tokkenno.Name = "lbl_tokkenno_k_" + orders.Field1 + suffix;
             lbl_tokkenno.Dock = DockStyle.Fill;
             lbl_tokkenno.ForeColor = Color.White;
@@ -718,38 +747,95 @@ namespace FoodandBeverage.Forms
                 // Update grid content with blinking logic
                 UpdateGrid(cache.Grid, details);
 
-                // Update description
-                if (cache.Description != null)
-                {
-                    cache.Description.Text = "Note :   " + Convert.ToString(details[0].Field16);
-                    cache.Description.Visible = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
-                }
 
-                // Update buttons based on status and field27
-                bool flagstart_ready = details.Any(d => Convert.ToInt32(d.Field12) == 1);
-                if (cache.BtnStart != null) cache.BtnStart.Visible = flagstart_ready;
-                if (cache.BtnCancel != null) cache.BtnCancel.Visible = flagstart_ready;
-                if (cache.BtnReprint != null) cache.BtnReprint.Visible = true; // reprint always visible unless field27 indicates waiting
 
-                if (Convert.ToInt32(details[0].Field27) == 1)
+                int currentField27 = Convert.ToInt32(details[0].Field27);
+                bool isWaitingCustomer = currentField27 == 1;
+                if (isWaitingCustomer)
                 {
                     if (cache.BtnStart != null) cache.BtnStart.Visible = false;
                     if (cache.BtnCancel != null) cache.BtnCancel.Visible = false;
                     if (cache.BtnReprint != null) cache.BtnReprint.Visible = false;
-                    if (cache.Description != null)
-                    {
-                        cache.Description.Visible = true;
-                        cache.DescriptionPanel.Visible = true;
-                        cache.Description.Text = "Waiting for customer confirmation.";
 
-                    }
+                    cache.Description.Text = "Waiting for customer confirmation.";
+                    cache.Description.Visible = true;
+                    cache.DescriptionPanel.Visible = true;
+
+                    ToggleDescriptionRow(cache.CardPanel, true);
                 }
+                else
+                {
+                    //// Update description
+                    //if (cache.Description != null)
+                    //{
+                    //    cache.Description.Text = "Note :   " + Convert.ToString(details[0].Field16);
+                    //    cache.Description.Visible = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
+                    //}
+
+                    //// Update buttons based on status and field27
+                    bool flagstart_ready = details.Any(d => Convert.ToInt32(d.Field12) == 1);
+                    //if (cache.BtnStart != null) cache.BtnStart.Visible = flagstart_ready;
+                    //if (cache.BtnCancel != null) cache.BtnCancel.Visible = flagstart_ready;
+                    //if (cache.BtnReprint != null) cache.BtnReprint.Visible = true; // reprint always visible unless field27 indicates waiting
+
+                    bool hasDesc = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
+
+                    if (cache.BtnStart != null) cache.BtnStart.Visible = flagstart_ready;
+                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = flagstart_ready;
+                    if (cache.BtnReprint != null) cache.BtnReprint.Visible = true;
+
+                    cache.Description.Text = hasDesc
+                        ? "Note :   " + Convert.ToString(details[0].Field16)
+                        : string.Empty;
+
+                    cache.Description.Visible = hasDesc;
+                    cache.DescriptionPanel.Visible = hasDesc;
+
+                    ToggleDescriptionRow(cache.CardPanel, hasDesc);
+                }
+
+                // ----- Track status only -----
+                cache.CancelStatus = currentField27;
+
+
             }
             catch (Exception ex)
             {
                 clsgen.LogException("Pickuppage UpdateOrderCard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
         }
+
+        private void ToggleDescriptionRow(TableLayoutPanel card, bool show)
+        {
+            if (card == null || card.RowStyles.Count < 4) return;
+
+            card.SuspendLayout();
+
+            if (show)
+            {
+                // SHOW description
+                card.RowStyles[2].SizeType = SizeType.AutoSize;
+                card.RowStyles[2].Height = 0;
+
+                // Grid normal
+                card.RowStyles[1].SizeType = SizeType.Percent;
+                card.RowStyles[1].Height = 100;
+            }
+            else
+            {
+                // HIDE description COMPLETELY
+                card.RowStyles[2].SizeType = SizeType.Absolute;
+                card.RowStyles[2].Height = 0;
+
+                // Grid must take FULL SPACE
+                card.RowStyles[1].SizeType = SizeType.Percent;
+                card.RowStyles[1].Height = 100;
+            }
+
+            card.ResumeLayout(true);
+            card.PerformLayout();
+        }
+
 
         /// <summary>
         /// UpdateGrid with blinking canceled rows logic.
@@ -3272,15 +3358,15 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                cmbserachtype.SelectedIndex = 0;    
+                refreshtimer.Stop();
+                cmbserachtype.SelectedIndex = 0;
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
-
                 btn_viewmore_order.Visible = true;
                 pnl_empty_msg.Visible = false;
 
                 txtsearchData.Text = GetPlaceholder();
                 txtsearchData.ForeColor = Color.DarkGray;
-
+                ClearKitchenCards();
                 refreshtimer.Start();
             }
             catch (Exception ex)
@@ -3294,6 +3380,20 @@ namespace FoodandBeverage.Forms
                 );
             }
         }
+        private void ClearKitchenCards()
+        {          
+            flp_order_view.SuspendLayout();
+            foreach (Control ctrl in flp_order_view.Controls)
+            {
+                ctrl.Dispose();
+            }
+
+            flp_order_view.Controls.Clear();
+            flp_order_view.ResumeLayout(true);
+            KitchenCardCache.Clear();
+        }
+
+
         private void pnl_products_rem_descr_Paint(object sender, PaintEventArgs e)
         {
             try

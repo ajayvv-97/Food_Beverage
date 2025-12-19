@@ -12,6 +12,7 @@ using System.Text;
 using System.Windows.Forms;
 using FoodandBeverage.Forms.UserControl;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace FoodandBeverage.Forms
 {
@@ -24,8 +25,7 @@ namespace FoodandBeverage.Forms
         }
 
         #region Declaration
-        public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
-      
+        public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();      
 
         public int panelsPerRow = 0;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
@@ -107,352 +107,535 @@ namespace FoodandBeverage.Forms
             flp_sidemenu.Visible = false;
         }
 
+
+        #region Optimized Bill Code
+
+        // Cache structure for fast access
+        private class TableControls
+        {
+            public TableLayoutPanel TablePanel { get; set; }
+            public Button SelectButton { get; set; }
+            public Label TableNameLabel { get; set; }
+            public Label NetAmountLabel { get; set; }
+        }
+
+        private Dictionary<int, TableControls> tableCache = new Dictionary<int, TableControls>();
+
+        // Enable double buffering to prevent flicker
+        private void EnableDoubleBuffer(Control c)
+        {
+            typeof(Control).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(c, true, null);
+        }
+
+        // Fill or initialize table bills
         public void Billcomplete_Fill()
         {
             try
             {
-                int rowIndex_cate = 0;
-                this.Visible = false;
+              
                 this.SuspendLayout();
-                ListFillFlag = false;
-                this.Controls.Add(pnl_complebill_prevbill);
-                pnl_complebill_prevbill.Dock = DockStyle.Fill;
-                Control controlToRemove = tlp_control.GetControlFromPosition(0, 1);
-                tlp_control.Controls.Remove(controlToRemove);
-                tlp_control.Controls.Add(pnl_compelte_bill, 0, 1);
-                tlp_control.Dock = DockStyle.Fill;
 
-                pnl_empty_msg.Visible = false;
                 pnl_complebill_prevbill.Visible = true;
+                pnl_empty_msg.Visible = false;
 
-                #region old code fetch db to query No use currently use store procedure
-                //BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
-                //DmnSearch dmnSearch = new DmnSearch();
-                //dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid," +
-                //    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) BookmasterId";
-                //dmnSearch.Table = "tblTable_info  ti " +
-                //    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
-                //    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0" +
-                //    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
-                //dmnSearch.WhereNdGroupBy = "where ti.Status=1";
-                //dmnSearch.OrderBy = "order by ti.tid";
-                //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                #endregion
-
-                BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
-                DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
-                dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
-                dmnSearchtabledata.Fcid = categoryId;
-                var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
-                //var sortedGridSource = gridSource.OrderBy(item => item.t).ToList();
-                pnl_compelte_bill.Controls.Clear();
                 flp_billlayout.Controls.Clear();
                 flp_billlayout.Dock = DockStyle.Fill;
                 flp_billlayout.AutoScroll = true;
-                if (gridSource.Count > 0)
+                flp_billlayout.FlowDirection = FlowDirection.LeftToRight;
+                flp_billlayout.WrapContents = true;
+                EnableDoubleBuffer(flp_billlayout);
+                flp_billlayout.BringToFront();
+
+                BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
+                DmncombinedBill dmnSearchtabledata = new DmncombinedBill
                 {
-                    #region old code
-                    //foreach (var tabledata in gridSource)
-                    //{
-                    //     if (Convert.ToInt32(tabledata.Tid) > 0)
-                    //    {
-                    //        #region Normal , Combined ,bokking orders
-                    //        string tlpname = "tlp_category_Com_" + tabledata.CategoryName;
-                    //        TableLayoutPanel tlp_box = tlp_table_dashboard.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                    //        if (tlp_box == null)
-                    //        {
-                    //            TableLayoutPanel tlp_category = new TableLayoutPanel();
-                    //            tlp_category.Name = "tlp_category_Com_" + tabledata.CategoryName;
-                    //            tlp_category.Tag = tabledata.CategoryName;
-                    //            tlp_category.Dock = DockStyle.Top;
-                    //            tlp_category.AutoSize = true;
-                    //            //tlp_category.BackColor = Color.Green;
-                    //            tlp_category.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                    //            tlp_category.RowCount = 2;
-                    //            tlp_category.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                    //            tlp_category.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                    BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell),
+                    Fcid = categoryId
+                };
 
-                    //            FlowLayoutPanel flp_box = new FlowLayoutPanel();
-                    //            flp_box.Name = "flp_box_Com_" + tabledata.CategoryName;
-                    //            flp_box.Tag = tabledata.CategoryName;
-                    //            flp_box.Dock = DockStyle.Fill;
-                    //            flp_box.AutoSize = true;
-                    //            flp_box.FlowDirection = FlowDirection.LeftToRight;
-                    //            //flp_box.BackColor = Color.Blue;
+                var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
 
-                    //            // Configure the Label
-                    //            Label lblcategory_head = new Label();
-                    //            lblcategory_head.Name = "lbcate_head_Com_" + tabledata.CategoryName;
-                    //            lblcategory_head.Tag = tabledata.Fcid;
-                    //            lblcategory_head.Text = tabledata.CategoryName;
-                    //            lblcategory_head.ForeColor = Color.Black;
-                    //            lblcategory_head.BackColor = Color.Transparent;
-                    //            lblcategory_head.Dock = DockStyle.Top;
-                    //            lblcategory_head.Font = new Font(lblcategory_head.Font.FontFamily, 12, FontStyle.Bold);
+                flp_billlayout.SuspendLayout();
 
-                    //            tlp_category.Controls.Add(lblcategory_head, 0, 0);
-                    //            tlp_category.Controls.Add(flp_box, 0, 1);
-                    //            tlp_table_dashboard.Controls.Add(tlp_category, 0, rowIndex_cate);
-                    //            rowIndex_cate++;
-                    //        }
+                foreach (var tabledata in gridSource)
+                {
+                    int tid = Convert.ToInt32(tabledata.Tid);
+                    if (tid <= 0) continue;
 
-                    //        string flpname = "flp_box_Com_" + tabledata.CategoryName;
-                    //        FlowLayoutPanel flp_box_check = tlp_table_dashboard.Controls.Find(flpname, true).FirstOrDefault() as FlowLayoutPanel;
-
-                    //        #region Table Box 
-                    //        // Configure the TableLayoutPanel
-                    //        TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
-                    //        tlp_table_inner.RowCount = 3;
-                    //        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                    //        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                    //        tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                    //        tlp_table_inner.Name = "tlp_com" + tabledata.Tid;
-                    //        tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.Normal);
-                    //        tlp_table_inner.BorderStyle = BorderStyle.FixedSingle;
-                    //        tlp_table_inner.Dock = DockStyle.None;
-                    //        tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                    //        //tlp_table_inner.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
-
-                    //        tlp_table_inner.BackColor = Color.White;
-
-                    //        if (screenWidth > 1366)
-                    //        {
-                    //            tlp_table_inner.Width = 120;
-                    //            tlp_table_inner.Height = 80;
-                    //            tlp_table_inner.Margin = new Padding(5, 5, 0, 5);
-                    //        }
-                    //        else if (screenWidth >= 1024 && screenWidth <= 1366)
-                    //        {
-                    //            tlp_table_inner.Width = 120;
-                    //            tlp_table_inner.Height = 80;
-                    //            tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
-                    //        }
-
-                    //        Button btn_select = new Button();
-                    //        btn_select.Name = "btn_select_com" + tabledata.Tid;
-                    //        btn_select.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                    //        btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
-                    //        btn_select.FlatStyle = FlatStyle.Flat;
-                    //        btn_select.FlatAppearance.BorderSize = 0;
-                    //        btn_select.BackgroundImage = Properties.Resources.Billaddicon;
-                    //        btn_select.BackgroundImageLayout = ImageLayout.Stretch;
-                    //        btn_select.Dock = DockStyle.Fill;
-                    //        btn_select.Margin = new Padding(20, 0, 20, 0);
-                    //        btn_select.Click += new EventHandler(btn_select_Clicked);
-
-                    //        // Configure the Label
-                    //        Label lbltablename = new Label();
-                    //        lbltablename.Name = "lb_tablename" + tabledata.Tid;
-                    //        lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                    //        lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                    //        lbltablename.Tag = Convert.ToInt32(CombinedBillType.Normal);
-                    //        lbltablename.Text = tabledata.TableCode;
-                    //        lbltablename.ForeColor = Description_color;
-                    //        lbltablename.BackColor = Color.Transparent;
-                    //        lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
-                    //        lbltablename.Dock = DockStyle.Fill;
-
-                    //        // Configure the Label
-                    //        Label netamountlabel = new Label();
-                    //        netamountlabel.Name = "lb_netamount" + tabledata.Tid;
-                    //        netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                    //        netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                    //        netamountlabel.Tag = Convert.ToInt32(CombinedBillType.Normal);
-                    //        netamountlabel.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
-                    //        netamountlabel.ForeColor = Netamountcolor;
-                    //        netamountlabel.BackColor = Color.Transparent;
-                    //        netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
-                    //        netamountlabel.Dock = DockStyle.Fill;
-
-                    //        if (Convert.ToInt32(tabledata.BillStatus) == 0)
-                    //            tlp_table_inner.Visible = true;
-                    //        else
-                    //            tlp_table_inner.Visible = false;
-
-                    //        if (tabledata.BookmasterId > 0)// && tabledata.TableCount > 1//Bokking order hide plus button
-                    //        {
-                    //            btn_select.Visible = false;
-                    //        }
-                    //        else
-                    //        {
-                    //            if (Convert.ToInt32(tabledata.Cbid) > 0)
-                    //            {
-                    //                tlp_table_inner.BackColor = CombinedBillcolor;
-                    //                btn_select.Visible = false;
-                    //            }
-                    //            else
-                    //            {
-                    //                tlp_table_inner.BackColor = NormalBillingColor;
-                    //                btn_select.Visible = true;
-                    //            }
-                    //        }
-
-                    //        tlp_table_inner.Controls.Add(btn_select, 0, 0);
-                    //        tlp_table_inner.Controls.Add(lbltablename, 0, 1);
-                    //        tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
-
-                    //        lbltablename.Click += new EventHandler(CompleteEventHandler);
-                    //        netamountlabel.Click += new EventHandler(CompleteEventHandler);
-                    //        tlp_table_inner.Click += new EventHandler(CompleteEventHandler);
-
-                    //        if (Convert.ToInt32(tabledata.BookmasterId) > 0)
-                    //        {
-                    //            tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-                    //            lbltablename.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-                    //            netamountlabel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-
-                    //            lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                    //            tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                    //            netamountlabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
-                    //        }
-
-                    //        #endregion
-
-                    //        flp_box_check.Controls.Add(tlp_table_inner);
-                    //        #endregion
-                    //    }
-                    //}
-                    #endregion
-
-                    foreach (var tabledata in gridSource)
+                    // Reuse cached controls if available
+                    if (!tableCache.TryGetValue(tid, out TableControls controls))
                     {
-                        if (Convert.ToInt32(tabledata.Tid) > 0)
+                        // Create new controls and cache
+                        TableLayoutPanel tlp = new TableLayoutPanel
                         {
-                            // Configure the TableLayoutPanel for the table
-                            TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
-                            tlp_table_inner.RowCount = 3;
-                            tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                            tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                            tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                            tlp_table_inner.Name = "tlp_com" + tabledata.Tid;
-                            tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.Normal);
-                            tlp_table_inner.BorderStyle = BorderStyle.None;
-                            tlp_table_inner.Dock = DockStyle.None;
-                            tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," +
-                                                                    Convert.ToString(tabledata.OrderMasterId) + "," +
-                                                                    tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
-                                                                    Convert.ToInt32(tabledata.BookmasterId) + "," +
-                                                                    Convert.ToInt32(tabledata.pkid);
-                            tlp_table_inner.BackColor = Color.White;
+                            RowCount = 3,
+                            Name = "tlp_com" + tid,
+                            Tag = Convert.ToInt32(CombinedBillType.Normal),
+                            BorderStyle = BorderStyle.None,
+                            Dock = DockStyle.None,
+                            BackColor = Color.White
+                        };
+                        tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+                        tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+                        tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
 
-                            //if (screenWidth > 1366)
-                            //{
-                            //    tlp_table_inner.Width = 120;
-                            //    tlp_table_inner.Height = 80;
-                            //    tlp_table_inner.Margin = new Padding(5, 5, 0, 5);
-                            //}
-                            //else if (screenWidth >= 1024 && screenWidth <= 1366)
-                            //{
-                            //    tlp_table_inner.Width = 120;
-                            //    tlp_table_inner.Height = 80;
-                            //    tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
-                            //}
+                        // Size
+                        tlp.Width = 140;
+                        tlp.Height = 110;
+                        tlp.Margin = new Padding(5);
 
-                            Button btn_select = new Button();
-                            btn_select.Name = "btn_select_com" + tabledata.Tid;
-                            btn_select.AccessibleDescription = tlp_table_inner.AccessibleDescription;
-                            btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
-                            btn_select.FlatStyle = FlatStyle.Flat;
-                            btn_select.FlatAppearance.BorderSize = 0;
-                            btn_select.BackgroundImage = Properties.Resources.Billaddicon;
-                            btn_select.BackgroundImageLayout = ImageLayout.Stretch;
-                            btn_select.Dock = DockStyle.Fill;
-                            btn_select.Margin = new Padding(20, 0, 20, 0);
-                            btn_select.Click += new EventHandler(btn_select_Clicked);
+                        Button btn_select = new Button
+                        {
+                            Name = "btn_select_com" + tid,
+                            Dock = DockStyle.Fill,
+                            FlatStyle = FlatStyle.Flat,
+                            FlatAppearance = { BorderSize = 0 },
+                            BackgroundImage = Properties.Resources.Billaddicon,
+                            BackgroundImageLayout = ImageLayout.Stretch,
+                            Margin = new Padding(20, 0, 20, 0),
+                            Tag = Convert.ToInt32(BillSelect.Unselect)
+                        };
+                        btn_select.Click += btn_select_Clicked;
 
-                            Label lbltablename = new Label();
-                            lbltablename.Name = "lb_tablename" + tabledata.Tid;
-                            lbltablename.AccessibleDescription = tlp_table_inner.AccessibleDescription;
-                            lbltablename.TextAlign = ContentAlignment.MiddleCenter;
-                            lbltablename.Tag = Convert.ToInt32(CombinedBillType.Normal);
-                            lbltablename.Text = tabledata.TableCode;
-                            lbltablename.ForeColor = Description_color;
-                            lbltablename.BackColor = Color.Transparent;
-                            lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
-                            lbltablename.Dock = DockStyle.Fill;
+                        Label lblTable = new Label
+                        {
+                            Name = "lb_tablename" + tid,
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            ForeColor = Description_color,
+                            Dock = DockStyle.Fill,
+                            Font = new Font("Arial", 10, FontStyle.Bold),
+                            BackColor = Color.Transparent
+                        };
 
-                            Label netamountlabel = new Label();
-                            netamountlabel.Name = "lb_netamount" + tabledata.Tid;
-                            netamountlabel.AccessibleDescription = tlp_table_inner.AccessibleDescription;
-                            netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
-                            netamountlabel.Tag = Convert.ToInt32(CombinedBillType.Normal);
-                            netamountlabel.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
-                            netamountlabel.ForeColor = Netamountcolor;
-                            netamountlabel.BackColor = Color.Transparent;
-                            netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
-                            netamountlabel.Dock = DockStyle.Fill;
+                        Label lblNet = new Label
+                        {
+                            Name = "lb_netamount" + tid,
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            ForeColor = Netamountcolor,
+                            Dock = DockStyle.Fill,
+                            Font = new Font("Arial", 10, FontStyle.Bold),
+                            BackColor = Color.Transparent
+                        };
 
-                            tlp_table_inner.Visible = Convert.ToInt32(tabledata.BillStatus) == 0;
+                        // Add controls to TableLayoutPanel
+                        tlp.Controls.Add(btn_select, 0, 0);
+                        tlp.Controls.Add(lblTable, 0, 1);
+                        tlp.Controls.Add(lblNet, 0, 2);
 
-                            if (tabledata.BookmasterId > 0)
-                            {
-                                btn_select.Visible = false;
-                            }
-                            else
-                            {
-                                if (Convert.ToInt32(tabledata.Cbid) > 0)
-                                {
-                                    tlp_table_inner.BackColor = CombinedBillcolor;
-                                    btn_select.Visible = false;
-                                }
-                                else
-                                {
-                                    tlp_table_inner.BackColor = NormalBillingColor;
-                                    btn_select.Visible = true;
-                                }
-                            }
+                        // Event handlers
+                        lblTable.Click += CompleteEventHandler;
+                        lblNet.Click += CompleteEventHandler;
+                        tlp.Click += CompleteEventHandler;
 
-                            // Size settings
-                            if (screenWidth > 1366) { tlp_table_inner.Width = 300; tlp_table_inner.Height = 150; }
-                            else if (screenWidth >= 1024) { tlp_table_inner.Width = 120; tlp_table_inner.Height = 100; }
+                        UIHelper.RoundCorners(tlp, 25, null);
 
-                            tlp_table_inner.Controls.Add(btn_select, 0, 0);
-                            tlp_table_inner.Controls.Add(lbltablename, 0, 1);
-                            tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
+                        controls = new TableControls
+                        {
+                            TablePanel = tlp,
+                            SelectButton = btn_select,
+                            TableNameLabel = lblTable,
+                            NetAmountLabel = lblNet
+                        };
 
-                            lbltablename.Click += new EventHandler(CompleteEventHandler);
-                            netamountlabel.Click += new EventHandler(CompleteEventHandler);
-                            tlp_table_inner.Click += new EventHandler(CompleteEventHandler);
-
-                            if (Convert.ToInt32(tabledata.BookmasterId) > 0)
-                            {
-                                tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-                                lbltablename.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-                                netamountlabel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-
-                                lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," +
-                                                                      Convert.ToString(tabledata.OrderMasterId) + "," +
-                                                                      tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
-                                                                      Convert.ToInt32(tabledata.BookmasterId) + "," +
-                                                                      Convert.ToInt32(tabledata.pkid);
-                                tlp_table_inner.AccessibleDescription = lbltablename.AccessibleDescription;
-                                netamountlabel.AccessibleDescription = lbltablename.AccessibleDescription;
-                            }
-                            UIHelper.RoundCorners(tlp_table_inner, 25, null);
-                            flp_billlayout.Controls.Add(tlp_table_inner);
-                        }
+                        tableCache[tid] = controls;
+                        flp_billlayout.Controls.Add(tlp);
                     }
 
-                    pnl_compelte_bill.Controls.Add(flp_billlayout);
-                    pnl_compelte_bill.Dock = DockStyle.Fill;
-                    pnl_compelte_bill.Visible = true;
-                    CombineBillAutoTimer.Start();
+                    // Set all properties
+                    controls.TablePanel.AccessibleDescription = $"{(int)DashboardTableType.Normalorder},{tabledata.OrderMasterId},{tabledata.Tid},{tabledata.TableCode},{tabledata.BookmasterId},{tabledata.pkid}";
+                    controls.SelectButton.AccessibleDescription = controls.TablePanel.AccessibleDescription;
+                    controls.TableNameLabel.AccessibleDescription = controls.TablePanel.AccessibleDescription;
+                    controls.NetAmountLabel.AccessibleDescription = controls.TablePanel.AccessibleDescription;
+
+                    controls.TableNameLabel.Text = tabledata.TableCode;
+                    controls.NetAmountLabel.Text = "\u20B9" + tabledata.NetAmount;
+
+                    // Handle Booked or Combined bills
+                    if (tabledata.BookmasterId > 0)
+                    {
+                        controls.SelectButton.Visible = false;
+                        controls.TablePanel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+                    }
+                    else if (Convert.ToInt32(tabledata.Cbid) > 0)
+                    {
+                        controls.SelectButton.Visible = false;
+                        controls.TablePanel.BackColor = CombinedBillcolor;
+                    }
+                    else
+                    {
+                        controls.SelectButton.Visible = true;
+                        controls.SelectButton.BackgroundImage = Properties.Resources.Billaddicon;
+                        controls.SelectButton.Tag = Convert.ToInt32(BillSelect.Unselect);
+                        controls.TablePanel.BackColor = NormalBillingColor;
+                    }
+
+                    controls.TablePanel.Visible = Convert.ToInt32(tabledata.BillStatus) == 0;
                 }
 
+                flp_billlayout.ResumeLayout();
+                pnl_compelte_bill.Controls.Add(flp_billlayout);
+                pnl_compelte_bill.Dock = DockStyle.Fill;
+                pnl_compelte_bill.Visible = true;
+
+                //CombineBillAutoTimer.Start();
                 SetEmptyIcon();
 
                 this.ResumeLayout();
-                this.Visible = true;
+               
             }
             catch (Exception ex)
             {
                 clsgen.LogException("CombinedBill Page Billcomplete_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
+
+        // Update only properties of cached controls
+        public void BillCombineBill_Update()
+        {
+            try
+            {
+                CombineBillAutoTimer.Stop();
+
+                BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
+                DmncombinedBill dmnSearchtabledata = new DmncombinedBill
+                {
+                    BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell),
+                    Fcid = categoryId
+                };
+
+                var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
+
+                flp_billlayout.SuspendLayout();
+
+                foreach (var tabledata in gridSource)
+                {
+                    int tid = Convert.ToInt32(tabledata.Tid);
+                    if (tid <= 0 || !tableCache.TryGetValue(tid, out TableControls controls)) continue;
+
+                    controls.NetAmountLabel.Text = "\u20B9" + tabledata.NetAmount;
+                    controls.TablePanel.Visible = tabledata.BillStatus == 0;
+
+                    // Booked or combined handling
+                    if (tabledata.BookmasterId > 0)
+                    {
+                        controls.SelectButton.Visible = false;
+                        controls.TablePanel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+                    }
+                    else if (Convert.ToInt32(tabledata.Cbid) > 0)
+                    {
+                        controls.SelectButton.Visible = false;
+                        controls.TablePanel.BackColor = CombinedBillcolor;
+                    }
+                    else
+                    {
+                        controls.SelectButton.Visible = true;
+                        controls.TablePanel.BackColor = NormalBillingColor;
+                        controls.SelectButton.BackgroundImage = Properties.Resources.Billaddicon;
+                        controls.SelectButton.Tag = Convert.ToInt32(BillSelect.Unselect);
+                    }
+
+                    // Update accessible descriptions if needed
+                    controls.TablePanel.AccessibleDescription = $"{(int)DashboardTableType.Normalorder},{tabledata.OrderMasterId},{tabledata.Tid},{tabledata.TableCode},{tabledata.BookmasterId},{tabledata.pkid}";
+                    controls.SelectButton.AccessibleDescription = controls.TablePanel.AccessibleDescription;
+                    controls.TableNameLabel.AccessibleDescription = controls.TablePanel.AccessibleDescription;
+                    controls.NetAmountLabel.AccessibleDescription = controls.TablePanel.AccessibleDescription;
+                }
+
+                flp_billlayout.ResumeLayout();
+                SetEmptyIcon();
+                CombineBillAutoTimer.Start();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("CombinedBill Page BillCombineBill_Update()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
+        // Timer tick
         private void CombineBillAutoTimer_Tick(object sender, EventArgs e)
         {
             BillCombineBill_Update();
         }
+
+        #endregion
+
+
+        #region old code bill print
+        //public void Billcomplete_Fill()
+        //{
+        //    try
+        //    {
+        //        int rowIndex_cate = 0;
+        //        this.Visible = false;
+        //        this.SuspendLayout();
+        //        ListFillFlag = false;
+        //        this.Controls.Add(pnl_complebill_prevbill);
+        //        pnl_complebill_prevbill.Dock = DockStyle.Fill;
+        //        Control controlToRemove = tlp_control.GetControlFromPosition(0, 1);
+        //        tlp_control.Controls.Remove(controlToRemove);
+        //        tlp_control.Controls.Add(pnl_compelte_bill, 0, 1);
+        //        tlp_control.Dock = DockStyle.Fill;
+
+        //        pnl_empty_msg.Visible = false;
+        //        pnl_complebill_prevbill.Visible = true;
+
+        //        #region old code fetch db to query No use currently use store procedure
+        //        //BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+        //        //DmnSearch dmnSearch = new DmnSearch();
+        //        //dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid," +
+        //        //    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) BookmasterId";
+        //        //dmnSearch.Table = "tblTable_info  ti " +
+        //        //    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
+        //        //    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0" +
+        //        //    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
+        //        //dmnSearch.WhereNdGroupBy = "where ti.Status=1";
+        //        //dmnSearch.OrderBy = "order by ti.tid";
+        //        //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+        //        #endregion
+
+        //        BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
+        //        DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
+        //        dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
+        //        dmnSearchtabledata.Fcid = categoryId;
+        //        var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
+        //        //var sortedGridSource = gridSource.OrderBy(item => item.t).ToList();
+        //        pnl_compelte_bill.Controls.Clear();
+        //        flp_billlayout.Controls.Clear();
+        //        flp_billlayout.Dock = DockStyle.Fill;
+        //        flp_billlayout.AutoScroll = true;
+        //        if (gridSource.Count > 0)
+        //        {
+        //            foreach (var tabledata in gridSource)
+        //            {
+        //                if (Convert.ToInt32(tabledata.Tid) > 0)
+        //                {
+        //                    // Configure the TableLayoutPanel for the table
+        //                    TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
+        //                    tlp_table_inner.RowCount = 3;
+        //                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+        //                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+        //                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+        //                    tlp_table_inner.Name = "tlp_com" + tabledata.Tid;
+        //                    tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.Normal);
+        //                    tlp_table_inner.BorderStyle = BorderStyle.None;
+        //                    tlp_table_inner.Dock = DockStyle.None;
+        //                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," +
+        //                                                            Convert.ToString(tabledata.OrderMasterId) + "," +
+        //                                                            tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
+        //                                                            Convert.ToInt32(tabledata.BookmasterId) + "," +
+        //                                                            Convert.ToInt32(tabledata.pkid);
+        //                    tlp_table_inner.BackColor = Color.White;
+
+        //                    //if (screenWidth > 1366)
+        //                    //{
+        //                    //    tlp_table_inner.Width = 120;
+        //                    //    tlp_table_inner.Height = 80;
+        //                    //    tlp_table_inner.Margin = new Padding(5, 5, 0, 5);
+        //                    //}
+        //                    //else if (screenWidth >= 1024 && screenWidth <= 1366)
+        //                    //{
+        //                    //    tlp_table_inner.Width = 120;
+        //                    //    tlp_table_inner.Height = 80;
+        //                    //    tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
+        //                    //}
+
+        //                    Button btn_select = new Button();
+        //                    btn_select.Name = "btn_select_com" + tabledata.Tid;
+        //                    btn_select.AccessibleDescription = tlp_table_inner.AccessibleDescription;
+        //                    btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
+        //                    btn_select.FlatStyle = FlatStyle.Flat;
+        //                    btn_select.FlatAppearance.BorderSize = 0;
+        //                    btn_select.BackgroundImage = Properties.Resources.Billaddicon;
+        //                    btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+        //                    btn_select.Dock = DockStyle.Fill;
+        //                    btn_select.Margin = new Padding(20, 0, 20, 0);
+        //                    btn_select.Click += new EventHandler(btn_select_Clicked);
+
+        //                    Label lbltablename = new Label();
+        //                    lbltablename.Name = "lb_tablename" + tabledata.Tid;
+        //                    lbltablename.AccessibleDescription = tlp_table_inner.AccessibleDescription;
+        //                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+        //                    lbltablename.Tag = Convert.ToInt32(CombinedBillType.Normal);
+        //                    lbltablename.Text = tabledata.TableCode;
+        //                    lbltablename.ForeColor = Description_color;
+        //                    lbltablename.BackColor = Color.Transparent;
+        //                    lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
+        //                    lbltablename.Dock = DockStyle.Fill;
+
+        //                    Label netamountlabel = new Label();
+        //                    netamountlabel.Name = "lb_netamount" + tabledata.Tid;
+        //                    netamountlabel.AccessibleDescription = tlp_table_inner.AccessibleDescription;
+        //                    netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+        //                    netamountlabel.Tag = Convert.ToInt32(CombinedBillType.Normal);
+        //                    netamountlabel.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
+        //                    netamountlabel.ForeColor = Netamountcolor;
+        //                    netamountlabel.BackColor = Color.Transparent;
+        //                    netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
+        //                    netamountlabel.Dock = DockStyle.Fill;
+
+        //                    tlp_table_inner.Visible = Convert.ToInt32(tabledata.BillStatus) == 0;
+
+        //                    if (tabledata.BookmasterId > 0)
+        //                    {
+        //                        btn_select.Visible = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        if (Convert.ToInt32(tabledata.Cbid) > 0)
+        //                        {
+        //                            tlp_table_inner.BackColor = CombinedBillcolor;
+        //                            btn_select.Visible = false;
+        //                        }
+        //                        else
+        //                        {
+        //                            tlp_table_inner.BackColor = NormalBillingColor;
+        //                            btn_select.Visible = true;
+        //                        }
+        //                    }
+
+        //                    // Size settings
+        //                    if (screenWidth > 1366) { tlp_table_inner.Width = 300; tlp_table_inner.Height = 150; }
+        //                    else if (screenWidth >= 1024) { tlp_table_inner.Width = 120; tlp_table_inner.Height = 100; }
+
+        //                    tlp_table_inner.Controls.Add(btn_select, 0, 0);
+        //                    tlp_table_inner.Controls.Add(lbltablename, 0, 1);
+        //                    tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
+
+        //                    lbltablename.Click += new EventHandler(CompleteEventHandler);
+        //                    netamountlabel.Click += new EventHandler(CompleteEventHandler);
+        //                    tlp_table_inner.Click += new EventHandler(CompleteEventHandler);
+
+        //                    if (Convert.ToInt32(tabledata.BookmasterId) > 0)
+        //                    {
+        //                        tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+        //                        lbltablename.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+        //                        netamountlabel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+
+        //                        lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," +
+        //                                                              Convert.ToString(tabledata.OrderMasterId) + "," +
+        //                                                              tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
+        //                                                              Convert.ToInt32(tabledata.BookmasterId) + "," +
+        //                                                              Convert.ToInt32(tabledata.pkid);
+        //                        tlp_table_inner.AccessibleDescription = lbltablename.AccessibleDescription;
+        //                        netamountlabel.AccessibleDescription = lbltablename.AccessibleDescription;
+        //                    }
+        //                    UIHelper.RoundCorners(tlp_table_inner, 25, null);
+        //                    flp_billlayout.Controls.Add(tlp_table_inner);
+        //                }
+        //            }
+
+        //            pnl_compelte_bill.Controls.Add(flp_billlayout);
+        //            pnl_compelte_bill.Dock = DockStyle.Fill;
+        //            pnl_compelte_bill.Visible = true;
+        //            CombineBillAutoTimer.Start();
+        //        }
+
+        //        SetEmptyIcon();
+
+        //        this.ResumeLayout();
+        //        this.Visible = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsgen.LogException("CombinedBill Page Billcomplete_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+        //    }
+        //}
+
+        //public void BillCombineBill_Update()
+        //{
+        //    try
+        //    {
+        //        CombineBillAutoTimer.Stop();
+        //        BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
+        //        DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
+        //        dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
+        //        dmnSearchtabledata.Fcid = categoryId;
+        //        var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
+        //        if (gridSource.Count > 0)
+        //        {
+        //            #region Check order status and set visible flase and true
+        //            int rowIndex_cate = 0;
+
+        //            flp_billlayout.SuspendLayout();
+        //            foreach (Control ctrl in flp_billlayout.Controls)
+        //            {
+        //                if (ctrl is TableLayoutPanel && ctrl.Name.StartsWith("tlp_com"))
+        //                {
+        //                    ctrl.Visible = false;
+        //                }
+        //            }
+        //            flp_billlayout.ResumeLayout();
+
+
+        //            foreach (var tabledata in gridSource)
+        //            {
+        //                if (Convert.ToInt32(tabledata.Tid) > 0)
+        //                {
+        //                    #region Normal , Combined ,bokking orders
+        //                    string tlpname = "tlp_com" + tabledata.Tid;
+        //                    TableLayoutPanel tlp_box = flp_billlayout.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+        //                    if (tlp_box != null)
+        //                    {
+        //                        if (tabledata.BillStatus == 0)
+        //                        {
+        //                            tlp_box.Visible = true;
+        //                            string lblname = "lb_netamount" + tabledata.Tid;
+        //                            string btniaddicon = "btn_select_com" + tabledata.Tid;
+        //                            Button btn_select = flp_billlayout.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
+        //                            Label lblnet = flp_billlayout.Controls.Find(lblname, true).FirstOrDefault() as Label;
+        //                            if (lblnet != null)
+        //                                lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
+
+        //                            if (tabledata.BookmasterId > 0)//&& tabledata.TableCount > 1 //Bokking order hide plus button
+        //                            {
+        //                                btn_select.Visible = false;
+        //                            }//combined or normal order bill
+        //                            else
+        //                            {
+        //                                if (Convert.ToInt32(tabledata.Cbid) > 0)
+        //                                {
+        //                                    if (btn_select != null)
+        //                                    {
+        //                                        btn_select.Visible = false;
+        //                                        tlp_box.BackColor = CombinedBillcolor;
+        //                                    }
+        //                                }
+        //                                else
+        //                                {
+        //                                    tlp_box.BackColor = NormalBillingColor;
+        //                                    if (CheckedtableNames.Count == 0)
+        //                                        if (btn_select != null)
+        //                                        {
+        //                                            btn_select.Visible = true;
+        //                                            btn_select.BackgroundImage = Properties.Resources.Billaddicon;
+        //                                            btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
+        //                                            btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+        //                                        }
+        //                                    //DmnNameList itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == omasterid);
+        //                                }
+        //                            }
+        //                            tlp_box.Visible = true;
+        //                        }
+        //                        else
+        //                            tlp_box.Visible = false;
+        //                    }
+        //                    #endregion
+        //                }
+        //            }
+        //            #endregion
+        //        }
+        //        SetEmptyIcon();
+        //        CombineBillAutoTimer.Start();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsgen.LogException("CombinedBill Page BillCombineBill_Update()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+        //    }
+        //}
+
+        #endregion
+
 
         public void SetEmptyIcon()
         {
@@ -493,112 +676,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        public void BillCombineBill_Update()
-        {
-            try
-            {
-                CombineBillAutoTimer.Stop();
-
-                #region old code fetch db to query No use currently use store procedure
-                //BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
-                //DmnSearch dmnSearch = new DmnSearch();
-                //dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid,"+
-                //                " (select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) BookmasterId"; 
-                //dmnSearch.Table = "tblTable_info  ti " +
-                //    " LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
-                //    " LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0" +
-                //    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
-                //dmnSearch.WhereNdGroupBy = "where ti.Status=1";
-                //dmnSearch.OrderBy = "order by ti.tid";
-                //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                #endregion
-
-                BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
-                DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
-                dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
-                dmnSearchtabledata.Fcid = categoryId;
-                var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
-                if (gridSource.Count > 0)
-                {
-                    #region Check order status and set visible flase and true
-                    int rowIndex_cate = 0;
-
-                    flp_billlayout.SuspendLayout();
-                    foreach (Control ctrl in flp_billlayout.Controls)
-                    {
-                        if (ctrl is TableLayoutPanel && ctrl.Name.StartsWith("tlp_com"))
-                        {
-                            ctrl.Visible = false;
-                        }
-                    }
-                    flp_billlayout.ResumeLayout();
-
-
-                    foreach (var tabledata in gridSource)
-                    {
-                        if (Convert.ToInt32(tabledata.Tid) > 0)
-                        {
-                            #region Normal , Combined ,bokking orders
-                            string tlpname = "tlp_com" + tabledata.Tid;
-                            TableLayoutPanel tlp_box = flp_billlayout.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                            if (tlp_box != null)
-                            {
-                                if (tabledata.BillStatus == 0)
-                                {
-                                    tlp_box.Visible = true;
-                                    string lblname = "lb_netamount" + tabledata.Tid;
-                                    string btniaddicon = "btn_select_com" + tabledata.Tid;
-                                    Button btn_select = flp_billlayout.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
-                                    Label lblnet = flp_billlayout.Controls.Find(lblname, true).FirstOrDefault() as Label;
-                                    if (lblnet != null)
-                                        lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
-
-                                    if (tabledata.BookmasterId > 0)//&& tabledata.TableCount > 1 //Bokking order hide plus button
-                                    {
-                                        btn_select.Visible = false;
-                                    }//combined or normal order bill
-                                    else
-                                    {
-                                        if (Convert.ToInt32(tabledata.Cbid) > 0)
-                                        {
-                                            if (btn_select != null)
-                                            {
-                                                btn_select.Visible = false;
-                                                tlp_box.BackColor = CombinedBillcolor;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            tlp_box.BackColor = NormalBillingColor;
-                                            if (CheckedtableNames.Count == 0)
-                                                if (btn_select != null)
-                                                {
-                                                    btn_select.Visible = true;
-                                                    btn_select.BackgroundImage = Properties.Resources.Billaddicon;
-                                                    btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
-                                                    btn_select.BackgroundImageLayout = ImageLayout.Stretch;
-                                                }
-                                            //DmnNameList itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == omasterid);
-                                        }
-                                    }
-                                    tlp_box.Visible = true;
-                                }
-                                else
-                                    tlp_box.Visible = false;
-                            }
-                            #endregion
-                        }
-                    }
-                    #endregion
-                }
-                SetEmptyIcon();
-                CombineBillAutoTimer.Start();
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("CombinedBill Page BillCombineBill_Update()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
-            }
-        }
+     
         public void CheckCombinedOrNot(int Ordermasterid)
         {
             try
