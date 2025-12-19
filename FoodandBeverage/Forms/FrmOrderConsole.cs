@@ -10014,7 +10014,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             Pnl_wifiPopup.BringToFront();
             Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
             tm_midascard.Start(); 
-            //Refund(2);
+            
         }
         private void Refund(int RefundpayType)
         {
