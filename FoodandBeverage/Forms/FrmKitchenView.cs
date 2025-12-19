@@ -7,9 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BLL;
 using CrystalDecisions.CrystalReports.Engine;
@@ -120,6 +118,7 @@ namespace FoodandBeverage.Forms
                 {
                     //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
                 }
+
                 dgv_viewmore.BorderStyle = BorderStyle.None;
                 dgv_viewmore.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgv_viewmore.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -927,7 +926,6 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
-
 
         private void btnmini_Click(object sender, EventArgs e)
         {

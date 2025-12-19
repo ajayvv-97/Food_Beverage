@@ -427,7 +427,8 @@ namespace FoodandBeverage.Forms
             {
                 if (OrderCancelStatus == 1)
                 {
-                    btncancelnotify.Visible = true;
+                    btncancelnotify.Visible = false;
+                    btnordercallist.Visible = false;
                     BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                     DmnSearch dmnSearch = new DmnSearch();
                     dmnSearch.Select = "OrderMasterId Field1,SalesMasterId Field2,PkId Field3";
@@ -442,9 +443,6 @@ namespace FoodandBeverage.Forms
                         txtsalemasterid.Text = gridSource[0].Field2;
                     }
                 }
-                else
-                    btncancelnotify.Visible = false;
-
                 CheckRe_Pickuporder();
                 CheckPickupkitchenCancel();
             }
@@ -1057,26 +1055,26 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Load Cancel Order Items
+                #region Load Cancel Order Items
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "itemName Field1,Quantity Field2,RemoveNotes Field3,OrderMasterId Field4,OrderDetailsId Field5,NetAmount Field6,CASE WHEN EXISTS(SELECT 1 FROM tblOrderDetails AS x WHERE x.OrderMasterId = tblOrderDetails.OrderMasterId AND x.KitchenCancelStatus = 1 ) THEN 1 ELSE 0 END AS Field7";
                 dmnSearch.Table = "tblOrderDetails";
                 dmnSearch.WhereNdGroupBy =
-                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND CancelNotifyStatus = 1 " +
-                    "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);
+                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND CancelNotifyStatus = 1 and RefundStatus !=1" +
+                    "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);//KitchenCancelStatus = 1
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 dgv_ordercancel.Rows.Clear();
                 if (gridSource.Count > 0)
                 {
                     if (Convert.ToInt32(gridSource[0].Field7) == 1)
                     {
-                        btnreconfirmorder.Visible = true;
+                        btnordercallist.Visible = true;
                         Refundproductflag = true;
                     }
                     else
                     {
-                        btnreconfirmorder.Visible = false;
+                        btnordercallist.Visible = false;
                         Refundproductflag = false;
                     }
 
@@ -1102,7 +1100,34 @@ namespace FoodandBeverage.Forms
                     Refundproductwisetotal = total;
                 }
                 else
+                {
+                    btnordercallist.Visible = false;
+                    lblpickupcnlamt.Text = "0";
+                }
+                #endregion
+
+                #region Load Cancel Order Items
+
+                dmnSearch.Select = "CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS Field1";
+                dmnSearch.Table = "tblOrderDetails";
+                dmnSearch.WhereNdGroupBy =
+                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND KitchenCancelStatus = 1 " +
+                    "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);
+
+                var gridSourcekcancelnfy = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                if (gridSourcekcancelnfy.Count > 0 && Convert.ToInt32(gridSourcekcancelnfy[0].Field1) == 1)
+                {
+                    btnreconfirmorder.Visible = true;
+                }
+                else
+                {
                     btnreconfirmorder.Visible = false;
+                }
+
+                #endregion
+
+
             }
             catch (Exception ex)
             {
@@ -5653,6 +5678,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 }
                 else
                 {
+                    pnl_Refund_paymode.Visible = false;
                     pnl_cancelledlist.Visible = false;
                 }
             }
@@ -8677,51 +8703,79 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         {
             try
             {
-                DialogResult dr = MessageBox.Show(
+                if (OrderCancelStatus == 1)
+                {
+                    pnl_cancelledlist.Visible = false;
+                    pnl_Refund_paymode.Visible = true;
+                    pnl_Refund_paymode.Location = new Point(this.ClientSize.Width / 2 - pnl_Refund_paymode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Refund_paymode.Size.Height / 2));
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show(
                     "Are you sure you want to cancel this order?",
                     "Confirm Cancel",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning,
                     MessageBoxDefaultButton.Button2);
 
-                if (dr != DialogResult.Yes)
-                {
-                    return;
-                }
-
-                frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
-                frm.ShowDialog();
-                if (frmExtraAccessChk.access == true)
-                {
-                    ttxdesc_cancelorder.Text = "Reason Type Here ...";
-                    ttxdesc_cancelorder.ForeColor = Color.Gray;
-                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                    DmnSearch dmnSearch = new DmnSearch();
-                    dmnSearch.Select = "SalesMasterId Field1,NetAmount Field2";
-                    dmnSearch.Table = "tblSalesMaster";
-                    dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
-                    dmnSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    if (gridSource.Count > 0)
+                    if (dr != DialogResult.Yes)
                     {
-                        refundsmid = Convert.ToInt32(gridSource[0].Field1);
-                        refundtotal = Convert.ToDecimal(gridSource[0].Field2);
+                        return;
                     }
-                    lblcanceltextorder.Text = $"Total Cash refund amount is {refundtotal}";
-                    UIHelper.CenterAndResize(pnl_cancelorder, 25, 35);
-                    UIHelper.RoundCorners(tlp_cancelorder, 25);
-                    UIHelper.RoundCorners(pnl_cancelorder, 25);
-                    UIHelper.RoundCorners(tlpnav_cancelorder, 25);
-                    ApplyRoundedTextBox(ttxdesc_cancelorder, 10);
+
+                    frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
+                    frm.ShowDialog();
+                    if (frmExtraAccessChk.access == true)
+                    {
+                        ttxdesc_cancelorder.Text = "Reason Type Here ...";
+                        ttxdesc_cancelorder.ForeColor = Color.Gray;
+                        BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        DmnSearch dmnSearch = new DmnSearch();
+                        dmnSearch.Select = "SalesMasterId Field1,NetAmount Field2";
+                        dmnSearch.Table = "tblSalesMaster";
+                        dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
+                        dmnSearch.OrderBy = "";
+                        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        if (gridSource.Count > 0)
+                        {
+                            refundsmid = Convert.ToInt32(gridSource[0].Field1);
+                            refundtotal = Convert.ToDecimal(gridSource[0].Field2);
+                        }
+                        lblcanceltextorder.Text = $"Total Cash refund amount is {refundtotal}";
+                        UIHelper.CenterAndResize(pnl_cancelorder, 25, 35);
+                        UIHelper.RoundCorners(tlp_cancelorder, 25);
+                        UIHelper.RoundCorners(pnl_cancelorder, 25);
+                        UIHelper.RoundCorners(tlpnav_cancelorder, 25);
+                        ApplyRoundedTextBox(ttxdesc_cancelorder, 10);
+                    }
+                    else
+                    {
+                        CMessageBox.Show(this, "\nThis Account Have No Access For This Operations", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
-                else
-                {
-                    CMessageBox.Show(this, "\nThis Account Have No Access For This Operations", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                
             }
             catch (Exception ex)
             {
                 clsgen.LogException("Order page  btn_cancle_pickup_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
+        private void ttxdesc_cancelorder_Leave(object sender, EventArgs e)
+        {
+            if (ttxdesc_cancelorder.Text == "")
+            {
+                ttxdesc_cancelorder.Text = "Reason Type Here ...";
+                ttxdesc_cancelorder.ForeColor = Color.DarkGray;
+            }
+        }
+
+        private void ttxdesc_cancelorder_Enter(object sender, EventArgs e)
+        {
+            if (ttxdesc_cancelorder.Text == "Reason Type Here ...")
+            {
+                ttxdesc_cancelorder.Text = "";
+                ttxdesc_cancelorder.ForeColor = Color.Black;
             }
         }
 
@@ -8745,6 +8799,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 ResetBillpage();
             this.Close();
         }
+
         #endregion
 
         #region Clear ALl
@@ -9998,11 +10053,15 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         }
         private void btnktcancelrefund_Click(object sender, EventArgs e)
         {
+            if (dgv_ordercancel.Rows.Count == 0)
+            {
+                MessageBox.Show("No cancel item product for refund", "Refund", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             pnl_cancelledlist.Visible = false;
             pnl_Refund_paymode.Visible = true;
             pnl_Refund_paymode.Location = new Point(this.ClientSize.Width / 2 - pnl_Refund_paymode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Refund_paymode.Size.Height / 2));
-
-
         }
         private void cashRefund_Click(object sender, EventArgs e)
         {
@@ -10018,58 +10077,69 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         }
         private void Refund(int RefundpayType)
         {
-            
-            DmnRefund dmnRefund = new DmnRefund();
-            BllRefund bllRefund = new BllRefund();
-            if(RefundpayType == 1)
+            try
             {
-                dmnRefund.CashRefund = Convert.ToDecimal(lblpickupcnlamt.Text);
+                DmnRefund dmnRefund = new DmnRefund();
+                BllRefund bllRefund = new BllRefund();
+                if (RefundpayType == 1)
+                {
+                    dmnRefund.CashRefund = Convert.ToDecimal(lblpickupcnlamt.Text);
+                }
+                else if (RefundpayType == 2)
+                {
+                    dmnRefund.DebitLedgerId = DebitCustomerId;
+                    dmnRefund.CardType = CardTypeno;
+                    dmnRefund.FMCardType = Fmcardtypeno;
+                    dmnRefund.DebitICardNo = DebitCardNumber; ;
+                    dmnRefund.CashBalanceRefund = Convert.ToDecimal(lblpickupcnlamt.Text);
+                }
+
+                dmnRefund.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
+                dmnRefund.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                dmnRefund.RefundpayType = RefundpayType;
+                dmnRefund.RefundReason = 5;
+                dmnRefund.ReasonNote = "Kitchen staff Cancel";
+
+                //// Balances
+                //dmnRefund.CashBalance = Convert.ToDecimal(lblCashBal.Text);
+                //dmnRefund.BonusBalance = Convert.ToDecimal(lblBonusBal.Text);
+                //dmnRefund.PointBalnce = Convert.ToDecimal(lblPointBal.Text);  // Correct spelling
+                //dmnRefund.TokenBalance = Convert.ToDecimal(lblTokenBal.Text);
+
+                //// Refund amounts
+                //dmnRefund.CashBalanceRefund = dmnRefund.CashRefund;
+                //dmnRefund.BonusRefund = Convert.ToDecimal(lblReBonusBal.Text);
+                //dmnRefund.PointRefund = Convert.ToDecimal(lblRePointBal.Text);
+                //dmnRefund.TokenRefund = Convert.ToDecimal(lblReTokenBal.Text);
+
+                dmnRefund.CreatedBy = FrmDashboard.UserId;
+                dmnRefund.BranchId = FrmDashboard.BranchId;
+                dmnRefund.Status = 1;
+                dmnRefund.CreatedDateTime = DateTime.Now;
+                var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
+
+                DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                BllOrder bll_order = new BllOrder();
+                dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                dmnRemove_order.OrderDetailsId = 0;
+                dmnRemove_order.CancelNotifyStatus = 0;
+                dmnRemove_order.PkId = 1;
+                dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
+                MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                pnl_Refund_paymode.Visible = false;
             }
-            else if (RefundpayType == 2)
+            catch (Exception ex)
             {
-                dmnRefund.DebitLedgerId = DebitCustomerId;
-                dmnRefund.CardType = CardTypeno;
-                dmnRefund.FMCardType = Fmcardtypeno;
-                dmnRefund.DebitICardNo = DebitCardNumber; ;
-                dmnRefund.CashBalanceRefund = Convert.ToDecimal(lblpickupcnlamt.Text);
+                clsgen.LogException(
+                    "Order page Refund()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order)
+                );
             }
-
-            dmnRefund.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
-            dmnRefund.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
-            dmnRefund.RefundpayType = RefundpayType;
-            dmnRefund.RefundReason = 5;
-            dmnRefund.ReasonNote = "Kitchen staff Cancel";
-            
-
-            //// Balances
-            //dmnRefund.CashBalance = Convert.ToDecimal(lblCashBal.Text);
-            //dmnRefund.BonusBalance = Convert.ToDecimal(lblBonusBal.Text);
-            //dmnRefund.PointBalnce = Convert.ToDecimal(lblPointBal.Text);  // Correct spelling
-            //dmnRefund.TokenBalance = Convert.ToDecimal(lblTokenBal.Text);
-
-            //// Refund amounts
-            //dmnRefund.CashBalanceRefund = dmnRefund.CashRefund;
-            //dmnRefund.BonusRefund = Convert.ToDecimal(lblReBonusBal.Text);
-            //dmnRefund.PointRefund = Convert.ToDecimal(lblRePointBal.Text);
-            //dmnRefund.TokenRefund = Convert.ToDecimal(lblReTokenBal.Text);
-
-            dmnRefund.CreatedBy = FrmDashboard.UserId;
-            dmnRefund.BranchId = FrmDashboard.BranchId;
-            dmnRefund.Status = 1;
-            dmnRefund.CreatedDateTime = DateTime.Now;
-            var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
-
-            DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
-            BllOrder bll_order = new BllOrder();
-            dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
-            dmnRemove_order.OrderDetailsId = 0;
-            dmnRemove_order.CancelNotifyStatus = 0;
-            dmnRemove_order.PkId = 1;
-            dmnRemove_order.CreatedBy = FrmDashboard.UserId;
-            dmnRemove_order.BranchId = FrmDashboard.BranchId;
-            var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
-            MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            this.Close();
         }
 
         #region Part Payment
@@ -10552,12 +10622,24 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
         private void btn_ktcancelrefund_Click(object sender, EventArgs e)
         {
+            pnl_Refund_paymode.Visible = false;
             pnl_cancelledlist.Visible = false;
         }
 
         private void btn_cancel_list_Click(object sender, EventArgs e)
         {
+            pnl_Refund_paymode.Visible = false;
             pnl_cancelledlist.Visible = false;
+        }
+
+        private void btnsub_cancelorder_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_cancelorder_Click(object sender, EventArgs e)
+        {
+            pnl_cancelorder.Visible = false;
         }
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
