@@ -55,11 +55,9 @@ namespace FoodandBeverage.Forms
         int totalPages = 0;
         private List<DmnGridFields> TableData;
         private List<DmnGridFields> pagedatadata;
-
      
         private ToolTip menuTooltip = new ToolTip();
         private Image menuButtonImage = (Image)Properties.Resources.fb_sidemenu.Clone();
-
 
         private System.Windows.Forms.Timer AutoRunTimer = new System.Windows.Forms.Timer();
         private int AutoRunIndex = 0;
