@@ -50,6 +50,7 @@ namespace BLL
             parms.Add("@Status", dmnRefund.Status);
             parms.Add("@BranchId", dmnRefund.BranchId);
             parms.Add("@CreatedBy", dmnRefund.CreatedBy);
+            parms.Add("@cancel_byKitchen", dmnRefund.cancel_byKitchen); 
             var result = repo.AddandReturnID(procedureName, parms);
             return result;
         }

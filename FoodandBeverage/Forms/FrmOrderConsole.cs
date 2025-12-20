@@ -265,6 +265,7 @@ namespace FoodandBeverage.Forms
         private bool isReadingCard = false;
         int payid = 0;
         #endregion
+        bool cancel_byKitchen = false;
 
         public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>();
         public class OrderDetailsInfo
@@ -5669,6 +5670,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         {
             try
             {
+                cancel_byKitchen = true;
                 if (pnl_cancelledlist.Visible == false)
                 {
                     UIHelper.CenterAndResize(pnl_cancelledlist, 50, 40);
@@ -8727,26 +8729,80 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     frm.ShowDialog();
                     if (frmExtraAccessChk.access == true)
                     {
-                        ttxdesc_cancelorder.Text = "Reason Type Here ...";
-                        ttxdesc_cancelorder.ForeColor = Color.Gray;
+                        //ttxdesc_cancelorder.Text = "Reason Type Here ...";
+                        //ttxdesc_cancelorder.ForeColor = Color.Gray;
+                        //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                        //DmnSearch dmnSearch = new DmnSearch();
+                        //dmnSearch.Select = "SalesMasterId Field1,NetAmount Field2";
+                        //dmnSearch.Table = "tblSalesMaster";
+                        //dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
+                        //dmnSearch.OrderBy = "";
+                        //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        //if (gridSource.Count > 0)
+                        //{
+                        //    refundsmid = Convert.ToInt32(gridSource[0].Field1);
+                        //    refundtotal = Convert.ToDecimal(gridSource[0].Field2);
+                        //}
+                        //lblcanceltextorder.Text = $"Total Cash refund amount is {refundtotal}";
+                        //UIHelper.CenterAndResize(pnl_cancelorder, 25, 35);
+                        //UIHelper.RoundCorners(tlp_cancelorder, 25);
+                        //UIHelper.RoundCorners(pnl_cancelorder, 25);
+                        //UIHelper.RoundCorners(tlpnav_cancelorder, 25);
+                        //ApplyRoundedTextBox(ttxdesc_cancelorder, 10);
+                        #region Load Cancel Order Items
+                        
+                        UIHelper.CenterAndResize(pnl_cancelledlist, 50, 40);
+                        UIHelper.RoundCorners(pnl_cancelledlist, 25);
+                        UIHelper.RoundCorners(tlp_cancelled_list_nav, 25);
                         BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                         DmnSearch dmnSearch = new DmnSearch();
-                        dmnSearch.Select = "SalesMasterId Field1,NetAmount Field2";
-                        dmnSearch.Table = "tblSalesMaster";
-                        dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
-                        dmnSearch.OrderBy = "";
+                        dmnSearch.Select = "itemName Field1,Quantity Field2,RemoveNotes Field3,OrderMasterId Field4,OrderDetailsId Field5,NetAmount Field6,CASE WHEN EXISTS(SELECT 1 FROM tblOrderDetails AS x WHERE x.OrderMasterId = tblOrderDetails.OrderMasterId AND x.KitchenCancelStatus = 1 ) THEN 1 ELSE 0 END AS Field7";
+                        dmnSearch.Table = "tblOrderDetails";
+                        dmnSearch.WhereNdGroupBy =
+                            "WHERE Status = 1 AND AddonStatus IN (1,0) AND RefundStatus !=1" +
+                            "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);//KitchenCancelStatus = 1
                         var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        dgv_ordercancel.Rows.Clear();
                         if (gridSource.Count > 0)
                         {
-                            refundsmid = Convert.ToInt32(gridSource[0].Field1);
-                            refundtotal = Convert.ToDecimal(gridSource[0].Field2);
+                            if (Convert.ToInt32(gridSource[0].Field7) == 1)
+                            {
+                                btnordercallist.Visible = true;
+                                Refundproductflag = true;
+                            }
+                            else
+                            {
+                                btnordercallist.Visible = false;
+                                Refundproductflag = false;
+                            }
+
+                            decimal total = 0;
+                            dgv_ordercancel.Rows.Add(gridSource.Count);
+                            for (int i = 0; i < gridSource.Count; i++)
+                            {
+                                dgv_ordercancel.Rows[i].Cells[cnslno].Value = i + 1;
+                                dgv_ordercancel.Rows[i].Cells[cnnameno].Value = Convert.ToString(gridSource[i].Field1);
+                                dgv_ordercancel.Rows[i].Cells[cnqtyno].Value = Convert.ToString(gridSource[i].Field2);
+                                dgv_ordercancel.Rows[i].Cells[cnpriceno].Value = Convert.ToString(gridSource[i].Field6);
+                                dgv_ordercancel.Rows[i].Cells[cnreasonno].Value = gridSource[i].Field3;
+                                dgv_ordercancel.Rows[i].Cells[cnordermasteridno].Value = gridSource[i].Field4;
+                                dgv_ordercancel.Rows[i].Cells[cnorderdetailsidno].Value = gridSource[i].Field5;
+                                //dgv_ordercancel.Rows[i].Cells[cnpickupidno].Value = gridSource[i].Field6;
+
+                                //DataGridViewImageCell imgCell =(DataGridViewImageCell)dgv_ordercancel.Rows[i].Cells[cnactionno];
+                                //imgCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                                //imgCell.Value = Properties.Resources.Delete_Grid;
+                                total = total + Convert.ToDecimal(gridSource[i].Field6);
+                            }
+                            lblpickupcnlamt.Text = total.ToString("N2");
+                            Refundproductwisetotal = total;
                         }
-                        lblcanceltextorder.Text = $"Total Cash refund amount is {refundtotal}";
-                        UIHelper.CenterAndResize(pnl_cancelorder, 25, 35);
-                        UIHelper.RoundCorners(tlp_cancelorder, 25);
-                        UIHelper.RoundCorners(pnl_cancelorder, 25);
-                        UIHelper.RoundCorners(tlpnav_cancelorder, 25);
-                        ApplyRoundedTextBox(ttxdesc_cancelorder, 10);
+                        else
+                        {
+                            btnordercallist.Visible = false;
+                            lblpickupcnlamt.Text = "0";
+                        }
+                        #endregion
                     }
                     else
                     {
@@ -10116,6 +10172,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 dmnRefund.BranchId = FrmDashboard.BranchId;
                 dmnRefund.Status = 1;
                 dmnRefund.CreatedDateTime = DateTime.Now;
+                dmnRefund.cancel_byKitchen = cancel_byKitchen;
                 var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
 
                 DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
@@ -10129,6 +10186,19 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
                 MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 pnl_Refund_paymode.Visible = false;
+                // Close current form
+                this.Close();
+                foreach (Form frm in Application.OpenForms)
+                {
+                    if (frm is FrmPickup)
+                    {
+                        frm.Close();
+                        break;
+                    }
+                }
+
+                FrmPickup pickup = new FrmPickup(0);
+                pickup.Show();  
             }
             catch (Exception ex)
             {
