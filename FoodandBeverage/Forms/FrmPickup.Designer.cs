@@ -280,7 +280,7 @@ namespace FoodandBeverage.Forms
             // 
             // btnclose
             // 
-            this.btnclose.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_CANCEL;
+            this.btnclose.BackgroundImage = global::FoodandBeverage.Properties.Resources.Closebutton;
             this.btnclose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnclose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnclose.FlatAppearance.BorderSize = 0;
@@ -291,6 +291,7 @@ namespace FoodandBeverage.Forms
             this.btnclose.Name = "btnclose";
             this.btnclose.Size = new System.Drawing.Size(110, 43);
             this.btnclose.TabIndex = 293;
+            this.btnclose.Text = "Close";
             this.btnclose.UseVisualStyleBackColor = true;
             this.btnclose.Click += new System.EventHandler(this.btnclose_Click);
             // 
@@ -301,7 +302,7 @@ namespace FoodandBeverage.Forms
             this.flp_pickup_view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_pickup_view.Location = new System.Drawing.Point(3, 58);
             this.flp_pickup_view.Name = "flp_pickup_view";
-            this.flp_pickup_view.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.flp_pickup_view.Padding = new System.Windows.Forms.Padding(5);
             this.flp_pickup_view.Size = new System.Drawing.Size(956, 377);
             this.flp_pickup_view.TabIndex = 1;
             // 
