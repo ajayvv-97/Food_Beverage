@@ -134,6 +134,7 @@ namespace FoodandBeverage.Forms
                 txt_product_remove_des.Text = "Reason type here .....";
                 textb_shape();
                 tlp_order_col.Dock = DockStyle.Fill;
+
                 InitTimer();
 
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
@@ -265,7 +266,10 @@ namespace FoodandBeverage.Forms
                             dead.CardPanel.Dispose();
                         }
                     }
-                    catch { }
+                    catch 
+                    { 
+
+                    }
                     KitchenCardCache.Remove(rem);
                 }
 

@@ -157,6 +157,7 @@ namespace FoodandBeverage.Forms
         public int iVariatiionNameno = 43;
         public int iPreparationModeno = 44;
         public int isaledetailsidno = 45;
+        public int iorgname = 46;
 
 
         public int Cbarcode = 0;
@@ -2359,6 +2360,7 @@ namespace FoodandBeverage.Forms
                     lblorderid.Visible = false;
                     label10.Visible = false;
                 }
+                AddEmptyRowIfNeeded();
             }
             catch (Exception ex)
             {
@@ -2369,7 +2371,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Load Cancel Order Items
+                #region Load Cancel Order Items
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "itemName Field1,Quantity Field2,RemoveNotes Field3,OrderMasterId Field4,OrderDetailsId Field5,NetAmount Field6,CASE WHEN EXISTS(SELECT 1 FROM tblOrderDetails AS x WHERE x.OrderMasterId = tblOrderDetails.OrderMasterId AND x.KitchenCancelStatus = 1 ) THEN 1 ELSE 0 END AS Field7";
@@ -2412,13 +2414,39 @@ namespace FoodandBeverage.Forms
                     Refundproductwisetotal = total;
                 }
                 else
+                {
+                    btnordercallist.Visible = false;
+                    lblpickupcnlamt.Text = "0";
+                }
+                #endregion
+
+                #region Load Cancel Order Items
+
+                dmnSearch.Select = "CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS Field1";
+                dmnSearch.Table = "tblOrderDetails";
+                dmnSearch.WhereNdGroupBy =
+                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND KitchenCancelStatus = 1 " +
+                    "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);
+                var gridSourcekcancelnfy = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                if (gridSourcekcancelnfy.Count > 0 && Convert.ToInt32(gridSourcekcancelnfy[0].Field1) == 1)
+                {
+                    btnreconfirmorder.Visible = true;
+                }
+                else
+                {
                     btnreconfirmorder.Visible = false;
+                }
+
+                #endregion
             }
             catch (Exception ex)
             {
 
             }
         }
+
+
         #endregion
 
         public void settablecode()
@@ -5735,11 +5763,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
                 _instanceFrmPickup.Visible = false;
             }
+
             if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
             {
                 FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                 _instanceFrmTableView.Visible = true;
-                _instanceFrmTableView.TableStaus(0);
+                _instanceFrmTableView.RefreshTableOrders();
+
+
             }
         }
         public void ResetPickupViewPage()
@@ -5943,7 +5974,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = Convert.ToString(gridSource[0].Field1);
                         Dgv_Selected_Item.Rows[r1].Cells[ibarcode2].Value = Convert.ToString(gridSource[0].Field1);
-                        Dgv_Selected_Item.Rows[r1].Cells[iname].Value = Convert.ToString(gridSource[0].Field2);
+                        Dgv_Selected_Item.Rows[r1].Cells[iname].Value = Convert.ToString(gridSource[0].Field2)+" ( "+ vrianame +" )";
+                        Dgv_Selected_Item.Rows[r1].Cells[iorgname].Value = Convert.ToString(gridSource[0].Field2);
                         Dgv_Selected_Item.Rows[r1].Cells[iname].Style.Font = new Font(Dgv_Selected_Item.Font, FontStyle.Bold);
                         Dgv_Selected_Item.Rows[r1].Cells[iqty].Value = "1";
                         var Variationprice = Checked_VariationAddon_List.FirstOrDefault(item => item.AVType == Convert.ToInt32(Product_Addon_Variation_Type.Variation));
@@ -6571,8 +6603,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                         for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                         {
+                            #region Reservation
                             if (Booking_Status)
                             {
+
                                 if (Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != null && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) > 0)
                                 {
                                     dmnorderdetail.OrderMasterId = Convert.ToInt32(InsertStatusP.OrderMasterId);
@@ -6581,7 +6615,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
+                                    {
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+                                    }
+         
                                     //dmnorderdetail.Unit = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iunit].Value);
 
                                     dmnorderdetail.UnitId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iunitid].Value);
@@ -6626,7 +6663,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     dmnorderdetail.KOTPrintStatus = 1;
                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
-                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
+                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iVariatiionNameno].Value);
                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                     dmnorderdetail.PkId = 0;
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
@@ -6639,6 +6676,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                                 }
                             }
+                            #endregion
+
                             else
                             {
                                 if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null && Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > 0 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[isubofferstatus].Value) == Convert.ToInt32(SubofferStatus.None) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
@@ -6649,7 +6688,12 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
-                                        dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+                                    {
+                                        if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipavidno].Value)>0)
+                                            dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorgname].Value);
+                                        else
+                                            dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+                                    }
                                     //dmnorderdetail.Unit = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iunit].Value);
 
                                     dmnorderdetail.UnitId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iunitid].Value);
@@ -6681,7 +6725,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     dmnorderdetail.AddonStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
                                     dmnorderdetail.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                     dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
-                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
+                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iVariatiionNameno].Value);
 
                                     if (txtentrie_descr.Text == "Description Type here .....")
                                         dmnorderdetail.MainRemarks = "";
@@ -6863,6 +6907,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     ClearAll();
                     checksave_refresh();
                 }
+
+                AddEmptyRowIfNeeded();
             }
             catch (Exception ex)
             {
@@ -7981,7 +8027,12 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                     if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct))
                                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                                     else
-                                                        dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+                                                    {
+                                                        if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipavidno].Value) > 0)
+                                                            dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorgname].Value);
+                                                        else
+                                                            dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
+                                                    }
                                                     //dmnorderdetail.Unit = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iunit].Value);
 
                                                     dmnorderdetail.UnitId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iunitid].Value);
@@ -8025,7 +8076,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                     dmnorderdetail.KOTPrintStatus = 1;
                                                     dmnorderdetail.Tid = Convert.ToInt32(txttid.Text);
                                                     dmnorderdetail.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
-                                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
+                                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iVariatiionNameno].Value);
                                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                                     dmnorderdetail.PkId = GBL_pkid;
                                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
@@ -8083,7 +8134,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                     dmnorderdetail.AddonStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
                                                     dmnorderdetail.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                                     dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
-                                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
+                                                    dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iVariatiionNameno].Value);
 
                                                     if (txtentrie_descr.Text == "Description Type here .....")
                                                         dmnorderdetail.MainRemarks = "";
@@ -10719,6 +10770,47 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         private void btn_cancelorder_Click(object sender, EventArgs e)
         {
             pnl_cancelorder.Visible = false;
+        }
+
+        private void dgv_ordercancel_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                    return;
+                if (e.ColumnIndex == cnactionno)
+                {
+                    int orderDetailsId = Convert.ToInt32(dgv_ordercancel.Rows[e.RowIndex].Cells[cnorderdetailsidno].Value);
+                    int ordermasterId = Convert.ToInt32(dgv_ordercancel.Rows[e.RowIndex].Cells[cnordermasteridno].Value);
+                    DialogResult dr = MessageBox.Show(
+                        "Are you sure you want to notify this cancel item?",
+                        "Confirm",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                    if (dr == DialogResult.Yes)
+                    {
+                        DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                        BllOrder bll_order = new BllOrder();
+                        dmnRemove_order.OrderMasterId = ordermasterId;
+                        dmnRemove_order.OrderDetailsId = orderDetailsId;
+                        dmnRemove_order.CancelNotifyStatus = 0;
+                        dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                        dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                        var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
+                        dgv_ordercancel.Rows.RemoveAt(e.RowIndex);
+                        if (dgv_ordercancel.Rows.Count == 0)
+                            pnl_cancelorder.Visible = false;
+
+                        MessageBox.Show("Cancel item notification confirmed!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page dgv_ordercancel_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
         }
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
