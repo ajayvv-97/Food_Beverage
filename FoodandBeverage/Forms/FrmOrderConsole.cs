@@ -10173,6 +10173,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 dmnRefund.Status = 1;
                 dmnRefund.CreatedDateTime = DateTime.Now;
                 dmnRefund.cancel_byKitchen = cancel_byKitchen;
+                dmnRefund.DBname = GameDB;
                 var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
 
                 DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
