@@ -10447,7 +10447,8 @@ namespace FoodandBeverage.Forms
             {
                 FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                 _instanceFrmTableView.Visible = true;
-                _instanceFrmTableView.TableStaus(0);
+                _instanceFrmTableView.LoadOrderStatusCache();
+                _instanceFrmTableView.UpdateTableUI();
             }
         }
         public void ResetPickupViewPage()
