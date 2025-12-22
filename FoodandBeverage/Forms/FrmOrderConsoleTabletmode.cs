@@ -824,6 +824,7 @@ namespace FoodandBeverage.Forms
                     lblorderid.Visible = false;
                     label10.Visible = false;
                 }
+                AddEmptyRowIfNeeded();
             }
             catch (Exception ex)
             {
@@ -834,7 +835,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Load Cancel Order Items
+                #region Load Cancel Order Items
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "itemName Field1,Quantity Field2,RemoveNotes Field3,OrderMasterId Field4,OrderDetailsId Field5,NetAmount Field6,CASE WHEN EXISTS(SELECT 1 FROM tblOrderDetails AS x WHERE x.OrderMasterId = tblOrderDetails.OrderMasterId AND x.KitchenCancelStatus = 1 ) THEN 1 ELSE 0 END AS Field7";
@@ -877,13 +878,38 @@ namespace FoodandBeverage.Forms
                     Refundproductwisetotal = total;
                 }
                 else
+                {
+                    btnordercallist.Visible = false;
+                    lblpickupcnlamt.Text = "0";
+                }
+                #endregion
+
+                #region Load Cancel Order Items
+
+                dmnSearch.Select = "CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS Field1";
+                dmnSearch.Table = "tblOrderDetails";
+                dmnSearch.WhereNdGroupBy =
+                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND KitchenCancelStatus = 1 " +
+                    "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);
+                var gridSourcekcancelnfy = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                if (gridSourcekcancelnfy.Count > 0 && Convert.ToInt32(gridSourcekcancelnfy[0].Field1) == 1)
+                {
+                    btnreconfirmorder.Visible = true;
+                }
+                else
+                {
                     btnreconfirmorder.Visible = false;
+                }
+
+                #endregion
             }
             catch (Exception ex)
             {
 
             }
         }
+
         #endregion
 
         public void settablecode()
@@ -4501,10 +4527,11 @@ namespace FoodandBeverage.Forms
         {
             if (System.Windows.Forms.Application.OpenForms["FrmTableTabletView"] != null)
             {
-                FrmTableTabletView _instanceFrmTableTabletView = Application.OpenForms["FrmTableTabletView"] as FrmTableTabletView;        
-                _instanceFrmTableTabletView.TableStaus(0);
+                FrmTableTabletView _instanceFrmTableTabletView = Application.OpenForms["FrmTableTabletView"] as FrmTableTabletView;
+                _instanceFrmTableTabletView.RefreshTableOrders();
                 _instanceFrmTableTabletView.Visible = true;
             }
+    
         }
 
         #endregion
@@ -5889,6 +5916,7 @@ namespace FoodandBeverage.Forms
                 //btn_splitpayment.Visible = true;
                 combined_Status = false;
 
+                AddEmptyRowIfNeeded();
             }
             catch (Exception ex)
             {
@@ -6409,6 +6437,47 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 clsgen.LogException("Order page btncancelnotify_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order)); // Replace 'YourFormType' with the appropriate form type
+            }
+        }
+
+        private void dgv_ordercancel_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                    return;
+                if (e.ColumnIndex == cnactionno)
+                {
+                    int orderDetailsId = Convert.ToInt32(dgv_ordercancel.Rows[e.RowIndex].Cells[cnorderdetailsidno].Value);
+                    int ordermasterId = Convert.ToInt32(dgv_ordercancel.Rows[e.RowIndex].Cells[cnordermasteridno].Value);
+                    DialogResult dr = MessageBox.Show(
+                        "Are you sure you want to notify this cancel item?",
+                        "Confirm",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                    if (dr == DialogResult.Yes)
+                    {
+                        DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                        BllOrder bll_order = new BllOrder();
+                        dmnRemove_order.OrderMasterId = ordermasterId;
+                        dmnRemove_order.OrderDetailsId = orderDetailsId;
+                        dmnRemove_order.CancelNotifyStatus = 0;
+                        dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                        dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                        var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
+                        dgv_ordercancel.Rows.RemoveAt(e.RowIndex);
+                        if (dgv_ordercancel.Rows.Count == 0)
+                            pnl_cancelorder.Visible = false;
+
+                        MessageBox.Show("Cancel item notification confirmed!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page dgv_ordercancel_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
 

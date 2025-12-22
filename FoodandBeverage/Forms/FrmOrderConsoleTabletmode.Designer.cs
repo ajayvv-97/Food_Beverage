@@ -1841,7 +1841,7 @@ namespace FoodandBeverage.Forms
             this.flp_addons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_addons.Location = new System.Drawing.Point(3, 141);
             this.flp_addons.Name = "flp_addons";
-            this.flp_addons.Size = new System.Drawing.Size(470, 104);
+            this.flp_addons.Size = new System.Drawing.Size(470, 103);
             this.flp_addons.TabIndex = 280;
             // 
             // flp_variation
@@ -1933,11 +1933,11 @@ namespace FoodandBeverage.Forms
             this.tlp_var_addon_button.Controls.Add(this.btn_va_cancel, 2, 0);
             this.tlp_var_addon_button.Controls.Add(this.btn_va_ok, 1, 0);
             this.tlp_var_addon_button.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_var_addon_button.Location = new System.Drawing.Point(3, 287);
+            this.tlp_var_addon_button.Location = new System.Drawing.Point(3, 286);
             this.tlp_var_addon_button.Name = "tlp_var_addon_button";
             this.tlp_var_addon_button.RowCount = 1;
             this.tlp_var_addon_button.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_var_addon_button.Size = new System.Drawing.Size(470, 40);
+            this.tlp_var_addon_button.Size = new System.Drawing.Size(470, 41);
             this.tlp_var_addon_button.TabIndex = 281;
             // 
             // btn_va_cancel
@@ -1952,7 +1952,7 @@ namespace FoodandBeverage.Forms
             this.btn_va_cancel.ForeColor = System.Drawing.Color.White;
             this.btn_va_cancel.Location = new System.Drawing.Point(387, 3);
             this.btn_va_cancel.Name = "btn_va_cancel";
-            this.btn_va_cancel.Size = new System.Drawing.Size(80, 34);
+            this.btn_va_cancel.Size = new System.Drawing.Size(80, 35);
             this.btn_va_cancel.TabIndex = 12;
             this.btn_va_cancel.UseVisualStyleBackColor = false;
             this.btn_va_cancel.Click += new System.EventHandler(this.btn_va_cancel_Click);
@@ -1969,7 +1969,7 @@ namespace FoodandBeverage.Forms
             this.btn_va_ok.ForeColor = System.Drawing.Color.Red;
             this.btn_va_ok.Location = new System.Drawing.Point(288, 3);
             this.btn_va_ok.Name = "btn_va_ok";
-            this.btn_va_ok.Size = new System.Drawing.Size(93, 34);
+            this.btn_va_ok.Size = new System.Drawing.Size(93, 35);
             this.btn_va_ok.TabIndex = 11;
             this.btn_va_ok.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.btn_va_ok.UseVisualStyleBackColor = false;
@@ -1987,7 +1987,7 @@ namespace FoodandBeverage.Forms
             this.tlp_add_vari_total.Controls.Add(this.lblsizetotal, 1, 0);
             this.tlp_add_vari_total.Controls.Add(this.label40, 0, 0);
             this.tlp_add_vari_total.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_add_vari_total.Location = new System.Drawing.Point(3, 251);
+            this.tlp_add_vari_total.Location = new System.Drawing.Point(3, 250);
             this.tlp_add_vari_total.Name = "tlp_add_vari_total";
             this.tlp_add_vari_total.RowCount = 1;
             this.tlp_add_vari_total.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -2180,10 +2180,10 @@ namespace FoodandBeverage.Forms
             this.flp_oper_buttons.Controls.Add(this.btnreconfirmorder);
             this.flp_oper_buttons.Controls.Add(this.btncancelnotify);
             this.flp_oper_buttons.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flp_oper_buttons.Location = new System.Drawing.Point(0, 77);
+            this.flp_oper_buttons.Location = new System.Drawing.Point(0, 0);
             this.flp_oper_buttons.Name = "flp_oper_buttons";
             this.flp_oper_buttons.Padding = new System.Windows.Forms.Padding(5);
-            this.flp_oper_buttons.Size = new System.Drawing.Size(508, 156);
+            this.flp_oper_buttons.Size = new System.Drawing.Size(100, 104);
             this.flp_oper_buttons.TabIndex = 317;
             this.flp_oper_buttons.Visible = false;
             // 
@@ -2228,7 +2228,7 @@ namespace FoodandBeverage.Forms
             this.btndirectpaybill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btndirectpaybill.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btndirectpaybill.ForeColor = System.Drawing.Color.White;
-            this.btndirectpaybill.Location = new System.Drawing.Point(8, 84);
+            this.btndirectpaybill.Location = new System.Drawing.Point(108, 8);
             this.btndirectpaybill.Name = "btndirectpaybill";
             this.btndirectpaybill.Size = new System.Drawing.Size(94, 64);
             this.btndirectpaybill.TabIndex = 290;
@@ -2243,7 +2243,7 @@ namespace FoodandBeverage.Forms
             this.btn_refresh.FlatAppearance.BorderSize = 0;
             this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_refresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_refresh.Location = new System.Drawing.Point(108, 8);
+            this.btn_refresh.Location = new System.Drawing.Point(208, 8);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(94, 64);
             this.btn_refresh.TabIndex = 1;
@@ -2258,7 +2258,7 @@ namespace FoodandBeverage.Forms
             this.btn_frm_close.FlatAppearance.BorderSize = 0;
             this.btn_frm_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_frm_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_frm_close.Location = new System.Drawing.Point(108, 78);
+            this.btn_frm_close.Location = new System.Drawing.Point(308, 8);
             this.btn_frm_close.Name = "btn_frm_close";
             this.btn_frm_close.Size = new System.Drawing.Size(94, 64);
             this.btn_frm_close.TabIndex = 276;
@@ -2273,7 +2273,7 @@ namespace FoodandBeverage.Forms
             this.btn_print_bill.FlatAppearance.BorderSize = 0;
             this.btn_print_bill.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_print_bill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_print_bill.Location = new System.Drawing.Point(208, 8);
+            this.btn_print_bill.Location = new System.Drawing.Point(408, 8);
             this.btn_print_bill.Name = "btn_print_bill";
             this.btn_print_bill.Size = new System.Drawing.Size(94, 64);
             this.btn_print_bill.TabIndex = 2;
@@ -2287,7 +2287,7 @@ namespace FoodandBeverage.Forms
             this.btn_PrintCopy.FlatAppearance.BorderSize = 0;
             this.btn_PrintCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_PrintCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_PrintCopy.Location = new System.Drawing.Point(208, 78);
+            this.btn_PrintCopy.Location = new System.Drawing.Point(508, 8);
             this.btn_PrintCopy.Name = "btn_PrintCopy";
             this.btn_PrintCopy.Size = new System.Drawing.Size(94, 64);
             this.btn_PrintCopy.TabIndex = 289;
@@ -2302,7 +2302,7 @@ namespace FoodandBeverage.Forms
             this.btncancelrev.FlatAppearance.BorderSize = 0;
             this.btncancelrev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncancelrev.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btncancelrev.Location = new System.Drawing.Point(308, 8);
+            this.btncancelrev.Location = new System.Drawing.Point(608, 8);
             this.btncancelrev.Name = "btncancelrev";
             this.btncancelrev.Size = new System.Drawing.Size(94, 64);
             this.btncancelrev.TabIndex = 282;
@@ -2317,7 +2317,7 @@ namespace FoodandBeverage.Forms
             this.btn_cancle_pickup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cancle_pickup.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cancle_pickup.ForeColor = System.Drawing.Color.White;
-            this.btn_cancle_pickup.Location = new System.Drawing.Point(308, 78);
+            this.btn_cancle_pickup.Location = new System.Drawing.Point(708, 8);
             this.btn_cancle_pickup.Name = "btn_cancle_pickup";
             this.btn_cancle_pickup.Size = new System.Drawing.Size(94, 64);
             this.btn_cancle_pickup.TabIndex = 291;
@@ -2333,7 +2333,7 @@ namespace FoodandBeverage.Forms
             this.btnreconfirmorder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnreconfirmorder.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnreconfirmorder.ForeColor = System.Drawing.Color.White;
-            this.btnreconfirmorder.Location = new System.Drawing.Point(408, 8);
+            this.btnreconfirmorder.Location = new System.Drawing.Point(808, 8);
             this.btnreconfirmorder.Name = "btnreconfirmorder";
             this.btnreconfirmorder.Size = new System.Drawing.Size(94, 64);
             this.btnreconfirmorder.TabIndex = 292;
@@ -2350,7 +2350,7 @@ namespace FoodandBeverage.Forms
             this.btncancelnotify.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncancelnotify.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncancelnotify.ForeColor = System.Drawing.Color.White;
-            this.btncancelnotify.Location = new System.Drawing.Point(408, 78);
+            this.btncancelnotify.Location = new System.Drawing.Point(908, 8);
             this.btncancelnotify.Name = "btncancelnotify";
             this.btncancelnotify.Size = new System.Drawing.Size(94, 64);
             this.btncancelnotify.TabIndex = 293;
@@ -2419,7 +2419,7 @@ namespace FoodandBeverage.Forms
             this.tlpnav_cancelorder.ColumnCount = 3;
             this.tlpnav_cancelorder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 88.3871F));
             this.tlpnav_cancelorder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.6129F));
-            this.tlpnav_cancelorder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tlpnav_cancelorder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tlpnav_cancelorder.Controls.Add(this.btn_cancelorder, 1, 0);
             this.tlpnav_cancelorder.Controls.Add(this.lbl_cancelorder, 0, 0);
             this.tlpnav_cancelorder.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2439,7 +2439,7 @@ namespace FoodandBeverage.Forms
             this.btn_cancelorder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cancelorder.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btn_cancelorder.ForeColor = System.Drawing.Color.Red;
-            this.btn_cancelorder.Location = new System.Drawing.Point(241, 4);
+            this.btn_cancelorder.Location = new System.Drawing.Point(240, 4);
             this.btn_cancelorder.Margin = new System.Windows.Forms.Padding(4);
             this.btn_cancelorder.Name = "btn_cancelorder";
             this.btn_cancelorder.Size = new System.Drawing.Size(23, 23);
@@ -2455,7 +2455,7 @@ namespace FoodandBeverage.Forms
             this.lbl_cancelorder.ForeColor = System.Drawing.Color.White;
             this.lbl_cancelorder.Location = new System.Drawing.Point(3, 0);
             this.lbl_cancelorder.Name = "lbl_cancelorder";
-            this.lbl_cancelorder.Size = new System.Drawing.Size(231, 31);
+            this.lbl_cancelorder.Size = new System.Drawing.Size(230, 31);
             this.lbl_cancelorder.TabIndex = 2;
             this.lbl_cancelorder.Text = "Order Cancel";
             this.lbl_cancelorder.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2521,7 +2521,7 @@ namespace FoodandBeverage.Forms
             this.tlp_order_desc_nav.ColumnCount = 3;
             this.tlp_order_desc_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.91275F));
             this.tlp_order_desc_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.08725F));
-            this.tlp_order_desc_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tlp_order_desc_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tlp_order_desc_nav.Controls.Add(this.btn_orderdes_cls, 1, 0);
             this.tlp_order_desc_nav.Controls.Add(this.label4, 0, 0);
             this.tlp_order_desc_nav.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2541,7 +2541,7 @@ namespace FoodandBeverage.Forms
             this.btn_orderdes_cls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_orderdes_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btn_orderdes_cls.ForeColor = System.Drawing.Color.Red;
-            this.btn_orderdes_cls.Location = new System.Drawing.Point(227, 4);
+            this.btn_orderdes_cls.Location = new System.Drawing.Point(226, 4);
             this.btn_orderdes_cls.Margin = new System.Windows.Forms.Padding(4);
             this.btn_orderdes_cls.Name = "btn_orderdes_cls";
             this.btn_orderdes_cls.Size = new System.Drawing.Size(25, 25);
@@ -2558,7 +2558,7 @@ namespace FoodandBeverage.Forms
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(217, 33);
+            this.label4.Size = new System.Drawing.Size(216, 33);
             this.label4.TabIndex = 2;
             this.label4.Text = "Order Description";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2578,7 +2578,7 @@ namespace FoodandBeverage.Forms
             // pnl_cancelledlist
             // 
             this.pnl_cancelledlist.Controls.Add(this.tableLayoutPanel3);
-            this.pnl_cancelledlist.Location = new System.Drawing.Point(600, 103);
+            this.pnl_cancelledlist.Location = new System.Drawing.Point(0, 35);
             this.pnl_cancelledlist.Name = "pnl_cancelledlist";
             this.pnl_cancelledlist.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.pnl_cancelledlist.Size = new System.Drawing.Size(486, 290);
@@ -2650,6 +2650,7 @@ namespace FoodandBeverage.Forms
             this.dgv_ordercancel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_ordercancel.Size = new System.Drawing.Size(466, 142);
             this.dgv_ordercancel.TabIndex = 301;
+            this.dgv_ordercancel.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_ordercancel_CellClick);
             // 
             // cslno
             // 
@@ -2751,7 +2752,7 @@ namespace FoodandBeverage.Forms
             this.tlp_cancelled_list_nav.ColumnCount = 3;
             this.tlp_cancelled_list_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90.93079F));
             this.tlp_cancelled_list_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.069212F));
-            this.tlp_cancelled_list_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            this.tlp_cancelled_list_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             this.tlp_cancelled_list_nav.Controls.Add(this.btn_cancel_list, 1, 0);
             this.tlp_cancelled_list_nav.Controls.Add(this.label1, 0, 0);
             this.tlp_cancelled_list_nav.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2769,7 +2770,7 @@ namespace FoodandBeverage.Forms
             this.btn_cancel_list.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cancel_list.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cancel_list.ForeColor = System.Drawing.Color.Red;
-            this.btn_cancel_list.Location = new System.Drawing.Point(372, 4);
+            this.btn_cancel_list.Location = new System.Drawing.Point(371, 4);
             this.btn_cancel_list.Margin = new System.Windows.Forms.Padding(4);
             this.btn_cancel_list.Name = "btn_cancel_list";
             this.btn_cancel_list.Size = new System.Drawing.Size(28, 27);
@@ -2785,7 +2786,7 @@ namespace FoodandBeverage.Forms
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(362, 35);
+            this.label1.Size = new System.Drawing.Size(361, 35);
             this.label1.TabIndex = 2;
             this.label1.Text = "Cancelled Items";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2862,11 +2863,13 @@ namespace FoodandBeverage.Forms
             // 
             // btnktcancelrefund
             // 
+            this.btnktcancelrefund.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_orderpage_nokot_printbill;
             this.btnktcancelrefund.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnktcancelrefund.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnktcancelrefund.FlatAppearance.BorderSize = 0;
             this.btnktcancelrefund.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnktcancelrefund.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnktcancelrefund.ForeColor = System.Drawing.Color.White;
             this.btnktcancelrefund.Location = new System.Drawing.Point(212, 3);
             this.btnktcancelrefund.Name = "btnktcancelrefund";
             this.btnktcancelrefund.Size = new System.Drawing.Size(90, 31);
@@ -3543,7 +3546,7 @@ namespace FoodandBeverage.Forms
             this.tlp_product_desc_nav.ColumnCount = 3;
             this.tlp_product_desc_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90.74074F));
             this.tlp_product_desc_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.259259F));
-            this.tlp_product_desc_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tlp_product_desc_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 19F));
             this.tlp_product_desc_nav.Controls.Add(this.btn_close_prod_des, 1, 0);
             this.tlp_product_desc_nav.Controls.Add(this.lblheader_product_des, 0, 0);
             this.tlp_product_desc_nav.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3563,7 +3566,7 @@ namespace FoodandBeverage.Forms
             this.btn_close_prod_des.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_close_prod_des.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_close_prod_des.ForeColor = System.Drawing.Color.Red;
-            this.btn_close_prod_des.Location = new System.Drawing.Point(210, 4);
+            this.btn_close_prod_des.Location = new System.Drawing.Point(209, 4);
             this.btn_close_prod_des.Margin = new System.Windows.Forms.Padding(4);
             this.btn_close_prod_des.Name = "btn_close_prod_des";
             this.btn_close_prod_des.Size = new System.Drawing.Size(13, 21);
@@ -3580,7 +3583,7 @@ namespace FoodandBeverage.Forms
             this.lblheader_product_des.ForeColor = System.Drawing.Color.White;
             this.lblheader_product_des.Location = new System.Drawing.Point(3, 0);
             this.lblheader_product_des.Name = "lblheader_product_des";
-            this.lblheader_product_des.Size = new System.Drawing.Size(200, 29);
+            this.lblheader_product_des.Size = new System.Drawing.Size(199, 29);
             this.lblheader_product_des.TabIndex = 2;
             this.lblheader_product_des.Text = "Product Name";
             this.lblheader_product_des.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3724,6 +3727,7 @@ namespace FoodandBeverage.Forms
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.ClientSize = new System.Drawing.Size(568, 429);
             this.Controls.Add(this.flp_oper_buttons);
+            this.Controls.Add(this.pnl_cancelledlist);
             this.Controls.Add(this.flp_moreoptions);
             this.Controls.Add(this.pnldiscount);
             this.Controls.Add(this.pnl_promocode);
@@ -3733,7 +3737,6 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.pnl_products_descr);
             this.Controls.Add(this.tlp_price_nav);
             this.Controls.Add(this.pnlprice);
-            this.Controls.Add(this.pnl_cancelledlist);
             this.Controls.Add(this.pnl_cancelorder);
             this.Controls.Add(this.tlp_multipleprice);
             this.Controls.Add(this.pnl_hidecntrl);
