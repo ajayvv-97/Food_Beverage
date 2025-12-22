@@ -1037,10 +1037,12 @@ namespace FoodandBeverage.Forms
                         _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     else
                     {
-                        _instanceCombinedBill.Visible = true;
-                        _instanceCombinedBill.Dock = DockStyle.Fill;
                         ResizeForm(_instanceCombinedBill);
-                        _instanceCombinedBill.DrawerCheck();
+                        _instanceCombinedBill.TopLevel = false;
+                        panelDesktop.Controls.Add(_instanceCombinedBill);
+                        _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        _instanceCombinedBill.BringToFront();
+                        _instanceCombinedBill.Visible = true;
                     }
                 }
                 else
@@ -1050,13 +1052,13 @@ namespace FoodandBeverage.Forms
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
 
-                    using (FrmCombinedBill _instanceCombinedBill = new FrmCombinedBill())
-                    {
-                        _instanceCombinedBill.ShowDialog();
-                        _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-
-                    }
-
+                    FrmCombinedBill _instanceCombinedBill = new FrmCombinedBill();
+                    ResizeForm(_instanceCombinedBill);
+                    _instanceCombinedBill.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceCombinedBill);
+                    _instanceCombinedBill.Show();
+                    _instanceCombinedBill.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceCombinedBill.BringToFront();
                 }
                 menutable_click = false;
                 panelDesktop.ResumeLayout();
