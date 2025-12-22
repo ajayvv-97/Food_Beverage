@@ -167,7 +167,7 @@ namespace FoodandBeverage.Forms
             public int CancelStatus { get; set; } = -1;
 
         }
-        private Dictionary<string, OrderCardCache> KitchenCardCache =  new Dictionary<string, OrderCardCache>();
+        private Dictionary<string, OrderCardCache> KitchenCardCache = new Dictionary<string, OrderCardCache>();
         private Dictionary<string, int> RowBlinkCounter = new Dictionary<string, int>();
         private Dictionary<string, bool> RowBlinkState = new Dictionary<string, bool>();
         private const int BlinkThreshold = 1;
@@ -421,7 +421,7 @@ namespace FoodandBeverage.Forms
                     cache.CancelStatus = currentField27;
                 }
                 // populate grid initially
-                UpdateGrid(cache.Grid, details);
+                UpdateGridFull(cache.Grid, details);
 
                 return cache;
             }
@@ -431,11 +431,11 @@ namespace FoodandBeverage.Forms
                 return null;
             }
         }
-     
-/// <summary>
-/// Header builder: creates blue header with table/pickup, token no and time label.
-/// </summary>
-private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetails> details)
+
+        /// <summary>
+        /// Header builder: creates blue header with table/pickup, token no and time label.
+        /// </summary>
+        private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetails> details)
         {
             string suffix = Convert.ToString(details[0].Field17);
 
@@ -731,27 +731,40 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
         /// <summary>
         /// Update a card's dynamic parts: time, description, buttons and grid
         /// </summary>
-        private void UpdateOrderCard(OrderCardCache cache, DmnGridFields orders, List<Dmnkitchendetails> details)
+        private void UpdateOrderCard(
+            OrderCardCache cache,
+            DmnGridFields orders,
+            List<Dmnkitchendetails> details)
         {
             try
             {
-                if (cache == null) return;
+                if (cache == null || details == null || details.Count == 0)
+                    return;
 
-                // Update time label
-                if (cache.TimeLabel != null && details != null && details.Count > 0)
+                // -------- TIME LABEL --------
+                if (cache.TimeLabel != null)
                 {
                     TimeSpan tt = DateTime.Now - details[0].Fielddatetime;
-                    cache.TimeLabel.Text = string.Format("{0} h, {1} min {2} s", tt.Hours, tt.Minutes, tt.Seconds);
+                    cache.TimeLabel.Text =
+                        $"{tt.Hours} h, {tt.Minutes} min {tt.Seconds} s";
                 }
 
-                // Update grid content with blinking logic
-                UpdateGrid(cache.Grid, details);
+                // -------- GRID UPDATE (SMART SWITCH) --------
+                if (cache.Grid.Rows.Count == details.Count)
+                {
+                    // ⚡ NO SCROLL RESET
+                    UpdateGridLight(cache.Grid, details);
+                }
+                else
+                {
+                    // 🔄 STRUCTURE CHANGED
+                    UpdateGridFull(cache.Grid, details);
+                }
 
+                // -------- BUTTONS + DESCRIPTION --------
+                int field27 = Convert.ToInt32(details[0].Field27);
 
-
-                int currentField27 = Convert.ToInt32(details[0].Field27);
-                bool isWaitingCustomer = currentField27 == 1;
-                if (isWaitingCustomer)
+                if (field27 == 1) // waiting customer
                 {
                     if (cache.BtnStart != null) cache.BtnStart.Visible = false;
                     if (cache.BtnCancel != null) cache.BtnCancel.Visible = false;
@@ -765,23 +778,11 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
                 }
                 else
                 {
-                    //// Update description
-                    //if (cache.Description != null)
-                    //{
-                    //    cache.Description.Text = "Note :   " + Convert.ToString(details[0].Field16);
-                    //    cache.Description.Visible = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
-                    //}
-
-                    //// Update buttons based on status and field27
-                    bool flagstart_ready = details.Any(d => Convert.ToInt32(d.Field12) == 1);
-                    //if (cache.BtnStart != null) cache.BtnStart.Visible = flagstart_ready;
-                    //if (cache.BtnCancel != null) cache.BtnCancel.Visible = flagstart_ready;
-                    //if (cache.BtnReprint != null) cache.BtnReprint.Visible = true; // reprint always visible unless field27 indicates waiting
-
+                    bool flagStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
                     bool hasDesc = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
 
-                    if (cache.BtnStart != null) cache.BtnStart.Visible = flagstart_ready;
-                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = flagstart_ready;
+                    if (cache.BtnStart != null) cache.BtnStart.Visible = flagStart;
+                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = flagStart;
                     if (cache.BtnReprint != null) cache.BtnReprint.Visible = true;
 
                     cache.Description.Text = hasDesc
@@ -794,16 +795,19 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
                     ToggleDescriptionRow(cache.CardPanel, hasDesc);
                 }
 
-                // ----- Track status only -----
-                cache.CancelStatus = currentField27;
-
-
+                cache.CancelStatus = field27;
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage UpdateOrderCard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+                clsgen.LogException(
+                    "Pickuppage UpdateOrderCard()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
             }
         }
+
 
         private void ToggleDescriptionRow(TableLayoutPanel card, bool show)
         {
@@ -841,67 +845,80 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
         /// UpdateGrid with blinking canceled rows logic.
         /// Uses KOID (Field8) as unique row key; falls back to orderdetailsid (Field9)
         /// </summary>
-        private void UpdateGrid(DataGridView dgv_product_details, List<Dmnkitchendetails> gridSourcedetails)
+        private void UpdateGridFull(
+            DataGridView dgv_product_details,
+            List<Dmnkitchendetails> gridSourcedetails)
         {
-            if (dgv_product_details == null) return;
+            if (dgv_product_details == null || gridSourcedetails == null)
+                return;
+
+            // Save scroll position
+            int scrollIndex = -1;
+            if (dgv_product_details.FirstDisplayedScrollingRowIndex >= 0)
+                scrollIndex = dgv_product_details.FirstDisplayedScrollingRowIndex;
 
             dgv_product_details.SuspendLayout();
-
             dgv_product_details.Rows.Clear();
 
-            bool comboflag = false, addonflag = false;
+            bool comboflag = false;
+            bool addonflag = false;
 
             for (int k = 0; k < gridSourcedetails.Count; k++)
             {
                 var rowObj = gridSourcedetails[k];
                 dgv_product_details.Rows.Add();
 
-                // Unique key for blinking: KOID or detailsid
+                // Unique key for blinking
                 string keyRow = Convert.ToString(rowObj.Field8);
                 if (string.IsNullOrEmpty(keyRow))
                     keyRow = Convert.ToString(rowObj.Field9);
 
-                if (!RowBlinkCounter.ContainsKey(keyRow)) RowBlinkCounter[keyRow] = 0;
-                if (!RowBlinkState.ContainsKey(keyRow)) RowBlinkState[keyRow] = false;
+                if (!RowBlinkCounter.ContainsKey(keyRow))
+                    RowBlinkCounter[keyRow] = 0;
 
-                // Slno
+                if (!RowBlinkState.ContainsKey(keyRow))
+                    RowBlinkState[keyRow] = false;
+
+                // Sl No
                 dgv_product_details.Rows[k].Cells[dslno].Value = k + 1;
 
                 // Item name + variant
-                string vrianame = Convert.ToString(rowObj.Field24);
-                string itemname = Convert.ToString(rowObj.Field4);
+                string variant = Convert.ToString(rowObj.Field24);
+                string itemName = Convert.ToString(rowObj.Field4);
                 dgv_product_details.Rows[k].Cells[ditemno].Value =
-                    !string.IsNullOrEmpty(vrianame) ? itemname + " ( " + vrianame + " )" : itemname;
+                    !string.IsNullOrEmpty(variant)
+                        ? itemName + " ( " + variant + " )"
+                        : itemName;
 
-                // PType column icon
-                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
+                // PType icon
+                DataGridViewImageCell typeCell =
+                    (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
+
                 if (Convert.ToInt32(rowObj.Field13) == Convert.ToInt32(Tabletype.ComboProduct))
                 {
                     comboflag = true;
-                    cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
-                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    cellcolumntype.ToolTipText = rowObj.Field4;
+                    typeCell.Value = Properties.Resources.kitchengridcomboicon;
                 }
                 else if (Convert.ToInt32(rowObj.Field23) >= 1)
                 {
                     addonflag = true;
-                    cellcolumntype.Value = Properties.Resources.addonbutton;
-                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    cellcolumntype.ToolTipText = "Addon (Click view more...)";
+                    typeCell.Value = Properties.Resources.addonbutton;
                 }
                 else
                 {
-                    cellcolumntype.Value = (k % 2 == 0) ? Properties.Resources.orderview_blank : Properties.Resources.orderview_blank_2;
-                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    cellcolumntype.ToolTipText = rowObj.Field4;
+                    typeCell.Value = (k % 2 == 0)
+                        ? Properties.Resources.orderview_blank
+                        : Properties.Resources.orderview_blank_2;
                 }
 
-                // Qty
-                decimal originalValue = 0;
-                decimal.TryParse(Convert.ToString(rowObj.Field5), out originalValue);
-                dgv_product_details.Rows[k].Cells[dqtyno].Value = (int)Math.Floor(originalValue);
+                typeCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
-                // Notes / Remove notes / backend fields
+                // Qty
+                decimal qty;
+                decimal.TryParse(Convert.ToString(rowObj.Field5), out qty);
+                dgv_product_details.Rows[k].Cells[dqtyno].Value = (int)Math.Floor(qty);
+
+                // Backend fields
                 dgv_product_details.Rows[k].Cells[dnotes].Value = rowObj.Field6;
                 dgv_product_details.Rows[k].Cells[dremnoteno].Value = rowObj.Field11;
                 dgv_product_details.Rows[k].Cells[ddetailsidno].Value = rowObj.Field9;
@@ -914,24 +931,28 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
                 dgv_product_details.Rows[k].Cells[dtabletypeno].Value = rowObj.Field15;
                 dgv_product_details.Rows[k].Cells[dorderno].Value = rowObj.Field17;
 
+                // Addon
                 if (Convert.ToInt32(rowObj.Field19) == Convert.ToInt32(AddonType.AddonType))
                 {
-                    dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.AddonType);
+                    dgv_product_details.Rows[k].Cells[dAddonStatusno].Value =
+                        Convert.ToInt32(AddonType.AddonType);
                     dgv_product_details.Rows[k].Cells[dAVIDno].Value = rowObj.Field20;
                 }
                 else
                 {
-                    dgv_product_details.Rows[k].Cells[dAddonStatusno].Value = Convert.ToInt32(AddonType.None);
+                    dgv_product_details.Rows[k].Cells[dAddonStatusno].Value =
+                        Convert.ToInt32(AddonType.None);
                 }
 
-                // Action column + blinking for status==0
-                DataGridViewImageCell actionCell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
-                int status = 0;
+                // Action + blinking
+                DataGridViewImageCell actionCell =
+                    (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
+
+                int status;
                 int.TryParse(Convert.ToString(rowObj.Field12), out status);
 
                 if (status == 0)
                 {
-                    // canceled - blink
                     RowBlinkCounter[keyRow]++;
                     if (RowBlinkCounter[keyRow] >= BlinkThreshold)
                     {
@@ -939,41 +960,85 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
                         RowBlinkState[keyRow] = !RowBlinkState[keyRow];
                     }
 
-                    if (RowBlinkState[keyRow])
-                    {
-                        dgv_product_details.Rows[k].DefaultCellStyle.BackColor = Color.LightCoral;
-                        actionCell.Value = Properties.Resources.orderview_cancelled; // red icon
-                        actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    }
-                    else
-                    {
-                        dgv_product_details.Rows[k].DefaultCellStyle.BackColor = Color.White;
-                        // if you have a white version icon use it; else reuse cancelled icon
-                        actionCell.Value = Properties.Resources.orderview_cancelled;
-                        actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    }
+                    dgv_product_details.Rows[k].DefaultCellStyle.BackColor =
+                        RowBlinkState[keyRow] ? Color.LightCoral : Color.White;
 
-                    dgv_product_details.Rows[k].ReadOnly = true;
+                    actionCell.Value = Properties.Resources.orderview_cancelled;
                 }
                 else
                 {
                     dgv_product_details.Rows[k].DefaultCellStyle.BackColor = Color.White;
                     actionCell.Value = Properties.Resources.kitchenfood_cancel_icon;
-                    actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 }
+
+                actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                dgv_product_details.Rows[k].ReadOnly = true;
             }
 
-            // Make rows readonly
-            for (int x = 0; x < dgv_product_details.RowCount; x++)
-            {
-                dgv_product_details.Rows[x].ReadOnly = true;
-            }
-
-            // Show/hide PType column based on flags
             dgv_product_details.Columns[dptypeno].Visible = comboflag || addonflag;
 
             dgv_product_details.ResumeLayout();
+
+            // Restore scroll
+            if (scrollIndex >= 0 && scrollIndex < dgv_product_details.RowCount)
+                dgv_product_details.FirstDisplayedScrollingRowIndex = scrollIndex;
         }
+
+
+        private void UpdateGridLight(
+    DataGridView dgv,
+    List<Dmnkitchendetails> details)
+        {
+            if (dgv == null || details == null) return;
+
+            for (int k = 0; k < details.Count; k++)
+            {
+                if (k >= dgv.Rows.Count) break;
+
+                var rowObj = details[k];
+                DataGridViewRow row = dgv.Rows[k];
+
+                // Unique blink key
+                string keyRow = Convert.ToString(rowObj.Field8);
+                if (string.IsNullOrEmpty(keyRow))
+                    keyRow = Convert.ToString(rowObj.Field9);
+
+                if (!RowBlinkCounter.ContainsKey(keyRow))
+                    RowBlinkCounter[keyRow] = 0;
+                if (!RowBlinkState.ContainsKey(keyRow))
+                    RowBlinkState[keyRow] = false;
+
+                int status = Convert.ToInt32(rowObj.Field12);
+                var actionCell = (DataGridViewImageCell)row.Cells[dactionno];
+
+                if (status == 0) // cancelled
+                {
+                    RowBlinkCounter[keyRow]++;
+                    if (RowBlinkCounter[keyRow] >= BlinkThreshold)
+                    {
+                        RowBlinkCounter[keyRow] = 0;
+                        RowBlinkState[keyRow] = !RowBlinkState[keyRow];
+                    }
+
+                    row.DefaultCellStyle.BackColor =
+                        RowBlinkState[keyRow] ? Color.LightCoral : Color.White;
+
+                    actionCell.Value = Properties.Resources.orderview_cancelled;
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = Color.White;
+                    actionCell.Value = Properties.Resources.kitchenfood_cancel_icon;
+                }
+
+                // Live fields (safe)
+                row.Cells[dqtyno].Value =
+                    (int)Math.Floor(Convert.ToDecimal(rowObj.Field5));
+                row.Cells[dnotes].Value = rowObj.Field6;
+                row.Cells[dremnoteno].Value = rowObj.Field11;
+            }
+        }
+
 
         /// <summary>
         /// Clear all cached UI and dispose controls
@@ -2522,7 +2587,7 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
                         int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                         int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                         pnl_products_rem_descr.Size = new Size(panelWidth, panelHeight);
-                        pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
+                        pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
                         tlp_products_descr_main.Dock = DockStyle.Fill;
                         lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
                         korderno=Convert.ToInt32(clickedDataGridView.Tag);
@@ -2544,7 +2609,7 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
                             int panelWidth = (int)(this.Width * panelWidthPercentage / 100);
                             int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                             pnl_products_rem_descr.Size = new Size(panelWidth, panelHeight);
-                            pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
+                            pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
                             lblheader_product_des.Text = Convert.ToString(clickedDataGridView.Rows[e.RowIndex].Cells[ditemno].Value);
                         }
 
@@ -2842,7 +2907,6 @@ private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetail
                 int panelHeight = (int)(this.Height * panelheightPercentage / 100);
                 pnl_products_rem_descr.Size = new Size(panelWidth, panelHeight);
                 pnl_products_rem_descr.Location = new Point(this.ClientSize.Width / 2 - pnl_products_rem_descr.Size.Width / 2, this.ClientSize.Height / 2 - pnl_products_rem_descr.Size.Height / 2);
-                //pnl_products_rem_descr.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
                 pbcancelfoodclciked = true;
                 lblheader_product_des.Text = "Order Cancel";
                 //txt_product_remove_des.Focus();

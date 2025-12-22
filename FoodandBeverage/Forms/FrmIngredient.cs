@@ -390,6 +390,10 @@ namespace FoodandBeverage.Forms
                     txtDiscAmnt.Text = "0";
                 if (string.IsNullOrWhiteSpace(txtDisPer.Text))
                     txtDisPer.Text = "0";
+                if (string.IsNullOrWhiteSpace(txtmrp.Text))
+                    txtmrp.Text = "0";
+                if (string.IsNullOrWhiteSpace(txtprice.Text))
+                    txtprice.Text = "0";
                 if (string.IsNullOrWhiteSpace(txtproductname.Text))
                 {
                     CMessageBox.Show(this, "Please Enter Item Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
