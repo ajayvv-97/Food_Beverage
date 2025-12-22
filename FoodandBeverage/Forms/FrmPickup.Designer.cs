@@ -280,7 +280,7 @@ namespace FoodandBeverage.Forms
             // 
             // btnclose
             // 
-            this.btnclose.BackgroundImage = global::FoodandBeverage.Properties.Resources.Closebutton;
+            this.btnclose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnclose.BackgroundImage")));
             this.btnclose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnclose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnclose.FlatAppearance.BorderSize = 0;
@@ -291,7 +291,6 @@ namespace FoodandBeverage.Forms
             this.btnclose.Name = "btnclose";
             this.btnclose.Size = new System.Drawing.Size(110, 43);
             this.btnclose.TabIndex = 293;
-            this.btnclose.Text = "Close";
             this.btnclose.UseVisualStyleBackColor = true;
             this.btnclose.Click += new System.EventHandler(this.btnclose_Click);
             // 

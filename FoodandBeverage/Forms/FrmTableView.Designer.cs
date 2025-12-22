@@ -174,7 +174,7 @@ namespace FoodandBeverage.Forms
             // 
             // btnclose
             // 
-            this.btnclose.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_CANCEL;
+            this.btnclose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnclose.BackgroundImage")));
             this.btnclose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnclose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnclose.FlatAppearance.BorderSize = 0;
@@ -220,7 +220,7 @@ namespace FoodandBeverage.Forms
             this.txttablecode_search.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txttablecode_search.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txttablecode_search.ForeColor = System.Drawing.Color.DarkGray;
-            this.txttablecode_search.Location = new System.Drawing.Point(112, 3);
+            this.txttablecode_search.Location = new System.Drawing.Point(103, 3);
             this.txttablecode_search.Name = "txttablecode_search";
             this.txttablecode_search.Size = new System.Drawing.Size(258, 33);
             this.txttablecode_search.TabIndex = 0;
@@ -232,7 +232,7 @@ namespace FoodandBeverage.Forms
             this.btnsearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnsearch.FlatAppearance.BorderSize = 0;
             this.btnsearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnsearch.Location = new System.Drawing.Point(376, 3);
+            this.btnsearch.Location = new System.Drawing.Point(367, 3);
             this.btnsearch.Name = "btnsearch";
             this.btnsearch.Size = new System.Drawing.Size(50, 32);
             this.btnsearch.TabIndex = 1;
@@ -247,9 +247,9 @@ namespace FoodandBeverage.Forms
             this.btn_cancle_pickup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cancle_pickup.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cancle_pickup.ForeColor = System.Drawing.Color.White;
-            this.btn_cancle_pickup.Location = new System.Drawing.Point(488, 3);
+            this.btn_cancle_pickup.Location = new System.Drawing.Point(479, 3);
             this.btn_cancle_pickup.Name = "btn_cancle_pickup";
-            this.btn_cancle_pickup.Size = new System.Drawing.Size(101, 32);
+            this.btn_cancle_pickup.Size = new System.Drawing.Size(110, 34);
             this.btn_cancle_pickup.TabIndex = 292;
             this.btn_cancle_pickup.UseVisualStyleBackColor = true;
             this.btn_cancle_pickup.Visible = false;
@@ -260,7 +260,7 @@ namespace FoodandBeverage.Forms
             this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_refresh.FlatAppearance.BorderSize = 0;
             this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh.Location = new System.Drawing.Point(432, 3);
+            this.btn_refresh.Location = new System.Drawing.Point(423, 3);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(50, 32);
             this.btn_refresh.TabIndex = 2;
