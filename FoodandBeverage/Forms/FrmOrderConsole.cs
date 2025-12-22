@@ -9534,8 +9534,9 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         Dgv_Selected_Item.Rows[rowno].Cells[iqty].Value = kdata;
                         totalcellamount(rowno);
                         decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[rowno].Cells[itotal].Value);
-                        decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
-                        grand = grand - oldTotal + newTotal;
+                        decimal grand = Convert.ToDecimal(newTotal);
+                       
+                        //grand = grand - oldTotal + newTotal;
                         txtGrandTotal.Text = grand.ToString();
                         txtnetamount.Text = grand.ToString();
                         netAmount();
@@ -9624,6 +9625,13 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 grand = grand - oldTotal + newTotal;
                                 txtGrandTotal.Text = grand.ToString();
                                 txtnetamount.Text = grand.ToString();
+                                //Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                                //Dgv_Selected_Item.Rows.Add(1);
+                                
+
+                                // grand = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
+                                //txtGrandTotal.Text = Convert.ToString(grand);
+                                //txtnetamount.Text = Convert.ToString(grand);
 
                                 netAmount();
                                 break;
