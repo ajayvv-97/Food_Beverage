@@ -269,6 +269,7 @@ namespace FoodandBeverage.Forms
             // 
             // flp_tableview
             // 
+            this.flp_tableview.AutoScroll = true;
             this.flp_tableview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_tableview.Location = new System.Drawing.Point(2, 64);
             this.flp_tableview.Margin = new System.Windows.Forms.Padding(2);

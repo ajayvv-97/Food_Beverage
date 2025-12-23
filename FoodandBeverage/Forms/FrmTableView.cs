@@ -132,10 +132,11 @@ namespace FoodandBeverage.Forms
         }
 
 
-        #region Table Creation & Updation (OPTIMIZED FOR 1000+ TABLES)
+        #region Table Creation & Updation (ZERO-GC PAGING | 1000+ TABLES)
 
-        private readonly Dictionary<int, Panel> tablePanelCache =
-            new Dictionary<int, Panel>();
+        #region Fields
+
+        private readonly List<Panel> reusablePanels = new List<Panel>();
 
         private readonly Dictionary<int, TableUIRefs> tableUIRefs =
             new Dictionary<int, TableUIRefs>();
@@ -143,30 +144,35 @@ namespace FoodandBeverage.Forms
         private readonly Dictionary<int, TableOrderStatus> orderStatusCache =
             new Dictionary<int, TableOrderStatus>();
 
-        private List<DmnGridFields> allTables =
-            new List<DmnGridFields>();
+        private List<DmnGridFields> allTables = new List<DmnGridFields>();
+        private List<DmnGridFields> currentPageTables = new List<DmnGridFields>();
 
-        private List<DmnGridFields> currentPageTables =
-            new List<DmnGridFields>();
+        #endregion
+
+        #region Helper Classes
 
         class TableUIRefs
         {
             public Panel Container;
             public TableLayoutPanel Inner;
-            public Label TableName;     // Always visible
-            public Label NetAmount;     // Visible only on checkout
+            public Label TableName;
+            public Label NetAmount;
             public Button CancelCount;
         }
 
         class TableOrderStatus
         {
             public int TotalItems;
-            public int PendingCount;     // Status 1 or 2
+            public int PendingCount;
             public int CancelCount;
             public bool KitchenCancelled;
             public int Tid;
             public int Ordermid;
         }
+
+        #endregion
+
+        #region Load / Refresh
 
         public void LoadTableStatus(int searchMode)
         {
@@ -175,10 +181,15 @@ namespace FoodandBeverage.Forms
                 AutoTimer.Stop();
 
                 LoadTableMasterData();
-                CreateTablesOnce();
-                LoadOrderStatusCache();
                 ApplyPaging();
+
+                if (reusablePanels.Count == 0)
+                    CreateReusablePanels();   
+
+                BindPageToPanels();
+                LoadOrderStatusCache();
                 UpdateTableUI();
+
                 AutoTimer.Start();
             }
             catch (Exception ex)
@@ -189,166 +200,6 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(FormType.TableView));
             }
         }
-        public void RefreshTableOrders()
-        {
-            try
-            {
-                LoadOrderStatusCache();
-                ApplyPaging();
-                UpdateTableUI();
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("RefreshTableOrders()", ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.TableView));
-            }
-        }
-        private void LoadTableMasterData()
-        {
-            BllTableView<DmnGridFields> search = new BllTableView<DmnGridFields>();
-            DmnGridFields param = new DmnGridFields
-            {
-                Field30 = FrmLogin.BookingInterwell.ToString(),
-                Field28 = categoryId.ToString(),
-                Field29 = SearchModetype.ToString(),
-                Field25 = categorystatus.ToString(),
-                Field24 = Pagecount.ToString()
-            };
-
-            allTables = search.serachreport("prdTableView", param);
-        }
-        private void CreateTablesOnce()
-        {
-            flp_tableview.SuspendLayout();
-
-            foreach (var row in allTables)
-            {
-                int tableId = Convert.ToInt32(row.Field3);
-                if (tablePanelCache.ContainsKey(tableId))
-                    continue;
-
-                Panel pnl = CreateTablePanel(row);
-                tablePanelCache[tableId] = pnl;
-                flp_tableview.Controls.Add(pnl);
-            }
-
-            flp_tableview.ResumeLayout();
-        }
-
-        private Panel CreateTablePanel(DmnGridFields row)
-        {
-            int tableId = Convert.ToInt32(row.Field3);
-
-            Panel pnl = new Panel
-            {
-                Name = "pnl_" + tableId,
-                Size = new Size(140, 110),
-                Margin = new Padding(10),
-                Tag = tableId,
-                BackColor = Color.Transparent,
-                AccessibleDescription="0",
-            };
-            TableLayoutPanel tlp = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                RowCount = 3,
-                BackColor = Color.White,
-                Tag = tableId,
-                AccessibleDescription = "0",
-            };
-
-            tlp.RowStyles.Add(new RowStyle(SizeType.Absolute, 0));   // Checkout text
-            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // Table name
-            tlp.RowStyles.Add(new RowStyle(SizeType.Absolute, 0));  // Net amount
-
-            Label lblCheckout = new Label
-            {
-                Text = "Checkout",
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font(Font, FontStyle.Bold),
-                Visible = false,
-                Tag = tableId,
-                AccessibleDescription = "0",
-            };
-
-            Label lblName = new Label
-            {
-                Text = row.Field4,
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font(Font, FontStyle.Bold),
-                ForeColor = Ordertablefontcolor,
-                Tag = tableId,
-                AccessibleDescription = "0",
-
-            };
-
-            Label lblNet = new Label
-            {
-                Dock = DockStyle.Fill,
-                Visible = false,
-                Font = new Font(Font, FontStyle.Bold),
-                TextAlign = ContentAlignment.MiddleCenter,
-                Tag = tableId,
-                AccessibleDescription = "0",
-            };
-
-            Button btnCancel = new Button
-            {
-                Size = new Size(22, 22),
-                Visible = false,
-                FlatStyle = FlatStyle.Flat,
-                Font = new Font(Font, FontStyle.Bold)
-            };
-            btnCancel.FlatAppearance.BorderSize = 0;
-
-            tlp.Controls.Add(lblCheckout, 0, 0);
-            tlp.Controls.Add(lblName, 0, 1);
-            tlp.Controls.Add(lblNet, 0, 2);
-
-            pnl.Controls.Add(tlp);
-            pnl.Controls.Add(btnCancel);
-
-            btnCancel.Location = new Point(pnl.Width - 27, 5);
-            btnCancel.BringToFront();
-
-            tableUIRefs[tableId] = new TableUIRefs
-            {
-                Container = pnl,
-                Inner = tlp,
-                TableName = lblName,
-                NetAmount = lblNet,
-                CancelCount = btnCancel
-            };
-
-            pnl.Click += tableClickEventHandler;
-            lblName.Click += tableClickEventHandler;
-            lblNet.Click += tableClickEventHandler;
-
-            UIHelper.RoundCorners(pnl, 25, null);
-
-            return pnl;
-        }
-        
-        private void ApplyPaging()
-        {
-            totalPages = (int)Math.Ceiling(allTables.Count / (double)pageSize);
-
-            currentPageTables = allTables
-                .Skip((currentPage - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            lblpagerinfo.Text =
-                $"Page {currentPage} of {totalPages} | Total Records: {allTables.Count}";
-
-            btnprev.Enabled = currentPage > 1;
-            btnnext.Enabled = currentPage < totalPages;
-        }
-
         public void LoadOrderStatusCache()
         {
             orderStatusCache.Clear();
@@ -388,132 +239,259 @@ namespace FoodandBeverage.Forms
                     CancelCount = Convert.ToInt32(r.Field4),
                     KitchenCancelled = Convert.ToInt32(r.Field5) == 1,
                     Tid = tableId,
-                    Ordermid = Convert.ToInt32(r.Field1),
+                    Ordermid = Convert.ToInt32(r.Field1)
                 };
             }
         }
 
-        public void UpdateTableUI()
-        {
-            foreach (var row in currentPageTables)
-            {
-                int tableId = Convert.ToInt32(row.Field3);
-                int orderId = Convert.ToInt32(row.Field6);
 
-                if (!tableUIRefs.TryGetValue(tableId, out var ui))
+        public void RefreshTableOrders()
+        {
+            try
+            {
+                LoadOrderStatusCache();
+                UpdateTableUI();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("RefreshTableOrders()", ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.TableView));
+            }
+        }
+
+        #endregion
+
+        #region Data Load
+
+        private void LoadTableMasterData()
+        {
+            BllTableView<DmnGridFields> search = new BllTableView<DmnGridFields>();
+            DmnGridFields param = new DmnGridFields
+            {
+                Field30 = FrmLogin.BookingInterwell.ToString(),
+                Field28 = categoryId.ToString(),
+                Field29 = SearchModetype.ToString(),
+                Field25 = categorystatus.ToString(),
+                Field24 = Pagecount.ToString()
+            };
+
+            allTables = search.serachreport("prdTableView", param);
+        }
+
+        #endregion
+
+        #region Panel Creation (ONCE)
+
+        private void CreateReusablePanels()
+        {
+            flp_tableview.SuspendLayout();
+
+            flp_tableview.Controls.Clear();
+            reusablePanels.Clear();
+            tableUIRefs.Clear();
+
+            for (int i = 0; i < pageSize; i++)
+            {
+                Panel pnl = CreateEmptyTablePanel();
+                reusablePanels.Add(pnl);
+                flp_tableview.Controls.Add(pnl);
+            }
+
+            flp_tableview.ResumeLayout();
+        }
+
+        private Panel CreateEmptyTablePanel()
+        {
+            Panel pnl = new Panel
+            {
+                Size = new Size(140, 110),
+                Margin = new Padding(10),
+                BackColor = Color.Transparent,
+                Visible = false
+            };
+
+            TableLayoutPanel tlp = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 3,
+                BackColor = Color.White,
+                AccessibleDescription = "0"
+            };
+
+            tlp.RowStyles.Add(new RowStyle(SizeType.Absolute, 0));
+            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            tlp.RowStyles.Add(new RowStyle(SizeType.Absolute, 0));
+
+            Label lblName = new Label
+            {
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font(Font, FontStyle.Bold),
+                ForeColor = Ordertablefontcolor,
+                AccessibleDescription = "0"
+            };
+
+            Label lblNet = new Label
+            {
+                Dock = DockStyle.Fill,
+                Visible = false,
+                Font = new Font(Font, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter,
+                AccessibleDescription = "0"
+            };
+
+            Button btnCancel = new Button
+            {
+                Size = new Size(22, 22),
+                Visible = false,
+                FlatStyle = FlatStyle.Flat
+            };
+            btnCancel.FlatAppearance.BorderSize = 0;
+
+            tlp.Controls.Add(lblName, 0, 1);
+            tlp.Controls.Add(lblNet, 0, 2);
+
+            pnl.Controls.Add(tlp);
+            pnl.Controls.Add(btnCancel);
+
+            btnCancel.Location = new Point(pnl.Width - 27, 5);
+            btnCancel.BringToFront();
+
+            UIHelper.RoundCorners(pnl, 25, null);
+
+            int key = pnl.GetHashCode();
+            tableUIRefs[key] = new TableUIRefs
+            {
+                Container = pnl,
+                Inner = tlp,
+                TableName = lblName,
+                NetAmount = lblNet,
+                CancelCount = btnCancel
+            };
+
+            pnl.Click += tableClickEventHandler;
+            lblName.Click += tableClickEventHandler;
+            lblNet.Click += tableClickEventHandler;
+
+            return pnl;
+        }
+
+
+        #endregion
+
+        #region Paging
+
+        private void ApplyPaging()
+        {
+            totalPages = (int)Math.Ceiling(allTables.Count / (double)pageSize);
+
+            currentPageTables = allTables
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            lblpagerinfo.Text =
+                $"Page {currentPage} of {totalPages} | Total Records: {allTables.Count}";
+
+            btnprev.Enabled = currentPage > 1;
+            btnnext.Enabled = currentPage < totalPages;
+        }
+
+        #endregion
+
+        #region Bind Page (ZERO-GC CORE)
+
+        private void BindPageToPanels()
+        {
+            flp_tableview.SuspendLayout();
+
+            for (int i = 0; i < reusablePanels.Count; i++)
+            {
+                Panel pnl = reusablePanels[i];
+                pnl.Visible = false;
+
+                if (i >= currentPageTables.Count)
                     continue;
 
-                // =========================
-                // 🔁 HARD RESET (VERY IMPORTANT)
-                // =========================
+                var row = currentPageTables[i];
+                int tableId = Convert.ToInt32(row.Field3);
+
+                pnl.Tag = tableId;
+                pnl.Name = "pnl_" + tableId;
+
+                var ui = tableUIRefs[pnl.GetHashCode()];
+
+                ui.Container.Tag = tableId;
+                ui.Inner.Tag = tableId;
+                ui.TableName.Tag = tableId;
+                ui.NetAmount.Tag = tableId;
+                ui.CancelCount.Tag = tableId;
+
+                ui.TableName.Text = row.Field4;
+
+                pnl.Visible = true;
+            }
+
+            flp_tableview.ResumeLayout();
+        }
+
+
+        #endregion
+
+        #region UI Update
+
+        public void UpdateTableUI()
+        {
+            foreach (var pnl in reusablePanels)
+            {
+                if (!pnl.Visible) continue;
+
+                int tableId = Convert.ToInt32(pnl.Tag);
+                var ui = tableUIRefs[pnl.GetHashCode()];
+
                 ui.Inner.BackColor = Color.White;
-
                 ui.NetAmount.Visible = false;
-                ui.NetAmount.Text = "";
-                ui.NetAmount.BackColor = Color.Transparent;
-
                 ui.CancelCount.Visible = false;
-                ui.CancelCount.Text = "";
-                ui.CancelCount.BackColor = Color.Transparent;
-                ui.CancelCount.ForeColor = Color.Black;
-                ui.CancelCount.Region = null;  
 
-                ui.Inner.RowStyles[0].Height = 0;
-                ui.Inner.RowStyles[1].Height = 60;
-                ui.Inner.RowStyles[2].Height = 0;
-
-                ui.TableName.TextAlign = ContentAlignment.MiddleCenter;
-
-                // =========================
-                // 🚫 NO ORDER
-                // =========================
                 if (!orderStatusCache.TryGetValue(tableId, out var status))
                     continue;
 
-                if (status.Ordermid == 0)
-                {
-                    continue;
-                }
-                // =========================
-                // ⚠ CANCEL COUNT ONLY
-                // =========================
                 if (status.CancelCount > 0)
                 {
                     ui.Inner.BackColor = CancelProduct_order;
-
                     ui.CancelCount.Visible = true;
                     ui.CancelCount.Text = status.CancelCount.ToString();
-                    ui.CancelCount.ForeColor = Color.White;
-                    ui.CancelCount.BackColor = Color.Black;
-                    ui.CancelCount.Font = new Font(FontFamily.GenericSansSerif, 8, FontStyle.Bold);
-                    ui.CancelCount.Size = new Size(22, 22);
-
-                    ui.CancelCount.FlatStyle = FlatStyle.Flat;
-                    ui.CancelCount.FlatAppearance.BorderSize = 0;
-
-                    ui.CancelCount.Location = new Point(
-                        ui.Container.Width - ui.CancelCount.Width - 5, 5);
-
-                    var gp = new System.Drawing.Drawing2D.GraphicsPath();
-                    gp.AddEllipse(0, 0, ui.CancelCount.Width, ui.CancelCount.Height);
-                    ui.CancelCount.Region = new Region(gp);
-
-                    ui.CancelCount.BringToFront();
                     continue;
                 }
 
-                // =========================
-                // ❌ KITCHEN CANCEL
-                // =========================
                 if (status.KitchenCancelled)
                 {
                     ui.Inner.BackColor = CancelProduct_order;
-                    if (status.CancelCount == 0)
-                    {
-                        ui.Inner.RowStyles[0].Height = 25;
-                        ui.Inner.RowStyles[2].Height = 25;
-
-                        ui.NetAmount.Text = "Reconfirm Order";
-                        ui.NetAmount.ForeColor = Color.White;
-                        ui.NetAmount.BackColor = ReconfirmLabelBG;
-                        ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
-                        ui.NetAmount.Visible = true;
-                    }
+                    ui.NetAmount.Text = "Reconfirm Order";
+                    ui.NetAmount.Visible = true;
                     continue;
-                }              
+                }
 
-                // =========================
-                // 🟦 RUNNING ORDER
-                // =========================
                 if (status.PendingCount > 0)
                 {
                     ui.Inner.BackColor = OrderColor;
                     continue;
                 }
 
-                // =========================
-                // 🟩 CHECKOUT
-                // =========================
-                if (status.TotalItems > 0 && status.PendingCount == 0)
+                if (status.TotalItems > 0)
                 {
                     ui.Inner.BackColor = BillingColor;
-
-                    ui.Inner.RowStyles[0].Height = 25;
-                    ui.Inner.RowStyles[2].Height = 25;
-
                     ui.NetAmount.Text = "Checkout";
-                    ui.NetAmount.ForeColor = Color.White;
-                    ui.NetAmount.BackColor = CheckoutLabelBG;
-                    ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
                     ui.NetAmount.Visible = true;
-
-                    continue;
                 }
             }
-
-            AutoTimer.Start();
         }
 
+        #endregion
+
+        #region Timer
 
         private void AutoTimer_Tick(object sender, EventArgs e)
         {
@@ -524,12 +502,18 @@ namespace FoodandBeverage.Forms
             LoadOrderStatusCache();
             UpdateTableUI();
         }
+
+        #endregion
+
+        #region Paging Buttons
+
         private void btnprev_Click(object sender, EventArgs e)
         {
             if (currentPage > 1)
             {
                 currentPage--;
                 ApplyPaging();
+                BindPageToPanels();
                 UpdateTableUI();
             }
         }
@@ -540,11 +524,15 @@ namespace FoodandBeverage.Forms
             {
                 currentPage++;
                 ApplyPaging();
+                BindPageToPanels();
                 UpdateTableUI();
             }
         }
 
         #endregion
+
+        #endregion
+
 
 
         #region Table Creation & Updation    

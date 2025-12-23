@@ -52,8 +52,6 @@ namespace FoodandBeverage.Report
             this.btnWeekEnd = new System.Windows.Forms.Button();
             this.btnMonthly = new System.Windows.Forms.Button();
             this.btnWeekly = new System.Windows.Forms.Button();
-            this.btnpickcolor = new System.Windows.Forms.Button();
-            this.labheaderboxcolor = new System.Windows.Forms.Label();
             this.btnserach = new System.Windows.Forms.Button();
             this.crv_report = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.dtp_to_time = new System.Windows.Forms.DateTimePicker();
@@ -62,6 +60,10 @@ namespace FoodandBeverage.Report
             this.dtp_from_time = new System.Windows.Forms.DateTimePicker();
             this.dtpfrom = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
+            this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnmini = new System.Windows.Forms.Button();
+            this.btncolse = new System.Windows.Forms.Button();
             this.pnl_report.SuspendLayout();
             this.tlp_report_main.SuspendLayout();
             this.tlp_top_row.SuspendLayout();
@@ -72,15 +74,16 @@ namespace FoodandBeverage.Report
             ((System.ComponentModel.ISupportInitialize)(this.nud_reorderqty)).BeginInit();
             this.tlp_sublist.SuspendLayout();
             this.tblReportCategory.SuspendLayout();
+            this.tlp_navbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_report
             // 
             this.pnl_report.Controls.Add(this.tlp_report_main);
             this.pnl_report.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_report.Location = new System.Drawing.Point(0, 0);
+            this.pnl_report.Location = new System.Drawing.Point(5, 5);
             this.pnl_report.Name = "pnl_report";
-            this.pnl_report.Size = new System.Drawing.Size(903, 537);
+            this.pnl_report.Size = new System.Drawing.Size(893, 527);
             this.pnl_report.TabIndex = 3;
             // 
             // tlp_report_main
@@ -88,22 +91,25 @@ namespace FoodandBeverage.Report
             this.tlp_report_main.BackColor = System.Drawing.Color.White;
             this.tlp_report_main.ColumnCount = 1;
             this.tlp_report_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_report_main.Controls.Add(this.tlp_top_row, 0, 0);
-            this.tlp_report_main.Controls.Add(this.tlp_second_row, 0, 1);
-            this.tlp_report_main.Controls.Add(this.crv_report, 0, 2);
+            this.tlp_report_main.Controls.Add(this.tlp_navbar, 0, 0);
+            this.tlp_report_main.Controls.Add(this.tlp_top_row, 0, 1);
+            this.tlp_report_main.Controls.Add(this.tlp_second_row, 0, 2);
+            this.tlp_report_main.Controls.Add(this.crv_report, 0, 3);
             this.tlp_report_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_report_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_report_main.Name = "tlp_report_main";
-            this.tlp_report_main.RowCount = 3;
-            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.54562F));
-            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.683427F));
-            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 78.58473F));
-            this.tlp_report_main.Size = new System.Drawing.Size(903, 537);
+            this.tlp_report_main.RowCount = 4;
+            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.56716F));
+            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.701493F));
+            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 78.73135F));
+            this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_report_main.Size = new System.Drawing.Size(893, 527);
             this.tlp_report_main.TabIndex = 49;
             // 
             // tlp_top_row
             // 
-            this.tlp_top_row.BackColor = System.Drawing.Color.AliceBlue;
+            this.tlp_top_row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.tlp_top_row.ColumnCount = 5;
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -115,11 +121,11 @@ namespace FoodandBeverage.Report
             this.tlp_top_row.Controls.Add(this.tlp_finyear, 3, 0);
             this.tlp_top_row.Controls.Add(this.tabDateTimePanel, 4, 0);
             this.tlp_top_row.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_top_row.Location = new System.Drawing.Point(3, 3);
+            this.tlp_top_row.Location = new System.Drawing.Point(3, 40);
             this.tlp_top_row.Name = "tlp_top_row";
             this.tlp_top_row.RowCount = 1;
             this.tlp_top_row.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_top_row.Size = new System.Drawing.Size(897, 56);
+            this.tlp_top_row.Size = new System.Drawing.Size(887, 50);
             this.tlp_top_row.TabIndex = 0;
             // 
             // label4
@@ -134,7 +140,7 @@ namespace FoodandBeverage.Report
             // 
             // cmbreport
             // 
-            this.cmbreport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.cmbreport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.cmbreport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbreport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbreport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -157,13 +163,13 @@ namespace FoodandBeverage.Report
             this.tlp_finyear.Name = "tlp_finyear";
             this.tlp_finyear.RowCount = 1;
             this.tlp_finyear.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_finyear.Size = new System.Drawing.Size(310, 50);
+            this.tlp_finyear.Size = new System.Drawing.Size(310, 44);
             this.tlp_finyear.TabIndex = 50;
             this.tlp_finyear.Visible = false;
             // 
             // cmb_fin_year
             // 
-            this.cmb_fin_year.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.cmb_fin_year.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.cmb_fin_year.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_fin_year.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmb_fin_year.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -180,7 +186,7 @@ namespace FoodandBeverage.Report
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(100, 50);
+            this.label8.Size = new System.Drawing.Size(100, 44);
             this.label8.TabIndex = 7;
             this.label8.Text = "Financial Year";
             // 
@@ -203,7 +209,7 @@ namespace FoodandBeverage.Report
             this.tabDateTimePanel.RowCount = 2;
             this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tabDateTimePanel.Size = new System.Drawing.Size(666, 50);
+            this.tabDateTimePanel.Size = new System.Drawing.Size(311, 44);
             this.tabDateTimePanel.TabIndex = 33;
             // 
             // chk_time
@@ -221,7 +227,7 @@ namespace FoodandBeverage.Report
             // 
             // tlp_second_row
             // 
-            this.tlp_second_row.BackColor = System.Drawing.Color.AliceBlue;
+            this.tlp_second_row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.tlp_second_row.ColumnCount = 7;
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_second_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -233,15 +239,13 @@ namespace FoodandBeverage.Report
             this.tlp_second_row.Controls.Add(this.tlp_reorder, 1, 0);
             this.tlp_second_row.Controls.Add(this.tlp_sublist, 0, 0);
             this.tlp_second_row.Controls.Add(this.tblReportCategory, 4, 0);
-            this.tlp_second_row.Controls.Add(this.btnpickcolor, 3, 0);
-            this.tlp_second_row.Controls.Add(this.labheaderboxcolor, 2, 0);
             this.tlp_second_row.Controls.Add(this.btnserach, 6, 0);
             this.tlp_second_row.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_second_row.Location = new System.Drawing.Point(3, 65);
+            this.tlp_second_row.Location = new System.Drawing.Point(3, 96);
             this.tlp_second_row.Name = "tlp_second_row";
             this.tlp_second_row.RowCount = 1;
             this.tlp_second_row.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_second_row.Size = new System.Drawing.Size(897, 46);
+            this.tlp_second_row.Size = new System.Drawing.Size(887, 41);
             this.tlp_second_row.TabIndex = 1;
             // 
             // tlp_reorder
@@ -256,7 +260,7 @@ namespace FoodandBeverage.Report
             this.tlp_reorder.Name = "tlp_reorder";
             this.tlp_reorder.RowCount = 1;
             this.tlp_reorder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_reorder.Size = new System.Drawing.Size(151, 40);
+            this.tlp_reorder.Size = new System.Drawing.Size(151, 35);
             this.tlp_reorder.TabIndex = 50;
             this.tlp_reorder.Visible = false;
             // 
@@ -267,7 +271,7 @@ namespace FoodandBeverage.Report
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 40);
+            this.label1.Size = new System.Drawing.Size(71, 35);
             this.label1.TabIndex = 0;
             this.label1.Text = "Enter Qty";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -294,7 +298,7 @@ namespace FoodandBeverage.Report
             this.tlp_sublist.RowCount = 1;
             this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlp_sublist.Size = new System.Drawing.Size(253, 40);
+            this.tlp_sublist.Size = new System.Drawing.Size(253, 35);
             this.tlp_sublist.TabIndex = 12;
             this.tlp_sublist.Visible = false;
             // 
@@ -305,14 +309,14 @@ namespace FoodandBeverage.Report
             this.lblsublist.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.lblsublist.Location = new System.Drawing.Point(3, 0);
             this.lblsublist.Name = "lblsublist";
-            this.lblsublist.Size = new System.Drawing.Size(54, 40);
+            this.lblsublist.Size = new System.Drawing.Size(54, 35);
             this.lblsublist.TabIndex = 12;
             this.lblsublist.Text = "List";
             this.lblsublist.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cmbSublist
             // 
-            this.cmbSublist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.cmbSublist.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.cmbSublist.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbSublist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSublist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -335,11 +339,11 @@ namespace FoodandBeverage.Report
             this.tblReportCategory.Controls.Add(this.btnMonthly, 2, 0);
             this.tblReportCategory.Controls.Add(this.btnWeekly, 1, 0);
             this.tblReportCategory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblReportCategory.Location = new System.Drawing.Point(572, 3);
+            this.tblReportCategory.Location = new System.Drawing.Point(419, 3);
             this.tblReportCategory.Name = "tblReportCategory";
             this.tblReportCategory.RowCount = 1;
             this.tblReportCategory.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblReportCategory.Size = new System.Drawing.Size(377, 40);
+            this.tblReportCategory.Size = new System.Drawing.Size(377, 35);
             this.tblReportCategory.TabIndex = 45;
             // 
             // btnYealy
@@ -353,7 +357,7 @@ namespace FoodandBeverage.Report
             this.btnYealy.ForeColor = System.Drawing.Color.White;
             this.btnYealy.Location = new System.Drawing.Point(285, 3);
             this.btnYealy.Name = "btnYealy";
-            this.btnYealy.Size = new System.Drawing.Size(89, 34);
+            this.btnYealy.Size = new System.Drawing.Size(89, 29);
             this.btnYealy.TabIndex = 47;
             this.btnYealy.Text = "Yearly";
             this.btnYealy.UseVisualStyleBackColor = true;
@@ -370,7 +374,7 @@ namespace FoodandBeverage.Report
             this.btnWeekEnd.ForeColor = System.Drawing.Color.White;
             this.btnWeekEnd.Location = new System.Drawing.Point(3, 3);
             this.btnWeekEnd.Name = "btnWeekEnd";
-            this.btnWeekEnd.Size = new System.Drawing.Size(88, 34);
+            this.btnWeekEnd.Size = new System.Drawing.Size(88, 29);
             this.btnWeekEnd.TabIndex = 43;
             this.btnWeekEnd.Text = "WeekEnd";
             this.btnWeekEnd.UseVisualStyleBackColor = true;
@@ -387,7 +391,7 @@ namespace FoodandBeverage.Report
             this.btnMonthly.ForeColor = System.Drawing.Color.White;
             this.btnMonthly.Location = new System.Drawing.Point(191, 3);
             this.btnMonthly.Name = "btnMonthly";
-            this.btnMonthly.Size = new System.Drawing.Size(88, 34);
+            this.btnMonthly.Size = new System.Drawing.Size(88, 29);
             this.btnMonthly.TabIndex = 46;
             this.btnMonthly.Text = "Monthly";
             this.btnMonthly.UseVisualStyleBackColor = true;
@@ -404,48 +408,22 @@ namespace FoodandBeverage.Report
             this.btnWeekly.ForeColor = System.Drawing.Color.White;
             this.btnWeekly.Location = new System.Drawing.Point(97, 3);
             this.btnWeekly.Name = "btnWeekly";
-            this.btnWeekly.Size = new System.Drawing.Size(88, 34);
+            this.btnWeekly.Size = new System.Drawing.Size(88, 29);
             this.btnWeekly.TabIndex = 44;
             this.btnWeekly.Text = "Weekly";
             this.btnWeekly.UseVisualStyleBackColor = true;
             this.btnWeekly.Click += new System.EventHandler(this.btnWeekly_Click);
             // 
-            // btnpickcolor
-            // 
-            this.btnpickcolor.BackgroundImage = global::FoodandBeverage.Properties.Resources.colorpicker_report;
-            this.btnpickcolor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnpickcolor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnpickcolor.FlatAppearance.BorderSize = 0;
-            this.btnpickcolor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnpickcolor.Location = new System.Drawing.Point(519, 3);
-            this.btnpickcolor.Name = "btnpickcolor";
-            this.btnpickcolor.Size = new System.Drawing.Size(47, 40);
-            this.btnpickcolor.TabIndex = 47;
-            this.btnpickcolor.UseVisualStyleBackColor = true;
-            this.btnpickcolor.Click += new System.EventHandler(this.btnpickcolor_Click);
-            // 
-            // labheaderboxcolor
-            // 
-            this.labheaderboxcolor.AutoSize = true;
-            this.labheaderboxcolor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labheaderboxcolor.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.labheaderboxcolor.Location = new System.Drawing.Point(419, 0);
-            this.labheaderboxcolor.Name = "labheaderboxcolor";
-            this.labheaderboxcolor.Size = new System.Drawing.Size(94, 46);
-            this.labheaderboxcolor.TabIndex = 46;
-            this.labheaderboxcolor.Text = "Header color";
-            this.labheaderboxcolor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // btnserach
             // 
-            this.btnserach.BackgroundImage = global::FoodandBeverage.Properties.Resources.search_report;
+            this.btnserach.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_SEARCH;
             this.btnserach.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnserach.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnserach.FlatAppearance.BorderSize = 0;
             this.btnserach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnserach.Location = new System.Drawing.Point(955, 3);
+            this.btnserach.Location = new System.Drawing.Point(802, 3);
             this.btnserach.Name = "btnserach";
-            this.btnserach.Size = new System.Drawing.Size(96, 40);
+            this.btnserach.Size = new System.Drawing.Size(82, 35);
             this.btnserach.TabIndex = 48;
             this.btnserach.UseVisualStyleBackColor = true;
             this.btnserach.Click += new System.EventHandler(this.btnserach_Click);
@@ -456,7 +434,7 @@ namespace FoodandBeverage.Report
             this.crv_report.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.crv_report.Cursor = System.Windows.Forms.Cursors.Default;
             this.crv_report.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.crv_report.Location = new System.Drawing.Point(3, 117);
+            this.crv_report.Location = new System.Drawing.Point(3, 143);
             this.crv_report.Name = "crv_report";
             this.crv_report.ShowCloseButton = false;
             this.crv_report.ShowCopyButton = false;
@@ -468,7 +446,7 @@ namespace FoodandBeverage.Report
             this.crv_report.ShowRefreshButton = false;
             this.crv_report.ShowTextSearchButton = false;
             this.crv_report.ShowZoomButton = false;
-            this.crv_report.Size = new System.Drawing.Size(897, 417);
+            this.crv_report.Size = new System.Drawing.Size(887, 381);
             this.crv_report.TabIndex = 2;
             this.crv_report.Tag = "31";
             this.crv_report.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
@@ -496,7 +474,7 @@ namespace FoodandBeverage.Report
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Location = new System.Drawing.Point(5, 5);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(34, 18);
             this.label5.TabIndex = 30;
@@ -525,17 +503,74 @@ namespace FoodandBeverage.Report
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(0, 24);
+            this.label6.Location = new System.Drawing.Point(5, 29);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 18);
             this.label6.TabIndex = 27;
             this.label6.Text = "From :";
             // 
+            // tlp_navbar
+            // 
+            this.tlp_navbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
+            this.tlp_navbar.ColumnCount = 3;
+            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_navbar.Controls.Add(this.label2, 0, 0);
+            this.tlp_navbar.Controls.Add(this.btnmini, 1, 0);
+            this.tlp_navbar.Controls.Add(this.btncolse, 2, 0);
+            this.tlp_navbar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_navbar.Location = new System.Drawing.Point(3, 3);
+            this.tlp_navbar.Name = "tlp_navbar";
+            this.tlp_navbar.RowCount = 1;
+            this.tlp_navbar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_navbar.Size = new System.Drawing.Size(887, 31);
+            this.tlp_navbar.TabIndex = 18;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(72, 24);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Report";
+            // 
+            // btnmini
+            // 
+            this.btnmini.BackColor = System.Drawing.Color.White;
+            this.btnmini.FlatAppearance.BorderSize = 0;
+            this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnmini.ForeColor = System.Drawing.Color.Black;
+            this.btnmini.Location = new System.Drawing.Point(828, 3);
+            this.btnmini.Name = "btnmini";
+            this.btnmini.Size = new System.Drawing.Size(25, 25);
+            this.btnmini.TabIndex = 9;
+            this.btnmini.Text = "-";
+            this.btnmini.UseVisualStyleBackColor = false;
+            // 
+            // btncolse
+            // 
+            this.btncolse.BackColor = System.Drawing.Color.White;
+            this.btncolse.FlatAppearance.BorderSize = 0;
+            this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncolse.ForeColor = System.Drawing.Color.Red;
+            this.btncolse.Location = new System.Drawing.Point(859, 3);
+            this.btncolse.Name = "btncolse";
+            this.btncolse.Size = new System.Drawing.Size(25, 25);
+            this.btncolse.TabIndex = 10;
+            this.btncolse.Text = "X";
+            this.btncolse.UseVisualStyleBackColor = false;
+            // 
             // Frmreport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.ClientSize = new System.Drawing.Size(903, 537);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.dtpfrom);
@@ -544,8 +579,10 @@ namespace FoodandBeverage.Report
             this.Controls.Add(this.dtpto);
             this.Controls.Add(this.dtp_to_time);
             this.Controls.Add(this.pnl_report);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Frmreport";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "Frmreport";
             this.Load += new System.EventHandler(this.Frmreport_Load);
             this.pnl_report.ResumeLayout(false);
@@ -557,13 +594,14 @@ namespace FoodandBeverage.Report
             this.tabDateTimePanel.ResumeLayout(false);
             this.tabDateTimePanel.PerformLayout();
             this.tlp_second_row.ResumeLayout(false);
-            this.tlp_second_row.PerformLayout();
             this.tlp_reorder.ResumeLayout(false);
             this.tlp_reorder.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_reorderqty)).EndInit();
             this.tlp_sublist.ResumeLayout(false);
             this.tlp_sublist.PerformLayout();
             this.tblReportCategory.ResumeLayout(false);
+            this.tlp_navbar.ResumeLayout(false);
+            this.tlp_navbar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -596,12 +634,14 @@ namespace FoodandBeverage.Report
         private System.Windows.Forms.Button btnWeekEnd;
         private System.Windows.Forms.Button btnMonthly;
         private System.Windows.Forms.Button btnWeekly;
-        private System.Windows.Forms.Button btnpickcolor;
-        private System.Windows.Forms.Label labheaderboxcolor;
         private System.Windows.Forms.Button btnserach;
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crv_report;
         private System.Windows.Forms.TableLayoutPanel tlp_reorder;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nud_reorderqty;
+        private System.Windows.Forms.TableLayoutPanel tlp_navbar;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnmini;
+        private System.Windows.Forms.Button btncolse;
     }
 }

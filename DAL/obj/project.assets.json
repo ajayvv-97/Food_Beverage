@@ -126,6 +126,15 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
+      "RJCodeAdvance.RJControls/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/RJCodeAdvance.RJControls.dll": {}
+        },
+        "runtime": {
+          "lib/net45/RJCodeAdvance.RJControls.dll": {}
+        }
+      },
       "runtime.native.System.Data.SqlClient.sni/4.5.0": {
         "type": "package",
         "dependencies": {
@@ -403,6 +412,7 @@
         "dependencies": {
           "CircularProgressBar": "2.8.0.16",
           "LiveCharts.WinForms": "0.9.7.1",
+          "RJCodeAdvance.RJControls": "1.0.0",
           "iTextSharp": "5.5.13.4"
         },
         "compile": {
@@ -719,6 +729,18 @@
         "lib/netstandard1.0/_._",
         "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
+      ]
+    },
+    "RJCodeAdvance.RJControls/1.0.0": {
+      "sha512": "O+drkZ7lKfMdRRgXKiy2Z/ENhU5Ee2j2mXSzHWwEN2thtRDrWjoUpUvUm9gSFX8susKj1yeVmtMG3qYeNBvmBw==",
+      "type": "package",
+      "path": "rjcodeadvance.rjcontrols/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/RJCodeAdvance.RJControls.dll",
+        "rjcodeadvance.rjcontrols.1.0.0.nupkg.sha512",
+        "rjcodeadvance.rjcontrols.nuspec"
       ]
     },
     "runtime.native.System.Data.SqlClient.sni/4.5.0": {
@@ -1750,6 +1772,7 @@
       "Domain >= 1.0.0",
       "LiveCharts.WinForms >= 0.9.7.1",
       "NETStandard.Library >= 2.0.3",
+      "RJCodeAdvance.RJControls >= 1.0.0",
       "System.Data.SqlClient >= 4.6.1",
       "iTextSharp >= 5.5.13.4"
     ]
@@ -1814,6 +1837,10 @@
             "target": "Package",
             "version": "[2.0.3, )",
             "autoReferenced": true
+          },
+          "RJCodeAdvance.RJControls": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           },
           "System.Data.SqlClient": {
             "target": "Package",
@@ -1885,6 +1912,16 @@
       "warningLevel": 1,
       "message": "Package 'LiveCharts.Wpf 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
       "libraryId": "LiveCharts.Wpf",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'RJCodeAdvance.RJControls 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "RJCodeAdvance.RJControls",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
       ]

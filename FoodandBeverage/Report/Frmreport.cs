@@ -897,7 +897,7 @@ namespace FoodandBeverage.Report
                 {
                     ColorChk = true;
                     selectedColor = cd_headingcolor.Color;
-                    labheaderboxcolor.BackColor = selectedColor;
+                   // labheaderboxcolor.BackColor = selectedColor;
                     //FindAndSetColor
                 }
                 else
