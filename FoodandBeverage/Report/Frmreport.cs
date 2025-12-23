@@ -26,10 +26,12 @@ namespace FoodandBeverage.Report
         public static int UserType = 0;
         public static int Allaccess = 0;
         public int Reportid = 0;
-        public Frmreport(int Rpid)
+        public Frmreport(int Rpid,int id)
         {
-            Reportid = Rpid;
+            
             InitializeComponent();
+            Reportid = Rpid;
+            textBox1.Text = id.ToString();
             UserId = Convert.ToInt32(FrmLogin.UserId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
@@ -53,7 +55,8 @@ namespace FoodandBeverage.Report
         {
             try
             {
-                combofill_report();
+                //combofill_report();
+                
                 Fill_combo_finyear();
 
                 dtpfrom.Dock = DockStyle.Fill;
@@ -265,20 +268,9 @@ namespace FoodandBeverage.Report
                     fTime = dtpfrom.Value.Date; // 00:00:00
                     tTime = dtpto.Value.Date.AddDays(1).AddSeconds(-1); // 23:59:59 of the same day
                 }
-                switch (Convert.ToInt32(cmbreport.SelectedValue))
+                switch (Convert.ToInt32(textBox1.Text))
                 {
-                    //case 2:
-                    //    s_FillReport_RechargeList();
-                    //    break;
-                    //case 4:
-                    //    //s_FillReport_DailyCollection();
-                    //    break;
-                    //case 5:
-                    //    s_FillReport_TopPlayedGame();
-                    //    break;
-                    //case 6:
-                    //    s_FillReport_TopPlayer();
-                    //    break;
+                    
                     case 7:
                         s_FillReport_PopularItems();
                         break;
@@ -294,18 +286,9 @@ namespace FoodandBeverage.Report
                     case 14:
                         s_FillReport_MidasCard_PaymetReport();
                         break;
-                    //case 15:
-                    //    s_FillReport_GameList();
-                    //    break;
-                    //case 16:
-                    //    //s_FillReport_CardHistory();
-                    //    break;
-                    //case 17:
-                    //    s_FillReport_CashRevenue();
-                    //    break;
-                    //case 18:
-                    //    s_FillReport_GameRevenue();
-                    //    break;
+                    case 17:
+                        //s_FillReport_CashRevenue();
+                        break;
                     case 19:
                         s_FillReport_supplierPurchase_return(); ;
                         break;
@@ -324,40 +307,10 @@ namespace FoodandBeverage.Report
                     case 25:
                         s_FillReport_Expence();
                         break;
-                    //case 26:
-                    //    s_FillReport_PointBalance();
-                    //    break;
                     case 27:
-                        if (tlp_sublist.Visible)
-                            s_FillReport_Inventory(Convert.ToInt32(cmbSublist.SelectedIndex));
+                        tlp_sublist.Visible = true;
+                        s_FillReport_Inventory(Convert.ToInt32(cmbSublist.SelectedIndex));
                         break;
-                    //case 28:
-                    //    s_FillReport_CardVoid();
-                    //    break;
-                    //case 29:
-                    //    s_FillReport_SaleVoid();
-                    //    break;
-                    //case 30:
-                    //    s_FillReport_Salesreturns();
-                    //    break;
-                    //case 31:
-                    //    s_FillReport_Clearcard();
-                    //    break;
-                    //case 32:
-                    //    s_FillReport_CardTransfer();
-                    //    break;
-                    //case 33:
-                    //    s_FillReport_FamilyCard();
-                    //    break;
-                    //case 34:
-                    //    s_FillReport_Group_Sale();
-                    //    break;
-                    //case 35:
-                    //    s_FillReport_RefundCard();
-                    //    break;
-                    //case 36:
-                    //    s_FillReport_ThridPartyCardTransfer();
-                    //    break;
                     case 37:
                         s_FillReport_Stockusage();
                         break;
@@ -365,21 +318,6 @@ namespace FoodandBeverage.Report
                     case 38:
                         s_FillReport_AnuvalGameRevenue();
                         break;
-                    //case 39:
-                    //    s_FillReport_CardSummary();
-                    //    break;
-                    //case 40:
-                    //    s_FillReport_CardLiability();
-                    //    break;
-                    //case 41:
-                    //    s_FillReport_CardSummaryInDetailed();
-                    //    break;
-                    //case 42:
-                    //    s_FillReport_CustomerTraffic();
-                    //    break;
-                    //case 43:
-                    //    s_FillReport_memberactivity();
-                    //    break;
                     case 44:
                         s_FillReport_TableOccupancyReport();
                         break;
@@ -395,12 +333,6 @@ namespace FoodandBeverage.Report
                     case 48:
                         s_FillReport_saleDetailsReport();
                         break;
-                        //case 49:
-                        //    s_FillReport_RedemptionDamagedProducts();
-                        //    break;
-                        //case 50:
-                        //    s_FillReport_Inventory(Convert.ToInt32(cmbreport.SelectedValue));
-                        //    break;
                 }
             }
             catch (Exception ex)
@@ -777,7 +709,7 @@ namespace FoodandBeverage.Report
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchDetBill = new DmnSearch();
-                dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,CusName  as sFld3,Telephone  as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4";/*,fcm. as dFld2,fcm.Tax as dFld3*/
+                dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,FirstName  as sFld3,PhoneNumber  as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4";/*,fcm. as dFld2,fcm.Tax as dFld3*/
                 dmnSearchDetBill.Table = "tblSalesMaster s";
                 dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and s.BranchId = " + BranchId;
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
@@ -1663,7 +1595,7 @@ namespace FoodandBeverage.Report
                 tlp_finyear.Visible = false;
                 tabDateTimePanel.Visible = false;
                 tblReportCategory.Visible = false;
-                if (Convert.ToInt32(cmbreport.SelectedValue) == 27)
+                if (Convert.ToInt32(textBox1.Text) == 27)
                 {
                     tabDateTimePanel.Visible = true;
                     cmbSublist.DataSource = null;
@@ -1673,7 +1605,7 @@ namespace FoodandBeverage.Report
                     cmbSublist.DataSource = sublistOptions;
                     cmbSublist.SelectedIndex = 0;
                 }
-                else if (Convert.ToInt32(cmbreport.SelectedValue) == 10)
+                else if (Convert.ToInt32(textBox1.Text) == 10)
                 {
                     tabDateTimePanel.Visible = true;
                     cmbSublist.DataSource = null;
@@ -1683,7 +1615,7 @@ namespace FoodandBeverage.Report
                     cmbSublist.DataSource = sublistOptions;
                     cmbSublist.SelectedIndex = 0;
                 }
-                else if (Convert.ToInt32(cmbreport.SelectedValue) == 24)
+                else if (Convert.ToInt32(textBox1.Text) == 24)
                 {
                     tabDateTimePanel.Visible = true;
                     tlp_reorder.Visible = true;
@@ -1694,14 +1626,14 @@ namespace FoodandBeverage.Report
                     cmbSublist.DataSource = sublistOptions;
                     cmbSublist.SelectedIndex = 0;
                 }
-                else if (Convert.ToInt32(cmbreport.SelectedValue) == 38)
+                else if (Convert.ToInt32(textBox1.Text) == 38)
                 {
                     tlp_sublist.Visible = false;
                     tlp_reorder.Visible = false;
                     tlp_finyear.Visible = true;
                     tblReportCategory.Visible = false;
                 }
-                else if (Convert.ToInt32(cmbreport.SelectedValue) == 45)
+                else if (Convert.ToInt32(textBox1.Text) == 45)
                 {
                     tlp_sublist.Visible = true;
                     tlp_reorder.Visible = false;
@@ -1714,7 +1646,7 @@ namespace FoodandBeverage.Report
                     cmbSublist.DataSource = sublistOptions;
                     cmbSublist.SelectedIndex = 0;
                 }
-                else if (Convert.ToInt32(cmbreport.SelectedValue) == 46)
+                else if (Convert.ToInt32(textBox1.Text) == 46)
                 {
                     tlp_sublist.Visible = true;
                     tlp_reorder.Visible = false;
@@ -1727,7 +1659,7 @@ namespace FoodandBeverage.Report
                     cmbSublist.DataSource = sublistOptions;
                     cmbSublist.SelectedIndex = 0;
                 }
-                else if (Convert.ToInt32(cmbreport.SelectedValue) == 22)
+                else if (Convert.ToInt32(textBox1.Text) == 22)
                 {
                     tlp_sublist.Visible = true;
                     tlp_reorder.Visible = false;
@@ -1748,7 +1680,7 @@ namespace FoodandBeverage.Report
                     cmbSublist.ValueMember = "Id";
                     cmbSublist.DisplayMember = "Value";
                 }
-                else if (Convert.ToInt32(cmbreport.SelectedValue) == 19)
+                else if (Convert.ToInt32(textBox1.Text) == 19)
                 {
                     tlp_sublist.Visible = true;
                     tlp_reorder.Visible = false;
@@ -2142,11 +2074,17 @@ namespace FoodandBeverage.Report
             }
 
         }
+
+        private void tlp_second_row_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         public void combofill_report()
         {
             try
             {
-                cmbreport.DataSource = null;
+                //cmbreport.DataSource = null;
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch = new DmnSearch();
@@ -2189,9 +2127,9 @@ namespace FoodandBeverage.Report
                 objSearch.OrderBy = "order by Id";
                 var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
 
-                cmbreport.DataSource = gridSource;
-                cmbreport.ValueMember = "Id";
-                cmbreport.DisplayMember = "value";
+                //cmbreport.DataSource = gridSource;
+                //cmbreport.ValueMember = "Id";
+                //cmbreport.DisplayMember = "value";
             }
             catch (Exception ex)
             {

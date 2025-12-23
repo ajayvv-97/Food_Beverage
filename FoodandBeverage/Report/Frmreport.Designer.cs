@@ -37,12 +37,11 @@ namespace FoodandBeverage.Report
             this.btnmini = new System.Windows.Forms.Button();
             this.btncolse = new System.Windows.Forms.Button();
             this.tlp_top_row = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cmbreport = new System.Windows.Forms.ComboBox();
             this.tlp_finyear = new System.Windows.Forms.TableLayoutPanel();
             this.cmb_fin_year = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tabDateTimePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.chk_time = new System.Windows.Forms.CheckBox();
             this.tlp_second_row = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_reorder = new System.Windows.Forms.TableLayoutPanel();
@@ -173,8 +172,6 @@ namespace FoodandBeverage.Report
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_top_row.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_top_row.Controls.Add(this.label4, 0, 0);
-            this.tlp_top_row.Controls.Add(this.cmbreport, 1, 0);
             this.tlp_top_row.Controls.Add(this.tlp_finyear, 3, 0);
             this.tlp_top_row.Controls.Add(this.tabDateTimePanel, 4, 0);
             this.tlp_top_row.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -185,29 +182,6 @@ namespace FoodandBeverage.Report
             this.tlp_top_row.Size = new System.Drawing.Size(887, 50);
             this.tlp_top_row.TabIndex = 0;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(3, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 18);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "Report ";
-            // 
-            // cmbreport
-            // 
-            this.cmbreport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.cmbreport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbreport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbreport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbreport.FormattingEnabled = true;
-            this.cmbreport.Location = new System.Drawing.Point(66, 3);
-            this.cmbreport.Name = "cmbreport";
-            this.cmbreport.Size = new System.Drawing.Size(185, 26);
-            this.cmbreport.TabIndex = 22;
-            this.cmbreport.SelectionChangeCommitted += new System.EventHandler(this.cmbreport_SelectionChangeCommitted);
-            // 
             // tlp_finyear
             // 
             this.tlp_finyear.ColumnCount = 2;
@@ -216,10 +190,11 @@ namespace FoodandBeverage.Report
             this.tlp_finyear.Controls.Add(this.cmb_fin_year, 1, 0);
             this.tlp_finyear.Controls.Add(this.label8, 0, 0);
             this.tlp_finyear.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_finyear.Location = new System.Drawing.Point(257, 3);
+            this.tlp_finyear.Location = new System.Drawing.Point(3, 3);
             this.tlp_finyear.Name = "tlp_finyear";
-            this.tlp_finyear.RowCount = 1;
+            this.tlp_finyear.RowCount = 2;
             this.tlp_finyear.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_finyear.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_finyear.Size = new System.Drawing.Size(310, 44);
             this.tlp_finyear.TabIndex = 50;
             this.tlp_finyear.Visible = false;
@@ -243,7 +218,7 @@ namespace FoodandBeverage.Report
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(100, 44);
+            this.label8.Size = new System.Drawing.Size(100, 24);
             this.label8.TabIndex = 7;
             this.label8.Text = "Financial Year";
             // 
@@ -259,15 +234,24 @@ namespace FoodandBeverage.Report
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tabDateTimePanel.Controls.Add(this.textBox1, 7, 0);
             this.tabDateTimePanel.Controls.Add(this.chk_time, 0, 0);
             this.tabDateTimePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabDateTimePanel.Location = new System.Drawing.Point(573, 3);
+            this.tabDateTimePanel.Location = new System.Drawing.Point(319, 3);
             this.tabDateTimePanel.Name = "tabDateTimePanel";
             this.tabDateTimePanel.RowCount = 2;
             this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tabDateTimePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tabDateTimePanel.Size = new System.Drawing.Size(311, 44);
+            this.tabDateTimePanel.Size = new System.Drawing.Size(565, 44);
             this.tabDateTimePanel.TabIndex = 33;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(69, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 35;
+            this.textBox1.Visible = false;
             // 
             // chk_time
             // 
@@ -304,6 +288,7 @@ namespace FoodandBeverage.Report
             this.tlp_second_row.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_second_row.Size = new System.Drawing.Size(887, 41);
             this.tlp_second_row.TabIndex = 1;
+            this.tlp_second_row.Paint += new System.Windows.Forms.PaintEventHandler(this.tlp_second_row_Paint);
             // 
             // tlp_reorder
             // 
@@ -590,7 +575,6 @@ namespace FoodandBeverage.Report
             this.tlp_navbar.ResumeLayout(false);
             this.tlp_navbar.PerformLayout();
             this.tlp_top_row.ResumeLayout(false);
-            this.tlp_top_row.PerformLayout();
             this.tlp_finyear.ResumeLayout(false);
             this.tlp_finyear.PerformLayout();
             this.tabDateTimePanel.ResumeLayout(false);
@@ -612,7 +596,6 @@ namespace FoodandBeverage.Report
         private System.Windows.Forms.Panel pnl_report;
         private System.Windows.Forms.TableLayoutPanel tlp_report_main;
         private System.Windows.Forms.TableLayoutPanel tlp_top_row;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TableLayoutPanel tabDateTimePanel;
         private System.Windows.Forms.DateTimePicker dtp_to_time;
         private System.Windows.Forms.DateTimePicker dtpto;
@@ -621,7 +604,6 @@ namespace FoodandBeverage.Report
         private System.Windows.Forms.DateTimePicker dtpfrom;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox chk_time;
-        private System.Windows.Forms.ComboBox cmbreport;
         private System.Windows.Forms.TableLayoutPanel tlp_finyear;
         private System.Windows.Forms.ComboBox cmb_fin_year;
         private System.Windows.Forms.Label label8;
@@ -643,5 +625,6 @@ namespace FoodandBeverage.Report
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnmini;
         private System.Windows.Forms.Button btncolse;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
