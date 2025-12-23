@@ -337,6 +337,39 @@ namespace FoodandBeverage.Forms
             this.pbsync = new System.Windows.Forms.ProgressBar();
             this.lblsynctext = new System.Windows.Forms.Label();
             this.timerSync = new System.Windows.Forms.Timer(this.components);
+            this.rjDropdownReport = new RJCodeAdvance.RJControls.RJDropdownMenu(this.components);
+            this.salesReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saleReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saleDetailsReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.annualReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.paymentReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.midasCardPaymentReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemMenuReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.popularItemReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.employeeReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.employeeReportsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableOrderReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableOccupancyRepotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inventoryStockReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inventoryReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stockUsageReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.slowMovingItemReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reorderReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.purchaseReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.purchaseReturnReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.supplierReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.supplierPurchaseReturnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.discountOfferReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disocuntOfferReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboOfferReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.voidRefundReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expenseReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refundReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.voidReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shiftDayEndReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cutomerReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customerReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnl_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_appicon)).BeginInit();
             this.pnl_hidecntrl.SuspendLayout();
@@ -424,6 +457,7 @@ namespace FoodandBeverage.Forms
             this.tlp_des_logout.SuspendLayout();
             this.tlp_des_lock.SuspendLayout();
             this.pnl_datasync.SuspendLayout();
+            this.rjDropdownReport.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_header
@@ -948,7 +982,7 @@ namespace FoodandBeverage.Forms
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.77076F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.22924F));
-            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 129F));
+            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tbl_Sub.Controls.Add(this.txtgid, 3, 1);
             this.tbl_Sub.Controls.Add(this.txtimgpath, 3, 0);
             this.tbl_Sub.Controls.Add(this.label46, 1, 2);
@@ -970,7 +1004,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtgid
             // 
-            this.txtgid.Location = new System.Drawing.Point(443, 47);
+            this.txtgid.Location = new System.Drawing.Point(442, 47);
             this.txtgid.Name = "txtgid";
             this.txtgid.Size = new System.Drawing.Size(20, 20);
             this.txtgid.TabIndex = 220;
@@ -979,7 +1013,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtimgpath
             // 
-            this.txtimgpath.Location = new System.Drawing.Point(443, 3);
+            this.txtimgpath.Location = new System.Drawing.Point(442, 3);
             this.txtimgpath.Name = "txtimgpath";
             this.txtimgpath.Size = new System.Drawing.Size(20, 20);
             this.txtimgpath.TabIndex = 221;
@@ -993,7 +1027,7 @@ namespace FoodandBeverage.Forms
             this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label46.Location = new System.Drawing.Point(27, 88);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(164, 44);
+            this.label46.Size = new System.Drawing.Size(163, 44);
             this.label46.TabIndex = 260;
             this.label46.Text = "Bill Footer Content (Arabic)";
             this.label46.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1005,7 +1039,7 @@ namespace FoodandBeverage.Forms
             this.label47.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label47.Location = new System.Drawing.Point(27, 44);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(164, 44);
+            this.label47.Size = new System.Drawing.Size(163, 44);
             this.label47.TabIndex = 258;
             this.label47.Text = "Company Address (Arabic)";
             this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1017,7 +1051,7 @@ namespace FoodandBeverage.Forms
             this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.Location = new System.Drawing.Point(27, 0);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(164, 44);
+            this.label48.Size = new System.Drawing.Size(163, 44);
             this.label48.TabIndex = 0;
             this.label48.Text = "Company Name (Arabic)";
             this.label48.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1026,7 +1060,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_cmpname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpname.Location = new System.Drawing.Point(197, 3);
+            this.txt_cmpname.Location = new System.Drawing.Point(196, 3);
             this.txt_cmpname.Multiline = true;
             this.txt_cmpname.Name = "txt_cmpname";
             this.txt_cmpname.Size = new System.Drawing.Size(240, 38);
@@ -1036,7 +1070,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_cmpaddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpaddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpaddress.Location = new System.Drawing.Point(197, 47);
+            this.txt_cmpaddress.Location = new System.Drawing.Point(196, 47);
             this.txt_cmpaddress.Multiline = true;
             this.txt_cmpaddress.Name = "txt_cmpaddress";
             this.txt_cmpaddress.Size = new System.Drawing.Size(240, 38);
@@ -1046,7 +1080,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_footer_lang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_footer_lang.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_footer_lang.Location = new System.Drawing.Point(197, 91);
+            this.txt_footer_lang.Location = new System.Drawing.Point(196, 91);
             this.txt_footer_lang.Multiline = true;
             this.txt_footer_lang.Name = "txt_footer_lang";
             this.txt_footer_lang.Size = new System.Drawing.Size(240, 38);
@@ -2351,7 +2385,7 @@ namespace FoodandBeverage.Forms
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.85714F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.09824F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.10579F));
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 234F));
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 236F));
             this.tlp_autologout.Controls.Add(this.label56, 0, 0);
             this.tlp_autologout.Controls.Add(this.rtb_logouttime, 1, 0);
             this.tlp_autologout.Controls.Add(this.txtlogouttime, 2, 0);
@@ -2371,7 +2405,7 @@ namespace FoodandBeverage.Forms
             this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label56.Location = new System.Drawing.Point(3, 0);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(169, 38);
+            this.label56.Size = new System.Drawing.Size(168, 38);
             this.label56.TabIndex = 7;
             this.label56.Text = "Auto Logout When Idle";
             this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2380,7 +2414,7 @@ namespace FoodandBeverage.Forms
             // 
             this.rtb_logouttime.AutoSize = true;
             this.rtb_logouttime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_logouttime.Location = new System.Drawing.Point(178, 3);
+            this.rtb_logouttime.Location = new System.Drawing.Point(177, 3);
             this.rtb_logouttime.Name = "rtb_logouttime";
             this.rtb_logouttime.Size = new System.Drawing.Size(25, 32);
             this.rtb_logouttime.TabIndex = 0;
@@ -2390,7 +2424,7 @@ namespace FoodandBeverage.Forms
             // txtlogouttime
             // 
             this.txtlogouttime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtlogouttime.Location = new System.Drawing.Point(209, 3);
+            this.txtlogouttime.Location = new System.Drawing.Point(208, 3);
             this.txtlogouttime.Multiline = true;
             this.txtlogouttime.Name = "txtlogouttime";
             this.txtlogouttime.Size = new System.Drawing.Size(27, 20);
@@ -2409,7 +2443,7 @@ namespace FoodandBeverage.Forms
             this.btn_adv_idlelogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_adv_idlelogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_adv_idlelogout.ForeColor = System.Drawing.Color.White;
-            this.btn_adv_idlelogout.Location = new System.Drawing.Point(242, 3);
+            this.btn_adv_idlelogout.Location = new System.Drawing.Point(241, 3);
             this.btn_adv_idlelogout.Name = "btn_adv_idlelogout";
             this.btn_adv_idlelogout.Size = new System.Drawing.Size(72, 23);
             this.btn_adv_idlelogout.TabIndex = 10;
@@ -5099,6 +5133,250 @@ namespace FoodandBeverage.Forms
             // 
             this.timerSync.Tick += new System.EventHandler(this.timerSync_Tick);
             // 
+            // rjDropdownReport
+            // 
+            this.rjDropdownReport.IsMainMenu = false;
+            this.rjDropdownReport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.salesReportsToolStripMenuItem,
+            this.paymentReportsToolStripMenuItem,
+            this.itemMenuReportsToolStripMenuItem,
+            this.employeeReportsToolStripMenuItem,
+            this.tableOrderReportsToolStripMenuItem,
+            this.inventoryStockReportsToolStripMenuItem,
+            this.discountOfferReportsToolStripMenuItem,
+            this.voidRefundReportsToolStripMenuItem,
+            this.shiftDayEndReportsToolStripMenuItem,
+            this.cutomerReportsToolStripMenuItem});
+            this.rjDropdownReport.MenuItemHeight = 25;
+            this.rjDropdownReport.MenuItemTextColor = System.Drawing.Color.Empty;
+            this.rjDropdownReport.Name = "rjDropdownReport";
+            this.rjDropdownReport.PrimaryColor = System.Drawing.Color.Empty;
+            this.rjDropdownReport.Size = new System.Drawing.Size(208, 246);
+            this.rjDropdownReport.Text = "Report";
+            // 
+            // salesReportsToolStripMenuItem
+            // 
+            this.salesReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saleReportsToolStripMenuItem,
+            this.saleDetailsReportsToolStripMenuItem,
+            this.annualReportsToolStripMenuItem});
+            this.salesReportsToolStripMenuItem.Name = "salesReportsToolStripMenuItem";
+            this.salesReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.salesReportsToolStripMenuItem.Text = "Sales Reports";
+            // 
+            // saleReportsToolStripMenuItem
+            // 
+            this.saleReportsToolStripMenuItem.Name = "saleReportsToolStripMenuItem";
+            this.saleReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saleReportsToolStripMenuItem.Text = "Sale Reports";
+            // 
+            // saleDetailsReportsToolStripMenuItem
+            // 
+            this.saleDetailsReportsToolStripMenuItem.Name = "saleDetailsReportsToolStripMenuItem";
+            this.saleDetailsReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saleDetailsReportsToolStripMenuItem.Text = "Sale Details Reports";
+            // 
+            // annualReportsToolStripMenuItem
+            // 
+            this.annualReportsToolStripMenuItem.Name = "annualReportsToolStripMenuItem";
+            this.annualReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.annualReportsToolStripMenuItem.Text = "Annual Reports";
+            // 
+            // paymentReportsToolStripMenuItem
+            // 
+            this.paymentReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.midasCardPaymentReportsToolStripMenuItem});
+            this.paymentReportsToolStripMenuItem.Name = "paymentReportsToolStripMenuItem";
+            this.paymentReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.paymentReportsToolStripMenuItem.Text = "Payment Reports";
+            // 
+            // midasCardPaymentReportsToolStripMenuItem
+            // 
+            this.midasCardPaymentReportsToolStripMenuItem.Name = "midasCardPaymentReportsToolStripMenuItem";
+            this.midasCardPaymentReportsToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.midasCardPaymentReportsToolStripMenuItem.Text = "Midas Card Payment Reports";
+            // 
+            // itemMenuReportsToolStripMenuItem
+            // 
+            this.itemMenuReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.popularItemReportsToolStripMenuItem,
+            this.menuReportsToolStripMenuItem});
+            this.itemMenuReportsToolStripMenuItem.Name = "itemMenuReportsToolStripMenuItem";
+            this.itemMenuReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.itemMenuReportsToolStripMenuItem.Text = "Item / Menu Reports";
+            // 
+            // popularItemReportsToolStripMenuItem
+            // 
+            this.popularItemReportsToolStripMenuItem.Name = "popularItemReportsToolStripMenuItem";
+            this.popularItemReportsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.popularItemReportsToolStripMenuItem.Text = "Popular Item Reports";
+            // 
+            // menuReportsToolStripMenuItem
+            // 
+            this.menuReportsToolStripMenuItem.Name = "menuReportsToolStripMenuItem";
+            this.menuReportsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.menuReportsToolStripMenuItem.Text = "Menu reports";
+            // 
+            // employeeReportsToolStripMenuItem
+            // 
+            this.employeeReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.employeeReportsToolStripMenuItem1});
+            this.employeeReportsToolStripMenuItem.Name = "employeeReportsToolStripMenuItem";
+            this.employeeReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.employeeReportsToolStripMenuItem.Text = "Employee Reports";
+            // 
+            // employeeReportsToolStripMenuItem1
+            // 
+            this.employeeReportsToolStripMenuItem1.Name = "employeeReportsToolStripMenuItem1";
+            this.employeeReportsToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
+            this.employeeReportsToolStripMenuItem1.Text = "Employee Reports";
+            // 
+            // tableOrderReportsToolStripMenuItem
+            // 
+            this.tableOrderReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tableOccupancyRepotsToolStripMenuItem});
+            this.tableOrderReportsToolStripMenuItem.Name = "tableOrderReportsToolStripMenuItem";
+            this.tableOrderReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.tableOrderReportsToolStripMenuItem.Text = "Table / Order Reports";
+            // 
+            // tableOccupancyRepotsToolStripMenuItem
+            // 
+            this.tableOccupancyRepotsToolStripMenuItem.Name = "tableOccupancyRepotsToolStripMenuItem";
+            this.tableOccupancyRepotsToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.tableOccupancyRepotsToolStripMenuItem.Text = "Table Occupancy Repots";
+            // 
+            // inventoryStockReportsToolStripMenuItem
+            // 
+            this.inventoryStockReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inventoryReportsToolStripMenuItem,
+            this.stockUsageReportsToolStripMenuItem,
+            this.slowMovingItemReportsToolStripMenuItem,
+            this.reorderReportsToolStripMenuItem,
+            this.purchaseReportsToolStripMenuItem,
+            this.purchaseReturnReportsToolStripMenuItem,
+            this.supplierReportsToolStripMenuItem,
+            this.supplierPurchaseReturnToolStripMenuItem});
+            this.inventoryStockReportsToolStripMenuItem.Name = "inventoryStockReportsToolStripMenuItem";
+            this.inventoryStockReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.inventoryStockReportsToolStripMenuItem.Text = "Inventory / Stock Reports";
+            // 
+            // inventoryReportsToolStripMenuItem
+            // 
+            this.inventoryReportsToolStripMenuItem.Name = "inventoryReportsToolStripMenuItem";
+            this.inventoryReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.inventoryReportsToolStripMenuItem.Text = "Inventory Reports";
+            // 
+            // stockUsageReportsToolStripMenuItem
+            // 
+            this.stockUsageReportsToolStripMenuItem.Name = "stockUsageReportsToolStripMenuItem";
+            this.stockUsageReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.stockUsageReportsToolStripMenuItem.Text = "Stock usage Reports";
+            // 
+            // slowMovingItemReportsToolStripMenuItem
+            // 
+            this.slowMovingItemReportsToolStripMenuItem.Name = "slowMovingItemReportsToolStripMenuItem";
+            this.slowMovingItemReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.slowMovingItemReportsToolStripMenuItem.Text = "Slow moving Item Reports";
+            // 
+            // reorderReportsToolStripMenuItem
+            // 
+            this.reorderReportsToolStripMenuItem.Name = "reorderReportsToolStripMenuItem";
+            this.reorderReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.reorderReportsToolStripMenuItem.Text = "Reorder Reports";
+            // 
+            // purchaseReportsToolStripMenuItem
+            // 
+            this.purchaseReportsToolStripMenuItem.Name = "purchaseReportsToolStripMenuItem";
+            this.purchaseReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.purchaseReportsToolStripMenuItem.Text = "Purchase Reports";
+            // 
+            // purchaseReturnReportsToolStripMenuItem
+            // 
+            this.purchaseReturnReportsToolStripMenuItem.Name = "purchaseReturnReportsToolStripMenuItem";
+            this.purchaseReturnReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.purchaseReturnReportsToolStripMenuItem.Text = "Purchase Return Reports";
+            // 
+            // supplierReportsToolStripMenuItem
+            // 
+            this.supplierReportsToolStripMenuItem.Name = "supplierReportsToolStripMenuItem";
+            this.supplierReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.supplierReportsToolStripMenuItem.Text = "Supplier Reports";
+            // 
+            // supplierPurchaseReturnToolStripMenuItem
+            // 
+            this.supplierPurchaseReturnToolStripMenuItem.Name = "supplierPurchaseReturnToolStripMenuItem";
+            this.supplierPurchaseReturnToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.supplierPurchaseReturnToolStripMenuItem.Text = "Supplier Purchase Return Reports";
+            // 
+            // discountOfferReportsToolStripMenuItem
+            // 
+            this.discountOfferReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.disocuntOfferReportsToolStripMenuItem,
+            this.comboOfferReportsToolStripMenuItem});
+            this.discountOfferReportsToolStripMenuItem.Name = "discountOfferReportsToolStripMenuItem";
+            this.discountOfferReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.discountOfferReportsToolStripMenuItem.Text = "Discount / Offer Reports";
+            // 
+            // disocuntOfferReportsToolStripMenuItem
+            // 
+            this.disocuntOfferReportsToolStripMenuItem.Name = "disocuntOfferReportsToolStripMenuItem";
+            this.disocuntOfferReportsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.disocuntOfferReportsToolStripMenuItem.Text = "Disocunt Offer Reports";
+            // 
+            // comboOfferReportsToolStripMenuItem
+            // 
+            this.comboOfferReportsToolStripMenuItem.Name = "comboOfferReportsToolStripMenuItem";
+            this.comboOfferReportsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.comboOfferReportsToolStripMenuItem.Text = "Combo Offer Reports";
+            // 
+            // voidRefundReportsToolStripMenuItem
+            // 
+            this.voidRefundReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.expenseReportsToolStripMenuItem,
+            this.refundReportsToolStripMenuItem,
+            this.voidReportsToolStripMenuItem});
+            this.voidRefundReportsToolStripMenuItem.Name = "voidRefundReportsToolStripMenuItem";
+            this.voidRefundReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.voidRefundReportsToolStripMenuItem.Text = "Void / Refund Reports";
+            // 
+            // expenseReportsToolStripMenuItem
+            // 
+            this.expenseReportsToolStripMenuItem.Name = "expenseReportsToolStripMenuItem";
+            this.expenseReportsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.expenseReportsToolStripMenuItem.Text = "Expense Reports";
+            // 
+            // refundReportsToolStripMenuItem
+            // 
+            this.refundReportsToolStripMenuItem.Name = "refundReportsToolStripMenuItem";
+            this.refundReportsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.refundReportsToolStripMenuItem.Text = "Refund Reports";
+            // 
+            // voidReportsToolStripMenuItem
+            // 
+            this.voidReportsToolStripMenuItem.Name = "voidReportsToolStripMenuItem";
+            this.voidReportsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.voidReportsToolStripMenuItem.Text = "Void Sale Reports";
+            // 
+            // shiftDayEndReportsToolStripMenuItem
+            // 
+            this.shiftDayEndReportsToolStripMenuItem.Name = "shiftDayEndReportsToolStripMenuItem";
+            this.shiftDayEndReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.shiftDayEndReportsToolStripMenuItem.Text = "Shift / Day End Reports";
+            // 
+            // cutomerReportsToolStripMenuItem
+            // 
+            this.cutomerReportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.customerReportsToolStripMenuItem});
+            this.cutomerReportsToolStripMenuItem.Name = "cutomerReportsToolStripMenuItem";
+            this.cutomerReportsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.cutomerReportsToolStripMenuItem.Text = "Customer Reports";
+            // 
+            // customerReportsToolStripMenuItem
+            // 
+            this.customerReportsToolStripMenuItem.Name = "customerReportsToolStripMenuItem";
+            this.customerReportsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.customerReportsToolStripMenuItem.Text = "Customer Reports";
+            // 
             // FrmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5260,6 +5538,7 @@ namespace FoodandBeverage.Forms
             this.tlp_des_lock.ResumeLayout(false);
             this.pnl_datasync.ResumeLayout(false);
             this.pnl_datasync.PerformLayout();
+            this.rjDropdownReport.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -5571,5 +5850,38 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.ProgressBar pbsync;
         private System.Windows.Forms.Label lblsynctext;
         private System.Windows.Forms.Timer timerSync;
+        private RJCodeAdvance.RJControls.RJDropdownMenu rjDropdownReport;
+        private System.Windows.Forms.ToolStripMenuItem salesReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saleReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saleDetailsReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem annualReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem paymentReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem midasCardPaymentReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem itemMenuReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem popularItemReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem employeeReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem employeeReportsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tableOrderReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tableOccupancyRepotsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inventoryStockReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inventoryReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stockUsageReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem slowMovingItemReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reorderReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem purchaseReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem purchaseReturnReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem supplierReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem supplierPurchaseReturnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem discountOfferReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disocuntOfferReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem comboOfferReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem voidRefundReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem expenseReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refundReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem voidReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shiftDayEndReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cutomerReportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem customerReportsToolStripMenuItem;
     }
 }

@@ -32,6 +32,10 @@ namespace FoodandBeverage.Report
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frmreport));
             this.pnl_report = new System.Windows.Forms.Panel();
             this.tlp_report_main = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnmini = new System.Windows.Forms.Button();
+            this.btncolse = new System.Windows.Forms.Button();
             this.tlp_top_row = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.cmbreport = new System.Windows.Forms.ComboBox();
@@ -60,12 +64,9 @@ namespace FoodandBeverage.Report
             this.dtp_from_time = new System.Windows.Forms.DateTimePicker();
             this.dtpfrom = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
-            this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnmini = new System.Windows.Forms.Button();
-            this.btncolse = new System.Windows.Forms.Button();
             this.pnl_report.SuspendLayout();
             this.tlp_report_main.SuspendLayout();
+            this.tlp_navbar.SuspendLayout();
             this.tlp_top_row.SuspendLayout();
             this.tlp_finyear.SuspendLayout();
             this.tabDateTimePanel.SuspendLayout();
@@ -74,7 +75,6 @@ namespace FoodandBeverage.Report
             ((System.ComponentModel.ISupportInitialize)(this.nud_reorderqty)).BeginInit();
             this.tlp_sublist.SuspendLayout();
             this.tblReportCategory.SuspendLayout();
-            this.tlp_navbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_report
@@ -106,6 +106,63 @@ namespace FoodandBeverage.Report
             this.tlp_report_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_report_main.Size = new System.Drawing.Size(893, 527);
             this.tlp_report_main.TabIndex = 49;
+            // 
+            // tlp_navbar
+            // 
+            this.tlp_navbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
+            this.tlp_navbar.ColumnCount = 3;
+            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_navbar.Controls.Add(this.label2, 0, 0);
+            this.tlp_navbar.Controls.Add(this.btnmini, 1, 0);
+            this.tlp_navbar.Controls.Add(this.btncolse, 2, 0);
+            this.tlp_navbar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_navbar.Location = new System.Drawing.Point(3, 3);
+            this.tlp_navbar.Name = "tlp_navbar";
+            this.tlp_navbar.RowCount = 1;
+            this.tlp_navbar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_navbar.Size = new System.Drawing.Size(887, 31);
+            this.tlp_navbar.TabIndex = 18;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(72, 24);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Report";
+            // 
+            // btnmini
+            // 
+            this.btnmini.BackColor = System.Drawing.Color.White;
+            this.btnmini.FlatAppearance.BorderSize = 0;
+            this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnmini.ForeColor = System.Drawing.Color.Black;
+            this.btnmini.Location = new System.Drawing.Point(828, 3);
+            this.btnmini.Name = "btnmini";
+            this.btnmini.Size = new System.Drawing.Size(25, 25);
+            this.btnmini.TabIndex = 9;
+            this.btnmini.Text = "-";
+            this.btnmini.UseVisualStyleBackColor = false;
+            // 
+            // btncolse
+            // 
+            this.btncolse.BackColor = System.Drawing.Color.White;
+            this.btncolse.FlatAppearance.BorderSize = 0;
+            this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncolse.ForeColor = System.Drawing.Color.Red;
+            this.btncolse.Location = new System.Drawing.Point(859, 3);
+            this.btncolse.Name = "btncolse";
+            this.btncolse.Size = new System.Drawing.Size(25, 25);
+            this.btncolse.TabIndex = 10;
+            this.btncolse.Text = "X";
+            this.btncolse.UseVisualStyleBackColor = false;
             // 
             // tlp_top_row
             // 
@@ -297,7 +354,7 @@ namespace FoodandBeverage.Report
             this.tlp_sublist.Name = "tlp_sublist";
             this.tlp_sublist.RowCount = 1;
             this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tlp_sublist.Size = new System.Drawing.Size(253, 35);
             this.tlp_sublist.TabIndex = 12;
             this.tlp_sublist.Visible = false;
@@ -509,63 +566,6 @@ namespace FoodandBeverage.Report
             this.label6.TabIndex = 27;
             this.label6.Text = "From :";
             // 
-            // tlp_navbar
-            // 
-            this.tlp_navbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
-            this.tlp_navbar.ColumnCount = 3;
-            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_navbar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_navbar.Controls.Add(this.label2, 0, 0);
-            this.tlp_navbar.Controls.Add(this.btnmini, 1, 0);
-            this.tlp_navbar.Controls.Add(this.btncolse, 2, 0);
-            this.tlp_navbar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_navbar.Location = new System.Drawing.Point(3, 3);
-            this.tlp_navbar.Name = "tlp_navbar";
-            this.tlp_navbar.RowCount = 1;
-            this.tlp_navbar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_navbar.Size = new System.Drawing.Size(887, 31);
-            this.tlp_navbar.TabIndex = 18;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 24);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Report";
-            // 
-            // btnmini
-            // 
-            this.btnmini.BackColor = System.Drawing.Color.White;
-            this.btnmini.FlatAppearance.BorderSize = 0;
-            this.btnmini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnmini.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnmini.ForeColor = System.Drawing.Color.Black;
-            this.btnmini.Location = new System.Drawing.Point(828, 3);
-            this.btnmini.Name = "btnmini";
-            this.btnmini.Size = new System.Drawing.Size(25, 25);
-            this.btnmini.TabIndex = 9;
-            this.btnmini.Text = "-";
-            this.btnmini.UseVisualStyleBackColor = false;
-            // 
-            // btncolse
-            // 
-            this.btncolse.BackColor = System.Drawing.Color.White;
-            this.btncolse.FlatAppearance.BorderSize = 0;
-            this.btncolse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btncolse.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btncolse.ForeColor = System.Drawing.Color.Red;
-            this.btncolse.Location = new System.Drawing.Point(859, 3);
-            this.btncolse.Name = "btncolse";
-            this.btncolse.Size = new System.Drawing.Size(25, 25);
-            this.btncolse.TabIndex = 10;
-            this.btncolse.Text = "X";
-            this.btncolse.UseVisualStyleBackColor = false;
-            // 
             // Frmreport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -587,6 +587,8 @@ namespace FoodandBeverage.Report
             this.Load += new System.EventHandler(this.Frmreport_Load);
             this.pnl_report.ResumeLayout(false);
             this.tlp_report_main.ResumeLayout(false);
+            this.tlp_navbar.ResumeLayout(false);
+            this.tlp_navbar.PerformLayout();
             this.tlp_top_row.ResumeLayout(false);
             this.tlp_top_row.PerformLayout();
             this.tlp_finyear.ResumeLayout(false);
@@ -600,8 +602,6 @@ namespace FoodandBeverage.Report
             this.tlp_sublist.ResumeLayout(false);
             this.tlp_sublist.PerformLayout();
             this.tblReportCategory.ResumeLayout(false);
-            this.tlp_navbar.ResumeLayout(false);
-            this.tlp_navbar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

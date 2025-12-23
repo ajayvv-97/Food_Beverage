@@ -1088,6 +1088,51 @@ namespace FoodandBeverage.Forms
                     CloseTableViewPage();
                 }
 
+ 
+                    rjDropdownReport.BackColor = Color.DarkOrchid;
+                    rjDropdownReport.MenuItemTextColor = Color.White;
+                    //rjDropdownReport.Show(MenuReport, MenuReport.Width, 0);
+                    foreach (ToolStripMenuItem item in rjDropdownReport.Items)
+                    {
+                        item.BackColor = Color.DarkOrchid;
+                        foreach (ToolStripItem subItem in item.DropDownItems)
+                        {
+                            subItem.ForeColor = Color.White;
+                            subItem.BackColor = Color.DarkOrchid;
+
+                            subItem.Paint += (s, eArgs) =>
+                            {
+                                ToolStripItem tsi = (ToolStripItem)s;
+                                bool isHovered = tsi.Selected;
+
+                                Color backColor = isHovered ? Color.MediumPurple : Color.DarkOrchid;
+                                Color textColor = isHovered ? Color.White : Color.White;
+
+                                eArgs.Graphics.FillRectangle(new SolidBrush(backColor), eArgs.ClipRectangle);
+                                // Add padding (10px left)
+                                Rectangle paddedRect = new Rectangle(
+                                    eArgs.ClipRectangle.X + 10,
+                                    eArgs.ClipRectangle.Y,
+                                    eArgs.ClipRectangle.Width - 10,
+                                    eArgs.ClipRectangle.Height
+                                );
+
+                                TextRenderer.DrawText(
+                                    eArgs.Graphics,
+                                    tsi.Text,
+                                    tsi.Font,
+                                    paddedRect,   // <-- use padded rectangle here
+                                    textColor,
+                                    TextFormatFlags.Left | TextFormatFlags.VerticalCenter
+                                );
+                            };
+                        }
+                    }
+
+                
+
+                #region Old code
+                /*
                 float largerFontSize = 12;
                 ContextMenuStrip contextMenu = new ContextMenuStrip();
 
@@ -1132,6 +1177,8 @@ namespace FoodandBeverage.Forms
                 contextMenu.Items.Add(VendorReports);
 
                 contextMenu.Show(Cursor.Position);
+                */
+                #endregion
 
                 panelDesktop.ResumeLayout();
             }
