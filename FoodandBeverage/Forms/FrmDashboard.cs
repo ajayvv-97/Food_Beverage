@@ -5489,6 +5489,24 @@ namespace FoodandBeverage.Forms
                 ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
 
 
+                int ReportLevelID = 17;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void cashRevenueReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
                 int ReportLevelID = 23;
                 ReportForm(ReportLevelID);
             }
