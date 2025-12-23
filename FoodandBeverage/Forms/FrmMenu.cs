@@ -23,24 +23,28 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
         }
-        #region Declare Grid
-        public static int slno = 0;
-        public static int pmidno = 1;
-        public static int piidno = 2;
-        public static int pnameno = 3;
-        public static int pcatno = 4;
-        public static int ppriceno = 5;
-        public static int pqtyno = 6;
-        public static int pstatusno = 7;
-        public static int pfcidno = 8;
-        public static int ppdtype = 9;
-        public static int proptype = 10;
-        public static int proptypename = 11;
-        #endregion
+        #region Declare Grid Column Indexes
 
+        private int slno = 0;
+        private int pmidno = 1;
+        private int piidno = 2;
+        private int pnameno = 3;
+        private int pcatno = 4;
+        private int ppriceno = 5;
+        private int pqtyno = 6;
+        private int pstatusno = 7;
+        private int pfcidno = 8;
+        private int ppdtype = 9;
+        private int proptype = 10;
+        private int proptypename = 11;
+        private int poldqtyno = 12;
+        private int pactiveinactiveno = 13;
+
+        #endregion
+        private int _oldQty = 0;
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
         ClsDocument clsDocument = new ClsDocument();
-        ClsGeneral clsgen = new ClsGeneral(); 
+        ClsGeneral clsgen = new ClsGeneral();
         public static string empImgExt = "";
         TableLayoutPanel tlp_Gallery_Main = new TableLayoutPanel();
         TableLayoutPanel tlp_Gallery_Box = new TableLayoutPanel();
@@ -52,10 +56,10 @@ namespace FoodandBeverage.Forms
         {
             this.Close();
         }
-            public void Fillcombo()
+        public void Fillcombo()
+        {
+            try
             {
-                try
-                {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName";
@@ -80,12 +84,12 @@ namespace FoodandBeverage.Forms
                 cmbMenu_category.DisplayMember = "Value";
 
             }
-                catch (Exception ex)
-                {
-                    //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    clsgen.LogException("Menu page  Fillcombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
-                }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Menu page  Fillcombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
+        }
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -98,7 +102,7 @@ namespace FoodandBeverage.Forms
                     BllMenu bllmenu = new BllMenu();
                     int count = 0;
 
-                     if (Convert.ToInt32( cmbMenu_category.SelectedValue)==-2)
+                    if (Convert.ToInt32(cmbMenu_category.SelectedValue) == -2)
                     {
                         for (int i = 0; i < dgv_menu.RowCount; i++)
                         {
@@ -109,6 +113,12 @@ namespace FoodandBeverage.Forms
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
                                 dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
                                 dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
+
+                                if (Convert.ToInt32(dgv_menu.Rows[i].Cells[poldqtyno].Value) == 0)
+                                    dmnmenu.ResetStatus = 1;
+                                else
+                                    dmnmenu.ResetStatus = 0;
+
                                 dmnmenu.ProductType = Convert.ToInt32(dgv_menu.Rows[i].Cells[ppdtype].Value);
                                 dmnmenu.CreatedBy = FrmDashboard.UserId;
                                 dmnmenu.BranchId = FrmDashboard.BranchId;
@@ -116,8 +126,8 @@ namespace FoodandBeverage.Forms
                                     dmnmenu.Status = 1;
                                 else
                                     dmnmenu.Status = 0;
-                                usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu); 
-                                 count++;
+                                usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
+                                count++;
                             }
                         }
                         if (count > 0)
@@ -127,7 +137,7 @@ namespace FoodandBeverage.Forms
                             ComboProduct_Fill();
                         }
                     }
-                   else  if (rb_item.Checked)
+                    else if (rb_item.Checked)
                     {
                         for (int i = 0; i < dgv_menu.RowCount; i++)
                         {
@@ -156,7 +166,6 @@ namespace FoodandBeverage.Forms
                             cmbMenu_category.SelectedIndex = -1;
                             txtsearchlist.Text = "";
                             txtsearch.Text = "";
-
                             Item_Fill();
                         }
                     }
@@ -171,6 +180,12 @@ namespace FoodandBeverage.Forms
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
                                 dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
                                 dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
+
+                                if (Convert.ToInt32(dgv_menu.Rows[i].Cells[poldqtyno].Value) == 0)
+                                    dmnmenu.ResetStatus = 1;
+                                else
+                                    dmnmenu.ResetStatus = 0;
+
                                 dmnmenu.PreparationMode = Convert.ToInt32(dgv_menu.Rows[i].Cells[proptype].Value);
                                 dmnmenu.CreatedBy = FrmDashboard.UserId;
                                 dmnmenu.BranchId = FrmDashboard.BranchId;
@@ -215,9 +230,9 @@ namespace FoodandBeverage.Forms
                     dmnSearch.Table = "tblOfferMaster om LEFT JOIN tblMenu m ON m.ProductId=om.omid and m.producttype = 3 ";
                     dmnSearch.WhereNdGroupBy = "where om.status=1  and OfferType=1  AND OfferStartDatetime <= GETDATE()  AND OfferEndDatetime >= GETDATE()";
                     dmnSearch.OrderBy = "order by OfferName";
-                
-                itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                dgv_menu.Rows.Clear();
+
+                    itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    dgv_menu.Rows.Clear();
                     if (itemSource.Count > 0)
                     {
                         dgv_menu.Rows.Add(itemSource.Count + 1);
@@ -230,21 +245,43 @@ namespace FoodandBeverage.Forms
                             dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
                             dgv_menu.Rows[i].Cells[ppdtype].Value = itemSource[i].Field9;
 
-                            if (Convert.ToInt32(itemSource[i].Field6) == 1)
-                                dgv_menu.Rows[i].Cells[pstatusno].Value = true;
+
+                            bool currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
+
+                            // Set checkbox column
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = currentStatus;
+
+                            // Set action column text
+                            DataGridViewCell actionCell = dgv_menu.Rows[i].Cells[pactiveinactiveno];
+                            actionCell.Value = currentStatus ? "Disable" : "Activate";
+
+                            // Set cell style colors based on status
+                            if (currentStatus)
+                            {
+                                // Currently active: show "Disable" in red
+                                actionCell.Style.BackColor = Color.Red;
+                                actionCell.Style.ForeColor = Color.White;
+                                actionCell.Style.SelectionBackColor = Color.DarkRed;
+                            }
                             else
-                                dgv_menu.Rows[i].Cells[pstatusno].Value = false;
+                            {
+                                // Currently inactive: show "Activate" in green
+                                actionCell.Style.BackColor = Color.Green;
+                                actionCell.Style.ForeColor = Color.White;
+                                actionCell.Style.SelectionBackColor = Color.DarkGreen;
+                            }
+
+
 
                             dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
                             dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
                             dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
 
-
                         }
                     }
                 }
                 else
-                { 
+                {
                     if (rb_product.Checked == false && rb_item.Checked == false)
                     {
                         dmnSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9";
@@ -290,10 +327,9 @@ namespace FoodandBeverage.Forms
                             dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
                             dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
 
-                            if (Convert.ToInt32(itemSource[i].Field6) == 1)
-                                dgv_menu.Rows[i].Cells[pstatusno].Value = true;
-                            else
-                                dgv_menu.Rows[i].Cells[pstatusno].Value = false;
+                            bool currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = currentStatus;
+
 
                             if (rb_product.Checked)
                             {
@@ -309,7 +345,32 @@ namespace FoodandBeverage.Forms
                                     dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
                                     dgv_menu.Rows[i].Cells[proptypename].Value = "Freshly Cooked";
                                 }
-                  
+
+                                 currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
+
+                                // Set checkbox column
+                                dgv_menu.Rows[i].Cells[pstatusno].Value = currentStatus;
+
+                                // Set action column text
+                                DataGridViewCell actionCell = dgv_menu.Rows[i].Cells[pactiveinactiveno];
+                                actionCell.Value = currentStatus ? "Disable" : "Activate";
+
+                                // Set cell style colors based on status
+                                if (currentStatus)
+                                {
+                                    // Currently active: show "Disable" in red
+                                    actionCell.Style.BackColor = Color.Red;
+                                    actionCell.Style.ForeColor = Color.White;
+                                    actionCell.Style.SelectionBackColor = Color.DarkRed;
+                                }
+                                else
+                                {
+                                    // Currently inactive: show "Activate" in green
+                                    actionCell.Style.BackColor = Color.Green;
+                                    actionCell.Style.ForeColor = Color.White;
+                                    actionCell.Style.SelectionBackColor = Color.DarkGreen;
+                                }
+
                             }
                             else if (rb_item.Checked)
                                 dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field6;
@@ -352,12 +413,12 @@ namespace FoodandBeverage.Forms
                 }
             }
 
-                   catch (Exception ex)
+            catch (Exception ex)
             {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Menu page  Fillmenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
-            
-        }
+
+            }
         }
         private void chk_selectall_Clicked(object sender, EventArgs e)
         {
@@ -425,7 +486,7 @@ namespace FoodandBeverage.Forms
 
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Menu page MandatoryCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
-                return false; 
+                return false;
             }
         }
 
@@ -530,7 +591,7 @@ namespace FoodandBeverage.Forms
                     "(SELECT TOP(1) Srate FROM tblProductRate WHERE ProductId = i.ItemId ORDER BY Id DESC) AS Field4, i.Fcid AS Field5," +
                     "(SELECT SUM(QOH) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field6 ";
                             objSearch.Table = "tblItem i LEFT JOIN tblCategory_FTI c ON C.Fcid = i.Fcid";
-                            objSearch.WhereNdGroupBy = "Where  i.Saletype=1 and i.Status=1 and i.itemid = "+ returnValue;
+                            objSearch.WhereNdGroupBy = "Where  i.Saletype=1 and i.Status=1 and i.itemid = " + returnValue;
                             objSearch.OrderBy = "order by i.Itemname";
                             var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                             dgv_menu.Rows.Clear();
@@ -571,12 +632,12 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Menu page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
-            
+
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
@@ -594,7 +655,7 @@ namespace FoodandBeverage.Forms
                     dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
                 }
 
-                if(rb_product.Checked)
+                if (rb_product.Checked)
                     chk_seleall_pro.Checked = true;
                 else
                     chk_seleall_pro.Checked = false;
@@ -664,7 +725,7 @@ namespace FoodandBeverage.Forms
                 dgv_menu.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
                 dgv_menu.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
                 clearall();
-                
+
                 if (rb_item.Checked)
                     Item_Fill();
                 else if (rb_product.Checked)
@@ -878,13 +939,13 @@ namespace FoodandBeverage.Forms
                     Label label = (Label)sender;
                     string info = Convert.ToString(label.Tag);
                     // Split the info string by commas
-                    if(info!=null)
+                    if (info != null)
                     {
                         string[] infoParts = info.Split(',');
                         string tooltipText = "";
                         tooltipText = $"Name : {infoParts[0]}{Environment.NewLine}price :{infoParts[1]}{Environment.NewLine}Mrp :{infoParts[2]}{Environment.NewLine}Tax :{infoParts[3]}{Environment.NewLine}Tax Type :{infoParts[4]}{Environment.NewLine}Discount % :{infoParts[5]}{Environment.NewLine}Discount Amount :{infoParts[6]}";
                         toolTip_gallery.Show(tooltipText, label);
-                    } 
+                    }
                 }
                 else if (sender is TableLayoutPanel)
                 {
@@ -1337,25 +1398,25 @@ namespace FoodandBeverage.Forms
             try
             {
 
-            
-            // Create a new GraphicsPath object
-            GraphicsPath path = new GraphicsPath();
-            // Define the shape of the path using a rounded rectangle
-            Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseAllFigures();
-            // Set the Region property of the textbox to the new path
-            textBox.Region = new Region(path);
-        }
+
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
             catch (Exception ex)
             {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Menu page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
-}
+        }
 
         #endregion
 
@@ -1371,10 +1432,10 @@ namespace FoodandBeverage.Forms
             {
                 case Keys.Tab:
                     Movefocus(1);
-                    return true; 
+                    return true;
                 case Keys.Enter:
                     Movefocus(0);
-                    return true; 
+                    return true;
                 case Keys.Escape:
                     if (tlp_menu_Gallery_main.Visible)
                     {
@@ -1592,8 +1653,8 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
 
                 dmnSearch.Select = " omid Field1,OfferName Field2,'Combo Product' Field3,finalprice Field4,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,3 Field9 ";
-                dmnSearch.Table = "tblOfferMaster om LEFT JOIN tblMenu m ON m.ProductId=om.omid ";
-                dmnSearch.WhereNdGroupBy = "where om.Status=1 and OfferType=1   AND OfferStartDatetime <= GETDATE()  AND OfferEndDatetime >= GETDATE()";
+                dmnSearch.Table = "tblOfferMaster om LEFT JOIN tblMenu m ON m.ProductId=om.omid and m.producttype = 3 ";
+                dmnSearch.WhereNdGroupBy = "where om.status=1  and OfferType=1  AND OfferStartDatetime <= GETDATE()  AND OfferEndDatetime >= GETDATE()";
                 dmnSearch.OrderBy = "order by OfferName";
 
                 var itemSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1618,11 +1679,24 @@ namespace FoodandBeverage.Forms
                         chk_selectall.Visible = true;
                         chk_seleall_pro.Visible = true;
 
-                        if (Convert.ToInt32(itemSource[i].Field6) == 1)
-                            dgv_menu.Rows[i].Cells[pstatusno].Value = true;
+                        bool currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
+                        dgv_menu.Rows[i].Cells[pstatusno].Value = currentStatus;
+                        DataGridViewCell actionCell = dgv_menu.Rows[i].Cells[pactiveinactiveno];
+                        actionCell.Value = currentStatus ? "Disable" : "Activate";
+                        if (currentStatus)
+                        {
+                            // Currently active: show "Disable" in red
+                            actionCell.Style.BackColor = Color.Red;
+                            actionCell.Style.ForeColor = Color.White;
+                            actionCell.Style.SelectionBackColor = Color.DarkRed;
+                        }
                         else
-                            dgv_menu.Rows[i].Cells[pstatusno].Value = false;
-
+                        {
+                            // Currently inactive: show "Activate" in green
+                            actionCell.Style.BackColor = Color.Green;
+                            actionCell.Style.ForeColor = Color.White;
+                            actionCell.Style.SelectionBackColor = Color.DarkGreen;
+                        }
                     }
 
 
@@ -1677,13 +1751,31 @@ namespace FoodandBeverage.Forms
                         chk_selectall.Visible = true;
                         chk_seleall_pro.Visible = true;
 
-                        if (Convert.ToInt32(itemSource[i].Field6) == 1)
-                            dgv_menu.Rows[i].Cells[pstatusno].Value = true;
-                        else
-                            dgv_menu.Rows[i].Cells[pstatusno].Value = false;
+                        bool currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
+
+                        // Set checkbox column
+                        dgv_menu.Rows[i].Cells[pstatusno].Value = currentStatus;
+
+                        // Set action column text
+                        DataGridViewCell buttonCell = dgv_menu.Rows[i].Cells[pactiveinactiveno];
+                        buttonCell.Value = currentStatus ? "Disable" : "Activate";
+                        if (buttonCell != null)
+                        {
+                            if (currentStatus)
+                            {
+                                buttonCell.Style.BackColor = Color.Red;
+                                buttonCell.Style.ForeColor = Color.White;
+                            }
+                            else
+                            {
+                                buttonCell.Style.BackColor = Color.Green;
+                                buttonCell.Style.ForeColor = Color.White;
+                            }
+                        }
+
 
                         dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field9;
-                        
+
                         if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field9 != null)
                             dgv_menu.Rows[i].Cells[proptypename].Value = "Requires cooking";
                         else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field9 != null)
@@ -1812,7 +1904,7 @@ namespace FoodandBeverage.Forms
                         {
                             for (int i = 0; i < dgv_menu.RowCount; i++)
                             {
-                                if(Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value)==Convert.ToInt32(itemSource[0].Field1))
+                                if (Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value) == Convert.ToInt32(itemSource[0].Field1))
                                 {
                                     CMessageBox.Show("Product Already selected", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     dgv_menu.ClearSelection();
@@ -1843,7 +1935,7 @@ namespace FoodandBeverage.Forms
                             }
                         }
                         dgv_menu.Rows.Add();
-                         int r = dgv_menu.RowCount - 1;
+                        int r = dgv_menu.RowCount - 1;
                         dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
                         dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
 
@@ -1864,12 +1956,12 @@ namespace FoodandBeverage.Forms
                 if (e.KeyCode == Keys.F8)
                 {
                     int rowno = dgv_menu.CurrentRow.Index;
-                    if(dgv_menu.Rows[rowno].Cells[piidno].Value == null)
-                        productPopup(rowno);                       
+                    if (dgv_menu.Rows[rowno].Cells[piidno].Value == null)
+                        productPopup(rowno);
                 }
                 if (e.KeyData == Keys.Delete)
                 {
-                    if(Convert.ToInt32(dgv_menu.Rows[dgv_menu.CurrentRow.Index].Cells[pmidno].Value)>0)
+                    if (Convert.ToInt32(dgv_menu.Rows[dgv_menu.CurrentRow.Index].Cells[pmidno].Value) > 0)
                     {
                         var result = CMessageBox.Show("Are you sure you want to remove this product from the menu?", "Confirm Remove", MessageBoxButtons.YesNo);
                         if (result == DialogResult.Yes)
@@ -1919,7 +2011,7 @@ namespace FoodandBeverage.Forms
                             dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
                         }
                     }
-              
+
 
                 }
 
@@ -1960,14 +2052,14 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if(chk_seleall_pro.Checked)
+                if (chk_seleall_pro.Checked)
                 {
                     BllSearch<DmnGridFields> bllSearch_product = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
                     objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5,m.Status AS Field6,m.MId Field7,p.PreparationMode Field8,m.Quantity AS Field9";
                     objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";//
                     objSearch.WhereNdGroupBy = "where p.Status=1";
-                    objSearch.OrderBy = "order by m.Status desc";                  
+                    objSearch.OrderBy = "order by m.Status desc";
                     var itemSource = bllSearch_product.GetSearchData("prdSearch", objSearch);
                     if (itemSource.Count > 0)
                     {
@@ -1998,10 +2090,25 @@ namespace FoodandBeverage.Forms
 
                             chk_selectall.Visible = true;
 
-                            if (Convert.ToInt32(itemSource[i].Field6) == 1)
-                                dgv_menu.Rows[i].Cells[pstatusno].Value = true;
+                            bool currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = currentStatus;
+                            DataGridViewCell actionCell = dgv_menu.Rows[i].Cells[pactiveinactiveno];
+                            actionCell.Value = currentStatus ? "Disable" : "Activate";
+                            if (currentStatus)
+                            {
+                                // Currently active: show "Disable" in red
+                                actionCell.Style.BackColor = Color.Red;
+                                actionCell.Style.ForeColor = Color.White;
+                                actionCell.Style.SelectionBackColor = Color.DarkRed;
+                            }
                             else
-                                dgv_menu.Rows[i].Cells[pstatusno].Value = false;
+                            {
+                                // Currently inactive: show "Activate" in green
+                                actionCell.Style.BackColor = Color.Green;
+                                actionCell.Style.ForeColor = Color.White;
+                                actionCell.Style.SelectionBackColor = Color.DarkGreen;
+                            }
+
                         }
 
                         Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
@@ -2018,10 +2125,10 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                   // Product_Fill();
+                    // Product_Fill();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Menu page chk_seleall_pro_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
@@ -2042,7 +2149,91 @@ namespace FoodandBeverage.Forms
             UIHelper.RoundCorners(dgv_menu, 25, null);
             UIHelper.RoundCorners(tlp_navbar, 10, null);
             #endregion
-            
+
         }
+
+        private void dgv_menu_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (e.ColumnIndex == pqtyno)
+            {
+                var value = dgv_menu.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                _oldQty = value != null && int.TryParse(value.ToString(), out int qty)
+                            ? qty
+                            : 0;
+            }
+        }
+        private void dgv_menu_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == pqtyno)
+            {
+                dgv_menu.Rows[e.RowIndex].Cells[poldqtyno].Value = _oldQty;
+            }
+        }
+
+        private void dgv_menu_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0)
+                    return;
+
+                if (e.ColumnIndex != pactiveinactiveno)
+                    return;
+
+                var piidValue = dgv_menu.Rows[e.RowIndex].Cells[piidno].Value;
+                if (piidValue == null || piidValue == DBNull.Value)
+                {
+                    return;
+                }
+                DataGridViewRow row = dgv_menu.Rows[e.RowIndex];
+
+                int mid = Convert.ToInt32(row.Cells[pmidno].Value);
+                bool currentStatus = Convert.ToBoolean(row.Cells[pstatusno].Value);
+
+                string actionText = currentStatus ? "Disable" : "Activate";
+
+                DialogResult dr = MessageBox.Show(
+                    $"Are you sure you want to {actionText} this menu item?",
+                    "Confirm",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (dr != DialogResult.Yes)
+                    return;
+
+                DmnMenu dmnmenu = new DmnMenu();
+                BllMenu bllmenu = new BllMenu();
+                dmnmenu.MId = mid;
+                dmnmenu.ProductId = Convert.ToInt32(row.Cells[piidno].Value);
+                dmnmenu.CreatedBy = FrmDashboard.UserId;
+                dmnmenu.BranchId = FrmDashboard.BranchId;
+                dmnmenu.Status = currentStatus ? 0 : 1;
+                bllmenu.SetMenuActiveStatus("prdUpdate_MenuStatus", dmnmenu);
+                row.Cells[pstatusno].Value = !currentStatus;
+                row.Cells[pactiveinactiveno].Value = !currentStatus ? "Disable" : "Activate";
+                MessageBox.Show("Menu item successfully "+ row.Cells[pactiveinactiveno].Value, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (currentStatus)
+                {
+                    // Currently active: show "Disable" in red
+                    row.Cells[pactiveinactiveno].Style.BackColor = Color.Red;
+                    row.Cells[pactiveinactiveno].Style.ForeColor = Color.White;
+                    row.Cells[pactiveinactiveno].Style.SelectionBackColor = Color.DarkRed;
+                }
+                else
+                {
+                    // Currently inactive: show "Activate" in green
+                    row.Cells[pactiveinactiveno].Style.BackColor = Color.Green;
+                    row.Cells[pactiveinactiveno].Style.ForeColor = Color.White;
+                    row.Cells[pactiveinactiveno].Style.SelectionBackColor = Color.DarkGreen;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+   
     }
 }

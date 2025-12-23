@@ -8,6 +8,7 @@ namespace Domain
     {
         public int BranchId { get; set; }
         public int status { get; set; }
+        public int EmployeeId { get; set; }
 
     }
 }

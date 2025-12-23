@@ -131,7 +131,6 @@ namespace FoodandBeverage.Forms
             AutoRunTimer.Start();
         }
 
-
         #region Table Creation & Updation (ZERO-GC PAGING | 1000+ TABLES)
 
         #region Fields
@@ -446,48 +445,122 @@ namespace FoodandBeverage.Forms
         {
             foreach (var pnl in reusablePanels)
             {
-                if (!pnl.Visible) continue;
+                if (!pnl.Visible)
+                    continue;
 
                 int tableId = Convert.ToInt32(pnl.Tag);
-                var ui = tableUIRefs[pnl.GetHashCode()];
 
+                if (!tableUIRefs.TryGetValue(pnl.GetHashCode(), out var ui))
+                    continue;
+
+                // =========================
+                // 🔁 HARD RESET (MANDATORY)
+                // =========================
                 ui.Inner.BackColor = Color.White;
-                ui.NetAmount.Visible = false;
-                ui.CancelCount.Visible = false;
 
+                // NetAmount reset
+                ui.NetAmount.Visible = false;
+                ui.NetAmount.Text = "";
+                ui.NetAmount.BackColor = Color.Transparent;
+
+                // CancelCount reset (prevents ghost badge)
+                ui.CancelCount.Visible = false;
+                ui.CancelCount.Text = "";
+                ui.CancelCount.BackColor = Color.Transparent;
+                ui.CancelCount.ForeColor = Color.Black;
+                ui.CancelCount.FlatStyle = FlatStyle.Standard;
+                ui.CancelCount.Size = new Size(0, 0);
+                ui.CancelCount.Location = new Point(-100, -100);
+                ui.CancelCount.Region = null;
+
+                // Layout reset
+                ui.Inner.RowStyles[0].Height = 0;
+                ui.Inner.RowStyles[1].Height = 60;
+                ui.Inner.RowStyles[2].Height = 0;
+
+                ui.TableName.TextAlign = ContentAlignment.MiddleCenter;
+
+                // =========================
+                // 🚫 NO ORDER
+                // =========================
                 if (!orderStatusCache.TryGetValue(tableId, out var status))
                     continue;
 
+                // =========================
+                // ⚠ CANCEL COUNT BADGE
+                // =========================
                 if (status.CancelCount > 0)
                 {
                     ui.Inner.BackColor = CancelProduct_order;
+
                     ui.CancelCount.Visible = true;
                     ui.CancelCount.Text = status.CancelCount.ToString();
+                    ui.CancelCount.ForeColor = Color.White;
+                    ui.CancelCount.BackColor = Color.Black;
+                    ui.CancelCount.Font = new Font(FontFamily.GenericSansSerif, 8, FontStyle.Bold);
+                    ui.CancelCount.Size = new Size(22, 22);
+
+                    ui.CancelCount.FlatStyle = FlatStyle.Flat;
+                    ui.CancelCount.FlatAppearance.BorderSize = 0;
+
+                    ui.CancelCount.Location = new Point(
+                        ui.Container.Width - ui.CancelCount.Width - 5, 5);
+
+                    // 🔵 Circular badge
+                    var gp = new System.Drawing.Drawing2D.GraphicsPath();
+                    gp.AddEllipse(0, 0, ui.CancelCount.Width, ui.CancelCount.Height);
+                    ui.CancelCount.Region = new Region(gp);
+
+                    ui.CancelCount.BringToFront();
                     continue;
                 }
 
+                // =========================
+                // ❌ KITCHEN CANCEL → RECONFIRM
+                // =========================
                 if (status.KitchenCancelled)
                 {
                     ui.Inner.BackColor = CancelProduct_order;
+
                     ui.NetAmount.Text = "Reconfirm Order";
+                    ui.NetAmount.ForeColor = Color.White;
+                    ui.NetAmount.BackColor = ReconfirmLabelBG;
+                    ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
                     ui.NetAmount.Visible = true;
+
                     continue;
                 }
 
+        
+
+                // =========================
+                // 🟦 RUNNING ORDER
+                // =========================
                 if (status.PendingCount > 0)
                 {
                     ui.Inner.BackColor = OrderColor;
                     continue;
                 }
 
+                // =========================
+                // 🟩 CHECKOUT
+                // =========================
                 if (status.TotalItems > 0)
                 {
                     ui.Inner.BackColor = BillingColor;
+
+                    ui.Inner.RowStyles[0].Height = 25;
+                    ui.Inner.RowStyles[2].Height = 25;
+
                     ui.NetAmount.Text = "Checkout";
+                    ui.NetAmount.ForeColor = Color.White;
+                    ui.NetAmount.BackColor = CheckoutLabelBG;
+                    ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
                     ui.NetAmount.Visible = true;
                 }
             }
         }
+
 
         #endregion
 
@@ -532,8 +605,6 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #endregion
-
-
 
         #region Table Creation & Updation    
         /*

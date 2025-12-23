@@ -23,7 +23,8 @@ namespace Domain
         public decimal DisPer { get; set; }
         public int Quantity { get; set; }
         public int ProductType { get; set; }
-        public int PreparationMode { get; set; }     
+        public int PreparationMode { get; set; }
+        public int ResetStatus { get; set; }
 
     }
 }

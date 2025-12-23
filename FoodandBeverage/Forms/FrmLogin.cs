@@ -303,6 +303,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
+                                    EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);
                                     BranchId = Convert.ToInt32(userDetails["Field3", 0].Value);
                                     if (BranchId > 0)
                                     {
@@ -310,14 +311,15 @@ namespace FoodandBeverage.Forms
                                         DmnResetKitchenno dmnkicthenreset = new DmnResetKitchenno();
                                         BllResetKitchenno Resetkitchen = new BllResetKitchenno();
                                         dmnkicthenreset.BranchId = Convert.ToInt32(BranchId);
-                                        var reset_kitchenno = Resetkitchen.ResetKitchenno("Prd_check_Reset_KitchenSrlNo", dmnkicthenreset);
+                                        dmnkicthenreset.EmployeeId = Convert.ToInt32(EmployeeId); ;
+                                        var reset_kitchenno = Resetkitchen.Resetsystem("Prd_DailySystemReset", dmnkicthenreset);
                                         #endregion
                                     }
 
                                     BookingInterwell = Convert.ToDecimal(userDetails["Field10", 0].Value);
                                     UserId = Convert.ToInt32(userDetails["Id", 0].Value);
                                     UserStatus = Convert.ToInt16(userDetails["Field1", 0].Value);
-                                    EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);
+                    
                                     EmployeName = Convert.ToString(userDetails["Field8", 0].Value);
                                     departmentname = Convert.ToString(userDetails["Field12", 0].Value);
                                     EphId = Convert.ToInt32(userDetails["Field13", 0].Value);

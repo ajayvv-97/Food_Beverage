@@ -2705,8 +2705,8 @@ namespace FoodandBeverage.Forms
                         {
                             btndirectpaybill.Visible = false;
                             btn_savekot_print.Visible = false;
-                            btn_print_bill.Visible = false;
-                            btn_PrintCopy.Visible = false;
+                            btn_print_bill.Visible = true;
+                            btn_PrintCopy.Visible = true;
                         }
                     }
                     else
@@ -3860,12 +3860,25 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 flp_productview.AutoScroll = true;
                 flp_productview.WrapContents = true;
                 flp_productview.FlowDirection = FlowDirection.LeftToRight;
+                dmnSearch.Select =
+                    "om.OfferName AS Field1, " +
+                    "om.Omid AS Field2, " +
+                    "3 AS Field3, " +
+                    "om.Discountper AS Field4, " +
+                    "om.FinalPrice AS Field5, " +
+                    "om.cmphid AS Field6";
 
-                dmnSearch.Select = "OfferName as Field1,Omid as Field2,3 as Field3,Discountper as Field4,FinalPrice Field5,cmphid Field6";
-                dmnSearch.Table = "tblOfferMaster";
+                dmnSearch.Table =
+                    "tblOfferMaster om " +
+                    "INNER JOIN tblMenu m ON m.ProductId = om.Omid";
+
                 dmnSearch.WhereNdGroupBy =
-                    " where Status=1 AND OfferType=1 AND OfferstartDatetime <= SYSDATETIME() " +
-                    " AND OfferEndDatetime >= SYSDATETIME()";
+                    "WHERE om.Status = 1 " +
+                    "AND om.OfferType = 1 " +
+                    "AND om.OfferstartDatetime <= SYSDATETIME() " +
+                    "AND om.OfferEndDatetime >= SYSDATETIME() " +
+                    "AND m.Status = 1 " +
+                    "AND m.Quantity > 0";
 
                 ProductData = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -9408,6 +9421,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             }
         }
         #endregion
+
         #region Place Holder Setting
         private void txtname_search_Enter(object sender, EventArgs e)
         {
