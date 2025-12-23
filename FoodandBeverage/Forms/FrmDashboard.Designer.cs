@@ -982,7 +982,7 @@ namespace FoodandBeverage.Forms
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.77076F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.22924F));
-            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.tbl_Sub.Controls.Add(this.txtgid, 3, 1);
             this.tbl_Sub.Controls.Add(this.txtimgpath, 3, 0);
             this.tbl_Sub.Controls.Add(this.label46, 1, 2);
@@ -1004,7 +1004,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtgid
             // 
-            this.txtgid.Location = new System.Drawing.Point(442, 47);
+            this.txtgid.Location = new System.Drawing.Point(438, 47);
             this.txtgid.Name = "txtgid";
             this.txtgid.Size = new System.Drawing.Size(20, 20);
             this.txtgid.TabIndex = 220;
@@ -1013,7 +1013,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtimgpath
             // 
-            this.txtimgpath.Location = new System.Drawing.Point(442, 3);
+            this.txtimgpath.Location = new System.Drawing.Point(438, 3);
             this.txtimgpath.Name = "txtimgpath";
             this.txtimgpath.Size = new System.Drawing.Size(20, 20);
             this.txtimgpath.TabIndex = 221;
@@ -1027,7 +1027,7 @@ namespace FoodandBeverage.Forms
             this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label46.Location = new System.Drawing.Point(27, 88);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(163, 44);
+            this.label46.Size = new System.Drawing.Size(161, 44);
             this.label46.TabIndex = 260;
             this.label46.Text = "Bill Footer Content (Arabic)";
             this.label46.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1039,7 +1039,7 @@ namespace FoodandBeverage.Forms
             this.label47.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label47.Location = new System.Drawing.Point(27, 44);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(163, 44);
+            this.label47.Size = new System.Drawing.Size(161, 44);
             this.label47.TabIndex = 258;
             this.label47.Text = "Company Address (Arabic)";
             this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1051,7 +1051,7 @@ namespace FoodandBeverage.Forms
             this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.Location = new System.Drawing.Point(27, 0);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(163, 44);
+            this.label48.Size = new System.Drawing.Size(161, 44);
             this.label48.TabIndex = 0;
             this.label48.Text = "Company Name (Arabic)";
             this.label48.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1060,30 +1060,30 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_cmpname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpname.Location = new System.Drawing.Point(196, 3);
+            this.txt_cmpname.Location = new System.Drawing.Point(194, 3);
             this.txt_cmpname.Multiline = true;
             this.txt_cmpname.Name = "txt_cmpname";
-            this.txt_cmpname.Size = new System.Drawing.Size(240, 38);
+            this.txt_cmpname.Size = new System.Drawing.Size(238, 38);
             this.txt_cmpname.TabIndex = 262;
             // 
             // txt_cmpaddress
             // 
             this.txt_cmpaddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpaddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpaddress.Location = new System.Drawing.Point(196, 47);
+            this.txt_cmpaddress.Location = new System.Drawing.Point(194, 47);
             this.txt_cmpaddress.Multiline = true;
             this.txt_cmpaddress.Name = "txt_cmpaddress";
-            this.txt_cmpaddress.Size = new System.Drawing.Size(240, 38);
+            this.txt_cmpaddress.Size = new System.Drawing.Size(238, 38);
             this.txt_cmpaddress.TabIndex = 263;
             // 
             // txt_footer_lang
             // 
             this.txt_footer_lang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_footer_lang.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_footer_lang.Location = new System.Drawing.Point(196, 91);
+            this.txt_footer_lang.Location = new System.Drawing.Point(194, 91);
             this.txt_footer_lang.Multiline = true;
             this.txt_footer_lang.Name = "txt_footer_lang";
-            this.txt_footer_lang.Size = new System.Drawing.Size(240, 38);
+            this.txt_footer_lang.Size = new System.Drawing.Size(238, 38);
             this.txt_footer_lang.TabIndex = 264;
             // 
             // tbl_contrl
@@ -2385,7 +2385,7 @@ namespace FoodandBeverage.Forms
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.85714F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.09824F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.10579F));
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 236F));
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 241F));
             this.tlp_autologout.Controls.Add(this.label56, 0, 0);
             this.tlp_autologout.Controls.Add(this.rtb_logouttime, 1, 0);
             this.tlp_autologout.Controls.Add(this.txtlogouttime, 2, 0);
@@ -2405,7 +2405,7 @@ namespace FoodandBeverage.Forms
             this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label56.Location = new System.Drawing.Point(3, 0);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(168, 38);
+            this.label56.Size = new System.Drawing.Size(164, 38);
             this.label56.TabIndex = 7;
             this.label56.Text = "Auto Logout When Idle";
             this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2414,9 +2414,9 @@ namespace FoodandBeverage.Forms
             // 
             this.rtb_logouttime.AutoSize = true;
             this.rtb_logouttime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_logouttime.Location = new System.Drawing.Point(177, 3);
+            this.rtb_logouttime.Location = new System.Drawing.Point(173, 3);
             this.rtb_logouttime.Name = "rtb_logouttime";
-            this.rtb_logouttime.Size = new System.Drawing.Size(25, 32);
+            this.rtb_logouttime.Size = new System.Drawing.Size(24, 32);
             this.rtb_logouttime.TabIndex = 0;
             this.rtb_logouttime.UseVisualStyleBackColor = true;
             this.rtb_logouttime.CheckedChanged += new System.EventHandler(this.rtb_logouttime_CheckedChanged);
@@ -2424,10 +2424,10 @@ namespace FoodandBeverage.Forms
             // txtlogouttime
             // 
             this.txtlogouttime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtlogouttime.Location = new System.Drawing.Point(208, 3);
+            this.txtlogouttime.Location = new System.Drawing.Point(203, 3);
             this.txtlogouttime.Multiline = true;
             this.txtlogouttime.Name = "txtlogouttime";
-            this.txtlogouttime.Size = new System.Drawing.Size(27, 20);
+            this.txtlogouttime.Size = new System.Drawing.Size(26, 20);
             this.txtlogouttime.TabIndex = 9;
             this.txtlogouttime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtlogouttime.Visible = false;
@@ -2443,7 +2443,7 @@ namespace FoodandBeverage.Forms
             this.btn_adv_idlelogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_adv_idlelogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_adv_idlelogout.ForeColor = System.Drawing.Color.White;
-            this.btn_adv_idlelogout.Location = new System.Drawing.Point(241, 3);
+            this.btn_adv_idlelogout.Location = new System.Drawing.Point(235, 3);
             this.btn_adv_idlelogout.Name = "btn_adv_idlelogout";
             this.btn_adv_idlelogout.Size = new System.Drawing.Size(72, 23);
             this.btn_adv_idlelogout.TabIndex = 10;
@@ -5167,20 +5167,23 @@ namespace FoodandBeverage.Forms
             // saleReportsToolStripMenuItem
             // 
             this.saleReportsToolStripMenuItem.Name = "saleReportsToolStripMenuItem";
-            this.saleReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saleReportsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.saleReportsToolStripMenuItem.Text = "Sale Reports";
+            this.saleReportsToolStripMenuItem.Click += new System.EventHandler(this.saleReportsToolStripMenuItem_Click);
             // 
             // saleDetailsReportsToolStripMenuItem
             // 
             this.saleDetailsReportsToolStripMenuItem.Name = "saleDetailsReportsToolStripMenuItem";
-            this.saleDetailsReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saleDetailsReportsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.saleDetailsReportsToolStripMenuItem.Text = "Sale Details Reports";
+            this.saleDetailsReportsToolStripMenuItem.Click += new System.EventHandler(this.saleDetailsReportsToolStripMenuItem_Click);
             // 
             // annualReportsToolStripMenuItem
             // 
             this.annualReportsToolStripMenuItem.Name = "annualReportsToolStripMenuItem";
-            this.annualReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.annualReportsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.annualReportsToolStripMenuItem.Text = "Annual Reports";
+            this.annualReportsToolStripMenuItem.Click += new System.EventHandler(this.annualReportsToolStripMenuItem_Click);
             // 
             // paymentReportsToolStripMenuItem
             // 
@@ -5195,6 +5198,7 @@ namespace FoodandBeverage.Forms
             this.midasCardPaymentReportsToolStripMenuItem.Name = "midasCardPaymentReportsToolStripMenuItem";
             this.midasCardPaymentReportsToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.midasCardPaymentReportsToolStripMenuItem.Text = "Midas Card Payment Reports";
+            this.midasCardPaymentReportsToolStripMenuItem.Click += new System.EventHandler(this.midasCardPaymentReportsToolStripMenuItem_Click);
             // 
             // itemMenuReportsToolStripMenuItem
             // 
@@ -5210,12 +5214,14 @@ namespace FoodandBeverage.Forms
             this.popularItemReportsToolStripMenuItem.Name = "popularItemReportsToolStripMenuItem";
             this.popularItemReportsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.popularItemReportsToolStripMenuItem.Text = "Popular Item Reports";
+            this.popularItemReportsToolStripMenuItem.Click += new System.EventHandler(this.popularItemReportsToolStripMenuItem_Click);
             // 
             // menuReportsToolStripMenuItem
             // 
             this.menuReportsToolStripMenuItem.Name = "menuReportsToolStripMenuItem";
             this.menuReportsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.menuReportsToolStripMenuItem.Text = "Menu reports";
+            this.menuReportsToolStripMenuItem.Click += new System.EventHandler(this.menuReportsToolStripMenuItem_Click);
             // 
             // employeeReportsToolStripMenuItem
             // 
@@ -5230,6 +5236,7 @@ namespace FoodandBeverage.Forms
             this.employeeReportsToolStripMenuItem1.Name = "employeeReportsToolStripMenuItem1";
             this.employeeReportsToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
             this.employeeReportsToolStripMenuItem1.Text = "Employee Reports";
+            this.employeeReportsToolStripMenuItem1.Click += new System.EventHandler(this.employeeReportsToolStripMenuItem1_Click);
             // 
             // tableOrderReportsToolStripMenuItem
             // 
@@ -5244,6 +5251,7 @@ namespace FoodandBeverage.Forms
             this.tableOccupancyRepotsToolStripMenuItem.Name = "tableOccupancyRepotsToolStripMenuItem";
             this.tableOccupancyRepotsToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.tableOccupancyRepotsToolStripMenuItem.Text = "Table Occupancy Repots";
+            this.tableOccupancyRepotsToolStripMenuItem.Click += new System.EventHandler(this.tableOccupancyRepotsToolStripMenuItem_Click);
             // 
             // inventoryStockReportsToolStripMenuItem
             // 
@@ -5265,48 +5273,56 @@ namespace FoodandBeverage.Forms
             this.inventoryReportsToolStripMenuItem.Name = "inventoryReportsToolStripMenuItem";
             this.inventoryReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.inventoryReportsToolStripMenuItem.Text = "Inventory Reports";
+            this.inventoryReportsToolStripMenuItem.Click += new System.EventHandler(this.inventoryReportsToolStripMenuItem_Click);
             // 
             // stockUsageReportsToolStripMenuItem
             // 
             this.stockUsageReportsToolStripMenuItem.Name = "stockUsageReportsToolStripMenuItem";
             this.stockUsageReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.stockUsageReportsToolStripMenuItem.Text = "Stock usage Reports";
+            this.stockUsageReportsToolStripMenuItem.Click += new System.EventHandler(this.stockUsageReportsToolStripMenuItem_Click);
             // 
             // slowMovingItemReportsToolStripMenuItem
             // 
             this.slowMovingItemReportsToolStripMenuItem.Name = "slowMovingItemReportsToolStripMenuItem";
             this.slowMovingItemReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.slowMovingItemReportsToolStripMenuItem.Text = "Slow moving Item Reports";
+            this.slowMovingItemReportsToolStripMenuItem.Click += new System.EventHandler(this.slowMovingItemReportsToolStripMenuItem_Click);
             // 
             // reorderReportsToolStripMenuItem
             // 
             this.reorderReportsToolStripMenuItem.Name = "reorderReportsToolStripMenuItem";
             this.reorderReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.reorderReportsToolStripMenuItem.Text = "Reorder Reports";
+            this.reorderReportsToolStripMenuItem.Click += new System.EventHandler(this.reorderReportsToolStripMenuItem_Click);
             // 
             // purchaseReportsToolStripMenuItem
             // 
             this.purchaseReportsToolStripMenuItem.Name = "purchaseReportsToolStripMenuItem";
             this.purchaseReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.purchaseReportsToolStripMenuItem.Text = "Purchase Reports";
+            this.purchaseReportsToolStripMenuItem.Click += new System.EventHandler(this.purchaseReportsToolStripMenuItem_Click);
             // 
             // purchaseReturnReportsToolStripMenuItem
             // 
             this.purchaseReturnReportsToolStripMenuItem.Name = "purchaseReturnReportsToolStripMenuItem";
             this.purchaseReturnReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.purchaseReturnReportsToolStripMenuItem.Text = "Purchase Return Reports";
+            this.purchaseReturnReportsToolStripMenuItem.Click += new System.EventHandler(this.purchaseReturnReportsToolStripMenuItem_Click);
             // 
             // supplierReportsToolStripMenuItem
             // 
             this.supplierReportsToolStripMenuItem.Name = "supplierReportsToolStripMenuItem";
             this.supplierReportsToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.supplierReportsToolStripMenuItem.Text = "Supplier Reports";
+            this.supplierReportsToolStripMenuItem.Click += new System.EventHandler(this.supplierReportsToolStripMenuItem_Click);
             // 
             // supplierPurchaseReturnToolStripMenuItem
             // 
             this.supplierPurchaseReturnToolStripMenuItem.Name = "supplierPurchaseReturnToolStripMenuItem";
             this.supplierPurchaseReturnToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.supplierPurchaseReturnToolStripMenuItem.Text = "Supplier Purchase Return Reports";
+            this.supplierPurchaseReturnToolStripMenuItem.Click += new System.EventHandler(this.supplierPurchaseReturnToolStripMenuItem_Click);
             // 
             // discountOfferReportsToolStripMenuItem
             // 
@@ -5322,12 +5338,14 @@ namespace FoodandBeverage.Forms
             this.disocuntOfferReportsToolStripMenuItem.Name = "disocuntOfferReportsToolStripMenuItem";
             this.disocuntOfferReportsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.disocuntOfferReportsToolStripMenuItem.Text = "Disocunt Offer Reports";
+            this.disocuntOfferReportsToolStripMenuItem.Click += new System.EventHandler(this.disocuntOfferReportsToolStripMenuItem_Click);
             // 
             // comboOfferReportsToolStripMenuItem
             // 
             this.comboOfferReportsToolStripMenuItem.Name = "comboOfferReportsToolStripMenuItem";
             this.comboOfferReportsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.comboOfferReportsToolStripMenuItem.Text = "Combo Offer Reports";
+            this.comboOfferReportsToolStripMenuItem.Click += new System.EventHandler(this.comboOfferReportsToolStripMenuItem_Click);
             // 
             // voidRefundReportsToolStripMenuItem
             // 
@@ -5342,20 +5360,23 @@ namespace FoodandBeverage.Forms
             // expenseReportsToolStripMenuItem
             // 
             this.expenseReportsToolStripMenuItem.Name = "expenseReportsToolStripMenuItem";
-            this.expenseReportsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.expenseReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.expenseReportsToolStripMenuItem.Text = "Expense Reports";
+            this.expenseReportsToolStripMenuItem.Click += new System.EventHandler(this.expenseReportsToolStripMenuItem_Click);
             // 
             // refundReportsToolStripMenuItem
             // 
             this.refundReportsToolStripMenuItem.Name = "refundReportsToolStripMenuItem";
-            this.refundReportsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.refundReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refundReportsToolStripMenuItem.Text = "Refund Reports";
+            this.refundReportsToolStripMenuItem.Click += new System.EventHandler(this.refundReportsToolStripMenuItem_Click);
             // 
             // voidReportsToolStripMenuItem
             // 
             this.voidReportsToolStripMenuItem.Name = "voidReportsToolStripMenuItem";
-            this.voidReportsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.voidReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.voidReportsToolStripMenuItem.Text = "Void Sale Reports";
+            this.voidReportsToolStripMenuItem.Click += new System.EventHandler(this.voidReportsToolStripMenuItem_Click);
             // 
             // shiftDayEndReportsToolStripMenuItem
             // 
@@ -5374,8 +5395,9 @@ namespace FoodandBeverage.Forms
             // customerReportsToolStripMenuItem
             // 
             this.customerReportsToolStripMenuItem.Name = "customerReportsToolStripMenuItem";
-            this.customerReportsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.customerReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.customerReportsToolStripMenuItem.Text = "Customer Reports";
+            this.customerReportsToolStripMenuItem.Click += new System.EventHandler(this.customerReportsToolStripMenuItem_Click);
             // 
             // FrmDashboard
             // 

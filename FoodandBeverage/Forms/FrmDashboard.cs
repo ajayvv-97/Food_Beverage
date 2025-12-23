@@ -46,6 +46,8 @@ namespace FoodandBeverage.Forms
         public int Drawerassginstaffid;
 
         public string Drawersystemname;
+       
+      
         public FrmDashboard()
         {
             InitializeComponent();
@@ -244,6 +246,7 @@ namespace FoodandBeverage.Forms
             {
                 loadingForm.Invoke(new Action(() => loadingForm.Close()));
             }
+            StyleReportMenu();
         }
         private void LoadMainForm()
         {
@@ -1071,16 +1074,18 @@ namespace FoodandBeverage.Forms
 
         }
 
-
+        #region Report Menu Clicks
         private void Menureport_Click(object sender, EventArgs e)
         {
             try
             {
                 ButtonID = Convert.ToInt32(Menubutton.Menureport);
+
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
+
                 panelDesktop.SuspendLayout();
 
                 if (menutable_click)
@@ -1088,502 +1093,76 @@ namespace FoodandBeverage.Forms
                     CloseTableViewPage();
                 }
 
- 
-                    rjDropdownReport.BackColor = Color.DarkOrchid;
-                    rjDropdownReport.MenuItemTextColor = Color.White;
-                    //rjDropdownReport.Show(MenuReport, MenuReport.Width, 0);
-                    foreach (ToolStripMenuItem item in rjDropdownReport.Items)
-                    {
-                        item.BackColor = Color.DarkOrchid;
-                        foreach (ToolStripItem subItem in item.DropDownItems)
-                        {
-                            subItem.ForeColor = Color.White;
-                            subItem.BackColor = Color.DarkOrchid;
-
-                            subItem.Paint += (s, eArgs) =>
-                            {
-                                ToolStripItem tsi = (ToolStripItem)s;
-                                bool isHovered = tsi.Selected;
-
-                                Color backColor = isHovered ? Color.MediumPurple : Color.DarkOrchid;
-                                Color textColor = isHovered ? Color.White : Color.White;
-
-                                eArgs.Graphics.FillRectangle(new SolidBrush(backColor), eArgs.ClipRectangle);
-                                // Add padding (10px left)
-                                Rectangle paddedRect = new Rectangle(
-                                    eArgs.ClipRectangle.X + 10,
-                                    eArgs.ClipRectangle.Y,
-                                    eArgs.ClipRectangle.Width - 10,
-                                    eArgs.ClipRectangle.Height
-                                );
-
-                                TextRenderer.DrawText(
-                                    eArgs.Graphics,
-                                    tsi.Text,
-                                    tsi.Font,
-                                    paddedRect,   // <-- use padded rectangle here
-                                    textColor,
-                                    TextFormatFlags.Left | TextFormatFlags.VerticalCenter
-                                );
-                            };
-                        }
-                    }
+               
+                rjDropdownReport.BackColor = Color.DarkOrchid;
+                rjDropdownReport.MenuItemTextColor = Color.White;
 
                 
-
-                #region Old code
-                /*
-                float largerFontSize = 12;
-                ContextMenuStrip contextMenu = new ContextMenuStrip();
-
-                ToolStripMenuItem salesReportItem = new ToolStripMenuItem("Sales Report");
-                ToolStripMenuItem inventoryReportItem = new ToolStripMenuItem("Inventory Report");
-                ToolStripMenuItem employeePerformanceItem = new ToolStripMenuItem("Employee Report");
-                ToolStripMenuItem expenseReportItem = new ToolStripMenuItem("Expense Report");
-                ToolStripMenuItem reservationSeatingItem = new ToolStripMenuItem("Reservation and Seating Report");
-                //ToolStripMenuItem feedbackReportItem = new ToolStripMenuItem("Customer Feedback Report");
-                //ToolStripMenuItem loyaltyProgramItem = new ToolStripMenuItem("Loyalty Program Report");
-                ToolStripMenuItem promotionsDiscountsItem = new ToolStripMenuItem("Promotions and Discounts Report");
-                ToolStripMenuItem Purchaseitem = new ToolStripMenuItem("Purchase Report");
-                ToolStripMenuItem MenuAnalysisReports = new ToolStripMenuItem("Menu Analysis Reports");
-                ToolStripMenuItem TableTurnoverReports = new ToolStripMenuItem("Table Turnover Reports");
-                ToolStripMenuItem VendorReports = new ToolStripMenuItem("Supplier Reports");
-
-
-                salesReportItem.Click += SalesReportItem_Click;
-                inventoryReportItem.Click += InventoryReportItem_Click;
-                employeePerformanceItem.Click += EmployeePerformanceItem_Click;
-                expenseReportItem.Click += ExpenseReportItem_Click;
-                reservationSeatingItem.Click += ReservationSeatingItem_Click;
-                //feedbackReportItem.Click += FeedbackReportItem_Click;
-                //loyaltyProgramItem.Click += LoyaltyProgramItem_Click;
-                promotionsDiscountsItem.Click += PromotionsDiscountsItem_Click;
-                Purchaseitem.Click += PurchaseitemItem_Click;
-                MenuAnalysisReports.Click += MenuAnalysisReports_Click;
-                TableTurnoverReports.Click += TableTurnoverReports_Click;
-                VendorReports.Click += VendorReports_Click;
-
-                contextMenu.Items.Add(salesReportItem);
-                contextMenu.Items.Add(inventoryReportItem);
-                contextMenu.Items.Add(employeePerformanceItem);
-                contextMenu.Items.Add(expenseReportItem);
-                contextMenu.Items.Add(reservationSeatingItem);
-                //contextMenu.Items.Add(feedbackReportItem);
-                //contextMenu.Items.Add(loyaltyProgramItem);
-                contextMenu.Items.Add(promotionsDiscountsItem);
-                contextMenu.Items.Add(Purchaseitem);
-                contextMenu.Items.Add(TableTurnoverReports);
-                contextMenu.Items.Add(MenuAnalysisReports);
-                contextMenu.Items.Add(VendorReports);
-
-                contextMenu.Show(Cursor.Position);
-                */
-                #endregion
+                if (sender is Control btn)
+                {
+                    
+                    rjDropdownReport.Show(btn, btn.Width, btn.Height);
+                }
 
                 panelDesktop.ResumeLayout();
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  Menureport_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException(
+                    "Home Page Menureport_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage)
+                );
             }
-
         }
-
-        private void VendorReports_Click(object sender, EventArgs e)
+        private void StyleReportMenu()
         {
-            try
+            foreach (ToolStripMenuItem item in rjDropdownReport.Items)
             {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+                item.BackColor = Color.DarkOrchid;
 
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.VendorReports));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
+                foreach (ToolStripItem subItem in item.DropDownItems)
                 {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.VendorReports));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
+                    subItem.ForeColor = Color.White;
+                    subItem.BackColor = Color.DarkOrchid;
+
+                    subItem.Paint -= SubItem_Paint; // prevent duplicate
+                    subItem.Paint += SubItem_Paint;
                 }
             }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  VendorReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
         }
-        private void TableTurnoverReports_Click(object sender, EventArgs e)
+
+        private void SubItem_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+            ToolStripItem tsi = (ToolStripItem)sender;
+            bool isHovered = tsi.Selected;
 
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.TableTurnoverReports));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.TableTurnoverReports));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
+            Color backColor = isHovered ? Color.MediumPurple : Color.DarkOrchid;
 
+            e.Graphics.FillRectangle(
+                new SolidBrush(backColor),
+                e.ClipRectangle
+            );
+
+            Rectangle paddedRect = new Rectangle(
+                e.ClipRectangle.X + 10,
+                e.ClipRectangle.Y,
+                e.ClipRectangle.Width - 10,
+                e.ClipRectangle.Height
+            );
+
+            TextRenderer.DrawText(
+                e.Graphics,
+                tsi.Text,
+                tsi.Font,
+                paddedRect,
+                Color.White,
+                TextFormatFlags.Left | TextFormatFlags.VerticalCenter
+            );
         }
-        private void MenuAnalysisReports_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.MenuAnalysisReports));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.MenuAnalysisReports));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-               catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page ", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
-        }
-
-        private void PurchaseitemItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.Purchasereportitem));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.Purchasereportitem));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
-        }
-
-        private void ExpenseReportItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.expenseReportItem));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.expenseReportItem));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
-        }
-        private void ReservationSeatingItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.reservationSeatingItem));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.reservationSeatingItem));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
-        }
-        private void EmployeePerformanceItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.employeePerformanceItem));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.employeePerformanceItem));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
-        }
-        private void PromotionsDiscountsItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.promotionsDiscountsItem));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.promotionsDiscountsItem));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
-        }
-        private void SalesReportItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-            }
-
-        }
-
-        private void InventoryReportItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
-
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.inventoryReportItem));
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
-                {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.inventoryReportItem));
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("HomePage  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-
-            }
-
-        }
+        #endregion
         public void CloseTableViewPage()
         {
             try
@@ -5485,6 +5064,438 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 clsgen.LogException("homepage TaxDeafult", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+        public void ReportForm(int id)
+        {
+            try
+            {
+                panelDesktop.Controls.Clear();
+                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
+                {
+                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
+
+                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmreport.Close();
+                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem), id);
+                        newFrmreport.TopLevel = false;
+                        newFrmreport.Dock = DockStyle.Fill;
+                        panelDesktop.Controls.Add(newFrmreport);
+                        newFrmreport.Show();
+                    }
+                }
+                else
+                {
+                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem), id);
+                    _instanceFrmreport.TopLevel = false;
+                    _instanceFrmreport.Dock = DockStyle.Fill;
+                    panelDesktop.Controls.Add(_instanceFrmreport);
+                    _instanceFrmreport.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+
+        }
+
+        private void saleReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+               
+
+                int ReportLevelID = 47;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page saleReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+        
+        private void saleDetailsReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 48;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page saleDetailsReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void annualReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 38;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page annualReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void midasCardPaymentReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 14;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page midasCardPaymentReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void popularItemReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 7;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void menuReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 0;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void employeeReportsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 11;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void tableOccupancyRepotsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 44;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void inventoryReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+                int ReportLevelID = 27;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void stockUsageReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 37;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void slowMovingItemReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 8;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void reorderReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 24;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void purchaseReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 23;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void purchaseReturnReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 20;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void supplierReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 22;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void supplierPurchaseReturnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 19;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void disocuntOfferReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 10;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void comboOfferReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 0;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void expenseReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 25;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void refundReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 0;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void voidReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 0;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void customerReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 23;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
         #region Keyboard
