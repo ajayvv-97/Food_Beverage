@@ -1326,6 +1326,7 @@ namespace FoodandBeverage.Forms
                         if (DrawerCheckBranch(Convert.ToInt32(FrmLogin.EmployeeId)))
                         {
                             MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            return;
                         }
                         DialogResult result = MessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
                         if (result == DialogResult.OK)
@@ -5603,6 +5604,51 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("homepage btntakeway_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+
+        private void ib_void_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (System.Windows.Forms.Application.OpenForms["Frmvoidsale"] != null)
+                {
+                    Frmvoidsale _instanceFrmVoidSale =
+                        Application.OpenForms["Frmvoidsale"] as Frmvoidsale;
+
+                    if (_instanceFrmVoidSale.WindowState == FormWindowState.Minimized)
+                        _instanceFrmVoidSale.WindowState = FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmVoidSale.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmVoidSale);
+                        panelDesktop.Controls.Add(_instanceFrmVoidSale);
+                        _instanceFrmVoidSale.Show();
+                        _instanceFrmVoidSale.BringToFront();
+                    }
+                }
+                else
+                {
+                    Frmvoidsale _instanceFrmVoidSale = new Frmvoidsale();
+                    ResizeForm(_instanceFrmVoidSale);
+                    _instanceFrmVoidSale.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceFrmVoidSale);
+                    _instanceFrmVoidSale.Show();
+                    _instanceFrmVoidSale.WindowState = FormWindowState.Maximized;
+                    _instanceFrmVoidSale.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ib_void_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage)
+                );
+            }
+        }
+
+
         #region Keyboard
         public void ShowKeyboard(Control activeControl, int kbtype)
         {

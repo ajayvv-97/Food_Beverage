@@ -2973,9 +2973,9 @@ namespace FoodandBeverage.Forms
                 // -------------------
                 // 4. Packing Charge Button
                 // -------------------
-                Button buttonPacking = CreateSideMenuButton("Packing Charge", "btn_packing_charge");
-                buttonPacking.Click += SidebuttonPackingChargeClickEventHandler;
-                flp_sidemenu.Controls.Add(buttonPacking);
+                //Button buttonPacking = CreateSideMenuButton("Packing Charge", "btn_packing_charge");
+                //buttonPacking.Click += SidebuttonPackingChargeClickEventHandler;
+                //flp_sidemenu.Controls.Add(buttonPacking);
 
                 // -------------------
                 // 4. Dynamic Category Buttons
@@ -6708,7 +6708,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
                                     {
-                                        if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipavidno].Value)>0)
+                                        if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipavidno].Value)>0 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value)!=2)
                                             dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorgname].Value);
                                         else
                                             dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);

@@ -240,7 +240,7 @@ namespace FoodandBeverage.Forms
         }
         private void txtICardNo1_Enter(object sender, EventArgs e)
         {
-            tlp_main.Enabled = false;
+            //tlp_main.Enabled = false;
             pnlwifi.Location = new Point(this.ClientSize.Width / 2 - pnlwifi.Size.Width / 2, this.ClientSize.Height / 2 - pnlwifi.Size.Height / 2);
             pnlwifi.Visible = true;
             tm_card.Start();

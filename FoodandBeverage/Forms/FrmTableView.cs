@@ -559,6 +559,8 @@ namespace FoodandBeverage.Forms
                     ui.NetAmount.Visible = true;
                 }
             }
+            if(!AutoTimer.Enabled)
+                AutoTimer.Start();
         }
 
 
