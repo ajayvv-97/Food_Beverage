@@ -5208,7 +5208,7 @@ namespace FoodandBeverage.Forms
                 ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
 
 
-                int ReportLevelID = 0;
+                int ReportLevelID = 1;
                 ReportForm(ReportLevelID);
             }
             catch (Exception ex)
@@ -5493,7 +5493,7 @@ namespace FoodandBeverage.Forms
                 ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
 
 
-                int ReportLevelID = 17;
+                int ReportLevelID = 2;
                 ReportForm(ReportLevelID);
             }
             catch (Exception ex)
@@ -5511,7 +5511,7 @@ namespace FoodandBeverage.Forms
                 ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
 
 
-                int ReportLevelID = 23;
+                int ReportLevelID = 17;
                 ReportForm(ReportLevelID);
             }
             catch (Exception ex)
