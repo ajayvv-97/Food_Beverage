@@ -967,7 +967,7 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.CreatedBy = FrmDashboard.UserId;
                 dmnRegistration.BranchId = FrmDashboard.BranchId;
                 dmnRegistration.Status = 1;
-                dmnRegistration.billno = Convert.ToInt32(txtbillno.Text);
+                dmnRegistration.billno = Convert.ToString(txtbillno.Text);
                 if (empImgExt != "")
                 {
                     if (!Directory.Exists(Compressedimg))
