@@ -29,7 +29,8 @@ namespace Domain
         public int BookingInerwell { get; set; }
         public string website { get; set; }
         public TimeSpan OpeningTime { get; set; }
-         
+        public string billno { get; set; }
+
 
     }
 }

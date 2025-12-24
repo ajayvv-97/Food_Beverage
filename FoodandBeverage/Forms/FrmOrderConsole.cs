@@ -6952,7 +6952,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     case "btnupi":
                         payid = Convert.ToInt32(PaymentType.UPI);
                         break;
-                    case "btnnetbank":
+                    case "btnnetbanking":
                         payid = Convert.ToInt32(PaymentType.BANKINGONLINE);
                         break;
                     case "btncreditcard":
