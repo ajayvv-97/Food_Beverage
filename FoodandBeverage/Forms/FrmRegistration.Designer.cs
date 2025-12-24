@@ -127,6 +127,8 @@ namespace FoodandBeverage.Forms
             this.btn_cert1_dow = new System.Windows.Forms.Button();
             this.btn_cert1_remove = new System.Windows.Forms.Button();
             this.btn_cert_ok_ = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtbillno = new System.Windows.Forms.TextBox();
             this.tlp_header_nav.SuspendLayout();
             this.tlp_buttons.SuspendLayout();
             this.pnlcerti_view.SuspendLayout();
@@ -713,7 +715,7 @@ namespace FoodandBeverage.Forms
             this.tlp_outdesign.Name = "tlp_outdesign";
             this.tlp_outdesign.RowCount = 2;
             this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 242F));
+            this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 196F));
             this.tlp_outdesign.Size = new System.Drawing.Size(762, 501);
             this.tlp_outdesign.TabIndex = 316;
             // 
@@ -745,9 +747,11 @@ namespace FoodandBeverage.Forms
             this.tlp_reg.Controls.Add(this.label24, 2, 4);
             this.tlp_reg.Controls.Add(this.txtwebsite, 1, 7);
             this.tlp_reg.Controls.Add(this.txtemail, 0, 7);
-            this.tlp_reg.Controls.Add(this.btn_cert_upload, 2, 7);
             this.tlp_reg.Controls.Add(this.lbl, 0, 6);
             this.tlp_reg.Controls.Add(this.lble, 1, 6);
+            this.tlp_reg.Controls.Add(this.btn_cert_upload, 0, 8);
+            this.tlp_reg.Controls.Add(this.label8, 2, 6);
+            this.tlp_reg.Controls.Add(this.txtbillno, 2, 7);
             this.tlp_reg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_reg.Location = new System.Drawing.Point(10, 3);
             this.tlp_reg.Name = "tlp_reg";
@@ -758,11 +762,10 @@ namespace FoodandBeverage.Forms
             this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_reg.Size = new System.Drawing.Size(740, 253);
+            this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tlp_reg.Size = new System.Drawing.Size(740, 299);
             this.tlp_reg.TabIndex = 2;
             // 
             // cmdstate
@@ -1056,7 +1059,7 @@ namespace FoodandBeverage.Forms
             this.txtwebsite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtwebsite.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtwebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtwebsite.Location = new System.Drawing.Point(250, 215);
+            this.txtwebsite.Location = new System.Drawing.Point(250, 225);
             this.txtwebsite.Multiline = true;
             this.txtwebsite.Name = "txtwebsite";
             this.txtwebsite.Size = new System.Drawing.Size(239, 30);
@@ -1067,7 +1070,7 @@ namespace FoodandBeverage.Forms
             this.txtemail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtemail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtemail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtemail.Location = new System.Drawing.Point(3, 215);
+            this.txtemail.Location = new System.Drawing.Point(3, 225);
             this.txtemail.Multiline = true;
             this.txtemail.Name = "txtemail";
             this.txtemail.Size = new System.Drawing.Size(241, 30);
@@ -1076,10 +1079,9 @@ namespace FoodandBeverage.Forms
             // 
             // btn_cert_upload
             // 
-            this.btn_cert_upload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_cert_upload.Location = new System.Drawing.Point(495, 215);
+            this.btn_cert_upload.Location = new System.Drawing.Point(3, 261);
             this.btn_cert_upload.Name = "btn_cert_upload";
-            this.btn_cert_upload.Size = new System.Drawing.Size(242, 30);
+            this.btn_cert_upload.Size = new System.Drawing.Size(241, 30);
             this.btn_cert_upload.TabIndex = 333;
             this.btn_cert_upload.Text = "Certificate Upload";
             this.btn_cert_upload.UseVisualStyleBackColor = true;
@@ -1092,7 +1094,7 @@ namespace FoodandBeverage.Forms
             this.lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl.Location = new System.Drawing.Point(3, 192);
             this.lbl.Name = "lbl";
-            this.lbl.Size = new System.Drawing.Size(241, 20);
+            this.lbl.Size = new System.Drawing.Size(241, 30);
             this.lbl.TabIndex = 334;
             this.lbl.Text = "Website";
             this.lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1104,7 +1106,7 @@ namespace FoodandBeverage.Forms
             this.lble.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lble.Location = new System.Drawing.Point(250, 192);
             this.lble.Name = "lble";
-            this.lble.Size = new System.Drawing.Size(239, 20);
+            this.lble.Size = new System.Drawing.Size(239, 30);
             this.lble.TabIndex = 335;
             this.lble.Text = "Email";
             this.lble.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1344,7 +1346,7 @@ namespace FoodandBeverage.Forms
             this.btn_cert3_view.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cert3_view.Location = new System.Drawing.Point(3, 3);
             this.btn_cert3_view.Name = "btn_cert3_view";
-            this.btn_cert3_view.Size = new System.Drawing.Size(68, 44);
+            this.btn_cert3_view.Size = new System.Drawing.Size(69, 44);
             this.btn_cert3_view.TabIndex = 0;
             this.btn_cert3_view.UseVisualStyleBackColor = true;
             this.btn_cert3_view.Click += new System.EventHandler(this.btn_cert3_view_Click);
@@ -1356,9 +1358,9 @@ namespace FoodandBeverage.Forms
             this.btn_cert3_dow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert3_dow.FlatAppearance.BorderSize = 0;
             this.btn_cert3_dow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cert3_dow.Location = new System.Drawing.Point(77, 3);
+            this.btn_cert3_dow.Location = new System.Drawing.Point(78, 3);
             this.btn_cert3_dow.Name = "btn_cert3_dow";
-            this.btn_cert3_dow.Size = new System.Drawing.Size(68, 44);
+            this.btn_cert3_dow.Size = new System.Drawing.Size(69, 44);
             this.btn_cert3_dow.TabIndex = 1;
             this.btn_cert3_dow.UseVisualStyleBackColor = true;
             this.btn_cert3_dow.Click += new System.EventHandler(this.btn_cert3_dow_Click);
@@ -1370,9 +1372,9 @@ namespace FoodandBeverage.Forms
             this.btn_cert3_remove.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert3_remove.FlatAppearance.BorderSize = 0;
             this.btn_cert3_remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cert3_remove.Location = new System.Drawing.Point(151, 3);
+            this.btn_cert3_remove.Location = new System.Drawing.Point(153, 3);
             this.btn_cert3_remove.Name = "btn_cert3_remove";
-            this.btn_cert3_remove.Size = new System.Drawing.Size(71, 44);
+            this.btn_cert3_remove.Size = new System.Drawing.Size(69, 44);
             this.btn_cert3_remove.TabIndex = 2;
             this.btn_cert3_remove.UseVisualStyleBackColor = true;
             this.btn_cert3_remove.Click += new System.EventHandler(this.btn_cert3_remove_Click);
@@ -1511,15 +1513,38 @@ namespace FoodandBeverage.Forms
             this.btn_cert_ok_.UseVisualStyleBackColor = true;
             this.btn_cert_ok_.Click += new System.EventHandler(this.btn_cert_ok__Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(495, 192);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(242, 30);
+            this.label8.TabIndex = 336;
+            this.label8.Text = "Bill Start No#";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtbillno
+            // 
+            this.txtbillno.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtbillno.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtbillno.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtbillno.Location = new System.Drawing.Point(495, 225);
+            this.txtbillno.Multiline = true;
+            this.txtbillno.Name = "txtbillno";
+            this.txtbillno.Size = new System.Drawing.Size(242, 30);
+            this.txtbillno.TabIndex = 337;
+            // 
             // FrmRegistration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.ClientSize = new System.Drawing.Size(778, 597);
+            this.Controls.Add(this.tlp_main);
             this.Controls.Add(this.pnl_certview);
             this.Controls.Add(this.pnlcerti_view);
-            this.Controls.Add(this.tlp_main);
             this.Controls.Add(this.txtcid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmRegistration";
@@ -1665,5 +1690,7 @@ namespace FoodandBeverage.Forms
         private FontAwesome.Sharp.IconButton proof2;
         private FontAwesome.Sharp.IconButton proof3;
         private System.Windows.Forms.Button btn_cert_ok_;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtbillno;
     }
 }

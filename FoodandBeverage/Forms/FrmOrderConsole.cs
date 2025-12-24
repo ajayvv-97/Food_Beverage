@@ -2973,9 +2973,9 @@ namespace FoodandBeverage.Forms
                 // -------------------
                 // 4. Packing Charge Button
                 // -------------------
-                Button buttonPacking = CreateSideMenuButton("Packing Charge", "btn_packing_charge");
-                buttonPacking.Click += SidebuttonPackingChargeClickEventHandler;
-                flp_sidemenu.Controls.Add(buttonPacking);
+                //Button buttonPacking = CreateSideMenuButton("Packing Charge", "btn_packing_charge");
+                //buttonPacking.Click += SidebuttonPackingChargeClickEventHandler;
+                //flp_sidemenu.Controls.Add(buttonPacking);
 
                 // -------------------
                 // 4. Dynamic Category Buttons
@@ -6952,7 +6952,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     case "btnupi":
                         payid = Convert.ToInt32(PaymentType.UPI);
                         break;
-                    case "btnnetbank":
+                    case "btnnetbanking":
                         payid = Convert.ToInt32(PaymentType.BANKINGONLINE);
                         break;
                     case "btncreditcard":
