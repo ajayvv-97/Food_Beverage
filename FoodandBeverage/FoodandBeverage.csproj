@@ -652,6 +652,12 @@
       <DependentUpon>Rpt_Inventory.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\Rpt_MenuReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_MenuReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\Rpt_MidasCardPayment.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -972,6 +978,10 @@
     <EmbeddedResource Include="Report\Rpt_Inventory.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Inventory.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Rpt_MenuReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_MenuReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Rpt_MidasCardPayment.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
