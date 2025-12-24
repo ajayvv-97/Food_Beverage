@@ -20,11 +20,28 @@ namespace BLL
             parms.Add("BranchId", objTestClass.BranchId); ;
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("Status", objTestClass.Status);
-            parms.Add("Quantity", objTestClass.Quantity);            
+            parms.Add("Quantity", objTestClass.Quantity);
             parms.Add("ProductType", objTestClass.ProductType);
             parms.Add("PreparationMode", objTestClass.PreparationMode);
+            parms.Add("ResetStatus", objTestClass.ResetStatus);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnMenu SetMenuActiveStatus(string procedureName, DmnMenu obj)
+        {
+            DAL.DapperRepository<DmnMenu> repo =
+                new DAL.DapperRepository<DmnMenu>();
+
+            DynamicParameters parms = new DynamicParameters();
+
+            parms.Add("MId", obj.MId);
+            parms.Add("BranchId", obj.BranchId);
+            parms.Add("CreatedBy", obj.CreatedBy);
+            parms.Add("Status", obj.Status);
+
+            var lstData = repo.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+
     }
 }
