@@ -3870,7 +3870,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                 dmnSearch.Table =
                     "tblOfferMaster om " +
-                    "INNER JOIN tblMenu m ON m.ProductId = om.Omid";
+                    "INNER JOIN tblMenu m ON m.ProductId = om.Omid and ProductType=0";
 
                 dmnSearch.WhereNdGroupBy =
                     "WHERE om.Status = 1 " +
@@ -4758,7 +4758,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
                         Dgv_Selected_Item.Rows[r1].Cells[isubofferid].Value = 0;
                         Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
-                        Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.DarkGray;
+                        Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
                         Dgv_Selected_Item.Rows[r1].Cells[iComboTaxamtno].Value = Convert.ToDecimal(gridSource[0].Field12);
                         Dgv_Selected_Item.Rows[r1].Cells[itaxamt].Value = Convert.ToDecimal(gridSource[0].Field12);
                         Dgv_Selected_Item.Rows[r1].Cells[itaxper].Value = Convert.ToDecimal(gridSource[0].Field11);
