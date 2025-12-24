@@ -287,7 +287,7 @@ namespace FoodandBeverage.Report
                         s_FillReport_MidasCard_PaymetReport();
                         break;
                     case 17:
-                        //s_FillReport_CashRevenue();
+                        s_FillReport_CashRevenue();
                         break;
                     case 19:
                         s_FillReport_supplierPurchase_return(); ;
@@ -637,7 +637,106 @@ namespace FoodandBeverage.Report
 
             }
         }
+        public void s_FillReport_CashRevenue()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                
 
+                dmnSearchDetBill.Select = "(select CONVERT(varchar(50),EntryDa,105)) as sFld3," +
+                        "[CREDIT CARD] as dFld1,[DEBIT CARD] as dFld2,[UPI] as dFld3," +
+                        "[BANKING ONLINE] as dFld4,[CASH] as dFld5,[OTHERS (Loyalty)] as dFld6," +
+                        "(ISNULL([CREDIT CARD],0)+ISNULL([DEBIT CARD],0)+ISNULL([UPI],0)+ISNULL([BANKING ONLINE],0)+ISNULL([CASH],0)+ISNULL([OTHERS (Loyalty)],0)) dFld7";
+
+                dmnSearchDetBill.Table = 
+                    "( select CAST(EntryDate AS DATE) EntryDa, Sum(NetAmt) Amount, ISNULL(Caption,'OTHERS') as Caption " +
+                    " from tblCardHistory h left join tblGeneralOptions g on g.GTypeSubId=h.payid and g.GTypeId=2 " +
+                    "where EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                    "and EntryDate<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                    "and h.status=1 and BranchId=" + BranchId + " and Etype=2 and payid!=12 AND payid!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                    " GROUP BY CAST(EntryDate AS DATE), g.Caption " +
+
+                    " union " +
+
+                    "select CAST(EntryDate AS DATE) EntryDa, Sum(NetAmount) Amount, ISNULL(Caption,'OTHERS') as Caption " +
+                    " from tblSalesMaster s left join tblGeneralOptions g1 on g1.GTypeSubId=s.PaymentMode and g1.GTypeId=2 " +
+                    "where EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                    "and EntryDate<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                    "and s.status=1 and BranchId=" + BranchId + " and PaymentMode!=12 AND  PaymentMode!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                    " GROUP BY CAST(EntryDate AS DATE), g1.Caption  " +
+
+                    "UNION ALL " +
+                    "SELECT CAST(h.EntryDate AS DATE) AS EntryDa,SUM(p.PaidAmt) AS Amount,ISNULL(g2.Caption, 'OTHERS') AS Caption" +
+                    " FROM tblPartPaymentDetails p INNER JOIN tblCardHistory h ON h.Id = p.SalesMasterId LEFT JOIN tblGeneralOptions g2" +
+                    " ON g2.GTypeSubId = p.PayMode AND g2.GTypeId = 2 WHERE h.status=1 AND h.EntryDate >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                    " AND h.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND h.BranchId = " + BranchId + "  AND p.PayMode != 10" +
+                    " GROUP BY CAST(h.EntryDate AS DATE), g2.Caption" +
+
+                    " UNION ALL " +
+                    " SELECT CAST(s.EntryDate AS DATE) AS EntryDa, SUM(p.PaidAmt) AS Amount, ISNULL(g2.Caption, 'OTHERS') AS Caption" +
+                    " FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON s.SalesMasterId = p.SalesMasterId LEFT JOIN tblGeneralOptions g2" +
+                    " ON g2.GTypeSubId = p.PayMode AND g2.GTypeId = 2 WHERE s.status=1 AND s.EntryDate >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                    " AND s.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.BranchId = " + BranchId + "  AND p.PayMode != 10" +
+                    " GROUP BY CAST(s.EntryDate AS DATE), g2.Caption ) ps " +
+
+
+
+                    " PIVOT (SUM(Amount) FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS (Loyalty)])) AS pvt " +
+                    " order by EntryDa ";
+                dmnSearchDetBill.WhereNdGroupBy = "";
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "dFld1", "dFld2", "dFld3", "dFld4"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                //string x = Application.StartupPath + @"\Report"+ @"\Rpt_MidasCardPayment.rpt";
+                //MessageBox.Show(this, x, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                reportDocument.Load(Path + @"\Rpt_CashRevenueReport.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_MidasCard_PaymetReport()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+
+            }
+        }
         public void s_FillReport_MidasCard_PaymetReport()
         {
 
