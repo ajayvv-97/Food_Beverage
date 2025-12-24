@@ -1875,6 +1875,7 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\N_CANCEL ORDERBtn.png" />
     <None Include="Resources\loading_gif.gif" />
     <None Include="Resources\GST.png" />
     <None Include="Resources\N_refreshicon.png" />

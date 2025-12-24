@@ -71,6 +71,7 @@ namespace FoodandBeverage.Forms
             this.txtnote = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tlp_checkControls = new System.Windows.Forms.TableLayoutPanel();
+            this.chktabletmode = new System.Windows.Forms.CheckBox();
             this.chkactive = new System.Windows.Forms.CheckBox();
             this.chk_Rfid_Login = new System.Windows.Forms.CheckBox();
             this.btnrfid = new System.Windows.Forms.Button();
@@ -134,12 +135,11 @@ namespace FoodandBeverage.Forms
             this.lblsubcatclose = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
+            this.txtepid = new System.Windows.Forms.TextBox();
             this.pnlwifi = new System.Windows.Forms.Panel();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.pbwifi = new System.Windows.Forms.PictureBox();
-            this.btnwificancel = new System.Windows.Forms.Button();
-            this.txtepid = new System.Windows.Forms.TextBox();
-            this.chktabletmode = new System.Windows.Forms.CheckBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.tb_empolyee.SuspendLayout();
             this.tp_employee.SuspendLayout();
             this.tlp_employe_reg_outer.SuspendLayout();
@@ -171,7 +171,7 @@ namespace FoodandBeverage.Forms
             this.tlp_usertype_header.SuspendLayout();
             this.pnlwifi.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbwifi)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tm_card
@@ -745,6 +745,20 @@ namespace FoodandBeverage.Forms
             this.tlp_checkControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tlp_checkControls.Size = new System.Drawing.Size(211, 90);
             this.tlp_checkControls.TabIndex = 0;
+            // 
+            // chktabletmode
+            // 
+            this.chktabletmode.AutoSize = true;
+            this.chktabletmode.BackColor = System.Drawing.Color.Transparent;
+            this.chktabletmode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chktabletmode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.chktabletmode.ForeColor = System.Drawing.Color.DarkRed;
+            this.chktabletmode.Location = new System.Drawing.Point(3, 67);
+            this.chktabletmode.Name = "chktabletmode";
+            this.chktabletmode.Size = new System.Drawing.Size(205, 20);
+            this.chktabletmode.TabIndex = 2;
+            this.chktabletmode.Text = "Tablet Mode";
+            this.chktabletmode.UseVisualStyleBackColor = false;
             // 
             // chkactive
             // 
@@ -1675,59 +1689,6 @@ namespace FoodandBeverage.Forms
             this.label30.TabIndex = 232;
             this.label30.Text = "*";
             // 
-            // pnlwifi
-            // 
-            this.pnlwifi.BackColor = System.Drawing.Color.SteelBlue;
-            this.pnlwifi.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlwifi.Controls.Add(this.tableLayoutPanel8);
-            this.pnlwifi.Location = new System.Drawing.Point(954, 137);
-            this.pnlwifi.Name = "pnlwifi";
-            this.pnlwifi.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlwifi.Size = new System.Drawing.Size(453, 203);
-            this.pnlwifi.TabIndex = 287;
-            this.pnlwifi.Visible = false;
-            // 
-            // tableLayoutPanel8
-            // 
-            this.tableLayoutPanel8.ColumnCount = 2;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.88372F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.11628F));
-            this.tableLayoutPanel8.Controls.Add(this.pbwifi, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.btnwificancel, 1, 0);
-            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(5, 5);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 1;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(439, 189);
-            this.tableLayoutPanel8.TabIndex = 2;
-            // 
-            // pbwifi
-            // 
-            this.pbwifi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbwifi.Image = ((System.Drawing.Image)(resources.GetObject("pbwifi.Image")));
-            this.pbwifi.Location = new System.Drawing.Point(3, 3);
-            this.pbwifi.Name = "pbwifi";
-            this.pbwifi.Size = new System.Drawing.Size(256, 183);
-            this.pbwifi.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbwifi.TabIndex = 0;
-            this.pbwifi.TabStop = false;
-            // 
-            // btnwificancel
-            // 
-            this.btnwificancel.BackgroundImage = global::FoodandBeverage.Properties.Resources.cancel_icon_wifi;
-            this.btnwificancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnwificancel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnwificancel.FlatAppearance.BorderSize = 0;
-            this.btnwificancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnwificancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnwificancel.Location = new System.Drawing.Point(265, 3);
-            this.btnwificancel.Name = "btnwificancel";
-            this.btnwificancel.Size = new System.Drawing.Size(171, 183);
-            this.btnwificancel.TabIndex = 1;
-            this.btnwificancel.UseVisualStyleBackColor = true;
-            this.btnwificancel.Click += new System.EventHandler(this.btnwificancel_Click);
-            // 
             // txtepid
             // 
             this.txtepid.Location = new System.Drawing.Point(406, 15);
@@ -1736,19 +1697,61 @@ namespace FoodandBeverage.Forms
             this.txtepid.TabIndex = 289;
             this.txtepid.Visible = false;
             // 
-            // chktabletmode
+            // pnlwifi
             // 
-            this.chktabletmode.AutoSize = true;
-            this.chktabletmode.BackColor = System.Drawing.Color.Transparent;
-            this.chktabletmode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chktabletmode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.chktabletmode.ForeColor = System.Drawing.Color.DarkRed;
-            this.chktabletmode.Location = new System.Drawing.Point(3, 67);
-            this.chktabletmode.Name = "chktabletmode";
-            this.chktabletmode.Size = new System.Drawing.Size(205, 20);
-            this.chktabletmode.TabIndex = 2;
-            this.chktabletmode.Text = "Tablet Mode";
-            this.chktabletmode.UseVisualStyleBackColor = false;
+            this.pnlwifi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(152)))), ((int)(((byte)(227)))));
+            this.pnlwifi.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlwifi.Controls.Add(this.tableLayoutPanel8);
+            this.pnlwifi.Location = new System.Drawing.Point(263, 101);
+            this.pnlwifi.Name = "pnlwifi";
+            this.pnlwifi.Padding = new System.Windows.Forms.Padding(10);
+            this.pnlwifi.Size = new System.Drawing.Size(349, 274);
+            this.pnlwifi.TabIndex = 319;
+            this.pnlwifi.Visible = false;
+            // 
+            // tableLayoutPanel8
+            // 
+            this.tableLayoutPanel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(152)))), ((int)(((byte)(227)))));
+            this.tableLayoutPanel8.ColumnCount = 1;
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.25191F));
+            this.tableLayoutPanel8.Controls.Add(this.pictureBox1, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.button3, 0, 0);
+            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(10, 10);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            this.tableLayoutPanel8.Padding = new System.Windows.Forms.Padding(5);
+            this.tableLayoutPanel8.RowCount = 2;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(325, 250);
+            this.tableLayoutPanel8.TabIndex = 2;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(8, 49);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(309, 193);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button3
+            // 
+            this.button3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button3.BackgroundImage")));
+            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.ForeColor = System.Drawing.Color.Red;
+            this.button3.Location = new System.Drawing.Point(251, 8);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(66, 35);
+            this.button3.TabIndex = 1;
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_2);
             // 
             // FrmEmployeeShort
             // 
@@ -1756,8 +1759,8 @@ namespace FoodandBeverage.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.ClientSize = new System.Drawing.Size(913, 477);
-            this.Controls.Add(this.txtepid);
             this.Controls.Add(this.pnlwifi);
+            this.Controls.Add(this.txtepid);
             this.Controls.Add(this.pnlusertype);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -1810,7 +1813,7 @@ namespace FoodandBeverage.Forms
             this.tlp_usertype_header.PerformLayout();
             this.pnlwifi.ResumeLayout(false);
             this.tableLayoutPanel8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbwifi)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1912,10 +1915,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button btn_depart_reg;
-        private System.Windows.Forms.Panel pnlwifi;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
-        private System.Windows.Forms.PictureBox pbwifi;
-        private System.Windows.Forms.Button btnwificancel;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn formid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Form;
@@ -1924,5 +1923,9 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tlp_role_design;
         private System.Windows.Forms.TextBox txtepid;
         private System.Windows.Forms.CheckBox chktabletmode;
+        private System.Windows.Forms.Panel pnlwifi;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button3;
     }
 }

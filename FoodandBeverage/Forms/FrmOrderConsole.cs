@@ -20,7 +20,6 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmOrderConsole : Form
     {
-
         #region Declaration
 
         public int tableId = 0;
@@ -2970,6 +2969,13 @@ namespace FoodandBeverage.Forms
                 Button buttonCombo = CreateSideMenuButton("Combo Offer", "btn_combo_offer");
                 buttonCombo.Click += SidebuttonComboOfferClickEventHandler;
                 flp_sidemenu.Controls.Add(buttonCombo);
+
+                // -------------------
+                // 4. Packing Charge Button
+                // -------------------
+                Button buttonPacking = CreateSideMenuButton("Packing Charge", "btn_packing_charge");
+                buttonPacking.Click += SidebuttonPackingChargeClickEventHandler;
+                flp_sidemenu.Controls.Add(buttonPacking);
 
                 // -------------------
                 // 4. Dynamic Category Buttons
@@ -9992,7 +9998,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             {
                 netAmount();
             }
-
         }
 
         #region Customer Registration 
@@ -10080,7 +10085,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             }
         }
         #endregion
-
 
         private void btn_va_close_Click(object sender, EventArgs e)
         {

@@ -1765,17 +1765,17 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                string str1 = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul(FrmLogin.Compid);
+                string str1 = AYJ_CardLib_Ul.AYJ_ReadCardLib_Ul.ReadCard_Ul(FrmLogin.CorpID);
                 if (str1 != "Card not in contact")
                 {
                     tm_card.Stop();
-                    if (str1 == "" || str1 == "empty" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
-                        str1 = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi(FrmLogin.Compid);
+                    if (str1 == "" || str1 == "empty" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Invalid Card")
+                        str1 = AYJ_CardLib_Mi.AYJ_ReadCardLib_Mi.ReadCard_Mi(FrmLogin.CorpID);
                     str1 = RemoveSpecialCharacters(str1.Trim());
-                    if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication")
+                    if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact" || str1 == "InvalidCard")
                     {
-                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        tm_card.Start();
+                        MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        pnlwifi.Visible = false;
                     }
                     else
                     {
@@ -2409,6 +2409,12 @@ namespace FoodandBeverage.Forms
             {
                 AppSession.UnregisterForm(this);
             }
+        }
+
+        private void button3_Click_2(object sender, EventArgs e)
+        {
+            tm_card.Stop();
+            pnlwifi.Visible = false;
         }
 
         public void FillForms(int id)

@@ -225,7 +225,7 @@ namespace FoodandBeverage.Classes
             int newWidth = (parent.Width * widthPercent) / 100;
             int newHeight = (parent.Height * heightPercent) / 100;
 
-            ctrl.Size = new Size(newWidth, newHeight);
+            //ctrl.Size = new Size(newWidth, newHeight);
 
             // --- Center the control ---
             int x = (parent.Width - ctrl.Width) / 2;

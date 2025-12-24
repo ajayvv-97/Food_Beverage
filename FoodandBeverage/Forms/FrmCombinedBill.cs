@@ -1899,7 +1899,7 @@ namespace FoodandBeverage.Forms
                             MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         }
                         DialogResult result = MessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
-                        this.Close();
+
                         if (result == DialogResult.OK)
                         {
                             if (System.Windows.Forms.Application.OpenForms["FrmDrawer"] != null)

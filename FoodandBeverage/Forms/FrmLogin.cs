@@ -480,6 +480,7 @@ namespace FoodandBeverage.Forms
 
                     else
                     {
+                        ToggleWifiPopup(0);
                         BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
                         DmnSearch objSearch = new DmnSearch();
                         objSearch.Select = "tblEmployee.ICardNo,tblEmployee.BranchId, tblUserAccount.UserAccountId, tblUserAccount.Username, tblUserAccount.PasswordHash, tblUserAccount.PasswordSalt,tblEmployee.RFID_Login_Status";
