@@ -20,49 +20,50 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
         }
         #region Datagrid Declaration
-        public static int islno = 0;
-        public static int ibarcode = 1;
-        public static int iname = 2;
-        public static int iunit = 3;
-        public static int iqty = 4;
-        public static int iprate = 5;
-        public static int iamount = 6;
-        public static int idisper = 7;
-        public static int idisamt = 8;
-        public static int itaxper = 9;
-        public static int itaxamt = 10;
-        public static int inetamount = 11;
-        public static int itax = 12;
-        public static int itaxtype = 13;
-        public static int israte = 14;
-        public static int imrp = 15;
+        public int islno = 0;
+        public int ibarcode = 1;
+        public int iname = 2;
+        public int iunit = 3;
+        public int iqty = 4;
+        public int iprate = 5;
+        public int iamount = 6;
+        public int idisper = 7;
+        public int idisamt = 8;
+        public int itaxper = 9;
+        public int itaxamt = 10;
+        public int inetamount = 11;
+        public int itax = 12;
+        public int itaxtype = 13;
+        public int israte = 14;
+        public int imrp = 15;
 
-        public static int iPurchasemasterid = 16;
-        public static int iitemId = 17;
-        public static int iproducttype = 18;//entype
+        public int iPurchasemasterid = 16;
+        public int iitemId = 17;
+        public int iproducttype = 18; // entype
 
-        public static int iPurchaseDetailsId = 20;
-        public static int ipurchasemasterentryno = 21;
-        public static int iprid = 22;
-        public static int iorglQty = 23;
-        public static int iorgbarcode = 24;
-        public static int itaxsettingid = 25;
+        public int iPurchaseDetailsId = 20;
+        public int ipurchasemasterentryno = 21;
+        public int iprid = 22;
+        public int iorglQty = 23;
+        public int iorgbarcode = 24;
+        public int itaxsettingid = 25;
 
-        /*dgvItemPop*/
+        /* dgvItemPop */
 
-        public static int ipopslno = 0;
-        public static int ipopEntryNo = 1;
-        public static int ipopDescription = 2;
-        public static int ipopPurchaseRate = 3;
-        public static int ipopNetavaQoty = 5;
-        public static int ipopNetAmount = 6;
-        public static int ipopEntryDate = 7;
-        public static int ipopItemId = 8;
-        public static int ipopProductType = 9;
-        public static int ipopPurchaseDetailId = 10;
-        public static int ipopPurchaseMasterId = 11;
-        public static int ipopPrid = 12;
+        public int ipopslno = 0;
+        public int ipopEntryNo = 1;
+        public int ipopDescription = 2;
+        public int ipopPurchaseRate = 3;
+        public int ipopNetavaQoty = 5;
+        public int ipopNetAmount = 6;
+        public int ipopEntryDate = 7;
+        public int ipopItemId = 8;
+        public int ipopProductType = 9;
+        public int ipopPurchaseDetailId = 10;
+        public int ipopPurchaseMasterId = 11;
+        public int ipopPrid = 12;
         #endregion
+
 
         decimal current_qty;
         string purchaseID;

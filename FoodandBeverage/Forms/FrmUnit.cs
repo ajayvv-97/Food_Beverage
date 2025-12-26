@@ -17,11 +17,11 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
         public bool deleteclcik = false;
         #region Declare Grid
-        public static int slno = 0;
-        public static int idno = 1;
-        public static int iunitno = 2;
-        public static int idesno = 3;
-        public static int istatusno = 4;
+        public  int slno = 0;
+        public  int idno = 1;
+        public  int iunitno = 2;
+        public  int idesno = 3;
+        public  int istatusno = 4;
 
         #endregion
         public FrmUnit()

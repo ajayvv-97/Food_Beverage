@@ -1062,7 +1062,7 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Select = "itemName Field1,Quantity Field2,RemoveNotes Field3,OrderMasterId Field4,OrderDetailsId Field5,NetAmount Field6,CASE WHEN EXISTS(SELECT 1 FROM tblOrderDetails AS x WHERE x.OrderMasterId = tblOrderDetails.OrderMasterId AND x.KitchenCancelStatus = 1 ) THEN 1 ELSE 0 END AS Field7";
                 dmnSearch.Table = "tblOrderDetails";
                 dmnSearch.WhereNdGroupBy =
-                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND CancelNotifyStatus = 1 and RefundStatus !=1" +
+                    "WHERE Status = 0 AND AddonStatus IN (1,0,2) AND CancelNotifyStatus = 1 and RefundStatus !=1" +
                     "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);//KitchenCancelStatus = 1
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 dgv_ordercancel.Rows.Clear();
@@ -1107,12 +1107,26 @@ namespace FoodandBeverage.Forms
                 }
                 #endregion
 
+                if (gridSource.Count == 0)
+                    CheckReconfirmPickup();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        public void CheckReconfirmPickup()
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
                 #region Load Cancel Order Items
 
                 dmnSearch.Select = "CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS Field1";
                 dmnSearch.Table = "tblOrderDetails";
                 dmnSearch.WhereNdGroupBy =
-                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND KitchenCancelStatus = 1 " +
+                    "WHERE Status = 0 AND AddonStatus IN (1,0,2) AND KitchenCancelStatus = 1 " +
                     "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);
 
                 var gridSourcekcancelnfy = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1127,12 +1141,10 @@ namespace FoodandBeverage.Forms
                 }
 
                 #endregion
-
-
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Order page  discountAmnt()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
         public void CheckRe_Pickuporder()
@@ -2376,20 +2388,20 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Select = "itemName Field1,Quantity Field2,RemoveNotes Field3,OrderMasterId Field4,OrderDetailsId Field5,NetAmount Field6,CASE WHEN EXISTS(SELECT 1 FROM tblOrderDetails AS x WHERE x.OrderMasterId = tblOrderDetails.OrderMasterId AND x.KitchenCancelStatus = 1 ) THEN 1 ELSE 0 END AS Field7";
                 dmnSearch.Table = "tblOrderDetails";
                 dmnSearch.WhereNdGroupBy =
-                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND CancelNotifyStatus = 1 " +
+                    "WHERE Status = 0 AND AddonStatus IN (1,0,2) AND CancelNotifyStatus = 1 " +
                     "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 dgv_ordercancel.Rows.Clear();
                 if (gridSource.Count > 0)
                 {
-                    if (Convert.ToInt32(gridSource[0].Field7) == 1)
-                    {
-                        btnreconfirmorder.Visible = true;
-                    }
-                    else
-                    {
-                        btnreconfirmorder.Visible = false;
-                    }
+                    //if (Convert.ToInt32(gridSource[0].Field7) == 1)
+                    //{
+                    //    btnreconfirmorder.Visible = true;
+                    //}
+                    //else
+                    //{
+                    //    btnreconfirmorder.Visible = false;
+                    //}
 
                     decimal total = 0;
                     dgv_ordercancel.Rows.Add(gridSource.Count);
@@ -2419,12 +2431,27 @@ namespace FoodandBeverage.Forms
                 }
                 #endregion
 
+                if (gridSource.Count == 0)
+                    CheckReConfirmTableorder();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void CheckReConfirmTableorder()
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
                 #region Load Cancel Order Items
 
                 dmnSearch.Select = "CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS Field1";
                 dmnSearch.Table = "tblOrderDetails";
                 dmnSearch.WhereNdGroupBy =
-                    "WHERE Status = 0 AND AddonStatus IN (1,0) AND KitchenCancelStatus = 1 " +
+                    "WHERE Status = 0 AND AddonStatus IN (1,0,2) AND KitchenCancelStatus = 1 " +
                     "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);
                 var gridSourcekcancelnfy = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -2439,12 +2466,11 @@ namespace FoodandBeverage.Forms
 
                 #endregion
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-
+                clsgen.LogException("Order page  CheckReConfirmTableorder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
-
 
         #endregion
 
@@ -3045,7 +3071,7 @@ namespace FoodandBeverage.Forms
                     "tblProduct p " +
                     "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                     " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1  AND ofm.OfferType = 0 AND ofd.Producttype=1 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q" +
-                    " where p.Status=1 and p.Fcid= " + clickedControl.Tag + " and m.Status=1 and m.Quantity>0 " +
+                    " where p.Status=1 and p.Fcid= " + clickedControl.Tag + " and m.Status=1 AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 )" +
                     " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7 from " +
                     " tblItem i " +
                     " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
@@ -3280,7 +3306,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         dmnSearch.Table = "tblProduct p " +
                             "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                             " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=1 AND ofm.OfferType = 0 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
-                        dmnSearch.WhereNdGroupBy = " where p.Status=1 and m.Status=1 and m.Quantity>0 and fav_status=1";
+                        dmnSearch.WhereNdGroupBy = " where p.Status=1 and m.Status=1  AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 ) and fav_status=1";
                     }
                     else
                     {
@@ -3549,7 +3575,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     {
                         dmnSearch.Select = "p.Product as Field1, p.ProductId as Field2, 0 as Field3, od.Discountper Field4,od.Producttype Field5,p.Price Field6,0 Field7,1 Field8";
                         dmnSearch.Table = " tblOfferDetails OD LEFT JOIN tblOfferMaster OM ON OD.Omid = OM.Omid LEFT JOIN tblProduct p ON OD.ProductId = p.ProductId LEFT JOIN tblMenu m ON m.ProductId = p.ProductId";
-                        dmnSearch.WhereNdGroupBy = " where OM.Status = 1 and od.Status=1 and OfferType=0 and m.Status=1 and od.Producttype=1 AND GETDATE() >= OM.OfferstartDatetime AND GETDATE() <= OM.OfferEndDatetime and m.Quantity>0 ";
+                        dmnSearch.WhereNdGroupBy = " where OM.Status = 1 and od.Status=1 and OfferType=0 and m.Status=1 and od.Producttype=1 AND GETDATE() >= OM.OfferstartDatetime AND GETDATE() <= OM.OfferEndDatetime AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 ) ";
                     }
                     else
                     {
@@ -4067,8 +4093,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         }
         #endregion
 
-        #region All menu button Click
-       
+        #region All menu button Click       
         private void DashboardButtonClickEventHandler(object sender, EventArgs e)
         {
             try
@@ -4672,9 +4697,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 return new MenuQtyResult { Quantity = 0, PreparationMode = 0 };
             }
         }
-
-
-
         #endregion
 
         #region Combo Product Button click
@@ -5495,7 +5517,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         "tblProduct p " +
                         "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
-                        " where p.Status=1 and m.Status=1 and p.Product like '%" + txtname_search.Text.Trim() + "%'" +
+                        " where p.Status=1 and m.Status=1 AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 ) and p.Product like '%" + txtname_search.Text.Trim() + "%'" +
                         " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
@@ -6248,7 +6270,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         "tblProduct p " +
                         "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
-                        " where p.Status=1 and m.Status=1 and p.ItemCode = '" + txtitemcode_serach.Text.Trim() + "'" +
+                        " where p.Status=1 AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 ) and m.Status=1 and p.ItemCode = '" + txtitemcode_serach.Text.Trim() + "'" +
                         " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
@@ -9199,8 +9221,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     Pnl_wifiPopup.Hide();
                                     DebitCustomerId = Convert.ToInt32(itemSource[0].Field1);
                                     DebitCardNumber = cardno;
+
                                     #region To save Refund Amt throgh Midas card 
                                     Refund(2);
+                                    CheckReconfirmPickup();
                                     #endregion
                                 }
                             }
@@ -10199,6 +10223,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         private void cashRefund_Click(object sender, EventArgs e)
         {
             Refund(1);
+
         }
         private void cardRefund_Click(object sender, EventArgs e)
         {
@@ -10263,20 +10288,9 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 dmnRemove_order.BranchId = FrmDashboard.BranchId;
                 var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
                 MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CheckReconfirmPickup();
                 pnl_Refund_paymode.Visible = false;
-                // Close current form
                 this.Close();
-                foreach (Form frm in Application.OpenForms)
-                {
-                    if (frm is FrmPickup)
-                    {
-                        frm.Close();
-                        break;
-                    }
-                }
-
-                FrmPickup pickup = new FrmPickup(0);
-                pickup.Show();  
             }
             catch (Exception ex)
             {
@@ -10299,8 +10313,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
                 if (partCount == 0)
                 {
-
-
                     decimal kdata = 0;
                     using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
                     {
@@ -10312,12 +10324,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     if (kdata >= bal || kdata <= 0)
                     {
                         if (exitstatus == false)
-                            MessageBox.Show(
-    "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
-    "Warning",
-    MessageBoxButtons.RetryCancel,
-    MessageBoxIcon.Warning
-);
+                            MessageBox.Show("Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal, "Warning",  MessageBoxButtons.RetryCancel,    MessageBoxIcon.Warning);
                         lblpartAmt1.Text = "0.00";
                     }
                     else
@@ -10335,10 +10342,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         decimal balAmt = currentBalance - amt2;
                         lblPartBalAmt.Text = balAmt.ToString();
                     }
-
-
-
-
                 }
                 else if (partCount == 1)
                 {
@@ -10396,8 +10399,6 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
                 if (partCount == 0)
                 {
-
-
                     decimal kdata = 0;
                     using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
                     {
@@ -10442,7 +10443,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     {
 
                         txtPayid2.Text = Convert.ToInt32(PaymentType.DEBITCARD).ToString();
-                        lblpartAmt2.Text = "DEBITCARD";
+                        lblpartpayment2.Text = "DEBITCARD";
                         lblpartAmt2.Text = bal.ToString("0.##");
                         partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
                         decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
@@ -10535,7 +10536,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     {
 
                         txtPayid2.Text = Convert.ToInt32(PaymentType.UPI).ToString();
-                        lblpartAmt2.Text = "UPI";
+                        lblpartpayment2.Text = "UPI";
                         lblpartAmt2.Text = bal.ToString("0.##");
                         partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
                         decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
@@ -10626,7 +10627,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     {
 
                         txtPayid2.Text = Convert.ToInt32(PaymentType.BANKINGONLINE).ToString();
-                        lblpartAmt2.Text = "NETBANKING";
+                        lblpartpayment2.Text = "NETBANKING";
                         lblpartAmt2.Text = bal.ToString("0.##");
                         partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
                         decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
@@ -10718,7 +10719,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     if (txtPayid1.Text != Convert.ToInt32(PaymentType.CREDITCARD).ToString())
                     {
                         txtPayid2.Text = Convert.ToInt32(PaymentType.CREDITCARD).ToString();
-                        lblpartAmt2.Text = "CREDITCARD";
+                        lblpartpayment2.Text = "CREDITCARD";
                         lblpartAmt2.Text = bal.ToString("0.##");
                         partPayments.Add((txtPayid2.Text, lblpartAmt2.Text));
                         decimal amt2 = Convert.ToDecimal(lblpartAmt2.Text);
@@ -10823,6 +10824,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                         MessageBox.Show("Cancel item notification confirmed!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+                        CheckReConfirmTableorder();
                 }
             }
             catch (Exception ex)

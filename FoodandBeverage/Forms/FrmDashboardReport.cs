@@ -17,10 +17,10 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmDashboardReport : Form
     {
-        public static int BranchId = 0;
-        public static int UserId = 0;
-        public static int UserType = 0;
-        public static int Allaccess = 0;
+        public  int BranchId = 0;
+        public  int UserId = 0;
+        public  int UserType = 0;
+        public  int Allaccess = 0;
         public int Reportid = 0;
         public FrmDashboardReport()
         {
@@ -62,49 +62,49 @@ namespace FoodandBeverage.Forms
 
         #region Grid Declaration
         //active dine grid
-        public static int adslno = 0;
-        public static int addateno = 1;
-        public static int adordermasteridno = 2;
-        public static int adtotablecodeno = 3;
-        public static int adtablecateno = 4;
-        public static int adtimedurationno = 5;
-        public static int adtotalqtyno = 6;
+        public  int adslno = 0;
+        public  int addateno = 1;
+        public  int adordermasteridno = 2;
+        public  int adtotablecodeno = 3;
+        public  int adtablecateno = 4;
+        public  int adtimedurationno = 5;
+        public  int adtotalqtyno = 6;
 
         //Cancel order  grid
-        public static int cslno = 0;
-        public static int cdateno = 1;
-        public static int cordermasteridno = 2;
-        public static int ctablecodeno = 3;
-        public static int ctablecateno = 4;
-        public static int ctotalqtyno = 5;
-        public static int cresdesno = 6;
-        public static int ccanceldateno = 7;
+        public  int cslno = 0;
+        public  int cdateno = 1;
+        public  int cordermasteridno = 2;
+        public  int ctablecodeno = 3;
+        public  int ctablecateno = 4;
+        public  int ctotalqtyno = 5;
+        public  int cresdesno = 6;
+        public  int ccanceldateno = 7;
 
 
         //active Promotion grid
-        public static int apslno = 0;
-        public static int apoffernameno = 1;
-        public static int apstartdateno = 2;
-        public static int apenddateno = 3;
-        public static int apdiscountperno = 4;
-        public static int appriceno = 5;
+        public  int apslno = 0;
+        public  int apoffernameno = 1;
+        public  int apstartdateno = 2;
+        public  int apenddateno = 3;
+        public  int apdiscountperno = 4;
+        public  int appriceno = 5;
 
         //active Food grid
-        public static int fslno = 0;
-        public static int ffoodnameno = 1;
-        public static int fcurrentqtyno = 2;
-        public static int fcategoryno = 3;
-        public static int fpriceno = 4;
+        public  int fslno = 0;
+        public  int ffoodnameno = 1;
+        public  int fcurrentqtyno = 2;
+        public  int fcategoryno = 3;
+        public  int fpriceno = 4;
 
         //upcoming reservation grid
-        public static int rslno = 0;
-        public static int rdatetimeno = 1;
-        public static int rcutsnameno = 2;
-        public static int rphoneno = 3;
-        public static int rgenderno = 4;
-        public static int raddressno = 5;
-        public static int rtablecode = 6;
-        public static int rfooddetailsno = 7;
+        public  int rslno = 0;
+        public  int rdatetimeno = 1;
+        public  int rcutsnameno = 2;
+        public  int rphoneno = 3;
+        public  int rgenderno = 4;
+        public  int raddressno = 5;
+        public  int rtablecode = 6;
+        public  int rfooddetailsno = 7;
 
         #endregion
         private void FrmDashboardReport_Load(object sender, EventArgs e)

@@ -23,7 +23,7 @@ namespace FoodandBeverage.Forms
         public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
         int categoryId=0;
 
-        public static int downloadServiceValue = Convert.ToInt32(ConfigurationManager.AppSettings["ImageDownloadService"]);
+        public  int downloadServiceValue = Convert.ToInt32(ConfigurationManager.AppSettings["ImageDownloadService"]);
         ClsDocument clsDocument = new ClsDocument();
 
         public Color DefaultColor = Color.White;                           // Available

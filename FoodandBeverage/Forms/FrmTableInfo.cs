@@ -22,16 +22,16 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
 
         #region Declaration Grid
-        public static int cslno = 0;
-        public static int tidno = 1;
-        public static int tcodeno = 2;
-        public static int tcapcno = 3;
-        public static int tcategno = 4;
-        public static int trateno = 5;
-        public static int tdesno = 6;
-        public static int tstatusno = 7;
-        public static int tfcid = 8;
-        public static int tactiveno = 9;
+        public  int cslno = 0;
+        public  int tidno = 1;
+        public  int tcodeno = 2;
+        public  int tcapcno = 3;
+        public  int tcategno = 4;
+        public  int trateno = 5;
+        public  int tdesno = 6;
+        public  int tstatusno = 7;
+        public  int tfcid = 8;
+        public  int tactiveno = 9;
         #endregion
         private void btnmini_Click(object sender, EventArgs e)
         {

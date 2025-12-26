@@ -21,10 +21,10 @@ namespace FoodandBeverage.Report
 {
     public partial class Frmreport : Form
     {
-        public static int BranchId = 0;
-        public static int UserId = 0;
-        public static int UserType = 0;
-        public static int Allaccess = 0;
+        public  int BranchId = 0;
+        public  int UserId = 0;
+        public  int UserType = 0;
+        public  int Allaccess = 0;
         public int Reportid = 0;
         public Frmreport(int Rpid,int id)
         {

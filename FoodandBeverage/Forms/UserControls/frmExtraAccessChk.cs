@@ -17,16 +17,16 @@ namespace FoodandBeverage.Forms.UserControls
     public partial class frmExtraAccessChk : Form
     {
         ClsGeneral objGeneral = new ClsGeneral();
-        public static long UserAccountTypeId;
-        public static long UserId;
-        public static long BranchId;
+        public  long UserAccountTypeId;
+        public  long UserId;
+        public  long BranchId;
         byte[] passwordHash;
         byte[] passwordSalt;
         public byte[] encryptPassword;
-        public static int rfid = 0;
+        public  int rfid = 0;
         BllEncryption bllEncryption = new BllEncryption();
-        public static bool access = false;
-        public static long EmployeeId;
+        public  bool access = false;
+        public  long EmployeeId;
         int FormId = 0;
         public frmExtraAccessChk(int formId)
         {

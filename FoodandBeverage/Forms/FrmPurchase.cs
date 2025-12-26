@@ -23,42 +23,43 @@ namespace FoodandBeverage.Forms
 
         #region Grid Declaration 
         // Registration Grid
-        public static int islno = 0;
-        public static int ibarcode = 1;
-        public static int iname = 2;
-        public static int iunit = 3;
-        public static int iqty = 4;
-        public static int iprate = 5;
-        public static int iamount = 6;
-        public static int idisper = 7;
-        public static int idisamt = 8;
-        public static int itaxper = 9;
-        public static int itaxamt = 10;
-        public static int itotal = 11;
-        public static int iitemid = 12;
-        public static int itax = 13;
-        public static int itaxtype = 14;
-        public static int israte = 15;
-        public static int imrp = 16;
-        public static int itype = 17;
-        public static int ibarcode2 = 18;
-        public static int itaxsettingid = 19;
-        public static int iunitid = 20;
-        public static int ipridno = 21;
-        public static int iexpiredate = 22;
-        public static int isaletypeno = 23;
+        public int islno = 0;
+        public int ibarcode = 1;
+        public int iname = 2;
+        public int iunit = 3;
+        public int iqty = 4;
+        public int iprate = 5;
+        public int iamount = 6;
+        public int idisper = 7;
+        public int idisamt = 8;
+        public int itaxper = 9;
+        public int itaxamt = 10;
+        public int itotal = 11;
+        public int iitemid = 12;
+        public int itax = 13;
+        public int itaxtype = 14;
+        public int israte = 15;
+        public int imrp = 16;
+        public int itype = 17;
+        public int ibarcode2 = 18;
+        public int itaxsettingid = 19;
+        public int iunitid = 20;
+        public int ipridno = 21;
+        public int iexpiredate = 22;
+        public int isaletypeno = 23;
 
         // Popup Grid
-        public static int pslno = 0;
-        public static int pnameno = 1;
-        public static int prateno = 2;
-        public static int pqohno = 3;
-        public static int pitemidno = 4;
-        public static int pcategorytypeno = 5;
-        public static int psaletypeno = 6;
+        public int pslno = 0;
+        public int pnameno = 1;
+        public int prateno = 2;
+        public int pqohno = 3;
+        public int pitemidno = 4;
+        public int pcategorytypeno = 5;
+        public int psaletypeno = 6;
 
         private DateTimePicker dtp { get; set; }
         #endregion
+
 
         ClsGeneral clsgen = new ClsGeneral();
 

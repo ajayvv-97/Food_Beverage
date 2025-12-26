@@ -27,20 +27,20 @@ namespace FoodandBeverage.Forms
         }
 
         #region Grid Declaration
-        public static int Rslno = 0;
-        public static int Ritemno = 1;
-        public static int Rqtyno = 2;
-        public static int Runitno = 3;
-        public static int Raction = 4;
-        public static int RIng_DetailsIdno = 5;
-        public static int Ritemidno = 6;
+        public  int Rslno = 0;
+        public  int Ritemno = 1;
+        public  int Rqtyno = 2;
+        public  int Runitno = 3;
+        public  int Raction = 4;
+        public  int RIng_DetailsIdno = 5;
+        public  int Ritemidno = 6;
 
-        public static int Arowno = 0;
-        public static int avariationno = 1;
-        public static int apriceno = 2;
-        public static int Acodeno = 3;
-        public static int Avidno = 4;
-        public static int Apidno = 5;
+        public  int Arowno = 0;
+        public  int avariationno = 1;
+        public  int apriceno = 2;
+        public  int Acodeno = 3;
+        public  int Avidno = 4;
+        public  int Apidno = 5;
 
 
         #endregion

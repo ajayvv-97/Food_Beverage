@@ -23,8 +23,8 @@ namespace FoodandBeverage.Forms
         VideoCaptureDevice VideoCaptureDevice;
         long BranchId = FrmDashboard.BranchId;//16
         long UserId = Forms.FrmLogin.UserId;//1
-        public static int Allaccess = 0;
-        public static int ReportLevelID = 0;
+        public  int Allaccess = 0;
+        public  int ReportLevelID = 0;
         long DepartmentId = 0;
         public static long EmployeeId = 0, AccountId = 0;
         string EmployeeCode = "";
@@ -36,12 +36,12 @@ namespace FoodandBeverage.Forms
         byte[] PasswordSalt, PasswordHash;
         CheckBox headerCheckBoxwrite = new CheckBox();
         CheckBox headerCheckBoxread = new CheckBox();
-        public static int iid = 0;
-        public static int iformid = 1;
-        public static int iforms = 2;
-        public static int iwrite = 3;
-        public static int iread = 4;
-        public static int istatus = 5;
+        public  int iid = 0;
+        public  int iformid = 1;
+        public  int iforms = 2;
+        public  int iwrite = 3;
+        public  int iread = 4;
+        public  int istatus = 5;
         int empid = 0;
         ClsGeneral clsGeneral = new ClsGeneral();
         public FrmUserPermission()

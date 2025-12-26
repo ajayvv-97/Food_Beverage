@@ -27,13 +27,13 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
         public bool deleteclcik = false;
         #region Declaration Grid
-        public static int cslno = 0;
-        public static int cidno = 1;
-        public static int cnameno = 2;
-        public static int cdesno = 3;
-        public static int cstatusno = 4;
-        public static int cactionno = 5;
-        public static int ccolorno = 6;
+        public  int cslno = 0;
+        public  int cidno = 1;
+        public  int cnameno = 2;
+        public  int cdesno = 3;
+        public  int cstatusno = 4;
+        public  int cactionno = 5;
+        public  int ccolorno = 6;
         #endregion
 
         public bool Mandatory()

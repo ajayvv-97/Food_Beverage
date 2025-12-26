@@ -19,15 +19,15 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
 
         #region Declaration Grid
-        public static int aslno = 0;
-        public static int aidno = 1;
-        public static int anameno = 2;
-        public static int apriceno = 3;
-        public static int acategno = 4;
-        public static int adesno = 5;
-        public static int astatusno = 6;
-        public static int afcidno = 7;
-        public static int aactiveno = 8;
+        public  int aslno = 0;
+        public  int aidno = 1;
+        public  int anameno = 2;
+        public  int apriceno = 3;
+        public  int acategno = 4;
+        public  int adesno = 5;
+        public  int astatusno = 6;
+        public  int afcidno = 7;
+        public  int aactiveno = 8;
         #endregion
         public FrmAddon()
         {

@@ -21,14 +21,14 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
 
         #region Declare Grid
-        public static int slno = 0;
-        public static int idno = 1;
-        public static int inameno = 2;
-        public static int iphno = 3;
-        public static int iemaino = 4;
-        public static int iaddno = 5;
-        public static int idesno = 6;
-        public static int istatusno = 7;
+        public  int slno = 0;
+        public  int idno = 1;
+        public  int inameno = 2;
+        public  int iphno = 3;
+        public  int iemaino = 4;
+        public  int iaddno = 5;
+        public  int idesno = 6;
+        public  int istatusno = 7;
 
         #endregion
 

@@ -28,14 +28,14 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region Declaration Grid
-        public static int tslno = 0;
-        public static int ttidno = 1;
-        public static int ttaxtypeno = 2;
-        public static int tigstno = 3;
-        public static int tsgstno = 4;
-        public static int tcgstno = 5;
-        public static int tvatno = 6;
-        public static int tstatusno = 7;
+        public  int tslno = 0;
+        public  int ttidno = 1;
+        public  int ttaxtypeno = 2;
+        public  int tigstno = 3;
+        public  int tsgstno = 4;
+        public  int tcgstno = 5;
+        public  int tvatno = 6;
+        public  int tstatusno = 7;
         #endregion
         public void RefreshForm()
         {

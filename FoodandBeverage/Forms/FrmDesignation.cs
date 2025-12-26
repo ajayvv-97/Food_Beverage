@@ -31,10 +31,10 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region grid Declaration 
-        public static int DesignationIdno = 0;
-        public static int Departmentno = 1;
-        public static int Designationno = 2;
-        public static int WorkingHoursno = 3;
+        public  int DesignationIdno = 0;
+        public  int Departmentno = 1;
+        public  int Designationno = 2;
+        public  int WorkingHoursno = 3;
         #endregion
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]

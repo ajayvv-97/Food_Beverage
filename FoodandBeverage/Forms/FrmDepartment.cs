@@ -26,10 +26,10 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region grid Declaration 
-        public static int dIdno = 0;
-        public static int dDepartmentno = 1;
-        public static int dDepartmentCodeno = 2;
-        public static int dEmployeeSrNo = 3;
+        public  int dIdno = 0;
+        public  int dDepartmentno = 1;
+        public  int dDepartmentCodeno = 2;
+        public  int dEmployeeSrNo = 3;
         #endregion
 
         #region Functions

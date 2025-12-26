@@ -21,32 +21,32 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
         }
         #region Declare Grid
-        public static int slno = 0;
-        public static int idno = 1;
-        public static int incre_nameno = 2;
-        public static int incre_categno = 3;
-        public static int iunitno = 4;
-        public static int iqtyno = 5;
-        public static int iprateno = 6;
-        public static int israteno = 7;
-        public static int imrpno = 8;
-        public static int itaxno = 9;
-        public static int itaxtypeno = 10;
-        public static int itaxperno = 11;
-        public static int idescno = 12;
-        public static int istatusno = 13;
-        public static int iunitidno = 14;
-        public static int incre_categ_idno = 15;
+        public  int slno = 0;
+        public  int idno = 1;
+        public  int incre_nameno = 2;
+        public  int incre_categno = 3;
+        public  int iunitno = 4;
+        public  int iqtyno = 5;
+        public  int iprateno = 6;
+        public  int israteno = 7;
+        public  int imrpno = 8;
+        public  int itaxno = 9;
+        public  int itaxtypeno = 10;
+        public  int itaxperno = 11;
+        public  int idescno = 12;
+        public  int istatusno = 13;
+        public  int iunitidno = 14;
+        public  int incre_categ_idno = 15;
 
         //Prid
-        public static int iprId = 0;
-        public static int iprslno = 1;
-        public static int iprproduct = 2;
-        public static int iprprate = 3;
-        public static int iprsrate = 4;
-        public static int iprmrp = 5;
-        public static int iprqoh = 6;
-        public static int iprPtype = 7;
+        public  int iprId = 0;
+        public  int iprslno = 1;
+        public  int iprproduct = 2;
+        public  int iprprate = 3;
+        public  int iprsrate = 4;
+        public  int iprmrp = 5;
+        public  int iprqoh = 6;
+        public  int iprPtype = 7;
         #endregion
 
         ClsGeneral clsgen = new ClsGeneral();

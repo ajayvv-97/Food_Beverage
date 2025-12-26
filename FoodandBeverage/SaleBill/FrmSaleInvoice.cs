@@ -29,11 +29,11 @@ namespace FoodandBeverage.SaleBill
         public int paytypeid = 0;
         public int paymentid = 0;
         public int BillTypeData = 0;
-        public static int BranchId = 0;
-        public static int UserId = 0;
+        public  int BranchId = 0;
+        public  int UserId = 0;
         public string folderPath = Application.StartupPath + "\\Barcode";
         private HttpClient httpClient;
-        public static int BType = 0;
+        public  int BType = 0;
         public string RPTPath = Convert.ToString(FrmLogin.SaleBillPath);
         public string locationname_api;
         public decimal netamount_api = 0;

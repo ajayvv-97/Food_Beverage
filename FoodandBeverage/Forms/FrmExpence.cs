@@ -19,16 +19,16 @@ namespace FoodandBeverage.Forms
         public string Dateformat = Convert.ToString(FrmLogin.DateFormat);
 
         #region declaration
-        public static int Eslno = 0;
-        public static int Ereasonno = 1;
-        public static int Eamountno = 2;
-        public static int Edecriptionno = 3;
-        public static int Eemployenameno = 4;
-        public static int Epaymentypeno = 5;
-        public static int Eactiono = 6;
-        public static int Eemployeidno = 7;
-        public static int Eepidno = 8;
-        public static int Estatusno = 9;
+        public  int Eslno = 0;
+        public  int Ereasonno = 1;
+        public  int Eamountno = 2;
+        public  int Edecriptionno = 3;
+        public  int Eemployenameno = 4;
+        public  int Epaymentypeno = 5;
+        public  int Eactiono = 6;
+        public  int Eemployeidno = 7;
+        public  int Eepidno = 8;
+        public  int Estatusno = 9;
         #endregion
 
         private void FrmExpence_Load(object sender, EventArgs e)

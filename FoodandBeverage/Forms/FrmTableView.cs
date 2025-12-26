@@ -87,7 +87,6 @@ namespace FoodandBeverage.Forms
         //private Color CancelColor = Color.Red;
         //private Color ExpiredColor = Color.Gray;
         #endregion
-
         public FrmTableView(int type)
         {
             InitializeComponent();
@@ -219,7 +218,7 @@ namespace FoodandBeverage.Forms
                 "INNER JOIN tblOrderMaster om ON om.OrderMasterId = od.OrderMasterId";
 
             dmn.WhereNdGroupBy =
-                "WHERE od.AddonStatus IN (0,1) AND om.Status <> 3 " +
+                "WHERE od.AddonStatus IN (0,1,2) AND om.Status <> 3 " +
                 "GROUP BY od.OrderMasterId, od.Tid";
 
             var list = bll.GetSearchData("prdSearch", dmn);
@@ -521,12 +520,14 @@ namespace FoodandBeverage.Forms
                 if (status.KitchenCancelled)
                 {
                     ui.Inner.BackColor = CancelProduct_order;
-
                     ui.NetAmount.Text = "Reconfirm Order";
                     ui.NetAmount.ForeColor = Color.White;
                     ui.NetAmount.BackColor = ReconfirmLabelBG;
                     ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
                     ui.NetAmount.Visible = true;
+
+                    ui.Inner.RowStyles[0].Height = 25;
+                    ui.Inner.RowStyles[2].Height = 25;
 
                     continue;
                 }

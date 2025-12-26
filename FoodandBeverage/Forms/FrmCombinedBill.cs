@@ -21,7 +21,6 @@ namespace FoodandBeverage.Forms
         public FrmCombinedBill()
         {
             InitializeComponent();
-
         }
 
         #region Declaration
@@ -59,21 +58,27 @@ namespace FoodandBeverage.Forms
         public string Drawersystemname;
         FoodandBeverage.Forms.FrmLogin existingLogin = Application.OpenForms.OfType<FoodandBeverage.Forms.FrmLogin>().FirstOrDefault();
 
-
         #region Grid Declaration
-        public static int cslno = 0;
-        public static int actionno = 1;
-        public static int orderdatetimeno = 2;
-        public static int entryno = 3;
-        public static int tablecodeno = 4;
-        public static int totalqtyno = 5;
-        public static int netamountno = 6;
-        public static int recamountno = 7;
+        public  int cslno = 0;
+        public  int actionno = 1;
+        public  int orderdatetimeno = 2;
+        public  int entryno = 3;
+        public  int tablecodeno = 4;
+        public  int totalqtyno = 5;
+        public  int netamountno = 6;
+        public  int recamountno = 7;
 
-        public static int balamountno = 8;
-        public static int paytypename = 9;
-        public static int statusno = 10;
-        public static int ordermasteridno = 11;
+        public  int balamountno = 8;
+        public  int paytypename = 9;
+        public  int statusno = 10;
+        public  int Salemasteridno = 11;
+
+        public  int sslno = 0;
+        public  int spaymentamtno = 1;
+        public  int spaymentmodeno = 2;
+        public  int ssalemasteridno = 3;
+        public  int spayidno = 4;
+        public  int sactionno = 5;
 
         #endregion
 
@@ -1352,7 +1357,7 @@ namespace FoodandBeverage.Forms
 
 
                         dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field4;
-                        dgvorderview.Rows[rowIndex].Cells[ordermasteridno].Value = gridSource[i].Field6;
+                        dgvorderview.Rows[rowIndex].Cells[Salemasteridno].Value = gridSource[i].Field6;
                         dgvorderview.Rows[rowIndex].Cells[netamountno].Value = gridSource[i].Field7;
                         dgvorderview.Rows[rowIndex].Cells[recamountno].Value = gridSource[i].Field8;
                         dgvorderview.Rows[rowIndex].Cells[balamountno].Value = gridSource[i].Field9;
@@ -1377,10 +1382,13 @@ namespace FoodandBeverage.Forms
                                 dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "OTHERS";
                                 break;
                             case 11:
-                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "PART";
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "MIDAS CARD";
                                 break;
                             case 12:
                                 dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "SPLIT";
+                                break;
+                            case 10:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "COMPLEMENTRY";
                                 break;
                         }
 
@@ -1414,13 +1422,43 @@ namespace FoodandBeverage.Forms
             {
                 if (e.ColumnIndex == actionno)
                 {
-                    int oid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[ordermasteridno].Value);
-                    printBill(oid);
+                    int sid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[Salemasteridno].Value);
+                    printBill(sid);
                 }
+                else if (e.ColumnIndex == paytypename)
+                {
+                    int sid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[Salemasteridno].Value);
+                    DmnSearch obj = new DmnSearch();
+                    BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
+                    obj.Select = "PaidAmt Field1,g.Caption Field2,SalesMasterId Field3,Paymode Field4 ";
+                    obj.Table = "tblPartPaymentDetails p "+
+                        " left join tblGeneralOptions g on g.GTypeSubId=p.Paymode and g.GTypeId=2";
+                    obj.WhereNdGroupBy = " where p.status=1 and p.SalesMasterId=" + sid;
+                    var paymentresult = bllpayments.GetSearchData("prdSearch", obj);
+                    if (paymentresult.Count > 0)
+                    {
+                        lblsplit_heading.Text = "Split Payment";
+                        dgv_split.Rows.Clear();
+                        dgv_split.Rows.Add(paymentresult.Count);
+                        int x = dgv_split.RowCount;
+                        for (int i = 0; i < paymentresult.Count; i++)
+                        {
+                            dgv_split.Rows[i].Cells[sslno].Value = i + 1;
+                            dgv_split.Rows[i].Cells[spaymentamtno].Value = paymentresult[i].Field1;
+                            dgv_split.Rows[i].Cells[spaymentmodeno].Value = paymentresult[i].Field2;
+                            dgv_split.Rows[i].Cells[ssalemasteridno].Value = paymentresult[i].Field3;
+                            dgv_split.Rows[i].Cells[spayidno].Value = paymentresult[i].Field4;
+                        }
+                    }
+                    pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
+                    pnl_split.Visible = true;
+                    pnl_split.BringToFront();
+
+                }
+
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page dgvorderview_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
@@ -1436,39 +1474,41 @@ namespace FoodandBeverage.Forms
                 var result = bllpayments.GetSearchData("prdSearch", obj);
                 if (result.Count > 0)
                 {
-                    if (Convert.ToInt32(result[0].Field1) != 12)
-                    {
+                    //if (Convert.ToInt32(result[0].Field1) != 12)
+                    //{
                         pnl_split.Visible = false;
-                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(oid, Convert.ToInt32(result[0].Field1), 0, Convert.ToInt32(BillType.NormalBill));
-                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                        frmSalesInvoice.ShowDialog();
-                    }
-                    else
-                    {
-                        obj.Select = "Amount Field1,SplitType Field2,SalemasterId Field3,PayId Field4 ";
-                        obj.Table = "tblpayment";
-                        obj.WhereNdGroupBy = " where status=1 and SaleMasterId=" + oid;
-                        var paymentresult = bllpayments.GetSearchData("prdSearch", obj);
-                        if (paymentresult.Count > 0)
+                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(oid, Convert.ToInt32(result[0].Field1), 0, Convert.ToInt32(BillType.NormalBill)))
                         {
-                            dgv_split.Rows.Clear();
-                            dgv_split.Rows.Add(paymentresult.Count);
-                            int x = dgv_split.RowCount;
-                            for (int i = 0; i < paymentresult.Count; i++)
-                            {
-                                dgv_split.Rows[i].Cells[0].Value = i + 1;
-                                dgv_split.Rows[i].Cells[1].Value = paymentresult[i].Field1;
-                                DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
-                                cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-                                cell.Value = Properties.Resources.eye;
-                                dgv_split.Rows[i].Cells[3].Value = paymentresult[i].Field3;
-                                dgv_split.Rows[i].Cells[4].Value = paymentresult[i].Field4;
-                            }
+                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                            frmSalesInvoice.ShowDialog();
                         }
-                        pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
-                        pnl_split.Visible = true;
-                        pnl_split.BringToFront();
-                    }
+                    //}
+                    //else
+                    //{
+                    //    obj.Select = "Amount Field1,SplitType Field2,SalemasterId Field3,PayId Field4 ";
+                    //    obj.Table = "tblpayment";
+                    //    obj.WhereNdGroupBy = " where status=1 and SaleMasterId=" + oid;
+                    //    var paymentresult = bllpayments.GetSearchData("prdSearch", obj);
+                    //    if (paymentresult.Count > 0)
+                    //    {
+                    //        dgv_split.Rows.Clear();
+                    //        dgv_split.Rows.Add(paymentresult.Count);
+                    //        int x = dgv_split.RowCount;
+                    //        for (int i = 0; i < paymentresult.Count; i++)
+                    //        {
+                    //            dgv_split.Rows[i].Cells[0].Value = i + 1;
+                    //            dgv_split.Rows[i].Cells[1].Value = paymentresult[i].Field1;
+                    //            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_split.Rows[i].Cells[2];
+                    //            cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                    //            cell.Value = Properties.Resources.eye;
+                    //            dgv_split.Rows[i].Cells[3].Value = paymentresult[i].Field3;
+                    //            dgv_split.Rows[i].Cells[4].Value = paymentresult[i].Field4;
+                    //        }
+                    //    }
+                    //    pnl_split.Location = new Point(this.ClientSize.Width / 2 - pnl_split.Size.Width / 2, this.ClientSize.Height / 2 - pnl_split.Size.Height / 2);
+                    //    pnl_split.Visible = true;
+                    //    pnl_split.BringToFront();
+                    //}
                 }
             }
             catch (Exception ex)
@@ -1734,20 +1774,20 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (e.ColumnIndex == 2)
-                {
-                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[3].Value), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[4].Value), Convert.ToInt32(BillType.NormalBill));
-                    frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                    frmSalesInvoice.ShowDialog();
-                }
+                //if (e.ColumnIndex == 2)
+                //{
+                //    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[3].Value), Convert.ToInt32(PaymentType.SPLIT), Convert.ToInt32(dgv_split.Rows[e.RowIndex].Cells[4].Value), Convert.ToInt32(BillType.NormalBill));
+                //    frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                //    frmSalesInvoice.ShowDialog();
+                //}
             }
             catch (Exception ex)
             {
                 //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page dgv_split_CellContentClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
-
         }
+
         private void dgvorderview_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = true;
