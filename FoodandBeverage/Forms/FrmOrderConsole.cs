@@ -3902,7 +3902,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                 dmnSearch.Table =
                     "tblOfferMaster om " +
-                    "INNER JOIN tblMenu m ON m.ProductId = om.Omid and ProductType=0";
+                    "INNER JOIN tblOfferDetails m ON m.Omid = om.Omid and ProductType=1 LEFT JOIN tblmenu tm ON tm.ProductId=m.ProductId";
 
                 dmnSearch.WhereNdGroupBy =
                     "WHERE om.Status = 1 " +
@@ -3910,7 +3910,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     "AND om.OfferstartDatetime <= SYSDATETIME() " +
                     "AND om.OfferEndDatetime >= SYSDATETIME() " +
                     "AND m.Status = 1 " +
-                    "AND m.Quantity > 0";
+                    "AND tm.Quantity > 0 GROUP BY om.OfferName ,om.Omid,om.Discountper,om.FinalPrice,om.cmphid";
 
                 ProductData = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -4669,14 +4669,19 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-
-                dmnSearch.Select = "Quantity Field1, PreparationMode Field2";
-                dmnSearch.Table = "tblMenu";
-
                 if (ptype == 3)
-                    dmnSearch.WhereNdGroupBy = " WHERE ProductId = " + pid + " AND producttype=3 AND Status = 1";
+                {
+                    dmnSearch.Select = "tm.Quantity Field1, PreparationMode Field2";
+                    dmnSearch.Table = " tblOfferDetails om LEFT JOIN tblmenu tm ON tm.ProductId=om.ProductId ";
+                    dmnSearch.WhereNdGroupBy = " WHERE om.Omid  = " + pid + " AND tm.Status = 1 AND tm.PreparationMode=1";
+                }
+
                 else
+                {
+                    dmnSearch.Select = "Quantity Field1, PreparationMode Field2";
+                    dmnSearch.Table = "tblMenu";
                     dmnSearch.WhereNdGroupBy = " WHERE ProductId = " + pid + " AND Status = 1";
+                }
 
                 var result = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -8819,7 +8824,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                     frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
                     frm.ShowDialog();
-                    if (frmExtraAccessChk.access == true)
+                    if (frm.access == true)
                     {
                         //ttxdesc_cancelorder.Text = "Reason Type Here ...";
                         //ttxdesc_cancelorder.ForeColor = Color.Gray;
@@ -9645,7 +9650,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                             {
                                 int prep = 0;
-                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), saletype);
                                 int availableQty = dataresult.Quantity;
                                 prep = dataresult.PreparationMode;
                                 if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
