@@ -744,6 +744,8 @@ namespace FoodandBeverage.Forms
                         SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
                         SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
                         SetButtonImage(ib_refund, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
+                        SetButtonImage(ib_unitConversion, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
+
 
                         SetButtonImage(ib_employee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
                         SetButtonImage(ib_department, FoodandBeverage.Properties.Resources.Department_icon, desiredWidth, desiredHeight);
@@ -1482,6 +1484,7 @@ namespace FoodandBeverage.Forms
                 ib_ingrediant.BackColor = opbuttoncolor;
                 ib_menu.BackColor = opbuttoncolor;
                 ib_unit.BackColor = opbuttoncolor;
+                ib_unitConversion.BackColor = opbuttoncolor;
                 ib_table.BackColor = opbuttoncolor;
                 ib_purchase.BackColor = opbuttoncolor;
                 ib_purchasereturn.BackColor = opbuttoncolor;
@@ -2397,6 +2400,7 @@ namespace FoodandBeverage.Forms
                     ib_ingrediant.BackColor = opbuttoncolor;
                     ib_menu.BackColor = opbuttoncolor;
                     ib_unit.BackColor = opbuttoncolor;
+                    ib_unitConversion.BackColor = opbuttoncolor;
                     ib_table.BackColor = opbuttoncolor;
                     ib_purchase.BackColor = opbuttoncolor;
                     ib_purchasereturn.BackColor = opbuttoncolor;
@@ -2899,6 +2903,11 @@ namespace FoodandBeverage.Forms
                         else if (gridesource[i].Form == Convert.ToInt32(formsenum.Unit) && gridesource[i].Write == 1)
                         {
                             ib_unit.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.UnitConversion) && gridesource[i].Write == 1)
+                        {
+                            ib_unitConversion.Visible = true;
                             Menuoperation.Visible = true;
                         }
                         else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Write == 1)
@@ -5645,6 +5654,42 @@ namespace FoodandBeverage.Forms
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.homepage)
                 );
+            }
+        }
+
+        private void ib_unitConversion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (System.Windows.Forms.Application.OpenForms["FrmUnitConversion"] != null)
+                {
+                    FrmUnitConversion _instanceFrmUnit = Application.OpenForms["FrmUnitConversion"] as FrmUnitConversion;
+                    if (_instanceFrmUnit.WindowState == FormWindowState.Minimized)
+                        _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmUnit.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmUnit);
+                        panelDesktop.Controls.Add(_instanceFrmUnit);
+                        _instanceFrmUnit.Show();
+                        _instanceFrmUnit.BringToFront();
+                    }
+                }
+                else
+                {
+                    FrmUnitConversion _instanceFrmUnit = new FrmUnitConversion();
+                    ResizeForm(_instanceFrmUnit);
+                    _instanceFrmUnit.TopLevel = false;
+                    panelDesktop.Controls.Add(_instanceFrmUnit);
+                    _instanceFrmUnit.Show();
+                    _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    _instanceFrmUnit.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("Homepage ib_unitConversion_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
 

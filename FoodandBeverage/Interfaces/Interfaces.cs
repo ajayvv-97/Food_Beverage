@@ -117,7 +117,8 @@ namespace FoodandBeverage.Interfaces
         ZOut = 31,
         report=32,
         Refund=33,
-        ExtraLoginAccess=34
+        ExtraLoginAccess=34,
+        UnitConversion = 35
     };
     public enum DashboardTableType
     {
