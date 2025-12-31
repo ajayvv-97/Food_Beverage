@@ -18,5 +18,16 @@ namespace BLL
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnUnitConversion AddeditConversion(string procedureName, DmnUnitConversion objTestClass)
+        {
+            DAL.DapperRepository<DmnUnitConversion> objDapperRepository = new DAL.DapperRepository<DmnUnitConversion>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("id", objTestClass.id);
+            parms.Add("FromUnit", objTestClass.FromUnit);
+            parms.Add("ToUnit", objTestClass.ToUnit);
+            parms.Add("Factor", objTestClass.Factor); ;
+            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
     }
 }
