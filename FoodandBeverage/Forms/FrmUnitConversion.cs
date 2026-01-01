@@ -164,6 +164,11 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("Please Enter Factor", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
+                if (cmb_fromunit.SelectedValue == cmb_tounit.SelectedValue)
+                {
+                    CMessageBox.Show("Please Enter Proper From And To Unit", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
                 return true;
             }
             catch (Exception ex)
