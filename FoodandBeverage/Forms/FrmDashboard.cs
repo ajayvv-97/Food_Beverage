@@ -46,8 +46,9 @@ namespace FoodandBeverage.Forms
         public int Drawerassginstaffid;
 
         public string Drawersystemname;
-       
-      
+        private Dictionary<Button, Font> _originalFonts = new Dictionary<Button, Font>();
+
+
         public FrmDashboard()
         {
             InitializeComponent();
@@ -725,26 +726,26 @@ namespace FoodandBeverage.Forms
                         }
 
                         // Set images for the 'ib_' buttons
-                        SetButtonImage(ib_Category, FoodandBeverage.Properties.Resources.category, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_Item, FoodandBeverage.Properties.Resources.item, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_ingrediant, FoodandBeverage.Properties.Resources.Product, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_menu, FoodandBeverage.Properties.Resources.menu, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_unit, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.table_reg, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_purchase, FoodandBeverage.Properties.Resources.Purchase, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_purchasereturn, FoodandBeverage.Properties.Resources.Purchase_return, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_tax, FoodandBeverage.Properties.Resources.tax, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_Expence, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_PromoCode, FoodandBeverage.Properties.Resources.promo_code, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_refund, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_unitConversion, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_Category, FoodandBeverage.Properties.Resources.category, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_Item, FoodandBeverage.Properties.Resources.item, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_ingrediant, FoodandBeverage.Properties.Resources.Product, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_menu, FoodandBeverage.Properties.Resources.menu, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_unit, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_table, FoodandBeverage.Properties.Resources.table_reg, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_purchase, FoodandBeverage.Properties.Resources.Purchase, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_purchasereturn, FoodandBeverage.Properties.Resources.Purchase_return, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_tax, FoodandBeverage.Properties.Resources.tax, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_vendor, FoodandBeverage.Properties.Resources.vendericon, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_Expence, FoodandBeverage.Properties.Resources.withdraw, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_Discount_offer, FoodandBeverage.Properties.Resources.discount, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_orderview, FoodandBeverage.Properties.Resources.orderview, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_kitchenview, FoodandBeverage.Properties.Resources.kitchen_order_view, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_PromoCode, FoodandBeverage.Properties.Resources.promo_code, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_Company, FoodandBeverage.Properties.Resources.comapny, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_addon, FoodandBeverage.Properties.Resources.addon, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_reservation, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_refund, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_unitConversion, FoodandBeverage.Properties.Resources.unit, desiredWidth, desiredHeight);
 
 
                         SetButtonImage(ib_employee, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
@@ -754,12 +755,12 @@ namespace FoodandBeverage.Forms
                         SetButtonImage(ib_userpermission, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
 
 
-                        SetButtonImage(ib_virtualkeybpard, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_msgsetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_gensetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_billsetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_appcolor, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
-                        SetButtonImage(ib_drawer, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_virtualkeybpard, FoodandBeverage.Properties.Resources.Employee, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_msgsetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_gensetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_billsetting, FoodandBeverage.Properties.Resources.add_des_dep_user, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_appcolor, FoodandBeverage.Properties.Resources.reserved, desiredWidth, desiredHeight);
+                        //SetButtonImage(ib_drawer, FoodandBeverage.Properties.Resources.userpermisson, desiredWidth, desiredHeight);
 
                     }));
                 }
@@ -1896,11 +1897,21 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+
                 Button button = sender as Button;
                 if (button == null) return;
 
-                button.Text = string.Empty;
-                button.ImageAlign = ContentAlignment.MiddleCenter;
+                if (!_originalFonts.ContainsKey(button))
+                    _originalFonts[button] = button.Font;
+
+                button.Font = new Font(
+                    button.Font.FontFamily,
+                    _originalFonts[button].Size + 4,
+                    button.Font.Style
+                );
+
+                //button.Text = string.Empty;
+                //button.ImageAlign = ContentAlignment.MiddleCenter;
 
                 //Button button = (Button)sender;
                 //button.Text = string.Empty;
@@ -2011,10 +2022,11 @@ namespace FoodandBeverage.Forms
 
                 if (button.Tag != null)
                     button.Text = button.Tag.ToString();
-                else
-                    button.Text = string.Empty;
 
-                button.TextAlign = ContentAlignment.BottomCenter;
+                if (_originalFonts.ContainsKey(button))
+                    button.Font = _originalFonts[button];
+
+                button.TextAlign = ContentAlignment.MiddleCenter;
                 button.ImageAlign = ContentAlignment.TopCenter;
             }
             catch (Exception ex)
