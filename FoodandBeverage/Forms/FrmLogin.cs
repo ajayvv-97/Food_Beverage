@@ -829,7 +829,7 @@ namespace FoodandBeverage.Forms
                 pressDuration += 100; // increase time by 100ms
 
                 // Check if pressed for at least 2 seconds (2000 ms)
-                if (pressDuration >= 10000)
+                if (pressDuration >= 5000) // 5 seconds long press
                 {
                     longPressTimer.Stop();
                     isMouseDown = false;
@@ -905,6 +905,7 @@ namespace FoodandBeverage.Forms
                     txtext_conn.Text = savedConnection;
                     txtnew_conn.Text = "";
                 }
+                this.Close();
             }
             catch (Exception ex)
             {
