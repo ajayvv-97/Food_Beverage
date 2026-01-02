@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.IO;
 
 namespace DAL
 {
@@ -300,20 +301,22 @@ namespace DAL
         /// <returns></returns
         public static IDbConnection OpenConnection()
         {
-           IDbConnection connection = new SqlConnection("Data Source=192.168.0.40;Initial Catalog=Food_Beverage_TEST;Persist Security Info=True;User ID=sa;Password=,rhsm098");//Food_Beverage_DEBUG
-            //IDbConnection connection = new SqlConnection("Data Source=192.168.0.159;Initial Catalog=Food_Beverage_copy;Persist Security Info=True;User ID=sa;Password=,rhsm098");
+           //IDbConnection connection = new SqlConnection("Data Source=192.168.0.40;Initial Catalog=FB;Persist Security Info=True;User ID=sa;Password=,rhsm098");//Food_Beverage_DEBUG
+           //IDbConnection connection = new SqlConnection("Data Source=192.168.0.159;Initial Catalog=Food_Beverage_copy;Persist Security Info=True;User ID=sa;Password=,rhsm098");
            //IDbConnection connection = new SqlConnection("Data Source=OFFICE\\SQLEXPRESS;Initial Catalog=Food_Beverage_TEST;Integrated Security=True");
-            connection.Open();
-            return connection;
+           // IDbConnection connection = new SqlConnection("Data Source=LAPTOP - HQE017L7\\SQLEXPRESS;Initial Catalog=Food_Beverage_TEST;Persist Security Info=True;User ID=sa;Password=,rhsm098");//Food_Beverage_DEBUG
 
-            /*
-              string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DBConfig", "dbsettings.txt");
+           //connection.Open();
+           //return connection;
+
+            
+            string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DBConfig", "dbsettings.txt");
             string connectionString = File.ReadAllText(configPath).Trim();
 
             IDbConnection connection = new SqlConnection(connectionString);
             connection.Open();
             return connection;
-             */
+             
         }
         #endregion OpenConnection
     }
