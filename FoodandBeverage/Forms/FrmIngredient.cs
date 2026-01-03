@@ -41,6 +41,7 @@ namespace FoodandBeverage.Forms
         public  int Acodeno = 3;
         public  int Avidno = 4;
         public  int Apidno = 5;
+        public  int Aconsqty = 6;
 
 
         #endregion
@@ -167,6 +168,7 @@ namespace FoodandBeverage.Forms
                                     dmnvariation.Pavid = Convert.ToInt32(dgv_variation.Rows[i].Cells[Avidno].Value);
                                     dmnvariation.Caption = Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value);
                                     dmnvariation.VariationCode = Convert.ToString(dgv_variation.Rows[i].Cells[Acodeno].Value);
+                                    dmnvariation.ConsumedQty = Convert.ToDecimal(dgv_variation.Rows[i].Cells[Aconsqty].Value);
                                     dmnvariation.Aid = 0;
                                     dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Variation);
                                     dmnvariation.Price = Convert.ToDecimal(dgv_variation.Rows[i].Cells[apriceno].Value);
@@ -790,6 +792,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                clearall();
                 rowindex = 1;
                 BllSearch<DmnProducts> bllSearchproduct = new BllSearch<DmnProducts>();
                 DmnSearch objSearch = new DmnSearch();
@@ -919,7 +922,7 @@ namespace FoodandBeverage.Forms
                     #region Variation and Addon
                     BllSearch<DmnGridFields> bllSearchdetails_VA = new BllSearch<DmnGridFields>();
                     DmnSearch objSearchDetails_VA = new DmnSearch();
-                    objSearchDetails_VA.Select = "Pavid Field1,pav.Caption Field2,pav.Price Field3,pav.VariationCode Field4,a.AddonName Field5,pav.Type Field6,pav.Aid Field7,a.price Field8";
+                    objSearchDetails_VA.Select = "Pavid Field1,pav.Caption Field2,pav.Price Field3,pav.VariationCode Field4,a.AddonName Field5,pav.Type Field6,pav.Aid Field7,a.price Field8,pav.ConsumedQty Field9";
                     objSearchDetails_VA.Table = "tblProduct_Addon_Variation pav left join tblAddon a on a.Aid=pav.Aid and a.Status=1";
                     objSearchDetails_VA.WhereNdGroupBy = "where pav.status=1 and pav.ProductId= " + Pid;
                     objSearchDetails_VA.OrderBy = "";
@@ -971,17 +974,18 @@ namespace FoodandBeverage.Forms
                                 tlp_left.Dock = DockStyle.Fill;
 
                                 tlp_left.RowCount = 2;
-                                tlp_left.ColumnCount = 3;
-                                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                                tlp_left.ColumnCount = 4;
+                                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                                tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
 
                                 // ============================
                                 // Add Labels + Textboxes
                                 // ============================
-                                string[] labels = { "Size", "Price", "Code" };
+                                string[] labels = { "Size", "Price", "Code", "ConsumedQty" };
 
-                                for (int i = 0; i < 3; i++)
+                                for (int i = 0; i < 4; i++)
                                 {
                                     Label lbl = new Label();
                                     lbl.Name = labels[i] + rowindex;
@@ -1008,9 +1012,10 @@ namespace FoodandBeverage.Forms
                                         txt.Text = gridSource_VA[j].Field3;    // Price
                                         txt.KeyPress += new KeyPressEventHandler(textBox_KeyPress_variation);
                                     }
+                                    else if (i == 2)
+                                        txt.Text = gridSource_VA[j].Field4;// Code
                                     else
-                                        txt.Text = gridSource_VA[j].Field4;    // Code
-
+                                        txt.Text = gridSource_VA[j].Field9;// Consumed Qty
                                     // Events
                                     txt.Enter += TextBox_Enter;
                                     txt.Leave += TextBox_Leave;
@@ -1052,6 +1057,7 @@ namespace FoodandBeverage.Forms
                                 dgv_variation.Rows[newIndex].Cells[avariationno].Value = gridSource_VA[j].Field2;
                                 dgv_variation.Rows[newIndex].Cells[apriceno].Value = gridSource_VA[j].Field3;
                                 dgv_variation.Rows[newIndex].Cells[Acodeno].Value = gridSource_VA[j].Field4;
+                                dgv_variation.Rows[newIndex].Cells[Aconsqty].Value = gridSource_VA[j].Field9;
 
                                 rowindex++;
 
@@ -2673,17 +2679,19 @@ namespace FoodandBeverage.Forms
                     tlp_left.Height = 70;
                     tlp_left.Dock = DockStyle.Fill;
 
-                    tlp_left.ColumnCount = 3;
+                    tlp_left.ColumnCount = 4;
                     tlp_left.RowCount = 2;
 
-                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                    tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+
 
                     // ADD LABELS + TEXTBOXES
-                    string[] labels = { "Size", "Price", "Code" };
+                    string[] labels = { "Size", "Price", "Code", "ConsumedQty" };
 
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         Label lbl = new Label();
                         lbl.Name = labels[i] + rowindex;
@@ -2795,6 +2803,7 @@ namespace FoodandBeverage.Forms
                         TextBox txtsize = this.Controls.Find("txt_size" + prov_rowindex, true).FirstOrDefault() as TextBox;
                         TextBox txtprice = this.Controls.Find("txt_price" + prov_rowindex, true).FirstOrDefault() as TextBox;
                         TextBox txtcode = this.Controls.Find("txt_code" + prov_rowindex, true).FirstOrDefault() as TextBox;
+                        TextBox txtconsqty = this.Controls.Find("txt_consumedqty" + prov_rowindex, true).FirstOrDefault() as TextBox;
                         if (txtsize != null)
                             dgv_variation.Rows[i].Cells[avariationno].Value = txtsize.Text;
                         if (txtprice != null)
@@ -2804,6 +2813,8 @@ namespace FoodandBeverage.Forms
                             else
                                 dgv_variation.Rows[i].Cells[apriceno].Value = txtprice.Text;
                         }
+                        if (txtconsqty != null)
+                            dgv_variation.Rows[i].Cells[Aconsqty].Value = txtconsqty.Text;
 
                         if (txtcode != null)
                             dgv_variation.Rows[i].Cells[Acodeno].Value = txtcode.Text;
@@ -2819,12 +2830,16 @@ namespace FoodandBeverage.Forms
                     TextBox txtsize = this.Controls.Find("txt_size" + prov_rowindex, true).FirstOrDefault() as TextBox;
                     TextBox txtprice = this.Controls.Find("txt_price" + prov_rowindex, true).FirstOrDefault() as TextBox;
                     TextBox txtcode = this.Controls.Find("txt_code" + prov_rowindex, true).FirstOrDefault() as TextBox;
+                    TextBox txtconsqty = this.Controls.Find("txt_consumedqty" + prov_rowindex, true).FirstOrDefault() as TextBox;
+
                     if (txtsize != null)
                         dgv_variation.Rows[rowIndex].Cells[avariationno].Value = txtsize.Text;
                     if (txtprice != null)
                         dgv_variation.Rows[rowIndex].Cells[apriceno].Value = txtprice.Text;
                     if (txtcode != null)
                         dgv_variation.Rows[rowIndex].Cells[Acodeno].Value = txtcode.Text;
+                    if (txtconsqty != null)
+                        dgv_variation.Rows[rowIndex].Cells[Aconsqty].Value = txtconsqty.Text;
                 }
             }
             catch (Exception ex)
@@ -3151,7 +3166,9 @@ namespace FoodandBeverage.Forms
                         TextBox txtsize = this.Controls.Find(sizename, true).FirstOrDefault() as TextBox;
                         string pricename = "txt_price" + r;
                         TextBox txtprice = this.Controls.Find(pricename, true).FirstOrDefault() as TextBox;
-                        if (Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value) == null || Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value) == "")
+                        var cellValue = dgv_variation.Rows[i].Cells[avariationno]?.Value;
+
+                        if (string.IsNullOrWhiteSpace(cellValue?.ToString()))
                         {
                             txtsize.ForeColor = redcolor;
                             txtsize.Text = "Enter Variation Type..";

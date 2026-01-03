@@ -173,8 +173,8 @@ namespace FoodandBeverage.Forms
                     {
                         for (int i = 0; i < dgv_menu.RowCount; i++)
                         {
-                            if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) > 0 || (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) == 0 && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
-                            {
+                            //if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) > 0 || (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) == 0 && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                            //{
                                 dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
                                 dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
@@ -195,7 +195,7 @@ namespace FoodandBeverage.Forms
                                     dmnmenu.Status = 0;
                                 usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
                                 count++;
-                            }
+                            //}
                         }
                         if (count > 0)
                         {
