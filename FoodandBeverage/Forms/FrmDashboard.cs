@@ -1504,6 +1504,7 @@ namespace FoodandBeverage.Forms
                 ib_reservation.BackColor = opbuttoncolor;
                 ib_userpermission.BackColor = opbuttoncolor;
                 ib_addon.BackColor = opbuttoncolor;
+                ib_void.BackColor = opbuttoncolor;
 
                 Button btnsetting = this.Controls.Find("Appcolor", true).FirstOrDefault() as Button;
                 if (btnsetting != null)
@@ -2985,6 +2986,11 @@ namespace FoodandBeverage.Forms
                         else if (gridesource[i].Form == Convert.ToInt32(formsenum.Refund) && gridesource[i].Write == 1)
                         {
                             ib_refund.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.VoidSale) && gridesource[i].Write == 1)
+                        {
+                            ib_void.Visible = true;
                             Menuoperation.Visible = true;
                         }
                         #endregion

@@ -566,7 +566,6 @@ namespace FoodandBeverage.Forms
                 _objSearch.Table = "tblAddon a LEFT JOIN tblCategory_FTI c ON C.Fcid=a.Fcid and c.status=1";
                 _objSearch.WhereNdGroupBy = "where a.Status = 1";
                 _objSearch.OrderBy = " ORDER BY a.aid";
-
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count == 0)
                 {

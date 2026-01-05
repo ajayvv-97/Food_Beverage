@@ -12,9 +12,11 @@ namespace Domain
             public DateTime EntryDate { get; set; }
             public int Product_id { get; set; }
             public string Barcode { get; set; }
+            
 
 
-            public string Unit { get; set; }
+
+        public string Unit { get; set; }
             public decimal QTY { get; set; }
             public string Type { get; set; }
             public string Tax { get; set; }

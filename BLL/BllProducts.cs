@@ -40,6 +40,15 @@ namespace BLL
 			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}
+		public DmnGridFields AddEditData_voidsale(string procedureName, DmnGridFields objTestClass)
+		{
+			DAL.DapperRepository<DmnGridFields> objDapperRepository = new DAL.DapperRepository<DmnGridFields>();
+			DynamicParameters parms = new DynamicParameters();
+			parms.Add("MasterId", objTestClass.Field1);
+			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+			return lstData;
+		}
+		
 	}
 }
 
