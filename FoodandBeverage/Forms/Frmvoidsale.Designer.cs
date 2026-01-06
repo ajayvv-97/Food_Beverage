@@ -29,9 +29,9 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
@@ -39,7 +39,7 @@ namespace FoodandBeverage.Forms
             this.btncolse = new System.Windows.Forms.Button();
             this.tlp_button = new System.Windows.Forms.TableLayoutPanel();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.btnrefund = new System.Windows.Forms.Button();
+            this.btnvoid = new System.Windows.Forms.Button();
             this.btnrefresh = new System.Windows.Forms.Button();
             this.btnclose = new System.Windows.Forms.Button();
             this.dgv_productlist = new System.Windows.Forms.DataGridView();
@@ -47,6 +47,7 @@ namespace FoodandBeverage.Forms
             this.Usertype = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnsearchbill = new System.Windows.Forms.Button();
             this.tlp_main.SuspendLayout();
@@ -145,7 +146,7 @@ namespace FoodandBeverage.Forms
             this.tlp_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_button.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_button.Controls.Add(this.btnSearch, 1, 0);
-            this.tlp_button.Controls.Add(this.btnrefund, 1, 0);
+            this.tlp_button.Controls.Add(this.btnvoid, 1, 0);
             this.tlp_button.Controls.Add(this.btnrefresh, 2, 0);
             this.tlp_button.Controls.Add(this.btnclose, 3, 0);
             this.tlp_button.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -172,22 +173,26 @@ namespace FoodandBeverage.Forms
             this.btnSearch.Size = new System.Drawing.Size(95, 31);
             this.btnSearch.TabIndex = 1;
             this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // btnrefund
+            // btnvoid
             // 
-            this.btnrefund.BackColor = System.Drawing.Color.Transparent;
-            this.btnrefund.BackgroundImage = global::FoodandBeverage.Properties.Resources.SaveButton;
-            this.btnrefund.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnrefund.FlatAppearance.BorderSize = 0;
-            this.btnrefund.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnrefund.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnrefund.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnrefund.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnrefund.Location = new System.Drawing.Point(158, 3);
-            this.btnrefund.Name = "btnrefund";
-            this.btnrefund.Size = new System.Drawing.Size(95, 32);
-            this.btnrefund.TabIndex = 0;
-            this.btnrefund.UseVisualStyleBackColor = false;
+            this.btnvoid.BackColor = System.Drawing.Color.Transparent;
+            this.btnvoid.BackgroundImage = global::FoodandBeverage.Properties.Resources.other_large;
+            this.btnvoid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnvoid.FlatAppearance.BorderSize = 0;
+            this.btnvoid.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnvoid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnvoid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnvoid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.btnvoid.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btnvoid.Location = new System.Drawing.Point(158, 3);
+            this.btnvoid.Name = "btnvoid";
+            this.btnvoid.Size = new System.Drawing.Size(95, 33);
+            this.btnvoid.TabIndex = 0;
+            this.btnvoid.Text = "Void";
+            this.btnvoid.UseVisualStyleBackColor = false;
+            this.btnvoid.Click += new System.EventHandler(this.btnvoid_Click);
             // 
             // btnrefresh
             // 
@@ -204,6 +209,7 @@ namespace FoodandBeverage.Forms
             this.btnrefresh.Size = new System.Drawing.Size(95, 32);
             this.btnrefresh.TabIndex = 2;
             this.btnrefresh.UseVisualStyleBackColor = false;
+            this.btnrefresh.Click += new System.EventHandler(this.btnrefresh_Click);
             // 
             // btnclose
             // 
@@ -229,20 +235,21 @@ namespace FoodandBeverage.Forms
             this.dgv_productlist.AllowUserToResizeRows = false;
             this.dgv_productlist.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_productlist.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_productlist.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_productlist.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgv_productlist.ColumnHeadersHeight = 60;
             this.dgv_productlist.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.no,
             this.Usertype,
             this.price,
-            this.Quantity});
+            this.Quantity,
+            this.ID});
             this.dgv_productlist.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_productlist.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgv_productlist.Location = new System.Drawing.Point(8, 98);
@@ -250,8 +257,8 @@ namespace FoodandBeverage.Forms
             this.dgv_productlist.RowHeadersVisible = false;
             this.dgv_productlist.RowHeadersWidth = 40;
             this.dgv_productlist.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgv_productlist.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgv_productlist.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dgv_productlist.RowTemplate.Height = 30;
             this.dgv_productlist.Size = new System.Drawing.Size(561, 290);
             this.dgv_productlist.TabIndex = 18;
@@ -284,14 +291,21 @@ namespace FoodandBeverage.Forms
             // Quantity
             // 
             this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle2.NullValue = "0";
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle11.NullValue = "0";
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle11;
             this.Quantity.HeaderText = "Quantity";
             this.Quantity.MinimumWidth = 6;
             this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
             this.Quantity.Width = 93;
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.Visible = false;
             // 
             // tableLayoutPanel1
             // 
@@ -320,6 +334,7 @@ namespace FoodandBeverage.Forms
             this.btnsearchbill.Size = new System.Drawing.Size(92, 38);
             this.btnsearchbill.TabIndex = 1;
             this.btnsearchbill.UseVisualStyleBackColor = true;
+            this.btnsearchbill.Click += new System.EventHandler(this.btnsearchbill_Click);
             // 
             // Frmvoidsale
             // 
@@ -349,7 +364,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btncolse;
         private System.Windows.Forms.TableLayoutPanel tlp_button;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.Button btnrefund;
+        private System.Windows.Forms.Button btnvoid;
         private System.Windows.Forms.Button btnrefresh;
         private System.Windows.Forms.Button btnclose;
         private System.Windows.Forms.DataGridView dgv_productlist;
@@ -359,5 +374,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button btnsearchbill;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
     }
 }

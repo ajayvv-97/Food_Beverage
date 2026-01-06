@@ -12748,7 +12748,7 @@ namespace FoodandBeverage.Forms
 
                 frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
                 frm.ShowDialog();
-                if (frmExtraAccessChk.access == true)
+                if (frm.access == true)
                 {
 
                    

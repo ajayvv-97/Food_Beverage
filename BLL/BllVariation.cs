@@ -16,6 +16,7 @@ namespace BLL
             parms.Add("Caption", objTestClass.Caption);
             parms.Add("Price", objTestClass.Price);
             parms.Add("VariationCode", objTestClass.VariationCode);
+            parms.Add("ConsumedQty", objTestClass.ConsumedQty);
             parms.Add("Type", objTestClass.Type);
             parms.Add("Aid", objTestClass.Aid);
             parms.Add("ProductId", objTestClass.ProductId); ;

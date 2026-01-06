@@ -173,8 +173,8 @@ namespace FoodandBeverage.Forms
                     {
                         for (int i = 0; i < dgv_menu.RowCount; i++)
                         {
-                            if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) > 0 || (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) == 0 && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
-                            {
+                            //if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) > 0 || (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) == 0 && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                            //{
                                 dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
                                 dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
@@ -195,7 +195,7 @@ namespace FoodandBeverage.Forms
                                     dmnmenu.Status = 0;
                                 usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
                                 count++;
-                            }
+                            //}
                         }
                         if (count > 0)
                         {
@@ -1734,9 +1734,11 @@ namespace FoodandBeverage.Forms
                 dgv_menu.Rows.Clear();
                 if (itemSource.Count > 0)
                 {
+                    //Decimal totstock = "0.00";
                     dgv_menu.Rows.Add(itemSource.Count + 1);
                     for (int i = 0; i < itemSource.Count; i++)
                     {
+                        //totstock = totstock + Convert.ToDecimal(itemSource[i].Field8);
                         dgv_menu.Rows[i].Cells[slno].Value = i + 1;
                         dgv_menu.Rows[i].Cells[piidno].Value = itemSource[i].Field1;
                         dgv_menu.Rows[i].Cells[pnameno].Value = itemSource[i].Field2;

@@ -14,8 +14,17 @@ namespace Domain
         public long ModifiedBy { get; set; }
         public DateTime ModifiedDateTime { get; set; }
         public int Status { get; set; }
-        public int BranchId
-        { get; set; }
-        
+        public int BranchId { get; set; }
+
+    }
+    public class DmnUnitConversion
+    {
+        public long id { get; set; }
+        public long FromUnit { get; set; }
+        public long ToUnit { get; set; }
+        public Decimal Factor { get; set; }
+        public string FUnit { get; set; }
+        public string TUnit { get; set; }
+        public Decimal Fctr { get; set; }
     }
 }

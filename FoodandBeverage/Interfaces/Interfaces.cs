@@ -117,7 +117,9 @@ namespace FoodandBeverage.Interfaces
         ZOut = 31,
         report=32,
         Refund=33,
-        ExtraLoginAccess=34
+        ExtraLoginAccess=34,
+        UnitConversion = 35,
+        VoidSale = 36
     };
     public enum DashboardTableType
     {
@@ -280,6 +282,7 @@ namespace FoodandBeverage.Interfaces
         ExtraLoginAccess = 36,
         Drawer = 37,
         TabletTableView = 38,
+        Voidsale = 39,
 
     };
     public enum Menubutton

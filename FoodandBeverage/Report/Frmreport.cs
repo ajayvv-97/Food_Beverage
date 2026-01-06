@@ -355,10 +355,10 @@ namespace FoodandBeverage.Report
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchDetBill = new DmnSearch();
-                dmnSearchDetBill.Select = "StockDate sFld1, Name sFld2,OpeningQty nFld1,UsedQty nFld2,RemainingQty nFld3";
-                dmnSearchDetBill.Table = "tblMenuDailyStock";
+                dmnSearchDetBill.Select = "m.StockDate sFld1, m.Name sFld2,m.OpeningQty nFld1, CASE WHEN m.PreparationMode = 2 THEN ISNULL(SUM(sd.Quantity), 0) ELSE m.UsedQty END AS nFld2,m.RemainingQty AS nFld3,m.PreparationMode,m.ProductId";
+                dmnSearchDetBill.Table = "tblMenuDailyStock m LEFT JOIN tblsalesdetails sd ON sd.itemid = m.ProductId AND sd.CreatedDateTime >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sd.CreatedDateTime <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' ";
                 
-                dmnSearchDetBill.WhereNdGroupBy = "where  StockDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and StockDate<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                dmnSearchDetBill.WhereNdGroupBy = "where  StockDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and StockDate<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' GROUP BY m.StockDate,m.Name,m.OpeningQty,m.UsedQty,m.RemainingQty,m.PreparationMode,m.ProductId";
 
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
 

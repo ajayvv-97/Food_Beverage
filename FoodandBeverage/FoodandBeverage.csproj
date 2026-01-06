@@ -518,6 +518,12 @@
     <Compile Include="Forms\FrmUnit.Designer.cs">
       <DependentUpon>FrmUnit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmUnitConversion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmUnitConversion.Designer.cs">
+      <DependentUpon>FrmUnitConversion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmUserAccount.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -911,6 +917,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmUnit.resx">
       <DependentUpon>FrmUnit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmUnitConversion.resx">
+      <DependentUpon>FrmUnitConversion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmUserAccount.resx">
       <DependentUpon>FrmUserAccount.cs</DependentUpon>

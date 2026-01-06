@@ -11,6 +11,7 @@ namespace Domain
         public string Caption { get; set; }
         public decimal Price { get; set; }
         public string VariationCode { get; set; }
+        public decimal ConsumedQty { get; set; }
         public int Type { get; set; }
         public int Aid { get; set; }
         public int ProductId { get; set; }
