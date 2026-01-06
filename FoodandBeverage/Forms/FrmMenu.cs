@@ -1737,7 +1737,7 @@ namespace FoodandBeverage.Forms
                     objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,md.OpeningQty AS Field8,p.PreparationMode Field9";
                     objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
                         "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId left join tblMenuDailyStock md ON md.ProductId=m.ProductId";
-                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1 and md.StockDate = GETDATE() - 1";
+                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1 and md.StockDate = CAST(GETDATE() - 1 AS DATE)";
                 }
                 
                     
@@ -1749,7 +1749,7 @@ namespace FoodandBeverage.Forms
                 {
                     objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,0 AS Field8,p.PreparationMode Field9";
                     objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
-                        "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId left join tblMenuDailyStock md ON md.ProductId=m.ProductId";
+                        "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
                     objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
                     objSearch.OrderBy = "order by Product";
                     itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
