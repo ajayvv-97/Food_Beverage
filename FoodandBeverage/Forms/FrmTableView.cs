@@ -166,6 +166,7 @@ namespace FoodandBeverage.Forms
             public bool KitchenCancelled;
             public int Tid;
             public int Ordermid;
+            public int Checkoutstatus;
         }
 
         #endregion
@@ -211,12 +212,11 @@ namespace FoodandBeverage.Forms
                 "SUM(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) AS Field3, " +
                 "SUM(CASE WHEN od.Status = 0 AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field4, " +
                 "MAX(CASE WHEN od.KitchenCancelStatus = 1 THEN 1 ELSE 0 END) AS Field5, " +
-                "od.Tid AS Field6";
-
+                "od.Tid AS Field6," +
+                "CASE WHEN MAX(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) = 1 THEN 0  ELSE 1  END AS Field7 ";
             dmn.Table =
                 "tblOrderDetails od " +
                 "INNER JOIN tblOrderMaster om ON om.OrderMasterId = od.OrderMasterId";
-
             dmn.WhereNdGroupBy =
                 "WHERE od.AddonStatus IN (0,1,2) AND om.Status <> 3 " +
                 "GROUP BY od.OrderMasterId, od.Tid";
@@ -237,7 +237,8 @@ namespace FoodandBeverage.Forms
                     CancelCount = Convert.ToInt32(r.Field4),
                     KitchenCancelled = Convert.ToInt32(r.Field5) == 1,
                     Tid = tableId,
-                    Ordermid = Convert.ToInt32(r.Field1)
+                    Ordermid = Convert.ToInt32(r.Field1),
+                    Checkoutstatus=Convert.ToInt32(r.Field7),
                 };
             }
         }
@@ -449,6 +450,21 @@ namespace FoodandBeverage.Forms
 
                 int tableId = Convert.ToInt32(pnl.Tag);
 
+                // Initialize BLL search
+                BllSearch<DmnGridFields> bll = new BllSearch<DmnGridFields>();
+                DmnSearch dmn = new DmnSearch();
+
+                // Select the IsCustomerInformedCancel field
+                dmn.Select = "IsCustomerInformedCancel AS Field1";
+                dmn.Table = "tblTable_info";
+                dmn.WhereNdGroupBy = "WHERE Tid = " + tableId + " AND Status = 1 AND IsCustomerInformedCancel = 1";
+                var resStatus = bll.GetSearchData("prdSearch", dmn);
+                int isCancelNotified = 0; 
+                if (resStatus != null && resStatus.Count > 0)
+                {
+                    isCancelNotified =Convert.ToInt32(resStatus[0].Field1) ;
+                }
+                
                 if (!tableUIRefs.TryGetValue(pnl.GetHashCode(), out var ui))
                     continue;
 
@@ -472,12 +488,43 @@ namespace FoodandBeverage.Forms
                 ui.CancelCount.Location = new Point(-100, -100);
                 ui.CancelCount.Region = null;
 
+                ui.Container.AccessibleName = "0";
+                ui.Inner.AccessibleName = "0";
+                ui.TableName.AccessibleName = "0";
+                ui.NetAmount.AccessibleName = "0";
+                ui.CancelCount.AccessibleName = "0";
+
                 // Layout reset
                 ui.Inner.RowStyles[0].Height = 0;
                 ui.Inner.RowStyles[1].Height = 60;
                 ui.Inner.RowStyles[2].Height = 0;
 
                 ui.TableName.TextAlign = ContentAlignment.MiddleCenter;
+
+
+                // =========================
+                // ❌ KITCHEN CANCEL full order
+                // =========================
+                if (isCancelNotified==1)
+                {
+                    ui.Inner.BackColor = CancelProduct_order;
+                    ui.NetAmount.Text = "staff cancel ordfer";
+                    ui.NetAmount.ForeColor = Color.White;
+                    ui.NetAmount.BackColor = ReconfirmLabelBG;
+                    ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
+                    ui.NetAmount.Visible = true;
+
+                    ui.Inner.RowStyles[0].Height = 25;
+                    ui.Inner.RowStyles[2].Height = 25;
+
+                    ui.Container.AccessibleName = "1";
+                    ui.Inner.AccessibleName = "1";
+                    ui.TableName.AccessibleName = "1";
+                    ui.NetAmount.AccessibleName = "1";
+                    ui.CancelCount.AccessibleName = "1";
+
+                    continue;
+                }
 
                 // =========================
                 // 🚫 NO ORDER
@@ -532,11 +579,9 @@ namespace FoodandBeverage.Forms
                     continue;
                 }
 
-        
-
-                // =========================
-                // 🟦 RUNNING ORDER
-                // =========================
+                //// =========================
+                //// 🟦 RUNNING ORDER
+                //// =========================
                 if (status.PendingCount > 0)
                 {
                     ui.Inner.BackColor = OrderColor;
@@ -546,7 +591,7 @@ namespace FoodandBeverage.Forms
                 // =========================
                 // 🟩 CHECKOUT
                 // =========================
-                if (status.TotalItems > 0)
+                if (status.Checkoutstatus == 1)
                 {
                     ui.Inner.BackColor = BillingColor;
 
@@ -559,6 +604,7 @@ namespace FoodandBeverage.Forms
                     ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
                     ui.NetAmount.Visible = true;
                 }
+
             }
             if(!AutoTimer.Enabled)
                 AutoTimer.Start();
@@ -2066,3 +2112,56 @@ namespace FoodandBeverage.Forms
         }
     }
 }
+
+
+/*
+ RestaurantWaiter
+│
+├── Controllers
+│   └── TableStatusController.cs        // REST API for table status
+│
+├── Hubs
+│   └── TableHub.cs                     // SignalR hub
+│
+├── Pages
+│   ├── TableView.cshtml.cs
+│   │   ├── Index.cshtml
+│   │   ├── Index.cshtml.cs
+│   │
+│   ├── OrderConsole.cshtml.cs
+│   │   ├── Index.cshtml
+│   │   ├── Index.cshtml.cs
+│   │
+│   └── API
+│       └── OrderService.cshtml.cs      // Razor Page APIs (save order, KOT, etc.)
+│
+├── Services
+│   ├── TableStatusService.cs           // 🔥 SINGLE SOURCE OF TRUTH
+│   ├── TableViewNotifier.cs            // SignalR broadcaster
+│   └── KitchenNotifier.cs (optional)
+│
+├── Models
+│   ├── TableOrderStatus.cs
+│   ├── TableViewDto.cs
+│   ├── CategoryDto.cs
+│   └── Domain
+│       ├── DmnOrderMaster.cs
+│       ├── DmnOrderDetails.cs
+│       └── DmnGridFields.cs
+│
+├── wwwroot
+│   ├── css
+│   │   └── tableview.css
+│   │
+│   ├── js
+│   │   └── tableview.js
+│   │
+│   └── lib
+│       └── signalr
+│
+├── Program.cs
+└── appsettings.json
+
+ 
+ 
+ */
