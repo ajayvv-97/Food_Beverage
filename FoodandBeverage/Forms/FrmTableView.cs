@@ -207,19 +207,24 @@ namespace FoodandBeverage.Forms
             DmnSearch dmn = new DmnSearch();
 
             dmn.Select =
-                "od.OrderMasterId AS Field1, " +
-                "COUNT(*) AS Field2, " +
-                "SUM(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) AS Field3, " +
-                "SUM(CASE WHEN od.Status = 0 AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field4, " +
-                "MAX(CASE WHEN od.KitchenCancelStatus = 1 THEN 1 ELSE 0 END) AS Field5, " +
-                "od.Tid AS Field6," +
-                "CASE WHEN MAX(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) = 1 THEN 0  ELSE 1  END AS Field7 ";
+        "MAX(od.OrderMasterId) AS Field1, " +                 // current running order for table
+        "COUNT(od.OrderDetailsId) AS Field2, " +               // total items for table
+        "SUM(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) AS Field3, " + // cooking started
+        "SUM(CASE WHEN od.Status = 0 AND od.CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field4, " + // cancelled items
+        "MAX(CASE WHEN od.KitchenCancelStatus = 1 THEN 1 ELSE 0 END) AS Field5, " + // kitchen notified
+        "ti.Tid AS Field6, " +                                 // table id
+        "CASE WHEN MAX(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) = 1 THEN 0 ELSE 1 END AS Field7," +                                   // checkout allowed
+        "MAX(ISNULL(ti.IsCustomerInformedCancel, 0)) AS Field8"; // customer informed
             dmn.Table =
-                "tblOrderDetails od " +
-                "INNER JOIN tblOrderMaster om ON om.OrderMasterId = od.OrderMasterId";
+    "tblTable_info ti " +
+    "LEFT JOIN tblOrderDetails od ON od.Tid = ti.Tid AND od.AddonStatus IN (0,1,2) " +
+    "LEFT JOIN tblOrderMaster om ON om.OrderMasterId = od.OrderMasterId AND om.Status <> 3";
             dmn.WhereNdGroupBy =
-                "WHERE od.AddonStatus IN (0,1,2) AND om.Status <> 3 " +
-                "GROUP BY od.OrderMasterId, od.Tid";
+                "WHERE ti.Status = 1 " +
+                "AND ((ti.OrderMasterId > 0 AND ti.OrderStatus = 1) " +
+                "     OR ti.IsCustomerInformedCancel = 1) " +
+                "GROUP BY ti.Tid " +
+                "ORDER BY ti.Tid";
 
             var list = bll.GetSearchData("prdSearch", dmn);
 

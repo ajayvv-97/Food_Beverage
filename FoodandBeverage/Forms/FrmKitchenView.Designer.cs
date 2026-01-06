@@ -33,8 +33,8 @@ namespace FoodandBeverage.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmKitchenView));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.btn_viewmore_order = new System.Windows.Forms.Button();
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
@@ -70,17 +70,6 @@ namespace FoodandBeverage.Forms
             this.pnlproductviewmore = new System.Windows.Forms.Panel();
             this.tlp_viewmore = new System.Windows.Forms.TableLayoutPanel();
             this.dgv_viewmore = new System.Windows.Forms.DataGridView();
-            this.tlp_header_viewmore = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_close_viewmore = new System.Windows.Forms.Button();
-            this.lblviewmore = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.pnl_kitchenorderBill = new System.Windows.Forms.Panel();
-            this.crvkitchenbill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.blinkTimer = new System.Windows.Forms.Timer(this.components);
-            this.refreshtimer = new System.Windows.Forms.Timer(this.components);
-            this.tm_memory = new System.Windows.Forms.Timer(this.components);
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.vslno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vproductname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -94,6 +83,17 @@ namespace FoodandBeverage.Forms
             this.addonprice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addorderno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addonaddccodeno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tlp_header_viewmore = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_close_viewmore = new System.Windows.Forms.Button();
+            this.lblviewmore = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.pnl_kitchenorderBill = new System.Windows.Forms.Panel();
+            this.crvkitchenbill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.blinkTimer = new System.Windows.Forms.Timer(this.components);
+            this.refreshtimer = new System.Windows.Forms.Timer(this.components);
+            this.tm_memory = new System.Windows.Forms.Timer(this.components);
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tlp_search.SuspendLayout();
@@ -245,7 +245,7 @@ namespace FoodandBeverage.Forms
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 112F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tlp_search.Controls.Add(this.cmbserachtype, 0, 0);
             this.tlp_search.Controls.Add(this.btnsearch, 1, 0);
@@ -285,7 +285,7 @@ namespace FoodandBeverage.Forms
             this.btnsearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnsearch.FlatAppearance.BorderSize = 0;
             this.btnsearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnsearch.Location = new System.Drawing.Point(348, 3);
+            this.btnsearch.Location = new System.Drawing.Point(347, 3);
             this.btnsearch.Name = "btnsearch";
             this.btnsearch.Size = new System.Drawing.Size(40, 36);
             this.btnsearch.TabIndex = 8;
@@ -299,7 +299,7 @@ namespace FoodandBeverage.Forms
             this.btn_cancelprintcount.FlatAppearance.BorderSize = 0;
             this.btn_cancelprintcount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cancelprintcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_cancelprintcount.Location = new System.Drawing.Point(715, 3);
+            this.btn_cancelprintcount.Location = new System.Drawing.Point(714, 3);
             this.btn_cancelprintcount.Name = "btn_cancelprintcount";
             this.btn_cancelprintcount.Size = new System.Drawing.Size(58, 36);
             this.btn_cancelprintcount.TabIndex = 7;
@@ -315,7 +315,7 @@ namespace FoodandBeverage.Forms
             this.txtsearchData.Location = new System.Drawing.Point(159, 3);
             this.txtsearchData.Multiline = true;
             this.txtsearchData.Name = "txtsearchData";
-            this.txtsearchData.Size = new System.Drawing.Size(183, 36);
+            this.txtsearchData.Size = new System.Drawing.Size(182, 36);
             this.txtsearchData.TabIndex = 1;
             this.txtsearchData.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtsearchData.Enter += new System.EventHandler(this.txtorderid_search_Enter);
@@ -329,7 +329,7 @@ namespace FoodandBeverage.Forms
             this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_refresh.FlatAppearance.BorderSize = 0;
             this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh.Location = new System.Drawing.Point(394, 3);
+            this.btn_refresh.Location = new System.Drawing.Point(393, 3);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(42, 36);
             this.btn_refresh.TabIndex = 3;
@@ -343,7 +343,7 @@ namespace FoodandBeverage.Forms
             this.btnprintcount.FlatAppearance.BorderSize = 0;
             this.btnprintcount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnprintcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnprintcount.Location = new System.Drawing.Point(584, 3);
+            this.btnprintcount.Location = new System.Drawing.Point(583, 3);
             this.btnprintcount.Name = "btnprintcount";
             this.btnprintcount.Size = new System.Drawing.Size(53, 36);
             this.btnprintcount.TabIndex = 5;
@@ -358,7 +358,7 @@ namespace FoodandBeverage.Forms
             this.btntotalorders.FlatAppearance.BorderSize = 0;
             this.btntotalorders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btntotalorders.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btntotalorders.Location = new System.Drawing.Point(649, 3);
+            this.btntotalorders.Location = new System.Drawing.Point(648, 3);
             this.btntotalorders.Name = "btntotalorders";
             this.btntotalorders.Size = new System.Drawing.Size(58, 36);
             this.btntotalorders.TabIndex = 6;
@@ -371,7 +371,7 @@ namespace FoodandBeverage.Forms
             this.lblprintloading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblprintloading.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblprintloading.ForeColor = System.Drawing.Color.Red;
-            this.lblprintloading.Location = new System.Drawing.Point(442, 0);
+            this.lblprintloading.Location = new System.Drawing.Point(441, 0);
             this.lblprintloading.Name = "lblprintloading";
             this.lblprintloading.Size = new System.Drawing.Size(136, 42);
             this.lblprintloading.TabIndex = 7;
@@ -642,6 +642,125 @@ namespace FoodandBeverage.Forms
             this.dgv_viewmore.TabIndex = 2;
             this.dgv_viewmore.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_viewmore_CellDoubleClick);
             // 
+            // vslno
+            // 
+            this.vslno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.vslno.HeaderText = "Slno";
+            this.vslno.MinimumWidth = 6;
+            this.vslno.Name = "vslno";
+            this.vslno.ReadOnly = true;
+            this.vslno.Width = 64;
+            // 
+            // vproductname
+            // 
+            this.vproductname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.vproductname.HeaderText = "Product";
+            this.vproductname.MinimumWidth = 6;
+            this.vproductname.Name = "vproductname";
+            this.vproductname.ReadOnly = true;
+            // 
+            // vqty
+            // 
+            this.vqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.vqty.HeaderText = "Quantitiy";
+            this.vqty.MinimumWidth = 6;
+            this.vqty.Name = "vqty";
+            this.vqty.ReadOnly = true;
+            this.vqty.Width = 93;
+            // 
+            // add_Ordermaster
+            // 
+            this.add_Ordermaster.HeaderText = "add_Ordermaster";
+            this.add_Ordermaster.MinimumWidth = 6;
+            this.add_Ordermaster.Name = "add_Ordermaster";
+            this.add_Ordermaster.ReadOnly = true;
+            this.add_Ordermaster.Visible = false;
+            this.add_Ordermaster.Width = 125;
+            // 
+            // add_koid
+            // 
+            this.add_koid.HeaderText = "add_koid";
+            this.add_koid.MinimumWidth = 6;
+            this.add_koid.Name = "add_koid";
+            this.add_koid.ReadOnly = true;
+            this.add_koid.Visible = false;
+            this.add_koid.Width = 125;
+            // 
+            // addorderdetailsid
+            // 
+            this.addorderdetailsid.HeaderText = "addorderdetailsid";
+            this.addorderdetailsid.MinimumWidth = 6;
+            this.addorderdetailsid.Name = "addorderdetailsid";
+            this.addorderdetailsid.ReadOnly = true;
+            this.addorderdetailsid.Visible = false;
+            this.addorderdetailsid.Width = 125;
+            // 
+            // addaction
+            // 
+            this.addaction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle2.NullValue")));
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(3);
+            this.addaction.DefaultCellStyle = dataGridViewCellStyle2;
+            this.addaction.HeaderText = "Action";
+            this.addaction.Image = global::FoodandBeverage.Properties.Resources.Delete_Grid;
+            this.addaction.MinimumWidth = 6;
+            this.addaction.Name = "addaction";
+            this.addaction.ReadOnly = true;
+            this.addaction.Width = 57;
+            // 
+            // addavid
+            // 
+            this.addavid.HeaderText = "addavid";
+            this.addavid.MinimumWidth = 6;
+            this.addavid.Name = "addavid";
+            this.addavid.ReadOnly = true;
+            this.addavid.Visible = false;
+            this.addavid.Width = 125;
+            // 
+            // addpavid
+            // 
+            this.addpavid.HeaderText = "addpavid";
+            this.addpavid.MinimumWidth = 6;
+            this.addpavid.Name = "addpavid";
+            this.addpavid.ReadOnly = true;
+            this.addpavid.Visible = false;
+            this.addpavid.Width = 125;
+            // 
+            // addaddonstatus
+            // 
+            this.addaddonstatus.HeaderText = "addaddonstatus";
+            this.addaddonstatus.MinimumWidth = 6;
+            this.addaddonstatus.Name = "addaddonstatus";
+            this.addaddonstatus.ReadOnly = true;
+            this.addaddonstatus.Visible = false;
+            this.addaddonstatus.Width = 125;
+            // 
+            // addonprice
+            // 
+            this.addonprice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.addonprice.HeaderText = "addonprice";
+            this.addonprice.MinimumWidth = 6;
+            this.addonprice.Name = "addonprice";
+            this.addonprice.ReadOnly = true;
+            this.addonprice.Width = 112;
+            // 
+            // addorderno
+            // 
+            this.addorderno.HeaderText = "addorderno";
+            this.addorderno.MinimumWidth = 6;
+            this.addorderno.Name = "addorderno";
+            this.addorderno.ReadOnly = true;
+            this.addorderno.Visible = false;
+            this.addorderno.Width = 125;
+            // 
+            // addonaddccodeno
+            // 
+            this.addonaddccodeno.HeaderText = "addccodeno";
+            this.addonaddccodeno.Name = "addonaddccodeno";
+            this.addonaddccodeno.ReadOnly = true;
+            this.addonaddccodeno.Visible = false;
+            // 
             // tlp_header_viewmore
             // 
             this.tlp_header_viewmore.ColumnCount = 3;
@@ -769,125 +888,6 @@ namespace FoodandBeverage.Forms
             this.dataGridViewImageColumn1.MinimumWidth = 6;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             this.dataGridViewImageColumn1.ReadOnly = true;
-            // 
-            // vslno
-            // 
-            this.vslno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.vslno.HeaderText = "Slno";
-            this.vslno.MinimumWidth = 6;
-            this.vslno.Name = "vslno";
-            this.vslno.ReadOnly = true;
-            this.vslno.Width = 64;
-            // 
-            // vproductname
-            // 
-            this.vproductname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.vproductname.HeaderText = "Product";
-            this.vproductname.MinimumWidth = 6;
-            this.vproductname.Name = "vproductname";
-            this.vproductname.ReadOnly = true;
-            // 
-            // vqty
-            // 
-            this.vqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.vqty.HeaderText = "Quantitiy";
-            this.vqty.MinimumWidth = 6;
-            this.vqty.Name = "vqty";
-            this.vqty.ReadOnly = true;
-            this.vqty.Width = 93;
-            // 
-            // add_Ordermaster
-            // 
-            this.add_Ordermaster.HeaderText = "add_Ordermaster";
-            this.add_Ordermaster.MinimumWidth = 6;
-            this.add_Ordermaster.Name = "add_Ordermaster";
-            this.add_Ordermaster.ReadOnly = true;
-            this.add_Ordermaster.Visible = false;
-            this.add_Ordermaster.Width = 125;
-            // 
-            // add_koid
-            // 
-            this.add_koid.HeaderText = "add_koid";
-            this.add_koid.MinimumWidth = 6;
-            this.add_koid.Name = "add_koid";
-            this.add_koid.ReadOnly = true;
-            this.add_koid.Visible = false;
-            this.add_koid.Width = 125;
-            // 
-            // addorderdetailsid
-            // 
-            this.addorderdetailsid.HeaderText = "addorderdetailsid";
-            this.addorderdetailsid.MinimumWidth = 6;
-            this.addorderdetailsid.Name = "addorderdetailsid";
-            this.addorderdetailsid.ReadOnly = true;
-            this.addorderdetailsid.Visible = false;
-            this.addorderdetailsid.Width = 125;
-            // 
-            // addaction
-            // 
-            this.addaction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle2.NullValue")));
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(3);
-            this.addaction.DefaultCellStyle = dataGridViewCellStyle2;
-            this.addaction.HeaderText = "Action";
-            this.addaction.Image = global::FoodandBeverage.Properties.Resources.Delete_Grid;
-            this.addaction.MinimumWidth = 6;
-            this.addaction.Name = "addaction";
-            this.addaction.ReadOnly = true;
-            this.addaction.Width = 57;
-            // 
-            // addavid
-            // 
-            this.addavid.HeaderText = "addavid";
-            this.addavid.MinimumWidth = 6;
-            this.addavid.Name = "addavid";
-            this.addavid.ReadOnly = true;
-            this.addavid.Visible = false;
-            this.addavid.Width = 125;
-            // 
-            // addpavid
-            // 
-            this.addpavid.HeaderText = "addpavid";
-            this.addpavid.MinimumWidth = 6;
-            this.addpavid.Name = "addpavid";
-            this.addpavid.ReadOnly = true;
-            this.addpavid.Visible = false;
-            this.addpavid.Width = 125;
-            // 
-            // addaddonstatus
-            // 
-            this.addaddonstatus.HeaderText = "addaddonstatus";
-            this.addaddonstatus.MinimumWidth = 6;
-            this.addaddonstatus.Name = "addaddonstatus";
-            this.addaddonstatus.ReadOnly = true;
-            this.addaddonstatus.Visible = false;
-            this.addaddonstatus.Width = 125;
-            // 
-            // addonprice
-            // 
-            this.addonprice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.addonprice.HeaderText = "addonprice";
-            this.addonprice.MinimumWidth = 6;
-            this.addonprice.Name = "addonprice";
-            this.addonprice.ReadOnly = true;
-            this.addonprice.Width = 112;
-            // 
-            // addorderno
-            // 
-            this.addorderno.HeaderText = "addorderno";
-            this.addorderno.MinimumWidth = 6;
-            this.addorderno.Name = "addorderno";
-            this.addorderno.ReadOnly = true;
-            this.addorderno.Visible = false;
-            this.addorderno.Width = 125;
-            // 
-            // addonaddccodeno
-            // 
-            this.addonaddccodeno.HeaderText = "addccodeno";
-            this.addonaddccodeno.Name = "addonaddccodeno";
-            this.addonaddccodeno.ReadOnly = true;
-            this.addonaddccodeno.Visible = false;
             // 
             // FrmKitchenView
             // 

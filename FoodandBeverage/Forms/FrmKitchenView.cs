@@ -3249,7 +3249,7 @@ namespace FoodandBeverage.Forms
 
                                     dmnRemove_order.Quantity = (int)Math.Floor(originalValue);
                                     dmnRemove_order.Status = 0;
-                                    //dmnRemove_order.CancelNotifyStatus = 1;
+                                    dmnRemove_order.CancelNotifyStatus = 1;
                                     dmnRemove_order.OrderCancelNotes = txt_product_remove_des.Text;
                                     var InsertStatusP = bll_order.Remove_order_ALL("prd_remove_KitchenOrder", dmnRemove_order);
                                 }

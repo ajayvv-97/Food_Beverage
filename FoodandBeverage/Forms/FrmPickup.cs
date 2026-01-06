@@ -1170,9 +1170,9 @@ namespace FoodandBeverage.Forms
                 AutoTimer.Stop();
                 CheckedtableNames.Clear();
                 Control clickedControl = sender as Control;
-                if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
+                if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
                 {
-                    FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
+                    FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
                     if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
                     {
                         _instanceFrmOrder.WindowState = FormWindowState.Maximized;

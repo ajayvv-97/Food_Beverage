@@ -518,7 +518,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "*";
                 objSearch.Table = "tblOfferDetails fd left join tblOfferMaster fm on fm.Omid=fd.Omid";
-                objSearch.WhereNdGroupBy = "where fm.Status = 1 and ProductId = " + pid + " and offertype = 0  and  (SELECT CONVERT(datetime, '" + offerdatetime_start + "', 105))  > fm.OfferstartDatetime and (SELECT CONVERT(datetime, '" + offerdatetime_end + "', 105))  < fm.OfferEndDatetime ";
+                objSearch.WhereNdGroupBy = "where fm.Status = 1 and ProductId = " + pid + " and offertype = 0  and  '" + offerdatetime_start + "'  >= fm.OfferstartDatetime and '" + offerdatetime_end + "' <= fm.OfferEndDatetime ";
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (itemSource.Count > 0)
@@ -1100,10 +1100,10 @@ namespace FoodandBeverage.Forms
                     txtofferdsiper_s.Focus();
                     return false;
                 }
-                else if(!CheckOffer_product_Date())
-                {
-                    return false;  
-                }
+                //else if(!CheckOffer_product_Date())
+                //{
+                    //return false;  
+                //}
                 else
                 {
                     return true;
