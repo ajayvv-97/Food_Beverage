@@ -478,9 +478,9 @@ namespace FoodandBeverage.Forms
                     objSearch.Table = "tblOfferDetails fd left join tblOfferMaster fm on fm.Omid=fd.Omid";
                     objSearch.WhereNdGroupBy =
                         "where fm.Status = 1 " +
-                        " and offertype = 0 and '" + offerdatetime_start +
-                        "' > fm.OfferstartDatetime and '" + offerdatetime_end +
-                        "' < fm.OfferEndDatetime";
+                        " and offertype = 0 and ('" + offerdatetime_start +
+                        "' > fm.OfferstartDatetime OR '" + offerdatetime_end +
+                        "' < fm.OfferEndDatetime)";
 
                     objSearch.OrderBy = "";
 
@@ -488,7 +488,7 @@ namespace FoodandBeverage.Forms
 
                     if (itemSource.Count > 0)
                     {
-                        CMessageBox.Show("offer Already Running On This Duration",
+                        CMessageBox.Show("Offer Already Running On This Duration",
                             "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return false;
                     }
@@ -518,12 +518,12 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "*";
                 objSearch.Table = "tblOfferDetails fd left join tblOfferMaster fm on fm.Omid=fd.Omid";
-                objSearch.WhereNdGroupBy = "where fm.Status = 1 and ProductId = " + pid + " and offertype = 0  and  '" + offerdatetime_start + "'  >= fm.OfferstartDatetime and '" + offerdatetime_end + "' <= fm.OfferEndDatetime ";
+                objSearch.WhereNdGroupBy = "where fm.Status = 1 and ProductId = " + pid + " and offertype = 0  and  ('" + offerdatetime_start + "'  >= fm.OfferstartDatetime OR '" + offerdatetime_end + "' <= fm.OfferEndDatetime )";
                 objSearch.OrderBy = "";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (itemSource.Count > 0)
                 {
-                    CMessageBox.Show("offer Already Running On This Product ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Offer Already Running On This Product ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (tlp_product_list.Visible)
                     {
                         dgv_product_list.Focus();

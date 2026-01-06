@@ -9343,9 +9343,13 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 var InsertStatusP = bll_order.OrderCancelNotify_update("prd_CompleteCancelNotifyStatus_update", dmnRemove_order);
                 if(InsertStatusP!=null)
                 {
+                    MessageBox.Show("Customer Notified", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     if (tableId > 0)
                         OrderCancelStatus = 0;
                 }
+                this.Close();
+                ResetTableViewPage();
             }
             catch (Exception ex)
             {
@@ -10828,6 +10832,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             pnl_cancelorder.Visible = false;
 
                         MessageBox.Show("Cancel item notification confirmed!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        btnordercallist.Visible = false;
+                        btn_pa__toggle.PerformClick();
                     }
                         CheckReConfirmTableorder();
                 }

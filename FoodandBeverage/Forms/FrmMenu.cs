@@ -201,7 +201,7 @@ namespace FoodandBeverage.Forms
                         {
                             CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             clearall();
-                            Product_Fill();
+                            Product_Fill(0);
                         }
                     }
                 }
@@ -683,7 +683,7 @@ namespace FoodandBeverage.Forms
                 //}
                 //rb_item.Checked = false;
                 if (rb_product.Checked)
-                    Product_Fill();
+                    Product_Fill(0);
                 else if (rb_item.Checked)
                     Item_Fill();
             }
@@ -729,7 +729,7 @@ namespace FoodandBeverage.Forms
                 if (rb_item.Checked)
                     Item_Fill();
                 else if (rb_product.Checked)
-                    Product_Fill();
+                    Product_Fill(0);
 
                 Fillcombo();
                 textb_shape();
@@ -1135,7 +1135,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (chk_seleall_pro.Checked)
                         chk_seleall_pro.Checked = false;
-                    Product_Fill();
+                    Product_Fill(0);
                 }
             }
             catch (Exception ex)
@@ -1583,7 +1583,7 @@ namespace FoodandBeverage.Forms
             if (rb_product.Checked)
             {
                 cmbMenu_category.SelectedIndex = -1;
-                Product_Fill();
+                Product_Fill(0);
                 txtsearchlist.Text = "";
                 chk_seleall_pro.Visible = true;
             }
@@ -1719,18 +1719,41 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Menu page ComboProduct_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
-        public void Product_Fill()
+        public void Product_Fill(int flag)
         {
             try
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9";
-                objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
-                    "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
-                objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
+                if(flag == 0)
+                {
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9";
+                    objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
+                        "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
+                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
+                }
+                else if(flag == 1)
+                {
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,md.OpeningQty AS Field8,p.PreparationMode Field9";
+                    objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
+                        "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId left join tblMenuDailyStock md ON md.ProductId=m.ProductId";
+                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1 and md.StockDate = GETDATE() - 1";
+                }
+                
+                    
+                
+                
                 objSearch.OrderBy = "order by Product";
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count == 0)
+                {
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,0 AS Field8,p.PreparationMode Field9";
+                    objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
+                        "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId left join tblMenuDailyStock md ON md.ProductId=m.ProductId";
+                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
+                    objSearch.OrderBy = "order by Product";
+                    itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                }
                 dgv_menu.Rows.Clear();
                 if (itemSource.Count > 0)
                 {
@@ -2236,6 +2259,10 @@ namespace FoodandBeverage.Forms
             }
 
         }
-   
+
+        private void btnresetstock_Click(object sender, EventArgs e)
+        {
+            Product_Fill(1);
+        }
     }
 }
