@@ -112,7 +112,7 @@ namespace FoodandBeverage.Forms
                                 dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
                                 dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
-                                dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
+                                dmnmenu.Quantity = Convert.ToDecimal(dgv_menu.Rows[i].Cells[pqtyno].Value);
 
                                 if (Convert.ToInt32(dgv_menu.Rows[i].Cells[poldqtyno].Value) == 0)
                                     dmnmenu.ResetStatus = 1;
@@ -147,7 +147,7 @@ namespace FoodandBeverage.Forms
                                 dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
                                 dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
-                                dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
+                                dmnmenu.Quantity = Convert.ToDecimal(dgv_menu.Rows[i].Cells[pqtyno].Value);
                                 dmnmenu.CreatedBy = FrmDashboard.UserId;
                                 dmnmenu.BranchId = FrmDashboard.BranchId;
                                 if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
@@ -179,7 +179,7 @@ namespace FoodandBeverage.Forms
                                 dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
                                 dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
-                                dmnmenu.Quantity = Convert.ToInt32(dgv_menu.Rows[i].Cells[pqtyno].Value);
+                                dmnmenu.Quantity = Convert.ToDecimal(dgv_menu.Rows[i].Cells[pqtyno].Value);
 
                                 if (Convert.ToInt32(dgv_menu.Rows[i].Cells[poldqtyno].Value) == 0)
                                     dmnmenu.ResetStatus = 1;

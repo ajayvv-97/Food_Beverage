@@ -3170,22 +3170,22 @@ namespace FoodandBeverage.Forms
 
                         if (string.IsNullOrWhiteSpace(cellValue?.ToString()))
                         {
-                            txtsize.ForeColor = redcolor;
-                            txtsize.Text = "Enter Variation Type..";
-                            TextBox textBoxToBlink = txtsize;
-                            CMessageBox.Show("Please Enter Variation Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            //txtsize.ForeColor = redcolor;
+                            //txtsize.Text = "Enter Variation Type..";
+                            //TextBox textBoxToBlink = txtsize;
+                            //CMessageBox.Show("Please Enter Variation Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                            // StartBlinking(textBoxToBlink);
-                            return false;
+                            //return false;
                         }
 
                         if (Convert.ToString(dgv_variation.Rows[i].Cells[apriceno].Value) == "" || Convert.ToDecimal(dgv_variation.Rows[i].Cells[apriceno].Value) <= 0)
                         {
-                            txtprice.ForeColor = redcolor;
-                            TextBox textBoxToBlink = txtprice;
-                            txtprice.Text = "Enter Price..";
-                            CMessageBox.Show("Please Enter Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                           // StartBlinking(textBoxToBlink);
-                            return false;
+                           // txtprice.ForeColor = redcolor;
+                           // TextBox textBoxToBlink = txtprice;
+                           // txtprice.Text = "Enter Price..";
+                           // CMessageBox.Show("Please Enter Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                           //// StartBlinking(textBoxToBlink);
+                           // return false;
                         }
                     }
                 }

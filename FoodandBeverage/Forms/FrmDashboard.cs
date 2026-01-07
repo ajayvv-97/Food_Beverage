@@ -2978,11 +2978,11 @@ namespace FoodandBeverage.Forms
                             ib_orderview.Visible = true;
                             Menuoperation.Visible = true;
                         }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Addon) && gridesource[i].Write == 1)
-                        {
-                            ib_addon.Visible = true;
-                            Menuoperation.Visible = true;
-                        }
+                        //else if (gridesource[i].Form == Convert.ToInt32(formsenum.Addon) && gridesource[i].Write == 1)
+                        //{
+                        //    ib_addon.Visible = true;
+                        //    Menuoperation.Visible = true;
+                        //}
                         else if (gridesource[i].Form == Convert.ToInt32(formsenum.Refund) && gridesource[i].Write == 1)
                         {
                             ib_refund.Visible = true;

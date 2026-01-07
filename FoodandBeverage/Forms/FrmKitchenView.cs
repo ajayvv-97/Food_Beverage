@@ -3394,12 +3394,12 @@ namespace FoodandBeverage.Forms
 
                                 dmnSearch.Select = "DiscountPer Field1,TaxType Field2,TaxPer Field3,Tax Field4,srate Field5";
                                 dmnSearch.Table = "tblOrderDetails";
-                                dmnSearch.WhereNdGroupBy = "where OrderMasterId = " + Convert.ToInt32(dgv_viewmore.Rows[addonrowindex].Cells[addordermasteridno].Value) + " and OrderNo = " + Convert.ToInt32(dgv_viewmore.Rows[dgv_view_rowno].Cells[addonorderno].Value) + " and AddonStatus = 1 and AV_id = '" + avidValue + "'";
+                                dmnSearch.WhereNdGroupBy = "where OrderMasterId = " + Convert.ToInt32(dgv_viewmore.Rows[addonrowindex].Cells[addordermasteridno].Value) + " and OrderNo = " + Convert.ToInt32(dgv_viewmore.Rows[addonrowindex].Cells[addonorderno].Value) + " and AddonStatus = 1 and AV_id = '" + avidValue + "'";
                                 dmnSearch.OrderBy = "";
                                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                                 if (gridSource.Count > 0)
                                 {
-                                    newprice = Convert.ToDecimal(gridSource[0].Field5) - Convert.ToDecimal(dgv_viewmore.Rows[addonrowindex].Cells[addonpriceno].Value);
+                                    newprice = Convert.ToDecimal(gridSource[0].Field5) - (Convert.ToDecimal(dgv_viewmore.Rows[addonrowindex].Cells[addqtyno].Value) * Convert.ToDecimal(dgv_viewmore.Rows[addonrowindex].Cells[addonpriceno].Value));
                                     disAmnt = (Convert.ToDecimal(gridSource[0].Field1) * newprice) / 100;
 
                                     discountprice = newprice - disAmnt;
