@@ -1702,7 +1702,7 @@ namespace FoodandBeverage.Forms
             this.pnlwifi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(152)))), ((int)(((byte)(227)))));
             this.pnlwifi.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlwifi.Controls.Add(this.tableLayoutPanel8);
-            this.pnlwifi.Location = new System.Drawing.Point(263, 101);
+            this.pnlwifi.Location = new System.Drawing.Point(263, 213);
             this.pnlwifi.Name = "pnlwifi";
             this.pnlwifi.Padding = new System.Windows.Forms.Padding(10);
             this.pnlwifi.Size = new System.Drawing.Size(349, 274);

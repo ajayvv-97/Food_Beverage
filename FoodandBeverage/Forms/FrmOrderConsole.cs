@@ -424,8 +424,10 @@ namespace FoodandBeverage.Forms
                 Combined_Tables();
                 Combined_Table_Bill();
             }
-            else if (BookingType == Convert.ToInt32(DashboardTableType.PickupOrder))
+            else if (BookingType == Convert.ToInt32(DashboardTableType.PickupOrder))  
             {
+                Pickup_Status = true;
+                combined_Pickup_Status = true;
                 if (OrderCancelStatus == 1)
                 {
                     btncancelnotify.Visible = false;
@@ -10842,6 +10844,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             {
                 clsgen.LogException("Order page dgv_ordercancel_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
+        }
+
+        private void txtpkchrge_amt_TextChanged(object sender, EventArgs e)
+        {
+            netAmount();
         }
 
         private void btnPartPaynow_Click(object sender, EventArgs e)

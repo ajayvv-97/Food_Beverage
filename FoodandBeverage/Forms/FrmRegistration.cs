@@ -695,7 +695,7 @@ namespace FoodandBeverage.Forms
             {
                 DmnSearch dmnSearch = new DmnSearch();
                 BllSearch<DmnHRegistration> _bllSearch = new BllSearch<DmnHRegistration>();
-                dmnSearch.Select = "*";
+                dmnSearch.Select = "SalesSerialNo as billno,*";
                 dmnSearch.Table = "tblHotelRegistration";
                 dmnSearch.WhereNdGroupBy = " Where id =" + FrmLogin.BranchId;
                 dmnSearch.OrderBy = "";
@@ -714,7 +714,8 @@ namespace FoodandBeverage.Forms
                     tbl_BookingIn.Text = Convert.ToString(gridSource1[0].BookingInerwell);
                     cmbcountry.SelectedValue = Convert.ToInt64(gridSource1[0].Country);
                     cmdstate.SelectedValue = Convert.ToInt64(gridSource1[0].State);
-                    cmdcity.Text = Convert.ToString(gridSource1[0].City);
+                    cmdcity.Text = Convert.ToString(gridSource1[0].City);                     
+                    txtbillno.Text = Convert.ToString(gridSource1[0].billno);
                     bool imageExist = clsDocument.FileExistOrNot(gridSource1[0].Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
                     if (imageExist)
                     {

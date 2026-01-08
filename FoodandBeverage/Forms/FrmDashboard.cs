@@ -872,10 +872,10 @@ namespace FoodandBeverage.Forms
                 if (ButtonID == Convert.ToInt32(Menubutton.Menutable))
                 {
                     tlp_tablestatus.SuspendLayout();
-                    btn_rev.Visible = true;
-                    btn_running.Visible = true;
-                    btn_avial.Visible = true;
-                    btntrefresh.Visible = true;
+                    //btn_rev.Visible = true;
+                    //btn_running.Visible = true;
+                    //btn_avial.Visible = true;
+                    //btntrefresh.Visible = true;
                     tlp_tablestatus.ResumeLayout();
 
                     FrmTableView _instanceFrmTableView = new FrmTableView(0);
@@ -3199,10 +3199,10 @@ namespace FoodandBeverage.Forms
                         else
                         {
                             tlp_tablestatus.SuspendLayout();
-                            btn_rev.Visible = true;
-                            btn_running.Visible = true;
-                            btn_avial.Visible = true;
-                            btntrefresh.Visible = true;
+                            //btn_rev.Visible = true;
+                            //btn_running.Visible = true;
+                            //btn_avial.Visible = true;
+                            //btntrefresh.Visible = true;
                             tlp_tablestatus.ResumeLayout();
 
                             _instanceFrmTableView.Visible = true;
@@ -3217,10 +3217,10 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         tlp_tablestatus.SuspendLayout();
-                        btn_rev.Visible = true;
-                        btn_running.Visible = true;
-                        btn_avial.Visible = true;
-                        btntrefresh.Visible = true;
+                        //btn_rev.Visible = true;
+                        //btn_running.Visible = true;
+                        //btn_avial.Visible = true;
+                        //btntrefresh.Visible = true;
                         tlp_tablestatus.ResumeLayout();
 
                         FrmTableView _instanceFrmTableView = new FrmTableView(0);

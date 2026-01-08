@@ -282,7 +282,7 @@
             this.mbtnSave.UseVisualStyleBackColor = true;
             this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
             this.mbtnSave.MouseLeave += new System.EventHandler(this.mbtnSave_MouseLeave);
-            this.mbtnSave.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
+            //this.mbtnSave.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
             // 
             // mbtnRefresh
             // 
@@ -297,8 +297,8 @@
             this.mbtnRefresh.TabIndex = 17;
             this.mbtnRefresh.UseVisualStyleBackColor = true;
             this.mbtnRefresh.Click += new System.EventHandler(this.MbtnRefresh_Click);
-            this.mbtnRefresh.MouseLeave += new System.EventHandler(this.mbtnRefresh_MouseLeave);
-            this.mbtnRefresh.MouseHover += new System.EventHandler(this.mbtnRefresh_MouseHover);
+            //this.mbtnRefresh.MouseLeave += new System.EventHandler(this.mbtnRefresh_MouseLeave);
+            //this.mbtnRefresh.MouseHover += new System.EventHandler(this.mbtnRefresh_MouseHover);
             // 
             // mbtnClose
             // 
@@ -313,8 +313,8 @@
             this.mbtnClose.TabIndex = 18;
             this.mbtnClose.UseVisualStyleBackColor = true;
             this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click);
-            this.mbtnClose.MouseLeave += new System.EventHandler(this.mbtnClose_MouseLeave);
-            this.mbtnClose.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
+            //this.mbtnClose.MouseLeave += new System.EventHandler(this.mbtnClose_MouseLeave);
+            //this.mbtnClose.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
             // 
             // tableLayoutPanel4
             // 
@@ -365,7 +365,7 @@
             this.btnmini.TabIndex = 10;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
-            this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
+            //this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
             // 
             // label23
             // 
@@ -391,7 +391,7 @@
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 4;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
