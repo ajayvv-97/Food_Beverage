@@ -2300,7 +2300,12 @@ namespace FoodandBeverage.Forms
                     //dmnSearchDetails.OrderBy = "order by AddonStatus";
 
                     dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName," +
-                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + orders.Field1 + " and OrderNo=" + orders.Field2 + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,'' as Station,e.EmployeeName";
+                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + orders.Field1 + " and OrderNo=" + orders.Field2 + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,'' as Station,e.EmployeeName,(" +
+                        " 'PAX : ' + CAST(om.TotalGuestCount AS VARCHAR) + " +
+                        " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
+                        " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
+                        " ' O:' + CAST(om.OtherGuestCount AS VARCHAR) + ')'" +
+                        ") AS GuestDetails";
                     dmnSearchDetails.Table = "tblkitchenOrder ko " +
                         "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                         "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -2339,6 +2344,7 @@ namespace FoodandBeverage.Forms
                         Pkid = item.Pkid,
                         EmployeeName = item.EmployeeName,
                         Station = item.Station,
+                        GuestDetails = item.GuestDetails
                     }).ToList();
 
                     //if (item.VariatiionNam != null && item.VariatiionNam != "")
@@ -2377,13 +2383,15 @@ namespace FoodandBeverage.Forms
                                   processedItem.TotalQTY,
                                   processedItem.Pkid,
                                   processedItem.EmployeeName,
-                                  processedItem.Station
+                                  processedItem.Station,
+                                  processedItem.GuestDetails,
+                                  
                               })
                         .ToList();
 
                     if (mergedData != null && mergedData.Count > 0)
                     {
-                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station"))
+                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station", "GuestDetails"))
                         {
                             dtSalesDetail.Load(reader);
                         }

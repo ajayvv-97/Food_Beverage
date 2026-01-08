@@ -26,7 +26,12 @@ namespace Domain
         public int Pkid { get; set; }
         public string EmployeeName { get; set; }
         public string Station { get; set; }
+        public string GuestDetails { get; set; }
+        public int AdultCount { get; set; }
+        public int ChildCount { get; set; }
+        public int OtherGuestCount { get; set; }
+        public int TotalGuestCount { get; set; }
 
     }
- 
+
 }
