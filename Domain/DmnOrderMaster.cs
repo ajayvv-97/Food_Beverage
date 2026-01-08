@@ -54,5 +54,11 @@ namespace Domain
         public string EmailAddress { get; set; }
         public string FullAddress { get; set; }
         public int Gender { get; set; }
+
+        // Guest counts (matching your DB columns)
+        public int AdultCount { get; set; } = 1;
+        public int ChildCount { get; set; } = 0;
+        public int OtherGuestCount { get; set; } = 0;
+        public int TotalGuestCount { get; set; } = 1;
     }
 }

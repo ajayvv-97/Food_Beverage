@@ -40,6 +40,12 @@ namespace BLL
             parms.Add("Gender", objTestClass.Gender);
             parms.Add("cusid", objTestClass.cusid);
 
+            // ✅ Guest Counts
+            parms.Add("AdultCount", objTestClass.AdultCount);
+            parms.Add("ChildCount", objTestClass.ChildCount);
+            parms.Add("OtherGuestCount", objTestClass.OtherGuestCount);
+            parms.Add("TotalGuestCount", objTestClass.TotalGuestCount);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
