@@ -184,5 +184,21 @@ namespace BLL
             return lstData;
 
         }
+        public DmnSaledetails AddEditstock(string procedureName, DmnSaledetails objTestClass)
+        {
+            DAL.DapperRepository<DmnSaledetails> dapperRepository = new DAL.DapperRepository<DmnSaledetails>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("SalesDetailsId", objTestClass.SalesDetailsId);
+            parms.Add("QTY", objTestClass.Quantity);
+            parms.Add("itemid", objTestClass.itemid);        
+            parms.Add("TableType", objTestClass.TableType);
+            parms.Add("Pavid", objTestClass.Pavid);
+            parms.Add("Prid", objTestClass.Prid);
+
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+
+
+        }
     }
 }

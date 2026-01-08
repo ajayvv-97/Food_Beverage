@@ -7576,6 +7576,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         dmnsaledetails.Cmid = "0";
 
                                     var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
+                                   
                                     if (InsertStatus == null)
                                     {
                                         MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -7585,6 +7586,9 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         countflag = countflag + 1;
 
                                     int saledetailsid = InsertStatus.SalesDetailsId;
+                                    var InsertS = bllSales.AddEditstock("prdInsert_Upd_Menu_Daily", dmnsaledetails);
+
+
                                     //int odid = Convert.ToInt32(gridSourcemaster[i].OrderDetailsId);
                                     //var existingOrder = orderDetailsInfoList.FirstOrDefault(row => row.OrderDetailsId == odid);
                                     //if (existingOrder != null)
@@ -10849,6 +10853,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         private void txtpkchrge_amt_TextChanged(object sender, EventArgs e)
         {
             netAmount();
+        }
+
+        private void Dgv_Selected_Item_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
