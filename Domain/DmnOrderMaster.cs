@@ -60,5 +60,9 @@ namespace Domain
         public int ChildCount { get; set; } = 0;
         public int OtherGuestCount { get; set; } = 0;
         public int TotalGuestCount { get; set; } = 1;
+
+
+        public int OrderPlatformmaster { get; set; } = 1;
+        public string OrderPlatformmasterName { get; set; } = "1";
     }
 }

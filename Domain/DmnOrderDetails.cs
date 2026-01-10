@@ -63,6 +63,9 @@ namespace Domain
         public int CancelNotifyStatus { get; set; }
         public int KitchenCancelStatus { get; set; }
 
+        public int OrderPlatformdetails { get; set; }
+        public string OrderPlatformdetailsName { get; set; }
+
     }
     
 }

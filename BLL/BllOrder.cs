@@ -46,6 +46,9 @@ namespace BLL
             parms.Add("OtherGuestCount", objTestClass.OtherGuestCount);
             parms.Add("TotalGuestCount", objTestClass.TotalGuestCount);
 
+            parms.Add("OrderPlatformmasterName", objTestClass.OrderPlatformmasterName);
+            parms.Add("OrderPlatformmaster", objTestClass.OrderPlatformmaster);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
@@ -127,7 +130,10 @@ namespace BLL
             parms.Add("VariatiionName", objTestClass.VariatiionName);
 
             parms.Add("PkId", objTestClass.PkId);
-            
+
+            parms.Add("OrderPlatformdetails", objTestClass.OrderPlatformdetails);
+            parms.Add("OrderPlatformdetailsName", objTestClass.OrderPlatformdetailsName);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
@@ -289,10 +295,17 @@ namespace BLL
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("Status", objTestClass.Status);
             parms.Add("koid", objTestClass.koid);
-            parms.Add("Tid", objTestClass.Tid); 
+            parms.Add("Tid", objTestClass.Tid);
             parms.Add("RemoveNotes", objTestClass.RemoveNotes);
             parms.Add("AddonStatus", objTestClass.AddonStatus);
             parms.Add("Avid", objTestClass.AV_id);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+        public DmnOrderMaster ReleaseQty(string procedureName, DmnOrderMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
