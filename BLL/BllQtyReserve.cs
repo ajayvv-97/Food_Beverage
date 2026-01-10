@@ -16,6 +16,8 @@ namespace BLL
             parms.Add("Qty", menu.OrderQty);
             parms.Add("ProductType", menu.ProductType);
             parms.Add("ReservedQty", menu.OrderReservedQty);
+            parms.Add("CustomQtyFlag", menu.CustomQtyFlag);
+            parms.Add("PreviousOrderQty", menu.PreviousOrderQty);
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
@@ -31,7 +33,8 @@ namespace BLL
             parms.Add("Id", menu.ProductId);
             parms.Add("Qty", menu.OrderQty);
             parms.Add("ProductType", menu.ProductType);
-            parms.Add("ReservedQty", menu.OrderQty);
+            parms.Add("CustomQtyFlag", menu.CustomQtyFlag);
+            parms.Add("PreviousOrderQty", menu.PreviousOrderQty);
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
@@ -48,6 +51,8 @@ namespace BLL
             parms.Add("Qty", null);
             parms.Add("ProductType", objTestClass.ProductType);
             parms.Add("ReservedQty", 0);
+            parms.Add("CustomQtyFlag", 0);
+            parms.Add("PreviousOrderQty", 0);
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;

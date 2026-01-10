@@ -4290,7 +4290,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 clsgen.LogException("Order page  DashboardButtonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
-        public void ReserveQtyRouter(int ProductId, int ProductType, int Actiontype, int TableType, int OrdQty, int CQtyFlag=0)
+        public void ReserveQtyRouter(int ProductId, int ProductType, int Actiontype, int TableType, int OrdQty, int CQtyFlag=0,int porderqty=0)
         {
             DmnMenu dmnMenu = new DmnMenu
             {
@@ -4300,7 +4300,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 OrderReservedQty = OrdQty,
                 Actiontype = Actiontype,
                 TableType = TableType,
-                CustomQtyFlag= CQtyFlag
+                CustomQtyFlag = CQtyFlag,
+                PreviousOrderQty = porderqty 
             };
 
             BllQtyReserve bllReserve = new BllQtyReserve();
@@ -5037,8 +5038,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             {
                                 if (Convert.ToInt32(gridSourceDetails[0].Field15) == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                                 {
-                                    ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Direct),1);
-
+                                    
                                     decimal cqoh = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                                     if (cqoh > Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalqty].Value))
                                     {
@@ -5048,6 +5048,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     else
                                     {
                                         flagexist = false;
+                                        ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Direct), 1);
                                         Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                                         totalcellamount(i);
                                         decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) + Convert.ToDecimal(txtGrandTotal.Text);
@@ -9708,8 +9709,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     return;
                                 }
 
+                                int beforeQty = 0;
+                                object oldVal = Dgv_Selected_Item.Rows[i].Cells[iqty].Value;
+                                if (oldVal != null && oldVal != DBNull.Value)
+                                { 
+                                    beforeQty = Convert.ToInt32(Convert.ToDecimal(oldVal));
+                                }
                                 Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
-                                ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Direct),Convert.ToInt32(kdata),1);
+                                ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Direct),Convert.ToInt32(kdata), Convert.ToInt32(CustomQty.Enabled), beforeQty);
                                 totalcellamount(i);
                                 rowno = i;
                                 break;
@@ -9757,9 +9764,16 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 }
 
                                 decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
+                                int beforeQty = 0;
+                                object oldVal = Dgv_Selected_Item.Rows[i].Cells[iqty].Value;
+
+                                if (oldVal != null && oldVal != DBNull.Value)
+                                {
+                                    beforeQty = Convert.ToInt32(Convert.ToDecimal(oldVal));
+                                }//, Convert.ToInt32(CustomQty.Enabled), beforeQty
                                 Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
 
-                                ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Combo), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu),Convert.ToInt32(kdata),1);
+                                ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Combo), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu),Convert.ToInt32(kdata),Convert.ToInt32(CustomQty.Enabled), beforeQty);
                                 totalcellamount(i);
                                 decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                 decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
@@ -9804,8 +9818,16 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 }
 
                                 decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
+
+                                int beforeQty = 0;
+                                object oldVal = Dgv_Selected_Item.Rows[i].Cells[iqty].Value;
+
+                                if (oldVal != null && oldVal != DBNull.Value)
+                                {
+                                    beforeQty = Convert.ToInt32(Convert.ToDecimal(oldVal));
+                                }
                                 Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
-                                ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(kdata),1);
+                                ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(kdata),Convert.ToInt32(CustomQty.Enabled), beforeQty);
                                 totalcellamount(i);
                                 decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                 decimal grand = Convert.ToDecimal(txtGrandTotal.Text);

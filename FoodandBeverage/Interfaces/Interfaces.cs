@@ -506,14 +506,19 @@ namespace FoodandBeverage.Interfaces
         ByKitchenNumber = 3     // search by KitchenNumber
     }
 
-    public enum ReserveQtyTabletype 
+    public enum ReserveQtyTabletype
     {
-        Menu = 1,          
+        Menu = 1,
         Direct = 2,
+    }
+    public enum CustomQty
+    {
+        Enabled = 1,
+        Disabled = 0,
     }
     public enum ReserveQtyProducttype
     {
-        Menu = 1,
+        Menu = 0,
         Combo = 3,
     }
     public enum ReserveQtyActiontype

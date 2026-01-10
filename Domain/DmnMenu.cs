@@ -26,5 +26,15 @@ namespace Domain
         public int PreparationMode { get; set; }
         public int ResetStatus { get; set; }
 
+        public int OrderQty { get; set; }
+        public int OrderReservedQty { get; set; }
+        public int OrderStatus { get; set; }
+        public DateTime OrderCreatedOn { get; set; }
+        public DateTime? OrderUpdatedOn { get; set; }
+        public int Actiontype { get; set; }
+        public int TableType { get; set; }
+        public int CustomQtyFlag { get; set; }
+        public int PreviousOrderQty { get; set; }
+
     }
 }
