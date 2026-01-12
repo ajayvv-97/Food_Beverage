@@ -3073,7 +3073,7 @@ namespace FoodandBeverage.Forms
                     "tblProduct p " +
                     "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                     " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1  AND ofm.OfferType = 0 AND ofd.Producttype=1 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q" +
-                    " where p.Status=1 and p.Fcid= " + clickedControl.Tag + " and m.Status=1 AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 )" +
+                    " where p.Status=1 and p.Fcid= " + clickedControl.Tag + " and m.Status=1 AND m.Quantity > 0 " +
                     " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7 from " +
                     " tblItem i " +
                     " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
@@ -3308,7 +3308,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         dmnSearch.Table = "tblProduct p " +
                             "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                             " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=1 AND ofm.OfferType = 0 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
-                        dmnSearch.WhereNdGroupBy = " where p.Status=1 and m.Status=1  AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 ) and fav_status=1";
+                        dmnSearch.WhereNdGroupBy = " where p.Status=1 and m.Status=1  AND m.Quantity > 0 and fav_status=1";
                     }
                     else
                     {
@@ -3577,7 +3577,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     {
                         dmnSearch.Select = "p.Product as Field1, p.ProductId as Field2, 0 as Field3, od.Discountper Field4,od.Producttype Field5,p.Price Field6,0 Field7,1 Field8";
                         dmnSearch.Table = " tblOfferDetails OD LEFT JOIN tblOfferMaster OM ON OD.Omid = OM.Omid LEFT JOIN tblProduct p ON OD.ProductId = p.ProductId LEFT JOIN tblMenu m ON m.ProductId = p.ProductId";
-                        dmnSearch.WhereNdGroupBy = " where OM.Status = 1 and od.Status=1 and OfferType=0 and m.Status=1 and od.Producttype=1 AND GETDATE() >= OM.OfferstartDatetime AND GETDATE() <= OM.OfferEndDatetime AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 ) ";
+                        dmnSearch.WhereNdGroupBy = " where OM.Status = 1 and od.Status=1 and OfferType=0 and m.Status=1 and od.Producttype=1 AND GETDATE() >= OM.OfferstartDatetime AND GETDATE() <= OM.OfferEndDatetime AND m.Quantity > 0 ";
                     }
                     else
                     {
@@ -4116,7 +4116,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     var data = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag), 3);
                     int qty = data.Quantity;
                     int prep = data.PreparationMode;
-                    if (qty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                    //if (qty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                    if (qty <= 0)
                     {
                         MessageBox.Show("Stock Out! This item is not available.", "Out of Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
@@ -4129,7 +4130,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     var data = ProductQtyCheckMenuQty(Convert.ToInt32(clickedControl.Tag), 0);
                     int qty = data.Quantity;
                     prep = data.PreparationMode;
-                    if (qty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                    //if (qty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                    if (qty <= 0)
                     {
                         MessageBox.Show("Stock Out! This item is not available.",
                                         "Out of Stock",
@@ -4176,7 +4178,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     decimal typeqty = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                                     int availableQty = dataresult.Quantity;
                                     prep = dataresult.PreparationMode;
-                                    if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
+                                    //if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
+                                    if(typeqty > availableQty)
                                     {
                                         MessageBox.Show($"Only {availableQty} Qty Available.",
                                                         "Stock Warning",
@@ -4789,7 +4792,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             decimal typeqty = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             int availableQty = dataresult.Quantity;
                             prep = dataresult.PreparationMode;
-                            if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
+                            //if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
+                            if (typeqty > availableQty)
                             {
                                 MessageBox.Show($"Only {availableQty} Qty Available.",
                                                 "Stock Warning",
@@ -5588,7 +5592,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         "tblProduct p " +
                         "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
-                        " where p.Status=1 and m.Status=1 AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 ) and p.Product like '%" + txtname_search.Text.Trim() + "%'" +
+                        " where p.Status=1 and m.Status=1 AND m.Quantity > 0 and p.Product like '%" + txtname_search.Text.Trim() + "%'" +
                         " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
@@ -6013,7 +6017,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             decimal typeqty = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
                             int availableQty = dataresult.Quantity;
                             prep = dataresult.PreparationMode;
-                            if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
+                            //if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
+                            if (typeqty > availableQty)
                             {
 
                                 MessageBox.Show($"Only {availableQty} Qty Available.",
@@ -6341,7 +6346,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         "tblProduct p " +
                         "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
-                        " where p.Status=1 AND (m.PreparationMode = 1 AND m.Quantity > 0 OR m.PreparationMode = 2 ) and m.Status=1 and p.ItemCode = '" + txtitemcode_serach.Text.Trim() + "'" +
+                        " where p.Status=1 AND m.Quantity > 0 and m.Status=1 and p.ItemCode = '" + txtitemcode_serach.Text.Trim() + "'" +
                         " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
@@ -9797,7 +9802,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
                                 int availableQty = dataresult.Quantity;
                                 prep = dataresult.PreparationMode;
-                                if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                //if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                if (availableQty <= 0)
                                 {
 
                                     MessageBox.Show("Stock Out! This item is not available.",
@@ -9808,7 +9814,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                                 }
 
-                                if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                //if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                if (kdata > availableQty)
                                 {
                                     MessageBox.Show($"Only {availableQty} Qty Available.",
                                                     "Stock Warning",
@@ -9859,7 +9866,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
                                 int availableQty = dataresult.Quantity;
                                 prep = dataresult.PreparationMode;
-                                if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                //if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                if (availableQty <= 0)
                                 {
                                     MessageBox.Show("Stock Out! This item is not available.",
                                                     "Out of Stock",
@@ -9869,7 +9877,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 }
 
                                 // 2. Entered qty exceeds available stock
-                                if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                //if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                                if (kdata > availableQty)
                                 {
                                     MessageBox.Show($"Only {availableQty} Qty Available.",
                                                     "Stock Warning",
@@ -10967,6 +10976,24 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         private void Dgv_Selected_Item_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void txtpkchrge_amt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            if (!char.IsControl(e.KeyChar) &&
+                !char.IsDigit(e.KeyChar) &&
+                e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Allow only one decimal point
+            if (e.KeyChar == '.' && txt.Text.Contains("."))
+            {
+                e.Handled = true;
+            }
         }
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
