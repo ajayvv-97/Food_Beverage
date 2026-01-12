@@ -47,6 +47,7 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
             Searchmode = type;
         }
+
         #region Deafult Event and Fuction
         private void FrmPickup_Load(object sender, System.EventArgs e)
         {

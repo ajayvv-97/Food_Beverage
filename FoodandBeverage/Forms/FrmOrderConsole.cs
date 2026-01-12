@@ -10400,7 +10400,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 BllOrder bll_order = new BllOrder();
                 dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                 dmnRemove_order.OrderDetailsId = 0;
-                dmnRemove_order.CancelNotifyStatus = 0;
+                dmnRemove_order.CancelNotifyStatus = 1;
                 dmnRemove_order.PkId = 1;
                 dmnRemove_order.CreatedBy = FrmDashboard.UserId;
                 dmnRemove_order.BranchId = FrmDashboard.BranchId;
@@ -10408,7 +10408,13 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 CheckReconfirmPickup();
                 pnl_Refund_paymode.Visible = false;
+
+                clsgen.Memoryrelease();
+                 ResetPickupViewPage();
+                ClearAll();
                 this.Close();
+                this.Dispose();
+
             }
             catch (Exception ex)
             {

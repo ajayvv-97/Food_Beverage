@@ -299,6 +299,9 @@ namespace BLL
             parms.Add("RemoveNotes", objTestClass.RemoveNotes);
             parms.Add("AddonStatus", objTestClass.AddonStatus);
             parms.Add("Avid", objTestClass.AV_id);
+            parms.Add("KitchenCancelStatus", objTestClass.KitchenCancelStatus); 
+            parms.Add("CancelNotifyStatus", objTestClass.CancelNotifyStatus);    
+            
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
