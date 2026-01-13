@@ -1346,8 +1346,8 @@ namespace FoodandBeverage.Forms
                         dmnRemove_order.BranchId = FrmDashboard.BranchId;
                         dmnRemove_order.CreatedBy = FrmDashboard.UserId;
                         dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
-                        dmnRemove_order.CancelNotifyStatus = 1;
-                        dmnRemove_order.KitchenCancelStatus = 1; 
+                        dmnRemove_order.CancelNotifyStatus = 0;
+                        dmnRemove_order.KitchenCancelStatus = 0; 
                         dmnRemove_order.AV_id = Convert.ToString(dgv_details_view.Rows[dgv_details_view_rowno].Cells[davidno].Value);
                         var InsertStatusP = bll_order.Remove_order_orderview("prd_remove_Order", dmnRemove_order);
 

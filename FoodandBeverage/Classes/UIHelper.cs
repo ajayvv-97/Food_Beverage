@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FoodandBeverage.Forms;
+using FoodandBeverage.Forms.UserAccount;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -58,6 +60,54 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
+
+        public static void CloseIfOpen<T>() where T : Form
+        {
+            try
+            {
+                var form = Application.OpenForms
+                                       .OfType<T>()
+                                       .FirstOrDefault();
+
+                if (form != null && !form.IsDisposed)
+                {
+                    form.Close();
+                    form.Dispose();
+                }
+            }
+            catch
+            {
+                // Optional: log error
+            }
+        }
+        public static void CloseAllMasterForms()
+        {
+            CloseIfOpen<FrmDepartment>();
+            CloseIfOpen<FrmDesignation>();
+            CloseIfOpen<FrmDrawer>();
+            CloseIfOpen<FrmEmployeeShort>();
+            CloseIfOpen<FrmExpence>();
+            CloseIfOpen<FrmFTICategory>();
+            CloseIfOpen<FrmIngredient>();
+            CloseIfOpen<FrmItemRegistartion>();
+            CloseIfOpen<FrmKitchenView>();
+            CloseIfOpen<FrmMenu>();
+            CloseIfOpen<FrmOfferDiscount>();
+            CloseIfOpen<FrmPromo>();
+            CloseIfOpen<FrmPurchase>();
+            CloseIfOpen<FrmPurchaseReturn>();
+            CloseIfOpen<FrmRefund>();
+            CloseIfOpen<FrmRegistration>();
+            CloseIfOpen<FrmTableInfo>();
+            CloseIfOpen<FrmTaxSetting>();
+            CloseIfOpen<FrmUnit>();
+            CloseIfOpen<FrmUnitConversion>();
+            CloseIfOpen<FrmUserAccount>();
+            CloseIfOpen<FrmUserPermission>();
+            CloseIfOpen<FrmVendor>();
+            CloseIfOpen<Frmvoidsale>();
+        }
+
 
         public static void AutoFitLabelFont(Label lbl)
         {

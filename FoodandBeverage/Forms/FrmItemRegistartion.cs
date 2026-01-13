@@ -244,8 +244,7 @@ namespace FoodandBeverage.Forms
                         else
                             CMessageBox.Show("Successfully saved");
 
-                        clearall();
-                        Fillitem();
+                        btnrefresh.PerformClick();
                     }
                     else
                         CMessageBox.Show("Save failed", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
@@ -1193,7 +1192,7 @@ namespace FoodandBeverage.Forms
                             txtprate.Text = Convert.ToString(itemSource[0].Prate);
                             txtsrate.Text = Convert.ToString(itemSource[0].Srate);
                             txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                            txtqty.Text = Convert.ToString(itemSource[0].quantity);
+                            txtqty.Text = Convert.ToString(itemSource[0].QOH);
                             cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
                             txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                             txtprid.Text = Convert.ToString(itemSource[0].PrId);
