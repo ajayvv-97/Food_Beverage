@@ -61,5 +61,15 @@ namespace BLL
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnCancelItemPrint Cancelitemprint_statusupdate(string procedureName, DmnCancelItemPrint objTestClass)
+        {
+            DAL.DapperRepository<DmnCancelItemPrint> objDapperRepository = new DAL.DapperRepository<DmnCancelItemPrint>();
+            DynamicParameters parms = new DynamicParameters();
+            //parms.Add("BranchId", objTestClass.BranchId);
+            //parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("OrderDetailId", objTestClass.OrderDetailId);
+            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
     }
 }
