@@ -290,7 +290,7 @@ namespace FoodandBeverage.Forms
             OrderCancelStatus = cdstatus;
 
             InitializeComponent();
-
+ 
             f11 = AppFonts.GetFont(11);
             f9 = AppFonts.GetFont(9);
             f10 = AppFonts.GetFont(10);
@@ -311,8 +311,10 @@ namespace FoodandBeverage.Forms
             //AutoCloseTimer.Tick += AutoCloseTimer_Tick;
             //AutoCloseTimer.Start();
 
+
             ShowLoadingdGif();
             pageSize = Pagecount;
+      
 
             #region ChkWritePermission
             if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
@@ -451,6 +453,13 @@ namespace FoodandBeverage.Forms
             }
 
             #endregion
+            if (tableId > 0 && OrderRunning_Status == false && Pickup_Status == false)
+            {
+                pnl_Guests.Visible = true;
+                pnl_Guests.Location = new Point(this.ClientSize.Width / 2 - pnl_Guests.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Guests.Size.Height / 2));
+
+            }
+
 
             #region Palce Holder  Textboxes setting
             txtname_search.Text = "Food Name .....";
@@ -6714,6 +6723,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                     dmnordermaster.OrderPlatformmasterName = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
                     dmnordermaster.OrderPlatformmaster = 1;
+                    dmnordermaster.AdultCount = Convert.ToInt32(txtadults.Text);
+                    dmnordermaster.ChildCount = Convert.ToInt32(txtchild.Text);
+                    dmnordermaster.OtherGuestCount = Convert.ToInt32(txtother.Text);
+                    dmnordermaster.TotalGuestCount = Convert.ToInt32(totguests.Text);
+
 
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster); 
                     if (InsertStatusP.OrderMasterId > 0)
@@ -7030,6 +7044,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 {
                     ClearAll();
                     checksave_refresh();
+                }
+                if(tableId > 0 && OrderRunning_Status == false && Pickup_Status == false )
+                {
+                    pnl_Guests.Visible = true;
+                    pnl_Guests.Location = new Point(this.ClientSize.Width / 2 - pnl_Guests.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Guests.Size.Height / 2));
                 }
 
                 AddEmptyRowIfNeeded();
@@ -9062,6 +9081,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     textBox.Text = "";
                 }
 
+
                 //btn_split_number.Visible = true;
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
@@ -9113,6 +9133,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 //Btnpartpayment.Visible = true;
                 //btn_splitpayment.Visible = true;
                 combined_Status = false;
+                txtadults.Text = Convert.ToString(1);
+                txtchild.Text = Convert.ToString(0);
+                txtother.Text = Convert.ToString(0);
+                totguests.Text = Convert.ToString(1);
 
             }
             catch (Exception ex)
@@ -10991,6 +11015,80 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
             // Allow only one decimal point
             if (e.KeyChar == '.' && txt.Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void btn_Guest_close_Click(object sender, EventArgs e)
+        {
+            txtadults.Text = Convert.ToString(1);
+            txtchild.Text = Convert.ToString(0);
+            txtother.Text = Convert.ToString(0);
+            totguests.Text = Convert.ToString(1);
+            pnl_Guests.Visible = false;
+        }
+
+        private void btn_searchbox_close_Click(object sender, EventArgs e)
+        {
+            txtadults.Text = Convert.ToString(1);
+            txtchild.Text = Convert.ToString(0);
+            txtother.Text = Convert.ToString(0);
+            totguests.Text = Convert.ToString(1);
+            pnl_Guests.Visible = false;
+        }
+
+        private void btn_startOrder_Click(object sender, EventArgs e)
+        {
+            pnl_Guests.Visible = false;
+        }
+
+        private void txtadults_TextChanged(object sender, EventArgs e)
+        {
+            totguests.Text =
+                (Convert.ToInt32(txtadults.Text) +
+                 Convert.ToInt32(txtchild.Text) +
+                 Convert.ToInt32(txtother.Text)).ToString();
+        }
+
+        private void txtadults_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow digits, backspace, decimal point
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtchild_TextChanged(object sender, EventArgs e)
+        {
+            totguests.Text =
+                (Convert.ToInt32(txtadults.Text) +
+                 Convert.ToInt32(txtchild.Text) +
+                 Convert.ToInt32(txtother.Text)).ToString();
+        }
+
+        private void txtchild_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow digits, backspace, decimal point
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtother_TextChanged(object sender, EventArgs e)
+        {
+            totguests.Text =
+                (Convert.ToInt32(txtadults.Text) +
+                 Convert.ToInt32(txtchild.Text) +
+                 Convert.ToInt32(txtother.Text)).ToString();
+        }
+
+        private void txtother_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow digits, backspace, decimal point
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }

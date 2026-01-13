@@ -106,6 +106,29 @@ namespace FoodandBeverage.Forms
             this.btn_previous = new System.Windows.Forms.Button();
             this.btn_next = new System.Windows.Forms.Button();
             this.pnl_gen_main = new System.Windows.Forms.Panel();
+            this.tlp_secondpage = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_midaspay_keypad = new System.Windows.Forms.TableLayoutPanel();
+            this.rtb_cardnotype_payment = new System.Windows.Forms.CheckBox();
+            this.label58 = new System.Windows.Forms.Label();
+            this.tlp_autologout = new System.Windows.Forms.TableLayoutPanel();
+            this.label56 = new System.Windows.Forms.Label();
+            this.rtb_logouttime = new System.Windows.Forms.CheckBox();
+            this.txtlogouttime = new System.Windows.Forms.TextBox();
+            this.btn_adv_idlelogout = new System.Windows.Forms.Button();
+            this.tlp_gen_savebutton = new System.Windows.Forms.TableLayoutPanel();
+            this.label38 = new System.Windows.Forms.Label();
+            this.txtperpagecount = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
+            this.rtb_userpmpt = new System.Windows.Forms.CheckBox();
+            this.label87 = new System.Windows.Forms.Label();
+            this.tlp_paymode_FG_enable = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel22 = new System.Windows.Forms.TableLayoutPanel();
+            this.rtb_family_payment = new System.Windows.Forms.CheckBox();
+            this.label63 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
+            this.rtb_group_payment = new System.Windows.Forms.CheckBox();
+            this.label62 = new System.Windows.Forms.Label();
+            this.label59 = new System.Windows.Forms.Label();
             this.tlp_Fristpage = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
             this.Save_Daily = new System.Windows.Forms.CheckBox();
@@ -169,29 +192,6 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel32 = new System.Windows.Forms.TableLayoutPanel();
             this.chk_yzdailycollle = new System.Windows.Forms.CheckBox();
             this.label30 = new System.Windows.Forms.Label();
-            this.tlp_secondpage = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_midaspay_keypad = new System.Windows.Forms.TableLayoutPanel();
-            this.rtb_cardnotype_payment = new System.Windows.Forms.CheckBox();
-            this.label58 = new System.Windows.Forms.Label();
-            this.tlp_autologout = new System.Windows.Forms.TableLayoutPanel();
-            this.label56 = new System.Windows.Forms.Label();
-            this.rtb_logouttime = new System.Windows.Forms.CheckBox();
-            this.txtlogouttime = new System.Windows.Forms.TextBox();
-            this.btn_adv_idlelogout = new System.Windows.Forms.Button();
-            this.tlp_gen_savebutton = new System.Windows.Forms.TableLayoutPanel();
-            this.label38 = new System.Windows.Forms.Label();
-            this.txtperpagecount = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
-            this.rtb_userpmpt = new System.Windows.Forms.CheckBox();
-            this.label87 = new System.Windows.Forms.Label();
-            this.tlp_paymode_FG_enable = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel22 = new System.Windows.Forms.TableLayoutPanel();
-            this.rtb_family_payment = new System.Windows.Forms.CheckBox();
-            this.label63 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
-            this.rtb_group_payment = new System.Windows.Forms.CheckBox();
-            this.label62 = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
             this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
             this.btnsavegen = new System.Windows.Forms.Button();
             this.btnclose_gen = new System.Windows.Forms.Button();
@@ -403,6 +403,14 @@ namespace FoodandBeverage.Forms
             this.tlp_gen_main.SuspendLayout();
             this.tlp_pager.SuspendLayout();
             this.pnl_gen_main.SuspendLayout();
+            this.tlp_secondpage.SuspendLayout();
+            this.tlp_midaspay_keypad.SuspendLayout();
+            this.tlp_autologout.SuspendLayout();
+            this.tlp_gen_savebutton.SuspendLayout();
+            this.tableLayoutPanel21.SuspendLayout();
+            this.tlp_paymode_FG_enable.SuspendLayout();
+            this.tableLayoutPanel22.SuspendLayout();
+            this.tableLayoutPanel20.SuspendLayout();
             this.tlp_Fristpage.SuspendLayout();
             this.tableLayoutPanel19.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
@@ -426,14 +434,6 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel31.SuspendLayout();
             this.tableLayoutPanel30.SuspendLayout();
             this.tableLayoutPanel32.SuspendLayout();
-            this.tlp_secondpage.SuspendLayout();
-            this.tlp_midaspay_keypad.SuspendLayout();
-            this.tlp_autologout.SuspendLayout();
-            this.tlp_gen_savebutton.SuspendLayout();
-            this.tableLayoutPanel21.SuspendLayout();
-            this.tlp_paymode_FG_enable.SuspendLayout();
-            this.tableLayoutPanel22.SuspendLayout();
-            this.tableLayoutPanel20.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.tlp_tablestatus.SuspendLayout();
@@ -985,7 +985,7 @@ namespace FoodandBeverage.Forms
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.77076F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.22924F));
-            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 154F));
+            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
             this.tbl_Sub.Controls.Add(this.txtgid, 3, 1);
             this.tbl_Sub.Controls.Add(this.txtimgpath, 3, 0);
             this.tbl_Sub.Controls.Add(this.label46, 1, 2);
@@ -1007,7 +1007,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtgid
             // 
-            this.txtgid.Location = new System.Drawing.Point(418, 47);
+            this.txtgid.Location = new System.Drawing.Point(417, 47);
             this.txtgid.Name = "txtgid";
             this.txtgid.Size = new System.Drawing.Size(20, 20);
             this.txtgid.TabIndex = 220;
@@ -1016,7 +1016,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtimgpath
             // 
-            this.txtimgpath.Location = new System.Drawing.Point(418, 3);
+            this.txtimgpath.Location = new System.Drawing.Point(417, 3);
             this.txtimgpath.Name = "txtimgpath";
             this.txtimgpath.Size = new System.Drawing.Size(20, 20);
             this.txtimgpath.TabIndex = 221;
@@ -1066,7 +1066,7 @@ namespace FoodandBeverage.Forms
             this.txt_cmpname.Location = new System.Drawing.Point(186, 3);
             this.txt_cmpname.Multiline = true;
             this.txt_cmpname.Name = "txt_cmpname";
-            this.txt_cmpname.Size = new System.Drawing.Size(226, 38);
+            this.txt_cmpname.Size = new System.Drawing.Size(225, 38);
             this.txt_cmpname.TabIndex = 262;
             // 
             // txt_cmpaddress
@@ -1076,7 +1076,7 @@ namespace FoodandBeverage.Forms
             this.txt_cmpaddress.Location = new System.Drawing.Point(186, 47);
             this.txt_cmpaddress.Multiline = true;
             this.txt_cmpaddress.Name = "txt_cmpaddress";
-            this.txt_cmpaddress.Size = new System.Drawing.Size(226, 38);
+            this.txt_cmpaddress.Size = new System.Drawing.Size(225, 38);
             this.txt_cmpaddress.TabIndex = 263;
             // 
             // txt_footer_lang
@@ -1086,7 +1086,7 @@ namespace FoodandBeverage.Forms
             this.txt_footer_lang.Location = new System.Drawing.Point(186, 91);
             this.txt_footer_lang.Multiline = true;
             this.txt_footer_lang.Name = "txt_footer_lang";
-            this.txt_footer_lang.Size = new System.Drawing.Size(226, 38);
+            this.txt_footer_lang.Size = new System.Drawing.Size(225, 38);
             this.txt_footer_lang.TabIndex = 264;
             // 
             // tbl_contrl
@@ -1473,6 +1473,320 @@ namespace FoodandBeverage.Forms
             this.pnl_gen_main.Name = "pnl_gen_main";
             this.pnl_gen_main.Size = new System.Drawing.Size(483, 462);
             this.pnl_gen_main.TabIndex = 1;
+            // 
+            // tlp_secondpage
+            // 
+            this.tlp_secondpage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
+            this.tlp_secondpage.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tlp_secondpage.ColumnCount = 1;
+            this.tlp_secondpage.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_secondpage.Controls.Add(this.tlp_midaspay_keypad, 0, 3);
+            this.tlp_secondpage.Controls.Add(this.tlp_autologout, 0, 2);
+            this.tlp_secondpage.Controls.Add(this.tlp_gen_savebutton, 0, 1);
+            this.tlp_secondpage.Controls.Add(this.tableLayoutPanel21, 0, 5);
+            this.tlp_secondpage.Controls.Add(this.tlp_paymode_FG_enable, 0, 4);
+            this.tlp_secondpage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_secondpage.Location = new System.Drawing.Point(0, 0);
+            this.tlp_secondpage.Name = "tlp_secondpage";
+            this.tlp_secondpage.RowCount = 8;
+            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.290672F));
+            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.941432F));
+            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.544469F));
+            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.459869F));
+            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.85032F));
+            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.88286F));
+            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.026031F));
+            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.30586F));
+            this.tlp_secondpage.Size = new System.Drawing.Size(483, 462);
+            this.tlp_secondpage.TabIndex = 22;
+            this.tlp_secondpage.Visible = false;
+            // 
+            // tlp_midaspay_keypad
+            // 
+            this.tlp_midaspay_keypad.ColumnCount = 2;
+            this.tlp_midaspay_keypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            this.tlp_midaspay_keypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlp_midaspay_keypad.Controls.Add(this.rtb_cardnotype_payment, 1, 0);
+            this.tlp_midaspay_keypad.Controls.Add(this.label58, 0, 0);
+            this.tlp_midaspay_keypad.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_midaspay_keypad.Location = new System.Drawing.Point(4, 108);
+            this.tlp_midaspay_keypad.Name = "tlp_midaspay_keypad";
+            this.tlp_midaspay_keypad.RowCount = 1;
+            this.tlp_midaspay_keypad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_midaspay_keypad.Size = new System.Drawing.Size(475, 31);
+            this.tlp_midaspay_keypad.TabIndex = 35;
+            // 
+            // rtb_cardnotype_payment
+            // 
+            this.rtb_cardnotype_payment.AutoSize = true;
+            this.rtb_cardnotype_payment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_cardnotype_payment.Location = new System.Drawing.Point(430, 3);
+            this.rtb_cardnotype_payment.Name = "rtb_cardnotype_payment";
+            this.rtb_cardnotype_payment.Size = new System.Drawing.Size(42, 25);
+            this.rtb_cardnotype_payment.TabIndex = 1;
+            this.rtb_cardnotype_payment.UseVisualStyleBackColor = true;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label58.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label58.Location = new System.Drawing.Point(3, 0);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(421, 31);
+            this.label58.TabIndex = 7;
+            this.label58.Text = "Allow Manual Card Input During Payment";
+            this.label58.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tlp_autologout
+            // 
+            this.tlp_autologout.ColumnCount = 4;
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.85714F));
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.09824F));
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.10579F));
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
+            this.tlp_autologout.Controls.Add(this.label56, 0, 0);
+            this.tlp_autologout.Controls.Add(this.rtb_logouttime, 1, 0);
+            this.tlp_autologout.Controls.Add(this.txtlogouttime, 2, 0);
+            this.tlp_autologout.Controls.Add(this.btn_adv_idlelogout, 3, 0);
+            this.tlp_autologout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_autologout.Location = new System.Drawing.Point(4, 65);
+            this.tlp_autologout.Name = "tlp_autologout";
+            this.tlp_autologout.RowCount = 1;
+            this.tlp_autologout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_autologout.Size = new System.Drawing.Size(475, 36);
+            this.tlp_autologout.TabIndex = 34;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label56.Location = new System.Drawing.Point(3, 0);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(220, 36);
+            this.label56.TabIndex = 7;
+            this.label56.Text = "Auto Logout When Idle";
+            this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // rtb_logouttime
+            // 
+            this.rtb_logouttime.AutoSize = true;
+            this.rtb_logouttime.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_logouttime.Location = new System.Drawing.Point(229, 3);
+            this.rtb_logouttime.Name = "rtb_logouttime";
+            this.rtb_logouttime.Size = new System.Drawing.Size(34, 30);
+            this.rtb_logouttime.TabIndex = 0;
+            this.rtb_logouttime.UseVisualStyleBackColor = true;
+            this.rtb_logouttime.CheckedChanged += new System.EventHandler(this.rtb_logouttime_CheckedChanged);
+            // 
+            // txtlogouttime
+            // 
+            this.txtlogouttime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtlogouttime.Location = new System.Drawing.Point(269, 3);
+            this.txtlogouttime.Multiline = true;
+            this.txtlogouttime.Name = "txtlogouttime";
+            this.txtlogouttime.Size = new System.Drawing.Size(23, 20);
+            this.txtlogouttime.TabIndex = 9;
+            this.txtlogouttime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtlogouttime.Visible = false;
+            this.txtlogouttime.Click += new System.EventHandler(this.txtlogouttime_Click);
+            this.txtlogouttime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtlogouttime_KeyPress);
+            this.txtlogouttime.Leave += new System.EventHandler(this.txtlogouttime_Leave);
+            // 
+            // btn_adv_idlelogout
+            // 
+            this.btn_adv_idlelogout.BackgroundImage = global::FoodandBeverage.Properties.Resources._123_BUTTON_large;
+            this.btn_adv_idlelogout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_adv_idlelogout.FlatAppearance.BorderSize = 0;
+            this.btn_adv_idlelogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_adv_idlelogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_adv_idlelogout.ForeColor = System.Drawing.Color.White;
+            this.btn_adv_idlelogout.Location = new System.Drawing.Point(312, 3);
+            this.btn_adv_idlelogout.Name = "btn_adv_idlelogout";
+            this.btn_adv_idlelogout.Size = new System.Drawing.Size(72, 23);
+            this.btn_adv_idlelogout.TabIndex = 10;
+            this.btn_adv_idlelogout.Text = "Custom";
+            this.btn_adv_idlelogout.UseVisualStyleBackColor = true;
+            this.btn_adv_idlelogout.Click += new System.EventHandler(this.btn_adv_idlelogout_Click);
+            // 
+            // tlp_gen_savebutton
+            // 
+            this.tlp_gen_savebutton.ColumnCount = 2;
+            this.tlp_gen_savebutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.7341F));
+            this.tlp_gen_savebutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_gen_savebutton.Controls.Add(this.label38, 0, 0);
+            this.tlp_gen_savebutton.Controls.Add(this.txtperpagecount, 1, 0);
+            this.tlp_gen_savebutton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_gen_savebutton.Location = new System.Drawing.Point(4, 33);
+            this.tlp_gen_savebutton.Name = "tlp_gen_savebutton";
+            this.tlp_gen_savebutton.RowCount = 1;
+            this.tlp_gen_savebutton.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_gen_savebutton.Size = new System.Drawing.Size(475, 25);
+            this.tlp_gen_savebutton.TabIndex = 30;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label38.Location = new System.Drawing.Point(3, 0);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(333, 27);
+            this.label38.TabIndex = 19;
+            this.label38.Text = " Per Page Count";
+            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtperpagecount
+            // 
+            this.txtperpagecount.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtperpagecount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtperpagecount.Location = new System.Drawing.Point(342, 3);
+            this.txtperpagecount.Multiline = true;
+            this.txtperpagecount.Name = "txtperpagecount";
+            this.txtperpagecount.Size = new System.Drawing.Size(130, 21);
+            this.txtperpagecount.TabIndex = 20;
+            this.txtperpagecount.Click += new System.EventHandler(this.txtperpagecount_Click);
+            // 
+            // tableLayoutPanel21
+            // 
+            this.tableLayoutPanel21.ColumnCount = 2;
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.95901F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.04098F));
+            this.tableLayoutPanel21.Controls.Add(this.rtb_userpmpt, 1, 0);
+            this.tableLayoutPanel21.Controls.Add(this.label87, 0, 0);
+            this.tableLayoutPanel21.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel21.Location = new System.Drawing.Point(4, 276);
+            this.tableLayoutPanel21.Name = "tableLayoutPanel21";
+            this.tableLayoutPanel21.RowCount = 1;
+            this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel21.Size = new System.Drawing.Size(475, 33);
+            this.tableLayoutPanel21.TabIndex = 280;
+            // 
+            // rtb_userpmpt
+            // 
+            this.rtb_userpmpt.AutoSize = true;
+            this.rtb_userpmpt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_userpmpt.Location = new System.Drawing.Point(430, 3);
+            this.rtb_userpmpt.Name = "rtb_userpmpt";
+            this.rtb_userpmpt.Size = new System.Drawing.Size(42, 27);
+            this.rtb_userpmpt.TabIndex = 1;
+            this.rtb_userpmpt.UseVisualStyleBackColor = true;
+            // 
+            // label87
+            // 
+            this.label87.AutoSize = true;
+            this.label87.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label87.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label87.Location = new System.Drawing.Point(3, 0);
+            this.label87.Name = "label87";
+            this.label87.Size = new System.Drawing.Size(421, 33);
+            this.label87.TabIndex = 19;
+            this.label87.Text = "Enable operation success prompts";
+            this.label87.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tlp_paymode_FG_enable
+            // 
+            this.tlp_paymode_FG_enable.ColumnCount = 1;
+            this.tlp_paymode_FG_enable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.38776F));
+            this.tlp_paymode_FG_enable.Controls.Add(this.tableLayoutPanel22, 0, 1);
+            this.tlp_paymode_FG_enable.Controls.Add(this.tableLayoutPanel20, 0, 2);
+            this.tlp_paymode_FG_enable.Controls.Add(this.label59, 0, 0);
+            this.tlp_paymode_FG_enable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_paymode_FG_enable.Location = new System.Drawing.Point(4, 146);
+            this.tlp_paymode_FG_enable.Name = "tlp_paymode_FG_enable";
+            this.tlp_paymode_FG_enable.RowCount = 3;
+            this.tlp_paymode_FG_enable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_paymode_FG_enable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.tlp_paymode_FG_enable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51F));
+            this.tlp_paymode_FG_enable.Size = new System.Drawing.Size(475, 123);
+            this.tlp_paymode_FG_enable.TabIndex = 36;
+            // 
+            // tableLayoutPanel22
+            // 
+            this.tableLayoutPanel22.ColumnCount = 2;
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel22.Controls.Add(this.rtb_family_payment, 1, 0);
+            this.tableLayoutPanel22.Controls.Add(this.label63, 0, 0);
+            this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel22.Location = new System.Drawing.Point(3, 32);
+            this.tableLayoutPanel22.Name = "tableLayoutPanel22";
+            this.tableLayoutPanel22.RowCount = 1;
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel22.Size = new System.Drawing.Size(469, 24);
+            this.tableLayoutPanel22.TabIndex = 37;
+            // 
+            // rtb_family_payment
+            // 
+            this.rtb_family_payment.AutoSize = true;
+            this.rtb_family_payment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_family_payment.Location = new System.Drawing.Point(425, 3);
+            this.rtb_family_payment.Name = "rtb_family_payment";
+            this.rtb_family_payment.Size = new System.Drawing.Size(41, 18);
+            this.rtb_family_payment.TabIndex = 1;
+            this.rtb_family_payment.UseVisualStyleBackColor = true;
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label63.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label63.Location = new System.Drawing.Point(3, 0);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(416, 24);
+            this.label63.TabIndex = 7;
+            this.label63.Text = "Family Card";
+            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel20
+            // 
+            this.tableLayoutPanel20.ColumnCount = 2;
+            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel20.Controls.Add(this.rtb_group_payment, 1, 0);
+            this.tableLayoutPanel20.Controls.Add(this.label62, 0, 0);
+            this.tableLayoutPanel20.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel20.Location = new System.Drawing.Point(3, 75);
+            this.tableLayoutPanel20.Name = "tableLayoutPanel20";
+            this.tableLayoutPanel20.RowCount = 1;
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel20.Size = new System.Drawing.Size(469, 41);
+            this.tableLayoutPanel20.TabIndex = 36;
+            // 
+            // rtb_group_payment
+            // 
+            this.rtb_group_payment.AutoSize = true;
+            this.rtb_group_payment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_group_payment.Location = new System.Drawing.Point(425, 3);
+            this.rtb_group_payment.Name = "rtb_group_payment";
+            this.rtb_group_payment.Size = new System.Drawing.Size(41, 35);
+            this.rtb_group_payment.TabIndex = 1;
+            this.rtb_group_payment.UseVisualStyleBackColor = true;
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label62.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label62.Location = new System.Drawing.Point(3, 0);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(416, 41);
+            this.label62.TabIndex = 7;
+            this.label62.Text = "Group Sale Card";
+            this.label62.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label59.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label59.Location = new System.Drawing.Point(3, 0);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(469, 29);
+            this.label59.TabIndex = 7;
+            this.label59.Text = "Enable Family & Group Card in Payment";
+            this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tlp_Fristpage
             // 
@@ -2318,320 +2632,6 @@ namespace FoodandBeverage.Forms
             this.label30.TabIndex = 7;
             this.label30.Text = "Y Z Daliy Collection";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tlp_secondpage
-            // 
-            this.tlp_secondpage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.tlp_secondpage.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tlp_secondpage.ColumnCount = 1;
-            this.tlp_secondpage.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_secondpage.Controls.Add(this.tlp_midaspay_keypad, 0, 3);
-            this.tlp_secondpage.Controls.Add(this.tlp_autologout, 0, 2);
-            this.tlp_secondpage.Controls.Add(this.tlp_gen_savebutton, 0, 1);
-            this.tlp_secondpage.Controls.Add(this.tableLayoutPanel21, 0, 5);
-            this.tlp_secondpage.Controls.Add(this.tlp_paymode_FG_enable, 0, 4);
-            this.tlp_secondpage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_secondpage.Location = new System.Drawing.Point(0, 0);
-            this.tlp_secondpage.Name = "tlp_secondpage";
-            this.tlp_secondpage.RowCount = 8;
-            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.290672F));
-            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.941432F));
-            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.544469F));
-            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.459869F));
-            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.85032F));
-            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.88286F));
-            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.026031F));
-            this.tlp_secondpage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.30586F));
-            this.tlp_secondpage.Size = new System.Drawing.Size(483, 462);
-            this.tlp_secondpage.TabIndex = 22;
-            this.tlp_secondpage.Visible = false;
-            // 
-            // tlp_midaspay_keypad
-            // 
-            this.tlp_midaspay_keypad.ColumnCount = 2;
-            this.tlp_midaspay_keypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
-            this.tlp_midaspay_keypad.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlp_midaspay_keypad.Controls.Add(this.rtb_cardnotype_payment, 1, 0);
-            this.tlp_midaspay_keypad.Controls.Add(this.label58, 0, 0);
-            this.tlp_midaspay_keypad.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_midaspay_keypad.Location = new System.Drawing.Point(4, 108);
-            this.tlp_midaspay_keypad.Name = "tlp_midaspay_keypad";
-            this.tlp_midaspay_keypad.RowCount = 1;
-            this.tlp_midaspay_keypad.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_midaspay_keypad.Size = new System.Drawing.Size(475, 31);
-            this.tlp_midaspay_keypad.TabIndex = 35;
-            // 
-            // rtb_cardnotype_payment
-            // 
-            this.rtb_cardnotype_payment.AutoSize = true;
-            this.rtb_cardnotype_payment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_cardnotype_payment.Location = new System.Drawing.Point(430, 3);
-            this.rtb_cardnotype_payment.Name = "rtb_cardnotype_payment";
-            this.rtb_cardnotype_payment.Size = new System.Drawing.Size(42, 25);
-            this.rtb_cardnotype_payment.TabIndex = 1;
-            this.rtb_cardnotype_payment.UseVisualStyleBackColor = true;
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label58.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label58.Location = new System.Drawing.Point(3, 0);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(421, 31);
-            this.label58.TabIndex = 7;
-            this.label58.Text = "Allow Manual Card Input During Payment";
-            this.label58.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tlp_autologout
-            // 
-            this.tlp_autologout.ColumnCount = 4;
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.85714F));
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.09824F));
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.10579F));
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
-            this.tlp_autologout.Controls.Add(this.label56, 0, 0);
-            this.tlp_autologout.Controls.Add(this.rtb_logouttime, 1, 0);
-            this.tlp_autologout.Controls.Add(this.txtlogouttime, 2, 0);
-            this.tlp_autologout.Controls.Add(this.btn_adv_idlelogout, 3, 0);
-            this.tlp_autologout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_autologout.Location = new System.Drawing.Point(4, 65);
-            this.tlp_autologout.Name = "tlp_autologout";
-            this.tlp_autologout.RowCount = 1;
-            this.tlp_autologout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_autologout.Size = new System.Drawing.Size(475, 36);
-            this.tlp_autologout.TabIndex = 34;
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label56.Location = new System.Drawing.Point(3, 0);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(221, 36);
-            this.label56.TabIndex = 7;
-            this.label56.Text = "Auto Logout When Idle";
-            this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // rtb_logouttime
-            // 
-            this.rtb_logouttime.AutoSize = true;
-            this.rtb_logouttime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_logouttime.Location = new System.Drawing.Point(230, 3);
-            this.rtb_logouttime.Name = "rtb_logouttime";
-            this.rtb_logouttime.Size = new System.Drawing.Size(34, 30);
-            this.rtb_logouttime.TabIndex = 0;
-            this.rtb_logouttime.UseVisualStyleBackColor = true;
-            this.rtb_logouttime.CheckedChanged += new System.EventHandler(this.rtb_logouttime_CheckedChanged);
-            // 
-            // txtlogouttime
-            // 
-            this.txtlogouttime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtlogouttime.Location = new System.Drawing.Point(270, 3);
-            this.txtlogouttime.Multiline = true;
-            this.txtlogouttime.Name = "txtlogouttime";
-            this.txtlogouttime.Size = new System.Drawing.Size(23, 20);
-            this.txtlogouttime.TabIndex = 9;
-            this.txtlogouttime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtlogouttime.Visible = false;
-            this.txtlogouttime.Click += new System.EventHandler(this.txtlogouttime_Click);
-            this.txtlogouttime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtlogouttime_KeyPress);
-            this.txtlogouttime.Leave += new System.EventHandler(this.txtlogouttime_Leave);
-            // 
-            // btn_adv_idlelogout
-            // 
-            this.btn_adv_idlelogout.BackgroundImage = global::FoodandBeverage.Properties.Resources._123_BUTTON_large;
-            this.btn_adv_idlelogout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_adv_idlelogout.FlatAppearance.BorderSize = 0;
-            this.btn_adv_idlelogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_adv_idlelogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_adv_idlelogout.ForeColor = System.Drawing.Color.White;
-            this.btn_adv_idlelogout.Location = new System.Drawing.Point(314, 3);
-            this.btn_adv_idlelogout.Name = "btn_adv_idlelogout";
-            this.btn_adv_idlelogout.Size = new System.Drawing.Size(72, 23);
-            this.btn_adv_idlelogout.TabIndex = 10;
-            this.btn_adv_idlelogout.Text = "Custom";
-            this.btn_adv_idlelogout.UseVisualStyleBackColor = true;
-            this.btn_adv_idlelogout.Click += new System.EventHandler(this.btn_adv_idlelogout_Click);
-            // 
-            // tlp_gen_savebutton
-            // 
-            this.tlp_gen_savebutton.ColumnCount = 2;
-            this.tlp_gen_savebutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.7341F));
-            this.tlp_gen_savebutton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_gen_savebutton.Controls.Add(this.label38, 0, 0);
-            this.tlp_gen_savebutton.Controls.Add(this.txtperpagecount, 1, 0);
-            this.tlp_gen_savebutton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_gen_savebutton.Location = new System.Drawing.Point(4, 33);
-            this.tlp_gen_savebutton.Name = "tlp_gen_savebutton";
-            this.tlp_gen_savebutton.RowCount = 1;
-            this.tlp_gen_savebutton.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_gen_savebutton.Size = new System.Drawing.Size(475, 25);
-            this.tlp_gen_savebutton.TabIndex = 30;
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label38.Location = new System.Drawing.Point(3, 0);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(333, 27);
-            this.label38.TabIndex = 19;
-            this.label38.Text = " Per Page Count";
-            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtperpagecount
-            // 
-            this.txtperpagecount.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtperpagecount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtperpagecount.Location = new System.Drawing.Point(342, 3);
-            this.txtperpagecount.Multiline = true;
-            this.txtperpagecount.Name = "txtperpagecount";
-            this.txtperpagecount.Size = new System.Drawing.Size(130, 21);
-            this.txtperpagecount.TabIndex = 20;
-            this.txtperpagecount.Click += new System.EventHandler(this.txtperpagecount_Click);
-            // 
-            // tableLayoutPanel21
-            // 
-            this.tableLayoutPanel21.ColumnCount = 2;
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.95901F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.04098F));
-            this.tableLayoutPanel21.Controls.Add(this.rtb_userpmpt, 1, 0);
-            this.tableLayoutPanel21.Controls.Add(this.label87, 0, 0);
-            this.tableLayoutPanel21.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel21.Location = new System.Drawing.Point(4, 276);
-            this.tableLayoutPanel21.Name = "tableLayoutPanel21";
-            this.tableLayoutPanel21.RowCount = 1;
-            this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel21.Size = new System.Drawing.Size(475, 33);
-            this.tableLayoutPanel21.TabIndex = 280;
-            // 
-            // rtb_userpmpt
-            // 
-            this.rtb_userpmpt.AutoSize = true;
-            this.rtb_userpmpt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_userpmpt.Location = new System.Drawing.Point(430, 3);
-            this.rtb_userpmpt.Name = "rtb_userpmpt";
-            this.rtb_userpmpt.Size = new System.Drawing.Size(42, 27);
-            this.rtb_userpmpt.TabIndex = 1;
-            this.rtb_userpmpt.UseVisualStyleBackColor = true;
-            // 
-            // label87
-            // 
-            this.label87.AutoSize = true;
-            this.label87.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label87.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label87.Location = new System.Drawing.Point(3, 0);
-            this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(421, 33);
-            this.label87.TabIndex = 19;
-            this.label87.Text = "Enable operation success prompts";
-            this.label87.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tlp_paymode_FG_enable
-            // 
-            this.tlp_paymode_FG_enable.ColumnCount = 1;
-            this.tlp_paymode_FG_enable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.38776F));
-            this.tlp_paymode_FG_enable.Controls.Add(this.tableLayoutPanel22, 0, 1);
-            this.tlp_paymode_FG_enable.Controls.Add(this.tableLayoutPanel20, 0, 2);
-            this.tlp_paymode_FG_enable.Controls.Add(this.label59, 0, 0);
-            this.tlp_paymode_FG_enable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_paymode_FG_enable.Location = new System.Drawing.Point(4, 146);
-            this.tlp_paymode_FG_enable.Name = "tlp_paymode_FG_enable";
-            this.tlp_paymode_FG_enable.RowCount = 3;
-            this.tlp_paymode_FG_enable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_paymode_FG_enable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tlp_paymode_FG_enable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51F));
-            this.tlp_paymode_FG_enable.Size = new System.Drawing.Size(475, 123);
-            this.tlp_paymode_FG_enable.TabIndex = 36;
-            // 
-            // tableLayoutPanel22
-            // 
-            this.tableLayoutPanel22.ColumnCount = 2;
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel22.Controls.Add(this.rtb_family_payment, 1, 0);
-            this.tableLayoutPanel22.Controls.Add(this.label63, 0, 0);
-            this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel22.Location = new System.Drawing.Point(3, 32);
-            this.tableLayoutPanel22.Name = "tableLayoutPanel22";
-            this.tableLayoutPanel22.RowCount = 1;
-            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel22.Size = new System.Drawing.Size(469, 24);
-            this.tableLayoutPanel22.TabIndex = 37;
-            // 
-            // rtb_family_payment
-            // 
-            this.rtb_family_payment.AutoSize = true;
-            this.rtb_family_payment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_family_payment.Location = new System.Drawing.Point(425, 3);
-            this.rtb_family_payment.Name = "rtb_family_payment";
-            this.rtb_family_payment.Size = new System.Drawing.Size(41, 18);
-            this.rtb_family_payment.TabIndex = 1;
-            this.rtb_family_payment.UseVisualStyleBackColor = true;
-            // 
-            // label63
-            // 
-            this.label63.AutoSize = true;
-            this.label63.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label63.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label63.Location = new System.Drawing.Point(3, 0);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(416, 24);
-            this.label63.TabIndex = 7;
-            this.label63.Text = "Family Card";
-            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tableLayoutPanel20
-            // 
-            this.tableLayoutPanel20.ColumnCount = 2;
-            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
-            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel20.Controls.Add(this.rtb_group_payment, 1, 0);
-            this.tableLayoutPanel20.Controls.Add(this.label62, 0, 0);
-            this.tableLayoutPanel20.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel20.Location = new System.Drawing.Point(3, 75);
-            this.tableLayoutPanel20.Name = "tableLayoutPanel20";
-            this.tableLayoutPanel20.RowCount = 1;
-            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel20.Size = new System.Drawing.Size(469, 41);
-            this.tableLayoutPanel20.TabIndex = 36;
-            // 
-            // rtb_group_payment
-            // 
-            this.rtb_group_payment.AutoSize = true;
-            this.rtb_group_payment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_group_payment.Location = new System.Drawing.Point(425, 3);
-            this.rtb_group_payment.Name = "rtb_group_payment";
-            this.rtb_group_payment.Size = new System.Drawing.Size(41, 35);
-            this.rtb_group_payment.TabIndex = 1;
-            this.rtb_group_payment.UseVisualStyleBackColor = true;
-            // 
-            // label62
-            // 
-            this.label62.AutoSize = true;
-            this.label62.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label62.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label62.Location = new System.Drawing.Point(3, 0);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(416, 41);
-            this.label62.TabIndex = 7;
-            this.label62.Text = "Group Sale Card";
-            this.label62.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label59.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label59.Location = new System.Drawing.Point(3, 0);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(469, 29);
-            this.label59.TabIndex = 7;
-            this.label59.Text = "Enable Family & Group Card in Payment";
-            this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel24
             // 
@@ -5397,9 +5397,9 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(994, 640);
+            this.Controls.Add(this.flp_settingbtn);
             this.Controls.Add(this.pnlgenralsetting);
             this.Controls.Add(this.flp_empbuttons);
-            this.Controls.Add(this.flp_settingbtn);
             this.Controls.Add(this.flp_operabuttons);
             this.Controls.Add(this.pnl_datasync);
             this.Controls.Add(this.pnl_userdetails);
@@ -5460,6 +5460,21 @@ namespace FoodandBeverage.Forms
             this.tlp_gen_main.ResumeLayout(false);
             this.tlp_pager.ResumeLayout(false);
             this.pnl_gen_main.ResumeLayout(false);
+            this.tlp_secondpage.ResumeLayout(false);
+            this.tlp_midaspay_keypad.ResumeLayout(false);
+            this.tlp_midaspay_keypad.PerformLayout();
+            this.tlp_autologout.ResumeLayout(false);
+            this.tlp_autologout.PerformLayout();
+            this.tlp_gen_savebutton.ResumeLayout(false);
+            this.tlp_gen_savebutton.PerformLayout();
+            this.tableLayoutPanel21.ResumeLayout(false);
+            this.tableLayoutPanel21.PerformLayout();
+            this.tlp_paymode_FG_enable.ResumeLayout(false);
+            this.tlp_paymode_FG_enable.PerformLayout();
+            this.tableLayoutPanel22.ResumeLayout(false);
+            this.tableLayoutPanel22.PerformLayout();
+            this.tableLayoutPanel20.ResumeLayout(false);
+            this.tableLayoutPanel20.PerformLayout();
             this.tlp_Fristpage.ResumeLayout(false);
             this.tableLayoutPanel19.ResumeLayout(false);
             this.tableLayoutPanel19.PerformLayout();
@@ -5502,21 +5517,6 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel30.PerformLayout();
             this.tableLayoutPanel32.ResumeLayout(false);
             this.tableLayoutPanel32.PerformLayout();
-            this.tlp_secondpage.ResumeLayout(false);
-            this.tlp_midaspay_keypad.ResumeLayout(false);
-            this.tlp_midaspay_keypad.PerformLayout();
-            this.tlp_autologout.ResumeLayout(false);
-            this.tlp_autologout.PerformLayout();
-            this.tlp_gen_savebutton.ResumeLayout(false);
-            this.tlp_gen_savebutton.PerformLayout();
-            this.tableLayoutPanel21.ResumeLayout(false);
-            this.tableLayoutPanel21.PerformLayout();
-            this.tlp_paymode_FG_enable.ResumeLayout(false);
-            this.tlp_paymode_FG_enable.PerformLayout();
-            this.tableLayoutPanel22.ResumeLayout(false);
-            this.tableLayoutPanel22.PerformLayout();
-            this.tableLayoutPanel20.ResumeLayout(false);
-            this.tableLayoutPanel20.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tlp_tablestatus.ResumeLayout(false);

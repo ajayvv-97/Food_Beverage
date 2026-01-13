@@ -32,13 +32,14 @@ namespace FoodandBeverage.Forms
         private int pcatno = 4;
         private int ppriceno = 5;
         private int pqtyno = 6;
-        private int pstatusno = 7;
-        private int pfcidno = 8;
-        private int ppdtype = 9;
-        private int proptype = 10;
-        private int proptypename = 11;
-        private int poldqtyno = 12;
-        private int pactiveinactiveno = 13;
+        private int pdefstock = 7;
+        private int pstatusno = 8;
+        private int pfcidno = 9;
+        private int ppdtype = 10;
+        private int proptype = 11;
+        private int proptypename = 12;
+        private int poldqtyno = 13;
+        private int pactiveinactiveno = 14;
 
         #endregion
         private int _oldQty = 0;
@@ -126,6 +127,7 @@ namespace FoodandBeverage.Forms
                                     dmnmenu.Status = 1;
                                 else
                                     dmnmenu.Status = 0;
+                                dmnmenu.defaultqty = Convert.ToInt32(dgv_menu.Rows[i].Cells[pdefstock].Value);
                                 usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
                                 count++;
                             }
@@ -154,6 +156,8 @@ namespace FoodandBeverage.Forms
                                     dmnmenu.Status = 1;
                                 else
                                     dmnmenu.Status = 0;
+                                dmnmenu.defaultqty = Convert.ToInt32(dgv_menu.Rows[i].Cells[pdefstock].Value);
+
                                 usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
                                 count++;
                             }
@@ -193,7 +197,9 @@ namespace FoodandBeverage.Forms
                                     dmnmenu.Status = 1;
                                 else
                                     dmnmenu.Status = 0;
-                                usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
+                            dmnmenu.defaultqty = Convert.ToInt32(dgv_menu.Rows[i].Cells[pdefstock].Value);
+
+                            usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
                                 count++;
                             //}
                         }
@@ -226,7 +232,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 if (searchmode == -2)
                 {
-                    dmnSearch.Select = " omid Field1,OfferName Field2,'Combo Product' Field3,finalprice Field4,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,3 Field9 ";
+                    dmnSearch.Select = " omid Field1,OfferName Field2,'Combo Product' Field3,finalprice Field4,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,3 Field9,m.DefaultStock AS Field10 ";
                     dmnSearch.Table = "tblOfferMaster om LEFT JOIN tblMenu m ON m.ProductId=om.omid and m.producttype = 3 ";
                     dmnSearch.WhereNdGroupBy = "where om.status=1  and OfferType=1  AND OfferStartDatetime <= GETDATE()  AND OfferEndDatetime >= GETDATE()";
                     dmnSearch.OrderBy = "order by OfferName";
@@ -244,8 +250,10 @@ namespace FoodandBeverage.Forms
                             dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
                             dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
                             dgv_menu.Rows[i].Cells[ppdtype].Value = itemSource[i].Field9;
-
-
+                            dgv_menu.Rows[i].Cells[pdefstock].Value =
+                                itemSource[i].Field10 == null
+                                    ? (decimal)0
+                                    : Convert.ToDecimal(itemSource[i].Field10);
                             bool currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
 
                             // Set checkbox column
@@ -1725,115 +1733,103 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                if(flag == 0)
+                if (flag == 0)
                 {
-                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9";
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,m.Quantity AS Field8,p.PreparationMode Field9,m.DefaultStock AS Field10";
                     objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
                         "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId ";
-                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
-                }
-                else if(flag == 1)
-                {
-                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,md.OpeningQty AS Field8,p.PreparationMode Field9";
-                    objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
-                        "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId left join tblMenuDailyStock md ON md.ProductId=m.ProductId";
-                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1 and md.StockDate = CAST(GETDATE() - 1 AS DATE)";
-                }
-                
-                    
-                
-                
-                objSearch.OrderBy = "order by Product";
-                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (itemSource.Count == 0)
-                {
-                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5 ,m.Status AS Field6,m.Mid AS Field7,0 AS Field8,p.PreparationMode Field9";
-                    objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid " +
-                        "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
-                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1";
+                    objSearch.WhereNdGroupBy = "Where p.status=1 and  m.status=1 GROUP BY p.ProductId,Product,C.CategoryName,p.Price,P.Fcid,m.Status,m.Mid,m.Quantity,p.PreparationMode,m.DefaultStock";
+
+
                     objSearch.OrderBy = "order by Product";
-                    itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                }
-                dgv_menu.Rows.Clear();
-                if (itemSource.Count > 0)
-                {
-                    //Decimal totstock = "0.00";
-                    dgv_menu.Rows.Add(itemSource.Count + 1);
-                    for (int i = 0; i < itemSource.Count; i++)
-                    {
-                        //totstock = totstock + Convert.ToDecimal(itemSource[i].Field8);
-                        dgv_menu.Rows[i].Cells[slno].Value = i + 1;
-                        dgv_menu.Rows[i].Cells[piidno].Value = itemSource[i].Field1;
-                        dgv_menu.Rows[i].Cells[pnameno].Value = itemSource[i].Field2;
-                        dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
-                        dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
-                        dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
-                        dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
-                        dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
-                        dgv_menu.Rows[i].Cells[pqtyno].Style.BackColor = Color.LightGray;
-                        dgv_menu.Columns[pstatusno].Visible = true;
+                    var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
 
-                        chk_selectall.Visible = true;
-                        chk_seleall_pro.Visible = true;
-
-                        bool currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
-
-                        // Set checkbox column
-                        dgv_menu.Rows[i].Cells[pstatusno].Value = currentStatus;
-
-                        // Set action column text
-                        DataGridViewCell buttonCell = dgv_menu.Rows[i].Cells[pactiveinactiveno];
-                        buttonCell.Value = currentStatus ? "Disable" : "Activate";
-                        if (buttonCell != null)
-                        {
-                            if (currentStatus)
-                            {
-                                buttonCell.Style.BackColor = Color.Red;
-                                buttonCell.Style.ForeColor = Color.White;
-                            }
-                            else
-                            {
-                                buttonCell.Style.BackColor = Color.Green;
-                                buttonCell.Style.ForeColor = Color.White;
-                            }
-                        }
-
-
-                        dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field9;
-
-                        if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field9 != null)
-                            dgv_menu.Rows[i].Cells[proptypename].Value = "Requires cooking";
-                        else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field9 != null)
-                        {
-                            dgv_menu.Rows[i].Cells[proptypename].Value = "Freshly Cooked";
-                            //dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
-                        }
-                    }
-                    Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
-                    int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
-                    Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
-                    chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
-                    chk_selectall.BackColor = Color.White;
-                    chk_selectall.Size = new Size(18, 18);
-                    chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
-                    dgv_menu.Controls.Add(chk_selectall);
-
-
-                    int n = dgv_menu.RowCount - 1;
-                    dgv_menu.Rows[n].Cells[pnameno].Value = "F8 for Products";
-                    dgv_menu.Rows[n].Cells[pnameno].Style.ForeColor = Color.Red;
-
-                }
-                else
-                {
-                    chk_seleall_pro.Visible = true;
-                    chk_selectall.Visible = false;
                     dgv_menu.Rows.Clear();
-                    dgv_menu.Rows.Add();
-                    int r = dgv_menu.RowCount - 1;
-                    dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
-                    dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
+                    if (itemSource.Count > 0)
+                    {
+                        //Decimal totstock = "0.00";
+                        dgv_menu.Rows.Add(itemSource.Count + 1);
+                        for (int i = 0; i < itemSource.Count; i++)
+                        {
+                            //totstock = totstock + Convert.ToDecimal(itemSource[i].Field8);
+                            dgv_menu.Rows[i].Cells[slno].Value = i + 1;
+                            dgv_menu.Rows[i].Cells[piidno].Value = itemSource[i].Field1;
+                            dgv_menu.Rows[i].Cells[pnameno].Value = itemSource[i].Field2;
+                            dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
+                            dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
+                            dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
+                            dgv_menu.Rows[i].Cells[pmidno].Value = itemSource[i].Field7;
+                            dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
+                            dgv_menu.Rows[i].Cells[pqtyno].Style.BackColor = Color.LightGray;
+                            dgv_menu.Columns[pstatusno].Visible = true;
+
+                            chk_selectall.Visible = true;
+                            chk_seleall_pro.Visible = true;
+
+                            bool currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
+
+                            // Set checkbox column
+                            dgv_menu.Rows[i].Cells[pstatusno].Value = currentStatus;
+
+                            // Set action column text
+                            DataGridViewCell buttonCell = dgv_menu.Rows[i].Cells[pactiveinactiveno];
+                            buttonCell.Value = currentStatus ? "Disable" : "Activate";
+                            if (buttonCell != null)
+                            {
+                                if (currentStatus)
+                                {
+                                    buttonCell.Style.BackColor = Color.Red;
+                                    buttonCell.Style.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    buttonCell.Style.BackColor = Color.Green;
+                                    buttonCell.Style.ForeColor = Color.White;
+                                }
+                            }
+
+
+                            dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field9;
+                            dgv_menu.Rows[i].Cells[pdefstock].Value =
+                                 itemSource[i].Field10 == null
+                                     ? (decimal)0
+                                     : Convert.ToDecimal(itemSource[i].Field10);
+
+                            if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field9 != null)
+                                dgv_menu.Rows[i].Cells[proptypename].Value = "Requires cooking";
+                            else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field9 != null)
+                            {
+                                dgv_menu.Rows[i].Cells[proptypename].Value = "Freshly Cooked";
+                                //dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
+                            }
+                        }
+                        Rectangle headerCellRect = dgv_menu.GetColumnDisplayRectangle(pstatusno, true);
+                        int checkBoxX = headerCellRect.X + (headerCellRect.Width - chk_selectall.Width) / 2;
+                        Point headerCellLocation = this.dgv_menu.GetCellDisplayRectangle(pstatusno, -1, true).Location;
+                        chk_selectall.Location = new Point(checkBoxX, headerCellLocation.Y + 40);
+                        chk_selectall.BackColor = Color.White;
+                        chk_selectall.Size = new Size(18, 18);
+                        chk_selectall.Click += new EventHandler(chk_selectall_Clicked);
+                        dgv_menu.Controls.Add(chk_selectall);
+
+
+                        int n = dgv_menu.RowCount - 1;
+                        dgv_menu.Rows[n].Cells[pnameno].Value = "F8 for Products";
+                        dgv_menu.Rows[n].Cells[pnameno].Style.ForeColor = Color.Red;
+
+                    }
+                    else
+                    {
+                        chk_seleall_pro.Visible = true;
+                        chk_selectall.Visible = false;
+                        dgv_menu.Rows.Clear();
+                        dgv_menu.Rows.Add();
+                        int r = dgv_menu.RowCount - 1;
+                        dgv_menu.Rows[r].Cells[pnameno].Value = "F8 for Products";
+                        dgv_menu.Rows[r].Cells[pnameno].Style.ForeColor = Color.Red;
+                    }
                 }
+                
 
             }
             catch (Exception ex)
@@ -1842,7 +1838,9 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Menu page Product_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Menu));
             }
         }
-
+        
+        
+       
         private void rb_item_CheckedChanged(object sender, EventArgs e)
         {
             try
@@ -2081,7 +2079,7 @@ namespace FoodandBeverage.Forms
                 {
                     BllSearch<DmnGridFields> bllSearch_product = new BllSearch<DmnGridFields>();
                     DmnSearch objSearch = new DmnSearch();
-                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5,m.Status AS Field6,m.MId Field7,p.PreparationMode Field8,m.Quantity AS Field9";
+                    objSearch.Select = "p.ProductId as Field1,Product as Field2,C.CategoryName AS Field3,p.Price as Field4,P.Fcid AS Field5,m.Status AS Field6,m.MId Field7,p.PreparationMode Field8,m.Quantity AS Field9,m.DefaultStock AS Field10";
                     objSearch.Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON C.Fcid=P.Fcid LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.Status=1";//
                     objSearch.WhereNdGroupBy = "where p.Status=1";
                     objSearch.OrderBy = "order by m.Status desc";
@@ -2103,6 +2101,7 @@ namespace FoodandBeverage.Forms
                             dgv_menu.Rows[i].Cells[pnameno].Style.ForeColor = Color.Black;
                             dgv_menu.Rows[i].Cells[pqtyno].Style.BackColor = Color.LightGray;
                             dgv_menu.Columns[pstatusno].Visible = true;
+                            dgv_menu.Rows[i].Cells[pdefstock].Value = itemSource[i].Field10 == null ? (decimal)0 : Convert.ToDecimal(itemSource[i].Field10);
 
                             dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field8;
                             if (Convert.ToInt32(itemSource[i].Field8) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field8 != null)
@@ -2263,6 +2262,11 @@ namespace FoodandBeverage.Forms
         private void btnresetstock_Click(object sender, EventArgs e)
         {
             Product_Fill(1);
+        }
+
+        private void tlp_button_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

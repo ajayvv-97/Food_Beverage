@@ -162,6 +162,7 @@ namespace FoodandBeverage.Report
             this.btncolse.TabIndex = 10;
             this.btncolse.Text = "X";
             this.btncolse.UseVisualStyleBackColor = false;
+            this.btncolse.Click += new System.EventHandler(this.btncolse_Click);
             // 
             // tlp_top_row
             // 

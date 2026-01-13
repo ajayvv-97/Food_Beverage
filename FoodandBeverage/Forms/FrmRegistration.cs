@@ -1392,8 +1392,8 @@ namespace FoodandBeverage.Forms
         private void btn_cert_upload_Click(object sender, EventArgs e)
         {
             pnl_certview.Visible = true;
-            pnl_certview.Left = (this.ClientSize.Width - pnl_certview.Width) / 2;
-            pnl_certview.Top = (this.ClientSize.Height - pnl_certview.Height) / 2;
+            pnl_certview.Location = new Point(this.ClientSize.Width / 2 - pnl_certview.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_certview.Size.Height / 2));
+
         }
 
         private void proof1_Click(object sender, EventArgs e)

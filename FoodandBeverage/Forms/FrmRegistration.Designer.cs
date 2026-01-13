@@ -94,13 +94,13 @@ namespace FoodandBeverage.Forms
             this.txtg = new System.Windows.Forms.TextBox();
             this.cmbcountry = new System.Windows.Forms.ComboBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.txtwebsite = new System.Windows.Forms.TextBox();
-            this.txtemail = new System.Windows.Forms.TextBox();
             this.lbl = new System.Windows.Forms.Label();
             this.lble = new System.Windows.Forms.Label();
             this.btn_cert_upload = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.txtbillno = new System.Windows.Forms.TextBox();
+            this.txtwebsite = new System.Windows.Forms.TextBox();
+            this.txtemail = new System.Windows.Forms.TextBox();
             this.txtcid = new System.Windows.Forms.TextBox();
             this.pbCust2 = new System.Windows.Forms.PictureBox();
             this.pbCust1 = new System.Windows.Forms.PictureBox();
@@ -1054,29 +1054,6 @@ namespace FoodandBeverage.Forms
             this.label24.Text = "Booking Interwell ";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // txtwebsite
-            // 
-            this.txtwebsite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtwebsite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtwebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtwebsite.Location = new System.Drawing.Point(3, 225);
-            this.txtwebsite.Multiline = true;
-            this.txtwebsite.Name = "txtwebsite";
-            this.txtwebsite.Size = new System.Drawing.Size(241, 30);
-            this.txtwebsite.TabIndex = 10;
-            // 
-            // txtemail
-            // 
-            this.txtemail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtemail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtemail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtemail.Location = new System.Drawing.Point(250, 225);
-            this.txtemail.Multiline = true;
-            this.txtemail.Name = "txtemail";
-            this.txtemail.Size = new System.Drawing.Size(239, 30);
-            this.txtemail.TabIndex = 9;
-            this.txtemail.Validating += new System.ComponentModel.CancelEventHandler(this.txtemail_Validating);
-            // 
             // lbl
             // 
             this.lbl.AutoSize = true;
@@ -1133,6 +1110,29 @@ namespace FoodandBeverage.Forms
             this.txtbillno.Name = "txtbillno";
             this.txtbillno.Size = new System.Drawing.Size(242, 30);
             this.txtbillno.TabIndex = 337;
+            // 
+            // txtwebsite
+            // 
+            this.txtwebsite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtwebsite.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtwebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtwebsite.Location = new System.Drawing.Point(3, 225);
+            this.txtwebsite.Multiline = true;
+            this.txtwebsite.Name = "txtwebsite";
+            this.txtwebsite.Size = new System.Drawing.Size(241, 30);
+            this.txtwebsite.TabIndex = 10;
+            // 
+            // txtemail
+            // 
+            this.txtemail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtemail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtemail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtemail.Location = new System.Drawing.Point(250, 225);
+            this.txtemail.Multiline = true;
+            this.txtemail.Name = "txtemail";
+            this.txtemail.Size = new System.Drawing.Size(239, 30);
+            this.txtemail.TabIndex = 9;
+            this.txtemail.Validating += new System.ComponentModel.CancelEventHandler(this.txtemail_Validating);
             // 
             // txtcid
             // 
@@ -1542,9 +1542,9 @@ namespace FoodandBeverage.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.ClientSize = new System.Drawing.Size(778, 597);
-            this.Controls.Add(this.tlp_main);
             this.Controls.Add(this.pnl_certview);
             this.Controls.Add(this.pnlcerti_view);
+            this.Controls.Add(this.tlp_main);
             this.Controls.Add(this.txtcid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmRegistration";

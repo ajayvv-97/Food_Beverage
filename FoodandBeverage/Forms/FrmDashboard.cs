@@ -2996,11 +2996,11 @@ namespace FoodandBeverage.Forms
                             ib_Company.Visible = true;
                             Menuoperation.Visible = true;
                         }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Write == 1)
-                        {
-                            ib_reservation.Visible = true;
-                            Menuoperation.Visible = true;
-                        }
+                        //else if (gridesource[i].Form == Convert.ToInt32(formsenum.Reservation) && gridesource[i].Write == 1)
+                        //{
+                        //    ib_reservation.Visible = true;
+                        //    Menuoperation.Visible = true;
+                        //}
                         else if (gridesource[i].Form == Convert.ToInt32(formsenum.OrderView) && gridesource[i].Write == 1)
                         {
                             ib_orderview.Visible = true;
@@ -3067,7 +3067,7 @@ namespace FoodandBeverage.Forms
                             ib_virtualkeybpard.Visible = true;
                             ib_gensetting.Visible = true;
                             ib_billsetting.Visible = true;
-                            ib_appcolor.Visible = true;
+                            //ib_appcolor.Visible = true;
                             ib_drawer.Visible = true;
                         }
                         #endregion

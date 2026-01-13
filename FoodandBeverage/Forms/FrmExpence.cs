@@ -677,19 +677,19 @@ namespace FoodandBeverage.Forms
 
                     if (cmb_searchtype.SelectedIndex == 0)
                     {
-                        objSearch.WhereNdGroupBy = " WHERE Status = 1 AND reason = " + cmb_search_reason.SelectedValue + " AND CreatedOn <= '" + sfrom.ToString(Dateformat) + "' AND '" + sto.ToString(Dateformat) + "' >=CreatedOn";
+                        objSearch.WhereNdGroupBy = " WHERE Status = 1 AND reason = " + cmb_search_reason.SelectedValue + " AND CreatedOn >= '" + sfrom.ToString(Dateformat) + "' AND CreatedOn <= '" + sto.ToString(Dateformat);
                     }
                     else if (cmb_searchtype.SelectedIndex == 1)
                     {
-                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND Amount = " + txtsearch_amount.Text + " AND CreatedOn <= '" + sfrom.ToString(Dateformat) + "' AND '" + sto.ToString(Dateformat) + "' >=CreatedOn";
+                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND Amount = " + txtsearch_amount.Text + " AND CreatedOn >= '" + sfrom.ToString(Dateformat) + "' AND CreatedOn <= '" + sto.ToString(Dateformat);
                     }
                     else if (cmb_searchtype.SelectedIndex == 2)
                     {
-                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND Empolyeeid = " + cmb_search_Employee.SelectedIndex + " AND CreatedOn <= '" + sfrom.ToString(Dateformat) + "' AND '" + sto.ToString(Dateformat) + "' >=CreatedOn";
+                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND Empolyeeid = " + cmb_search_Employee.SelectedIndex + " AND CreatedOn >= '" + sfrom.ToString(Dateformat) + "' AND CreatedOn <= '" + sto.ToString(Dateformat);
                     }
                     else if (cmb_searchtype.SelectedIndex == 3)
                     {
-                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND paymentid =" + cmb_search_payment.SelectedIndex + " AND CreatedOn <= '" + sfrom.ToString(Dateformat) + "' AND '" + sto.ToString(Dateformat) + "' >=CreatedOn";
+                        objSearch.WhereNdGroupBy = $" WHERE Status = 1 AND paymentid =" + cmb_search_payment.SelectedIndex + " AND CreatedOn >= '" + sfrom.ToString(Dateformat) + "' AND CreatedOn <= '" + sto.ToString(Dateformat);
                     }
 
                     objSearch.OrderBy = "";
