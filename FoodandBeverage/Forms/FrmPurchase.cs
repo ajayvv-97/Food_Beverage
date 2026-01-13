@@ -70,7 +70,8 @@ namespace FoodandBeverage.Forms
         List<DmnComboBox> gridSource_sale = new List<DmnComboBox>();
         List<DmnComboBox> gridSource_Nonsale = new List<DmnComboBox>();
         public bool Searchflag = false;
-
+        public bool RecallF8flag = false;
+        
         private void btn_vendor_add_Click(object sender, EventArgs e)
         {
             pnlCustomer.Visible = true;
@@ -1281,6 +1282,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (RecallF8flag)
+                    return;
+
                 if (dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != "" && dgvProduct.Rows[e.RowIndex].Cells[iitemid].Value != null && CellRow == true && Convert.ToInt32(dgvProduct.Rows[e.RowIndex].Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.Sale))
                 {
                     DataGridViewTextBoxCell cell = dgvProduct[israte, e.RowIndex] as DataGridViewTextBoxCell;
@@ -2492,6 +2496,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                RecallF8flag = true;
                 if (dgvProduct.Rows.Count == 1)
                 {
                     dgvProduct.Focus();
@@ -2522,6 +2527,10 @@ namespace FoodandBeverage.Forms
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Purchase page Recallmenu() ", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FoodandBeverage.Interfaces.FormType.Purchase));
 
+            }
+            finally
+            {
+                RecallF8flag = false;
             }
         }
         public void RecallBarCode()

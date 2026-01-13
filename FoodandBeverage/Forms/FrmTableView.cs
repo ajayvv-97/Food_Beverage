@@ -1768,7 +1768,9 @@ namespace FoodandBeverage.Forms
             }
 
             // 8. Round Corners (SAFE)
+
             UIHelper.RoundCorners(flp_sidemenu, 25);
+            flp_sidemenu.BringToFront();
         }
 
         private void SideMenuClick(object sender, EventArgs e)

@@ -818,7 +818,9 @@ namespace FoodandBeverage.Forms
                     txtmrp.Text = Convert.ToString(gridSource[0].MRP);
                     txtprice.Text = Convert.ToString(gridSource[0].Price);
                     cmbtax.Text = Convert.ToString(gridSource[0].Tax);
+
                     txtqty.Text = Convert.ToString(gridSource[0].Quantity);
+
                     CmbCategory.SelectedValue = Convert.ToInt64(gridSource[0].Fcid);
                     cmbTaxType.Text = Convert.ToString(gridSource[0].TaxType);
                     txtdes.Text = Convert.ToString(gridSource[0].Description);

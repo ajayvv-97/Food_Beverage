@@ -804,6 +804,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
+
                 ProfilPIC_update();
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 panelDesktop.Controls.Clear();
@@ -952,6 +954,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
+
                 AdjustButtonsToPanel();
                 ButtonID = Convert.ToInt32(Menubutton.Menuoperation);
                 time_syn_lal.Stop();
@@ -998,6 +1002,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
+
                 ButtonID = Convert.ToInt32(Menubutton.Menubilling);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -1086,6 +1092,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
+
                 ButtonID = Convert.ToInt32(Menubutton.Menureport);
 
                 time_syn_lal.Stop();
@@ -1218,6 +1226,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 AdjustButtonsToPanel();
                 ButtonID = Convert.ToInt32(Menubutton.Menusetting);
                 reset_sync.Stop();
@@ -1558,6 +1567,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmFTICategory"] != null)
                 {
                     FrmFTICategory _instanceFrmFTICategory = Application.OpenForms["FrmFTICategory"] as FrmFTICategory;
@@ -1596,6 +1606,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmItemRegistartion"] != null)
                 {
                     FrmItemRegistartion _instanceItemRegistartion = Application.OpenForms["FrmItemRegistartion"] as FrmItemRegistartion;
@@ -1643,6 +1654,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmMenu"] != null)
                 {
                     FrmMenu _instanceFrmMenu = Application.OpenForms["FrmMenu"] as FrmMenu;
@@ -1682,6 +1694,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmIngredient"] != null)
                 {
                     FrmIngredient _instanceFrmIngredient = Application.OpenForms["FrmIngredient"] as FrmIngredient;
@@ -1719,6 +1732,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmUnit"] != null)
                 {
                     FrmUnit _instanceFrmUnit = Application.OpenForms["FrmUnit"] as FrmUnit;
@@ -1755,6 +1769,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmTableInfo"] != null)
                 {
                     FrmTableInfo _instanceTableInfo = Application.OpenForms["FrmTableInfo"] as FrmTableInfo;
@@ -1790,6 +1805,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmPurchase"] != null)
                 {
                     FrmPurchase _instanceFrmPurchase = Application.OpenForms["FrmPurchase"] as FrmPurchase;
@@ -1825,6 +1841,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
                 {
                     FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
@@ -1861,6 +1878,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmTaxSetting"] != null)
                 {
                     FrmTaxSetting _instanceTaxSetting = Application.OpenForms["FrmTaxSetting"] as FrmTaxSetting;
@@ -2043,6 +2061,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmVendor"] != null)
                 {
                     FrmVendor _instanceFrmVendor = Application.OpenForms["FrmVendor"] as FrmVendor;
@@ -2145,6 +2164,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmOfferDiscount"] != null)
                 {
                     FrmOfferDiscount _instanceFrmOfferDiscount = Application.OpenForms["FrmOfferDiscount"] as FrmOfferDiscount;
@@ -2183,6 +2203,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmExpence"] != null)
                 {
                     FrmExpence _instanceFrmexpence = Application.OpenForms["FrmExpence"] as FrmExpence;
@@ -2218,6 +2239,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+
                 if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
                 {
                     FrmOrderView _instanceFrmorderview = Application.OpenForms["FrmOrderView"] as FrmOrderView;
@@ -2259,6 +2281,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmKitchenView"] != null)
                 {
                     FrmKitchenView _instanceFrmKitchenView = Application.OpenForms["FrmKitchenView"] as FrmKitchenView;
@@ -2291,6 +2314,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmPromo"] != null)
                 {
                     FrmPromo _instanceFrmPromo = Application.OpenForms["FrmPromo"] as FrmPromo;
@@ -2471,6 +2495,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmRegistration"] != null)
                 {
                     FrmRegistration _instanceFrmreg = Application.OpenForms["FrmRegistration"] as FrmRegistration;
@@ -2508,6 +2533,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
+
                 AdjustButtonsToPanel();
                 ButtonID = Convert.ToInt32(Menubutton.MenuEmployee);
                 time_syn_lal.Stop();
@@ -2560,6 +2587,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmEmployeeShort"] != null)
                 {
                     FrmEmployeeShort _instanceFrmEmp = Application.OpenForms["FrmEmployeeShort"] as FrmEmployeeShort;
@@ -3157,6 +3185,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 ButtonID = Convert.ToInt32(Menubutton.Menutable);
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -3279,6 +3308,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 panelDesktop.BackColor = SystemColors.Control;
                 if (System.Windows.Forms.Application.OpenForms["FrmAddon"] != null)
                 {
@@ -4994,6 +5024,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmRefund"] != null)
                 {
                     FrmRefund _instanceFrmRefund = Application.OpenForms["FrmRefund"] as FrmRefund;
@@ -5636,6 +5667,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["Frmvoidsale"] != null)
                 {
                     Frmvoidsale _instanceFrmVoidSale =
@@ -5679,6 +5711,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
                 if (System.Windows.Forms.Application.OpenForms["FrmUnitConversion"] != null)
                 {
                     FrmUnitConversion _instanceFrmUnit = Application.OpenForms["FrmUnitConversion"] as FrmUnitConversion;
@@ -5711,6 +5744,10 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        public void PrepareForSideMenuNavigation()
+        {
+            UIHelper.CloseAllMasterForms();
+        }
 
         #region Keyboard
         public void ShowKeyboard(Control activeControl, int kbtype)

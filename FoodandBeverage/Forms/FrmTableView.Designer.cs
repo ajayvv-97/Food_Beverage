@@ -50,7 +50,6 @@ namespace FoodandBeverage.Forms
             this.tlp_main.SuspendLayout();
             this.tlp_footer.SuspendLayout();
             this.tlp_search.SuspendLayout();
-            this.flp_tableview.SuspendLayout();
             this.SuspendLayout();
             // 
             // AutoTimer
@@ -272,7 +271,6 @@ namespace FoodandBeverage.Forms
             // flp_tableview
             // 
             this.flp_tableview.AutoScroll = true;
-            this.flp_tableview.Controls.Add(this.flp_sidemenu);
             this.flp_tableview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_tableview.Location = new System.Drawing.Point(2, 64);
             this.flp_tableview.Margin = new System.Windows.Forms.Padding(2);
@@ -283,10 +281,10 @@ namespace FoodandBeverage.Forms
             // flp_sidemenu
             // 
             this.flp_sidemenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.flp_sidemenu.Location = new System.Drawing.Point(2, 2);
+            this.flp_sidemenu.Location = new System.Drawing.Point(41, 64);
             this.flp_sidemenu.Margin = new System.Windows.Forms.Padding(2);
             this.flp_sidemenu.Name = "flp_sidemenu";
-            this.flp_sidemenu.Size = new System.Drawing.Size(207, 293);
+            this.flp_sidemenu.Size = new System.Drawing.Size(166, 229);
             this.flp_sidemenu.TabIndex = 21;
             this.flp_sidemenu.Visible = false;
             // 
@@ -297,6 +295,7 @@ namespace FoodandBeverage.Forms
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(714, 526);
+            this.Controls.Add(this.flp_sidemenu);
             this.Controls.Add(this.tlp_main);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -312,7 +311,6 @@ namespace FoodandBeverage.Forms
             this.tlp_footer.PerformLayout();
             this.tlp_search.ResumeLayout(false);
             this.tlp_search.PerformLayout();
-            this.flp_tableview.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
