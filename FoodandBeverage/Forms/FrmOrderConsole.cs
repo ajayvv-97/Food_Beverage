@@ -7043,6 +7043,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     ClearAll();
                     checksave_refresh();
                 }
+                if(tableId >0 && OrderRunning_Status == false)
+                {
+                    pnl_Guests.Visible = true;
+                    pnl_Guests.Location = new Point(this.ClientSize.Width / 2 - pnl_Guests.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Guests.Size.Height / 2));
+                }
 
                 AddEmptyRowIfNeeded();
             }
@@ -9074,6 +9079,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     textBox.Text = "";
                 }
 
+
                 //btn_split_number.Visible = true;
                 txtname_search.Text = "Food Name .....";
                 txtitemcode_serach.Text = "Item Code .....";
@@ -9125,6 +9131,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 //Btnpartpayment.Visible = true;
                 //btn_splitpayment.Visible = true;
                 combined_Status = false;
+                txtadults.Text = Convert.ToString(1);
+                txtchild.Text = Convert.ToString(0);
+                txtother.Text = Convert.ToString(0);
+                totguests.Text = Convert.ToString(1);
 
             }
             catch (Exception ex)
