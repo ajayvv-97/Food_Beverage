@@ -260,6 +260,13 @@ namespace FoodandBeverage.Forms
                         "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+                
+            }
+            if (cmbRefundPayType.SelectedIndex == 2 && Convert.ToString(lblcardno.Text) == "")
+            {
+                MessageBox.Show("Please Click on card Tap.",
+                    "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
 
