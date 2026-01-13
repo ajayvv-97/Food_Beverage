@@ -35,6 +35,7 @@ namespace Domain
         public int TableType { get; set; }
         public int CustomQtyFlag { get; set; }
         public int PreviousOrderQty { get; set; }
+        public int defaultqty { get; set; }
 
     }
 }

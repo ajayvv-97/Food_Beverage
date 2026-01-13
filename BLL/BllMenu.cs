@@ -24,6 +24,7 @@ namespace BLL
             parms.Add("ProductType", objTestClass.ProductType);
             parms.Add("PreparationMode", objTestClass.PreparationMode);
             parms.Add("ResetStatus", objTestClass.ResetStatus);
+            parms.Add("defaultqty", objTestClass.defaultqty);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
