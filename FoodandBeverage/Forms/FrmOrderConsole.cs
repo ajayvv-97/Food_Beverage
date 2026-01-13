@@ -314,6 +314,7 @@ namespace FoodandBeverage.Forms
 
             ShowLoadingdGif();
             pageSize = Pagecount;
+      
 
             #region ChkWritePermission
             if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
@@ -452,12 +453,13 @@ namespace FoodandBeverage.Forms
             }
 
             #endregion
-            if (tableId > 0 && OrderRunning_Status == false)
+            if (tableId > 0 && OrderRunning_Status == false && Pickup_Status == false)
             {
                 pnl_Guests.Visible = true;
                 pnl_Guests.Location = new Point(this.ClientSize.Width / 2 - pnl_Guests.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Guests.Size.Height / 2));
 
             }
+
 
             #region Palce Holder  Textboxes setting
             txtname_search.Text = "Food Name .....";
@@ -7043,7 +7045,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     ClearAll();
                     checksave_refresh();
                 }
-                if(tableId >0 && OrderRunning_Status == false)
+                if(tableId > 0 && OrderRunning_Status == false && Pickup_Status == false )
                 {
                     pnl_Guests.Visible = true;
                     pnl_Guests.Location = new Point(this.ClientSize.Width / 2 - pnl_Guests.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Guests.Size.Height / 2));

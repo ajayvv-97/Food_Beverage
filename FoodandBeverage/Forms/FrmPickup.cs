@@ -1149,7 +1149,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (clickedControl.Tag != null)
                         {
-                            using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage), Cancelorderstatus))
+                            using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage), Cancelorderstatus))
                             {
                                 _instanceFrmOrder.ShowDialog();
                             }
