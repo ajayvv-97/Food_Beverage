@@ -21,7 +21,7 @@ namespace FoodandBeverage.Forms
         {
             pb_loadingimg.Image = Properties.Resources.loading_gif;
             pb_loadingimg.SizeMode = PictureBoxSizeMode.StretchImage;
-            await Task.Delay(1000);
+            await Task.Delay(500);
             this.Close();
             this.Dispose();
 
