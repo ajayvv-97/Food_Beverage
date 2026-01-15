@@ -11028,11 +11028,28 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
         private void txtadults_TextChanged(object sender, EventArgs e)
         {
-            totguests.Text =
-                (Convert.ToInt32(txtadults.Text) +
-                 Convert.ToInt32(txtchild.Text) +
-                 Convert.ToInt32(txtother.Text)).ToString();
+            UpdateTotalGuests();
         }
+        private void UpdateTotalGuests()
+        {
+            try
+            {
+                int adults = int.TryParse(txtadults.Text, out var a) ? a : 1;
+                int child = int.TryParse(txtchild.Text, out var c) ? c : 0;
+                int other = int.TryParse(txtother.Text, out var o) ? o : 0;
+
+                totguests.Text = (adults + child + other).ToString();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page UpdateTotalGuests()", ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
+            }
+        }
+
+
 
         private void txtadults_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -11043,13 +11060,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             }
         }
 
-        private void txtchild_TextChanged(object sender, EventArgs e)
-        {
-            totguests.Text =
-                (Convert.ToInt32(txtadults.Text) +
-                 Convert.ToInt32(txtchild.Text) +
-                 Convert.ToInt32(txtother.Text)).ToString();
-        }
+
 
         private void txtchild_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -11060,13 +11071,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             }
         }
 
-        private void txtother_TextChanged(object sender, EventArgs e)
-        {
-            totguests.Text =
-                (Convert.ToInt32(txtadults.Text) +
-                 Convert.ToInt32(txtchild.Text) +
-                 Convert.ToInt32(txtother.Text)).ToString();
-        }
+
 
         private void txtother_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -11081,6 +11086,34 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         {
             pnl_multprice.Visible = false;
         }
+
+        private void txtadults_Leave(object sender, EventArgs e)
+        {
+            Guest_Leave(sender, e);
+        }
+
+        private void Guest_Leave(object sender, EventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            if (txt == null) return;
+
+            // Adults must be minimum 1
+            if (txt == txtadults)
+            {
+                if (!int.TryParse(txt.Text, out int val) || val < 1)
+                    txt.Text = "1";
+            }
+            else
+            {
+                // Child & Other minimum 0
+                if (!int.TryParse(txt.Text, out int val) || val < 0)
+                    txt.Text = "0";
+            }
+
+            UpdateTotalGuests();
+        }
+
 
         private void btnPartPaynow_Click(object sender, EventArgs e)
         {
