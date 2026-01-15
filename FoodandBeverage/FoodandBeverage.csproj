@@ -39,6 +39,9 @@
   <PropertyGroup>
     <ApplicationIcon>fbicon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AYJ_CardLib_Mi">
       <HintPath>..\..\MidasFun_Game\Game\bin\Debug\AYJ_CardLib_Mi.dll</HintPath>
@@ -1097,6 +1100,7 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SaleBill_Copy.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="DS\DSKitchen.xsc">
       <DependentUpon>DSKitchen.xsd</DependentUpon>
     </None>

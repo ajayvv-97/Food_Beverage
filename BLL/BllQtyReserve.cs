@@ -48,9 +48,9 @@ namespace BLL
             parms.Add("TableType", objTestClass.TableType);
             parms.Add("ActionType", 3); // Assuming 3 = cancel/reset action
             parms.Add("Id", objTestClass.ProductId);
-            parms.Add("Qty", null);
+            parms.Add("Qty", objTestClass.OrderQty);
             parms.Add("ProductType", objTestClass.ProductType);
-            parms.Add("ReservedQty", 0);
+            parms.Add("ReservedQty", objTestClass.OrderQty);
             parms.Add("CustomQtyFlag", 0);
             parms.Add("PreviousOrderQty", 0);
 
