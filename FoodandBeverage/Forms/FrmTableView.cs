@@ -513,7 +513,7 @@ namespace FoodandBeverage.Forms
                 if (isCancelNotified==1)
                 {
                     ui.Inner.BackColor = CancelProduct_order;
-                    ui.NetAmount.Text = "staff cancel ordfer";
+                    ui.NetAmount.Text = "Staff Cancel Order";
                     ui.NetAmount.ForeColor = Color.White;
                     ui.NetAmount.BackColor = ReconfirmLabelBG;
                     ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
