@@ -34,9 +34,21 @@ namespace BLL
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
-        
-
+        public bool AddEditWorkTime(string procedurename, DmnLocationWorkTime objTestClass)
+        {
+            DAL.DapperRepository<DmnLocationWorkTime> dapperRepository = new DAL.DapperRepository<DmnLocationWorkTime>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("LocId", objTestClass.LocId);
+            parms.Add("DayId", objTestClass.DayId);
+            parms.Add("FromTime", objTestClass.FromTime);
+            parms.Add("ToTime", objTestClass.ToTime);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            bool data = dapperRepository.Add(procedurename, parms);
+            return data;
         }
+
+    }
 }
 
 

@@ -129,6 +129,34 @@ namespace FoodandBeverage.Forms
             this.btn_cert1_dow = new System.Windows.Forms.Button();
             this.btn_cert1_remove = new System.Windows.Forms.Button();
             this.btn_cert_ok_ = new System.Windows.Forms.Button();
+            this.tlp_time = new System.Windows.Forms.TableLayoutPanel();
+            this.gb_time = new System.Windows.Forms.GroupBox();
+            this.tlp_timedetails = new System.Windows.Forms.TableLayoutPanel();
+            this.totime7 = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
+            this.ftime7 = new System.Windows.Forms.DateTimePicker();
+            this.ftime1 = new System.Windows.Forms.DateTimePicker();
+            this.label10 = new System.Windows.Forms.Label();
+            this.totime1 = new System.Windows.Forms.DateTimePicker();
+            this.totime6 = new System.Windows.Forms.DateTimePicker();
+            this.label26 = new System.Windows.Forms.Label();
+            this.ftime6 = new System.Windows.Forms.DateTimePicker();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.totime5 = new System.Windows.Forms.DateTimePicker();
+            this.ftime2 = new System.Windows.Forms.DateTimePicker();
+            this.ftime5 = new System.Windows.Forms.DateTimePicker();
+            this.totime2 = new System.Windows.Forms.DateTimePicker();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.totime4 = new System.Windows.Forms.DateTimePicker();
+            this.ftime3 = new System.Windows.Forms.DateTimePicker();
+            this.ftime4 = new System.Windows.Forms.DateTimePicker();
+            this.totime3 = new System.Windows.Forms.DateTimePicker();
+            this.label32 = new System.Windows.Forms.Label();
+            this.btncls_time = new System.Windows.Forms.Button();
+            this.btntime = new System.Windows.Forms.Button();
             this.tlp_header_nav.SuspendLayout();
             this.tlp_buttons.SuspendLayout();
             this.pnlcerti_view.SuspendLayout();
@@ -154,6 +182,9 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel13.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tlp_time.SuspendLayout();
+            this.gb_time.SuspendLayout();
+            this.tlp_timedetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtcerti3
@@ -586,10 +617,10 @@ namespace FoodandBeverage.Forms
             this.pnlcerti_view.BackColor = System.Drawing.Color.AliceBlue;
             this.pnlcerti_view.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlcerti_view.Controls.Add(this.tableLayoutPanel1);
-            this.pnlcerti_view.Location = new System.Drawing.Point(229, 19);
+            this.pnlcerti_view.Location = new System.Drawing.Point(665, 50);
             this.pnlcerti_view.Name = "pnlcerti_view";
             this.pnlcerti_view.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlcerti_view.Size = new System.Drawing.Size(351, 390);
+            this.pnlcerti_view.Size = new System.Drawing.Size(368, 450);
             this.pnlcerti_view.TabIndex = 0;
             this.pnlcerti_view.Visible = false;
             // 
@@ -608,7 +639,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(343, 382);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(360, 442);
             this.tableLayoutPanel1.TabIndex = 14;
             // 
             // label25
@@ -618,9 +649,9 @@ namespace FoodandBeverage.Forms
             this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.Color.Red;
-            this.label25.Location = new System.Drawing.Point(3, 490);
+            this.label25.Location = new System.Drawing.Point(3, 406);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(337, 15);
+            this.label25.Size = new System.Drawing.Size(354, 36);
             this.label25.TabIndex = 291;
             this.label25.Text = "ESC close";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -638,7 +669,7 @@ namespace FoodandBeverage.Forms
             this.tlp_pb_viewheader.Name = "tlp_pb_viewheader";
             this.tlp_pb_viewheader.RowCount = 1;
             this.tlp_pb_viewheader.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_pb_viewheader.Size = new System.Drawing.Size(337, 24);
+            this.tlp_pb_viewheader.Size = new System.Drawing.Size(354, 24);
             this.tlp_pb_viewheader.TabIndex = 0;
             // 
             // lbl_cert_view_name
@@ -651,7 +682,7 @@ namespace FoodandBeverage.Forms
             this.lbl_cert_view_name.ForeColor = System.Drawing.Color.White;
             this.lbl_cert_view_name.Location = new System.Drawing.Point(3, 0);
             this.lbl_cert_view_name.Name = "lbl_cert_view_name";
-            this.lbl_cert_view_name.Size = new System.Drawing.Size(311, 24);
+            this.lbl_cert_view_name.Size = new System.Drawing.Size(327, 24);
             this.lbl_cert_view_name.TabIndex = 14;
             this.lbl_cert_view_name.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -665,22 +696,21 @@ namespace FoodandBeverage.Forms
             this.btnclose_certi_view.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnclose_certi_view.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnclose_certi_view.ForeColor = System.Drawing.Color.Red;
-            this.btnclose_certi_view.Location = new System.Drawing.Point(320, 3);
+            this.btnclose_certi_view.Location = new System.Drawing.Point(336, 3);
             this.btnclose_certi_view.Name = "btnclose_certi_view";
-            this.btnclose_certi_view.Size = new System.Drawing.Size(14, 18);
+            this.btnclose_certi_view.Size = new System.Drawing.Size(15, 18);
             this.btnclose_certi_view.TabIndex = 12;
             this.btnclose_certi_view.UseVisualStyleBackColor = false;
             this.btnclose_certi_view.Click += new System.EventHandler(this.btnclose_certi_view_Click);
             // 
             // pb_cert_view_box
             // 
-            this.pb_cert_view_box.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb_cert_view_box.BackgroundImage")));
             this.pb_cert_view_box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pb_cert_view_box.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pb_cert_view_box.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pb_cert_view_box.Location = new System.Drawing.Point(3, 33);
             this.pb_cert_view_box.Name = "pb_cert_view_box";
-            this.pb_cert_view_box.Size = new System.Drawing.Size(337, 454);
+            this.pb_cert_view_box.Size = new System.Drawing.Size(354, 370);
             this.pb_cert_view_box.TabIndex = 0;
             this.pb_cert_view_box.TabStop = false;
             // 
@@ -715,7 +745,7 @@ namespace FoodandBeverage.Forms
             this.tlp_outdesign.Name = "tlp_outdesign";
             this.tlp_outdesign.RowCount = 2;
             this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 196F));
+            this.tlp_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 182F));
             this.tlp_outdesign.Size = new System.Drawing.Size(762, 501);
             this.tlp_outdesign.TabIndex = 316;
             // 
@@ -752,6 +782,7 @@ namespace FoodandBeverage.Forms
             this.tlp_reg.Controls.Add(this.txtbillno, 2, 7);
             this.tlp_reg.Controls.Add(this.txtwebsite, 0, 7);
             this.tlp_reg.Controls.Add(this.txtemail, 1, 7);
+            this.tlp_reg.Controls.Add(this.btntime, 1, 8);
             this.tlp_reg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_reg.Location = new System.Drawing.Point(10, 3);
             this.tlp_reg.Name = "tlp_reg";
@@ -765,7 +796,7 @@ namespace FoodandBeverage.Forms
             this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_reg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tlp_reg.Size = new System.Drawing.Size(740, 299);
+            this.tlp_reg.Size = new System.Drawing.Size(740, 313);
             this.tlp_reg.TabIndex = 2;
             // 
             // cmdstate
@@ -1080,12 +1111,19 @@ namespace FoodandBeverage.Forms
             // 
             // btn_cert_upload
             // 
+            this.btn_cert_upload.BackColor = System.Drawing.Color.Transparent;
+            this.btn_cert_upload.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_cert_upload.BackgroundImage")));
+            this.btn_cert_upload.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_cert_upload.FlatAppearance.BorderSize = 0;
+            this.btn_cert_upload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_cert_upload.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_cert_upload.ForeColor = System.Drawing.Color.White;
             this.btn_cert_upload.Location = new System.Drawing.Point(3, 261);
             this.btn_cert_upload.Name = "btn_cert_upload";
-            this.btn_cert_upload.Size = new System.Drawing.Size(241, 30);
+            this.btn_cert_upload.Size = new System.Drawing.Size(165, 47);
             this.btn_cert_upload.TabIndex = 333;
             this.btn_cert_upload.Text = "Certificate Upload";
-            this.btn_cert_upload.UseVisualStyleBackColor = true;
+            this.btn_cert_upload.UseVisualStyleBackColor = false;
             this.btn_cert_upload.Click += new System.EventHandler(this.btn_cert_upload_Click);
             // 
             // label8
@@ -1211,10 +1249,10 @@ namespace FoodandBeverage.Forms
             // 
             this.pnl_certview.BackColor = System.Drawing.Color.White;
             this.pnl_certview.Controls.Add(this.tlp_certview);
-            this.pnl_certview.Location = new System.Drawing.Point(24, 42);
+            this.pnl_certview.Location = new System.Drawing.Point(45, 146);
             this.pnl_certview.Name = "pnl_certview";
             this.pnl_certview.Padding = new System.Windows.Forms.Padding(8);
-            this.pnl_certview.Size = new System.Drawing.Size(707, 458);
+            this.pnl_certview.Size = new System.Drawing.Size(646, 354);
             this.pnl_certview.TabIndex = 333;
             // 
             // tlp_certview
@@ -1241,7 +1279,7 @@ namespace FoodandBeverage.Forms
             this.tlp_certview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 84F));
             this.tlp_certview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tlp_certview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlp_certview.Size = new System.Drawing.Size(691, 442);
+            this.tlp_certview.Size = new System.Drawing.Size(630, 338);
             this.tlp_certview.TabIndex = 0;
             // 
             // proof1
@@ -1256,7 +1294,7 @@ namespace FoodandBeverage.Forms
             this.proof1.IconChar = FontAwesome.Sharp.IconChar.None;
             this.proof1.IconColor = System.Drawing.Color.Black;
             this.proof1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.proof1.Location = new System.Drawing.Point(3, 356);
+            this.proof1.Location = new System.Drawing.Point(3, 253);
             this.proof1.Name = "proof1";
             this.proof1.Size = new System.Drawing.Size(101, 38);
             this.proof1.TabIndex = 309;
@@ -1276,7 +1314,7 @@ namespace FoodandBeverage.Forms
             this.proof2.IconChar = FontAwesome.Sharp.IconChar.None;
             this.proof2.IconColor = System.Drawing.Color.Black;
             this.proof2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.proof2.Location = new System.Drawing.Point(233, 356);
+            this.proof2.Location = new System.Drawing.Point(213, 253);
             this.proof2.Name = "proof2";
             this.proof2.Size = new System.Drawing.Size(101, 38);
             this.proof2.TabIndex = 310;
@@ -1296,7 +1334,7 @@ namespace FoodandBeverage.Forms
             this.proof3.IconChar = FontAwesome.Sharp.IconChar.None;
             this.proof3.IconColor = System.Drawing.Color.Black;
             this.proof3.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.proof3.Location = new System.Drawing.Point(463, 356);
+            this.proof3.Location = new System.Drawing.Point(423, 253);
             this.proof3.Name = "proof3";
             this.proof3.Size = new System.Drawing.Size(101, 38);
             this.proof3.TabIndex = 311;
@@ -1307,12 +1345,11 @@ namespace FoodandBeverage.Forms
             // pb3
             // 
             this.pb3.BackColor = System.Drawing.Color.Transparent;
-            this.pb3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb3.BackgroundImage")));
             this.pb3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pb3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pb3.Location = new System.Drawing.Point(463, 59);
+            this.pb3.Location = new System.Drawing.Point(423, 43);
             this.pb3.Name = "pb3";
-            this.pb3.Size = new System.Drawing.Size(225, 291);
+            this.pb3.Size = new System.Drawing.Size(204, 204);
             this.pb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb3.TabIndex = 308;
             this.pb3.TabStop = false;
@@ -1320,12 +1357,11 @@ namespace FoodandBeverage.Forms
             // pb2
             // 
             this.pb2.BackColor = System.Drawing.Color.Transparent;
-            this.pb2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb2.BackgroundImage")));
             this.pb2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pb2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pb2.Location = new System.Drawing.Point(233, 59);
+            this.pb2.Location = new System.Drawing.Point(213, 43);
             this.pb2.Name = "pb2";
-            this.pb2.Size = new System.Drawing.Size(224, 291);
+            this.pb2.Size = new System.Drawing.Size(204, 204);
             this.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb2.TabIndex = 307;
             this.pb2.TabStop = false;
@@ -1333,12 +1369,11 @@ namespace FoodandBeverage.Forms
             // pb1
             // 
             this.pb1.BackColor = System.Drawing.Color.Transparent;
-            this.pb1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pb1.BackgroundImage")));
             this.pb1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pb1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pb1.Location = new System.Drawing.Point(3, 59);
+            this.pb1.Location = new System.Drawing.Point(3, 43);
             this.pb1.Name = "pb1";
-            this.pb1.Size = new System.Drawing.Size(224, 291);
+            this.pb1.Size = new System.Drawing.Size(204, 204);
             this.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb1.TabIndex = 294;
             this.pb1.TabStop = false;
@@ -1353,51 +1388,48 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel13.Controls.Add(this.btn_cert3_dow, 1, 0);
             this.tableLayoutPanel13.Controls.Add(this.btn_cert3_remove, 2, 0);
             this.tableLayoutPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel13.Location = new System.Drawing.Point(463, 3);
+            this.tableLayoutPanel13.Location = new System.Drawing.Point(423, 3);
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
             this.tableLayoutPanel13.RowCount = 1;
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel13.Size = new System.Drawing.Size(225, 50);
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(204, 34);
             this.tableLayoutPanel13.TabIndex = 2;
             // 
             // btn_cert3_view
             // 
-            this.btn_cert3_view.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_view_icon;
             this.btn_cert3_view.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert3_view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert3_view.FlatAppearance.BorderSize = 0;
             this.btn_cert3_view.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cert3_view.Location = new System.Drawing.Point(3, 3);
             this.btn_cert3_view.Name = "btn_cert3_view";
-            this.btn_cert3_view.Size = new System.Drawing.Size(69, 44);
+            this.btn_cert3_view.Size = new System.Drawing.Size(62, 28);
             this.btn_cert3_view.TabIndex = 0;
             this.btn_cert3_view.UseVisualStyleBackColor = true;
             this.btn_cert3_view.Click += new System.EventHandler(this.btn_cert3_view_Click);
             // 
             // btn_cert3_dow
             // 
-            this.btn_cert3_dow.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_download_icon;
             this.btn_cert3_dow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert3_dow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert3_dow.FlatAppearance.BorderSize = 0;
             this.btn_cert3_dow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cert3_dow.Location = new System.Drawing.Point(78, 3);
+            this.btn_cert3_dow.Location = new System.Drawing.Point(71, 3);
             this.btn_cert3_dow.Name = "btn_cert3_dow";
-            this.btn_cert3_dow.Size = new System.Drawing.Size(69, 44);
+            this.btn_cert3_dow.Size = new System.Drawing.Size(62, 28);
             this.btn_cert3_dow.TabIndex = 1;
             this.btn_cert3_dow.UseVisualStyleBackColor = true;
             this.btn_cert3_dow.Click += new System.EventHandler(this.btn_cert3_dow_Click);
             // 
             // btn_cert3_remove
             // 
-            this.btn_cert3_remove.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_clear__icon;
             this.btn_cert3_remove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert3_remove.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert3_remove.FlatAppearance.BorderSize = 0;
             this.btn_cert3_remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cert3_remove.Location = new System.Drawing.Point(153, 3);
+            this.btn_cert3_remove.Location = new System.Drawing.Point(139, 3);
             this.btn_cert3_remove.Name = "btn_cert3_remove";
-            this.btn_cert3_remove.Size = new System.Drawing.Size(69, 44);
+            this.btn_cert3_remove.Size = new System.Drawing.Size(62, 28);
             this.btn_cert3_remove.TabIndex = 2;
             this.btn_cert3_remove.UseVisualStyleBackColor = true;
             this.btn_cert3_remove.Click += new System.EventHandler(this.btn_cert3_remove_Click);
@@ -1412,51 +1444,48 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel12.Controls.Add(this.btn_cert2_dow, 1, 0);
             this.tableLayoutPanel12.Controls.Add(this.btn_cert2_remove, 2, 0);
             this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel12.Location = new System.Drawing.Point(233, 3);
+            this.tableLayoutPanel12.Location = new System.Drawing.Point(213, 3);
             this.tableLayoutPanel12.Name = "tableLayoutPanel12";
             this.tableLayoutPanel12.RowCount = 1;
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(224, 50);
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(204, 34);
             this.tableLayoutPanel12.TabIndex = 1;
             // 
             // btn_cert2_view
             // 
-            this.btn_cert2_view.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_view_icon;
             this.btn_cert2_view.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert2_view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert2_view.FlatAppearance.BorderSize = 0;
             this.btn_cert2_view.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cert2_view.Location = new System.Drawing.Point(3, 3);
             this.btn_cert2_view.Name = "btn_cert2_view";
-            this.btn_cert2_view.Size = new System.Drawing.Size(68, 44);
+            this.btn_cert2_view.Size = new System.Drawing.Size(62, 28);
             this.btn_cert2_view.TabIndex = 0;
             this.btn_cert2_view.UseVisualStyleBackColor = true;
             this.btn_cert2_view.Click += new System.EventHandler(this.btn_cert2_view_Click);
             // 
             // btn_cert2_dow
             // 
-            this.btn_cert2_dow.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_download_icon;
             this.btn_cert2_dow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert2_dow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert2_dow.FlatAppearance.BorderSize = 0;
             this.btn_cert2_dow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cert2_dow.Location = new System.Drawing.Point(77, 3);
+            this.btn_cert2_dow.Location = new System.Drawing.Point(71, 3);
             this.btn_cert2_dow.Name = "btn_cert2_dow";
-            this.btn_cert2_dow.Size = new System.Drawing.Size(68, 44);
+            this.btn_cert2_dow.Size = new System.Drawing.Size(62, 28);
             this.btn_cert2_dow.TabIndex = 1;
             this.btn_cert2_dow.UseVisualStyleBackColor = true;
             this.btn_cert2_dow.Click += new System.EventHandler(this.btn_cert2_dow_Click);
             // 
             // btn_cert2_remove
             // 
-            this.btn_cert2_remove.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_clear__icon;
             this.btn_cert2_remove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert2_remove.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert2_remove.FlatAppearance.BorderSize = 0;
             this.btn_cert2_remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cert2_remove.Location = new System.Drawing.Point(151, 3);
+            this.btn_cert2_remove.Location = new System.Drawing.Point(139, 3);
             this.btn_cert2_remove.Name = "btn_cert2_remove";
-            this.btn_cert2_remove.Size = new System.Drawing.Size(70, 44);
+            this.btn_cert2_remove.Size = new System.Drawing.Size(62, 28);
             this.btn_cert2_remove.TabIndex = 2;
             this.btn_cert2_remove.UseVisualStyleBackColor = true;
             this.btn_cert2_remove.Click += new System.EventHandler(this.btn_cert2_remove_Click);
@@ -1475,47 +1504,44 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(224, 50);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(204, 34);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // btn_cert1_view
             // 
-            this.btn_cert1_view.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_view_icon;
             this.btn_cert1_view.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert1_view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert1_view.FlatAppearance.BorderSize = 0;
             this.btn_cert1_view.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cert1_view.Location = new System.Drawing.Point(3, 3);
             this.btn_cert1_view.Name = "btn_cert1_view";
-            this.btn_cert1_view.Size = new System.Drawing.Size(68, 44);
+            this.btn_cert1_view.Size = new System.Drawing.Size(62, 28);
             this.btn_cert1_view.TabIndex = 0;
             this.btn_cert1_view.UseVisualStyleBackColor = true;
             this.btn_cert1_view.Click += new System.EventHandler(this.btn_cert1_view_Click);
             // 
             // btn_cert1_dow
             // 
-            this.btn_cert1_dow.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_download_icon;
             this.btn_cert1_dow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert1_dow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert1_dow.FlatAppearance.BorderSize = 0;
             this.btn_cert1_dow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cert1_dow.Location = new System.Drawing.Point(77, 3);
+            this.btn_cert1_dow.Location = new System.Drawing.Point(71, 3);
             this.btn_cert1_dow.Name = "btn_cert1_dow";
-            this.btn_cert1_dow.Size = new System.Drawing.Size(68, 44);
+            this.btn_cert1_dow.Size = new System.Drawing.Size(62, 28);
             this.btn_cert1_dow.TabIndex = 1;
             this.btn_cert1_dow.UseVisualStyleBackColor = true;
             this.btn_cert1_dow.Click += new System.EventHandler(this.btn_cert1_dow_Click);
             // 
             // btn_cert1_remove
             // 
-            this.btn_cert1_remove.BackgroundImage = global::FoodandBeverage.Properties.Resources.reg_clear__icon;
             this.btn_cert1_remove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cert1_remove.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cert1_remove.FlatAppearance.BorderSize = 0;
             this.btn_cert1_remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cert1_remove.Location = new System.Drawing.Point(151, 3);
+            this.btn_cert1_remove.Location = new System.Drawing.Point(139, 3);
             this.btn_cert1_remove.Name = "btn_cert1_remove";
-            this.btn_cert1_remove.Size = new System.Drawing.Size(70, 44);
+            this.btn_cert1_remove.Size = new System.Drawing.Size(62, 28);
             this.btn_cert1_remove.TabIndex = 2;
             this.btn_cert1_remove.UseVisualStyleBackColor = true;
             this.btn_cert1_remove.Click += new System.EventHandler(this.btn_cert1_remove_Click);
@@ -1529,12 +1555,400 @@ namespace FoodandBeverage.Forms
             this.btn_cert_ok_.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cert_ok_.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_cert_ok_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_cert_ok_.Location = new System.Drawing.Point(596, 400);
+            this.btn_cert_ok_.Location = new System.Drawing.Point(535, 297);
             this.btn_cert_ok_.Name = "btn_cert_ok_";
-            this.btn_cert_ok_.Size = new System.Drawing.Size(92, 39);
+            this.btn_cert_ok_.Size = new System.Drawing.Size(92, 38);
             this.btn_cert_ok_.TabIndex = 312;
             this.btn_cert_ok_.UseVisualStyleBackColor = true;
             this.btn_cert_ok_.Click += new System.EventHandler(this.btn_cert_ok__Click);
+            // 
+            // tlp_time
+            // 
+            this.tlp_time.BackColor = System.Drawing.Color.White;
+            this.tlp_time.ColumnCount = 1;
+            this.tlp_time.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_time.Controls.Add(this.gb_time, 0, 1);
+            this.tlp_time.Controls.Add(this.btncls_time, 0, 0);
+            this.tlp_time.Location = new System.Drawing.Point(48, 22);
+            this.tlp_time.Name = "tlp_time";
+            this.tlp_time.RowCount = 2;
+            this.tlp_time.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
+            this.tlp_time.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_time.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_time.Size = new System.Drawing.Size(556, 350);
+            this.tlp_time.TabIndex = 334;
+            this.tlp_time.Visible = false;
+            // 
+            // gb_time
+            // 
+            this.gb_time.BackColor = System.Drawing.Color.Transparent;
+            this.gb_time.Controls.Add(this.tlp_timedetails);
+            this.gb_time.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gb_time.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.gb_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.gb_time.Location = new System.Drawing.Point(3, 45);
+            this.gb_time.Name = "gb_time";
+            this.gb_time.Size = new System.Drawing.Size(550, 302);
+            this.gb_time.TabIndex = 12;
+            this.gb_time.TabStop = false;
+            this.gb_time.Text = "Time";
+            // 
+            // tlp_timedetails
+            // 
+            this.tlp_timedetails.AutoSize = true;
+            this.tlp_timedetails.ColumnCount = 3;
+            this.tlp_timedetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.19896F));
+            this.tlp_timedetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.07853F));
+            this.tlp_timedetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.72251F));
+            this.tlp_timedetails.Controls.Add(this.totime7, 2, 7);
+            this.tlp_timedetails.Controls.Add(this.label9, 0, 1);
+            this.tlp_timedetails.Controls.Add(this.ftime7, 1, 7);
+            this.tlp_timedetails.Controls.Add(this.ftime1, 1, 1);
+            this.tlp_timedetails.Controls.Add(this.label10, 0, 7);
+            this.tlp_timedetails.Controls.Add(this.totime1, 2, 1);
+            this.tlp_timedetails.Controls.Add(this.totime6, 2, 6);
+            this.tlp_timedetails.Controls.Add(this.label26, 1, 0);
+            this.tlp_timedetails.Controls.Add(this.ftime6, 1, 6);
+            this.tlp_timedetails.Controls.Add(this.label27, 2, 0);
+            this.tlp_timedetails.Controls.Add(this.label28, 0, 6);
+            this.tlp_timedetails.Controls.Add(this.label29, 0, 2);
+            this.tlp_timedetails.Controls.Add(this.totime5, 2, 5);
+            this.tlp_timedetails.Controls.Add(this.ftime2, 1, 2);
+            this.tlp_timedetails.Controls.Add(this.ftime5, 1, 5);
+            this.tlp_timedetails.Controls.Add(this.totime2, 2, 2);
+            this.tlp_timedetails.Controls.Add(this.label30, 0, 5);
+            this.tlp_timedetails.Controls.Add(this.label31, 0, 3);
+            this.tlp_timedetails.Controls.Add(this.totime4, 2, 4);
+            this.tlp_timedetails.Controls.Add(this.ftime3, 1, 3);
+            this.tlp_timedetails.Controls.Add(this.ftime4, 1, 4);
+            this.tlp_timedetails.Controls.Add(this.totime3, 2, 3);
+            this.tlp_timedetails.Controls.Add(this.label32, 0, 4);
+            this.tlp_timedetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_timedetails.Location = new System.Drawing.Point(3, 20);
+            this.tlp_timedetails.Name = "tlp_timedetails";
+            this.tlp_timedetails.RowCount = 8;
+            this.tlp_timedetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.306305F));
+            this.tlp_timedetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.009008F));
+            this.tlp_timedetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.009008F));
+            this.tlp_timedetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.708708F));
+            this.tlp_timedetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.309308F));
+            this.tlp_timedetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.708708F));
+            this.tlp_timedetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.009008F));
+            this.tlp_timedetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.33022F));
+            this.tlp_timedetails.Size = new System.Drawing.Size(544, 279);
+            this.tlp_timedetails.TabIndex = 234;
+            // 
+            // totime7
+            // 
+            this.totime7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totime7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.totime7.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.totime7.Location = new System.Drawing.Point(368, 223);
+            this.totime7.Name = "totime7";
+            this.totime7.ShowUpDown = true;
+            this.totime7.Size = new System.Drawing.Size(173, 24);
+            this.totime7.TabIndex = 13;
+            this.totime7.Value = new System.DateTime(2022, 1, 24, 21, 0, 0, 0);
+            // 
+            // label9
+            // 
+            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label9.Location = new System.Drawing.Point(3, 23);
+            this.label9.Name = "label9";
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(169, 33);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Sunday";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ftime7
+            // 
+            this.ftime7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftime7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.ftime7.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.ftime7.Location = new System.Drawing.Point(178, 223);
+            this.ftime7.Name = "ftime7";
+            this.ftime7.ShowUpDown = true;
+            this.ftime7.Size = new System.Drawing.Size(184, 24);
+            this.ftime7.TabIndex = 12;
+            this.ftime7.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
+            // 
+            // ftime1
+            // 
+            this.ftime1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftime1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.ftime1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.ftime1.Location = new System.Drawing.Point(178, 26);
+            this.ftime1.Name = "ftime1";
+            this.ftime1.ShowUpDown = true;
+            this.ftime1.Size = new System.Drawing.Size(184, 24);
+            this.ftime1.TabIndex = 0;
+            this.ftime1.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
+            // 
+            // label10
+            // 
+            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label10.Location = new System.Drawing.Point(3, 220);
+            this.label10.Name = "label10";
+            this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label10.Size = new System.Drawing.Size(169, 59);
+            this.label10.TabIndex = 253;
+            this.label10.Text = "Saturday";
+            // 
+            // totime1
+            // 
+            this.totime1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totime1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.totime1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.totime1.Location = new System.Drawing.Point(368, 26);
+            this.totime1.Name = "totime1";
+            this.totime1.ShowUpDown = true;
+            this.totime1.Size = new System.Drawing.Size(173, 24);
+            this.totime1.TabIndex = 1;
+            this.totime1.Value = new System.DateTime(2022, 1, 24, 21, 0, 0, 0);
+            // 
+            // totime6
+            // 
+            this.totime6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totime6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.totime6.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.totime6.Location = new System.Drawing.Point(368, 190);
+            this.totime6.Name = "totime6";
+            this.totime6.ShowUpDown = true;
+            this.totime6.Size = new System.Drawing.Size(173, 24);
+            this.totime6.TabIndex = 11;
+            this.totime6.Value = new System.DateTime(2022, 1, 24, 21, 0, 0, 0);
+            // 
+            // label26
+            // 
+            this.label26.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(178, 0);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(184, 23);
+            this.label26.TabIndex = 0;
+            this.label26.Text = "Opening Time";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ftime6
+            // 
+            this.ftime6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftime6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.ftime6.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.ftime6.Location = new System.Drawing.Point(178, 190);
+            this.ftime6.Name = "ftime6";
+            this.ftime6.ShowUpDown = true;
+            this.ftime6.Size = new System.Drawing.Size(184, 24);
+            this.ftime6.TabIndex = 10;
+            this.ftime6.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
+            // 
+            // label27
+            // 
+            this.label27.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(368, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(173, 23);
+            this.label27.TabIndex = 1;
+            this.label27.Text = "Closing Time";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label28
+            // 
+            this.label28.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label28.Location = new System.Drawing.Point(3, 187);
+            this.label28.Name = "label28";
+            this.label28.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label28.Size = new System.Drawing.Size(169, 33);
+            this.label28.TabIndex = 250;
+            this.label28.Text = "Friday";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label29
+            // 
+            this.label29.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label29.Location = new System.Drawing.Point(3, 56);
+            this.label29.Name = "label29";
+            this.label29.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label29.Size = new System.Drawing.Size(169, 33);
+            this.label29.TabIndex = 238;
+            this.label29.Text = "Monday";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // totime5
+            // 
+            this.totime5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totime5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.totime5.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.totime5.Location = new System.Drawing.Point(368, 158);
+            this.totime5.Name = "totime5";
+            this.totime5.ShowUpDown = true;
+            this.totime5.Size = new System.Drawing.Size(173, 24);
+            this.totime5.TabIndex = 9;
+            this.totime5.Value = new System.DateTime(2022, 1, 24, 21, 0, 0, 0);
+            // 
+            // ftime2
+            // 
+            this.ftime2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftime2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.ftime2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.ftime2.Location = new System.Drawing.Point(178, 59);
+            this.ftime2.Name = "ftime2";
+            this.ftime2.ShowUpDown = true;
+            this.ftime2.Size = new System.Drawing.Size(184, 24);
+            this.ftime2.TabIndex = 2;
+            this.ftime2.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
+            // 
+            // ftime5
+            // 
+            this.ftime5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftime5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.ftime5.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.ftime5.Location = new System.Drawing.Point(178, 158);
+            this.ftime5.Name = "ftime5";
+            this.ftime5.ShowUpDown = true;
+            this.ftime5.Size = new System.Drawing.Size(184, 24);
+            this.ftime5.TabIndex = 8;
+            this.ftime5.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
+            // 
+            // totime2
+            // 
+            this.totime2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totime2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.totime2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.totime2.Location = new System.Drawing.Point(368, 59);
+            this.totime2.Name = "totime2";
+            this.totime2.ShowUpDown = true;
+            this.totime2.Size = new System.Drawing.Size(173, 24);
+            this.totime2.TabIndex = 3;
+            this.totime2.Value = new System.DateTime(2022, 1, 24, 21, 0, 0, 0);
+            // 
+            // label30
+            // 
+            this.label30.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label30.Location = new System.Drawing.Point(3, 155);
+            this.label30.Name = "label30";
+            this.label30.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label30.Size = new System.Drawing.Size(169, 32);
+            this.label30.TabIndex = 247;
+            this.label30.Text = "Thursday";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label31
+            // 
+            this.label31.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label31.Location = new System.Drawing.Point(3, 89);
+            this.label31.Name = "label31";
+            this.label31.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label31.Size = new System.Drawing.Size(169, 32);
+            this.label31.TabIndex = 241;
+            this.label31.Text = "Tuesday";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // totime4
+            // 
+            this.totime4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totime4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.totime4.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.totime4.Location = new System.Drawing.Point(368, 124);
+            this.totime4.Name = "totime4";
+            this.totime4.ShowUpDown = true;
+            this.totime4.Size = new System.Drawing.Size(173, 24);
+            this.totime4.TabIndex = 7;
+            this.totime4.Value = new System.DateTime(2022, 1, 24, 21, 0, 0, 0);
+            // 
+            // ftime3
+            // 
+            this.ftime3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftime3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.ftime3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.ftime3.Location = new System.Drawing.Point(178, 92);
+            this.ftime3.Name = "ftime3";
+            this.ftime3.ShowUpDown = true;
+            this.ftime3.Size = new System.Drawing.Size(184, 24);
+            this.ftime3.TabIndex = 4;
+            this.ftime3.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
+            // 
+            // ftime4
+            // 
+            this.ftime4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftime4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.ftime4.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.ftime4.Location = new System.Drawing.Point(178, 124);
+            this.ftime4.Name = "ftime4";
+            this.ftime4.ShowUpDown = true;
+            this.ftime4.Size = new System.Drawing.Size(184, 24);
+            this.ftime4.TabIndex = 6;
+            this.ftime4.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
+            // 
+            // totime3
+            // 
+            this.totime3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totime3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.totime3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.totime3.Location = new System.Drawing.Point(368, 92);
+            this.totime3.Name = "totime3";
+            this.totime3.ShowUpDown = true;
+            this.totime3.Size = new System.Drawing.Size(173, 24);
+            this.totime3.TabIndex = 5;
+            this.totime3.Value = new System.DateTime(2022, 1, 24, 21, 0, 0, 0);
+            // 
+            // label32
+            // 
+            this.label32.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label32.Location = new System.Drawing.Point(3, 121);
+            this.label32.Name = "label32";
+            this.label32.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label32.Size = new System.Drawing.Size(169, 34);
+            this.label32.TabIndex = 244;
+            this.label32.Text = "Wednesday";
+            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btncls_time
+            // 
+            this.btncls_time.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btncls_time.FlatAppearance.BorderSize = 0;
+            this.btncls_time.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncls_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.btncls_time.ForeColor = System.Drawing.Color.Red;
+            this.btncls_time.Location = new System.Drawing.Point(500, 3);
+            this.btncls_time.Name = "btncls_time";
+            this.btncls_time.Size = new System.Drawing.Size(53, 36);
+            this.btncls_time.TabIndex = 13;
+            this.btncls_time.Text = "X";
+            this.btncls_time.UseVisualStyleBackColor = true;
+            this.btncls_time.Click += new System.EventHandler(this.btncls_time_Click);
+            // 
+            // btntime
+            // 
+            this.btntime.BackColor = System.Drawing.Color.Transparent;
+            this.btntime.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btntime.BackgroundImage")));
+            this.btntime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btntime.FlatAppearance.BorderSize = 0;
+            this.btntime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btntime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btntime.ForeColor = System.Drawing.Color.White;
+            this.btntime.Location = new System.Drawing.Point(250, 261);
+            this.btntime.Name = "btntime";
+            this.btntime.Size = new System.Drawing.Size(156, 47);
+            this.btntime.TabIndex = 338;
+            this.btntime.Text = "Location & Timing";
+            this.btntime.UseVisualStyleBackColor = false;
+            this.btntime.Click += new System.EventHandler(this.btntime_Click);
             // 
             // FrmRegistration
             // 
@@ -1543,6 +1957,7 @@ namespace FoodandBeverage.Forms
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.ClientSize = new System.Drawing.Size(778, 597);
             this.Controls.Add(this.pnl_certview);
+            this.Controls.Add(this.tlp_time);
             this.Controls.Add(this.pnlcerti_view);
             this.Controls.Add(this.tlp_main);
             this.Controls.Add(this.txtcid);
@@ -1585,6 +2000,10 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel12.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tlp_time.ResumeLayout(false);
+            this.gb_time.ResumeLayout(false);
+            this.gb_time.PerformLayout();
+            this.tlp_timedetails.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1692,5 +2111,33 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_cert_ok_;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtbillno;
+        private System.Windows.Forms.TableLayoutPanel tlp_time;
+        private System.Windows.Forms.GroupBox gb_time;
+        private System.Windows.Forms.TableLayoutPanel tlp_timedetails;
+        private System.Windows.Forms.DateTimePicker totime7;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DateTimePicker ftime7;
+        private System.Windows.Forms.DateTimePicker ftime1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.DateTimePicker totime1;
+        private System.Windows.Forms.DateTimePicker totime6;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.DateTimePicker ftime6;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.DateTimePicker totime5;
+        private System.Windows.Forms.DateTimePicker ftime2;
+        private System.Windows.Forms.DateTimePicker ftime5;
+        private System.Windows.Forms.DateTimePicker totime2;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.DateTimePicker totime4;
+        private System.Windows.Forms.DateTimePicker ftime3;
+        private System.Windows.Forms.DateTimePicker ftime4;
+        private System.Windows.Forms.DateTimePicker totime3;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Button btncls_time;
+        private System.Windows.Forms.Button btntime;
     }
 }

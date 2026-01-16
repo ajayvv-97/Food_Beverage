@@ -2226,11 +2226,6 @@ namespace FoodandBeverage.Report
 
         }
 
-        private void tlp_second_row_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void btncolse_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -289,7 +289,6 @@ namespace FoodandBeverage.Report
             this.tlp_second_row.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_second_row.Size = new System.Drawing.Size(887, 41);
             this.tlp_second_row.TabIndex = 1;
-            this.tlp_second_row.Paint += new System.Windows.Forms.PaintEventHandler(this.tlp_second_row_Paint);
             // 
             // tlp_reorder
             // 

@@ -735,7 +735,7 @@ namespace FoodandBeverage.Forms
                         pb3.BackgroundImageLayout = ImageLayout.Stretch;
                         pb3.Image = null;
                     }
-
+                    FillLocationTimeDetails();
                 }
             }
             catch (Exception ex)
@@ -744,6 +744,53 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("company Page filldetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
             }
         }
+        private void FillLocationTimeDetails()
+        {
+            try
+            {
+                DmnSearch dmnSearch = new DmnSearch();
+                BllSearch<DmnLocationWorkTime> bllSearch =
+                    new BllSearch<DmnLocationWorkTime>();
+
+                dmnSearch.Select = "*";
+                dmnSearch.Table = "tblLocationWorkTime";
+                dmnSearch.WhereNdGroupBy =
+                    " WHERE LocId = " + Convert.ToInt32(txtcid.Text) + " AND Status = 1";
+                dmnSearch.OrderBy = " ORDER BY DayId";
+
+                var timeList = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                if (timeList == null || timeList.Count == 0)
+                    return;
+
+                foreach (var item in timeList)
+                {
+                    if (!item.DayId.HasValue)
+                        continue;
+
+                    int day = item.DayId.Value; // ✅ safe
+
+                    if (day < 1 || day > 7)
+                        continue;
+
+                    var fPicker = tlp_timedetails.Controls["ftime" + day] as DateTimePicker;
+                    var tPicker = tlp_timedetails.Controls["totime" + day] as DateTimePicker;
+
+                    if (fPicker == null || tPicker == null)
+                        continue;
+
+                    fPicker.Value = DateTime.Today.Add(item.FromTime ?? TimeSpan.Zero);
+                    tPicker.Value = DateTime.Today.Add(item.ToTime ?? TimeSpan.Zero);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("company Page FillLocationTimeDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.company));
+            }
+        }
+
         private void txtZipcode_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsLetter(e.KeyChar))
@@ -938,13 +985,62 @@ namespace FoodandBeverage.Forms
         {
             this.WindowState = FormWindowState.Minimized;
         }
+        private bool IsTimeValid()
+        {
+            string[] days =
+            {
+        "Sunday", "Monday", "Tuesday", "Wednesday",
+        "Thursday", "Friday", "Saturday"
+    };
+
+            for (int i = 1; i <= 7; i++)
+            {
+                var fCtrl = tlp_timedetails.Controls["ftime" + i] as DateTimePicker;
+                var tCtrl = tlp_timedetails.Controls["totime" + i] as DateTimePicker;
+
+                if (fCtrl == null || tCtrl == null)
+                    continue;
+
+                TimeSpan fromTime = fCtrl.Value.TimeOfDay;
+                TimeSpan toTime = tCtrl.Value.TimeOfDay;
+
+                // Closed day (both midnight)
+                if (fromTime == TimeSpan.Zero && toTime == TimeSpan.Zero)
+                    continue;
+
+                if (fromTime >= toTime)
+                {
+                    MessageBox.Show(
+                        $"Invalid time for {days[i - 1]}.\nFrom Time must be earlier than To Time.",
+                        "Time Validation",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         private void btsave_Click(object sender, EventArgs e)
         {
             try
             {
+                if (!IsTimeValid())
+                {
+                    tlp_time.Visible = true;
+                    tlp_time.BringToFront();
+                    tlp_time.Left = (this.ClientSize.Width - tlp_time.Width) / 2;
+                    tlp_time.Top = (this.ClientSize.Height - tlp_time.Height) / 2;
+                    return;
+                }
+
+                if (tlp_time.Visible) tlp_time.Visible = false;
+
                 if (Isvalid() == false)
                     return;
+
                 DmnHRegistration dmnRegistration = new DmnHRegistration();
                 BllHotelRegistration bllregistration = new BllHotelRegistration();
                 if (string.IsNullOrWhiteSpace(txtcid.Text))
@@ -995,6 +1091,51 @@ namespace FoodandBeverage.Forms
                 var InsertStatus = bllregistration.AddEditData("prdInsert_Upd_HotelReg", dmnRegistration);
                 if (InsertStatus.Id != 0)
                 {
+                    #region Location Time (24-Hour Enforced)
+                    string[] days =
+                        {
+                            "Sunday", "Monday", "Tuesday", "Wednesday",
+                            "Thursday", "Friday", "Saturday"
+                        };
+
+                    for (int i = 1; i <= 7; i++)
+                    {
+                        var fPicker = tlp_timedetails.Controls["ftime" + i] as DateTimePicker;
+                        var tPicker = tlp_timedetails.Controls["totime" + i] as DateTimePicker;
+
+                        if (fPicker == null || tPicker == null)
+                            continue;
+
+                        DmnLocationWorkTime dmnLocWorkTime = new DmnLocationWorkTime
+                        {
+                            LocId = InsertStatus.Id,
+                            DayId = i,
+                            FromTime = fPicker.Value.TimeOfDay,
+                            ToTime = tPicker.Value.TimeOfDay,
+                            Status = 1,
+                            CreatedBy = FrmDashboard.UserId,
+                            CreatedDateTime = DateTime.Now
+                        };
+
+                        bool status = bllregistration.AddEditWorkTime(
+                            "PrdInsert_Upd_LocWorkTime",
+                            dmnLocWorkTime
+                        );
+
+                        if (!status)
+                        {
+                            MessageBox.Show(
+                                $"Failed to save working time for {days[i - 1]}",
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error
+                            );
+                            return;
+                        }
+                    }
+
+                    #endregion
+
                     txtcid.Text = Convert.ToString(InsertStatus.Id);
 
                     #region certificate upload
@@ -1107,7 +1248,7 @@ namespace FoodandBeverage.Forms
 
         private void btclose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            UIHelper.CloseFormSafe(this);
         }
 
 
@@ -1119,6 +1260,12 @@ namespace FoodandBeverage.Forms
             UIHelper.RoundCorners(tlp_header_nav, 10, null);
             #endregion
             textb_shape();
+
+            if (tlp_time.Visible)
+            {
+                tlp_time.Left = (this.ClientSize.Width - tlp_time.Width) / 2;
+                tlp_time.Top = (this.ClientSize.Height - tlp_time.Height) / 2;
+            }
         }
 
         private void txtid_Leave(object sender, EventArgs e)
@@ -1463,5 +1610,26 @@ namespace FoodandBeverage.Forms
         {
             pnl_certview.Visible = false;
         }
+
+        private void btncls_time_Click(object sender, EventArgs e)
+        {
+            tlp_time.Visible = false;
+        }
+
+        private void btntime_Click(object sender, EventArgs e)
+        {
+            if (!tlp_time.Visible)
+            {
+                tlp_time.Visible = true;
+                tlp_time.BringToFront();
+                tlp_time.Left = (this.ClientSize.Width - tlp_time.Width) / 2;
+                tlp_time.Top = (this.ClientSize.Height - tlp_time.Height) / 2;
+            }
+            else
+            {
+                tlp_time.Visible = false;
+            }
+        }
+
     }
 }

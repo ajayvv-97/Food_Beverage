@@ -60,7 +60,7 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
-
+        #region  open form closeinng and Dispose
         public static void CloseIfOpen<T>() where T : Form
         {
             try
@@ -107,7 +107,57 @@ namespace FoodandBeverage.Classes
             CloseIfOpen<FrmVendor>();
             CloseIfOpen<Frmvoidsale>();
         }
+        #endregion
 
+        #region Closing button clcik
+        public static void CloseFormSafe(Form form)
+        {
+            if (form == null || form.IsDisposed)
+                return;
+
+            try
+            {
+                // Stop & dispose all timers on the form
+                foreach (var timer in form.Controls
+                                          .OfType<Control>()
+                                          .SelectMany(GetAllControls)
+                                          .OfType<Timer>())
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                }
+
+                // Dispose all child controls
+                DisposeControls(form);
+
+                // Close form (this triggers FormClosing)
+                form.Close();
+            }
+            catch
+            {
+                // Optional logging
+            }
+        }
+
+        private static void DisposeControls(Control parent)
+        {
+            foreach (Control ctrl in parent.Controls)
+            {
+                DisposeControls(ctrl);
+                ctrl.Dispose();
+            }
+        }
+
+        private static System.Collections.Generic.IEnumerable<Control> GetAllControls(Control parent)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                yield return child;
+                foreach (var grandChild in GetAllControls(child))
+                    yield return grandChild;
+            }
+        }
+        #endregion
 
         public static void AutoFitLabelFont(Label lbl)
         {
