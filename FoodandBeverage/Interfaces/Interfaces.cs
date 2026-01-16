@@ -119,7 +119,8 @@ namespace FoodandBeverage.Interfaces
         Refund=33,
         ExtraLoginAccess=34,
         UnitConversion = 35,
-        VoidSale = 36
+        VoidSale = 36,
+        Keypad = 37
     };
     public enum DashboardTableType
     {

@@ -611,6 +611,12 @@
     <Compile Include="Forms\UserControls\Frmkeyboard.Designer.cs">
       <DependentUpon>Frmkeyboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\UserControls\Frmkeypad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Frmkeypad.Designer.cs">
+      <DependentUpon>Frmkeypad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserControls\Frmnumdiskeypad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -975,6 +981,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\Frmkeyboard.resx">
       <DependentUpon>Frmkeyboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Frmkeypad.resx">
+      <DependentUpon>Frmkeypad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\Frmnumdiskeypad.resx">
       <DependentUpon>Frmnumdiskeypad.cs</DependentUpon>
@@ -1917,6 +1926,8 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\blank.png" />
+    <None Include="Resources\blank_1.png" />
     <None Include="Resources\N_CANCEL ORDERBtn.png" />
     <None Include="Resources\loading_gif.gif" />
     <None Include="Resources\GST.png" />
