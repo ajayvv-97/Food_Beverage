@@ -453,7 +453,7 @@ namespace FoodandBeverage.Forms
 
             #endregion
 
-            if (tableId > 0 && OrderRunning_Status == false && Pickup_Status == false)
+            if (tableId > 0 && OrderRunning_Status == false && Pickup_Status == false && OrderCancelStatus!=1)
             {
                 UIHelper.CenterAndResize(pnl_Guests, 35, 50);
                 UIHelper.RoundCorners(pnl_Guests, 25);
@@ -7051,7 +7051,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     ClearAll();
                     checksave_refresh();
                 }
-                if(tableId > 0 && OrderRunning_Status == false && Pickup_Status == false )
+                if(tableId > 0 && OrderRunning_Status == false && Pickup_Status == false && OrderCancelStatus != 1 )
                 {
                     UIHelper.CenterAndResize(pnl_Guests, 35, 50);
                     UIHelper.RoundCorners(pnl_Guests, 25);
@@ -8966,7 +8966,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         dmnSearch.Select = "itemName Field1,Quantity Field2,RemoveNotes Field3,OrderMasterId Field4,OrderDetailsId Field5,NetAmount Field6,CASE WHEN EXISTS(SELECT 1 FROM tblOrderDetails AS x WHERE x.OrderMasterId = tblOrderDetails.OrderMasterId AND x.KitchenCancelStatus = 1 ) THEN 1 ELSE 0 END AS Field7";
                         dmnSearch.Table = "tblOrderDetails";
                         dmnSearch.WhereNdGroupBy =
-                            "WHERE Status = 1 AND AddonStatus IN (1,0) AND RefundStatus !=1" +
+                            "WHERE AddonStatus IN (1,0) AND RefundStatus !=1" +
                             "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);//KitchenCancelStatus = 1
                         var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                         dgv_ordercancel.Rows.Clear();
