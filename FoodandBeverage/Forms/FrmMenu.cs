@@ -141,44 +141,44 @@ namespace FoodandBeverage.Forms
                     }
                     else if (rb_item.Checked)
                     {
-                        for (int i = 0; i < dgv_menu.RowCount; i++)
-                        {
-                            if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != ""))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
-                            {
-                                dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
-                                dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
-                                dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
-                                dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
-                                dmnmenu.Quantity = Convert.ToDecimal(dgv_menu.Rows[i].Cells[pqtyno].Value);
-                                dmnmenu.CreatedBy = FrmDashboard.UserId;
-                                dmnmenu.BranchId = FrmDashboard.BranchId;
-                                if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
-                                    dmnmenu.Status = 1;
-                                else
-                                    dmnmenu.Status = 0;
-                                dmnmenu.defaultqty = Convert.ToInt32(dgv_menu.Rows[i].Cells[pdefstock].Value);
+                        //for (int i = 0; i < dgv_menu.RowCount; i++)
+                        //{
+                        //    if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != ""))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                        //    {
+                        //        dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
+                        //        dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
+                        //        dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
+                        //        dmnmenu.Fcid = Convert.ToInt32(dgv_menu.Rows[i].Cells[pfcidno].Value);
+                        //        dmnmenu.Quantity = Convert.ToDecimal(dgv_menu.Rows[i].Cells[pqtyno].Value);
+                        //        dmnmenu.CreatedBy = FrmDashboard.UserId;
+                        //        dmnmenu.BranchId = FrmDashboard.BranchId;
+                        //        if (Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                        //            dmnmenu.Status = 1;
+                        //        else
+                        //            dmnmenu.Status = 0;
+                        //        dmnmenu.defaultqty = Convert.ToInt32(dgv_menu.Rows[i].Cells[pdefstock].Value);
 
-                                usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
-                                count++;
-                            }
-                        }
-                        if (count == dgv_menu.RowCount)
-                        {
-                            CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        //        usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
+                        //        count++;
+                        //    }
+                        //}
+                        //if (count == dgv_menu.RowCount)
+                        //{
+                        //    CMessageBox.Show(" Successfully saved", "Saved  ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                            cmbSearchlist.SelectedIndex = -1;
-                            cmbMenu_category.SelectedIndex = -1;
-                            txtsearchlist.Text = "";
-                            txtsearch.Text = "";
-                            Item_Fill();
-                        }
+                        //    cmbSearchlist.SelectedIndex = -1;
+                        //    cmbMenu_category.SelectedIndex = -1;
+                        //    txtsearchlist.Text = "";
+                        //    txtsearch.Text = "";
+                        //    Item_Fill();
+                        //}
                     }
                     else if (rb_product.Checked)
                     {
                         for (int i = 0; i < dgv_menu.RowCount; i++)
                         {
-                            //if (((dgv_menu.Rows[i].Cells[piidno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) > 0 || (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) == 0 && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)))  //&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
-                            //{
+                            if (dgv_menu.Rows[i].Cells[pnameno].Value != "F8 for Products")  //(dgv_menu.Rows[i].Cells[pnameno].Value) != null && (dgv_menu.Rows[i].Cells[piidno].Value) != "") && (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) > 0 || (Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value) == 0 && Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true))&& Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true&&(Convert.ToBoolean(dgv_menu.Rows[i].Cells[pstatusno].Value) == true)
+                            {
                                 dmnmenu.MId = Convert.ToInt32(dgv_menu.Rows[i].Cells[pmidno].Value);
                                 dmnmenu.ProductId = Convert.ToInt32(dgv_menu.Rows[i].Cells[piidno].Value);
                                 dmnmenu.Name = Convert.ToString(dgv_menu.Rows[i].Cells[pnameno].Value);
@@ -201,7 +201,7 @@ namespace FoodandBeverage.Forms
 
                             usertype = bllmenu.AddData("prdInsert_upd_menu", dmnmenu);
                                 count++;
-                            //}
+                            }
                         }
                         if (count > 0)
                         {
@@ -1590,6 +1590,10 @@ namespace FoodandBeverage.Forms
         {
             if (rb_product.Checked)
             {
+                // After DataSource is assigned
+                dgv_menu.Columns[pactiveinactiveno].Visible = true;
+                dgv_menu.Columns[pdefstock].Visible = true;
+
                 cmbMenu_category.SelectedIndex = -1;
                 Product_Fill(0);
                 txtsearchlist.Text = "";
@@ -1847,10 +1851,13 @@ namespace FoodandBeverage.Forms
             {
                 if (rb_item.Checked)
                 {
+                    dgv_menu.Columns[pactiveinactiveno].Visible = false;
+                    dgv_menu.Columns[pdefstock].Visible = false;
+
                     cmbMenu_category.SelectedIndex = -1;
                     Item_Fill();
                     txtsearchlist.Text = "";
-
+   
                     if (chk_seleall_pro.Checked)
                         chk_seleall_pro.Checked = false;
                 }

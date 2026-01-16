@@ -101,6 +101,7 @@ namespace FoodandBeverage.Forms
             this.txtbillno = new System.Windows.Forms.TextBox();
             this.txtwebsite = new System.Windows.Forms.TextBox();
             this.txtemail = new System.Windows.Forms.TextBox();
+            this.btntime = new System.Windows.Forms.Button();
             this.txtcid = new System.Windows.Forms.TextBox();
             this.pbCust2 = new System.Windows.Forms.PictureBox();
             this.pbCust1 = new System.Windows.Forms.PictureBox();
@@ -156,7 +157,6 @@ namespace FoodandBeverage.Forms
             this.totime3 = new System.Windows.Forms.DateTimePicker();
             this.label32 = new System.Windows.Forms.Label();
             this.btncls_time = new System.Windows.Forms.Button();
-            this.btntime = new System.Windows.Forms.Button();
             this.tlp_header_nav.SuspendLayout();
             this.tlp_buttons.SuspendLayout();
             this.pnlcerti_view.SuspendLayout();
@@ -1172,6 +1172,23 @@ namespace FoodandBeverage.Forms
             this.txtemail.TabIndex = 9;
             this.txtemail.Validating += new System.ComponentModel.CancelEventHandler(this.txtemail_Validating);
             // 
+            // btntime
+            // 
+            this.btntime.BackColor = System.Drawing.Color.Transparent;
+            this.btntime.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btntime.BackgroundImage")));
+            this.btntime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btntime.FlatAppearance.BorderSize = 0;
+            this.btntime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btntime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btntime.ForeColor = System.Drawing.Color.White;
+            this.btntime.Location = new System.Drawing.Point(250, 261);
+            this.btntime.Name = "btntime";
+            this.btntime.Size = new System.Drawing.Size(156, 47);
+            this.btntime.TabIndex = 338;
+            this.btntime.Text = "Location & Timing";
+            this.btntime.UseVisualStyleBackColor = false;
+            this.btntime.Click += new System.EventHandler(this.btntime_Click);
+            // 
             // txtcid
             // 
             this.txtcid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
@@ -1932,23 +1949,6 @@ namespace FoodandBeverage.Forms
             this.btncls_time.Text = "X";
             this.btncls_time.UseVisualStyleBackColor = true;
             this.btncls_time.Click += new System.EventHandler(this.btncls_time_Click);
-            // 
-            // btntime
-            // 
-            this.btntime.BackColor = System.Drawing.Color.Transparent;
-            this.btntime.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btntime.BackgroundImage")));
-            this.btntime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btntime.FlatAppearance.BorderSize = 0;
-            this.btntime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btntime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btntime.ForeColor = System.Drawing.Color.White;
-            this.btntime.Location = new System.Drawing.Point(250, 261);
-            this.btntime.Name = "btntime";
-            this.btntime.Size = new System.Drawing.Size(156, 47);
-            this.btntime.TabIndex = 338;
-            this.btntime.Text = "Location & Timing";
-            this.btntime.UseVisualStyleBackColor = false;
-            this.btntime.Click += new System.EventHandler(this.btntime_Click);
             // 
             // FrmRegistration
             // 

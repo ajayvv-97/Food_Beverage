@@ -788,7 +788,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-     
         public void CheckCombinedOrNot(int Ordermasterid)
         {
             try
