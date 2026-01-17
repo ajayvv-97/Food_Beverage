@@ -169,17 +169,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                this.Opacity = 0;
-                this.Close();
+                //this.Opacity = 0;
+                //this.Close();
 
-                if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
-                {
-                    FrmLogin _instanceFrmLogin = Application.OpenForms["FrmLogin"] as FrmLogin;
-                    _instanceFrmLogin.Show();
-                    _instanceFrmLogin.BringToFront();
-                    _instanceFrmLogin.Visible = true;
-                    _instanceFrmLogin.Opacity=100;
-                }
+                //if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
+                //{
+                //    FrmLogin _instanceFrmLogin = Application.OpenForms["FrmLogin"] as FrmLogin;
+                //    _instanceFrmLogin.Show();
+                //    _instanceFrmLogin.BringToFront();
+                //    _instanceFrmLogin.Visible = true;
+                //    _instanceFrmLogin.Opacity=100;
+                //}
+                Application.Exit();
             }
             catch (Exception ex)
             {
@@ -1299,7 +1300,7 @@ namespace FoodandBeverage.Forms
                         {
                             FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
                             FrmDashboard.Instance.lbl_drawer.Visible = true;
-                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.White;
+                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                         }
                     }
                     else// only self assign permission 
@@ -1318,7 +1319,7 @@ namespace FoodandBeverage.Forms
                             {
                                 FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
                                 FrmDashboard.Instance.lbl_drawer.Visible = true;
-                                FrmDashboard.Instance.lbl_drawer.ForeColor = Color.White;
+                                FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                             }
                             return;
                         }

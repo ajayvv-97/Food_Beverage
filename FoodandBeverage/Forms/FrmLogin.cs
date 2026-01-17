@@ -65,11 +65,11 @@ namespace FoodandBeverage.Forms
         public static string logoPath = "";
         public static string KitchenBillPath = "";
         public static string ReportPath = "";
-        public static int Compid =102;
+        public static int Compid = Convert.ToInt32(ConfigurationManager.AppSettings["Corpid"]);
 
-       // public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";
+        // public static string KitchenBillPath = Application.StartupPath + @"\KitchenBill";
         //public static string ReportPath = Application.StartupPath + @"\Report";
-       // public static string SaleBillPath = Application.StartupPath + @"\SaleBill";
+        // public static string SaleBillPath = Application.StartupPath + @"\SaleBill";
 
         public static Size FormSize;
         public static decimal AutoLogoutIdleTimeoutMinutes = 0;
@@ -481,29 +481,8 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         ToggleWifiPopup(0);
-                        BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
-                        DmnSearch objSearch = new DmnSearch();
-                        objSearch.Select = "tblEmployee.ICardNo,tblEmployee.BranchId, tblUserAccount.UserAccountId, tblUserAccount.Username, tblUserAccount.PasswordHash, tblUserAccount.PasswordSalt,tblEmployee.RFID_Login_Status";
-                        objSearch.Table = " tblEmployee INNER JOIN tblUserAccount ON tblEmployee.EmployeeId = tblUserAccount.EmployeeId";
-                        objSearch.WhereNdGroupBy = "where tblEmployee.ICardNo ='" + str1 + "' And tblEmployee.Status=1";
-                        objSearch.OrderBy = "Order By UserAccountId ";
-                        var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                        //mcmbUserAccountType.SelectedValue = gridSource[0].UserAccountTypeId;
-                        if (gridSource.Count > 0)
-                        {
-                            if (gridSource[0].RFID_Login_Status == 1)
-                            {
-                                timer1.Stop();
-                                txtUserName.Text = Convert.ToString(gridSource[0].Username);
-                                txtPwd.Text = Convert.ToString(gridSource[0].PasswordHash);
-                                encryptPassword = gridSource[0].PasswordHash;
-                                var data = new List<byte>();
-                                rfid = 1;
-                            }
-                            btnlogin_Click(sender, e);
-                        }
+                        Employeefetch(str1);
                     }
-
                 }
             }
             catch(Exception ex)
@@ -512,7 +491,38 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Login Page timer1_Tick()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
-
+        public void Employeefetch(string cardno)
+        {
+            try
+            {
+                BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "tblEmployee.ICardNo,tblEmployee.BranchId, tblUserAccount.UserAccountId, tblUserAccount.Username, tblUserAccount.PasswordHash, tblUserAccount.PasswordSalt,tblEmployee.RFID_Login_Status";
+                objSearch.Table = " tblEmployee INNER JOIN tblUserAccount ON tblEmployee.EmployeeId = tblUserAccount.EmployeeId";
+                objSearch.WhereNdGroupBy = "where tblEmployee.ICardNo ='" + cardno + "' And tblEmployee.Status=1";
+                objSearch.OrderBy = "Order By UserAccountId ";
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                //mcmbUserAccountType.SelectedValue = gridSource[0].UserAccountTypeId;
+                if (gridSource.Count > 0)
+                {
+                    if (gridSource[0].RFID_Login_Status == 1)
+                    {
+                        timer1.Stop();
+                        txtUserName.Text = Convert.ToString(gridSource[0].Username);
+                        txtPwd.Text = Convert.ToString(gridSource[0].PasswordHash);
+                        encryptPassword = gridSource[0].PasswordHash;
+                        var data = new List<byte>();
+                        rfid = 1;
+                    }
+                    btnlogin.PerformClick(); 
+                }
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                clsgen.LogException("Login Page Employefetch()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+            }
+        }
         public bool IsValid()
         {
             try
@@ -959,6 +969,18 @@ namespace FoodandBeverage.Forms
         {
             isMouseDown = false;
             longPressTimer.Stop();
+        }
+
+        private void txtUserName_DoubleClick(object sender, EventArgs e)
+        {
+            ToggleWifiPopup(0);
+            using (FoodandBeverage.Forms.UserControl.Frmkeypad frm = new FoodandBeverage.Forms.UserControl.Frmkeypad())
+            {
+                frm.ShowDialog();
+                string IcardNo = frm.ICardNo;
+                if (IcardNo != "" && IcardNo != null)
+                    Employeefetch(IcardNo);
+            }
         }
     }
 }

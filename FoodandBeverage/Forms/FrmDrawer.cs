@@ -475,6 +475,48 @@ namespace FoodandBeverage.Forms
             timer1.Stop();
         }
 
+        private void txtinitialamt_Enter(object sender, EventArgs e)
+        {
+            decimal kdata = 0;
+            using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoDecimal)))
+            {
+                frm.ShowDialog();
+                kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+            }
+            if (kdata == 0)
+                return;
+           
+            txtinitialamt.Text = kdata.ToString("0.00");
+        }
+
+        private void txtdropamt_Enter(object sender, EventArgs e)
+        {
+            decimal kdata = 0;
+            using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoDecimal)))
+            {
+                frm.ShowDialog();
+                kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+            }
+            if (kdata == 0)
+                return;
+
+            txtdropamt.Text = kdata.ToString("0.00");
+        }
+
+        private void txtloanamt_Enter(object sender, EventArgs e)
+        {
+            decimal kdata = 0;
+            using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoDecimal)))
+            {
+                frm.ShowDialog();
+                kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+            }
+            if (kdata == 0)
+                return;
+
+            txtloanamt.Text = kdata.ToString("0.00");
+        }
+
         private void btnclose_drawer_Click(object sender, EventArgs e)
         {
             this.Close();

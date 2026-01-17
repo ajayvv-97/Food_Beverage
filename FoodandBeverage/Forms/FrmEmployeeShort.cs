@@ -503,9 +503,13 @@ namespace FoodandBeverage.Forms
         }
         private void btnrfid_Click(object sender, EventArgs e)
         {
-            Frmkeypad keypad = new Frmkeypad(this, 0);
-            keypad.StartPosition = FormStartPosition.CenterScreen;
-            keypad.ShowDialog();
+            using (FoodandBeverage.Forms.UserControl.Frmkeypad frm = new FoodandBeverage.Forms.UserControl.Frmkeypad())
+            {
+                frm.ShowDialog();
+                string IcardNo = frm.ICardNo;
+                if (IcardNo != "" && IcardNo != null)
+                    Keypad_Rfid(IcardNo);
+            }
         }
 
         private void mcmbDesignationId_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -853,20 +857,20 @@ namespace FoodandBeverage.Forms
                     mcmbDepartmentId.Focus();
                     return false;
                 }
-                else if (dtpBirthDate.Value.Date == DateTime.Today.Date)
-                {
-                    tb_empolyee.SelectedTab = tp_employee;
-                    CMessageBox.Show("Date of birth cannot be the current date. Please enter a valid date of birth", "Invalid Date of Birth", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dtpBirthDate.Focus();
-                    return false;
-                }
-                else if (string.IsNullOrEmpty(txtemail.Text))
-                {
-                    tb_empolyee.SelectedTab = tp_employee;
-                    CMessageBox.Show("Email is mandatory. This field is mandatory.", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtemail.Focus();
-                    return false;
-                }
+                //else if (dtpBirthDate.Value.Date == DateTime.Today.Date)
+                //{
+                //    tb_empolyee.SelectedTab = tp_employee;
+                //    CMessageBox.Show("Date of birth cannot be the current date. Please enter a valid date of birth", "Invalid Date of Birth", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    dtpBirthDate.Focus();
+                //    return false;
+                //}
+                //else if (string.IsNullOrEmpty(txtemail.Text))
+                //{
+                //    tb_empolyee.SelectedTab = tp_employee;
+                //    CMessageBox.Show("Email is mandatory. This field is mandatory.", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    txtemail.Focus();
+                //    return false;
+                //}
                 //else if (string.IsNullOrEmpty(txtCardnumber.Text))
                 //{
                 //    tb_empolyee.SelectedTab = tp_employee;
@@ -874,13 +878,13 @@ namespace FoodandBeverage.Forms
                 //    txtCardnumber.Focus();
                 //    return false;
                 //}
-                else if (string.IsNullOrEmpty(txtEmpAddress.Text))
-                {
-                    tb_empolyee.SelectedTab = tp_employee;
-                    CMessageBox.Show("Address is mandatory. This field is mandatory", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtEmpAddress.Focus();
-                    return false;
-                }
+                //else if (string.IsNullOrEmpty(txtEmpAddress.Text))
+                //{
+                //    tb_empolyee.SelectedTab = tp_employee;
+                //    CMessageBox.Show("Address is mandatory. This field is mandatory", "Mandatory Fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtEmpAddress.Focus();
+                //    return false;
+                //}
                 else if (!IsEmployeeExist())
                 {
                     tb_empolyee.SelectedTab = tp_employee;

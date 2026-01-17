@@ -81,18 +81,22 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (string.IsNullOrEmpty(txtcapcity.Text))
+                {
+                    txtcapcity.Text = "0";
+                }
                 if (string.IsNullOrEmpty(txttablecode.Text))
                 {
                     CMessageBox.Show("Please Enter Food Name", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txttablecode.Focus();
                     return false;
                 }
-                else if (string.IsNullOrEmpty(txtcapcity.Text) || Convert.ToDecimal(txtcapcity.Text) < 0)
-                {
-                    CMessageBox.Show("Please Enter Table Capacity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtcapcity.Focus();
-                    return false;
-                }
+                //else if (string.IsNullOrEmpty(txtcapcity.Text) || Convert.ToDecimal(txtcapcity.Text) < 0)
+                //{
+                //    CMessageBox.Show("Please Enter Table Capacity", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtcapcity.Focus();
+                //    return false;
+                //}
                 else if (Convert.ToInt32(cmb_category.SelectedValue) == -1)
                 {
                     CMessageBox.Show("Please Select Table category Type", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);

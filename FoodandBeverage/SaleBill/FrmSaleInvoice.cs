@@ -1,25 +1,26 @@
-﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using ZXing.Common;
-using ZXing;
+﻿using BLL;
+using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using CustomMessageBox;
 using Domain;
 using FastMember;
-using System.Data;
-using CrystalDecisions.CrystalReports.Engine;
-using BLL;
-using CustomMessageBox;
 using FoodandBeverage.Forms;
-using System.Drawing.Drawing2D;
-using System.Drawing;
-using FoodandBeverage.Interfaces;
-using System.Linq;
+using FoodandBeverage.Forms.UserControl;
 using FoodandBeverage.Forms.UserControls;
+using FoodandBeverage.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using ZXing;
+using ZXing.Common;
 
 namespace FoodandBeverage.SaleBill
 {
@@ -891,6 +892,144 @@ namespace FoodandBeverage.SaleBill
             }
             GC.Collect();
             GC.WaitForPendingFinalizers();
+        }
+
+        #region Keyboard
+
+        public void ShowKeyboard(Control activeControl, int kbtype)
+        {
+            try
+            {
+              
+                if (activeControl == null) return;
+
+                if (activeControl is TextBox activeTextBox)
+                {
+                    Point textBoxScreenLocation = activeTextBox.PointToScreen(Point.Empty);
+                    int desiredX = 0, desiredY = 0;
+                    if (Frmkeyboard.IsOpen)
+                    {
+                        Frmkeyboard.Instance.Close();
+                    }
+
+                    Frmkeyboard frmKey = new Frmkeyboard(kbtype);
+
+                    #region Calculate Position of Keyboard 
+                    desiredX = textBoxScreenLocation.X + (activeTextBox.Width / 2) - (Frmkeyboard.Instance.Width / 2);
+                    desiredY = textBoxScreenLocation.Y + activeTextBox.Height + 5;
+                    Rectangle screenBounds = Screen.FromControl(activeTextBox).WorkingArea;
+                    if (desiredX < screenBounds.Left)
+                        desiredX = screenBounds.Left;
+                    else if (desiredX + Frmkeyboard.Instance.Width > screenBounds.Right)
+                        desiredX = screenBounds.Right - Frmkeyboard.Instance.Width;
+                    if (desiredY + Frmkeyboard.Instance.Height > screenBounds.Bottom)
+                    {
+                        desiredY = textBoxScreenLocation.Y - Frmkeyboard.Instance.Height - 5;
+                        if (desiredY < screenBounds.Top)
+                            desiredY = screenBounds.Top;
+                    }
+                    Frmkeyboard.Instance.StartPosition = FormStartPosition.Manual;
+                    Frmkeyboard.Instance.Location = new Point(desiredX, desiredY);
+                    #endregion
+
+
+                    frmKey.OnKeyPressed += (keyText) =>
+                    {
+                        if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.backspace))
+                        {
+                            if (activeTextBox.Text.Length > 0)
+                                activeTextBox.Text = activeTextBox.Text.Substring(0, activeTextBox.Text.Length - 1);
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.space))
+                        {
+                            activeTextBox.Text += " ";
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.clear))
+                        {
+                            activeTextBox.Text = "";
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.keyf8))
+                        {
+                            if (Convert.ToInt32(activeTextBox.Tag) == 1)
+                            { }
+                        }
+                        else
+                        {
+                            activeTextBox.Text += keyText;
+                        }
+                        activeTextBox.SelectionStart = activeTextBox.Text.Length;
+                        activeTextBox.SelectionLength = 0;
+                    };
+
+                    frmKey.Show();
+                }
+
+            }
+            catch (Exception ex)
+            {
+               // clsgen.LogException(" page ShowKeyboard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+
+            }
+
+        }
+
+
+        #endregion
+
+        private void txtfristname_Enter(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_SaleBill_YZoutPage_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtcompanyname_Enter(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_SaleBill_YZoutPage_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtph_Enter(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_SaleBill_YZoutPage_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.FunctionKey));
+            }
+        }
+
+        private void txtaddress_Enter(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_SaleBill_YZoutPage_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtemailid_Enter(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_SaleBill_YZoutPage_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtgstno_Enter(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_SaleBill_YZoutPage_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtsecondname_Enter(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_SaleBill_YZoutPage_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
         }
     }
 }
