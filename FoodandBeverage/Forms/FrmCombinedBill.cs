@@ -1674,24 +1674,25 @@ namespace FoodandBeverage.Forms
                         FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                     }
                     #region Close all form Return Login page
-                    foreach (Form openForm in Application.OpenForms.Cast<Form>().ToList())
-                    {
-                        if (!(openForm is FoodandBeverage.Forms.FrmLogin) && !(openForm is FoodandBeverage.Forms.FrmSplash))
-                            openForm.Close();
-                    }
+                    Application.Exit();
+                    //foreach (Form openForm in Application.OpenForms.Cast<Form>().ToList())
+                    //{
+                    //    if (!(openForm is FoodandBeverage.Forms.FrmLogin) && !(openForm is FoodandBeverage.Forms.FrmSplash))
+                    //        openForm.Close();
+                    //}
 
-                    System.Threading.Thread.Sleep(500);
-                    if (existingLogin == null)
-                    {
-                        FoodandBeverage.Forms.FrmLogin loginForm = new FoodandBeverage.Forms.FrmLogin();
-                        loginForm.Show();
-                    }
-                    else
-                    {
-                        existingLogin.Opacity = 100;
-                        existingLogin.BringToFront();
-                        existingLogin.Focus();
-                    }
+                    //System.Threading.Thread.Sleep(500);
+                    //if (existingLogin == null)
+                    //{
+                    //    FoodandBeverage.Forms.FrmLogin loginForm = new FoodandBeverage.Forms.FrmLogin();
+                    //    loginForm.Show();
+                    //}
+                    //else
+                    //{
+                    //    existingLogin.Opacity = 100;
+                    //    existingLogin.BringToFront();
+                    //    existingLogin.Focus();
+                    //}
                     #endregion
 
                 }

@@ -106,6 +106,7 @@ namespace FoodandBeverage.Forms
             this.lblmemory.TabIndex = 293;
             this.lblmemory.Text = "Memeory";
             this.lblmemory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblmemory.Visible = false;
             // 
             // btnprev
             // 

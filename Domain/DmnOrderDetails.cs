@@ -66,6 +66,8 @@ namespace Domain
         public int OrderPlatformdetails { get; set; }
         public string OrderPlatformdetailsName { get; set; }
 
+        public int Sourcepage { get; set; }
+
     }
     
 }

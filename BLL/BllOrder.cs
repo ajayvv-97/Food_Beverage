@@ -202,8 +202,9 @@ namespace BLL
             parms.Add("Tid", objTestClass.Tid);
             parms.Add("AddonStatus", objTestClass.AddonStatus);
             parms.Add("Avid", objTestClass.AV_id);
+            parms.Add("Sourcepage", objTestClass.Sourcepage);
 
-        var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
         public DmnOrderMaster Remove_order_KitchenOrder_Start_Rady(string procedureName, DmnOrderMaster objTestClass)
@@ -241,6 +242,7 @@ namespace BLL
             parms.Add("Avid", objTestClass.AV_id);
             parms.Add("CancelNotifyStatus", objTestClass.CancelNotifyStatus);
             parms.Add("KitchenCancelStatus", objTestClass.KitchenCancelStatus);
+            parms.Add("Sourcepage", objTestClass.Sourcepage);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

@@ -580,7 +580,7 @@ namespace FoodandBeverage.Forms
 
                 dgv_item.BorderStyle = BorderStyle.None;
                 cmbTaxType.SelectedIndex = 0;
-
+                cmbtax.SelectedIndex = 0;
                 //dgv_item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 //dgv_item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
                 //dgv_item.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;

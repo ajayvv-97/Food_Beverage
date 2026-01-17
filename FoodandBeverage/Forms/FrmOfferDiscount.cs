@@ -4984,29 +4984,62 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                DateTime offerdatetime_start = dtp_from_date_s.Value.Date + dtp_from_time_s.Value.TimeOfDay;
-                DateTime offerdatetime_end = dtp_to_date_s.Value.Date + dtp_to_time_s.Value.TimeOfDay;
+                // Combine date + time
+                DateTime offerdatetime_start =
+                    dtp_from_date_s.Value.Date + dtp_from_time_s.Value.TimeOfDay;
+
+                DateTime offerdatetime_end =
+                    dtp_to_date_s.Value.Date + dtp_to_time_s.Value.TimeOfDay;
+
+                // Convert to ISO format (SQL-safe, culture independent)
+                string startDateSql = offerdatetime_start.ToString("yyyy-MM-dd HH:mm:ss");
+                string endDateSql = offerdatetime_end.ToString("yyyy-MM-dd HH:mm:ss");
+
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
+
                 objSearch.Select = "*";
-                objSearch.Table = "tblOfferDetails fd left join tblOfferMaster fm on fm.Omid=fd.Omid";
-                objSearch.WhereNdGroupBy = "where fm.Status = 1 and ProductId = " + pid + " and offertype = 0  and  (SELECT CONVERT(datetime, '" + offerdatetime_start + "', 105))  > fm.OfferstartDatetime and (SELECT CONVERT(datetime, '" + offerdatetime_end + "', 105))  < fm.OfferEndDatetime ";
+                objSearch.Table =
+                    "tblOfferDetails fd LEFT JOIN tblOfferMaster fm ON fm.Omid = fd.Omid";
+
+                // ✅ Correct overlap logic + ISO datetime
+                objSearch.WhereNdGroupBy =
+                    "WHERE fm.Status = 1 and fd.Status = 1 " +
+                    "AND fd.ProductId = " + pid + " " +
+                    "AND fm.offertype = 0 " +
+                    "AND '" + startDateSql + "' < fm.OfferEndDatetime " +
+                    "AND '" + endDateSql + "' > fm.OfferstartDatetime";
+
                 objSearch.OrderBy = "";
+
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (itemSource.Count > 0)
+
+                if (itemSource != null && itemSource.Count > 0)
                 {
-                    CMessageBox.Show("offer Already Running On This Product ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show(
+                        "Offer already running on this product",
+                        "Information",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                     return false;
                 }
+
                 return true;
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Discount_And_Offer page checkOffer_product_seleList()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Discount_And_Offer));
+                clsgen.LogException(
+                    "Discount_And_Offer page checkOffer_product_seleList()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Discount_And_Offer)
+                );
                 return false;
             }
         }
+
         private void dgv_product_list_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try

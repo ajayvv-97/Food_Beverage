@@ -528,6 +528,11 @@ namespace FoodandBeverage.Interfaces
         Removeproduct = 2,
         Reset = 3,
     }
-
+    public enum CancelSourcePage
+    {
+        Kitchen = 1,
+        Ordervieww = 2,
+        Orderconsole=3
+    }
 }
 

@@ -2312,10 +2312,11 @@ namespace FoodandBeverage.Forms
                                     dmnRemove_order.Status = 0;
                                     dmnRemove_order.CancelNotifyStatus = 1;
                                     dmnRemove_order.OrderCancelNotes = txt_product_remove_des.Text;
+                                    dmnRemove_order.Sourcepage = Convert.ToInt32(CancelSourcePage.Kitchen);
                                     var InsertStatusP = bll_order.Remove_order_ALL("prd_remove_KitchenOrder", dmnRemove_order);
                                 }
-
                             }
+
                             tlp_main.Enabled = true;
                             pbcancelfoodclciked = false;
                             pnl_products_rem_descr.Visible = false;
@@ -2539,6 +2540,7 @@ namespace FoodandBeverage.Forms
                         dmnRemove_order.RemoveNotes = txt_product_remove_des.Text;
                         dmnRemove_order.CancelNotifyStatus = 1;
                         dmnRemove_order.KitchenCancelStatus = 1;
+                        dmnRemove_order.Sourcepage = Convert.ToInt32(CancelSourcePage.Kitchen);
                         var InsertStatusP = bll_order.Remove_order_KitchenOrder_ByProduct("prd_remove_Order_kitchen", dmnRemove_order);
 
                         string startbuttonname = "pb_start_k_" + korderno;

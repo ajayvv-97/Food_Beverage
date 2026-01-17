@@ -971,15 +971,39 @@ namespace FoodandBeverage.Forms
             longPressTimer.Stop();
         }
 
-        private void txtUserName_DoubleClick(object sender, EventArgs e)
+        private void btnrfid_MouseDown(object sender, MouseEventArgs e)
         {
-            ToggleWifiPopup(0);
-            using (FoodandBeverage.Forms.UserControl.Frmkeypad frm = new FoodandBeverage.Forms.UserControl.Frmkeypad())
+            isMouseDown = true;
+            pressDuration = 0;
+            longpress_midascard.Start();
+        }
+
+        private void btnrfid_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMouseDown = false;
+            longpress_midascard.Stop();
+        }
+
+        private void longpress_midascard_Tick(object sender, EventArgs e)
+        {
+
+            if (isMouseDown)
             {
-                frm.ShowDialog();
-                string IcardNo = frm.ICardNo;
-                if (IcardNo != "" && IcardNo != null)
-                    Employeefetch(IcardNo);
+                pressDuration += 100; // increase time by 100ms
+
+                if (pressDuration >= 5000) // 5 seconds long press
+                {
+                    longpress_midascard.Stop();
+                    isMouseDown = false;
+                    ToggleWifiPopup(0);
+                    using (FoodandBeverage.Forms.UserControl.Frmkeypad frm = new FoodandBeverage.Forms.UserControl.Frmkeypad())
+                    {
+                        frm.ShowDialog();
+                        string IcardNo = frm.ICardNo;
+                        if (IcardNo != "" && IcardNo != null)
+                            Employeefetch(IcardNo);
+                    }
+                }
             }
         }
     }

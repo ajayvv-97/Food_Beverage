@@ -217,7 +217,7 @@ namespace FoodandBeverage.Forms
         "MAX(ISNULL(ti.IsCustomerInformedCancel, 0)) AS Field8"; // customer informed
             dmn.Table =
     "tblTable_info ti " +
-    "LEFT JOIN tblOrderDetails od ON od.Tid = ti.Tid AND od.AddonStatus IN (0,1,2) " +
+    "LEFT JOIN tblOrderDetails od ON od.OrderMasterId = ti.OrderMasterId AND od.AddonStatus IN (0,1,2) " +
     "LEFT JOIN tblOrderMaster om ON om.OrderMasterId = od.OrderMasterId AND om.Status <> 3";
             dmn.WhereNdGroupBy =
                 "WHERE ti.Status = 1 " +
