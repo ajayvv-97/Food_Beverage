@@ -39,6 +39,7 @@ namespace BLL
             parms.Add("BranchId", obj.BranchId);
             parms.Add("CreatedBy", obj.CreatedBy);
             parms.Add("Status", obj.Status);
+            parms.Add("ProductType", obj.ProductType);
 
             var lstData = repo.AddandReturnID(procedureName, parms);
             return lstData;

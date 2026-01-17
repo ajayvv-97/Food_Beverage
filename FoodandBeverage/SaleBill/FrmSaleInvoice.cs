@@ -486,6 +486,18 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.SetParameterValue("Adv_pkc_label", "Packing Charge");
                     reportDocument.SetParameterValue("Adv_pkc_amt", invoiceBillMasters[0].PkChargeAmount);
                 }
+
+                string imgpath = FrmLogin.logoPath + @"sblogo.png";
+                if (File.Exists(imgpath))
+                {
+                    reportDocument.SetParameterValue("Logopath", imgpath);
+                }
+                else
+                {
+                    reportDocument.SetParameterValue("Logopath", string.Empty);
+                }
+
+
                 crvSalesBill.RefreshReport();
                 crvSalesBill.ReportSource = reportDocument;
 
