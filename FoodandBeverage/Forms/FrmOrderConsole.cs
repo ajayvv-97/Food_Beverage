@@ -3879,8 +3879,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         dmnSearch.Select =
                             "i.Itemname as Field1, i.ItemId as Field2, 1 as Field3," +
                             "ofd.Discountper as Field4, ofd.ProductType as Field5," +
-                            "(select PRate from tblProductRate where ProductId=i.ItemId and Status=1) Field6," +
-                            "(select count(*) from tblProductRate where ProductId=i.ItemId and Status=1) Field7," +
+                            "(select TOP 1 srate from tblProductRate where ProductId=i.ItemId and Status=1 order by id desc) Field6," +
+                            "0 Field7," +
                             "2 Field8";
 
                         dmnSearch.Table =
