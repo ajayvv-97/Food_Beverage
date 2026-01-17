@@ -4258,7 +4258,7 @@ namespace FoodandBeverage.Forms
                 dmnVirtual.Enb_SaleBill_YZoutPage_Number = chk_billyz_number.Checked;
 
                 // === System Fields ===
-                //dmnVirtual.mDeviceIP = System.Environment.MachineName;
+                dmnVirtual.mDeviceIP = System.Environment.MachineName;
                 dmnVirtual.BranchId = FrmDashboard.BranchId;
                 dmnVirtual.CreatedBy = FrmDashboard.UserId; 
                 dmnVirtual.Status = 1;
@@ -4282,45 +4282,57 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                string deviceName = System.Environment.MachineName; // ✅ DEVICE NAME
+
                 BllSearch<DmnVirtualKeyBoard> Bllvirtualkeyboard = new BllSearch<DmnVirtualKeyBoard>();
                 DmnSearch dmnsearchvir = new DmnSearch
                 {
                     Select = @"
-                HomeNumberKeyboard AS Enb_Home_Number,
-                AllowVirtualKeyboardLoginNumber AS Enb_AllowVirtualKeyboardLogin_Number,
-                TablePickUpNumberKeyboard AS Enb_TablePickUp_Number,
-                OperationNumberKeyboard AS Enb_Operation_Number,
-                EmployeeNumberKeyboard AS Enb_Employee_Number,
-                BillingNumberKeyboard AS Enb_Billing_Number,
-                ReportNumberKeyboard AS Enb_Report_Number,
-                OrderPageNumberKeyboard AS Enb_OrderPage_Number,
-                KitchenViewNumberKeyboard AS Enb_KitchenView_Number,
-                SearchPageNumberKeyboard AS Enb_SearchPage_Number,
-                SaleBillYZoutPageNumberKeyboard AS Enb_SaleBill_YZoutPage_Number,
+                Enb_Home_Number,
+                Enb_AllowVirtualKeyboardLogin_Number,
+                Enb_TablePickUp_Number,
+                Enb_Operation_Number,
+                Enb_Employee_Number,
+                Enb_Billing_Number,
+                Enb_Report_Number,
+                Enb_OrderPage_Number,
+                Enb_KitchenView_Number,
+                Enb_SearchPage_Number,
+                Enb_SaleBill_YZoutPage_Number,
 
-                HomeKeyboard AS Enb_Home_Normal,
-                AllowVirtualKeyboardLoginKeyboard AS Enb_AllowVirtualKeyboardLogin_Normal,
-                TablePickUpKeyboard AS Enb_TablePickUp_Normal,
-                OperationKeyboard AS Enb_Operation_Normal,
-                EmployeeKeyboard AS Enb_Employee_Normal,
-                BillingKeyboard AS Enb_Billing_Normal,
-                ReportKeyboard AS Enb_Report_Normal,
-                OrderPageKeyboard AS Enb_OrderPage_Normal,
-                KitchenViewKeyboard AS Enb_KitchenView_Normal,
-                SearchPageKeyboard AS Enb_SearchPage_Normal,
-                SaleBillYZoutPageKeyboard AS Enb_SaleBill_YZoutPage_Normal,
-                Id",
+                Enb_Home_Normal,
+                Enb_AllowVirtualKeyboardLogin_Normal,
+                Enb_TablePickUp_Normal,
+                Enb_Operation_Normal,
+                Enb_Employee_Normal,
+                Enb_Billing_Normal,
+                Enb_Report_Normal,
+                Enb_OrderPage_Normal,
+                Enb_KitchenView_Normal,
+                Enb_SearchPage_Normal,
+                Enb_SaleBill_YZoutPage_Normal,
+
+                DeviceName,     -- ✅ ADDED
+                Id
+            ",
                     Table = "tblVirtualKeyBoard",
-                    WhereNdGroupBy = $"WHERE mDeviceIP='{System.Environment.MachineName}' AND BranchId={BranchId} AND Status=1",
+
+                    // ✅ DEVICE FILTER ADDED (without removing existing conditions)
+                    WhereNdGroupBy = $@"
+                WHERE BranchId = {BranchId} 
+                AND Status = 1
+                AND DeviceName = '{deviceName}'
+            ",
                     OrderBy = ""
                 };
 
                 var gridesource = Bllvirtualkeyboard.GetSearchData("prdSearch", dmnsearchvir);
+
                 if (gridesource.Count > 0)
                 {
                     var data = gridesource[0];
 
-                    // === Set Number Keyboard CheckBoxes ===
+                    // === Number Keyboard CheckBoxes ===
                     chk_billyz_number.Checked = data.Enb_SaleBill_YZoutPage_Number;
                     chk_serach_number.Checked = data.Enb_SearchPage_Number;
                     chk_kitchen_number.Checked = data.Enb_KitchenView_Number;
@@ -4333,7 +4345,7 @@ namespace FoodandBeverage.Forms
                     chk_login_number.Checked = data.Enb_AllowVirtualKeyboardLogin_Number;
                     chk_tablep_number.Checked = data.Enb_TablePickUp_Number;
 
-                    // === Set Normal Keyboard CheckBoxes ===
+                    // === Normal Keyboard CheckBoxes ===
                     chk_billyz_normal.Checked = data.Enb_SaleBill_YZoutPage_Normal;
                     chk_serach_normal.Checked = data.Enb_SearchPage_Normal;
                     chk_kitchen_normal.Checked = data.Enb_KitchenView_Normal;
@@ -4376,9 +4388,16 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("home page virtualkeyboardCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException(
+                    "home page virtualkeyboardCheck()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage)
+                );
             }
         }
+
         private void chk_number_all_CheckedChanged(object sender, EventArgs e)
         {
             try
