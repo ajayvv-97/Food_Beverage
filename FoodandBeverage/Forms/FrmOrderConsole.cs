@@ -10034,9 +10034,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         checksave_refresh();
                     }
 
-                    netAmount();
+                    
                     GridSlno_Refresh();
+                    netAmount();
                 }
+                netAmount();
             }
             catch (Exception ex)
             {
