@@ -1062,7 +1062,7 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.BookingInerwell = Convert.ToInt32(tbl_BookingIn.Text);
                 //pb2.BackgroundImage = DocumentType.HotelRegistrationProofPics;
                 dmnRegistration.CreatedBy = FrmDashboard.UserId;
-                dmnRegistration.BranchId = FrmDashboard.BranchId;
+                dmnRegistration.BranchId = 1;
                 dmnRegistration.Status = 1;
                 dmnRegistration.billno = Convert.ToString(txtbillno.Text);
                 if (empImgExt != "")
