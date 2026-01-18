@@ -314,5 +314,20 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+
+        public DmnOrderMaster MsgNotifyStatus_update(string procedureName, DmnOrderMaster objTestClass)   // 1 = OrderMaster, 2 = OrderDetail)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository =new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("@OrderDetailsId", objTestClass.OrderDetailsId);
+            parms.Add("@OrderMasterId", objTestClass.OrderMasterId);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("@TableType", objTestClass.TableType); // 1 or 2
+            parms.Add("ActionType", objTestClass.ActionType);
+            var result = dapperRepository.AddandReturnID(procedureName, parms);
+            return result;
+        }
+
     }
 }

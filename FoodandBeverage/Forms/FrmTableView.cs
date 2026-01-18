@@ -1384,6 +1384,19 @@ namespace FoodandBeverage.Forms
             try
             {
                 AutoTimer.Stop();
+
+                FrmDashboard dashboard = Application.OpenForms.OfType<FrmDashboard>().FirstOrDefault();
+                if (dashboard != null)
+                {
+                    dashboard.AssignDrawerCheck();
+                }
+
+                if (FrmDrawer.DrawerID == 0)
+                {
+                    return;
+                }
+
+
                 CheckedtableNames.Clear();
                 Control clickedControl = sender as Control;
                 string textvalue = clickedControl.AccessibleDescription;

@@ -450,6 +450,14 @@ namespace FoodandBeverage.Forms
                 }
                 CheckRe_Pickuporder();
                 CheckPickupkitchenCancel();
+
+                if (OrderCancelStatus == 1)
+                {
+                    btn_cancle_pickup.Visible = false;
+                    btnordercallist.PerformClick();
+                }                    
+                else
+                    btn_cancle_pickup.Visible = true;
             }
 
             #endregion
@@ -3866,7 +3874,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             "tblProduct p " +
                             "LEFT JOIN tblOfferDetails ofd ON ofd.ProductId=p.ProductId AND ofd.status=1 AND ofd.Producttype=1 " +
                             "LEFT JOIN tblOfferMaster ofm ON ofm.Omid=ofd.Omid AND ofm.status=1 " +
-                            "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
+                            "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.ProductType=0";
 
                         dmnSearch.WhereNdGroupBy =
                             " WHERE p.Status=1 AND m.Status=1 AND ofm.OfferType=0 " +
@@ -7034,6 +7042,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     btn_save_promo.Enabled = true;
 
                     Dgv_Selected_Item.Rows.Add();
+
+                    if (OrderCancelStatus == 1)
+                    {
+                        btn_cancle_pickup.Visible = false;
+                        btnordercallist.PerformClick();
+                    }
+                    else
+                        btn_cancle_pickup.Visible = true;
                 }
                 else if (combined_Status)
                 {

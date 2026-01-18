@@ -1,25 +1,29 @@
 ﻿using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
+using FoodandBeverage.Forms.UserAccount;
+using FoodandBeverage.Interfaces;
+using FoodandBeverage.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using FoodandBeverage.Interfaces;
-using FoodandBeverage.Forms.UserAccount;
-using FoodandBeverage.Forms.UserControls;
-using System.Threading.Tasks;
-using System.Threading;
-using FoodandBeverage.Classes;
-using System.Diagnostics;
-using System.Configuration;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static FoodandBeverage.Classes.UIHelper;
+// ✅ Aliases to remove ambiguity
+using NS = FoodandBeverage.Services.NotificationService;
+
 
 namespace FoodandBeverage.Forms
 {
@@ -152,6 +156,8 @@ namespace FoodandBeverage.Forms
         public static bool EnableGroupCardInPayment = false;
 
         int syncValue = 0;
+        private bool _isCheckingOrders = false;
+
         #endregion
 
         // Function to create a rounded rectangle region
@@ -230,6 +236,17 @@ namespace FoodandBeverage.Forms
 
         private async void FrmDashboard_Load(object sender, EventArgs e)
         {
+            _notifyIcon = new NotifyIcon
+            {
+                Icon = SystemIcons.Information,
+                Visible = true,
+                Text = "Food & Beverage POS"
+            };
+
+            // Subscribe ONCE using alias NS
+            NS.OnNotify += ShowDashboardNotification;
+
+
             UIHelper.RoundControl(pbusericon, 20);
             ProfilPIC_update();
             originalMenuWidth = flp_sidemenu.Width;
@@ -1296,11 +1313,12 @@ namespace FoodandBeverage.Forms
 
                     if (AllowDrawerpermissionFullControl) //full permission 
                     {
+                        FrmDrawer.DrawerID = Convert.ToInt32(gridesource[0].Field5);
                         if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
                         {
                             FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
                             FrmDashboard.Instance.lbl_drawer.Visible = true;
-                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
+                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Green;
                         }
                     }
                     else// only self assign permission 
@@ -4929,6 +4947,15 @@ namespace FoodandBeverage.Forms
             {
                 AppSession.UnregisterForm(this);
             }
+
+            FoodandBeverage.Services.NotificationService.OnNotify
+                 -= ShowDashboardNotification;
+
+            _notifyIcon?.Dispose();
+
+            orderWatchTimer?.Stop();
+            orderWatchTimer?.Dispose();
+            orderWatchTimer = null;
         }
 
 
@@ -5768,6 +5795,230 @@ namespace FoodandBeverage.Forms
         {
             UIHelper.CloseAllMasterForms();
         }
+
+
+        #region Notification MSG
+
+        // 🔹 FORM-LEVEL FIELDS
+        private NotifyIcon _notifyIcon;
+
+        // 🔹 CENTRALIZED CACHE (TableId → Status)
+        private static Dictionary<int, TableOrderStatus> OrderStatusCache
+            = new Dictionary<int, TableOrderStatus>();
+
+        // 🔹 TIMER TICK
+        private void orderWatchTimer_Tick(object sender, EventArgs e)
+        {
+            // 🛑 Prevent re-entry
+            if (_isCheckingOrders)
+                return;
+
+            try
+            {
+                _isCheckingOrders = true;
+                orderWatchTimer.Stop(); // 🔕 pause timer
+
+                CheckTableOrderChanges();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage orderWatchTimer_Tick()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+            finally
+            {
+                _isCheckingOrders = false;
+                orderWatchTimer.Start(); // ▶ resume timer
+            }
+        }
+
+
+        // 🔹 CHECK TABLE ORDER CHANGES
+        private void CheckTableOrderChanges()
+        {
+            try
+            {
+                LoadOrderStatusCache();
+                var now = DateTime.Now;
+
+                foreach (var item in OrderStatusCache.Values)
+                {
+                    // 🛑 Notification already acknowledged elsewhere
+                    if (item.MsgNotificationStatus == 1)
+                        continue;
+
+                    bool shouldNotify = false;
+
+                    // 🔔 First-time notification
+                    if (!item.LastNotificationTime.HasValue)
+                    {
+                        shouldNotify = true;
+                    }
+                    // 🔁 Repeat every 3 minutes
+                    else if ((now - item.LastNotificationTime.Value).TotalMinutes >= 3)
+                    {
+                        shouldNotify = true;
+                    }
+
+                    if (!shouldNotify)
+                        continue;
+
+                    // =========================
+                    // 🔔 SHOW NOTIFICATION
+                    // =========================
+                    if (item.CancelCount > 0)
+                    {
+                        NS.Raise(
+                            $"{item.TableName}: Item cancelled by kitchen",
+                            item.Ordermid,
+                            item.Tid
+                        );
+                    }
+
+                    if (item.KitchenCancelled)
+                    {
+                        NS.Raise(
+                            $"{item.TableName}: Order cancelled",
+                            item.Ordermid,
+                            item.Tid
+                        );
+                    }
+
+                    // =========================
+                    // ⏱ RESET NOTIFICATION TIME ONLY
+                    // =========================
+                    DmnOrderMaster dmn = new DmnOrderMaster
+                    {
+                        OrderMasterId = item.Ordermid,
+                        OrderDetailsId = item.Orderdetailsid,
+                        TableType = Convert.ToInt32(MsgTableType.Details),
+                        ActionType = Convert.ToInt32(MsgActionType.Time), // ⏱ only time reset
+                        BranchId = FrmDashboard.BranchId,
+                        CreatedBy = FrmDashboard.UserId
+                    };
+
+                    new BllOrder()
+                        .MsgNotifyStatus_update("Prd_UpdateMsgNotificationStatus", dmn);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage CheckTableOrderChanges()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        // 🔹 UI NOTIFICATION HANDLER
+        private void ShowDashboardNotification(NS.OrderNotification note)
+        {
+            try
+            {
+                if (_notifyIcon == null) return;
+
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new Action(() => ShowDashboardNotification(note)));
+                    return;
+                }
+
+                _notifyIcon.BalloonTipTitle = "Order Update";
+                _notifyIcon.BalloonTipText = note.Message;
+                _notifyIcon.ShowBalloonTip(4000);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ShowDashboardNotification()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        // 🔹 MODEL
+        public class TableOrderStatus
+        {
+            public int Tid { get; set; }
+            public int Ordermid { get; set; }
+            public int TotalItems { get; set; }
+            public int PendingCount { get; set; }
+            public int CancelCount { get; set; }
+            public bool KitchenCancelled { get; set; }
+            public int Checkoutstatus { get; set; }
+
+            public int Orderdetailsid { get; set; }
+            public string TableName { get; set; }
+            public DateTime? LastNotificationTime { get; set; }
+            public int MsgNotificationStatus { get; set; } // 0 = pending, 1 = done
+        }
+
+        // 🔹 LOAD ORDER STATUS CACHE
+        private  void LoadOrderStatusCache()
+        {
+            try
+            {
+                OrderStatusCache.Clear();
+
+                BllNotification<DmnGridFields> search =
+                    new BllNotification<DmnGridFields>();
+
+                DmnGridFields param = new DmnGridFields
+                {
+                    Field30 = FrmLogin.BranchId.ToString()
+                };
+
+                var list = search.SerachOrder(
+                    "Prd_GetOrderNotificationQueue", param);
+
+                if (list == null || list.Count == 0)
+                    return;
+
+                foreach (var r in list)
+                {
+                    int tableId = Convert.ToInt32(r.Field6);
+
+                    OrderStatusCache[tableId] = new TableOrderStatus
+                    {
+                        Tid = tableId,
+                        Ordermid = Convert.ToInt32(r.Field1),
+                        TotalItems = Convert.ToInt32(r.Field2),
+                        PendingCount = Convert.ToInt32(r.Field3),
+                        CancelCount = Convert.ToInt32(r.Field4),
+                        KitchenCancelled = Convert.ToInt32(r.Field5) == 1,
+                        Checkoutstatus = Convert.ToInt32(r.Field7),
+
+                        MsgNotificationStatus = Convert.ToInt32(r.Field8),
+                        TableName = Convert.ToString(r.Field9),
+                        LastNotificationTime = r.Field10 == null
+                            ? (DateTime?)null
+                            : Convert.ToDateTime(r.Field10),
+                        Orderdetailsid = Convert.ToInt32(r.Field11)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage LoadOrderStatusCache()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        #endregion
+
+
 
         #region Keyboard
         public void ShowKeyboard(Control activeControl, int kbtype)
