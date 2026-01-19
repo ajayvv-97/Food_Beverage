@@ -397,6 +397,8 @@ namespace FoodandBeverage.Forms
                     if (gridSource.Count > 0)
                     {
                         txtordermasterid.Text = gridSource[0].Field1;
+ 
+
                     }
                 }
                 else
@@ -491,6 +493,8 @@ namespace FoodandBeverage.Forms
             tlp_calculation_total.Dock = DockStyle.Fill;
 
             textb_shape_paymnet();
+            if(OrderCancelStatus == 1)
+                btn_pa__toggle.PerformClick();
         }
         private void FrmOrderConsole_Resize(object sender, EventArgs e)
         {
