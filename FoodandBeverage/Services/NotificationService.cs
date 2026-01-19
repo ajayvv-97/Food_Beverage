@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing; // For Color
 
 namespace FoodandBeverage.Services
 {
@@ -11,13 +12,14 @@ namespace FoodandBeverage.Services
         public static event NotificationHandler OnNotify;
 
         // 🔹 Helper to raise a notification
-        public static void Raise(string message, int orderId, int tableId)
+        public static void Raise(string message, int orderId, int tableId, Color? color = null)
         {
             OnNotify?.Invoke(new OrderNotification
             {
                 Message = message,
                 OrderId = orderId,
-                TableId = tableId
+                TableId = tableId,
+                NotificationColor = color ?? Color.White // default white
             });
         }
 
@@ -27,6 +29,9 @@ namespace FoodandBeverage.Services
             public string Message { get; set; }
             public int OrderId { get; set; }
             public int TableId { get; set; }
+
+            // 🔹 Color-coded notification
+            public Color NotificationColor { get; set; } = Color.White;
         }
     }
 }
