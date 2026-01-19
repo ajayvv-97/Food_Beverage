@@ -1,4 +1,5 @@
-﻿using FoodandBeverage.Forms;
+﻿using Domain;
+using FoodandBeverage.Forms;
 using FoodandBeverage.Forms.UserAccount;
 using System;
 using System.Drawing;
@@ -60,6 +61,27 @@ namespace FoodandBeverage.Classes
                 ctrl.Invalidate(); // force repaint to show border
             }
         }
+
+        public static class NotificationService
+        {
+            public static event Action<OrderNotification> OnNotify;
+
+            public static void Raise(string message, int orderId, int refId)
+            {
+                OnNotify?.Invoke(new OrderNotification
+                {
+                    Message = message,
+                    OrderMasterId = orderId,
+                    TableOrPickupId = refId,
+                    Time = DateTime.Now
+                });
+            }
+        }
+        public static void UpdateNotificationStatus(int id, int tableType, DateTime notifyTime)
+        {
+
+        }
+
         #region  open form closeinng and Dispose
         public static void CloseIfOpen<T>() where T : Form
         {

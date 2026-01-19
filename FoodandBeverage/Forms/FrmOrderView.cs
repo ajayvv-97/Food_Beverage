@@ -48,6 +48,7 @@ namespace FoodandBeverage.Forms
 
 
         #endregion
+
         public int dgv_details_view_rowno = 0;
         public int OrderMasterId = 0;
         public int SearchType = 0;

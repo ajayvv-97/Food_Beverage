@@ -869,6 +869,7 @@ namespace FoodandBeverage.Report
                 {
                     invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
                     invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                    return;
                 }
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "dFld1", "dFld2", "dFld3", "dFld4"))
                 {
@@ -1700,7 +1701,7 @@ namespace FoodandBeverage.Report
                 DmnSearch dmnSearchcompany = new DmnSearch();
                 dmnSearchcompany.Select = "Name,Email,Phone,Address,city,GSTNO";
                 dmnSearchcompany.Table = "tblHotelRegistration";
-                dmnSearchcompany.WhereNdGroupBy = " where BranchId = " + BranchId;
+                dmnSearchcompany.WhereNdGroupBy = " where id = " + BranchId;
                 var Addressdata = bllSearchcompany.GetSearchData("prdSearch", dmnSearchcompany);
                 return Addressdata;
             }

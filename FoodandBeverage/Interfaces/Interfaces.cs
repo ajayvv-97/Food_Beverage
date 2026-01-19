@@ -532,7 +532,19 @@ namespace FoodandBeverage.Interfaces
     {
         Kitchen = 1,
         Ordervieww = 2,
-        Orderconsole=3
+        Orderconsole = 3
+    }
+    public enum MsgActionType
+    {
+        Message = 1,
+        Time = 2,
+
+    }
+    public enum MsgTableType
+    {
+        Master = 1,
+        Details = 2,
+
     }
 }
 

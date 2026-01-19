@@ -452,6 +452,14 @@ namespace FoodandBeverage.Forms
                 }
                 CheckRe_Pickuporder();
                 CheckPickupkitchenCancel();
+
+                if (OrderCancelStatus == 1)
+                {
+                    btn_cancle_pickup.Visible = false;
+                    btnordercallist.PerformClick();
+                }                    
+                else
+                    btn_cancle_pickup.Visible = true;
             }
 
             #endregion
@@ -3870,7 +3878,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             "tblProduct p " +
                             "LEFT JOIN tblOfferDetails ofd ON ofd.ProductId=p.ProductId AND ofd.status=1 AND ofd.Producttype=1 " +
                             "LEFT JOIN tblOfferMaster ofm ON ofm.Omid=ofd.Omid AND ofm.status=1 " +
-                            "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId";
+                            "LEFT JOIN tblMenu m ON m.ProductId=p.ProductId and m.ProductType=0";
 
                         dmnSearch.WhereNdGroupBy =
                             " WHERE p.Status=1 AND m.Status=1 AND ofm.OfferType=0 " +
@@ -3883,8 +3891,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         dmnSearch.Select =
                             "i.Itemname as Field1, i.ItemId as Field2, 1 as Field3," +
                             "ofd.Discountper as Field4, ofd.ProductType as Field5," +
-                            "(select PRate from tblProductRate where ProductId=i.ItemId and Status=1) Field6," +
-                            "(select count(*) from tblProductRate where ProductId=i.ItemId and Status=1) Field7," +
+                            "(select TOP 1 srate from tblProductRate where ProductId=i.ItemId and Status=1 order by id desc) Field6," +
+                            "0 Field7," +
                             "2 Field8";
 
                         dmnSearch.Table =
@@ -7038,6 +7046,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     btn_save_promo.Enabled = true;
 
                     Dgv_Selected_Item.Rows.Add();
+
+                    if (OrderCancelStatus == 1)
+                    {
+                        btn_cancle_pickup.Visible = false;
+                        btnordercallist.PerformClick();
+                    }
+                    else
+                        btn_cancle_pickup.Visible = true;
                 }
                 else if (combined_Status)
                 {

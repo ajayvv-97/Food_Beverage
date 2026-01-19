@@ -826,6 +826,7 @@
       <DependentUpon>SaleBill_Copy.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Services\NotificationService.cs" />
     <EmbeddedResource Include="Forms\FrmAddon.resx">
       <DependentUpon>FrmAddon.cs</DependentUpon>
     </EmbeddedResource>
