@@ -189,16 +189,17 @@ namespace FoodandBeverage.Forms
 
                 _objSearch.Select =
                 "S.SalesMasterId as Id," +
-                "EntryNo as Field1," +
-                "EntryDate as Field2," +
+                "S.EntryNo as Field1," +
+                "S.EntryDate as Field2," +
                 "S.NetAmount as Field3";
 
                 _objSearch.Table =
                 "tblsalesmaster S LEFT JOIN tblSalesDetails SD " +
-                "ON S.SalesMasterId = SD.SalesMasterId";
+                "ON S.SalesMasterId = SD.SalesMasterId"+
+                " LEFT JOIN tblOrderMaster Om ON S.SalesMasterId=Om.SalesMasterId";
 
                 _objSearch.WhereNdGroupBy =
-                "WHERE S.Status = 0 AND Tid = 0 " +
+                "WHERE S.Status = 1 AND S.Tid = 0 AND Om.Status=1 " +
                 "GROUP BY S.SalesMasterId, S.EntryNo, S.EntryDate, S.NetAmount";
 
                 _objSearch.OrderBy = "ORDER BY Id DESC";
@@ -234,7 +235,7 @@ namespace FoodandBeverage.Forms
                         DmnSearch objSearch = new DmnSearch();
                         objSearch.Select = "SalesMasterId as ID ,NetAmount,Quantity,ItemName";
                         objSearch.Table = "tblSalesDetails ";
-                        objSearch.WhereNdGroupBy = "where status = 0 and SalesMasterId=" + aid;
+                        objSearch.WhereNdGroupBy = "where status = 1 and SalesMasterId=" + aid;
                         objSearch.OrderBy = "";
                         var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
                         int SL_Main = 0;

@@ -35,6 +35,6 @@ namespace Domain
         public int FMCardType { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public String DBname { get; set; }
-        public bool cancel_byKitchen { get; set; }
+        public bool Cancelorderstatus { get; set; }
     }
 }

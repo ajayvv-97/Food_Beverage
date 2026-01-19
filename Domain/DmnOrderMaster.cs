@@ -66,6 +66,8 @@ namespace Domain
         public string OrderPlatformmasterName { get; set; } = "1";
         public int TableType { get; set; } 
         public int ActionType { get; set; }
-        
+        public int cancel_byKitchen { get; set; }
+
+
     }
 }

@@ -277,6 +277,7 @@ namespace FoodandBeverage.Forms
 
         public int saletype = 0;
         public int Proid_Prid = 0;
+        public bool ordercancelbystaff = false;
         #endregion
         public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype,int cdstatus)
         {
@@ -448,18 +449,23 @@ namespace FoodandBeverage.Forms
                     {
                         txtordermasterid.Text = gridSource[0].Field1;
                         txtsalemasterid.Text = gridSource[0].Field2;
+
                     }
                 }
                 CheckRe_Pickuporder();
+
                 CheckPickupkitchenCancel();
 
                 if (OrderCancelStatus == 1)
                 {
                     btn_cancle_pickup.Visible = false;
                     btnordercallist.PerformClick();
+
+                    UIHelper.CenterAndResize(pnl_cancelledlist, 50, 40);
+                    UIHelper.RoundCorners(pnl_cancelledlist, 25);
+                    UIHelper.RoundCorners(tlp_cancelled_list_nav, 25);
                 }                    
-                else
-                    btn_cancle_pickup.Visible = true;
+                
             }
 
             #endregion
@@ -501,8 +507,7 @@ namespace FoodandBeverage.Forms
             tlp_calculation_total.Dock = DockStyle.Fill;
 
             textb_shape_paymnet();
-            if(OrderCancelStatus == 1)
-                btn_pa__toggle.PerformClick();
+           
         }
         private void FrmOrderConsole_Resize(object sender, EventArgs e)
         {
@@ -1089,16 +1094,20 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Select = "itemName Field1,Quantity Field2,RemoveNotes Field3,OrderMasterId Field4,OrderDetailsId Field5,NetAmount Field6,CASE WHEN EXISTS(SELECT 1 FROM tblOrderDetails AS x WHERE x.OrderMasterId = tblOrderDetails.OrderMasterId AND x.KitchenCancelStatus = 1 ) THEN 1 ELSE 0 END AS Field7";
                 dmnSearch.Table = "tblOrderDetails";
                 dmnSearch.WhereNdGroupBy =
-                    "WHERE Status = 0 AND AddonStatus IN (1,0,2) AND CancelNotifyStatus = 1 and RefundStatus !=1" +
+                    "WHERE Status = 0 AND AddonStatus IN (1,0,2) AND CancelNotifyStatus = 1 and RefundStatus !=1"+ 
                     "AND OrderMasterId = " + Convert.ToInt32(lblorderid.Text);//KitchenCancelStatus = 1
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 dgv_ordercancel.Rows.Clear();
                 if (gridSource.Count > 0)
                 {
+
+
                     if (Convert.ToInt32(gridSource[0].Field7) == 1)
                     {
                         btnordercallist.Visible = true;
                         Refundproductflag = true;
+
+                        
                     }
                     else
                     {
@@ -1126,17 +1135,24 @@ namespace FoodandBeverage.Forms
                     }
                     lblpickupcnlamt.Text = total.ToString("N2");
                     Refundproductwisetotal = total;
+
+                    UIHelper.CenterAndResize(pnl_cancelledlist, 50, 40);
+                    UIHelper.RoundCorners(pnl_cancelledlist, 25);
+                    UIHelper.RoundCorners(tlp_cancelled_list_nav, 25);
                 }
                 else
                 {
                     btnordercallist.Visible = false;
                     lblpickupcnlamt.Text = "0";
+                    pnl_cancelledlist.Visible = false;
                 }
                 #endregion
 
                 if (gridSource.Count == 0)
                     CheckReconfirmPickup();
+                btn_pa__toggle.PerformClick();
             }
+            
             catch (Exception ex)
             {
 
@@ -1161,11 +1177,13 @@ namespace FoodandBeverage.Forms
                 if (gridSourcekcancelnfy.Count > 0 && Convert.ToInt32(gridSourcekcancelnfy[0].Field1) == 1)
                 {
                     btnreconfirmorder.Visible = true;
+                    
                 }
                 else
                 {
                     btnreconfirmorder.Visible = false;
                 }
+                btn_pa__toggle.PerformClick();
 
                 #endregion
             }
@@ -5849,9 +5867,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 cancel_byKitchen = true;
                 if (pnl_cancelledlist.Visible == false)
                 {
-                    UIHelper.CenterAndResize(pnl_cancelledlist, 50, 40);
-                    UIHelper.RoundCorners(pnl_cancelledlist, 25);
-                    UIHelper.RoundCorners(tlp_cancelled_list_nav, 25);
+                    //UIHelper.CenterAndResize(pnl_cancelledlist, 50, 40);
+                    //UIHelper.RoundCorners(pnl_cancelledlist, 25);
+                    //UIHelper.RoundCorners(tlp_cancelled_list_nav, 25);
+
                     CheckPickupkitchenCancel();
                 }
                 else
@@ -6998,6 +7017,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         {
             try
             {
+                ordercancelbystaff = false;
                 Memoryrelease();
 
                 lbltablecode.Visible = true;
@@ -8937,6 +8957,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         {
             try
             {
+
                 if (OrderCancelStatus == 1)
                 {
                     pnl_cancelledlist.Visible = false;
@@ -8957,10 +8978,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         return;
                     }
 
-                    frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
-                    frm.ShowDialog();
-                    if (frm.access == true)
-                    {
+                    
                         //ttxdesc_cancelorder.Text = "Reason Type Here ...";
                         //ttxdesc_cancelorder.ForeColor = Color.Gray;
                         //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
@@ -8997,9 +9015,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         dgv_ordercancel.Rows.Clear();
                         if (gridSource.Count > 0)
                         {
+                            ordercancelbystaff = true;
+
                             if (Convert.ToInt32(gridSource[0].Field7) == 1)
                             {
-                                btnordercallist.Visible = true;
+                                //btnordercallist.Visible = true;
                                 Refundproductflag = true;
                             }
                             else
@@ -9035,11 +9055,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             lblpickupcnlamt.Text = "0";
                         }
                         #endregion
-                    }
-                    else
-                    {
-                        CMessageBox.Show(this, "\nThis Account Have No Access For This Operations", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    
                 }
                 
             }
@@ -9069,23 +9085,34 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
         private void btnreconfirmorder_Click(object sender, EventArgs e)
         {
-            DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
-            BllOrder bll_order = new BllOrder();
-            dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
-            dmnRemove_order.OrderDetailsId = 0;
-            dmnRemove_order.KitchenCancelStatus = 0;
-            dmnRemove_order.PkId = 1;
-            dmnRemove_order.CreatedBy = FrmDashboard.UserId;
-            dmnRemove_order.BranchId = FrmDashboard.BranchId;
-            var InsertStatusP = bll_order.Reconfirmorder_update("prd_KitchenCancelStatus_update", dmnRemove_order);
+            ReconfirmOrder();
+        }
+        public void ReconfirmOrder()
+        {
+            try
+            {
+                DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                BllOrder bll_order = new BllOrder();
+                dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                dmnRemove_order.OrderDetailsId = 0;
+                dmnRemove_order.KitchenCancelStatus = 0;
+                dmnRemove_order.PkId = 1;
+                dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                dmnRemove_order.BranchId = FrmDashboard.BranchId;
+                var InsertStatusP = bll_order.Reconfirmorder_update("prd_KitchenCancelStatus_update", dmnRemove_order);
 
-            if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
-                ResetTableViewPage();
-            else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
-                ResetPickupViewPage();
-            else if (sourcepage == Convert.ToInt32(SourcepageType.Billingpage))
-                ResetBillpage();
-            this.Close();
+                if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
+                    ResetTableViewPage();
+                else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                    ResetPickupViewPage();
+                else if (sourcepage == Convert.ToInt32(SourcepageType.Billingpage))
+                    ResetBillpage();
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page  ReconfirmOrder()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
         }
 
         #endregion
@@ -10435,20 +10462,41 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 dmnRefund.BranchId = FrmDashboard.BranchId;
                 dmnRefund.Status = 1;
                 dmnRefund.CreatedDateTime = DateTime.Now;
-                dmnRefund.cancel_byKitchen = cancel_byKitchen;
+                dmnRefund.Cancelorderstatus = ordercancelbystaff;
                 dmnRefund.DBname = GameDB;
-                var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
+                var data = bllRefund.AddRefund("prdInsertRefundConsole", dmnRefund);
 
-                DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
-                BllOrder bll_order = new BllOrder();
-                dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
-                dmnRemove_order.OrderDetailsId = 0;
-                dmnRemove_order.CancelNotifyStatus = 1;
-                dmnRemove_order.PkId = 1;
-                dmnRemove_order.CreatedBy = FrmDashboard.UserId;
-                dmnRemove_order.BranchId = FrmDashboard.BranchId;
-                var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
-                MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
+                //BllOrder bll_order = new BllOrder();
+                //dmnRemove_order.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+                //dmnRemove_order.OrderDetailsId = 0;
+                //dmnRemove_order.CancelNotifyStatus = 1;
+                //dmnRemove_order.PkId = 1;
+                //dmnRemove_order.CreatedBy = FrmDashboard.UserId;
+                //dmnRemove_order.BranchId = FrmDashboard.BranchId;
+
+                //var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
+                if (OrderCancelStatus == 1 || ordercancelbystaff)
+                {
+                    MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show(
+                    "Refund Completed, Are sure to Reconfirm ?",
+                    "Confirm",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
+
+                    if (dr == DialogResult.Yes)
+                    {
+                        ReconfirmOrder();
+                    }
+                    
+                }
+               
+
                 CheckReconfirmPickup();
                 pnl_Refund_paymode.Visible = false;
 
@@ -10938,12 +10986,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
         private void btn_ktcancelrefund_Click(object sender, EventArgs e)
         {
+            ordercancelbystaff = false;
             pnl_Refund_paymode.Visible = false;
             pnl_cancelledlist.Visible = false;
         }
 
         private void btn_cancel_list_Click(object sender, EventArgs e)
         {
+            ordercancelbystaff = false;
             pnl_Refund_paymode.Visible = false;
             pnl_cancelledlist.Visible = false;
         }
