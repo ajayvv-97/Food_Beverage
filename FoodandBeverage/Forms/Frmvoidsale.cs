@@ -25,7 +25,7 @@ namespace FoodandBeverage.Forms
         int sQty = 3;
         int sPrice = 2;
         int sid = 4;
-
+        public int OrderStatustype = -1;
         private void btncolse_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -50,20 +50,25 @@ namespace FoodandBeverage.Forms
                 _objSearch.ColumnHeaders = "Id,Entry No,EntryDate,Net Amount";
 
                 _objSearch.Select =
-                "S.SalesMasterId as Id," +
-                "EntryNo as Field1," +
-                "EntryDate as Field2," +
-                "S.NetAmount as Field3";
+                "S.SalesMasterId AS Id, " +
+                "S.EntryNo AS Field1, " +
+                "S.EntryDate AS Field2, " +
+                "S.NetAmount AS Field3";
 
                 _objSearch.Table =
-                "tblsalesmaster S LEFT JOIN tblSalesDetails SD " +
-                "ON S.SalesMasterId = SD.SalesMasterId";
+                    "tblsalesmaster S " +
+                    "LEFT JOIN tblSalesDetails SD ON S.SalesMasterId = SD.SalesMasterId " +
+                    "LEFT JOIN tblOrderMaster om ON om.SalesMasterId = S.SalesMasterId";
 
                 _objSearch.WhereNdGroupBy =
-                "WHERE S.Status = 1 AND Tid = 0 " +
-                "GROUP BY S.SalesMasterId, S.EntryNo, S.EntryDate, S.NetAmount";
+                    "WHERE S.Status = 1 " +
+                    "AND S.Tid = 0 " +
+                    "AND om.Status = 1 " +
+                    "GROUP BY S.SalesMasterId, S.EntryNo, S.EntryDate, S.NetAmount";
 
-                _objSearch.OrderBy = "ORDER BY Id DESC";
+                _objSearch.OrderBy =
+                    "ORDER BY Id DESC";
+
 
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
 
@@ -93,14 +98,67 @@ namespace FoodandBeverage.Forms
                         int aid = Convert.ToInt32(returnValue);
                         BllSearch<DmnSaledetails> bllSearch1 = new BllSearch<DmnSaledetails>();
                         DmnSearch objSearch = new DmnSearch();
-                        objSearch.Select = "SalesMasterId as ID ,NetAmount,Quantity,ItemName";
-                        objSearch.Table = "tblSalesDetails ";
-                        objSearch.WhereNdGroupBy = "where status = 1 and SalesMasterId=" + aid ;
+
+                        objSearch.Select =
+                            "SD.SalesMasterId AS ID, " +
+                            "SD.NetAmount, " +
+                            "SD.Quantity, " +
+                            "SD.ItemName, " +
+                            "CASE " +
+                            "   WHEN SUM(CASE WHEN od.Status = 2 THEN 1 ELSE 0 END) > 0 THEN 2 " + // Cooking Started
+                            "   WHEN SUM(CASE WHEN od.Status = 1 THEN 1 ELSE 0 END) > 0 THEN 1 " + // Not Started
+                            "   WHEN COUNT(od.OrderDetailsId) = SUM(CASE WHEN od.Status = 3 THEN 1 ELSE 0 END) THEN 3 " + // Completed
+                            "   WHEN COUNT(od.OrderDetailsId) = SUM(CASE WHEN od.Status = 0 THEN 1 ELSE 0 END) THEN 0 " + // Cancelled
+                            "   ELSE -1 " +
+                            "END AS OrderStatus";
+
+                        objSearch.Table =
+                            "tblSalesDetails SD " +
+                            "LEFT JOIN tblOrderMaster om ON om.SalesMasterId = SD.SalesMasterId " +
+                            "LEFT JOIN tblOrderDetails od ON om.OrderMasterId = od.OrderMasterId";
+
+                        objSearch.WhereNdGroupBy =
+                            "WHERE SD.Status = 1 " +
+                            "AND SD.SalesMasterId = " + aid + " " +
+                            "GROUP BY SD.SalesMasterId, SD.NetAmount, SD.Quantity, SD.ItemName";
+
                         objSearch.OrderBy = "";
+
                         var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
+
                         int SL_Main = 0;
                         if (itemSource.Count > 0)
                         {
+                            int OrderStatustype = itemSource[0].OrderStatus;
+                            lblorderstatus.Visible = true;
+                            switch (OrderStatustype)
+                            {
+                                case 1:
+                                    lblorderstatus.Text = "Cooking Not Started";
+                                    lblorderstatus.ForeColor = Color.Gray;
+                                    break;
+
+                                case 2:
+                                    lblorderstatus.Text = "Cooking Started";
+                                    lblorderstatus.ForeColor = Color.Orange;
+                                    break;
+
+                                case 3:
+                                    lblorderstatus.Text = "Completed / Served";
+                                    lblorderstatus.ForeColor = Color.Green;
+                                    break;
+
+                                case 0:
+                                    lblorderstatus.Text = "Cancelled";
+                                    lblorderstatus.ForeColor = Color.Red;
+                                    break;
+
+                                default:
+                                    lblorderstatus.Text = "Partial / Mixed";
+                                    lblorderstatus.ForeColor = Color.Blue;
+                                    break;
+                            }
+
                             dgv_productlist.Rows.Clear();
                             
                             for (int i = 0; i < itemSource.Count; i++)
@@ -115,6 +173,8 @@ namespace FoodandBeverage.Forms
                             }
 
                         }
+                        else
+                            lblorderstatus.Visible = false;
                     }
                 }
             }
@@ -147,6 +207,7 @@ namespace FoodandBeverage.Forms
                     bllfav.AddEditData_voidsale("prd_VoidSale", dmn);
                     MessageBox.Show("Void Sale Successfull", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dgv_productlist.Rows.Clear();
+                    lblorderstatus.Visible = false;
                     return;
 
                 }
@@ -170,7 +231,7 @@ namespace FoodandBeverage.Forms
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
-
+            lblorderstatus.Visible = false;
             dgv_productlist.Rows.Clear();
         }
 

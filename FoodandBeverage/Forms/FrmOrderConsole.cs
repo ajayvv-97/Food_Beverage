@@ -5842,17 +5842,28 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         {
             try
             {
-                if (pnl_gridview.Visible == false)
+                if (pnl_orderprority.Visible == false)
                 {
-                    UIHelper.CenterAndResize(pnl_gridview, 80, 60);
-                    UIHelper.RoundCorners(pnl_gridview, 25);
-                    UIHelper.RoundCorners(tlp_gridview_nav, 25);
-                    UIHelper.RoundCorners(tlp_productgridview, 25);
+                    UIHelper.CenterAndResize(pnl_orderprority, 80, 60);
+                    UIHelper.RoundCorners(pnl_orderprority, 25);
+                    UIHelper.RoundCorners(tlp_orderprority_nav, 25);                   
                 }
                 else
                 {
-                    pnl_gridview.Visible = false;
+                    pnl_orderprority.Visible = false;
                 }
+
+                //if (pnl_gridview.Visible == false)
+                //{
+                //    UIHelper.CenterAndResize(pnl_gridview, 80, 60);
+                //    UIHelper.RoundCorners(pnl_gridview, 25);
+                //    UIHelper.RoundCorners(tlp_gridview_nav, 25);
+                //    UIHelper.RoundCorners(tlp_productgridview, 25);
+                //}
+                //else
+                //{
+                //    pnl_gridview.Visible = false;
+                //}
             }
             catch (Exception ex)
             {
@@ -6926,6 +6937,9 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                                     dmnorderdetail.OrderPlatformdetailsName = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
                                     dmnorderdetail.OrderPlatformdetails = 1;
+
+                                    dmnorderdetail.orderpriority = cmb_proritytype.SelectedIndex >= 0 ? cmb_proritytype.SelectedIndex + 1 : 1;
+                                    dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0; 
 
                                     dmnorderdetail.PkId = GBL_pkid;
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
@@ -8280,6 +8294,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                     dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iVariatiionNameno].Value);
                                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                                     dmnorderdetail.PkId = GBL_pkid;
+                                                    dmnorderdetail.orderpriority = cmb_proritytype.SelectedIndex >= 0 ? cmb_proritytype.SelectedIndex + 1 : 1;
+                                                    dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0;
                                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
 
                                                     if (InsertStatus == null)
@@ -8367,6 +8383,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                     dmnorderdetail.vid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
                                                     dmnorderdetail.CCode = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iccodeno].Value);
                                                     dmnorderdetail.PkId = GBL_pkid;
+
+                                                    dmnorderdetail.orderpriority = cmb_proritytype.SelectedIndex >= 0 ? cmb_proritytype.SelectedIndex + 1 : 1;
+                                                    dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0;
+
                                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                                     if (InsertStatus == null)
                                                     {
@@ -11276,6 +11296,16 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             {
                 ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
             }
+        }
+
+        private void btn_orderproritycls_Click(object sender, EventArgs e)
+        {
+            pnl_orderprority.Visible = false;
+        }
+
+        private void btn_submit_orderprority_Click(object sender, EventArgs e)
+        {
+            pnl_orderprority.Visible = false;
         }
 
         private void btnPartRefresh_Click(object sender, EventArgs e)

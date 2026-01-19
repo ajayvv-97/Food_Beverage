@@ -1174,6 +1174,7 @@ namespace FoodandBeverage.Forms
                 var gridSourcemaster = SearchDetails.serachreport("prdPrintOrder", dmnSearchKitchendata);
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
+                    btntotalorders.Text = "0";
                     return;
                 }
                 if (this.IsHandleCreated)
@@ -1437,6 +1438,7 @@ namespace FoodandBeverage.Forms
 
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
+                   
                     if (this.IsHandleCreated)
                     {
                         this.Invoke(new Action(() => refreshtimer.Start()));
@@ -1495,15 +1497,7 @@ namespace FoodandBeverage.Forms
 
                         bllkitchen.Cancel_statusupdate("prd_updateCancelprintstatus", dmncnl);
 
-                        if (this.IsHandleCreated)
-                        {
-                            this.Invoke(new Action(() =>
-                            {
-                                PlaySound();
-                                int c = Convert.ToInt32(btn_cancelprintcount.Text) - 1;
-                                btn_cancelprintcount.Text = c < 0 ? "0" : c.ToString();
-                            }));
-                        }
+                      
                     }
                 }
 
@@ -1619,16 +1613,6 @@ namespace FoodandBeverage.Forms
                             //BranchId = FrmDashboard.BranchId
                         };
                         bllkitchen.Cancelitemprint_statusupdate("prd_updateCancelprintstatus_item", dmncnl);
-
-                        if (this.IsHandleCreated)
-                        {
-                            this.Invoke(new Action(() =>
-                            {
-                                PlaySound();
-                                int c = Convert.ToInt32(btn_cancelprintcount.Text) - 1;
-                                btn_cancelprintcount.Text = c < 0 ? "0" : c.ToString();
-                            }));
-                        }
                     }
                 }
 

@@ -54,6 +54,8 @@ namespace Domain
         public string OrderDetailsId { get; set; }
         public int PreparationMode { get; set; }
         public int Pkid { get; set; }
+        public int OrderStatus { get; set; }
+        
     }
     
 }

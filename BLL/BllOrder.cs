@@ -134,6 +134,9 @@ namespace BLL
             parms.Add("OrderPlatformdetails", objTestClass.OrderPlatformdetails);
             parms.Add("OrderPlatformdetailsName", objTestClass.OrderPlatformdetailsName);
 
+            parms.Add("orderpriority", objTestClass.orderpriority);
+            parms.Add("ReprintStatus", objTestClass.ReprintStatus);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

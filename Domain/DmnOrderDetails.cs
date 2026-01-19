@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -67,7 +68,10 @@ namespace Domain
         public string OrderPlatformdetailsName { get; set; }
 
         public int Sourcepage { get; set; }
+        public int orderpriority { get; set; } = 1;   // 1 = Normal
+        public int ReprintStatus { get; set; } = 0;   // 0 = Normal print
+
 
     }
-    
+
 }

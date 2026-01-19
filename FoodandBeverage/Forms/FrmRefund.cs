@@ -9,6 +9,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Drawing;
 
 namespace FoodandBeverage.Forms
 {
@@ -86,17 +87,75 @@ namespace FoodandBeverage.Forms
                     {
                         BllSearch<DmnGridFields> bllSearchsd = new BllSearch<DmnGridFields>();
                         DmnSearch objSearch = new DmnSearch();
-                        objSearch.Select = "sm.SalesMasterId Field1,sm.PkId Field2,sm.NetAmount Field3,g.Caption Field4,sd.ItemName Field5,sd.Quantity Field6,sd.NetAmount Field7,sm.PaymentMode Field8,sm.OrderMasterid Field9";
-                        objSearch.Table = "tblSalesMaster sm " +
-                            "left join tblSalesDetails sd on sd.SalesMasterId=sm.SalesMasterId " +
-                            "left join tblGeneralOptions g on g.GTypeId = 2 and g.GTypeSubId=sm.PaymentMode";
-                        objSearch.WhereNdGroupBy = "where sm.SalesMasterId = " + returnValue;
+
+                        objSearch.Select =
+                            "sm.SalesMasterId AS Field1, " +
+                            "sm.PkId AS Field2, " +
+                            "sm.NetAmount AS Field3, " +
+                            "g.Caption AS Field4, " +
+                            "sd.ItemName AS Field5, " +
+                            "sd.Quantity AS Field6, " +
+                            "sd.NetAmount AS Field7, " +
+                            "sm.PaymentMode AS Field8, " +
+                            "sm.OrderMasterId AS Field9, " +
+                            "CASE " +
+                            "   WHEN SUM(CASE WHEN od.Status = 2 THEN 1 ELSE 0 END) > 0 THEN 2 " +   // Cooking Started
+                            "   WHEN SUM(CASE WHEN od.Status = 1 THEN 1 ELSE 0 END) > 0 THEN 1 " +   // Not Started
+                            "   WHEN COUNT(od.OrderDetailsId) = SUM(CASE WHEN od.Status = 3 THEN 1 ELSE 0 END) THEN 3 " + // Completed
+                            "   WHEN COUNT(od.OrderDetailsId) = SUM(CASE WHEN od.Status = 0 THEN 1 ELSE 0 END) THEN 0 " + // Cancelled
+                            "   ELSE -1 " +
+                            "END AS Field10";
+
+                        objSearch.Table =
+                            "tblSalesMaster sm " +
+                            "LEFT JOIN tblSalesDetails sd ON sd.SalesMasterId = sm.SalesMasterId " +
+                            "LEFT JOIN tblOrderMaster om ON om.SalesMasterId = sm.SalesMasterId " +
+                            "LEFT JOIN tblOrderDetails od ON om.OrderMasterId = od.OrderMasterId " +
+                            "LEFT JOIN tblGeneralOptions g ON g.GTypeId = 2 AND g.GTypeSubId = sm.PaymentMode";
+
+                        objSearch.WhereNdGroupBy =
+                            "WHERE sm.SalesMasterId = " + returnValue + " " +
+                            "GROUP BY " +
+                            "sm.SalesMasterId, sm.PkId, sm.NetAmount, g.Caption, " +
+                            "sd.ItemName, sd.Quantity, sd.NetAmount, " +
+                            "sm.PaymentMode, sm.OrderMasterId";
+
                         objSearch.OrderBy = "";
+
                         var gridSourceserachsd = bllSearchsd.GetSearchData("prdSearch", objSearch);
+
                         if (gridSourceserachsd.Count > 0)
                         {
                             dgv_productlist.Rows.Clear();
+                            int OrderStatustype =Convert.ToInt32(gridSourceserachsd[0].Field10);
+                            lblorderstatus.Visible = true;
+                            switch (OrderStatustype)
+                            {
+                                case 1:
+                                    lblorderstatus.Text = "Cooking Not Started";
+                                    lblorderstatus.ForeColor = Color.Gray;
+                                    break;
 
+                                case 2:
+                                    lblorderstatus.Text = "Cooking Started";
+                                    lblorderstatus.ForeColor = Color.Orange;
+                                    break;
+
+                                case 3:
+                                    lblorderstatus.Text = "Completed / Served";
+                                    lblorderstatus.ForeColor = Color.Green;
+                                    break;
+
+                                case 0:
+                                    lblorderstatus.Text = "Cancelled";
+                                    lblorderstatus.ForeColor = Color.Red;
+                                    break;
+
+                                default:
+                                    lblorderstatus.Text = "Partial / Mixed";
+                                    lblorderstatus.ForeColor = Color.Blue;
+                                    break;
+                            }
                             int slno = 1;
 
                             foreach (var item in gridSourceserachsd)
@@ -208,7 +267,8 @@ namespace FoodandBeverage.Forms
                 dgv_productlist.Refresh();
                 cmbRefundPayType.SelectedIndex = 0;
                 cmbRefundReson.SelectedIndex = 0;
-                
+                lblorderstatus.Visible = false;
+
             }
             catch (Exception ex)
             {
@@ -343,7 +403,7 @@ namespace FoodandBeverage.Forms
             else
             {
                 decimal kdata = 0;
-                using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
+                using (FoodandBeverage.Forms.UserControl.Frmnumdiskeypad frm = new FoodandBeverage.Forms.UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.None)))
                 {
                     frm.ShowDialog();
                     kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
