@@ -5799,24 +5799,17 @@ namespace FoodandBeverage.Forms
 
         #region Notification MSG
 
-        // 🔹 FORM-LEVEL FIELDS
         private NotifyIcon _notifyIcon;
-
-        // 🔹 CENTRALIZED CACHE (TableId → Status)
-        private static Dictionary<int, TableOrderStatus> OrderStatusCache
-            = new Dictionary<int, TableOrderStatus>();
-
-        // 🔹 TIMER TICK
+        private static Dictionary<int, TableOrderStatus> OrderStatusCache = new Dictionary<int, TableOrderStatus>();
         private void orderWatchTimer_Tick(object sender, EventArgs e)
         {
-            // 🛑 Prevent re-entry
             if (_isCheckingOrders)
                 return;
 
             try
             {
                 _isCheckingOrders = true;
-                orderWatchTimer.Stop(); // 🔕 pause timer
+                orderWatchTimer.Stop(); 
 
                 CheckTableOrderChanges();
             }
@@ -5836,8 +5829,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-        // 🔹 CHECK TABLE ORDER CHANGES
         private void CheckTableOrderChanges()
         {
             try
@@ -5847,62 +5838,59 @@ namespace FoodandBeverage.Forms
 
                 foreach (var item in OrderStatusCache.Values)
                 {
-                    // 🛑 Notification already acknowledged elsewhere
                     if (item.MsgNotificationStatus == 1)
                         continue;
 
-                    bool shouldNotify = false;
-
-                    // 🔔 First-time notification
-                    if (!item.LastNotificationTime.HasValue)
-                    {
-                        shouldNotify = true;
-                    }
-                    // 🔁 Repeat every 3 minutes
-                    else if ((now - item.LastNotificationTime.Value).TotalMinutes >= 3)
-                    {
-                        shouldNotify = true;
-                    }
+                    bool shouldNotify =
+                        !item.LastNotificationTime.HasValue ||
+                        (now - item.LastNotificationTime.Value).TotalMinutes >= 1;
 
                     if (!shouldNotify)
                         continue;
 
-                    // =========================
-                    // 🔔 SHOW NOTIFICATION
-                    // =========================
-                    if (item.CancelCount > 0)
+                    bool popupShown = false;
+
+                    bool isPickup = string.Equals(item.TableName, "PICKUP", StringComparison.OrdinalIgnoreCase)
+                                    || item.Tid == 0;
+
+                    string locationText = isPickup ? "Pickup Order" : "Table " + item.TableName;
+
+                    // 🔹 Choose color
+                    Color notifColor;
+                    if (item.NotificationType == 1) // Product cancel
+                        notifColor = isPickup ? Color.Orange : Color.Yellow;
+                    else if (item.NotificationType == 2) // Full order cancel
+                        notifColor = isPickup ? Color.Red : Color.DarkRed;
+                    else
+                        notifColor = Color.White;
+
+                    // 🔹 Show popup
+                    if (item.NotificationType == 1 && item.CancelCount > 0)
                     {
-                        NS.Raise(
-                            $"{item.TableName}: Item cancelled by kitchen",
-                            item.Ordermid,
-                            item.Tid
-                        );
+                        NS.Raise($"{locationText}: Item cancelled by kitchen", item.Ordermid, item.Tid, notifColor);
+                        popupShown = true;
+                    }
+                    else if (item.NotificationType == 2)
+                    {
+                        NS.Raise($"{locationText}: Order cancelled by kitchen", item.Ordermid, item.Tid, notifColor);
+                        popupShown = true;
                     }
 
-                    if (item.KitchenCancelled)
+                    // 🔹 Update last notification time only if popup shown
+                    if (popupShown)
                     {
-                        NS.Raise(
-                            $"{item.TableName}: Order cancelled",
-                            item.Ordermid,
-                            item.Tid
-                        );
+                        var dmn = new DmnOrderMaster
+                        {
+                            OrderMasterId = item.Ordermid,
+                            OrderDetailsId = item.Orderdetailsid,
+                            TableType = Convert.ToInt32(MsgTableType.Details),
+                            ActionType = Convert.ToInt32(MsgActionType.Time),
+                            BranchId = FrmDashboard.BranchId,
+                            CreatedBy = FrmDashboard.UserId
+                        };
+
+                        new BllOrder().MsgNotifyStatus_update("Prd_UpdateMsgNotificationStatus", dmn);
                     }
-
-                    // =========================
-                    // ⏱ RESET NOTIFICATION TIME ONLY
-                    // =========================
-                    DmnOrderMaster dmn = new DmnOrderMaster
-                    {
-                        OrderMasterId = item.Ordermid,
-                        OrderDetailsId = item.Orderdetailsid,
-                        TableType = Convert.ToInt32(MsgTableType.Details),
-                        ActionType = Convert.ToInt32(MsgActionType.Time), // ⏱ only time reset
-                        BranchId = FrmDashboard.BranchId,
-                        CreatedBy = FrmDashboard.UserId
-                    };
-
-                    new BllOrder()
-                        .MsgNotifyStatus_update("Prd_UpdateMsgNotificationStatus", dmn);
                 }
             }
             catch (Exception ex)
@@ -5912,7 +5900,8 @@ namespace FoodandBeverage.Forms
                     ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
-                    Convert.ToInt32(FormType.homepage));
+                    Convert.ToInt32(FormType.homepage)
+                );
             }
         }
 
@@ -5955,30 +5944,29 @@ namespace FoodandBeverage.Forms
             public bool KitchenCancelled { get; set; }
             public int Checkoutstatus { get; set; }
 
-            public int Orderdetailsid { get; set; }
+            public int MsgNotificationStatus { get; set; }
             public string TableName { get; set; }
             public DateTime? LastNotificationTime { get; set; }
-            public int MsgNotificationStatus { get; set; } // 0 = pending, 1 = done
+            public int Orderdetailsid { get; set; }
+
+            public int NotificationType { get; set; } // Field12
         }
 
+
         // 🔹 LOAD ORDER STATUS CACHE
-        private  void LoadOrderStatusCache()
+        private void LoadOrderStatusCache()
         {
             try
             {
                 OrderStatusCache.Clear();
 
-                BllNotification<DmnGridFields> search =
-                    new BllNotification<DmnGridFields>();
-
-                DmnGridFields param = new DmnGridFields
+                var search = new BllNotification<DmnGridFields>();
+                var param = new DmnGridFields
                 {
                     Field30 = FrmLogin.BranchId.ToString()
                 };
 
-                var list = search.SerachOrder(
-                    "Prd_GetOrderNotificationQueue", param);
-
+                var list = search.SerachOrder("Prd_GetOrderNotificationQueue", param);
                 if (list == null || list.Count == 0)
                     return;
 
@@ -5998,10 +5986,11 @@ namespace FoodandBeverage.Forms
 
                         MsgNotificationStatus = Convert.ToInt32(r.Field8),
                         TableName = Convert.ToString(r.Field9),
-                        LastNotificationTime = r.Field10 == null
-                            ? (DateTime?)null
-                            : Convert.ToDateTime(r.Field10),
-                        Orderdetailsid = Convert.ToInt32(r.Field11)
+                        LastNotificationTime = r.Field10 == null? (DateTime?)null: Convert.ToDateTime(r.Field10),
+
+                        Orderdetailsid = Convert.ToInt32(r.Field11),
+
+                        NotificationType = Convert.ToInt32(r.Field12)
                     };
                 }
             }
@@ -6012,9 +6001,11 @@ namespace FoodandBeverage.Forms
                     ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
-                    Convert.ToInt32(FormType.homepage));
+                    Convert.ToInt32(FormType.homepage)
+                );
             }
         }
+
 
         #endregion
 
