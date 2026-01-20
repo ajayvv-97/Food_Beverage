@@ -47,6 +47,7 @@
             this.metroTextBox7 = new MetroFramework.Controls.MetroTextBox();
             this.metroTextBox6 = new MetroFramework.Controls.MetroTextBox();
             this.mpSearch = new MetroFramework.Controls.MetroPanel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGeneral)).BeginInit();
             this.mpGeneralGrid.SuspendLayout();
             this.tlpFilter.SuspendLayout();
@@ -58,7 +59,7 @@
             this.lblRecordCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblRecordCount.AutoSize = true;
             this.lblRecordCount.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRecordCount.Location = new System.Drawing.Point(14, 523);
+            this.lblRecordCount.Location = new System.Drawing.Point(14, 591);
             this.lblRecordCount.Name = "lblRecordCount";
             this.lblRecordCount.Size = new System.Drawing.Size(45, 19);
             this.lblRecordCount.TabIndex = 2;
@@ -69,7 +70,7 @@
             this.lblInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblInfo.AutoSize = true;
             this.lblInfo.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInfo.Location = new System.Drawing.Point(809, 521);
+            this.lblInfo.Location = new System.Drawing.Point(860, 589);
             this.lblInfo.Name = "lblInfo";
             this.lblInfo.Size = new System.Drawing.Size(122, 19);
             this.lblInfo.TabIndex = 3;
@@ -119,7 +120,7 @@
             this.dgvGeneral.ShowCellErrors = false;
             this.dgvGeneral.ShowCellToolTips = false;
             this.dgvGeneral.ShowEditingIcon = false;
-            this.dgvGeneral.Size = new System.Drawing.Size(882, 405);
+            this.dgvGeneral.Size = new System.Drawing.Size(933, 473);
             this.dgvGeneral.TabIndex = 0;
             this.dgvGeneral.TabStop = false;
             this.dgvGeneral.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DgvGeneral_KeyDown);
@@ -136,7 +137,7 @@
             this.mpGeneralGrid.Location = new System.Drawing.Point(20, 100);
             this.mpGeneralGrid.Name = "mpGeneralGrid";
             this.mpGeneralGrid.Padding = new System.Windows.Forms.Padding(10);
-            this.mpGeneralGrid.Size = new System.Drawing.Size(902, 425);
+            this.mpGeneralGrid.Size = new System.Drawing.Size(953, 493);
             this.mpGeneralGrid.TabIndex = 1;
             this.mpGeneralGrid.UseCustomBackColor = true;
             this.mpGeneralGrid.VerticalScrollbarBarColor = true;
@@ -171,7 +172,7 @@
             this.tlpFilter.Name = "tlpFilter";
             this.tlpFilter.RowCount = 1;
             this.tlpFilter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpFilter.Size = new System.Drawing.Size(902, 40);
+            this.tlpFilter.Size = new System.Drawing.Size(953, 40);
             this.tlpFilter.TabIndex = 2;
             // 
             // metroTextBox1
@@ -247,7 +248,7 @@
             // 
             // 
             this.metroTextBox10.CustomButton.Image = null;
-            this.metroTextBox10.CustomButton.Location = new System.Drawing.Point(482, 2);
+            this.metroTextBox10.CustomButton.Location = new System.Drawing.Point(533, 2);
             this.metroTextBox10.CustomButton.Name = "";
             this.metroTextBox10.CustomButton.Size = new System.Drawing.Size(29, 29);
             this.metroTextBox10.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -266,7 +267,7 @@
             this.metroTextBox10.SelectionLength = 0;
             this.metroTextBox10.SelectionStart = 0;
             this.metroTextBox10.ShortcutsEnabled = true;
-            this.metroTextBox10.Size = new System.Drawing.Size(514, 34);
+            this.metroTextBox10.Size = new System.Drawing.Size(565, 34);
             this.metroTextBox10.TabIndex = 9;
             this.metroTextBox10.UseSelectable = true;
             this.metroTextBox10.Visible = false;
@@ -516,12 +517,25 @@
             this.mpSearch.HorizontalScrollbarSize = 10;
             this.mpSearch.Location = new System.Drawing.Point(20, 60);
             this.mpSearch.Name = "mpSearch";
-            this.mpSearch.Size = new System.Drawing.Size(902, 40);
+            this.mpSearch.Size = new System.Drawing.Size(953, 40);
             this.mpSearch.TabIndex = 0;
             this.mpSearch.UseCustomBackColor = true;
             this.mpSearch.VerticalScrollbarBarColor = true;
             this.mpSearch.VerticalScrollbarHighlightOnWheel = false;
             this.mpSearch.VerticalScrollbarSize = 10;
+            // 
+            // button1
+            // 
+            this.button1.BackgroundImage = global::FoodandBeverage.Properties.Resources.close_price_change1;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(899, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(43, 38);
+            this.button1.TabIndex = 4;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FrmSearch
             // 
@@ -529,8 +543,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
-            this.ClientSize = new System.Drawing.Size(942, 545);
+            this.ClientSize = new System.Drawing.Size(993, 613);
             this.ControlBox = false;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.lblRecordCount);
             this.Controls.Add(this.mpGeneralGrid);
@@ -568,5 +583,6 @@
         private MetroFramework.Controls.MetroTextBox metroTextBox7;
         private MetroFramework.Controls.MetroTextBox metroTextBox6;
         private MetroFramework.Controls.MetroPanel mpSearch;
+        private System.Windows.Forms.Button button1;
     }
 }

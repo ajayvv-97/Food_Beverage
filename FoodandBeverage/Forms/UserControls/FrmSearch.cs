@@ -210,6 +210,11 @@ namespace FoodandBeverage.Forms.UserControls
 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         private void DgvGeneral_KeyDown(object sender, KeyEventArgs e)
         {
             try
