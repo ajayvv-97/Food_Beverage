@@ -391,6 +391,8 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnOrderno;
             
+            private global::System.Data.DataColumn columnPriorityType;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_kitchenbillDataTable() {
@@ -594,6 +596,14 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PriorityTypeColumn {
+                get {
+                    return this.columnPriorityType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -650,7 +660,8 @@ namespace FoodandBeverage.DS {
                         string EmployeeName, 
                         string Station, 
                         string GuestDetails, 
-                        string Orderno) {
+                        string Orderno, 
+                        int PriorityType) {
                 DT_kitchenbillRow rowDT_kitchenbillRow = ((DT_kitchenbillRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ItemName,
@@ -673,7 +684,8 @@ namespace FoodandBeverage.DS {
                         EmployeeName,
                         Station,
                         GuestDetails,
-                        Orderno};
+                        Orderno,
+                        PriorityType};
                 rowDT_kitchenbillRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_kitchenbillRow);
                 return rowDT_kitchenbillRow;
@@ -717,6 +729,7 @@ namespace FoodandBeverage.DS {
                 this.columnStation = base.Columns["Station"];
                 this.columnGuestDetails = base.Columns["GuestDetails"];
                 this.columnOrderno = base.Columns["Orderno"];
+                this.columnPriorityType = base.Columns["PriorityType"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -764,6 +777,8 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnGuestDetails);
                 this.columnOrderno = new global::System.Data.DataColumn("Orderno", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOrderno);
+                this.columnPriorityType = new global::System.Data.DataColumn("PriorityType", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPriorityType);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2006,6 +2021,22 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int PriorityType {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_kitchenbill.PriorityTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PriorityType\' in table \'DT_kitchenbill\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_kitchenbill.PriorityTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsItemNameNull() {
                 return this.IsNull(this.tableDT_kitchenbill.ItemNameColumn);
             }
@@ -2254,6 +2285,18 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetOrdernoNull() {
                 this[this.tableDT_kitchenbill.OrdernoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPriorityTypeNull() {
+                return this.IsNull(this.tableDT_kitchenbill.PriorityTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPriorityTypeNull() {
+                this[this.tableDT_kitchenbill.PriorityTypeColumn] = global::System.Convert.DBNull;
             }
         }
         

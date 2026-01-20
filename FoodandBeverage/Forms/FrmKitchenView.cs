@@ -1231,7 +1231,7 @@ namespace FoodandBeverage.Forms
                         " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
                         " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
                         " ' O:' + CAST(om.OtherGuestCount AS VARCHAR) + ')'" +
-                        ") AS GuestDetails";
+                        ") AS GuestDetails,ko.PriorityType";
                     dmnSearchDetails.Table = "tblkitchenOrder ko " +
                         "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                         "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -1271,7 +1271,8 @@ namespace FoodandBeverage.Forms
                         EmployeeName = item.EmployeeName,
                         Station = item.Station,
                         GuestDetails = item.GuestDetails,
-                        Orderno= orders.Field2
+                        Orderno= orders.Field2,
+                        PriorityType= item.PriorityType,
                     }).ToList();
 
                     //if (item.VariatiionNam != null && item.VariatiionNam != "")
@@ -1313,13 +1314,14 @@ namespace FoodandBeverage.Forms
                                   processedItem.Station,
                                   processedItem.GuestDetails,
                                   processedItem.Orderno,
+                                  processedItem.PriorityType,
 
                               })
                         .ToList();
 
                     if (mergedData != null && mergedData.Count > 0)
                     {
-                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno"))
+                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType"))
                         {
                             dtSalesDetail.Load(reader);
                         }
@@ -1831,6 +1833,13 @@ namespace FoodandBeverage.Forms
                     BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
                     DmnSearch dmnSearchDetails = new DmnSearch();
                     dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType,'' offeritemname, 0 offerqty, od.PrId PrId, ko.Kitchennumber,od.VariatiionName VariatiionName,'' as Station,e.EmployeeName" +
+                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + ordermid + " and OrderNo=" + orderno + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,'' as Station,e.EmployeeName,(" +
+                        " 'PAX : ' + CAST(om.TotalGuestCount AS VARCHAR) + " +
+                        " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
+                        " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
+                        " ' O:' + CAST(om.OtherGuestCount AS VARCHAR) + ')'" +
+                        ") AS GuestDetails,ko.PriorityType "+
+
                     " from tblkitchenOrder ko " +
                         " Left Join tblOrderDetails od on od.OrderDetailsId=ko.OrderDetailsId " +
                         " Left Join tblOrderMaster om on om.OrderMasterId=ko.OrderMasterId " +
@@ -1847,15 +1856,14 @@ namespace FoodandBeverage.Forms
                                             " Left Join tblEmployee e  on e.EmployeeId = om.CreatedBy";
                     dmnSearchDetails.WhereNdGroupBy = $" where om.status=1 and ko.OrderMasterId=" + ordermid + " and ko.OrderNo=" + orderno + " and od.TableType=" + Convert.ToInt32(Tabletype.ComboProduct) + " and ko.status in(1,2)";
                     dmnSearchDetails.OrderBy = "order by AddonStatus";
-
                     var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
                     if (BillDetails.Count > 0)
                     {
                         var processedData = BillDetails.Select(item => new
                         {
                             ItemName = !string.IsNullOrEmpty(item.ItemName)
-                                       ? item.ItemName + (!string.IsNullOrEmpty(item.VariatiionName) ? " (" + item.VariatiionName + ")" : string.Empty)
-                                       : item.ItemName,
+                                  ? item.ItemName + (!string.IsNullOrEmpty(item.VariatiionName) ? " (" + item.VariatiionName + ")" : string.Empty)
+                                  : item.ItemName,
                             Quantity = item.Quantity,
                             Notes = item.Notes,
                             Description = item.Description,
@@ -1865,12 +1873,22 @@ namespace FoodandBeverage.Forms
                             AddonStatus = item.AddonStatus,
                             offeritemname = item.offeritemname,
                             offerqty = item.offerqty,
-                            EmployeeName = item.EmployeeName,
-                            Station = item.Station,
                             Kitchennumber = item.Kitchennumber,
                             MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.OrderMasterId}{item.PrId}" : item.AV_id,
-                            MainCategoryCount = BillDetails.Count(b => b.MainCategory == item.MainCategory)
+                            MainCategoryCount = BillDetails.Count(b => b.MainCategory == item.MainCategory),
+                            TotalQTY = item.TotalQTY,
+                            Pkid = item.Pkid,
+                            EmployeeName = item.EmployeeName,
+                            Station = item.Station,
+                            GuestDetails = item.GuestDetails,
+                            Orderno = orderno,
+                            PriorityType = item.PriorityType,
                         }).ToList();
+
+                        //if (item.VariatiionNam != null && item.VariatiionNam != "")
+                        //    Description = item.Description + "(" + item.VariatiionNam + ")";
+                        //else
+                        //    Description = itemname;
 
                         var mainCategoryCounts = processedData
                             .GroupBy(item => item.MainCategory)
@@ -1879,6 +1897,7 @@ namespace FoodandBeverage.Forms
                                 MainCategory = group.Key,
                                 MainCategoryCount = group.Count()
                             }).ToList();
+
 
                         var mergedData = processedData
                             .Join(mainCategoryCounts,
@@ -1899,19 +1918,26 @@ namespace FoodandBeverage.Forms
                                       processedItem.offeritemname,
                                       processedItem.offerqty,
                                       processedItem.Kitchennumber,
+                                      processedItem.TotalQTY,
+                                      processedItem.Pkid,
+                                      processedItem.EmployeeName,
                                       processedItem.Station,
-                                      processedItem.EmployeeName
+                                      processedItem.GuestDetails,
+                                      processedItem.Orderno,
+                                      processedItem.PriorityType,
+
                                   })
                             .ToList();
 
                         if (mergedData != null && mergedData.Count > 0)
                         {
-                            using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "EmployeeName", "Station"))//, "cobmoitemname"
+                            using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType"))
                             {
                                 dtSalesDetail.Load(reader);
                             }
                             dsReport.Tables.Add(dtSalesDetail);
                         }
+
                         //MessageBox.Show(RPTPath + "crkitchenbill.rpt.rpt" + 2);
                         //textBox2.Text = RPTPath + "CRkitchenbill_Pickup.rpt";
                         reportDocument.Load(RPTPath + "crkitchenbill.rpt");

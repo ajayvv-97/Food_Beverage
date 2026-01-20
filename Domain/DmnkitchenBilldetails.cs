@@ -31,6 +31,7 @@ namespace Domain
         public int ChildCount { get; set; }
         public int OtherGuestCount { get; set; }
         public int TotalGuestCount { get; set; }
+        public int PriorityType { get; set; }
 
     }
 

@@ -986,7 +986,7 @@ namespace FoodandBeverage.Forms
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.77076F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.22924F));
-            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 165F));
+            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 166F));
             this.tbl_Sub.Controls.Add(this.txtgid, 3, 1);
             this.tbl_Sub.Controls.Add(this.txtimgpath, 3, 0);
             this.tbl_Sub.Controls.Add(this.label46, 1, 2);
@@ -1008,7 +1008,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtgid
             // 
-            this.txtgid.Location = new System.Drawing.Point(407, 47);
+            this.txtgid.Location = new System.Drawing.Point(406, 47);
             this.txtgid.Name = "txtgid";
             this.txtgid.Size = new System.Drawing.Size(20, 20);
             this.txtgid.TabIndex = 220;
@@ -1017,7 +1017,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtimgpath
             // 
-            this.txtimgpath.Location = new System.Drawing.Point(407, 3);
+            this.txtimgpath.Location = new System.Drawing.Point(406, 3);
             this.txtimgpath.Name = "txtimgpath";
             this.txtimgpath.Size = new System.Drawing.Size(20, 20);
             this.txtimgpath.TabIndex = 221;
@@ -1031,7 +1031,7 @@ namespace FoodandBeverage.Forms
             this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label46.Location = new System.Drawing.Point(27, 88);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(149, 44);
+            this.label46.Size = new System.Drawing.Size(148, 44);
             this.label46.TabIndex = 260;
             this.label46.Text = "Bill Footer Content (Arabic)";
             this.label46.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1043,7 +1043,7 @@ namespace FoodandBeverage.Forms
             this.label47.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label47.Location = new System.Drawing.Point(27, 44);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(149, 44);
+            this.label47.Size = new System.Drawing.Size(148, 44);
             this.label47.TabIndex = 258;
             this.label47.Text = "Company Address (Arabic)";
             this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1055,7 +1055,7 @@ namespace FoodandBeverage.Forms
             this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.Location = new System.Drawing.Point(27, 0);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(149, 44);
+            this.label48.Size = new System.Drawing.Size(148, 44);
             this.label48.TabIndex = 0;
             this.label48.Text = "Company Name (Arabic)";
             this.label48.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1064,7 +1064,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_cmpname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpname.Location = new System.Drawing.Point(182, 3);
+            this.txt_cmpname.Location = new System.Drawing.Point(181, 3);
             this.txt_cmpname.Multiline = true;
             this.txt_cmpname.Name = "txt_cmpname";
             this.txt_cmpname.Size = new System.Drawing.Size(219, 38);
@@ -1074,7 +1074,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_cmpaddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpaddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpaddress.Location = new System.Drawing.Point(182, 47);
+            this.txt_cmpaddress.Location = new System.Drawing.Point(181, 47);
             this.txt_cmpaddress.Multiline = true;
             this.txt_cmpaddress.Name = "txt_cmpaddress";
             this.txt_cmpaddress.Size = new System.Drawing.Size(219, 38);
@@ -1084,7 +1084,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_footer_lang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_footer_lang.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_footer_lang.Location = new System.Drawing.Point(182, 91);
+            this.txt_footer_lang.Location = new System.Drawing.Point(181, 91);
             this.txt_footer_lang.Multiline = true;
             this.txt_footer_lang.Name = "txt_footer_lang";
             this.txt_footer_lang.Size = new System.Drawing.Size(219, 38);
@@ -1545,7 +1545,7 @@ namespace FoodandBeverage.Forms
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.85714F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.09824F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.10579F));
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 182F));
             this.tlp_autologout.Controls.Add(this.label56, 0, 0);
             this.tlp_autologout.Controls.Add(this.rtb_logouttime, 1, 0);
             this.tlp_autologout.Controls.Add(this.txtlogouttime, 2, 0);
@@ -1565,7 +1565,7 @@ namespace FoodandBeverage.Forms
             this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label56.Location = new System.Drawing.Point(3, 0);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(208, 36);
+            this.label56.Size = new System.Drawing.Size(207, 36);
             this.label56.TabIndex = 7;
             this.label56.Text = "Auto Logout When Idle";
             this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1574,7 +1574,7 @@ namespace FoodandBeverage.Forms
             // 
             this.rtb_logouttime.AutoSize = true;
             this.rtb_logouttime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_logouttime.Location = new System.Drawing.Point(217, 3);
+            this.rtb_logouttime.Location = new System.Drawing.Point(216, 3);
             this.rtb_logouttime.Name = "rtb_logouttime";
             this.rtb_logouttime.Size = new System.Drawing.Size(32, 30);
             this.rtb_logouttime.TabIndex = 0;
@@ -1584,7 +1584,7 @@ namespace FoodandBeverage.Forms
             // txtlogouttime
             // 
             this.txtlogouttime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtlogouttime.Location = new System.Drawing.Point(255, 3);
+            this.txtlogouttime.Location = new System.Drawing.Point(254, 3);
             this.txtlogouttime.Multiline = true;
             this.txtlogouttime.Name = "txtlogouttime";
             this.txtlogouttime.Size = new System.Drawing.Size(23, 20);
@@ -1603,7 +1603,7 @@ namespace FoodandBeverage.Forms
             this.btn_adv_idlelogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_adv_idlelogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_adv_idlelogout.ForeColor = System.Drawing.Color.White;
-            this.btn_adv_idlelogout.Location = new System.Drawing.Point(296, 3);
+            this.btn_adv_idlelogout.Location = new System.Drawing.Point(295, 3);
             this.btn_adv_idlelogout.Name = "btn_adv_idlelogout";
             this.btn_adv_idlelogout.Size = new System.Drawing.Size(72, 23);
             this.btn_adv_idlelogout.TabIndex = 10;
