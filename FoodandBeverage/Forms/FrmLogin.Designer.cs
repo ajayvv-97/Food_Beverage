@@ -141,7 +141,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.Controls.Add(this.lblcname, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 2);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 73.83721F));
@@ -159,7 +159,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel2.Controls.Add(this.pblogo, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(2, 2);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -172,7 +172,7 @@ namespace FoodandBeverage.Forms
             this.pblogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pblogo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pblogo.Location = new System.Drawing.Point(174, 2);
-            this.pblogo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pblogo.Margin = new System.Windows.Forms.Padding(2);
             this.pblogo.Name = "pblogo";
             this.pblogo.Size = new System.Drawing.Size(94, 96);
             this.pblogo.TabIndex = 258;
@@ -242,7 +242,6 @@ namespace FoodandBeverage.Forms
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.Size = new System.Drawing.Size(238, 38);
             this.txtPwd.TabIndex = 1;
-            this.txtPwd.Text = "123";
             this.txtPwd.Click += new System.EventHandler(this.txtPwd_Click);
             this.txtPwd.TextChanged += new System.EventHandler(this.txtPwd_TextChanged);
             this.txtPwd.Enter += new System.EventHandler(this.txtPwd_Enter);
@@ -275,7 +274,6 @@ namespace FoodandBeverage.Forms
             this.txtUserName.Size = new System.Drawing.Size(238, 38);
             this.txtUserName.TabIndex = 0;
             this.txtUserName.Tag = "";
-            this.txtUserName.Text = "admin";
             this.txtUserName.Click += new System.EventHandler(this.txtUserName_Click);
             this.txtUserName.Enter += new System.EventHandler(this.txtusername_Enter);
             this.txtUserName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);
@@ -350,7 +348,7 @@ namespace FoodandBeverage.Forms
             this.Pnl_wifiPopup.Controls.Add(this.tlp_wifiPopup);
             this.Pnl_wifiPopup.Location = new System.Drawing.Point(986, 114);
             this.Pnl_wifiPopup.Name = "Pnl_wifiPopup";
-            this.Pnl_wifiPopup.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.Pnl_wifiPopup.Padding = new System.Windows.Forms.Padding(10);
             this.Pnl_wifiPopup.Size = new System.Drawing.Size(358, 304);
             this.Pnl_wifiPopup.TabIndex = 279;
             this.Pnl_wifiPopup.Visible = false;
@@ -366,7 +364,7 @@ namespace FoodandBeverage.Forms
             this.tlp_wifiPopup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_wifiPopup.Location = new System.Drawing.Point(10, 10);
             this.tlp_wifiPopup.Name = "tlp_wifiPopup";
-            this.tlp_wifiPopup.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_wifiPopup.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_wifiPopup.RowCount = 2;
             this.tlp_wifiPopup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.tlp_wifiPopup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));

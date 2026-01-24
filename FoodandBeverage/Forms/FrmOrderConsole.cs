@@ -7803,7 +7803,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     else
                     {
                         #region Combined  Save Salemaster And Saledetails
-                        if (checkedtableNames.Count > 0)
+                        if (checkedtableNames.Count > 1)
                         {
                             #region sale Master 
                             int sum = 0;

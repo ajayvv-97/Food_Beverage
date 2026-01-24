@@ -445,7 +445,7 @@ namespace FoodandBeverage.Forms
                                   " union select 0 Field1,count(*) Field2,0 Field3,0 Field4,0 Field5,2 Field6 from tblOrderMaster where Status = 0 AND CONVERT(DATE, CreatedDateTime) = CONVERT(DATE,'" + currentdate.ToString("yyyy-MM-dd") + "')" +
                                   " union select 0 Field1,0 Field2,count(*) Field3,0 Field4,0 Field5,3 Field6 from tblMenu where Status = 1" +
                                   " union select 0 Field1,0 Field2,0 Field3,count(*) Field4,0 Field5,4 Field6 from tblOfferMaster where  OfferType in(1,0) and status=1 AND OfferstartDatetime <= SYSDATETIME() AND OfferEndDatetime >= SYSDATETIME()" +
-                                  " union select 0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblbookMaster where  Status = 1 AND BookingDateTime >= SYSDATETIME()";
+                                  " union select 0 Field1,0 Field2,0 Field3,0 Field4,count(*) Field5,5 Field6 from tblrefund where  Status = 1 AND CreatedDateTime >= SYSDATETIME()";
                 dmnSearch.WhereNdGroupBy = " ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1589,7 +1589,7 @@ namespace FoodandBeverage.Forms
                 " union select 3 Field3 , isnull( SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "' THEN 1 ELSE 0 END),0) AS Field1 ," +
                 " isnull(SUM(CASE WHEN CONVERT(DATE, sm.EntryDate) BETWEEN '" + startDate.ToString("yyyy-MM-dd") + "' AND '" + endDate.ToString("yyyy-MM-dd") + "' THEN sm.netamount ELSE 0 END),0) AS Field2";
                 dmnSearch.Table = " tblSalesMaster sm left join tblOrderMaster om on om.OrderMasterId = sm.OrderMasterid ";
-                dmnSearch.WhereNdGroupBy = "where sm.Rev_Status=1 and sm.Status = 1 ";
+                dmnSearch.WhereNdGroupBy = "where sm.Rev_Status=0 and sm.Status = 0 ";
                 dmnSearch.OrderBy = "";
                 var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -2971,21 +2971,21 @@ namespace FoodandBeverage.Forms
             //UIHelper.RoundCorners(tlp_chart_res_dine_sales, 50, ColorTranslator.FromHtml("#AC3CC6"));
             //UIHelper.RoundCorners(panel10, 50, ColorTranslator.FromHtml("#AC3CC6"));
 
-            UIHelper.RoundCorners(panel2, 80);
-            UIHelper.RoundCorners(panel3, 80);
-            UIHelper.RoundCorners(panel4, 80);
+            //UIHelper.RoundCorners(panel2, 80);
+            //UIHelper.RoundCorners(panel3, 80);
+            //UIHelper.RoundCorners(panel4, 80);
 
-            UIHelper.RoundCorners(panel5, 50);
-            UIHelper.RoundCorners(panel6, 50);
-            UIHelper.RoundCorners(panel7, 50);
-            UIHelper.RoundCorners(panel8, 50);
-            UIHelper.RoundCorners(panel9, 50);
+            //UIHelper.RoundCorners(panel5, 50);
+            //UIHelper.RoundCorners(panel6, 50);
+            //UIHelper.RoundCorners(panel7, 50);
+            //UIHelper.RoundCorners(panel8, 50);
+            //UIHelper.RoundCorners(panel9, 50);
 
-            UIHelper.RoundCorners(tlp_discount, 50);
-            UIHelper.RoundCorners(tlp_expence, 50);
-            UIHelper.RoundCorners(tlp_paymentdetailstotal_header, 50);
-            UIHelper.RoundCorners(tlp_chart_res_dine_sales, 50);
-            UIHelper.RoundCorners(panel10, 50);
+            //UIHelper.RoundCorners(tlp_discount, 50);
+            //UIHelper.RoundCorners(tlp_expence, 50);
+            //UIHelper.RoundCorners(tlp_paymentdetailstotal_header, 50);
+            //UIHelper.RoundCorners(tlp_chart_res_dine_sales, 50);
+            //UIHelper.RoundCorners(panel10, 50);
 
         }
 

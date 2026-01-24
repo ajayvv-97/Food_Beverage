@@ -276,67 +276,75 @@ namespace FoodandBeverage.Report
                     case 2:
                         s_FillReport_CustomerReport();
                         break;
-                    case 7:
+                    case 3:
                         s_FillReport_PopularItems();
                         break;
-                    case 8:
+                    case 4:
                         s_FillReport_SlowmovingItems();
                         break;
-                    case 10:
+                    case 5:
                         s_FillReport_Offerlist();
                         break;
-                    case 11:
+                    case 6:
                         s_FillReport_EmployeeList();
                         break;
-                    case 14:
+                    case 7:
                         s_FillReport_MidasCard_PaymetReport();
                         break;
-                    case 17:
+                    case 8:
                         s_FillReport_CashRevenue();
                         break;
-                    case 19:
+                    case 9:
                         s_FillReport_supplierPurchase_return(); ;
                         break;
-                    case 20:
+                    case 10:
                         s_FillReport_Purchase_Return();
                         break;
-                    case 22:
+                    case 11:
                         s_FillReport_supplierPurchase();
                         break;
-                    case 23:
+                    case 12:
                         s_FillReport_Purchase();
                         break;
-                    case 24:
+                    case 13:
                         s_FillReport_Reorder();
                         break;
-                    case 25:
+                    case 14:
                         s_FillReport_Expence();
                         break;
-                    case 27:
+                    case 15:
                         tlp_sublist.Visible = true;
                         s_FillReport_Inventory(Convert.ToInt32(cmbSublist.SelectedIndex));
                         break;
-                    case 37:
+                    case 16:
                         s_FillReport_Stockusage();
                         break;
-
-                    case 38:
+                    case 17:
                         s_FillReport_AnuvalGameRevenue();
                         break;
-                    case 44:
+                    case 18:
                         s_FillReport_TableOccupancyReport();
                         break;
-                    case 45:
+                    case 19:
                         s_FillReport_Reservation_Details();
                         break;
-                    case 46:
+                    case 20:
                         s_FillReport_Reservation();
                         break;
-                    case 47:
+                    case 21:
                         s_FillReport_saleReport();
                         break;
-                    case 48:
+                    case 22:
                         s_FillReport_saleDetailsReport();
+                        break;
+                    case 23:
+                        s_FillReport_voidSale();
+                        break;
+                    case 24:
+                        s_FillReport_Refund();
+                        break;
+                    case 25:
+                        s_FillReport_ComboOfferLists();
                         break;
                 }
             }
@@ -409,7 +417,64 @@ namespace FoodandBeverage.Report
         }
         public void s_FillReport_CustomerReport()
         {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "LedgerName sFld1, ICardNo sFld2,EmailId sFld3,LedgerAddress sFld4,Mobile sFld5,CreatedDateTime sFld6";
+                dmnSearchDetBill.Table = "tblAccountLedger_Transaction";
 
+                dmnSearchDetBill.WhereNdGroupBy = "";
+
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "sFld6"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_CustomerReport.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_Reservation_Details()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+
+            }
         }
         public void s_FillReport_Reservation_Details()
         {
@@ -1693,6 +1758,14 @@ namespace FoodandBeverage.Report
 
             }
         }
+        public void s_FillReport_voidSale()
+        {
+
+        }
+        public void s_FillReport_Refund()
+        {
+
+        }
         private List<DmnHRegistration> Get_CompantDetails()
         {
             try
@@ -2224,6 +2297,10 @@ namespace FoodandBeverage.Report
                 clsgen.LogException("Report page  s_FillReport_EmployeeList()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
+
+        }
+        public void s_FillReport_ComboOfferLists()
+        {
 
         }
 
