@@ -715,6 +715,12 @@
       <DependentUpon>Rpt_PopularItem.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\Rpt_Refund.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Refund.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\Rpt_ReOrder.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -787,6 +793,12 @@
       <DependentUpon>Rpt_TableOccupancyReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\Rpt_Voidsale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Voidsale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RJComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -845,6 +857,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDashboardReport.resx">
       <DependentUpon>FrmDashboardReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmDepartment.resx">
       <DependentUpon>FrmDepartment.cs</DependentUpon>
@@ -1050,6 +1063,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_PopularItem.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\Rpt_Refund.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Refund.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\Rpt_ReOrder.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_ReOrder.cs</LastGenOutput>
@@ -1097,6 +1114,10 @@
     <EmbeddedResource Include="Report\Rpt_TableOccupancyReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_TableOccupancyReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Rpt_Voidsale.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Voidsale.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\CR_Bill.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
