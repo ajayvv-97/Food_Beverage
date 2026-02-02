@@ -575,6 +575,12 @@
       <DependentUpon>crkitchenbill.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\KitchenBill\CRkitchenbillnokot.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRkitchenbillnokot.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\KitchenBill\CRkitchenbill_Pickup.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -969,6 +975,10 @@
     <EmbeddedResource Include="Forms\KitchenBill\crkitchenbill.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>crkitchenbill.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\KitchenBill\CRkitchenbillnokot.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRkitchenbillnokot.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\KitchenBill\CRkitchenbill_Pickup.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

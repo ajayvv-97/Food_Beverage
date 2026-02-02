@@ -1,6 +1,8 @@
 ﻿using BLL;
+using CrystalDecisions.CrystalReports.Engine;
 using CustomMessageBox;
 using Domain;
+using FastMember;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControl;
 using FoodandBeverage.Forms.UserControls;
@@ -12,6 +14,7 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -278,6 +281,8 @@ namespace FoodandBeverage.Forms
         public int saletype = 0;
         public int Proid_Prid = 0;
         public bool ordercancelbystaff = false;
+        public string RPTPath = Convert.ToString(FrmLogin.KitchenBillPath);
+        int CounterKotNo = 0;
         #endregion
         public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype,int cdstatus)
         {
@@ -7024,9 +7029,152 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 DirectPayBill = true;
                 UIHelper.CenterAndResize(pnlPaymode, 40, 45);
                 pnl_main.Enabled = false;
+                
             }
         }
+        private void PrintOrderNokot()
+        {
+            ReportDocument reportDocument = new ReportDocument();
 
+            try
+            {
+                #region Crystal Report Declaration
+                DataSet dsReport = new DataSet();
+                DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
+
+                List<KitchenProcessedRow> processedData = new List<KitchenProcessedRow>();
+
+                // ================================
+                // 1. READ DATA FROM DATAGRIDVIEW
+                // ================================
+                for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+                {
+                    DataGridViewRow row = Dgv_Selected_Item.Rows[i];
+                    if (row.IsNewRow) continue;
+
+                    if (row.Cells[iqty].Value == null) continue;
+                    if (Convert.ToDecimal(row.Cells[iqty].Value) <= 0) continue;
+                    if (Convert.ToInt32(row.Cells[istatusno].Value) == 0) continue;
+
+                    string itemName = Convert.ToString(row.Cells[iname].Value);
+                    string variationName = Convert.ToString(row.Cells[ivaraiationstatusno].Value);
+
+                    if (!string.IsNullOrEmpty(variationName))
+                        itemName += " (" + variationName + ")";
+
+                    string avId = Convert.ToString(row.Cells[iavid].Value);
+                    string mainCategory = string.IsNullOrEmpty(avId)
+                        ? itemName + row.Cells[iitemid].Value
+                        : avId;
+
+                    processedData.Add(new KitchenProcessedRow
+                    {
+                        ItemName = itemName,
+                        Quantity = Convert.ToDecimal(row.Cells[iqty].Value),
+                        Notes = "",
+                        Description = "",
+                        TableCode = "",
+                        OrderMasterId = Convert.ToInt32(txtsalemasterid.Text),
+                        TableType = Convert.ToInt32(row.Cells[itabletype].Value),
+                        AddonStatus = Convert.ToInt32(row.Cells[ivaraiationstatusno].Value),
+                        offeritemname = "",
+                        offerqty = 0,
+                        Kitchennumber = "",
+                        MainCategory = mainCategory,
+                        TotalQTY = Convert.ToDecimal(row.Cells[iqty].Value),
+                        Pkid = CounterKotNo,
+                        EmployeeName = FrmLogin.EmployeName,
+                        Station = "",
+                        GuestDetails = "",
+                        Orderno = 0,
+                        PriorityType = 1
+                    });
+                }
+
+                // ================================
+                // 2. MAIN CATEGORY COUNT (FOR LOOP)
+                // ================================
+                for (int i = 0; i < processedData.Count; i++)
+                {
+                    int count = 0;
+                    for (int j = 0; j < processedData.Count; j++)
+                    {
+                        if (processedData[i].MainCategory == processedData[j].MainCategory)
+                            count++;
+                    }
+                    processedData[i].MainCategoryCount = count;
+                }
+
+                // ================================
+                // 3. LIST → DATATABLE
+                // ================================
+                if (processedData.Count > 0)
+                {
+                    using (var reader = ObjectReader.Create(
+                        processedData,
+                        "ItemName", "Quantity", "Notes", "Description",
+                        "TableCode", "OrderMasterId", "MainCategory",
+                        "TableType", "AddonStatus", "MainCategoryCount",
+                        "offeritemname", "offerqty", "Kitchennumber",
+                        "TotalQTY", "Pkid", "EmployeeName", "Station",
+                        "GuestDetails", "Orderno", "PriorityType"))
+                    {
+                        dtSalesDetail.Load(reader);
+                    }
+
+                    dsReport.Tables.Add(dtSalesDetail);
+                }
+
+                // ================================
+                // 4. CRYSTAL REPORT PRINT
+                // ================================
+                string reportPath = RPTPath + "CRkitchenbillnokot.rpt";
+
+                if (!File.Exists(reportPath))
+                    throw new FileNotFoundException("Report file not found.", reportPath);
+
+                reportDocument.Load(reportPath);
+                reportDocument.SetDataSource(dsReport);
+                crvkitchenbill.ReportSource = reportDocument;
+                reportDocument.PrintToPrinter(1, false, 0, 0);
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Kitchen Print Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                //reportDocument.Close();
+                //reportDocument.Dispose();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+        public class KitchenProcessedRow
+        {
+            public string ItemName { get; set; }
+            public decimal Quantity { get; set; }
+            public string Notes { get; set; }
+            public string Description { get; set; }
+            public string TableCode { get; set; }
+            public int OrderMasterId { get; set; }
+            public int TableType { get; set; }
+            public int AddonStatus { get; set; }
+            public string offeritemname { get; set; }
+            public decimal offerqty { get; set; }
+            public string Kitchennumber { get; set; }
+            public string MainCategory { get; set; }
+            public int MainCategoryCount { get; set; }
+            public decimal TotalQTY { get; set; }
+            public int Pkid { get; set; }
+            public string EmployeeName { get; set; }
+            public string Station { get; set; }
+            public string GuestDetails { get; set; }
+            public int Orderno { get; set; }
+            public int PriorityType { get; set; }
+        }
         private void btn_refresh_Click(object sender, EventArgs e)
         {
             try
@@ -7605,6 +7753,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         #region details
                         if (InsertStatusP.SalesMasterId != 0)
                         {
+                            CounterKotNo = InsertStatusP.SalesMasterId;
                             if (payid == Convert.ToInt32(PaymentType.PART))
                             {
                                 DmnPayment dmnpayment = new DmnPayment();
@@ -7656,6 +7805,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 }
                             }
                             #endregion
+
                             #region Midascard
                             if (payid == Convert.ToInt32(PaymentType.MidasCard))
                             {
@@ -7797,6 +7947,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                         }
                         #endregion
+
+                        PrintOrderNokot();
                     }
                     #endregion
 
@@ -8943,6 +9095,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         }
                         #endregion                    
                     }
+
                 }
             }
             catch (Exception ex)
@@ -11306,6 +11459,12 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         private void btn_submit_orderprority_Click(object sender, EventArgs e)
         {
             pnl_orderprority.Visible = false;
+        }
+
+        private void btnclos_payment_Click(object sender, EventArgs e)
+        {
+            pnl_main.Enabled = true;
+            pnlPaymode.Visible = true;
         }
 
         private void btnPartRefresh_Click(object sender, EventArgs e)
