@@ -160,6 +160,8 @@ namespace FoodandBeverage.Forms
         public int iPreparationModeno = 44;
         public int isaledetailsidno = 45;
         public int iorgname = 46;
+        public int icombotaxamt = 47;
+        
 
 
         public int Cbarcode = 0;
@@ -268,6 +270,7 @@ namespace FoodandBeverage.Forms
         private bool isReadingCard = false;
         int payid = 0;
         #endregion
+
         bool cancel_byKitchen = false;
 
         public List<OrderDetailsInfo> orderDetailsInfoList = new List<OrderDetailsInfo>();
@@ -283,6 +286,7 @@ namespace FoodandBeverage.Forms
         public bool ordercancelbystaff = false;
         public string RPTPath = Convert.ToString(FrmLogin.KitchenBillPath);
         int CounterKotNo = 0;
+        public bool Comboproductflag = false;
         #endregion
         public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype,int cdstatus)
         {
@@ -4221,6 +4225,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         MessageBox.Show("Stock Out! This item is not available.", "Out of Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+                    Comboproductflag = true;
                     ComboProductFill(Convert.ToInt32(clickedControl.Tag));
                 }
                 else
@@ -4387,9 +4392,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 checksave_refresh();
 
             }
+          
             catch (Exception ex)
             {
                 clsgen.LogException("Order page  DashboardButtonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+            finally
+            {
+                Comboproductflag = false;
             }
         }
         public void ReserveQtyRouter(int ProductId, int ProductType, int Actiontype, int TableType, int OrdQty, int CQtyFlag=0,int porderqty=0)
@@ -4958,8 +4968,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
                         Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
                         Dgv_Selected_Item.Rows[r1].Cells[iComboTaxamtno].Value = Convert.ToDecimal(gridSource[0].Field12);
+
                         Dgv_Selected_Item.Rows[r1].Cells[itaxamt].Value = Convert.ToDecimal(gridSource[0].Field12);
+                        Dgv_Selected_Item.Rows[r1].Cells[icombotaxamt].Value = Convert.ToDecimal(gridSource[0].Field12);
                         Dgv_Selected_Item.Rows[r1].Cells[itaxper].Value = Convert.ToDecimal(gridSource[0].Field11);
+
                         if (Convert.ToString(gridSource[0].Field4) == "GST")
                         {
                             Dgv_Selected_Item.Rows[r1].Cells[iigstamtno].Value = Convert.ToDecimal(gridSource[0].Field12);
@@ -4971,7 +4984,11 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                         }
                         Dgv_Selected_Item.Rows.Add(1);
+
                         totalcellamount(r1);
+
+ 
+                        
                         Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
                         itemprice = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value);
                         decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value) + Convert.ToDecimal(txtGrandTotal.Text);
@@ -5396,43 +5413,47 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 {
                     decimal amount = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[israte].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
                     Dgv_Selected_Item.Rows[cellproductid].Cells[iamount].Value = amount.ToString("N2");
-
-                    //cellDiscountPercentage(cellproductid);
-                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[cellproductid].Cells[itabletype].Value) != Convert.ToInt32(Tabletype.ComboProduct))
+                    if (!Comboproductflag)
                     {
-                        cellDiscountAmount(cellproductid);
-
-                        decimal discount = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value);
-                        cellTaxAmount(cellproductid, amount - discount);
-
-                        if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
+                        //cellDiscountPercentage(cellproductid);
+                        if (Convert.ToInt32(Dgv_Selected_Item.Rows[cellproductid].Cells[itabletype].Value) != Convert.ToInt32(Tabletype.ComboProduct))
                         {
-                            decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value))
-                            + Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value);
-                            Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+                            cellDiscountAmount(cellproductid);
+
+                            decimal discount = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value);
+                            cellTaxAmount(cellproductid, amount - discount);
+
+                            if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
+                            {
+                                decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value))
+                                + Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value);
+                                Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+                            }
+                            if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
+                            {
+                                decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value));
+                                Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+                            }
                         }
-                        if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
+                        else
                         {
-                            decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value));
-                            Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+                            if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxtype].Value) == "GST")
+                            {
+                                Dgv_Selected_Item.Rows[cellproductid].Cells[iigstamtno].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
+                            }
+                            else if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxtype].Value) == "VAT")
+                            {
+                                Dgv_Selected_Item.Rows[cellproductid].Cells[ivatamtno].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
+                            }
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = amount.ToString("N2");
+
                         }
                     }
                     else
                     {
-                        if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxtype].Value) == "GST")
-                        {
-                            Dgv_Selected_Item.Rows[cellproductid].Cells[iigstamtno].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
-                        }
-                        else if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxtype].Value) == "VAT")
-                        {
-                            Dgv_Selected_Item.Rows[cellproductid].Cells[ivatamtno].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
-                        }
-                        Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iComboTaxamtno].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
-                        Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = amount.ToString("N2");
-
+                        Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[icombotaxamt].Value) * Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[iqty].Value);
                     }
-
-
                 }
 
             }
