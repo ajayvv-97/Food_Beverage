@@ -116,6 +116,7 @@ namespace FoodandBeverage.Forms
         public int StatusValue = 1;
         private List<(int productId, int saleType)> selectedProducts = new List<(int productId, int saleType)>();
         public int maxLength_variation = 3;
+        bool finalpricechangeflag = false;
 
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
         public string empImgExt = "";
@@ -4042,12 +4043,17 @@ namespace FoodandBeverage.Forms
             try
             {
                 bool taxflag = false;
+                if(finalpricechangeflag == false)
+                {
+                    txtcombo_finalprice.Text = txtcombo_totalprice.Text;
+
+                }
                 if ((string.IsNullOrEmpty(txttaxamt.Text)))
                     txttaxamt.Text = "0.00";
                 if ((string.IsNullOrEmpty(txtcombo_totalprice.Text)))
                     txtcombo_totalprice.Text = "0.00";
                 if ((string.IsNullOrEmpty(txtcombo_finalprice.Text)))
-                    txtcombo_finalprice.Text = "0.00";
+                    txtcombo_finalprice.Text = txtcombo_totalprice.Text;
                 if ((string.IsNullOrEmpty(txttaxper_combo.Text)))
                     txttaxper_combo.Text = "0";
                 if ((string.IsNullOrEmpty(txtcombo_disamt.Text)))
@@ -4059,7 +4065,7 @@ namespace FoodandBeverage.Forms
                     if (val != null && val != "" && val != " --Select-- ")
                     {
                         taxflag = true;
-                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(val) * Convert.ToDecimal(txtcombo_totalprice.Text) / 100);
+                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(val) * Convert.ToDecimal(txtcombo_finalprice.Text) / 100);
                         txttaxamt.Text = TaxAmount.ToString("N2");
                         txttaxper_combo.Text = val;
                     }
@@ -4070,7 +4076,7 @@ namespace FoodandBeverage.Forms
                     if (val != null && val != "" && val != " --Select-- ")
                     {
                         taxflag = true;
-                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(val) * Convert.ToDecimal(txtcombo_totalprice.Text) / 100);
+                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(val) * Convert.ToDecimal(txtcombo_finalprice.Text) / 100);
                         txttaxamt.Text = TaxAmount.ToString("N2");
                         txttaxper_combo.Text = val;
                     }
@@ -4079,13 +4085,13 @@ namespace FoodandBeverage.Forms
                 {
                     if (cmbtax.Text == "Exclusive")
                     {
-                        decimal tot = (Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(txtcombo_disamt.Text))
+                        decimal tot = (Convert.ToDecimal(txtcombo_finalprice.Text) - Convert.ToDecimal(txtcombo_disamt.Text))
                         + Convert.ToDecimal(txttaxamt.Text);
                         txtcombo_finalprice.Text = tot.ToString("N2");
                     }
                     else if (cmbtax.Text == "Inclusive")
                     {
-                        decimal tot = (Convert.ToDecimal(txtcombo_totalprice.Text) - Convert.ToDecimal(txtcombo_disamt.Text));
+                        decimal tot = (Convert.ToDecimal(txtcombo_finalprice.Text) - Convert.ToDecimal(txtcombo_disamt.Text));
                         txtcombo_finalprice.Text = tot.ToString("N2");
                     }
                 }
@@ -4244,6 +4250,8 @@ namespace FoodandBeverage.Forms
             {
                 e.Handled = true;
             }
+            finalpricechangeflag = true;
+            ClacTaxAmt_combo();
         }
 
         private void tlp_comboproduct_view_Paint(object sender, PaintEventArgs e)
@@ -4466,6 +4474,8 @@ namespace FoodandBeverage.Forms
 
         private void txtcombo_finalprice_Leave(object sender, EventArgs e)
         {
+            finalpricechangeflag = true;
+            ClacTaxAmt_combo();
             if (string.IsNullOrEmpty(txtcombo_totalprice.Text))
                 txtcombo_totalprice.Text = "0";
             if (string.IsNullOrEmpty(txtcombo_finalprice.Text))
