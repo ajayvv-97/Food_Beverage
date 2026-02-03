@@ -2279,6 +2279,10 @@ namespace FoodandBeverage.Forms
                                     Dgv_Selected_Item.Rows[r].Cells[israte].Value = gridSource[i].Srate;
                                     Dgv_Selected_Item.Rows[r].Cells[imrp].Value = gridSource[i].MRP;
                                     Dgv_Selected_Item.Rows[r].Cells[idisamt].Value = "0";
+
+                                    Dgv_Selected_Item.Rows[r].Cells[iamount].Value = Convert.ToDecimal(gridSource[i].Amount);
+                                    Dgv_Selected_Item.Rows[r].Cells[itotal].Value = Convert.ToDecimal(gridSource[i].NetAmount);
+
                                     Dgv_Selected_Item.Rows[r].Cells[iitemid].Value = gridSource[i].ItemId;
                                     Dgv_Selected_Item.Rows[r].Cells[itax].Value = gridSource[i].Tax;
                                     Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = gridSource[i].TaxType;
