@@ -2282,10 +2282,14 @@ namespace FoodandBeverage.Forms
 
                                     Dgv_Selected_Item.Rows[r].Cells[iamount].Value = Convert.ToDecimal(gridSource[i].Amount);
                                     Dgv_Selected_Item.Rows[r].Cells[itotal].Value = Convert.ToDecimal(gridSource[i].NetAmount);
+                                    Dgv_Selected_Item.Rows[r].Cells[itaxper].Value = Convert.ToString(gridSource[i].TaxPer);
+                                    Dgv_Selected_Item.Rows[r].Cells[itaxamt].Value = Convert.ToString(gridSource[i].TaxAmount);
+                                    Dgv_Selected_Item.Rows[r].Cells[itax].Value = Convert.ToString(gridSource[i].Tax);
+                                    Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = Convert.ToString(gridSource[i].TaxType);
+
 
                                     Dgv_Selected_Item.Rows[r].Cells[iitemid].Value = gridSource[i].ItemId;
-                                    Dgv_Selected_Item.Rows[r].Cells[itax].Value = gridSource[i].Tax;
-                                    Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = gridSource[i].TaxType;
+                               
                                     Dgv_Selected_Item.Rows[r].Cells[itype].Value = gridSource[i].TableType;
                                     Dgv_Selected_Item.Rows[r].Cells[ipridno].Value = gridSource[i].PrId;
                                     Dgv_Selected_Item.Rows[r].Cells[istatusno].Value = 0;
@@ -2341,8 +2345,8 @@ namespace FoodandBeverage.Forms
                                         Dgv_Selected_Item.Rows[r].Cells[iproducttypeno].Value = Convert.ToString(offerDetails[0].Field1);
                                         Dgv_Selected_Item.Rows[r].Cells[iqty].Value = gridSource[i].Quantity;
                                         Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(offerDetails[0].Field2);
-                                        Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = Convert.ToString(offerDetails[0].Field3);
-                                        Dgv_Selected_Item.Rows[r].Cells[itax].Value = Convert.ToString(offerDetails[0].Field4);
+                                        //Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = Convert.ToString(offerDetails[0].Field3);
+                                        //Dgv_Selected_Item.Rows[r].Cells[itax].Value = Convert.ToString(offerDetails[0].Field4);
                                         Dgv_Selected_Item.Rows[r].Cells[itaxsettingid].Value = Convert.ToInt32(offerDetails[0].Field5);
                                         Dgv_Selected_Item.Rows[r].Cells[idisper].Value = Convert.ToDecimal(offerDetails[0].Field6);
                                         Dgv_Selected_Item.Rows[r].Cells[iitemid].Value = Convert.ToInt32(gridSource[i].ItemId);
@@ -2352,6 +2356,13 @@ namespace FoodandBeverage.Forms
                                         Dgv_Selected_Item.Rows[r].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
                                         Dgv_Selected_Item.Rows[r].Cells[isubofferid].Value = 0;
                                         Dgv_Selected_Item.Rows[r].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
+
+                                        Dgv_Selected_Item.Rows[r].Cells[iamount].Value = Convert.ToDecimal(gridSource[i].Amount);
+                                        Dgv_Selected_Item.Rows[r].Cells[itotal].Value = Convert.ToDecimal(gridSource[i].NetAmount);
+                                        Dgv_Selected_Item.Rows[r].Cells[itaxper].Value = Convert.ToString(gridSource[i].TaxPer);
+                                        Dgv_Selected_Item.Rows[r].Cells[itaxamt].Value = Convert.ToString(gridSource[i].TaxAmount);
+                                        Dgv_Selected_Item.Rows[r].Cells[itax].Value = Convert.ToString(gridSource[i].Tax);
+                                        Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = Convert.ToString(gridSource[i].TaxType);
 
                                         if (Convert.ToInt32(gridSource[i].Status) == 3 && (gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0))
                                         {
