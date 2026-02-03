@@ -2352,6 +2352,8 @@ namespace FoodandBeverage.Forms
                                         Dgv_Selected_Item.Rows[r].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
                                         Dgv_Selected_Item.Rows[r].Cells[isubofferid].Value = 0;
                                         Dgv_Selected_Item.Rows[r].Cells[itabletype].Value = Convert.ToInt32(Tabletype.ComboProduct);
+                                        Dgv_Selected_Item.Rows[r].Cells[iamount].Value = Convert.ToDecimal(gridSource[i].Amount);
+                                        Dgv_Selected_Item.Rows[r].Cells[itotal].Value = Convert.ToDecimal(gridSource[i].NetAmount);
 
                                         if (Convert.ToInt32(gridSource[i].Status) == 3 && (gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0))
                                         {
