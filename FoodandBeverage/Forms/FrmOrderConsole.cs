@@ -7047,6 +7047,19 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 // ================================
                 // 1. READ DATA FROM DATAGRIDVIEW
                 // ================================
+
+                decimal totalQty = 0;
+                for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+                {
+                    DataGridViewRow row = Dgv_Selected_Item.Rows[i];
+                    if (row.IsNewRow) continue;
+                    if (row.Cells[iqty].Value == null) continue;
+                    if (Convert.ToDecimal(row.Cells[iqty].Value) <= 0) continue;
+                    if (Convert.ToInt32(row.Cells[istatusno].Value) == 0) continue;
+
+                    totalQty = Convert.ToDecimal(row.Cells[iqty].Value);
+                }
+
                 for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                 {
                     DataGridViewRow row = Dgv_Selected_Item.Rows[i];
@@ -7081,7 +7094,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         offerqty = 0,
                         Kitchennumber = "",
                         MainCategory = mainCategory,
-                        TotalQTY = Convert.ToDecimal(row.Cells[iqty].Value),
+                        TotalQTY = totalQty,
                         Pkid = CounterKotNo,
                         EmployeeName = FrmLogin.EmployeName,
                         Station = "",
@@ -11464,7 +11477,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
         private void btnclos_payment_Click(object sender, EventArgs e)
         {
             pnl_main.Enabled = true;
-            pnlPaymode.Visible = true;
+            pnlPaymode.Visible = false;
         }
 
         private void btnPartRefresh_Click(object sender, EventArgs e)
