@@ -475,6 +475,7 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("otheramount", othetamount);
                 reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
                 reportDocument.SetParameterValue("footermsg", FooterMsg);
+                reportDocument.SetParameterValue("smid", SalesMasterId);
 
                 if (invoiceBillMasters[0].Rev_Status==1)
                 {
