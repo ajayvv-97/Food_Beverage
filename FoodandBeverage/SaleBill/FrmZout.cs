@@ -568,6 +568,8 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("Designation", Convert.ToString(Addressdata[0].Field8));
                 string devicename = System.Environment.MachineName;
                 reportDocument.SetParameterValue("Device_name", devicename);
+                GetRegadd();
+                reportDocument.SetParameterValue("Regaddress", Regaddress);
                 /*End Header section*/
 
                 /* report header Name*/
@@ -819,6 +821,8 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.SetParameterValue("Designation", Convert.ToString(Addressdata[0].Field8));
                     string devicename = System.Environment.MachineName;
                     reportDocument.SetParameterValue("Device_name", devicename);
+                    GetRegadd();
+                    reportDocument.SetParameterValue("Regaddress", Regaddress);
                     /*End Header section*/
 
                     /*report header Name*/
@@ -1065,6 +1069,8 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("Designation", Convert.ToString(Addressdata[0].Field8));
                 string devicename = System.Environment.MachineName;
                 reportDocument.SetParameterValue("Device_name", devicename);
+                GetRegadd();
+                reportDocument.SetParameterValue("Regaddress", Regaddress);
                 /*End Header section*/
 
                 /* report header Name*/
