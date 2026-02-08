@@ -102,7 +102,7 @@ namespace FoodandBeverage.SaleBill
                     if (gridesource[0].Customer_Status)
                     {
                         Customer_Status = true;
-                    }                    
+                    }
 
                     if (gridesource[0].Gmail)
                     {
@@ -135,6 +135,18 @@ namespace FoodandBeverage.SaleBill
                     txt_ph_report.Visible = false;
                 }
 
+
+                BllSearch<DmnGeneralSetting> bllSearchgen = new BllSearch<DmnGeneralSetting>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblGeneralSetting";
+                objSearch.WhereNdGroupBy = "WHERE BranchId = " + FrmDashboard.BranchId + " AND Status = 1";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearchgen.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    FooterMsg = Convert.ToString(itemSource[0].FooterContent);
+                }
             }
             catch
             {
@@ -180,7 +192,7 @@ namespace FoodandBeverage.SaleBill
                 DmnSearch dmnSearchInvoiceHeaders = new DmnSearch();
                 #endregion
 
-                dmnSearchInvoiceHeaders.Select = "Name,Address,Email,Phone,Id,GSTNO";
+                dmnSearchInvoiceHeaders.Select = "Name,Address,Email,Phone,Id,GSTNO,RegAddress";
                 dmnSearchInvoiceHeaders.Table = "tblHotelRegistration";
                 dmnSearchInvoiceHeaders.WhereNdGroupBy = " where Branchid=" + FrmDashboard.BranchId;
                 var invoiceBillHeaders = bllSearchHeaders.GetSearchData("prdSearch", dmnSearchInvoiceHeaders);
@@ -252,7 +264,7 @@ namespace FoodandBeverage.SaleBill
 
                 GenerateBarcode(invoiceBillMasters[0].EntryNo);
                 //header part set data to dataset
-                using (var reader = ObjectReader.Create(invoiceBillHeaders, "Name", "Address", "Email", "Phone", "LocId", "barcode_img_path", "GSTNo", "Full_Address"))
+                using (var reader = ObjectReader.Create(invoiceBillHeaders, "Name", "Address", "Email", "Phone", "LocId", "barcode_img_path", "GSTNo", "Full_Address", "RegAddress"))
                 {
                     dtSalesHeader.Load(reader);
                 }
@@ -475,6 +487,7 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("otheramount", othetamount);
                 reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
                 reportDocument.SetParameterValue("footermsg", FooterMsg);
+
                 reportDocument.SetParameterValue("smid", SalesMasterId);
 
                 if (invoiceBillMasters[0].Rev_Status==1)
