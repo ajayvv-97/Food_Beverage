@@ -346,6 +346,9 @@ namespace FoodandBeverage.Report
                     case 25:
                         s_FillReport_ComboOfferLists();
                         break;
+                    case 26:
+                        s_FillReport_Complementary();
+                        break;
                 }
             }
             catch (Exception ex)
@@ -2412,6 +2415,66 @@ namespace FoodandBeverage.Report
         public void s_FillReport_ComboOfferLists()
         {
 
+        }
+        public void s_FillReport_Complementary()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,FirstName as sFld3,PhoneNumber as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4,alt.ICardNo sFld5";/*,fcm. as dFld2,fcm.Tax as dFld3*/
+                dmnSearchDetBill.Table = "tblSalesMaster s left join  tblAccountLedger_Transaction alt on alt.SalesMasterId=s.SalesMasterId";
+                dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  s.PaymentMode =" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " and  s.BranchId = " + BranchId;
+                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "dFld1", "dFld2", "dFld3", "dFld4"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                //string x = Application.StartupPath + @"\Report"+ @"\Rpt_MidasCardPayment.rpt";
+                //MessageBox.Show(this, x, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                reportDocument.Load(Path + @"\Rpt_Complementary.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Report page  s_FillReport_MidasCard_PaymetReport()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+
+            }
         }
 
         private void btncolse_Click(object sender, EventArgs e)

@@ -5626,7 +5626,23 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+        private void complementaryReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
 
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+
+
+                int ReportLevelID = 26;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("DashBoard page popularItemReportsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
         private void btntakeway_Click(object sender, EventArgs e)
         {
             try
@@ -6010,6 +6026,8 @@ namespace FoodandBeverage.Forms
         {
 
         }
+
+        
 
 
         #endregion
