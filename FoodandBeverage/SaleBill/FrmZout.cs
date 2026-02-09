@@ -1,24 +1,25 @@
 ﻿using BLL;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using Domain;
+using FastMember;
+using FoodandBeverage.Classes;
+using FoodandBeverage.Forms;
+using FoodandBeverage.Interfaces;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
-using CrystalDecisions.CrystalReports.Engine;
-using FoodandBeverage.Forms;
-using System.IO;
-using CrystalDecisions.Shared;
-using System.Runtime.InteropServices;
-using FastMember;
-using FoodandBeverage.Classes;
-using FoodandBeverage.Interfaces;
-using System.Linq;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Net.Mail;
+using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using iTextSharp.text.pdf;
+using System.Windows.Forms;
+using Xceed.Document.NET;
 
 namespace FoodandBeverage.SaleBill
 {
@@ -71,6 +72,7 @@ namespace FoodandBeverage.SaleBill
         private Button btngmailsend;
         private Button btngmailcancel;
         public String DailyPath = "";
+        string Regaddress = "";
         #endregion
 
         #region Printer Default Settings
@@ -311,8 +313,8 @@ namespace FoodandBeverage.SaleBill
         {
             SetPlaceholder(txt_gmail_report, "Enter Email Address");
             ApplyRoundedTextBox(txt_gmail_report, 10);
-            txt_gmail_report.Font = new Font(txt_gmail_report.Font.FontFamily, 12);
-            txt_gmail_report.BorderStyle = BorderStyle.None;
+            txt_gmail_report.Font = new System.Drawing.Font(txt_gmail_report.Font.FontFamily, 12);
+            txt_gmail_report.BorderStyle = System.Windows.Forms.BorderStyle.None;
 
             folderPath = Path.Combine(Application.StartupPath, "YZOutReport");
             if (!Directory.Exists(folderPath))
@@ -566,6 +568,8 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("Designation", Convert.ToString(Addressdata[0].Field8));
                 string devicename = System.Environment.MachineName;
                 reportDocument.SetParameterValue("Device_name", devicename);
+                GetRegadd();
+                reportDocument.SetParameterValue("Regaddress", Regaddress);
                 /*End Header section*/
 
                 /* report header Name*/
@@ -817,6 +821,8 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.SetParameterValue("Designation", Convert.ToString(Addressdata[0].Field8));
                     string devicename = System.Environment.MachineName;
                     reportDocument.SetParameterValue("Device_name", devicename);
+                    GetRegadd();
+                    reportDocument.SetParameterValue("Regaddress", Regaddress);
                     /*End Header section*/
 
                     /*report header Name*/
@@ -1063,6 +1069,8 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("Designation", Convert.ToString(Addressdata[0].Field8));
                 string devicename = System.Environment.MachineName;
                 reportDocument.SetParameterValue("Device_name", devicename);
+                GetRegadd();
+                reportDocument.SetParameterValue("Regaddress", Regaddress);
                 /*End Header section*/
 
                 /* report header Name*/
@@ -1269,6 +1277,7 @@ namespace FoodandBeverage.SaleBill
 
                 /* header section*/
                 Addressdata = Get_CompantDetails();
+   
                 reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Field1));
                 reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].Field5));
                 reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
@@ -1276,6 +1285,8 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("Address", Convert.ToString(Addressdata[0].Field4));
                 reportDocument.SetParameterValue("Designation", Convert.ToString(Addressdata[0].Field8));
                 string devicename = System.Environment.MachineName;
+                GetRegadd();
+                reportDocument.SetParameterValue("Regaddress", Regaddress); 
                 reportDocument.SetParameterValue("Device_name", devicename);
                 /*End Header section*/
 
@@ -1319,6 +1330,29 @@ namespace FoodandBeverage.SaleBill
             }
         }
         #endregion
+
+        public void GetRegadd()
+        {
+            try
+            {
+
+                BllSearch<DmnHRegistration> bllSearchgen = new BllSearch<DmnHRegistration>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "Name,Address,Email,Phone,Id,GSTNO,RegAddress";
+                objSearch.Table = "tblHotelRegistration";
+                objSearch.WhereNdGroupBy = " where Branchid=" + FrmDashboard.BranchId;
+                objSearch.OrderBy = "";
+                var itemSource = bllSearchgen.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    Regaddress = Convert.ToString(itemSource[0].RegAddress);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("ZOut Page GetRegadd()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.YZout));
+            }
+        }
 
         private void btn_print_Click(object sender, EventArgs e)
         {

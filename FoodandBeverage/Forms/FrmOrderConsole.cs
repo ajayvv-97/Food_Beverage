@@ -8918,7 +8918,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                                     if (payid == 0)
                                     {
-                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno))
+                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, 3))
                                         {
                                             frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                             frmSalesInvoice.ShowDialog();
@@ -8935,7 +8935,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     }
                                     else
                                     {
-                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno))
+                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, 3))
                                         {
                                             frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                                             frmSalesInvoice.ShowDialog();

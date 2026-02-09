@@ -30,7 +30,7 @@ namespace Domain
         public string website { get; set; }
         public TimeSpan OpeningTime { get; set; }
         public string billno { get; set; }
-
-
+        public string RegAddress { get; set; }
+        
     }
 }

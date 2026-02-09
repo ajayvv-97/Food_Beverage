@@ -93,7 +93,7 @@ namespace FoodandBeverage.Forms
                 ReportPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Report";
                 SaleBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill";
                 XYZPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                logoPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                logoPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
             }
             else
             {

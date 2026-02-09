@@ -147,7 +147,7 @@ namespace FoodandBeverage.Forms
                     dmndrawer.Id = Convert.ToInt32(txtdrawerid.Text);
                     dmndrawer.DName = System.Environment.MachineName;
                     dmndrawer.InitilAmount = Convert.ToDecimal(txtinitialamt.Text);
-                    dmndrawer.EmployeeId = FrmLogin.UserId;
+                    dmndrawer.EmployeeId =Convert.ToInt32(FrmLogin.EmployeeId);
                     if (txtloanamt.Text != txtextraloan.Text)
                         dmndrawer.LoanAmount = Convert.ToDecimal(txtloanamt.Text);
                     else
