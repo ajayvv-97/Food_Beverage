@@ -69,18 +69,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_074AA8B3C40645FBB6FBD89712EA33B8"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_082A43BF82894256AD71F10263B9E744"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0A2C336A4D115DE631495854593B5AEE"
         "OwnerKey" = "8:_FF1E473433DBB2372F88F95E58206ADD"
         "MsmSig" = "8:_UNDEFINED"
@@ -159,12 +147,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_0ED1E57DF63E4A1691BFFD9B496669C3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0FF1BEE420735DD804E6C34E05713723"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -197,12 +179,6 @@
         {
         "MsmKey" = "8:_17DB3AB300B09CDC6067FFD084A092A9"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_18E67D8C058146079DCD17AA42A831FA"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -249,14 +225,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2C2DCC90D857593E04F8DFE45657F871"
-        "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmKey" = "8:_2C1208546BEF4A669F9A10210A6870F0"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_2C5772116F964EA6AD721FFBD7ED8C50"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_2C2DCC90D857593E04F8DFE45657F871"
+        "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -267,13 +243,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_30C000D75C0C4FDFAF2BB516FE3A7BC9"
+        "MsmKey" = "8:_2F4B43106D7E4E65B9EB47293A9311A8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_30C89AD9BBE64F319D4D7C82AC493032"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_316D321D367F41B28671B4B32298FA62"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -291,8 +273,26 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_320F2E1D748C4A7FBCDE32646C8B5F2E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_34DF3DAF9ECA150A224503A02C5353BB"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_35758F7FB2524EB4BE8B32B0752CD5F1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_364124FBFAF24FC88D9244FD6EA0CBFA"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -327,7 +327,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_3E700782DEB14DC9A4B25FC6B6938F4F"
+        "MsmKey" = "8:_3B390E6E8A6F40C8A10ED4FE9542526A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3B9241E0A529406AA4BDF8FB3021E16D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -387,12 +393,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4CAB0A5F8E9A4340A4F4155D56F4401F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4CC9D16EE192A2D9ED5EE896B8149C9D"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -411,19 +411,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_50B52C5589614A018F467B5FCEFCFCDB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_524FE22EC0B9B629743031F86C6CA4F9"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_52BF08FBC2C540A6B13439F7085F1E68"
+        "MsmKey" = "8:_52CBD5D8CDD346AEB17695BE8F0EA28E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -437,12 +431,6 @@
         {
         "MsmKey" = "8:_545E7A2DC334717EF66364EEC8070080"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_552B9974BB3640689D6D708120658601"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -489,7 +477,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5B2D291810B54B8C9EBED1F6C93E6B02"
+        "MsmKey" = "8:_5B93488CF3E74DD09F95FAA688E4DE1D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -497,6 +485,18 @@
         {
         "MsmKey" = "8:_5BAD674A163AA300E6A442B3BF60145E"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5C4C40A7A6B74A0DA6DD90185D9137C4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5E07B2AFCFF5491B95A2E4BF93708F53"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -567,12 +567,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6F70C9BBBD0946E9B8130F8B889D7C60"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_703FC8B54048400C905ECA7565EA1A3A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -611,6 +605,12 @@
         {
         "MsmKey" = "8:_7499076645A79B1A40F267FA640B2D28"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7767DD4FDCE84C72BEE283F91582C8C3"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -687,14 +687,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_80278CFFD2F44230949357EDDB931A9D"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_812A21A1F245041D98979EEB6C46ECE0"
+        "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_812A21A1F245041D98979EEB6C46ECE0"
-        "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmKey" = "8:_812FFE180AB7446A8FBE1093668572DE"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -783,6 +783,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_855870C73152452AA2B82A8DBD54AA79"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_866A6DA37857E5C55699C1CF55995BEC"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -803,12 +809,6 @@
         {
         "MsmKey" = "8:_8900D1A3FB3B6EC9332423391B789F93"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8AA4A61FF59A48D7ABAE1D3FE9DDB0C6"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -861,6 +861,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8F6298B3DC694B428E9EAFCFD80E4B8B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_909C7D5DC64AF96C8B0E84AC60595D0E"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -879,12 +885,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_91CD44E60907483CA1F5D52F4608DF9E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_959FF146AAE7491BCEDE5708A4B6504C"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -899,6 +899,12 @@
         {
         "MsmKey" = "8:_95B29D7752DFA301BFE95B0FB4CE7F47"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_961DE32B3A8243BC8350D95BD8BE4F46"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -957,6 +963,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9CF0B10405214144A7710A39FDC85325"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9D5D1E673EEF8DE3181B1F32A65BCCC0"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -993,6 +1005,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9DBD21DDC1FE48D284F61374EB8BA4A9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9E66C1228EF16B028546B6A951C10C33"
         "OwnerKey" = "8:_7BD81BF59A4F31ED176DC23B39D31E7C"
         "MsmSig" = "8:_UNDEFINED"
@@ -1023,8 +1041,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9EE805540ADA462B91640FC1D7340002"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A20E7C10493959D080D2870B2DAD5632"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A3F60E1E36FA47CE9687DF59FE589586"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1089,12 +1119,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B39EC83147914969AC9C9C72E74215FC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B59D9E8CE5A36B624DA095AA6845F21A"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -1103,6 +1127,12 @@
         {
         "MsmKey" = "8:_B61983B1B450B51080307AB2D2C093D5"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B6240D473C954F5E8663CCD2AB5FB0E1"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1133,12 +1163,6 @@
         {
         "MsmKey" = "8:_B7DDFCF4A841A93F883DD0FA3A75CC92"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B81BE9E852344AFCB7C1F37CB1A3CC15"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1257,7 +1281,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C5DFBA351DD1483DB9803F7E25B4DFB7"
+        "MsmKey" = "8:_C6BDD7EF7D724FB5ABEEBCF839515B6D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1271,6 +1295,12 @@
         {
         "MsmKey" = "8:_C75DA0E2FAB454FC8BC0DA5590CF8236"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C79B73F3CF7D4DA8BACBC68F19E27523"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1311,7 +1341,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CE285C5D633D4F80A65C55BE7F2DFFB7"
+        "MsmKey" = "8:_CBF5AEF1CDEE4BCE82E2C03FD1A02538"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1377,8 +1407,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D718B46CF5064DA39077EFC1F130B08E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D75C3DB27445B0A586491B169DD3DE02"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D9809549145C4B6E9B6D94F203D7F1C3"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1395,6 +1437,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DABC43EB93D74DB4939DF324A40F9F2E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DBA3E899C328E8D7A470276475A7AAC7"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -1403,12 +1451,6 @@
         {
         "MsmKey" = "8:_DC647C37F6BCE5FAF7B3B2C7C35A0180"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DCDAB43EFCDE46AC9FEFF9669DB26C2E"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1515,6 +1557,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E630B3605199465DB5990FC01F081C9B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E69EA5A44CFEB075CA396FC4EC77E1DD"
         "OwnerKey" = "8:_04ABA61A5939580749859C5541C76021"
         "MsmSig" = "8:_UNDEFINED"
@@ -1593,6 +1641,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EE087F675CA24D11B90978370776686D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_EE7F2685E99F382DB04939C39F946550"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -1613,18 +1667,6 @@
         {
         "MsmKey" = "8:_F233DEF5EB8E3A94AF8A52650F37263F"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F29C13ECC33B43F899060EBCFC5B1C70"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F33BDA37C7DD4E36B3997E52EDD584FF"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1701,6 +1743,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_FA992BCD617A4E7C86AD8524258E5D9A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FAF71EBFC30E0CA7D58F439ADCCF0663"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
         "MsmSig" = "8:_UNDEFINED"
@@ -1709,6 +1757,12 @@
         {
         "MsmKey" = "8:_FB2D34600B69D919EC0DA00FF310B429"
         "OwnerKey" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FBD2949EC40D4FD2B82BB427949B9118"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2989,46 +3043,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_074AA8B3C40645FBB6FBD89712EA33B8"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Stockusage.rpt"
-            "TargetName" = "8:Rpt_Stockusage.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_082A43BF82894256AD71F10263B9E744"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Expence.rpt"
-            "TargetName" = "8:Rpt_Expence.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0A2C336A4D115DE631495854593B5AEE"
             {
             "AssemblyRegister" = "3:1"
@@ -3215,26 +3229,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0ED1E57DF63E4A1691BFFD9B496669C3"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_SaleReport.rpt"
-            "TargetName" = "8:Rpt_SaleReport.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0FF1BEE420735DD804E6C34E05713723"
             {
             "AssemblyRegister" = "3:1"
@@ -3408,26 +3402,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_18E67D8C058146079DCD17AA42A831FA"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Supplier.rpt"
-            "TargetName" = "8:Rpt_Supplier.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1C2CF86E12C353514A46C798F4D03BB8"
@@ -3616,6 +3590,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2C1208546BEF4A669F9A10210A6870F0"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Supplier.rpt"
+            "TargetName" = "8:Rpt_Supplier.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2C2DCC90D857593E04F8DFE45657F871"
             {
             "AssemblyRegister" = "3:1"
@@ -3645,26 +3639,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2C5772116F964EA6AD721FFBD7ED8C50"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Solwmovingitem.rpt"
-            "TargetName" = "8:Rpt_Solwmovingitem.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2D2DEDC1FECFA0DF8CC29933F392D1AC"
@@ -3698,10 +3672,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_30C000D75C0C4FDFAF2BB516FE3A7BC9"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2F4B43106D7E4E65B9EB47293A9311A8"
             {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_TableOccupancyReport.rpt"
-            "TargetName" = "8:Rpt_TableOccupancyReport.rpt"
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Expence.rpt"
+            "TargetName" = "8:Rpt_Expence.rpt"
             "Tag" = "8:"
             "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
             "Condition" = "8:"
@@ -3738,6 +3712,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_316D321D367F41B28671B4B32298FA62"
+            {
+            "SourcePath" = "8:..\\..\\..\\Downloads\\F&B.ico"
+            "TargetName" = "8:F&B.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_DDB79D645C6E4EA18F241E21B27E5F47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_31D55EF13876FFDEC32FBB9A510978B9"
             {
             "AssemblyRegister" = "3:1"
@@ -3769,6 +3763,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_320F2E1D748C4A7FBCDE32646C8B5F2E"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Purchase.rpt"
+            "TargetName" = "8:Rpt_Purchase.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_34DF3DAF9ECA150A224503A02C5353BB"
             {
             "AssemblyRegister" = "3:1"
@@ -3798,6 +3812,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_35758F7FB2524EB4BE8B32B0752CD5F1"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Refund.rpt"
+            "TargetName" = "8:Rpt_Refund.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_364124FBFAF24FC88D9244FD6EA0CBFA"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_CustomerReport.rpt"
+            "TargetName" = "8:Rpt_CustomerReport.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3682AC2C2C72B45A92DFDFE7FCF6BBDB"
@@ -3955,10 +4009,30 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3E700782DEB14DC9A4B25FC6B6938F4F"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3B390E6E8A6F40C8A10ED4FE9542526A"
             {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Inventory.rpt"
-            "TargetName" = "8:Rpt_Inventory.rpt"
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Stockusage.rpt"
+            "TargetName" = "8:Rpt_Stockusage.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3B9241E0A529406AA4BDF8FB3021E16D"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_SaleDetailsReport.rpt"
+            "TargetName" = "8:Rpt_SaleDetailsReport.rpt"
             "Tag" = "8:"
             "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
             "Condition" = "8:"
@@ -4192,26 +4266,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4CAB0A5F8E9A4340A4F4155D56F4401F"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_PopularItem.rpt"
-            "TargetName" = "8:Rpt_PopularItem.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4CC9D16EE192A2D9ED5EE896B8149C9D"
             {
             "AssemblyRegister" = "3:1"
@@ -4305,26 +4359,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_50B52C5589614A018F467B5FCEFCFCDB"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_OfferList_Combo.rpt"
-            "TargetName" = "8:Rpt_OfferList_Combo.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_524FE22EC0B9B629743031F86C6CA4F9"
             {
             "AssemblyRegister" = "3:1"
@@ -4356,10 +4390,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_52BF08FBC2C540A6B13439F7085F1E68"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_52CBD5D8CDD346AEB17695BE8F0EA28E"
             {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Purchase.rpt"
-            "TargetName" = "8:Rpt_Purchase.rpt"
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Inventory.rpt"
+            "TargetName" = "8:Rpt_Inventory.rpt"
             "Tag" = "8:"
             "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
             "Condition" = "8:"
@@ -4436,26 +4470,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_552B9974BB3640689D6D708120658601"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Annuvalreport.rpt"
-            "TargetName" = "8:Rpt_Annuvalreport.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_555CCDE70231735769CC9DC836DDB8C6"
@@ -4675,10 +4689,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5B2D291810B54B8C9EBED1F6C93E6B02"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5B93488CF3E74DD09F95FAA688E4DE1D"
             {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Purchase_Return.rpt"
-            "TargetName" = "8:Rpt_Purchase_Return.rpt"
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_MenuReport.rpt"
+            "TargetName" = "8:Rpt_MenuReport.rpt"
             "Tag" = "8:"
             "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
             "Condition" = "8:"
@@ -4724,6 +4738,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C4C40A7A6B74A0DA6DD90185D9137C4"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\CRkitchenbillnokot.rpt"
+            "TargetName" = "8:CRkitchenbillnokot.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5E07B2AFCFF5491B95A2E4BF93708F53"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Annuvalreport.rpt"
+            "TargetName" = "8:Rpt_Annuvalreport.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_60F084597AC993D42D3F04FA718064C9"
@@ -4994,26 +5048,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6F70C9BBBD0946E9B8130F8B889D7C60"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\CRkitchenbill_Pickup.rpt"
-            "TargetName" = "8:CRkitchenbill_Pickup.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_703FC8B54048400C905ECA7565EA1A3A"
             {
             "SourcePath" = "8:..\\FoodandBeverage\\BugReport\\BugReport.txt"
@@ -5220,6 +5254,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7767DD4FDCE84C72BEE283F91582C8C3"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_CashRevenueReport.rpt"
+            "TargetName" = "8:Rpt_CashRevenueReport.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_79F3AA8E0C6F9674380E95E6DD727864"
             {
             "AssemblyRegister" = "3:1"
@@ -5406,26 +5460,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_80278CFFD2F44230949357EDDB931A9D"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_OfferList.rpt"
-            "TargetName" = "8:Rpt_OfferList.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_812A21A1F245041D98979EEB6C46ECE0"
             {
             "AssemblyRegister" = "3:1"
@@ -5455,6 +5489,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_812FFE180AB7446A8FBE1093668572DE"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Complementary.rpt"
+            "TargetName" = "8:Rpt_Complementary.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8260236DAEF94767F04D6C994FCCCF2C"
@@ -5570,6 +5624,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_855870C73152452AA2B82A8DBD54AA79"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\CRcancelitems.rpt"
+            "TargetName" = "8:CRcancelitems.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_866A6DA37857E5C55699C1CF55995BEC"
             {
             "AssemblyRegister" = "3:1"
@@ -5661,26 +5735,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AA4A61FF59A48D7ABAE1D3FE9DDB0C6"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Supplier_purchasereturn.rpt"
-            "TargetName" = "8:Rpt_Supplier_purchasereturn.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8AFE025F795388B0912035CB3061677D"
@@ -5807,6 +5861,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8F6298B3DC694B428E9EAFCFD80E4B8B"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_SaleReport.rpt"
+            "TargetName" = "8:Rpt_SaleReport.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_909C7D5DC64AF96C8B0E84AC60595D0E"
             {
             "AssemblyRegister" = "3:1"
@@ -5900,26 +5974,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_91CD44E60907483CA1F5D52F4608DF9E"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_MidasCardPayment.rpt"
-            "TargetName" = "8:Rpt_MidasCardPayment.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_959FF146AAE7491BCEDE5708A4B6504C"
             {
             "AssemblyRegister" = "3:1"
@@ -5980,6 +6034,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_961DE32B3A8243BC8350D95BD8BE4F46"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\crkitchenbill.rpt"
+            "TargetName" = "8:crkitchenbill.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9656C77548A226DE42661668B056FEA4"
@@ -6188,6 +6262,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9CF0B10405214144A7710A39FDC85325"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_OfferList.rpt"
+            "TargetName" = "8:Rpt_OfferList.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9D5D1E673EEF8DE3181B1F32A65BCCC0"
             {
             "AssemblyRegister" = "3:1"
@@ -6250,6 +6344,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9DBD21DDC1FE48D284F61374EB8BA4A9"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_employeeList.rpt"
+            "TargetName" = "8:Rpt_employeeList.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9E66C1228EF16B028546B6A951C10C33"
             {
             "AssemblyRegister" = "3:1"
@@ -6288,11 +6402,6 @@
             "AssemblyAsmDisplayName" = "8:Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9E702E814BAA6558584B21B210EE2511"
-                    {
-                    "Name" = "8:Domain.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Domain.dll"
             "TargetName" = "8:"
@@ -6310,6 +6419,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9EE805540ADA462B91640FC1D7340002"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_reservation.rpt"
+            "TargetName" = "8:Rpt_reservation.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A20E7C10493959D080D2870B2DAD5632"
@@ -6341,6 +6470,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A3F60E1E36FA47CE9687DF59FE589586"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_ReOrder.rpt"
+            "TargetName" = "8:Rpt_ReOrder.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A3FCCD6C9BD8EC46C338F3A8BF89C4EA"
@@ -6622,26 +6771,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B39EC83147914969AC9C9C72E74215FC"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_employeeList.rpt"
-            "TargetName" = "8:Rpt_employeeList.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B59D9E8CE5A36B624DA095AA6845F21A"
             {
             "AssemblyRegister" = "3:1"
@@ -6702,6 +6831,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B6240D473C954F5E8663CCD2AB5FB0E1"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Voidsale.rpt"
+            "TargetName" = "8:Rpt_Voidsale.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B6E1C8C6A9A4EFCAA49092E810A2C61C"
@@ -6826,26 +6975,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B81BE9E852344AFCB7C1F37CB1A3CC15"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_reservation.rpt"
-            "TargetName" = "8:Rpt_reservation.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B8D5758B995BD4B5AE62B1087027F5C7"
@@ -7158,10 +7287,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C5DFBA351DD1483DB9803F7E25B4DFB7"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C6BDD7EF7D724FB5ABEEBCF839515B6D"
             {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_ReOrder.rpt"
-            "TargetName" = "8:Rpt_ReOrder.rpt"
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_MidasCardPayment.rpt"
+            "TargetName" = "8:Rpt_MidasCardPayment.rpt"
             "Tag" = "8:"
             "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
             "Condition" = "8:"
@@ -7238,6 +7367,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C79B73F3CF7D4DA8BACBC68F19E27523"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Solwmovingitem.rpt"
+            "TargetName" = "8:Rpt_Solwmovingitem.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C80E4B8B983C2365EC51A53171C4B674"
@@ -7426,10 +7575,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CE285C5D633D4F80A65C55BE7F2DFFB7"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CBF5AEF1CDEE4BCE82E2C03FD1A02538"
             {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_reservation_details.rpt"
-            "TargetName" = "8:Rpt_reservation_details.rpt"
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Purchase_Return.rpt"
+            "TargetName" = "8:Rpt_Purchase_Return.rpt"
             "Tag" = "8:"
             "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
             "Condition" = "8:"
@@ -7632,6 +7781,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D718B46CF5064DA39077EFC1F130B08E"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\CRkitchenbill_Pickup.rpt"
+            "TargetName" = "8:CRkitchenbill_Pickup.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D75C3DB27445B0A586491B169DD3DE02"
             {
             "AssemblyRegister" = "3:1"
@@ -7661,6 +7830,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D9809549145C4B6E9B6D94F203D7F1C3"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_reservation_details.rpt"
+            "TargetName" = "8:Rpt_reservation_details.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D99AC1AB8FF208824E597E8AF06D23B2"
@@ -7725,6 +7914,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DABC43EB93D74DB4939DF324A40F9F2E"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_PopularItem.rpt"
+            "TargetName" = "8:Rpt_PopularItem.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DBA3E899C328E8D7A470276475A7AAC7"
             {
             "AssemblyRegister" = "3:1"
@@ -7785,26 +7994,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DCDAB43EFCDE46AC9FEFF9669DB26C2E"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\crkitchenbill.rpt"
-            "TargetName" = "8:crkitchenbill.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DD77F106F0153A217B7927DA9DA3CA04"
@@ -7991,6 +8180,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E630B3605199465DB5990FC01F081C9B"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_TableOccupancyReport.rpt"
+            "TargetName" = "8:Rpt_TableOccupancyReport.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E69EA5A44CFEB075CA396FC4EC77E1DD"
@@ -8241,6 +8450,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EE087F675CA24D11B90978370776686D"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_Supplier_purchasereturn.rpt"
+            "TargetName" = "8:Rpt_Supplier_purchasereturn.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EE7F2685E99F382DB04939C39F946550"
             {
             "AssemblyRegister" = "3:1"
@@ -8303,46 +8532,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F29C13ECC33B43F899060EBCFC5B1C70"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\CRCancelPrint.rpt"
-            "TargetName" = "8:CRCancelPrint.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F33BDA37C7DD4E36B3997E52EDD584FF"
-            {
-            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_SaleDetailsReport.rpt"
-            "TargetName" = "8:Rpt_SaleDetailsReport.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F3DBEB74DB641B2A4133F077E833806E"
             {
             "AssemblyRegister" = "3:1"
@@ -8381,11 +8570,6 @@
             "AssemblyAsmDisplayName" = "8:BLL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F430D7171F40CA2BB6B71FB29FC01B23"
-                    {
-                    "Name" = "8:BLL.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:BLL.dll"
             "TargetName" = "8:"
@@ -8443,11 +8627,6 @@
             "AssemblyAsmDisplayName" = "8:DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F5A7CFC0FD177A240AA812A2DAE08F1B"
-                    {
-                    "Name" = "8:DAL.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:DAL.dll"
             "TargetName" = "8:"
@@ -8518,6 +8697,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FA992BCD617A4E7C86AD8524258E5D9A"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Report\\Rpt_OfferList_Combo.rpt"
+            "TargetName" = "8:Rpt_OfferList_Combo.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E10CF4DDEE04229A72B14A7E7E50365"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FAF71EBFC30E0CA7D58F439ADCCF0663"
             {
             "AssemblyRegister" = "3:1"
@@ -8578,6 +8777,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FBD2949EC40D4FD2B82BB427949B9118"
+            {
+            "SourcePath" = "8:..\\FoodandBeverage\\Forms\\KitchenBill\\CRCancelPrint.rpt"
+            "TargetName" = "8:CRCancelPrint.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_5B2DF9259B534B47BD7F13BDAA7634CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FCC00EF75F5780DC04FAF993FDD6D62B"
@@ -8785,7 +9004,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Midasfun FoodBeverage Setup"
         "ProductCode" = "8:{7395D94D-250C-4CA2-AC30-E6DBF44A6AB0}"
-        "PackageCode" = "8:{7636E931-0EA4-4774-AEF3-34F8DEE639C1}"
+        "PackageCode" = "8:{884B7C80-3988-4562-B7EC-D2D3EB6A57DD}"
         "UpgradeCode" = "8:{96E9E708-BC35-40FC-A20C-18944D6B75BC}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -8802,7 +9021,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Midasfun Food and Beverage"
         "ARPURLINFOABOUT" = "8:https://www.ayjsoft.com/"
-        "ARPPRODUCTICON" = "8:_97377C051E924846BCA450E66A8EA460"
+        "ARPPRODUCTICON" = "8:_316D321D367F41B28671B4B32298FA62"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -8916,7 +9135,7 @@
             "Target" = "8:_F85C65207A2B4AA8BD5D5FBFBF59B931"
             "Folder" = "8:_DDB79D645C6E4EA18F241E21B27E5F47"
             "WorkingFolder" = "8:_6DC3E408C8B8469A9A2C6C747F81A9FD"
-            "Icon" = "8:_97377C051E924846BCA450E66A8EA460"
+            "Icon" = "8:_316D321D367F41B28671B4B32298FA62"
             "Feature" = "8:"
             }
         }
