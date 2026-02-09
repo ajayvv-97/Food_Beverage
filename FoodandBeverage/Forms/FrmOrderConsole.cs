@@ -7565,7 +7565,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         if (Convert.ToInt32(gridSourcemaster[i].Quantity) != null && Convert.ToInt32(gridSourcemaster[i].Quantity) > 0 && Convert.ToInt32(gridSourcemaster[i].Status) == 3)
                             sum = sum + Convert.ToInt32(gridSourcemaster[i].Quantity);
                     }
-                    finalqty = Convert.ToInt32(txttotalQTY.Text) + sum;
+                    //finalqty = Convert.ToInt32(txttotalQTY.Text) + sum;
+                    finalqty =  sum;
                 }
                 else
                 {
