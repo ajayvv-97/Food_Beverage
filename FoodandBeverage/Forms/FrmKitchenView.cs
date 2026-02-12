@@ -227,7 +227,7 @@ namespace FoodandBeverage.Forms
                 int rowCountDisplay = 0;
                 foreach (var orders in distinctOrders)
                 {
-                    if (rowCountDisplay >= KitchenDisplayCount) break;
+                    //if (rowCountDisplay >= KitchenDisplayCount) break;
 
                     BllkitchenDataDetails<Dmnkitchendetails> KtDetails = new BllkitchenDataDetails<Dmnkitchendetails>();
                     Dmnkitchendetails dmnSearchtabledata = new Dmnkitchendetails();
@@ -1832,21 +1832,27 @@ namespace FoodandBeverage.Forms
                     DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
                     BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
                     DmnSearch dmnSearchDetails = new DmnSearch();
-                    dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType,'' offeritemname, 0 offerqty, od.PrId PrId, ko.Kitchennumber,od.VariatiionName VariatiionName,'' as Station,e.EmployeeName" +
+                    dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType,'' offeritemname, 0 offerqty, od.PrId PrId, ko.Kitchennumber,od.VariatiionName VariatiionName,'' as Station,e.EmployeeName," +
                         "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + ordermid + " and OrderNo=" + orderno + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,'' as Station,e.EmployeeName,(" +
                         " 'PAX : ' + CAST(om.TotalGuestCount AS VARCHAR) + " +
                         " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
                         " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
                         " ' O:' + CAST(om.OtherGuestCount AS VARCHAR) + ')'" +
-                        ") AS GuestDetails,ko.PriorityType "+
+                        ") AS GuestDetails,ko.PriorityType " +
 
                     " from tblkitchenOrder ko " +
                         " Left Join tblOrderDetails od on od.OrderDetailsId=ko.OrderDetailsId " +
                         " Left Join tblOrderMaster om on om.OrderMasterId=ko.OrderMasterId " +
                         " Left Join tblTable_info ti on ti.Tid=ko.Tid " +
-                        " Left Join tblEmployee e  on e.EmployeeId = om.CreatedBy "+
+                        " Left Join tblEmployee e  on e.EmployeeId = om.CreatedBy " +
                     " where om.status=1 and ko.OrderMasterId=" + ordermid + " and ko.OrderNo=" + orderno + " and od.TableType!=" + Convert.ToInt32(Tabletype.ComboProduct) + " and ko.status in(1,2)" +
-                    " union select od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName,'' as Station,e.EmployeeName";
+                    " union select od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName,'' as Station,e.EmployeeName," +
+                         "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + ordermid + " and OrderNo=" + orderno + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,'' as Station,e.EmployeeName,(" +
+                        " 'PAX : ' + CAST(om.TotalGuestCount AS VARCHAR) + " +
+                        " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
+                        " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
+                        " ' O:' + CAST(om.OtherGuestCount AS VARCHAR) + ')'" +
+                        ") AS GuestDetails,ko.PriorityType ";
                     dmnSearchDetails.Table = " tblkitchenOrder ko" +
                                             " Left Join tblOrderDetails od on od.OrderDetailsId = ko.OrderDetailsId" +
                                             " Left Join tblOrderMaster om on om.OrderMasterId = ko.OrderMasterId" +
@@ -1940,8 +1946,20 @@ namespace FoodandBeverage.Forms
 
                         //MessageBox.Show(RPTPath + "crkitchenbill.rpt.rpt" + 2);
                         //textBox2.Text = RPTPath + "CRkitchenbill_Pickup.rpt";
-                        reportDocument.Load(RPTPath + "crkitchenbill.rpt");
+                        string reportPath = "";
+                        if (Convert.ToInt32(BillDetails[0].Pkid) > 0)
+                            reportPath = RPTPath + "CRkitchenbill_Pickup.rpt";
+                        else
+                            reportPath = RPTPath + "crkitchenbill.rpt";
+
+                        if (!File.Exists(reportPath))
+                        {
+                            throw new FileNotFoundException("Report file not found.", reportPath);
+                        }
+                        reportDocument.Load(reportPath);
+
                         reportDocument.SetDataSource(dsReport);
+
                         if (this.IsHandleCreated)
                         {
                             this.Invoke(new Action(() =>
@@ -3356,8 +3374,8 @@ namespace FoodandBeverage.Forms
                             }
                             else
                             {
-                                if (rowCountDisplay >= KitchenDisplayCount)
-                                    break;
+                                //if (rowCountDisplay >= KitchenDisplayCount)
+                                //    break;
 
                                 flp_order_view.SuspendLayout();
                                 refreshtimer.Stop();
