@@ -7123,7 +7123,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         ItemName = itemName,
                         Quantity = Convert.ToDecimal(row.Cells[iqty].Value),
                         Notes = "",
-                        Description = "",
+                        Description = txtentrie_descr.Text,
                         TableCode = "",
                         OrderMasterId = Convert.ToInt32(txtsalemasterid.Text),
                         TableType = Convert.ToInt32(row.Cells[itabletype].Value),
