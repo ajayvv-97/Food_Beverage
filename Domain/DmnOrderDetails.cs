@@ -71,7 +71,8 @@ namespace Domain
         public int orderpriority { get; set; } = 1;   // 1 = Normal
         public int ReprintStatus { get; set; } = 0;   // 0 = Normal print
 
-
+        public int PreparationMode { get; set; }
     }
+    
 
 }

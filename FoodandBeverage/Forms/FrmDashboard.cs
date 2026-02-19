@@ -51,7 +51,7 @@ namespace FoodandBeverage.Forms
 
         public string Drawersystemname;
         private Dictionary<Button, Font> _originalFonts = new Dictionary<Button, Font>();
-
+      
 
         public FrmDashboard()
         {
@@ -63,7 +63,7 @@ namespace FoodandBeverage.Forms
 
             Instance = this;
 
-            UserId = Convert.ToInt32(FrmLogin.UserId);
+            UserId = Convert.ToInt32(FrmLogin.EmployeeId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
         }
@@ -149,8 +149,6 @@ namespace FoodandBeverage.Forms
 
         public static int DefaultTaxsettingid = 0;
         public static string DefaultTaxType = "";
-
-        private FrmOrder _instanceFrmTableView;
 
         public static bool EnableFamilyCardInPayment = false;
         public static bool EnableGroupCardInPayment = false;
@@ -6022,12 +6020,201 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void label45_Click(object sender, EventArgs e)
+
+
+        private void ib_tmpanel_Click(object sender, EventArgs e)
         {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                if (System.Windows.Forms.Application.OpenForms["FrmTMpanel"] != null)
+                {
+                    FrmTMpanel _instanceFrmTM = Application.OpenForms["FrmTMpanel"] as FrmTMpanel;
+
+                    if (_instanceFrmTM.WindowState == FormWindowState.Minimized)
+                        _instanceFrmTM.WindowState = FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmTM.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmTM);
+                        panelDesktop.Controls.Add(_instanceFrmTM);
+                        _instanceFrmTM.Show();
+                        _instanceFrmTM.BringToFront();
+                    }
+                }
+                else
+                {
+                    using (FrmTMpanel _instanceFrmTM = new FrmTMpanel())
+                    {
+                        _instanceFrmTM.ShowDialog();
+                        _instanceFrmTM.BringToFront();
+                        _instanceFrmTM.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+
+                    //FrmTMpanel _instanceFrmTM = new FrmTMpanel();
+                    //ResizeForm(_instanceFrmTM);
+                    //_instanceFrmTM.TopLevel = false;
+                    //panelDesktop.Controls.Add(_instanceFrmTM);
+                    //_instanceFrmTM.Show();
+                    //_instanceFrmTM.WindowState = FormWindowState.Maximized;
+                    //_instanceFrmTM.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Homepage ib_tmpanel_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
 
         }
 
-        
+        private void ibpartypack_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                if (Application.OpenForms["FrmPartyPackSetup"] != null)
+                {
+                    FrmPartyPackSetup frm = Application.OpenForms["FrmPartyPackSetup"] as FrmPartyPackSetup;
+
+                    if (frm.WindowState == FormWindowState.Minimized)
+                    {
+                        frm.WindowState = FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        frm.Dock = DockStyle.None;
+                        ResizeForm(frm);
+                        panelDesktop.Controls.Add(frm);
+                        frm.Show();
+                        frm.BringToFront();
+                    }
+                }
+                else
+                {
+                    FrmPartyPackSetup frm = new FrmPartyPackSetup();
+                    ResizeForm(frm);
+                    frm.TopLevel = false;
+                    panelDesktop.Controls.Add(frm);
+                    frm.Show();
+                    frm.WindowState = FormWindowState.Maximized;
+                    frm.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ibpartypack_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage)
+                );
+            }
+        }
+
+
+        private void ibfoodpremapping_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                var frm = Application.OpenForms.OfType<FrmProductionMapping>().FirstOrDefault();
+
+                if (frm != null)
+                {
+                    if (frm.WindowState == FormWindowState.Minimized)
+                    {
+                        frm.WindowState = FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        frm.Dock = DockStyle.None;
+                        ResizeForm(frm);
+                        panelDesktop.Controls.Add(frm);
+                        frm.Show();
+                        frm.BringToFront();
+                    }
+                }
+                else
+                {
+                    FrmProductionMapping newFrm = new FrmProductionMapping();
+                    ResizeForm(newFrm);
+                    newFrm.TopLevel = false;
+                    panelDesktop.Controls.Add(newFrm);
+                    newFrm.Show();
+                    newFrm.WindowState = FormWindowState.Maximized;
+                    newFrm.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ibfoodpremapping_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage)
+                );
+            }
+        }
+
+        private void ibpartybooking_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                // ✅ Check if already opened
+                if (Application.OpenForms["FrmPartyBooking"] != null)
+                {
+                    FrmPartyBooking frm = Application.OpenForms["FrmPartyBooking"] as FrmPartyBooking;
+
+                    if (frm.WindowState == FormWindowState.Minimized)
+                    {
+                        frm.WindowState = FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        frm.Dock = DockStyle.None;
+                        ResizeForm(frm);
+                        panelDesktop.Controls.Add(frm);
+                        frm.Show();
+                        frm.BringToFront();
+                    }
+                }
+                else
+                {
+                    using (FrmPartyBooking _instanceFrmpb = new FrmPartyBooking())
+                    {
+                        _instanceFrmpb.ShowDialog();
+                        _instanceFrmpb.BringToFront();
+                        _instanceFrmpb.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+
+                    //// ✅ Create new instance (NO using)
+                    //FrmPartyBooking frm = new FrmPartyBooking();
+                    //ResizeForm(frm);
+                    //frm.TopLevel = false;
+                    //panelDesktop.Controls.Add(frm);
+                    //frm.Show();
+                    //frm.WindowState = FormWindowState.Maximized;
+                    //frm.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ibpartybooking_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage)
+                );
+            }
+        }
 
 
         #endregion

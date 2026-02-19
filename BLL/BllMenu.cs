@@ -44,6 +44,20 @@ namespace BLL
             var lstData = repo.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnMenu UpdatePreparationMode(string procedureName, DmnMenu obj)
+        {
+            DAL.DapperRepository<DmnMenu> repo = new DAL.DapperRepository<DmnMenu>();
+
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("ProductId", obj.ProductId);
+            parms.Add("PreparationMode", obj.PreparationMode);
+
+            var result = repo.AddandReturnID(procedureName, parms);
+
+            return result;
+        }
+
+
 
     }
 }

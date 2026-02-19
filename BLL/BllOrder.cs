@@ -137,6 +137,8 @@ namespace BLL
             parms.Add("orderpriority", objTestClass.orderpriority);
             parms.Add("ReprintStatus", objTestClass.ReprintStatus);
 
+            parms.Add("PreparationMode", objTestClass.PreparationMode);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

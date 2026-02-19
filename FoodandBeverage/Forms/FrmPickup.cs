@@ -1135,15 +1135,15 @@ namespace FoodandBeverage.Forms
                 {
                     if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
                     {
-                        FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
-                        if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                        {
-                            _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                        }
-                        else
-                        {
-                            _instanceFrmOrder.ShowDialog();
-                        }
+                        //FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
+                        //if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
+                        //{
+                        //    _instanceFrmOrder.WindowState = FormWindowState.Maximized;
+                        //}
+                        //else
+                        //{
+                        //    _instanceFrmOrder.ShowDialog();
+                        //}
                     }
                     else
                     {
@@ -1173,7 +1173,7 @@ namespace FoodandBeverage.Forms
                 Control clickedControl = sender as Control;
                 if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
                 {
-                    FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
+                    FrmOrderConsole _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
                     if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
                     {
                         _instanceFrmOrder.WindowState = FormWindowState.Maximized;

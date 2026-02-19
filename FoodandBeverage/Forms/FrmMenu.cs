@@ -342,12 +342,12 @@ namespace FoodandBeverage.Forms
                                 dgv_menu.Rows[i].Cells[pqtyno].Value = itemSource[i].Field8;
                                 dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field9;
 
-                                if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field9 != null)
-                                    dgv_menu.Rows[i].Cells[proptypename].Value = "Requires cooking";
-                                else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field9 != null)
+                                if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.kitchen) && itemSource[i].Field9 != null)
+                                    dgv_menu.Rows[i].Cells[proptypename].Value = "Kitchen";
+                                else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.Counter) && itemSource[i].Field9 != null)
                                 {
                                     //dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
-                                    dgv_menu.Rows[i].Cells[proptypename].Value = "Freshly Cooked";
+                                    dgv_menu.Rows[i].Cells[proptypename].Value = "Counter";
                                 }
 
                                  currentStatus = Convert.ToInt32(itemSource[i].Field6) == 1;
@@ -1840,11 +1840,11 @@ namespace FoodandBeverage.Forms
                                      ? (decimal)0
                                      : Convert.ToDecimal(itemSource[i].Field10);
 
-                            if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field9 != null)
-                                dgv_menu.Rows[i].Cells[proptypename].Value = "Requires cooking";
-                            else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field9 != null)
+                            if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.kitchen) && itemSource[i].Field9 != null)
+                                dgv_menu.Rows[i].Cells[proptypename].Value = "kitchen";
+                            else if (Convert.ToInt32(itemSource[i].Field9) == Convert.ToInt32(PreparationType.Counter) && itemSource[i].Field9 != null)
                             {
-                                dgv_menu.Rows[i].Cells[proptypename].Value = "Freshly Cooked";
+                                dgv_menu.Rows[i].Cells[proptypename].Value = "Counter";
                                 //dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
                             }
                         }
@@ -1998,11 +1998,11 @@ namespace FoodandBeverage.Forms
                             chk_selectall.Visible = true;
                             dgv_menu.Rows[rowno].Cells[proptype].Value = itemSource[0].Field9;
 
-                            if (Convert.ToInt32(itemSource[0].Field9) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[0].Field9 != null)
-                                dgv_menu.Rows[rowno].Cells[proptypename].Value = "Requires cooking";
-                            else if (Convert.ToInt32(itemSource[0].Field9) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[0].Field9 != null)
+                            if (Convert.ToInt32(itemSource[0].Field9) == Convert.ToInt32(PreparationType.kitchen) && itemSource[0].Field9 != null)
+                                dgv_menu.Rows[rowno].Cells[proptypename].Value = "kitchen";
+                            else if (Convert.ToInt32(itemSource[0].Field9) == Convert.ToInt32(PreparationType.Counter) && itemSource[0].Field9 != null)
                             {
-                                dgv_menu.Rows[rowno].Cells[proptypename].Value = "Freshly Cooked";
+                                dgv_menu.Rows[rowno].Cells[proptypename].Value = "Counter";
                                 //dgv_menu.Rows[rowno].Cells[pqtyno].ReadOnly = true;
                             }
                         }
@@ -2155,12 +2155,12 @@ namespace FoodandBeverage.Forms
                             dgv_menu.Rows[i].Cells[pdefstock].Value = itemSource[i].Field10 == null ? (decimal)0 : Convert.ToDecimal(itemSource[i].Field10);
 
                             dgv_menu.Rows[i].Cells[proptype].Value = itemSource[i].Field8;
-                            if (Convert.ToInt32(itemSource[i].Field8) == Convert.ToInt32(PreparationType.ReadyFood) && itemSource[i].Field8 != null)
-                                dgv_menu.Rows[i].Cells[proptypename].Value = "Requires cooking";
-                            else if (Convert.ToInt32(itemSource[i].Field8) == Convert.ToInt32(PreparationType.FreshCooked) && itemSource[i].Field8 != null)
+                            if (Convert.ToInt32(itemSource[i].Field8) == Convert.ToInt32(PreparationType.kitchen) && itemSource[i].Field8 != null)
+                                dgv_menu.Rows[i].Cells[proptypename].Value = "Kitchen";
+                            else if (Convert.ToInt32(itemSource[i].Field8) == Convert.ToInt32(PreparationType.Counter) && itemSource[i].Field8 != null)
                             {
                                 //dgv_menu.Rows[i].Cells[pqtyno].ReadOnly = true;
-                                dgv_menu.Rows[i].Cells[proptypename].Value = "Freshly Cooked";
+                                dgv_menu.Rows[i].Cells[proptypename].Value = "Counter";
                             }
 
                             chk_selectall.Visible = true;

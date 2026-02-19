@@ -128,6 +128,9 @@ namespace FoodandBeverage.Classes
             CloseIfOpen<FrmUserPermission>();
             CloseIfOpen<FrmVendor>();
             CloseIfOpen<Frmvoidsale>();
+            CloseIfOpen<FrmTMpanel>();
+            CloseIfOpen<FrmPartyPackSetup>();
+            CloseIfOpen<FrmProductionMapping>();
         }
         #endregion
 

@@ -114,9 +114,9 @@ namespace FoodandBeverage.Forms
                     dmnproduct.BranchId = FrmDashboard.BranchId;
 
                     if(Convert.ToInt32(cmbpre_type.SelectedIndex)==0)
-                        dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.ReadyFood);
+                        dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.kitchen);
                     else
-                        dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.FreshCooked);
+                        dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.Counter);
 
                     if (chb_active.Checked)
                         dmnproduct.Status = 1;
@@ -853,7 +853,7 @@ namespace FoodandBeverage.Forms
 
                     }
 
-                    if (Convert.ToInt32(gridSource[0].PreparationMode)== Convert.ToInt32(PreparationType.ReadyFood))
+                    if (Convert.ToInt32(gridSource[0].PreparationMode)== Convert.ToInt32(PreparationType.kitchen))
                         cmbpre_type.SelectedIndex = 0;
                     else
                         cmbpre_type.SelectedIndex = 1;
@@ -1259,6 +1259,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Product page cmbIgstPrcnt_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
         }
+
         private void txtDisPer_Leave(object sender, EventArgs e)
         {
             try

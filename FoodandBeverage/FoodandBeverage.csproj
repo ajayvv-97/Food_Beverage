@@ -402,12 +402,6 @@
     <Compile Include="Forms\FrmLogin.Designer.cs">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmloginTablet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmloginTablet.Designer.cs">
-      <DependentUpon>FrmloginTablet.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FrmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -420,23 +414,11 @@
     <Compile Include="Forms\FrmOfferDiscount.Designer.cs">
       <DependentUpon>FrmOfferDiscount.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmOrder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmOrder.Designer.cs">
-      <DependentUpon>FrmOrder.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FrmOrderConsole.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FrmOrderConsole.Designer.cs">
       <DependentUpon>FrmOrderConsole.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\FrmOrderConsoleTabletmode.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmOrderConsoleTabletmode.Designer.cs">
-      <DependentUpon>FrmOrderConsoleTabletmode.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmOrderView.cs">
       <SubType>Form</SubType>
@@ -444,11 +426,23 @@
     <Compile Include="Forms\FrmOrderView.Designer.cs">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmPartyPackSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPartyPackSetup.Designer.cs">
+      <DependentUpon>FrmPartyPackSetup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPickup.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FrmPickup.Designer.cs">
       <DependentUpon>FrmPickup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmProductionMapping.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmProductionMapping.Designer.cs">
+      <DependentUpon>FrmProductionMapping.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmPromo.cs">
       <SubType>Form</SubType>
@@ -498,12 +492,6 @@
     <Compile Include="Forms\FrmTableInfo.Designer.cs">
       <DependentUpon>FrmTableInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmTableTabletView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmTableTabletView.Designer.cs">
-      <DependentUpon>FrmTableTabletView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FrmTableView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -515,6 +503,12 @@
     </Compile>
     <Compile Include="Forms\FrmTaxSetting.Designer.cs">
       <DependentUpon>FrmTaxSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmTMpanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmTMpanel.Designer.cs">
+      <DependentUpon>FrmTMpanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmUnit.cs">
       <SubType>Form</SubType>
@@ -641,6 +635,12 @@
     </Compile>
     <Compile Include="Forms\UserControls\FrmSearch.Designer.cs">
       <DependentUpon>FrmSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPartyBooking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPartyBooking.Designer.cs">
+      <DependentUpon>FrmPartyBooking.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Interfaces.cs" />
     <Compile Include="Program.cs" />
@@ -903,9 +903,6 @@
     <EmbeddedResource Include="Forms\FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmloginTablet.resx">
-      <DependentUpon>FrmloginTablet.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMenu.resx">
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -913,20 +910,20 @@
       <DependentUpon>FrmOfferDiscount.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmOrder.resx">
-      <DependentUpon>FrmOrder.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmOrderConsole.resx">
       <DependentUpon>FrmOrderConsole.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmOrderConsoleTabletmode.resx">
-      <DependentUpon>FrmOrderConsoleTabletmode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmOrderView.resx">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPartyPackSetup.resx">
+      <DependentUpon>FrmPartyPackSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPickup.resx">
       <DependentUpon>FrmPickup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmProductionMapping.resx">
+      <DependentUpon>FrmProductionMapping.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPromo.resx">
       <DependentUpon>FrmPromo.cs</DependentUpon>
@@ -954,14 +951,14 @@
       <DependentUpon>FrmTableInfo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmTableTabletView.resx">
-      <DependentUpon>FrmTableTabletView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTableView.resx">
       <DependentUpon>FrmTableView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTaxSetting.resx">
       <DependentUpon>FrmTaxSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmTMpanel.resx">
+      <DependentUpon>FrmTMpanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmUnit.resx">
       <DependentUpon>FrmUnit.cs</DependentUpon>
@@ -1027,6 +1024,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\FrmSearch.resx">
       <DependentUpon>FrmSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPartyBooking.resx">
+      <DependentUpon>FrmPartyBooking.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1979,6 +1979,7 @@
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
     <Content Include="fbicon.ico" />
+    <None Include="Resources\Nocharge.png" />
     <None Include="Resources\blank.png" />
     <None Include="Resources\blank_1.png" />
     <None Include="Resources\N_CANCEL ORDERBtn.png" />

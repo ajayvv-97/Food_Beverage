@@ -1018,16 +1018,16 @@ namespace FoodandBeverage.Forms
                     {
                         if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
                         {
-                            FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
-                            if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                            {
-                                _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                            }
-                            else
-                            {
-                                _instanceFrmOrder.ShowDialog();
-                                _instanceFrmOrder.BringToFront();
-                            }
+                            ////FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
+                            //if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
+                            //{
+                            //    _instanceFrmOrder.WindowState = FormWindowState.Maximized;
+                            //}
+                            //else
+                            //{
+                            //    _instanceFrmOrder.ShowDialog();
+                            //    _instanceFrmOrder.BringToFront();
+                            //}
                         }
                         else
                         {
@@ -1390,6 +1390,9 @@ namespace FoodandBeverage.Forms
                                 break;
                             case 10:
                                 dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "COMPLEMENTRY";
+                                break;
+                            case 14:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "NO CHARGE";
                                 break;
                         }
 

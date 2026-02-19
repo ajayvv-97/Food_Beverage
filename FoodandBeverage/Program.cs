@@ -44,7 +44,7 @@ namespace FoodandBeverage
                     }
                     else
                     {
-                        Application.Run(new Forms.FrmloginTablet());
+                        //Application.Run(new Forms.FrmloginTablet());
                     }
                 }
                 else

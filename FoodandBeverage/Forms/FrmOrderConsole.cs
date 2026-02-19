@@ -163,6 +163,7 @@ namespace FoodandBeverage.Forms
         public int icombotaxamt = 47;
         
 
+        
 
         public int Cbarcode = 0;
         public int vname = 1;
@@ -6982,7 +6983,9 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     dmnorderdetail.OrderPlatformdetails = 1;
 
                                     dmnorderdetail.orderpriority = cmb_proritytype.SelectedIndex >= 0 ? cmb_proritytype.SelectedIndex + 1 : 1;
-                                    dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0; 
+                                    dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0;
+
+                                    dmnorderdetail.PreparationMode =Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value);
 
                                     dmnorderdetail.PkId = GBL_pkid;
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
@@ -6993,6 +6996,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                         break;
                                     }
                                 }
+                                PrintOrderNokot(Convert.ToInt32(KOTbilltype.Tableorder));
                             }
 
                         }
@@ -7070,7 +7074,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                 
             }
         }
-        private void PrintOrderNokot()
+        private void PrintOrderNokot(int btype)
         {
             ReportDocument reportDocument = new ReportDocument();
 
@@ -7100,10 +7104,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                 for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                 {
+                    
                     DataGridViewRow row = Dgv_Selected_Item.Rows[i];
                     if (row.IsNewRow) continue;
 
+                    if (Convert.ToInt32( row.Cells[iPreparationModeno].Value) == Convert.ToInt32(PreparationType.kitchen)) continue;
+
                     if (row.Cells[iqty].Value == null) continue;
+
                     if (Convert.ToDecimal(row.Cells[iqty].Value) <= 0) continue;
                     if (Convert.ToInt32(row.Cells[istatusno].Value) == 0) continue;
 
@@ -7124,7 +7132,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         Quantity = Convert.ToDecimal(row.Cells[iqty].Value),
                         Notes = "",
                         Description = txtentrie_descr.Text,
-                        TableCode = "",
+                        TableCode = lbltablecode.Text,
                         OrderMasterId = Convert.ToInt32(txtsalemasterid.Text),
                         TableType = Convert.ToInt32(row.Cells[itabletype].Value),
                         AddonStatus = Convert.ToInt32(row.Cells[ivaraiationstatusno].Value),
@@ -7133,12 +7141,14 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         Kitchennumber = "",
                         MainCategory = mainCategory,
                         TotalQTY = totalQty,
-                        Pkid = CounterKotNo,
+                        Pkid = 0,
                         EmployeeName = FrmLogin.EmployeName,
                         Station = "",
-                        GuestDetails = "",
-                        Orderno = 0,
-                        PriorityType = 1
+                        GuestDetails = " 'PAX : ( A :" + txtadults.Text+" C:" + txtchild.Text+" O:" + txtother.Text+ " )",
+                        Orderno = ResetFlagvalue,
+                        PriorityType = 1,
+                        CounterKotNo = CounterKotNo,
+                        Billtype = btype,
                     });
                 }
 
@@ -7168,7 +7178,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         "TableType", "AddonStatus", "MainCategoryCount",
                         "offeritemname", "offerqty", "Kitchennumber",
                         "TotalQTY", "Pkid", "EmployeeName", "Station",
-                        "GuestDetails", "Orderno", "PriorityType"))
+                        "GuestDetails", "Orderno", "PriorityType", "CounterKotNo", "Billtype"))
                     {
                         dtSalesDetail.Load(reader);
                     }
@@ -7225,6 +7235,10 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
             public string GuestDetails { get; set; }
             public int Orderno { get; set; }
             public int PriorityType { get; set; }
+            public int CounterKotNo { get; set; }
+            public int Billtype { get; set; }
+
+
         }
         private void btn_refresh_Click(object sender, EventArgs e)
         {
@@ -7351,6 +7365,9 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         break;
                     case "btncomple":
                         payid = Convert.ToInt32(PaymentType.COMPLEMENTRY);
+                        break;
+                    case "btnnocharge":
+                        payid = Convert.ToInt32(PaymentType.Nocharge);
                         break;
                     case "btn_other":
                         pnlPaymode.Visible = false;
@@ -8000,7 +8017,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         }
                         #endregion
 
-                        PrintOrderNokot();
+                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder));
                     }
                     #endregion
 
@@ -8436,6 +8453,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                                         for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                                         {
+                                            #region Booking
                                             if (Booking_Status)
                                             {
                                                 if (Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != null && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) > 0)
@@ -8513,6 +8531,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                                                 }
                                             }
+                                            #endregion
+
                                             else
                                             {
                                                 if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null && Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) > 0 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[isubofferstatus].Value) == Convert.ToInt32(SubofferStatus.None) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
@@ -8590,6 +8610,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                                                     dmnorderdetail.orderpriority = cmb_proritytype.SelectedIndex >= 0 ? cmb_proritytype.SelectedIndex + 1 : 1;
                                                     dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0;
+
+                                                    dmnorderdetail.PreparationMode = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value);
 
                                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                                     if (InsertStatus == null)
@@ -9022,6 +9044,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     }
                                     #endregion
                                     #endregion
+
                                     if (gridSourcemaster.Count > 0)
                                     {
                                         for (int i = 0; i < gridSourcemaster.Count; i++)

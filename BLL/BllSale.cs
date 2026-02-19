@@ -200,5 +200,27 @@ namespace BLL
 
 
         }
+
+        public DmnPaymentAdjustments AddEditData_SalesMaster_paymentadj(string procedureName, DmnPaymentAdjustments objTestClass)
+        {
+            DAL.DapperRepository<DmnPaymentAdjustments> dapperRepository = new DAL.DapperRepository<DmnPaymentAdjustments>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("CardSalesMasterId", objTestClass.CardSalesMasterId);
+            parms.Add("EntryNo", objTestClass.EntryNo);
+            parms.Add("EntryDate", objTestClass.EntryDate);
+            parms.Add("Remark", objTestClass.Remark);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("SuperadminId", objTestClass.SuperadminId);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("PayId", objTestClass.PayId);
+            parms.Add("SaleType", objTestClass.SaleType);
+            parms.Add("mDeviceIP", objTestClass.mDeviceIP);
+            parms.Add("SaleEmpid", objTestClass.SaleEmpid);
+            parms.Add("Frompayid", objTestClass.Frompayid);           
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
     }
 }
+

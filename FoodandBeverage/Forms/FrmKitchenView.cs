@@ -182,6 +182,7 @@ namespace FoodandBeverage.Forms
             {
                 GC.Collect();
                 SetEmptyIcon();
+                //+ " and p.PreparationMode ="+ Convert.ToInt32(PreparationType.kitchen);
 
                 txt_product_remove_des.Text = "Reason type here .....";
 
@@ -1237,9 +1238,9 @@ namespace FoodandBeverage.Forms
                         "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
                         "Left Join tblTable_info  ti on ti.Tid=ko.Tid" +
                         " Left Join tblOfferMaster ofm  on od.ItemId = ofm.Omid and od.TableType = 3" +
-                        " Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid"+
+                        " Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid" +
                         " Left Join tblEmployee e  on e.EmployeeId = om.CreatedBy";
-                    dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2 + "";
+                    dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;// " and p.PreparationMode ="+ Convert.ToInt32(PreparationType.kitchen);
                     dmnSearchDetails.OrderBy = "order by od.AddonStatus ";
 
                     var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);

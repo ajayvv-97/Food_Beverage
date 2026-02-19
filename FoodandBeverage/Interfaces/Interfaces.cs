@@ -68,7 +68,8 @@ namespace FoodandBeverage.Interfaces
         COMPLEMENTRY = 10,
         MidasCard = 11,
         SPLIT = 12,
-        PART = 13
+        PART = 13,
+        Nocharge=14
     };
     public enum Reservation
     {
@@ -284,6 +285,10 @@ namespace FoodandBeverage.Interfaces
         Drawer = 37,
         TabletTableView = 38,
         Voidsale = 39,
+        transactionManagerPanel = 40,
+        Partypacksetup=41,
+        FoodPreparationMapping=42,
+        Partybooking=43
 
     };
     public enum Menubutton
@@ -486,8 +491,8 @@ namespace FoodandBeverage.Interfaces
     };
     public enum PreparationType
     {
-        ReadyFood = 1,
-        FreshCooked = 2,
+        kitchen = 1,
+        Counter = 2,
 
     };
     public enum CardType
@@ -545,6 +550,11 @@ namespace FoodandBeverage.Interfaces
         Master = 1,
         Details = 2,
 
+    }
+    public enum KOTbilltype
+    {
+        Tableorder = 1,
+        Pickuporder = 2,
     }
 }
 

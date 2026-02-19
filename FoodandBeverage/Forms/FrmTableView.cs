@@ -121,10 +121,10 @@ namespace FoodandBeverage.Forms
 
             AutoRunTimer.Stop();   // stop main timer when opening form
 
-            using (FrmOrder memtest = new FrmOrder(Convert.ToInt32(tableId), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
-            {
-                memtest.ShowDialog();
-            }
+            //using (FrmOrderConsole memtest = new FrmOrderConsole(Convert.ToInt32(tableId), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+            //{
+            //    memtest.ShowDialog();
+            //}
             count = count + 1;
             lblpagerinfo.Text = Convert.ToString(count);
             AutoRunTimer.Start();
@@ -1421,7 +1421,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
                         {
-                            FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
+                            FrmOrderConsole _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrderConsole;
                             if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
                             {
                                 _instanceFrmOrder.WindowState = FormWindowState.Maximized;
@@ -1486,19 +1486,19 @@ namespace FoodandBeverage.Forms
                         }
                         else if (result == DialogResult.No)
                         {
-                            using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
-                            {
-                                _instanceFrmOrder.ShowDialog();
-                            }
+                            //using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+                            //{
+                            //    _instanceFrmOrder.ShowDialog();
+                            //}
 
                         }
                     }
                     else if (Btype == Convert.ToInt32(DashboardTableType.Reverse_Table))
                     {
-                        using (FrmOrder _instanceFrmOrder = new FrmOrder(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
-                        {
-                            _instanceFrmOrder.ShowDialog();
-                        }
+                        //using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
+                        //{
+                        //    _instanceFrmOrder.ShowDialog();
+                        //}
                     }
                 }
                 clsgen.Memoryrelease();
