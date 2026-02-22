@@ -113,10 +113,16 @@ namespace FoodandBeverage.Forms
                     dmnproduct.CreatedBy = FrmDashboard.UserId;
                     dmnproduct.BranchId = FrmDashboard.BranchId;
 
-                    if(Convert.ToInt32(cmbpre_type.SelectedIndex)==0)
+                    if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 0)
                         dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.kitchen);
                     else
                         dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.Counter);
+
+
+                    if (rblimited.Checked)
+                        dmnproduct.IsStockTracked = true;
+                    else
+                        dmnproduct.IsStockTracked = false;
 
                     if (chb_active.Checked)
                         dmnproduct.Status = 1;

@@ -55,8 +55,13 @@ namespace FoodandBeverage.Forms.UserControls
         #region Events
         public void FrmSelect_Load(object sender, EventArgs e)
         {
-            _frmGridSearch=new FrmDataGridView<T>();
+            btnclose.Location = new Point(
+        this.ClientSize.Width - btnclose.Width - 5,
+        5
+    );
 
+            _frmGridSearch =new FrmDataGridView<T>();
+            
             try
             {
                 
@@ -213,6 +218,14 @@ namespace FoodandBeverage.Forms.UserControls
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void FrmSearch_Resize(object sender, EventArgs e)
+        {
+            btnclose.Location = new Point(
+        this.ClientSize.Width - btnclose.Width - 5,
+        5
+    );
         }
 
         private void DgvGeneral_KeyDown(object sender, KeyEventArgs e)

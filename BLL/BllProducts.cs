@@ -26,8 +26,9 @@ namespace BLL
 			parms.Add("Status", objTestClass.Status);
 			parms.Add("BranchId", objTestClass.BranchId);
 			parms.Add("ItemCode", objTestClass.ItemCode);
-			parms.Add("PreparationMode", objTestClass.PreparationMode);
-			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("PreparationMode", objTestClass.PreparationMode);
+            parms.Add("IsStockTracked", objTestClass.IsStockTracked);
+            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}
 		public DmnGridFields AddEditData_fav(string procedureName, DmnGridFields objTestClass)

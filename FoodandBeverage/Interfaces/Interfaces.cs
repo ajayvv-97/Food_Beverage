@@ -556,5 +556,10 @@ namespace FoodandBeverage.Interfaces
         Tableorder = 1,
         Pickuporder = 2,
     }
+    public enum MenuFillType
+    {
+        Item = 1,
+        Product = 2
+    }
 }
 
