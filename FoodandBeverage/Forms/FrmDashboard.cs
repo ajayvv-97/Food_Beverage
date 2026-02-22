@@ -6216,6 +6216,25 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void btnorderpreview_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (FrmOrderDesignCustom frm = new FrmOrderDesignCustom())
+                {
+                    frm.WindowState = FormWindowState.Maximized;
+                    frm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Homepage ib_orderview_Click", ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
 
         #endregion
 

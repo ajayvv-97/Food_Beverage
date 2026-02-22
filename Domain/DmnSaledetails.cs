@@ -55,7 +55,8 @@ namespace Domain
         public int PreparationMode { get; set; }
         public int Pkid { get; set; }
         public int OrderStatus { get; set; }
-        
+        public bool IsStockTracked { get; set; }
+
     }
     
 }

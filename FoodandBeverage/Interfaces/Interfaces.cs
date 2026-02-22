@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FoodandBeverage.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -560,6 +561,11 @@ namespace FoodandBeverage.Interfaces
     {
         Item = 1,
         Product = 2
+    }
+    public enum FoodType
+    {
+        Veg = 1,
+        Nonveg = 2
     }
 }
 

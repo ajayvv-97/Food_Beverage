@@ -36,8 +36,9 @@ namespace Domain
 
 		public int Ppid { get; set; }
 		public int PreparationMode { get; set; }
-		
-		public bool IsStockTracked { get; set; }
+
+        public bool IsStockTracked { get; set; }
+        public int FoodType { get; set; }
 
     }
 }

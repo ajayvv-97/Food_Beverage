@@ -118,11 +118,15 @@ namespace FoodandBeverage.Forms
                     else
                         dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.Counter);
 
-
                     if (rblimited.Checked)
                         dmnproduct.IsStockTracked = true;
                     else
                         dmnproduct.IsStockTracked = false;
+
+                    if (rb_veg.Checked)
+                        dmnproduct.FoodType = 1;
+                    else
+                        dmnproduct.FoodType = 2;
 
                     if (chb_active.Checked)
                         dmnproduct.Status = 1;
@@ -834,6 +838,16 @@ namespace FoodandBeverage.Forms
 
                     txtPpid.Text = Convert.ToString(gridSource[0].Ppid);
 
+                    if (gridSource[0].IsStockTracked)
+                        rblimited.Checked = true;
+                    else
+                        rbunlimted.Checked = true;
+
+                    if (gridSource[0].FoodType == Convert.ToInt32(FoodType.Veg))
+                        rb_veg.Checked = true;
+                    else
+                        rb_nonveg.Checked = true;
+
                     string imageName = Convert.ToString(gridSource[0].ProductId) + ".jpeg";
                     bool imageExist, brLogoExist;
                     if (imageName != "" && imageName != null)
@@ -1177,6 +1191,10 @@ namespace FoodandBeverage.Forms
 
                 lbltax.Dock = DockStyle.Fill;
                 lbltaxtype.Dock = DockStyle.Fill;
+
+                lblfoodtype.Dock = DockStyle.Fill;
+                tlp_foodtype.Dock = DockStyle.Fill;
+
                 if (cmbTaxType.Text == "GST")
                 {
                     lbligst.Dock = DockStyle.Fill;
@@ -1195,12 +1213,15 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(tlp_S_C_text, 3, 6);
 
                     //row3
-                    tlp_registration.Controls.Add(lbldes, 0, 7);
+                    tlp_registration.Controls.Add(lblfoodtype, 0, 7);
+                    tlp_registration.Controls.Add(lbldes, 1, 7);
+
 
                     ////row4
-                    tlp_registration.Controls.Add(txtdes, 0, 8);
-                    tlp_registration.Controls.Add(tlp_vari_addon, 1, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
+                    tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
+                    tlp_registration.Controls.Add(txtdes, 1, 8);                
+                    tlp_registration.Controls.Add(tlp_vari_addon, 2, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 3, 8);
 
                     txtdes.Dock = DockStyle.Fill;
                     ApplyRoundedTextBox(txtdes, 10);
@@ -1221,12 +1242,14 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
 
                     //row3
-                    tlp_registration.Controls.Add(lbldes, 0, 7);
+                    tlp_registration.Controls.Add(lblfoodtype, 0, 7);
+                    tlp_registration.Controls.Add(lbldes, 1, 7);
 
                     //row4
-                    tlp_registration.Controls.Add(txtdes, 0, 8);    
-                    tlp_registration.Controls.Add(tlp_vari_addon, 1, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
+                    tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
+                    tlp_registration.Controls.Add(txtdes, 1, 8);    
+                    tlp_registration.Controls.Add(tlp_vari_addon, 2, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 3, 8);
 
                     txtdes.Dock = DockStyle.Fill;
                     ApplyRoundedTextBox(txtdes, 10);
@@ -3644,6 +3667,16 @@ namespace FoodandBeverage.Forms
 
             }
             return bitmap;
+        }
+
+        private void rbunlimted_CheckedChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void rblimited_CheckedChanged(object sender, EventArgs e)
+        {
+          
         }
     }
 }

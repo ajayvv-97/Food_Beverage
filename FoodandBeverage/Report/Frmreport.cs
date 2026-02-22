@@ -795,7 +795,7 @@ namespace FoodandBeverage.Report
                     " from tblSalesMaster s left join tblGeneralOptions g1 on g1.GTypeSubId=s.PaymentMode and g1.GTypeId=2 " +
                     "where EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     "and EntryDate<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
-                    "and s.status=1 and BranchId=" + BranchId + " and PaymentMode!=12 AND  PaymentMode!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                    "and s.status=1 and BranchId=" + BranchId + " and PaymentMode!= 12 AND  PaymentMode!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " AND  PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) +
                     " GROUP BY CAST(EntryDate AS DATE), g1.Caption  " +
 
                     " UNION ALL " +

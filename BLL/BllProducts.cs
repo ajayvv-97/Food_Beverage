@@ -28,6 +28,7 @@ namespace BLL
 			parms.Add("ItemCode", objTestClass.ItemCode);
             parms.Add("PreparationMode", objTestClass.PreparationMode);
             parms.Add("IsStockTracked", objTestClass.IsStockTracked);
+            parms.Add("FoodType", objTestClass.FoodType);
             var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}

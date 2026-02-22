@@ -72,6 +72,8 @@ namespace Domain
         public int ReprintStatus { get; set; } = 0;   // 0 = Normal print
 
         public int PreparationMode { get; set; }
+        public bool IsStockTracked { get; set; }
+
     }
     
 

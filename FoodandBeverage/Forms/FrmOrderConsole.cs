@@ -67,7 +67,7 @@ namespace FoodandBeverage.Forms
         public string GameDB = Convert.ToString(ConfigurationManager.AppSettings["GameDB"]);
         public int columncount = Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow"]);
         public decimal Productheight = Convert.ToDecimal(ConfigurationManager.AppSettings["Productheight"]);
-        public decimal Productwidth = Convert.ToDecimal(ConfigurationManager.AppSettings["Productheight"]);
+        public decimal Productwidth = Convert.ToDecimal(ConfigurationManager.AppSettings["Productwidth"]);
         public int Productspace = Convert.ToInt32(ConfigurationManager.AppSettings["Productspace"]);
 
         public int columncount_offer = Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow_Offer"]);
@@ -525,8 +525,8 @@ namespace FoodandBeverage.Forms
             maxColumns = columncount;
             spacing = Productspace;
             containerWidth = flp_productview.ClientSize.Width;
-            tileW = (int)(((containerWidth - ((maxColumns + 1) * spacing)) / maxColumns) * Productwidth);
-            tileH = (int)(tileW * Productheight);
+            tileW =Convert.ToInt32( Productwidth);//(int)(((containerWidth - ((maxColumns + 1) * spacing)) / maxColumns) * Productwidth);
+            tileH =Convert.ToInt32( Productheight);//(int)(tileW * Productheight);
         }
         #endregion
 
@@ -3142,14 +3142,24 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-                dmnSearch.Select =
-                    "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7";
+                dmnSearch.Select = "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
+
                 dmnSearch.Table =
-                    "tblProduct p " +
-                    "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1  AND ofm.OfferType = 0 AND ofd.Producttype=1 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q" +
-                    " where p.Status=1 and p.Fcid= " + clickedControl.Tag + " and m.Status=1 AND m.Quantity > 0 " +
-                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7 from " +
+                "tblProduct p " +
+                "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
+                "OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from tblOfferDetails ofd " +
+                "LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1 " +
+                "where ofm.status = 1 AND ofm.OfferType = 0 AND ofd.Producttype=1 " +
+                "AND p.ProductId = ofd.ProductId " +
+                "and ofm.OfferstartDatetime <= SYSDATETIME() " +
+                "AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1) q " +
+
+                "WHERE p.Status=1 " +
+                "AND p.Fcid=" + clickedControl.Tag + " " +
+                "AND m.Status=1 " +
+                "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
+
+                " Union all Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7 from " +
                     " tblItem i " +
                     " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
                 // " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
@@ -3186,26 +3196,16 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (Control c in flp_productview.Controls)
-                {
-                    foreach (Control child in c.Controls)
-                        child.Dispose();
-                    c.Dispose();
-                }
+                flp_productview.SuspendLayout();
                 flp_productview.Controls.Clear();
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
 
                 foreach (var item in pagedatadata)
                 {
                     string productName = item.Field1;
                     int productId = Convert.ToInt32(item.Field2);
-                    decimal price = Convert.ToDecimal(item.Field5);
                     int favStatus = Convert.ToInt32(item.Field4);
                     int Saletypeno = Convert.ToInt32(item.Field3);
-                    decimal originalPrice = Convert.ToDecimal(item.Field5);
-                    decimal discountPrice = Convert.ToDecimal(item.Field7);
-                    decimal discountper = Convert.ToDecimal(item.Field6);
+                    int foodType = Convert.ToInt32(item.Field8); // Veg / NonVeg
 
                     Panel tile = new Panel();
                     tile.Width = tileW;
@@ -3215,71 +3215,39 @@ namespace FoodandBeverage.Forms
                     tile.Tag = productId;
                     tile.AccessibleDescription = Convert.ToString(Saletypeno);
 
-                    //MakeRounded(tile, 18);
-
+                    // ---------- MAIN LAYOUT ----------
                     TableLayoutPanel tlpMain = new TableLayoutPanel();
                     tlpMain.Parent = tile;
-                    tlpMain.RowCount = 2;
+                    tlpMain.RowCount = 1;
                     tlpMain.ColumnCount = 1;
                     tlpMain.Dock = DockStyle.Fill;
-                    tlpMain.AccessibleDescription = Convert.ToString(Saletypeno);
-                    //tlpMain.BorderStyle = BorderStyle.FixedSingle;
                     tlpMain.Tag = productId;
 
-                    //tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 85f));
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+                    tlpMain.RowStyles.Clear();
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
 
+                    // ---------- PRODUCT NAME ----------
                     Label lblName = new Label();
                     lblName.Text = productName;
                     lblName.TextAlign = ContentAlignment.MiddleCenter;
-                    Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
-                    lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
                     lblName.Dock = DockStyle.Fill;
-                    lblName.Padding = new Padding(3);
+                    lblName.Padding = new Padding(5);
                     lblName.ForeColor = Color.Black;
                     lblName.BackColor = Color.Transparent;
-                    int nameWidth = TextRenderer.MeasureText(lblName.Text, lblName.Font).Width;
+                    lblName.AutoEllipsis = true;
 
-                    Label lblPrice = new Label();
-                    lblPrice.Dock = DockStyle.Fill;
-                    lblPrice.TextAlign = ContentAlignment.MiddleCenter;
-                    lblPrice.ForeColor = Color.Green;
-                    lblPrice.BackColor = Color.Transparent;
-                    lblPrice.Font = f10;
-                    if (discountper > 0)
-                    {
-                        lblPrice.Paint += (s, l) =>
-                        {
-                            string oldP = "₹ " + originalPrice.ToString("0.00");
-                            string newP = "₹ " + discountPrice.ToString("0.00");
-
-                            SizeF oldSize = l.Graphics.MeasureString(oldP, f10Strike);
-                            SizeF newSize = l.Graphics.MeasureString(newP, f10Bold);
-
-                            float totalWidth = oldSize.Width + 10 + newSize.Width;
-                            float startX = (lblPrice.Width - totalWidth) / 2;
-
-                            l.Graphics.DrawString(oldP, f10Strike, Brushes.Gray, startX, 4);
-                            l.Graphics.DrawString(newP, f10Bold, Brushes.Green, startX + oldSize.Width + 10, 4);
-                        };
-                    }
-                    else
-                    {
-                        if (Saletypeno == 1 && price == 0)
-                            lblPrice.Text = "";
-                        else
-                            lblPrice.Text = "₹ " + price.ToString("0.00");
-                    }
+                    // Font adjust based on length
+                    Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
+                    lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
 
                     tlpMain.Controls.Add(lblName, 0, 0);
-                    tlpMain.Controls.Add(lblPrice, 0, 1);
 
+                    // ---------- CLICK EVENTS ----------
                     tlpMain.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
                     tile.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
-                    lblPrice.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
                     lblName.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
+                    // ---------- FAVORITE ICON (Top Right) ----------
                     PictureBox picFav = new PictureBox();
                     picFav.Name = "picFav_" + item.Field2 + "_" + item.Field3;
                     picFav.Width = 22;
@@ -3298,14 +3266,171 @@ namespace FoodandBeverage.Forms
                     tile.Controls.Add(picFav);
                     picFav.BringToFront();
 
+                    // ---------- VEG / NON-VEG INDICATOR (Top Left Circle) ----------
+                    Panel pnlType = new Panel();
+                    pnlType.Width = 12;
+                    pnlType.Height = 12;
+                    pnlType.Location = new Point(5, 5);
+                    pnlType.BackColor = Color.Transparent;
+
+                    Color indicatorColor = Color.Gray;
+
+                    // 🔥 Your condition here
+                    if (foodType == 1)        // Veg
+                        indicatorColor = Color.Green;
+                    else if (foodType == 2)   // Non-Veg
+                        indicatorColor = Color.Red;
+
+                    pnlType.Paint += (s, e) =>
+                    {
+                        e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        using (SolidBrush brush = new SolidBrush(indicatorColor))
+                        {
+                            e.Graphics.FillEllipse(brush, 0, 0, pnlType.Width - 1, pnlType.Height - 1);
+                        }
+                    };
+
+                    tile.Controls.Add(pnlType);
+                    pnlType.BringToFront();
+
+                    // ---------- ADD TILE ----------
                     flp_productview.Controls.Add(tile);
                 }
+
+                flp_productview.ResumeLayout();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page GenearteNormalProduct()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page GenearteNormalProduct()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
             }
         }
+
+        //public void GenearteNormalProduct()
+        //{
+        //    try
+        //    {
+        //        foreach (Control c in flp_productview.Controls)
+        //        {
+        //            foreach (Control child in c.Controls)
+        //                child.Dispose();
+        //            c.Dispose();
+        //        }
+        //        flp_productview.Controls.Clear();
+        //        GC.Collect();
+        //        GC.WaitForPendingFinalizers();
+
+        //        foreach (var item in pagedatadata)
+        //        {
+        //            string productName = item.Field1;
+        //            int productId = Convert.ToInt32(item.Field2);
+        //            decimal price = Convert.ToDecimal(item.Field5);
+        //            int favStatus = Convert.ToInt32(item.Field4);
+        //            int Saletypeno = Convert.ToInt32(item.Field3);
+        //            decimal originalPrice = Convert.ToDecimal(item.Field5);
+        //            decimal discountPrice = Convert.ToDecimal(item.Field7);
+        //            decimal discountper = Convert.ToDecimal(item.Field6);
+
+        //            Panel tile = new Panel();
+        //            tile.Width = tileW;
+        //            tile.Height = tileH;
+        //            tile.BackColor = Color.White;
+        //            tile.Margin = new Padding(spacing);
+        //            tile.Tag = productId;
+        //            tile.AccessibleDescription = Convert.ToString(Saletypeno);
+
+        //            //MakeRounded(tile, 18);
+
+        //            TableLayoutPanel tlpMain = new TableLayoutPanel();
+        //            tlpMain.Parent = tile;
+        //            tlpMain.RowCount = 2;
+        //            tlpMain.ColumnCount = 1;
+        //            tlpMain.Dock = DockStyle.Fill;
+        //            tlpMain.AccessibleDescription = Convert.ToString(Saletypeno);
+        //            //tlpMain.BorderStyle = BorderStyle.FixedSingle;
+        //            tlpMain.Tag = productId;
+
+        //            //tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
+        //            tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 85f));
+        //            tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+
+        //            Label lblName = new Label();
+        //            lblName.Text = productName;
+        //            lblName.TextAlign = ContentAlignment.MiddleCenter;
+        //            Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
+        //            lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
+        //            lblName.Dock = DockStyle.Fill;
+        //            lblName.Padding = new Padding(3);
+        //            lblName.ForeColor = Color.Black;
+        //            lblName.BackColor = Color.Transparent;
+        //            int nameWidth = TextRenderer.MeasureText(lblName.Text, lblName.Font).Width;
+
+        //            Label lblPrice = new Label();
+        //            lblPrice.Dock = DockStyle.Fill;
+        //            lblPrice.TextAlign = ContentAlignment.MiddleCenter;
+        //            lblPrice.ForeColor = Color.Green;
+        //            lblPrice.BackColor = Color.Transparent;
+        //            lblPrice.Font = f10;
+        //            if (discountper > 0)
+        //            {
+        //                lblPrice.Paint += (s, l) =>
+        //                {
+        //                    string oldP = "₹ " + originalPrice.ToString("0.00");
+        //                    string newP = "₹ " + discountPrice.ToString("0.00");
+
+        //                    SizeF oldSize = l.Graphics.MeasureString(oldP, f10Strike);
+        //                    SizeF newSize = l.Graphics.MeasureString(newP, f10Bold);
+
+        //                    float totalWidth = oldSize.Width + 10 + newSize.Width;
+        //                    float startX = (lblPrice.Width - totalWidth) / 2;
+
+        //                    l.Graphics.DrawString(oldP, f10Strike, Brushes.Gray, startX, 4);
+        //                    l.Graphics.DrawString(newP, f10Bold, Brushes.Green, startX + oldSize.Width + 10, 4);
+        //                };
+        //            }
+        //            else
+        //            {
+        //                if (Saletypeno == 1 && price == 0)
+        //                    lblPrice.Text = "";
+        //                else
+        //                    lblPrice.Text = "₹ " + price.ToString("0.00");
+        //            }
+
+        //            tlpMain.Controls.Add(lblName, 0, 0);
+        //            tlpMain.Controls.Add(lblPrice, 0, 1);
+
+        //            tlpMain.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+        //            tile.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+        //            lblPrice.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+        //            lblName.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+
+        //            PictureBox picFav = new PictureBox();
+        //            picFav.Name = "picFav_" + item.Field2 + "_" + item.Field3;
+        //            picFav.Width = 22;
+        //            picFav.Height = 22;
+        //            picFav.BackColor = Color.White;
+        //            picFav.SizeMode = PictureBoxSizeMode.StretchImage;
+        //            picFav.Location = new Point(tileW - 30, 8);
+        //            picFav.Tag = productId;
+        //            picFav.AccessibleName = favStatus == 1 ? "fav" : "notfav";
+        //            picFav.AccessibleDescription = Convert.ToString(Saletypeno);
+        //            picFav.Image = (favStatus == 1)
+        //                ? Properties.Resources.fav_enable
+        //                : Properties.Resources.fav_disable;
+        //            picFav.Click += buttonfavClickEventHandler;
+
+        //            tile.Controls.Add(picFav);
+        //            picFav.BringToFront();
+
+        //            flp_productview.Controls.Add(tile);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsgen.LogException("Order page GenearteNormalProduct()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+        //    }
+        //}
         private void PicProduct_Click(object sender, EventArgs e)
         {
             PictureBox pic = sender as PictureBox;
@@ -3314,28 +3439,28 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region Product Favouite Button click (depented)
-private void buttonfavClickEventHandler(object sender, EventArgs e)
-{
-    PictureBox pbfav = sender as PictureBox;
-    if (pbfav == null) return;
+        private void buttonfavClickEventHandler(object sender, EventArgs e)
+        {
+            PictureBox pbfav = sender as PictureBox;
+            if (pbfav == null) return;
 
-    bool isFav = pbfav.AccessibleName == "fav";
+            bool isFav = pbfav.AccessibleName == "fav";
 
-    if (isFav)
-    {
-        pbfav.Image = Properties.Resources.fav_disable;
-        pbfav.AccessibleName = "notfav";
+            if (isFav)
+            {
+                pbfav.Image = Properties.Resources.fav_disable;
+                pbfav.AccessibleName = "notfav";
 
-        UpdateFavorite(Convert.ToInt32(pbfav.Tag), "0", pbfav.AccessibleDescription);
-    }
-    else
-    {
-        pbfav.Image = Properties.Resources.fav_enable;
-        pbfav.AccessibleName = "fav";
+                UpdateFavorite(Convert.ToInt32(pbfav.Tag), "0", pbfav.AccessibleDescription);
+            }
+            else
+            {
+                pbfav.Image = Properties.Resources.fav_enable;
+                pbfav.AccessibleName = "fav";
 
-        UpdateFavorite(Convert.ToInt32(pbfav.Tag), "1", pbfav.AccessibleDescription);
-    }
-}
+                UpdateFavorite(Convert.ToInt32(pbfav.Tag), "1", pbfav.AccessibleDescription);
+            }
+        }
 
 
         private void UpdateFavorite(int id, string favFlag, string accDesc)
@@ -3380,10 +3505,21 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     if (j == 1)
                     {
                         dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7";
+
                         dmnSearch.Table = "tblProduct p " +
                             "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                            " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=1 AND ofm.OfferType = 0 AND p.ProductId = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
-                        dmnSearch.WhereNdGroupBy = " where p.Status=1 and m.Status=1  AND m.Quantity > 0 and fav_status=1";
+                            "OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from tblOfferDetails ofd " +
+                            "LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1 " +
+                            "where ofm.status = 1 AND ofd.Producttype=1 AND ofm.OfferType = 0 " +
+                            "AND p.ProductId = ofd.ProductId " +
+                            "and ofm.OfferstartDatetime <= SYSDATETIME() " +
+                            "AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1) q";
+
+                        dmnSearch.WhereNdGroupBy =
+                            "WHERE p.Status=1 " +
+                            "AND m.Status=1 " +
+                            "AND fav_status=1 " +
+                            "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 )";
                     }
                     else
                     {
@@ -3651,8 +3787,22 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                     if (j == 1)
                     {
                         dmnSearch.Select = "p.Product as Field1, p.ProductId as Field2, 0 as Field3, od.Discountper Field4,od.Producttype Field5,p.Price Field6,0 Field7,1 Field8";
-                        dmnSearch.Table = " tblOfferDetails OD LEFT JOIN tblOfferMaster OM ON OD.Omid = OM.Omid LEFT JOIN tblProduct p ON OD.ProductId = p.ProductId LEFT JOIN tblMenu m ON m.ProductId = p.ProductId";
-                        dmnSearch.WhereNdGroupBy = " where OM.Status = 1 and od.Status=1 and OfferType=0 and m.Status=1 and od.Producttype=1 AND GETDATE() >= OM.OfferstartDatetime AND GETDATE() <= OM.OfferEndDatetime AND m.Quantity > 0 ";
+
+                        dmnSearch.Table =
+                        "tblOfferDetails OD " +
+                        "LEFT JOIN tblOfferMaster OM ON OD.Omid = OM.Omid " +
+                        "LEFT JOIN tblProduct p ON OD.ProductId = p.ProductId " +
+                        "LEFT JOIN tblMenu m ON m.ProductId = p.ProductId";
+
+                        dmnSearch.WhereNdGroupBy =
+                        "WHERE OM.Status = 1 " +
+                        "AND od.Status = 1 " +
+                        "AND OfferType = 0 " +
+                        "AND m.Status = 1 " +
+                        "AND od.Producttype = 1 " +
+                        "AND GETDATE() >= OM.OfferstartDatetime " +
+                        "AND GETDATE() <= OM.OfferEndDatetime " +
+                        "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1)";
                     }
                     else
                     {
@@ -4013,9 +4163,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                        AND om.OfferType = 1
                        AND om.OfferstartDatetime <= SYSDATETIME()
                        AND om.OfferEndDatetime >= SYSDATETIME()
-                       AND tm.ProductType = 3
-                       AND tm.Quantity > 0
-                     GROUP BY om.OfferName, om.Omid, om.Discountper, om.FinalPrice, om.cmphid";
+                       AND tm.ProductType = 3                      
+                     GROUP BY om.OfferName, om.Omid, om.Discountper, om.FinalPrice, om.cmphid";// AND tm.Quantity > 0
 
                 ProductData = bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -5732,13 +5881,21 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                     #region Offer product and Without offer product
                     dmnSearch.Select =
-                        "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,ofd.Discountper Field6,ofd.FinalPrice Field7,2 Field8";
+    "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,ofd.Discountper Field6,ofd.FinalPrice Field7,2 Field8";
+
                     dmnSearch.Table =
-                        "tblProduct p " +
-                        "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                        " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
-                        " where p.Status=1 and m.Status=1 AND m.Quantity > 0 and p.Product like '%" + txtname_search.Text.Trim() + "%'" +
-                        " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
+                    "tblProduct p " +
+                    "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
+                    "LEFT JOIN tblOfferMaster ofm ON ofm.status=1 AND ofm.OfferType=0 " +
+                    "AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() " +
+                    "LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 AND p.ProductId=ofd.ProductId " +
+
+                    "WHERE p.Status=1 " +
+                    "AND m.Status=1 " +
+                    "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
+                    "AND p.Product LIKE '%" + txtname_search.Text.Trim() + "%'"+
+
+                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
                     dmnSearch.WhereNdGroupBy =
@@ -6498,13 +6655,22 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                     #region Offer product and Without offer product
                     dmnSearch.Select =
-                        "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,ofd.Discountper Field6,ofd.FinalPrice Field7,2 Field8";
+    "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,ofd.Discountper Field6,ofd.FinalPrice Field7,2 Field8";
+
                     dmnSearch.Table =
-                        "tblProduct p " +
-                        "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                        " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
-                        " where p.Status=1 AND m.Quantity > 0 and m.Status=1 and p.ItemCode = '" + txtitemcode_serach.Text.Trim() + "'" +
-                        " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
+                    "tblProduct p " +
+                    "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
+                    "LEFT JOIN tblOfferMaster ofm ON ofm.status=1 AND ofm.OfferType=0 " +
+                    "AND ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() " +
+                    "AND ofm.Status=1 " +
+                    "LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 AND p.ProductId=ofd.ProductId " +
+
+                    "WHERE p.Status=1 " +
+                    "AND m.Status=1 " +
+                    "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
+                    "AND p.ItemCode = '" + txtitemcode_serach.Text.Trim() + "'"+
+
+                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
                     dmnSearch.WhereNdGroupBy =
@@ -7036,7 +7202,8 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     dmnorderdetail.orderpriority = cmb_proritytype.SelectedIndex >= 0 ? cmb_proritytype.SelectedIndex + 1 : 1;
                                     dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0;
 
-                                    dmnorderdetail.PreparationMode =Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value);
+                                    dmnorderdetail.PreparationMode = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value);
+                                    dmnorderdetail.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
 
                                     dmnorderdetail.PkId = GBL_pkid;
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
@@ -7993,6 +8160,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     dmnsaledetails.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                     dmnsaledetails.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                     dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
+                                    dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
 
                                     dmnsaledetails.OrderDetailsId = "0";
                                     dmnsaledetails.SalesDetailsId = 0;
@@ -8198,6 +8366,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             #region Sale Details
                             if (InsertStatusP.SalesMasterId != 0)
                             {
+
                                 #region Part Payment save DB
                                 if (payid == Convert.ToInt32(PaymentType.PART))
                                 {
@@ -8218,6 +8387,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                     }
                                 }
                                 #endregion
+
                                 #region To Save partpayment Table 
                                 if (payid == Convert.ToInt32(PaymentType.SPLIT))
                                 {
@@ -8339,6 +8509,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                             dmnsaledetails.AV_id = Convert.ToString(dgv_combined.Rows[i].Cells[CAV_id].Value);
                                             dmnsaledetails.Addoncount = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddoncount].Value);
                                             dmnsaledetails.VariatiionName = Convert.ToString(dgv_combined.Rows[i].Cells[CVariatiionNameno].Value);
+                                            dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
 
                                             var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                             if (InsertStatus == null)
@@ -8627,6 +8798,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                     dmnorderdetail.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                                     dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                                     dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iVariatiionNameno].Value);
+                                                    dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
 
                                                     if (txtentrie_descr.Text == "Description Type here .....")
                                                         dmnorderdetail.MainRemarks = "";
@@ -8663,6 +8835,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                     dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0;
 
                                                     dmnorderdetail.PreparationMode = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value);
+                                                     dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
 
                                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                                     if (InsertStatus == null)
@@ -8958,6 +9131,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
 
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                             dmnsaledetails.SalesDetailsId = 0;
+                                            dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
 
                                             if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
                                                 dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
@@ -9159,6 +9333,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                                 else
                                                     dmnsaledetails.Cmid = "0";
 
+                                                dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
                                                 var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                                 if (InsertStatus == null)
                                                 {
@@ -10108,27 +10283,27 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                         {
                             if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                             {
-                                int prep = 0;
-                                var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), saletype);
-                                int availableQty = dataresult.Quantity;
-                                prep = dataresult.PreparationMode;
-                                if (availableQty <= 0 )
-                                {
-                                    MessageBox.Show("Stock Out! This item is not available.",
-                                                    "Out of Stock",
-                                                    MessageBoxButtons.OK,
-                                                    MessageBoxIcon.Warning);
-                                    return;
-                                }
-                                // 2. Entered qty exceeds available stock
-                                if (kdata > availableQty)
-                                {
-                                    MessageBox.Show($"Only {availableQty} Qty Available.",
-                                                    "Stock Warning",
-                                                    MessageBoxButtons.OK,
-                                                    MessageBoxIcon.Warning);
-                                    return;
-                                }
+                                //int prep = 0;
+                                //var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), saletype);
+                                //int availableQty = dataresult.Quantity;
+                                //prep = dataresult.PreparationMode;
+                                //if (availableQty <= 0 )
+                                //{
+                                //    MessageBox.Show("Stock Out! This item is not available.",
+                                //                    "Out of Stock",
+                                //                    MessageBoxButtons.OK,
+                                //                    MessageBoxIcon.Warning);
+                                //    return;
+                                //}
+                                //// 2. Entered qty exceeds available stock
+                                //if (kdata > availableQty)
+                                //{
+                                //    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                //                    "Stock Warning",
+                                //                    MessageBoxButtons.OK,
+                                //                    MessageBoxIcon.Warning);
+                                //    return;
+                                //}
 
                                 decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
                                 int beforeQty = 0;
@@ -10316,7 +10491,7 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                             {
                                 if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.ComboProduct) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                                 {
-                                    ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Combo), Convert.ToInt32(ReserveQtyActiontype.Reset), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value));
+                                    //ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Combo), Convert.ToInt32(ReserveQtyActiontype.Reset), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value));
                                     decimal TotalPrice = Convert.ToDecimal(Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value)) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
                                     decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
                                     txtGrandTotal.Text = Convert.ToString(totalamt);
@@ -10371,7 +10546,12 @@ private void buttonfavClickEventHandler(object sender, EventArgs e)
                                 if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) == 1 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
                                 {
                                     //        public void ReserveQtyRouter(int ProductId, int ProductType, int Actiontype, int TableType, int OrdQty, int CQtyFlag=0,int porderqty=0)
-                                    ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Reset), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value));
+                                    bool isStockTracked = Product_isstocktrack(pid, 1);
+                                    if (isStockTracked)
+                                    {
+                                        ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Reset), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value));
+
+                                    }
                                     decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
                                     decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
                                     txtGrandTotal.Text = Convert.ToString(totalamt);
