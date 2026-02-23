@@ -8,7 +8,8 @@ namespace Domain
     {
         public int PartyPackId { get; set; }
         public string PackName { get; set; }
-        public decimal Price { get; set; }
+        public decimal AdultPrice { get; set; }
+        public decimal ChildPrice { get; set; }
         public decimal DiscountPer { get; set; }
         public decimal DiscountAmt { get; set; }
         public string TaxType { get; set; }
@@ -16,21 +17,33 @@ namespace Domain
 
         public int CreatedBy { get; set; }
         public int BranchId { get; set; }
+        public int Status { get; set; }
 
-        public string DetailsXML { get; set; } // 🔥 important
     }
     public class DmnPartyPackDetails
     {
         public int PartyPackDetailsId { get; set; }
         public int PartyPackId { get; set; }
         public string Item { get; set; }
+        public int MenuCategoryId { get; set; }
         public int Quantity { get; set; }
 
         public int CreatedBy { get; set; }
         public int BranchId { get; set; }
         public int Status { get; set; }
-        public int MenuCategoryId { get; set; }
     }
-    
+    public class DmnPartyPackCustom
+    {
+        public int PartyPackCustomDetailsId { get; set; }
+        public int PartyPackId { get; set; }
+        public string Product { get; set; }
+
+        public decimal Qty { get; set; }
+        public decimal Price { get; set; }
+
+        public int CreatedBy { get; set; }
+        public int BranchId { get; set; }
+        public int Status { get; set; }
+    }
 
 }

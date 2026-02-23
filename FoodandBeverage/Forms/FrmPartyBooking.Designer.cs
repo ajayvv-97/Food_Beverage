@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPartyBooking));
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_registartion_main = new System.Windows.Forms.TableLayoutPanel();
@@ -121,10 +121,12 @@
             this.btn_del_event = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
-            this.btn_savemenucateg = new System.Windows.Forms.Button();
+            this.btn_saveeventtype = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.btncls_eventreg = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnserach_event = new System.Windows.Forms.Button();
             this.tlp_main.SuspendLayout();
             this.tlp_registartion_main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_packs)).BeginInit();
@@ -148,6 +150,7 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tlp_registartion.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -192,14 +195,14 @@
             // 
             this.dgv_packs.AllowUserToAddRows = false;
             this.dgv_packs.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_packs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_packs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_packs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_packs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.slno,
@@ -207,14 +210,14 @@
             this.Qty,
             this.action,
             this.pPartyPackDetailsId});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_packs.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_packs.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_packs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_packs.Location = new System.Drawing.Point(3, 173);
             this.dgv_packs.Name = "dgv_packs";
@@ -299,6 +302,7 @@
             // btnotherarange
             // 
             this.btnotherarange.BackColor = System.Drawing.Color.Transparent;
+            this.btnotherarange.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnotherarange.BackgroundImage")));
             this.btnotherarange.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnotherarange.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnotherarange.FlatAppearance.BorderSize = 0;
@@ -316,6 +320,7 @@
             // btncatering
             // 
             this.btncatering.BackColor = System.Drawing.Color.Transparent;
+            this.btncatering.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btncatering.BackgroundImage")));
             this.btncatering.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btncatering.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btncatering.FlatAppearance.BorderSize = 0;
@@ -333,6 +338,7 @@
             // btncake
             // 
             this.btncake.BackColor = System.Drawing.Color.Transparent;
+            this.btncake.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btncake.BackgroundImage")));
             this.btncake.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btncake.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btncake.FlatAppearance.BorderSize = 0;
@@ -350,6 +356,7 @@
             // btngift
             // 
             this.btngift.BackColor = System.Drawing.Color.Transparent;
+            this.btngift.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btngift.BackgroundImage")));
             this.btngift.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btngift.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btngift.FlatAppearance.BorderSize = 0;
@@ -367,6 +374,7 @@
             // btnfoodpack
             // 
             this.btnfoodpack.BackColor = System.Drawing.Color.Transparent;
+            this.btnfoodpack.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnfoodpack.BackgroundImage")));
             this.btnfoodpack.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnfoodpack.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnfoodpack.FlatAppearance.BorderSize = 0;
@@ -385,6 +393,7 @@
             // btncard
             // 
             this.btncard.BackColor = System.Drawing.Color.Transparent;
+            this.btncard.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btncard.BackgroundImage")));
             this.btncard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btncard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btncard.FlatAppearance.BorderSize = 0;
@@ -1177,7 +1186,7 @@
             // pnl_foodpacks
             // 
             this.pnl_foodpacks.Controls.Add(this.tlp_order_desc);
-            this.pnl_foodpacks.Location = new System.Drawing.Point(27, 203);
+            this.pnl_foodpacks.Location = new System.Drawing.Point(27, 106);
             this.pnl_foodpacks.Name = "pnl_foodpacks";
             this.pnl_foodpacks.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.pnl_foodpacks.Size = new System.Drawing.Size(831, 525);
@@ -1286,6 +1295,7 @@
             // btnresturant_menu
             // 
             this.btnresturant_menu.BackColor = System.Drawing.Color.Transparent;
+            this.btnresturant_menu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnresturant_menu.BackgroundImage")));
             this.btnresturant_menu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnresturant_menu.FlatAppearance.BorderSize = 0;
             this.btnresturant_menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1303,6 +1313,7 @@
             // btn_packsitems
             // 
             this.btn_packsitems.BackColor = System.Drawing.Color.Transparent;
+            this.btn_packsitems.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_packsitems.BackgroundImage")));
             this.btn_packsitems.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_packsitems.FlatAppearance.BorderSize = 0;
             this.btn_packsitems.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1352,14 +1363,15 @@
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Controls.Add(this.tlp_registartion, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.btn_savemenucateg, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 2);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(7, 6);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(506, 174);
@@ -1386,7 +1398,7 @@
             this.tlp_registartion.RowCount = 2;
             this.tlp_registartion.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_registartion.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_registartion.Size = new System.Drawing.Size(500, 86);
+            this.tlp_registartion.Size = new System.Drawing.Size(500, 77);
             this.tlp_registartion.TabIndex = 3;
             // 
             // label7
@@ -1464,19 +1476,19 @@
             this.txtDescription.Size = new System.Drawing.Size(135, 43);
             this.txtDescription.TabIndex = 253;
             // 
-            // btn_savemenucateg
+            // btn_saveeventtype
             // 
-            this.btn_savemenucateg.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_okay;
-            this.btn_savemenucateg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_savemenucateg.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btn_savemenucateg.FlatAppearance.BorderSize = 0;
-            this.btn_savemenucateg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_savemenucateg.Location = new System.Drawing.Point(391, 137);
-            this.btn_savemenucateg.Name = "btn_savemenucateg";
-            this.btn_savemenucateg.Size = new System.Drawing.Size(112, 34);
-            this.btn_savemenucateg.TabIndex = 1;
-            this.btn_savemenucateg.UseVisualStyleBackColor = true;
-            this.btn_savemenucateg.Click += new System.EventHandler(this.btn_savemenucateg_Click);
+            this.btn_saveeventtype.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_okay;
+            this.btn_saveeventtype.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_saveeventtype.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_saveeventtype.FlatAppearance.BorderSize = 0;
+            this.btn_saveeventtype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_saveeventtype.Location = new System.Drawing.Point(414, 3);
+            this.btn_saveeventtype.Name = "btn_saveeventtype";
+            this.btn_saveeventtype.Size = new System.Drawing.Size(83, 37);
+            this.btn_saveeventtype.TabIndex = 1;
+            this.btn_saveeventtype.UseVisualStyleBackColor = true;
+            this.btn_saveeventtype.Click += new System.EventHandler(this.btn_savemenucateg_Click);
             // 
             // tableLayoutPanel5
             // 
@@ -1526,13 +1538,49 @@
             this.label9.Text = "Event Registartion ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 3;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.Controls.Add(this.btnserach_event, 1, 0);
+            this.tableLayoutPanel6.Controls.Add(this.btn_saveeventtype, 2, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 128);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 1;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(500, 43);
+            this.tableLayoutPanel6.TabIndex = 254;
+            // 
+            // btnserach_event
+            // 
+            this.btnserach_event.BackColor = System.Drawing.Color.Transparent;
+            this.btnserach_event.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_SEARCH;
+            this.btnserach_event.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnserach_event.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnserach_event.FlatAppearance.BorderSize = 0;
+            this.btnserach_event.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnserach_event.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnserach_event.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnserach_event.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnserach_event.Location = new System.Drawing.Point(324, 4);
+            this.btnserach_event.Margin = new System.Windows.Forms.Padding(4);
+            this.btnserach_event.Name = "btnserach_event";
+            this.btnserach_event.Size = new System.Drawing.Size(83, 35);
+            this.btnserach_event.TabIndex = 252;
+            this.btnserach_event.UseVisualStyleBackColor = false;
+            this.btnserach_event.Visible = false;
+            this.btnserach_event.Click += new System.EventHandler(this.btnserach_event_Click);
+            // 
             // FrmPartyBooking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 640);
-            this.Controls.Add(this.pnl_eventreg);
             this.Controls.Add(this.pnl_foodpacks);
+            this.Controls.Add(this.pnl_eventreg);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -1575,6 +1623,7 @@
             this.tlp_registartion.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            this.tableLayoutPanel6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1671,9 +1720,11 @@
         private System.Windows.Forms.Button btn_del_event;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtDescription;
-        private System.Windows.Forms.Button btn_savemenucateg;
+        private System.Windows.Forms.Button btn_saveeventtype;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Button btncls_eventreg;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Button btnserach_event;
     }
 }

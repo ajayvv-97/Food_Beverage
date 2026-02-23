@@ -2,6 +2,7 @@
 using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms;
+using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -44,22 +45,17 @@ namespace FoodandBeverage
         {
             try
             {
-                // ✅ TOGGLE (Show / Hide)
                 if (pnl_foodpacks.Visible)
                 {
                     pnl_foodpacks.Visible = false;
                     return;
                 }
-
-                // ✅ Set 80% size of form
                 pnl_foodpacks.Width = (int)(this.ClientSize.Width * 0.9);
                 pnl_foodpacks.Height = (int)(this.ClientSize.Height * 0.9);
 
-                // ✅ Center panel
                 pnl_foodpacks.Left = (this.ClientSize.Width - pnl_foodpacks.Width) / 2;
                 pnl_foodpacks.Top = (this.ClientSize.Height - pnl_foodpacks.Height) / 2;
 
-                // ✅ Show + Bring Front
                 pnl_foodpacks.Visible = true;
                 pnl_foodpacks.BringToFront();
             }
@@ -100,7 +96,7 @@ namespace FoodandBeverage
                 BllSearch<DmnPartyPack> bll = new BllSearch<DmnPartyPack>();
 
                 DmnSearch search = new DmnSearch();
-                search.Select = "PartyPackId, PackName, Price";
+                search.Select = "PartyPackId, PackName, AdultPrice, ChildPrice";
                 search.Table = "tblPartyPackMaster";
                 search.WhereNdGroupBy = "WHERE Status = 1";
                 search.OrderBy = "ORDER BY PackName";
@@ -109,17 +105,79 @@ namespace FoodandBeverage
 
                 foreach (var item in list)
                 {
-                    Button btn = new Button();
-                    btn.Width = 180;
-                    btn.Height = 60;
-                    btn.Margin = new Padding(5);
-                    btn.Text = item.PackName;
-                    btn.Tag = item.PartyPackId; 
-                    btn.BackColor = Color.White;
-                    btn.FlatStyle = FlatStyle.Flat;
-                    btn.Click += PackButton_Click;
-                    flp_show_pack_resmenu.Controls.Add(btn);
+                    // 🔹 MAIN PANEL (CARD)
+                    Panel pnl = new Panel();
+                    pnl.Width = 220;
+                    pnl.Height = 100;
+                    pnl.Margin = new Padding(10);
+                    pnl.BackColor = Color.White;
+                    pnl.BorderStyle = BorderStyle.FixedSingle;
+                    pnl.Tag = item.PartyPackId;
+
+                    // 🔹 PACK NAME
+                    Label lblName = new Label();
+                    lblName.Text = item.PackName;
+                    lblName.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                    lblName.AutoSize = false;
+                    lblName.Width = pnl.Width - 10;
+                    lblName.Height = 35;
+                    lblName.Location = new Point(5, 5);
+                    lblName.TextAlign = ContentAlignment.MiddleLeft;
+
+                    // 🔹 PRICE TEXT
+                    string priceText = "";
+
+                    if (item.AdultPrice > 0 && item.ChildPrice > 0)
+                        priceText = $"Adult: {item.AdultPrice} | Child: {item.ChildPrice}";
+                    else if (item.AdultPrice > 0)
+                        priceText = $"Price: {item.AdultPrice}";
+                    else if (item.ChildPrice > 0)
+                        priceText = $"Price: {item.ChildPrice}";
+
+                    Label lblPrice = new Label();
+                    lblPrice.Text = priceText;
+                    lblPrice.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+                    lblPrice.AutoSize = false;
+                    lblPrice.Width = pnl.Width - 10;
+                    lblPrice.Height = 25;
+                    lblPrice.Location = new Point(5, 40);
+                    lblPrice.ForeColor = Color.DarkGreen;
+
+                    // 🔹 VIEW BUTTON
+                    Button btnView = new Button();
+                    btnView.Text = "View";
+                    btnView.Width = 60;
+                    btnView.Height = 28;
+                    btnView.Location = new Point(pnl.Width - 70, pnl.Height - 35);
+                    btnView.BackColor = Color.FromArgb(0, 120, 215);
+                    btnView.ForeColor = Color.White;
+                    btnView.FlatStyle = FlatStyle.Flat;
+                    btnView.Tag = item.PartyPackId;
+                    btnView.Click += BtnView_Click;
+
+                    // 🔹 ADD CONTROLS
+                    pnl.Controls.Add(lblName);
+                    pnl.Controls.Add(lblPrice);
+                    pnl.Controls.Add(btnView);
+
+                    // 🔹 ADD TO FLOW PANEL
+                    flp_show_pack_resmenu.Controls.Add(pnl);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void BtnView_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Button btn = sender as Button;
+
+                if (btn == null) return;
+
+           
             }
             catch (Exception ex)
             {
@@ -284,7 +342,140 @@ namespace FoodandBeverage
 
         private void btn_del_event_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (btn_del_event.Tag == null)
+                {
+                    MessageBox.Show("Please search and select item first");
+                    return;
+                }
 
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you want to delete?",
+                    "Confirm",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result != DialogResult.Yes)
+                    return;
+
+                DmnEventCommonItems dmn = new DmnEventCommonItems();
+                dmn.EventItemId = Convert.ToInt32(btn_del_event.Tag);
+                dmn.CreatedBy = FrmDashboard.UserId;
+
+                BllEventCommonItems bll = new BllEventCommonItems();
+                bll.DeleteEventItem("prdDelete_EventCommonItems", dmn);
+
+                MessageBox.Show("Deleted Successfully");
+
+                // Reset UI
+                txtItemName.Clear();
+                txtDescription.Clear();
+                btn_del_event.Visible = false;
+                btn_del_event.Tag = null;
+
+                LoadEventItems();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnserach_event_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                int returnValue = 0;
+
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+
+                DmnSearch _objSearch = new DmnSearch();
+
+                // ✅ Headers
+                _objSearch.ColumnHeaders = "ID,Item Name,Type";
+
+                // ✅ Select
+                _objSearch.Select = "EventItemId as Id, ItemName as Field1, EventCategoryType as Field2";
+
+                _objSearch.Table = "tblEventCommonItems";
+
+                _objSearch.WhereNdGroupBy =
+                    "WHERE Status = 1 AND BranchId = " + FrmDashboard.BranchId;
+
+                _objSearch.OrderBy = "ORDER BY ItemName";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+
+                if (gridSource.Count == 0)
+                {
+                    MessageBox.Show("No Records Found");
+                    return;
+                }
+
+                using (var search = new FrmSearch<DmnGridFields>(
+                    _objSearch,
+                    SearchMode.FirstCharacter,
+                    this.Width - 150,
+                    this.Height - 150,
+                    this.Location.Y + 50,
+                    this.Location.X + 20,
+                    dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToInt32(search._retValue);
+                    }
+                }
+
+                // ✅ Load Selected Data
+                if (returnValue > 0)
+                {
+                    FillEventData(returnValue);
+
+                    // 🔥 Enable Delete Button
+                    btn_del_event.Visible = true;
+                    btn_del_event.Tag = returnValue; // store ID
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void FillEventData(int id)
+        {
+            try
+            {
+                BllSearch<DmnEventCommonItems> bll = new BllSearch<DmnEventCommonItems>();
+
+                DmnSearch search = new DmnSearch();
+
+                search.Select = "EventItemId, ItemName, Description, EventCategoryType";
+                search.Table = "tblEventCommonItems";
+                search.WhereNdGroupBy = "WHERE EventItemId = " + id;
+
+                var data = bll.GetSearchData("prdSearch", search);
+
+                if (data.Count > 0)
+                {
+                    var item = data[0];
+
+                    txtItemName.Text = item.ItemName;
+                    txtDescription.Text = item.Description;
+
+                    // Optional: set type if dropdown exists
+                    // cmbType.SelectedValue = item.EventCategoryType;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

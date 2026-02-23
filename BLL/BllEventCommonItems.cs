@@ -31,5 +31,19 @@ namespace BLL
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
+        public DmnEventCommonItems DeleteEventItem(string procedureName, DmnEventCommonItems obj)
+        {
+            DAL.DapperRepository<DmnEventCommonItems> repo =
+                new DAL.DapperRepository<DmnEventCommonItems>();
+
+            DynamicParameters parms = new DynamicParameters();
+
+            parms.Add("EventItemId", obj.EventItemId);
+            parms.Add("CreatedBy", obj.CreatedBy);
+
+            var data = repo.AddandReturnID(procedureName, parms);
+
+            return data;
+        }
     }
 }
