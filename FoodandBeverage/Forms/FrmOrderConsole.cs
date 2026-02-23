@@ -68,6 +68,7 @@ namespace FoodandBeverage.Forms
         public int columncount = Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow"]);
         public decimal Productheight = Convert.ToDecimal(ConfigurationManager.AppSettings["Productheight"]);
         public decimal Productwidth = Convert.ToDecimal(ConfigurationManager.AppSettings["Productwidth"]);
+        public int Productcorner = Convert.ToInt32(ConfigurationManager.AppSettings["CornerRadius"]);
         public int Productspace = Convert.ToInt32(ConfigurationManager.AppSettings["Productspace"]);
 
         public int columncount_offer = Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow_Offer"]);
@@ -3293,6 +3294,8 @@ namespace FoodandBeverage.Forms
                     tile.Controls.Add(pnlType);
                     pnlType.BringToFront();
 
+                    UIHelper.RoundCorners(tile, Productcorner, null);
+
                     // ---------- ADD TILE ----------
                     flp_productview.Controls.Add(tile);
                 }
@@ -3658,6 +3661,8 @@ namespace FoodandBeverage.Forms
                     tile.Controls.Add(picFav);
                     picFav.BringToFront();
 
+                    UIHelper.RoundCorners(tile, Productcorner, null);
+
                     flp_productview.Controls.Add(tile);
                 }
             }
@@ -3772,6 +3777,8 @@ namespace FoodandBeverage.Forms
 
                         tile.Controls.Add(lblTitle);
                         tile.Controls.Add(lblPercent);
+
+                        UIHelper.RoundCorners(tile, Productcorner, null);
 
                         flp_productview.Controls.Add(tile);
                     }
@@ -4034,6 +4041,9 @@ namespace FoodandBeverage.Forms
 
                     tlpMain.Controls.Add(lblProductName, 0, 0);
                     tlpMain.Controls.Add(lblPrice, 0, 1);
+
+                    UIHelper.RoundCorners(tile, Productcorner, null);
+
                     flp_productview.Controls.Add(tile);
                 }
             }
@@ -4275,6 +4285,8 @@ namespace FoodandBeverage.Forms
                     picMore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
                     tile.Controls.Add(picMore);
                     picMore.BringToFront();
+
+                    UIHelper.RoundCorners(tile, Productcorner, null);
 
                     flp_productview.Controls.Add(tile);
 
@@ -6829,6 +6841,8 @@ namespace FoodandBeverage.Forms
                         tile.Controls.Add(picFav);
                         picFav.BringToFront();
 
+                        UIHelper.RoundCorners(tile, Productcorner, null);
+
                         flp_productview.Controls.Add(tile);
 
                         #endregion
@@ -6910,6 +6924,8 @@ namespace FoodandBeverage.Forms
                         picMore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
                         tile.Controls.Add(picMore);
                         picMore.BringToFront();
+
+                        UIHelper.RoundCorners(tile, Productcorner, null);
 
                         flp_productview.Controls.Add(tile);
 

@@ -67,7 +67,7 @@ namespace FoodandBeverage.Forms
 
         public int columncount_offer = Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow_Offer"]);
 
-
+        int cornerRadius = 20; // default value
         public FrmOrderDesignCustom()
         {
             InitializeComponent();
@@ -82,25 +82,34 @@ namespace FoodandBeverage.Forms
             try
             {
                 pageSize = Pagecount;
+
                 string width = ConfigurationManager.AppSettings["Productwidth"];
                 string height = ConfigurationManager.AppSettings["Productheight"];
+                string corner = ConfigurationManager.AppSettings["CornerRadius"]; // NEW
 
-                // Set default if null/empty
+                // ✅ Default values
                 if (string.IsNullOrEmpty(width))
                     width = "120";
 
                 if (string.IsNullOrEmpty(height))
                     height = "120";
 
+                if (string.IsNullOrEmpty(corner))
+                    corner = "20";
+
+                // ✅ Set to UI
                 txtwidth.Text = width;
                 txtheight.Text = height;
+                txtcorner.Text = corner;
 
-                // Also update runtime variables
+                // ✅ Convert to runtime variables
                 int.TryParse(width, out tileW);
                 int.TryParse(height, out tileH);
+                int.TryParse(corner, out cornerRadius);
 
-                // Apply immediately to UI
+                // ✅ Apply immediately
                 UpdateTileSize();
+                GenearteNormalProduct(); // IMPORTANT → apply corner + size
             }
             catch (Exception ex)
             {
@@ -247,66 +256,7 @@ namespace FoodandBeverage.Forms
 
         private void SidebuttonClickEventHandler(object sender, EventArgs e)
         {
-            try
-            {
-                McategoryID = Convert.ToInt32(MenucategryType.NormalProduct);
-                ProductData = new List<DmnGridFields>();
-                pagedatadata = new List<DmnGridFields>();
-                currentPage = 1;
-
-                Control clickedControl = sender as Control;
-
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-
-                dmnSearch.Select =
-     "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7";
-
-                dmnSearch.Table =
-                "tblProduct p " +
-                "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
-                "OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from tblOfferDetails ofd " +
-                "LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1 " +
-                "where ofm.status = 1 AND ofm.OfferType = 0 AND ofd.Producttype=1 " +
-                "AND p.ProductId = ofd.ProductId " +
-                "and ofm.OfferstartDatetime <= SYSDATETIME() " +
-                "AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1) q " +
-
-                "WHERE p.Status=1 " +
-                "AND p.Fcid=" + clickedControl.Tag + " " +
-                "AND m.Status=1 " +
-                "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
-
-                " Union all Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7 from " +
-                    " tblItem i " +
-                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
-                // " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
-                dmnSearch.WhereNdGroupBy =
-                    " where i.Fcid= " + clickedControl.Tag + " and i.Saletype=1 and i.Status=1  " +
-                    " and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0";
-
-                // " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
-                ProductData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                totalPages = (int)Math.Ceiling((double)ProductData.Count / pageSize);
-
-                flp_productview.AutoScroll = true;
-                flp_productview.WrapContents = true;
-                flp_productview.FlowDirection = FlowDirection.LeftToRight;
-
-                if (ProductData.Count == 0)
-                    return;
-
-                flp_sidemenu.Visible = false;
-
-                pagedatadata = ProductData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
-
-
-                GenearteNormalProduct();
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Order page SidebuttonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
-            }
+            GenearteNormalProduct();
         }
         public void GenearteNormalProduct()
         {
@@ -668,6 +618,7 @@ namespace FoodandBeverage.Forms
             {
                 string widthValue = txtwidth.Text.Trim();
                 string heightValue = txtheight.Text.Trim();
+                string cornerValue = txtcorner.Text.Trim(); // NEW
 
                 if (string.IsNullOrEmpty(widthValue) || string.IsNullOrEmpty(heightValue))
                 {
@@ -677,8 +628,10 @@ namespace FoodandBeverage.Forms
 
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-                config.AppSettings.Settings["Productwidth"].Value = widthValue;
-                config.AppSettings.Settings["Productheight"].Value = heightValue;
+                // Safe update or add
+                SetAppSetting(config, "Productwidth", widthValue);
+                SetAppSetting(config, "Productheight", heightValue);
+                SetAppSetting(config, "CornerRadius", cornerValue);
 
                 config.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection("appSettings");
@@ -688,6 +641,43 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+        private void SetAppSetting(Configuration config, string key, string value)
+        {
+            if (config.AppSettings.Settings[key] != null)
+            {
+                config.AppSettings.Settings[key].Value = value;
+            }
+            else
+            {
+                config.AppSettings.Settings.Add(key, value);
+            }
+        }
+
+        private void btncorner_rem_Click(object sender, EventArgs e)
+        {
+            if (cornerRadius > 0)
+                cornerRadius--;
+
+            txtcorner.Text = cornerRadius.ToString(); 
+            GenearteNormalProduct();
+        }
+
+        private void btncorner_add_Click(object sender, EventArgs e)
+        {
+            cornerRadius++;
+
+            txtcorner.Text = cornerRadius.ToString(); 
+            GenearteNormalProduct();
+        }
+
+        private void txtcorner_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtcorner.Text, out int value))
+            {
+                cornerRadius = value;
+                GenearteNormalProduct(); 
             }
         }
     }

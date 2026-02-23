@@ -12,6 +12,7 @@
           "CircularProgressBar": "2.8.0.16",
           "LiveCharts.WinForms": "0.9.7.1",
           "NETStandard.Library": "2.0.3",
+          "RJCodeAdvance.RJControls": "1.0.0",
           "iTextSharp": "5.5.13.4"
         },
         "runtime": {
@@ -70,6 +71,14 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
+      },
+      "RJCodeAdvance.RJControls/1.0.0": {
+        "runtime": {
+          "lib/net45/RJCodeAdvance.RJControls.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -127,6 +136,13 @@
       "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "RJCodeAdvance.RJControls/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-O+drkZ7lKfMdRRgXKiy2Z/ENhU5Ee2j2mXSzHWwEN2thtRDrWjoUpUvUm9gSFX8susKj1yeVmtMG3qYeNBvmBw==",
+      "path": "rjcodeadvance.rjcontrols/1.0.0",
+      "hashPath": "rjcodeadvance.rjcontrols.1.0.0.nupkg.sha512"
     }
   }
 }
