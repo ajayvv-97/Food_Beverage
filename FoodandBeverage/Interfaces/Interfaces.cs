@@ -567,5 +567,13 @@ namespace FoodandBeverage.Interfaces
         Veg = 1,
         Nonveg = 2
     }
+
+    public enum EventCategoryType
+    {
+        EventTypes = 1,
+        Cakes = 2
+    }
+
 }
+
 

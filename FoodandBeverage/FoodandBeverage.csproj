@@ -38,7 +38,8 @@
     </Win32Resource>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>fbicon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -432,6 +433,12 @@
     <Compile Include="Forms\FrmOrderView.Designer.cs">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmPartyBooking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPartyBooking.Designer.cs">
+      <DependentUpon>FrmPartyBooking.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPartyPackSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -641,12 +648,6 @@
     </Compile>
     <Compile Include="Forms\UserControls\FrmSearch.Designer.cs">
       <DependentUpon>FrmSearch.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FrmPartyBooking.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmPartyBooking.Designer.cs">
-      <DependentUpon>FrmPartyBooking.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Interfaces.cs" />
     <Compile Include="Program.cs" />
@@ -925,6 +926,9 @@
     <EmbeddedResource Include="Forms\FrmOrderView.resx">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPartyBooking.resx">
+      <DependentUpon>FrmPartyBooking.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPartyPackSetup.resx">
       <DependentUpon>FrmPartyPackSetup.cs</DependentUpon>
     </EmbeddedResource>
@@ -1033,9 +1037,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\FrmSearch.resx">
       <DependentUpon>FrmSearch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmPartyBooking.resx">
-      <DependentUpon>FrmPartyBooking.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1987,7 +1988,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
-    <Content Include="fbicon.ico" />
     <None Include="Resources\Nocharge.png" />
     <None Include="Resources\blank.png" />
     <None Include="Resources\blank_1.png" />
