@@ -33,10 +33,12 @@ namespace FoodandBeverage.Forms
 
         public int Cmslno = 0;
         public int Cmitemno = 1;
-        public int Cmqtyno = 2;
-        public int Cmactionno = 3;
-        public int CmPartyPackCustomDetailsId = 4;
-        public int Cmpriceno = 5;
+        public int Ccategmenuno = 2;
+        public int Cmqtyno = 3;
+        public int Cmactionno = 4;
+        public int CmPartyPackCustomDetailsId = 5;
+        public int Cmpriceno = 6;
+
         #endregion
 
         bool Loaddetailsflag = false;
@@ -54,6 +56,7 @@ namespace FoodandBeverage.Forms
         {
             Taxfill();
             LoadMenuCategory();
+            LoadMenuCategory_Cutom();
 
             dgv_packs_default.BringToFront();
             dgv_packs_default.Visible = true;
@@ -165,7 +168,36 @@ namespace FoodandBeverage.Forms
 
                 cmb.DataSource = categoryList;
                 cmb.DisplayMember = "CategoryName";
+                cmb.ValueMember = "Fcid";     
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void LoadMenuCategory_Cutom()
+        {
+            try
+            {
+                BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
+                DmnSearch objSearch = new DmnSearch();
+
+                objSearch.Select = "Fcid, CategoryName";
+                objSearch.Table = "tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 5";
+                objSearch.OrderBy = "ORDER BY CategoryName";
+
+                categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
+
+                // ✅ Bind to DataGridView ComboBox column
+                DataGridViewComboBoxColumn cmb =
+                    (DataGridViewComboBoxColumn)dgv_packcustom.Columns[Ccategmenuno];
+
+                cmb.DataSource = categoryList;
+                cmb.DisplayMember = "CategoryName";
                 cmb.ValueMember = "Fcid";
+
             }
             catch (Exception ex)
             {
@@ -367,12 +399,6 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                if (gridcount == 0)
-                {
-                    MessageBox.Show("Please add at least one valid item.",
-                        "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
                 #endregion
 
                 #region Custom
@@ -387,6 +413,7 @@ namespace FoodandBeverage.Forms
                     string productVal = Convert.ToString(row.Cells[Cmitemno].Value);
                     string qtyVal = Convert.ToString(row.Cells[Cmqtyno].Value);
                     string priceVal = "0";//Convert.ToString(row.Cells[Cmpriceno].Value);
+                    int menuid = Convert.ToInt32(row.Cells[Ccategmenuno].Value);
 
                     if (!string.IsNullOrWhiteSpace(productVal) &&
                         decimal.TryParse(qtyVal, out decimal qty) && qty > 0)
@@ -401,6 +428,7 @@ namespace FoodandBeverage.Forms
                         dmncusmenu.PartyPackCustomDetailsId = detailsId;
                         dmncusmenu.PartyPackId = 0;// packstatus.PartyPackId;
                         dmncusmenu.Product = Convert.ToString(productVal);
+                        dmncusmenu.MenuCategoryId = menuid;
                         dmncusmenu.Qty = qty;
                         dmncusmenu.Price = string.IsNullOrEmpty(priceVal) ? 0 : Convert.ToDecimal(priceVal);
                         dmncusmenu.CreatedBy = FrmDashboard.UserId;
@@ -413,13 +441,6 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 #endregion
-
-
-                if (gridcount == 0)
-                {
-                    MessageBox.Show("Please add at least one item");
-                    return;
-                }
 
                 if (gridcount == statuscount)
                 {
@@ -440,7 +461,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Default values
+
                 if (string.IsNullOrWhiteSpace(txtadultprice.Text))
                     txtadultprice.Text = "0";
 
@@ -450,7 +471,6 @@ namespace FoodandBeverage.Forms
                 if (string.IsNullOrWhiteSpace(txtDiscAmnt.Text))
                     txtDiscAmnt.Text = "0";
 
-                // ✅ Pack Name
                 if (string.IsNullOrWhiteSpace(txtpackname.Text))
                 {
                     MessageBox.Show("Please Enter Party Pack Name", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -458,7 +478,6 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
 
-                // ✅ Price
                 if (Convert.ToDecimal(txtadultprice.Text) <= 0)
                 {
                     MessageBox.Show("Please Enter Valid Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -466,15 +485,12 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
 
-                // ✅ Tax Type
                 if (string.IsNullOrWhiteSpace(cmbTaxType.Text))
                 {
                     MessageBox.Show("Please Select Tax Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbTaxType.Focus();
                     return false;
                 }
-
-                // ✅ GST / VAT validation
                 if (cmbTaxType.Text == "GST")
                 {
                     if (cmbIgstPrcnt.SelectedValue == null || Convert.ToInt32(cmbIgstPrcnt.SelectedValue) <= 0)
@@ -494,9 +510,7 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                // ✅ GRID CHECK (VERY IMPORTANT 🔥)
                 bool hasItem = false;
-
                 foreach (DataGridViewRow row in dgv_packs_default.Rows)
                 {
                     if (row.IsNewRow) continue;
@@ -506,8 +520,6 @@ namespace FoodandBeverage.Forms
                     if (item != null && !string.IsNullOrWhiteSpace(item.ToString()))
                     {
                         hasItem = true;
-
-                        // ✅ Qty check
                         var qty = row.Cells[Rqtyno].Value;
 
                         if (qty == null || Convert.ToInt32(qty) <= 0)
@@ -517,12 +529,12 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                if (!hasItem)
-                {
-                    MessageBox.Show("Please Add At Least One Item in Pack", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dgv_packs_default.Focus();
-                    return false;
-                }
+                //if (!hasItem)
+                //{
+                //    MessageBox.Show("Please Add At Least One Item in Pack", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    dgv_packs_default.Focus();
+                //    return false;
+                //}
 
                 return true;
             }
@@ -578,6 +590,9 @@ namespace FoodandBeverage.Forms
                 }
                 btn_stanpackage.PerformClick();
                 txtpackname.Focus();
+
+                LoadMenuCategory_Cutom();
+
             }
             catch (Exception ex)
             {
@@ -632,17 +647,11 @@ namespace FoodandBeverage.Forms
                 dtColumnAlign.Columns.Add();
 
                 DmnSearch _objSearch = new DmnSearch();
-
-                // ✅ Updated Headers
                 _objSearch.ColumnHeaders = "ID,Pack Name,Adult Price,Child Price";
-
-                // ✅ Updated Select
                 _objSearch.Select = "PartyPackId as Id, PackName as Field1, AdultPrice as Field2, ChildPrice as Field3";
-
                 _objSearch.Table = "tblPartyPackMaster";
                 _objSearch.WhereNdGroupBy = "WHERE Status = 1";
                 _objSearch.OrderBy = " ORDER BY PackName";
-
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
 
                 if (gridSource.Count == 0)
@@ -729,7 +738,6 @@ namespace FoodandBeverage.Forms
             {
                 Loaddetailsflag = true;
 
-                // ✅ VERY IMPORTANT → Load Combo FIRST
                 LoadMenuCategory();
 
                 dgv_packs_default.Rows.Clear();
@@ -773,7 +781,6 @@ namespace FoodandBeverage.Forms
                     dgv_packs_default.Rows.Add();
                 }
 
-                // ✅ Load custom menu AFTER default
                 LoadCustomMenu();
             }
             catch (Exception ex)
@@ -796,15 +803,15 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnPartyPackCustom> bll = new BllSearch<DmnPartyPackCustom>();
 
                 DmnSearch search = new DmnSearch();
-                search.Select = "PartyPackCustomDetailsId, Product, Qty, Price";
+                search.Select = "PartyPackCustomDetailsId, Product, Qty, Price,MenuCategoryId";
                 search.Table = "tblPartyPackCustomMenu";
                 if(packId==0)
                     search.WhereNdGroupBy = "WHERE status=1";
                 else
                     search.WhereNdGroupBy = "WHERE status=1 and PartyPackId = " + packId;
-
-
                 var list = bll.GetSearchData("prdSearch", search);
+
+                LoadMenuCategory_Cutom();
 
                 foreach (var item in list)
                 {
@@ -813,7 +820,11 @@ namespace FoodandBeverage.Forms
                     dgv_packcustom.Rows[rowIndex].Cells[CmPartyPackCustomDetailsId].Value = item.PartyPackCustomDetailsId;
                     dgv_packcustom.Rows[rowIndex].Cells[Cmitemno].Value = item.Product;
                     dgv_packcustom.Rows[rowIndex].Cells[Cmqtyno].Value = item.Qty;
-                   // dgv_packcustom.Rows[rowIndex].Cells[Cmpriceno].Value = item.Price;
+
+                    if (item.MenuCategoryId > 0)
+                        dgv_packcustom.Rows[rowIndex].Cells[Ccategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+
+                    // dgv_packcustom.Rows[rowIndex].Cells[Cmpriceno].Value = item.Price;
                 }
 
                 RefreshCustomSlNo();
@@ -831,6 +842,7 @@ namespace FoodandBeverage.Forms
                 Loadcustomflag = false;
             }
         }
+
         private bool HasEmptyRowCustom()
         {
             foreach (DataGridViewRow row in dgv_packcustom.Rows)
@@ -845,6 +857,7 @@ namespace FoodandBeverage.Forms
             }
             return false;
         }
+
         private void RefreshCustomSlNo()
         {
             for (int i = 0; i < dgv_packcustom.Rows.Count; i++)
