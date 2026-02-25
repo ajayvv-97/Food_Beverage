@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms;
@@ -159,7 +160,7 @@ namespace FoodandBeverage
                             PartyPackId,
                             PackName,
                             AdultPrice,
-                            ChildPrice,
+                            ChildPrice,Tax,TaxSettingsId,
                             (SELECT COUNT(1) 
                              FROM tblPartyPackDetails d 
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
@@ -171,9 +172,11 @@ namespace FoodandBeverage
                 var list = bll.GetSearchData("prdSearch", search);
                 if(list.Count>0)
                 {
-                    txtchildpackprice.Text = Convert.ToString(list[0].ChildPrice);
-                    txtadultpackprice.Text = Convert.ToString(list[0].AdultPrice);
+                    txtChildPrice.Text = Convert.ToString(list[0].ChildPrice);
+                    txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
 
+                    txttax.Text = Convert.ToString(list[0].Tax);
+                    txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
 
                     for (int col = 0; col < tlp_reg_contrl.ColumnCount; col++)
                     {
@@ -183,17 +186,17 @@ namespace FoodandBeverage
                         Control c2 = tlp_reg_contrl.GetControlFromPosition(col, 5);
                         if (c2 != null) tlp_reg_contrl.Controls.Remove(c2);
                     }
-                    txtchildpackprice.Text = list[0].ChildPrice.ToString();
-                    txtadultpackprice.Text = list[0].AdultPrice.ToString();
+                    txtChildPrice.Text = list[0].ChildPrice.ToString();
+                    txtAdultPrice.Text = list[0].AdultPrice.ToString();
 
                     int rowLabel = 4;
                     int rowTextBox = 5;
 
                     lbladult.Dock = DockStyle.Fill;
-                    txtadults.Dock = DockStyle.Fill;
+                    txtAdults.Dock = DockStyle.Fill;
 
                     tlp_reg_contrl.Controls.Add(lbladult, 0, rowLabel);
-                    tlp_reg_contrl.Controls.Add(txtadults, 0, rowTextBox);
+                    tlp_reg_contrl.Controls.Add(txtAdults, 0, rowTextBox);
 
                     lbltotalguest.Dock = DockStyle.Fill;
                     txttotalguest.Dock = DockStyle.Fill;
@@ -201,10 +204,10 @@ namespace FoodandBeverage
                     if (list[0].ChildPrice > 0)
                     {
                         lblnochild.Dock = DockStyle.Fill;
-                        txtchild.Dock = DockStyle.Fill;
+                        txtChild.Dock = DockStyle.Fill;
 
                         tlp_reg_contrl.Controls.Add(lblnochild, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(txtchild, 1, rowTextBox);
+                        tlp_reg_contrl.Controls.Add(txtChild, 1, rowTextBox);
 
                         tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
                         tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
@@ -1369,16 +1372,22 @@ namespace FoodandBeverage
             }
         }
 
-       
+
 
         private void txtadults_TextChanged(object sender, EventArgs e)
         {
             UpdateTotalGuests();
+            UpdateGrandTotal();   
+            CalculateDiscountAmount();
+            CalculateNetAmount();
         }
 
         private void txtchild_TextChanged(object sender, EventArgs e)
         {
             UpdateTotalGuests();
+            UpdateGrandTotal();  
+            CalculateDiscountAmount();
+            CalculateNetAmount();
         }
 
         private void UpdateTotalGuests()
@@ -1386,10 +1395,27 @@ namespace FoodandBeverage
             int adults = 0;
             int children = 0;
 
-            int.TryParse(txtadults.Text, out adults);
-            int.TryParse(txtchild.Text, out children);
+            int.TryParse(txtAdults.Text, out adults);
+            int.TryParse(txtChild.Text, out children);
 
             txttotalguest.Text = (adults + children).ToString();
+        }
+
+        private void UpdateGrandTotal()
+        {
+            decimal adultPrice = 0;
+            decimal childPrice = 0;
+            int adults = 0;
+            int children = 0;
+
+            decimal.TryParse(txtAdultPrice.Text, out adultPrice);
+            decimal.TryParse(txtChildPrice.Text, out childPrice);
+            int.TryParse(txtAdults.Text, out adults);
+            int.TryParse(txtChild.Text, out children);
+
+            decimal grandTotal = (adultPrice * adults) + (childPrice * children);
+
+            txtGrandTotal.Text = grandTotal.ToString("N2");
         }
 
         private void txtchild_KeyPress(object sender, KeyPressEventArgs e)
@@ -1425,5 +1451,151 @@ namespace FoodandBeverage
                 e.Handled = true;
             }
         }
+
+        #region Party Booking Calculation
+
+        private bool isUpdating = false; 
+
+        public void CalculateNetAmount()
+        {
+            if (isUpdating) return;
+            try
+            {
+                isUpdating = true;
+
+                if (string.IsNullOrEmpty(txtOAAmount.Text)) txtOAAmount.Text = "0";
+                if (string.IsNullOrEmpty(txtODAmount.Text)) txtODAmount.Text = "0";
+                if (string.IsNullOrEmpty(txtDiscountPer.Text)) txtDiscountPer.Text = "0";
+                if (string.IsNullOrEmpty(txtTotalDiscountAmt.Text)) txtTotalDiscountAmt.Text = "0";
+                if (string.IsNullOrEmpty(txtGrandTotal.Text)) txtGrandTotal.Text = "0";
+
+                decimal grandTotal = Convert.ToDecimal(txtGrandTotal.Text);
+                decimal discountAmt = Convert.ToDecimal(txtTotalDiscountAmt.Text);
+                decimal otherAdd = Convert.ToDecimal(txtOAAmount.Text);
+                decimal otherDeduct = Convert.ToDecimal(txtODAmount.Text);
+
+                decimal netBeforeTax = grandTotal - discountAmt + otherAdd - otherDeduct;
+
+                decimal taxAmt = 0;
+                decimal preGSTAmount = netBeforeTax;
+
+                if (!string.IsNullOrEmpty(txtTaxSettingId.Text))
+                {
+                    int taxSettingId = Convert.ToInt32(txtTaxSettingId.Text);
+
+                    BllSearch<DmnTaxSettings> _bllSearch1 = new BllSearch<DmnTaxSettings>();
+                    DmnSearch dmnSearch = new DmnSearch();
+                    dmnSearch.Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt";
+                    dmnSearch.Table = "tblTaxSettings";
+                    dmnSearch.WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}";
+                    var taxSettings = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
+
+                    if (taxSettings.Count > 0)
+                    {
+                        decimal totalPercent = taxSettings[0].IgstPrcnt + taxSettings[0].VatPrcnt;
+
+                        if (txttax.Text.Trim().ToUpper() == "INCLUSIVE")
+                        {
+                            preGSTAmount = netBeforeTax / (1 + totalPercent / 100);
+                            taxAmt = netBeforeTax - preGSTAmount;
+                        }
+                        else // Exclusive
+                        {
+                            taxAmt = preGSTAmount * totalPercent / 100;
+                            preGSTAmount = netBeforeTax;
+                        }
+                    }
+                }
+
+                txtTotalTaxAmount.Text = taxAmt.ToString("N2");
+                txtPreTaxAmount.Text = preGSTAmount.ToString("N2");
+
+                decimal finalNet = preGSTAmount + taxAmt;
+                lblNetAmt.Text = finalNet.ToString("N2");
+
+                decimal rcvAmt = string.IsNullOrEmpty(txtRcvAmt.Text) ? 0 : Convert.ToDecimal(txtRcvAmt.Text);
+                lblBalAmt.Text = (finalNet - rcvAmt).ToString("N2");
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("PartyBooking - CalculateNetAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+            finally
+            {
+                isUpdating = false;
+            }
+        }
+
+  
+        public void CalculateDiscountAmount()
+        {
+
+            try
+            {
+                if (string.IsNullOrEmpty(discountper.Text)) discountper.Text = "0";
+                if (string.IsNullOrEmpty(txtGrandTotal.Text)) txtGrandTotal.Text = "0";
+
+                decimal discountPer = Convert.ToDecimal(discountper.Text);
+                decimal grandTotal = Convert.ToDecimal(txtGrandTotal.Text);
+
+                if (discountPer > 100)
+                {
+                    CMessageBox.Show("Invalid Discount %", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    discountper.Text = "0";
+                    discountper.Focus();
+                    return;
+                }
+
+                decimal discountAmt = grandTotal * discountPer / 100;
+                txtTotalDiscountAmt.Text = discountAmt.ToString("N2");
+
+                CalculateNetAmount();
+            }
+            catch(Exception ex)
+            {
+
+            }
+ 
+        }
+
+        public void CalculateDiscountPer()
+        {
+            try
+            {
+        
+                if (string.IsNullOrEmpty(txtTotalDiscountAmt.Text)) txtTotalDiscountAmt.Text = "0";
+                if (string.IsNullOrEmpty(txtGrandTotal.Text)) txtGrandTotal.Text = "0";
+
+                decimal discountAmt = Convert.ToDecimal(txtTotalDiscountAmt.Text);
+                decimal grandTotal = Convert.ToDecimal(txtGrandTotal.Text);
+
+                if (discountAmt > grandTotal)
+                {
+                    CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTotalDiscountAmt.Text="0";
+                    txtTotalDiscountAmt.Focus();
+                    return;
+                }
+
+                decimal discountPer = grandTotal == 0 ? 0 : (discountAmt / grandTotal * 100);
+                discountper.Text = discountPer.ToString("N2");
+                
+                CalculateNetAmount();
+            }
+            catch(Exception)
+            {
+
+            }
+      
+        }
+
+        private void txtOAAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
+        private void txtRcvAmt_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
+        private void discountper_TextChanged(object sender, EventArgs e) => CalculateDiscountAmount();
+        private void txtTotalDiscountAmt_TextChanged(object sender, EventArgs e) => CalculateDiscountPer();
+        private void txtODAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
+        #endregion
+
+
     }
 }
