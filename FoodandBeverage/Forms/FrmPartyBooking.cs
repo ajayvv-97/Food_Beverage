@@ -195,21 +195,26 @@ namespace FoodandBeverage
                     tlp_reg_contrl.Controls.Add(lbladult, 0, rowLabel);
                     tlp_reg_contrl.Controls.Add(txtadults, 0, rowTextBox);
 
-
                     lbltotalguest.Dock = DockStyle.Fill;
                     txttotalguest.Dock = DockStyle.Fill;
 
-                    tlp_reg_contrl.Controls.Add(lbltotalguest, 1, rowLabel);
-                    tlp_reg_contrl.Controls.Add(txttotalguest, 1, rowTextBox);
-
                     if (list[0].ChildPrice > 0)
                     {
-                        lbladult.Dock = DockStyle.Fill;
-                        txtadults.Dock = DockStyle.Fill;
+                        lblnochild.Dock = DockStyle.Fill;
+                        txtchild.Dock = DockStyle.Fill;
 
-                        tlp_reg_contrl.Controls.Add(lblnochild, 2, rowLabel);
-                        tlp_reg_contrl.Controls.Add(txtchild, 2, rowTextBox);
+                        tlp_reg_contrl.Controls.Add(lblnochild, 1, rowLabel);
+                        tlp_reg_contrl.Controls.Add(txtchild, 1, rowTextBox);
+
+                        tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
+                        tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
                     }
+                    else
+                    {
+                        tlp_reg_contrl.Controls.Add(lbltotalguest, 1, rowLabel);
+                        tlp_reg_contrl.Controls.Add(txttotalguest, 1, rowTextBox);
+                    }
+
 
                 }
                 foreach (var item in list)
