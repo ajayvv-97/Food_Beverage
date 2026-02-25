@@ -19,7 +19,8 @@ namespace Domain
         public int BranchId { get; set; }
         public int Status { get; set; }
         public int DetailsCount { get; set; }
-
+        public string Tax { get; set; }
+        
     }
     public class DmnPartyPackDetails
     {
@@ -32,8 +33,11 @@ namespace Domain
         public int CreatedBy { get; set; }
         public int BranchId { get; set; }
         public int Status { get; set; }
+        public int PackItemType { get; set; }
 
-        
+        public int Productid { get; set; }
+        public int ProductType{ get; set; }
+
     }
     
 }

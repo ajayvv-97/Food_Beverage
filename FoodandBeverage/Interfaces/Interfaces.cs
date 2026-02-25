@@ -573,6 +573,12 @@ namespace FoodandBeverage.Interfaces
         EventTypes = 1,
         Cakes = 2
     }
+    public enum PackItemType
+    {
+        FoodItem = 1,
+        Card = 2,
+        Gift = 3
+    }
 
 }
 

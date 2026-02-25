@@ -21,6 +21,7 @@ namespace BLL
             parms.Add("DiscountPer", obj.DiscountPer);
             parms.Add("DiscountAmt", obj.DiscountAmt);
             parms.Add("TaxType", obj.TaxType);
+            parms.Add("Tax", obj.Tax);
             parms.Add("TaxSettingsId", obj.TaxSettingsId);
             parms.Add("CreatedBy", obj.CreatedBy);
             parms.Add("BranchId", obj.BranchId);
@@ -46,6 +47,10 @@ namespace BLL
             parms.Add("BranchId", obj.BranchId);
             parms.Add("Status", obj.Status);
 
+            parms.Add("PackItemType", obj.PackItemType); 
+            parms.Add("ProductId", obj.Productid);       
+            parms.Add("ProductType", obj.ProductType);   
+
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
@@ -70,6 +75,28 @@ namespace BLL
             return data;
         }
 
+
+        public DmnPartyPackCake AddData_Cake(string procedureName, DmnPartyPackCake obj)
+        {
+            DAL.DapperRepository<DmnPartyPackCake> repo =
+                new DAL.DapperRepository<DmnPartyPackCake>();
+
+            DynamicParameters parms = new DynamicParameters();
+
+            parms.Add("PartyPackCakeId", obj.PartyPackCakeId);
+            parms.Add("PartyPackId", obj.PartyPackId);
+            parms.Add("CakeType", obj.CakeType);
+            parms.Add("CakeSize", obj.CakeSize);
+            parms.Add("CakeShape", obj.CakeShape);
+            parms.Add("Qty", obj.Qty);
+            parms.Add("Price", obj.Price);
+            parms.Add("CreatedBy", obj.CreatedBy);
+            parms.Add("BranchId", obj.BranchId);
+            parms.Add("Status", obj.Status);
+
+            var data = repo.AddandReturnID(procedureName, parms);
+            return data;
+        }
     }
 
 }

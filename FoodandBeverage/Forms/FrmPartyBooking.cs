@@ -165,11 +165,53 @@ namespace FoodandBeverage
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
                              AND d.Status = 1) AS DetailsCount";
                 search.Table = "tblPartyPackMaster";
-                search.WhereNdGroupBy = "WHERE Status = 1";
+                search.WhereNdGroupBy = "WHERE Status = 1 ";
                 search.OrderBy = "ORDER BY PackName";
 
                 var list = bll.GetSearchData("prdSearch", search);
+                if(list.Count>0)
+                {
+                    txtchildpackprice.Text = Convert.ToString(list[0].ChildPrice);
+                    txtadultpackprice.Text = Convert.ToString(list[0].AdultPrice);
 
+
+                    for (int col = 0; col < tlp_reg_contrl.ColumnCount; col++)
+                    {
+                        Control c1 = tlp_reg_contrl.GetControlFromPosition(col, 4);
+                        if (c1 != null) tlp_reg_contrl.Controls.Remove(c1);
+
+                        Control c2 = tlp_reg_contrl.GetControlFromPosition(col, 5);
+                        if (c2 != null) tlp_reg_contrl.Controls.Remove(c2);
+                    }
+                    txtchildpackprice.Text = list[0].ChildPrice.ToString();
+                    txtadultpackprice.Text = list[0].AdultPrice.ToString();
+
+                    int rowLabel = 4;
+                    int rowTextBox = 5;
+
+                    lbladult.Dock = DockStyle.Fill;
+                    txtadults.Dock = DockStyle.Fill;
+
+                    tlp_reg_contrl.Controls.Add(lbladult, 0, rowLabel);
+                    tlp_reg_contrl.Controls.Add(txtadults, 0, rowTextBox);
+
+
+                    lbltotalguest.Dock = DockStyle.Fill;
+                    txttotalguest.Dock = DockStyle.Fill;
+
+                    tlp_reg_contrl.Controls.Add(lbltotalguest, 1, rowLabel);
+                    tlp_reg_contrl.Controls.Add(txttotalguest, 1, rowTextBox);
+
+                    if (list[0].ChildPrice > 0)
+                    {
+                        lbladult.Dock = DockStyle.Fill;
+                        txtadults.Dock = DockStyle.Fill;
+
+                        tlp_reg_contrl.Controls.Add(lblnochild, 2, rowLabel);
+                        tlp_reg_contrl.Controls.Add(txtchild, 2, rowTextBox);
+                    }
+
+                }
                 foreach (var item in list)
                 {
                     // 🔷 CARD
@@ -235,15 +277,17 @@ namespace FoodandBeverage
 
                     btnSelect.Click += (s, e) =>
                     {
-                        int packId = Convert.ToInt32(((Button)s).Tag);
+                        pnl_foodpacks.Visible = false;
 
+                        int packId = Convert.ToInt32(((Button)s).Tag);
                         if (item.DetailsCount > 0)
                         {
                             OpenPackEntryPanel();
+                            LoadPartyPackDetails(packId);
                         }
                         else
                         {
-                            MessageBox.Show("No items available for this pack");
+                            OpenPackEntryPanel();
                         }
                     };
 
@@ -277,14 +321,11 @@ namespace FoodandBeverage
                         card.Controls.Add(lblView);
                     }
 
-
                     card.Click += (s, e) =>
                     {
                         int packId = Convert.ToInt32(card.Tag);
-
                     };
 
-                    // 🔷 ADD CONTROLS
                     card.Controls.Add(lblName);
                     card.Controls.Add(lblPrice);
                     card.Controls.Add(btnSelect);
@@ -298,16 +339,65 @@ namespace FoodandBeverage
             }
         }
 
+        private void LoadPartyPackDetails(int packid)
+        {
+            try
+            {
+                dgv_packenter.Rows.Clear();
+
+                int sl = 1;
+
+                BllSearch<DmnPartyPackDetails> bll = new BllSearch<DmnPartyPackDetails>();
+
+                DmnSearch search = new DmnSearch();
+                search.Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId";
+                search.Table = "tblPartyPackDetails";
+                search.WhereNdGroupBy = $"WHERE PartyPackId = {packid} AND Status = 1 and PackItemType =" + Convert.ToInt32(PackItemType.FoodItem);
+
+                var result = bll.GetSearchData("prdSearch", search);
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        int rowIndex = dgv_packenter.Rows.Add();
+                        var row = dgv_packenter.Rows[rowIndex];
+
+                        row.Cells[selecteditemslno].Value = sl++;
+                        row.Cells[selecteditemitemno].Value = item.Item;
+
+                        if(item.MenuCategoryId!=null &&Convert.ToInt32(item.MenuCategoryId)>0 )
+                            row.Cells[selecteditemcategmenuno].Value =Convert.ToInt64(item.MenuCategoryId);
+
+                        row.Cells[selecteditemqtyno].Value = item.Quantity;
+                        row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                    }
+                }
+
+                int newRowIndex = dgv_packenter.Rows.Add();
+                dgv_packenter.Rows[newRowIndex].Cells[selecteditemslno].Value = sl;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         #region PACK ENTRY PANEL + DGV AUTO ROW
 
         private void dgv_packenter_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
+                DataGridViewRow row = dgv_packenter.Rows[e.RowIndex];
+
+                if (row.Cells[selecteditemqtyno].Value == null ||
+                    row.Cells[selecteditemqtyno].Value.ToString().Trim() == "")
+                {
+                    row.Cells[selecteditemqtyno].Value = 1;
+                }
+
                 if (e.RowIndex == dgv_packenter.Rows.Count - 1)
                 {
-                    DataGridViewRow row = dgv_packenter.Rows[e.RowIndex];
-
                     bool hasValue = false;
 
                     for (int i = 0; i < row.Cells.Count; i++)
@@ -383,14 +473,15 @@ namespace FoodandBeverage
                 cmb.DataSource = categoryList;
                 cmb.DisplayMember = "CategoryName";
                 cmb.ValueMember = "Fcid";
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        #endregion
 
+        #endregion
 
         private void LoadMenuCategory()
         {
@@ -454,7 +545,7 @@ namespace FoodandBeverage
                 DmnSearch search = new DmnSearch();
                 search.Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId";
                 search.Table = "tblPartyPackDetails";
-                search.WhereNdGroupBy = "WHERE PartyPackId = " + packId + " AND Status = 1";
+                search.WhereNdGroupBy = "WHERE PartyPackId = " + packId + " AND Status = 1 and PackItemType =" + Convert.ToInt32(PackItemType.FoodItem);
 
                 LoadMenuCategory();
                 packDetailsList = bll.GetSearchData("prdSearch", search);
@@ -466,7 +557,16 @@ namespace FoodandBeverage
 
                     row.Cells[showonlyslno].Value = sl++;
                     row.Cells[showonlyitemno].Value = item.Item;
-                    row.Cells[showonlycategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+
+                    if (item.MenuCategoryId != null && item.MenuCategoryId > 0)
+                    {
+                        row.Cells[showonlycategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                    }
+                    else
+                    {
+                        row.Cells[showonlycategmenuno].Value = DBNull.Value; 
+                    }
+
                     row.Cells[showonlyqtyno].Value = item.Quantity;
                 }
 
@@ -519,30 +619,38 @@ namespace FoodandBeverage
         }
         private void CategoryFilter_Click(object sender, EventArgs e)
         {
-            Button btn = sender as Button;
-            if (btn == null) return;
-
-            int categoryId = Convert.ToInt32(btn.Tag);
-
-            dgv_packs_items.Rows.Clear();
-
-            var filtered = packDetailsList
-                .Where(x => x.MenuCategoryId == categoryId)
-                .ToList();
-
-            int sl = 1;
-
-            LoadMenuCategory();
-
-            foreach (var item in filtered)
+            try
             {
-                int rowIndex = dgv_packs_items.Rows.Add();
-                var row = dgv_packs_items.Rows[rowIndex];
 
-                row.Cells[showonlyslno].Value = sl++;
-                row.Cells[showonlyitemno].Value = item.Item;
-                row.Cells[showonlycategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
-                row.Cells[showonlyqtyno].Value = item.Quantity;
+
+                Button btn = sender as Button;
+                if (btn == null) return;
+
+                int categoryId = Convert.ToInt32(btn.Tag);
+
+                dgv_packs_items.Rows.Clear();
+
+                var filtered = packDetailsList
+                    .Where(x => x.MenuCategoryId == categoryId)
+                    .ToList();
+
+                int sl = 1;
+
+                LoadMenuCategory();
+
+                foreach (var item in filtered)
+                {
+                    int rowIndex = dgv_packs_items.Rows.Add();
+                    var row = dgv_packs_items.Rows[rowIndex];
+
+                    row.Cells[showonlyslno].Value = sl++;
+                    row.Cells[showonlyitemno].Value = item.Item;
+                    row.Cells[showonlycategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                    row.Cells[showonlyqtyno].Value = item.Quantity;
+                }
+            }
+            catch(Exception ex)
+            {
             }
         }
 
@@ -844,18 +952,23 @@ namespace FoodandBeverage
         #region Custom Menu
         private void btn_addCusItems_Click(object sender, EventArgs e)
         {
-            selectedCustomItems.Clear();
+            try
+            {
+                selectedCustomItems.Clear();
+                pnl_CustomItems_menu.Visible = true;
+                pnl_CustomItems_menu.BringToFront();
 
-            pnl_CustomItems_menu.Visible = true;
-            pnl_CustomItems_menu.BringToFront();
+                pnl_CustomItems_menu.Width = (int)(this.Width * 0.6);
+                pnl_CustomItems_menu.Height = (int)(this.Height * 0.7);
 
-            pnl_CustomItems_menu.Width = (int)(this.Width * 0.6);
-            pnl_CustomItems_menu.Height = (int)(this.Height * 0.7);
+                pnl_CustomItems_menu.Left = (this.Width - pnl_CustomItems_menu.Width) / 2;
+                pnl_CustomItems_menu.Top = (this.Height - pnl_CustomItems_menu.Height) / 2;
 
-            pnl_CustomItems_menu.Left = (this.Width - pnl_CustomItems_menu.Width) / 2;
-            pnl_CustomItems_menu.Top = (this.Height - pnl_CustomItems_menu.Height) / 2;
-
-            LoadCustomMenu(CurrentPackId);
+                LoadCustomMenu(CurrentPackId);
+            }
+            catch(Exception ex)
+            {
+            }
         }
 
         private void btn_cus_menu_cls_Click(object sender, EventArgs e)
@@ -865,33 +978,106 @@ namespace FoodandBeverage
 
         private void btn_cus_menu_submit_Click(object sender, EventArgs e)
         {
-            pnl_CustomItems_menu.Visible = false;
             try
             {
-                dgv_packenter.Rows.Clear();
-                int sl = 1;
+                pnl_CustomItems_menu.Visible = false;
+                int sl = dgv_packenter.Rows.Count;
+
                 LoadMenuCategory_productview();
 
                 foreach (var item in selectedCustomItems)
                 {
-                    int rowIndex = dgv_packenter.Rows.Add();
-                    var row = dgv_packenter.Rows[rowIndex];
+                    bool alreadyExists = false;
 
-                    row.Cells[selecteditemslno].Value = sl++;
-                    row.Cells[selecteditemitemno].Value = item.ItemName;
-                    row.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.CategoryId);
-                    row.Cells[selecteditemqtyno].Value = item.Qty;
-                    row.Cells[selecteditemppcdiidno].Value = item.PartyPackCustomDetailsId;
+                    foreach (DataGridViewRow dgRow in dgv_packenter.Rows)
+                    {
+                        if (dgRow.IsNewRow) continue;
+
+                        var itemName = dgRow.Cells[selecteditemitemno].Value?.ToString();
+                        var categoryId = dgRow.Cells[selecteditemcategmenuno].Value?.ToString();
+
+                        if (itemName == item.ItemName &&
+                            categoryId == item.CategoryId.ToString())
+                        {
+                            alreadyExists = true;
+                            break;
+                        }
+                    }
+
+                    if (alreadyExists) continue;
+
+                    DataGridViewRow targetRow = null;
+
+                    if (dgv_packenter.Rows.Count > 0)
+                    {
+                        DataGridViewRow lastRow = dgv_packenter.Rows[dgv_packenter.Rows.Count - 1];
+
+                        bool isEmpty = true;
+
+                        for (int i = 0; i < lastRow.Cells.Count; i++)
+                        {
+                            if (i == selecteditemslno)
+                                continue;
+
+                            if (lastRow.Cells[i].Value != null &&
+                                lastRow.Cells[i].Value.ToString().Trim() != "")
+                            {
+                                isEmpty = false;
+                                break;
+                            }
+                        }
+
+                        if (isEmpty)
+                        {
+                            targetRow = lastRow;
+                        }
+                    }
+
+                    if (targetRow == null)
+                    {
+                        int rowIndex = dgv_packenter.Rows.Add();
+                        targetRow = dgv_packenter.Rows[rowIndex];
+                        sl++;
+                    }
+
+                    targetRow.Cells[selecteditemslno].Value = sl;
+                    targetRow.Cells[selecteditemitemno].Value = item.ItemName;
+                    targetRow.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.CategoryId);
+                    targetRow.Cells[selecteditemqtyno].Value = item.Qty;
+                    targetRow.Cells[selecteditemppcdiidno].Value = item.PartyPackCustomDetailsId;
                 }
 
-                pnl_foodpacks.Visible = false;
-                pnl_enter_paks.Visible = false;
-                pnl_CustomItems_menu.Visible = false;
+                if (dgv_packenter.Rows.Count > 0)
+                {
+                    DataGridViewRow lastRow = dgv_packenter.Rows[dgv_packenter.Rows.Count - 1];
+
+                    bool hasValue = false;
+
+                    for (int i = 0; i < lastRow.Cells.Count; i++)
+                    {
+                        if (i == selecteditemslno)
+                            continue;
+
+                        if (lastRow.Cells[i].Value != null &&
+                            lastRow.Cells[i].Value.ToString().Trim() != "")
+                        {
+                            hasValue = true;
+                            break;
+                        }
+                    }
+
+                    if (hasValue)
+                    {
+                        int newRowIndex = dgv_packenter.Rows.Add();
+                        dgv_packenter.Rows[newRowIndex].Cells[selecteditemslno].Value =
+                            dgv_packenter.Rows.Count;
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }            
+            }
         }
 
         private void LoadMenuCategory_productview()
@@ -947,77 +1133,90 @@ namespace FoodandBeverage
 
         private void BindCustomGrid(List<DmnPartyPackCustom> list)
         {
-            dgv_cus_menu_items.Rows.Clear();
-
-            int sl = 1;
-
-            LoadMenuCategory_cutom();
-
-            foreach (var item in list)
+            try
             {
-                
-                int rowIndex = dgv_cus_menu_items.Rows.Add();
-                var row = dgv_cus_menu_items.Rows[rowIndex];
-                row.Cells[customitemslno].Value = sl++;
-                row.Cells[customitemselectNo].Value = item.Product;
-                row.Cells[customitemno].Value = Convert.ToInt64(item.MenuCategoryId);
-                row.Cells[customitemqtyno].Value = item.Qty;
-                row.Cells[customitemppcdiidno].Value = item.PartyPackCustomDetailsId;
-                bool isChecked = selectedCustomItems
-                    .Any(x => x.PartyPackCustomDetailsId == item.PartyPackCustomDetailsId);
-                row.Cells[customitemselectNo].Value = isChecked;
+                dgv_cus_menu_items.Rows.Clear();
+                int sl = 1;
+                LoadMenuCategory_cutom();
 
-                row.Tag = item;
+                foreach (var item in list)
+                {
+
+                    int rowIndex = dgv_cus_menu_items.Rows.Add();
+                    var row = dgv_cus_menu_items.Rows[rowIndex];
+
+                    row.Cells[customitemslno].Value = sl++;
+                    row.Cells[customitemno].Value = item.Product;
+                    row.Cells[customitemcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                    row.Cells[customitemqtyno].Value = item.Qty;
+                    row.Cells[customitemppcdiidno].Value = item.PartyPackCustomDetailsId;
+
+                    bool isChecked = selectedCustomItems
+                        .Any(x => x.PartyPackCustomDetailsId == item.PartyPackCustomDetailsId);
+                    row.Cells[customitemselectNo].Value = isChecked;
+
+                    row.Tag = item;
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 
         private void LoadCustomUsedCategories()
         {
-            flp_cus_menuitems.Controls.Clear();
-
-            Button btnAll = new Button();
-            btnAll.Text = "All";
-            btnAll.Tag = 0;
-            btnAll.Width = 120;
-            btnAll.Height = 35;
-            btnAll.BackColor = Color.LightBlue;
-            btnAll.FlatStyle = FlatStyle.Flat;
-
-            btnAll.Click += (s, e) =>
+            try
             {
-                BindCustomGrid(customMenuList);
-            };
+                flp_cus_menuitems.Controls.Clear();
 
-            flp_cus_menuitems.Controls.Add(btnAll);
+                Button btnAll = new Button();
+                btnAll.Text = "All";
+                btnAll.Tag = 0;
+                btnAll.Width = 120;
+                btnAll.Height = 35;
+                btnAll.BackColor = Color.LightBlue;
+                btnAll.FlatStyle = FlatStyle.Flat;
 
-            var usedCategoryIds = customMenuList
-                .Select(x => x.MenuCategoryId)
-                .Distinct()
-                .ToList();
-
-            foreach (var catId in usedCategoryIds)
-            {
-                Button btn = new Button();
-                btn.Text = categoryList
-                    .FirstOrDefault(x => x.Fcid == catId)?.CategoryName ?? "Unknown";
-                btn.Tag = catId;
-                btn.Width = 120;
-                btn.Height = 35;
-                btn.BackColor = Color.LightGray;
-                btn.FlatStyle = FlatStyle.Flat;
-
-                btn.Click += (s, e) =>
+                btnAll.Click += (s, e) =>
                 {
-                    int cid = Convert.ToInt32(((Button)s).Tag);
-
-                    var filtered = customMenuList
-                        .Where(x => x.MenuCategoryId == cid)
-                        .ToList();
-
-                    BindCustomGrid(filtered);
+                    BindCustomGrid(customMenuList);
                 };
 
-                flp_cus_menuitems.Controls.Add(btn);
+                flp_cus_menuitems.Controls.Add(btnAll);
+
+                var usedCategoryIds = customMenuList
+                    .Select(x => x.MenuCategoryId)
+                    .Distinct()
+                    .ToList();
+
+                foreach (var catId in usedCategoryIds)
+                {
+                    Button btn = new Button();
+                    btn.Text = categoryList
+                        .FirstOrDefault(x => x.Fcid == catId)?.CategoryName ?? "Unknown";
+                    btn.Tag = catId;
+                    btn.Width = 120;
+                    btn.Height = 35;
+                    btn.BackColor = Color.LightGray;
+                    btn.FlatStyle = FlatStyle.Flat;
+
+                    btn.Click += (s, e) =>
+                    {
+                        int cid = Convert.ToInt32(((Button)s).Tag);
+
+                        var filtered = customMenuList
+                            .Where(x => x.MenuCategoryId == cid)
+                            .ToList();
+
+                        BindCustomGrid(filtered);
+                    };
+
+                    flp_cus_menuitems.Controls.Add(btn);
+                }
+            }
+            catch(Exception ex)
+            {
             }
         }
 
@@ -1025,14 +1224,6 @@ namespace FoodandBeverage
         {
             try
             {
-
-                /*        public int customitemslno = 0;
-        public int customitemselectNo = 1;
-        public int customitemno = 2;
-        public int customitemcategmenuno = 3;
-        public int customitemqtyno = 4;
-        public int customitemppcdiidno = 5;*/
-
                 if (e.RowIndex >= 0 && e.ColumnIndex == customitemselectNo)
                 {
                     var row = dgv_cus_menu_items.Rows[e.RowIndex];
@@ -1097,33 +1288,137 @@ namespace FoodandBeverage
             try
             {
                 dgv_packs.Rows.Clear();
-                int sl = 1;
+
                 LoadMenuCategory_productview();
 
-                foreach (var item in selectedCustomItems)
+                int sl = 1;
+                foreach (DataGridViewRow sourceRow in dgv_packenter.Rows)
                 {
-                    int rowIndex = dgv_packs.Rows.Add();
-                    var row = dgv_packs.Rows[rowIndex];
+                    if (sourceRow.IsNewRow) continue;
 
-                    //row.Cells[cslno].Value = sl++;
-                    //row.Cells[Citemno].Value = item.ItemName;
-                    //row.Cells[Ccategmenuno].Value = Convert.ToInt64(item.CategoryId);
-                    //row.Cells[Cqtyno].Value = item.Qty;
-                    //row.Cells[Cppcdiidno].Value = item.PartyPackCustomDetailsId;
+                    if (sourceRow.Cells[selecteditemitemno].Value == null)
+                        continue;
+
+                    int rowIndex = dgv_packs.Rows.Add();
+                    DataGridViewRow targetRow = dgv_packs.Rows[rowIndex];
+
+                    targetRow.Cells[mainslno].Value = sl++;
+                    targetRow.Cells[mainitemno].Value = sourceRow.Cells[selecteditemitemno].Value;
+
+                    if(sourceRow.Cells[selecteditemcategmenuno].Value !=null)
+                        targetRow.Cells[maincategmenuno].Value =Convert.ToInt64(sourceRow.Cells[selecteditemcategmenuno].Value);
+
+                    targetRow.Cells[mainqtyno].Value =   sourceRow.Cells[selecteditemqtyno].Value;
+                    targetRow.Cells[mainppcdiidno].Value =     sourceRow.Cells[selecteditemppcdiidno].Value;
                 }
 
                 pnl_foodpacks.Visible = false;
                 pnl_enter_paks.Visible = false;
-
-                MessageBox.Show("Custom menu added successfully");
-
                 pnl_CustomItems_menu.Visible = false;
+
+                dgv_packenter.Rows.Clear();
+                selectedCustomItems.Clear();
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
 
+        private void dgv_packs_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0) return;
+                if (e.ColumnIndex == mainactionno)
+                {
+                    DialogResult result = MessageBox.Show(
+                        "Are you sure you want to delete this row?",
+                        "Confirm",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        dgv_packs.Rows.RemoveAt(e.RowIndex);
+                        ReorderMainSlNo();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ReorderMainSlNo()
+        {
+            int sl = 1;
+
+            foreach (DataGridViewRow row in dgv_packs.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                row.Cells[mainslno].Value = sl++;
+            }
+        }
+
+       
+
+        private void txtadults_TextChanged(object sender, EventArgs e)
+        {
+            UpdateTotalGuests();
+        }
+
+        private void txtchild_TextChanged(object sender, EventArgs e)
+        {
+            UpdateTotalGuests();
+        }
+
+        private void UpdateTotalGuests()
+        {
+            int adults = 0;
+            int children = 0;
+
+            int.TryParse(txtadults.Text, out adults);
+            int.TryParse(txtchild.Text, out children);
+
+            txttotalguest.Text = (adults + children).ToString();
+        }
+
+        private void txtchild_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtadults_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; 
+            }
+        }
+        private void AllowDecimalInput(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            if (txt == null) return;
+
+            // Allow digits, control keys (backspace), and a single decimal point
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Block invalid input
+            }
+
+            // Only allow one decimal point
+            if (e.KeyChar == '.' && txt.Text.Contains("."))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

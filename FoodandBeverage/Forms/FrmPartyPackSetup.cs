@@ -6,14 +6,11 @@ using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Configuration;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Forms;
+
 
 namespace FoodandBeverage.Forms
 {
@@ -39,6 +36,23 @@ namespace FoodandBeverage.Forms
         public int CmPartyPackCustomDetailsId = 5;
         public int Cmpriceno = 6;
 
+        public int Cardslno = 0;
+        public int Cardselectno = 1;
+        public int Carditemno = 2;
+        public int Cardcategmenuno = 3;
+        public int Cardqtyno = 4;
+        public int CardProductid = 5;
+        public int Cardproducttype = 6;
+        public int CardPartyPackDetailsId = 7;
+
+        public int Giftslno = 0;
+        public int Giftselectno = 1;
+        public int Giftitemno = 2;
+        public int Giftqtyno = 3;
+        public int GiftProductid = 4;
+        public int GiftProducttype = 5;
+        public int GiftPartyPackDetailsId = 6;
+
         #endregion
 
         bool Loaddetailsflag = false;
@@ -47,6 +61,33 @@ namespace FoodandBeverage.Forms
         int currentPackId = 0;
 
         private List<DmnCategory> categoryList = new List<DmnCategory>();
+
+        public class SelectedCardItem
+        {
+            public int ProductId { get; set; }
+            public string ProductName { get; set; }
+            public int Qty { get; set; }
+            public int ProductType { get; set; }
+        }
+        public class DmnGiftProducts
+        {
+            public long ProductId { get; set; }
+            public string Description { get; set; }
+        }
+        public class DmnCardProducts
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int Type { get; set; }
+            public string Category { get; set; }  
+        }
+
+        List<SelectedCardItem> selectedCardItems = new List<SelectedCardItem>();
+
+        public string GameDB = Convert.ToString(ConfigurationManager.AppSettings["GameDB"]);
+
+        int selectedCakeId = 0;
+
         #endregion
         public FrmPartyPackSetup()
         {
@@ -57,6 +98,8 @@ namespace FoodandBeverage.Forms
             Taxfill();
             LoadMenuCategory();
             LoadMenuCategory_Cutom();
+
+            ClearCake();
 
             dgv_packs_default.BringToFront();
             dgv_packs_default.Visible = true;
@@ -70,6 +113,12 @@ namespace FoodandBeverage.Forms
             {
                 if (dgv_packs_default.IsCurrentCellDirty)
                     dgv_packs_default.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            };
+
+            dgv_card.CurrentCellDirtyStateChanged += (s, ec) =>
+            {
+                if (dgv_card.IsCurrentCellDirty)
+                    dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
             };
 
             if (dgv_packcustom.Rows.Count == 0)
@@ -95,6 +144,8 @@ namespace FoodandBeverage.Forms
                     cmbVatPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
                 }
             }
+
+            cmbtax.SelectedIndex = 0;
         }
 
         private bool HasEmptyRow()
@@ -326,7 +377,7 @@ namespace FoodandBeverage.Forms
 
                 DmnPartyPack dmn = new DmnPartyPack
                 {
-                    PartyPackId = currentPackId, // important for edit
+                    PartyPackId = currentPackId,
                     PackName = txtpackname.Text,
                     AdultPrice = Convert.ToDecimal(txtadultprice.Text),
                     ChildPrice = Convert.ToDecimal(txtchildprice.Text),
@@ -336,6 +387,7 @@ namespace FoodandBeverage.Forms
                     TaxSettingsId = cmbTaxType.Text == "GST"
                         ? Convert.ToInt32(cmbIgstPrcnt.SelectedValue)
                         : Convert.ToInt32(cmbVatPrcnt.SelectedValue),
+                    Tax = cmbtax.Text,
                     CreatedBy = FrmDashboard.UserId,
                     BranchId = FrmDashboard.BranchId,
                     Status = 1
@@ -365,18 +417,12 @@ namespace FoodandBeverage.Forms
                         int.TryParse(qtyVal, out int qty) && qty > 0)
                     {
                         gridcount++;
+
                         int detailsId = 0;
                         int.TryParse(row.Cells[PartyPackDetailsId].Value?.ToString(), out detailsId);
 
                         int menuCategoryId = 0;
                         int.TryParse(row.Cells[Rcategmenuno].Value?.ToString(), out menuCategoryId);
-
-                        //if (menuCategoryId == 0)
-                        //{
-                        //    MessageBox.Show($"Please select category for item: {itemVal}",
-                        //        "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        //    continue;
-                        //}
 
                         DmnPartyPackDetails dmndetail = new DmnPartyPackDetails
                         {
@@ -387,15 +433,119 @@ namespace FoodandBeverage.Forms
                             CreatedBy = FrmDashboard.UserId,
                             BranchId = FrmDashboard.BranchId,
                             Status = 1,
-                            MenuCategoryId = menuCategoryId
+                            MenuCategoryId = menuCategoryId,
+
+                            PackItemType = (int)PackItemType.FoodItem,
+                            Productid = 0,
+                            ProductType = 0
                         };
 
                         var result = bllPack.AddData_packdetails("prdInsert_Upd_PartyPackDetails", dmndetail);
 
                         if (result != null && result.PartyPackDetailsId > 0)
-                        {
                             statuscount++;
-                        }
+                    }
+                }
+
+                #endregion
+
+                #region Gift
+
+                int giftStatusCount = 0;
+                int giftGridCount = 0;
+
+                foreach (DataGridViewRow row in dgv_gift.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    bool isSelected = false;
+
+                    if (row.Cells[Giftselectno].Value != null)
+                        bool.TryParse(row.Cells[Giftselectno].Value.ToString(), out isSelected);
+
+                    if (!isSelected)
+                        continue;
+
+                    string itemVal = row.Cells[Giftitemno].Value?.ToString().Trim();
+                    string qtyVal = row.Cells[Giftqtyno].Value?.ToString().Trim();
+
+                    if (!string.IsNullOrEmpty(itemVal) &&
+                        int.TryParse(qtyVal, out int qty) && qty > 0)
+                    {
+                        giftGridCount++;
+
+                        int detailsId = 0;
+                        int.TryParse(row.Cells[GiftPartyPackDetailsId].Value?.ToString(), out detailsId);
+
+                        int productId = 0;
+                        int.TryParse(row.Cells[GiftProductid].Value?.ToString(), out productId);
+
+                        int productType = 0;
+                        int.TryParse(row.Cells[GiftProducttype].Value?.ToString(), out productType);
+
+                        DmnPartyPackDetails dmndetail = new DmnPartyPackDetails
+                        {
+                            PartyPackId = packstatus.PartyPackId,
+                            PartyPackDetailsId = detailsId,
+                            Item = itemVal,
+                            Quantity = qty,
+                            CreatedBy = FrmDashboard.UserId,
+                            BranchId = FrmDashboard.BranchId,
+                            Status = 1,
+                            MenuCategoryId = 0,
+
+                            PackItemType = (int)PackItemType.Gift,
+                            Productid = productId,
+                            ProductType = productType
+                        };
+
+                        var result = bllPack.AddData_packdetails(
+                            "prdInsert_Upd_PartyPackDetails",
+                            dmndetail);
+
+                        if (result != null && result.PartyPackDetailsId > 0)
+                            giftStatusCount++;
+                    }
+                }
+
+                #endregion
+
+                #region Card
+
+                int cardStatusCount = 0;
+                int cardGridCount = 0;
+
+                if (selectedCardItems != null && selectedCardItems.Count > 0)
+                {
+                    foreach (var card in selectedCardItems)
+                    {
+                        if (card.ProductId <= 0 || card.Qty <= 0)
+                            continue;
+
+                        cardGridCount++;
+
+                        DmnPartyPackDetails dmndetail = new DmnPartyPackDetails
+                        {
+                            PartyPackId = packstatus.PartyPackId,
+                            PartyPackDetailsId = 0,
+                            Item = card.ProductName,
+                            Quantity = card.Qty,
+                            CreatedBy = FrmDashboard.UserId,
+                            BranchId = FrmDashboard.BranchId,
+                            Status = 1,
+                            MenuCategoryId = 0,
+
+                            PackItemType = (int)PackItemType.Card,
+                            Productid = card.ProductId,
+                            ProductType = card.ProductType
+                        };
+
+                        var result = bllPack.AddData_packdetails(
+                            "prdInsert_Upd_PartyPackDetails",
+                            dmndetail);
+
+                        if (result != null && result.PartyPackDetailsId > 0)
+                            cardStatusCount++;
                     }
                 }
 
@@ -549,6 +699,7 @@ namespace FoodandBeverage.Forms
         {
             clearall();
         }
+
         public void clearall()
         {
             try
@@ -576,6 +727,8 @@ namespace FoodandBeverage.Forms
                 txtCgstPrcnt.Text = "";
                 chb_active.Checked = true;
 
+                cmbtax.SelectedIndex = 0;
+
                 if (FrmDashboard.DefaultTaxType != "")
                 {
                     cmbTaxType.Text = FrmDashboard.DefaultTaxType;
@@ -593,10 +746,15 @@ namespace FoodandBeverage.Forms
 
                 LoadMenuCategory_Cutom();
 
+                btndel_cake.Visible = false;
+
+                dgv_card.Rows.Clear();
+                dgv_gift.Rows.Clear();
+                selectedCardItems.Clear();
+
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Partypacksetup page clearall", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
 
@@ -688,6 +846,7 @@ namespace FoodandBeverage.Forms
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void FillData(int id)
         {
             try
@@ -713,17 +872,19 @@ namespace FoodandBeverage.Forms
                     txtDisPer.Text = data.DiscountPer.ToString();
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
                     cmbTaxType.Text = data.TaxType;
+                    cmbTaxType.Text = data.Tax;
 
                     if (data.TaxType == "GST")
-                        cmbIgstPrcnt.SelectedValue =Convert.ToInt64(data.TaxSettingsId);
+                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(data.TaxSettingsId);
                     else
                         cmbVatPrcnt.SelectedValue = Convert.ToInt64(data.TaxSettingsId);
 
                     btn_del_pack.Visible = true;
 
-                    // Load Details Grid
-                    LoadPackDetails(id);
-                    LoadCustomMenu();
+                    LoadGiftProducts();                
+                    LoadCardProducts("ALL");         
+                    LoadPackDetails(id);               
+                    ApplyCardSelectionToGrid();        
                 }
             }
             catch (Exception ex)
@@ -745,41 +906,75 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnPartyPackDetails> bll = new BllSearch<DmnPartyPackDetails>();
 
                 DmnSearch search = new DmnSearch();
-                search.Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId";
+                search.Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId, PackItemType, ProductId, ProductType";
                 search.Table = "tblPartyPackDetails";
                 search.WhereNdGroupBy = "WHERE PartyPackId = " + packId + " AND Status = 1";
 
                 var list = bll.GetSearchData("prdSearch", search);
 
+                selectedCardItems.Clear();
+
+                foreach (DataGridViewRow gRow in dgv_gift.Rows)
+                {
+                    if (!gRow.IsNewRow)
+                        gRow.Cells[Giftselectno].Value = false;
+                }
+
                 foreach (var item in list)
                 {
-                    int rowIndex = dgv_packs_default.Rows.Add();
-                    var row = dgv_packs_default.Rows[rowIndex];
-
-                    row.Cells[PartyPackDetailsId].Value = item.PartyPackDetailsId;
-                    row.Cells[Ritemno].Value = item.Item;
-                    row.Cells[Rqtyno].Value = item.Quantity;
-
-                    // ✅ SAFE COMBO ASSIGN (NO ERROR)
-                    if (item.MenuCategoryId > 0 &&
-                        categoryList != null &&
-                        categoryList.Any(x => x.Fcid == item.MenuCategoryId))
+                    // ------------------ FOOD ITEMS ------------------
+                    if (item.PackItemType == (int)PackItemType.FoodItem)
                     {
-                        row.Cells[Rcategmenuno].Value =Convert.ToInt64(item.MenuCategoryId);
+                        int rowIndex = dgv_packs_default.Rows.Add();
+                        var row = dgv_packs_default.Rows[rowIndex];
+
+                        row.Cells[PartyPackDetailsId].Value = item.PartyPackDetailsId;
+                        row.Cells[Ritemno].Value = item.Item;
+                        row.Cells[Rqtyno].Value = item.Quantity;
+
+                        if (item.MenuCategoryId > 0 &&
+                            categoryList != null &&
+                            categoryList.Any(x => x.Fcid == item.MenuCategoryId))
+                        {
+                            row.Cells[Rcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                        }
                     }
-                    else
+                    // ------------------ GIFT ITEMS ------------------
+                    else if (item.PackItemType == (int)PackItemType.Gift)
                     {
-                        row.Cells[Rcategmenuno].Value = DBNull.Value; // prevent crash
+                        foreach (DataGridViewRow gRow in dgv_gift.Rows)
+                        {
+                            if (gRow.IsNewRow) continue;
+
+                            int gridProductId = 0;
+                            int.TryParse(gRow.Cells[GiftProductid].Value?.ToString(), out gridProductId);
+
+                            if (gridProductId == item.Productid)
+                            {
+                                gRow.Cells[Giftselectno].Value = true;
+                                gRow.Cells[Giftqtyno].Value = item.Quantity;
+                                gRow.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                                break;
+                            }
+                        }
+                    }
+                    // ------------------ CARD ITEMS ------------------
+                    else if (item.PackItemType == (int)PackItemType.Card)
+                    {
+                        selectedCardItems.Add(new SelectedCardItem
+                        {
+                            ProductId = item.Productid,
+                            ProductName = item.Item,
+                            Qty = item.Quantity,
+                            ProductType = item.ProductType
+                        });
                     }
                 }
 
                 RefreshSlNo();
 
-                // ✅ Always keep empty row
                 if (!HasEmptyRow())
-                {
                     dgv_packs_default.Rows.Add();
-                }
 
                 LoadCustomMenu();
             }
@@ -790,6 +985,30 @@ namespace FoodandBeverage.Forms
             finally
             {
                 Loaddetailsflag = false;
+            }
+        }
+
+        private void ApplyCardSelectionToGrid()
+        {
+            foreach (DataGridViewRow row in dgv_card.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                int productId = 0;
+                int.TryParse(row.Cells[CardProductid].Value?.ToString(), out productId);
+
+                var selected = selectedCardItems.FirstOrDefault(x => x.ProductId == productId);
+
+                if (selected != null)
+                {
+                    row.Cells[Cardselectno].Value = true;
+                    row.Cells[Cardqtyno].Value = selected.Qty;
+                    row.Cells[CardPartyPackDetailsId].Value = 0; 
+                }
+                else
+                {
+                    row.Cells[Cardselectno].Value = false;
+                }
             }
         }
 
@@ -993,17 +1212,7 @@ namespace FoodandBeverage.Forms
 
 
 
-        private void btn_stanpackage_Click(object sender, EventArgs e)
-        {
-            dgv_packs_default.BringToFront();
-            dgv_packs_default.Visible = true;
-        }
-
-        private void btn_custommenu_Click(object sender, EventArgs e)
-        {
-            dgv_packcustom.BringToFront();
-            dgv_packcustom.Visible = true;
-        }
+ 
 
         private void dgv_packcustom_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1311,6 +1520,480 @@ namespace FoodandBeverage.Forms
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void HideAllGrids()
+        {
+            dgv_packs_default.Visible = false;
+            dgv_packcustom.Visible = false;
+            dgv_card.Visible = false;
+            dgv_gift.Visible = false;
+            tlp_subcategory.Visible = false;
+        }
+
+        private void btn_stanpackage_Click(object sender, EventArgs e)
+        {
+            HideAllGrids();
+            dgv_packs_default.Visible = true;
+            dgv_packs_default.BringToFront();
+        }
+
+        private void btn_custommenu_Click(object sender, EventArgs e)
+        {
+            HideAllGrids();
+            dgv_packcustom.Visible = true;
+            dgv_packcustom.BringToFront();
+        }
+
+        private void btn_cardpacks_Click(object sender, EventArgs e)
+        {
+            HideAllGrids();
+            dgv_card.Visible = true;
+            dgv_card.BringToFront();
+            tlp_subcategory.Visible = true;
+            LoadCardProducts("ALL");
+        }
+
+        private void btn_giftpacks_Click(object sender, EventArgs e)
+        {
+            HideAllGrids();
+            dgv_gift.Visible = true;
+            dgv_gift.BringToFront();
+
+            LoadGiftProducts();
+        }
+
+        private void btn_cakepacks_Click(object sender, EventArgs e)
+        {
+            if (pnl_cakeconfig.Visible)
+            {
+                pnl_cakeconfig.Visible = false;
+            }
+            else
+            {
+                //pnl_cakeconfig.Width = (int)(this.ClientSize.Width * 0.5);
+                //pnl_cakeconfig.Height = (int)(this.ClientSize.Height * 0.4);
+
+                pnl_cakeconfig.Left = (this.ClientSize.Width - pnl_cakeconfig.Width) / 2;
+                pnl_cakeconfig.Top = (this.ClientSize.Height - pnl_cakeconfig.Height) / 2;
+                pnl_cakeconfig.BringToFront();
+                pnl_cakeconfig.Visible = true;
+            }
+        }
+
+
+
+
+        #region  Card 
+
+        private void cmbsubcategory_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            string type = cmbsubcategory.Text;
+
+            if (type == "ALL")
+                LoadCardProducts("ALL");
+            else if (type == "CardProducts")
+                LoadCardProducts("1");
+            else if (type == "Trampolining")
+                LoadCardProducts("2");
+            else if (type == "TimePlayProducts")
+                LoadCardProducts("3");
+            else if (type == "GatePass")
+                LoadCardProducts("4");
+        }
+        private void LoadCardProducts(string type = "ALL")
+        {
+            try
+            {
+                dgv_card.Rows.Clear();
+
+                BllSearch<DmnCardProducts> bll = new BllSearch<DmnCardProducts>();
+                DmnSearch search = new DmnSearch();
+
+                if (type == "ALL")
+                {
+                    search.Select = @"
+                Product_id AS Id, 
+                Product AS Name, 
+                1 AS Type, 
+                'Card' AS Category";
+
+                    search.Table = "[" + GameDB + @"].dbo.tblCardProducts WHERE Status=1
+
+            UNION ALL
+
+            SELECT 
+                ProductId AS Id, 
+                Description AS Name, 
+                2 AS Type, 
+                'Trampoline' AS Category
+            FROM [" + GameDB + @"].dbo.tblTrampolining WHERE Status=1
+
+            UNION ALL
+
+            SELECT 
+                ProductId AS Id, 
+                Description AS Name, 
+                3 AS Type, 
+                'TimePlay' AS Category
+            FROM [" + GameDB + @"].dbo.tblTimePlayProducts WHERE Status=1
+
+            UNION ALL
+
+            SELECT 
+                ProductId AS Id, 
+                Description AS Name, 
+                4 AS Type, 
+                'GatePass' AS Category
+            FROM [" + GameDB + @"].dbo.tblGatePass WHERE Status=1";
+
+                    search.WhereNdGroupBy = "";
+                }
+                else
+                {
+                    if (type == "1")
+                    {
+                        search.Select = "Product_id AS Id, Product AS Name, 1 AS Type, 'Card' AS Category";
+                        search.Table = "[" + GameDB + "].dbo.tblCardProducts";
+                    }
+                    else if (type == "2")
+                    {
+                        search.Select = "ProductId AS Id, Description AS Name, 2 AS Type, 'Trampoline' AS Category";
+                        search.Table = "[" + GameDB + "].dbo.tblTrampolining";
+                    }
+                    else if (type == "3")
+                    {
+                        search.Select = "ProductId AS Id, Description AS Name, 3 AS Type, 'TimePlay' AS Category";
+                        search.Table = "[" + GameDB + "].dbo.tblTimePlayProducts";
+                    }
+                    else if (type == "4")
+                    {
+                        search.Select = "ProductId AS Id, Description AS Name, 4 AS Type, 'GatePass' AS Category";
+                        search.Table = "[" + GameDB + "].dbo.tblGatePass";
+                    }
+
+                    search.WhereNdGroupBy = "WHERE Status = 1";
+                }
+
+                List<DmnCardProducts> list = bll.GetSearchData("prdSearch", search);
+
+                int sl = 1;
+
+                foreach (var item in list)
+                {
+                    int rowIndex = dgv_card.Rows.Add();
+
+                    bool isSelected = selectedCardItems.Any(x => x.ProductId == item.Id);
+
+                    dgv_card.Rows[rowIndex].Cells[Cardslno].Value = sl++;
+
+                    dgv_card.Rows[rowIndex].Cells[Cardselectno].Value = isSelected;
+
+                    dgv_card.Rows[rowIndex].Cells[Carditemno].Value = item.Name;
+                    dgv_card.Rows[rowIndex].Cells[Cardcategmenuno].Value = item.Category;
+                    dgv_card.Rows[rowIndex].Cells[Cardqtyno].Value = 1;
+                    dgv_card.Rows[rowIndex].Cells[CardProductid].Value = item.Id;
+                    dgv_card.Rows[rowIndex].Cells[Cardproducttype].Value = item.Type;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void dgv_card_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex != Cardselectno)
+                return;
+
+            var row = dgv_card.Rows[e.RowIndex];
+
+  
+            if (row.Cells[CardProductid].Value == null)
+                return;
+
+            bool isChecked = row.Cells[Cardselectno].Value != null &&
+                             Convert.ToBoolean(row.Cells[Cardselectno].Value);
+
+            int productId = Convert.ToInt32(row.Cells[CardProductid].Value);
+
+            string name = row.Cells[Carditemno].Value?.ToString() ?? "";
+
+            int qty = 1;
+            if (row.Cells[Cardqtyno].Value != null)
+                int.TryParse(row.Cells[Cardqtyno].Value.ToString(), out qty);
+
+            int type = 0;
+            if (row.Cells[Cardproducttype].Value != null)
+                int.TryParse(row.Cells[Cardproducttype].Value.ToString(), out type);
+
+            if (isChecked)
+            {
+                if (!selectedCardItems.Any(x => x.ProductId == productId))
+                {
+                    selectedCardItems.Add(new SelectedCardItem
+                    {
+                        ProductId = productId,
+                        ProductName = name,
+                        Qty = qty,
+                        ProductType = type
+                    });
+                }
+            }
+            else
+            {
+                selectedCardItems.RemoveAll(x => x.ProductId == productId);
+            }
+        }
+
+        #endregion
+
+        #region Gift 
+        private void LoadGiftProducts()
+        {
+            try
+            {
+
+                if (dgv_gift.Rows.Count > 0)
+                    return;
+
+                dgv_gift.Rows.Clear();
+
+                BllSearch<DmnGiftProducts> bll = new BllSearch<DmnGiftProducts>();
+                DmnSearch search = new DmnSearch();
+
+                search.Select = "ProductId, Description";
+                search.Table = "[" + GameDB + "].dbo.tblRedemptionProducts";
+                search.WhereNdGroupBy = "WHERE Status = 1";
+
+                List<DmnGiftProducts> list = bll.GetSearchData("prdSearch", search);
+
+                int sl = 1;
+
+                foreach (var item in list)
+                {
+                    int rowIndex = dgv_gift.Rows.Add();
+
+                    dgv_gift.Rows[rowIndex].Cells[Giftslno].Value = sl++;
+                    dgv_gift.Rows[rowIndex].Cells[Giftselectno].Value = false;
+                    dgv_gift.Rows[rowIndex].Cells[Giftitemno].Value = item.Description;
+                    dgv_gift.Rows[rowIndex].Cells[Giftqtyno].Value = 1;
+                    dgv_gift.Rows[rowIndex].Cells[GiftProductid].Value = item.ProductId;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void dgv_card_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dgv_card.IsCurrentCellDirty)
+            {
+                dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+        #endregion
+
+        #region Cake Registartion
+        private void btnserach_cake_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                int returnValue = 0;
+
+                DmnSearch search = new DmnSearch();
+                search.ColumnHeaders = "ID,Cake Type,Size,Shape";
+                search.Select = "PartyPackCakeId as Id, CakeType as Field1, CakeSize as Field2, CakeShape as Field3";
+                search.Table = "tblPartyPackCake";
+                search.WhereNdGroupBy = "WHERE Status = 1";
+                search.OrderBy = " ORDER BY CakeType";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", search);
+
+                if (gridSource.Count == 0)
+                {
+                    MessageBox.Show("No Records Found");
+                }
+                else
+                {
+                    using (var frm = new FrmSearch<DmnGridFields>(
+                        search,
+                        SearchMode.FirstCharacter,
+                        this.Width - 150,
+                        this.Height - 150,
+                        this.Location.Y + 50,
+                        this.Location.X + 20,
+                        null))
+                    {
+                        if (frm.ShowDialog() == DialogResult.OK)
+                        {
+                            returnValue = Convert.ToInt32(frm._retValue);
+                        }
+                    }
+
+                    if (returnValue > 0)
+                    {
+                        LoadCakeById(returnValue);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void LoadCakeById(int id)
+        {
+            try
+            {
+                BllSearch<DmnPartyPackCake> bll = new BllSearch<DmnPartyPackCake>();
+
+                DmnSearch search = new DmnSearch();
+                search.Select = "*";
+                search.Table = "tblPartyPackCake";
+                search.WhereNdGroupBy = "WHERE PartyPackCakeId=" + id;
+
+                var list = bll.GetSearchData("prdSearch", search);
+
+                if (list.Count > 0)
+                {
+                    btndel_cake.Visible = true;
+
+                    var item = list[0];
+
+                    txtcaketype.Text = item.CakeType;
+                    txtcakesize.Text = item.CakeSize;
+                    txtcakeshape.Text = item.CakeShape;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btndel_cake_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selectedCakeId == 0)
+                {
+                    MessageBox.Show("Select Cake First");
+                    return;
+                }
+                BllPartyPack bllPack = new BllPartyPack();
+                DmnPartyPackCake cake = new DmnPartyPackCake();
+                cake.PartyPackCakeId = selectedCakeId;
+                cake.Status = 0;
+                var result = bllPack.AddData_Cake("prdInsert_Upd_PartyPackCake", cake);
+                MessageBox.Show("Deleted Successfully");
+                btndel_cake.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btnsave_cake_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtcaketype.Text))
+                {
+                    MessageBox.Show("Enter Cake Type");
+                    return;
+                }
+
+                BllPartyPack bllPack = new BllPartyPack();
+                DmnPartyPackCake cake = new DmnPartyPackCake();
+
+                cake.PartyPackCakeId = 0;
+                cake.PartyPackId = 0; 
+                cake.CakeType = txtcaketype.Text;
+                cake.CakeSize = txtcakesize.Text;
+                cake.CakeShape = txtcakeshape.Text;
+                cake.Qty = 1;
+                cake.Price =Convert.ToDecimal(txtcakeprice.Text);
+                cake.CreatedBy = FrmDashboard.UserId;
+                cake.BranchId = FrmDashboard.BranchId;
+                cake.Status = 1;
+
+                var result = bllPack.AddData_Cake("prdInsert_Upd_PartyPackCake", cake);
+
+                if (result.PartyPackCakeId > 0)
+                {
+                    MessageBox.Show("Saved Successfully");
+                    pnl_cakeconfig.Visible = false;
+                    ClearCake();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public void ClearCake()
+        {
+            try
+            {
+                txtcaketype.Text = ""; ;
+                txtcakesize.Text = "1";
+                txtcakeshape.Text = "";
+                txtcakeprice.Text = "0";
+            }
+            catch(Exception ex)
+            {
+            }
+        }
+        #endregion
+
+        private void btnserach_categ_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Decimal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            if (txt == null) return;
+
+            // allow control keys
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // allow only numbers and dot
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // allow only one dot
+            if (e.KeyChar == '.' && txt.Text.Contains("."))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // allow only 2 decimal places
+            if (txt.Text.Contains("."))
+            {
+                int index = txt.Text.IndexOf('.');
+                string decimalPart = txt.Text.Substring(index + 1);
+
+                if (txt.SelectionStart > index && decimalPart.Length >= 2)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+
+        private void btncakreg_cls_Click(object sender, EventArgs e)
+        {
+            pnl_cakeconfig.Visible = false;
         }
 
        
