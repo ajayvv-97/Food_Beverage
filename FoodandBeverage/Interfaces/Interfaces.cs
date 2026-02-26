@@ -579,7 +579,33 @@ namespace FoodandBeverage.Interfaces
         Card = 2,
         Gift = 3
     }
+    public enum PosSalProduct
+    {
+        Card = 1,
+        FB = 2,
+        TimePlay = 3,
+        Reedemption = 4,
+        GateAccess = 5,
+        Merchandise = 6,
+        Trampoline = 7,
+        Bowling = 8,
 
+    };
+    public enum ProductType
+    {
+        Game = 1,
+        Card = 2,
+        FB = 3,
+        GateAccess = 4,
+        TimePlay = 5,
+        RedemptionTicket = 6,
+        Trampoline = 7,
+        Merchandise = 8,
+        GroupSale = 9,
+        FamilyCard = 10,
+        Bowling = 11
+
+    };
 }
 
 

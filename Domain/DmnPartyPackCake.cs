@@ -13,6 +13,10 @@ namespace Domain
         public string CakeSize { get; set; }
         public string CakeShape { get; set; }
 
+        public string TaxType { get; set; }
+        public int TaxSettingsId { get; set; }
+        public string Tax { get; set; }
+
         public decimal Qty { get; set; }
         public decimal Price { get; set; }
 

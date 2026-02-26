@@ -1180,4 +1180,16 @@
   <data name="Nocharge" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Nocharge.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="cancel_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel 32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="background_mouse_clcik" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\background_mouse_clcik.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="font_mouselick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\font_mouselick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Untitled_2_2030" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Untitled-2 2030.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

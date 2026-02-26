@@ -1988,6 +1988,10 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\Untitled-2 2030.png" />
+    <None Include="Resources\font_mouselick.png" />
+    <None Include="Resources\background_mouse_clcik.png" />
+    <None Include="Resources\cancel 32.png" />
     <None Include="Resources\Nocharge.png" />
     <None Include="Resources\blank.png" />
     <None Include="Resources\blank_1.png" />

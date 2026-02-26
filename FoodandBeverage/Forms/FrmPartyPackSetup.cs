@@ -146,6 +146,20 @@ namespace FoodandBeverage.Forms
             }
 
             cmbtax.SelectedIndex = 0;
+
+            if (FrmDashboard.DefaultTaxType != "")
+            {
+                cmbTaxType_cake.Text = FrmDashboard.DefaultTaxType;
+                if (cmbTaxType_cake.Text == "GST")
+                {
+                    cmbIgstPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                }
+                else if (cmbTaxType_cake.Text == "VAT")
+                {
+                    cmbVatPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                }
+            }
+            cmbtax_cake.SelectedIndex = 0;
         }
 
         private bool HasEmptyRow()
@@ -191,6 +205,14 @@ namespace FoodandBeverage.Forms
                 cmbIgstPrcnt.DataSource = gridSource1;
                 cmbIgstPrcnt.ValueMember = "Id";
                 cmbIgstPrcnt.DisplayMember = "Value";
+
+                cmbVatPrcnt_cake.DataSource = gridSource2;
+                cmbVatPrcnt_cake.ValueMember = "Id";
+                cmbVatPrcnt_cake.DisplayMember = "Value";
+
+                cmbIgstPrcnt_cake.DataSource = gridSource1;
+                cmbIgstPrcnt_cake.ValueMember = "Id";
+                cmbIgstPrcnt_cake.DisplayMember = "Value";
             }
             catch (Exception ex)
             {
@@ -713,7 +735,13 @@ namespace FoodandBeverage.Forms
                 cmbtax.SelectedIndex = 0;
                 cmbTaxType.SelectedIndex = 0;
                 cmbIgstPrcnt.SelectedIndex = 0;
-             
+
+                txtCgstPrcnt_cake.Text = "";
+                txtSgstPrcnt_cake.Text = "";
+
+                txtCgstPrcnt.Text = "";
+                txtSgstPrcnt.Text = "";
+
                 cmbTaxType.SelectedIndex = 0;
                 dgv_packs_default.Rows.Clear();
                 dgv_packs_default.Rows.Add();
@@ -751,6 +779,8 @@ namespace FoodandBeverage.Forms
                 dgv_card.Rows.Clear();
                 dgv_gift.Rows.Clear();
                 selectedCardItems.Clear();
+
+                ClearCake();
 
             }
             catch (Exception ex)
@@ -882,7 +912,8 @@ namespace FoodandBeverage.Forms
                     btn_del_pack.Visible = true;
 
                     LoadGiftProducts();                
-                    LoadCardProducts("ALL");         
+                    LoadCardProducts("ALL");    
+                    
                     LoadPackDetails(id);               
                     ApplyCardSelectionToGrid();        
                 }
@@ -1571,6 +1602,20 @@ namespace FoodandBeverage.Forms
             }
             else
             {
+                if (FrmDashboard.DefaultTaxType != "")
+                {
+                    cmbTaxType_cake.Text = FrmDashboard.DefaultTaxType;
+                    if (cmbTaxType_cake.Text == "GST")
+                    {
+                        cmbIgstPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmbTaxType_cake.Text == "VAT")
+                    {
+                        cmbVatPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
+                cmbtax_cake.SelectedIndex = 0;
+
                 //pnl_cakeconfig.Width = (int)(this.ClientSize.Width * 0.5);
                 //pnl_cakeconfig.Height = (int)(this.ClientSize.Height * 0.4);
 
@@ -1578,7 +1623,10 @@ namespace FoodandBeverage.Forms
                 pnl_cakeconfig.Top = (this.ClientSize.Height - pnl_cakeconfig.Height) / 2;
                 pnl_cakeconfig.BringToFront();
                 pnl_cakeconfig.Visible = true;
+
+
             }
+
         }
 
 
@@ -1864,9 +1912,18 @@ namespace FoodandBeverage.Forms
 
                     var item = list[0];
 
+                    // ✅ IMPORTANT
+                    selectedCakeId = item.PartyPackCakeId;
+
                     txtcaketype.Text = item.CakeType;
                     txtcakesize.Text = item.CakeSize;
                     txtcakeshape.Text = item.CakeShape;
+                    txtcakeprice.Text = item.Price.ToString();
+
+
+                    cmbTaxType_cake.Text = item.TaxType;
+                    cmbIgstPrcnt.SelectedValue =Convert.ToUInt64(item.TaxSettingsId);
+                    cmbtax_cake.Text = item.Tax;
                 }
             }
             catch (Exception ex)
@@ -1883,12 +1940,32 @@ namespace FoodandBeverage.Forms
                     MessageBox.Show("Select Cake First");
                     return;
                 }
+
                 BllPartyPack bllPack = new BllPartyPack();
                 DmnPartyPackCake cake = new DmnPartyPackCake();
+
                 cake.PartyPackCakeId = selectedCakeId;
                 cake.Status = 0;
+
+                cake.CakeType = "";
+                cake.CakeSize = "";
+                cake.CakeShape = "";
+                cake.Qty = 1;
+                cake.Price = 0;
+
+                cake.TaxType = "";
+                cake.TaxSettingsId = 0;
+                cake.Tax = "";
+
+                cake.CreatedBy = FrmDashboard.UserId;
+                cake.BranchId = FrmDashboard.BranchId;
+
                 var result = bllPack.AddData_Cake("prdInsert_Upd_PartyPackCake", cake);
+
                 MessageBox.Show("Deleted Successfully");
+
+                ClearCake();
+                selectedCakeId = 0;
                 btndel_cake.Visible = false;
             }
             catch (Exception ex)
@@ -1896,6 +1973,7 @@ namespace FoodandBeverage.Forms
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void btnsave_cake_Click(object sender, EventArgs e)
         {
             try
@@ -1909,13 +1987,20 @@ namespace FoodandBeverage.Forms
                 BllPartyPack bllPack = new BllPartyPack();
                 DmnPartyPackCake cake = new DmnPartyPackCake();
 
-                cake.PartyPackCakeId = 0;
-                cake.PartyPackId = 0; 
+                cake.PartyPackCakeId = selectedCakeId;
+
+                cake.PartyPackId = 0;
                 cake.CakeType = txtcaketype.Text;
                 cake.CakeSize = txtcakesize.Text;
                 cake.CakeShape = txtcakeshape.Text;
                 cake.Qty = 1;
-                cake.Price =Convert.ToDecimal(txtcakeprice.Text);
+                cake.Price = Convert.ToDecimal(txtcakeprice.Text);
+
+                // ✅ TAX
+                cake.TaxType = cmbTaxType.Text;
+                cake.TaxSettingsId = Convert.ToInt32(cmbIgstPrcnt_cake.SelectedValue);
+                cake.Tax = cmbtax_cake.Text;
+
                 cake.CreatedBy = FrmDashboard.UserId;
                 cake.BranchId = FrmDashboard.BranchId;
                 cake.Status = 1;
@@ -1924,9 +2009,11 @@ namespace FoodandBeverage.Forms
 
                 if (result.PartyPackCakeId > 0)
                 {
-                    MessageBox.Show("Saved Successfully");
-                    pnl_cakeconfig.Visible = false;
+                    MessageBox.Show(selectedCakeId > 0 ? "Updated Successfully" : "Saved Successfully");
+
                     ClearCake();
+                    selectedCakeId = 0;   // ✅ reset
+                    btndel_cake.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -1942,6 +2029,20 @@ namespace FoodandBeverage.Forms
                 txtcakesize.Text = "1";
                 txtcakeshape.Text = "";
                 txtcakeprice.Text = "0";
+
+                if (FrmDashboard.DefaultTaxType != "")
+                {
+                    cmbTaxType_cake.Text = FrmDashboard.DefaultTaxType;
+                    if (cmbTaxType_cake.Text == "GST")
+                    {
+                        cmbIgstPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmbTaxType_cake.Text == "VAT")
+                    {
+                        cmbVatPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
+                cmbtax_cake.SelectedIndex = 0;
             }
             catch(Exception ex)
             {
@@ -1996,6 +2097,99 @@ namespace FoodandBeverage.Forms
             pnl_cakeconfig.Visible = false;
         }
 
-       
+        private void cmbTaxType_cake_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int startRow = 3;
+                int endRow = 4;
+                int totalColumns = 4;
+
+
+                for (int row = startRow; row <= endRow; row++)
+                {
+                    for (int col = 0; col < totalColumns; col++)
+                    {
+                        Control ctrl = tlp_cakereg.GetControlFromPosition(col, row);
+                        if (ctrl != null)
+                        {
+                            tlp_cakereg.Controls.Remove(ctrl);
+                        }
+                    }
+                }
+
+                // 🔹 GST Layout
+                if (cmbTaxType_cake.Text == "GST")
+                {
+                    lbligst_cake.Dock = DockStyle.Fill;
+                    cmbIgstPrcnt_cake.Dock = DockStyle.Fill;
+                    lblcgst_cake.Dock = DockStyle.Fill;
+                    txtCgstPrcnt_cake.Dock = DockStyle.Fill;
+                    lblsgst_cake.Dock = DockStyle.Fill;
+                    txtSgstPrcnt_cake.Dock = DockStyle.Fill;
+
+                    tlp_cakereg.Controls.Add(lbligst_cake, 0, 3);
+                    tlp_cakereg.Controls.Add(cmbIgstPrcnt_cake, 1, 3);
+
+                    tlp_cakereg.Controls.Add(lblcgst_cake, 2, 3);
+                    tlp_cakereg.Controls.Add(txtCgstPrcnt_cake, 3, 3);
+
+                    tlp_cakereg.Controls.Add(lblsgst_cake, 0, 4);
+                    tlp_cakereg.Controls.Add(txtSgstPrcnt_cake, 1, 4);
+
+                    tlp_cakereg.Controls.Add(btndel_cake, 3, 4);
+                }
+
+                // 🔹 VAT Layout
+                else if (cmbTaxType_cake.Text == "VAT")
+                {
+                    lblvat_cake.Dock = DockStyle.Fill;
+                    cmbVatPrcnt_cake.Dock = DockStyle.Fill;
+
+                    tlp_cakereg.Controls.Add(lblvat_cake, 0, 3);
+                    tlp_cakereg.Controls.Add(cmbVatPrcnt_cake, 1, 3);
+
+                    tlp_cakereg.Controls.Add(btndel_cake, 3, 3);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Cake setup page cmbTaxType_cake_SelectionChangeCommitted()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void cmbIgstPrcnt_cake_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbIgstPrcnt_cake.SelectedIndex > 0)
+                {
+                    BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                    DmnSearch objSearch_tax = new DmnSearch();
+                    objSearch_tax = new DmnSearch();
+                    objSearch_tax.Select = "TaxSettingsId, SgstPrcnt, CgstPrcnt";
+                    objSearch_tax.Table = "tblTaxSettings";
+                    objSearch_tax.WhereNdGroupBy = "Where TaxSettingsId = " + cmbIgstPrcnt_cake.SelectedValue;
+                    objSearch_tax.OrderBy = "";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch_tax);
+                    if (gridSource.Count > 0)
+                    {
+                        txtSgstPrcnt_cake.Text = gridSource[0].SgstPrcnt.ToString();
+                        txtCgstPrcnt_cake.Text = gridSource[0].CgstPrcnt.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page cmbIgstPrcnt_cake_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+
     }
 }

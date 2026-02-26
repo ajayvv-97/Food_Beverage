@@ -3,13 +3,16 @@ using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms;
+using FoodandBeverage.Forms.UserControl;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +61,48 @@ namespace FoodandBeverage
 
         #endregion
 
+        #region Grid Declaration Card Gift Cake
+
+        public int Cardslno = 0;
+        public int Cardselectno = 1;
+        public int Carditemno = 2;
+        public int Cardcategmenuno = 3;
+        public int Cardqtyno = 4;
+        public int CardProductid = 5;
+        public int Cardproducttype = 6;
+        public int CardPartyPackDetailsId = 7;
+        public int CardPartydeafult = 8;
+
+
+        public int Giftslno = 0;
+        public int Giftselectno = 1;
+        public int Giftitemno = 2;
+        public int Giftqtyno = 3;
+        public int GiftProductid = 4;
+        public int GiftProducttype = 5;
+        public int GiftPartyPackDetailsId = 6;
+        public int GiftPartydeafult = 7;
+
+        public int CakeSlNo = 0;
+        public int CakeActionNo = 1;
+        public int CakeItemNo = 2;
+        public int CakeQtyNo = 3;
+        public int CakeAmountNo = 4; 
+        public int CakeTaxAmtNo = 5;
+        public int CakeNetAmtNo = 6;
+        public int CakeIdno = 7;
+        public int CakeTaxNo = 8;
+        public int CakeTaxTypeNo = 9;
+        public int CakeTaxPerNo = 10;
+        public int CakeIgstAmtNo = 11;
+        public int CakeVatAmtNo = 12;
+        public int CaketaxsettingidNo = 13;
+        public int Cakemessageno = 14;
+        public int Cakeremarksno = 15;
+
+
+        #endregion
+
         private List<DmnPartyPackDetails> packDetailsList;
         private List<DmnCategory> categoryList = new List<DmnCategory>();
 
@@ -78,6 +123,32 @@ namespace FoodandBeverage
         }
         #endregion
 
+        // Cake
+        private int _cakeId = 0;
+        private string _cakeSize = "";
+        private string _cakeShape = "";
+        private string _cakeMessage = "";
+        private string _cakeRemarks = "";
+        private decimal _cakePrice = 0;
+
+        // Tax
+        private string _cakeTaxType = "";      // GST / VAT
+        private decimal _cakeTaxPer = 0;       // 5, 12, 18
+        private int _cakeTaxSettingsId = 0;    // Tax Id
+        private string _cakeTaxMode = "";      // Inclusive / Exclusive
+
+        // ===== CAKE TAX GLOBALS =====
+        private decimal _cakePreTaxAmount = 0;
+        private decimal _cakeTaxAmount = 0;
+        private decimal _cakeNetAmount = 0;
+
+        int CategoryFontstatus = Convert.ToInt32(ConfigurationManager.AppSettings["categoryfontSettingvalue"]);
+        string CategoryFontdata = Convert.ToString(ConfigurationManager.AppSettings["categoryfontdata"]);
+        string Categorybg = Convert.ToString(ConfigurationManager.AppSettings["categorybg"]);
+
+        public int screnwidth = Screen.PrimaryScreen.Bounds.Width;
+        public int screnheight = Screen.PrimaryScreen.Bounds.Height;
+        int GameBranchId=1030;
         #endregion
 
         public FrmPartyBooking()
@@ -88,6 +159,7 @@ namespace FoodandBeverage
         private void FrmPartyBooking_Load(object sender, EventArgs e)
         {
             LoadEventItems();
+            LoadCakeTypes();
         }
 
 
@@ -170,7 +242,8 @@ namespace FoodandBeverage
                 search.OrderBy = "ORDER BY PackName";
 
                 var list = bll.GetSearchData("prdSearch", search);
-                if(list.Count>0)
+
+                if (list.Count>0)
                 {
                     txtChildPrice.Text = Convert.ToString(list[0].ChildPrice);
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
@@ -218,6 +291,7 @@ namespace FoodandBeverage
                         tlp_reg_contrl.Controls.Add(txttotalguest, 1, rowTextBox);
                     }
 
+                    LoadPackRelatedItems(Convert.ToInt32(list[0].PartyPackId));
 
                 }
                 foreach (var item in list)
@@ -288,6 +362,7 @@ namespace FoodandBeverage
                         pnl_foodpacks.Visible = false;
 
                         int packId = Convert.ToInt32(((Button)s).Tag);
+             
                         if (item.DetailsCount > 0)
                         {
                             OpenPackEntryPanel();
@@ -346,7 +421,32 @@ namespace FoodandBeverage
                 MessageBox.Show(ex.Message);
             }
         }
+        private void LoadCakeTypes()
+        {
+            try
+            {
+                BllSearch<DmnPartyPackCake> bllSearch = new BllSearch<DmnPartyPackCake>();
+                DmnSearch objSearch = new DmnSearch();
 
+                objSearch.Select = "PartyPackCakeId, CakeType";
+                objSearch.Table = "tblPartyPackCake";
+                objSearch.WhereNdGroupBy = "WHERE Status = 1";
+                objSearch.OrderBy = "ORDER BY CakeType";
+
+                var cakeList = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (cakeList.Count > 0)
+                {
+                    cmbcaketype.DataSource = cakeList;
+                    cmbcaketype.DisplayMember = "CakeType";
+                    cmbcaketype.ValueMember = "PartyPackCakeId";
+                    cmbcaketype.SelectedIndex = -1; // optional (no default selection)
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void LoadPartyPackDetails(int packid)
         {
             try
@@ -1439,30 +1539,1446 @@ namespace FoodandBeverage
 
             if (txt == null) return;
 
-            // Allow digits, control keys (backspace), and a single decimal point
+
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
-                e.Handled = true; // Block invalid input
+                e.Handled = true; 
             }
-
-            // Only allow one decimal point
             if (e.KeyChar == '.' && txt.Text.Contains("."))
             {
                 e.Handled = true;
             }
         }
 
+
+
+
+        #region Card 
+
+        public void FillForms(int id)
+        {
+            try
+            {
+                foreach (Control ctrl in flw_categ.Controls)
+                {
+                    ctrl.Dispose();
+                }
+                flw_categ.Controls.Clear();
+                int top = 5;
+                decimal s = 0;
+                int left = 0;
+
+                BllSearch<DmnGridFields> bllacctype = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = " TOP 8 g.Caption as Field1,g.GTypeSubId as Field2";
+                dmnSearch.Table = " tblGeneralOptions g ";
+                dmnSearch.WhereNdGroupBy = " where g.GTypeId=58 and g.Status=0 and GTypeSubId in(1,3,5,7)";
+                dmnSearch.OrderBy = "order by GTypeSubId";
+                var gridesource = bllacctype.GetSearchData("prdSearch", dmnSearch);
+                if (gridesource.Count > 0)
+                {
+
+                    int columns = 4;
+                    int spacing = 1;
+
+                    for (int i = 0; i < gridesource.Count; i++)
+                    {
+                        s = Convert.ToDecimal(i) / 8;
+                        Button dynamicButton = new Button();
+                        dynamicButton.Width = flw_categ.Width/5;
+                        dynamicButton.Height = flw_categ.Height;
+           
+                        if (i > 3)
+                            dynamicButton.Visible = false;
+                        else
+                            dynamicButton.Visible = true;
+
+                        if (!string.IsNullOrEmpty(Categorybg))
+                        {
+                            dynamicButton.BackgroundImage = LoadButtonImage(Categorybg, null);
+                        }
+                        else
+                        {
+                            if (gridesource[i].Field3 != null && gridesource[i].Field3 != "")
+                            {
+                                dynamicButton.BackgroundImage = LoadButtonImage(gridesource[i].Field3, null);
+                            }
+                            else
+                                dynamicButton.BackgroundImage = LoadButtonImage(null, Properties.Resources.cancel_32);
+                        }
+
+                        dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+                        dynamicButton.FlatStyle = FlatStyle.Flat;
+                        dynamicButton.FlatAppearance.BorderSize = 0;
+                        dynamicButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+                        dynamicButton.ForeColor = System.Drawing.Color.White;
+
+                        if (gridesource[i].Field1 == "GeneralMerchandise")
+                        {
+                            dynamicButton.Text = "General Merchandise";
+                        }
+                        else if (gridesource[i].Field1 == "BowlingAccessories")
+                        {
+                            dynamicButton.Text = "Bowling Accessories";
+                        }
+                        else
+                            dynamicButton.Text = gridesource[i].Field1;
+
+                        dynamicButton.Tag = gridesource[i].Field2;
+                        dynamicButton.Name = "DynamicButton" + i;
+
+                        if (CategoryFontstatus == 1 && !string.IsNullOrEmpty(CategoryFontdata))
+                        {
+                            #region saved font
+                            try
+                            {
+                                string[] fontParts = CategoryFontdata.Split(',');
+                                if (fontParts.Length == 3)
+                                {
+                                    string fontName = fontParts[0].Trim();
+                                    float fontSize = float.Parse(fontParts[1].Trim());
+                                    string fontStyleStr = fontParts[2].Trim().ToLower();
+                                    FontStyle style = fontStyleStr == "bold" ? FontStyle.Bold : FontStyle.Regular;
+
+                                    dynamicButton.Font = new Font(fontName, fontSize, style);
+                                }
+                                else
+                                {
+                                    dynamicButton.Font = new Font("Georgia", 14); // fallback if config format is wrong
+                                }
+                            }
+                            catch
+                            {
+                                dynamicButton.Font = new Font("Georgia", 14); // fallback on exception
+                            }
+                            #endregion
+                        }
+                        else
+                        {
+                            #region Defult Font 
+                            if (string.IsNullOrEmpty(gridesource[i].Field4))
+                            {
+                                dynamicButton.Font = new Font("Georgia", 14);
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    string[] textSplit = gridesource[i].Field4.Split(',');
+                                    if (textSplit.Length >= 2)
+                                    {
+                                        string fontName = string.Join(",", textSplit.Take(textSplit.Length - 1)).Trim();
+                                        float fontSize = float.Parse(textSplit.Last().Trim());
+
+                                        dynamicButton.Font = new Font(fontName, fontSize);
+                                    }
+                                    else
+                                    {
+                                        dynamicButton.Font = new Font("Georgia", 14); // fallback
+                                    }
+                                }
+                                catch
+                                {
+                                    dynamicButton.Font = new Font("Georgia", 14); // fallback on error
+                                }
+                            }
+                            #endregion
+                        }
+
+
+                        //dynamicButton.MouseDown += DynamicButton_MouseDown;
+                        //dynamicButton.MouseUp += DynamicButton_MouseUp;
+                        dynamicButton.Click += new EventHandler(DynamicButton_Click);
+
+                        flw_categ.Controls.Add(dynamicButton);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+               // clsGeneral.LogException("POSDashboard page  FillForms()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.POSDashboard));
+            }
+        }
+        private void DynamicButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Memoryrelease();
+                int n = 5;
+                decimal s = 0;
+                int r = 0, c = 0;
+
+                foreach (Control ctrl in pnlitembuttons.Controls)
+                {
+                    ctrl.Dispose();
+                }
+                pnlitembuttons.Controls.Clear();
+
+                int tag = Convert.ToInt32((sender as Button).Tag);
+                BllSearch<DmnGridFields> _bllSearch = new BllSearch<DmnGridFields>();
+                string table = "";
+                DmnSearch dmnSearch = new DmnSearch();
+                int tabtype = 0;
+                int gsubid = 0;
+                string heading = "";
+
+                int locationId = GameBranchId; 
+                switch ((PosSalProduct)tag)
+                {
+                    case PosSalProduct.Card:
+                        table = "tblCardProducts";
+                        tabtype = (int)ProductType.Card;
+                        heading = "Card Products";
+                        break;
+
+                    case PosSalProduct.GateAccess:
+                        table = "tblGatePass";
+                        tabtype = (int)ProductType.GateAccess;
+                        heading = "Gate Pass";
+                        break;
+
+                    case PosSalProduct.Trampoline:
+                        table = "tblTrampolining";
+                        tabtype = (int)ProductType.Trampoline;
+                        heading = "Trampolining";
+                        break;
+
+                    case PosSalProduct.TimePlay:
+                        table = "tblTimePlayProducts";
+                        tabtype = (int)ProductType.TimePlay;
+                        heading = "TimePlay Products";
+                        break;
+
+                    default:
+                        throw new ArgumentException("Invalid product tag");
+                }
+
+                // set labels
+                txtTable.Text = table;
+                lblProductHeading.Text = heading;
+
+                // build query dynamically
+                dmnSearch.Select = @"
+                        TOP 50
+                        p.ProductId as Field1,
+                        p.Description as Field2,
+                        0 as Field3,
+                        0 as Field4";
+
+                dmnSearch.Table = $@"
+                        {table} p
+                        LEFT JOIN tblCardProductLocMapping pm 
+                            ON pm.Product = p.ProductId AND pm.ProductType = {tabtype}";
+
+                                    dmnSearch.WhereNdGroupBy = $@"
+                        WHERE pm.Location = {locationId} 
+                        AND pm.Status = 1 
+                        AND pm.ProductType = {tabtype}";
+
+               dmnSearch.OrderBy = "ORDER BY p.Description";
+
+                var gridesource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+                    if (gridesource.Count > 0)
+                    {
+                        if (tag == Convert.ToInt32(PosSalProduct.Card))
+                        {
+                            // REMOVE DUPLICATES BY SubCategoryId (Field5)
+                            var filteredSource = gridesource
+                               .GroupBy(x =>
+                                   x.Field6 == null || Convert.ToInt32(x.Field6) == 0
+                                       ? Guid.NewGuid().ToString()
+                                       : x.Field5.ToString())
+                               .Select(g => g.First())
+                               .ToList();
+
+                            if (filteredSource.Count > 0)
+                            {
+                                txtTable.Text = table;
+
+                                TableLayoutPanel tlpProduct = new TableLayoutPanel();
+                                tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+                                tlpProduct.Size = pnlitembuttons.Size;
+                                tlpProduct.AutoScroll = true;
+                                tlpProduct.Name = "tlp_" + table.Trim();
+                                tlpProduct.AutoScrollMargin = new Size(10, 10);
+                                tlpProduct.ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
+
+                                for (int i = 0; i < filteredSource.Count; i++)
+                                {
+                                    var item = filteredSource[i];
+
+                                    Button dynamicButton = new Button();
+                                    dynamicButton.Height = 70;
+                                    dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
+                                    dynamicButton.Dock = DockStyle.None;
+
+                                    if (Convert.ToInt32(item.Field5) > 0)
+                                    {
+                                        dynamicButton.Text = item.Field6;
+                                        dynamicButton.Tag = item.Field5;
+                                        dynamicButton.AccessibleDescription = "1";
+                                    }
+                                    else
+                                    {
+                                        dynamicButton.Text = item.Field2;
+                                        dynamicButton.Tag = item.Field1;
+                                        dynamicButton.AccessibleDescription = "0";
+                                    }
+
+
+                                    dynamicButton.Name = "DynamicButton" + i;
+                                    dynamicButton.FlatStyle = FlatStyle.Flat;
+                                    dynamicButton.ForeColor = Color.White;
+
+                                    // ENABLE / DISABLE LOGIC
+                                    if (tabtype == (int)ProductType.FB ||
+                                        tabtype == (int)ProductType.Merchandise ||
+                                        tabtype == (int)ProductType.Bowling)
+                                    {
+                                        if (item.Field5 == null || Convert.ToInt32(item.Field5) <= 0)
+                                        {
+                                            dynamicButton.Enabled = false;
+                                            dynamicButton.BackgroundImage = LoadButtonImage("inactive", null);
+                                        }
+                                        else
+                                        {
+                                            dynamicButton.BackgroundImage =
+                                                string.IsNullOrEmpty(item.Field3)
+                                                    ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+                                                    : LoadButtonImage(item.Field3, null);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        dynamicButton.BackgroundImage =
+                                            string.IsNullOrEmpty(item.Field3)
+                                                ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+                                                : LoadButtonImage(item.Field3, null);
+                                    }
+
+                                    dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+
+                                    // FONT LOGIC (C# 7.3 SAFE)
+                                    if (string.IsNullOrEmpty(item.Field4))
+                                    {
+                                        dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
+                                            ? new Font("Georgia", 14)
+                                            : new Font("Georgia", 10);
+                                    }
+                                    else
+                                    {
+                                        string[] textSplit = item.Field4.Split(',');
+                                        string fontName = textSplit[0];
+                                        float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
+
+                                        dynamicButton.Font = new Font(fontName, fontSize);
+                                    }
+
+                                    // CONTEXT MENU
+                                    ContextMenuStrip contextMenu = new ContextMenuStrip();
+                                    ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
+                                    ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
+
+                                    item1.Image = Properties.Resources.background_mouse_clcik;
+                                    item2.Image = Properties.Resources.font_mouselick;
+                                    item1.Font = item2.Font = new Font("Arial", 12, FontStyle.Bold);
+                                    item1.ForeColor = item2.ForeColor = Color.Black;
+
+                                    //item1.Click += Item1_Click;
+                                    //item2.Click += Item2_Click;
+
+                                    contextMenu.Items.Add(item1);
+                                    contextMenu.Items.Add(item2);
+                                    dynamicButton.ContextMenuStrip = contextMenu;
+
+                                    dynamicButton.Click += DynamicButtonProduct_Click;
+
+                                    // GRID POSITIONING
+                                    tlpProduct.Controls.Add(dynamicButton, c, r);
+                                    c++;
+
+                                    if (c >= tlpProduct.ColumnCount)
+                                    {
+                                        c = 0;
+                                        r++;
+                                    }
+                                }
+
+                                pnlitembuttons.Controls.Add(tlpProduct);
+                            }
+                        }
+                        else if (tag == Convert.ToInt32(PosSalProduct.FB))
+                        {
+                            // REMOVE DUPLICATES BY SubCategoryId (Field5)
+                            var filteredSource = gridesource
+                               .GroupBy(x =>
+                                   x.Field6 == null || Convert.ToInt32(x.Field6) == 0
+                                       ? Guid.NewGuid().ToString()
+                                       : x.Field6.ToString())
+                               .Select(g => g.First())
+                               .ToList();
+
+                            if (filteredSource.Count > 0)
+                            {
+                                txtTable.Text = table;
+
+                                TableLayoutPanel tlpProduct = new TableLayoutPanel();
+                                tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+                                tlpProduct.Size = pnlitembuttons.Size;
+                                tlpProduct.AutoScroll = true;
+                                tlpProduct.Name = "tlp_" + table.Trim();
+                                tlpProduct.AutoScrollMargin = new Size(10, 10);
+                                tlpProduct.ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
+
+                                for (int i = 0; i < filteredSource.Count; i++)
+                                {
+                                    var item = filteredSource[i];
+
+                                    Button dynamicButton = new Button();
+                                    dynamicButton.Height = 70;
+                                    dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
+                                    dynamicButton.Dock = DockStyle.None;
+
+                                    if (Convert.ToInt32(item.Field6) > 0)
+                                    {
+                                        dynamicButton.Text = item.Field7;
+                                        dynamicButton.Tag = item.Field6;
+                                        dynamicButton.AccessibleDescription = "1";
+                                    }
+                                    else
+                                    {
+                                        dynamicButton.Text = item.Field2;
+                                        dynamicButton.Tag = item.Field1;
+                                        dynamicButton.AccessibleDescription = "0";
+                                    }
+
+
+                                    dynamicButton.Name = "DynamicButton" + i;
+                                    dynamicButton.FlatStyle = FlatStyle.Flat;
+                                    dynamicButton.ForeColor = Color.White;
+
+                                    // ENABLE / DISABLE LOGIC
+                                    if (tabtype == (int)ProductType.FB ||
+                                        tabtype == (int)ProductType.Merchandise ||
+                                        tabtype == (int)ProductType.Bowling)
+                                    {
+                                        if (item.Field5 == null || Convert.ToInt32(item.Field5) <= 0)
+                                        {
+                                            dynamicButton.Enabled = false;
+                                            dynamicButton.BackgroundImage = LoadButtonImage("inactive", null);
+                                        }
+                                        else
+                                        {
+                                            dynamicButton.BackgroundImage =
+                                                string.IsNullOrEmpty(item.Field3)
+                                                    ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+                                                    : LoadButtonImage(item.Field3, null);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        dynamicButton.BackgroundImage =
+                                            string.IsNullOrEmpty(item.Field3)
+                                                ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+                                                : LoadButtonImage(item.Field3, null);
+                                    }
+
+                                    dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+
+                                    // FONT LOGIC (C# 7.3 SAFE)
+                                    if (string.IsNullOrEmpty(item.Field4))
+                                    {
+                                        dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
+                                            ? new Font("Georgia", 14)
+                                            : new Font("Georgia", 10);
+                                    }
+                                    else
+                                    {
+                                        string[] textSplit = item.Field4.Split(',');
+                                        string fontName = textSplit[0];
+                                        float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
+
+                                        dynamicButton.Font = new Font(fontName, fontSize);
+                                    }
+
+                                    // CONTEXT MENU
+                                    ContextMenuStrip contextMenu = new ContextMenuStrip();
+                                    ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
+                                    ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
+
+                                    item1.Image = FoodandBeverage.Properties.Resources.background_mouse_clcik;
+                                    item2.Image = FoodandBeverage.Properties.Resources.font_mouselick;
+                                    item1.Font = item2.Font = new Font("Arial", 12, FontStyle.Bold);
+                                    item1.ForeColor = item2.ForeColor = Color.Black;
+
+                                    //item1.Click += Item1_Click;
+                                    //item2.Click += Item2_Click;
+
+                                    contextMenu.Items.Add(item1);
+                                    contextMenu.Items.Add(item2);
+                                    dynamicButton.ContextMenuStrip = contextMenu;
+
+                                    dynamicButton.Click += DynamicButtonProduct_Click;
+
+                                    // GRID POSITIONING
+                                    tlpProduct.Controls.Add(dynamicButton, c, r);
+                                    c++;
+
+                                    if (c >= tlpProduct.ColumnCount)
+                                    {
+                                        c = 0;
+                                        r++;
+                                    }
+                                }
+
+                                pnlitembuttons.Controls.Add(tlpProduct);
+                            }
+                        }
+                        else
+                        {
+                            txtTable.Text = table;
+                            TableLayoutPanel tlpProduct = new TableLayoutPanel();
+                            tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+                            tlpProduct.Size = pnlitembuttons.Size;
+                            tlpProduct.AutoScroll = true;
+                            tlpProduct.AutoScrollMargin = new System.Drawing.Size(10, 10);
+                            //tlpProduct.Name = tlpProduct + table;
+                            if (screnwidth > 1365 && screnheight > 765)
+                            {
+                                tlpProduct.ColumnCount = 6;
+                            }
+                            else
+                            {
+                                tlpProduct.ColumnCount = 5;
+                            }
+                            for (int i = 0; i < gridesource.Count; i++)
+                            {
+                                s = Convert.ToDecimal(i % 6);
+                                Button dynamicButton = new Button();
+                                dynamicButton.Height = 70;
+                                if (screnwidth > 1365 && screnheight > 765)
+                                {
+                                    dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
+                                    dynamicButton.Dock = DockStyle.None;
+                                }
+                                else
+                                {
+                                    dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;//dynamicButton.Width = 156;
+                                    dynamicButton.Dock = DockStyle.None;
+                                }
+
+                                if (tabtype == Convert.ToInt32(ProductType.FB) || tabtype == Convert.ToInt32(ProductType.Merchandise) || tabtype == Convert.ToInt32(ProductType.Bowling))
+                                {
+                                    if (Convert.ToInt32(gridesource[i].Field5) <= 0)
+                                    {
+                                        dynamicButton.Enabled = false;
+                                        dynamicButton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\inactive.png");
+                                        dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+                                        dynamicButton.FlatStyle = FlatStyle.Flat;
+                                        dynamicButton.ForeColor = System.Drawing.Color.White;
+                                    }
+                                    else
+                                    {
+                                        if (gridesource[i].Field3 == null || gridesource[i].Field3 == "")
+                                        {
+                                            dynamicButton.BackgroundImage = Properties.Resources.Untitled_2_2030;
+                                        }
+                                        else
+                                        {
+                                            dynamicButton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\" + gridesource[i].Field3 + ".png");
+                                        }
+                                        dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+                                        dynamicButton.FlatStyle = FlatStyle.Flat;
+                                        dynamicButton.ForeColor = System.Drawing.Color.White;
+                                    }
+                                }
+                                else
+                                {
+                                    if (gridesource[i].Field3 == null || gridesource[i].Field3 == "")
+                                    {
+                                        dynamicButton.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
+                                    }
+                                    else
+                                    {
+                                        dynamicButton.BackgroundImage = LoadButtonImage(gridesource[i].Field3, Properties.Resources.Untitled_2_2030);
+                                    }
+                                    dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+                                    dynamicButton.FlatStyle = FlatStyle.Flat;
+                                    dynamicButton.ForeColor = System.Drawing.Color.White;
+                                }
+
+                                if (s == 0 && i != 0)
+                                {
+                                    r = r + 1;
+                                    c = 0;
+                                }
+                                dynamicButton.Text = gridesource[i].Field2;
+                                dynamicButton.Tag = gridesource[i].Field1;
+                                dynamicButton.Name = "DynamicButton_P" + i;
+                                if ((gridesource[i].Field4 == null) || (gridesource[i].Field4 == ""))
+                                {
+                                    if (screnwidth > 1365 && screnheight > 765)
+                                    {
+                                        dynamicButton.Font = new Font("Georgia", 14);
+                                    }
+                                    else
+                                    {
+                                        dynamicButton.Font = new Font("Georgia", 10);
+                                    }
+
+                                }
+                                else
+                                {
+                                    string strng = gridesource[i].Field4;
+                                    string[] textSplit = strng.Split(',');
+                                    int f = textSplit.Length - 2;
+                                    string fontn = "";
+                                    for (int t = 0; t < textSplit.Length - 1; t++)
+                                    {
+                                        fontn = fontn + textSplit[f];
+                                    }
+                                    float fontsz = float.Parse(textSplit[textSplit.Length - 1]);
+                                    dynamicButton.Font = new Font(fontn, fontsz);
+                                }
+
+                                /* Button sub menu list */
+                                ContextMenuStrip contextMenu = new ContextMenuStrip();
+                                ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
+                                ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
+                                contextMenu.Items.Add(item1);
+                                contextMenu.Items.Add(item2);
+
+                                item1.Image = FoodandBeverage.Properties.Resources.background_mouse_clcik;
+                                item2.Image = FoodandBeverage.Properties.Resources.font_mouselick;
+                                item1.ForeColor = Color.Black;
+                                item2.ForeColor = Color.Black;
+                                item1.Font = new Font("Arial", 12, FontStyle.Bold);
+                                item2.Font = new Font("Arial", 12, FontStyle.Bold);
+
+                                dynamicButton.ContextMenuStrip = contextMenu;
+                                //item1.Click += new EventHandler(Item1_Click);
+                                //item2.Click += new EventHandler(Item2_Click);
+
+
+                                dynamicButton.Click += new EventHandler(DynamicButtonProduct_Click);
+                                tlpProduct.Controls.Add(dynamicButton, c, r);
+
+                                c++;
+                            }
+
+                            pnlitembuttons.Controls.Add(tlpProduct);
+                        }
+                    }
+                
+            }
+            catch (Exception ex)
+            {
+                //clsGeneral.LogException("POSDashboard page  DynamicButton_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.POSDashboard));
+            }
+        }
+        private void DynamicButtonProduct_Click(object sender, EventArgs e)
+        {
+            try
+            {
+               // AssignDrawerCheck();
+               // if (btnPaynow.Visible == true)
+               // {
+               //     int rowselectedno = 0; decimal qoh = 0, qty = 0;
+               //     string table = txtTable.Text;
+               //     if (table == "")
+               //         txtTable.Text = "tblCardProducts";
+
+               //     int cellproductid = 0;
+               //     table = txtTable.Text;
+
+               //     int lastRowIndex = dgvProduct.Rows.Count - 1;
+               //     DataGridViewRow lastRow = dgvProduct.Rows[lastRowIndex];
+               //     if (!lastRow.IsNewRow && (lastRow.Cells[pId].Value == null || string.IsNullOrWhiteSpace(lastRow.Cells[pId].Value.ToString())))
+               //     {
+               //         cellproductid = lastRowIndex;
+               //     }
+               //     else
+               //     {
+               //         cellproductid = dgvProduct.Rows.Add();
+               //     }
+
+
+               //     int tag = Convert.ToInt32((sender as Button).Tag);
+               //     int subcatestatus = Convert.ToInt32((sender as Button).AccessibleDescription);
+               //     BllSearch<DmnGridFields> _bllSearch = new BllSearch<DmnGridFields>();
+               //     DmnSearch dmnSearch = new DmnSearch();
+               //     int ptypeno = 0;
+
+               //     if (table == "tblCardProducts")
+               //     {
+               //         if (subcatestatus == 1)
+               //         {
+               //             int c = 0, r = 0;
+               //             table = "tblCardProducts";
+               //             txtTable.Text = table;
+               //             int tabtype = Convert.ToInt32(ProductType.Card);
+               //             pnlitembuttons.Controls.Clear();
+
+               //             dmnSearch.Select = "TOP 50 p.Product_Id as Field1,p.Description as Field2,f.BgImage as Field3,f.FontNames as Field4,p.SubCategoryid Field5,sp.SubCategoryName Field6";
+               //             dmnSearch.Table = "tblButtonCreations f left join " + table + " p on p.Product_Id = f.ProductId left join tblCardSubCategory sp on sp.Id = p.SubCategoryid and sp.status=1  ";
+               //             dmnSearch.WhereNdGroupBy = " where f.Status=1 and p.Status=1 and p.SubCategoryid =" + tag + " and " + "f.Active = 1 and " + " f.BranchId=" + BranchId + "and f.UserType = " + UserType + " and f.TabType=" + tabtype;
+               //             dmnSearch.OrderBy = "order by p.Description";
+               //             var gridesource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+               //             TableLayoutPanel tlpProduct = new TableLayoutPanel();
+               //             tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+               //             tlpProduct.Size = pnlitembuttons.Size;
+               //             tlpProduct.AutoScroll = true;
+               //             tlpProduct.Name = "tlp_" + table.Trim();
+               //             tlpProduct.AutoScrollMargin = new Size(10, 10);
+               //             tlpProduct.ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
+
+               //             for (int i = 0; i < gridesource.Count; i++)
+               //             {
+               //                 var item = gridesource[i];
+
+               //                 Button dynamicButton = new Button();
+               //                 dynamicButton.Height = 70;
+               //                 dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
+               //                 dynamicButton.Dock = DockStyle.None;
+
+               //                 dynamicButton.Text = item.Field2;
+               //                 dynamicButton.Tag = item.Field1;
+               //                 dynamicButton.AccessibleDescription = "0";
+
+               //                 dynamicButton.Name = "DynamicButton" + i;
+               //                 dynamicButton.FlatStyle = FlatStyle.Flat;
+               //                 dynamicButton.ForeColor = Color.White;
+
+               //                 // ENABLE / DISABLE LOGIC
+               //                 if (tabtype == (int)ProductType.FB ||
+               //                     tabtype == (int)ProductType.Merchandise ||
+               //                     tabtype == (int)ProductType.Bowling)
+               //                 {
+               //                     if (item.Field5 == null || Convert.ToInt32(item.Field5) <= 0)
+               //                     {
+               //                         dynamicButton.Enabled = false;
+               //                         dynamicButton.BackgroundImage = LoadButtonImage("inactive", null);
+               //                     }
+               //                     else
+               //                     {
+               //                         dynamicButton.BackgroundImage =
+               //                             string.IsNullOrEmpty(item.Field3)
+               //                                 ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+               //                                 : LoadButtonImage(item.Field3, null);
+               //                     }
+               //                 }
+               //                 else
+               //                 {
+               //                     dynamicButton.BackgroundImage =
+               //                         string.IsNullOrEmpty(item.Field3)
+               //                             ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+               //                             : LoadButtonImage(item.Field3, null);
+               //                 }
+
+               //                 dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+
+               //                 // FONT LOGIC (C# 7.3 SAFE)
+               //                 if (string.IsNullOrEmpty(item.Field4))
+               //                 {
+               //                     dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
+               //                         ? new Font("Georgia", 14)
+               //                         : new Font("Georgia", 10);
+               //                 }
+               //                 else
+               //                 {
+               //                     string[] textSplit = item.Field4.Split(',');
+               //                     string fontName = textSplit[0];
+               //                     float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
+
+               //                     dynamicButton.Font = new Font(fontName, fontSize);
+               //                 }
+
+               //                 // CONTEXT MENU
+               //                 ContextMenuStrip contextMenu = new ContextMenuStrip();
+               //                 ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
+               //                 ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
+
+               //                 item1.Image = GamePOS.Properties.Resources.background_mouse_clcik;
+               //                 item2.Image = GamePOS.Properties.Resources.font_mouselick;
+               //                 item1.Font = item2.Font = new Font("Arial", 12, FontStyle.Bold);
+               //                 item1.ForeColor = item2.ForeColor = Color.Black;
+
+               //                 item1.Click += Item1_Click;
+               //                 item2.Click += Item2_Click;
+
+               //                 contextMenu.Items.Add(item1);
+               //                 contextMenu.Items.Add(item2);
+               //                 dynamicButton.ContextMenuStrip = contextMenu;
+
+               //                 dynamicButton.Click += DynamicButtonProduct_Click;
+
+               //                 // GRID POSITIONING
+               //                 tlpProduct.Controls.Add(dynamicButton, c, r);
+               //                 c++;
+
+               //                 if (c >= tlpProduct.ColumnCount)
+               //                 {
+               //                     c = 0;
+               //                     r++;
+               //                 }
+               //             }
+
+               //             pnlitembuttons.Controls.Add(tlpProduct);
+
+               //             #region Back Button
+
+               //             Button btnBack = new Button();
+               //             btnBack.Name = "btnBack";
+               //             btnBack.Text = "Back";
+               //             btnBack.Height = 45;
+               //             btnBack.Width = 120;
+
+               //             btnBack.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+               //             btnBack.ForeColor = Color.White;
+
+               //             // IMPORTANT for image button
+               //             btnBack.FlatStyle = FlatStyle.Flat;
+               //             btnBack.FlatAppearance.BorderSize = 0;
+               //             btnBack.BackColor = Color.Transparent;
+               //             btnBack.UseVisualStyleBackColor = false;
+
+               //             // Background Image
+               //             btnBack.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
+               //             btnBack.BackgroundImageLayout = ImageLayout.Stretch;
+
+               //             // Position
+               //             btnBack.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+               //             btnBack.Location = new Point(
+               //                 10,
+               //                 pnlitembuttons.Height - btnBack.Height - 10
+               //             );
+
+               //             // Click event
+               //             btnBack.Click += BtnBack_Click;
+
+               //             // Add AFTER grid
+               //             pnlitembuttons.Controls.Add(btnBack);
+               //             btnBack.BringToFront();
+
+               //             #endregion
+
+               //             return;
+
+               //         }
+               //         else
+               //         {
+               //             dmnSearch.Select = "p.Product_id as Id,p.Description as Field1, SuggestedPrice as Field2,Tax as Field3,TaxSettingsId as Field4,CashBalance as Field5,CashBonusBalnce as Field6,TokenBalnce as Field7,Points as Field8,(select QOH from tblCard where LocationId = " + BranchId + " ) as Field9";
+               //             dmnSearch.Table = " " + table + " p ";
+               //             dmnSearch.WhereNdGroupBy = " where p.Product_id = " + tag;
+               //         }
+               //         ptypeno = Convert.ToInt32(ProductType.Card);
+               //     }
+               //     else if (table == "tblTimePlayProducts")
+               //     {
+               //         dmnSearch.Select = "p.Productid as Id,p.Description as Field1, SuggestedPrice as Field2," +
+               //                                "Tax as Field3,TaxSettingsId as Field4,MinDuration as Field5,RoundsPerPlay as Field6,GameInterval as Field7,(select QOH from tblCard where LocationId = " + BranchId + " ) as Field9";
+               //         dmnSearch.Table = " " + table + " p ";
+               //         dmnSearch.WhereNdGroupBy = " where p.Productid = " + tag;
+               //         ptypeno = Convert.ToInt32(ProductType.TimePlay);
+
+               //     }
+               //     else if (table == "tblGatePass")
+               //     {
+               //         dmnSearch.Select = "p.Productid as Id,p.Description as Field1, SuggestedPrice as Field2," +
+               //         "Tax as Field3,TaxSettingsId as Field4,CashBalance as Field5,CashBonusBalance as Field6,TokenBalance as Field7,Points as Field8,(select QOH from tblCard where LocationId = " + BranchId + " ) as Field9";
+               //         dmnSearch.Table = " " + table + " p ";
+               //         dmnSearch.WhereNdGroupBy = " where p.Productid = " + tag;
+               //         ptypeno = Convert.ToInt32(ProductType.GateAccess);
+
+               //     }
+               //     else if (table == "tblTrampolining")
+               //     {
+               //         dmnSearch.Select = "p.Productid as Id,p.Description as Field1, SuggestedPrice as Field2," +
+               //         "Tax as Field3,TaxSettingsId as Field4,CashBalance as Field5,CashBonusBalance as Field6,TokenBalance as Field7,Points as Field8,(select QOH from tblCard where LocationId = " + BranchId + " ) as Field9";
+               //         dmnSearch.Table = " " + table + " p ";
+               //         dmnSearch.WhereNdGroupBy = " where p.Productid = " + tag;
+               //         ptypeno = Convert.ToInt32(ProductType.Trampoline);
+               //     }
+               //     else if (table == "tblFoodAndBeverages")
+               //     {
+               //         ptypeno = Convert.ToInt32(ProductType.FB);
+               //         tag = Convert.ToInt32((sender as Button).Tag);
+               //         subcatestatus = Convert.ToInt32((sender as Button).AccessibleDescription);
+
+               //         int c = 0, r = 0;
+               //         table = "tblFoodAndBeverages";
+               //         txtTable.Text = table;
+               //         int tabtype = Convert.ToInt32(ProductType.FB);
+               //         if (subcatestatus == 1)
+               //         {
+               //             pnlitembuttons.Controls.Clear();
+
+               //             dmnSearch.Select = " TOP 50 p.ProductId as Field1,p.Description as Field2,f.BgImage as Field3,f.FontNames as Field4, " +
+               //"(Select Sum(QOH) from tblProductRate pr where pr.ProductId = p.ProductId and pr.BranchId = " + BranchId + " and pr.ProductType = " + Convert.ToInt32(ProductType.FB) + ") as Field5,pc.Id Field6,pc.CategoryName Field7";
+               //             dmnSearch.Table = " tblButtonCreations f left join " + table + " p on p.ProductId=f.ProductId left join tblProductCategory pc on pc.Id = p.CategoryId and pc.status=1 ";
+
+               //             dmnSearch.WhereNdGroupBy = " where f.Status=1 and p.Status=1 and pc.id = " + tag + " and " + "f.Active = 1 and " + " f.BranchId=" + BranchId + " and f.UserType = " + UserType + " and f.TabType=" + tabtype;
+               //             dmnSearch.OrderBy = "order by p.Description";
+               //             var gridesource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+               //             TableLayoutPanel tlpProduct = new TableLayoutPanel();
+               //             tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+               //             tlpProduct.Size = pnlitembuttons.Size;
+               //             tlpProduct.AutoScroll = true;
+               //             tlpProduct.Name = "tlp_" + table.Trim();
+               //             tlpProduct.AutoScrollMargin = new Size(10, 10);
+               //             tlpProduct.ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
+
+               //             for (int i = 0; i < gridesource.Count; i++)
+               //             {
+               //                 var item = gridesource[i];
+
+               //                 Button dynamicButton = new Button();
+               //                 dynamicButton.Height = 70;
+               //                 dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
+               //                 dynamicButton.Dock = DockStyle.None;
+
+               //                 dynamicButton.Text = item.Field2;
+               //                 dynamicButton.Tag = item.Field1;
+               //                 dynamicButton.AccessibleDescription = "0";
+
+               //                 dynamicButton.Name = "DynamicButton" + i;
+               //                 dynamicButton.FlatStyle = FlatStyle.Flat;
+               //                 dynamicButton.ForeColor = Color.White;
+
+               //                 // ENABLE / DISABLE LOGIC
+               //                 if (tabtype == (int)ProductType.FB ||
+               //                     tabtype == (int)ProductType.Merchandise ||
+               //                     tabtype == (int)ProductType.Bowling)
+               //                 {
+               //                     if (item.Field5 == null || Convert.ToInt32(item.Field5) <= 0)
+               //                     {
+               //                         dynamicButton.Enabled = false;
+               //                         dynamicButton.BackgroundImage = LoadButtonImage("inactive", null);
+               //                     }
+               //                     else
+               //                     {
+               //                         dynamicButton.BackgroundImage =
+               //                             string.IsNullOrEmpty(item.Field3)
+               //                                 ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+               //                                 : LoadButtonImage(item.Field3, null);
+               //                     }
+               //                 }
+               //                 else
+               //                 {
+               //                     dynamicButton.BackgroundImage =
+               //                         string.IsNullOrEmpty(item.Field3)
+               //                             ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+               //                             : LoadButtonImage(item.Field3, null);
+               //                 }
+
+               //                 dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+
+               //                 // FONT LOGIC (C# 7.3 SAFE)
+               //                 if (string.IsNullOrEmpty(item.Field4))
+               //                 {
+               //                     dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
+               //                         ? new Font("Georgia", 14)
+               //                         : new Font("Georgia", 10);
+               //                 }
+               //                 else
+               //                 {
+               //                     string[] textSplit = item.Field4.Split(',');
+               //                     string fontName = textSplit[0];
+               //                     float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
+
+               //                     dynamicButton.Font = new Font(fontName, fontSize);
+               //                 }
+
+               //                 // CONTEXT MENU
+               //                 ContextMenuStrip contextMenu = new ContextMenuStrip();
+               //                 ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
+               //                 ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
+
+               //                 item1.Image = GamePOS.Properties.Resources.background_mouse_clcik;
+               //                 item2.Image = GamePOS.Properties.Resources.font_mouselick;
+               //                 item1.Font = item2.Font = new Font("Arial", 12, FontStyle.Bold);
+               //                 item1.ForeColor = item2.ForeColor = Color.Black;
+
+               //                 item1.Click += Item1_Click;
+               //                 item2.Click += Item2_Click;
+
+               //                 contextMenu.Items.Add(item1);
+               //                 contextMenu.Items.Add(item2);
+               //                 dynamicButton.ContextMenuStrip = contextMenu;
+
+               //                 dynamicButton.Click += DynamicButtonProduct_Click;
+
+               //                 // GRID POSITIONING
+               //                 tlpProduct.Controls.Add(dynamicButton, c, r);
+               //                 c++;
+
+               //                 if (c >= tlpProduct.ColumnCount)
+               //                 {
+               //                     c = 0;
+               //                     r++;
+               //                 }
+               //             }
+
+               //             pnlitembuttons.Controls.Add(tlpProduct);
+
+               //             #region Back Button
+
+               //             Button btnBack = new Button();
+               //             btnBack.Name = "btnBack";
+               //             btnBack.Text = "Back";
+               //             btnBack.Height = 45;
+               //             btnBack.Width = 120;
+
+               //             btnBack.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+               //             btnBack.ForeColor = Color.White;
+
+               //             // IMPORTANT for image button
+               //             btnBack.FlatStyle = FlatStyle.Flat;
+               //             btnBack.FlatAppearance.BorderSize = 0;
+               //             btnBack.BackColor = Color.Transparent;
+               //             btnBack.UseVisualStyleBackColor = false;
+
+               //             // Background Image
+               //             btnBack.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
+               //             btnBack.BackgroundImageLayout = ImageLayout.Stretch;
+
+               //             // Position
+               //             btnBack.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+               //             btnBack.Location = new Point(
+               //                 10,
+               //                 pnlitembuttons.Height - btnBack.Height - 10
+               //             );
+
+               //             // Click event
+               //             btnBack.Click += BtnBack_Click;
+
+               //             // Add AFTER grid
+               //             pnlitembuttons.Controls.Add(btnBack);
+               //             btnBack.BringToFront();
+
+               //             #endregion
+
+               //             return;
+               //         }
+               //         else
+               //         {
+               //             dmnSearch.Select = "fp.ProductId as Id,fp.Description as Field1,pr.srate as Field2,fp.Tax as Field3,fp.TaxSettingsId as Field4,fp.upc as Field5,pr.mrp as Field6,pr.QOH  as Field7,pr.id as Field8";
+               //             dmnSearch.Table = " " + table + " fp left join tblProductRate pr on pr.ProductId = fp.ProductId and pr.ProductType= " + ptypeno + "  and pr.BranchId = " + BranchId + " and pr.QOH > 0";
+               //             dmnSearch.WhereNdGroupBy = " where pr.ProductId = " + tag;
+               //         }
+
+               //     }
+               //     else
+               //     {
+               //         if (table == "tblMarchandise")
+               //             ptypeno = Convert.ToInt32(ProductType.Merchandise);
+               //         else if (table == "tblBowlingAccessories")
+               //             ptypeno = Convert.ToInt32(ProductType.Bowling);
+
+               //         dmnSearch.Select = "fp.ProductId as Id,fp.Description as Field1,pr.srate as Field2,fp.Tax as Field3,fp.TaxSettingsId as Field4,fp.upc as Field5,pr.mrp as Field6,pr.QOH  as Field7,pr.id as Field8";
+               //         dmnSearch.Table = " " + table + " fp left join tblProductRate pr on pr.ProductId = fp.ProductId and pr.ProductType= " + ptypeno + "  and pr.BranchId = " + BranchId + " and pr.QOH > 0";
+               //         dmnSearch.WhereNdGroupBy = " where pr.ProductId = " + tag;
+               //     }
+               //     bool flage = false;
+               //     var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+               //     if (gridSource.Count == 1)
+               //     {
+               //         if (ptypeno != Convert.ToInt32(ProductType.Card) &&
+               //             ptypeno != Convert.ToInt32(ProductType.GateAccess) &&
+               //             ptypeno != Convert.ToInt32(ProductType.Trampoline) &&
+               //             ptypeno != Convert.ToInt32(ProductType.TimePlay))
+               //         {
+               //             for (int i = 0; i <= dgvProduct.RowCount - 1; i++)
+               //             {
+               //                 if (Convert.ToInt32(gridSource[0].Field8) == Convert.ToInt32(dgvProduct.Rows[i].Cells[iprateid].Value))
+               //                 {
+               //                     flage = true;
+               //                     dgvProduct.Rows[i].Cells[pQty].Value = Convert.ToInt32(dgvProduct.Rows[i].Cells[pQty].Value) + 1;
+               //                     rowselectedno = i;
+               //                     totalcellamount(i);
+               //                     grandTotal();
+               //                     totQty();
+               //                     totDisc();
+               //                     totTaxAmnt();
+               //                     netAmount();
+               //                     break;
+               //                 }
+
+               //             }
+
+               //         }
+
+               //         if (flage == false)
+               //         {
+               //             dgvProduct.Rows.Add(1);
+               //             dgvProduct.Rows[cellproductid].Cells[pSlnoo].Value = cellproductid + 1;
+               //             DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvProduct.Rows[cellproductid].Cells[ideleteno];
+
+               //             //if (cellcolumntype.Value != null)
+               //             //{
+               //             //    (cellcolumntype.Value as IDisposable)?.Dispose();
+               //             //}
+
+               //             cellcolumntype.Value = Properties.Resources.mouseclick_remove;
+               //             cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+               //             dgvProduct.Rows[cellproductid].Cells[pName].Value = gridSource[0].Field1;
+               //             dgvProduct.Rows[cellproductid].Cells[pPrice].Value = gridSource[0].Field2;
+               //             dgvProduct.Rows[cellproductid].Cells[pQty].Value = "1";
+               //             dgvProduct.Rows[cellproductid].Cells[pAmount].Value = gridSource[0].Field2;
+               //             dgvProduct.Rows[cellproductid].Cells[pDisper].Value = "0";
+               //             dgvProduct.Rows[cellproductid].Cells[pDisAmnt].Value = "0.00";
+               //             dgvProduct.Rows[cellproductid].Cells[pTax].Value = gridSource[0].Field3;
+               //             dgvProduct.Rows[cellproductid].Cells[pTaxSettingsId].Value = gridSource[0].Field4;
+               //             dgvProduct.Rows[cellproductid].Cells[pTaxAmnt].Value = "0.00";
+               //             dgvProduct.Rows[cellproductid].Cells[pId].Value = gridSource[0].Id;
+               //             dgvProduct.Rows[cellproductid].Cells[protype].Value = ptypeno;
+
+               //             if ((ptypeno != Convert.ToInt32(ProductType.Card) &&
+               //               ptypeno != Convert.ToInt32(ProductType.GateAccess) &&
+               //               ptypeno != Convert.ToInt32(ProductType.Trampoline)) &&
+               //               ptypeno != Convert.ToInt32(ProductType.TimePlay))
+               //             {
+
+               //                 dgvProduct.Rows[cellproductid].Cells[iorginalQty].Value = gridSource[0].Field7;
+               //                 dgvProduct.Rows[cellproductid].Cells[iprateid].Value = gridSource[0].Field8;
+               //                 dgvProduct.Rows[cellproductid].Cells[upc_rfidno].ReadOnly = true;
+
+               //             }
+
+               //             if ((ptypeno == Convert.ToInt32(ProductType.Card) ||
+               //             ptypeno == Convert.ToInt32(ProductType.GateAccess) ||
+               //             ptypeno == Convert.ToInt32(ProductType.Trampoline)))
+               //             {
+               //                 dgvProduct.Rows[cellproductid].Cells[iCardBalance].Value = gridSource[0].Field5;
+               //                 dgvProduct.Rows[cellproductid].Cells[iCashBonusBalance].Value = gridSource[0].Field6;
+               //                 dgvProduct.Rows[cellproductid].Cells[iTokenBalance].Value = gridSource[0].Field7;
+               //                 dgvProduct.Rows[cellproductid].Cells[iPointBalance].Value = gridSource[0].Field8;
+               //             }
+               //             else if (ptypeno == Convert.ToInt32(ProductType.TimePlay))
+               //             {
+               //                 dgvProduct.Rows[cellproductid].Cells[iTPDuration].Value = gridSource[0].Field5;
+               //                 dgvProduct.Rows[cellproductid].Cells[iRoundsPerPlay].Value = gridSource[0].Field6;
+               //                 dgvProduct.Rows[cellproductid].Cells[iGameInterval].Value = gridSource[0].Field7;
+               //             }
+               //             else
+               //             {
+               //                 dgvProduct.Rows[cellproductid].Cells[israte].Value = gridSource[0].Field2;
+               //                 dgvProduct.Rows[cellproductid].Cells[imrp].Value = gridSource[0].Field6;
+               //             }
+
+               //             totalcellamount(cellproductid);
+               //             grandTotal();
+               //             totRfidCardQty();
+               //             totQty();
+               //             totDisc();
+               //             totTaxAmnt();
+               //             netAmount();
+               //             //dgvProduct.Focus();
+               //             dgvProduct.CurrentCell = dgvProduct.Rows[cellproductid].Cells[upc_rfidno];
+               //             if ((ptypeno == Convert.ToInt32(ProductType.Card) ||
+               //                  ptypeno == Convert.ToInt32(ProductType.GateAccess) ||
+               //                  ptypeno == Convert.ToInt32(ProductType.Trampoline)) ||
+               //                  ptypeno == Convert.ToInt32(ProductType.TimePlay))
+               //             {
+               //                 Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
+               //                 dgvProduct.Rows[cellproductid].Cells[upc_rfidno].Value = "RFID Card...";
+               //                 dgvProduct.Rows[cellproductid].Cells[upc_rfidno].Style.ForeColor = Color.Red;
+               //                 Pnl_wifiPopup.Show();
+               //                 borderFadeTimer.Start();
+               //                 timer1.Start();
+               //             }
+               //             else
+               //             {
+               //                 dgvProduct.Rows[cellproductid].Cells[upc_rfidno].Value = gridSource[0].Field5;
+               //                 dgvProduct.Rows[cellproductid].Cells[iorigbarcode].Value = gridSource[0].Field5;
+               //             }
+               //         }
+               //         else
+               //         {
+               //             if ((ptypeno != Convert.ToInt32(ProductType.Card) &&
+               //          ptypeno != Convert.ToInt32(ProductType.GateAccess) &&
+               //          ptypeno != Convert.ToInt32(ProductType.Trampoline)) &&
+               //          ptypeno != Convert.ToInt32(ProductType.TimePlay))
+               //             {
+               //                 if (Convert.ToInt32(dgvProduct.Rows[rowselectedno].Cells[pQty].Value) > Convert.ToDecimal(dgvProduct.Rows[rowselectedno].Cells[iorginalQty].Value))
+               //                 {
+               //                     MessageBox.Show("Avilable Stock Quanity Is " + Convert.ToDecimal(dgvProduct.Rows[rowselectedno].Cells[iorginalQty].Value), "Insufficent Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+               //                     dgvProduct.Rows[rowselectedno].Cells[pQty].Value = Convert.ToDecimal(dgvProduct.Rows[rowselectedno].Cells[iorginalQty].Value);
+               //                     dgvProduct.CurrentCell = dgvProduct.Rows[rowselectedno].Cells[pQty];
+               //                     totalcellamount(rowselectedno);
+               //                     grandTotal();
+               //                     totQty();
+               //                     totDisc();
+               //                     totTaxAmnt();
+               //                     netAmount();
+               //                     return;
+               //                 }
+               //             }
+               //         }
+               //         if ((cellproductid == dgvProduct.RowCount - 1) && (flage == false))
+               //         {
+               //             dgvProduct.Rows.Add(1);
+               //         }
+               //         if ((ptypeno == Convert.ToInt32(ProductType.FB) ||
+               //                  ptypeno == Convert.ToInt32(ProductType.Bowling) ||
+               //                  ptypeno == Convert.ToInt32(ProductType.Merchandise)))
+               //         {
+               //             int n = dgvProduct.RowCount - 1;
+               //             dgvProduct.CurrentCell = dgvProduct.Rows[n].Cells[upc_rfidno];
+               //             txtbarcode.Enabled = true;
+               //             txtbarcode.Focus();
+               //         }
+
+               //     } //Single price
+               //     else if (gridSource.Count > 1)
+               //     {
+               //         dgvProduct.Enabled = false;
+               //         flw_categ.Enabled = false;
+               //         pnlitembuttons.Enabled = false;
+               //         btnSearch.Enabled = false;
+               //         Control controlclose;
+               //         pnlprice.Controls.Clear();
+
+               //         foreach (Control ctrl in tlp_price_list.Controls)
+               //         {
+               //             ctrl.Dispose();
+               //         }
+
+               //         tlp_price_list.Controls.Clear();
+               //         tlp_price_list.Dock = DockStyle.Fill;
+               //         tlp_price_list.ColumnCount = 1;
+               //         tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+               //         tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+               //         tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+               //         Button closebutton = new Button();
+               //         closebutton.Text = "X";
+               //         controlclose = closebutton;
+               //         closebutton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg5.png");
+               //         closebutton.BackgroundImageLayout = ImageLayout.Stretch;
+               //         closebutton.FlatStyle = FlatStyle.Flat;
+               //         closebutton.ForeColor = System.Drawing.Color.White;
+               //         closebutton.Font = new Font("Georgia", 14);
+               //         closebutton.Width = 50;
+               //         closebutton.Height = 50;
+               //         closebutton.Dock = DockStyle.Right;
+               //         closebutton.Click += new EventHandler(closebuttonClickEventHandler);
+               //         tlp_price_list.RowCount++;
+               //         tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+               //         tlp_price_list.Controls.Add(controlclose, 0, 0);
+
+               //         Control control1, controlsrate, controlqty;
+               //         int rowIndex = 2;
+               //         for (int i = 0; i < gridSource.Count; i++)
+               //         {
+               //             Button pricebutton = new Button();
+               //             pricebutton.Text = "RS. " + (gridSource[i].Field2).ToString() + "  QTY : " + (gridSource[i].Field7).ToString(); ;
+               //             pricebutton.Name = (gridSource[i].Field8).ToString();
+               //             pricebutton.Tag = ptypeno;
+               //             control1 = pricebutton;
+               //             //pricebutton.Dock = DockStyle.Fill;
+               //             pricebutton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
+               //             pricebutton.BackgroundImageLayout = ImageLayout.Stretch;
+               //             pricebutton.FlatStyle = FlatStyle.Flat;
+               //             pricebutton.ForeColor = System.Drawing.Color.White;
+               //             pricebutton.Font = new Font("Georgia", 14);
+               //             pricebutton.Width = 300;
+               //             pricebutton.Height = 70;
+               //             // Add the event handler for the button
+               //             pricebutton.Click += new EventHandler(MyButtonClickEventHandler);
+               //             // Add the controls to the row
+               //             tlp_price_list.RowCount++;
+               //             tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+               //             tlp_price_list.Controls.Add(control1, 0, rowIndex);
+               //             rowIndex++;
+               //         }
+               //         // Add the TableLayoutPanel to the form
+               //         pnlprice.Visible = true;
+               //         pnlprice.Controls.Add(tlp_price_list);
+
+               //     }//multiple price
+
+               //     CheckBonus();
+               // }
+            }
+            catch (Exception ex)
+
+            {
+                // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //clsGeneral.LogException("POSDashboard page  DynamicButtonProduct_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.POSDashboard));
+            }
+        }
+        private Image LoadButtonImage(string fileName, Image fallbackImage)
+        {
+            if (string.IsNullOrEmpty(fileName)) return fallbackImage;
+
+            string imagePath = Path.Combine(Application.StartupPath, "Background_Images", fileName + ".png");
+            if (!File.Exists(imagePath)) return fallbackImage;
+
+            using (Image img = Image.FromFile(imagePath))
+            {
+                return new Bitmap(img);
+            }
+        }
+        private void btn_addcards_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btncards_cls_Click(object sender, EventArgs e)
+        {
+            pnl_cardpreview.Visible = false;
+        }
+        private void btncard_Click(object sender, EventArgs e)
+        {
+            if (pnlcards.Visible)
+            {
+                pnlcards.Visible = false;
+                return;
+            }
+            pnlcards.Width = (int)(this.ClientSize.Width * 0.7);
+            pnlcards.Height = (int)(this.ClientSize.Height * 0.7);
+
+            pnlcards.Left = (this.ClientSize.Width - pnlcards.Width) / 2;
+            pnlcards.Top = (this.ClientSize.Height - pnlcards.Height) / 2;
+
+            pnlcards.Visible = true;
+            pnlcards.BringToFront();
+        }
+
+        private void btn_card_cls_Click(object sender, EventArgs e)
+        {
+            pnlcards.Visible = false;
+        }
+        private void btncardsubmit_Click(object sender, EventArgs e)
+        {
+            pnlcards.Visible = false;
+        }
+
+        #endregion
+
+        #region Gift Panel
+        private void btngift_Click(object sender, EventArgs e)
+        {
+            if (pnlgifts.Visible)
+            {
+                pnlgifts.Visible = false;
+                return;
+            }
+
+            pnlgifts.Width = (int)(this.ClientSize.Width * 0.7);
+            pnlgifts.Height = (int)(this.ClientSize.Height * 0.7);
+
+            pnlgifts.Left = (this.ClientSize.Width - pnlgifts.Width) / 2;
+            pnlgifts.Top = (this.ClientSize.Height - pnlgifts.Height) / 2;
+
+            pnlgifts.Visible = true;
+            pnlgifts.BringToFront();
+        }
+
+        private void btngiftclose_Click(object sender, EventArgs e)
+        {
+            pnlgifts.Visible = false;
+        }
+
+        private void btnaddgifts_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        private void LoadPackRelatedItems(int partyPackId)
+        {
+            try
+            {
+                dgv_card.Rows.Clear();
+                dgv_gift.Rows.Clear();
+
+                BllSearch<DmnPartyPackDetails> bll = new BllSearch<DmnPartyPackDetails>();
+                DmnSearch search = new DmnSearch();
+
+                search.Select = @"PartyPackDetailsId,
+                          PartyPackId,
+                          Item,
+                          Quantity,
+                          PackItemType,
+                          ProductId,
+                          ProductType,
+                          MenuCategoryId";
+
+                search.Table = "tblPartyPackDetails";
+                search.WhereNdGroupBy = "WHERE Status = 1 AND PartyPackId = " + partyPackId;
+
+                var list = bll.GetSearchData("prdSearch", search);
+
+                int cardSl = 1;
+                int giftSl = 1;
+
+                foreach (var item in list)
+                {
+                    // ✅ CARD ITEMS
+                    if ((PackItemType)item.PackItemType == PackItemType.Card)
+                    {
+                        int rowIndex = dgv_card.Rows.Add();
+
+                        DataGridViewRow row = dgv_card.Rows[rowIndex];
+
+                        row.Cells[Cardslno].Value = cardSl++;
+                        row.Cells[Cardselectno].Value = true;
+                        row.Cells[Carditemno].Value = item.Item;
+                        row.Cells[Cardcategmenuno].Value = item.MenuCategoryId;
+                        row.Cells[Cardqtyno].Value = item.Quantity;
+                        row.Cells[CardProductid].Value = item.Productid;
+                        row.Cells[Cardproducttype].Value = item.ProductType;
+                        row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                        row.Cells[CardPartydeafult].Value = 1;
+                        row.ReadOnly = true;
+                    }
+
+                    // ✅ GIFT ITEMS
+                    else if ((PackItemType)item.PackItemType == PackItemType.Gift)
+                    {
+                        int rowIndex = dgv_gift.Rows.Add();
+
+                        DataGridViewRow row = dgv_gift.Rows[rowIndex];
+
+                        row.Cells[Giftslno].Value = giftSl++;
+                        row.Cells[Giftselectno].Value = true;
+                        row.Cells[Giftitemno].Value = item.Item;
+                        row.Cells[Giftqtyno].Value = item.Quantity;
+                        row.Cells[GiftProductid].Value = item.Productid;
+                        row.Cells[GiftProducttype].Value = item.ProductType;
+                        row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                        row.Cells[GiftPartydeafult].Value = 1;
+                        row.ReadOnly = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         #region Party Booking Calculation
 
-        private bool isUpdating = false; 
+        private bool isUpdating = false;
 
         public void CalculateNetAmount()
         {
             if (isUpdating) return;
+
             try
             {
                 isUpdating = true;
 
+                // 🔹 Default values
                 if (string.IsNullOrEmpty(txtOAAmount.Text)) txtOAAmount.Text = "0";
                 if (string.IsNullOrEmpty(txtODAmount.Text)) txtODAmount.Text = "0";
                 if (string.IsNullOrEmpty(txtDiscountPer.Text)) txtDiscountPer.Text = "0";
@@ -1474,11 +2990,13 @@ namespace FoodandBeverage
                 decimal otherAdd = Convert.ToDecimal(txtOAAmount.Text);
                 decimal otherDeduct = Convert.ToDecimal(txtODAmount.Text);
 
+                // 🔹 PACK NET BEFORE TAX
                 decimal netBeforeTax = grandTotal - discountAmt + otherAdd - otherDeduct;
 
-                decimal taxAmt = 0;
-                decimal preGSTAmount = netBeforeTax;
+                decimal taxAmt_pack = 0;
+                decimal preGSTAmount_pack = netBeforeTax;
 
+                // 🔹 LOAD TAX SETTINGS (PACK)
                 if (!string.IsNullOrEmpty(txtTaxSettingId.Text))
                 {
                     int taxSettingId = Convert.ToInt32(txtTaxSettingId.Text);
@@ -1488,6 +3006,7 @@ namespace FoodandBeverage
                     dmnSearch.Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt";
                     dmnSearch.Table = "tblTaxSettings";
                     dmnSearch.WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}";
+
                     var taxSettings = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
 
                     if (taxSettings.Count > 0)
@@ -1496,21 +3015,33 @@ namespace FoodandBeverage
 
                         if (txttax.Text.Trim().ToUpper() == "INCLUSIVE")
                         {
-                            preGSTAmount = netBeforeTax / (1 + totalPercent / 100);
-                            taxAmt = netBeforeTax - preGSTAmount;
+                            preGSTAmount_pack = netBeforeTax / (1 + totalPercent / 100);
+                            taxAmt_pack = netBeforeTax - preGSTAmount_pack;
                         }
-                        else // Exclusive
+                        else
                         {
-                            taxAmt = preGSTAmount * totalPercent / 100;
-                            preGSTAmount = netBeforeTax;
+                            taxAmt_pack = preGSTAmount_pack * totalPercent / 100;
+                            preGSTAmount_pack = netBeforeTax;
                         }
                     }
                 }
 
-                txtTotalTaxAmount.Text = taxAmt.ToString("N2");
-                txtPreTaxAmount.Text = preGSTAmount.ToString("N2");
+                // 🔹 GET CAKE VALUES
+                decimal cakeTax = string.IsNullOrEmpty(txtTotalTaxAmount_cake.Text)
+                    ? 0 : Convert.ToDecimal(txtTotalTaxAmount_cake.Text);
 
-                decimal finalNet = preGSTAmount + taxAmt;
+                decimal cakePreTax = string.IsNullOrEmpty(txtPreTaxAmount_cake.Text)
+                    ? 0 : Convert.ToDecimal(txtPreTaxAmount_cake.Text);
+
+                // 🔥 FINAL MERGE
+                decimal totalTax = taxAmt_pack + cakeTax;
+                decimal totalPreTax = preGSTAmount_pack + cakePreTax;
+                decimal finalNet = totalPreTax + totalTax;
+
+                // 🔹 UPDATE UI
+                txtTotalTaxAmount.Text = totalTax.ToString("N2");
+                txtPreTaxAmount.Text = totalPreTax.ToString("N2");
+
                 lblNetAmt.Text = finalNet.ToString("N2");
 
                 decimal rcvAmt = string.IsNullOrEmpty(txtRcvAmt.Text) ? 0 : Convert.ToDecimal(txtRcvAmt.Text);
@@ -1518,7 +3049,8 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                clsgen.LogException("PartyBooking - CalculateNetAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("PartyBooking - CalculateNetAmount()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
             finally
             {
@@ -1526,7 +3058,6 @@ namespace FoodandBeverage
             }
         }
 
-  
         public void CalculateDiscountAmount()
         {
 
@@ -1551,18 +3082,18 @@ namespace FoodandBeverage
 
                 CalculateNetAmount();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
- 
+
         }
 
         public void CalculateDiscountPer()
         {
             try
             {
-        
+
                 if (string.IsNullOrEmpty(txtTotalDiscountAmt.Text)) txtTotalDiscountAmt.Text = "0";
                 if (string.IsNullOrEmpty(txtGrandTotal.Text)) txtGrandTotal.Text = "0";
 
@@ -1572,30 +3103,531 @@ namespace FoodandBeverage
                 if (discountAmt > grandTotal)
                 {
                     CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtTotalDiscountAmt.Text="0";
+                    txtTotalDiscountAmt.Text = "0";
                     txtTotalDiscountAmt.Focus();
                     return;
                 }
 
                 decimal discountPer = grandTotal == 0 ? 0 : (discountAmt / grandTotal * 100);
                 discountper.Text = discountPer.ToString("N2");
-                
+
                 CalculateNetAmount();
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
-      
         }
 
         private void txtOAAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
+
         private void txtRcvAmt_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
-        private void discountper_TextChanged(object sender, EventArgs e) => CalculateDiscountAmount();
-        private void txtTotalDiscountAmt_TextChanged(object sender, EventArgs e) => CalculateDiscountPer();
+        private void discountper_TextChanged(object sender, EventArgs e)
+        {
+            CalculateDiscountAmount();
+            RecalculateAllCakeRows();
+        }
+        private void txtTotalDiscountAmt_TextChanged(object sender, EventArgs e)
+        {
+            CalculateDiscountPer();
+            RecalculateAllCakeRows();
+        }
+
         private void txtODAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
+
         #endregion
 
+        #region Cake
+        private void btncakeclose_Click(object sender, EventArgs e)
+        {
+            pnlcake.Visible = false;
+        }
+        private void cmbcaketype_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbcaketype.SelectedValue == null) return;
 
+                _cakeId = Convert.ToInt32(cmbcaketype.SelectedValue);
+
+                BllSearch<DmnPartyPackCake> bll = new BllSearch<DmnPartyPackCake>();
+
+                DmnSearch search = new DmnSearch();
+                search.Select = "*";
+                search.Table = "tblPartyPackCake";
+                search.WhereNdGroupBy = "WHERE PartyPackCakeId = " + _cakeId;
+
+                var list = bll.GetSearchData("prdSearch", search);
+
+                if (list.Count > 0)
+                {
+                    var item = list[0];
+
+                    // Basic
+                    _cakeSize = item.CakeSize;
+                    _cakeShape = item.CakeShape;
+                    _cakePrice = Convert.ToDecimal(item.Price);
+
+                    // Tax
+                    _cakeTaxType = item.TaxType;             // GST / VAT
+                    _cakeTaxSettingsId = item.TaxSettingsId;
+                    _cakeTaxMode = item.Tax;             // Inclusive / Exclusive
+
+                    // UI
+                    txtcakesize.Text = _cakeSize;
+                    txtcakeshape.Text = _cakeShape;
+                    txtcakeprice.Text = _cakePrice.ToString();
+
+
+                    txtcakemessage.Clear();
+                    txtcakeremarks.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void ResetCakeFields()
+        {
+            txtcakeremarks.Text = "";
+            txtcakemessage.Text = "";
+            txtcakeshape.Text = "";
+            txtcakeprice.Text = "0";
+
+            cmbcaketype.SelectedIndex = -1; 
+
+            txtPreTaxAmount.Text = "0.00";
+            txtTotalTaxAmount.Text = "0.00";
+        }
+        private void btnaddcakes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+    
+                if (cmbcaketype.SelectedIndex == -1 || string.IsNullOrWhiteSpace(cmbcaketype.Text))
+                {
+                    MessageBox.Show("Please select cake item!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbcaketype.Focus();
+                    return;
+                }
+
+                foreach (DataGridViewRow dgRow in dgvcake.Rows)
+                {
+                    if (dgRow.IsNewRow) continue;
+
+                    if (Convert.ToInt32(dgRow.Cells[CakeIdno].Value) == _cakeId)
+                    {
+                        MessageBox.Show("This cake is already added!", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+
+                _cakeMessage = txtcakemessage.Text;
+                _cakeRemarks = txtcakeremarks.Text;
+
+                decimal baseAmt = 0;
+                decimal taxAmt = 0;
+                decimal netAmt = 0;
+
+                decimal igst = 0;
+                decimal cgst = 0;
+                decimal sgst = 0;
+                decimal vat = 0;
+
+                decimal totalPercent = 0;
+
+                if (_cakeTaxSettingsId > 0)
+                {
+                    int taxSettingId = Convert.ToInt32(_cakeTaxSettingsId);
+
+                    BllSearch<DmnTaxSettings> _bllSearch1 = new BllSearch<DmnTaxSettings>();
+                    DmnSearch dmnSearch = new DmnSearch();
+                    dmnSearch.Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt";
+                    dmnSearch.Table = "tblTaxSettings";
+                    dmnSearch.WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}";
+
+                    var taxSettings = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
+
+                    if (taxSettings.Count > 0)
+                    {
+                        igst = taxSettings[0].IgstPrcnt;
+                        cgst = taxSettings[0].CgstPrcnt;
+                        sgst = taxSettings[0].SgstPrcnt;
+                        vat = taxSettings[0].VatPrcnt;
+
+                        totalPercent = igst + vat;
+                        _cakeTaxType = taxSettings[0].TaxType;
+                        _cakeTaxPer = totalPercent;
+                    }
+                }
+
+                decimal price = _cakePrice;
+
+                // 🔹 Inclusive
+                if (_cakeTaxMode == "Inclusive")
+                {
+                    baseAmt = price / (1 + (totalPercent / 100));
+                    taxAmt = price - baseAmt;
+                    netAmt = price;
+                }
+                else // 🔹 Exclusive
+                {
+                    baseAmt = price;
+                    taxAmt = price * totalPercent / 100;
+                    netAmt = price + taxAmt;
+                }
+
+                baseAmt = Math.Round(baseAmt, 2, MidpointRounding.AwayFromZero);
+                taxAmt = Math.Round(taxAmt, 2, MidpointRounding.AwayFromZero);
+                netAmt = Math.Round(netAmt, 2, MidpointRounding.AwayFromZero);
+
+                int rowIndex = dgvcake.Rows.Add();
+                DataGridViewRow row = dgvcake.Rows[rowIndex];
+
+                row.Cells[CakeSlNo].Value = rowIndex + 1;
+                row.Cells[CakeItemNo].Value = cmbcaketype.Text;
+                row.Cells[CakeQtyNo].Value = 1;
+
+                row.Cells[CakeAmountNo].Value = price;
+                row.Cells[CakeTaxAmtNo].Value = taxAmt;
+
+                row.Cells[CakeTaxNo].Value = _cakeTaxMode;
+                row.Cells[CakeTaxTypeNo].Value = _cakeTaxType;
+                row.Cells[CakeTaxPerNo].Value = totalPercent;
+
+
+                if (_cakeTaxType == "GST")
+                {
+                    if (igst > 0)
+                    {
+                        row.Cells[CakeIgstAmtNo].Value = Math.Round(taxAmt * igst / totalPercent, 2);
+                    }
+                    else
+                    {
+                        decimal cgstAmt = Math.Round(taxAmt * cgst / totalPercent, 2);
+                        decimal sgstAmt = Math.Round(taxAmt * sgst / totalPercent, 2);
+
+                        row.Cells[CakeIgstAmtNo].Value = cgstAmt + sgstAmt;
+                    }
+
+                    row.Cells[CakeVatAmtNo].Value = 0;
+                }
+                else // VAT
+                {
+                    row.Cells[CakeVatAmtNo].Value = taxAmt;
+                    row.Cells[CakeIgstAmtNo].Value = 0;
+                }
+
+                row.Cells[CakeNetAmtNo].Value = netAmt;
+                row.Cells[CakeIdno].Value = _cakeId;
+                row.Cells[Cakemessageno].Value = _cakeMessage;
+                row.Cells[Cakeremarksno].Value = _cakeRemarks;
+
+                CalculateGrandTotal_Cake();
+                ResetCakeFields();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void RecalculateCakeRow(int rowIndex)
+        {
+            try
+            {
+                if (rowIndex < 0) return;
+
+                DataGridViewRow row = dgvcake.Rows[rowIndex];
+                if (row.IsNewRow) return;
+
+                decimal qty = 0;
+                decimal price = 0;
+                decimal discountPercent = 0;
+
+                decimal.TryParse(Convert.ToString(row.Cells[CakeQtyNo].Value), out qty);
+                decimal.TryParse(Convert.ToString(row.Cells[CakeAmountNo].Value), out price); 
+                decimal.TryParse(discountper.Text, out discountPercent);
+
+                if (qty <= 0) qty = 1;
+
+                decimal totalPercent = 0;
+                decimal.TryParse(Convert.ToString(row.Cells[CakeTaxPerNo].Value), out totalPercent);
+
+                string taxMode = Convert.ToString(row.Cells[CakeTaxNo].Value);
+                string taxType = Convert.ToString(row.Cells[CakeTaxTypeNo].Value); 
+
+                decimal amount = qty * price;
+
+                decimal discountAmt = amount * discountPercent / 100;
+                decimal afterDiscount = amount - discountAmt;
+
+                decimal baseAmt = 0;
+                decimal taxAmt = 0;
+                decimal netAmt = 0;
+
+
+                if (taxMode == "Inclusive")
+                {
+                    baseAmt = afterDiscount / (1 + (totalPercent / 100));
+                    taxAmt = afterDiscount - baseAmt;
+                    netAmt = afterDiscount;
+                }
+                else // Exclusive
+                {
+                    baseAmt = afterDiscount;
+                    taxAmt = afterDiscount * totalPercent / 100;
+                    netAmt = afterDiscount + taxAmt;
+                }
+
+
+                baseAmt = Math.Round(baseAmt, 2, MidpointRounding.AwayFromZero);
+                taxAmt = Math.Round(taxAmt, 2, MidpointRounding.AwayFromZero);
+                netAmt = Math.Round(netAmt, 2, MidpointRounding.AwayFromZero);
+
+
+                row.Cells[CakeTaxAmtNo].Value = taxAmt;
+                row.Cells[CakeNetAmtNo].Value = netAmt;
+
+                if (taxType == "GST")
+                {
+                    decimal igst = 0, cgst = 0, sgst = 0;
+                    if (totalPercent > 0)
+                    {
+                        cgst = taxAmt / 2;
+                        sgst = taxAmt / 2;
+                    }
+
+                    row.Cells[CakeIgstAmtNo].Value = Math.Round(cgst + sgst, 2);
+                    row.Cells[CakeVatAmtNo].Value = 0;
+                }
+                else // VAT
+                {
+                    row.Cells[CakeVatAmtNo].Value = taxAmt;
+                    row.Cells[CakeIgstAmtNo].Value = 0;
+                }
+
+                CalculateGrandTotal_Cake();
+            }
+            catch
+            {
+            }
+        }
+
+        private void RecalculateAllCakeRows()
+        {
+            for (int i = 0; i < dgvcake.Rows.Count; i++)
+            {
+                if (!dgvcake.Rows[i].IsNewRow)
+                {
+                    RecalculateCakeRow(i);
+                }
+            }
+
+            CalculateGrandTotal_Cake();
+        }
+
+        private void CalculateGrandTotal_Cake()
+        {
+            decimal grandTotal = 0;
+            decimal totalPreTax = 0;
+            decimal totalTax = 0;
+
+            for (int i = 0; i < dgvcake.Rows.Count; i++)
+            {
+                if (!dgvcake.Rows[i].IsNewRow)
+                {
+                    decimal qty = 0, price = 0, discountPercent = 0, taxPercent = 0;
+
+                    decimal.TryParse(Convert.ToString(dgvcake.Rows[i].Cells[CakeQtyNo].Value), out qty);
+                    decimal.TryParse(Convert.ToString(dgvcake.Rows[i].Cells[CakeAmountNo].Value), out price);
+                    decimal.TryParse(discountper.Text, out discountPercent);
+                    decimal.TryParse(Convert.ToString(dgvcake.Rows[i].Cells[CakeTaxPerNo].Value), out taxPercent);
+
+                    if (qty <= 0) qty = 1;
+
+                    string taxMode = Convert.ToString(dgvcake.Rows[i].Cells[CakeTaxNo].Value);
+
+                    decimal amount = qty * price;
+                    decimal discountAmt = amount * discountPercent / 100;
+                    decimal afterDiscount = amount - discountAmt;
+
+                    decimal baseAmt = 0;
+                    decimal taxAmt = 0;
+                    decimal netAmt = 0;
+
+                    if (taxMode == "Inclusive")
+                    {
+                        baseAmt = afterDiscount / (1 + (taxPercent / 100));
+                        taxAmt = afterDiscount - baseAmt;
+                        netAmt = afterDiscount;
+                    }
+                    else
+                    {
+                        baseAmt = afterDiscount;
+                        taxAmt = afterDiscount * taxPercent / 100;
+                        netAmt = afterDiscount + taxAmt;
+                    }
+
+                    baseAmt = Math.Round(baseAmt, 2);
+                    taxAmt = Math.Round(taxAmt, 2);
+                    netAmt = Math.Round(netAmt, 2);
+
+                    totalPreTax += baseAmt;
+                    totalTax += taxAmt;
+                    grandTotal += netAmt;
+                }
+            }
+
+            txtCakeGrandTotal.Text = grandTotal.ToString("0.00");
+
+            // ✅ STORE SEPARATELY (IMPORTANT)
+            txtPreTaxAmount_cake.Text = totalPreTax.ToString("0.00");
+            txtTotalTaxAmount_cake.Text = totalTax.ToString("0.00");
+        }
+
+        private void btncake_Click(object sender, EventArgs e)
+        {
+            pnlcake.Visible = true;
+            pnlcake.BringToFront();
+            pnlcake.Left = (this.ClientSize.Width - pnlcake.Width) / 2;
+            pnlcake.Top = (this.ClientSize.Height - pnlcake.Height) / 2;
+        }
+        private void dgvcake_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            try
+            {
+                var row = dgvcake.Rows[e.RowIndex];
+                if (e.ColumnIndex == CakeQtyNo)
+                {
+                    decimal qty = 0;
+                    decimal.TryParse(Convert.ToString(row.Cells[CakeQtyNo].Value), out qty);
+                    if (qty <= 0)
+                    {
+                        MessageBox.Show("Quantity must be greater than 0!", "Validation",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        row.Cells[CakeQtyNo].Value = 1; 
+                        dgvcake.CurrentCell = row.Cells[CakeQtyNo];
+                        dgvcake.BeginEdit(true);
+                        return;
+                    }
+                }
+                if (e.ColumnIndex == CakeQtyNo || e.ColumnIndex == CakeAmountNo)
+                {
+                    RecalculateCakeRow(e.RowIndex);
+                    CalculateGrandTotal_Cake();
+                    CalculateNetAmount();
+                }
+            }
+            catch
+            {
+            }
+        }
+        private void dgvcake_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex == CakeActionNo)
+                {
+                    var result = MessageBox.Show("Remove this cake?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        dgvcake.Rows.RemoveAt(e.RowIndex);
+
+
+                        for (int i = 0; i < dgvcake.Rows.Count; i++)
+                        {
+                            if (!dgvcake.Rows[i].IsNewRow)
+                                dgvcake.Rows[i].Cells[CakeSlNo].Value = i + 1;
+                        }
+
+                        CalculateGrandTotal_Cake();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btncakesubmit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                decimal cakeTotal = 0;
+
+                foreach (DataGridViewRow row in dgvcake.Rows)
+                {
+                    if (!row.IsNewRow)
+                    {
+                        decimal net = 0;
+                        decimal.TryParse(Convert.ToString(row.Cells[CakeNetAmtNo].Value), out net);
+                        cakeTotal += net;
+                    }
+                }
+
+                txtCakeGrandTotal.Text = cakeTotal.ToString("0.00");
+
+                decimal mainTotal = 0;
+                decimal.TryParse(txtGrandTotal.Text, out mainTotal);
+
+                txtGrandTotal.Text = (mainTotal + cakeTotal).ToString("0.00");
+
+                CalculateNetAmount();
+
+                pnlcake.Visible = false;
+                ResetCakeFields();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        #endregion
+
+        private void btndispanel_Click(object sender, EventArgs e)
+        {
+            decimal kdata = 0;
+
+            using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
+            {
+                frm.ShowDialog();
+
+                if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+            }
+
+            if (kdata == 0)
+                return;
+
+            if (Frmnumdiskeypad.flagpercentage)
+            {
+                discountper.Text = kdata.ToString("0.00");
+                CalculateDiscountAmount();
+            }
+            else
+            {
+
+                txtTotalDiscountAmt.Text = kdata.ToString("0.00");
+                CalculateDiscountPer();
+            }
+
+            CalculateNetAmount();
+        }
+
+        public void Memoryrelease()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+       
     }
 }

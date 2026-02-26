@@ -94,6 +94,10 @@ namespace BLL
             parms.Add("BranchId", obj.BranchId);
             parms.Add("Status", obj.Status);
 
+            parms.Add("TaxType", obj.TaxType);
+            parms.Add("TaxSettingsId", obj.TaxSettingsId);
+            parms.Add("Tax", obj.Tax);
+
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
