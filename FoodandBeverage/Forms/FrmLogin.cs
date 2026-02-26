@@ -77,6 +77,7 @@ namespace FoodandBeverage.Forms
 
         private bool isMouseDown = false;
         private int pressDuration = 0;
+        public static int GameBranchId = 0;
         #endregion
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -282,9 +283,9 @@ namespace FoodandBeverage.Forms
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();
                                 DmnSearch objSearch = new DmnSearch();
 
-                                objSearch.ColumnHeaders = "UserAccountId,Status,EmployeeId,BranchId,CompanyId,UserAccountTypeId,EmployeeCode,Status,EmployeeName,Designation,BookingInerwell,KitchenDisplayCount,departmentname,epid";
+                                objSearch.ColumnHeaders = "UserAccountId,Status,EmployeeId,BranchId,CompanyId,UserAccountTypeId,EmployeeCode,Status,EmployeeName,Designation,BookingInerwell,KitchenDisplayCount,departmentname,epid,gamebranchid";
                                 objSearch.Select = " ua.UserAccountId as Id,ua.[Status] as Field1,emp.EmployeeId as Field2,ua.BranchId as Field3," +
-                                    "ua.UserAccountTypeId as Field5,emp.EmployeeCode as Field6,f.Status as Field7,emp.EmployeeName as Field8 ,d.DesignationName as Field9,h.BookingInerwell  Field10 ,h.KitchenDisplayCount  Field11 ,dt.departmentname Field12,emp.epid Field13";
+                                    "ua.UserAccountTypeId as Field5,emp.EmployeeCode as Field6,f.Status as Field7,emp.EmployeeName as Field8 ,d.DesignationName as Field9,h.BookingInerwell  Field10 ,h.KitchenDisplayCount  Field11 ,dt.departmentname Field12,emp.epid Field13,h.GameBranchId Field14 ";
                                 objSearch.Table = " tblUserAccount ua " +
                                     "Left join  tblEmployee emp on emp.EmployeeId = ua.EmployeeId " +
                                     " Left join tblForms f on f.UserType = ua.UserAccountTypeId and f.Status = 1 " +
@@ -330,6 +331,7 @@ namespace FoodandBeverage.Forms
                                     UserAccountTypeId = Convert.ToInt64(userDetails["Field5", 0].Value);
                                     EmpCode = userDetails["Field6", 0].Value.ToString();
 
+                                    GameBranchId= Convert.ToInt32(userDetails["Field14", 0].Value);
                                     #endregion
 
                                     this.Opacity = 0;

@@ -154,7 +154,7 @@ namespace FoodandBeverage.Forms
 
         int syncValue = 0;
         private bool _isCheckingOrders = false;
-
+        
         #endregion
 
         // Function to create a rounded rectangle region

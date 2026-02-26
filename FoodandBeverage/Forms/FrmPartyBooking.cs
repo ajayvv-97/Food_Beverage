@@ -1,5 +1,7 @@
 ﻿using BLL;
 using CustomMessageBox;
+using DocumentFormat.OpenXml.Office2016.Drawing.Command;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms;
@@ -17,6 +19,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Color = System.Drawing.Color;
+using Control = System.Windows.Forms.Control;
+using Font = System.Drawing.Font;
 
 namespace FoodandBeverage
 {
@@ -64,14 +69,15 @@ namespace FoodandBeverage
         #region Grid Declaration Card Gift Cake
 
         public int Cardslno = 0;
-        public int Cardselectno = 1;
-        public int Carditemno = 2;
-        public int Cardcategmenuno = 3;
-        public int Cardqtyno = 4;
-        public int CardProductid = 5;
-        public int Cardproducttype = 6;
-        public int CardPartyPackDetailsId = 7;
-        public int CardPartydeafult = 8;
+        public int Cardactionno = 1;
+        public int Cardselectno = 2;
+        public int Carditemno = 3;
+        public int Cardcategmenuno = 4;
+        public int Cardqtyno = 5;
+        public int CardProductid = 6;
+        public int Cardproducttype = 7;
+        public int CardPartyPackDetailsId = 8;
+        public int CardPartydeafult = 9;
 
 
         public int Giftslno = 0;
@@ -148,7 +154,7 @@ namespace FoodandBeverage
 
         public int screnwidth = Screen.PrimaryScreen.Bounds.Width;
         public int screnheight = Screen.PrimaryScreen.Bounds.Height;
-        int GameBranchId=1030;
+        public string GameDB = Convert.ToString(ConfigurationManager.AppSettings["GameDB"]);
         #endregion
 
         public FrmPartyBooking()
@@ -1555,7 +1561,7 @@ namespace FoodandBeverage
 
         #region Card 
 
-        public void FillForms(int id)
+        public void FillForms()
         {
             try
             {
@@ -1586,12 +1592,8 @@ namespace FoodandBeverage
                         s = Convert.ToDecimal(i) / 8;
                         Button dynamicButton = new Button();
                         dynamicButton.Width = flw_categ.Width/5;
-                        dynamicButton.Height = flw_categ.Height;
-           
-                        if (i > 3)
-                            dynamicButton.Visible = false;
-                        else
-                            dynamicButton.Visible = true;
+                        dynamicButton.Height = (int)(flw_categ.Height * 0.8m);
+
 
                         if (!string.IsNullOrEmpty(Categorybg))
                         {
@@ -1722,61 +1724,66 @@ namespace FoodandBeverage
                 int tabtype = 0;
                 int gsubid = 0;
                 string heading = "";
+                string productcolumnname = "";
 
-                int locationId = GameBranchId; 
+                int locationId = FrmLogin.GameBranchId; 
                 switch ((PosSalProduct)tag)
                 {
                     case PosSalProduct.Card:
                         table = "tblCardProducts";
                         tabtype = (int)ProductType.Card;
                         heading = "Card Products";
+                        productcolumnname = "p.Product_id";
                         break;
 
                     case PosSalProduct.GateAccess:
                         table = "tblGatePass";
                         tabtype = (int)ProductType.GateAccess;
                         heading = "Gate Pass";
+                        productcolumnname = "p.Product_id";
                         break;
 
                     case PosSalProduct.Trampoline:
                         table = "tblTrampolining";
                         tabtype = (int)ProductType.Trampoline;
                         heading = "Trampolining";
+                        productcolumnname = "p.Product_id";
                         break;
 
                     case PosSalProduct.TimePlay:
                         table = "tblTimePlayProducts";
                         tabtype = (int)ProductType.TimePlay;
                         heading = "TimePlay Products";
+                        productcolumnname = "p.ProductId";
                         break;
 
                     default:
                         throw new ArgumentException("Invalid product tag");
                 }
 
-                // set labels
+             
                 txtTable.Text = table;
                 lblProductHeading.Text = heading;
 
-                // build query dynamically
-                dmnSearch.Select = @"
-                        TOP 50
-                        p.ProductId as Field1,
-                        p.Description as Field2,
-                        0 as Field3,
-                        0 as Field4";
-
+             
+                dmnSearch.Select = $@"
+                                    TOP 50
+                                    {productcolumnname} as Field1,
+                                    p.Description as Field2,
+                                    0 as Field3,
+                                    0 as Field4";
+                                                
                 dmnSearch.Table = $@"
-                        {table} p
-                        LEFT JOIN tblCardProductLocMapping pm 
-                            ON pm.Product = p.ProductId AND pm.ProductType = {tabtype}";
+                                    [{GameDB}].dbo.{table} p
+                                    LEFT JOIN [{GameDB}].dbo.tblCardProductLocMapping pm 
+                                        ON pm.Product = {productcolumnname} AND pm.ProductType = {tabtype}";
+                                              
+                dmnSearch.WhereNdGroupBy = $@"
+                                    WHERE pm.Location = {locationId} 
+                                    AND pm.Status = 1 and p.Status=1
+                                    AND pm.ProductType = {tabtype}";
 
-                                    dmnSearch.WhereNdGroupBy = $@"
-                        WHERE pm.Location = {locationId} 
-                        AND pm.Status = 1 
-                        AND pm.ProductType = {tabtype}";
-
-               dmnSearch.OrderBy = "ORDER BY p.Description";
+                dmnSearch.OrderBy = "ORDER BY p.Description";
 
                 var gridesource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
                     if (gridesource.Count > 0)
@@ -1851,17 +1858,14 @@ namespace FoodandBeverage
                                     }
                                     else
                                     {
-                                        dynamicButton.BackgroundImage =
-                                            string.IsNullOrEmpty(item.Field3)
-                                                ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
-                                                : LoadButtonImage(item.Field3, null);
+                                        dynamicButton.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
                                     }
 
                                     dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
 
-                                    // FONT LOGIC (C# 7.3 SAFE)
-                                    if (string.IsNullOrEmpty(item.Field4))
-                                    {
+                             
+                                if (string.IsNullOrEmpty(item.Field4) || Convert.ToInt32(item.Field4) == 0)
+                                {
                                         dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
                                             ? new Font("Georgia", 14)
                                             : new Font("Georgia", 10);
@@ -2181,638 +2185,237 @@ namespace FoodandBeverage
         {
             try
             {
-               // AssignDrawerCheck();
-               // if (btnPaynow.Visible == true)
-               // {
-               //     int rowselectedno = 0; decimal qoh = 0, qty = 0;
-               //     string table = txtTable.Text;
-               //     if (table == "")
-               //         txtTable.Text = "tblCardProducts";
-
-               //     int cellproductid = 0;
-               //     table = txtTable.Text;
-
-               //     int lastRowIndex = dgvProduct.Rows.Count - 1;
-               //     DataGridViewRow lastRow = dgvProduct.Rows[lastRowIndex];
-               //     if (!lastRow.IsNewRow && (lastRow.Cells[pId].Value == null || string.IsNullOrWhiteSpace(lastRow.Cells[pId].Value.ToString())))
-               //     {
-               //         cellproductid = lastRowIndex;
-               //     }
-               //     else
-               //     {
-               //         cellproductid = dgvProduct.Rows.Add();
-               //     }
-
-
-               //     int tag = Convert.ToInt32((sender as Button).Tag);
-               //     int subcatestatus = Convert.ToInt32((sender as Button).AccessibleDescription);
-               //     BllSearch<DmnGridFields> _bllSearch = new BllSearch<DmnGridFields>();
-               //     DmnSearch dmnSearch = new DmnSearch();
-               //     int ptypeno = 0;
-
-               //     if (table == "tblCardProducts")
-               //     {
-               //         if (subcatestatus == 1)
-               //         {
-               //             int c = 0, r = 0;
-               //             table = "tblCardProducts";
-               //             txtTable.Text = table;
-               //             int tabtype = Convert.ToInt32(ProductType.Card);
-               //             pnlitembuttons.Controls.Clear();
-
-               //             dmnSearch.Select = "TOP 50 p.Product_Id as Field1,p.Description as Field2,f.BgImage as Field3,f.FontNames as Field4,p.SubCategoryid Field5,sp.SubCategoryName Field6";
-               //             dmnSearch.Table = "tblButtonCreations f left join " + table + " p on p.Product_Id = f.ProductId left join tblCardSubCategory sp on sp.Id = p.SubCategoryid and sp.status=1  ";
-               //             dmnSearch.WhereNdGroupBy = " where f.Status=1 and p.Status=1 and p.SubCategoryid =" + tag + " and " + "f.Active = 1 and " + " f.BranchId=" + BranchId + "and f.UserType = " + UserType + " and f.TabType=" + tabtype;
-               //             dmnSearch.OrderBy = "order by p.Description";
-               //             var gridesource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-
-               //             TableLayoutPanel tlpProduct = new TableLayoutPanel();
-               //             tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
-               //             tlpProduct.Size = pnlitembuttons.Size;
-               //             tlpProduct.AutoScroll = true;
-               //             tlpProduct.Name = "tlp_" + table.Trim();
-               //             tlpProduct.AutoScrollMargin = new Size(10, 10);
-               //             tlpProduct.ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
-
-               //             for (int i = 0; i < gridesource.Count; i++)
-               //             {
-               //                 var item = gridesource[i];
-
-               //                 Button dynamicButton = new Button();
-               //                 dynamicButton.Height = 70;
-               //                 dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
-               //                 dynamicButton.Dock = DockStyle.None;
-
-               //                 dynamicButton.Text = item.Field2;
-               //                 dynamicButton.Tag = item.Field1;
-               //                 dynamicButton.AccessibleDescription = "0";
-
-               //                 dynamicButton.Name = "DynamicButton" + i;
-               //                 dynamicButton.FlatStyle = FlatStyle.Flat;
-               //                 dynamicButton.ForeColor = Color.White;
-
-               //                 // ENABLE / DISABLE LOGIC
-               //                 if (tabtype == (int)ProductType.FB ||
-               //                     tabtype == (int)ProductType.Merchandise ||
-               //                     tabtype == (int)ProductType.Bowling)
-               //                 {
-               //                     if (item.Field5 == null || Convert.ToInt32(item.Field5) <= 0)
-               //                     {
-               //                         dynamicButton.Enabled = false;
-               //                         dynamicButton.BackgroundImage = LoadButtonImage("inactive", null);
-               //                     }
-               //                     else
-               //                     {
-               //                         dynamicButton.BackgroundImage =
-               //                             string.IsNullOrEmpty(item.Field3)
-               //                                 ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
-               //                                 : LoadButtonImage(item.Field3, null);
-               //                     }
-               //                 }
-               //                 else
-               //                 {
-               //                     dynamicButton.BackgroundImage =
-               //                         string.IsNullOrEmpty(item.Field3)
-               //                             ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
-               //                             : LoadButtonImage(item.Field3, null);
-               //                 }
-
-               //                 dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
-
-               //                 // FONT LOGIC (C# 7.3 SAFE)
-               //                 if (string.IsNullOrEmpty(item.Field4))
-               //                 {
-               //                     dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
-               //                         ? new Font("Georgia", 14)
-               //                         : new Font("Georgia", 10);
-               //                 }
-               //                 else
-               //                 {
-               //                     string[] textSplit = item.Field4.Split(',');
-               //                     string fontName = textSplit[0];
-               //                     float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
-
-               //                     dynamicButton.Font = new Font(fontName, fontSize);
-               //                 }
-
-               //                 // CONTEXT MENU
-               //                 ContextMenuStrip contextMenu = new ContextMenuStrip();
-               //                 ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
-               //                 ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
-
-               //                 item1.Image = GamePOS.Properties.Resources.background_mouse_clcik;
-               //                 item2.Image = GamePOS.Properties.Resources.font_mouselick;
-               //                 item1.Font = item2.Font = new Font("Arial", 12, FontStyle.Bold);
-               //                 item1.ForeColor = item2.ForeColor = Color.Black;
-
-               //                 item1.Click += Item1_Click;
-               //                 item2.Click += Item2_Click;
-
-               //                 contextMenu.Items.Add(item1);
-               //                 contextMenu.Items.Add(item2);
-               //                 dynamicButton.ContextMenuStrip = contextMenu;
-
-               //                 dynamicButton.Click += DynamicButtonProduct_Click;
-
-               //                 // GRID POSITIONING
-               //                 tlpProduct.Controls.Add(dynamicButton, c, r);
-               //                 c++;
-
-               //                 if (c >= tlpProduct.ColumnCount)
-               //                 {
-               //                     c = 0;
-               //                     r++;
-               //                 }
-               //             }
-
-               //             pnlitembuttons.Controls.Add(tlpProduct);
-
-               //             #region Back Button
-
-               //             Button btnBack = new Button();
-               //             btnBack.Name = "btnBack";
-               //             btnBack.Text = "Back";
-               //             btnBack.Height = 45;
-               //             btnBack.Width = 120;
-
-               //             btnBack.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-               //             btnBack.ForeColor = Color.White;
-
-               //             // IMPORTANT for image button
-               //             btnBack.FlatStyle = FlatStyle.Flat;
-               //             btnBack.FlatAppearance.BorderSize = 0;
-               //             btnBack.BackColor = Color.Transparent;
-               //             btnBack.UseVisualStyleBackColor = false;
-
-               //             // Background Image
-               //             btnBack.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
-               //             btnBack.BackgroundImageLayout = ImageLayout.Stretch;
-
-               //             // Position
-               //             btnBack.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-               //             btnBack.Location = new Point(
-               //                 10,
-               //                 pnlitembuttons.Height - btnBack.Height - 10
-               //             );
-
-               //             // Click event
-               //             btnBack.Click += BtnBack_Click;
-
-               //             // Add AFTER grid
-               //             pnlitembuttons.Controls.Add(btnBack);
-               //             btnBack.BringToFront();
-
-               //             #endregion
-
-               //             return;
-
-               //         }
-               //         else
-               //         {
-               //             dmnSearch.Select = "p.Product_id as Id,p.Description as Field1, SuggestedPrice as Field2,Tax as Field3,TaxSettingsId as Field4,CashBalance as Field5,CashBonusBalnce as Field6,TokenBalnce as Field7,Points as Field8,(select QOH from tblCard where LocationId = " + BranchId + " ) as Field9";
-               //             dmnSearch.Table = " " + table + " p ";
-               //             dmnSearch.WhereNdGroupBy = " where p.Product_id = " + tag;
-               //         }
-               //         ptypeno = Convert.ToInt32(ProductType.Card);
-               //     }
-               //     else if (table == "tblTimePlayProducts")
-               //     {
-               //         dmnSearch.Select = "p.Productid as Id,p.Description as Field1, SuggestedPrice as Field2," +
-               //                                "Tax as Field3,TaxSettingsId as Field4,MinDuration as Field5,RoundsPerPlay as Field6,GameInterval as Field7,(select QOH from tblCard where LocationId = " + BranchId + " ) as Field9";
-               //         dmnSearch.Table = " " + table + " p ";
-               //         dmnSearch.WhereNdGroupBy = " where p.Productid = " + tag;
-               //         ptypeno = Convert.ToInt32(ProductType.TimePlay);
-
-               //     }
-               //     else if (table == "tblGatePass")
-               //     {
-               //         dmnSearch.Select = "p.Productid as Id,p.Description as Field1, SuggestedPrice as Field2," +
-               //         "Tax as Field3,TaxSettingsId as Field4,CashBalance as Field5,CashBonusBalance as Field6,TokenBalance as Field7,Points as Field8,(select QOH from tblCard where LocationId = " + BranchId + " ) as Field9";
-               //         dmnSearch.Table = " " + table + " p ";
-               //         dmnSearch.WhereNdGroupBy = " where p.Productid = " + tag;
-               //         ptypeno = Convert.ToInt32(ProductType.GateAccess);
-
-               //     }
-               //     else if (table == "tblTrampolining")
-               //     {
-               //         dmnSearch.Select = "p.Productid as Id,p.Description as Field1, SuggestedPrice as Field2," +
-               //         "Tax as Field3,TaxSettingsId as Field4,CashBalance as Field5,CashBonusBalance as Field6,TokenBalance as Field7,Points as Field8,(select QOH from tblCard where LocationId = " + BranchId + " ) as Field9";
-               //         dmnSearch.Table = " " + table + " p ";
-               //         dmnSearch.WhereNdGroupBy = " where p.Productid = " + tag;
-               //         ptypeno = Convert.ToInt32(ProductType.Trampoline);
-               //     }
-               //     else if (table == "tblFoodAndBeverages")
-               //     {
-               //         ptypeno = Convert.ToInt32(ProductType.FB);
-               //         tag = Convert.ToInt32((sender as Button).Tag);
-               //         subcatestatus = Convert.ToInt32((sender as Button).AccessibleDescription);
-
-               //         int c = 0, r = 0;
-               //         table = "tblFoodAndBeverages";
-               //         txtTable.Text = table;
-               //         int tabtype = Convert.ToInt32(ProductType.FB);
-               //         if (subcatestatus == 1)
-               //         {
-               //             pnlitembuttons.Controls.Clear();
-
-               //             dmnSearch.Select = " TOP 50 p.ProductId as Field1,p.Description as Field2,f.BgImage as Field3,f.FontNames as Field4, " +
-               //"(Select Sum(QOH) from tblProductRate pr where pr.ProductId = p.ProductId and pr.BranchId = " + BranchId + " and pr.ProductType = " + Convert.ToInt32(ProductType.FB) + ") as Field5,pc.Id Field6,pc.CategoryName Field7";
-               //             dmnSearch.Table = " tblButtonCreations f left join " + table + " p on p.ProductId=f.ProductId left join tblProductCategory pc on pc.Id = p.CategoryId and pc.status=1 ";
-
-               //             dmnSearch.WhereNdGroupBy = " where f.Status=1 and p.Status=1 and pc.id = " + tag + " and " + "f.Active = 1 and " + " f.BranchId=" + BranchId + " and f.UserType = " + UserType + " and f.TabType=" + tabtype;
-               //             dmnSearch.OrderBy = "order by p.Description";
-               //             var gridesource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-
-               //             TableLayoutPanel tlpProduct = new TableLayoutPanel();
-               //             tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
-               //             tlpProduct.Size = pnlitembuttons.Size;
-               //             tlpProduct.AutoScroll = true;
-               //             tlpProduct.Name = "tlp_" + table.Trim();
-               //             tlpProduct.AutoScrollMargin = new Size(10, 10);
-               //             tlpProduct.ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
-
-               //             for (int i = 0; i < gridesource.Count; i++)
-               //             {
-               //                 var item = gridesource[i];
-
-               //                 Button dynamicButton = new Button();
-               //                 dynamicButton.Height = 70;
-               //                 dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
-               //                 dynamicButton.Dock = DockStyle.None;
-
-               //                 dynamicButton.Text = item.Field2;
-               //                 dynamicButton.Tag = item.Field1;
-               //                 dynamicButton.AccessibleDescription = "0";
-
-               //                 dynamicButton.Name = "DynamicButton" + i;
-               //                 dynamicButton.FlatStyle = FlatStyle.Flat;
-               //                 dynamicButton.ForeColor = Color.White;
-
-               //                 // ENABLE / DISABLE LOGIC
-               //                 if (tabtype == (int)ProductType.FB ||
-               //                     tabtype == (int)ProductType.Merchandise ||
-               //                     tabtype == (int)ProductType.Bowling)
-               //                 {
-               //                     if (item.Field5 == null || Convert.ToInt32(item.Field5) <= 0)
-               //                     {
-               //                         dynamicButton.Enabled = false;
-               //                         dynamicButton.BackgroundImage = LoadButtonImage("inactive", null);
-               //                     }
-               //                     else
-               //                     {
-               //                         dynamicButton.BackgroundImage =
-               //                             string.IsNullOrEmpty(item.Field3)
-               //                                 ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
-               //                                 : LoadButtonImage(item.Field3, null);
-               //                     }
-               //                 }
-               //                 else
-               //                 {
-               //                     dynamicButton.BackgroundImage =
-               //                         string.IsNullOrEmpty(item.Field3)
-               //                             ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
-               //                             : LoadButtonImage(item.Field3, null);
-               //                 }
-
-               //                 dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
-
-               //                 // FONT LOGIC (C# 7.3 SAFE)
-               //                 if (string.IsNullOrEmpty(item.Field4))
-               //                 {
-               //                     dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
-               //                         ? new Font("Georgia", 14)
-               //                         : new Font("Georgia", 10);
-               //                 }
-               //                 else
-               //                 {
-               //                     string[] textSplit = item.Field4.Split(',');
-               //                     string fontName = textSplit[0];
-               //                     float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
-
-               //                     dynamicButton.Font = new Font(fontName, fontSize);
-               //                 }
-
-               //                 // CONTEXT MENU
-               //                 ContextMenuStrip contextMenu = new ContextMenuStrip();
-               //                 ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
-               //                 ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
-
-               //                 item1.Image = GamePOS.Properties.Resources.background_mouse_clcik;
-               //                 item2.Image = GamePOS.Properties.Resources.font_mouselick;
-               //                 item1.Font = item2.Font = new Font("Arial", 12, FontStyle.Bold);
-               //                 item1.ForeColor = item2.ForeColor = Color.Black;
-
-               //                 item1.Click += Item1_Click;
-               //                 item2.Click += Item2_Click;
-
-               //                 contextMenu.Items.Add(item1);
-               //                 contextMenu.Items.Add(item2);
-               //                 dynamicButton.ContextMenuStrip = contextMenu;
-
-               //                 dynamicButton.Click += DynamicButtonProduct_Click;
-
-               //                 // GRID POSITIONING
-               //                 tlpProduct.Controls.Add(dynamicButton, c, r);
-               //                 c++;
-
-               //                 if (c >= tlpProduct.ColumnCount)
-               //                 {
-               //                     c = 0;
-               //                     r++;
-               //                 }
-               //             }
-
-               //             pnlitembuttons.Controls.Add(tlpProduct);
-
-               //             #region Back Button
-
-               //             Button btnBack = new Button();
-               //             btnBack.Name = "btnBack";
-               //             btnBack.Text = "Back";
-               //             btnBack.Height = 45;
-               //             btnBack.Width = 120;
-
-               //             btnBack.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-               //             btnBack.ForeColor = Color.White;
-
-               //             // IMPORTANT for image button
-               //             btnBack.FlatStyle = FlatStyle.Flat;
-               //             btnBack.FlatAppearance.BorderSize = 0;
-               //             btnBack.BackColor = Color.Transparent;
-               //             btnBack.UseVisualStyleBackColor = false;
-
-               //             // Background Image
-               //             btnBack.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
-               //             btnBack.BackgroundImageLayout = ImageLayout.Stretch;
-
-               //             // Position
-               //             btnBack.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-               //             btnBack.Location = new Point(
-               //                 10,
-               //                 pnlitembuttons.Height - btnBack.Height - 10
-               //             );
-
-               //             // Click event
-               //             btnBack.Click += BtnBack_Click;
-
-               //             // Add AFTER grid
-               //             pnlitembuttons.Controls.Add(btnBack);
-               //             btnBack.BringToFront();
-
-               //             #endregion
-
-               //             return;
-               //         }
-               //         else
-               //         {
-               //             dmnSearch.Select = "fp.ProductId as Id,fp.Description as Field1,pr.srate as Field2,fp.Tax as Field3,fp.TaxSettingsId as Field4,fp.upc as Field5,pr.mrp as Field6,pr.QOH  as Field7,pr.id as Field8";
-               //             dmnSearch.Table = " " + table + " fp left join tblProductRate pr on pr.ProductId = fp.ProductId and pr.ProductType= " + ptypeno + "  and pr.BranchId = " + BranchId + " and pr.QOH > 0";
-               //             dmnSearch.WhereNdGroupBy = " where pr.ProductId = " + tag;
-               //         }
-
-               //     }
-               //     else
-               //     {
-               //         if (table == "tblMarchandise")
-               //             ptypeno = Convert.ToInt32(ProductType.Merchandise);
-               //         else if (table == "tblBowlingAccessories")
-               //             ptypeno = Convert.ToInt32(ProductType.Bowling);
-
-               //         dmnSearch.Select = "fp.ProductId as Id,fp.Description as Field1,pr.srate as Field2,fp.Tax as Field3,fp.TaxSettingsId as Field4,fp.upc as Field5,pr.mrp as Field6,pr.QOH  as Field7,pr.id as Field8";
-               //         dmnSearch.Table = " " + table + " fp left join tblProductRate pr on pr.ProductId = fp.ProductId and pr.ProductType= " + ptypeno + "  and pr.BranchId = " + BranchId + " and pr.QOH > 0";
-               //         dmnSearch.WhereNdGroupBy = " where pr.ProductId = " + tag;
-               //     }
-               //     bool flage = false;
-               //     var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-
-               //     if (gridSource.Count == 1)
-               //     {
-               //         if (ptypeno != Convert.ToInt32(ProductType.Card) &&
-               //             ptypeno != Convert.ToInt32(ProductType.GateAccess) &&
-               //             ptypeno != Convert.ToInt32(ProductType.Trampoline) &&
-               //             ptypeno != Convert.ToInt32(ProductType.TimePlay))
-               //         {
-               //             for (int i = 0; i <= dgvProduct.RowCount - 1; i++)
-               //             {
-               //                 if (Convert.ToInt32(gridSource[0].Field8) == Convert.ToInt32(dgvProduct.Rows[i].Cells[iprateid].Value))
-               //                 {
-               //                     flage = true;
-               //                     dgvProduct.Rows[i].Cells[pQty].Value = Convert.ToInt32(dgvProduct.Rows[i].Cells[pQty].Value) + 1;
-               //                     rowselectedno = i;
-               //                     totalcellamount(i);
-               //                     grandTotal();
-               //                     totQty();
-               //                     totDisc();
-               //                     totTaxAmnt();
-               //                     netAmount();
-               //                     break;
-               //                 }
-
-               //             }
-
-               //         }
-
-               //         if (flage == false)
-               //         {
-               //             dgvProduct.Rows.Add(1);
-               //             dgvProduct.Rows[cellproductid].Cells[pSlnoo].Value = cellproductid + 1;
-               //             DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvProduct.Rows[cellproductid].Cells[ideleteno];
-
-               //             //if (cellcolumntype.Value != null)
-               //             //{
-               //             //    (cellcolumntype.Value as IDisposable)?.Dispose();
-               //             //}
-
-               //             cellcolumntype.Value = Properties.Resources.mouseclick_remove;
-               //             cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-               //             dgvProduct.Rows[cellproductid].Cells[pName].Value = gridSource[0].Field1;
-               //             dgvProduct.Rows[cellproductid].Cells[pPrice].Value = gridSource[0].Field2;
-               //             dgvProduct.Rows[cellproductid].Cells[pQty].Value = "1";
-               //             dgvProduct.Rows[cellproductid].Cells[pAmount].Value = gridSource[0].Field2;
-               //             dgvProduct.Rows[cellproductid].Cells[pDisper].Value = "0";
-               //             dgvProduct.Rows[cellproductid].Cells[pDisAmnt].Value = "0.00";
-               //             dgvProduct.Rows[cellproductid].Cells[pTax].Value = gridSource[0].Field3;
-               //             dgvProduct.Rows[cellproductid].Cells[pTaxSettingsId].Value = gridSource[0].Field4;
-               //             dgvProduct.Rows[cellproductid].Cells[pTaxAmnt].Value = "0.00";
-               //             dgvProduct.Rows[cellproductid].Cells[pId].Value = gridSource[0].Id;
-               //             dgvProduct.Rows[cellproductid].Cells[protype].Value = ptypeno;
-
-               //             if ((ptypeno != Convert.ToInt32(ProductType.Card) &&
-               //               ptypeno != Convert.ToInt32(ProductType.GateAccess) &&
-               //               ptypeno != Convert.ToInt32(ProductType.Trampoline)) &&
-               //               ptypeno != Convert.ToInt32(ProductType.TimePlay))
-               //             {
-
-               //                 dgvProduct.Rows[cellproductid].Cells[iorginalQty].Value = gridSource[0].Field7;
-               //                 dgvProduct.Rows[cellproductid].Cells[iprateid].Value = gridSource[0].Field8;
-               //                 dgvProduct.Rows[cellproductid].Cells[upc_rfidno].ReadOnly = true;
-
-               //             }
-
-               //             if ((ptypeno == Convert.ToInt32(ProductType.Card) ||
-               //             ptypeno == Convert.ToInt32(ProductType.GateAccess) ||
-               //             ptypeno == Convert.ToInt32(ProductType.Trampoline)))
-               //             {
-               //                 dgvProduct.Rows[cellproductid].Cells[iCardBalance].Value = gridSource[0].Field5;
-               //                 dgvProduct.Rows[cellproductid].Cells[iCashBonusBalance].Value = gridSource[0].Field6;
-               //                 dgvProduct.Rows[cellproductid].Cells[iTokenBalance].Value = gridSource[0].Field7;
-               //                 dgvProduct.Rows[cellproductid].Cells[iPointBalance].Value = gridSource[0].Field8;
-               //             }
-               //             else if (ptypeno == Convert.ToInt32(ProductType.TimePlay))
-               //             {
-               //                 dgvProduct.Rows[cellproductid].Cells[iTPDuration].Value = gridSource[0].Field5;
-               //                 dgvProduct.Rows[cellproductid].Cells[iRoundsPerPlay].Value = gridSource[0].Field6;
-               //                 dgvProduct.Rows[cellproductid].Cells[iGameInterval].Value = gridSource[0].Field7;
-               //             }
-               //             else
-               //             {
-               //                 dgvProduct.Rows[cellproductid].Cells[israte].Value = gridSource[0].Field2;
-               //                 dgvProduct.Rows[cellproductid].Cells[imrp].Value = gridSource[0].Field6;
-               //             }
-
-               //             totalcellamount(cellproductid);
-               //             grandTotal();
-               //             totRfidCardQty();
-               //             totQty();
-               //             totDisc();
-               //             totTaxAmnt();
-               //             netAmount();
-               //             //dgvProduct.Focus();
-               //             dgvProduct.CurrentCell = dgvProduct.Rows[cellproductid].Cells[upc_rfidno];
-               //             if ((ptypeno == Convert.ToInt32(ProductType.Card) ||
-               //                  ptypeno == Convert.ToInt32(ProductType.GateAccess) ||
-               //                  ptypeno == Convert.ToInt32(ProductType.Trampoline)) ||
-               //                  ptypeno == Convert.ToInt32(ProductType.TimePlay))
-               //             {
-               //                 Pnl_wifiPopup.Location = new Point(this.ClientSize.Width / 2 - Pnl_wifiPopup.Size.Width / 2, (this.ClientSize.Height / 2 - Pnl_wifiPopup.Size.Height / 2));
-               //                 dgvProduct.Rows[cellproductid].Cells[upc_rfidno].Value = "RFID Card...";
-               //                 dgvProduct.Rows[cellproductid].Cells[upc_rfidno].Style.ForeColor = Color.Red;
-               //                 Pnl_wifiPopup.Show();
-               //                 borderFadeTimer.Start();
-               //                 timer1.Start();
-               //             }
-               //             else
-               //             {
-               //                 dgvProduct.Rows[cellproductid].Cells[upc_rfidno].Value = gridSource[0].Field5;
-               //                 dgvProduct.Rows[cellproductid].Cells[iorigbarcode].Value = gridSource[0].Field5;
-               //             }
-               //         }
-               //         else
-               //         {
-               //             if ((ptypeno != Convert.ToInt32(ProductType.Card) &&
-               //          ptypeno != Convert.ToInt32(ProductType.GateAccess) &&
-               //          ptypeno != Convert.ToInt32(ProductType.Trampoline)) &&
-               //          ptypeno != Convert.ToInt32(ProductType.TimePlay))
-               //             {
-               //                 if (Convert.ToInt32(dgvProduct.Rows[rowselectedno].Cells[pQty].Value) > Convert.ToDecimal(dgvProduct.Rows[rowselectedno].Cells[iorginalQty].Value))
-               //                 {
-               //                     MessageBox.Show("Avilable Stock Quanity Is " + Convert.ToDecimal(dgvProduct.Rows[rowselectedno].Cells[iorginalQty].Value), "Insufficent Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-               //                     dgvProduct.Rows[rowselectedno].Cells[pQty].Value = Convert.ToDecimal(dgvProduct.Rows[rowselectedno].Cells[iorginalQty].Value);
-               //                     dgvProduct.CurrentCell = dgvProduct.Rows[rowselectedno].Cells[pQty];
-               //                     totalcellamount(rowselectedno);
-               //                     grandTotal();
-               //                     totQty();
-               //                     totDisc();
-               //                     totTaxAmnt();
-               //                     netAmount();
-               //                     return;
-               //                 }
-               //             }
-               //         }
-               //         if ((cellproductid == dgvProduct.RowCount - 1) && (flage == false))
-               //         {
-               //             dgvProduct.Rows.Add(1);
-               //         }
-               //         if ((ptypeno == Convert.ToInt32(ProductType.FB) ||
-               //                  ptypeno == Convert.ToInt32(ProductType.Bowling) ||
-               //                  ptypeno == Convert.ToInt32(ProductType.Merchandise)))
-               //         {
-               //             int n = dgvProduct.RowCount - 1;
-               //             dgvProduct.CurrentCell = dgvProduct.Rows[n].Cells[upc_rfidno];
-               //             txtbarcode.Enabled = true;
-               //             txtbarcode.Focus();
-               //         }
-
-               //     } //Single price
-               //     else if (gridSource.Count > 1)
-               //     {
-               //         dgvProduct.Enabled = false;
-               //         flw_categ.Enabled = false;
-               //         pnlitembuttons.Enabled = false;
-               //         btnSearch.Enabled = false;
-               //         Control controlclose;
-               //         pnlprice.Controls.Clear();
-
-               //         foreach (Control ctrl in tlp_price_list.Controls)
-               //         {
-               //             ctrl.Dispose();
-               //         }
-
-               //         tlp_price_list.Controls.Clear();
-               //         tlp_price_list.Dock = DockStyle.Fill;
-               //         tlp_price_list.ColumnCount = 1;
-               //         tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-               //         tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-               //         tlp_price_list.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-               //         Button closebutton = new Button();
-               //         closebutton.Text = "X";
-               //         controlclose = closebutton;
-               //         closebutton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg5.png");
-               //         closebutton.BackgroundImageLayout = ImageLayout.Stretch;
-               //         closebutton.FlatStyle = FlatStyle.Flat;
-               //         closebutton.ForeColor = System.Drawing.Color.White;
-               //         closebutton.Font = new Font("Georgia", 14);
-               //         closebutton.Width = 50;
-               //         closebutton.Height = 50;
-               //         closebutton.Dock = DockStyle.Right;
-               //         closebutton.Click += new EventHandler(closebuttonClickEventHandler);
-               //         tlp_price_list.RowCount++;
-               //         tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-               //         tlp_price_list.Controls.Add(controlclose, 0, 0);
-
-               //         Control control1, controlsrate, controlqty;
-               //         int rowIndex = 2;
-               //         for (int i = 0; i < gridSource.Count; i++)
-               //         {
-               //             Button pricebutton = new Button();
-               //             pricebutton.Text = "RS. " + (gridSource[i].Field2).ToString() + "  QTY : " + (gridSource[i].Field7).ToString(); ;
-               //             pricebutton.Name = (gridSource[i].Field8).ToString();
-               //             pricebutton.Tag = ptypeno;
-               //             control1 = pricebutton;
-               //             //pricebutton.Dock = DockStyle.Fill;
-               //             pricebutton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\bg4.png");
-               //             pricebutton.BackgroundImageLayout = ImageLayout.Stretch;
-               //             pricebutton.FlatStyle = FlatStyle.Flat;
-               //             pricebutton.ForeColor = System.Drawing.Color.White;
-               //             pricebutton.Font = new Font("Georgia", 14);
-               //             pricebutton.Width = 300;
-               //             pricebutton.Height = 70;
-               //             // Add the event handler for the button
-               //             pricebutton.Click += new EventHandler(MyButtonClickEventHandler);
-               //             // Add the controls to the row
-               //             tlp_price_list.RowCount++;
-               //             tlp_price_list.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-               //             tlp_price_list.Controls.Add(control1, 0, rowIndex);
-               //             rowIndex++;
-               //         }
-               //         // Add the TableLayoutPanel to the form
-               //         pnlprice.Visible = true;
-               //         pnlprice.Controls.Add(tlp_price_list);
-
-               //     }//multiple price
-
-               //     CheckBonus();
-               // }
+                string table = string.IsNullOrEmpty(txtTable.Text) ? "tblCardProducts" : txtTable.Text;
+                int tag = Convert.ToInt32((sender as Button).Tag);
+                int subcatestatus = Convert.ToInt32((sender as Button).AccessibleDescription);
+
+                BllSearch<DmnGridFields> _bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                int ptypeno = 0;
+
+                // CARD PRODUCTS
+                if (table == "tblCardProducts")
+                {
+                    ptypeno = Convert.ToInt32(ProductType.Card);
+
+                    // Subcategory buttons
+                    if (subcatestatus == 1)
+                    {
+                        pnlitembuttons.Controls.Clear();
+
+                        // Dynamic query with database name
+                        dmnSearch.Select = @"
+                    TOP 50 
+                    p.Product_Id as Field1,
+                    p.Description as Field2,
+                    p.SubCategoryid as Field5,
+                    sp.SubCategoryName as Field6,
+                    pm.ProductType as Field7,
+                    pm.Location as Field8";
+
+                        dmnSearch.Table = $@"
+                    [{GameDB}].dbo.tblCardProducts p
+                    LEFT JOIN [{GameDB}].dbo.tblCardProductLocMapping pm
+                        ON pm.Product = p.ProductId AND pm.ProductType = {ptypeno}
+                    LEFT JOIN [{GameDB}].dbo.tblCardSubCategory sp
+                        ON sp.Id = p.SubCategoryid AND sp.Status = 1";
+
+                        dmnSearch.WhereNdGroupBy = $@"
+                    WHERE p.Status = 1 
+                        AND p.SubCategoryid = {tag} 
+                        AND pm.Location = {FrmLogin.GameBranchId} 
+                        AND pm.ProductType = {ptypeno}";
+
+                        dmnSearch.OrderBy = "ORDER BY p.Description";
+
+                        var gridesource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                        // Create TableLayoutPanel
+                        TableLayoutPanel tlpProduct = new TableLayoutPanel
+                        {
+                            Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom,
+                            Size = pnlitembuttons.Size,
+                            AutoScroll = true,
+                            Name = "tlp_" + table.Trim(),
+                            AutoScrollMargin = new Size(10, 10),
+                            ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5
+                        };
+
+                        int c = 0, r = 0;
+                        foreach (var item in gridesource)
+                        {
+                            Button dynamicButton = new Button
+                            {
+                                Height = 70,
+                                Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount,
+                                Dock = DockStyle.None,
+                                Text = item.Field2,
+                                Tag = item.Field1,
+                                AccessibleDescription = "0",
+                                Name = "DynamicButton" + c,
+                                FlatStyle = FlatStyle.Flat,
+                                ForeColor = Color.White,
+                                BackgroundImageLayout = ImageLayout.Stretch
+                            };
+
+                            // Set Background Image
+                            dynamicButton.BackgroundImage =
+                                string.IsNullOrEmpty(item.Field3)
+                                ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+                                : LoadButtonImage(item.Field3, null);
+
+                            // Font logic
+                            if (string.IsNullOrEmpty(item.Field4))
+                                dynamicButton.Font = (screnwidth > 1365 && screnheight > 765) ? new Font("Georgia", 14) : new Font("Georgia", 10);
+                            else
+                            {
+                                string[] textSplit = item.Field4.Split(',');
+                                string fontName = textSplit[0];
+                                float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
+                                dynamicButton.Font = new Font(fontName, fontSize);
+                            }
+
+                            dynamicButton.Click += DynamicButtonProduct_Click;
+
+                            tlpProduct.Controls.Add(dynamicButton, c, r);
+                            c++;
+                            if (c >= tlpProduct.ColumnCount)
+                            {
+                                c = 0;
+                                r++;
+                            }
+                        }
+
+                        pnlitembuttons.Controls.Add(tlpProduct);
+
+                        // Add Back button
+                        Button btnBack = new Button
+                        {
+                            Name = "btnBack",
+                            Text = "Back",
+                            Height = 45,
+                            Width = 120,
+                            Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                            ForeColor = Color.White,
+                            FlatStyle = FlatStyle.Flat,
+                            BackColor = Color.Transparent,
+                            UseVisualStyleBackColor = false,
+                            BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030),
+                            BackgroundImageLayout = ImageLayout.Stretch,
+                            Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
+                            Location = new Point(10, pnlitembuttons.Height - 55)
+                        };
+                        btnBack.Click += BtnBack_Click;
+                        pnlitembuttons.Controls.Add(btnBack);
+                        btnBack.BringToFront();
+
+                        return;
+                    }
+                    else
+                    {
+                        // Single product load for Card
+                        dmnSearch.Select = $@"
+                    p.Product_id as Id,
+                    p.Description as Field1,
+                    p.SuggestedPrice as Field2,
+                    p.Tax as Field3,
+                    p.TaxSettingsId as Field4,
+                    p.CashBalance as Field5,
+                    p.CashBonusBalnce as Field6,
+                    p.TokenBalnce as Field7,
+                    p.Points as Field8";
+                        dmnSearch.Table = $"[{GameDB}].dbo.{table} p";
+                        dmnSearch.WhereNdGroupBy = $"WHERE p.Product_id = {tag}";
+                    }
+                }
+                // TIME PLAY
+                else if (table == "tblTimePlayProducts")
+                {
+                    ptypeno = Convert.ToInt32(ProductType.TimePlay);
+                    dmnSearch.Select = $@"
+                p.Productid as Id,
+                p.Description as Field1,
+                p.SuggestedPrice as Field2,
+                p.Tax as Field3,
+                p.TaxSettingsId as Field4,
+                p.MinDuration as Field5,
+                p.RoundsPerPlay as Field6,
+                p.GameInterval as Field7";
+                    dmnSearch.Table = $"[{GameDB}].dbo.{table} p";
+                    dmnSearch.WhereNdGroupBy = $"WHERE p.Productid = {tag}";
+                }
+                // GATE PASS
+                else if (table == "tblGatePass")
+                {
+                    ptypeno = Convert.ToInt32(ProductType.GateAccess);
+                    dmnSearch.Select = $@"
+                p.Productid as Id,
+                p.Description as Field1,
+                p.SuggestedPrice as Field2,
+                p.Tax as Field3,
+                p.TaxSettingsId as Field4,
+                p.CashBalance as Field5,
+                p.CashBonusBalance as Field6,
+                p.TokenBalance as Field7,
+                p.Points as Field8";
+                    dmnSearch.Table = $"[{GameDB}].dbo.{table} p";
+                    dmnSearch.WhereNdGroupBy = $"WHERE p.Productid = {tag}";
+                }
+                // TRAMPOLINE
+                else if (table == "tblTrampolining")
+                {
+                    ptypeno = Convert.ToInt32(ProductType.Trampoline);
+                    dmnSearch.Select = $@"
+                p.Productid as Id,
+                p.Description as Field1,
+                p.SuggestedPrice as Field2,
+                p.Tax as Field3,
+                p.TaxSettingsId as Field4,
+                p.CashBalance as Field5,
+                p.CashBonusBalance as Field6,
+                p.TokenBalance as Field7,
+                p.Points as Field8";
+                    dmnSearch.Table = $"[{GameDB}].dbo.{table} p";
+                    dmnSearch.WhereNdGroupBy = $"WHERE p.Productid = {tag}";
+                }
+
+                // Fetch data
+                var gridSource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                // Populate dgv_card for Card products
+                if (ptypeno == Convert.ToInt32(ProductType.Card) && gridSource != null && gridSource.Count > 0)
+                {
+                    int cardSl = 1;
+                    foreach (var item in gridSource)
+                    {
+                        int rowIndex = dgv_card.Rows.Add();
+                        DataGridViewRow row = dgv_card.Rows[rowIndex];
+
+                        row.Cells[Cardslno].Value = cardSl++;
+                        row.Cells["Cardselectno"].Value = true;
+                        row.Cells["Carditemno"].Value = item.Field1;
+                        row.Cells["Cardcategmenuno"].Value = item.Field5;
+                        row.Cells["Cardqtyno"].Value = 1;
+                        row.Cells["CardProductid"].Value = item.Field1;
+                        row.Cells["Cardproducttype"].Value = ptypeno;
+                        row.Cells["CardPartyPackDetailsId"].Value = 0;
+                        row.Cells["CardPartydeafult"].Value = 0;
+
+                        row.ReadOnly = true;
+                    }
+                }
             }
             catch (Exception ex)
-
             {
-                // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //clsGeneral.LogException("POSDashboard page  DynamicButtonProduct_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.POSDashboard));
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void BtnBack_Click(object sender, EventArgs e)
+        {
+            FillForms();
+        }
+
         private Image LoadButtonImage(string fileName, Image fallbackImage)
         {
             if (string.IsNullOrEmpty(fileName)) return fallbackImage;
@@ -2827,12 +2430,30 @@ namespace FoodandBeverage
         }
         private void btn_addcards_Click(object sender, EventArgs e)
         {
+          
+            pnlcards.Visible = false;
+            pnl_cardpreview.Visible = true;
+            pnl_cardpreview.BringToFront();
 
+            
+            int widthPercent = 80;  
+            int heightPercent = 80;
+
+            pnl_cardpreview.Width = this.ClientSize.Width * widthPercent / 100;
+            pnl_cardpreview.Height = this.ClientSize.Height * heightPercent / 100;
+
+          
+            pnl_cardpreview.Left = (this.ClientSize.Width - pnl_cardpreview.Width) / 2;
+            pnl_cardpreview.Top = (this.ClientSize.Height - pnl_cardpreview.Height) / 2;
+
+         
+            FillForms();
         }
 
         private void btncards_cls_Click(object sender, EventArgs e)
         {
             pnl_cardpreview.Visible = false;
+            pnlcards.Visible = true;
         }
         private void btncard_Click(object sender, EventArgs e)
         {
@@ -3628,6 +3249,29 @@ namespace FoodandBeverage
             GC.WaitForPendingFinalizers();
         }
 
-       
+        private void dgv_card_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+          
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (e.ColumnIndex == Cardactionno)
+            {
+                var row = dgv_card.Rows[e.RowIndex];
+                int partyDefault = 0;
+                if (row.Cells[CardPartydeafult].Value != null)
+                    int.TryParse(row.Cells[CardPartydeafult].Value.ToString(), out partyDefault);
+
+                if (partyDefault == 0)
+                {
+                    dgv_card.Rows.RemoveAt(e.RowIndex);
+                }
+                else
+                {
+                    MessageBox.Show("This card is a default party item and cannot be deleted.",
+                                    "Delete Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
     }
 }

@@ -31,6 +31,8 @@ namespace Domain
         public TimeSpan OpeningTime { get; set; }
         public string billno { get; set; }
         public string RegAddress { get; set; }
-        
+        public int GameBranchId { get; set; }
+
     }
+    
 }

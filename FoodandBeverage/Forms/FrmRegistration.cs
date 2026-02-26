@@ -20,6 +20,7 @@ using System.Drawing.Drawing2D;
 
 using System.Runtime.InteropServices;
 using CustomMessageBox;
+using System.Configuration;
 
 namespace FoodandBeverage.Forms
 {
@@ -36,6 +37,7 @@ namespace FoodandBeverage.Forms
         public static string empImgExt = "";
 
         public int Id = 0;
+        public string GameDB = Convert.ToString(ConfigurationManager.AppSettings["GameDB"]);
         public FrmRegistration()
         {
             InitializeComponent();
@@ -382,6 +384,28 @@ namespace FoodandBeverage.Forms
                 cmdcity.ValueMember = "Id";
                 cmdcity.DisplayMember = "Value";
                 cmdcity.SelectedIndex = 0;
+
+
+                BllSearch<DmnComboBox> bllSearch_branch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearchb = new DmnSearch();
+
+                // Use dynamic database name
+                objSearchb.Select = "LocId Id, Name Value";
+                objSearchb.Table = $"[{GameDB}].dbo.tblLocationDetails"; // <-- dynamic DB
+                objSearchb.WhereNdGroupBy = "WHERE ISNULL(status,0) = 1";
+                objSearchb.OrderBy = "ORDER BY Value";
+
+                // Fetch data
+                var gridSourceb = bllSearch_branch.GetSearchData("prdComboFill", objSearchb);
+
+                // Bind to combo if data exists
+                if (gridSourceb.Count > 0)
+                {
+                    cmbgamebranch.DataSource = gridSourceb;
+                    cmbgamebranch.ValueMember = "Id";
+                    cmbgamebranch.DisplayMember = "Value";
+                    cmbgamebranch.SelectedIndex = -1; // no selection
+                }
             }
             catch (Exception ex)
             {
@@ -716,6 +740,14 @@ namespace FoodandBeverage.Forms
                     cmdstate.SelectedValue = Convert.ToInt64(gridSource1[0].State);
                     cmdcity.Text = Convert.ToString(gridSource1[0].City);                     
                     txtbillno.Text = Convert.ToString(gridSource1[0].billno);
+
+                    if(Convert.ToInt64(gridSource1[0].GameBranchId)>0)
+                    {
+                        cmbgamebranch.SelectedValue = Convert.ToInt64(gridSource1[0].GameBranchId);
+                        FrmLogin.GameBranchId=Convert.ToInt32(gridSource1[0].GameBranchId);
+                    }
+                        
+
                     bool imageExist = clsDocument.FileExistOrNot(gridSource1[0].Id + ".jpeg", DocumentType.HotelRegistrationProofPics);
                     if (imageExist)
                     {
@@ -1065,6 +1097,7 @@ namespace FoodandBeverage.Forms
                 dmnRegistration.BranchId = 1;
                 dmnRegistration.Status = 1;
                 dmnRegistration.billno = Convert.ToString(txtbillno.Text);
+                dmnRegistration.GameBranchId = Convert.ToInt32(cmbgamebranch.SelectedValue);
                 if (empImgExt != "")
                 {
                     if (!Directory.Exists(Compressedimg))
@@ -1085,10 +1118,9 @@ namespace FoodandBeverage.Forms
                         }
                     }
                     ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
-
-
                 }
-                var InsertStatus = bllregistration.AddEditData("prdInsert_Upd_HotelReg", dmnRegistration);
+
+                var InsertStatus = bllregistration.AddEditData("prdInsert_Upd_HotelReg", dmnRegistration); 
                 if (InsertStatus.Id != 0)
                 {
                     #region Location Time (24-Hour Enforced)
@@ -1213,15 +1245,16 @@ namespace FoodandBeverage.Forms
 
 
                     #endregion
+
                     if (Convert.ToInt32(txtcid.Text) > 0)
                     {
-                        CMessageBox.Show("update Successfully ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("update Successfully ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);                     
                     }
                     else
                     {
                         CMessageBox.Show("Registration Successfully Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
+                    filldetails();
 
                 }
 
@@ -1630,6 +1663,5 @@ namespace FoodandBeverage.Forms
                 tlp_time.Visible = false;
             }
         }
-
     }
 }
