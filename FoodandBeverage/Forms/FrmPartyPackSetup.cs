@@ -1996,7 +1996,6 @@ namespace FoodandBeverage.Forms
                 cake.Qty = 1;
                 cake.Price = Convert.ToDecimal(txtcakeprice.Text);
 
-                // ✅ TAX
                 cake.TaxType = cmbTaxType.Text;
                 cake.TaxSettingsId = Convert.ToInt32(cmbIgstPrcnt_cake.SelectedValue);
                 cake.Tax = cmbtax_cake.Text;
@@ -2012,7 +2011,7 @@ namespace FoodandBeverage.Forms
                     MessageBox.Show(selectedCakeId > 0 ? "Updated Successfully" : "Saved Successfully");
 
                     ClearCake();
-                    selectedCakeId = 0;   // ✅ reset
+                    selectedCakeId = 0;   
                     btndel_cake.Visible = false;
                 }
             }
