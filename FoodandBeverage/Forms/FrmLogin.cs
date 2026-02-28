@@ -41,7 +41,7 @@ namespace FoodandBeverage.Forms
         public static string Designation = "";
         public static string departmentname = "";
         public static int KitchenDisplayCount = 15; 
-        public static long EmployeeId;
+        public static int EmployeeId;
         public static decimal BookingInterwell;
         public static bool TestUser = false;
         public static int EphId;
@@ -304,7 +304,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
-                                    EmployeeId = Convert.ToInt64(userDetails["Field2", 0].Value);
+                                    EmployeeId = Convert.ToInt32(userDetails["Field2", 0].Value);
                                     BranchId = Convert.ToInt32(userDetails["Field3", 0].Value);
                                     if (BranchId > 0)
                                     {

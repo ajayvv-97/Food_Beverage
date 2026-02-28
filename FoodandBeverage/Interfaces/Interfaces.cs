@@ -606,6 +606,13 @@ namespace FoodandBeverage.Interfaces
         Bowling = 11
 
     };
+    public enum PartyTableType
+    {
+        Card = 1,
+        Gift = 2,
+        Cake = 3
+    }
+
 }
 
 

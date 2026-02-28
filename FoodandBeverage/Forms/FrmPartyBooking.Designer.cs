@@ -47,14 +47,16 @@
             this.tlp_registartion_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_paymentsection = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_textboxes = new System.Windows.Forms.TableLayoutPanel();
+            this.label37 = new System.Windows.Forms.Label();
+            this.txtdiscountreason = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.lblNetAmt = new System.Windows.Forms.Label();
-            this.txtPreTaxAmount = new System.Windows.Forms.TextBox();
             this.lblBalAmt = new System.Windows.Forms.Label();
-            this.txtTotalTaxAmount = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.txtRcvAmt = new System.Windows.Forms.TextBox();
+            this.txtTotalDiscountAmt = new System.Windows.Forms.TextBox();
+            this.label36 = new System.Windows.Forms.Label();
             this.tlp_function_btn = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
             this.btndispanel = new System.Windows.Forms.Button();
@@ -62,6 +64,7 @@
             this.btnclose = new System.Windows.Forms.Button();
             this.btnrefresh = new System.Windows.Forms.Button();
             this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnadvance = new System.Windows.Forms.Button();
             this.btn_paynow = new System.Windows.Forms.Button();
             this.tlp_partyoptions = new System.Windows.Forms.TableLayoutPanel();
             this.btnotherarange = new System.Windows.Forms.Button();
@@ -102,6 +105,8 @@
             this.tlp_navbar = new System.Windows.Forms.TableLayoutPanel();
             this.label12 = new System.Windows.Forms.Label();
             this.btncolse = new System.Windows.Forms.Button();
+            this.txtPreTaxAmount = new System.Windows.Forms.TextBox();
+            this.txtTotalTaxAmount = new System.Windows.Forms.TextBox();
             this.tlp_otherded = new System.Windows.Forms.TableLayoutPanel();
             this.txtODAmount = new System.Windows.Forms.TextBox();
             this.oddesc = new System.Windows.Forms.TextBox();
@@ -111,7 +116,6 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.discountper = new System.Windows.Forms.TextBox();
-            this.txtTotalDiscountAmt = new System.Windows.Forms.TextBox();
             this.sterms = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.pnl_foodpacks = new System.Windows.Forms.Panel();
@@ -184,6 +188,13 @@
             this.txtChild = new System.Windows.Forms.TextBox();
             this.txtAdults = new System.Windows.Forms.TextBox();
             this.pnl_hidecontrl = new System.Windows.Forms.Panel();
+            this.txtTaxtype_pack = new System.Windows.Forms.TextBox();
+            this.txtTaxPer_pack = new System.Windows.Forms.TextBox();
+            this.txtPackTaxPer = new System.Windows.Forms.TextBox();
+            this.txtPreTaxAmount_pack = new System.Windows.Forms.TextBox();
+            this.txtTotalTaxAmount_pack = new System.Windows.Forms.TextBox();
+            this.txtGrandTotal_pack = new System.Windows.Forms.TextBox();
+            this.txtadvanceamt = new System.Windows.Forms.TextBox();
             this.txtPreTaxAmount_gift = new System.Windows.Forms.TextBox();
             this.txtTotalTaxAmount_gift = new System.Windows.Forms.TextBox();
             this.txtPreTaxAmount_card = new System.Windows.Forms.TextBox();
@@ -254,11 +265,14 @@
             this.dataGridViewTextBoxColumn35 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn36 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn37 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btngiftsubmit = new System.Windows.Forms.Button();
             this.btnaddgifts = new System.Windows.Forms.Button();
             this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
             this.btngiftclose = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
+            this.btngiftsubmit = new System.Windows.Forms.Button();
+            this.tlp_gift_grandtotal = new System.Windows.Forms.TableLayoutPanel();
+            this.txtGiftGrandTotal = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
             this.pnlcake = new System.Windows.Forms.Panel();
             this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_cakereg = new System.Windows.Forms.TableLayoutPanel();
@@ -320,9 +334,41 @@
             this.txtserachgift = new System.Windows.Forms.TextBox();
             this.btn_searchgift = new System.Windows.Forms.Button();
             this.flp_itemredproducts = new System.Windows.Forms.FlowLayoutPanel();
-            this.tlp_gift_grandtotal = new System.Windows.Forms.TableLayoutPanel();
-            this.label35 = new System.Windows.Forms.Label();
-            this.txtGiftGrandTotal = new System.Windows.Forms.TextBox();
+            this.pnlPaymode = new System.Windows.Forms.Panel();
+            this.tlp_payment_option = new System.Windows.Forms.TableLayoutPanel();
+            this.btncash = new System.Windows.Forms.Button();
+            this.btndebit = new System.Windows.Forms.Button();
+            this.btnupi = new System.Windows.Forms.Button();
+            this.btnclos_payment = new System.Windows.Forms.Button();
+            this.btnnocharge = new System.Windows.Forms.Button();
+            this.btnnetbanking = new System.Windows.Forms.Button();
+            this.btncreditcard = new System.Windows.Forms.Button();
+            this.btn_other = new System.Windows.Forms.Button();
+            this.btncomple = new System.Windows.Forms.Button();
+            this.pnlSplit = new System.Windows.Forms.Panel();
+            this.tlp_part_outdesign = new System.Windows.Forms.TableLayoutPanel();
+            this.flp_partpaybutton = new System.Windows.Forms.FlowLayoutPanel();
+            this.cash_part = new System.Windows.Forms.Button();
+            this.Debit_part = new System.Windows.Forms.Button();
+            this.upi_part = new System.Windows.Forms.Button();
+            this.netbanking_part = new System.Windows.Forms.Button();
+            this.credit_part = new System.Windows.Forms.Button();
+            this.midas_part = new System.Windows.Forms.Button();
+            this.txtPayid1 = new System.Windows.Forms.TextBox();
+            this.txtPayid2 = new System.Windows.Forms.TextBox();
+            this.tlp_partpayment_cal = new System.Windows.Forms.TableLayoutPanel();
+            this.label38 = new System.Windows.Forms.Label();
+            this.lblPartNetAmt = new System.Windows.Forms.Label();
+            this.lblPartBalAmt = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.btnPartRefresh = new System.Windows.Forms.Button();
+            this.btnPartClose = new System.Windows.Forms.Button();
+            this.btnPartPaynow = new System.Windows.Forms.Button();
+            this.tableLayoutPanel25 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblpartpayment2 = new System.Windows.Forms.Label();
+            this.lblpartAmt1 = new System.Windows.Forms.Label();
+            this.lblpartAmt2 = new System.Windows.Forms.Label();
+            this.lblpartpayment1 = new System.Windows.Forms.Label();
             this.tlp_main.SuspendLayout();
             this.tlp_registartion_main.SuspendLayout();
             this.tlp_paymentsection.SuspendLayout();
@@ -372,6 +418,7 @@
             this.tableLayoutPanel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_gift)).BeginInit();
             this.tableLayoutPanel15.SuspendLayout();
+            this.tlp_gift_grandtotal.SuspendLayout();
             this.pnlcake.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
             this.tlp_cakereg.SuspendLayout();
@@ -386,7 +433,13 @@
             this.tableLayoutPanel22.SuspendLayout();
             this.tableLayoutPanel23.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
-            this.tlp_gift_grandtotal.SuspendLayout();
+            this.pnlPaymode.SuspendLayout();
+            this.tlp_payment_option.SuspendLayout();
+            this.pnlSplit.SuspendLayout();
+            this.tlp_part_outdesign.SuspendLayout();
+            this.flp_partpaybutton.SuspendLayout();
+            this.tlp_partpayment_cal.SuspendLayout();
+            this.tableLayoutPanel25.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -445,19 +498,20 @@
             // 
             this.tlp_textboxes.BackColor = System.Drawing.Color.White;
             this.tlp_textboxes.ColumnCount = 4;
-            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.06764F));
-            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.85375F));
-            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.05667F));
-            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.839123F));
-            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_textboxes.Controls.Add(this.label11, 1, 2);
-            this.tlp_textboxes.Controls.Add(this.lblNetAmt, 2, 2);
-            this.tlp_textboxes.Controls.Add(this.txtPreTaxAmount, 0, 1);
-            this.tlp_textboxes.Controls.Add(this.lblBalAmt, 2, 1);
-            this.tlp_textboxes.Controls.Add(this.txtTotalTaxAmount, 0, 0);
-            this.tlp_textboxes.Controls.Add(this.label10, 1, 1);
-            this.tlp_textboxes.Controls.Add(this.label29, 1, 0);
-            this.tlp_textboxes.Controls.Add(this.txtRcvAmt, 2, 0);
+            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.766F));
+            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.73309F));
+            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.08958F));
+            this.tlp_textboxes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.22852F));
+            this.tlp_textboxes.Controls.Add(this.label37, 0, 1);
+            this.tlp_textboxes.Controls.Add(this.txtdiscountreason, 1, 1);
+            this.tlp_textboxes.Controls.Add(this.label11, 2, 2);
+            this.tlp_textboxes.Controls.Add(this.lblNetAmt, 3, 2);
+            this.tlp_textboxes.Controls.Add(this.lblBalAmt, 3, 1);
+            this.tlp_textboxes.Controls.Add(this.label10, 2, 1);
+            this.tlp_textboxes.Controls.Add(this.label29, 2, 0);
+            this.tlp_textboxes.Controls.Add(this.txtRcvAmt, 3, 0);
+            this.tlp_textboxes.Controls.Add(this.txtTotalDiscountAmt, 1, 0);
+            this.tlp_textboxes.Controls.Add(this.label36, 0, 0);
             this.tlp_textboxes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_textboxes.Location = new System.Drawing.Point(3, 3);
             this.tlp_textboxes.Name = "tlp_textboxes";
@@ -469,15 +523,37 @@
             this.tlp_textboxes.Size = new System.Drawing.Size(563, 152);
             this.tlp_textboxes.TabIndex = 221;
             // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label37.Location = new System.Drawing.Point(11, 53);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(124, 45);
+            this.label37.TabIndex = 228;
+            this.label37.Text = "Remarks";
+            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtdiscountreason
+            // 
+            this.txtdiscountreason.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtdiscountreason.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtdiscountreason.Location = new System.Drawing.Point(141, 56);
+            this.txtdiscountreason.Multiline = true;
+            this.txtdiscountreason.Name = "txtdiscountreason";
+            this.txtdiscountreason.Size = new System.Drawing.Size(91, 39);
+            this.txtdiscountreason.TabIndex = 227;
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.Crimson;
-            this.label11.Location = new System.Drawing.Point(170, 98);
+            this.label11.Location = new System.Drawing.Point(238, 98);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(212, 46);
+            this.label11.Size = new System.Drawing.Size(175, 46);
             this.label11.TabIndex = 218;
             this.label11.Text = "Net Amount:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -488,53 +564,33 @@
             this.lblNetAmt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblNetAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNetAmt.ForeColor = System.Drawing.Color.Crimson;
-            this.lblNetAmt.Location = new System.Drawing.Point(388, 98);
+            this.lblNetAmt.Location = new System.Drawing.Point(419, 98);
             this.lblNetAmt.Name = "lblNetAmt";
-            this.lblNetAmt.Size = new System.Drawing.Size(142, 46);
+            this.lblNetAmt.Size = new System.Drawing.Size(133, 46);
             this.lblNetAmt.TabIndex = 206;
             this.lblNetAmt.Text = "00.00";
             this.lblNetAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtPreTaxAmount
-            // 
-            this.txtPreTaxAmount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtPreTaxAmount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPreTaxAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtPreTaxAmount.Location = new System.Drawing.Point(11, 56);
-            this.txtPreTaxAmount.Name = "txtPreTaxAmount";
-            this.txtPreTaxAmount.Size = new System.Drawing.Size(153, 26);
-            this.txtPreTaxAmount.TabIndex = 213;
             // 
             // lblBalAmt
             // 
             this.lblBalAmt.AutoSize = true;
             this.lblBalAmt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblBalAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBalAmt.Location = new System.Drawing.Point(388, 53);
+            this.lblBalAmt.Location = new System.Drawing.Point(419, 53);
             this.lblBalAmt.Name = "lblBalAmt";
-            this.lblBalAmt.Size = new System.Drawing.Size(142, 45);
+            this.lblBalAmt.Size = new System.Drawing.Size(133, 45);
             this.lblBalAmt.TabIndex = 205;
             this.lblBalAmt.Text = "00.00";
             this.lblBalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtTotalTaxAmount
-            // 
-            this.txtTotalTaxAmount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtTotalTaxAmount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtTotalTaxAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtTotalTaxAmount.Location = new System.Drawing.Point(11, 11);
-            this.txtTotalTaxAmount.Name = "txtTotalTaxAmount";
-            this.txtTotalTaxAmount.Size = new System.Drawing.Size(153, 26);
-            this.txtTotalTaxAmount.TabIndex = 213;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(170, 53);
+            this.label10.Location = new System.Drawing.Point(238, 53);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(212, 45);
+            this.label10.Size = new System.Drawing.Size(175, 45);
             this.label10.TabIndex = 217;
             this.label10.Text = "Balance Amt:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -544,9 +600,9 @@
             this.label29.AutoSize = true;
             this.label29.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(170, 8);
+            this.label29.Location = new System.Drawing.Point(238, 8);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(212, 45);
+            this.label29.Size = new System.Drawing.Size(175, 45);
             this.label29.TabIndex = 203;
             this.label29.Text = "Cash Received:";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -556,14 +612,42 @@
             this.txtRcvAmt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtRcvAmt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtRcvAmt.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtRcvAmt.Location = new System.Drawing.Point(388, 11);
+            this.txtRcvAmt.Location = new System.Drawing.Point(419, 11);
             this.txtRcvAmt.Multiline = true;
             this.txtRcvAmt.Name = "txtRcvAmt";
-            this.txtRcvAmt.Size = new System.Drawing.Size(142, 39);
+            this.txtRcvAmt.Size = new System.Drawing.Size(133, 39);
             this.txtRcvAmt.TabIndex = 9;
             this.txtRcvAmt.Text = "0.00";
+            this.txtRcvAmt.Click += new System.EventHandler(this.txtRcvAmt_Click);
             this.txtRcvAmt.TextChanged += new System.EventHandler(this.txtRcvAmt_TextChanged);
             this.txtRcvAmt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AllowDecimalInput);
+            // 
+            // txtTotalDiscountAmt
+            // 
+            this.txtTotalDiscountAmt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtTotalDiscountAmt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTotalDiscountAmt.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            this.txtTotalDiscountAmt.Location = new System.Drawing.Point(141, 11);
+            this.txtTotalDiscountAmt.Multiline = true;
+            this.txtTotalDiscountAmt.Name = "txtTotalDiscountAmt";
+            this.txtTotalDiscountAmt.ReadOnly = true;
+            this.txtTotalDiscountAmt.Size = new System.Drawing.Size(91, 39);
+            this.txtTotalDiscountAmt.TabIndex = 1;
+            this.txtTotalDiscountAmt.Text = "0.00";
+            this.txtTotalDiscountAmt.TextChanged += new System.EventHandler(this.txtTotalDiscountAmt_TextChanged);
+            this.txtTotalDiscountAmt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AllowDecimalInput);
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label36.Location = new System.Drawing.Point(11, 8);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(124, 45);
+            this.label36.TabIndex = 219;
+            this.label36.Text = "Discount :";
+            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tlp_function_btn
             // 
@@ -675,11 +759,13 @@
             // 
             // tableLayoutPanel19
             // 
-            this.tableLayoutPanel19.ColumnCount = 3;
+            this.tableLayoutPanel19.ColumnCount = 4;
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel19.Controls.Add(this.btn_paynow, 1, 0);
+            this.tableLayoutPanel19.Controls.Add(this.btnadvance, 1, 0);
+            this.tableLayoutPanel19.Controls.Add(this.btn_paynow, 2, 0);
             this.tableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel19.Location = new System.Drawing.Point(3, 89);
             this.tableLayoutPanel19.Name = "tableLayoutPanel19";
@@ -688,24 +774,43 @@
             this.tableLayoutPanel19.Size = new System.Drawing.Size(275, 60);
             this.tableLayoutPanel19.TabIndex = 223;
             // 
+            // btnadvance
+            // 
+            this.btnadvance.BackColor = System.Drawing.Color.Transparent;
+            this.btnadvance.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_dashboard_button;
+            this.btnadvance.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnadvance.FlatAppearance.BorderSize = 0;
+            this.btnadvance.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnadvance.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnadvance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnadvance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnadvance.ForeColor = System.Drawing.Color.White;
+            this.btnadvance.Location = new System.Drawing.Point(11, 3);
+            this.btnadvance.Name = "btnadvance";
+            this.btnadvance.Size = new System.Drawing.Size(123, 54);
+            this.btnadvance.TabIndex = 6;
+            this.btnadvance.Text = "Advance";
+            this.btnadvance.UseVisualStyleBackColor = false;
+            this.btnadvance.Click += new System.EventHandler(this.btnadvance_Click);
+            // 
             // btn_paynow
             // 
             this.btn_paynow.BackColor = System.Drawing.Color.Transparent;
             this.btn_paynow.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_dashboard_button;
             this.btn_paynow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_paynow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_paynow.FlatAppearance.BorderSize = 0;
             this.btn_paynow.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btn_paynow.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_paynow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_paynow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_paynow.ForeColor = System.Drawing.Color.White;
-            this.btn_paynow.Location = new System.Drawing.Point(33, 3);
+            this.btn_paynow.Location = new System.Drawing.Point(140, 3);
             this.btn_paynow.Name = "btn_paynow";
-            this.btn_paynow.Size = new System.Drawing.Size(209, 54);
+            this.btn_paynow.Size = new System.Drawing.Size(123, 54);
             this.btn_paynow.TabIndex = 5;
             this.btn_paynow.Text = "Pay Now";
             this.btn_paynow.UseVisualStyleBackColor = false;
+            this.btn_paynow.Click += new System.EventHandler(this.btn_paynow_Click);
             // 
             // tlp_partyoptions
             // 
@@ -1029,6 +1134,8 @@
             this.txtph.Name = "txtph";
             this.txtph.Size = new System.Drawing.Size(224, 26);
             this.txtph.TabIndex = 1;
+            this.txtph.TextChanged += new System.EventHandler(this.txtph_TextChanged);
+            this.txtph.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtph_KeyPress);
             // 
             // txtemail
             // 
@@ -1039,6 +1146,7 @@
             this.txtemail.Name = "txtemail";
             this.txtemail.Size = new System.Drawing.Size(225, 26);
             this.txtemail.TabIndex = 2;
+            this.txtemail.Leave += new System.EventHandler(this.txtemail_Leave);
             // 
             // label8
             // 
@@ -1284,6 +1392,24 @@
             this.btncolse.UseVisualStyleBackColor = false;
             this.btncolse.Click += new System.EventHandler(this.btncolse_Click);
             // 
+            // txtPreTaxAmount
+            // 
+            this.txtPreTaxAmount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtPreTaxAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtPreTaxAmount.Location = new System.Drawing.Point(569, 57);
+            this.txtPreTaxAmount.Name = "txtPreTaxAmount";
+            this.txtPreTaxAmount.Size = new System.Drawing.Size(153, 26);
+            this.txtPreTaxAmount.TabIndex = 213;
+            // 
+            // txtTotalTaxAmount
+            // 
+            this.txtTotalTaxAmount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtTotalTaxAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtTotalTaxAmount.Location = new System.Drawing.Point(569, 22);
+            this.txtTotalTaxAmount.Name = "txtTotalTaxAmount";
+            this.txtTotalTaxAmount.Size = new System.Drawing.Size(153, 26);
+            this.txtTotalTaxAmount.TabIndex = 213;
+            // 
             // tlp_otherded
             // 
             this.tlp_otherded.ColumnCount = 2;
@@ -1291,7 +1417,7 @@
             this.tlp_otherded.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_otherded.Controls.Add(this.txtODAmount, 0, 0);
             this.tlp_otherded.Controls.Add(this.oddesc, 1, 0);
-            this.tlp_otherded.Location = new System.Drawing.Point(49, 252);
+            this.tlp_otherded.Location = new System.Drawing.Point(416, 172);
             this.tlp_otherded.Name = "tlp_otherded";
             this.tlp_otherded.RowCount = 1;
             this.tlp_otherded.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -1329,7 +1455,7 @@
             this.tlp_otheradd.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.04227F));
             this.tlp_otheradd.Controls.Add(this.txtOAAmount, 0, 0);
             this.tlp_otheradd.Controls.Add(this.oadesc, 1, 0);
-            this.tlp_otheradd.Location = new System.Drawing.Point(49, 313);
+            this.tlp_otheradd.Location = new System.Drawing.Point(416, 236);
             this.tlp_otheradd.Name = "tlp_otheradd";
             this.tlp_otheradd.RowCount = 1;
             this.tlp_otheradd.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -1375,7 +1501,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(326, 210);
+            this.label21.Location = new System.Drawing.Point(328, 242);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(84, 18);
             this.label21.TabIndex = 196;
@@ -1386,34 +1512,21 @@
             // 
             this.discountper.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.discountper.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.discountper.Location = new System.Drawing.Point(51, 165);
+            this.discountper.Location = new System.Drawing.Point(128, 214);
             this.discountper.Multiline = true;
             this.discountper.Name = "discountper";
             this.discountper.Size = new System.Drawing.Size(56, 35);
             this.discountper.TabIndex = 0;
             this.discountper.Text = "0.00";
-            this.discountper.TextChanged += new System.EventHandler(this.txtOAAmount_TextChanged);
+            this.discountper.TextChanged += new System.EventHandler(this.discountper_TextChanged);
             this.discountper.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AllowDecimalInput);
-            // 
-            // txtTotalDiscountAmt
-            // 
-            this.txtTotalDiscountAmt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtTotalDiscountAmt.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtTotalDiscountAmt.Location = new System.Drawing.Point(113, 165);
-            this.txtTotalDiscountAmt.Multiline = true;
-            this.txtTotalDiscountAmt.Name = "txtTotalDiscountAmt";
-            this.txtTotalDiscountAmt.Size = new System.Drawing.Size(81, 35);
-            this.txtTotalDiscountAmt.TabIndex = 1;
-            this.txtTotalDiscountAmt.Text = "0.00";
-            this.txtTotalDiscountAmt.TextChanged += new System.EventHandler(this.txtTotalDiscountAmt_TextChanged);
-            this.txtTotalDiscountAmt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AllowDecimalInput);
             // 
             // sterms
             // 
             this.sterms.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.sterms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.sterms.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.sterms.Location = new System.Drawing.Point(128, -131);
+            this.sterms.Location = new System.Drawing.Point(41, 132);
             this.sterms.Multiline = true;
             this.sterms.Name = "sterms";
             this.sterms.Size = new System.Drawing.Size(67, 48);
@@ -1588,10 +1701,10 @@
             // pnl_eventreg
             // 
             this.pnl_eventreg.Controls.Add(this.tableLayoutPanel4);
-            this.pnl_eventreg.Location = new System.Drawing.Point(907, 162);
+            this.pnl_eventreg.Location = new System.Drawing.Point(866, 0);
             this.pnl_eventreg.Name = "pnl_eventreg";
             this.pnl_eventreg.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnl_eventreg.Size = new System.Drawing.Size(379, 202);
+            this.pnl_eventreg.Size = new System.Drawing.Size(487, 226);
             this.pnl_eventreg.TabIndex = 314;
             this.pnl_eventreg.Visible = false;
             // 
@@ -1612,7 +1725,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(365, 190);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(473, 214);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // tlp_registartion
@@ -1636,7 +1749,7 @@
             this.tlp_registartion.RowCount = 2;
             this.tlp_registartion.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_registartion.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_registartion.Size = new System.Drawing.Size(359, 93);
+            this.tlp_registartion.Size = new System.Drawing.Size(467, 117);
             this.tlp_registartion.TabIndex = 3;
             // 
             // label7
@@ -1648,14 +1761,14 @@
             this.label7.ForeColor = System.Drawing.Color.Black;
             this.label7.Location = new System.Drawing.Point(30, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(73, 34);
+            this.label7.Size = new System.Drawing.Size(181, 26);
             this.label7.TabIndex = 231;
             this.label7.Text = "Event Name";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtFcid
             // 
-            this.txtFcid.Location = new System.Drawing.Point(303, 3);
+            this.txtFcid.Location = new System.Drawing.Point(411, 3);
             this.txtFcid.Name = "txtFcid";
             this.txtFcid.Size = new System.Drawing.Size(28, 20);
             this.txtFcid.TabIndex = 251;
@@ -1668,10 +1781,10 @@
             this.txtItemName.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtItemName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtItemName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.txtItemName.Location = new System.Drawing.Point(30, 37);
+            this.txtItemName.Location = new System.Drawing.Point(30, 29);
             this.txtItemName.Multiline = true;
             this.txtItemName.Name = "txtItemName";
-            this.txtItemName.Size = new System.Drawing.Size(73, 28);
+            this.txtItemName.Size = new System.Drawing.Size(181, 28);
             this.txtItemName.TabIndex = 0;
             // 
             // btn_del_event
@@ -1680,7 +1793,7 @@
             this.btn_del_event.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_del_event.FlatAppearance.BorderSize = 0;
             this.btn_del_event.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_del_event.Location = new System.Drawing.Point(250, 37);
+            this.btn_del_event.Location = new System.Drawing.Point(358, 29);
             this.btn_del_event.Name = "btn_del_event";
             this.btn_del_event.Size = new System.Drawing.Size(47, 43);
             this.btn_del_event.TabIndex = 3;
@@ -1695,9 +1808,9 @@
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(109, 0);
+            this.label13.Location = new System.Drawing.Point(217, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(135, 34);
+            this.label13.Size = new System.Drawing.Size(135, 26);
             this.label13.TabIndex = 252;
             this.label13.Text = "Description";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1708,7 +1821,7 @@
             this.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDescription.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.txtDescription.Location = new System.Drawing.Point(109, 37);
+            this.txtDescription.Location = new System.Drawing.Point(217, 29);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(135, 43);
@@ -1728,7 +1841,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(359, 36);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(467, 36);
             this.tableLayoutPanel5.TabIndex = 2;
             // 
             // btncls_eventreg
@@ -1740,7 +1853,7 @@
             this.btncls_eventreg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncls_eventreg.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btncls_eventreg.ForeColor = System.Drawing.Color.Red;
-            this.btncls_eventreg.Location = new System.Drawing.Point(310, 4);
+            this.btncls_eventreg.Location = new System.Drawing.Point(418, 4);
             this.btncls_eventreg.Margin = new System.Windows.Forms.Padding(4);
             this.btncls_eventreg.Name = "btncls_eventreg";
             this.btncls_eventreg.Size = new System.Drawing.Size(28, 28);
@@ -1757,7 +1870,7 @@
             this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(3, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(300, 36);
+            this.label9.Size = new System.Drawing.Size(408, 36);
             this.label9.TabIndex = 2;
             this.label9.Text = "Event Type Registartion ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1771,11 +1884,11 @@
             this.tableLayoutPanel6.Controls.Add(this.btnserach_event, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.btn_saveeventtype, 2, 0);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 144);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 168);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(359, 43);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(467, 43);
             this.tableLayoutPanel6.TabIndex = 254;
             // 
             // btnserach_event
@@ -1789,7 +1902,7 @@
             this.btnserach_event.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnserach_event.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnserach_event.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnserach_event.Location = new System.Drawing.Point(183, 4);
+            this.btnserach_event.Location = new System.Drawing.Point(291, 4);
             this.btnserach_event.Margin = new System.Windows.Forms.Padding(4);
             this.btnserach_event.Name = "btnserach_event";
             this.btnserach_event.Size = new System.Drawing.Size(83, 35);
@@ -1805,7 +1918,7 @@
             this.btn_saveeventtype.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_saveeventtype.FlatAppearance.BorderSize = 0;
             this.btn_saveeventtype.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_saveeventtype.Location = new System.Drawing.Point(273, 3);
+            this.btn_saveeventtype.Location = new System.Drawing.Point(381, 3);
             this.btn_saveeventtype.Name = "btn_saveeventtype";
             this.btn_saveeventtype.Size = new System.Drawing.Size(83, 37);
             this.btn_saveeventtype.TabIndex = 1;
@@ -1814,12 +1927,12 @@
             // 
             // pnl_pak_detailsitems
             // 
-            this.pnl_pak_detailsitems.BackColor = System.Drawing.Color.Yellow;
+            this.pnl_pak_detailsitems.BackColor = System.Drawing.SystemColors.Control;
             this.pnl_pak_detailsitems.Controls.Add(this.tableLayoutPanel7);
-            this.pnl_pak_detailsitems.Location = new System.Drawing.Point(926, 46);
+            this.pnl_pak_detailsitems.Location = new System.Drawing.Point(884, 16);
             this.pnl_pak_detailsitems.Name = "pnl_pak_detailsitems";
             this.pnl_pak_detailsitems.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnl_pak_detailsitems.Size = new System.Drawing.Size(167, 223);
+            this.pnl_pak_detailsitems.Size = new System.Drawing.Size(785, 612);
             this.pnl_pak_detailsitems.TabIndex = 315;
             this.pnl_pak_detailsitems.Visible = false;
             // 
@@ -1838,7 +1951,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90.99526F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(153, 211);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(771, 600);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // dgv_packs_items
@@ -1875,7 +1988,7 @@
             this.dgv_packs_items.RowHeadersWidth = 51;
             this.dgv_packs_items.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_packs_items.RowTemplate.Height = 44;
-            this.dgv_packs_items.Size = new System.Drawing.Size(147, 98);
+            this.dgv_packs_items.Size = new System.Drawing.Size(765, 487);
             this.dgv_packs_items.TabIndex = 29;
             // 
             // dataGridViewTextBoxColumn1
@@ -1906,7 +2019,7 @@
             this.dcategmenu.ReadOnly = true;
             this.dcategmenu.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dcategmenu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dcategmenu.Width = 142;
+            this.dcategmenu.Width = 130;
             // 
             // dataGridViewTextBoxColumn3
             // 
@@ -1931,7 +2044,7 @@
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 1;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(147, 36);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(765, 36);
             this.tableLayoutPanel8.TabIndex = 2;
             // 
             // btn_pak_details_cls
@@ -1943,7 +2056,7 @@
             this.btn_pak_details_cls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_pak_details_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btn_pak_details_cls.ForeColor = System.Drawing.Color.Red;
-            this.btn_pak_details_cls.Location = new System.Drawing.Point(98, 4);
+            this.btn_pak_details_cls.Location = new System.Drawing.Point(716, 4);
             this.btn_pak_details_cls.Margin = new System.Windows.Forms.Padding(4);
             this.btn_pak_details_cls.Name = "btn_pak_details_cls";
             this.btn_pak_details_cls.Size = new System.Drawing.Size(28, 28);
@@ -1960,7 +2073,7 @@
             this.label14.ForeColor = System.Drawing.Color.White;
             this.label14.Location = new System.Drawing.Point(3, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(88, 36);
+            this.label14.Size = new System.Drawing.Size(706, 36);
             this.label14.TabIndex = 2;
             this.label14.Text = "Food Package Items";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1971,7 +2084,7 @@
             this.flp_pakdet_item_menu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_pakdet_item_menu.Location = new System.Drawing.Point(3, 45);
             this.flp_pakdet_item_menu.Name = "flp_pakdet_item_menu";
-            this.flp_pakdet_item_menu.Size = new System.Drawing.Size(147, 59);
+            this.flp_pakdet_item_menu.Size = new System.Drawing.Size(765, 59);
             this.flp_pakdet_item_menu.TabIndex = 5;
             // 
             // pnl_enter_paks
@@ -2370,7 +2483,7 @@
             this.lblnochild.BackColor = System.Drawing.Color.Transparent;
             this.lblnochild.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblnochild.ForeColor = System.Drawing.Color.Black;
-            this.lblnochild.Location = new System.Drawing.Point(20, 80);
+            this.lblnochild.Location = new System.Drawing.Point(405, 17);
             this.lblnochild.Name = "lblnochild";
             this.lblnochild.Size = new System.Drawing.Size(136, 18);
             this.lblnochild.TabIndex = 204;
@@ -2382,7 +2495,7 @@
             this.lbltotalguest.BackColor = System.Drawing.Color.Transparent;
             this.lbltotalguest.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbltotalguest.ForeColor = System.Drawing.Color.Black;
-            this.lbltotalguest.Location = new System.Drawing.Point(175, 15);
+            this.lbltotalguest.Location = new System.Drawing.Point(155, 17);
             this.lbltotalguest.Name = "lbltotalguest";
             this.lbltotalguest.Size = new System.Drawing.Size(93, 18);
             this.lbltotalguest.TabIndex = 205;
@@ -2394,7 +2507,7 @@
             this.lbladult.BackColor = System.Drawing.Color.Transparent;
             this.lbladult.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbladult.ForeColor = System.Drawing.Color.Black;
-            this.lbladult.Location = new System.Drawing.Point(304, 15);
+            this.lbladult.Location = new System.Drawing.Point(271, 17);
             this.lbladult.Name = "lbladult";
             this.lbladult.Size = new System.Drawing.Size(122, 18);
             this.lbladult.TabIndex = 206;
@@ -2404,45 +2517,53 @@
             // 
             this.txttotalguest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txttotalguest.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txttotalguest.Location = new System.Drawing.Point(169, 48);
+            this.txttotalguest.Location = new System.Drawing.Point(172, 44);
             this.txttotalguest.Name = "txttotalguest";
             this.txttotalguest.ReadOnly = true;
-            this.txttotalguest.Size = new System.Drawing.Size(143, 26);
+            this.txttotalguest.Size = new System.Drawing.Size(64, 26);
             this.txttotalguest.TabIndex = 207;
             // 
             // txtChild
             // 
             this.txtChild.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtChild.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtChild.Location = new System.Drawing.Point(34, 105);
+            this.txtChild.Location = new System.Drawing.Point(437, 44);
             this.txtChild.Name = "txtChild";
-            this.txtChild.Size = new System.Drawing.Size(98, 26);
+            this.txtChild.Size = new System.Drawing.Size(95, 26);
             this.txtChild.TabIndex = 208;
             this.txtChild.TextChanged += new System.EventHandler(this.txtchild_TextChanged);
-            this.txtChild.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtchild_KeyPress);
+            this.txtChild.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.OnlyInteger_KeyPress);
             // 
             // txtAdults
             // 
             this.txtAdults.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtAdults.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtAdults.Location = new System.Drawing.Point(331, 44);
+            this.txtAdults.Location = new System.Drawing.Point(292, 44);
             this.txtAdults.Name = "txtAdults";
             this.txtAdults.Size = new System.Drawing.Size(87, 26);
             this.txtAdults.TabIndex = 209;
             this.txtAdults.TextChanged += new System.EventHandler(this.txtadults_TextChanged);
-            this.txtAdults.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtadults_KeyPress);
+            this.txtAdults.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.OnlyInteger_KeyPress);
             // 
             // pnl_hidecontrl
             // 
+            this.pnl_hidecontrl.Controls.Add(this.txtTaxtype_pack);
+            this.pnl_hidecontrl.Controls.Add(this.txtTaxPer_pack);
+            this.pnl_hidecontrl.Controls.Add(this.txtPackTaxPer);
+            this.pnl_hidecontrl.Controls.Add(this.txtPreTaxAmount_pack);
+            this.pnl_hidecontrl.Controls.Add(this.txtTotalTaxAmount_pack);
+            this.pnl_hidecontrl.Controls.Add(this.txtGrandTotal_pack);
+            this.pnl_hidecontrl.Controls.Add(this.txtadvanceamt);
             this.pnl_hidecontrl.Controls.Add(this.txtPreTaxAmount_gift);
             this.pnl_hidecontrl.Controls.Add(this.txtTotalTaxAmount_gift);
+            this.pnl_hidecontrl.Controls.Add(this.txtPreTaxAmount);
             this.pnl_hidecontrl.Controls.Add(this.txtPreTaxAmount_card);
             this.pnl_hidecontrl.Controls.Add(this.txtTotalTaxAmount_card);
+            this.pnl_hidecontrl.Controls.Add(this.txtTotalTaxAmount);
             this.pnl_hidecontrl.Controls.Add(this.txtTable);
             this.pnl_hidecontrl.Controls.Add(this.tlp_otheradd);
             this.pnl_hidecontrl.Controls.Add(this.tlp_otherded);
             this.pnl_hidecontrl.Controls.Add(this.discountper);
-            this.pnl_hidecontrl.Controls.Add(this.txtTotalDiscountAmt);
             this.pnl_hidecontrl.Controls.Add(this.sterms);
             this.pnl_hidecontrl.Controls.Add(this.label22);
             this.pnl_hidecontrl.Controls.Add(this.txtPreTaxAmount_cake);
@@ -2463,15 +2584,78 @@
             this.pnl_hidecontrl.Controls.Add(this.lbladult);
             this.pnl_hidecontrl.Location = new System.Drawing.Point(9, 3);
             this.pnl_hidecontrl.Name = "pnl_hidecontrl";
-            this.pnl_hidecontrl.Size = new System.Drawing.Size(106, 30);
+            this.pnl_hidecontrl.Size = new System.Drawing.Size(87, 35);
             this.pnl_hidecontrl.TabIndex = 318;
             this.pnl_hidecontrl.Visible = false;
+            // 
+            // txtTaxtype_pack
+            // 
+            this.txtTaxtype_pack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtTaxtype_pack.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtTaxtype_pack.Location = new System.Drawing.Point(77, 150);
+            this.txtTaxtype_pack.Name = "txtTaxtype_pack";
+            this.txtTaxtype_pack.Size = new System.Drawing.Size(45, 26);
+            this.txtTaxtype_pack.TabIndex = 233;
+            // 
+            // txtTaxPer_pack
+            // 
+            this.txtTaxPer_pack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtTaxPer_pack.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtTaxPer_pack.Location = new System.Drawing.Point(26, 150);
+            this.txtTaxPer_pack.Name = "txtTaxPer_pack";
+            this.txtTaxPer_pack.Size = new System.Drawing.Size(45, 26);
+            this.txtTaxPer_pack.TabIndex = 232;
+            // 
+            // txtPackTaxPer
+            // 
+            this.txtPackTaxPer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtPackTaxPer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtPackTaxPer.Location = new System.Drawing.Point(90, 89);
+            this.txtPackTaxPer.Name = "txtPackTaxPer";
+            this.txtPackTaxPer.Size = new System.Drawing.Size(32, 26);
+            this.txtPackTaxPer.TabIndex = 231;
+            // 
+            // txtPreTaxAmount_pack
+            // 
+            this.txtPreTaxAmount_pack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtPreTaxAmount_pack.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtPreTaxAmount_pack.Location = new System.Drawing.Point(77, 121);
+            this.txtPreTaxAmount_pack.Name = "txtPreTaxAmount_pack";
+            this.txtPreTaxAmount_pack.Size = new System.Drawing.Size(45, 26);
+            this.txtPreTaxAmount_pack.TabIndex = 230;
+            // 
+            // txtTotalTaxAmount_pack
+            // 
+            this.txtTotalTaxAmount_pack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtTotalTaxAmount_pack.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtTotalTaxAmount_pack.Location = new System.Drawing.Point(26, 121);
+            this.txtTotalTaxAmount_pack.Name = "txtTotalTaxAmount_pack";
+            this.txtTotalTaxAmount_pack.Size = new System.Drawing.Size(45, 26);
+            this.txtTotalTaxAmount_pack.TabIndex = 229;
+            // 
+            // txtGrandTotal_pack
+            // 
+            this.txtGrandTotal_pack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtGrandTotal_pack.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtGrandTotal_pack.Location = new System.Drawing.Point(34, 84);
+            this.txtGrandTotal_pack.Name = "txtGrandTotal_pack";
+            this.txtGrandTotal_pack.Size = new System.Drawing.Size(45, 26);
+            this.txtGrandTotal_pack.TabIndex = 228;
+            // 
+            // txtadvanceamt
+            // 
+            this.txtadvanceamt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtadvanceamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtadvanceamt.Location = new System.Drawing.Point(51, 365);
+            this.txtadvanceamt.Name = "txtadvanceamt";
+            this.txtadvanceamt.Size = new System.Drawing.Size(120, 26);
+            this.txtadvanceamt.TabIndex = 227;
             // 
             // txtPreTaxAmount_gift
             // 
             this.txtPreTaxAmount_gift.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtPreTaxAmount_gift.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtPreTaxAmount_gift.Location = new System.Drawing.Point(109, 425);
+            this.txtPreTaxAmount_gift.Location = new System.Drawing.Point(102, 320);
             this.txtPreTaxAmount_gift.Name = "txtPreTaxAmount_gift";
             this.txtPreTaxAmount_gift.Size = new System.Drawing.Size(45, 26);
             this.txtPreTaxAmount_gift.TabIndex = 226;
@@ -2480,7 +2664,7 @@
             // 
             this.txtTotalTaxAmount_gift.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtTotalTaxAmount_gift.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtTotalTaxAmount_gift.Location = new System.Drawing.Point(58, 425);
+            this.txtTotalTaxAmount_gift.Location = new System.Drawing.Point(51, 320);
             this.txtTotalTaxAmount_gift.Name = "txtTotalTaxAmount_gift";
             this.txtTotalTaxAmount_gift.Size = new System.Drawing.Size(45, 26);
             this.txtTotalTaxAmount_gift.TabIndex = 225;
@@ -2489,7 +2673,7 @@
             // 
             this.txtPreTaxAmount_card.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtPreTaxAmount_card.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtPreTaxAmount_card.Location = new System.Drawing.Point(109, 377);
+            this.txtPreTaxAmount_card.Location = new System.Drawing.Point(102, 272);
             this.txtPreTaxAmount_card.Name = "txtPreTaxAmount_card";
             this.txtPreTaxAmount_card.Size = new System.Drawing.Size(45, 26);
             this.txtPreTaxAmount_card.TabIndex = 224;
@@ -2498,7 +2682,7 @@
             // 
             this.txtTotalTaxAmount_card.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtTotalTaxAmount_card.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtTotalTaxAmount_card.Location = new System.Drawing.Point(58, 377);
+            this.txtTotalTaxAmount_card.Location = new System.Drawing.Point(51, 272);
             this.txtTotalTaxAmount_card.Name = "txtTotalTaxAmount_card";
             this.txtTotalTaxAmount_card.Size = new System.Drawing.Size(45, 26);
             this.txtTotalTaxAmount_card.TabIndex = 223;
@@ -2516,7 +2700,7 @@
             // 
             this.txtPreTaxAmount_cake.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtPreTaxAmount_cake.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtPreTaxAmount_cake.Location = new System.Drawing.Point(240, 377);
+            this.txtPreTaxAmount_cake.Location = new System.Drawing.Point(233, 272);
             this.txtPreTaxAmount_cake.Name = "txtPreTaxAmount_cake";
             this.txtPreTaxAmount_cake.Size = new System.Drawing.Size(45, 26);
             this.txtPreTaxAmount_cake.TabIndex = 215;
@@ -2525,7 +2709,7 @@
             // 
             this.txtTotalTaxAmount_cake.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtTotalTaxAmount_cake.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtTotalTaxAmount_cake.Location = new System.Drawing.Point(189, 377);
+            this.txtTotalTaxAmount_cake.Location = new System.Drawing.Point(182, 272);
             this.txtTotalTaxAmount_cake.Name = "txtTotalTaxAmount_cake";
             this.txtTotalTaxAmount_cake.Size = new System.Drawing.Size(45, 26);
             this.txtTotalTaxAmount_cake.TabIndex = 214;
@@ -2552,7 +2736,7 @@
             // 
             this.txtTaxSettingId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtTaxSettingId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtTaxSettingId.Location = new System.Drawing.Point(214, 79);
+            this.txtTaxSettingId.Location = new System.Drawing.Point(214, 80);
             this.txtTaxSettingId.Name = "txtTaxSettingId";
             this.txtTaxSettingId.Size = new System.Drawing.Size(32, 26);
             this.txtTaxSettingId.TabIndex = 211;
@@ -2561,7 +2745,7 @@
             // 
             this.txttax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txttax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txttax.Location = new System.Drawing.Point(148, 112);
+            this.txttax.Location = new System.Drawing.Point(148, 109);
             this.txttax.Name = "txttax";
             this.txttax.Size = new System.Drawing.Size(45, 26);
             this.txttax.TabIndex = 210;
@@ -2589,11 +2773,11 @@
             this.txtCardGrandTotal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtCardGrandTotal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtCardGrandTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtCardGrandTotal.Location = new System.Drawing.Point(69, 3);
+            this.txtCardGrandTotal.Location = new System.Drawing.Point(200, 3);
             this.txtCardGrandTotal.Multiline = true;
             this.txtCardGrandTotal.Name = "txtCardGrandTotal";
             this.txtCardGrandTotal.ReadOnly = true;
-            this.txtCardGrandTotal.Size = new System.Drawing.Size(135, 33);
+            this.txtCardGrandTotal.Size = new System.Drawing.Size(413, 33);
             this.txtCardGrandTotal.TabIndex = 225;
             // 
             // txtCakeGrandTotal
@@ -2611,10 +2795,10 @@
             // pnlcards
             // 
             this.pnlcards.Controls.Add(this.tableLayoutPanel1);
-            this.pnlcards.Location = new System.Drawing.Point(936, -5);
+            this.pnlcards.Location = new System.Drawing.Point(866, 16);
             this.pnlcards.Name = "pnlcards";
             this.pnlcards.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnlcards.Size = new System.Drawing.Size(374, 490);
+            this.pnlcards.Size = new System.Drawing.Size(785, 612);
             this.pnlcards.TabIndex = 319;
             this.pnlcards.Visible = false;
             // 
@@ -2638,7 +2822,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(360, 478);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(771, 600);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // dgv_card
@@ -2691,7 +2875,7 @@
             this.dgv_card.RowHeadersWidth = 51;
             this.dgv_card.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_card.RowTemplate.Height = 44;
-            this.dgv_card.Size = new System.Drawing.Size(354, 274);
+            this.dgv_card.Size = new System.Drawing.Size(765, 396);
             this.dgv_card.TabIndex = 33;
             this.dgv_card.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_card_CellClick);
             this.dgv_card.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_card_CellEndEdit);
@@ -2715,13 +2899,14 @@
             // 
             // dataGridViewTextBoxColumn11
             // 
-            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewTextBoxColumn11.HeaderText = "Product";
             this.dataGridViewTextBoxColumn11.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.ReadOnly = true;
             this.dataGridViewTextBoxColumn11.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn11.Width = 70;
             // 
             // dataGridViewTextBoxColumn12
             // 
@@ -2904,7 +3089,7 @@
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
             this.tableLayoutPanel13.RowCount = 1;
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel13.Size = new System.Drawing.Size(354, 36);
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(765, 36);
             this.tableLayoutPanel13.TabIndex = 2;
             // 
             // btn_card_cls
@@ -2916,7 +3101,7 @@
             this.btn_card_cls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_card_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btn_card_cls.ForeColor = System.Drawing.Color.Red;
-            this.btn_card_cls.Location = new System.Drawing.Point(305, 4);
+            this.btn_card_cls.Location = new System.Drawing.Point(716, 4);
             this.btn_card_cls.Margin = new System.Windows.Forms.Padding(4);
             this.btn_card_cls.Name = "btn_card_cls";
             this.btn_card_cls.Size = new System.Drawing.Size(28, 28);
@@ -2933,7 +3118,7 @@
             this.label17.ForeColor = System.Drawing.Color.White;
             this.label17.Location = new System.Drawing.Point(3, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(295, 36);
+            this.label17.Size = new System.Drawing.Size(706, 36);
             this.label17.TabIndex = 2;
             this.label17.Text = "Card Package Items";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2948,7 +3133,7 @@
             this.btncardsubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncardsubmit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncardsubmit.ForeColor = System.Drawing.Color.White;
-            this.btncardsubmit.Location = new System.Drawing.Point(228, 427);
+            this.btncardsubmit.Location = new System.Drawing.Point(639, 549);
             this.btncardsubmit.Name = "btncardsubmit";
             this.btncardsubmit.Size = new System.Drawing.Size(129, 48);
             this.btncardsubmit.TabIndex = 32;
@@ -2960,15 +3145,15 @@
             this.tlp_grandtotal_card.ColumnCount = 3;
             this.tlp_grandtotal_card.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.05128F));
             this.tlp_grandtotal_card.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.94872F));
-            this.tlp_grandtotal_card.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 146F));
+            this.tlp_grandtotal_card.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 148F));
             this.tlp_grandtotal_card.Controls.Add(this.label32, 0, 0);
             this.tlp_grandtotal_card.Controls.Add(this.txtCardGrandTotal, 1, 0);
             this.tlp_grandtotal_card.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_grandtotal_card.Location = new System.Drawing.Point(3, 382);
+            this.tlp_grandtotal_card.Location = new System.Drawing.Point(3, 504);
             this.tlp_grandtotal_card.Name = "tlp_grandtotal_card";
             this.tlp_grandtotal_card.RowCount = 1;
             this.tlp_grandtotal_card.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_grandtotal_card.Size = new System.Drawing.Size(354, 39);
+            this.tlp_grandtotal_card.Size = new System.Drawing.Size(765, 39);
             this.tlp_grandtotal_card.TabIndex = 34;
             // 
             // label32
@@ -2980,7 +3165,7 @@
             this.label32.ForeColor = System.Drawing.Color.Black;
             this.label32.Location = new System.Drawing.Point(3, 0);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(60, 39);
+            this.label32.Size = new System.Drawing.Size(191, 39);
             this.label32.TabIndex = 226;
             this.label32.Text = "Grand Total";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2988,10 +3173,10 @@
             // pnlgifts
             // 
             this.pnlgifts.Controls.Add(this.tableLayoutPanel14);
-            this.pnlgifts.Location = new System.Drawing.Point(936, 40);
+            this.pnlgifts.Location = new System.Drawing.Point(866, 15);
             this.pnlgifts.Name = "pnlgifts";
             this.pnlgifts.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnlgifts.Size = new System.Drawing.Size(374, 490);
+            this.pnlgifts.Size = new System.Drawing.Size(842, 554);
             this.pnlgifts.TabIndex = 320;
             this.pnlgifts.Visible = false;
             // 
@@ -3014,7 +3199,7 @@
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel14.Size = new System.Drawing.Size(360, 478);
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(828, 542);
             this.tableLayoutPanel14.TabIndex = 0;
             // 
             // dgv_gift
@@ -3067,7 +3252,7 @@
             this.dgv_gift.RowHeadersWidth = 51;
             this.dgv_gift.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_gift.RowTemplate.Height = 44;
-            this.dgv_gift.Size = new System.Drawing.Size(354, 283);
+            this.dgv_gift.Size = new System.Drawing.Size(822, 347);
             this.dgv_gift.TabIndex = 34;
             this.dgv_gift.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_gift_CellClick);
             this.dgv_gift.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_gift_CellEndEdit);
@@ -3091,13 +3276,14 @@
             // 
             // dataGridViewTextBoxColumn15
             // 
-            this.dataGridViewTextBoxColumn15.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn15.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewTextBoxColumn15.HeaderText = "Product";
             this.dataGridViewTextBoxColumn15.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
             this.dataGridViewTextBoxColumn15.ReadOnly = true;
             this.dataGridViewTextBoxColumn15.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn15.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn15.Width = 70;
             // 
             // dataGridViewTextBoxColumn16
             // 
@@ -3248,23 +3434,6 @@
             this.dataGridViewTextBoxColumn37.Name = "dataGridViewTextBoxColumn37";
             this.dataGridViewTextBoxColumn37.Width = 120;
             // 
-            // btngiftsubmit
-            // 
-            this.btngiftsubmit.BackColor = System.Drawing.Color.Transparent;
-            this.btngiftsubmit.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_SUBMIT;
-            this.btngiftsubmit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btngiftsubmit.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btngiftsubmit.FlatAppearance.BorderSize = 0;
-            this.btngiftsubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btngiftsubmit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btngiftsubmit.ForeColor = System.Drawing.Color.White;
-            this.btngiftsubmit.Location = new System.Drawing.Point(228, 436);
-            this.btngiftsubmit.Name = "btngiftsubmit";
-            this.btngiftsubmit.Size = new System.Drawing.Size(129, 39);
-            this.btngiftsubmit.TabIndex = 32;
-            this.btngiftsubmit.UseVisualStyleBackColor = false;
-            this.btngiftsubmit.Click += new System.EventHandler(this.btngiftsubmit_Click);
-            // 
             // btnaddgifts
             // 
             this.btnaddgifts.BackColor = System.Drawing.Color.Transparent;
@@ -3297,7 +3466,7 @@
             this.tableLayoutPanel15.Name = "tableLayoutPanel15";
             this.tableLayoutPanel15.RowCount = 1;
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel15.Size = new System.Drawing.Size(354, 36);
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(822, 36);
             this.tableLayoutPanel15.TabIndex = 2;
             // 
             // btngiftclose
@@ -3309,7 +3478,7 @@
             this.btngiftclose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btngiftclose.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btngiftclose.ForeColor = System.Drawing.Color.Red;
-            this.btngiftclose.Location = new System.Drawing.Point(305, 4);
+            this.btngiftclose.Location = new System.Drawing.Point(773, 4);
             this.btngiftclose.Margin = new System.Windows.Forms.Padding(4);
             this.btngiftclose.Name = "btngiftclose";
             this.btngiftclose.Size = new System.Drawing.Size(28, 28);
@@ -3326,18 +3495,77 @@
             this.label18.ForeColor = System.Drawing.Color.White;
             this.label18.Location = new System.Drawing.Point(3, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(295, 36);
+            this.label18.Size = new System.Drawing.Size(763, 36);
             this.label18.TabIndex = 2;
             this.label18.Text = "Gift Package Items";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btngiftsubmit
+            // 
+            this.btngiftsubmit.BackColor = System.Drawing.Color.Transparent;
+            this.btngiftsubmit.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_SUBMIT;
+            this.btngiftsubmit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btngiftsubmit.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btngiftsubmit.FlatAppearance.BorderSize = 0;
+            this.btngiftsubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btngiftsubmit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btngiftsubmit.ForeColor = System.Drawing.Color.White;
+            this.btngiftsubmit.Location = new System.Drawing.Point(696, 500);
+            this.btngiftsubmit.Name = "btngiftsubmit";
+            this.btngiftsubmit.Size = new System.Drawing.Size(129, 39);
+            this.btngiftsubmit.TabIndex = 32;
+            this.btngiftsubmit.UseVisualStyleBackColor = false;
+            this.btngiftsubmit.Click += new System.EventHandler(this.btngiftsubmit_Click);
+            // 
+            // tlp_gift_grandtotal
+            // 
+            this.tlp_gift_grandtotal.ColumnCount = 3;
+            this.tlp_gift_grandtotal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_gift_grandtotal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_gift_grandtotal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_gift_grandtotal.Controls.Add(this.txtGiftGrandTotal, 0, 0);
+            this.tlp_gift_grandtotal.Controls.Add(this.label35, 0, 0);
+            this.tlp_gift_grandtotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_gift_grandtotal.Location = new System.Drawing.Point(3, 455);
+            this.tlp_gift_grandtotal.Name = "tlp_gift_grandtotal";
+            this.tlp_gift_grandtotal.RowCount = 1;
+            this.tlp_gift_grandtotal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_gift_grandtotal.Size = new System.Drawing.Size(822, 39);
+            this.tlp_gift_grandtotal.TabIndex = 35;
+            // 
+            // txtGiftGrandTotal
+            // 
+            this.txtGiftGrandTotal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtGiftGrandTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtGiftGrandTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtGiftGrandTotal.Location = new System.Drawing.Point(134, 3);
+            this.txtGiftGrandTotal.Multiline = true;
+            this.txtGiftGrandTotal.Name = "txtGiftGrandTotal";
+            this.txtGiftGrandTotal.ReadOnly = true;
+            this.txtGiftGrandTotal.Size = new System.Drawing.Size(324, 33);
+            this.txtGiftGrandTotal.TabIndex = 270;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.BackColor = System.Drawing.Color.Transparent;
+            this.label35.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label35.ForeColor = System.Drawing.Color.Black;
+            this.label35.Location = new System.Drawing.Point(3, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(125, 39);
+            this.label35.TabIndex = 269;
+            this.label35.Text = "Grand Total ";
+            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // pnlcake
             // 
             this.pnlcake.Controls.Add(this.tableLayoutPanel16);
-            this.pnlcake.Location = new System.Drawing.Point(936, 31);
+            this.pnlcake.Location = new System.Drawing.Point(866, 0);
             this.pnlcake.Name = "pnlcake";
             this.pnlcake.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnlcake.Size = new System.Drawing.Size(374, 490);
+            this.pnlcake.Size = new System.Drawing.Size(589, 612);
             this.pnlcake.TabIndex = 321;
             this.pnlcake.Visible = false;
             // 
@@ -3360,7 +3588,7 @@
             this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.72289F));
             this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
             this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel16.Size = new System.Drawing.Size(360, 478);
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(575, 600);
             this.tableLayoutPanel16.TabIndex = 0;
             // 
             // tlp_cakereg
@@ -3392,7 +3620,7 @@
             this.tlp_cakereg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_cakereg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_cakereg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlp_cakereg.Size = new System.Drawing.Size(354, 127);
+            this.tlp_cakereg.Size = new System.Drawing.Size(569, 175);
             this.tlp_cakereg.TabIndex = 34;
             // 
             // label20
@@ -3404,7 +3632,7 @@
             this.label20.ForeColor = System.Drawing.Color.Black;
             this.label20.Location = new System.Drawing.Point(3, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(101, 31);
+            this.label20.Size = new System.Drawing.Size(101, 43);
             this.label20.TabIndex = 231;
             this.label20.Text = "Cake Type";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3416,9 +3644,9 @@
             this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label24.ForeColor = System.Drawing.Color.Black;
-            this.label24.Location = new System.Drawing.Point(167, 0);
+            this.label24.Location = new System.Drawing.Point(277, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(127, 31);
+            this.label24.Size = new System.Drawing.Size(127, 43);
             this.label24.TabIndex = 254;
             this.label24.Text = "Cake Weight / Size";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3433,7 +3661,7 @@
             this.cmbcaketype.FormattingEnabled = true;
             this.cmbcaketype.Location = new System.Drawing.Point(110, 3);
             this.cmbcaketype.Name = "cmbcaketype";
-            this.cmbcaketype.Size = new System.Drawing.Size(51, 26);
+            this.cmbcaketype.Size = new System.Drawing.Size(161, 26);
             this.cmbcaketype.TabIndex = 263;
             this.cmbcaketype.SelectionChangeCommitted += new System.EventHandler(this.cmbcaketype_SelectionChangeCommitted);
             // 
@@ -3442,10 +3670,10 @@
             this.txtcakesize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtcakesize.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtcakesize.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtcakesize.Location = new System.Drawing.Point(300, 3);
+            this.txtcakesize.Location = new System.Drawing.Point(410, 3);
             this.txtcakesize.Name = "txtcakesize";
             this.txtcakesize.ReadOnly = true;
-            this.txtcakesize.Size = new System.Drawing.Size(51, 25);
+            this.txtcakesize.Size = new System.Drawing.Size(156, 25);
             this.txtcakesize.TabIndex = 272;
             // 
             // txtcakeremarks
@@ -3453,10 +3681,10 @@
             this.txtcakeremarks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtcakeremarks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtcakeremarks.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtcakeremarks.Location = new System.Drawing.Point(300, 65);
+            this.txtcakeremarks.Location = new System.Drawing.Point(410, 89);
             this.txtcakeremarks.Multiline = true;
             this.txtcakeremarks.Name = "txtcakeremarks";
-            this.txtcakeremarks.Size = new System.Drawing.Size(51, 25);
+            this.txtcakeremarks.Size = new System.Drawing.Size(156, 37);
             this.txtcakeremarks.TabIndex = 270;
             // 
             // label27
@@ -3466,9 +3694,9 @@
             this.label27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label27.ForeColor = System.Drawing.Color.Black;
-            this.label27.Location = new System.Drawing.Point(167, 62);
+            this.label27.Location = new System.Drawing.Point(277, 86);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(127, 31);
+            this.label27.Size = new System.Drawing.Size(127, 43);
             this.label27.TabIndex = 268;
             this.label27.Text = "Remarks";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3480,9 +3708,9 @@
             this.label26.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label26.ForeColor = System.Drawing.Color.Black;
-            this.label26.Location = new System.Drawing.Point(3, 62);
+            this.label26.Location = new System.Drawing.Point(3, 86);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(101, 31);
+            this.label26.Size = new System.Drawing.Size(101, 43);
             this.label26.TabIndex = 267;
             this.label26.Text = "Cake Message";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3492,10 +3720,10 @@
             this.txtcakemessage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtcakemessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtcakemessage.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtcakemessage.Location = new System.Drawing.Point(110, 65);
+            this.txtcakemessage.Location = new System.Drawing.Point(110, 89);
             this.txtcakemessage.Multiline = true;
             this.txtcakemessage.Name = "txtcakemessage";
-            this.txtcakemessage.Size = new System.Drawing.Size(51, 25);
+            this.txtcakemessage.Size = new System.Drawing.Size(161, 37);
             this.txtcakemessage.TabIndex = 269;
             // 
             // txtcakeshape
@@ -3503,10 +3731,10 @@
             this.txtcakeshape.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtcakeshape.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtcakeshape.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtcakeshape.Location = new System.Drawing.Point(300, 34);
+            this.txtcakeshape.Location = new System.Drawing.Point(410, 46);
             this.txtcakeshape.Name = "txtcakeshape";
             this.txtcakeshape.ReadOnly = true;
-            this.txtcakeshape.Size = new System.Drawing.Size(51, 25);
+            this.txtcakeshape.Size = new System.Drawing.Size(156, 25);
             this.txtcakeshape.TabIndex = 273;
             // 
             // label25
@@ -3516,9 +3744,9 @@
             this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label25.ForeColor = System.Drawing.Color.Black;
-            this.label25.Location = new System.Drawing.Point(167, 31);
+            this.label25.Location = new System.Drawing.Point(277, 43);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(127, 31);
+            this.label25.Size = new System.Drawing.Size(127, 43);
             this.label25.TabIndex = 265;
             this.label25.Text = "Cake Shape";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3530,9 +3758,9 @@
             this.label30.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label30.ForeColor = System.Drawing.Color.Black;
-            this.label30.Location = new System.Drawing.Point(3, 31);
+            this.label30.Location = new System.Drawing.Point(3, 43);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(101, 31);
+            this.label30.Size = new System.Drawing.Size(101, 43);
             this.label30.TabIndex = 274;
             this.label30.Text = "Cake Price";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3542,10 +3770,10 @@
             this.txtcakeprice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtcakeprice.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtcakeprice.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtcakeprice.Location = new System.Drawing.Point(110, 34);
+            this.txtcakeprice.Location = new System.Drawing.Point(110, 46);
             this.txtcakeprice.Name = "txtcakeprice";
             this.txtcakeprice.ReadOnly = true;
-            this.txtcakeprice.Size = new System.Drawing.Size(51, 25);
+            this.txtcakeprice.Size = new System.Drawing.Size(161, 25);
             this.txtcakeprice.TabIndex = 275;
             // 
             // btnaddcakes
@@ -3558,9 +3786,9 @@
             this.btnaddcakes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnaddcakes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnaddcakes.ForeColor = System.Drawing.Color.White;
-            this.btnaddcakes.Location = new System.Drawing.Point(300, 96);
+            this.btnaddcakes.Location = new System.Drawing.Point(410, 132);
             this.btnaddcakes.Name = "btnaddcakes";
-            this.btnaddcakes.Size = new System.Drawing.Size(51, 28);
+            this.btnaddcakes.Size = new System.Drawing.Size(156, 40);
             this.btnaddcakes.TabIndex = 271;
             this.btnaddcakes.Text = "Add Cards";
             this.btnaddcakes.UseVisualStyleBackColor = false;
@@ -3605,13 +3833,13 @@
             dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvcake.DefaultCellStyle = dataGridViewCellStyle14;
             this.dgvcake.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvcake.Location = new System.Drawing.Point(3, 178);
+            this.dgvcake.Location = new System.Drawing.Point(3, 226);
             this.dgvcake.Name = "dgvcake";
             this.dgvcake.RowHeadersVisible = false;
             this.dgvcake.RowHeadersWidth = 51;
             this.dgvcake.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvcake.RowTemplate.Height = 44;
-            this.dgvcake.Size = new System.Drawing.Size(354, 201);
+            this.dgvcake.Size = new System.Drawing.Size(569, 275);
             this.dgvcake.TabIndex = 33;
             this.dgvcake.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvcake_CellClick);
             this.dgvcake.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvcake_CellEndEdit);
@@ -3770,7 +3998,7 @@
             this.tableLayoutPanel17.Name = "tableLayoutPanel17";
             this.tableLayoutPanel17.RowCount = 1;
             this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel17.Size = new System.Drawing.Size(354, 36);
+            this.tableLayoutPanel17.Size = new System.Drawing.Size(569, 36);
             this.tableLayoutPanel17.TabIndex = 2;
             // 
             // btncakeclose
@@ -3782,7 +4010,7 @@
             this.btncakeclose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncakeclose.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btncakeclose.ForeColor = System.Drawing.Color.Red;
-            this.btncakeclose.Location = new System.Drawing.Point(305, 4);
+            this.btncakeclose.Location = new System.Drawing.Point(520, 4);
             this.btncakeclose.Margin = new System.Windows.Forms.Padding(4);
             this.btncakeclose.Name = "btncakeclose";
             this.btncakeclose.Size = new System.Drawing.Size(28, 28);
@@ -3799,7 +4027,7 @@
             this.label19.ForeColor = System.Drawing.Color.White;
             this.label19.Location = new System.Drawing.Point(3, 0);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(295, 36);
+            this.label19.Size = new System.Drawing.Size(510, 36);
             this.label19.TabIndex = 2;
             this.label19.Text = "Cake Package Items";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3814,7 +4042,7 @@
             this.btncakesubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncakesubmit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncakesubmit.ForeColor = System.Drawing.Color.White;
-            this.btncakesubmit.Location = new System.Drawing.Point(228, 440);
+            this.btncakesubmit.Location = new System.Drawing.Point(443, 562);
             this.btncakesubmit.Name = "btncakesubmit";
             this.btncakesubmit.Size = new System.Drawing.Size(129, 35);
             this.btncakesubmit.TabIndex = 32;
@@ -3830,11 +4058,11 @@
             this.tlp_cake_net_taxamt.Controls.Add(this.txtCakeGrandTotal, 1, 0);
             this.tlp_cake_net_taxamt.Controls.Add(this.label33, 0, 0);
             this.tlp_cake_net_taxamt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_cake_net_taxamt.Location = new System.Drawing.Point(3, 385);
+            this.tlp_cake_net_taxamt.Location = new System.Drawing.Point(3, 507);
             this.tlp_cake_net_taxamt.Name = "tlp_cake_net_taxamt";
             this.tlp_cake_net_taxamt.RowCount = 1;
             this.tlp_cake_net_taxamt.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_cake_net_taxamt.Size = new System.Drawing.Size(354, 49);
+            this.tlp_cake_net_taxamt.Size = new System.Drawing.Size(569, 49);
             this.tlp_cake_net_taxamt.TabIndex = 35;
             // 
             // label33
@@ -3854,10 +4082,10 @@
             // pnl_cardpreview
             // 
             this.pnl_cardpreview.Controls.Add(this.tableLayoutPanel20);
-            this.pnl_cardpreview.Location = new System.Drawing.Point(936, 39);
+            this.pnl_cardpreview.Location = new System.Drawing.Point(866, 22);
             this.pnl_cardpreview.Name = "pnl_cardpreview";
             this.pnl_cardpreview.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnl_cardpreview.Size = new System.Drawing.Size(374, 490);
+            this.pnl_cardpreview.Size = new System.Drawing.Size(747, 532);
             this.pnl_cardpreview.TabIndex = 322;
             this.pnl_cardpreview.Visible = false;
             // 
@@ -3878,15 +4106,16 @@
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel20.Size = new System.Drawing.Size(360, 478);
+            this.tableLayoutPanel20.Size = new System.Drawing.Size(733, 520);
             this.tableLayoutPanel20.TabIndex = 0;
             // 
             // flw_categ
             // 
             this.flw_categ.BackColor = System.Drawing.Color.White;
+            this.flw_categ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flw_categ.Location = new System.Drawing.Point(3, 45);
             this.flw_categ.Name = "flw_categ";
-            this.flw_categ.Size = new System.Drawing.Size(354, 51);
+            this.flw_categ.Size = new System.Drawing.Size(727, 51);
             this.flw_categ.TabIndex = 32;
             // 
             // tableLayoutPanel21
@@ -3903,7 +4132,7 @@
             this.tableLayoutPanel21.Name = "tableLayoutPanel21";
             this.tableLayoutPanel21.RowCount = 1;
             this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel21.Size = new System.Drawing.Size(354, 36);
+            this.tableLayoutPanel21.Size = new System.Drawing.Size(727, 36);
             this.tableLayoutPanel21.TabIndex = 2;
             // 
             // btncards_cls
@@ -3915,7 +4144,7 @@
             this.btncards_cls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncards_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btncards_cls.ForeColor = System.Drawing.Color.Red;
-            this.btncards_cls.Location = new System.Drawing.Point(305, 4);
+            this.btncards_cls.Location = new System.Drawing.Point(678, 4);
             this.btncards_cls.Margin = new System.Windows.Forms.Padding(4);
             this.btncards_cls.Name = "btncards_cls";
             this.btncards_cls.Size = new System.Drawing.Size(28, 28);
@@ -3932,7 +4161,7 @@
             this.label23.ForeColor = System.Drawing.Color.White;
             this.label23.Location = new System.Drawing.Point(3, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(295, 36);
+            this.label23.Size = new System.Drawing.Size(668, 36);
             this.label23.TabIndex = 2;
             this.label23.Text = "Card Products";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3951,7 +4180,7 @@
             this.tlp_headingcard.Name = "tlp_headingcard";
             this.tlp_headingcard.RowCount = 1;
             this.tlp_headingcard.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_headingcard.Size = new System.Drawing.Size(354, 36);
+            this.tlp_headingcard.Size = new System.Drawing.Size(727, 36);
             this.tlp_headingcard.TabIndex = 33;
             // 
             // txtcardserach
@@ -4001,7 +4230,7 @@
             this.pnlitembuttons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlitembuttons.Location = new System.Drawing.Point(3, 144);
             this.pnlitembuttons.Name = "pnlitembuttons";
-            this.pnlitembuttons.Size = new System.Drawing.Size(354, 331);
+            this.pnlitembuttons.Size = new System.Drawing.Size(727, 373);
             this.pnlitembuttons.TabIndex = 34;
             // 
             // dataGridViewImageColumn1
@@ -4027,10 +4256,10 @@
             // pnlgiftpreview
             // 
             this.pnlgiftpreview.Controls.Add(this.tableLayoutPanel22);
-            this.pnlgiftpreview.Location = new System.Drawing.Point(936, 9);
+            this.pnlgiftpreview.Location = new System.Drawing.Point(866, 0);
             this.pnlgiftpreview.Name = "pnlgiftpreview";
             this.pnlgiftpreview.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnlgiftpreview.Size = new System.Drawing.Size(374, 490);
+            this.pnlgiftpreview.Size = new System.Drawing.Size(842, 554);
             this.pnlgiftpreview.TabIndex = 323;
             this.pnlgiftpreview.Visible = false;
             // 
@@ -4050,7 +4279,7 @@
             this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel22.Size = new System.Drawing.Size(360, 478);
+            this.tableLayoutPanel22.Size = new System.Drawing.Size(828, 542);
             this.tableLayoutPanel22.TabIndex = 0;
             // 
             // tableLayoutPanel23
@@ -4067,7 +4296,7 @@
             this.tableLayoutPanel23.Name = "tableLayoutPanel23";
             this.tableLayoutPanel23.RowCount = 1;
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(354, 36);
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(822, 36);
             this.tableLayoutPanel23.TabIndex = 2;
             // 
             // btngiftprevcls
@@ -4079,7 +4308,7 @@
             this.btngiftprevcls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btngiftprevcls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btngiftprevcls.ForeColor = System.Drawing.Color.Red;
-            this.btngiftprevcls.Location = new System.Drawing.Point(305, 4);
+            this.btngiftprevcls.Location = new System.Drawing.Point(773, 4);
             this.btngiftprevcls.Margin = new System.Windows.Forms.Padding(4);
             this.btngiftprevcls.Name = "btngiftprevcls";
             this.btngiftprevcls.Size = new System.Drawing.Size(28, 28);
@@ -4096,7 +4325,7 @@
             this.label34.ForeColor = System.Drawing.Color.White;
             this.label34.Location = new System.Drawing.Point(3, 0);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(295, 36);
+            this.label34.Size = new System.Drawing.Size(763, 36);
             this.label34.TabIndex = 2;
             this.label34.Text = "Gift Products";
             this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4114,7 +4343,7 @@
             this.tableLayoutPanel24.Name = "tableLayoutPanel24";
             this.tableLayoutPanel24.RowCount = 1;
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel24.Size = new System.Drawing.Size(354, 36);
+            this.tableLayoutPanel24.Size = new System.Drawing.Size(822, 36);
             this.tableLayoutPanel24.TabIndex = 33;
             // 
             // txtserachgift
@@ -4151,50 +4380,551 @@
             this.flp_itemredproducts.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_itemredproducts.Location = new System.Drawing.Point(3, 87);
             this.flp_itemredproducts.Name = "flp_itemredproducts";
-            this.flp_itemredproducts.Size = new System.Drawing.Size(354, 388);
+            this.flp_itemredproducts.Size = new System.Drawing.Size(822, 452);
             this.flp_itemredproducts.TabIndex = 34;
             // 
-            // tlp_gift_grandtotal
+            // pnlPaymode
             // 
-            this.tlp_gift_grandtotal.ColumnCount = 3;
-            this.tlp_gift_grandtotal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_gift_grandtotal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_gift_grandtotal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_gift_grandtotal.Controls.Add(this.txtGiftGrandTotal, 0, 0);
-            this.tlp_gift_grandtotal.Controls.Add(this.label35, 0, 0);
-            this.tlp_gift_grandtotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_gift_grandtotal.Location = new System.Drawing.Point(3, 391);
-            this.tlp_gift_grandtotal.Name = "tlp_gift_grandtotal";
-            this.tlp_gift_grandtotal.RowCount = 1;
-            this.tlp_gift_grandtotal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_gift_grandtotal.Size = new System.Drawing.Size(354, 39);
-            this.tlp_gift_grandtotal.TabIndex = 35;
+            this.pnlPaymode.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlPaymode.Controls.Add(this.tlp_payment_option);
+            this.pnlPaymode.Location = new System.Drawing.Point(99, 238);
+            this.pnlPaymode.Name = "pnlPaymode";
+            this.pnlPaymode.Padding = new System.Windows.Forms.Padding(8);
+            this.pnlPaymode.Size = new System.Drawing.Size(747, 269);
+            this.pnlPaymode.TabIndex = 324;
+            this.pnlPaymode.Visible = false;
             // 
-            // label35
+            // tlp_payment_option
             // 
-            this.label35.AutoSize = true;
-            this.label35.BackColor = System.Drawing.Color.Transparent;
-            this.label35.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label35.ForeColor = System.Drawing.Color.Black;
-            this.label35.Location = new System.Drawing.Point(3, 0);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(125, 39);
-            this.label35.TabIndex = 269;
-            this.label35.Text = "Grand Total ";
-            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tlp_payment_option.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tlp_payment_option.ColumnCount = 4;
+            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_payment_option.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_payment_option.Controls.Add(this.btncash, 0, 1);
+            this.tlp_payment_option.Controls.Add(this.btndebit, 1, 1);
+            this.tlp_payment_option.Controls.Add(this.btnupi, 2, 1);
+            this.tlp_payment_option.Controls.Add(this.btnclos_payment, 3, 0);
+            this.tlp_payment_option.Controls.Add(this.btnnocharge, 3, 2);
+            this.tlp_payment_option.Controls.Add(this.btnnetbanking, 3, 1);
+            this.tlp_payment_option.Controls.Add(this.btncreditcard, 0, 2);
+            this.tlp_payment_option.Controls.Add(this.btn_other, 2, 2);
+            this.tlp_payment_option.Controls.Add(this.btncomple, 1, 2);
+            this.tlp_payment_option.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_payment_option.Location = new System.Drawing.Point(8, 8);
+            this.tlp_payment_option.Name = "tlp_payment_option";
+            this.tlp_payment_option.RowCount = 3;
+            this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_payment_option.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_payment_option.Size = new System.Drawing.Size(731, 253);
+            this.tlp_payment_option.TabIndex = 273;
             // 
-            // txtGiftGrandTotal
+            // btncash
             // 
-            this.txtGiftGrandTotal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtGiftGrandTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtGiftGrandTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtGiftGrandTotal.Location = new System.Drawing.Point(134, 3);
-            this.txtGiftGrandTotal.Multiline = true;
-            this.txtGiftGrandTotal.Name = "txtGiftGrandTotal";
-            this.txtGiftGrandTotal.ReadOnly = true;
-            this.txtGiftGrandTotal.Size = new System.Drawing.Size(324, 33);
-            this.txtGiftGrandTotal.TabIndex = 270;
+            this.btncash.BackColor = System.Drawing.Color.Transparent;
+            this.btncash.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btncash.BackgroundImage")));
+            this.btncash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncash.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btncash.FlatAppearance.BorderSize = 0;
+            this.btncash.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncash.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncash.ForeColor = System.Drawing.Color.White;
+            this.btncash.Location = new System.Drawing.Point(3, 44);
+            this.btncash.Name = "btncash";
+            this.btncash.Size = new System.Drawing.Size(176, 100);
+            this.btncash.TabIndex = 66;
+            this.btncash.UseVisualStyleBackColor = false;
+            this.btncash.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btndebit
+            // 
+            this.btndebit.BackColor = System.Drawing.Color.Transparent;
+            this.btndebit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btndebit.BackgroundImage")));
+            this.btndebit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btndebit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btndebit.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btndebit.FlatAppearance.BorderSize = 0;
+            this.btndebit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btndebit.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btndebit.ForeColor = System.Drawing.Color.White;
+            this.btndebit.Location = new System.Drawing.Point(185, 44);
+            this.btndebit.Name = "btndebit";
+            this.btndebit.Size = new System.Drawing.Size(176, 100);
+            this.btndebit.TabIndex = 61;
+            this.btndebit.UseVisualStyleBackColor = false;
+            this.btndebit.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btnupi
+            // 
+            this.btnupi.BackColor = System.Drawing.Color.Transparent;
+            this.btnupi.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnupi.BackgroundImage")));
+            this.btnupi.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnupi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnupi.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnupi.FlatAppearance.BorderSize = 0;
+            this.btnupi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnupi.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnupi.ForeColor = System.Drawing.Color.White;
+            this.btnupi.Location = new System.Drawing.Point(367, 44);
+            this.btnupi.Name = "btnupi";
+            this.btnupi.Size = new System.Drawing.Size(176, 100);
+            this.btnupi.TabIndex = 64;
+            this.btnupi.UseVisualStyleBackColor = false;
+            this.btnupi.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btnclos_payment
+            // 
+            this.btnclos_payment.BackgroundImage = global::FoodandBeverage.Properties.Resources.Round_Close;
+            this.btnclos_payment.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnclos_payment.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnclos_payment.FlatAppearance.BorderSize = 0;
+            this.btnclos_payment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnclos_payment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnclos_payment.Location = new System.Drawing.Point(670, 3);
+            this.btnclos_payment.Name = "btnclos_payment";
+            this.btnclos_payment.Size = new System.Drawing.Size(58, 35);
+            this.btnclos_payment.TabIndex = 277;
+            this.btnclos_payment.UseVisualStyleBackColor = true;
+            this.btnclos_payment.Click += new System.EventHandler(this.btnclos_payment_Click);
+            // 
+            // btnnocharge
+            // 
+            this.btnnocharge.BackColor = System.Drawing.Color.Transparent;
+            this.btnnocharge.BackgroundImage = global::FoodandBeverage.Properties.Resources.Nocharge;
+            this.btnnocharge.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnnocharge.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnnocharge.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnnocharge.FlatAppearance.BorderSize = 0;
+            this.btnnocharge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnnocharge.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnnocharge.ForeColor = System.Drawing.Color.White;
+            this.btnnocharge.Location = new System.Drawing.Point(549, 150);
+            this.btnnocharge.Name = "btnnocharge";
+            this.btnnocharge.Size = new System.Drawing.Size(179, 100);
+            this.btnnocharge.TabIndex = 69;
+            this.btnnocharge.UseVisualStyleBackColor = false;
+            this.btnnocharge.Visible = false;
+            // 
+            // btnnetbanking
+            // 
+            this.btnnetbanking.BackColor = System.Drawing.Color.Transparent;
+            this.btnnetbanking.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnnetbanking.BackgroundImage")));
+            this.btnnetbanking.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnnetbanking.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnnetbanking.FlatAppearance.BorderSize = 0;
+            this.btnnetbanking.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnnetbanking.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnnetbanking.ForeColor = System.Drawing.Color.White;
+            this.btnnetbanking.Location = new System.Drawing.Point(549, 44);
+            this.btnnetbanking.Name = "btnnetbanking";
+            this.btnnetbanking.Size = new System.Drawing.Size(179, 100);
+            this.btnnetbanking.TabIndex = 62;
+            this.btnnetbanking.UseVisualStyleBackColor = false;
+            this.btnnetbanking.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btncreditcard
+            // 
+            this.btncreditcard.BackColor = System.Drawing.Color.Transparent;
+            this.btncreditcard.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btncreditcard.BackgroundImage")));
+            this.btncreditcard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncreditcard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btncreditcard.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btncreditcard.FlatAppearance.BorderSize = 0;
+            this.btncreditcard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncreditcard.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncreditcard.ForeColor = System.Drawing.Color.White;
+            this.btncreditcard.Location = new System.Drawing.Point(3, 150);
+            this.btncreditcard.Name = "btncreditcard";
+            this.btncreditcard.Size = new System.Drawing.Size(176, 100);
+            this.btncreditcard.TabIndex = 63;
+            this.btncreditcard.UseVisualStyleBackColor = false;
+            this.btncreditcard.Click += new System.EventHandler(this.btncash_Click);
+            // 
+            // btn_other
+            // 
+            this.btn_other.BackColor = System.Drawing.Color.Transparent;
+            this.btn_other.BackgroundImage = global::FoodandBeverage.Properties.Resources.others;
+            this.btn_other.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_other.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_other.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btn_other.FlatAppearance.BorderSize = 0;
+            this.btn_other.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_other.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_other.ForeColor = System.Drawing.Color.White;
+            this.btn_other.Location = new System.Drawing.Point(367, 150);
+            this.btn_other.Name = "btn_other";
+            this.btn_other.Size = new System.Drawing.Size(176, 100);
+            this.btn_other.TabIndex = 274;
+            this.btn_other.UseVisualStyleBackColor = false;
+            this.btn_other.Click += new System.EventHandler(this.btn_other_Click);
+            // 
+            // btncomple
+            // 
+            this.btncomple.BackColor = System.Drawing.Color.Transparent;
+            this.btncomple.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btncomple.BackgroundImage")));
+            this.btncomple.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncomple.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btncomple.FlatAppearance.BorderSize = 0;
+            this.btncomple.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncomple.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncomple.ForeColor = System.Drawing.Color.White;
+            this.btncomple.Location = new System.Drawing.Point(185, 150);
+            this.btncomple.Name = "btncomple";
+            this.btncomple.Size = new System.Drawing.Size(176, 100);
+            this.btncomple.TabIndex = 65;
+            this.btncomple.UseVisualStyleBackColor = false;
+            this.btncomple.Click += new System.EventHandler(this.btncomple_Click);
+            // 
+            // pnlSplit
+            // 
+            this.pnlSplit.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlSplit.Controls.Add(this.tlp_part_outdesign);
+            this.pnlSplit.Location = new System.Drawing.Point(895, 80);
+            this.pnlSplit.Name = "pnlSplit";
+            this.pnlSplit.Padding = new System.Windows.Forms.Padding(8);
+            this.pnlSplit.Size = new System.Drawing.Size(596, 508);
+            this.pnlSplit.TabIndex = 326;
+            this.pnlSplit.Visible = false;
+            // 
+            // tlp_part_outdesign
+            // 
+            this.tlp_part_outdesign.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tlp_part_outdesign.ColumnCount = 1;
+            this.tlp_part_outdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_part_outdesign.Controls.Add(this.flp_partpaybutton, 0, 0);
+            this.tlp_part_outdesign.Controls.Add(this.tlp_partpayment_cal, 0, 2);
+            this.tlp_part_outdesign.Controls.Add(this.tableLayoutPanel25, 0, 1);
+            this.tlp_part_outdesign.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_part_outdesign.Location = new System.Drawing.Point(8, 8);
+            this.tlp_part_outdesign.Name = "tlp_part_outdesign";
+            this.tlp_part_outdesign.RowCount = 3;
+            this.tlp_part_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_part_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_part_outdesign.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_part_outdesign.Size = new System.Drawing.Size(580, 492);
+            this.tlp_part_outdesign.TabIndex = 275;
+            // 
+            // flp_partpaybutton
+            // 
+            this.flp_partpaybutton.BackColor = System.Drawing.Color.White;
+            this.flp_partpaybutton.Controls.Add(this.cash_part);
+            this.flp_partpaybutton.Controls.Add(this.Debit_part);
+            this.flp_partpaybutton.Controls.Add(this.upi_part);
+            this.flp_partpaybutton.Controls.Add(this.netbanking_part);
+            this.flp_partpaybutton.Controls.Add(this.credit_part);
+            this.flp_partpaybutton.Controls.Add(this.midas_part);
+            this.flp_partpaybutton.Controls.Add(this.txtPayid1);
+            this.flp_partpaybutton.Controls.Add(this.txtPayid2);
+            this.flp_partpaybutton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flp_partpaybutton.Location = new System.Drawing.Point(3, 3);
+            this.flp_partpaybutton.Name = "flp_partpaybutton";
+            this.flp_partpaybutton.Size = new System.Drawing.Size(574, 317);
+            this.flp_partpaybutton.TabIndex = 0;
+            // 
+            // cash_part
+            // 
+            this.cash_part.BackColor = System.Drawing.Color.Transparent;
+            this.cash_part.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cash_part.BackgroundImage")));
+            this.cash_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cash_part.FlatAppearance.BorderSize = 0;
+            this.cash_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cash_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cash_part.ForeColor = System.Drawing.Color.White;
+            this.cash_part.Location = new System.Drawing.Point(3, 3);
+            this.cash_part.Name = "cash_part";
+            this.cash_part.Size = new System.Drawing.Size(185, 147);
+            this.cash_part.TabIndex = 66;
+            this.cash_part.UseVisualStyleBackColor = false;
+            // 
+            // Debit_part
+            // 
+            this.Debit_part.BackColor = System.Drawing.Color.Transparent;
+            this.Debit_part.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Debit_part.BackgroundImage")));
+            this.Debit_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Debit_part.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.Debit_part.FlatAppearance.BorderSize = 0;
+            this.Debit_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Debit_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Debit_part.ForeColor = System.Drawing.Color.White;
+            this.Debit_part.Location = new System.Drawing.Point(194, 3);
+            this.Debit_part.Name = "Debit_part";
+            this.Debit_part.Size = new System.Drawing.Size(185, 147);
+            this.Debit_part.TabIndex = 61;
+            this.Debit_part.UseVisualStyleBackColor = false;
+            // 
+            // upi_part
+            // 
+            this.upi_part.BackColor = System.Drawing.Color.White;
+            this.upi_part.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("upi_part.BackgroundImage")));
+            this.upi_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.upi_part.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.upi_part.FlatAppearance.BorderSize = 0;
+            this.upi_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.upi_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.upi_part.ForeColor = System.Drawing.Color.White;
+            this.upi_part.Location = new System.Drawing.Point(385, 3);
+            this.upi_part.Name = "upi_part";
+            this.upi_part.Size = new System.Drawing.Size(185, 147);
+            this.upi_part.TabIndex = 64;
+            this.upi_part.UseVisualStyleBackColor = false;
+            // 
+            // netbanking_part
+            // 
+            this.netbanking_part.BackColor = System.Drawing.Color.Transparent;
+            this.netbanking_part.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("netbanking_part.BackgroundImage")));
+            this.netbanking_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.netbanking_part.FlatAppearance.BorderSize = 0;
+            this.netbanking_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.netbanking_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.netbanking_part.ForeColor = System.Drawing.Color.White;
+            this.netbanking_part.Location = new System.Drawing.Point(3, 156);
+            this.netbanking_part.Name = "netbanking_part";
+            this.netbanking_part.Size = new System.Drawing.Size(185, 147);
+            this.netbanking_part.TabIndex = 62;
+            this.netbanking_part.UseVisualStyleBackColor = false;
+            // 
+            // credit_part
+            // 
+            this.credit_part.BackColor = System.Drawing.Color.Transparent;
+            this.credit_part.BackgroundImage = global::FoodandBeverage.Properties.Resources.credit_card;
+            this.credit_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.credit_part.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.credit_part.FlatAppearance.BorderSize = 0;
+            this.credit_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.credit_part.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.credit_part.ForeColor = System.Drawing.Color.White;
+            this.credit_part.Location = new System.Drawing.Point(194, 156);
+            this.credit_part.Name = "credit_part";
+            this.credit_part.Size = new System.Drawing.Size(185, 147);
+            this.credit_part.TabIndex = 63;
+            this.credit_part.UseVisualStyleBackColor = false;
+            // 
+            // midas_part
+            // 
+            this.midas_part.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("midas_part.BackgroundImage")));
+            this.midas_part.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.midas_part.FlatAppearance.BorderSize = 0;
+            this.midas_part.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.midas_part.Location = new System.Drawing.Point(385, 156);
+            this.midas_part.Name = "midas_part";
+            this.midas_part.Size = new System.Drawing.Size(185, 147);
+            this.midas_part.TabIndex = 67;
+            this.midas_part.UseVisualStyleBackColor = true;
+            // 
+            // txtPayid1
+            // 
+            this.txtPayid1.Location = new System.Drawing.Point(3, 309);
+            this.txtPayid1.Name = "txtPayid1";
+            this.txtPayid1.Size = new System.Drawing.Size(28, 20);
+            this.txtPayid1.TabIndex = 4;
+            this.txtPayid1.Visible = false;
+            // 
+            // txtPayid2
+            // 
+            this.txtPayid2.Location = new System.Drawing.Point(37, 309);
+            this.txtPayid2.Name = "txtPayid2";
+            this.txtPayid2.Size = new System.Drawing.Size(28, 20);
+            this.txtPayid2.TabIndex = 74;
+            this.txtPayid2.Visible = false;
+            // 
+            // tlp_partpayment_cal
+            // 
+            this.tlp_partpayment_cal.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tlp_partpayment_cal.ColumnCount = 4;
+            this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.74605F));
+            this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.10884F));
+            this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.14511F));
+            this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
+            this.tlp_partpayment_cal.Controls.Add(this.label38, 0, 0);
+            this.tlp_partpayment_cal.Controls.Add(this.lblPartNetAmt, 0, 1);
+            this.tlp_partpayment_cal.Controls.Add(this.lblPartBalAmt, 1, 1);
+            this.tlp_partpayment_cal.Controls.Add(this.label39, 1, 0);
+            this.tlp_partpayment_cal.Controls.Add(this.btnPartRefresh, 3, 1);
+            this.tlp_partpayment_cal.Controls.Add(this.btnPartClose, 2, 1);
+            this.tlp_partpayment_cal.Controls.Add(this.btnPartPaynow, 2, 0);
+            this.tlp_partpayment_cal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_partpayment_cal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tlp_partpayment_cal.Location = new System.Drawing.Point(3, 369);
+            this.tlp_partpayment_cal.Name = "tlp_partpayment_cal";
+            this.tlp_partpayment_cal.Padding = new System.Windows.Forms.Padding(5);
+            this.tlp_partpayment_cal.RowCount = 2;
+            this.tlp_partpayment_cal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_partpayment_cal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_partpayment_cal.Size = new System.Drawing.Size(574, 120);
+            this.tlp_partpayment_cal.TabIndex = 274;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label38.Location = new System.Drawing.Point(8, 5);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(137, 55);
+            this.label38.TabIndex = 68;
+            this.label38.Text = "Net Amount";
+            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPartNetAmt
+            // 
+            this.lblPartNetAmt.AutoSize = true;
+            this.lblPartNetAmt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPartNetAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPartNetAmt.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblPartNetAmt.Location = new System.Drawing.Point(8, 60);
+            this.lblPartNetAmt.Name = "lblPartNetAmt";
+            this.lblPartNetAmt.Size = new System.Drawing.Size(137, 55);
+            this.lblPartNetAmt.TabIndex = 70;
+            this.lblPartNetAmt.Text = "0.00";
+            this.lblPartNetAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPartBalAmt
+            // 
+            this.lblPartBalAmt.AutoSize = true;
+            this.lblPartBalAmt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPartBalAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPartBalAmt.ForeColor = System.Drawing.Color.Red;
+            this.lblPartBalAmt.Location = new System.Drawing.Point(151, 60);
+            this.lblPartBalAmt.Name = "lblPartBalAmt";
+            this.lblPartBalAmt.Size = new System.Drawing.Size(148, 55);
+            this.lblPartBalAmt.TabIndex = 71;
+            this.lblPartBalAmt.Text = "0.00";
+            this.lblPartBalAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label39.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label39.Location = new System.Drawing.Point(151, 5);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(148, 55);
+            this.label39.TabIndex = 69;
+            this.label39.Text = "Balance Amount";
+            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnPartRefresh
+            // 
+            this.btnPartRefresh.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_REFESH;
+            this.btnPartRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPartRefresh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnPartRefresh.FlatAppearance.BorderSize = 0;
+            this.btnPartRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPartRefresh.Location = new System.Drawing.Point(446, 63);
+            this.btnPartRefresh.Name = "btnPartRefresh";
+            this.btnPartRefresh.Size = new System.Drawing.Size(120, 49);
+            this.btnPartRefresh.TabIndex = 74;
+            this.btnPartRefresh.UseVisualStyleBackColor = true;
+            // 
+            // btnPartClose
+            // 
+            this.btnPartClose.BackgroundImage = global::FoodandBeverage.Properties.Resources.Closebutton;
+            this.btnPartClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPartClose.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnPartClose.FlatAppearance.BorderSize = 0;
+            this.btnPartClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPartClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPartClose.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnPartClose.Location = new System.Drawing.Point(305, 63);
+            this.btnPartClose.Name = "btnPartClose";
+            this.btnPartClose.Size = new System.Drawing.Size(135, 49);
+            this.btnPartClose.TabIndex = 72;
+            this.btnPartClose.Text = "Close";
+            this.btnPartClose.UseVisualStyleBackColor = true;
+            // 
+            // btnPartPaynow
+            // 
+            this.btnPartPaynow.BackgroundImage = global::FoodandBeverage.Properties.Resources.pay_per_click;
+            this.btnPartPaynow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPartPaynow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnPartPaynow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPartPaynow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPartPaynow.ForeColor = System.Drawing.Color.White;
+            this.btnPartPaynow.Location = new System.Drawing.Point(305, 8);
+            this.btnPartPaynow.Name = "btnPartPaynow";
+            this.btnPartPaynow.Size = new System.Drawing.Size(135, 49);
+            this.btnPartPaynow.TabIndex = 73;
+            this.btnPartPaynow.UseVisualStyleBackColor = true;
+            this.btnPartPaynow.Visible = false;
+            // 
+            // tableLayoutPanel25
+            // 
+            this.tableLayoutPanel25.BackColor = System.Drawing.Color.Silver;
+            this.tableLayoutPanel25.ColumnCount = 4;
+            this.tableLayoutPanel25.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel25.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel25.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel25.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel25.Controls.Add(this.lblpartpayment2, 0, 0);
+            this.tableLayoutPanel25.Controls.Add(this.lblpartAmt1, 0, 0);
+            this.tableLayoutPanel25.Controls.Add(this.lblpartAmt2, 1, 0);
+            this.tableLayoutPanel25.Controls.Add(this.lblpartpayment1, 0, 0);
+            this.tableLayoutPanel25.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel25.Location = new System.Drawing.Point(3, 328);
+            this.tableLayoutPanel25.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.tableLayoutPanel25.Name = "tableLayoutPanel25";
+            this.tableLayoutPanel25.RowCount = 1;
+            this.tableLayoutPanel25.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel25.Size = new System.Drawing.Size(574, 33);
+            this.tableLayoutPanel25.TabIndex = 275;
+            // 
+            // lblpartpayment2
+            // 
+            this.lblpartpayment2.AutoSize = true;
+            this.lblpartpayment2.BackColor = System.Drawing.Color.White;
+            this.lblpartpayment2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblpartpayment2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblpartpayment2.Location = new System.Drawing.Point(289, 3);
+            this.lblpartpayment2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblpartpayment2.Name = "lblpartpayment2";
+            this.lblpartpayment2.Size = new System.Drawing.Size(137, 27);
+            this.lblpartpayment2.TabIndex = 3;
+            this.lblpartpayment2.Text = "Payment 2 ";
+            this.lblpartpayment2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblpartAmt1
+            // 
+            this.lblpartAmt1.AutoSize = true;
+            this.lblpartAmt1.BackColor = System.Drawing.Color.White;
+            this.lblpartAmt1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblpartAmt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblpartAmt1.Location = new System.Drawing.Point(146, 3);
+            this.lblpartAmt1.Margin = new System.Windows.Forms.Padding(3);
+            this.lblpartAmt1.Name = "lblpartAmt1";
+            this.lblpartAmt1.Size = new System.Drawing.Size(137, 27);
+            this.lblpartAmt1.TabIndex = 2;
+            this.lblpartAmt1.Text = "0.00";
+            this.lblpartAmt1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblpartAmt2
+            // 
+            this.lblpartAmt2.AutoSize = true;
+            this.lblpartAmt2.BackColor = System.Drawing.Color.White;
+            this.lblpartAmt2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblpartAmt2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblpartAmt2.Location = new System.Drawing.Point(432, 3);
+            this.lblpartAmt2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblpartAmt2.Name = "lblpartAmt2";
+            this.lblpartAmt2.Size = new System.Drawing.Size(139, 27);
+            this.lblpartAmt2.TabIndex = 1;
+            this.lblpartAmt2.Text = "0.00";
+            this.lblpartAmt2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblpartpayment1
+            // 
+            this.lblpartpayment1.AutoSize = true;
+            this.lblpartpayment1.BackColor = System.Drawing.Color.White;
+            this.lblpartpayment1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblpartpayment1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblpartpayment1.Location = new System.Drawing.Point(3, 3);
+            this.lblpartpayment1.Margin = new System.Windows.Forms.Padding(3);
+            this.lblpartpayment1.Name = "lblpartpayment1";
+            this.lblpartpayment1.Size = new System.Drawing.Size(137, 27);
+            this.lblpartpayment1.TabIndex = 0;
+            this.lblpartpayment1.Text = "Payment 1";
+            this.lblpartpayment1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FrmPartyBooking
             // 
@@ -4202,16 +4932,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 640);
             this.Controls.Add(this.pnl_hidecontrl);
+            this.Controls.Add(this.pnlSplit);
+            this.Controls.Add(this.pnlPaymode);
             this.Controls.Add(this.pnlgifts);
-            this.Controls.Add(this.pnlgiftpreview);
+            this.Controls.Add(this.pnlcards);
             this.Controls.Add(this.pnl_cardpreview);
             this.Controls.Add(this.pnlcake);
-            this.Controls.Add(this.pnlcards);
+            this.Controls.Add(this.pnlgiftpreview);
+            this.Controls.Add(this.pnl_pak_detailsitems);
+            this.Controls.Add(this.pnl_eventreg);
             this.Controls.Add(this.pnl_enter_paks);
             this.Controls.Add(this.pnl_CustomItems_menu);
             this.Controls.Add(this.pnl_foodpacks);
-            this.Controls.Add(this.pnl_eventreg);
-            this.Controls.Add(this.pnl_pak_detailsitems);
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -4286,6 +5018,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_gift)).EndInit();
             this.tableLayoutPanel15.ResumeLayout(false);
             this.tableLayoutPanel15.PerformLayout();
+            this.tlp_gift_grandtotal.ResumeLayout(false);
+            this.tlp_gift_grandtotal.PerformLayout();
             this.pnlcake.ResumeLayout(false);
             this.tableLayoutPanel16.ResumeLayout(false);
             this.tlp_cakereg.ResumeLayout(false);
@@ -4307,8 +5041,16 @@
             this.tableLayoutPanel23.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
             this.tableLayoutPanel24.PerformLayout();
-            this.tlp_gift_grandtotal.ResumeLayout(false);
-            this.tlp_gift_grandtotal.PerformLayout();
+            this.pnlPaymode.ResumeLayout(false);
+            this.tlp_payment_option.ResumeLayout(false);
+            this.pnlSplit.ResumeLayout(false);
+            this.tlp_part_outdesign.ResumeLayout(false);
+            this.flp_partpaybutton.ResumeLayout(false);
+            this.flp_partpaybutton.PerformLayout();
+            this.tlp_partpayment_cal.ResumeLayout(false);
+            this.tlp_partpayment_cal.PerformLayout();
+            this.tableLayoutPanel25.ResumeLayout(false);
+            this.tableLayoutPanel25.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -4538,6 +5280,21 @@
         private System.Windows.Forms.TextBox txtTotalTaxAmount_card;
         private System.Windows.Forms.TableLayoutPanel tlp_grandtotal_card;
         private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.DataGridView dgv_gift;
+        private System.Windows.Forms.Panel pnlgiftpreview;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel22;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel23;
+        private System.Windows.Forms.Button btngiftprevcls;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel24;
+        private System.Windows.Forms.TextBox txtserachgift;
+        private System.Windows.Forms.Button btn_searchgift;
+        private System.Windows.Forms.FlowLayoutPanel flp_itemredproducts;
+        private System.Windows.Forms.TextBox txtPreTaxAmount_gift;
+        private System.Windows.Forms.TextBox txtTotalTaxAmount_gift;
+        private System.Windows.Forms.TableLayoutPanel tlp_gift_grandtotal;
+        private System.Windows.Forms.TextBox txtGiftGrandTotal;
+        private System.Windows.Forms.Label label35;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewButtonColumn cddeleterow;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
@@ -4559,7 +5316,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cddeafultstatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn cdtaxsettingid;
         private System.Windows.Forms.DataGridViewTextBoxColumn cdpretaxamt;
-        private System.Windows.Forms.DataGridView dgv_gift;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
@@ -4581,19 +5337,51 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn35;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn36;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn37;
-        private System.Windows.Forms.Panel pnlgiftpreview;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel22;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel23;
-        private System.Windows.Forms.Button btngiftprevcls;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel24;
-        private System.Windows.Forms.TextBox txtserachgift;
-        private System.Windows.Forms.Button btn_searchgift;
-        private System.Windows.Forms.FlowLayoutPanel flp_itemredproducts;
-        private System.Windows.Forms.TextBox txtPreTaxAmount_gift;
-        private System.Windows.Forms.TextBox txtTotalTaxAmount_gift;
-        private System.Windows.Forms.TableLayoutPanel tlp_gift_grandtotal;
-        private System.Windows.Forms.TextBox txtGiftGrandTotal;
-        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.TextBox txtdiscountreason;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Button btnadvance;
+        private System.Windows.Forms.Panel pnlPaymode;
+        private System.Windows.Forms.TableLayoutPanel tlp_payment_option;
+        private System.Windows.Forms.Button btnnocharge;
+        private System.Windows.Forms.Button btn_other;
+        private System.Windows.Forms.Button btncash;
+        private System.Windows.Forms.Button btncomple;
+        private System.Windows.Forms.Button btndebit;
+        private System.Windows.Forms.Button btncreditcard;
+        private System.Windows.Forms.Button btnupi;
+        private System.Windows.Forms.Button btnnetbanking;
+        private System.Windows.Forms.Button btnclos_payment;
+        private System.Windows.Forms.Panel pnlSplit;
+        private System.Windows.Forms.TableLayoutPanel tlp_part_outdesign;
+        private System.Windows.Forms.FlowLayoutPanel flp_partpaybutton;
+        private System.Windows.Forms.Button cash_part;
+        private System.Windows.Forms.Button Debit_part;
+        private System.Windows.Forms.Button upi_part;
+        private System.Windows.Forms.Button netbanking_part;
+        private System.Windows.Forms.Button credit_part;
+        private System.Windows.Forms.Button midas_part;
+        private System.Windows.Forms.TextBox txtPayid1;
+        private System.Windows.Forms.TextBox txtPayid2;
+        private System.Windows.Forms.TableLayoutPanel tlp_partpayment_cal;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label lblPartNetAmt;
+        private System.Windows.Forms.Label lblPartBalAmt;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Button btnPartRefresh;
+        private System.Windows.Forms.Button btnPartClose;
+        private System.Windows.Forms.Button btnPartPaynow;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel25;
+        private System.Windows.Forms.Label lblpartpayment2;
+        private System.Windows.Forms.Label lblpartAmt1;
+        private System.Windows.Forms.Label lblpartAmt2;
+        private System.Windows.Forms.Label lblpartpayment1;
+        private System.Windows.Forms.TextBox txtadvanceamt;
+        private System.Windows.Forms.TextBox txtPreTaxAmount_pack;
+        private System.Windows.Forms.TextBox txtTotalTaxAmount_pack;
+        private System.Windows.Forms.TextBox txtGrandTotal_pack;
+        private System.Windows.Forms.TextBox txtPackTaxPer;
+        private System.Windows.Forms.TextBox txtTaxtype_pack;
+        private System.Windows.Forms.TextBox txtTaxPer_pack;
     }
 }

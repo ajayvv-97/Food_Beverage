@@ -29,7 +29,6 @@ namespace FoodandBeverage
 
         #region Grid Declaration
 
-
         #region Custom Menu Grid Declaration
 
         public int mainslno = 0;
@@ -135,6 +134,7 @@ namespace FoodandBeverage
         List<SelectedCustomItem> selectedCustomItems = new List<SelectedCustomItem>();
         int CurrentPackId = 0;
         List<DmnPartyPackCustom> customMenuList = new List<DmnPartyPackCustom>();
+
         #endregion
 
         #region Domain
@@ -175,6 +175,9 @@ namespace FoodandBeverage
         public int screnwidth = Screen.PrimaryScreen.Bounds.Width;
         public int screnheight = Screen.PrimaryScreen.Bounds.Height;
         public string GameDB = Convert.ToString(ConfigurationManager.AppSettings["GameDB"]);
+
+        int Partypackid = 0;
+        int PaymentMode = 0;
         #endregion
 
         public FrmPartyBooking()
@@ -277,6 +280,7 @@ namespace FoodandBeverage
                     txttax.Text = Convert.ToString(list[0].Tax);
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
 
+
                     for (int col = 0; col < tlp_reg_contrl.ColumnCount; col++)
                     {
                         Control c1 = tlp_reg_contrl.GetControlFromPosition(col, 4);
@@ -285,6 +289,7 @@ namespace FoodandBeverage
                         Control c2 = tlp_reg_contrl.GetControlFromPosition(col, 5);
                         if (c2 != null) tlp_reg_contrl.Controls.Remove(c2);
                     }
+
                     txtChildPrice.Text = list[0].ChildPrice.ToString();
                     txtAdultPrice.Text = list[0].AdultPrice.ToString();
 
@@ -316,6 +321,7 @@ namespace FoodandBeverage
                         tlp_reg_contrl.Controls.Add(lbltotalguest, 1, rowLabel);
                         tlp_reg_contrl.Controls.Add(txttotalguest, 1, rowTextBox);
                     }
+                    Partypackid = Convert.ToInt32(list[0].PartyPackId);
 
                     LoadPackRelatedItems(Convert.ToInt32(list[0].PartyPackId));
 
@@ -1503,7 +1509,9 @@ namespace FoodandBeverage
         private void txtadults_TextChanged(object sender, EventArgs e)
         {
             UpdateTotalGuests();
-            UpdateGrandTotal();   
+            UpdateGrandTotal();
+
+            CalculatePackValues();   
             CalculateDiscountAmount();
             CalculateNetAmount();
         }
@@ -1511,7 +1519,10 @@ namespace FoodandBeverage
         private void txtchild_TextChanged(object sender, EventArgs e)
         {
             UpdateTotalGuests();
-            UpdateGrandTotal();  
+            UpdateGrandTotal();
+
+            CalculatePackValues();   
+
             CalculateDiscountAmount();
             CalculateNetAmount();
         }
@@ -1541,24 +1552,9 @@ namespace FoodandBeverage
 
             decimal grandTotal = (adultPrice * adults) + (childPrice * children);
 
-            txtGrandTotal.Text = grandTotal.ToString("N2");
+            txtGrandTotal_pack.Text = grandTotal.ToString("N2");
         }
 
-        private void txtchild_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txtadults_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true; 
-            }
-        }
         private void AllowDecimalInput(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -1575,9 +1571,6 @@ namespace FoodandBeverage
                 e.Handled = true;
             }
         }
-
-
-
 
         #region Card 
 
@@ -3381,74 +3374,32 @@ namespace FoodandBeverage
                     return val;
                 }
 
-                // 🔹 BASIC VALUES
-                decimal grandTotal = GetDecimal(txtGrandTotal);
-                decimal discountAmt = GetDecimal(txtTotalDiscountAmt);
-                decimal otherAdd = GetDecimal(txtOAAmount);
-                decimal otherDeduct = GetDecimal(txtODAmount);
+                // 🔹 PACK
+                decimal packPreTax = GetDecimal(txtPreTaxAmount_pack);
+                decimal packTax = GetDecimal(txtTotalTaxAmount_pack);
 
-                // 🔹 NET BEFORE TAX (PACK)
-                decimal netBeforeTax = grandTotal - discountAmt + otherAdd - otherDeduct;
-
-                decimal packTax = 0;
-                decimal packPreTax = netBeforeTax;
-
-                // 🔹 LOAD PACK TAX
-                if (!string.IsNullOrEmpty(txtTaxSettingId.Text))
-                {
-                    int taxSettingId = Convert.ToInt32(txtTaxSettingId.Text);
-
-                    BllSearch<DmnTaxSettings> _bllSearch = new BllSearch<DmnTaxSettings>();
-                    DmnSearch dmnSearch = new DmnSearch();
-
-                    dmnSearch.Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt";
-                    dmnSearch.Table = $"[{GameDB}].dbo.tblTaxSettings";
-                    dmnSearch.WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}";
-
-                    var taxSettings = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-
-                    if (taxSettings.Count > 0)
-                    {
-                        decimal totalPercent = 0;
-
-                        if (taxSettings[0].TaxType == "GST")
-                            totalPercent = taxSettings[0].IgstPrcnt;
-                        else
-                            totalPercent = taxSettings[0].VatPrcnt;
-
-                        if (txttax.Text.Trim().ToUpper() == "INCLUSIVE")
-                        {
-                            packPreTax = netBeforeTax / (1 + totalPercent / 100);
-                            packTax = netBeforeTax - packPreTax;
-                        }
-                        else
-                        {
-                            packTax = netBeforeTax * totalPercent / 100;
-                            packPreTax = netBeforeTax;
-                        }
-                    }
-                }
-
-                // 🔹 CAKE VALUES
-                decimal cakeTax = GetDecimal(txtTotalTaxAmount_cake);
+                // 🔹 CAKE
                 decimal cakePreTax = GetDecimal(txtPreTaxAmount_cake);
+                decimal cakeTax = GetDecimal(txtTotalTaxAmount_cake);
 
-                // 🔹 CARD VALUES
-                decimal cardTax = GetDecimal(txtTotalTaxAmount_card);
+                // 🔹 CARD
                 decimal cardPreTax = GetDecimal(txtPreTaxAmount_card);
+                decimal cardTax = GetDecimal(txtTotalTaxAmount_card);
 
-                // 🔹 GIFT VALUES  ✅ (NEW)
-                decimal giftTax = GetDecimal(txtTotalTaxAmount_gift);
+                // 🔹 GIFT
                 decimal giftPreTax = GetDecimal(txtPreTaxAmount_gift);
+                decimal giftTax = GetDecimal(txtTotalTaxAmount_gift);
 
-                // 🔥 FINAL MERGE
-                decimal totalTax = packTax + cakeTax + cardTax + giftTax;
+                // 🔥 FINAL TOTAL
                 decimal totalPreTax = packPreTax + cakePreTax + cardPreTax + giftPreTax;
+                decimal totalTax = packTax + cakeTax + cardTax + giftTax;
                 decimal finalNet = totalPreTax + totalTax;
 
                 // 🔹 UPDATE UI
-                txtTotalTaxAmount.Text = totalTax.ToString("N2");
                 txtPreTaxAmount.Text = totalPreTax.ToString("N2");
+                txtTotalTaxAmount.Text = totalTax.ToString("N2");
+
+                txtGrandTotal.Text = finalNet.ToString("N2");  
                 lblNetAmt.Text = finalNet.ToString("N2");
 
                 decimal rcvAmt = GetDecimal(txtRcvAmt);
@@ -3465,9 +3416,108 @@ namespace FoodandBeverage
                 isUpdating = false;
             }
         }
+        private decimal GetDecimal(TextBox txt)
+        {
+            decimal.TryParse(txt.Text, out decimal val);
+            return val;
+        }
+        private void CalculatePackValues()
+        {
+            try
+            {
+                decimal GetDecimal(TextBox txt)
+                {
+                    decimal.TryParse(txt.Text, out decimal val);
+                    return val;
+                }
+
+                // 🔹 BASIC VALUES
+                decimal grandTotal = GetDecimal(txtGrandTotal_pack);
+                decimal discountAmt = GetDecimal(txtTotalDiscountAmt);
+                decimal otherAdd = GetDecimal(txtOAAmount);
+                decimal otherDeduct = GetDecimal(txtODAmount);
+
+                decimal net = grandTotal - discountAmt + otherAdd - otherDeduct;
+
+                decimal baseAmt = 0;
+                decimal taxAmt = 0;
+                decimal netAmt = 0;
+
+                decimal igst = 0;
+                decimal cgst = 0;
+                decimal sgst = 0;
+                decimal vat = 0;
+                decimal totalPercent = 0;
+
+                string taxType = "";
+                string taxMode = txttax.Text.Trim(); // Inclusive / Exclusive
+
+                if (!string.IsNullOrEmpty(txtTaxSettingId.Text))
+                {
+                    int taxSettingId = Convert.ToInt32(txtTaxSettingId.Text);
+
+                    BllSearch<DmnTaxSettings> _bllSearch = new BllSearch<DmnTaxSettings>();
+                    DmnSearch dmnSearch = new DmnSearch();
+
+                    dmnSearch.Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt";
+                    dmnSearch.Table = "tblTaxSettings";
+                    dmnSearch.WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}";
+
+                    var taxSettings = _bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                    if (taxSettings.Count > 0)
+                    {
+                        igst = taxSettings[0].IgstPrcnt;
+                        cgst = taxSettings[0].CgstPrcnt;
+                        sgst = taxSettings[0].SgstPrcnt;
+                        vat = taxSettings[0].VatPrcnt;
+
+                        taxType = taxSettings[0].TaxType;
+
+
+                        if (taxType == "GST")
+                            totalPercent = igst; 
+                        else
+                            totalPercent = vat;
+
+                        txtTaxtype_pack.Text = taxType;
+                        txtTaxPer_pack.Text = Convert.ToString(totalPercent);
+                    }
+                }
+
+                if (taxMode.ToUpper() == "INCLUSIVE")
+                {
+                    baseAmt = net / (1 + (totalPercent / 100));
+                    taxAmt = net - baseAmt;
+                    netAmt = net;
+                }
+                else // EXCLUSIVE
+                {
+                    baseAmt = net;
+                    taxAmt = net * totalPercent / 100;
+                    netAmt = net + taxAmt;
+                }
+
+                baseAmt = Math.Round(baseAmt, 2, MidpointRounding.AwayFromZero);
+                taxAmt = Math.Round(taxAmt, 2, MidpointRounding.AwayFromZero);
+                netAmt = Math.Round(netAmt, 2, MidpointRounding.AwayFromZero);
+
+
+                txtPreTaxAmount_pack.Text = baseAmt.ToString("N2");
+                txtTotalTaxAmount_pack.Text = taxAmt.ToString("N2");
+
+                txtPackTaxPer.Text = totalPercent.ToString("N2");
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("PartyBooking - CalculatePackValues()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
+            }
+        }
+
         public void CalculateDiscountAmount()
         {
-
             try
             {
                 if (string.IsNullOrEmpty(discountper.Text)) discountper.Text = "0";
@@ -3526,7 +3576,6 @@ namespace FoodandBeverage
         }
 
         private void txtOAAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
-
         private void txtRcvAmt_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
         private void discountper_TextChanged(object sender, EventArgs e)
         {
@@ -3538,7 +3587,6 @@ namespace FoodandBeverage
             CalculateDiscountPer();
             RecalculateAllCakeRows();
         }
-
         private void txtODAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
 
         #endregion
@@ -3647,7 +3695,7 @@ namespace FoodandBeverage
                     BllSearch<DmnTaxSettings> _bllSearch1 = new BllSearch<DmnTaxSettings>();
                     DmnSearch dmnSearch = new DmnSearch();
                     dmnSearch.Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt";
-                    dmnSearch.Table = $"[{GameDB}].dbo.tblTaxSettings";
+                    dmnSearch.Table = "tblTaxSettings";
                     dmnSearch.WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}";
 
                     var taxSettings = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
@@ -4062,13 +4110,13 @@ namespace FoodandBeverage
         private void btndispanel_Click(object sender, EventArgs e)
         {
             decimal kdata = 0;
-
             using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
             {
                 frm.ShowDialog();
 
                 if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
                     kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                txtdiscountreason.Text = frm.txtdesc.Text;
             }
 
             if (kdata == 0)
@@ -4152,6 +4200,8 @@ namespace FoodandBeverage
                 txtGrandTotal.Text = "0.00";
                 txtCakeGrandTotal.Text = "0.00";
                 txtCardGrandTotal.Text = "0.00";
+                txtGiftGrandTotal.Text = "0.00";
+
                 txttax.Text = "0.00";
 
                 txtPreTaxAmount.Text = "0.00";
@@ -4179,14 +4229,34 @@ namespace FoodandBeverage
                 lblBalAmt.Text = "0.00";
                 txtRcvAmt.Text = "0.00";
 
-                dgv_card.Rows.Clear();
+                dgv_card.Rows.Clear();   
+                dgv_cus_menu_items.Rows.Clear(); 
+                dgv_gift.Rows.Clear();       
                 dgv_packenter.Rows.Clear();
+                dgv_packs.Rows.Clear();
                 dgv_packs_items.Rows.Clear();
                 dgvcake.Rows.Clear();
-                dgv_gift.Rows.Clear();
-
+           
                 Frmnumdiskeypad.flagpercentage = false;
                 txtAdults.Focus();
+
+                pnlcake.Visible = false;
+                pnlcards.Visible = false;
+                pnlgiftpreview.Visible = false;
+                pnlgifts.Visible = false;
+
+                pnlSplit.Visible = false;
+                pnl_CustomItems_menu.Visible = false;
+                pnl_enter_paks.Visible = false;
+                pnl_foodpacks.Visible = false;
+                pnl_pak_detailsitems.Visible = false;
+                pnlPaymode.Visible = false;
+                pnlcake.Visible = true;
+
+                pnlgifts.Visible = false;
+                pnlcards.Visible = false; 
+                pnl_foodpacks.Visible = false;
+
 
             }
             catch (Exception ex)
@@ -4194,8 +4264,419 @@ namespace FoodandBeverage
                 MessageBox.Show("Error in ClearAll: " + ex.Message);
             }
         }
+
         #endregion
 
 
+            private void txtph_KeyPress(object sender, KeyPressEventArgs e)
+            {
+                // Allow control keys (Backspace, Delete)
+                if (char.IsControl(e.KeyChar))
+                    return;
+
+                // Allow only digits
+                if (!char.IsDigit(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            }
+
+        private void txtph_TextChanged(object sender, EventArgs e)
+        {
+            string digitsOnly = new string(txtph.Text.Where(char.IsDigit).ToArray());
+
+            if (txtph.Text != digitsOnly)
+            {
+                int selectionStart = txtph.SelectionStart;
+                txtph.Text = digitsOnly;
+                txtph.SelectionStart = Math.Min(selectionStart, txtph.Text.Length);
+            }
+        }
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                return System.Text.RegularExpressions.Regex.IsMatch(
+                    email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                );
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void txtemail_Leave(object sender, EventArgs e)
+        {
+            if (!IsValidEmail(txtemail.Text))
+            {
+                MessageBox.Show("Please enter a valid email address");
+                txtemail.Focus();
+            }
+        }
+        private void OnlyInteger_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow control keys (Backspace, Delete)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Allow only digits
+            if (!char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void btn_paynow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (dgv_packs.CurrentRow == null)
+                {
+                    MessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int adults = GetInt(txtAdults);
+                int children = GetInt(txtChild);
+
+                if (adults == 0 && children == 0)
+                {
+                    MessageBox.Show("Please enter number of attendees (Adults or Children)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtAdults.Focus();
+                    return;
+                }
+  
+                //if (dgv_packs_items.Rows.Count == 0)
+                //{
+                //    MessageBox.Show("No pack items found. Please select valid pack.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return;
+                //}
+
+
+                pnlPaymode.Visible = true;
+                pnlPaymode.BringToFront();
+                pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
+                pnlPaymode.Top = (this.ClientSize.Height - pnlPaymode.Height) / 2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void btnadvance_Click(object sender, EventArgs e)
+        {
+            decimal kdata = 0;
+            using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
+            {
+                frm.ShowDialog();
+
+                if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                txtdiscountreason.Text = frm.txtdesc.Text;
+            }
+            if (kdata > 0)
+            {
+                txtadvanceamt.Text= kdata.ToString("N2");
+                txtRcvAmt.Text = kdata.ToString("N2");
+                pnlSplit.Visible = true;
+                pnlSplit.BringToFront();
+                pnlSplit.Left = (this.ClientSize.Width - pnlSplit.Width) / 2;
+                pnlSplit.Top = (this.ClientSize.Height - pnlSplit.Height) / 2;
+                txtadvanceamt.Text = txtRcvAmt.Text;
+            }
+            Paybill();
+        }
+
+        private void txtRcvAmt_Click(object sender, EventArgs e)
+        {
+            decimal kdata = 0;
+            using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
+            {
+                frm.ShowDialog();
+
+                if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                txtdiscountreason.Text = frm.txtdesc.Text;
+            }
+            txtRcvAmt.Text = kdata.ToString("N2");
+        }
+
+        private void btncash_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Button clickedButton = sender as Button;
+                switch (clickedButton.Name)
+                {
+                    case "btncash":
+                        PaymentMode = Convert.ToInt32(PaymentType.CASH);
+                        break;
+                    case "btndebit":
+                        PaymentMode = Convert.ToInt32(PaymentType.DEBITCARD);
+                        break;
+                    case "btnupi":
+                        PaymentMode = Convert.ToInt32(PaymentType.UPI);
+                        break;
+                    case "btnnetbanking":
+                        PaymentMode = Convert.ToInt32(PaymentType.BANKINGONLINE);
+                        break;
+                    case "btncreditcard":
+                        PaymentMode = Convert.ToInt32(PaymentType.CREDITCARD);
+                        break;
+                    case "btncomple":
+                        PaymentMode = Convert.ToInt32(PaymentType.COMPLEMENTRY);
+                        break;
+                    case "btnnocharge":
+                        PaymentMode = Convert.ToInt32(PaymentType.Nocharge);
+                        break;
+                }
+
+                Paybill();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        private int GetInt(TextBox txt)
+        {
+            if (txt == null || string.IsNullOrWhiteSpace(txt.Text))
+                return 0;
+
+            int.TryParse(txt.Text, out int val);
+            return val;
+        }
+        private decimal GetDecimalFromLabel(Label lbl)
+        {
+            if (lbl == null || string.IsNullOrWhiteSpace(lbl.Text))
+                return 0;
+
+            decimal.TryParse(lbl.Text, out decimal val);
+            return val;
+        }
+        public  void Paybill()
+        {
+            try
+            {
+                BllPartyBooking bll = new BllPartyBooking();
+
+                // ==========================
+                // 🔹 MASTER SAVE
+                // ==========================
+                DmnPartyBooking booking = new DmnPartyBooking();
+
+                booking.PartyBookingId = 0;
+                booking.PartyPackId = Partypackid;
+
+                // 🔹 CUSTOMER INFO
+                booking.CustomerName = txtname.Text?.Trim();
+                booking.Phone = txtph.Text?.Trim();
+                booking.Email = txtemail.Text?.Trim();
+                booking.Address = txtAddress.Text?.Trim();
+
+                // 🔹 EVENT INFO
+                booking.EventType = cmbevent.SelectedValue != null ? Convert.ToInt32(cmbevent.SelectedValue) : 0;
+                booking.EventDescription = txteventdesc.Text?.Trim();
+
+                // 🔹 DATE FIX (🔥 IMPORTANT - SQL ERROR FIX)
+                booking.BookingDate = DateTime.Now.Date;
+                booking.BookingTime = DateTime.Now.TimeOfDay;
+
+                // 🔹 PEOPLE COUNT
+                booking.NoOfAdults = GetInt(txtAdults);
+                booking.NoOfChildren = GetInt(txtChild);
+
+                // 🔹 PACK PRICE
+                booking.PackPrice = GetDecimal(txtAdultPrice) + GetDecimal(txtChildPrice);
+
+                // 🔹 TAX
+                booking.Tax = txttax.Text;
+                booking.TaxType = txtTaxtype_pack.Text;
+                booking.TaxPer = GetDecimal(txtTaxPer_pack);
+                booking.TaxAmount = GetDecimal(txtTotalTaxAmount);
+
+                // 🔹 DISCOUNT
+                booking.DiscountPer = GetDecimal(txtDiscountPer);
+                booking.DiscountAmount = GetDecimal(txtTotalDiscountAmt);
+                booking.DiscountReason = txtdiscountreason.Text;
+
+                // 🔹 AMOUNTS
+                booking.PreTaxAmount = GetDecimal(txtPreTaxAmount);
+                booking.PostTaxAmount = GetDecimal(txtTotalTaxAmount);
+                booking.NetAmount = GetDecimalFromLabel(lblNetAmt);
+
+                // 🔹 PAYMENT
+                booking.AdvanceAmount = GetDecimal(txtadvanceamt);
+                booking.ReceivedAmount = GetDecimal(txtRcvAmt);
+                booking.BalanceAmount = booking.NetAmount - booking.ReceivedAmount;
+                booking.PaymentMode = PaymentMode;
+
+                // 🔹 AUDIT
+                booking.CreatedBy = FrmLogin.EmployeeId;
+                booking.BranchId = FrmDashboard.BranchId;
+                booking.Status = 1;
+
+                // ==========================
+                // 🔹 SAVE MASTER
+                // ==========================
+                var result = bll.AddEditData("prdInsert_Upd_PartyBooking", booking);
+
+                if (result.PartyBookingId <= 0)
+                {
+                    MessageBox.Show("Master Save Failed");
+                    return;
+                }
+
+                int bookingId = result.PartyBookingId;
+
+                // ======================================
+                // 🔥 1️⃣ INSERT PARTY PACK AS DETAILS
+                // ======================================
+                DmnPartyBookingDetails packDetails = new DmnPartyBookingDetails();
+
+                packDetails.PartyBookingDetailsId = 0;
+                packDetails.PartyBookingId = bookingId;
+
+                packDetails.ProductId = Partypackid;
+                packDetails.ProductType = 1;
+                packDetails.TableType = 1;
+
+                packDetails.Qty = 1;
+
+                packDetails.Tax = txttax.Text;
+
+                packDetails.TaxType = txtTaxtype_pack.Text;
+                packDetails.TaxPer = Convert.ToDecimal(txtTaxPer_pack.Text);
+
+                packDetails.TaxAmount = Convert.ToDecimal(txtTotalTaxAmount_pack.Text);
+
+                packDetails.PreTaxAmount = Convert.ToDecimal(txtPreTaxAmount.Text);
+                packDetails.NetAmount = Convert.ToDecimal(txtGrandTotal.Text);
+
+                packDetails.CreatedBy = FrmDashboard.UserId;
+                packDetails.BranchId = FrmDashboard.BranchId;
+                packDetails.Status = 1;
+
+                bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", packDetails);
+
+
+                // ======================================
+                // 🔥 2️⃣ INSERT CARD ITEMS
+                // CardPartyDefault = 0
+                // ======================================
+                foreach (DataGridViewRow row in dgv_card.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    int cardDefault = Convert.ToInt32(row.Cells["CardPartyDefault"].Value ?? 0);
+
+                    // 🔥 INSERT ONLY IF 0
+                    if (cardDefault == 0)
+                    {
+                        DmnPartyBookingDetails det = new DmnPartyBookingDetails();
+
+                        det.PartyBookingDetailsId = 0;
+                        det.PartyBookingId = bookingId;
+
+                        det.ProductId = Convert.ToInt32(row.Cells["CardProductid"].Value);
+                        det.ProductType = 2;   // Card
+                        det.TableType = 2;
+
+                        det.Qty = Convert.ToDecimal(row.Cells["Cardqtyno"].Value);
+                        det.Price = Convert.ToDecimal(row.Cells["CardPrice"].Value);
+
+                        det.Tax = Convert.ToString(row.Cells["Cardtax"].Value);
+                        det.TaxType = Convert.ToString(row.Cells["Cardtaxtype"].Value);
+                        det.TaxPer = Convert.ToDecimal(row.Cells["Cardtaxper"].Value);
+                        det.TaxAmount = Convert.ToDecimal(row.Cells["Cardtaxamt"].Value);
+
+                        det.PreTaxAmount = Convert.ToDecimal(row.Cells["Cardpretaxamt"].Value);
+                        det.NetAmount = Convert.ToDecimal(row.Cells["Cardnetamt"].Value);
+
+
+                        det.CreatedBy = FrmDashboard.UserId;
+                        det.BranchId = FrmDashboard.BranchId;
+                        det.Status = 1;
+
+                        bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
+                    }
+                }
+
+
+                // ======================================
+                // 🔥 3️⃣ INSERT GIFT ITEMS
+                // GiftPartyDefault = 0
+                // ======================================
+                foreach (DataGridViewRow row in dgv_gift.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    int giftDefault = Convert.ToInt32(row.Cells["GiftPartyDefault"].Value ?? 0);
+
+                    // 🔥 INSERT ONLY IF 0
+                    if (giftDefault == 0)
+                    {
+                        DmnPartyBookingDetails det = new DmnPartyBookingDetails();
+
+                        det.PartyBookingDetailsId = 0;
+                        det.PartyBookingId = bookingId;
+
+                        det.ProductId = Convert.ToInt32(row.Cells["GiftProductid"].Value);
+                        det.ProductType = 3;   // Gift
+                        det.TableType = 3;
+
+                        det.Qty = Convert.ToDecimal(row.Cells["Giftqtyno"].Value);
+                        det.Price = Convert.ToDecimal(row.Cells["GiftPrice"].Value);
+
+                        det.Tax = Convert.ToString(row.Cells["Gifttax"].Value);
+                        det.TaxType = Convert.ToString(row.Cells["Gifttaxtype"].Value);
+                        det.TaxPer = Convert.ToDecimal(row.Cells["Gifttaxper"].Value);
+                        det.TaxAmount = Convert.ToDecimal(row.Cells["Gifttaxamt"].Value);
+
+                        det.PreTaxAmount = Convert.ToDecimal(row.Cells["Giftpretaxamt"].Value);
+                        det.NetAmount = Convert.ToDecimal(row.Cells["Giftnetamt"].Value);
+
+                        det.CreatedBy = FrmDashboard.UserId;
+                        det.BranchId = FrmDashboard.BranchId;
+                        det.Status = 1;
+
+                        bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
+                    }
+                }
+
+                MessageBox.Show("Party Booking Saved Successfully ✅");
+                ClearAll();
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
+        private void btncomple_Click(object sender, EventArgs e)
+        {
+            PaymentMode = Convert.ToInt32(PaymentType.COMPLEMENTRY);
+            Paybill();
+        }
+
+        private void btn_other_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnclos_payment_Click(object sender, EventArgs e)
+        {
+            pnlPaymode.Visible = false;
+        }
     }
 }
