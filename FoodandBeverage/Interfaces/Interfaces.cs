@@ -610,7 +610,8 @@ namespace FoodandBeverage.Interfaces
     {
         Card = 1,
         Gift = 2,
-        Cake = 3
+        Cake = 3,
+        Pack=4
     }
 
 }

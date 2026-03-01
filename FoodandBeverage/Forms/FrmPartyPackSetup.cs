@@ -95,72 +95,90 @@ namespace FoodandBeverage.Forms
         }
         private void FrmPartyPackSetup_Load(object sender, EventArgs e)
         {
-            Taxfill();
-            LoadMenuCategory();
-            LoadMenuCategory_Cutom();
-
-            ClearCake();
-
-            dgv_packs_default.BringToFront();
-            dgv_packs_default.Visible = true;
-
-            if (dgv_packs_default.Rows.Count == 0)
-                dgv_packs_default.Rows.Add();
-
-            RefreshSlNo();
-
-            dgv_packs_default.CurrentCellDirtyStateChanged += (s, ev) =>
+            try
             {
-                if (dgv_packs_default.IsCurrentCellDirty)
-                    dgv_packs_default.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            };
-
-            dgv_card.CurrentCellDirtyStateChanged += (s, ec) =>
-            {
-                if (dgv_card.IsCurrentCellDirty)
-                    dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            };
-
-            if (dgv_packcustom.Rows.Count == 0)
-                dgv_packcustom.Rows.Add();
-
-            RefreshCustomSlNo();
-
-            dgv_packcustom.CurrentCellDirtyStateChanged += (s, ev) =>
-            {
-                if (dgv_packcustom.IsCurrentCellDirty)
-                    dgv_packcustom.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            };
-
-            if (FrmDashboard.DefaultTaxType != "")
-            {
-                cmbTaxType.Text = FrmDashboard.DefaultTaxType;
-                if (cmbTaxType.Text == "GST")
+                if (FrmLogin.GameBranchId > 0)
                 {
-                    cmbIgstPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    btn_giftpacks.Visible = true;
+                    btn_cardpacks.Visible = true;
                 }
-                else if (cmbTaxType.Text == "VAT")
+                else
                 {
-                    cmbVatPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    btn_giftpacks.Visible = false;
+                    btn_cardpacks.Visible = false;
                 }
+
+                Taxfill();
+                LoadMenuCategory();
+                LoadMenuCategory_Cutom();
+
+                ClearCake();
+
+                dgv_packs_default.BringToFront();
+                dgv_packs_default.Visible = true;
+
+                if (dgv_packs_default.Rows.Count == 0)
+                    dgv_packs_default.Rows.Add();
+
+                RefreshSlNo();
+
+                dgv_packs_default.CurrentCellDirtyStateChanged += (s, ev) =>
+                {
+                    if (dgv_packs_default.IsCurrentCellDirty)
+                        dgv_packs_default.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                };
+
+                dgv_card.CurrentCellDirtyStateChanged += (s, ec) =>
+                {
+                    if (dgv_card.IsCurrentCellDirty)
+                        dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                };
+
+                if (dgv_packcustom.Rows.Count == 0)
+                    dgv_packcustom.Rows.Add();
+
+                RefreshCustomSlNo();
+
+                dgv_packcustom.CurrentCellDirtyStateChanged += (s, ev) =>
+                {
+                    if (dgv_packcustom.IsCurrentCellDirty)
+                        dgv_packcustom.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                };
+
+                if (FrmDashboard.DefaultTaxType != "")
+                {
+                    cmbTaxType.Text = FrmDashboard.DefaultTaxType;
+                    if (cmbTaxType.Text == "GST")
+                    {
+                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmbTaxType.Text == "VAT")
+                    {
+                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
+
+                cmbtax.SelectedIndex = 0;
+
+                if (FrmDashboard.DefaultTaxType != "")
+                {
+                    cmbTaxType_cake.Text = FrmDashboard.DefaultTaxType;
+                    if (cmbTaxType_cake.Text == "GST")
+                    {
+                        cmbIgstPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmbTaxType_cake.Text == "VAT")
+                    {
+                        cmbVatPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
+                cmbtax_cake.SelectedIndex = 0;
             }
-
-            cmbtax.SelectedIndex = 0;
-
-            if (FrmDashboard.DefaultTaxType != "")
+            catch(Exception ex)
             {
-                cmbTaxType_cake.Text = FrmDashboard.DefaultTaxType;
-                if (cmbTaxType_cake.Text == "GST")
-                {
-                    cmbIgstPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
-                }
-                else if (cmbTaxType_cake.Text == "VAT")
-                {
-                    cmbVatPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
-                }
+
             }
-            cmbtax_cake.SelectedIndex = 0;
-        }
+            }
 
         private bool HasEmptyRow()
         {

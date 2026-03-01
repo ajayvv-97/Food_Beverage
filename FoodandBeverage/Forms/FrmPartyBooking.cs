@@ -104,8 +104,9 @@ namespace FoodandBeverage
         public int Giftproducttype = 16;
         public int GiftPartyPackDetailsId = 17;
         public int GiftPartydeafult = 18;
-        public int Gifttaxsettingid = 19;
+        public int Gifttaxsettingid = 19; 
         public int Giftpretaxamt = 20;
+        public int Giftprid = 21;
 
 
         public int CakeSlNo = 0;
@@ -187,6 +188,16 @@ namespace FoodandBeverage
 
         private void FrmPartyBooking_Load(object sender, EventArgs e)
         {
+            if (FrmLogin.GameBranchId > 0)
+            {
+                btngift.Visible = true;
+                btncard.Visible = true;
+            }
+            else
+            {
+                btngift.Visible = false;
+                btncard.Visible = false;
+            }
             LoadEventItems();
             LoadCakeTypes();
         }
@@ -248,6 +259,39 @@ namespace FoodandBeverage
         {
             LoadPartyPacks();
         }
+        public void Loadprice(int pkid)
+        {
+            try
+            {
+                BllSearch<DmnPartyPack> bll = new BllSearch<DmnPartyPack>();
+
+                DmnSearch search = new DmnSearch();
+                search.Select = @"
+                            PartyPackId,
+                            PackName,
+                            AdultPrice,
+                            ChildPrice,Tax,TaxSettingsId,
+                            (SELECT COUNT(1) 
+                             FROM tblPartyPackDetails d 
+                             WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
+                             AND d.Status = 1) AS DetailsCount";
+                search.Table = "tblPartyPackMaster";
+                search.WhereNdGroupBy = "WHERE Status = 1 and PartyPackId ="+ pkid;
+                search.OrderBy = "ORDER BY PackName";
+
+                var list = bll.GetSearchData("prdSearch", search);
+
+                if (list.Count > 0)
+                {
+                    txtChildPrice.Text = Convert.ToString(list[0].ChildPrice);
+                    txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
         private void LoadPartyPacks()
         {
             try
@@ -289,9 +333,6 @@ namespace FoodandBeverage
                         Control c2 = tlp_reg_contrl.GetControlFromPosition(col, 5);
                         if (c2 != null) tlp_reg_contrl.Controls.Remove(c2);
                     }
-
-                    txtChildPrice.Text = list[0].ChildPrice.ToString();
-                    txtAdultPrice.Text = list[0].AdultPrice.ToString();
 
                     int rowLabel = 4;
                     int rowTextBox = 5;
@@ -394,7 +435,7 @@ namespace FoodandBeverage
                         pnl_foodpacks.Visible = false;
 
                         int packId = Convert.ToInt32(((Button)s).Tag);
-             
+                        Loadprice(packId);
                         if (item.DetailsCount > 0)
                         {
                             OpenPackEntryPanel();
@@ -1502,29 +1543,6 @@ namespace FoodandBeverage
 
                 row.Cells[mainslno].Value = sl++;
             }
-        }
-
-
-
-        private void txtadults_TextChanged(object sender, EventArgs e)
-        {
-            UpdateTotalGuests();
-            UpdateGrandTotal();
-
-            CalculatePackValues();   
-            CalculateDiscountAmount();
-            CalculateNetAmount();
-        }
-
-        private void txtchild_TextChanged(object sender, EventArgs e)
-        {
-            UpdateTotalGuests();
-            UpdateGrandTotal();
-
-            CalculatePackValues();   
-
-            CalculateDiscountAmount();
-            CalculateNetAmount();
         }
 
         private void UpdateTotalGuests()
@@ -3022,7 +3040,7 @@ namespace FoodandBeverage
             r.Description as Field1,
             pr.SRate as Field2,
             ISNULL(r.Tax,'Exclusive') as Field3,
-            ISNULL(ts.TaxSettingsId,0) as Field4";
+            ISNULL(ts.TaxSettingsId,0) as Field4, pr.id as Field5";
 
                 objSearch.Table = $"[{GameDB}].dbo.tblRedemptionProducts r " +
                                   $"LEFT JOIN [{GameDB}].dbo.tblProductRate pr ON pr.ProductId = r.ProductId " +
@@ -3143,6 +3161,7 @@ namespace FoodandBeverage
                 row.Cells[Gifttaxper].Value = totalPercent;
                 row.Cells[Gifttaxamt].Value = taxAmt;
                 row.Cells[Giftpretaxamt].Value = baseAmt;
+                row.Cells[Giftprid].Value = item.Field5; 
 
                 // GST / VAT
                 if (taxType == "GST")
@@ -3431,14 +3450,34 @@ namespace FoodandBeverage
                     return val;
                 }
 
-                // 🔹 BASIC VALUES
+                UpdateGrandTotal();
+
+                // 🔹 1️⃣ BASIC VALUES
                 decimal grandTotal = GetDecimal(txtGrandTotal_pack);
-                decimal discountAmt = GetDecimal(txtTotalDiscountAmt);
+                decimal discountPer = GetDecimal(discountper);   // 🔥 Discount %
                 decimal otherAdd = GetDecimal(txtOAAmount);
                 decimal otherDeduct = GetDecimal(txtODAmount);
 
-                decimal net = grandTotal - discountAmt + otherAdd - otherDeduct;
+                // 🔹 2️⃣ CALCULATE DISCOUNT
+                decimal discountAmt = 0;
 
+                if (discountPer > 0)
+                {
+                    discountAmt = (grandTotal * discountPer) / 100;
+                }
+                else
+                {
+                    discountAmt = GetDecimal(txtTotalDiscountAmt); // manual entry
+                }
+
+                discountAmt = Math.Round(discountAmt, 2);
+
+                txtTotalDiscountAmt.Text = discountAmt.ToString("N2");
+
+                // 🔹 3️⃣ NET BEFORE TAX
+                decimal netBeforeTax = grandTotal - discountAmt + otherAdd - otherDeduct;
+
+                // 🔹 TAX VARIABLES
                 decimal baseAmt = 0;
                 decimal taxAmt = 0;
                 decimal netAmt = 0;
@@ -3452,6 +3491,7 @@ namespace FoodandBeverage
                 string taxType = "";
                 string taxMode = txttax.Text.Trim(); // Inclusive / Exclusive
 
+                // 🔹 4️⃣ GET TAX SETTINGS
                 if (!string.IsNullOrEmpty(txtTaxSettingId.Text))
                 {
                     int taxSettingId = Convert.ToInt32(txtTaxSettingId.Text);
@@ -3474,38 +3514,39 @@ namespace FoodandBeverage
 
                         taxType = taxSettings[0].TaxType;
 
-
                         if (taxType == "GST")
-                            totalPercent = igst; 
+                            totalPercent = igst;  // or cgst+sgst if needed
                         else
                             totalPercent = vat;
 
                         txtTaxtype_pack.Text = taxType;
-                        txtTaxPer_pack.Text = Convert.ToString(totalPercent);
+                        txtTaxPer_pack.Text = totalPercent.ToString("N2");
                     }
                 }
 
+                // 🔹 5️⃣ TAX CALCULATION
                 if (taxMode.ToUpper() == "INCLUSIVE")
                 {
-                    baseAmt = net / (1 + (totalPercent / 100));
-                    taxAmt = net - baseAmt;
-                    netAmt = net;
+                    baseAmt = netBeforeTax / (1 + (totalPercent / 100));
+                    taxAmt = netBeforeTax - baseAmt;
+                    netAmt = netBeforeTax;
                 }
                 else // EXCLUSIVE
                 {
-                    baseAmt = net;
-                    taxAmt = net * totalPercent / 100;
-                    netAmt = net + taxAmt;
+                    baseAmt = netBeforeTax;
+                    taxAmt = netBeforeTax * totalPercent / 100;
+                    netAmt = netBeforeTax + taxAmt;
                 }
 
+                // 🔹 ROUNDING
                 baseAmt = Math.Round(baseAmt, 2, MidpointRounding.AwayFromZero);
                 taxAmt = Math.Round(taxAmt, 2, MidpointRounding.AwayFromZero);
                 netAmt = Math.Round(netAmt, 2, MidpointRounding.AwayFromZero);
 
-
+                // 🔹 6️⃣ FINAL OUTPUT
                 txtPreTaxAmount_pack.Text = baseAmt.ToString("N2");
                 txtTotalTaxAmount_pack.Text = taxAmt.ToString("N2");
-
+                txtGrandTotal_pack.Text = netAmt.ToString("N2");
                 txtPackTaxPer.Text = totalPercent.ToString("N2");
             }
             catch (Exception ex)
@@ -3581,11 +3622,13 @@ namespace FoodandBeverage
         {
             CalculateDiscountAmount();
             RecalculateAllCakeRows();
+            CalculatePackValues();
         }
         private void txtTotalDiscountAmt_TextChanged(object sender, EventArgs e)
         {
             CalculateDiscountPer();
             RecalculateAllCakeRows();
+            CalculatePackValues();
         }
         private void txtODAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
 
@@ -4119,8 +4162,7 @@ namespace FoodandBeverage
                 txtdiscountreason.Text = frm.txtdesc.Text;
             }
 
-            if (kdata == 0)
-                return;
+
 
             if (Frmnumdiskeypad.flagpercentage)
             {
@@ -4130,6 +4172,7 @@ namespace FoodandBeverage
                 ApplyDiscountToGiftRows(kdata, 0, true);
 
                 CalculateDiscountAmount();
+                CalculatePackValues();
             }
             else
             {
@@ -4139,8 +4182,30 @@ namespace FoodandBeverage
                 ApplyDiscountToGiftRows(kdata, 0, false);
 
                 CalculateDiscountPer();
+                CalculatePackValues();
             }
 
+            CalculateNetAmount();
+        }
+        private void txtadults_TextChanged(object sender, EventArgs e)
+        {
+            UpdateTotalGuests();
+            UpdateGrandTotal();
+
+            CalculatePackValues();
+
+            CalculateDiscountAmount();
+            CalculateNetAmount();
+        }
+
+        private void txtchild_TextChanged(object sender, EventArgs e)
+        {
+            UpdateTotalGuests();
+            UpdateGrandTotal();
+
+            CalculatePackValues();
+
+            CalculateDiscountAmount();
             CalculateNetAmount();
         }
 
@@ -4251,7 +4316,7 @@ namespace FoodandBeverage
                 pnl_foodpacks.Visible = false;
                 pnl_pak_detailsitems.Visible = false;
                 pnlPaymode.Visible = false;
-                pnlcake.Visible = true;
+                pnlcake.Visible = false;
 
                 pnlgifts.Visible = false;
                 pnlcards.Visible = false; 
@@ -4482,15 +4547,15 @@ namespace FoodandBeverage
                 booking.CustomerName = txtname.Text?.Trim();
                 booking.Phone = txtph.Text?.Trim();
                 booking.Email = txtemail.Text?.Trim();
-                booking.Address = txtAddress.Text?.Trim();
+                booking.Address = txtaddress.Text?.Trim();
 
                 // 🔹 EVENT INFO
-                booking.EventType = cmbevent.SelectedValue != null ? Convert.ToInt32(cmbevent.SelectedValue) : 0;
+                booking.EventType =Convert.ToInt32(cmbevent.SelectedValue);
                 booking.EventDescription = txteventdesc.Text?.Trim();
 
                 // 🔹 DATE FIX (🔥 IMPORTANT - SQL ERROR FIX)
                 booking.BookingDate = DateTime.Now.Date;
-                booking.BookingTime = DateTime.Now.TimeOfDay;
+                booking.BookingTime = DateTime.Today.Add(DateTime.Now.TimeOfDay);
 
                 // 🔹 PEOPLE COUNT
                 booking.NoOfAdults = GetInt(txtAdults);
@@ -4548,8 +4613,8 @@ namespace FoodandBeverage
                 packDetails.PartyBookingId = bookingId;
 
                 packDetails.ProductId = Partypackid;
-                packDetails.ProductType = 1;
-                packDetails.TableType = 1;
+                packDetails.ProductType = Convert.ToInt32(PartyTableType.Pack);
+                packDetails.TableType = 0;
 
                 packDetails.Qty = 1;
 
@@ -4578,31 +4643,31 @@ namespace FoodandBeverage
                 {
                     if (row.IsNewRow) continue;
 
-                    int cardDefault = Convert.ToInt32(row.Cells["CardPartyDefault"].Value ?? 0);
+                    int cardDefault = Convert.ToInt32(row.Cells[CardPartydeafult].Value ?? 0);
 
-                    // 🔥 INSERT ONLY IF 0
+                    // 🔥 INSERT ONLY IF DEFAULT = 0
                     if (cardDefault == 0)
                     {
                         DmnPartyBookingDetails det = new DmnPartyBookingDetails();
 
                         det.PartyBookingDetailsId = 0;
-                        det.PartyBookingId = bookingId;
+                        det.PartyBookingId = bookingId; 
 
-                        det.ProductId = Convert.ToInt32(row.Cells["CardProductid"].Value);
-                        det.ProductType = 2;   // Card
-                        det.TableType = 2;
+                        det.Product = Convert.ToString(row.Cells[Carditemno].Value ?? "");
+                        det.ProductId = Convert.ToInt32(row.Cells[CardProductid].Value ?? 0);
+                        det.ProductType = Convert.ToInt32(PartyTableType.Card);
+                        det.TableType = Convert.ToInt32(ProductType.Card);
 
-                        det.Qty = Convert.ToDecimal(row.Cells["Cardqtyno"].Value);
-                        det.Price = Convert.ToDecimal(row.Cells["CardPrice"].Value);
+                        det.Qty = Convert.ToDecimal(row.Cells[Cardqtyno].Value ?? 0);
+                        det.Price = Convert.ToDecimal(row.Cells[CardPrice].Value ?? 0);
 
-                        det.Tax = Convert.ToString(row.Cells["Cardtax"].Value);
-                        det.TaxType = Convert.ToString(row.Cells["Cardtaxtype"].Value);
-                        det.TaxPer = Convert.ToDecimal(row.Cells["Cardtaxper"].Value);
-                        det.TaxAmount = Convert.ToDecimal(row.Cells["Cardtaxamt"].Value);
+                        det.Tax = Convert.ToString(row.Cells[Cardtax].Value ?? "");
+                        det.TaxType = Convert.ToString(row.Cells[Cardtaxtype].Value ?? "");
+                        det.TaxPer = Convert.ToDecimal(row.Cells[Cardtaxper].Value ?? 0);
+                        det.TaxAmount = Convert.ToDecimal(row.Cells[Cardtaxamt].Value ?? 0);
 
-                        det.PreTaxAmount = Convert.ToDecimal(row.Cells["Cardpretaxamt"].Value);
-                        det.NetAmount = Convert.ToDecimal(row.Cells["Cardnetamt"].Value);
-
+                        det.PreTaxAmount = Convert.ToDecimal(row.Cells[Cardpretaxamt].Value ?? 0);
+                        det.NetAmount = Convert.ToDecimal(row.Cells[Cardnetamt].Value ?? 0);
 
                         det.CreatedBy = FrmDashboard.UserId;
                         det.BranchId = FrmDashboard.BranchId;
@@ -4621,9 +4686,9 @@ namespace FoodandBeverage
                 {
                     if (row.IsNewRow) continue;
 
-                    int giftDefault = Convert.ToInt32(row.Cells["GiftPartyDefault"].Value ?? 0);
+                    int giftDefault = Convert.ToInt32(row.Cells[GiftPartydeafult].Value ?? 0);
 
-                    // 🔥 INSERT ONLY IF 0
+                    // 🔥 INSERT ONLY IF DEFAULT = 0
                     if (giftDefault == 0)
                     {
                         DmnPartyBookingDetails det = new DmnPartyBookingDetails();
@@ -4631,20 +4696,23 @@ namespace FoodandBeverage
                         det.PartyBookingDetailsId = 0;
                         det.PartyBookingId = bookingId;
 
-                        det.ProductId = Convert.ToInt32(row.Cells["GiftProductid"].Value);
-                        det.ProductType = 3;   // Gift
-                        det.TableType = 3;
+                        det.Product = Convert.ToString(row.Cells[Giftitemno].Value ?? "");
+                        det.ProductId = Convert.ToInt32(row.Cells[GiftProductid].Value ?? 0);
+                        det.ProductType = Convert.ToInt32(PartyTableType.Gift);
+                        det.TableType = Convert.ToInt32(ProductType.RedemptionTicket);
 
-                        det.Qty = Convert.ToDecimal(row.Cells["Giftqtyno"].Value);
-                        det.Price = Convert.ToDecimal(row.Cells["GiftPrice"].Value);
+                        det.Prid = Convert.ToInt32(row.Cells[Giftprid].Value ?? 0);
 
-                        det.Tax = Convert.ToString(row.Cells["Gifttax"].Value);
-                        det.TaxType = Convert.ToString(row.Cells["Gifttaxtype"].Value);
-                        det.TaxPer = Convert.ToDecimal(row.Cells["Gifttaxper"].Value);
-                        det.TaxAmount = Convert.ToDecimal(row.Cells["Gifttaxamt"].Value);
+                        det.Qty = Convert.ToDecimal(row.Cells[Giftqtyno].Value ?? 0);
+                        det.Price = Convert.ToDecimal(row.Cells[GiftPrice].Value ?? 0);
 
-                        det.PreTaxAmount = Convert.ToDecimal(row.Cells["Giftpretaxamt"].Value);
-                        det.NetAmount = Convert.ToDecimal(row.Cells["Giftnetamt"].Value);
+                        det.Tax = Convert.ToString(row.Cells[Gifttax].Value ?? "");
+                        det.TaxType = Convert.ToString(row.Cells[Gifttaxtype].Value ?? "");
+                        det.TaxPer = Convert.ToDecimal(row.Cells[Gifttaxper].Value ?? 0);
+                        det.TaxAmount = Convert.ToDecimal(row.Cells[Gifttaxamt].Value ?? 0);
+
+                        det.PreTaxAmount = Convert.ToDecimal(row.Cells[Giftpretaxamt].Value ?? 0);
+                        det.NetAmount = Convert.ToDecimal(row.Cells[Giftnetamt].Value ?? 0);
 
                         det.CreatedBy = FrmDashboard.UserId;
                         det.BranchId = FrmDashboard.BranchId;
@@ -4652,6 +4720,55 @@ namespace FoodandBeverage
 
                         bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
                     }
+                }
+
+                // ======================================
+                // 🔥 2️⃣ INSERT CAKE ITEMS
+                // ======================================
+                foreach (DataGridViewRow row in dgvcake.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    DmnPartyBookingDetails det = new DmnPartyBookingDetails();
+
+                    det.PartyBookingDetailsId = 0;
+                    det.PartyBookingId = bookingId;
+
+                    // 🔹 PRODUCT INFO
+                    det.Product = Convert.ToString(row.Cells[CakeItemNo].Value ?? "");
+                    det.ProductId = Convert.ToInt32(row.Cells[CakeIdno].Value ?? 0);
+                    det.ProductType = Convert.ToInt32(PartyTableType.Cake);  
+                    det.TableType = 0;     
+
+                    // 🔹 QTY & PRICE
+                    det.Qty = Convert.ToDecimal(row.Cells[CakeQtyNo].Value ?? 0);
+                    det.Price = Convert.ToDecimal(row.Cells[CakeAmountNo].Value ?? 0);
+
+                    // 🔹 TAX
+                    det.Tax = Convert.ToString(row.Cells[CakeTaxNo].Value ?? "");
+                    det.TaxType = Convert.ToString(row.Cells[CakeTaxTypeNo].Value ?? "");
+                    det.TaxPer = Convert.ToDecimal(row.Cells[CakeTaxPerNo].Value ?? 0);
+                    det.TaxAmount = Convert.ToDecimal(row.Cells[CakeTaxAmtNo].Value ?? 0);
+                    det.TaxSettingId = Convert.ToInt32(row.Cells[CaketaxsettingidNo].Value ?? 0);
+
+                    // 🔹 AMOUNT
+                    decimal netAmt = Convert.ToDecimal(row.Cells[CakeNetAmtNo].Value ?? 0);
+                    decimal taxAmt = Convert.ToDecimal(row.Cells[CakeTaxAmtNo].Value ?? 0);
+
+                    det.NetAmount = netAmt;
+                    det.PreTaxAmount = Convert.ToDecimal(txtPreTaxAmount_cake.Text);
+                    det.PostTaxAmount = Convert.ToDecimal(txtTotalTaxAmount_cake.Text);
+
+                    
+                    det.CakeRemarks = Convert.ToString(row.Cells[Cakeremarksno].Value ?? "");
+                    det.CakeMessage = Convert.ToString(row.Cells[Cakemessageno].Value ?? "");
+
+                    // 🔹 AUDIT
+                    det.CreatedBy = FrmDashboard.UserId;
+                    det.BranchId = FrmDashboard.BranchId;
+                    det.Status = 1;
+
+                    bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
                 }
 
                 MessageBox.Show("Party Booking Saved Successfully ✅");

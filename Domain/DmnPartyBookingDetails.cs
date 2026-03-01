@@ -31,10 +31,17 @@ namespace Domain
         public decimal VATAmt { get; set; }
 
         public decimal PreTaxAmount { get; set; }
+        public decimal PostTaxAmount { get; set; }
         public decimal NetAmount { get; set; }
+        
 
         public int CreatedBy { get; set; }
         public int BranchId { get; set; }
         public int Status { get; set; }
+        public int Prid { get; set; }
+        public string Product { get; set; }
+        public string CakeRemarks { get; set; }
+        public string CakeMessage { get; set; }
     }
 }
+ 

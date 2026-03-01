@@ -85,11 +85,18 @@ namespace BLL
             parms.Add("DiscountAmount", obj.DiscountAmount);
 
             parms.Add("PreTaxAmount", obj.PreTaxAmount);
+            parms.Add("PostTaxAmount", obj.PostTaxAmount);
             parms.Add("NetAmount", obj.NetAmount);
 
             parms.Add("CreatedBy", obj.CreatedBy);
             parms.Add("BranchId", obj.BranchId);
             parms.Add("Status", obj.Status);
+
+            parms.Add("Prid", obj.Prid);
+            parms.Add("Product", obj.Product);
+
+            parms.Add("CakeRemarks", obj.CakeRemarks);
+            parms.Add("CakeMessage", obj.CakeMessage);
 
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
