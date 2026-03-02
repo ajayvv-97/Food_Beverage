@@ -309,6 +309,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DSKitchen.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DS\Ds_PartyBooking.cs">
+      <DependentUpon>Ds_PartyBooking.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DS\Ds_PartyBooking.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ds_PartyBooking.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DS\DS_Sale.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -837,6 +845,12 @@
       <DependentUpon>CR_Bill.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SaleBill\CR_PartyBill_TH.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_PartyBill_TH.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SaleBill\CR_PickupBill.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1154,6 +1168,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_Bill.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_PartyBill_TH.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_PartyBill_TH.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\CR_PickupBill.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_PickupBill.cs</LastGenOutput>
@@ -1183,6 +1201,17 @@
     </None>
     <None Include="DS\DSKitchen.xss">
       <DependentUpon>DSKitchen.xsd</DependentUpon>
+    </None>
+    <None Include="DS\Ds_PartyBooking.xsc">
+      <DependentUpon>Ds_PartyBooking.xsd</DependentUpon>
+    </None>
+    <None Include="DS\Ds_PartyBooking.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Ds_PartyBooking.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DS\Ds_PartyBooking.xss">
+      <DependentUpon>Ds_PartyBooking.xsd</DependentUpon>
     </None>
     <None Include="DS\DS_Sale.xsc">
       <DependentUpon>DS_Sale.xsd</DependentUpon>

@@ -308,7 +308,8 @@ namespace FoodandBeverage.Interfaces
     {
         NormalBill = 1,
         BillCopy = 2,
-        PickupBill=3
+        PickupBill=3,
+        Partybill=4
     }
     public enum PageType
     {
@@ -606,6 +607,7 @@ namespace FoodandBeverage.Interfaces
         Bowling = 11
 
     };
+
     public enum PartyTableType
     {
         Card = 1,

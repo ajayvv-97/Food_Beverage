@@ -69,7 +69,14 @@ namespace FoodandBeverage.SaleBill
         {
             textb_shape();
             MessageCheck();
-            PrintBill();
+            if (BillTypeData == Convert.ToInt32(BillType.NormalBill))
+            {
+                PrintBill();
+            }
+            else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
+            {
+                PrintPartyBill();
+            }
         }
         #region Message settings
         public void MessageCheck()
@@ -155,15 +162,15 @@ namespace FoodandBeverage.SaleBill
         }
         #endregion
 
-        #region Print Bill for Normal & Part 
+        #region Print Bill for Normal & Part & Party Booking  Bill
         public void PrintBill()
         {
             try
             {
-                string reportPath,orderdetailsids="", payname = "";
-                decimal cashamount = 0, othetamount = 0, splitamount=0,I_TaxAmount = 0, I_CGSTAmount = 0, I_SGSTAmount = 0,I_VatAmount = 0;
+                string reportPath, orderdetailsids = "", payname = "";
+                decimal cashamount = 0, othetamount = 0, splitamount = 0, I_TaxAmount = 0, I_CGSTAmount = 0, I_SGSTAmount = 0, I_VatAmount = 0;
                 int splittype = 0;
-                var  invpayment = new List<DmnGridFields>();
+                var invpayment = new List<DmnGridFields>();
 
                 #region Crystal Report Dclaration
 
@@ -223,8 +230,8 @@ namespace FoodandBeverage.SaleBill
                     cusname_api = "Sir / Mam";
                 //stroe barcode_img path header
                 var imagePath = folderPath + "\\" + invoiceBillMasters[0].EntryNo + ".png";
-                invoiceBillHeaders[0].barcode_img_path = imagePath;  
-                 if ( (invoiceBillHeaders[0].Email == "" || invoiceBillHeaders[0].Email == null) && (invoiceBillHeaders[0].Phone == "" || invoiceBillHeaders[0].Phone == null))
+                invoiceBillHeaders[0].barcode_img_path = imagePath;
+                if ((invoiceBillHeaders[0].Email == "" || invoiceBillHeaders[0].Email == null) && (invoiceBillHeaders[0].Phone == "" || invoiceBillHeaders[0].Phone == null))
                 {
                     invoiceBillHeaders[0].Full_Address = invoiceBillHeaders[0].Address;
                 }
@@ -233,7 +240,7 @@ namespace FoodandBeverage.SaleBill
                     invoiceBillHeaders[0].Full_Address = invoiceBillHeaders[0].Address + invoiceBillHeaders[0].Phone;
                 }
 
-                 if (invoiceBillMasters[0].Cusid >0)
+                if (invoiceBillMasters[0].Cusid > 0)
                 {
                     txtcusid.Text = Convert.ToString(invoiceBillMasters[0].Cusid);
                     LoadCustomer(Convert.ToInt32(txtcusid.Text));
@@ -277,17 +284,17 @@ namespace FoodandBeverage.SaleBill
                     obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4,BillCount Field5,OaAmount Field6,OdAmount Field7,PromoAmt Field8,DiscountAmount Field9,NumberCount Field10,BalAmnt Field11,RcvAmnt Field12";
                     obj.Table = "tblpayment";
                     obj.WhereNdGroupBy = " where payid=" + paymentid;
-                     invpayment = bllpayments.GetSearchData("prdSearch", obj);
+                    invpayment = bllpayments.GetSearchData("prdSearch", obj);
                     if (invpayment.Count > 0)
                     {
                         orderdetailsids = Convert.ToString(invpayment[0].Field4);
                         splittype = Convert.ToInt32(invpayment[0].Field3);
-                    }     
+                    }
                 }
                 else
                 {
                     splittype = Convert.ToInt32(SplitType.Normal);
-                }            
+                }
                 #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
@@ -334,7 +341,7 @@ namespace FoodandBeverage.SaleBill
                           (processedItem, mainCategoryCount) => new
                           {
                               MainCategoryCount = mainCategoryCount.MainCategoryCount,
-                              processedItem.MainCategory,     
+                              processedItem.MainCategory,
                               processedItem.ItemName,
                               processedItem.Quantity,
                               processedItem.SalesRate,
@@ -410,13 +417,13 @@ namespace FoodandBeverage.SaleBill
                 {
                     if (invpayment.Count > 0)
                     {
-                        splitamount = Convert.ToDecimal(invpayment[0].Field2);   
+                        splitamount = Convert.ToDecimal(invpayment[0].Field2);
 
                         if (Convert.ToInt32(invpayment[0].Field5) > 0)
                         {
-                            invoiceBillMasters[0].OaAmount =  Convert.ToDecimal(invpayment[0].Field6);
-                            invoiceBillMasters[0].OdAmount =  Convert.ToDecimal(invpayment[0].Field7);
-                            invoiceBillMasters[0].DiscountAmount =  Convert.ToDecimal(invpayment[0].Field9);
+                            invoiceBillMasters[0].OaAmount = Convert.ToDecimal(invpayment[0].Field6);
+                            invoiceBillMasters[0].OdAmount = Convert.ToDecimal(invpayment[0].Field7);
+                            invoiceBillMasters[0].DiscountAmount = Convert.ToDecimal(invpayment[0].Field9);
 
                             invoiceBillMasters[0].TotalTax = I_TaxAmount;
                             invoiceBillMasters[0].TotalCGST = I_CGSTAmount;
@@ -453,18 +460,18 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId", "CompanyName","GSTNo"))
+    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId", "CompanyName", "GSTNo"))
                 {
                     dtSalesMaster.Load(reader);
-                }               
+                }
 
                 dsReport.Tables.Add(dtSalesDetail);
                 dsReport.Tables.Add(dtSalesHeader);
                 dsReport.Tables.Add(dtSalesMaster);
 
-                if(BillTypeData == Convert.ToInt32(BillType.NormalBill))
+                if (BillTypeData == Convert.ToInt32(BillType.NormalBill))
                 {
-                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt"); 
+                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
                     string reportFileName = "";
                     reportFileName = "CR_Bill.rpt";
                     string xy = RPTPath + @"\CR_Bill.rpt";
@@ -474,23 +481,401 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
                 }
                 else if (BillTypeData == Convert.ToInt32(BillType.PickupBill))
-                    reportDocument.Load(RPTPath + @"\CR_PickupBill.rpt"); 
+                    reportDocument.Load(RPTPath + @"\CR_PickupBill.rpt");
 
                 reportDocument.SetDataSource(dsReport);
-                if(GstBillflag)
+                if (GstBillflag)
                     reportDocument.SetParameterValue("Gstbill", 1);
                 else
                     reportDocument.SetParameterValue("Gstbill", 0);
 
                 reportDocument.SetParameterValue("payname", payname);
-                reportDocument.SetParameterValue("cashamount",cashamount);
+                reportDocument.SetParameterValue("cashamount", cashamount);
                 reportDocument.SetParameterValue("otheramount", othetamount);
                 reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
                 reportDocument.SetParameterValue("footermsg", FooterMsg);
 
                 reportDocument.SetParameterValue("smid", SalesMasterId);
 
-                if (invoiceBillMasters[0].Rev_Status==1)
+                if (invoiceBillMasters[0].Rev_Status == 1)
+                {
+                    reportDocument.SetParameterValue("Adv_pkc_label", "Advance Amount");
+                    reportDocument.SetParameterValue("Adv_pkc_amt", invoiceBillMasters[0].AdvanceAmount);
+                }
+                else
+                {
+                    reportDocument.SetParameterValue("Adv_pkc_label", "Packing Charge");
+                    reportDocument.SetParameterValue("Adv_pkc_amt", invoiceBillMasters[0].PkChargeAmount);
+                }
+
+                string imgpath = FrmLogin.logoPath + @"sblogo.png";
+                if (File.Exists(imgpath))
+                {
+                    reportDocument.SetParameterValue("Logopath", imgpath);
+                }
+                else
+                {
+                    reportDocument.SetParameterValue("Logopath", string.Empty);
+                }
+
+
+                crvSalesBill.RefreshReport();
+                crvSalesBill.ReportSource = reportDocument;
+
+                var pdffolderPath = Application.StartupPath + "\\Bill_pdf";
+                if (!Directory.Exists(pdffolderPath))
+                    Directory.CreateDirectory(pdffolderPath);
+                else
+                {
+                    string[] files = Directory.GetFiles(pdffolderPath);
+                    foreach (string file in files)
+                    {
+                        File.Delete(file);
+                    }
+                }
+                pdfPath = Path.Combine(pdffolderPath, "Bill.pdf");
+                reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, pdfPath);
+                crvSalesBill.Focus();
+                //reportDocument.PrintToPrinter(1, false, 0, 0);
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void PrintPartyBill()
+        {
+            try
+            {
+                string reportPath, orderdetailsids = "", payname = "";
+                decimal cashamount = 0, othetamount = 0, splitamount = 0, I_TaxAmount = 0, I_CGSTAmount = 0, I_SGSTAmount = 0, I_VatAmount = 0;
+                int splittype = 0;
+                var invpayment = new List<DmnGridFields>();
+
+
+                #region Crystal Report Dclaration
+
+                if (crvSalesBill.ReportSource != null)
+                    crvSalesBill.ReportSource = null;
+
+                if (reportDocument != null)
+                {
+                    reportDocument.Close();
+                    reportDocument.Dispose();
+                    reportDocument = null;
+                }
+
+                reportDocument = new ReportDocument();
+
+                DataSet dsReport = new DataSet();
+                DataTable dtSalesHeader = new DataTable("DT_SaleHeader");
+                DataTable dtSalesMaster = new DataTable("DT_salemaster");
+                DataTable dtSalesDetail = new DataTable("DT_saledetails");
+
+                BllSearch<DmnSaleBillHeaders> bllSearchHeaders = new BllSearch<DmnSaleBillHeaders>();
+                BllSearch<DmnSalesInvoiceBillDetails> bllSearchDetails = new BllSearch<DmnSalesInvoiceBillDetails>();
+                BllSearch<DmnSalesInvoiceBill> bllSearchInvoiceBill = new BllSearch<DmnSalesInvoiceBill>();
+
+                DmnSearch dmnSearchInvoiceHeaders = new DmnSearch();
+                #endregion
+
+                dmnSearchInvoiceHeaders.Select = "Name,Address,Email,Phone,Id,GSTNO,RegAddress";
+                dmnSearchInvoiceHeaders.Table = "tblHotelRegistration";
+                dmnSearchInvoiceHeaders.WhereNdGroupBy = " where Branchid=" + FrmDashboard.BranchId;
+                var invoiceBillHeaders = bllSearchHeaders.GetSearchData("prdSearch", dmnSearchInvoiceHeaders);
+                //locationname_api = invoiceBillHeaders[0].Name;
+                DmnSearch dmnSearchInvoiceBill = new DmnSearch();
+                dmnSearchInvoiceBill.Select =
+                   " S.EntryNo, S.CreatedDateTime AS EntryDate, " +
+                   " (SELECT Username FROM tblUserAccount WHERE UserAccountId = '" + UserId + "') AS Username, " +
+                   " S.TotalAmount, S.DiscountAmount, S.TotalDiscount, S.TotalTax, " +
+                   " S.TotalCGST, S.TotalSGST, S.TotalVAT, S.TotalQuantity, " +
+                   " S.NetAmount, S.BalAmnt, S.RcvAmnt, " +
+
+                  " (LTRIM(RTRIM(ISNULL(S.FirstName,''))) + ' ' + LTRIM(RTRIM(ISNULL(S.SecondName,'')))) AS CusName, " +
+                   " S.EmailAddress as Email, S.PhoneNumber as Telephone, S.FullAddress as SalesAddress,s.CompanyName,s.GSTNo, " +
+
+                   " S.OaAmount, S.OdAmount, S.Remarks, S.PaymentMode, " +
+                   " S.PromoDId, S.PromoAmount, S.AdvanceAmount, " +
+                   " S.ReservationTotal, S.PkChargeAmount, " +
+                   " S.Rev_Status, S.OrderType, S.PkId ,s.Cusid,s.Gender,s.FirstName,s.SecondName";
+
+                dmnSearchInvoiceBill.Table = " tblSalesMaster AS S";
+                dmnSearchInvoiceBill.WhereNdGroupBy = " WHERE S.SalesMasterId = " + SalesMasterId;
+                var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
+                netamount_api = invoiceBillMasters[0].NetAmount;
+                invoiceno_api = invoiceBillMasters[0].EntryNo;
+                cusname_api = invoiceBillMasters[0].CusName;
+                if (cusname_api == "" || cusname_api == null)
+                    cusname_api = "Sir / Mam";
+                //stroe barcode_img path header
+                var imagePath = folderPath + "\\" + invoiceBillMasters[0].EntryNo + ".png";
+                invoiceBillHeaders[0].barcode_img_path = imagePath;
+                if ((invoiceBillHeaders[0].Email == "" || invoiceBillHeaders[0].Email == null) && (invoiceBillHeaders[0].Phone == "" || invoiceBillHeaders[0].Phone == null))
+                {
+                    invoiceBillHeaders[0].Full_Address = invoiceBillHeaders[0].Address;
+                }
+                else if (invoiceBillMasters[0].Email == "" || invoiceBillMasters[0].Email == null)
+                {
+                    invoiceBillHeaders[0].Full_Address = invoiceBillHeaders[0].Address + invoiceBillHeaders[0].Phone;
+                }
+
+                if (invoiceBillMasters[0].Cusid > 0)
+                {
+                    txtcusid.Text = Convert.ToString(invoiceBillMasters[0].Cusid);
+                    LoadCustomer(Convert.ToInt32(txtcusid.Text));
+                }
+
+                //txtfristname.Text = invoiceBillMasters[0].FirstName ?? "";
+                //txtsecondname.Text = invoiceBillMasters[0].SecondName ?? "";
+                //txtcompanyname.Text = invoiceBillMasters[0].CompanyName ?? "";
+                //txtgstno.Text = invoiceBillMasters[0].GSTNo ?? "";
+                //txtph.Text = invoiceBillMasters[0].Telephone ?? "";
+                //txtemailid.Text = invoiceBillMasters[0].Email ?? "";
+                //txtaddress.Text = invoiceBillMasters[0].SalesAddress ?? "";
+
+                //// Set gender radio buttons
+                //if (invoiceBillMasters[0].Gender == 1) // Male
+                //{
+                //    rb_male.Checked = true;
+                //    rb_female.Checked = false;
+                //}
+                //else if (invoiceBillMasters[0].Gender == 2) // Female
+                //{
+                //    rb_male.Checked = false;
+                //    rb_female.Checked = true;
+                //}
+
+                GenerateBarcode(invoiceBillMasters[0].EntryNo);
+                //header part set data to dataset
+                using (var reader = ObjectReader.Create(invoiceBillHeaders, "Name", "Address", "Email", "Phone", "LocId", "barcode_img_path", "GSTNo", "Full_Address", "RegAddress"))
+                {
+                    dtSalesHeader.Load(reader);
+                }
+
+                #region Payment Table Fetching
+                if (paytypeid == Convert.ToInt32(PaymentType.SPLIT))
+                {
+                    DmnSearch obj = new DmnSearch();
+                    BllSearch<DmnGridFields> bllpayments = new BllSearch<DmnGridFields>();
+                    obj.Select = "PayType Field1, Amount Field2,splittype Field3,OrderDetailsId Field4,BillCount Field5,OaAmount Field6,OdAmount Field7,PromoAmt Field8,DiscountAmount Field9,NumberCount Field10,BalAmnt Field11,RcvAmnt Field12";
+                    obj.Table = "tblpayment";
+                    obj.WhereNdGroupBy = " where payid=" + paymentid;
+                    invpayment = bllpayments.GetSearchData("prdSearch", obj);
+                    if (invpayment.Count > 0)
+                    {
+                        orderdetailsids = Convert.ToString(invpayment[0].Field4);
+                        splittype = Convert.ToInt32(invpayment[0].Field3);
+                    }
+                }
+                else
+                {
+                    splittype = Convert.ToInt32(SplitType.Normal);
+                }
+                #endregion
+
+                DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
+                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid,s.VariatiionName VariatiionName";
+                dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
+
+                if (splittype == Convert.ToInt32(SplitType.Item))
+                    dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesDetailsId IN (" + orderdetailsids.TrimEnd(',') + ")";
+                else
+                    dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesMasterId=" + SalesMasterId;
+
+                dmnSearchInvoiceDetails.OrderBy = "order by  s.AddonStatus";
+                var invoiceBillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchInvoiceDetails);
+
+                #region Sorting Result
+                var processedData = invoiceBillDetails.Select(item => new
+                {
+                    ItemName = !string.IsNullOrEmpty(item.ItemName)
+                                   ? item.ItemName + (!string.IsNullOrEmpty(item.VariatiionName) ? " (" + item.VariatiionName + ")" : string.Empty)
+                                   : item.ItemName,
+                    Quantity = item.Quantity,
+                    SalesRate = item.SalesRate,
+                    NetAmount = item.NetAmount,
+                    DiscountAmount = item.DiscountAmount,
+                    Amount = item.Amount,
+                    Taxper = item.Taxper,
+                    AddonStatus = item.AddonStatus,
+                    MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.SalesMasterId}{item.Prid}" : item.AV_id,
+                    MainCategoryCount = invoiceBillDetails.Count(b => b.MainCategory == item.MainCategory)
+                }).ToList();
+
+                var mainCategoryCounts = processedData
+                    .GroupBy(item => item.MainCategory)
+                    .Select(group => new
+                    {
+                        MainCategory = group.Key,
+                        MainCategoryCount = group.Count()
+                    }).ToList();
+
+                var mergedData = processedData
+                    .Join(mainCategoryCounts,
+                          processedItem => processedItem.MainCategory,
+                          mainCategoryCount => mainCategoryCount.MainCategory,
+                          (processedItem, mainCategoryCount) => new
+                          {
+                              MainCategoryCount = mainCategoryCount.MainCategoryCount,
+                              processedItem.MainCategory,
+                              processedItem.ItemName,
+                              processedItem.Quantity,
+                              processedItem.SalesRate,
+                              processedItem.NetAmount,
+                              processedItem.DiscountAmount,
+                              processedItem.Amount,
+                              processedItem.Taxper,
+                              processedItem.AddonStatus,
+                          })
+                    .ToList();
+                #endregion
+
+
+                using (var reader = ObjectReader.Create(mergedData,
+                    "ItemName", "Quantity", "SalesRate", "NetAmount", "DiscountAmount", "Amount", "Taxper", "MainCategory", "MainCategoryCount", "AddonStatus"))
+                {
+                    dtSalesDetail.Load(reader);
+                }
+
+                #region Tax Calculation
+                for (int i = 0; i < invoiceBillDetails.Count; i++)
+                {
+                    I_TaxAmount = I_TaxAmount + invoiceBillDetails[i].TotalTax;
+                    I_CGSTAmount = I_CGSTAmount + invoiceBillDetails[i].TotalCGST;
+                    I_SGSTAmount = I_SGSTAmount + invoiceBillDetails[i].TotalSGST;
+                    I_VatAmount = I_VatAmount + invoiceBillDetails[i].TotalVAT;
+                }
+                #endregion
+
+                #region PayType Check
+                if (paytypeid == Convert.ToInt32(PaymentType.PART))
+                {
+                    DmnSearch objPART = new DmnSearch();
+                    BllSearch<DmnGridFields> bllpaymentsPART = new BllSearch<DmnGridFields>();
+                    objPART.Select = "PayType Field1, Amount Field2";
+                    objPART.Table = "tblpayment";
+                    objPART.WhereNdGroupBy = " where salemasterid=" + SalesMasterId;
+                    var invpaymentPART = bllpaymentsPART.GetSearchData("prdSearch", objPART);
+                    if (invpaymentPART.Count > 0)
+                    {
+                        for (int i = 0; i < invpaymentPART.Count; i++)
+                        {
+                            switch (Convert.ToInt32(invpaymentPART[i].Field1))
+                            {
+                                case 1:
+                                    cashamount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    break;
+                                case 5:
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "DEBITCARD";
+                                    break;
+                                case 4:
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "UPI";
+                                    break;
+                                case 6:
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "BANKINGONLINE";
+                                    break;
+                                case 8:
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "CREDIT";
+                                    break;
+                                case 7:
+                                    othetamount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "OTHERS";
+                                    break;
+                            }
+                        }
+                    }
+                }
+                else if (paytypeid == Convert.ToInt32(PaymentType.SPLIT))
+                {
+                    if (invpayment.Count > 0)
+                    {
+                        splitamount = Convert.ToDecimal(invpayment[0].Field2);
+
+                        if (Convert.ToInt32(invpayment[0].Field5) > 0)
+                        {
+                            invoiceBillMasters[0].OaAmount = Convert.ToDecimal(invpayment[0].Field6);
+                            invoiceBillMasters[0].OdAmount = Convert.ToDecimal(invpayment[0].Field7);
+                            invoiceBillMasters[0].DiscountAmount = Convert.ToDecimal(invpayment[0].Field9);
+
+                            invoiceBillMasters[0].TotalTax = I_TaxAmount;
+                            invoiceBillMasters[0].TotalCGST = I_CGSTAmount;
+                            invoiceBillMasters[0].TotalSGST = I_SGSTAmount;
+                            invoiceBillMasters[0].TotalVAT = I_VatAmount;
+
+                            invoiceBillMasters[0].BalAmnt = splitamount;
+                            invoiceBillMasters[0].NetAmount = splitamount;
+
+                            invoiceBillMasters[0].BalAmnt = Convert.ToDecimal(invpayment[0].Field11);
+                            invoiceBillMasters[0].RcvAmnt = Convert.ToDecimal(invpayment[0].Field12);
+
+                            invoiceBillMasters[0].NetAmount = splitamount;
+
+                        }
+                        else
+                        {
+                            invoiceBillMasters[0].OaAmount = invoiceBillMasters[0].OaAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].OdAmount = invoiceBillMasters[0].OdAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].DiscountAmount = invoiceBillMasters[0].DiscountAmount / Convert.ToInt32(invpayment[0].Field10);
+
+                            invoiceBillMasters[0].TotalTax = I_TaxAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].TotalCGST = I_CGSTAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].TotalSGST = I_SGSTAmount / Convert.ToInt32(invpayment[0].Field10);
+                            invoiceBillMasters[0].TotalVAT = I_VatAmount / Convert.ToInt32(invpayment[0].Field10);
+
+                            invoiceBillMasters[0].BalAmnt = Convert.ToDecimal(invpayment[0].Field11);
+                            invoiceBillMasters[0].RcvAmnt = Convert.ToDecimal(invpayment[0].Field12);
+
+                            invoiceBillMasters[0].NetAmount = splitamount;
+                        }
+                    }
+                }
+                #endregion
+
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
+    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId", "CompanyName", "GSTNo"))
+                {
+                    dtSalesMaster.Load(reader);
+                }
+
+                dsReport.Tables.Add(dtSalesDetail);
+                dsReport.Tables.Add(dtSalesHeader);
+                dsReport.Tables.Add(dtSalesMaster);
+
+                if (BillTypeData == Convert.ToInt32(BillType.NormalBill))
+                {
+                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
+                    string reportFileName = "";
+                    reportFileName = "CR_Bill.rpt";
+                    string xy = RPTPath + @"\CR_Bill.rpt";
+                }
+                else if (BillTypeData == Convert.ToInt32(BillType.BillCopy))
+                {
+                    reportDocument.Load(RPTPath + @"\CR_Bill.rpt");
+                }
+                else if (BillTypeData == Convert.ToInt32(BillType.PickupBill))
+                    reportDocument.Load(RPTPath + @"\CR_PickupBill.rpt");
+
+                reportDocument.SetDataSource(dsReport);
+                if (GstBillflag)
+                    reportDocument.SetParameterValue("Gstbill", 1);
+                else
+                    reportDocument.SetParameterValue("Gstbill", 0);
+
+                reportDocument.SetParameterValue("payname", payname);
+                reportDocument.SetParameterValue("cashamount", cashamount);
+                reportDocument.SetParameterValue("otheramount", othetamount);
+                reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
+                reportDocument.SetParameterValue("footermsg", FooterMsg);
+
+                reportDocument.SetParameterValue("smid", SalesMasterId);
+
+                if (invoiceBillMasters[0].Rev_Status == 1)
                 {
                     reportDocument.SetParameterValue("Adv_pkc_label", "Advance Amount");
                     reportDocument.SetParameterValue("Adv_pkc_amt", invoiceBillMasters[0].AdvanceAmount);

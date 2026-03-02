@@ -9,7 +9,6 @@ using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
@@ -18,7 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace FoodandBeverage.Forms
 {
@@ -3156,11 +3154,10 @@ namespace FoodandBeverage.Forms
                 "AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1) q " +
 
                 "WHERE p.Status=1 " +
-                "AND p.Fcid=" + clickedControl.Tag + " " +
-                "AND m.Status=1 " +
+                "AND p.Fcid=" + clickedControl.Tag + " "  +
                 "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
 
-                " Union all Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7 from " +
+                " Union all Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8 from " +
                     " tblItem i " +
                     " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
                 // " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
@@ -3507,7 +3504,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (j == 1)
                     {
-                        dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7";
+                        dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
 
                         dmnSearch.Table = "tblProduct p " +
                             "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
@@ -3520,13 +3517,12 @@ namespace FoodandBeverage.Forms
 
                         dmnSearch.WhereNdGroupBy =
                             "WHERE p.Status=1 " +
-                            "AND m.Status=1 " +
                             "AND fav_status=1 " +
                             "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 )";
                     }
                     else
                     {
-                        dmnSearch.Select = " i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7";
+                        dmnSearch.Select = " i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8";
                         dmnSearch.Table = " tblItem i" +
                             " OUTER APPLY(Select ofd.Discountper, ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
                         dmnSearch.WhereNdGroupBy = " where  i.Saletype=1 and i.Status=1  and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0 and  i.fav_status=1";
@@ -4414,22 +4410,23 @@ namespace FoodandBeverage.Forms
                         }
                     }
 
-                    // ✅ Continue normal flow (both cases)
-
                     #region Variation And Addon Checking
-                    dmnSearch.Select = "count(*)  Field1";
-                    dmnSearch.Table = "tblProduct_Addon_Variation ";
-                    dmnSearch.WhereNdGroupBy = " where Status=1 and  ProductId= " + clickedControl.Tag;
-                    dmnSearch.OrderBy = "";
+
+                    dmnSearch.Select = "COUNT(*) Field1";
+                    dmnSearch.Table = "tblProductVariation";
+                    dmnSearch.WhereNdGroupBy = " WHERE Status = 1 AND ProductId = " + clickedControl.Tag;
+
                     var gridSource_va = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    if (gridSource_va.Count > 0)
+
+                    if (gridSource_va.Count > 0 &&
+                        Convert.ToInt32(gridSource_va[0].Field1) > 0)
                     {
-                        if (Convert.ToInt32(gridSource_va[0].Field1) > 0)
-                        {
-                            ShowVariationAddon(Convert.ToInt32(clickedControl.Tag));
-                        }
+                        ShowVariation(Convert.ToInt32(clickedControl.Tag));
+                        return; 
                     }
+
                     #endregion
+
 
                     if (Convert.ToInt32(gridSource_va[0].Field1) == 0)
                     {
@@ -4581,6 +4578,95 @@ namespace FoodandBeverage.Forms
                 Comboproductflag = false;
             }
         }
+        private void ShowVariation(int productId)
+        {
+            try
+            {
+                pnl_variation.Visible = true;
+                pnl_variation.BringToFront();
+
+                pnl_variation.Left = (this.Width - pnl_variation.Width) / 2;
+                pnl_variation.Top = (this.Height - pnl_variation.Height) / 2;
+
+                GenerateVariationProduct(productId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void GenerateVariationProduct(int productId)
+        {
+            try
+            {
+                flp_variations.SuspendLayout();
+                flp_variations.Controls.Clear();
+
+                DmnSearch dmnSearch = new DmnSearch();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                dmnSearch.Select = "VariationId Field1, VariationName Field2";
+                dmnSearch.Table = "tblProductVariation";
+                dmnSearch.WhereNdGroupBy = " WHERE Status = 1 AND ProductId = " + productId;
+                var variationList = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                foreach (var item in variationList)
+                {
+                    string variationName = item.Field2;
+                    int variationId = Convert.ToInt32(item.Field1);
+
+                    Panel tile = new Panel();
+                    tile.Width = tileW;             
+                    tile.Height = tileH;             
+                    tile.BackColor = Color.White;
+                    tile.Margin = new Padding(spacing);
+                    tile.Tag = variationId;
+
+
+                    TableLayoutPanel tlpMain = new TableLayoutPanel();
+                    tlpMain.Parent = tile;
+                    tlpMain.RowCount = 1;
+                    tlpMain.ColumnCount = 1;
+                    tlpMain.Dock = DockStyle.Fill;
+                    tlpMain.Tag = variationId;
+
+                    tlpMain.RowStyles.Clear();
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+
+                    Label lblName = new Label();
+                    lblName.Text = variationName;
+                    lblName.TextAlign = ContentAlignment.MiddleCenter;
+                    lblName.Dock = DockStyle.Fill;
+                    lblName.Padding = new Padding(5);
+                    lblName.ForeColor = Color.Black;
+                    lblName.BackColor = Color.Transparent;
+                    lblName.AutoEllipsis = true;
+
+                    Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
+                    lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
+
+                    tlpMain.Controls.Add(lblName, 0, 0);
+
+                    tlpMain.Click += (s, ev) => VariationClick(productId, variationId);
+                    tile.Click += (s, ev) => VariationClick(productId, variationId);
+                    lblName.Click += (s, ev) => VariationClick(productId, variationId);
+
+                    UIHelper.RoundCorners(tile, Productcorner, null);
+
+                    flp_variations.Controls.Add(tile);
+                }
+
+                flp_variations.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void VariationClick(int productId, int variationId)
+        {
+            pnl_variation.Visible = false;
+        }
+
         public void ReserveQtyRouter(int ProductId, int ProductType, int Actiontype, int TableType, int OrdQty, int CQtyFlag=0,int porderqty=0)
         {
             DmnMenu dmnMenu = new DmnMenu
@@ -11795,6 +11881,8 @@ namespace FoodandBeverage.Forms
             pnlPaymode.Visible = false;
         }
 
+
+
         private void btnPartRefresh_Click(object sender, EventArgs e)
         {
             partPayments.Clear();
@@ -11928,8 +12016,6 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
-
-
         #region Keyboard
 
         public void ShowKeyboard(Control activeControl, int kbtype)
@@ -12009,7 +12095,15 @@ namespace FoodandBeverage.Forms
 
         }
 
-        
+
         #endregion
+
+        #region Variatioin
+        private void btncls_variation_Click(object sender, EventArgs e)
+        {
+            pnl_variation.Visible = false;
+        }
+        #endregion
+
     }
 }

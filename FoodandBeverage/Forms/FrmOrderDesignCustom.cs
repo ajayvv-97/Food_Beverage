@@ -256,12 +256,70 @@ namespace FoodandBeverage.Forms
 
         private void SidebuttonClickEventHandler(object sender, EventArgs e)
         {
-            GenearteNormalProduct();
+            try
+            {
+                McategoryID = Convert.ToInt32(MenucategryType.NormalProduct);
+                ProductData = new List<DmnGridFields>();
+                pagedatadata = new List<DmnGridFields>();
+                currentPage = 1;
+
+                Control clickedControl = sender as Control;
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+                dmnSearch.Select = "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
+
+                dmnSearch.Table =
+                "tblProduct p " +
+                "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
+                "OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from tblOfferDetails ofd " +
+                "LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1 " +
+                "where ofm.status = 1 AND ofm.OfferType = 0 AND ofd.Producttype=1 " +
+                "AND p.ProductId = ofd.ProductId " +
+                "and ofm.OfferstartDatetime <= SYSDATETIME() " +
+                "AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1) q " +
+
+                "WHERE p.Status=1 " +
+                "AND p.Fcid=" + clickedControl.Tag + " " +
+                "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
+
+                " Union all Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8 from " +
+                    " tblItem i " +
+                    " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
+                // " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
+                dmnSearch.WhereNdGroupBy =
+                    " where i.Fcid= " + clickedControl.Tag + " and i.Saletype=1 and i.Status=1  " +
+                    " and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0";
+
+                // " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 and p.ProductId=ofd.ProductId" +
+                ProductData = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                totalPages = (int)Math.Ceiling((double)ProductData.Count / pageSize);
+
+                flp_productview.AutoScroll = true;
+                flp_productview.WrapContents = true;
+                flp_productview.FlowDirection = FlowDirection.LeftToRight;
+
+                if (ProductData.Count == 0)
+                    return;
+
+                flp_sidemenu.Visible = false;
+                pagedatadata = ProductData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                GenearteNormalProduct();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page SidebuttonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
         }
         public void GenearteNormalProduct()
         {
             try
             {
+                if (pagedatadata == null)
+                    return;
+
                 flp_productview.SuspendLayout();
                 flp_productview.Controls.Clear();
 

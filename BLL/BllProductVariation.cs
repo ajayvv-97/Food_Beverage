@@ -1,39 +1,49 @@
 ﻿using Dapper;
 using Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BLL
 {
     public class BllProductVariation
     {
-        public DmnProductVariation AddEdit(string procedure, DmnProductVariation obj)
+        public DmnProductVariation AddEditData(string procedureName, DmnProductVariation obj)
         {
-            var repo = new DAL.DapperRepository<DmnProductVariation>();
-            DynamicParameters param = new DynamicParameters();
+            DAL.DapperRepository<DmnProductVariation> repo =  new DAL.DapperRepository<DmnProductVariation>();
 
-            param.Add("VariationId", obj.VariationId);
-            param.Add("VariationName", obj.VariationName);
-            param.Add("Price", obj.Price);
-            param.Add("ProductId", obj.ProductId);
-            param.Add("BranchId", obj.BranchId);
-            param.Add("CreatedBy", obj.CreatedBy);
-            param.Add("Status", obj.Status);
+            DynamicParameters parms = new DynamicParameters();
 
-            return repo.AddandReturnID(procedure, param);
+            parms.Add("VariationId", obj.VariationId);
+            parms.Add("VariationName", obj.VariationName);
+            parms.Add("VariationTypeId", obj.VariationTypeId);
+            parms.Add("Price", obj.Price);
+            parms.Add("DiscountAmt", obj.DiscountAmt);
+            parms.Add("DiscountPer", obj.DiscountPer);
+            parms.Add("QOH", obj.QOH);
+            parms.Add("IsUnlimited", obj.IsUnlimited);
+            parms.Add("ProductId", obj.ProductId);
+            parms.Add("BranchId", obj.BranchId);
+            parms.Add("CreatedBy", obj.CreatedBy);
+            parms.Add("Status", obj.Status);
+
+            var result = repo.AddandReturnID(procedureName, parms);
+            return result;
         }
-
-        public DmnProductVariation Delete(string procedure, DmnProductVariation obj)
+        public DmnProductVariation DeleteVariation(string procedureName, DmnProductVariation obj)
         {
-            var repo = new DAL.DapperRepository<DmnProductVariation>();
-            DynamicParameters param = new DynamicParameters();
-
-            param.Add("VariationId", obj.VariationId);
-            param.Add("CreatedBy", obj.CreatedBy); 
-            param.Add("Status", obj.Status);       
-
-            return repo.AddandReturnID(procedure, param);
+            DAL.DapperRepository<DmnProductVariation> repo = new DAL.DapperRepository<DmnProductVariation>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("VariationId", obj.VariationId);
+            parms.Add("CreatedBy", obj.CreatedBy); 
+            var result = repo.AddandReturnID(procedureName, parms);
+            return result;
+        }
+        public DmnProducts UpdateHasVariation(string procedureName, DmnProducts obj)
+        {
+            DAL.DapperRepository<DmnProducts> repo = new DAL.DapperRepository<DmnProducts>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("ProductId", obj.ProductId);
+            parms.Add("HasVariation", obj.HasVariation);
+            var result = repo.AddandReturnID(procedureName, parms);
+            return result;
         }
     }
 }

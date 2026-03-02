@@ -38,11 +38,14 @@ namespace FoodandBeverage.Forms
 
         public int Vslno = 0;
         public int Vactionno = 1;
-        public  int vvariationno = 2;
-        public  int vpriceno = 3;
-        public  int vdisperno = 4;
-        public  int vdisamtno = 5;
-        public  int vproducttid = 6;   
+        public int vvariationno = 2;
+        public int vpriceno = 3;
+        public int vqtyno = 4;
+        public int vdisperno = 5;
+        public int vdisamtno = 6;
+        public int vproducttid = 7;
+        public int vvariatioinidno = 8;
+        public int vvariationtypeid = 9;
 
         #endregion
 
@@ -113,6 +116,17 @@ namespace FoodandBeverage.Forms
                     dmnproduct.CreatedBy = FrmDashboard.UserId;
                     dmnproduct.BranchId = FrmDashboard.BranchId;
 
+                    bool hasVar = false;
+                    foreach (DataGridViewRow row in dgv_variation.Rows)
+                    {
+                        if (!row.IsNewRow && row.Cells[vvariationno].Value != null)
+                        {
+                            hasVar = true;
+                            break;
+                        }
+                    }
+                    dmnproduct.HasVariation = hasVar;
+
                     if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 0)
                         dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.kitchen);
                     else
@@ -169,60 +183,90 @@ namespace FoodandBeverage.Forms
                         #region Variation Table Inseration DB
                         if(dgv_variation.Rows.Count>0)
                         {
-                            for (int i = 0; i < dgv_variation.RowCount; i++)
+                            for (int i = 0; i < dgv_variation.Rows.Count; i++)
                             {
-                                //if (dgv_variation.Rows[i].Cells[Arowno].Value != null && Convert.ToInt32(dgv_variation.Rows[i].Cells[Arowno].Value) > 0)
-                                //{
-                                //    DmnAddonVariation dmnvariation = new DmnAddonVariation();
-                                //    BllVariation blladdon = new BllVariation();
-                                //    dmnvariation.Pavid = Convert.ToInt32(dgv_variation.Rows[i].Cells[Avidno].Value);
-                                //    dmnvariation.Caption = Convert.ToString(dgv_variation.Rows[i].Cells[avariationno].Value);
-                                //    dmnvariation.VariationCode = Convert.ToString(dgv_variation.Rows[i].Cells[Acodeno].Value);
-                                //    dmnvariation.ConsumedQty = Convert.ToDecimal(dgv_variation.Rows[i].Cells[Aconsqty].Value);
-                                //    dmnvariation.Aid = 0;
-                                //    dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Variation);
-                                //    dmnvariation.Price = Convert.ToDecimal(dgv_variation.Rows[i].Cells[apriceno].Value);
-                                //    dmnvariation.ProductId = Convert.ToInt32(prostatus.ProductId);
-                                //    dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
-                                //    dmnvariation.CreatedBy = FrmDashboard.UserId;
-                                //    dmnvariation.BranchId = FrmDashboard.BranchId;
-                                //    dmnvariation.Status = 1;
-                                //    var usertype = blladdon.AddData("prdInsert_upd_AddonVariation", dmnvariation);
-                                //    if (usertype.Pavid > 0)
-                                //    {
-                                //        varia_count = varia_count + 1;
-                                //    }
+                                if (dgv_variation.Rows[i].IsNewRow) continue;
 
-                                //}
+                                var row = dgv_variation.Rows[i];
+
+                                if (row.Cells[vvariationno].Value == null || row.Cells[vpriceno].Value == null)
+                                    continue;
+
+                                int variationId;
+                                decimal price;
+
+                                if (!int.TryParse(row.Cells[vvariationno].Value.ToString(), out variationId))
+                                    continue;
+                                if (!decimal.TryParse(row.Cells[vpriceno].Value.ToString(), out price))
+                                    continue;
+                                if (variationId <= 0 || price <= 0)
+                                    continue;
+
+                                DmnProductVariation dmn = new DmnProductVariation();
+                                BllProductVariation bll = new BllProductVariation();
+
+                                var cell = row.Cells[vvariationno];
+
+                                dmn.VariationId =Convert.ToInt32(row.Cells[vvariatioinidno].Value);
+                                dmn.VariationTypeId = variationId;
+                                dmn.VariationName = row.Cells[vvariationno].FormattedValue.ToString();
+
+                                dmn.Price = price;
+
+                                decimal.TryParse(row.Cells[vdisamtno].Value?.ToString(), out decimal disAmt);
+                                decimal.TryParse(row.Cells[vdisperno].Value?.ToString(), out decimal disPer);
+
+                                dmn.DiscountAmt = disAmt;
+                                dmn.DiscountPer = disPer;
+
+                                dmn.IsUnlimited = rbunlimted.Checked;
+
+                                if (rbunlimted.Checked)
+                                {
+                                    dmn.QOH = 0;
+                                }
+                                else
+                                {
+                                    int qty = 0;
+                                    int.TryParse(row.Cells[vqtyno].Value?.ToString(), out qty);
+                                    dmn.QOH = qty;
+                                }
+
+                                dmn.ProductId = prostatus.ProductId;
+                                dmn.BranchId = FrmDashboard.BranchId;
+                                dmn.CreatedBy = FrmDashboard.UserId;
+                                dmn.Status = 1;
+
+                                bll.AddEditData("prdInsert_upd_ProductVariation", dmn);
                             }
                         }
                         #endregion
 
                         #region  Addon Table Inseration DB
-                        if (Checked_Addon_List.Count>0)
-                        {
-                            foreach (CAddonlist Listdata in Checked_Addon_List)
-                            {
-                                DmnAddonVariation dmnvariation = new DmnAddonVariation();
-                                BllVariation blladdon = new BllVariation();
-                                dmnvariation.Pavid = Listdata.Pavid;
-                                dmnvariation.Caption = Listdata.Cnames;
-                                dmnvariation.VariationCode = "";
-                                dmnvariation.Aid = Listdata.Id;
-                                dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Addon);
-                                dmnvariation.Price = Listdata.price;
-                                dmnvariation.ProductId = Convert.ToInt32(prostatus.ProductId);
-                                dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
-                                dmnvariation.CreatedBy = FrmDashboard.UserId;
-                                dmnvariation.BranchId = FrmDashboard.BranchId;
-                                dmnvariation.Status = Listdata.Status;
-                                var usertype = blladdon.AddData("prdInsert_upd_AddonVariation", dmnvariation);
-                                if (usertype.Pavid > 0)
-                                {
-                                    varia_count = varia_count + 1;
-                                }
-                            }
-                        }
+                        //if (Checked_Addon_List.Count>0)
+                        //{
+                        //    foreach (CAddonlist Listdata in Checked_Addon_List)
+                        //    {
+                        //        DmnAddonVariation dmnvariation = new DmnAddonVariation();
+                        //        BllVariation blladdon = new BllVariation();
+                        //        dmnvariation.Pavid = Listdata.Pavid;
+                        //        dmnvariation.Caption = Listdata.Cnames;
+                        //        dmnvariation.VariationCode = "";
+                        //        dmnvariation.Aid = Listdata.Id;
+                        //        dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Addon);
+                        //        dmnvariation.Price = Listdata.price;
+                        //        dmnvariation.ProductId = Convert.ToInt32(prostatus.ProductId);
+                        //        dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
+                        //        dmnvariation.CreatedBy = FrmDashboard.UserId;
+                        //        dmnvariation.BranchId = FrmDashboard.BranchId;
+                        //        dmnvariation.Status = Listdata.Status;
+                        //        var usertype = blladdon.AddData("prdInsert_upd_AddonVariation", dmnvariation);
+                        //        if (usertype.Pavid > 0)
+                        //        {
+                        //            varia_count = varia_count + 1;
+                        //        }
+                        //    }
+                        //}
                         #endregion
                     }
 
@@ -378,6 +422,12 @@ namespace FoodandBeverage.Forms
                         cmbVatPrcnt.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
                     }
                 }
+
+
+                txtitemcode.ReadOnly = false;
+                txtDiscAmnt.ReadOnly = false;
+                txtDisPer.ReadOnly = false;
+                txtprice.ReadOnly = false;
             }
             catch(Exception ex)
             {
@@ -496,6 +546,7 @@ namespace FoodandBeverage.Forms
                 combofill();
                 rearrange_slno();
                 textb_shape();
+                LoadVariationCombo();
 
                 if (FrmDashboard.DefaultTaxType != "")
                 {
@@ -845,30 +896,46 @@ namespace FoodandBeverage.Forms
                     else
                         rb_nonveg.Checked = true;
 
-                    string imageName = Convert.ToString(gridSource[0].ProductId) + ".jpeg";
-                    bool imageExist, brLogoExist;
-                    if (imageName != "" && imageName != null)
+                    if (gridSource[0].HasVariation)
                     {
-                        if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.FTP))
-                        {
-                            imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
-                            if (imageExist)
-                            {
-                                pb_view_pic.BackgroundImage = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
-                                pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
-                                pb_view_pic.Image = null;
-                                empImgExt = imageName;
-                            }
-                        }
-                        else if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
-                        {
-                            int pPid = Convert.ToInt32(txtPpid.Text);
-                            int ins_type = Convert.ToInt32(Inseration_Type.Product_Photo);
-                            pb_view_pic.Image = clsDocument.DownloadImageDatabase(ins_type,pPid);
-                            //pb_menupic.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
-                        }
-
+                        txtitemcode.ReadOnly = true;
+                        txtDiscAmnt.ReadOnly = true;
+                        txtDisPer.ReadOnly = true;
+                        txtprice.ReadOnly = true;
                     }
+                    else
+                    {
+                        txtitemcode.ReadOnly = false;
+                        txtDiscAmnt.ReadOnly = false;
+                        txtDisPer.ReadOnly = false;
+                        txtprice.ReadOnly = false;
+                    }
+                        
+
+                    //string imageName = Convert.ToString(gridSource[0].ProductId) + ".jpeg";
+                    //bool imageExist, brLogoExist;
+                    //if (imageName != "" && imageName != null)
+                    //{
+                    //    if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.FTP))
+                    //    {
+                    //        imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
+                    //        if (imageExist)
+                    //        {
+                    //            pb_view_pic.BackgroundImage = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
+                    //            pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+                    //            pb_view_pic.Image = null;
+                    //            empImgExt = imageName;
+                    //        }
+                    //    }
+                    //    else if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                    //    {
+                    //        int pPid = Convert.ToInt32(txtPpid.Text);
+                    //        int ins_type = Convert.ToInt32(Inseration_Type.Product_Photo);
+                    //        pb_view_pic.Image = clsDocument.DownloadImageDatabase(ins_type,pPid);
+                    //        //pb_menupic.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
+                    //    }
+
+                    //}
 
                     if (Convert.ToInt32(gridSource[0].PreparationMode)== Convert.ToInt32(PreparationType.kitchen))
                         cmbpre_type.SelectedIndex = 0;
@@ -938,180 +1005,76 @@ namespace FoodandBeverage.Forms
                     cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     cell1.Value = Properties.Resources.add_row;
 
-                    //#region Variation and Addon
-                    //BllSearch<DmnGridFields> bllSearchdetails_VA = new BllSearch<DmnGridFields>();
-                    //DmnSearch objSearchDetails_VA = new DmnSearch();
-                    //objSearchDetails_VA.Select = "Pavid Field1,pav.Caption Field2,pav.Price Field3,pav.VariationCode Field4,a.AddonName Field5,pav.Type Field6,pav.Aid Field7,a.price Field8,pav.ConsumedQty Field9";
-                    //objSearchDetails_VA.Table = "tblProduct_Addon_Variation pav left join tblAddon a on a.Aid=pav.Aid and a.Status=1";
-                    //objSearchDetails_VA.WhereNdGroupBy = "where pav.status=1 and pav.ProductId= " + Pid;
-                    //objSearchDetails_VA.OrderBy = "";
-                    //var gridSource_VA = bllSearchdetails_VA.GetSearchData("prdSearch", objSearchDetails_VA);
-                    //if(gridSource_VA.Count>0)
-                    //{
-                    //    TextBoxList.Clear();
-                    //    FillAddon();
-                    //    dgv_variation.Rows.Clear();
-                    //    tlp_regform_grid.SuspendLayout();
-                    //    for (int j = 0; j < gridSource_VA.Count; j++)
-                    //    {
-                    //        if (Convert.ToInt32(gridSource_VA[j].Field6) == 1)
-                    //        {
-                    //            SerachFlag = true;
-                              
+                    #region Fill variation Data
 
-                    //            // ============================
-                    //            // MAIN ROW PANEL (One row)
-                    //            // ============================
-                    //            TableLayoutPanel tlp_row_layout = new TableLayoutPanel();
-                    //            tlp_row_layout.Name = "tlp_row_layout" + rowindex;
+                    BllSearch<DmnGridFields> bllVar = new BllSearch<DmnGridFields>();
+                    DmnSearch objVar = new DmnSearch();
 
-                    //            // FlowLayoutPanel friendly sizing
-                    //            tlp_row_layout.AutoSize = true;
-                    //            tlp_row_layout.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-                    //            tlp_row_layout.Margin = new Padding(10, 5, 10, 5);
-                    //            tlp_row_layout.Padding = new Padding(0);
+                    objVar.Select = @"
+                            v.VariationId Field1,
+                            v.VariationTypeId Field2,
+                            vt.VariationName Field3,
+                            v.Price Field4,
+                            v.DiscountAmt Field5,
+                            v.DiscountPer Field6,
+                            v.QOH Field7,
+                            v.IsUnlimited Field8
+                        ";
 
-                    //            // MOST IMPORTANT — DO NOT USE Dock = Fill
-                    //            tlp_row_layout.Dock = DockStyle.Fill;
+                     objVar.Table = @"
+                            tblProductVariation v
+                            LEFT JOIN tblVariation vt ON vt.VariationId = v.VariationTypeId
+                        ";
+                    objVar.WhereNdGroupBy = "WHERE v.ProductId = " + Pid + " AND v.Status = 1";
+                    objVar.OrderBy = "ORDER BY v.VariationId";
 
-                    //            // Make row fit full width of popup
-                    //            tlp_row_layout.MaximumSize = new Size(flp_variation_data.Width - 40, 0);
-                    //            tlp_row_layout.MinimumSize = new Size(flp_variation_data.Width - 40, 0);
+                    var varList = bllVar.GetSearchData("prdSearch", objVar);
 
-                    //            tlp_row_layout.ColumnCount = 2;
-                    //            tlp_row_layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 95));
-                    //            tlp_row_layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5));
+                    // 🔹 Clear grid
+                    dgv_variation.Rows.Clear();
 
-                    //            // ============================
-                    //            // LEFT SIDE PANEL (Labels+Inputs)
-                    //            // ============================
-                    //            TableLayoutPanel tlp_left = new TableLayoutPanel();
-                    //            tlp_left.Name = "tlp_left_" + rowindex;
+                    for (int i = 0; i < varList.Count; i++)
+                    {
+                        dgv_variation.Rows.Add();
 
-                    //            tlp_left.AutoSize = true;
-                    //            tlp_left.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-                    //            tlp_left.Dock = DockStyle.Fill;
+                        var row = dgv_variation.Rows[i];
 
-                    //            tlp_left.RowCount = 2;
-                    //            tlp_left.ColumnCount = 4;
-                    //            tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                    //            tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                    //            tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                    //            tlp_left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                        // 🔹 Hidden ID
+                        row.Cells[vvariatioinidno].Value = Convert.ToInt32(varList[i].Field1);
+                        row.Cells[Vactionno].Value ="Delete";
 
-                    //            // ============================
-                    //            // Add Labels + Textboxes
-                    //            // ============================
-                    //            string[] labels = { "Size", "Price", "Code", "ConsumedQty" };
+                        // 🔹 Combo (ValueMember)
+                        row.Cells[vvariationno].Value = Convert.ToInt64(varList[i].Field2);
+                        row.Cells[vvariationtypeid].Value = Convert.ToInt32(varList[i].Field2);
 
-                    //            for (int i = 0; i < 4; i++)
-                    //            {
-                    //                Label lbl = new Label();
-                    //                lbl.Name = labels[i] + rowindex;
-                    //                lbl.Text = labels[i];
-                    //                lbl.Dock = DockStyle.Fill;
-                    //                lbl.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold);
-                    //                lbl.TextAlign = ContentAlignment.MiddleCenter;
+                        // 🔹 Price
+                        row.Cells[vpriceno].Value = Convert.ToDecimal(varList[i].Field4);
 
-                    //                TextBox txt = new TextBox();
-                    //                txt.Name = "txt_" + labels[i].ToLower() + rowindex;
-                    //                txt.Tag = rowindex;
-                    //                txt.Dock = DockStyle.Fill;
-                    //                txt.Multiline = true;
-                    //                txt.Height = 30;
-                    //                txt.BorderStyle = BorderStyle.None;
-                    //                txt.BackColor = FrmDashboard.ContrlBGcolor;
-                    //                txt.Font = new Font("Microsoft Sans Serif", 12);
+                        // 🔹 Discount
+                        row.Cells[vdisamtno].Value = Convert.ToDecimal(varList[i].Field5);
+                        row.Cells[vdisperno].Value = Convert.ToDecimal(varList[i].Field6);
 
-                    //                // Assign values
-                    //                if (i == 0)
-                    //                    txt.Text = gridSource_VA[j].Field2;    // Size
-                    //                else if (i == 1)
-                    //                {
-                    //                    txt.Text = gridSource_VA[j].Field3;    // Price
-                    //                    txt.KeyPress += new KeyPressEventHandler(textBox_KeyPress_variation);
-                    //                }
-                    //                else if (i == 2)
-                    //                    txt.Text = gridSource_VA[j].Field4;// Code
-                    //                else
-                    //                    txt.Text = gridSource_VA[j].Field9;// Consumed Qty
-                    //                // Events
-                    //                txt.Enter += TextBox_Enter;
-                    //                txt.Leave += TextBox_Leave;
+                        bool isUnlimited = Convert.ToBoolean(varList[i].Field8);
 
-                    //                tlp_left.Controls.Add(lbl, i, 0);
-                    //                tlp_left.Controls.Add(txt, i, 1);
-                    //            }
+                        //if (isUnlimited)
+                        //{
+                        //    row.Cells[vqtyno].Value = 0;
+                        //}
+                        //else
+                        //{
+                        //    row.Cells[vqtyno].Value = Convert.ToInt32(varList[i].Field7);
+                        //}
 
-                    //            // ============================
-                    //            // DELETE ICON
-                    //            // ============================
-                    //            PictureBox pb_delrow = new PictureBox()
-                    //            {
-                    //                Name = "Rowdel_" + rowindex,
-                    //                Image = Properties.Resources.delete,
-                    //                SizeMode = PictureBoxSizeMode.StretchImage,
-                    //                Dock = DockStyle.Fill,
-                    //                Tag = rowindex,
-                    //                AccessibleDescription = gridSource_VA[j].Field1
-                    //            };
-                    //            pb_delrow.Click += pb_delrow_Serach_Click;
+                    }
 
-                    //            // Add components to row layout
-                    //            tlp_row_layout.Controls.Add(tlp_left, 0, 0);
-                    //            tlp_row_layout.Controls.Add(pb_delrow, 1, 0);
+                    if (dgv_variation.Rows.Count == 0)
+                    {
+                        dgv_variation.Rows.Add();
+                    }
 
-                    //            // ============================
-                    //            // ADD ROW TO FLOW LAYOUT PANEL
-                    //            // ============================
-                    //            flp_variation_data.Controls.Add(tlp_row_layout);
+                    RefreshSlNo();
 
-                    //            // ============================
-                    //            // ADD ROW TO GRID
-                    //            // ============================
-                    //            dgv_variation.Rows.Add();
-                    //            int newIndex = dgv_variation.Rows.Count - 1;
-                    //            dgv_variation.Rows[newIndex].Cells[Arowno].Value = rowindex;
-                    //            dgv_variation.Rows[newIndex].Cells[Avidno].Value = gridSource_VA[j].Field1;
-                    //            dgv_variation.Rows[newIndex].Cells[avariationno].Value = gridSource_VA[j].Field2;
-                    //            dgv_variation.Rows[newIndex].Cells[apriceno].Value = gridSource_VA[j].Field3;
-                    //            dgv_variation.Rows[newIndex].Cells[Acodeno].Value = gridSource_VA[j].Field4;
-                    //            dgv_variation.Rows[newIndex].Cells[Aconsqty].Value = gridSource_VA[j].Field9;
-
-                    //            rowindex++;
-
-                    //            RoundAddonTextbox();
-                    //        }
-                    //        else 
-                    //        {
-                    //            #region Adding checkbox Data to the List
-                    //            Checked_Addon_List.Add(new CAddonlist
-                    //            {
-                    //                Id = Convert.ToInt32(gridSource_VA[j].Field7),
-                    //                Pavid = Convert.ToInt32(gridSource_VA[j].Field1),
-                    //                Cnames = gridSource_VA[j].Field2,
-                    //                price= Convert.ToDecimal(gridSource_VA[j].Field8),
-                    //                Status = 1,
-
-                    //            });
-                    //            string chkname = "chkaddon_" + Convert.ToInt32(gridSource_VA[j].Field7);
-                    //            CheckBox chkcontrol = this.Controls.Find(chkname, true).FirstOrDefault() as CheckBox;
-                    //            if (chkcontrol != null)
-                    //                chkcontrol.Checked = true;
-                    //            #endregion
-
-                    //        }
-                    //    }
-
-                    //    if(flp_variation_data.Controls.Count>0)
-                    //    {
-                    //        txtmrp.Enabled = false;
-                    //        txtprice.Enabled = false;
-                    //    }
-                    //    tlp_regform_grid.ResumeLayout();
-                    //}
-                    //SerachFlag = false;
-                    //#endregion
+                    #endregion
                 }
             }
             catch (Exception ex)
@@ -3073,13 +3036,39 @@ namespace FoodandBeverage.Forms
 
         private void btn_vari_submit_Click(object sender, EventArgs e)
         {
-            pnlvariation.Visible = false;
+            try
+            {
+                pnlvariation.Visible = false;
+                if (dgv_variation.Rows.Count > 0)
+                {
+                    bool hasData = false;
+
+                    foreach (DataGridViewRow row in dgv_variation.Rows)
+                    {
+                        if (!row.IsNewRow &&
+                            row.Cells[vvariationno].Value != null &&
+                            row.Cells[vpriceno].Value != null)
+                        {
+                            hasData = true;
+                            break;
+                        }
+                    }
+
+                    if (hasData)
+                    {
+                        txtitemcode.ReadOnly = true;
+                        txtDiscAmnt.ReadOnly = true;
+                        txtDisPer.ReadOnly = true;
+                        txtprice.ReadOnly = true;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
-        private void btn_addon_cls_Click(object sender, EventArgs e)
-        {
-            pnl_addon.Visible = false;
-        }
 
         private void btn_addon_submit_Click(object sender, EventArgs e)
         {
@@ -3230,7 +3219,7 @@ namespace FoodandBeverage.Forms
    
         private void btn_savevtype_Click(object sender, EventArgs e)
         {
-            SaveVariation();
+            SaveVariation(); 
             LoadVariationCombo();
         }
 
@@ -3244,7 +3233,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch search = new DmnSearch();
                 search.ColumnHeaders = "ID,Variation,Price";
                 search.Select = "VariationId as Id, VariationName as Field1, Price as Field2";
-                search.Table = "tblProductVariation";
+                search.Table = "tblVariation";
                 search.WhereNdGroupBy = "WHERE Status = 1";
                 search.OrderBy = " ORDER BY VariationName";
 
@@ -3292,7 +3281,7 @@ namespace FoodandBeverage.Forms
 
                 DmnSearch search = new DmnSearch();
                 search.Select = "*";
-                search.Table = "tblProductVariation";
+                search.Table = "tblVariation";
                 search.WhereNdGroupBy = "WHERE Status = 1 AND ProductId = " + productId;
                 search.OrderBy = "ORDER BY VariationId";
 
@@ -3332,14 +3321,14 @@ namespace FoodandBeverage.Forms
             {
                 if (dgv_variation.CurrentRow == null) return;
 
-                DmnProductVariation dmn = new DmnProductVariation();
+                DmnVariationType dmn = new DmnVariationType();
 
                 dmn.VariationId = Convert.ToInt64(dgv_variation.CurrentRow.Cells[vproducttid].Value);
                 dmn.CreatedBy = FrmDashboard.UserId;
                 dmn.Status = 0;
 
-                BllProductVariation bll = new BllProductVariation();
-                bll.Delete("prdDelete_ProductVariation", dmn);
+                BllVariationType bll = new BllVariationType();
+                bll.Delete("prdDelete_VariationType", dmn);
 
                 dgv_variation.Rows.RemoveAt(dgv_variation.CurrentRow.Index);
 
@@ -3354,10 +3343,14 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                BllProductVariation bll = new BllProductVariation();
+                if (string.IsNullOrEmpty(txtvtypeid.Text))
+                {
+                    txtvtypeid.Text = "0";
+                }
+                BllVariationType bll = new BllVariationType();
                 string name = txtvtype.Text;
                 decimal price = 0;
-                DmnProductVariation dmn = new DmnProductVariation();
+                DmnVariationType dmn = new DmnVariationType();
                 dmn.VariationId = Convert.ToInt32(txtvtypeid.Text);
                 dmn.VariationName = name;
                 dmn.Price = price;
@@ -3365,9 +3358,12 @@ namespace FoodandBeverage.Forms
                 dmn.BranchId = FrmDashboard.BranchId;
                 dmn.CreatedBy = FrmDashboard.UserId;
                 dmn.Status = 1;
-                bll.AddEdit("prdInsert_upd_ProductVariation", dmn);
+                bll.AddEdit("prdInsert_upd_VariationType", dmn);
 
-                MessageBox.Show("Saved Successfully");
+                CMessageBox.Show("Saved Successfully");
+                pnl_variationtype.Visible = false;
+                txtvtype.Text = "";
+                txtvtypeid.Text = "0";
             }
             catch (Exception ex)
             {
@@ -3378,20 +3374,23 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "VariationId, variationName";
-                objSearch.Table = "tblProductVariation"; 
-                objSearch.WhereNdGroupBy ="WHERE Status = 1 AND BranchId = " + FrmDashboard.BranchId;
-                objSearch.OrderBy = "ORDER BY VariationName";
+                BllSearch<DmnVariationType> bllSearch = new BllSearch<DmnVariationType>();
+                DmnSearch objSearch = new DmnSearch();   
+
+                objSearch.Select = "VariationId AS VariationId, variationName AS VariationName";
+                objSearch.Table = "tblVariation";
+                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND BranchId = " + FrmDashboard.BranchId;
+                objSearch.OrderBy = "ORDER BY variationName";
                 var variationList = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (variationList.Count > 0)
-                { 
+                {
                     DataGridViewComboBoxColumn cmb = (DataGridViewComboBoxColumn)dgv_variation.Columns[vvariationno];
                     cmb.DataSource = variationList;
                     cmb.DisplayMember = "VariationName";
                     cmb.ValueMember = "VariationId";
                 }
+
+                dgv_variation.DataError += (s, e) => { e.ThrowException = false; };
             }
             catch (Exception ex)
             {
@@ -3421,8 +3420,210 @@ namespace FoodandBeverage.Forms
                 MessageBox.Show(ex.Message);
             }
         }
+        private void dgv_variation_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dgv_variation.CurrentCell == null) return;
+
+            int colIndex = dgv_variation.CurrentCell.ColumnIndex;
+
+            TextBox txt = e.Control as TextBox;
+
+            if (txt != null)
+            {
+
+                txt.KeyPress -= OnlyDecimal_KeyPress;
+                txt.KeyPress -= OnlyInteger_KeyPress;
+
+ 
+                if (colIndex == vpriceno || colIndex == vdisperno || colIndex == vdisamtno)
+                {
+                    txt.KeyPress += OnlyDecimal_KeyPress;
+                }
+                else if (colIndex == vqtyno)
+                {
+                    txt.KeyPress += OnlyInteger_KeyPress;
+                }
+
+            }
+        }
+        private void OnlyDecimal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Allow control keys (backspace)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Allow only ONE decimal point
+            if (e.KeyChar == '.' && !txt.Text.Contains("."))
+                return;
+
+            e.Handled = true;
+        }
+        private void OnlyInteger_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            e.Handled = true;
+        }
+        private void RefreshSlNo()
+        {
+            int slno = 1;
+
+            foreach (DataGridViewRow row in dgv_variation.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    row.Cells[Vslno].Value = slno++;
+                }
+            }
+        }
+
+        private void dgv_variation_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0) return;
+                if (e.ColumnIndex != Vactionno) return;
+
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you want to delete this row?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result != DialogResult.Yes) return;
+
+                DataGridViewRow row = dgv_variation.Rows[e.RowIndex];
+                if (row.IsNewRow) return;
+
+                int variationId = 0;
+                object cellValue = row.Cells[vvariatioinidno].Value;
+                if (cellValue != null && cellValue != DBNull.Value)
+                {
+                    int.TryParse(cellValue.ToString(), out variationId);
+                }
+
+                if (variationId == 0)
+                {
+                    dgv_variation.Rows.RemoveAt(e.RowIndex);
+                }
+                else
+                {
+                    DmnProductVariation dmn = new DmnProductVariation();
+                    BllProductVariation bll = new BllProductVariation();
+
+                    dmn.VariationId = variationId;
+                    dmn.CreatedBy = FrmDashboard.UserId;
+
+                    bll.DeleteVariation("prdDelete_ProductVariation", dmn);
+
+                    dgv_variation.Rows.RemoveAt(e.RowIndex);
+                }
+
+                RefreshSlNo();
+
+                if (GetGridRowCount() == 0)
+                {
+                    dgv_variation.Rows.Clear();
+                    int idx = dgv_variation.Rows.Add();
+                    dgv_variation.Rows[idx].Cells[Vslno].Value = 1;
+                }
+
+                CheckAndUpdateHasVariation();
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+        private int GetGridRowCount()
+        {
+            int count = 0;
+
+            foreach (DataGridViewRow r in dgv_variation.Rows)
+            {
+                if (r.IsNewRow) continue;
+
+                // 🔹 Get values safely
+                var variationVal = r.Cells[vvariationno].Value;
+                var priceVal = r.Cells[vpriceno].Value;
+
+                // 🔹 Check NOT NULL / NOT EMPTY
+                if (variationVal != null && !string.IsNullOrWhiteSpace(variationVal.ToString()) &&
+                    priceVal != null && !string.IsNullOrWhiteSpace(priceVal.ToString()))
+                {
+                    decimal price;
+                    if (decimal.TryParse(priceVal.ToString(), out price) && price > 0)
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+        private void CheckAndUpdateHasVariation()
+        {
+            int productId;
+            if (!int.TryParse(txtpid.Text, out productId))
+                return;
+
+            BllSearch<DmnProductVariation> bll = new BllSearch<DmnProductVariation>();
+            DmnSearch search = new DmnSearch();
+            search.Select = "VariationId";
+            search.Table = "tblProductVariation";
+            search.WhereNdGroupBy = "WHERE Status = 1 AND ProductId = " + productId;
+            var list = bll.GetSearchData("prdSearch", search);
+
+            if (list.Count > 0)
+            {
+                UpdateProductHasVariation(1);
+            }              
+            else
+            {
+                UpdateProductHasVariation(0);
+
+                txtitemcode.ReadOnly = false;
+                    txtDiscAmnt.ReadOnly = false;
+                    txtDisPer.ReadOnly = false;
+                    txtprice.ReadOnly = false;
+                
+            }
+
+
+        }
+        private void UpdateProductHasVariation(int hasVariation)
+        {
+            try
+            {
+                int productId;
+
+                if (!int.TryParse(txtpid.Text, out productId))
+                    return;
+
+                DmnProducts dmn = new DmnProducts();
+                BllProductVariation bll = new BllProductVariation();
+                dmn.ProductId = productId;
+                dmn.HasVariation = hasVariation == 1;
+                bll.UpdateHasVariation("prdUpdate_ProductHasVariation", dmn);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
         #endregion
-
-
     }
 }

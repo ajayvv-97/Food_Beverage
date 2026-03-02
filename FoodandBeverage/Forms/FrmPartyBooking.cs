@@ -179,6 +179,7 @@ namespace FoodandBeverage
 
         int Partypackid = 0;
         int PaymentMode = 0;
+        bool AdvanceFlag = false;
         #endregion
 
         public FrmPartyBooking()
@@ -563,6 +564,7 @@ namespace FoodandBeverage
                 MessageBox.Show(ex.Message);
             }
         }
+
         #region PACK ENTRY PANEL + DGV AUTO ROW
 
         private void dgv_packenter_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -4080,6 +4082,7 @@ namespace FoodandBeverage
         #endregion
 
         #region Common
+
         private void LoadPackRelatedItems(int partyPackId)
         {
             try
@@ -4161,9 +4164,6 @@ namespace FoodandBeverage
                     kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
                 txtdiscountreason.Text = frm.txtdesc.Text;
             }
-
-
-
             if (Frmnumdiskeypad.flagpercentage)
             {
                 discountper.Text = kdata.ToString("0.00");
@@ -4251,6 +4251,9 @@ namespace FoodandBeverage
             try
             {
                 oadesc.Text = "";
+
+                txtpartpackid.Text = "0";
+
                 txtOAAmount.Text = "0.00";
 
                 oddesc.Text = "";
@@ -4449,7 +4452,8 @@ namespace FoodandBeverage
             }
             if (kdata > 0)
             {
-                txtadvanceamt.Text= kdata.ToString("N2");
+                AdvanceFlag = true;
+                txtadvanceamt.Text = kdata.ToString("N2");
                 txtRcvAmt.Text = kdata.ToString("N2");
                 pnlSplit.Visible = true;
                 pnlSplit.BringToFront();
@@ -4558,11 +4562,30 @@ namespace FoodandBeverage
                 booking.BookingTime = DateTime.Today.Add(DateTime.Now.TimeOfDay);
 
                 // 🔹 PEOPLE COUNT
+                // 🔹 PEOPLE COUNT
                 booking.NoOfAdults = GetInt(txtAdults);
                 booking.NoOfChildren = GetInt(txtChild);
 
                 // 🔹 PACK PRICE
-                booking.PackPrice = GetDecimal(txtAdultPrice) + GetDecimal(txtChildPrice);
+                decimal adultPrice = GetDecimal(txtAdultPrice);
+                decimal childPrice = GetDecimal(txtChildPrice);
+
+                if (booking.NoOfAdults > 0 && booking.NoOfChildren > 0)
+                {
+                    booking.PackPrice = adultPrice + childPrice;
+                }
+                else if (booking.NoOfAdults > 0)
+                {
+                    booking.PackPrice = adultPrice;
+                }
+                else if (booking.NoOfChildren > 0)
+                {
+                    booking.PackPrice = childPrice;
+                }
+                else
+                {
+                    booking.PackPrice = 0;
+                }
 
                 // 🔹 TAX
                 booking.Tax = txttax.Text;
@@ -4583,8 +4606,8 @@ namespace FoodandBeverage
                 // 🔹 PAYMENT
                 booking.AdvanceAmount = GetDecimal(txtadvanceamt);
                 booking.ReceivedAmount = GetDecimal(txtRcvAmt);
-                booking.BalanceAmount = booking.NetAmount - booking.ReceivedAmount;
-                booking.PaymentMode = PaymentMode;
+                booking.BalanceAmount = 0; // booking.NetAmount - booking.ReceivedAmount;
+                booking.PaymentMode = 0; //PaymentMode;
 
                 // 🔹 AUDIT
                 booking.CreatedBy = FrmLogin.EmployeeId;
@@ -4604,9 +4627,40 @@ namespace FoodandBeverage
 
                 int bookingId = result.PartyBookingId;
 
-                // ======================================
-                // 🔥 1️⃣ INSERT PARTY PACK AS DETAILS
-                // ======================================
+                #region SAVE PAYMENT
+
+                BllPartyBookingPayment bllPayment = new BllPartyBookingPayment();
+                if (bookingId > 0)
+                {
+                    DmnPartyBookingPayment payment = new DmnPartyBookingPayment
+                    {
+                        PaymentId = 0,
+                        PartyBookingId = bookingId,
+                        PaymentMode = PaymentMode,
+                        PaymentAmount = booking.NetAmount,
+                        RcvAmnt = booking.ReceivedAmount,
+                        BalAmnt = booking.NetAmount - booking.ReceivedAmount,
+                        IsAdvance = AdvanceFlag,
+                        ReferenceNo = "",
+                        PaymentDescription = "",
+                        CreatedBy = FrmLogin.EmployeeId,
+                        BranchId = FrmDashboard.BranchId,
+                        Status = 1
+                    };
+
+                    var paymentResult = bllPayment.AddEditPayment(payment);
+                    if (paymentResult.PaymentId <= 0)
+                    {
+                        MessageBox.Show("Payment save failed.");
+                    }
+                    else
+                    {
+                    }
+                }
+                #endregion
+
+                #region INSERT PARTY PACK AS DETAILS
+
                 DmnPartyBookingDetails packDetails = new DmnPartyBookingDetails();
 
                 packDetails.PartyBookingDetailsId = 0;
@@ -4634,6 +4688,7 @@ namespace FoodandBeverage
 
                 bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", packDetails);
 
+                #endregion
 
                 // ======================================
                 // 🔥 2️⃣ INSERT CARD ITEMS
@@ -4795,5 +4850,392 @@ namespace FoodandBeverage
         {
             pnlPaymode.Visible = false;
         }
+
+        #region Search Party Booking
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                int returnValue = 0;
+
+                DmnSearch search = new DmnSearch();
+                search.ColumnHeaders = "ID,Customer,Event,Date";
+                search.Select = "PartyBookingId as Id, CustomerName as Field1, EventType as Field2, BookingDate as Field3";
+                search.Table = "tblPartyBooking";
+                search.WhereNdGroupBy = "WHERE Status = 1";
+                search.OrderBy = " ORDER BY BookingDate DESC";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", search);
+
+                if (gridSource.Count == 0)
+                {
+                    MessageBox.Show("No Records Found");
+                    return;
+                }
+
+                using (var frm = new FrmSearch<DmnGridFields>(
+                    search,
+                    SearchMode.FirstCharacter,
+                    this.Width - 150,
+                    this.Height - 150,
+                    this.Location.Y + 50,
+                    this.Location.X + 20,
+                    null))
+                {
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToInt32(frm._retValue);
+                    }
+                }
+
+                if (returnValue <= 0) return;
+
+                LoadBookingMaster(returnValue);
+
+                LoadExitingPartyPackDetails(Convert.ToInt32(txtpartpackid.Text));
+
+                LoadDefaultPackAndBookingItems(Convert.ToInt32(txtpartpackid.Text), returnValue);
+                //LoadBookingDetails(returnValue);
+
+                // LoadBookingPayments(returnValue);
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        private void LoadBookingMaster(int bookingId)
+        {
+            BllSearch<DmnPartyBooking> bll = new BllSearch<DmnPartyBooking>();
+            DmnSearch search = new DmnSearch();
+            search.Select = "*";
+            search.Table = "tblPartyBooking";
+            search.WhereNdGroupBy = $"WHERE PartyBookingId = {bookingId} AND Status = 1";
+
+            var result = bll.GetSearchData("prdSearch", search).FirstOrDefault();
+            if (result == null) return;
+
+            txtname.Text = result.CustomerName;
+            txtph.Text = result.Phone;
+            txtemail.Text = result.Email;
+            txtaddress.Text = result.Address;
+            cmbevent.SelectedValue =Convert.ToInt64(result.EventType);
+            txteventdesc.Text = result.EventDescription;
+            txtAdults.Text = result.NoOfAdults.ToString();
+            txtChild.Text = result.NoOfChildren.ToString();
+
+            txtDiscountPer.Text = result.DiscountPer.ToString("0.00");
+            txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
+
+            txtTaxtype_pack.Text = result.TaxType;
+            txtTotalTaxAmount.Text = result.Tax;
+            lblNetAmt.Text = result.NetAmount.ToString("0.00");
+
+           txtpartpackid.Text = result.PartyPackId.ToString();
+            
+            // 🔹 EVENT DATE & TIME
+            if (result.BookingDate != null)
+                dtpEventDate.Value = result.BookingDate;
+
+            if (result.BookingTime != null)
+                dtpEventTime.Value = result.BookingTime;
+
+        }
+
+        private void LoadBookingDetails(int bookingId)
+        {
+            dgv_packenter.Rows.Clear();
+            int sl = 1;
+
+            BllSearch<DmnPartyBookingDetails> bll = new BllSearch<DmnPartyBookingDetails>();
+            DmnSearch search = new DmnSearch();
+            search.Select = "*";
+            search.Table = "tblPartyBookingDetails";
+            search.WhereNdGroupBy = $"WHERE PartyPackId = {bookingId} AND Status = 1";
+
+            var result = bll.GetSearchData("prdSearch", search);
+            if (result != null)
+            {
+                foreach (var item in result)
+                {
+                    int rowIndex = dgv_packenter.Rows.Add();
+                    var row = dgv_packenter.Rows[rowIndex];
+
+                    row.Cells[selecteditemslno].Value = sl++;
+
+                    //row.Cells[selecteditemitemno].Value = item.Item;
+                    //row.Cells[selecteditemqtyno].Value = item.Quantity;
+                    //row.Cells[selecteditemcategmenuno].Value = item.MenuCategoryId ?? 0;
+                    //row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                }
+            }
+
+            int newRowIndex = dgv_packenter.Rows.Add();
+            dgv_packenter.Rows[newRowIndex].Cells[selecteditemslno].Value = sl;
+
+        }
+
+        private void LoadBookingPayments(int bookingId)
+        {
+            BllSearch<DmnPartyBookingPayment> bll = new BllSearch<DmnPartyBookingPayment>();
+            DmnSearch search = new DmnSearch();
+            search.Select = "*";
+            search.Table = "tblPartyBookingPayment";
+            search.WhereNdGroupBy = $"WHERE PartyBookingId = {bookingId} AND Status = 1";
+
+            var result = bll.GetSearchData("prdSearch", search);
+            decimal totalReceived = 0;
+
+            if (result != null)
+            {
+                foreach (var pay in result)
+                {
+                    totalReceived += pay.PaymentAmount;
+                }
+            }
+
+            decimal netAmount = GetDecimalFromLabel(lblNetAmt);
+            lbladvamtdata.Text = totalReceived < netAmount ? totalReceived.ToString("0.00") : netAmount.ToString("0.00");
+        }
+        private void LoadExitingPartyPackDetails(int packid)
+        {
+            try
+            {
+                dgv_packenter.Rows.Clear();
+
+                int sl = 1;
+
+                BllSearch<DmnPartyPackDetails> bllDetails = new BllSearch<DmnPartyPackDetails>();
+                DmnSearch searchDetails = new DmnSearch
+                {
+                    Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId",
+                    Table = "tblPartyPackDetails",
+                    WhereNdGroupBy = $"WHERE PartyPackId = {packid} AND Status = 1 and PackItemType = {Convert.ToInt32(PackItemType.FoodItem)}"
+                };
+
+                var packDetails = bllDetails.GetSearchData("prdSearch", searchDetails);
+
+                if (packDetails != null)
+                {
+                    foreach (var item in packDetails)
+                    {
+                        int rowIndex = dgv_packenter.Rows.Add();
+                        var row = dgv_packenter.Rows[rowIndex];
+
+                        row.Cells[selecteditemslno].Value = sl++;
+                        row.Cells[selecteditemitemno].Value = item.Item;
+
+                        if (item.MenuCategoryId != null && Convert.ToInt32(item.MenuCategoryId) > 0)
+                            row.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+
+                        row.Cells[selecteditemqtyno].Value = item.Quantity;
+                        row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                    }
+                }
+
+
+                int newRowIndex = dgv_packenter.Rows.Add();
+                dgv_packenter.Rows[newRowIndex].Cells[selecteditemslno].Value = sl;
+
+
+                BllSearch<DmnPartyPack> bllMaster = new BllSearch<DmnPartyPack>();
+                DmnSearch searchMaster = new DmnSearch
+                {
+                    Select = "PartyPackId, PackName, AdultPrice, ChildPrice, DiscountPer, DiscountAmt, TaxType, Tax",
+                    Table = "tblPartyPackMaster",
+                    WhereNdGroupBy = $"WHERE PartyPackId = {packid} AND Status = 1"
+                };
+
+                var master = bllMaster.GetSearchData("prdSearch", searchMaster).FirstOrDefault();
+
+                if (master != null)
+                {
+                    txtAdultPrice.Text = master.AdultPrice != null ? Convert.ToDecimal(master.AdultPrice).ToString("0.00") : "0.00";
+                    txtChildPrice.Text = master.ChildPrice != null ? Convert.ToDecimal(master.ChildPrice).ToString("0.00") : "0.00";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+        private void LoadDefaultPackAndBookingItems(int partyPackId, int bookingId)
+        {
+            try
+            {
+                // 🔹 Clear all grids
+                dgv_card.Rows.Clear();
+                dgv_gift.Rows.Clear();
+                dgvcake.Rows.Clear();
+                dgv_packenter.Rows.Clear();
+
+                int cardSl = 1;
+                int giftSl = 1;
+                int packSl = 1;
+
+                // =======================================
+                // 🔹 1️⃣ Load Default Pack Items (tblPartyPackDetails)
+                // =======================================
+                BllSearch<DmnPartyPackDetails> bllPack = new BllSearch<DmnPartyPackDetails>();
+                DmnSearch searchPack = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblPartyPackDetails",
+                    WhereNdGroupBy = $"WHERE Status = 1 AND PartyPackId = {partyPackId}"
+                };
+
+                var packItems = bllPack.GetSearchData("prdSearch", searchPack);
+
+                foreach (var item in packItems)
+                {
+                    // 🔹 Card
+                    if ((PackItemType)item.PackItemType == PackItemType.Card)
+                    {
+                        int rowIndex = dgv_card.Rows.Add();
+                        var row = dgv_card.Rows[rowIndex];
+                        row.Cells[Cardslno].Value = cardSl++;
+                        row.Cells[Carditemno].Value = item.Item;
+                        row.Cells[Cardqtyno].Value = item.Quantity;
+                        //row.Cells[CardProductid].Value = item.ProductId;
+                        row.Cells[Cardproducttype].Value = item.ProductType;
+                        row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                        row.Cells[CardPartydeafult].Value = 1; // Default pack item
+                        row.ReadOnly = true;
+                    }
+                    // 🔹 Gift
+                    else if ((PackItemType)item.PackItemType == PackItemType.Gift)
+                    {
+                        int rowIndex = dgv_gift.Rows.Add();
+                        var row = dgv_gift.Rows[rowIndex];
+                        row.Cells[Giftslno].Value = giftSl++;
+                        row.Cells[Giftitemno].Value = item.Item;
+                        row.Cells[Giftqtyno].Value = item.Quantity;
+                        //row.Cells[GiftProductid].Value = item.ProductId;
+                        row.Cells[Giftproducttype].Value = item.ProductType;
+                        row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                        row.Cells[GiftPartydeafult].Value = 1; // Default pack item
+                        row.ReadOnly = true;
+                    }
+                    // 🔹 Food Pack
+                    else if ((PackItemType)item.PackItemType == PackItemType.FoodItem)
+                    {
+                        int rowIndex = dgv_packenter.Rows.Add();
+                        var row = dgv_packenter.Rows[rowIndex];
+                        row.Cells[selecteditemslno].Value = packSl++;
+                        row.Cells[selecteditemitemno].Value = item.Item;
+                        row.Cells[selecteditemqtyno].Value = item.Quantity;
+                        row.Cells[selecteditemcategmenuno].Value = item.MenuCategoryId;
+                        row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                    }
+                }
+
+                // =======================================
+                // 🔹 2️⃣ Load Booking-Added Items (tblPartyBookingDetails)
+                // =======================================
+                BllSearch<DmnPartyBookingDetails> bllBooking = new BllSearch<DmnPartyBookingDetails>();
+                DmnSearch searchBooking = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblPartyBookingDetails",
+                    WhereNdGroupBy = $"WHERE PartyBookingId = {bookingId} AND Status = 1"
+                };
+
+                var bookingItems = bllBooking.GetSearchData("prdSearch", searchBooking);
+
+                foreach (var item in bookingItems)
+                {
+                    // 🔹 Card
+                    if (item.ProductType == (int)PartyTableType.Card)
+                    {
+                        int rowIndex = dgv_card.Rows.Add();
+                        var row = dgv_card.Rows[rowIndex];
+
+                        row.Cells[Cardslno].Value = cardSl++;
+                        row.Cells[Carditemno].Value = item.Product;
+                        row.Cells[Cardqtyno].Value = item.Qty;
+                        row.Cells[CardPrice].Value = item.Price;
+                        row.Cells[CardProductid].Value = item.ProductId;
+                        row.Cells[Cardproducttype].Value = item.ProductType;
+                        //row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
+
+                        row.Cells[Cardtax].Value = item.Tax;
+                        row.Cells[Cardtaxtype].Value = item.TaxType;
+                        row.Cells[Cardtaxper].Value = item.TaxPer;
+                        row.Cells[Cardtaxamt].Value = item.TaxAmount;
+                        row.Cells[Cardpretaxamt].Value = item.PreTaxAmount;
+                        row.Cells[Cardnetamt].Value = item.NetAmount;
+
+                        row.Cells[CardPartydeafult].Value = 0; // Booking-added item
+                    }
+                    // 🔹 Gift
+                    else if (item.ProductType == (int)PartyTableType.Gift)
+                    {
+                        int rowIndex = dgv_gift.Rows.Add();
+                        var row = dgv_gift.Rows[rowIndex];
+
+                        row.Cells[Giftslno].Value = giftSl++;
+                        row.Cells[Giftitemno].Value = item.Product;
+                        row.Cells[Giftqtyno].Value = item.Qty;
+                        row.Cells[GiftPrice].Value = item.Price;
+                        row.Cells[GiftProductid].Value = item.ProductId;
+                        row.Cells[Giftproducttype].Value = item.ProductType;
+                        //row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                        row.Cells[Giftprid].Value = item.Prid;
+
+                        row.Cells[Gifttax].Value = item.Tax;
+                        row.Cells[Gifttaxtype].Value = item.TaxType;
+                        row.Cells[Gifttaxper].Value = item.TaxPer;
+                        row.Cells[Gifttaxamt].Value = item.TaxAmount;
+                        row.Cells[Giftpretaxamt].Value = item.PreTaxAmount;
+                        row.Cells[Giftnetamt].Value = item.NetAmount;
+
+                        row.Cells[GiftPartydeafult].Value = 0; // Booking-added item
+                    }
+                    // 🔹 Cake
+                    else if (item.ProductType == (int)PartyTableType.Cake)
+                    {
+                        int rowIndex = dgvcake.Rows.Add();
+                        var row = dgvcake.Rows[rowIndex];
+
+                        row.Cells[CakeItemNo].Value = item.Product;
+                        row.Cells[CakeQtyNo].Value = item.Qty;
+                        row.Cells[CakeAmountNo].Value = item.Price;
+                        row.Cells[CakeIdno].Value = item.ProductId;
+                        row.Cells[CakeTaxNo].Value = item.Tax;
+                        row.Cells[CakeTaxTypeNo].Value = item.TaxType;
+                        row.Cells[CakeTaxPerNo].Value = item.TaxPer;
+                        row.Cells[CakeTaxAmtNo].Value = item.TaxAmount;
+                        row.Cells[CaketaxsettingidNo].Value = item.TaxSettingId;
+                        row.Cells[CakeNetAmtNo].Value = item.NetAmount;
+                        row.Cells[Cakeremarksno].Value = item.CakeRemarks;
+                        row.Cells[Cakemessageno].Value = item.CakeMessage;
+                    }
+                    // 🔹 Food Pack (Booking-added)
+                    else if (item.ProductType == (int)PartyTableType.Pack)
+                    {
+                        int rowIndex = dgv_packenter.Rows.Add();
+                        var row = dgv_packenter.Rows[rowIndex];
+
+                        row.Cells[selecteditemslno].Value = packSl++;
+                        row.Cells[selecteditemitemno].Value = item.Product;
+                        row.Cells[selecteditemqtyno].Value = item.Qty;
+                        //row.Cells[selecteditemcategmenuno].Value = item.MenuCategoryId;
+                        //row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

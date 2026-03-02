@@ -39,6 +39,6 @@ namespace Domain
 
         public bool IsStockTracked { get; set; }
         public int FoodType { get; set; }
-
-    }
+		public bool HasVariation { get; set; }
+	}
 }

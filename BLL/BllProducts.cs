@@ -28,8 +28,9 @@ namespace BLL
 			parms.Add("ItemCode", objTestClass.ItemCode);
             parms.Add("PreparationMode", objTestClass.PreparationMode);
             parms.Add("IsStockTracked", objTestClass.IsStockTracked);
-            parms.Add("FoodType", objTestClass.FoodType);
-            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+			parms.Add("FoodType", objTestClass.FoodType);
+			parms.Add("HasVariation", objTestClass.HasVariation);
+			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}
 		public DmnGridFields AddEditData_fav(string procedureName, DmnGridFields objTestClass)
