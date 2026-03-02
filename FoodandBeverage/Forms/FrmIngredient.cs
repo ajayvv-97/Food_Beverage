@@ -8,6 +8,7 @@ using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -79,6 +80,11 @@ namespace FoodandBeverage.Forms
             public int Status { get; set; }
             public decimal price { get; set; }
         }
+
+        public int tileH= Convert.ToInt32(ConfigurationManager.AppSettings["Productheight"]);
+        public int tileW = Convert.ToInt32(ConfigurationManager.AppSettings["Productwidth"]);
+        public int Productcorner = Convert.ToInt32(ConfigurationManager.AppSettings["CornerRadius"]);
+
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -1179,10 +1185,14 @@ namespace FoodandBeverage.Forms
 
                     ////row4
                     tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
-                    tlp_registration.Controls.Add(txtdes, 1, 8);                
-                    tlp_registration.Controls.Add(btnvariation, 2, 8);                    
+                    tlp_registration.Controls.Add(txtdes, 1, 8);
+                    //tlp_registration.Controls.Add(btnvariation, 2, 8);
+                    tlp_registration.Controls.Add(tlp_variation, 2, 8);
                     tlp_registration.Controls.Add(btn_del_ingre, 3, 8);
 
+                    //tlp_registration.Controls.Add(btncolor_cutsomize, 3, 8);
+
+                    tlp_variation.Dock = DockStyle.Fill;
                     txtdes.Dock = DockStyle.Fill;
                     ApplyRoundedTextBox(txtdes, 10);
                 }
@@ -1207,11 +1217,12 @@ namespace FoodandBeverage.Forms
 
                     //row4
                     tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
-                    tlp_registration.Controls.Add(txtdes, 1, 8);    
-                    //tlp_registration.Controls.Add(tlp_vari_addon, 2, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
+                    tlp_registration.Controls.Add(txtdes, 1, 8);
+                    tlp_registration.Controls.Add(tlp_variation, 2, 8);
+                    //tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
                     tlp_registration.Controls.Add(btnvariation, 3, 8);
 
+                    tlp_variation.Dock = DockStyle.Fill;
                     txtdes.Dock = DockStyle.Fill;
                     ApplyRoundedTextBox(txtdes, 10);
                 }
@@ -3625,5 +3636,156 @@ namespace FoodandBeverage.Forms
 
 
         #endregion
+
+        #region COLOR SETTING
+
+        private void btncolor_cutsomize_Click(object sender, EventArgs e)
+        {
+            pnlcolorsetting.Visible = true;
+            pnlcolorsetting.BringToFront();
+
+            // Center panel
+            pnlcolorsetting.Left = (this.ClientSize.Width - pnlcolorsetting.Width) / 2;
+            pnlcolorsetting.Top = (this.ClientSize.Height - pnlcolorsetting.Height) / 2;
+
+            // Default values
+            btnbgcolor.BackColor = Color.White;
+            btnforcolor.BackColor = Color.Black;
+
+            chk_bgcolor.Checked = false;
+            chk_forecolor.Checked = false;
+
+            GeneratePreviewDesign();
+        }
+
+        private void btnforcolor_Click(object sender, EventArgs e)
+        {
+            if (!chk_forecolor.Checked) return;
+
+            if (cd_forecolor.ShowDialog() == DialogResult.OK)
+            {
+                btnforcolor.BackColor = cd_forecolor.Color;
+                GeneratePreviewDesign(); // Live preview
+            }
+        }
+
+        private void btnbgcolor_Click(object sender, EventArgs e)
+        {
+            if (!chk_bgcolor.Checked) return;
+
+            if (cd_bgcolor.ShowDialog() == DialogResult.OK)
+            {
+                btnbgcolor.BackColor = cd_bgcolor.Color;
+                GeneratePreviewDesign(); // Live preview
+            }
+        }
+
+        private void btncls_colorsett_Click(object sender, EventArgs e)
+        {
+            pnlcolorsetting.Visible = false;
+        }
+
+        private void btnsavecolorsett_Click(object sender, EventArgs e)
+        {
+            // Apply to real product tiles
+            foreach (Control tile in flp_productview.Controls)
+            {
+                // Background
+                tile.BackColor = chk_bgcolor.Checked
+                    ? btnbgcolor.BackColor
+                    : Color.White;
+
+                // ForeColor (Label inside)
+                ApplyForeColorRecursive(tile,
+                    chk_forecolor.Checked ? btnforcolor.BackColor : Color.Black);
+            }
+
+            pnlcolorsetting.Visible = false;
+        }
+
+        private void chk_forecolor_CheckedChanged(object sender, EventArgs e)
+        {
+            btnforcolor.Enabled = chk_forecolor.Checked;
+
+            if (!chk_forecolor.Checked)
+                btnforcolor.BackColor = Color.Black;
+
+            GeneratePreviewDesign();
+        }
+
+        private void chk_bgcolor_CheckedChanged(object sender, EventArgs e)
+        {
+            btnbgcolor.Enabled = chk_bgcolor.Checked;
+
+            if (!chk_bgcolor.Checked)
+                btnbgcolor.BackColor = Color.White;
+
+            GeneratePreviewDesign();
+        }
+
+        private void btnpreviewcolor_Click(object sender, EventArgs e)
+        {
+            GeneratePreviewDesign();
+        }
+
+        private void GeneratePreviewDesign()
+        {
+            flp_productview.Controls.Clear();
+
+            string productName = "Chicken Burger";
+
+            Panel tile = new Panel();
+            tile.Width = tileW;
+            tile.Height = tileH;
+            tile.BorderStyle = BorderStyle.FixedSingle;
+            tile.Cursor = Cursors.Hand;
+
+            // Safe default colors
+            Color bgColor = chk_bgcolor.Checked ? btnbgcolor.BackColor : Color.White;
+            Color foreColor = chk_forecolor.Checked ? btnforcolor.BackColor : Color.Black;
+
+            tile.BackColor = bgColor;
+
+            TableLayoutPanel tlpMain = new TableLayoutPanel();
+            tlpMain.Dock = DockStyle.Fill;
+            tlpMain.RowCount = 1;
+            tlpMain.ColumnCount = 1;
+            tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+
+            Label lblName = new Label();
+            lblName.Text = productName;
+            lblName.Dock = DockStyle.Fill;
+            lblName.TextAlign = ContentAlignment.MiddleCenter;
+            lblName.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            lblName.ForeColor = foreColor;
+
+            tlpMain.Controls.Add(lblName, 0, 0);
+            tile.Controls.Add(tlpMain);
+
+            UIHelper.RoundCorners(tile, 15, null);
+
+            // Center preview tile
+            tile.Left = (flp_productview.Width - tile.Width) / 2;
+            tile.Top = (flp_productview.Height - tile.Height) / 2;
+
+            flp_productview.Controls.Add(tile);
+        }
+
+        // 🔥 Recursive ForeColor Apply
+        private void ApplyForeColorRecursive(Control parent, Color color)
+        {
+            foreach (Control ctrl in parent.Controls)
+            {
+                if (ctrl is Label lbl)
+                    lbl.ForeColor = color;
+
+                if (ctrl.HasChildren)
+                    ApplyForeColorRecursive(ctrl, color);
+            }
+        }
+
+        #endregion
+
+
     }
 }

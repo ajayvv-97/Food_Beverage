@@ -738,7 +738,19 @@ namespace FoodandBeverage.Forms
 
                                         Dgv_Selected_Item.Rows[r].Cells[ibarcode].Value = Convert.ToString(gridSource[i].ItemBarCode);
                                         Dgv_Selected_Item.Rows[r].Cells[ibarcode2].Value = Convert.ToString(gridSource[i].ItemBarCode);
-                                        Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
+
+                                        if (Convert.ToInt32(gridSource[i].vid) > 0)
+                                        {
+
+                                            Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName) + "(" + Convert.ToString(gridSource[i].VariatiionName) + ")";
+                                            Dgv_Selected_Item.Rows[r].Cells[iorgname].Value = Convert.ToString(gridSource[i].ItemName);
+                                            Dgv_Selected_Item.Rows[r].Cells[ividno].Value = Convert.ToString(gridSource[i].vid);
+                                            Dgv_Selected_Item.Rows[r].Cells[ivaraiationstatusno].Value = 1;
+
+                                        }
+                                        else
+                                            Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
+
                                         Dgv_Selected_Item.Rows[r].Cells[iqty].Value = Convert.ToInt32(gridSource[i].Quantity);
                                         Dgv_Selected_Item.Rows[r].Cells[iprate].Value = Convert.ToDecimal(gridSource[i].PurchaseRate);
                                         Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(gridSource[i].Srate);
@@ -1367,7 +1379,19 @@ namespace FoodandBeverage.Forms
 
                                     Dgv_Selected_Item.Rows[r].Cells[ibarcode].Value = Convert.ToString(gridSource[i].ItemBarCode);
                                     Dgv_Selected_Item.Rows[r].Cells[ibarcode2].Value = Convert.ToString(gridSource[i].ItemBarCode);
-                                    Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
+
+                                    if (Convert.ToInt32(gridSource[i].vid) > 0)
+                                    {
+
+                                        Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName) + "(" + Convert.ToString(gridSource[i].VariatiionName) + ")";
+                                        Dgv_Selected_Item.Rows[r].Cells[iorgname].Value = Convert.ToString(gridSource[i].ItemName);
+                                        Dgv_Selected_Item.Rows[r].Cells[ividno].Value = Convert.ToString(gridSource[i].vid);
+                                        Dgv_Selected_Item.Rows[r].Cells[ivaraiationstatusno].Value = 1;
+
+                                    }
+                                    else
+                                        Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
+
                                     Dgv_Selected_Item.Rows[r].Cells[iqty].Value = Convert.ToInt32(gridSource[i].Quantity);
                                     Dgv_Selected_Item.Rows[r].Cells[iprate].Value = Convert.ToDecimal(gridSource[i].PurchaseRate);
                                     Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(gridSource[i].Srate);
@@ -2220,7 +2244,20 @@ namespace FoodandBeverage.Forms
 
                                     Dgv_Selected_Item.Rows[r].Cells[ibarcode].Value = Convert.ToString(gridSource[i].ItemBarCode);
                                     Dgv_Selected_Item.Rows[r].Cells[ibarcode2].Value = Convert.ToString(gridSource[i].ItemBarCode);
-                                    Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
+
+                                    if (Convert.ToInt32(gridSource[i].vid)>0)
+                                    {
+
+                                        Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName) + "(" + Convert.ToString(gridSource[i].VariatiionName) + ")";
+                                        Dgv_Selected_Item.Rows[r].Cells[iorgname].Value = Convert.ToString(gridSource[i].ItemName);
+                                        Dgv_Selected_Item.Rows[r].Cells[ividno].Value = Convert.ToString(gridSource[i].vid);
+                                        Dgv_Selected_Item.Rows[r].Cells[ivaraiationstatusno].Value = 1;
+
+                                    }
+                                    else
+                                        Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
+
+
                                     Dgv_Selected_Item.Rows[r].Cells[iqty].Value = Convert.ToInt32(gridSource[i].Quantity);
                                     Dgv_Selected_Item.Rows[r].Cells[iprate].Value = Convert.ToDecimal(gridSource[i].PurchaseRate);
                                     Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(gridSource[i].Srate);
@@ -4355,6 +4392,289 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+        #region Variation Product
+        private void ShowVariation(int productId)
+        {
+            try
+            {
+                pnl_variation.Visible = true;
+                pnl_variation.BringToFront();
+
+                pnl_variation.Left = (this.Width - pnl_variation.Width) / 2;
+                pnl_variation.Top = (this.Height - pnl_variation.Height) / 2;
+
+                GenerateVariationProduct(productId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void GenerateVariationProduct(int productId)
+        {
+            try
+            {
+                flp_variations.SuspendLayout();
+                flp_variations.Controls.Clear();
+
+                DmnSearch dmnSearch = new DmnSearch();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                dmnSearch.Select = "VariationId Field1, VariationName Field2";
+                dmnSearch.Table = "tblProductVariation";
+                dmnSearch.WhereNdGroupBy = " WHERE Status = 1 AND ProductId = " + productId;
+                var variationList = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                foreach (var item in variationList)
+                {
+                    string variationName = item.Field2;
+                    int variationId = Convert.ToInt32(item.Field1);
+
+                    Panel tile = new Panel();
+                    tile.Width = tileW;
+                    tile.Height = tileH;
+                    tile.BackColor = Color.White;
+                    tile.Margin = new Padding(spacing);
+                    tile.Tag = variationId;
+
+
+                    TableLayoutPanel tlpMain = new TableLayoutPanel();
+                    tlpMain.Parent = tile;
+                    tlpMain.RowCount = 1;
+                    tlpMain.ColumnCount = 1;
+                    tlpMain.Dock = DockStyle.Fill;
+                    tlpMain.Tag = variationId;
+
+                    tlpMain.RowStyles.Clear();
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+
+                    Label lblName = new Label();
+                    lblName.Text = variationName;
+                    lblName.TextAlign = ContentAlignment.MiddleCenter;
+                    lblName.Dock = DockStyle.Fill;
+                    lblName.Padding = new Padding(5);
+                    lblName.ForeColor = Color.Black;
+                    lblName.BackColor = Color.Transparent;
+                    lblName.AutoEllipsis = true;
+
+                    Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
+                    lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
+
+                    tlpMain.Controls.Add(lblName, 0, 0);
+
+                    tlpMain.Click += (s, ev) => VariationClick(productId, variationId);
+                    tile.Click += (s, ev) => VariationClick(productId, variationId);
+                    lblName.Click += (s, ev) => VariationClick(productId, variationId);
+
+                    UIHelper.RoundCorners(tile, Productcorner, null);
+
+                    flp_variations.Controls.Add(tile);
+                }
+
+                flp_variations.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private string GetVariationName(int variationId)
+        {
+            DmnSearch dmnSearch = new DmnSearch();
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+
+            dmnSearch.Select = "VariationName Field1";
+            dmnSearch.Table = "tblProductVariation";
+            dmnSearch.WhereNdGroupBy = " WHERE VariationId = " + variationId;
+
+            var result = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+            return result.Count > 0 ? result[0].Field1 : "";
+        }
+        private void VariationClick(int productId, int variationId)
+        {
+            try
+            {
+                pnl_variation.Visible = false;
+
+                DmnSearch dmnSearch = new DmnSearch();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                dmnSearch.Select = @"
+                                    p.ItemCode as Field1,
+                                    p.Product as Field2,
+                                    v.Price as Field3,             
+                                    0 as Field4,               
+                                    p.ProductId as Field5,
+                                    p.Tax as Field6,
+                                    p.TaxType as Field7,
+                                    p.Fcid as Field8,
+                                    p.TaxSettingsId as Field9,
+                                    q.Discountper as Field10,
+                                    q.offertype as Field11,
+                                    p.DiscountPer as Field12,
+                                    p.PreparationMode as Field13,
+                                    v.VariationId as Field14       
+                                ";
+
+                dmnSearch.Table = @"
+                                    tblProduct p
+                                    LEFT JOIN tblMenu m ON m.ProductId = p.ProductId
+
+                                    INNER JOIN tblProductVariation v 
+                                        ON v.ProductId = p.ProductId AND v.Status = 1
+
+                                    OUTER APPLY (
+                                        SELECT 
+                                            ofd.Discountper, 
+                                            ofd.FinalPrice, 
+                                            ofm.offertype 
+                                        FROM tblOfferDetails ofd
+                                        LEFT JOIN tblOfferMaster ofm 
+                                            ON ofd.omid = ofm.omid 
+                                            AND ofd.status = 1
+                                        WHERE 
+                                            ofm.status = 1  
+                                            AND ofm.OfferType = 0 
+                                            AND p.ProductId = ofd.ProductId 
+                                            AND ofm.OfferstartDatetime <= SYSDATETIME() 
+                                            AND ofm.OfferEndDatetime >= SYSDATETIME() 
+                                            AND ofm.Status = 1
+                                    ) q
+                                ";
+
+                dmnSearch.WhereNdGroupBy = @"
+                                            WHERE 
+                                                p.Status = 1  
+                                                AND p.ProductId = " + productId + @" 
+                                                AND v.VariationId = " + variationId;
+
+                dmnSearch.OrderBy = "";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+                if (gridSource.Count == 0)
+                    return;
+
+                bool flagexist = true;
+
+                int prep = 0;
+                bool isStockTracked = Product_isstocktrack(Convert.ToInt32(productId), 1);
+                if (isStockTracked)
+                {
+                    var data = ProductQtyCheckMenuQty(Convert.ToInt32(productId), 0);
+                    int qty = data.Quantity;
+                    prep = data.PreparationMode;
+
+                    if (qty <= 0)
+                    {
+                        MessageBox.Show("Stock Out! This item is not available.",
+                                        "Out of Stock",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(txtGrandTotal.Text))
+                    txtGrandTotal.Text = "0";
+
+                #region EXISTING ROW CHECK
+
+                for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                {
+                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) == productId
+                        && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value) == variationId
+                        && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                    {
+                        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value) + 1;
+                        totalcellamount(i);
+                        decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) + Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value);
+
+                        txtGrandTotal.Text = totalamt.ToString();
+                        txtnetamount.Text = totalamt.ToString();
+
+                        netAmount();
+
+                        flagexist = false;
+                        break;
+                    }
+                }
+
+                #endregion
+
+                #region NEW ROW INSERT
+
+                if (flagexist)
+                {
+                    int r1 = Dgv_Selected_Item.RowCount - 1;
+                    if (isStockTracked)
+                    {
+                        ReserveQtyRouter(Convert.ToInt32(gridSource[0].Field5), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu), 1);
+                    }
+                    r1 = Dgv_Selected_Item.RowCount - 1;
+                    Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
+
+                    Dgv_Selected_Item.Rows[r1].Cells[iaction].Value = Properties.Resources.close_price_change;
+                    Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    Dgv_Selected_Item.Rows[r1].Cells[iaction].Style.NullValue = null;
+                    Dgv_Selected_Item.Rows[r1].Height = 40;
+                    ((DataGridViewImageCell)Dgv_Selected_Item.Rows[r1].Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+                    Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = Convert.ToString(gridSource[0].Field1);
+                    Dgv_Selected_Item.Rows[r1].Cells[ibarcode2].Value = Convert.ToString(gridSource[0].Field1);
+                    Dgv_Selected_Item.Rows[r1].Cells[iname].Value = Convert.ToString(gridSource[0].Field2)+"("+GetVariationName(variationId)+")";
+                    Dgv_Selected_Item.Rows[r1].Cells[iname].Style.Font = new Font(Dgv_Selected_Item.Font, FontStyle.Bold);
+                    Dgv_Selected_Item.Rows[r1].Cells[iqty].Value = "1";
+                    Dgv_Selected_Item.Rows[r1].Cells[iprate].Value = Convert.ToDecimal(gridSource[0].Field3);
+                    Dgv_Selected_Item.Rows[r1].Cells[israte].Value = Convert.ToDecimal(gridSource[0].Field3);
+                    Dgv_Selected_Item.Rows[r1].Cells[imrp].Value = Convert.ToDecimal(gridSource[0].Field4);
+
+                    if (Convert.ToDecimal(gridSource[0].Field10) > 0)
+                        Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = Convert.ToDecimal(gridSource[0].Field10);
+                    else
+                        Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = Convert.ToDecimal(gridSource[0].Field12);
+
+                    Dgv_Selected_Item.Rows[r1].Cells[idisamt].Value = "0";
+                    Dgv_Selected_Item.Rows[r1].Cells[iitemid].Value = Convert.ToInt32(gridSource[0].Field5);
+                    Dgv_Selected_Item.Rows[r1].Cells[itax].Value = Convert.ToString(gridSource[0].Field6);
+                    Dgv_Selected_Item.Rows[r1].Cells[itaxtype].Value = Convert.ToString(gridSource[0].Field7);
+                    Dgv_Selected_Item.Rows[r1].Cells[itype].Value = Convert.ToInt32(gridSource[0].Field8);
+                    Dgv_Selected_Item.Rows[r1].Cells[itaxsettingid].Value = Convert.ToInt32(gridSource[0].Field9);
+                    Dgv_Selected_Item.Rows[r1].Cells[istatusno].Value = 1;
+                    Dgv_Selected_Item.Rows[r1].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
+                    Dgv_Selected_Item.Rows[r1].DefaultCellStyle.BackColor = Color.White;
+                    Dgv_Selected_Item.Rows[r1].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                    Dgv_Selected_Item.Rows[r1].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
+                    Dgv_Selected_Item.Rows[r1].Cells[iPreparationModeno].Value = Convert.ToInt32(gridSource[0].Field13);
+                    Dgv_Selected_Item.Rows[r1].Cells[istocktrackno].Value = isStockTracked;
+
+                    Dgv_Selected_Item.Rows[r1].Cells[iVariatiionNameno].Value = GetVariationName(variationId);
+                    Dgv_Selected_Item.Rows[r1].Cells[iorgname].Value = Convert.ToString(gridSource[0].Field2);
+                    Dgv_Selected_Item.Rows[r1].Cells[ividno].Value = variationId;
+                    Dgv_Selected_Item.Rows[r1].Cells[ivaraiationstatusno].Value = 1;                     
+
+                    totalcellamount(r1);
+                    Dgv_Selected_Item.Rows[r1].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value);
+                    Dgv_Selected_Item.Rows.Add(1);
+                    GridSlno_Refresh();
+
+                    decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value) + Convert.ToDecimal(txtGrandTotal.Text);
+                    txtGrandTotal.Text = Convert.ToString(totalamt);
+                    txtnetamount.Text = Convert.ToString(totalamt);
+                    #endregion
+
+                    netAmount();
+                }
+
+                GridSlno_Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
         #region All menu button Click      
         private void DashboardButtonClickEventHandler(object sender, EventArgs e)
         {
@@ -4410,7 +4730,7 @@ namespace FoodandBeverage.Forms
                         }
                     }
 
-                    #region Variation And Addon Checking
+                    #region Variation Checking
 
                     dmnSearch.Select = "COUNT(*) Field1";
                     dmnSearch.Table = "tblProductVariation";
@@ -4434,7 +4754,7 @@ namespace FoodandBeverage.Forms
                         dmnSearch.Table = "tblProduct p " +
                             " LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
                             " OUTER APPLY( Select ofd.Discountper, ofd.FinalPrice, ofm.offertype from  tblOfferDetails ofd LEFT JOIN tblOfferMaster ofm ON ofd.omid= ofm.omid AND ofd.status= 1 where ofm.status= 1  AND ofm.OfferType= 0 AND p.ProductId= ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
-                        dmnSearch.WhereNdGroupBy = "where p.Status=1 and m.Status=1  and p.ProductId= " + clickedControl.Tag;
+                        dmnSearch.WhereNdGroupBy = "where p.Status=1 and p.ProductId= " + clickedControl.Tag;
                         dmnSearch.OrderBy = "";
                         var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                         if (gridSource.Count > 0)
@@ -4503,8 +4823,11 @@ namespace FoodandBeverage.Forms
                                         }
                                     }
                                 }
-
-                                ReserveQtyRouter(Convert.ToInt32(gridSource[0].Field5), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu),1);
+                                isStockTracked = Product_isstocktrack(Convert.ToInt32(clickedControl.Tag), 1);
+                                if (isStockTracked)
+                                {
+                                    ReserveQtyRouter(Convert.ToInt32(gridSource[0].Field5), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu), 1);
+                                }
 
                                 r1 = Dgv_Selected_Item.RowCount - 1;
                                 Dgv_Selected_Item.Rows[r1].Cells[islno].Value = r1 + 1;
@@ -4577,94 +4900,6 @@ namespace FoodandBeverage.Forms
             {
                 Comboproductflag = false;
             }
-        }
-        private void ShowVariation(int productId)
-        {
-            try
-            {
-                pnl_variation.Visible = true;
-                pnl_variation.BringToFront();
-
-                pnl_variation.Left = (this.Width - pnl_variation.Width) / 2;
-                pnl_variation.Top = (this.Height - pnl_variation.Height) / 2;
-
-                GenerateVariationProduct(productId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        private void GenerateVariationProduct(int productId)
-        {
-            try
-            {
-                flp_variations.SuspendLayout();
-                flp_variations.Controls.Clear();
-
-                DmnSearch dmnSearch = new DmnSearch();
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                dmnSearch.Select = "VariationId Field1, VariationName Field2";
-                dmnSearch.Table = "tblProductVariation";
-                dmnSearch.WhereNdGroupBy = " WHERE Status = 1 AND ProductId = " + productId;
-                var variationList = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                foreach (var item in variationList)
-                {
-                    string variationName = item.Field2;
-                    int variationId = Convert.ToInt32(item.Field1);
-
-                    Panel tile = new Panel();
-                    tile.Width = tileW;             
-                    tile.Height = tileH;             
-                    tile.BackColor = Color.White;
-                    tile.Margin = new Padding(spacing);
-                    tile.Tag = variationId;
-
-
-                    TableLayoutPanel tlpMain = new TableLayoutPanel();
-                    tlpMain.Parent = tile;
-                    tlpMain.RowCount = 1;
-                    tlpMain.ColumnCount = 1;
-                    tlpMain.Dock = DockStyle.Fill;
-                    tlpMain.Tag = variationId;
-
-                    tlpMain.RowStyles.Clear();
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
-
-                    Label lblName = new Label();
-                    lblName.Text = variationName;
-                    lblName.TextAlign = ContentAlignment.MiddleCenter;
-                    lblName.Dock = DockStyle.Fill;
-                    lblName.Padding = new Padding(5);
-                    lblName.ForeColor = Color.Black;
-                    lblName.BackColor = Color.Transparent;
-                    lblName.AutoEllipsis = true;
-
-                    Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
-                    lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
-
-                    tlpMain.Controls.Add(lblName, 0, 0);
-
-                    tlpMain.Click += (s, ev) => VariationClick(productId, variationId);
-                    tile.Click += (s, ev) => VariationClick(productId, variationId);
-                    lblName.Click += (s, ev) => VariationClick(productId, variationId);
-
-                    UIHelper.RoundCorners(tile, Productcorner, null);
-
-                    flp_variations.Controls.Add(tile);
-                }
-
-                flp_variations.ResumeLayout();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void VariationClick(int productId, int variationId)
-        {
-            pnl_variation.Visible = false;
         }
 
         public void ReserveQtyRouter(int ProductId, int ProductType, int Actiontype, int TableType, int OrdQty, int CQtyFlag=0,int porderqty=0)
@@ -7239,7 +7474,7 @@ namespace FoodandBeverage.Forms
                                         dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iproducttypeno].Value);
                                     else
                                     {
-                                        if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipavidno].Value)>0 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value)!=2)
+                                        if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value)>0 && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value)!=2)
                                             dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorgname].Value);
                                         else
                                             dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
@@ -10338,6 +10573,7 @@ namespace FoodandBeverage.Forms
                     int prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ipridno].Value);
                     int pid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iitemid].Value);
                     string Av_ID = Convert.ToString(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iavid].Value);
+                    int variationId= Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ividno].Value);
 
                     if (saletype == Convert.ToInt32(Tabletype.DirectSale))
                     {
@@ -10433,31 +10669,115 @@ namespace FoodandBeverage.Forms
                     }
                     else if (saletype == Convert.ToInt32(Tabletype.Product))
                     {
+                        #region old code
+                        //for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
+                        //{
+                        //    if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                        //    {
+                        //        bool isStockTracked = Product_isstocktrack(pid, 1);
+                        //        if (isStockTracked)
+                        //        {
+                        //            int prep = 0;
+                        //            var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+                        //            int availableQty = dataresult.Quantity;
+                        //            prep = dataresult.PreparationMode;
+                        //            //if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                        //            if (availableQty <= 0)
+                        //            {
+
+                        //                MessageBox.Show("Stock Out! This item is not available.",
+                        //                                    "Out of Stock",
+                        //                                    MessageBoxButtons.OK,
+                        //                                    MessageBoxIcon.Warning);
+                        //                return;
+
+                        //            }
+
+                        //            //if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
+                        //            if (kdata > availableQty)
+                        //            {
+                        //                MessageBox.Show($"Only {availableQty} Qty Available.",
+                        //                                "Stock Warning",
+                        //                                MessageBoxButtons.OK,
+                        //                                MessageBoxIcon.Warning);
+                        //                return;
+                        //            }
+
+                        //        }
+
+                        //        decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
+
+                        //        int beforeQty = 0;
+                        //        object oldVal = Dgv_Selected_Item.Rows[i].Cells[iqty].Value;
+
+                        //        if (oldVal != null && oldVal != DBNull.Value)
+                        //        {
+                        //            beforeQty = Convert.ToInt32(Convert.ToDecimal(oldVal));
+                        //        }
+                        //        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
+                        //        ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(kdata),Convert.ToInt32(CustomQty.Enabled), beforeQty);
+
+                        //        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
+                        //        decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                        //        totalcellamount(i);
+                        //        newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+                        //        decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                        //        grand = grand - oldTotal + newTotal;
+                        //        txtGrandTotal.Text = grand.ToString();
+                        //        txtnetamount.Text = grand.ToString();
+                        //        break;
+
+                        //    }
+                        //}
+                        #endregion
+
                         for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                         {
-                            if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
-                            {
+                            int gridPid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value);
+                            int tableType = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value);
+                            int status = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value);
 
+                            int variationStatus = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
+                            int gridVarId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value); 
+
+                            bool isMatch = false;
+
+                            if (variationStatus == 0)
+                            {
+                                if (pid == gridPid)
+                                    isMatch = true;
+                            }
+                            else if (variationStatus == 1)
+                            {
+                                if (pid == gridPid && variationId == gridVarId)
+                                    isMatch = true;
+                            }
+
+                            if (isMatch &&
+                                tableType == Convert.ToInt32(Tabletype.Product) &&
+                                status != 0)
+                            {
                                 bool isStockTracked = Product_isstocktrack(pid, 1);
+
                                 if (isStockTracked)
                                 {
                                     int prep = 0;
-                                    var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
+
+                                    
+                                    var dataresult = ProductQtyCheckMenuQty(pid, 0);
+
                                     int availableQty = dataresult.Quantity;
                                     prep = dataresult.PreparationMode;
-                                    //if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
+
                                     if (availableQty <= 0)
                                     {
-
                                         MessageBox.Show("Stock Out! This item is not available.",
-                                                            "Out of Stock",
-                                                            MessageBoxButtons.OK,
-                                                            MessageBoxIcon.Warning);
+                                                        "Out of Stock",
+                                                        MessageBoxButtons.OK,
+                                                        MessageBoxIcon.Warning);
                                         return;
-
                                     }
 
-                                    //if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                     if (kdata > availableQty)
                                     {
                                         MessageBox.Show($"Only {availableQty} Qty Available.",
@@ -10466,10 +10786,9 @@ namespace FoodandBeverage.Forms
                                                         MessageBoxIcon.Warning);
                                         return;
                                     }
-
                                 }
 
-                                decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
+                                decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
 
                                 int beforeQty = 0;
                                 object oldVal = Dgv_Selected_Item.Rows[i].Cells[iqty].Value;
@@ -10478,19 +10797,33 @@ namespace FoodandBeverage.Forms
                                 {
                                     beforeQty = Convert.ToInt32(Convert.ToDecimal(oldVal));
                                 }
+
                                 Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
-                                ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(kdata),Convert.ToInt32(CustomQty.Enabled), beforeQty);
-                                
-                                Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
-                                decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+
+                                if (isStockTracked)
+                                {
+                                    ReserveQtyRouter(
+                                    pid,
+                                    Convert.ToInt32(ReserveQtyProducttype.Menu),
+                                    Convert.ToInt32(ReserveQtyActiontype.Update),
+                                    Convert.ToInt32(ReserveQtyTabletype.Menu),
+                                    Convert.ToInt32(kdata),
+                                    Convert.ToInt32(CustomQty.Enabled),
+                                    beforeQty
+                                );
+                                }
+
                                 totalcellamount(i);
-                                newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+
+                                decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
+
                                 decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
                                 grand = grand - oldTotal + newTotal;
+
                                 txtGrandTotal.Text = grand.ToString();
                                 txtnetamount.Text = grand.ToString();
-                                break;
 
+                                break;
                             }
                         }
                     }
@@ -10552,6 +10885,7 @@ namespace FoodandBeverage.Forms
                     string avid = Convert.ToString(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iavid].Value);
                     int prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ipridno].Value);
                     int addonitem = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ivaraiationstatusno].Value);
+                    int variationId = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ividno].Value);
 
                     if (rowType == Convert.ToInt32(Tabletype.DirectSale))
                     {
@@ -10613,31 +10947,60 @@ namespace FoodandBeverage.Forms
                     }
                     else if (rowType == Convert.ToInt32(Tabletype.Product))
                     {
-                        if (addonitem == Convert.ToInt32(Product_Addon_Variation_Type.Variation) || addonitem == Convert.ToInt32(Product_Addon_Variation_Type.Addon))
+                        if (addonitem == Convert.ToInt32(Product_Addon_Variation_Type.Variation))
                         {
-                            #region Addon or Variation 
-                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iMainProductStatusno].Value) == Convert.ToInt32(MainProductStatus.Primary))
+                            #region Variation Delete (with group)
+
+                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iMainProductStatusno].Value)
+                                == Convert.ToInt32(MainProductStatus.Primary))
                             {
                                 int dgvcount = Dgv_Selected_Item.RowCount - 1;
+
                                 for (int i = dgvcount; i >= 0; i--)
                                 {
                                     if (avid == Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value))
                                     {
-                                        if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value) == Convert.ToInt32(Product_Addon_Variation_Type.Variation) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
+                                        int gridPid = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value);
+                                        int gridVarId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value);
+                                        int status = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value);
+
+                                        if (status == 0) continue;
+
+                                        // 🔥 STOCK RESET
+                                        bool isStockTracked = Product_isstocktrack(gridPid, 1);
+                                        if (isStockTracked)
                                         {
-                                            decimal TotalPrice = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ioriginalprice].Value) * Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
-                                            decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) - TotalPrice;
-                                            txtGrandTotal.Text = Convert.ToString(totalamt);
-                                            txtnetamount.Text = Convert.ToString(totalamt);
-                                            Dgv_Selected_Item.Rows.RemoveAt(i);
+                                             int qtytrack = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iqty].Value);
+
+                                            ReserveQtyRouter(
+                                                gridPid,
+                                                Convert.ToInt32(ReserveQtyProducttype.Menu),
+                                                Convert.ToInt32(ReserveQtyActiontype.Reset),
+                                                Convert.ToInt32(ReserveQtyTabletype.Menu),
+                                                qtytrack,
+                                                0,
+                                                0                                            
+                                            );
                                         }
-                                        else
-                                        {
-                                            Dgv_Selected_Item.Rows.RemoveAt(i);
-                                        }
+
+                                        // 🔥 TOTAL REMOVE (SAFE)
+                                        decimal rowTotal = 0;
+                                        object totalVal = Dgv_Selected_Item.Rows[i].Cells[itotal].Value;
+
+                                        if (totalVal != null && totalVal != DBNull.Value)
+                                            rowTotal = Convert.ToDecimal(totalVal);
+
+                                        decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
+                                        grand -= rowTotal;
+
+                                        txtGrandTotal.Text = grand.ToString();
+                                        txtnetamount.Text = grand.ToString();
+                                        Dgv_Selected_Item.Rows.RemoveAt(i);
+                                        break;
                                     }
                                 }
                             }
+                            checksave_refresh();
                             #endregion
                         }
                         else

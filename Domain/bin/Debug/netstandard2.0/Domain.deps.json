@@ -19,7 +19,18 @@
           "Domain.dll": {}
         }
       },
+      "BouncyCastle.Cryptography/2.4.0": {
+        "runtime": {
+          "lib/netstandard2.0/BouncyCastle.Cryptography.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.4.0.33771"
+          }
+        }
+      },
       "CircularProgressBar/2.8.0.16": {
+        "dependencies": {
+          "WinFormAnimation": "1.6.0.4"
+        },
         "runtime": {
           "lib/net40/CircularProgressBar.dll": {
             "assemblyVersion": "2.8.0.16",
@@ -28,6 +39,9 @@
         }
       },
       "iTextSharp/5.5.13.4": {
+        "dependencies": {
+          "BouncyCastle.Cryptography": "2.4.0"
+        },
         "runtime": {
           "lib/net461/itextsharp.dll": {
             "assemblyVersion": "5.5.13.4",
@@ -79,6 +93,14 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "WinFormAnimation/1.6.0.4": {
+        "runtime": {
+          "lib/net40/WinFormAnimation.dll": {
+            "assemblyVersion": "1.6.0.4",
+            "fileVersion": "1.6.0.4"
+          }
+        }
       }
     }
   },
@@ -87,6 +109,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "BouncyCastle.Cryptography/2.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SwXsAV3sMvAU/Nn31pbjhWurYSjJ+/giI/0n6tCrYoupEK34iIHCuk3STAd9fx8yudM85KkLSVdn951vTng/vQ==",
+      "path": "bouncycastle.cryptography/2.4.0",
+      "hashPath": "bouncycastle.cryptography.2.4.0.nupkg.sha512"
     },
     "CircularProgressBar/2.8.0.16": {
       "type": "package",
@@ -143,6 +172,13 @@
       "sha512": "sha512-O+drkZ7lKfMdRRgXKiy2Z/ENhU5Ee2j2mXSzHWwEN2thtRDrWjoUpUvUm9gSFX8susKj1yeVmtMG3qYeNBvmBw==",
       "path": "rjcodeadvance.rjcontrols/1.0.0",
       "hashPath": "rjcodeadvance.rjcontrols.1.0.0.nupkg.sha512"
+    },
+    "WinFormAnimation/1.6.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YSic50luSCgFq+JejHBq5DKwxpNP1VH7uOyBXC+8v6dd+CuUYGlKSOL4EbwT1WeWJQvFBoDMqHnq7HsF95kxrw==",
+      "path": "winformanimation/1.6.0.4",
+      "hashPath": "winformanimation.1.6.0.4.nupkg.sha512"
     }
   }
 }
