@@ -744,6 +744,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                currentPackId = 0;
                 txtpackname.Text = "";
                 txtadultprice.Text = "";
                 txtchildprice.Text = "";

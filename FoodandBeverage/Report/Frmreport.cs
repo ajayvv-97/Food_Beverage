@@ -786,7 +786,7 @@ namespace FoodandBeverage.Report
                 DmnSearch dmnSearchDetBill = new DmnSearch();
                 
 
-             dmnSearchDetBill.Select = "(select CONVERT(varchar(50),EntryDa,105)) as sFld1," +
+                 dmnSearchDetBill.Select = "(select CONVERT(varchar(50),EntryDa,105)) as sFld1," +
                         "[CREDIT CARD] as dFld1,[DEBIT CARD] as dFld2,[UPI] as dFld3," +
                         "[BANKING ONLINE] as dFld4,[CASH] as dFld5,[OTHERS (Loyalty)] as dFld6," +
                         "(ISNULL([CREDIT CARD],0)+ISNULL([DEBIT CARD],0)+ISNULL([UPI],0)+ISNULL([BANKING ONLINE],0)+ISNULL([CASH],0)+ISNULL([OTHERS (Loyalty)],0)) dFld7";
@@ -804,9 +804,6 @@ namespace FoodandBeverage.Report
                     " ON g2.GTypeSubId = p.PayMode AND g2.GTypeId = 2 WHERE s.status=1 AND s.EntryDate >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
                     " AND s.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.BranchId = " + BranchId + "  AND p.PayMode != 10" +
                     " GROUP BY CAST(s.EntryDate AS DATE), g2.Caption ) ps " +
-
-
-
                     " PIVOT (SUM(Amount) FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS (Loyalty)])) AS pvt " +
                     " order by EntryDa ";
                 dmnSearchDetBill.WhereNdGroupBy = "";

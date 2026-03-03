@@ -578,8 +578,12 @@ namespace FoodandBeverage.Interfaces
     {
         FoodItem = 1,
         Card = 2,
-        Gift = 3
+        Gift = 3,
+        Cake = 4,
+        Pack = 5,
+        SeletedFoodItem = 6
     }
+
     public enum PosSalProduct
     {
         Card = 1,
@@ -607,15 +611,6 @@ namespace FoodandBeverage.Interfaces
         Bowling = 11
 
     };
-
-    public enum PartyTableType
-    {
-        Card = 1,
-        Gift = 2,
-        Cake = 3,
-        Pack=4
-    }
-
 }
 
 

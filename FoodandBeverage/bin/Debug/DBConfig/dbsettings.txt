@@ -1,1 +1,1 @@
-Data Source=192.168.1.40;Initial Catalog=FoodBeverage; Persist Security Info=True;User ID=sa;Password=,rhsm098;
+Data Source=192.168.0.40;Initial Catalog=FoodBeverage; Persist Security Info=True;User ID=sa;Password=,rhsm098;

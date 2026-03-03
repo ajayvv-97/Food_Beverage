@@ -37,6 +37,7 @@ namespace FoodandBeverage
         public int mainqtyno = 3;
         public int mainactionno = 4;
         public int mainppcdiidno = 5;
+        public int maindefaultno = 6;
 
         public int showonlyslno = 0;
         public int showonlyitemno = 1;
@@ -57,6 +58,7 @@ namespace FoodandBeverage
         public int selecteditemcategmenuno = 2;
         public int selecteditemqtyno = 3;
         public int selecteditemppcdiidno = 4;
+        public int selecteditemdeafultno = 5;
 
         #endregion
 
@@ -103,7 +105,7 @@ namespace FoodandBeverage
         public int GiftProductid = 15;
         public int Giftproducttype = 16;
         public int GiftPartyPackDetailsId = 17;
-        public int GiftPartydeafult = 18;
+        public int GiftPartydeafult = 18; 
         public int Gifttaxsettingid = 19; 
         public int Giftpretaxamt = 20;
         public int Giftprid = 21;
@@ -279,14 +281,13 @@ namespace FoodandBeverage
                 search.Table = "tblPartyPackMaster";
                 search.WhereNdGroupBy = "WHERE Status = 1 and PartyPackId ="+ pkid;
                 search.OrderBy = "ORDER BY PackName";
-
                 var list = bll.GetSearchData("prdSearch", search);
-
                 if (list.Count > 0)
                 {
                     txtChildPrice.Text = Convert.ToString(list[0].ChildPrice);
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
                 }
+     
             }
             catch (Exception ex)
             {
@@ -317,7 +318,7 @@ namespace FoodandBeverage
 
                 var list = bll.GetSearchData("prdSearch", search);
 
-                if (list.Count>0)
+                if (list.Count > 0)
                 {
                     txtChildPrice.Text = Convert.ToString(list[0].ChildPrice);
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
@@ -326,7 +327,7 @@ namespace FoodandBeverage
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
 
 
-                    for (int col = 0; col < tlp_reg_contrl.ColumnCount; col++)
+                    for (int col = 1; col < tlp_reg_contrl.ColumnCount; col++)
                     {
                         Control c1 = tlp_reg_contrl.GetControlFromPosition(col, 4);
                         if (c1 != null) tlp_reg_contrl.Controls.Remove(c1);
@@ -341,153 +342,194 @@ namespace FoodandBeverage
                     lbladult.Dock = DockStyle.Fill;
                     txtAdults.Dock = DockStyle.Fill;
 
-                    tlp_reg_contrl.Controls.Add(lbladult, 0, rowLabel);
-                    tlp_reg_contrl.Controls.Add(txtAdults, 0, rowTextBox);
-
                     lbltotalguest.Dock = DockStyle.Fill;
                     txttotalguest.Dock = DockStyle.Fill;
 
-                    if (list[0].ChildPrice > 0)
+                    txtChild.Visible = false;
+                    lblnochild.Visible = false;
+
+                    txtAdults.Visible = false;
+                    lbladult.Visible = false;
+                    tlp_adult_child_label.Dock = DockStyle.Fill;
+                    tlp_adult_child_text.Dock = DockStyle.Fill;
+
+                    if ((list[0].ChildPrice > 0) && (list[0].AdultPrice > 0))
+                    {
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
+
+                        tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
+                        tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
+
+                        txtChild.Visible = true;
+                        lblnochild.Visible = true;
+
+                        txtAdults.Visible = true;
+                        lbladult.Visible = true;
+                    }
+                    else if (list[0].ChildPrice > 0)
                     {
                         lblnochild.Dock = DockStyle.Fill;
                         txtChild.Dock = DockStyle.Fill;
 
-                        tlp_reg_contrl.Controls.Add(lblnochild, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(txtChild, 1, rowTextBox);
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
 
                         tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
                         tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
+
+                        txtChild.Visible = true;
+                        lblnochild.Visible = true;
+
+                        txtAdults.Visible = false;
+                        lbladult.Visible = false;
                     }
                     else
                     {
-                        tlp_reg_contrl.Controls.Add(lbltotalguest, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(txttotalguest, 1, rowTextBox);
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
+
+                        txtChild.Visible = false;
+                        lblnochild.Visible = false;
+
+                        txtAdults.Visible = true;
+                        lbladult.Visible = true;
                     }
+
                     Partypackid = Convert.ToInt32(list[0].PartyPackId);
 
                     LoadPackRelatedItems(Convert.ToInt32(list[0].PartyPackId));
 
-                }
-                foreach (var item in list)
-                {
-                    // 🔷 CARD
-                    RoundedPanel card = new RoundedPanel();
-                    card.Width = 260;
-                    card.Height = 140;
-                    card.Margin = new Padding(15);
-                    card.BackColor = Color.FromArgb(245, 247, 250); // light grey
-                    card.Tag = item.PartyPackId;
-                    card.Cursor = Cursors.Hand;
 
-                    // 🔷 SHADOW EFFECT (fake shadow panel)
-                    Panel shadow = new Panel();
-                    shadow.BackColor = Color.FromArgb(30, 0, 0, 0);
-                    shadow.Size = card.Size;
-                    shadow.Location = new Point(card.Left + 3, card.Top + 3);
-
-                    // 🔷 HOVER EFFECT
-                    card.MouseEnter += (s, e) =>
+                    foreach (var item in list)
                     {
-                        card.BackColor = Color.FromArgb(230, 240, 255); // soft blue hover
+                        // 🔷 CARD
+                        RoundedPanel card = new RoundedPanel();
+                        card.Width = 260;
+                        card.Height = 140;
+                        card.Margin = new Padding(15);
+                        card.BackColor = Color.FromArgb(245, 247, 250); // light grey
+                        card.Tag = item.PartyPackId;
+                        card.Cursor = Cursors.Hand;
+
+                        // 🔷 SHADOW EFFECT (fake shadow panel)
+                        Panel shadow = new Panel();
+                        shadow.BackColor = Color.FromArgb(30, 0, 0, 0);
+                        shadow.Size = card.Size;
+                        shadow.Location = new Point(card.Left + 3, card.Top + 3);
+
+                        // 🔷 HOVER EFFECT
+                        card.MouseEnter += (s, e) =>
+                        {
+                            card.BackColor = Color.FromArgb(230, 240, 255); // soft blue hover
                         card.Location = new Point(card.Location.X, card.Location.Y - 3);
-                    };
-
-                    card.MouseLeave += (s, e) =>
-                    {
-                        card.BackColor = Color.FromArgb(245, 247, 250);
-                        card.Location = new Point(card.Location.X, card.Location.Y + 3);
-                    };
-
-                    // 🔷 PACK NAME
-                    Label lblName = new Label();
-                    lblName.Text = item.PackName;
-                    lblName.Font = new Font("Segoe UI", 11, FontStyle.Bold);
-                    lblName.Width = card.Width - 20;
-                    lblName.Location = new Point(10, 10);
-
-                    // 🔷 PRICE
-                    Label lblPrice = new Label();
-                    lblPrice.Font = new Font("Segoe UI", 9);
-                    lblPrice.ForeColor = Color.SeaGreen;
-                    lblPrice.Width = card.Width - 20;
-                    lblPrice.Location = new Point(10, 40);
-
-                    if (item.AdultPrice > 0 && item.ChildPrice > 0)
-                        lblPrice.Text = $"Adult ₹{item.AdultPrice} | Child ₹{item.ChildPrice}";
-                    else if (item.AdultPrice > 0)
-                        lblPrice.Text = $"₹{item.AdultPrice}";
-                    else
-                        lblPrice.Text = $"₹{item.ChildPrice}";
-
-                    // 🔷 BIG SELECT BUTTON
-                    Button btnSelect = new Button();
-                    btnSelect.Text = "SELECT PACK";
-                    btnSelect.Width = card.Width - 20;
-                    btnSelect.Height = 35;
-                    btnSelect.Location = new Point(10, card.Height - 45);
-                    btnSelect.BackColor = Color.FromArgb(46, 204, 113);
-                    btnSelect.ForeColor = Color.White;
-                    btnSelect.FlatStyle = FlatStyle.Flat;
-                    btnSelect.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-                    btnSelect.Tag = item.PartyPackId;
-
-                    btnSelect.Click += (s, e) =>
-                    {
-                        pnl_foodpacks.Visible = false;
-
-                        int packId = Convert.ToInt32(((Button)s).Tag);
-                        Loadprice(packId);
-                        if (item.DetailsCount > 0)
-                        {
-                            OpenPackEntryPanel();
-                            LoadPartyPackDetails(packId);
-                        }
-                        else
-                        {
-                            OpenPackEntryPanel();
-                        }
-                    };
-
-                    if (item.DetailsCount > 0)
-                    {
-                        Label lblView = new Label();
-                        lblView.Text = "View Details →";
-                        lblView.ForeColor = Color.RoyalBlue;
-                        lblView.Font = new Font("Segoe UI", 8, FontStyle.Underline);
-                        lblView.AutoSize = true;
-                        lblView.Location = new Point(10, card.Height - 65);
-                        lblView.Cursor = Cursors.Hand;
-                        lblView.Tag = item.PartyPackId;
-
-                        lblView.Click += (s, e) =>
-                        {
-                            int packId = Convert.ToInt32(((Label)s).Tag);
-
-                            pnl_pak_detailsitems.Visible = true;
-                            pnl_pak_detailsitems.BringToFront();
-
-                            pnl_pak_detailsitems.Width = (int)(this.Width * 0.5);
-                            pnl_pak_detailsitems.Height = (int)(this.Height * 0.5);
-
-                            pnl_pak_detailsitems.Left = (this.Width - pnl_pak_detailsitems.Width) / 2;
-                            pnl_pak_detailsitems.Top = (this.Height - pnl_pak_detailsitems.Height) / 2;
-
-                            LoadPackItems(packId);
                         };
 
-                        card.Controls.Add(lblView);
+                        card.MouseLeave += (s, e) =>
+                        {
+                            card.BackColor = Color.FromArgb(245, 247, 250);
+                            card.Location = new Point(card.Location.X, card.Location.Y + 3);
+                        };
+
+                        // 🔷 PACK NAME
+                        Label lblName = new Label();
+                        lblName.Text = item.PackName;
+                        lblName.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+                        lblName.Width = card.Width - 20;
+                        lblName.Location = new Point(10, 10);
+
+                        // 🔷 PRICE
+                        Label lblPrice = new Label();
+                        lblPrice.Font = new Font("Segoe UI", 9);
+                        lblPrice.ForeColor = Color.SeaGreen;
+                        lblPrice.Width = card.Width - 20;
+                        lblPrice.Location = new Point(10, 40);
+
+                        if (item.AdultPrice > 0 && item.ChildPrice > 0)
+                            lblPrice.Text = $"Adult ₹{item.AdultPrice} | Child ₹{item.ChildPrice}";
+                        else if (item.AdultPrice > 0)
+                            lblPrice.Text = $"₹{item.AdultPrice}";
+                        else
+                            lblPrice.Text = $"₹{item.ChildPrice}";
+
+                        // 🔷 BIG SELECT BUTTON
+                        Button btnSelect = new Button();
+                        btnSelect.Text = "SELECT PACK";
+                        btnSelect.Width = card.Width - 20;
+                        btnSelect.Height = 35;
+                        btnSelect.Location = new Point(10, card.Height - 45);
+                        btnSelect.BackColor = Color.FromArgb(46, 204, 113);
+                        btnSelect.ForeColor = Color.White;
+                        btnSelect.FlatStyle = FlatStyle.Flat;
+                        btnSelect.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                        btnSelect.Tag = item.PartyPackId;
+
+                        btnSelect.Click += (s, e) =>
+                        {
+                            pnl_foodpacks.Visible = false;
+
+                            int packId = Convert.ToInt32(((Button)s).Tag);
+                            Loadprice(packId);
+                            if (item.DetailsCount > 0)
+                            {
+                                OpenPackEntryPanel();
+                                LoadPartyPackDetails(packId);
+                            }
+                            else
+                            {
+                                lblpackname.Visible = true;
+                                lblpacklabel.Visible = true;
+                                lblpackname.Text = SetPackName(packId);
+
+                                OpenPackEntryPanel();
+                            }
+                        };
+
+                        if (item.DetailsCount > 0)
+                        {
+                            Label lblView = new Label();
+                            lblView.Text = "View Details →";
+                            lblView.ForeColor = Color.RoyalBlue;
+                            lblView.Font = new Font("Segoe UI", 8, FontStyle.Underline);
+                            lblView.AutoSize = true;
+                            lblView.Location = new Point(10, card.Height - 65);
+                            lblView.Cursor = Cursors.Hand;
+                            lblView.Tag = item.PartyPackId;
+
+                            lblView.Click += (s, e) =>
+                            {
+                                int packId = Convert.ToInt32(((Label)s).Tag);
+
+                                pnl_pak_detailsitems.Visible = true;
+                                pnl_pak_detailsitems.BringToFront();
+
+                                pnl_pak_detailsitems.Width = (int)(this.Width * 0.5);
+                                pnl_pak_detailsitems.Height = (int)(this.Height * 0.5);
+
+                                pnl_pak_detailsitems.Left = (this.Width - pnl_pak_detailsitems.Width) / 2;
+                                pnl_pak_detailsitems.Top = (this.Height - pnl_pak_detailsitems.Height) / 2;
+
+                                LoadPackItems(packId);
+                            };
+
+                            card.Controls.Add(lblView);
+                        }
+
+                        card.Click += (s, e) =>
+                        {
+                            int packId = Convert.ToInt32(card.Tag);
+                        };
+
+                        card.Controls.Add(lblName);
+                        card.Controls.Add(lblPrice);
+                        card.Controls.Add(btnSelect);
+
+                        flp_show_pack_resmenu.Controls.Add(card);
                     }
-
-                    card.Click += (s, e) =>
-                    {
-                        int packId = Convert.ToInt32(card.Tag);
-                    };
-
-                    card.Controls.Add(lblName);
-                    card.Controls.Add(lblPrice);
-                    card.Controls.Add(btnSelect);
-
-                    flp_show_pack_resmenu.Controls.Add(card);
+                }
+                else
+                {
+                    CMessageBox.Show("No packages found ", "Package Not Available", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -540,6 +582,10 @@ namespace FoodandBeverage
 
                 if (result != null)
                 {
+                    lblpackname.Visible = true;
+                    lblpacklabel.Visible = true;
+                    lblpackname.Text = SetPackName(packid);
+
                     foreach (var item in result)
                     {
                         int rowIndex = dgv_packenter.Rows.Add();
@@ -553,6 +599,7 @@ namespace FoodandBeverage
 
                         row.Cells[selecteditemqtyno].Value = item.Quantity;
                         row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                        row.ReadOnly = true;
                     }
                 }
 
@@ -563,6 +610,23 @@ namespace FoodandBeverage
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        private string SetPackName(int packId)
+        {
+            BllSearch<DmnPartyPack> bll = new BllSearch<DmnPartyPack>();
+
+            DmnSearch search = new DmnSearch();
+            search.Select = "PackName";
+            search.Table = "tblPartyPackMaster";
+            search.WhereNdGroupBy = $"WHERE PartyPackId = {packId} AND Status = 1";
+
+            var result = bll.GetSearchData("prdSearch", search)
+                            .FirstOrDefault();
+
+            if (result != null)
+                return result.PackName;
+
+            return "";
         }
 
         #region PACK ENTRY PANEL + DGV AUTO ROW
@@ -749,7 +813,6 @@ namespace FoodandBeverage
                     {
                         row.Cells[showonlycategmenuno].Value = DBNull.Value; 
                     }
-
                     row.Cells[showonlyqtyno].Value = item.Quantity;
                 }
 
@@ -897,21 +960,13 @@ namespace FoodandBeverage
         {
             try
             {
-                BllSearch<DmnEventCommonItems> bllSearch =
-                    new BllSearch<DmnEventCommonItems>();
-
+                BllSearch<DmnEventCommonItems> bllSearch =new BllSearch<DmnEventCommonItems>();
                 DmnSearch objSearch = new DmnSearch();
-
                 objSearch.Select = "EventItemId, ItemName";
                 objSearch.Table = "tblEventCommonItems";
-                objSearch.WhereNdGroupBy =
-                    "WHERE Status = 1 AND EventCategoryType = 1 AND BranchId = "
-                    + FrmDashboard.BranchId;
-
+                objSearch.WhereNdGroupBy ="WHERE Status = 1 AND EventCategoryType = 1 AND BranchId = "+ FrmDashboard.BranchId;
                 objSearch.OrderBy = "ORDER BY ItemName";
-
                 var eventList = bllSearch.GetSearchData("prdSearch", objSearch);
-
                 cmbevent.DataSource = eventList;
                 cmbevent.DisplayMember = "ItemName";
                 cmbevent.ValueMember = "EventItemId";
@@ -1228,6 +1283,8 @@ namespace FoodandBeverage
                     targetRow.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.CategoryId);
                     targetRow.Cells[selecteditemqtyno].Value = item.Qty;
                     targetRow.Cells[selecteditemppcdiidno].Value = item.PartyPackCustomDetailsId;
+                    targetRow.Cells[selecteditemdeafultno].Value = 1;
+
                 }
 
                 if (dgv_packenter.Rows.Count > 0)
@@ -1492,7 +1549,9 @@ namespace FoodandBeverage
                         targetRow.Cells[maincategmenuno].Value =Convert.ToInt64(sourceRow.Cells[selecteditemcategmenuno].Value);
 
                     targetRow.Cells[mainqtyno].Value =   sourceRow.Cells[selecteditemqtyno].Value;
-                    targetRow.Cells[mainppcdiidno].Value =     sourceRow.Cells[selecteditemppcdiidno].Value;
+                    targetRow.Cells[mainppcdiidno].Value = sourceRow.Cells[selecteditemppcdiidno].Value;
+                    targetRow.Cells[maindefaultno].Value = sourceRow.Cells[selecteditemdeafultno].Value;
+
                 }
 
                 pnl_foodpacks.Visible = false;
@@ -4250,8 +4309,17 @@ namespace FoodandBeverage
         {
             try
             {
-                oadesc.Text = "";
+                dtpEventDate.Value = DateTime.Now.Date;  
+                dtpEventTime.Value = DateTime.Now;        
 
+                txteventdesc.Text = "";
+                cmbevent.Text = "";
+                txtaddress.Text = "";
+                txtemail.Text = "";
+                txtph.Text = "";
+                txtname.Text = "";
+
+                oadesc.Text = "";
                 txtpartpackid.Text = "0";
 
                 txtOAAmount.Text = "0.00";
@@ -4325,7 +4393,10 @@ namespace FoodandBeverage
                 pnlcards.Visible = false; 
                 pnl_foodpacks.Visible = false;
 
+                lblpackname.Visible = false;
+                lblpacklabel.Visible = false;
 
+                txtpartybookingid.Text = "0";
             }
             catch (Exception ex)
             {
@@ -4537,6 +4608,9 @@ namespace FoodandBeverage
         {
             try
             {
+                GetInt(txtpartybookingid);
+                txtTaxPer_pack
+
                 BllPartyBooking bll = new BllPartyBooking();
 
                 // ==========================
@@ -4544,7 +4618,7 @@ namespace FoodandBeverage
                 // ==========================
                 DmnPartyBooking booking = new DmnPartyBooking();
 
-                booking.PartyBookingId = 0;
+                booking.PartyBookingId = Convert.ToInt32(txtpartybookingid.Text);
                 booking.PartyPackId = Partypackid;
 
                 // 🔹 CUSTOMER INFO
@@ -4557,11 +4631,10 @@ namespace FoodandBeverage
                 booking.EventType =Convert.ToInt32(cmbevent.SelectedValue);
                 booking.EventDescription = txteventdesc.Text?.Trim();
 
-                // 🔹 DATE FIX (🔥 IMPORTANT - SQL ERROR FIX)
+                // 🔹 DATE FIX
                 booking.BookingDate = DateTime.Now.Date;
                 booking.BookingTime = DateTime.Today.Add(DateTime.Now.TimeOfDay);
 
-                // 🔹 PEOPLE COUNT
                 // 🔹 PEOPLE COUNT
                 booking.NoOfAdults = GetInt(txtAdults);
                 booking.NoOfChildren = GetInt(txtChild);
@@ -4667,7 +4740,7 @@ namespace FoodandBeverage
                 packDetails.PartyBookingId = bookingId;
 
                 packDetails.ProductId = Partypackid;
-                packDetails.ProductType = Convert.ToInt32(PartyTableType.Pack);
+                packDetails.ProductType = Convert.ToInt32(PackItemType.Pack);
                 packDetails.TableType = 0;
 
                 packDetails.Qty = 1;
@@ -4710,7 +4783,7 @@ namespace FoodandBeverage
 
                         det.Product = Convert.ToString(row.Cells[Carditemno].Value ?? "");
                         det.ProductId = Convert.ToInt32(row.Cells[CardProductid].Value ?? 0);
-                        det.ProductType = Convert.ToInt32(PartyTableType.Card);
+                        det.ProductType = Convert.ToInt32(PackItemType.Card);
                         det.TableType = Convert.ToInt32(ProductType.Card);
 
                         det.Qty = Convert.ToDecimal(row.Cells[Cardqtyno].Value ?? 0);
@@ -4732,7 +4805,6 @@ namespace FoodandBeverage
                     }
                 }
 
-
                 // ======================================
                 // 🔥 3️⃣ INSERT GIFT ITEMS
                 // GiftPartyDefault = 0
@@ -4753,7 +4825,7 @@ namespace FoodandBeverage
 
                         det.Product = Convert.ToString(row.Cells[Giftitemno].Value ?? "");
                         det.ProductId = Convert.ToInt32(row.Cells[GiftProductid].Value ?? 0);
-                        det.ProductType = Convert.ToInt32(PartyTableType.Gift);
+                        det.ProductType = Convert.ToInt32(PackItemType.Gift);
                         det.TableType = Convert.ToInt32(ProductType.RedemptionTicket);
 
                         det.Prid = Convert.ToInt32(row.Cells[Giftprid].Value ?? 0);
@@ -4777,6 +4849,7 @@ namespace FoodandBeverage
                     }
                 }
 
+
                 // ======================================
                 // 🔥 2️⃣ INSERT CAKE ITEMS
                 // ======================================
@@ -4792,7 +4865,7 @@ namespace FoodandBeverage
                     // 🔹 PRODUCT INFO
                     det.Product = Convert.ToString(row.Cells[CakeItemNo].Value ?? "");
                     det.ProductId = Convert.ToInt32(row.Cells[CakeIdno].Value ?? 0);
-                    det.ProductType = Convert.ToInt32(PartyTableType.Cake);  
+                    det.ProductType = Convert.ToInt32(PackItemType.Cake);  
                     det.TableType = 0;     
 
                     // 🔹 QTY & PRICE
@@ -4825,6 +4898,7 @@ namespace FoodandBeverage
 
                     bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
                 }
+
 
                 MessageBox.Show("Party Booking Saved Successfully ✅");
                 ClearAll();
@@ -4891,15 +4965,13 @@ namespace FoodandBeverage
 
                 if (returnValue <= 0) return;
 
-                LoadBookingMaster(returnValue);
-
-                LoadExitingPartyPackDetails(Convert.ToInt32(txtpartpackid.Text));
+                LoadBookingMaster(returnValue, Convert.ToInt32(txtpartpackid.Text));
 
                 LoadDefaultPackAndBookingItems(Convert.ToInt32(txtpartpackid.Text), returnValue);
-                //LoadBookingDetails(returnValue);
 
-                // LoadBookingPayments(returnValue);
-
+                lblpackname.Visible = true;
+                lblpacklabel.Visible = true;
+                lblpackname.Text = SetPackName(Convert.ToInt32(txtpartpackid.Text));
 
             }
             catch (Exception ex)
@@ -4909,8 +4981,10 @@ namespace FoodandBeverage
         }
 
 
-        private void LoadBookingMaster(int bookingId)
+        private void LoadBookingMaster(int bookingId,int packid)
         {
+            LoadEventItems();
+
             BllSearch<DmnPartyBooking> bll = new BllSearch<DmnPartyBooking>();
             DmnSearch search = new DmnSearch();
             search.Select = "*";
@@ -4924,7 +4998,9 @@ namespace FoodandBeverage
             txtph.Text = result.Phone;
             txtemail.Text = result.Email;
             txtaddress.Text = result.Address;
-            cmbevent.SelectedValue =Convert.ToInt64(result.EventType);
+
+            cmbevent.SelectedValue = Convert.ToInt32(result.EventType);
+
             txteventdesc.Text = result.EventDescription;
             txtAdults.Text = result.NoOfAdults.ToString();
             txtChild.Text = result.NoOfChildren.ToString();
@@ -4936,8 +5012,9 @@ namespace FoodandBeverage
             txtTotalTaxAmount.Text = result.Tax;
             lblNetAmt.Text = result.NetAmount.ToString("0.00");
 
-           txtpartpackid.Text = result.PartyPackId.ToString();
-            
+            txtpartpackid.Text = result.PartyPackId.ToString();
+            txtpartybookingid.Text = result.PartyBookingId.ToString();
+
             // 🔹 EVENT DATE & TIME
             if (result.BookingDate != null)
                 dtpEventDate.Value = result.BookingDate;
@@ -4945,104 +5022,8 @@ namespace FoodandBeverage
             if (result.BookingTime != null)
                 dtpEventTime.Value = result.BookingTime;
 
-        }
-
-        private void LoadBookingDetails(int bookingId)
-        {
-            dgv_packenter.Rows.Clear();
-            int sl = 1;
-
-            BllSearch<DmnPartyBookingDetails> bll = new BllSearch<DmnPartyBookingDetails>();
-            DmnSearch search = new DmnSearch();
-            search.Select = "*";
-            search.Table = "tblPartyBookingDetails";
-            search.WhereNdGroupBy = $"WHERE PartyPackId = {bookingId} AND Status = 1";
-
-            var result = bll.GetSearchData("prdSearch", search);
-            if (result != null)
-            {
-                foreach (var item in result)
-                {
-                    int rowIndex = dgv_packenter.Rows.Add();
-                    var row = dgv_packenter.Rows[rowIndex];
-
-                    row.Cells[selecteditemslno].Value = sl++;
-
-                    //row.Cells[selecteditemitemno].Value = item.Item;
-                    //row.Cells[selecteditemqtyno].Value = item.Quantity;
-                    //row.Cells[selecteditemcategmenuno].Value = item.MenuCategoryId ?? 0;
-                    //row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
-                }
-            }
-
-            int newRowIndex = dgv_packenter.Rows.Add();
-            dgv_packenter.Rows[newRowIndex].Cells[selecteditemslno].Value = sl;
-
-        }
-
-        private void LoadBookingPayments(int bookingId)
-        {
-            BllSearch<DmnPartyBookingPayment> bll = new BllSearch<DmnPartyBookingPayment>();
-            DmnSearch search = new DmnSearch();
-            search.Select = "*";
-            search.Table = "tblPartyBookingPayment";
-            search.WhereNdGroupBy = $"WHERE PartyBookingId = {bookingId} AND Status = 1";
-
-            var result = bll.GetSearchData("prdSearch", search);
-            decimal totalReceived = 0;
-
-            if (result != null)
-            {
-                foreach (var pay in result)
-                {
-                    totalReceived += pay.PaymentAmount;
-                }
-            }
-
-            decimal netAmount = GetDecimalFromLabel(lblNetAmt);
-            lbladvamtdata.Text = totalReceived < netAmount ? totalReceived.ToString("0.00") : netAmount.ToString("0.00");
-        }
-        private void LoadExitingPartyPackDetails(int packid)
-        {
             try
             {
-                dgv_packenter.Rows.Clear();
-
-                int sl = 1;
-
-                BllSearch<DmnPartyPackDetails> bllDetails = new BllSearch<DmnPartyPackDetails>();
-                DmnSearch searchDetails = new DmnSearch
-                {
-                    Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId",
-                    Table = "tblPartyPackDetails",
-                    WhereNdGroupBy = $"WHERE PartyPackId = {packid} AND Status = 1 and PackItemType = {Convert.ToInt32(PackItemType.FoodItem)}"
-                };
-
-                var packDetails = bllDetails.GetSearchData("prdSearch", searchDetails);
-
-                if (packDetails != null)
-                {
-                    foreach (var item in packDetails)
-                    {
-                        int rowIndex = dgv_packenter.Rows.Add();
-                        var row = dgv_packenter.Rows[rowIndex];
-
-                        row.Cells[selecteditemslno].Value = sl++;
-                        row.Cells[selecteditemitemno].Value = item.Item;
-
-                        if (item.MenuCategoryId != null && Convert.ToInt32(item.MenuCategoryId) > 0)
-                            row.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
-
-                        row.Cells[selecteditemqtyno].Value = item.Quantity;
-                        row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
-                    }
-                }
-
-
-                int newRowIndex = dgv_packenter.Rows.Add();
-                dgv_packenter.Rows[newRowIndex].Cells[selecteditemslno].Value = sl;
-
-
                 BllSearch<DmnPartyPack> bllMaster = new BllSearch<DmnPartyPack>();
                 DmnSearch searchMaster = new DmnSearch
                 {
@@ -5057,6 +5038,65 @@ namespace FoodandBeverage
                 {
                     txtAdultPrice.Text = master.AdultPrice != null ? Convert.ToDecimal(master.AdultPrice).ToString("0.00") : "0.00";
                     txtChildPrice.Text = master.ChildPrice != null ? Convert.ToDecimal(master.ChildPrice).ToString("0.00") : "0.00";
+
+                    for (int col = 1; col < tlp_reg_contrl.ColumnCount; col++)
+                    {
+                        Control c1 = tlp_reg_contrl.GetControlFromPosition(col, 4);
+                        if (c1 != null) tlp_reg_contrl.Controls.Remove(c1);
+
+                        Control c2 = tlp_reg_contrl.GetControlFromPosition(col, 5);
+                        if (c2 != null) tlp_reg_contrl.Controls.Remove(c2);
+                    }
+
+                    int rowLabel = 4;
+                    int rowTextBox = 5;
+
+                    tlp_adult_child_label.Dock = DockStyle.Fill;
+                    tlp_adult_child_text.Dock = DockStyle.Fill;
+
+                    if ((master.ChildPrice > 0) && (master.AdultPrice > 0))
+                    {
+
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
+
+                        tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
+                        tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
+
+                        txtChild.Visible = true;
+                        lblnochild.Visible = true;
+
+                        txtAdults.Visible = true;
+                        lbladult.Visible = true;
+                    }
+                    else if (master.ChildPrice > 0)
+                    {
+                        lblnochild.Dock = DockStyle.Fill;
+                        txtChild.Dock = DockStyle.Fill;
+
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
+
+                        tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
+                        tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
+
+                        txtChild.Visible = true;
+                        lblnochild.Visible = true;
+
+                        txtAdults.Visible = false;
+                        lbladult.Visible = false;
+                    }
+                    else
+                    {
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
+
+                        txtChild.Visible = false;
+                        lblnochild.Visible = false;
+
+                        txtAdults.Visible = true;
+                        lbladult.Visible = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -5065,11 +5105,13 @@ namespace FoodandBeverage
             }
 
         }
+
         private void LoadDefaultPackAndBookingItems(int partyPackId, int bookingId)
         {
             try
             {
-                // 🔹 Clear all grids
+                LoadMenuCategory_productview();
+
                 dgv_card.Rows.Clear();
                 dgv_gift.Rows.Clear();
                 dgvcake.Rows.Clear();
@@ -5078,7 +5120,7 @@ namespace FoodandBeverage
                 int cardSl = 1;
                 int giftSl = 1;
                 int packSl = 1;
-
+                
                 // =======================================
                 // 🔹 1️⃣ Load Default Pack Items (tblPartyPackDetails)
                 // =======================================
@@ -5105,7 +5147,7 @@ namespace FoodandBeverage
                         //row.Cells[CardProductid].Value = item.ProductId;
                         row.Cells[Cardproducttype].Value = item.ProductType;
                         row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
-                        row.Cells[CardPartydeafult].Value = 1; // Default pack item
+                        row.Cells[CardPartydeafult].Value = 0; 
                         row.ReadOnly = true;
                     }
                     // 🔹 Gift
@@ -5119,19 +5161,24 @@ namespace FoodandBeverage
                         //row.Cells[GiftProductid].Value = item.ProductId;
                         row.Cells[Giftproducttype].Value = item.ProductType;
                         row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
-                        row.Cells[GiftPartydeafult].Value = 1; // Default pack item
+                        row.Cells[GiftPartydeafult].Value = 0; 
                         row.ReadOnly = true;
                     }
                     // 🔹 Food Pack
                     else if ((PackItemType)item.PackItemType == PackItemType.FoodItem)
                     {
-                        int rowIndex = dgv_packenter.Rows.Add();
-                        var row = dgv_packenter.Rows[rowIndex];
-                        row.Cells[selecteditemslno].Value = packSl++;
-                        row.Cells[selecteditemitemno].Value = item.Item;
-                        row.Cells[selecteditemqtyno].Value = item.Quantity;
-                        row.Cells[selecteditemcategmenuno].Value = item.MenuCategoryId;
-                        row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                        int rowIndex = dgv_packs.Rows.Add();
+                        DataGridViewRow row = dgv_packs.Rows[rowIndex];
+
+                        row.Cells[mainslno].Value = packSl++;
+                        row.Cells[mainitemno].Value = item.Item;
+
+                        if(Convert.ToInt32(item.MenuCategoryId)>0)
+                            row.Cells[maincategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+
+                        row.Cells[mainqtyno].Value = item.Quantity;
+                        row.Cells[mainppcdiidno].Value = item.PartyPackDetailsId;
+                        row.Cells[maindefaultno].Value = 0;   // 1 = Default Pack Item
                     }
                 }
 
@@ -5148,87 +5195,87 @@ namespace FoodandBeverage
 
                 var bookingItems = bllBooking.GetSearchData("prdSearch", searchBooking);
 
-                foreach (var item in bookingItems)
-                {
-                    // 🔹 Card
-                    if (item.ProductType == (int)PartyTableType.Card)
-                    {
-                        int rowIndex = dgv_card.Rows.Add();
-                        var row = dgv_card.Rows[rowIndex];
+                //foreach (var item in bookingItems)
+                //{
+                //    // 🔹 Card
+                //    if (item.ProductType == (int)PackItemType.Card)
+                //    {
+                //        int rowIndex = dgv_card.Rows.Add();
+                //        var row = dgv_card.Rows[rowIndex];
 
-                        row.Cells[Cardslno].Value = cardSl++;
-                        row.Cells[Carditemno].Value = item.Product;
-                        row.Cells[Cardqtyno].Value = item.Qty;
-                        row.Cells[CardPrice].Value = item.Price;
-                        row.Cells[CardProductid].Value = item.ProductId;
-                        row.Cells[Cardproducttype].Value = item.ProductType;
-                        //row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                //        row.Cells[Cardslno].Value = cardSl++;
+                //        row.Cells[Carditemno].Value = item.Product;
+                //        row.Cells[Cardqtyno].Value = item.Qty;
+                //        row.Cells[CardPrice].Value = item.Price;
+                //        row.Cells[CardProductid].Value = item.ProductId;
+                //        row.Cells[Cardproducttype].Value = item.ProductType;
+                //        //row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
 
-                        row.Cells[Cardtax].Value = item.Tax;
-                        row.Cells[Cardtaxtype].Value = item.TaxType;
-                        row.Cells[Cardtaxper].Value = item.TaxPer;
-                        row.Cells[Cardtaxamt].Value = item.TaxAmount;
-                        row.Cells[Cardpretaxamt].Value = item.PreTaxAmount;
-                        row.Cells[Cardnetamt].Value = item.NetAmount;
+                //        row.Cells[Cardtax].Value = item.Tax;
+                //        row.Cells[Cardtaxtype].Value = item.TaxType;
+                //        row.Cells[Cardtaxper].Value = item.TaxPer;
+                //        row.Cells[Cardtaxamt].Value = item.TaxAmount;
+                //        row.Cells[Cardpretaxamt].Value = item.PreTaxAmount;
+                //        row.Cells[Cardnetamt].Value = item.NetAmount;
 
-                        row.Cells[CardPartydeafult].Value = 0; // Booking-added item
-                    }
-                    // 🔹 Gift
-                    else if (item.ProductType == (int)PartyTableType.Gift)
-                    {
-                        int rowIndex = dgv_gift.Rows.Add();
-                        var row = dgv_gift.Rows[rowIndex];
+                //        row.Cells[CardPartydeafult].Value = 0; // Booking-added item
+                //    }
+                //    // 🔹 Gift
+                //    else if (item.ProductType == (int)PackItemType.Gift)
+                //    {
+                //        int rowIndex = dgv_gift.Rows.Add();
+                //        var row = dgv_gift.Rows[rowIndex];
 
-                        row.Cells[Giftslno].Value = giftSl++;
-                        row.Cells[Giftitemno].Value = item.Product;
-                        row.Cells[Giftqtyno].Value = item.Qty;
-                        row.Cells[GiftPrice].Value = item.Price;
-                        row.Cells[GiftProductid].Value = item.ProductId;
-                        row.Cells[Giftproducttype].Value = item.ProductType;
-                        //row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
-                        row.Cells[Giftprid].Value = item.Prid;
+                //        row.Cells[Giftslno].Value = giftSl++;
+                //        row.Cells[Giftitemno].Value = item.Product;
+                //        row.Cells[Giftqtyno].Value = item.Qty;
+                //        row.Cells[GiftPrice].Value = item.Price;
+                //        row.Cells[GiftProductid].Value = item.ProductId;
+                //        row.Cells[Giftproducttype].Value = item.ProductType;
+                //        //row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                //        row.Cells[Giftprid].Value = item.Prid;
 
-                        row.Cells[Gifttax].Value = item.Tax;
-                        row.Cells[Gifttaxtype].Value = item.TaxType;
-                        row.Cells[Gifttaxper].Value = item.TaxPer;
-                        row.Cells[Gifttaxamt].Value = item.TaxAmount;
-                        row.Cells[Giftpretaxamt].Value = item.PreTaxAmount;
-                        row.Cells[Giftnetamt].Value = item.NetAmount;
+                //        row.Cells[Gifttax].Value = item.Tax;
+                //        row.Cells[Gifttaxtype].Value = item.TaxType;
+                //        row.Cells[Gifttaxper].Value = item.TaxPer;
+                //        row.Cells[Gifttaxamt].Value = item.TaxAmount;
+                //        row.Cells[Giftpretaxamt].Value = item.PreTaxAmount;
+                //        row.Cells[Giftnetamt].Value = item.NetAmount;
 
-                        row.Cells[GiftPartydeafult].Value = 0; // Booking-added item
-                    }
-                    // 🔹 Cake
-                    else if (item.ProductType == (int)PartyTableType.Cake)
-                    {
-                        int rowIndex = dgvcake.Rows.Add();
-                        var row = dgvcake.Rows[rowIndex];
+                //        row.Cells[GiftPartydeafult].Value = 0; // Booking-added item
+                //    }
+                //    // 🔹 Cake
+                //    else if (item.ProductType == (int)PackItemType.Cake)
+                //    {
+                //        int rowIndex = dgvcake.Rows.Add();
+                //        var row = dgvcake.Rows[rowIndex];
 
-                        row.Cells[CakeItemNo].Value = item.Product;
-                        row.Cells[CakeQtyNo].Value = item.Qty;
-                        row.Cells[CakeAmountNo].Value = item.Price;
-                        row.Cells[CakeIdno].Value = item.ProductId;
-                        row.Cells[CakeTaxNo].Value = item.Tax;
-                        row.Cells[CakeTaxTypeNo].Value = item.TaxType;
-                        row.Cells[CakeTaxPerNo].Value = item.TaxPer;
-                        row.Cells[CakeTaxAmtNo].Value = item.TaxAmount;
-                        row.Cells[CaketaxsettingidNo].Value = item.TaxSettingId;
-                        row.Cells[CakeNetAmtNo].Value = item.NetAmount;
-                        row.Cells[Cakeremarksno].Value = item.CakeRemarks;
-                        row.Cells[Cakemessageno].Value = item.CakeMessage;
-                    }
-                    // 🔹 Food Pack (Booking-added)
-                    else if (item.ProductType == (int)PartyTableType.Pack)
-                    {
-                        int rowIndex = dgv_packenter.Rows.Add();
-                        var row = dgv_packenter.Rows[rowIndex];
+                //        row.Cells[CakeItemNo].Value = item.Product;
+                //        row.Cells[CakeQtyNo].Value = item.Qty;
+                //        row.Cells[CakeAmountNo].Value = item.Price;
+                //        row.Cells[CakeIdno].Value = item.ProductId;
+                //        row.Cells[CakeTaxNo].Value = item.Tax;
+                //        row.Cells[CakeTaxTypeNo].Value = item.TaxType;
+                //        row.Cells[CakeTaxPerNo].Value = item.TaxPer;
+                //        row.Cells[CakeTaxAmtNo].Value = item.TaxAmount;
+                //        row.Cells[CaketaxsettingidNo].Value = item.TaxSettingId;
+                //        row.Cells[CakeNetAmtNo].Value = item.NetAmount;
+                //        row.Cells[Cakeremarksno].Value = item.CakeRemarks;
+                //        row.Cells[Cakemessageno].Value = item.CakeMessage;
+                //    }
+                //    // 🔹 Food Pack (Booking-added)
+                //    else if (item.ProductType == (int)PackItemType.Pack)
+                //    {
+                //        int rowIndex = dgv_packenter.Rows.Add();
+                //        var row = dgv_packenter.Rows[rowIndex];
 
-                        row.Cells[selecteditemslno].Value = packSl++;
-                        row.Cells[selecteditemitemno].Value = item.Product;
-                        row.Cells[selecteditemqtyno].Value = item.Qty;
-                        //row.Cells[selecteditemcategmenuno].Value = item.MenuCategoryId;
-                        //row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
-                    }
-                }
+                //        row.Cells[selecteditemslno].Value = packSl++;
+                //        row.Cells[selecteditemitemno].Value = item.Product;
+                //        row.Cells[selecteditemqtyno].Value = item.Qty;
+                //        //row.Cells[selecteditemcategmenuno].Value = item.MenuCategoryId;
+                //        //row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                //    }
+                //}
             }
             catch (Exception ex)
             {

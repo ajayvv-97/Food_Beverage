@@ -40,5 +40,7 @@ namespace Domain
         public bool IsStockTracked { get; set; }
         public int FoodType { get; set; }
 		public bool HasVariation { get; set; }
+		public string ForeColor { get; set; }
+		public string BackColor { get; set; }
 	}
 }

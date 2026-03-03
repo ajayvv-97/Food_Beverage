@@ -30,6 +30,9 @@ namespace BLL
             parms.Add("IsStockTracked", objTestClass.IsStockTracked);
 			parms.Add("FoodType", objTestClass.FoodType);
 			parms.Add("HasVariation", objTestClass.HasVariation);
+
+			parms.Add("ForeColor", objTestClass.ForeColor);
+			parms.Add("BackColor", objTestClass.BackColor);
 			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}

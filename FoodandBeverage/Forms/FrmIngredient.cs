@@ -28,8 +28,10 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
         }
 
+        #region Decalartion
+
         #region Grid Declaration
-        public  int Rslno = 0;
+        public int Rslno = 0;
         public  int Ritemno = 1;
         public  int Rqtyno = 2;
         public  int Runitno = 3;
@@ -84,6 +86,8 @@ namespace FoodandBeverage.Forms
         public int tileH= Convert.ToInt32(ConfigurationManager.AppSettings["Productheight"]);
         public int tileW = Convert.ToInt32(ConfigurationManager.AppSettings["Productwidth"]);
         public int Productcorner = Convert.ToInt32(ConfigurationManager.AppSettings["CornerRadius"]);
+        private bool isLoadingColor = false;
+        #endregion
 
         private void btnsave_Click(object sender, EventArgs e)
         {
@@ -152,6 +156,13 @@ namespace FoodandBeverage.Forms
                         dmnproduct.Status = 1;
                     else
                         dmnproduct.Status = 0;
+
+                    // Convert Color to Hex
+                    string foreHex = ColorTranslator.ToHtml(btnforcolor.BackColor);
+                    string backHex = ColorTranslator.ToHtml(btnbgcolor.BackColor);
+
+                    dmnproduct.ForeColor = foreHex;
+                    dmnproduct.BackColor = backHex;
 
                     prostatus = bllProduct.AddEditData("prdInsert_Upd_Product", dmnproduct);
                     int statuscount = 0,gridcount=0,varia_count=0;
@@ -434,6 +445,13 @@ namespace FoodandBeverage.Forms
                 txtDiscAmnt.ReadOnly = false;
                 txtDisPer.ReadOnly = false;
                 txtprice.ReadOnly = false;
+
+                // Default values
+                btnbgcolor.BackColor = Color.White;
+                btnforcolor.BackColor = Color.Black;
+
+                chk_bgcolor.Checked = false;
+                chk_forecolor.Checked = false;
             }
             catch(Exception ex)
             {
@@ -916,7 +934,43 @@ namespace FoodandBeverage.Forms
                         txtDisPer.ReadOnly = false;
                         txtprice.ReadOnly = false;
                     }
-                        
+
+                    #region Color Loading
+
+                    isLoadingColor = true;   
+
+                    var item = gridSource.FirstOrDefault();
+
+                    if (item != null)
+                    {
+                        if (!string.IsNullOrWhiteSpace(item.ForeColor))
+                        {
+                            btnforcolor.BackColor = ColorTranslator.FromHtml(item.ForeColor);
+                            chk_forecolor.Checked = true;
+                        }
+                        else
+                        {
+                            chk_forecolor.Checked = false;
+                            btnforcolor.BackColor = Color.Black;
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(item.BackColor))
+                        {
+                            btnbgcolor.BackColor = ColorTranslator.FromHtml(item.BackColor);
+                            chk_bgcolor.Checked = true;
+                        }
+                        else
+                        {
+                            chk_bgcolor.Checked = false;
+                            btnbgcolor.BackColor = Color.White;
+                        }
+                    }
+
+                    isLoadingColor = false;   
+
+                    GeneratePreviewDesign();
+                    #endregion
+
 
                     //string imageName = Convert.ToString(gridSource[0].ProductId) + ".jpeg";
                     //bool imageExist, brLogoExist;
@@ -3637,8 +3691,9 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-        #region COLOR SETTING
 
+
+        #region COLOR SETTING
         private void btncolor_cutsomize_Click(object sender, EventArgs e)
         {
             pnlcolorsetting.Visible = true;
@@ -3647,15 +3702,6 @@ namespace FoodandBeverage.Forms
             // Center panel
             pnlcolorsetting.Left = (this.ClientSize.Width - pnlcolorsetting.Width) / 2;
             pnlcolorsetting.Top = (this.ClientSize.Height - pnlcolorsetting.Height) / 2;
-
-            // Default values
-            btnbgcolor.BackColor = Color.White;
-            btnforcolor.BackColor = Color.Black;
-
-            chk_bgcolor.Checked = false;
-            chk_forecolor.Checked = false;
-
-            GeneratePreviewDesign();
         }
 
         private void btnforcolor_Click(object sender, EventArgs e)
@@ -3705,9 +3751,11 @@ namespace FoodandBeverage.Forms
 
         private void chk_forecolor_CheckedChanged(object sender, EventArgs e)
         {
+            if (isLoadingColor) return;   // 🔥 Prevent reset while loading
+
             btnforcolor.Enabled = chk_forecolor.Checked;
 
-            if (!chk_forecolor.Checked)
+            if (chk_forecolor.Checked)
                 btnforcolor.BackColor = Color.Black;
 
             GeneratePreviewDesign();
@@ -3715,18 +3763,17 @@ namespace FoodandBeverage.Forms
 
         private void chk_bgcolor_CheckedChanged(object sender, EventArgs e)
         {
+            if (isLoadingColor) return;   // 🔥 Prevent reset while loading
+
             btnbgcolor.Enabled = chk_bgcolor.Checked;
 
-            if (!chk_bgcolor.Checked)
+            if (chk_bgcolor.Checked)
                 btnbgcolor.BackColor = Color.White;
 
             GeneratePreviewDesign();
         }
 
-        private void btnpreviewcolor_Click(object sender, EventArgs e)
-        {
-            GeneratePreviewDesign();
-        }
+
 
         private void GeneratePreviewDesign()
         {
@@ -3737,7 +3784,7 @@ namespace FoodandBeverage.Forms
             Panel tile = new Panel();
             tile.Width = tileW;
             tile.Height = tileH;
-            tile.BorderStyle = BorderStyle.FixedSingle;
+            tile.BorderStyle = BorderStyle.None;
             tile.Cursor = Cursors.Hand;
 
             // Safe default colors
@@ -3771,7 +3818,6 @@ namespace FoodandBeverage.Forms
             flp_productview.Controls.Add(tile);
         }
 
-        // 🔥 Recursive ForeColor Apply
         private void ApplyForeColorRecursive(Control parent, Color color)
         {
             foreach (Control ctrl in parent.Controls)
