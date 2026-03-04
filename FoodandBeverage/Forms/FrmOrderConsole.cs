@@ -162,8 +162,8 @@ namespace FoodandBeverage.Forms
         public int icombotaxamt = 47;
         public int istocktrackno = 48;
         public int ipretaxamtno = 49;
-        
-
+        public int iSaledisperno = 50;
+        public int isalediamtno = 51;
 
 
         public int Cbarcode = 0;
@@ -200,7 +200,9 @@ namespace FoodandBeverage.Forms
         public int COrderDetailsIdno = 31;
         public int Cpretaxamtno = 32;
         public int Cstocktrackno = 33;
-        
+        public int cSaledisperno = 34;
+        public int csalediamtno = 35;
+
         public int tslno = 0;
         public int ttablenameno = 1;
         public int ttablecategno = 2;
@@ -2781,7 +2783,7 @@ namespace FoodandBeverage.Forms
                 if (decimal.TryParse(txtdis_amt.Text, out value))
                 {
                     decimal netAmount = 0;
-                    netAmount = (Convert.ToDecimal(txtGrandTotal.Text)) - (Convert.ToDecimal(txtdis_amt.Text) + Convert.ToDecimal(txtdiscountamt_promo.Text));
+                    netAmount = (Convert.ToDecimal(txtGrandTotal.Text)) - ( Convert.ToDecimal(txtdiscountamt_promo.Text));//Convert.ToDecimal(txtdis_amt.Text)
 
                     if (Booking_Status && (netAmount > Convert.ToDecimal(txtadvance.Text)))
                         netAmount = netAmount - Convert.ToDecimal(txtadvance.Text);
@@ -3622,15 +3624,15 @@ namespace FoodandBeverage.Forms
                     TableLayoutPanel tlpMain = new TableLayoutPanel
                     {
                         Parent = tile,
-                        RowCount = 2,
+                        RowCount = 1,
                         ColumnCount = 1,
                         Dock = DockStyle.Fill,
                         Tag = productId,
                         AccessibleDescription = saleType.ToString()
                     };
 
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 85));
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                    //tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15));
 
                     Label lblName = new Label
                     {
@@ -3646,41 +3648,42 @@ namespace FoodandBeverage.Forms
                     Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
                     lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
 
-                    Label lblPrice = new Label
-                    {
-                        Dock = DockStyle.Fill,
-                        Tag = productId,
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        ForeColor = Color.Green,
-                        BackColor = Color.Transparent,
-                        Font = f10
-                    };
+                    //Label lblPrice = new Label
+                    //{
+                    //    Dock = DockStyle.Fill,
+                    //    Tag = productId,
+                    //    TextAlign = ContentAlignment.MiddleCenter,
+                    //    ForeColor = Color.Green,
+                    //    BackColor = Color.Transparent,
+                    //    Font = f10
+                    //};
 
-                    if (discountPer > 0)
-                    {
-                        lblPrice.Paint -= PricePaintHandler;
-                        lblPrice.Paint += PricePaintHandler;
+                    //if (discountPer > 0)
+                    //{
+                    //    lblPrice.Paint -= PricePaintHandler;
+                    //    lblPrice.Paint += PricePaintHandler;
 
-                        lblPrice.Tag = new PriceTag
-                        {
-                            OldPrice = price,
-                            NewPrice = discountPrice
-                        };
-                    }
-                    else
-                    {
-                        lblPrice.Text = (saleType == 1 && price == 0)
-                                       ? ""
-                                       : "₹ " + price.ToString("0.00");
-                    }
+                    //    lblPrice.Tag = new PriceTag
+                    //    {
+                    //        OldPrice = price,
+                    //        NewPrice = discountPrice
+                    //    };
+                    //}
+                    //else
+                    //{
+                    //    lblPrice.Text = (saleType == 1 && price == 0)
+                    //                   ? ""
+                    //                   : "₹ " + price.ToString("0.00");
+                    //}
 
                     tlpMain.Controls.Add(lblName, 0, 0);
-                    tlpMain.Controls.Add(lblPrice, 0, 1);
+                    //tlpMain.Controls.Add(lblPrice, 0, 1);
 
                     tile.Click += DashboardButtonClickEventHandler;
                     tlpMain.Click += DashboardButtonClickEventHandler;
                     lblName.Click += DashboardButtonClickEventHandler;
-                    lblPrice.Click += DashboardButtonClickEventHandler;
+
+                    //lblPrice.Click += DashboardButtonClickEventHandler;
 
                     PictureBox picFav = new PictureBox
                     {
@@ -4018,15 +4021,15 @@ namespace FoodandBeverage.Forms
                     {
                         Parent = tile,
                         Dock = DockStyle.Fill,
-                        RowCount = 2,
+                        RowCount = 1,
                         Tag = productId,
                         AccessibleDescription= Saletypeno,
                         ColumnCount = 1,
                         BackColor = Color.White,
                         Margin = new Padding(0)
                     };
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 85));
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                    //tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15));
                     tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
                     tlpMain.Click += DashboardButtonClickEventHandler;
 
@@ -4047,40 +4050,40 @@ namespace FoodandBeverage.Forms
                     Size textSize = TextRenderer.MeasureText(lblProductName.Text, AppFonts.GetFont(11));
                     lblProductName.Font = textSize.Width <= tileW - 10 ? AppFonts.GetFont(11) : AppFonts.GetFont(9);
 
-                    Label lblPrice = new Label
-                    {
-                        Dock = DockStyle.Fill,
-                        AutoSize = false,
-                        Tag = productId,
-                        AccessibleDescription = Saletypeno,
-                        ForeColor = Color.Green,
-                        BackColor = Color.Transparent,
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        Font = AppFonts.GetFont(10)
-                    };
-                    lblPrice.Click += DashboardButtonClickEventHandler;
+                    //Label lblPrice = new Label
+                    //{
+                    //    Dock = DockStyle.Fill,
+                    //    AutoSize = false,
+                    //    Tag = productId,
+                    //    AccessibleDescription = Saletypeno,
+                    //    ForeColor = Color.Green,
+                    //    BackColor = Color.Transparent,
+                    //    TextAlign = ContentAlignment.MiddleCenter,
+                    //    Font = AppFonts.GetFont(10)
+                    //};
+                    //lblPrice.Click += DashboardButtonClickEventHandler;
 
-                    lblPrice.Paint += (s, l) =>
-                    {
-                        string oldP = "₹ " + originalPrice.ToString("0.00");
-                        string newP = "₹ " + discountPrice.ToString("0.00");
+                    //lblPrice.Paint += (s, l) =>
+                    //{
+                    //    string oldP = "₹ " + originalPrice.ToString("0.00");
+                    //    string newP = "₹ " + discountPrice.ToString("0.00");
 
-                        using (Font fOld = new Font(lblPrice.Font, FontStyle.Strikeout))
-                        using (Font fNew = new Font(lblPrice.Font, FontStyle.Bold))
-                        {
-                            SizeF oldSize = l.Graphics.MeasureString(oldP, fOld);
-                            SizeF newSize = l.Graphics.MeasureString(newP, fNew);
+                    //    using (Font fOld = new Font(lblPrice.Font, FontStyle.Strikeout))
+                    //    using (Font fNew = new Font(lblPrice.Font, FontStyle.Bold))
+                    //    {
+                    //        SizeF oldSize = l.Graphics.MeasureString(oldP, fOld);
+                    //        SizeF newSize = l.Graphics.MeasureString(newP, fNew);
 
-                            float totalWidth = oldSize.Width + 10 + newSize.Width;
-                            float startX = (lblPrice.Width - totalWidth) / 2;
+                    //        float totalWidth = oldSize.Width + 10 + newSize.Width;
+                    //        float startX = (lblPrice.Width - totalWidth) / 2;
 
-                            l.Graphics.DrawString(oldP, fOld, Brushes.Gray, startX, 4);
-                            l.Graphics.DrawString(newP, fNew, Brushes.Green, startX + oldSize.Width + 10, 4);
-                        }
-                    };
+                    //        l.Graphics.DrawString(oldP, fOld, Brushes.Gray, startX, 4);
+                    //        l.Graphics.DrawString(newP, fNew, Brushes.Green, startX + oldSize.Width + 10, 4);
+                    //    }
+                    //};
 
                     tlpMain.Controls.Add(lblProductName, 0, 0);
-                    tlpMain.Controls.Add(lblPrice, 0, 1);
+                    //tlpMain.Controls.Add(lblPrice, 0, 1);
 
                     UIHelper.RoundCorners(tile, Productcorner, null);
 
@@ -4275,11 +4278,11 @@ namespace FoodandBeverage.Forms
                     tblMain.Parent = tile;
                     tblMain.Dock = DockStyle.Fill;
                     tblMain.BackColor = Color.Transparent;
-                    tblMain.RowCount = 2;
+                    tblMain.RowCount = 1;
                     tblMain.ColumnCount = 1;
                     //tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
-                    tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 85));
-                    tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+                    tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                    //tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
                     tblMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
 
                     Label lblProductName = new Label();
@@ -4299,18 +4302,18 @@ namespace FoodandBeverage.Forms
 
                     int nameWidth = TextRenderer.MeasureText(lblProductName.Text, lblProductName.Font).Width;
 
-                    Label lblPrice = new Label();
-                    lblPrice.Text = "₹ " + Convert.ToDecimal(totalPrice).ToString("0.00");
-                    lblPrice.ForeColor = Color.Green;
-                    lblPrice.BackColor = Color.Transparent;
-                    lblPrice.Font = AppFonts.GetFont(10);
-                    lblPrice.Dock = DockStyle.Fill;
-                    lblPrice.TextAlign = ContentAlignment.MiddleCenter;
-                    lblPrice.AccessibleDescription = item.Field3;
-                    lblPrice.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+                    //Label lblPrice = new Label();
+                    //lblPrice.Text = "₹ " + Convert.ToDecimal(totalPrice).ToString("0.00");
+                    //lblPrice.ForeColor = Color.Green;
+                    //lblPrice.BackColor = Color.Transparent;
+                    //lblPrice.Font = AppFonts.GetFont(10);
+                    //lblPrice.Dock = DockStyle.Fill;
+                    //lblPrice.TextAlign = ContentAlignment.MiddleCenter;
+                    //lblPrice.AccessibleDescription = item.Field3;
+                    //lblPrice.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
                     tblMain.Controls.Add(lblProductName, 0, 0);
-                    tblMain.Controls.Add(lblPrice, 0, 1);
+                   // tblMain.Controls.Add(lblPrice, 0, 1);
 
                     PictureBox picMore = new PictureBox();
                     picMore.Name = "picMore" + item.Field2;
@@ -4882,6 +4885,7 @@ namespace FoodandBeverage.Forms
                                 decimal totalamt = Convert.ToDecimal(Dgv_Selected_Item.Rows[r1].Cells[itotal].Value) + Convert.ToDecimal(txtGrandTotal.Text);
                                 txtGrandTotal.Text = Convert.ToString(totalamt);
                                 txtnetamount.Text = Convert.ToString(totalamt);
+
                                 #endregion
 
                                 netAmount();
@@ -5964,18 +5968,6 @@ namespace FoodandBeverage.Forms
                             decimal discount = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value);
                             cellTaxAmount(cellproductid, amount - discount);
 
-                            //if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
-                            //{
-                            //    decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value))
-                            //    + Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value);
-                            //    Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
-                            //}
-                            //if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
-                            //{
-                            //    decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value));
-                            //    Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
-                            //}
-
                             if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
                             {
                                 decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value))
@@ -6032,22 +6024,6 @@ namespace FoodandBeverage.Forms
                     dmnSearch.WhereNdGroupBy = " where status=1 and TaxSettingsId= " + Dgv_Selected_Item.Rows[cellproductid].Cells[itaxsettingid].Value;
                     dmnSearch.OrderBy = "";
                     var gridSource = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
-
-                    //if (gridSource[0].TaxType == "GST")
-                    //{
-                    //    decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].IgstPrcnt) * amount / 100);
-                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
-                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[iigstamtno].Value = TaxAmount.ToString("N2");
-                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].IgstPrcnt;
-                    //}
-                    //if (gridSource[0].TaxType == "VAT")
-                    //{
-                    //    decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].VatPrcnt) * amount / 100);
-                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
-                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[ivatamtno].Value = TaxAmount.ToString("N2");
-                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].VatPrcnt;
-                    //}
-
                     decimal TaxAmount = 0;
                     decimal originalCost = amount;
                     decimal gstPercent = 0, vatPercent = 0;
@@ -6120,6 +6096,8 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+
         public void cellDiscountPercentage(int cellproductid)
         {
             try
@@ -6349,34 +6327,80 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
         private void btn_offer_calc_Click(object sender, EventArgs e)
         {
             try
             {
-                decimal kdata = 0;
-                using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
+                decimal enteredValue = 0;
+
+                using (UserControl.Frmnumdiskeypad frm =
+                    new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
                 {
                     frm.ShowDialog();
-                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                    enteredValue = string.IsNullOrEmpty(frm.txtkeypadvalue.Text)
+                        ? 0
+                        : Convert.ToDecimal(frm.txtkeypadvalue.Text);
                 }
+
+                decimal grossTotal = GetGrossTotal(); // sum of all row amounts
+
+                decimal salePercent = 0;
+                decimal saleAmount = 0;
+
                 if (UserControl.Frmnumdiskeypad.flagpercentage)
                 {
-                    txtdis_per.Text = kdata.ToString("0.##");
-                    discountAmnt();
-                    netAmount();
+                    // ✅ User Entered Percentage
+                    salePercent = enteredValue;
+                    saleAmount = (grossTotal * salePercent) / 100;
+
+                    txtdis_per.Text = salePercent.ToString("0.##");
+                    txtdis_amt.Text = saleAmount.ToString("0.##");
                 }
                 else
                 {
-                    txtdis_amt.Text = kdata.ToString("0.##");
-                    discountPer();
-                    netAmount();
+                    // ✅ User Entered Amount
+                    saleAmount = enteredValue;
+
+                    if (grossTotal > 0)
+                        salePercent = (saleAmount * 100) / grossTotal;
+
+                    txtdis_amt.Text = saleAmount.ToString("0.##");
+                    txtdis_per.Text = salePercent.ToString("0.##");
                 }
+                txtGrandTotal.Text = "0";
+                for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+                {
+                    if (Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != "" && Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != null)
+                    {
+                        Dgv_Selected_Item.Rows[i].Cells[iSaledisperno].Value = salePercent;
+                        CalculateFullRow(i); 
+                    }
+                }
+
+                netAmount();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page  btn_offer_calc_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page btn_offer_calc_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
             }
+        }
+        private decimal GetGrossTotal()
+        {
+            decimal total = 0;
+
+            for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+            {
+                if (Dgv_Selected_Item.Rows[i].IsNewRow) continue;
+
+                total += Convert.ToDecimal(
+                    Dgv_Selected_Item.Rows[i].Cells[iamount].Value ?? 0);
+            }
+
+            return total;
         }
 
         #region Promo code
@@ -7144,7 +7168,7 @@ namespace FoodandBeverage.Forms
 
                         TableLayoutPanel tlpMain = new TableLayoutPanel();
                         tlpMain.Parent = tile;
-                        tlpMain.RowCount = 2;
+                        tlpMain.RowCount = 1;
                         tlpMain.ColumnCount = 1;
                         tlpMain.Dock = DockStyle.Fill;
                         tlpMain.BackColor = Color.White;
@@ -7153,8 +7177,8 @@ namespace FoodandBeverage.Forms
                         tlpMain.AccessibleDescription = item.Field3;
 
                         //tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
-                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 85f));
-                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
+                        tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                        //tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 15f));
                         tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f)); 
 
                         Label lblName = new Label();
@@ -7173,45 +7197,45 @@ namespace FoodandBeverage.Forms
 
                         int nameWidth = TextRenderer.MeasureText(lblName.Text, lblName.Font).Width;
 
-                        Label lblPrice = new Label();
-                        lblPrice.AutoSize = false;
-                        lblPrice.Dock = DockStyle.Fill;
-                        lblPrice.TextAlign = ContentAlignment.MiddleCenter;
-                        lblPrice.Font = AppFonts.GetFont(10);
-                        lblPrice.ForeColor = Color.Green;
-                        lblPrice.BackColor = Color.Transparent;
-                        if (discountper > 0)
-                        {
-                            lblPrice.Paint += (s, l) =>
-                            {
-                                string oldP = "₹ " + originalPrice.ToString("0.00");
-                                string newP = "₹ " + discountPrice.ToString("0.00");
+                        //Label lblPrice = new Label();
+                        //lblPrice.AutoSize = false;
+                        //lblPrice.Dock = DockStyle.Fill;
+                        //lblPrice.TextAlign = ContentAlignment.MiddleCenter;
+                        //lblPrice.Font = AppFonts.GetFont(10);
+                        //lblPrice.ForeColor = Color.Green;
+                        //lblPrice.BackColor = Color.Transparent;
+                        //if (discountper > 0)
+                        //{
+                        //    lblPrice.Paint += (s, l) =>
+                        //    {
+                        //        string oldP = "₹ " + originalPrice.ToString("0.00");
+                        //        string newP = "₹ " + discountPrice.ToString("0.00");
 
-                                SizeF oldSize = l.Graphics.MeasureString(oldP, f10Strike);
-                                SizeF newSize = l.Graphics.MeasureString(newP, f10Bold);
+                        //        SizeF oldSize = l.Graphics.MeasureString(oldP, f10Strike);
+                        //        SizeF newSize = l.Graphics.MeasureString(newP, f10Bold);
 
-                                float totalWidth = oldSize.Width + 10 + newSize.Width;
-                                float startX = (lblPrice.Width - totalWidth) / 2;
+                        //        float totalWidth = oldSize.Width + 10 + newSize.Width;
+                        //        float startX = (lblPrice.Width - totalWidth) / 2;
 
-                                l.Graphics.DrawString(oldP, f10Strike, Brushes.Gray, startX, 4);
-                                l.Graphics.DrawString(newP, f10Bold, Brushes.Green, startX + oldSize.Width + 10, 4);
-                            };
+                        //        l.Graphics.DrawString(oldP, f10Strike, Brushes.Gray, startX, 4);
+                        //        l.Graphics.DrawString(newP, f10Bold, Brushes.Green, startX + oldSize.Width + 10, 4);
+                        //    };
 
-                        }
-                        else
-                        {
-                            if (Saletypeno == 1 && price == 0)
-                                lblPrice.Text = "";
-                            else
-                                lblPrice.Text = "₹ " + price.ToString("0.00");
-                        }
+                        //}
+                        //else
+                        //{
+                        //    if (Saletypeno == 1 && price == 0)
+                        //        lblPrice.Text = "";
+                        //    else
+                        //        lblPrice.Text = "₹ " + price.ToString("0.00");
+                        //}
 
                         tlpMain.Controls.Add(lblName, 0, 0);
-                        tlpMain.Controls.Add(lblPrice, 0, 1);
+                        //tlpMain.Controls.Add(lblPrice, 0, 1);
 
                         tlpMain.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
                         tile.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
-                        lblPrice.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+                       // lblPrice.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
                         lblName.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
                         PictureBox picFav = new PictureBox();
@@ -7263,7 +7287,7 @@ namespace FoodandBeverage.Forms
                         tblMain.Parent = tile;
                         tblMain.Dock = DockStyle.Fill;
                         tblMain.BackColor = Color.Transparent;
-                        tblMain.RowCount = 3;
+                        tblMain.RowCount = 1;
                         tblMain.ColumnCount = 1;
                         tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 60f));
                         tblMain.RowStyles.Add(new RowStyle(SizeType.Percent, 25f));
@@ -7287,21 +7311,21 @@ namespace FoodandBeverage.Forms
 
                         int nameWidth = TextRenderer.MeasureText(lblProductName.Text, lblProductName.Font).Width;
 
-                        Label lblPrice = new Label();
-                        lblPrice.Text = "₹ " + Convert.ToDecimal(totalPrice).ToString("0.00");
-                        lblPrice.ForeColor = Color.Green;
-                        lblPrice.BackColor = Color.Transparent;
-                        lblPrice.Font = AppFonts.GetFont(10);
-                        lblPrice.Dock = DockStyle.Fill;
-                        lblPrice.TextAlign = ContentAlignment.MiddleCenter;
-                        lblPrice.AccessibleDescription = item.Field3;
+                        //Label lblPrice = new Label();
+                        //lblPrice.Text = "₹ " + Convert.ToDecimal(totalPrice).ToString("0.00");
+                        //lblPrice.ForeColor = Color.Green;
+                        //lblPrice.BackColor = Color.Transparent;
+                        //lblPrice.Font = AppFonts.GetFont(10);
+                        //lblPrice.Dock = DockStyle.Fill;
+                        //lblPrice.TextAlign = ContentAlignment.MiddleCenter;
+                        //lblPrice.AccessibleDescription = item.Field3;
 
                         tblMain.Controls.Add(lblProductName, 0, 0);
-                        tblMain.Controls.Add(lblPrice, 0, 1);
+                        //tblMain.Controls.Add(lblPrice, 0, 1);
 
                         tblMain.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
                         tile.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
-                        lblPrice.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
+                        //lblPrice.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
                         lblProductName.Click += (s, ev) => DashboardButtonClickEventHandler(tile, ev);
 
                         PictureBox picMore = new PictureBox();
@@ -12562,6 +12586,116 @@ namespace FoodandBeverage.Forms
         private void btncls_variation_Click(object sender, EventArgs e)
         {
             pnl_variation.Visible = false;
+        }
+        #endregion
+
+        #region Sale Discount Percentage and Discount Amount
+        public void CalculateFullRow(int rowIndex)
+        {
+            try
+            {
+                var row = Dgv_Selected_Item.Rows[rowIndex];
+                if (row.IsNewRow) return;
+
+                if (row.Cells[iitemid].Value == null ||
+                    row.Cells[israte].Value == null ||
+                    row.Cells[iqty].Value == null)
+                    return;
+
+                decimal rate = Convert.ToDecimal(row.Cells[israte].Value);
+                decimal qty = Convert.ToDecimal(row.Cells[iqty].Value);
+
+                // 1️⃣ Amount
+                decimal amount = rate * qty;
+                row.Cells[iamount].Value = amount.ToString("N2");
+
+                // 2️⃣ Item Discount
+                decimal itemDisPer = row.Cells[idisper].Value == null ? 0 :
+                                     Convert.ToDecimal(row.Cells[idisper].Value);
+
+                decimal itemDisAmt = (itemDisPer * amount) / 100;
+                row.Cells[idisamt].Value = itemDisAmt.ToString("N2");
+
+                decimal afterItemDiscount = amount - itemDisAmt;
+
+                // 3️⃣ Sale Discount
+                decimal saleDisPer = row.Cells[iSaledisperno].Value == null ? 0 :
+                                     Convert.ToDecimal(row.Cells[iSaledisperno].Value);
+
+                decimal saleDisAmt = (saleDisPer * afterItemDiscount) / 100;
+                row.Cells[isalediamtno].Value = saleDisAmt.ToString("N2");
+
+                decimal taxableAmount = afterItemDiscount - saleDisAmt;
+                
+                // 4️⃣ Get Tax Settings
+                BllSearch<DmnTaxSettings> bll = new BllSearch<DmnTaxSettings>();
+                DmnSearch search = new DmnSearch();
+                search.Select = "TaxType, IgstPrcnt, VatPrcnt";
+                search.Table = "tblTaxSettings";
+                search.WhereNdGroupBy =" WHERE status=1 AND TaxSettingsId=" + row.Cells[itaxsettingid].Value;
+
+                var taxData = bll.GetSearchData("prdSearch", search);
+                if (taxData.Count == 0) return;
+
+                string taxType = taxData[0].TaxType;
+                decimal taxPercent = 0;
+                decimal taxAmount = 0;
+
+                if (taxType == "GST")
+                    taxPercent = Convert.ToDecimal(taxData[0].IgstPrcnt);
+                else if (taxType == "VAT")
+                    taxPercent = Convert.ToDecimal(taxData[0].VatPrcnt);
+
+                row.Cells[itaxper].Value = taxPercent;
+                row.Cells[itaxtype].Value = taxType;
+
+                bool isExclusive = Convert.ToString(row.Cells[itax].Value) == "Exclusive";
+
+                if (isExclusive)
+                {
+                    taxAmount = (taxPercent * taxableAmount) / 100;                
+                    row.Cells[ipretaxamtno].Value = taxableAmount.ToString("N2");
+
+                }
+                else // Inclusive
+                {
+                    decimal baseAmount = taxableAmount * 100 / (100 + taxPercent);
+                    taxAmount = taxableAmount - baseAmount;
+                   
+                    row.Cells[ipretaxamtno].Value = baseAmount.ToString("N2");
+
+                }
+
+                row.Cells[itaxamt].Value = taxAmount.ToString("N2");
+
+                if (taxType == "GST")
+                    row.Cells[iigstamtno].Value = taxAmount.ToString("N2");
+                else
+                    row.Cells[ivatamtno].Value = taxAmount.ToString("N2");
+
+                
+                decimal finalTotal = isExclusive
+                    ? taxableAmount + taxAmount
+                    : taxableAmount;
+
+                row.Cells[itotal].Value = finalTotal.ToString("N2");
+                row.Cells[ioriginalprice].Value = finalTotal.ToString("N2");
+
+                decimal totalamt = Convert.ToDecimal(txtGrandTotal.Text) + Convert.ToDecimal(row.Cells[ioriginalprice].Value);
+
+                txtGrandTotal.Text = totalamt.ToString();
+                txtnetamount.Text = totalamt.ToString();
+
+                netAmount();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page CalculateFullRow()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
+            }
         }
         #endregion
 
