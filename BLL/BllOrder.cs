@@ -138,7 +138,9 @@ namespace BLL
             parms.Add("ReprintStatus", objTestClass.ReprintStatus);
 
             parms.Add("PreparationMode", objTestClass.PreparationMode);
-            parms.Add("IsStockTracked", objTestClass.IsStockTracked); 
+            parms.Add("IsStockTracked", objTestClass.IsStockTracked);
+
+            parms.Add("PreTaxAmt", objTestClass.PreTaxAmt);
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;

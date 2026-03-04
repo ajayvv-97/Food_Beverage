@@ -49,6 +49,14 @@ namespace FoodandBeverage.Report
         bool FlagColor = false;
 
         ClsGeneral clsgen = new ClsGeneral();
+        string Taxtypedata = "";
+        string ExclusiveTaxTotal = "";
+        string InclusivetaxTotal = "";
+        string TotalTaxAmt = "";
+        string TotalPreTax = "";
+
+        int billtaxType = 0;
+
         #endregion
 
         private void Frmreport_Load(object sender, EventArgs e)
@@ -58,6 +66,7 @@ namespace FoodandBeverage.Report
                 //combofill_report();
                 
                 Fill_combo_finyear();
+                FetchBillDetails();
 
                 dtpfrom.Dock = DockStyle.Fill;
                 dtpto.Dock = DockStyle.Fill;
@@ -79,6 +88,29 @@ namespace FoodandBeverage.Report
                 clsgen.LogException("Report page  Frmreport_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
               
+        }
+        public void FetchBillDetails()
+        {
+            try
+            {
+                BllSearch<DmnGeneralSetting> bllSearch = new BllSearch<DmnGeneralSetting>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblGeneralSetting";
+                objSearch.WhereNdGroupBy = "WHERE BranchId = " + FrmLogin.BranchId + " AND Status = 1";
+                objSearch.OrderBy = "";
+                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count > 0)
+                {
+                    billtaxType = Convert.ToInt32(itemSource[0].BillTaxType);
+                    Taxtypedata = Enum.GetName(typeof(Billtaxttype), billtaxType);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Report page  FetchBillDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+            }
         }
         public void Fill_combo_finyear()
         {
@@ -813,11 +845,72 @@ namespace FoodandBeverage.Report
                     invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
                     invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
                 }
+
+                #region TAX CALCULATION 
+
+                BllSearch<DmnGridFields> blltax = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+
+                string fromDate = fTime.ToString("yyyy-MM-dd HH:mm:ss");
+                string toDate = tTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+                #region  SalesMaster Total Tax + PreTax
+
+                dmnSearch.Select = @"
+                                    ISNULL(SUM(TotalTax),0) AS Field1, 
+                                    ISNULL(SUM(TotalPreTaxAmt),0) AS Field2";
+
+                dmnSearch.Table = "tblSalesMaster";
+
+                dmnSearch.WhereNdGroupBy = $@"
+                                        WHERE CreatedDateTime >= '{fromDate}' 
+                                        AND CreatedDateTime <= '{toDate}'
+                                        AND Status = 1
+                                        AND BranchId = {BranchId}
+                                        AND PaymentMode != {Convert.ToInt32(PaymentType.COMPLEMENTRY)}
+                                        AND PaymentMode != {Convert.ToInt32(PaymentType.Nocharge)}";
+
+                var itemsourcetax = blltax.GetSearchData("prdSearch", dmnSearch);
+                if (itemsourcetax.Count > 0)
+                {
+                    TotalTaxAmt = itemsourcetax.Count > 0 ? itemsourcetax[0].Field1 : "0";
+                    TotalPreTax = itemsourcetax.Count > 0 ? itemsourcetax[0].Field2 : "0";
+                }
+
+                #endregion
+
+                #region Inclusive / Exclusive Tax from Details
+
+                dmnSearch = new DmnSearch();
+                dmnSearch.Select = @"
+                                    ISNULL(SUM(CASE WHEN sd.Tax = 'Inclusive' THEN sd.TaxAmount ELSE 0 END),0) AS Field1,
+                                    ISNULL(SUM(CASE WHEN sd.Tax = 'Exclusive' THEN sd.TaxAmount ELSE 0 END),0) AS Field2";
+                dmnSearch.Table = @"tblSalesDetails sd INNER JOIN tblSalesMaster sm ON sm.SalesMasterId = sd.SalesMasterId";  
+                dmnSearch.WhereNdGroupBy = $@"
+                                    WHERE sm.CreatedDateTime >= '{fromDate}' 
+                                    AND sm.CreatedDateTime <= '{toDate}'
+                                    AND sm.Status = 1
+                                    AND sm.BranchId = {BranchId}
+                                    AND sm.PaymentMode != {Convert.ToInt32(PaymentType.COMPLEMENTRY)}
+                                    AND sm.PaymentMode != {Convert.ToInt32(PaymentType.Nocharge)}";
+
+                var taxTypeTotals = blltax.GetSearchData("prdSearch", dmnSearch);
+                if (taxTypeTotals.Count > 0)
+                {
+                    InclusivetaxTotal = taxTypeTotals.Count > 0 ? taxTypeTotals[0].Field1 : "0";
+                    ExclusiveTaxTotal = taxTypeTotals.Count > 0 ? taxTypeTotals[0].Field2 : "0";
+                }
+
+                #endregion
+
+                #endregion
+
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6", "dFld7"))
                 {
                     dt_Rpt.Load(reader);
                 }
                 dsReport.Tables.Add(dt_Rpt);
+
                 //string x = Application.StartupPath + @"\Report"+ @"\Rpt_MidasCardPayment.rpt";
                 //MessageBox.Show(this, x, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -839,11 +932,20 @@ namespace FoodandBeverage.Report
 
                 reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
                 reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+                //reportDocument.SetParameterValue("TotalBeforelabel", Taxtypedata);
+
+                reportDocument.SetParameterValue("TotalPreTax", TotalPreTax);
+                reportDocument.SetParameterValue("TotalTaxamt", TotalTaxAmt);
+                reportDocument.SetParameterValue("ExclusiveTaxTotal", ExclusiveTaxTotal);
+                reportDocument.SetParameterValue("InclusivetaxTotal", InclusivetaxTotal);
+
                 if (ColorChk == true)
                 {
                     FindAndSetColor(reportDocument, "Box2", selectedColor);
                     FindAndSetColor(reportDocument, "Box3", selectedColor);
                 }
+
                 crv_report.ReuseParameterValuesOnRefresh = true;
                 crv_report.RefreshReport();
                 crv_report.ReportSource = reportDocument;
@@ -928,7 +1030,7 @@ namespace FoodandBeverage.Report
                 DmnSearch dmnSearchDetBill = new DmnSearch();
                 dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,FirstName  as sFld3,PhoneNumber  as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4";/*,fcm. as dFld2,fcm.Tax as dFld3*/
                 dmnSearchDetBill.Table = "tblSalesMaster s";
-                dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and s.BranchId = " + BranchId + "and s.Status=1";
+                dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and s.BranchId = " + BranchId + "and s.Status=1 and s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and s.PaymentMode != "+Convert.ToInt32(PaymentType.Nocharge);
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
                 if (invoiceBillMasters.Count > 0)
                 {
@@ -987,7 +1089,7 @@ namespace FoodandBeverage.Report
                 DmnSearch dmnSearchDetBill = new DmnSearch();
                 dmnSearchDetBill.Select = "(select CONVERT(varchar(50), sm.CreatedDateTime, 105)) as sFld1,sm.EntryNo as sFld2,sm.FirstName as sFld3,sm.PhoneNumber as sFld4,sm.TotalQuantity  as dFld1,sm.TotalTax  as dFld2,sm.DiscountAmount  as dFld3,sm.NetAmount  as dFld4,sd.Itemname as sFld5,sd.Quantity as nFld1,sd.SalesRate as dFld5,sd.Amount as dFld6,sd.TaxAmount as dFld7,sd.DiscountAmount as dFld8,sd.NetAmount as dFld9";
                 dmnSearchDetBill.Table = "tblSalesDetails as sd LEFT JOIN tblSalesMaster sm on sm.SalesMasterId =sd.SalesMasterId";
-                dmnSearchDetBill.WhereNdGroupBy = "where sm.CreatedDateTime>= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and sm.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and sm.BranchId = " + BranchId;
+                dmnSearchDetBill.WhereNdGroupBy = "where sm.CreatedDateTime>= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and sm.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and sm.BranchId = " + BranchId + "and s.Status=1 and s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " and s.PaymentMode != " + Convert.ToInt32(PaymentType.COMPLEMENTRY);
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
                 if (invoiceBillMasters.Count > 0)
                 {

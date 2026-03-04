@@ -161,7 +161,8 @@ namespace FoodandBeverage.Forms
         public int iorgname = 46;
         public int icombotaxamt = 47;
         public int istocktrackno = 48;
-
+        public int ipretaxamtno = 49;
+        
 
 
 
@@ -197,7 +198,9 @@ namespace FoodandBeverage.Forms
         public int CSalesMasterIdno = 29;
         public int CSalesDetailsIdno = 30;
         public int COrderDetailsIdno = 31;
-
+        public int Cpretaxamtno = 32;
+        public int Cstocktrackno = 33;
+        
         public int tslno = 0;
         public int ttablenameno = 1;
         public int ttablecategno = 2;
@@ -256,6 +259,7 @@ namespace FoodandBeverage.Forms
         public decimal TotalCGST = 0;
         public decimal TotalSGST = 0;
         public decimal TotalVAT = 0;
+        public decimal TotalPreTaxAmt = 0;
         public decimal Totaldis = 0;
 
         string reading_RFID = "";
@@ -1070,6 +1074,8 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[CSalesDetailsIdno].Value = gridSourcemaster_combined[i].SalesDetailsId;
                                     dgv_combined.Rows[rowIndex].Cells[CSalesDetailsIdno].Value = gridSourcemaster_combined[i].SalesDetailsId;
                                     dgv_combined.Rows[rowIndex].Cells[COrderDetailsIdno].Value = gridSourcemaster_combined[i].OrderDetailsId;
+                                    dgv_combined.Rows[rowIndex].Cells[Cpretaxamtno].Value = gridSourcemaster_combined[i].PreTaxAmt;
+                                    dgv_combined.Rows[rowIndex].Cells[Cstocktrackno].Value = gridSourcemaster_combined[i].IsStockTracked;
                                     txtsalemasterid.Text = Convert.ToString(gridSourcemaster_combined[i].SalesMasterId);
                                 }
                                 #endregion
@@ -1088,6 +1094,7 @@ namespace FoodandBeverage.Forms
                                     updateRow.Cells[CCgstamt].Value = Convert.ToDecimal(updateRow.Cells[CCgstamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].CGSTAmount);
                                     updateRow.Cells[cSgstamt].Value = Convert.ToDecimal(updateRow.Cells[cSgstamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].SGSTAmount);
                                     updateRow.Cells[cvatamt].Value = Convert.ToDecimal(updateRow.Cells[cvatamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].VATAmount);
+                                    updateRow.Cells[Cpretaxamtno].Value = Convert.ToDecimal(updateRow.Cells[Cpretaxamtno].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].PreTaxAmt);
                                     updateRow.Cells[COrderDetailsIdno].Value = updateRow.Cells[COrderDetailsIdno].Value + "," + gridSourcemaster_combined[i].OrderDetailsId;
                                 }
                                 #endregion
@@ -5957,17 +5964,32 @@ namespace FoodandBeverage.Forms
                             decimal discount = Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value);
                             cellTaxAmount(cellproductid, amount - discount);
 
+                            //if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
+                            //{
+                            //    decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value))
+                            //    + Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value);
+                            //    Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+                            //}
+                            //if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
+                            //{
+                            //    decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value));
+                            //    Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+                            //}
+
                             if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
                             {
                                 decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value))
-                                + Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value);
+                                    + Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value);
                                 Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+                                Dgv_Selected_Item.Rows[cellproductid].Cells[ipretaxamtno].Value = amount;
                             }
                             if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
                             {
                                 decimal tot = (amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[idisamt].Value));
                                 Dgv_Selected_Item.Rows[cellproductid].Cells[itotal].Value = tot.ToString("N2");
+                                Dgv_Selected_Item.Rows[cellproductid].Cells[ipretaxamtno].Value = amount - Convert.ToDecimal(Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value);
                             }
+
                         }
                         else
                         {
@@ -6010,19 +6032,69 @@ namespace FoodandBeverage.Forms
                     dmnSearch.WhereNdGroupBy = " where status=1 and TaxSettingsId= " + Dgv_Selected_Item.Rows[cellproductid].Cells[itaxsettingid].Value;
                     dmnSearch.OrderBy = "";
                     var gridSource = _bllSearch1.GetSearchData("prdSearch", dmnSearch);
+
+                    //if (gridSource[0].TaxType == "GST")
+                    //{
+                    //    decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].IgstPrcnt) * amount / 100);
+                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
+                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[iigstamtno].Value = TaxAmount.ToString("N2");
+                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].IgstPrcnt;
+                    //}
+                    //if (gridSource[0].TaxType == "VAT")
+                    //{
+                    //    decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].VatPrcnt) * amount / 100);
+                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
+                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[ivatamtno].Value = TaxAmount.ToString("N2");
+                    //    Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].VatPrcnt;
+                    //}
+
+                    decimal TaxAmount = 0;
+                    decimal originalCost = amount;
+                    decimal gstPercent = 0, vatPercent = 0;
                     if (gridSource[0].TaxType == "GST")
                     {
-                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].IgstPrcnt) * amount / 100);
-                        Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
-                        Dgv_Selected_Item.Rows[cellproductid].Cells[iigstamtno].Value = TaxAmount.ToString("N2");
-                        Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].IgstPrcnt;
+                        TaxAmount = 0;
+                        originalCost = amount;
+                        gstPercent = Convert.ToDecimal(gridSource[0].IgstPrcnt);
+                        if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
+                        {
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = (Convert.ToDecimal(gridSource[0].IgstPrcnt));
+                            TaxAmount = Convert.ToDecimal((Convert.ToDecimal(gridSource[0].IgstPrcnt) * amount) / 100);
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = (TaxAmount).ToString("N2");
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[iigstamtno].Value = (TaxAmount).ToString("N2");
+                        }
+                        else if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
+                        {
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = (Convert.ToDecimal(gridSource[0].IgstPrcnt));
+                            TaxAmount = originalCost * (100 / (100 + gstPercent));
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = (originalCost - TaxAmount).ToString("N2");
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[iigstamtno].Value = (originalCost - TaxAmount).ToString("N2");
+                        }
+
+                        Dgv_Selected_Item.Rows[cellproductid].Cells[itaxtype].Value = gridSource[0].TaxType;
+
                     }
-                    if (gridSource[0].TaxType == "VAT")
+
+                    else if (gridSource[0].TaxType == "VAT")
                     {
-                        decimal TaxAmount = Convert.ToDecimal(Convert.ToDecimal(gridSource[0].VatPrcnt) * amount / 100);
+                        TaxAmount = 0;
+                        originalCost = amount;
+                        vatPercent = Convert.ToDecimal(gridSource[0].VatPrcnt);
+                        if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Exclusive")
+                        {
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = (Convert.ToDecimal(gridSource[0].VatPrcnt));
+                            TaxAmount = Convert.ToDecimal((Convert.ToDecimal(gridSource[0].VatPrcnt) * amount) / 100);
+                        }
+                        else if (Convert.ToString(Dgv_Selected_Item.Rows[cellproductid].Cells[itax].Value) == "Inclusive")
+                        {
+                            Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = (Convert.ToDecimal(gridSource[0].VatPrcnt));
+                            TaxAmount = originalCost - (originalCost * (100 / (100 + vatPercent)));
+                        }
+
                         Dgv_Selected_Item.Rows[cellproductid].Cells[itaxamt].Value = TaxAmount.ToString("N2");
                         Dgv_Selected_Item.Rows[cellproductid].Cells[ivatamtno].Value = TaxAmount.ToString("N2");
-                        Dgv_Selected_Item.Rows[cellproductid].Cells[itaxper].Value = gridSource[0].VatPrcnt;
+                        Dgv_Selected_Item.Rows[cellproductid].Cells[itaxtype].Value = gridSource[0].TaxType;
+
                     }
                 }
             }
@@ -7379,12 +7451,10 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.OtherGuestCount = Convert.ToInt32(txtother.Text);
                     dmnordermaster.TotalGuestCount = Convert.ToInt32(totguests.Text);
 
-
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster); 
                     if (InsertStatusP.OrderMasterId > 0)
                     {
                         ResetFlag(Convert.ToInt32(txtordermasterid.Text));
-
 
                         for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                         {
@@ -7479,6 +7549,7 @@ namespace FoodandBeverage.Forms
                                         else
                                             dmnorderdetail.ItemName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iname].Value);
                                     }
+
                                     //dmnorderdetail.Unit = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iunit].Value);
 
                                     dmnorderdetail.UnitId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iunitid].Value);
@@ -7542,6 +7613,8 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.PreparationMode = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value);
                                     dmnorderdetail.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
 
+                                    dmnorderdetail.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
+
                                     dmnorderdetail.PkId = GBL_pkid;
                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                     if (InsertStatus == null)
@@ -7551,10 +7624,10 @@ namespace FoodandBeverage.Forms
                                         break;
                                     }
                                 }
-                                PrintOrderNokot(Convert.ToInt32(KOTbilltype.Tableorder));
                             }
-
                         }
+
+                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Tableorder));
                     }
                     if (flage == false)
                     {
@@ -7696,7 +7769,7 @@ namespace FoodandBeverage.Forms
                         Kitchennumber = "",
                         MainCategory = mainCategory,
                         TotalQTY = totalQty,
-                        Pkid = 0,
+                        Pkid = CounterKotNo,
                         EmployeeName = FrmLogin.EmployeName,
                         Station = "",
                         GuestDetails = " 'PAX : ( A :" + txtadults.Text+" C:" + txtchild.Text+" O:" + txtother.Text+ " )",
@@ -8184,32 +8257,38 @@ namespace FoodandBeverage.Forms
                             TotalCGST = TotalCGST + Convert.ToDecimal(gridSourcemaster[i].CGSTAmount);
                             TotalSGST = TotalSGST + Convert.ToDecimal(gridSourcemaster[i].SGSTAmount);
                             TotalVAT = TotalVAT + Convert.ToDecimal(gridSourcemaster[i].VATAmount);
+                            TotalPreTaxAmt = TotalPreTaxAmt + Convert.ToDecimal(gridSourcemaster[i].PreTaxAmt);
                             //Totaldis = Totaldis + Convert.ToDecimal(dgv_exitsting_product.Rows[i].Cells[pDisAmnt].Value);
+
                         }
                     }
                     TotalTax = TotalIGST + TotalVAT;
                 }
                 else
                 {
-                    TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0;
+                    TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0; TotalPreTaxAmt = 0;
                     for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                     {
                         //if (Convert.ToInt32(gridSourcemaster[i].Status) == 3)
                         //{
                         decimal igstAmt = 0;
                         decimal vatAmt = 0;
+                        decimal preAmt = 0;
 
                         decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value), out igstAmt);
                         decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value), out vatAmt);
+                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value), out preAmt);
 
                         TotalIGST += igstAmt;
                         TotalCGST += igstAmt / 2;
                         TotalSGST += igstAmt / 2;
                         TotalVAT += vatAmt;
+                        TotalPreTaxAmt += preAmt;
                         //Totaldis = Totaldis + Convert.ToDecimal(dgv_exitsting_product.Rows[i].Cells[pDisAmnt].Value);
                         //}
                     }
                     TotalTax = TotalIGST + TotalVAT;
+
                 }
 
             }
@@ -8372,6 +8451,8 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.PkId = 0;
                         dmnsalemaster.PkChargeAmount = Convert.ToDecimal(txtpkchrge_amt.Text);
                         dmnsalemaster.IsDirectSale = true;
+                        dmnsalemaster.TotalPreTaxAmt = TotalPreTaxAmt;
+                        
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
 
                         #region details
@@ -8513,6 +8594,8 @@ namespace FoodandBeverage.Forms
                                     else
                                         dmnsaledetails.Cmid = "0";
 
+                                    dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
+
                                     var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                    
                                     if (InsertStatus == null)
@@ -8524,6 +8607,8 @@ namespace FoodandBeverage.Forms
                                         countflag = countflag + 1;
 
                                     int saledetailsid = InsertStatus.SalesDetailsId;
+
+
                                     var InsertS = bllSales.AddEditstock("prdInsert_Upd_Menu_Daily", dmnsaledetails);
 
 
@@ -8569,7 +8654,6 @@ namespace FoodandBeverage.Forms
                                 this.Close();
                             }
                             #endregion
-
                         }
                         #endregion
 
@@ -8660,6 +8744,7 @@ namespace FoodandBeverage.Forms
                                     TotalCGST = TotalCGST + Convert.ToDecimal(dgv_combined.Rows[i].Cells[CCgstamt].Value);
                                     TotalSGST = TotalSGST + Convert.ToDecimal(dgv_combined.Rows[i].Cells[cSgstamt].Value);
                                     TotalVAT = TotalVAT + Convert.ToDecimal(dgv_combined.Rows[i].Cells[cvatamt].Value);
+                                    TotalPreTaxAmt = TotalPreTaxAmt + Convert.ToDecimal(dgv_combined.Rows[i].Cells[ipretaxamtno].Value);
                                     //Totaldis = Totaldis + Convert.ToDecimal(dgv_exitsting_product.Rows[i].Cells[pDisAmnt].Value);
                                 }
                             }
@@ -8696,6 +8781,8 @@ namespace FoodandBeverage.Forms
                                 dmnsalemaster.OrderType = Convert.ToInt32(OrderType.PickupOrder);
                             else if (combined_Pickup_Status)
                                 dmnsalemaster.OrderType = Convert.ToInt32(OrderType.Combined_pick_normal_Order);
+
+                            dmnsalemaster.TotalPreTaxAmt = TotalPreTaxAmt;
 
                             var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                             #endregion
@@ -8756,6 +8843,7 @@ namespace FoodandBeverage.Forms
                                         var InsertStatus1 = bllSales.AddEditSplit("prdInsert_PartPaymentDetails", dmnsalemaster);
                                     }
                                 }
+
                                 #region Midascard
                                 if (payid == Convert.ToInt32(PaymentType.MidasCard))
                                 {
@@ -8767,6 +8855,7 @@ namespace FoodandBeverage.Forms
                                     var InsertStatus1 = bllSales.AddEditmidas("prdpayment_midascard", dmnsalemaster);
                                 }
                                 #endregion
+
                                 #endregion
 
 
@@ -8846,7 +8935,8 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.AV_id = Convert.ToString(dgv_combined.Rows[i].Cells[CAV_id].Value);
                                             dmnsaledetails.Addoncount = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddoncount].Value);
                                             dmnsaledetails.VariatiionName = Convert.ToString(dgv_combined.Rows[i].Cells[CVariatiionNameno].Value);
-                                            dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                            dmnsaledetails.IsStockTracked = Convert.ToBoolean(dgv_combined.Rows[i].Cells[istocktrackno].Value);
+                                            dmnsaledetails.PreTaxAmt = Convert.ToDecimal(dgv_combined.Rows[i].Cells[Cpretaxamtno].Value);
 
                                             var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                             if (InsertStatus == null)
@@ -9135,7 +9225,7 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                                     dmnorderdetail.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                                     dmnorderdetail.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iVariatiionNameno].Value);
-                                                    dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                    
 
                                                     if (txtentrie_descr.Text == "Description Type here .....")
                                                         dmnorderdetail.MainRemarks = "";
@@ -9172,7 +9262,8 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.ReprintStatus = chk_reprint_status.Checked ? 1 : 0;
 
                                                     dmnorderdetail.PreparationMode = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value);
-                                                     dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                                    dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                                    dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
 
                                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                                     if (InsertStatus == null)
@@ -9340,6 +9431,8 @@ namespace FoodandBeverage.Forms
 
                             dmnsalemaster.PkChargeAmount = Convert.ToDecimal(txtpkchrge_amt.Text);
 
+                            dmnsalemaster.TotalPreTaxAmt = TotalPreTaxAmt;
+
                             var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                             #endregion
 
@@ -9469,6 +9562,7 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                             dmnsaledetails.SalesDetailsId = 0;
                                             dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                            dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
 
                                             if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
                                                 dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
@@ -9563,6 +9657,7 @@ namespace FoodandBeverage.Forms
                                             var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                                         }
                                     }
+
                                     #region To Save partpayment Table 
                                     if (payid == Convert.ToInt32(PaymentType.SPLIT))
                                     {
@@ -9671,6 +9766,8 @@ namespace FoodandBeverage.Forms
                                                     dmnsaledetails.Cmid = "0";
 
                                                 dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                                dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
+
                                                 var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                                 if (InsertStatus == null)
                                                 {

@@ -76,11 +76,12 @@ namespace BLL
             parms.Add("FullAddress", objTestClass.FullAddress);
             parms.Add("Gender", objTestClass.Gender);
             parms.Add("Cusid", objTestClass.cusid);
-            
+            parms.Add("TotalPreTaxAmt", objTestClass.TotalPreTaxAmt);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
-
+        
         //public DmnCardSales AddEditDataCustomer(string procedureName, DmnCardSales objTestClass)
         //{
         //    DAL.DapperRepository<DmnCardSales> dapperRepository = new DAL.DapperRepository<DmnCardSales>();
@@ -141,6 +142,7 @@ namespace BLL
             parms.Add("VariatiionName", objTestClass.VariatiionName);
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
             parms.Add("IsStockTracked", objTestClass.IsStockTracked);
+            parms.Add("PreTaxAmt", objTestClass.PreTaxAmt);
             //parms.Add("Pkid", objTestClass.Pkid);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;

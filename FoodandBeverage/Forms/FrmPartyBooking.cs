@@ -4609,7 +4609,7 @@ namespace FoodandBeverage
             try
             {
                 GetInt(txtpartybookingid);
-                txtTaxPer_pack
+                //txtTaxPer_pack
 
                 BllPartyBooking bll = new BllPartyBooking();
 

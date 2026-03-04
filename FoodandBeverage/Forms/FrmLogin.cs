@@ -284,6 +284,7 @@ namespace FoodandBeverage.Forms
                             else
                             {
                                 FormSize = this.Size;
+
                                 #region retrieve data after login
 
                                 FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();

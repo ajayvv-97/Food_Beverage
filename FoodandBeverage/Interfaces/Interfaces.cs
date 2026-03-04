@@ -611,6 +611,11 @@ namespace FoodandBeverage.Interfaces
         Bowling = 11
 
     };
+    public enum Billtaxttype
+    {
+        GST = 1,
+        TRN = 2
+    }
 }
 
 

@@ -56,7 +56,7 @@ namespace Domain
         public int Pkid { get; set; }
         public int OrderStatus { get; set; }
         public bool IsStockTracked { get; set; }
-
+        public decimal PreTaxAmt { get; set; }
     }
     
 }

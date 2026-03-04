@@ -11,12 +11,9 @@ namespace Domain
             public string EntryNo { get; set; }
             public DateTime EntryDate { get; set; }
             public int Product_id { get; set; }
-            public string Barcode { get; set; }
-            
+            public string Barcode { get; set; }          
 
-
-
-        public string Unit { get; set; }
+            public string Unit { get; set; }
             public decimal QTY { get; set; }
             public string Type { get; set; }
             public string Tax { get; set; }
@@ -131,6 +128,8 @@ namespace Domain
         public string EmailAddress { get; set; }
         public string FullAddress { get; set; }
         public int Gender { get; set; }
+
+        public decimal TotalPreTaxAmt { get; set; }
     }
     
 

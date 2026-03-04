@@ -73,8 +73,10 @@ namespace Domain
 
         public int PreparationMode { get; set; }
         public bool IsStockTracked { get; set; }
+        public decimal PreTaxAmt { get; set; }
 
     }
     
+
 
 }
