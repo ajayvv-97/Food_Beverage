@@ -54,6 +54,8 @@ namespace FoodandBeverage.Report
         string InclusivetaxTotal = "";
         string TotalTaxAmt = "";
         string TotalPreTax = "";
+        string TotalCGST = "";
+        string TotalSGST = "";
 
         int billtaxType = 0;
 
@@ -875,6 +877,9 @@ namespace FoodandBeverage.Report
                 {
                     TotalTaxAmt = itemsourcetax.Count > 0 ? itemsourcetax[0].Field1 : "0";
                     TotalPreTax = itemsourcetax.Count > 0 ? itemsourcetax[0].Field2 : "0";
+                    decimal ttax = Convert.ToDecimal(itemsourcetax[0].Field1) / 2 ;
+                    TotalSGST = Convert.ToString(ttax);
+                    TotalCGST = Convert.ToString(ttax);
                 }
 
                 #endregion
@@ -889,7 +894,7 @@ namespace FoodandBeverage.Report
                 dmnSearch.WhereNdGroupBy = $@"
                                     WHERE sm.CreatedDateTime >= '{fromDate}' 
                                     AND sm.CreatedDateTime <= '{toDate}'
-                                    AND sm.Status = 1
+                                    AND sm.Status = 1 AND sd.Status = 1
                                     AND sm.BranchId = {BranchId}
                                     AND sm.PaymentMode != {Convert.ToInt32(PaymentType.COMPLEMENTRY)}
                                     AND sm.PaymentMode != {Convert.ToInt32(PaymentType.Nocharge)}";
@@ -940,7 +945,10 @@ namespace FoodandBeverage.Report
                 reportDocument.SetParameterValue("ExclusiveTaxTotal", ExclusiveTaxTotal);
                 reportDocument.SetParameterValue("InclusivetaxTotal", InclusivetaxTotal);
 
-                if (ColorChk == true)
+                reportDocument.SetParameterValue("TotalSGST", TotalSGST); 
+                reportDocument.SetParameterValue("TotalCGST", TotalCGST);
+
+                if (ColorChk == true) 
                 {
                     FindAndSetColor(reportDocument, "Box2", selectedColor);
                     FindAndSetColor(reportDocument, "Box3", selectedColor);
@@ -1087,9 +1095,30 @@ namespace FoodandBeverage.Report
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchDetBill = new DmnSearch();
-                dmnSearchDetBill.Select = "(select CONVERT(varchar(50), sm.CreatedDateTime, 105)) as sFld1,sm.EntryNo as sFld2,sm.FirstName as sFld3,sm.PhoneNumber as sFld4,sm.TotalQuantity  as dFld1,sm.TotalTax  as dFld2,sm.DiscountAmount  as dFld3,sm.NetAmount  as dFld4,sd.Itemname as sFld5,sd.Quantity as nFld1,sd.SalesRate as dFld5,sd.Amount as dFld6,sd.TaxAmount as dFld7,sd.DiscountAmount as dFld8,sd.NetAmount as dFld9";
-                dmnSearchDetBill.Table = "tblSalesDetails as sd LEFT JOIN tblSalesMaster sm on sm.SalesMasterId =sd.SalesMasterId";
-                dmnSearchDetBill.WhereNdGroupBy = "where sm.CreatedDateTime>= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and sm.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and sm.BranchId = " + BranchId + "and s.Status=1 and s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " and s.PaymentMode != " + Convert.ToInt32(PaymentType.COMPLEMENTRY);
+                dmnSearchDetBill.Select = @"
+                                        CONVERT(varchar(50), sm.CreatedDateTime, 105) as sFld1,
+                                        sm.EntryNo as sFld2,
+                                        sm.FirstName as sFld3,
+                                        sm.PhoneNumber as sFld4,
+                                        sm.TotalQuantity as dFld1,
+                                        sm.TotalTax as dFld2,
+                                        sm.DiscountAmount as dFld3,
+                                        sm.NetAmount as dFld4,
+                                        sd.Itemname as sFld5,
+                                        sd.Quantity as nFld1,
+                                        sd.SalesRate as dFld5,
+                                        sd.Amount as dFld6,
+                                        sd.TaxAmount as dFld7,
+                                        sd.DiscountAmount as dFld8,
+                                        sd.NetAmount as dFld9";
+                 dmnSearchDetBill.Table ="tblSalesMaster sm left JOIN tblSalesDetails sd ON sm.SalesMasterId = sd.SalesMasterId";
+                 dmnSearchDetBill.WhereNdGroupBy =
+                                        "WHERE sm.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                                        "' AND sm.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                                        "' AND sm.BranchId = " + BranchId +
+                                        " AND sm.Status = 1 AND sd.Status = 1" +
+                                        " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                                        " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
                 if (invoiceBillMasters.Count > 0)
                 {
