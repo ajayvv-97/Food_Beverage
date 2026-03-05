@@ -294,6 +294,7 @@ namespace FoodandBeverage.Forms
         public string RPTPath = Convert.ToString(FrmLogin.KitchenBillPath);
         int CounterKotNo = 0;
         public bool Comboproductflag = false;
+        public bool DiscountApplied = false;
         #endregion
         public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype,int cdstatus)
         {
@@ -6347,14 +6348,13 @@ namespace FoodandBeverage.Forms
                         : Convert.ToDecimal(frm.txtkeypadvalue.Text);
                 }
 
-                decimal grossTotal = GetGrossTotal(); // sum of all row amounts
+                decimal grossTotal = GetGrossTotal(); 
 
                 decimal salePercent = 0;
                 decimal saleAmount = 0;
 
                 if (UserControl.Frmnumdiskeypad.flagpercentage)
                 {
-                    // ✅ User Entered Percentage
                     salePercent = enteredValue;
                     saleAmount = (grossTotal * salePercent) / 100;
 
@@ -6363,8 +6363,16 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    // ✅ User Entered Amount
                     saleAmount = enteredValue;
+
+                    if (saleAmount > grossTotal)
+                    {
+                        MessageBox.Show("Discount amount cannot be greater than total amount",
+                                        "Invalid Discount",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        return;
+                    }
 
                     if (grossTotal > 0)
                         salePercent = (saleAmount * 100) / grossTotal;
@@ -6372,6 +6380,7 @@ namespace FoodandBeverage.Forms
                     txtdis_amt.Text = saleAmount.ToString("0.##");
                     txtdis_per.Text = salePercent.ToString("0.##");
                 }
+
                 txtGrandTotal.Text = "0";
                 for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                 {
@@ -6381,6 +6390,8 @@ namespace FoodandBeverage.Forms
                         CalculateFullRow(i); 
                     }
                 }
+
+                DiscountApplied = true;
 
                 netAmount();
             }
@@ -6395,15 +6406,27 @@ namespace FoodandBeverage.Forms
         }
         private decimal GetGrossTotal()
         {
-            decimal total = 0;
-
-            for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+            try
             {
-                total += Convert.ToDecimal( Dgv_Selected_Item.Rows[i].Cells[iamount].Value ?? 0);
-            }
+                decimal total = 0;
+                for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+                {
+                    total += Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[iamount].Value ?? 0);
+                }
 
-            return total;
+                return total;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+                clsgen.LogException("Order page GetGrossTotal()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
+            }
         }
+
 
         #region Promo code
         private void btn_promo_code_Click(object sender, EventArgs e)
@@ -7902,6 +7925,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                DiscountApplied = false;
+
                 ordercancelbystaff = false;
                 Memoryrelease();
 
@@ -8276,7 +8301,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (gridSourcemaster.Count > 0)
+
+                if (gridSourcemaster.Count > 0 &&  !DiscountApplied)
                 {
                     TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0;
                     for (int i = 0; i < gridSourcemaster.Count; i++)
@@ -9108,7 +9134,29 @@ namespace FoodandBeverage.Forms
 
                                     dmnordermaster.BranchId = FrmDashboard.BranchId;
                                     dmnordermaster.CreatedBy = FrmDashboard.UserId;
-                                    dmnordermaster.Status = 1;
+
+                                    bool hasKitchenItem = false;
+
+                                    for (int i = 0; i < ntemp; i++)
+                                    {
+                                        if (Dgv_Selected_Item.Rows[i].Cells[iqty].Value != null &&
+                                            Dgv_Selected_Item.Rows[i].Cells[iqty].Value.ToString() != "")
+                                        {
+                                            if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value)
+                                                == Convert.ToInt32(PreparationType.kitchen))
+                                            {
+                                                hasKitchenItem = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (hasKitchenItem)
+                                        dmnordermaster.Status = 1;
+                                    else
+                                        dmnordermaster.Status = 3;
+
+
                                     dmnordermaster.Tid = tableId;
 
                                     if (Convert.ToInt32(txtsalemasterid.Text) > 0)
@@ -9264,7 +9312,11 @@ namespace FoodandBeverage.Forms
 
                                                     dmnorderdetail.BranchId = FrmDashboard.BranchId;
                                                     dmnorderdetail.CreatedBy = FrmDashboard.UserId;
-                                                    dmnorderdetail.Status = 1;
+
+                                                    if(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value)== Convert.ToInt32(PreparationType.Counter))
+                                                        dmnorderdetail.Status = 3;
+                                                    else
+                                                        dmnorderdetail.Status = 1;
 
                                                     dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                                     dmnorderdetail.PrId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ipridno].Value);
@@ -11404,11 +11456,10 @@ namespace FoodandBeverage.Forms
             {
                 string returnValue = string.Empty;
                 DataTable dtColumnAlign = new DataTable();
-
-                // Search object for customer
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch _objSearch = new DmnSearch();
                 _objSearch.ColumnHeaders = "CusId,FirstName,SecondName,CompanyName,GSTNo,PhoneNumber,EmailAddress,FullAddress";
-                _objSearch.Select = "CusId,FirstName,SecondName,CompanyName,GSTNo,PhoneNumber,EmailAddress,FullAddress,Gender";
+                _objSearch.Select = "CusId ID,FirstName Field1,SecondName Field2,CompanyName Field3,GSTNo Field4,PhoneNumber Field5,EmailAddress Field6,FullAddress Field7";
                 _objSearch.Table = " tblCustomer ";
                 _objSearch.WhereNdGroupBy = " WHERE Status = 1 ";
                 _objSearch.OrderBy = " ORDER BY CusId DESC";

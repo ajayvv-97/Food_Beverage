@@ -69,10 +69,11 @@ namespace FoodandBeverage.SaleBill
         {
             textb_shape();
             MessageCheck();
-            if (BillTypeData == Convert.ToInt32(BillType.NormalBill))
+            if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill))
             {
                 PrintBill();
             }
+
             else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
             {
                 PrintPartyBill();
@@ -265,9 +266,6 @@ namespace FoodandBeverage.SaleBill
                 //    rb_male.Checked = false;
                 //    rb_female.Checked = true;
                 //}
-
-
-
 
                 GenerateBarcode(invoiceBillMasters[0].EntryNo);
                 //header part set data to dataset
@@ -484,6 +482,7 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.Load(RPTPath + @"\CR_PickupBill.rpt");
 
                 reportDocument.SetDataSource(dsReport);
+
                 if (GstBillflag)
                     reportDocument.SetParameterValue("Gstbill", 1);
                 else
