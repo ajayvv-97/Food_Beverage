@@ -4422,7 +4422,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         private void GenerateVariationProduct(int productId)
@@ -4488,7 +4488,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         private string GetVariationName(int variationId)
@@ -4580,7 +4580,7 @@ namespace FoodandBeverage.Forms
 
                     if (qty <= 0)
                     {
-                        MessageBox.Show("Stock Out! This item is not available.",
+                        CMessageBox.Show("Stock Out! This item is not available.",
                                         "Out of Stock",
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Warning);
@@ -4684,7 +4684,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -4737,7 +4737,7 @@ namespace FoodandBeverage.Forms
 
                         if (qty <= 0)
                         {
-                            MessageBox.Show("Stock Out! This item is not available.",
+                            CMessageBox.Show("Stock Out! This item is not available.",
                                             "Out of Stock",
                                             MessageBoxButtons.OK,
                                             MessageBoxIcon.Warning);
@@ -4792,7 +4792,7 @@ namespace FoodandBeverage.Forms
                                         //if (prep == Convert.ToInt32(PreparationType.ReadyFood) && typeqty > availableQty)
                                         if (typeqty > availableQty)
                                         {
-                                            MessageBox.Show($"Only {availableQty} Qty Available.",
+                                            CMessageBox.Show($"Only {availableQty} Qty Available.",
                                                             "Stock Warning",
                                                             MessageBoxButtons.OK,
                                                             MessageBoxIcon.Warning);
@@ -6766,7 +6766,7 @@ namespace FoodandBeverage.Forms
                             if (typeqty > availableQty)
                             {
 
-                                MessageBox.Show($"Only {availableQty} Qty Available.",
+                                CMessageBox.Show($"Only {availableQty} Qty Available.",
                                                 "Stock Warning",
                                                 MessageBoxButtons.OK,
                                                 MessageBoxIcon.Warning);
@@ -7860,7 +7860,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Kitchen Print Error",
+                CMessageBox.Show(ex.Message, "Kitchen Print Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -8630,7 +8630,7 @@ namespace FoodandBeverage.Forms
                                    
                                     if (InsertStatus == null)
                                     {
-                                        MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                         break;
                                     }
                                     else
@@ -8971,7 +8971,7 @@ namespace FoodandBeverage.Forms
                                             var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                             if (InsertStatus == null)
                                             {
-                                                MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                                CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                                 break;
                                             }
                                             else
@@ -9608,7 +9608,7 @@ namespace FoodandBeverage.Forms
                                             var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                             if (InsertStatus == null)
                                             {
-                                                MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                                CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                                 break;
                                             }
                                             else
@@ -9801,7 +9801,7 @@ namespace FoodandBeverage.Forms
                                                 var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                                 if (InsertStatus == null)
                                                 {
-                                                    MessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                                    CMessageBox.Show("Save faild", "Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                                     break;
                                                 }
                                                 else
@@ -9904,7 +9904,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    DialogResult dr = MessageBox.Show(
+                    DialogResult dr = CMessageBox.Show(
                     "Are you sure you want to cancel this order?",
                     "Confirm Cancel",
                     MessageBoxButtons.YesNo,
@@ -10209,7 +10209,7 @@ namespace FoodandBeverage.Forms
             {
                 if (CheckEmployeeCard(cardno))
                 {
-                    MessageBox.Show("Employee ID cards cannot be used for purchases or recharges.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Employee ID cards cannot be used for purchases or recharges.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -10221,7 +10221,7 @@ namespace FoodandBeverage.Forms
                         case CardType.FamilyCard:
                             if (!FrmDashboard.EnableFamilyCardInPayment)
                             {
-                                MessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 tm_midascard.Start();
                                 return;
                             }
@@ -10243,7 +10243,7 @@ namespace FoodandBeverage.Forms
                         case CardType.FamilyCardMaster:
                             if (!FrmDashboard.EnableFamilyCardInPayment)
                             {
-                                MessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 tm_midascard.Start();
                                 return;
                             }
@@ -10272,14 +10272,14 @@ namespace FoodandBeverage.Forms
                         case CardType.GroupCard:
                             if (!FrmDashboard.EnableGroupCardInPayment)
                             {
-                                MessageBox.Show("Group Sale card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Group Sale card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 tm_midascard.Start();
                                 return;
                             }
                             if (CheckGroupsaleExpire(cardno))
                             {
                                 ToggleWifiPopup(0);
-                                MessageBox.Show("This Group Sale Card has expired or has no active member.\nPayment cannot be processed for expired cards.", "Group Card Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("This Group Sale Card has expired or has no active member.\nPayment cannot be processed for expired cards.", "Group Card Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return;
                             }
                             CardTypeno = Convert.ToInt32(CardType.GroupCard);
@@ -10289,7 +10289,7 @@ namespace FoodandBeverage.Forms
                             break;
 
                         default:
-                            MessageBox.Show("Invalid or unknown card type.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            CMessageBox.Show("Invalid or unknown card type.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                     }
                     objSearch.OrderBy = "";
@@ -10303,7 +10303,7 @@ namespace FoodandBeverage.Forms
                                 midas_balance = Convert.ToDecimal(itemSource[0].Field2);
                                 if (midas_balance <= 0)
                                 {
-                                    MessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    CMessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     tm_midascard.Start();
                                 }
                                 else
@@ -10325,7 +10325,7 @@ namespace FoodandBeverage.Forms
                                 midas_balance = Convert.ToDecimal(itemSource[0].Field2);
                                 if (midas_balance <= 0)
                                 {
-                                    MessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    CMessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     tm_midascard.Start();
                                 }
                                 else
@@ -10349,7 +10349,7 @@ namespace FoodandBeverage.Forms
                                 decimal balance = Convert.ToDecimal(itemSource[0].Field2);
                                 if (netAmount > balance)
                                 {
-                                    MessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    CMessageBox.Show("Insufficient balance for purchase.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     tm_midascard.Start();
                                 }
                                 else
@@ -10368,7 +10368,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Invalid card. No active member found.", "Card Member Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Invalid card. No active member found.", "Card Member Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         tm_midascard.Start();
                     }
                 }
@@ -10393,7 +10393,7 @@ namespace FoodandBeverage.Forms
                     str1 = RemoveSpecialCharacters(str1.Trim());
                     if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact" || str1 == "InvalidCard")
                     {
-                        MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Pnl_wifiPopup.Visible = false;
                     }
                     else
@@ -10451,7 +10451,7 @@ namespace FoodandBeverage.Forms
                 var InsertStatusP = bll_order.OrderCancelNotify_update("prd_CompleteCancelNotifyStatus_update", dmnRemove_order);
                 if(InsertStatusP!=null)
                 {
-                    MessageBox.Show("Customer Notified", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Customer Notified", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     if (tableId > 0)
                         OrderCancelStatus = 0;
@@ -10898,7 +10898,7 @@ namespace FoodandBeverage.Forms
 
                                     if (availableQty <= 0)
                                     {
-                                        MessageBox.Show("Stock Out! This item is not available.",
+                                        CMessageBox.Show("Stock Out! This item is not available.",
                                                         "Out of Stock",
                                                         MessageBoxButtons.OK,
                                                         MessageBoxIcon.Warning);
@@ -10907,7 +10907,7 @@ namespace FoodandBeverage.Forms
 
                                     if (kdata > availableQty)
                                     {
-                                        MessageBox.Show($"Only {availableQty} Qty Available.",
+                                        CMessageBox.Show($"Only {availableQty} Qty Available.",
                                                         "Stock Warning",
                                                         MessageBoxButtons.OK,
                                                         MessageBoxIcon.Warning);
@@ -10969,7 +10969,7 @@ namespace FoodandBeverage.Forms
                                 //if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                 if (availableQty <= 0)
                                 {
-                                    MessageBox.Show("Stock Out! This item is not available.",
+                                    CMessageBox.Show("Stock Out! This item is not available.",
                                                     "Out of Stock",
                                                     MessageBoxButtons.OK,
                                                     MessageBoxIcon.Warning);
@@ -10980,7 +10980,7 @@ namespace FoodandBeverage.Forms
                                 //if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
                                 if (kdata > availableQty)
                                 {
-                                    MessageBox.Show($"Only {availableQty} Qty Available.",
+                                    CMessageBox.Show($"Only {availableQty} Qty Available.",
                                                     "Stock Warning",
                                                     MessageBoxButtons.OK,
                                                     MessageBoxIcon.Warning);
@@ -11477,7 +11477,7 @@ namespace FoodandBeverage.Forms
         {
             if (dgv_ordercancel.Rows.Count == 0)
             {
-                MessageBox.Show("No cancel item product for refund", "Refund", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("No cancel item product for refund", "Refund", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -11555,11 +11555,11 @@ namespace FoodandBeverage.Forms
                 //var InsertStatusP = bll_order.CancelNotifyStatus_update("prd_CancelNotifyStatus_update", dmnRemove_order);
                 if (OrderCancelStatus == 1 || ordercancelbystaff)
                 {
-                    MessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Refund Completed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
-                    DialogResult dr = MessageBox.Show(
+                    DialogResult dr = CMessageBox.Show(
                     "Refund Completed, Are sure to Reconfirm ?",
                     "Confirm",
                     MessageBoxButtons.YesNo,
@@ -11616,7 +11616,7 @@ namespace FoodandBeverage.Forms
                     if (kdata >= bal || kdata <= 0)
                     {
                         if (exitstatus == false)
-                            MessageBox.Show("Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal, "Warning",  MessageBoxButtons.RetryCancel,    MessageBoxIcon.Warning);
+                            CMessageBox.Show("Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal, "Warning",  MessageBoxButtons.RetryCancel,    MessageBoxIcon.Warning);
                         lblpartAmt1.Text = "0.00";
                     }
                     else
@@ -11654,7 +11654,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
                         lblpartAmt2.Text = "Payment 2";
                     }
 
@@ -11702,7 +11702,7 @@ namespace FoodandBeverage.Forms
                     if (kdata >= bal || kdata <= 0)
                     {
                         if (exitstatus == false)
-                            MessageBox.Show(
+                            CMessageBox.Show(
     "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
     "Warning",
     MessageBoxButtons.RetryCancel,
@@ -11749,7 +11749,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
                         lblpartAmt2.Text = "Payment 2";
                     }
                 }
@@ -11795,7 +11795,7 @@ namespace FoodandBeverage.Forms
                     if (kdata >= bal || kdata <= 0)
                     {
                         if (exitstatus == false)
-                            MessageBox.Show(
+                            CMessageBox.Show(
     "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
     "Warning",
     MessageBoxButtons.RetryCancel,
@@ -11842,7 +11842,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
                         lblpartAmt2.Text = "Payment 2";
                     }
 
@@ -11889,7 +11889,7 @@ namespace FoodandBeverage.Forms
                     if (kdata >= bal || kdata <= 0)
                     {
                         if (exitstatus == false)
-                            MessageBox.Show(
+                            CMessageBox.Show(
     "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
     "Warning",
     MessageBoxButtons.RetryCancel,
@@ -11933,7 +11933,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
                         lblpartAmt2.Text = "Payment 2";
                     }
 
@@ -11980,7 +11980,7 @@ namespace FoodandBeverage.Forms
                     if (kdata >= bal || kdata <= 0)
                     {
                         if (exitstatus == false)
-                            MessageBox.Show(
+                            CMessageBox.Show(
     "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
     "Warning",
     MessageBoxButtons.RetryCancel,
@@ -12025,7 +12025,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
                         lblpartAmt2.Text = "Payment 2";
                     }
 
@@ -12095,7 +12095,7 @@ namespace FoodandBeverage.Forms
                 {
                     int orderDetailsId = Convert.ToInt32(dgv_ordercancel.Rows[e.RowIndex].Cells[cnorderdetailsidno].Value);
                     int ordermasterId = Convert.ToInt32(dgv_ordercancel.Rows[e.RowIndex].Cells[cnordermasteridno].Value);
-                    DialogResult dr = MessageBox.Show(
+                    DialogResult dr = CMessageBox.Show(
                         "Are you sure you want to notify this cancel item?",
                         "Confirm",
                         MessageBoxButtons.YesNo,
@@ -12116,7 +12116,7 @@ namespace FoodandBeverage.Forms
                         if (dgv_ordercancel.Rows.Count == 0)
                             pnl_cancelorder.Visible = false;
 
-                        MessageBox.Show("Cancel item notification confirmed!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Cancel item notification confirmed!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         btnordercallist.Visible = false;
                         btn_pa__toggle.PerformClick();
                     }
@@ -12425,13 +12425,13 @@ namespace FoodandBeverage.Forms
                         decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
                         if (kdata > midas_balance)
                         {
-                            MessageBox.Show("Card Not have Sufficient Balance. \nNeed Balance Payment :" + bal, "Information", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
+                            CMessageBox.Show("Card Not have Sufficient Balance. \nNeed Balance Payment :" + bal, "Information", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
                             lblpartAmt1.Text = "0.00";
                         }
                         else if (kdata >= bal || kdata <= 0)
                         {
                             if (exitstatus == false)
-                                MessageBox.Show("Amount should not be greater than TotalAmount. \nCURRENT BALANCE :" + bal, "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Amount should not be greater than TotalAmount. \nCURRENT BALANCE :" + bal, "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
                             lblpartAmt1.Text = "0.00";
                         }
                         else
@@ -12458,7 +12458,7 @@ namespace FoodandBeverage.Forms
                         decimal bal = Convert.ToDecimal(lblPartBalAmt.Text);
                         if (bal > midas_balance)
                         {
-                            MessageBox.Show("Card Not have Sufficient Balance. \nNeed Balance Payment :" + bal, "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                            CMessageBox.Show("Card Not have Sufficient Balance. \nNeed Balance Payment :" + bal, "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
                             lblpartAmt2.Text = "0.00";
                         }
                         else
@@ -12479,7 +12479,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Similar Paymode Twice Not Valid", "Warning", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
                         lblpartAmt2.Text = "Payment 2";
                     }
 

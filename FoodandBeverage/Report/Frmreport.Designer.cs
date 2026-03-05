@@ -339,7 +339,7 @@ namespace FoodandBeverage.Report
             this.tlp_sublist.Name = "tlp_sublist";
             this.tlp_sublist.RowCount = 1;
             this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tlp_sublist.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tlp_sublist.Size = new System.Drawing.Size(253, 35);
             this.tlp_sublist.TabIndex = 12;
             this.tlp_sublist.Visible = false;
@@ -566,7 +566,7 @@ namespace FoodandBeverage.Report
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Frmreport";
-            this.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "Frmreport";
             this.Load += new System.EventHandler(this.Frmreport_Load);
             this.pnl_report.ResumeLayout(false);

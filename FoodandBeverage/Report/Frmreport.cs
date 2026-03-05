@@ -1093,33 +1093,72 @@ namespace FoodandBeverage.Report
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
-                BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
-                DmnSearch dmnSearchDetBill = new DmnSearch();
-                dmnSearchDetBill.Select = @"
-                                        CONVERT(varchar(50), sm.CreatedDateTime, 105) as sFld1,
-                                        sm.EntryNo as sFld2,
-                                        sm.FirstName as sFld3,
-                                        sm.PhoneNumber as sFld4,
-                                        sm.TotalQuantity as dFld1,
-                                        sm.TotalTax as dFld2,
-                                        sm.DiscountAmount as dFld3,
-                                        sm.NetAmount as dFld4,
-                                        sd.Itemname as sFld5,
-                                        sd.Quantity as nFld1,
-                                        sd.SalesRate as dFld5,
-                                        sd.Amount as dFld6,
-                                        sd.TaxAmount as dFld7,
-                                        sd.DiscountAmount as dFld8,
-                                        sd.NetAmount as dFld9";
-                 dmnSearchDetBill.Table ="tblSalesMaster sm left JOIN tblSalesDetails sd ON sm.SalesMasterId = sd.SalesMasterId";
-                 dmnSearchDetBill.WhereNdGroupBy =
-                                        "WHERE sm.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") +
-                                        "' AND sm.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") +
-                                        "' AND sm.BranchId = " + BranchId +
-                                        " AND sm.Status = 1 AND sd.Status = 1" +
-                                        " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
-                                        " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);
-                var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
+                // 🔹 1️⃣ Invoice Detail Data
+                BllSearch<DmnRpt_1> bllSearchDetails1 = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill1 = new DmnSearch();
+
+                dmnSearchDetBill1.Select = @"
+                                            CONVERT(varchar(50), sm.CreatedDateTime, 105) as sFld1,
+                                            sm.EntryNo as sFld2,
+                                            sm.FirstName as sFld3,
+                                            sm.PhoneNumber as sFld4,
+                                            sm.TotalQuantity as dFld1,
+                                            sm.TotalTax as dFld2,
+                                            sm.DiscountAmount as dFld3,
+                                            sm.NetAmount as dFld4,
+                                            sd.Itemname as sFld5,
+                                            sd.Quantity as nFld1,
+                                            sd.SalesRate as dFld5,
+                                            sd.Amount as dFld6,
+                                            sd.TaxAmount as dFld7,
+                                            sd.DiscountAmount as dFld8,
+                                            sd.NetAmount as dFld9";
+
+                dmnSearchDetBill1.Table ="tblSalesMaster sm LEFT JOIN tblSalesDetails sd ON sm.SalesMasterId = sd.SalesMasterId";
+                dmnSearchDetBill1.WhereNdGroupBy =
+                "WHERE sm.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                "' AND sm.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                "' AND sm.BranchId = " + BranchId +
+                " AND sm.Status = 1 AND sd.Status = 1" +
+                " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);
+
+                var invoiceBillMasters = bllSearchDetails1.GetSearchData("prdSearch", dmnSearchDetBill1);
+                /* -------------------------------------------------- */
+                // 🔹 2️⃣ Summary Total Data
+                BllSearch<DmnRpt_1> bllSearchSummary = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchSummary = new DmnSearch();
+
+                dmnSearchSummary.Select = @"
+                                        SUM(TotalQuantity) as dFld1,
+                                        SUM(TotalTax) as dFld2,
+                                        SUM(DiscountAmount) as dFld3,
+                                        SUM(NetAmount) as dFld4";
+
+                dmnSearchSummary.Table = "tblSalesMaster s";
+
+                dmnSearchSummary.WhereNdGroupBy =
+                "WHERE s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                "' AND s.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") +
+                "' AND s.BranchId = " + BranchId +
+                " AND s.Status = 1" +
+                " AND s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                " AND s.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);
+
+                var invoiceSummary = bllSearchSummary.GetSearchData("prdSearch", dmnSearchSummary);
+                decimal totalQty = 0;
+                decimal totalTax = 0;
+                decimal totalDiscount = 0;
+                decimal totalNetAmount = 0;
+
+                if (invoiceSummary.Count > 0)
+                {
+                    totalQty = invoiceSummary[0].dFld1;
+                    totalTax = invoiceSummary[0].dFld2;
+                    totalDiscount = invoiceSummary[0].dFld3;
+                    totalNetAmount = invoiceSummary[0].dFld4;
+                }
+
                 if (invoiceBillMasters.Count > 0)
                 {
                     invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
@@ -1148,6 +1187,15 @@ namespace FoodandBeverage.Report
 
                 reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
                 reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+                // 🔹 Totals
+                reportDocument.SetParameterValue("Total_Qty", totalQty);
+                reportDocument.SetParameterValue("Total_Tax", totalTax);
+                reportDocument.SetParameterValue("Total_Discount", totalDiscount);
+                reportDocument.SetParameterValue("Total_NetAmount", totalNetAmount);
 
                 if (ColorChk == true)
                 {
