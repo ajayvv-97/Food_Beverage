@@ -414,8 +414,6 @@ namespace FoodandBeverage.Forms
                     if (gridSource.Count > 0)
                     {
                         txtordermasterid.Text = gridSource[0].Field1;
- 
-
                     }
                 }
                 else
@@ -2266,7 +2264,6 @@ namespace FoodandBeverage.Forms
                                     else
                                         Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
 
-
                                     Dgv_Selected_Item.Rows[r].Cells[iqty].Value = Convert.ToInt32(gridSource[i].Quantity);
                                     Dgv_Selected_Item.Rows[r].Cells[iprate].Value = Convert.ToDecimal(gridSource[i].PurchaseRate);
                                     Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(gridSource[i].Srate);
@@ -2288,7 +2285,12 @@ namespace FoodandBeverage.Forms
                                     Dgv_Selected_Item.Rows[r].DefaultCellStyle.BackColor = Color.White;
                                     Dgv_Selected_Item.Rows[r].Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
                                     Dgv_Selected_Item.Rows[r].Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
-                                    Dgv_Selected_Item.Rows[r].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r].Cells[itotal].Value);
+                                    Dgv_Selected_Item.Rows[r].Cells[ioriginalprice].Value = Convert.ToDecimal(gridSource[i].MarketPrice);
+
+                                    Dgv_Selected_Item.Rows[r].Cells[ipretaxamtno].Value = Convert.ToDecimal(gridSource[i].PreTaxAmt);
+                     
+                                    //Dgv_Selected_Item.Rows[r].Cells[iSaledisperno].Value = Convert.ToDecimal(gridSource[i].);
+                                    //Dgv_Selected_Item.Rows[r].Cells[isalediamtno].Value = Convert.ToDecimal(gridSource[i].MarketPrice);
 
                                     if (Convert.ToInt32(gridSource[i].Status) == 3 && (gridSource[i].AddonStatus == 1 || gridSource[i].AddonStatus == 0))
                                     {
@@ -2815,6 +2817,7 @@ namespace FoodandBeverage.Forms
                 btn_refresh.Visible = true;
                 btn_frm_close.Visible = true;
                 int rowToRemove = 0;
+                btn_offer_calc.Visible = false;
                 List<int> columnsToRemove = new List<int> { 1, 2, 3 };
                 if (OrderCancelStatus == 0)
                 {
@@ -2832,6 +2835,7 @@ namespace FoodandBeverage.Forms
                             btn_savekot_print.Visible = true;
                             btn_saveKOT.Visible = false;
                             btn_promo_code.Visible = true;
+                            btn_offer_calc.Visible = true;
                         }
                     }
                     else if (typeno == 2)
@@ -2841,6 +2845,7 @@ namespace FoodandBeverage.Forms
                         btn_savekot_print.Visible = false;
                         btn_print_bill.Visible = true;
                         btn_PrintCopy.Visible = true;
+                        btn_offer_calc.Visible = true;
                         btn_promo_code.Visible = true;
                         btndirectpaybill.Visible = true;
                         btn_entire_desc.Visible = false;
@@ -6394,10 +6399,7 @@ namespace FoodandBeverage.Forms
 
             for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
             {
-                if (Dgv_Selected_Item.Rows[i].IsNewRow) continue;
-
-                total += Convert.ToDecimal(
-                    Dgv_Selected_Item.Rows[i].Cells[iamount].Value ?? 0);
+                total += Convert.ToDecimal( Dgv_Selected_Item.Rows[i].Cells[iamount].Value ?? 0);
             }
 
             return total;
@@ -12626,28 +12628,36 @@ namespace FoodandBeverage.Forms
                 row.Cells[isalediamtno].Value = saleDisAmt.ToString("N2");
 
                 decimal taxableAmount = afterItemDiscount - saleDisAmt;
-                
-                // 4️⃣ Get Tax Settings
-                BllSearch<DmnTaxSettings> bll = new BllSearch<DmnTaxSettings>();
-                DmnSearch search = new DmnSearch();
-                search.Select = "TaxType, IgstPrcnt, VatPrcnt";
-                search.Table = "tblTaxSettings";
-                search.WhereNdGroupBy =" WHERE status=1 AND TaxSettingsId=" + row.Cells[itaxsettingid].Value;
 
-                var taxData = bll.GetSearchData("prdSearch", search);
-                if (taxData.Count == 0) return;
-
-                string taxType = taxData[0].TaxType;
+                string taxType = "";
                 decimal taxPercent = 0;
                 decimal taxAmount = 0;
 
-                if (taxType == "GST")
-                    taxPercent = Convert.ToDecimal(taxData[0].IgstPrcnt);
-                else if (taxType == "VAT")
-                    taxPercent = Convert.ToDecimal(taxData[0].VatPrcnt);
+                if (Convert.ToInt32(row.Cells[istatusno].Value) == 0)
+                {
+                    taxType = Convert.ToString(row.Cells[itaxtype].Value);
+                    taxPercent = Convert.ToDecimal(row.Cells[itaxper].Value);
+                }
+                else
+                {
+                    BllSearch<DmnTaxSettings> bll = new BllSearch<DmnTaxSettings>();
+                    DmnSearch search = new DmnSearch();
+                    search.Select = "TaxType, IgstPrcnt, VatPrcnt";
+                    search.Table = "tblTaxSettings";
+                    search.WhereNdGroupBy = " WHERE status=1 AND TaxSettingsId=" + row.Cells[itaxsettingid].Value;
 
-                row.Cells[itaxper].Value = taxPercent;
-                row.Cells[itaxtype].Value = taxType;
+                    var taxData = bll.GetSearchData("prdSearch", search);
+                    if (taxData.Count == 0) return;
+
+                    taxType = taxData[0].TaxType;
+
+                    if (taxType == "GST")
+                        taxPercent = Convert.ToDecimal(taxData[0].IgstPrcnt);
+                    else if (taxType == "VAT")
+                        taxPercent = Convert.ToDecimal(taxData[0].VatPrcnt);
+                    row.Cells[itaxper].Value = taxPercent;
+                    row.Cells[itaxtype].Value = taxType;
+                }
 
                 bool isExclusive = Convert.ToString(row.Cells[itax].Value) == "Exclusive";
 
@@ -12660,10 +12670,8 @@ namespace FoodandBeverage.Forms
                 else // Inclusive
                 {
                     decimal baseAmount = taxableAmount * 100 / (100 + taxPercent);
-                    taxAmount = taxableAmount - baseAmount;
-                   
+                    taxAmount = taxableAmount - baseAmount;                   
                     row.Cells[ipretaxamtno].Value = baseAmount.ToString("N2");
-
                 }
 
                 row.Cells[itaxamt].Value = taxAmount.ToString("N2");

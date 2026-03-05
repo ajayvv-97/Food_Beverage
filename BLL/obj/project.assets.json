@@ -2,33 +2,13 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
-      "BouncyCastle.Cryptography/2.4.0": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/BouncyCastle.Cryptography.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/BouncyCastle.Cryptography.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "CircularProgressBar/2.8.0.16": {
         "type": "package",
-        "dependencies": {
-          "WinFormAnimation": "1.6.0.4"
-        },
         "compile": {
-          "lib/net40/CircularProgressBar.dll": {
-            "related": ".xml"
-          }
+          "lib/net40/CircularProgressBar.dll": {}
         },
         "runtime": {
-          "lib/net40/CircularProgressBar.dll": {
-            "related": ".xml"
-          }
+          "lib/net40/CircularProgressBar.dll": {}
         }
       },
       "Dapper/1.60.6": {
@@ -39,21 +19,14 @@
           "System.Reflection.TypeExtensions": "4.4.0"
         },
         "compile": {
-          "lib/netstandard2.0/Dapper.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard2.0/Dapper.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/Dapper.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard2.0/Dapper.dll": {}
         }
       },
       "iTextSharp/5.5.13.4": {
         "type": "package",
-        "dependencies": {
-          "BouncyCastle.Cryptography": "2.4.0"
-        },
         "compile": {
           "lib/net461/itextsharp.dll": {}
         },
@@ -64,14 +37,10 @@
       "LiveCharts/0.9.7": {
         "type": "package",
         "compile": {
-          "lib/net45/LiveCharts.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net45/LiveCharts.dll": {}
         },
         "runtime": {
-          "lib/net45/LiveCharts.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net45/LiveCharts.dll": {}
         }
       },
       "LiveCharts.WinForms/0.9.7.1": {
@@ -81,14 +50,10 @@
           "LiveCharts.Wpf": "0.9.7"
         },
         "compile": {
-          "lib/net45/LiveCharts.WinForms.dll": {
-            "related": ".pdb;.XML"
-          }
+          "lib/net45/LiveCharts.WinForms.dll": {}
         },
         "runtime": {
-          "lib/net45/LiveCharts.WinForms.dll": {
-            "related": ".pdb;.XML"
-          }
+          "lib/net45/LiveCharts.WinForms.dll": {}
         }
       },
       "LiveCharts.Wpf/0.9.7": {
@@ -97,14 +62,10 @@
           "LiveCharts": "0.9.7"
         },
         "compile": {
-          "lib/net45/LiveCharts.Wpf.dll": {
-            "related": ".pdb;.XML"
-          }
+          "lib/net45/LiveCharts.Wpf.dll": {}
         },
         "runtime": {
-          "lib/net45/LiveCharts.Wpf.dll": {
-            "related": ".pdb;.XML"
-          }
+          "lib/net45/LiveCharts.Wpf.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {
@@ -134,9 +95,7 @@
           "System.Security.Principal.Windows": "4.5.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Win32.Registry.dll": {}
@@ -214,14 +173,10 @@
       "System.Buffers/4.4.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/_._": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
-          "lib/netstandard2.0/System.Buffers.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard2.0/System.Buffers.dll": {}
         }
       },
       "System.Data.SqlClient/4.6.1": {
@@ -236,9 +191,7 @@
           "runtime.native.System.Data.SqlClient.sni": "4.5.0"
         },
         "compile": {
-          "ref/netstandard2.0/System.Data.SqlClient.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/System.Data.SqlClient.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Data.SqlClient.dll": {}
@@ -257,14 +210,10 @@
       "System.Diagnostics.DiagnosticSource/4.5.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.3/_._": {
-            "related": ".xml"
-          }
+          "lib/netstandard1.3/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         }
       },
       "System.IO/4.3.0": {
@@ -277,9 +226,7 @@
           "System.Threading.Tasks": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.5/System.IO.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard1.5/System.IO.dll": {}
         }
       },
       "System.Memory/4.5.1": {
@@ -290,27 +237,19 @@
           "System.Runtime.CompilerServices.Unsafe": "4.5.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
-          "lib/netstandard2.0/System.Memory.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard2.0/System.Memory.dll": {}
         }
       },
       "System.Numerics.Vectors/4.4.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/_._": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
-          "lib/netstandard2.0/System.Numerics.Vectors.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard2.0/System.Numerics.Vectors.dll": {}
         }
       },
       "System.Reflection/4.3.0": {
@@ -323,9 +262,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.5/System.Reflection.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard1.5/System.Reflection.dll": {}
         }
       },
       "System.Reflection.Emit.ILGeneration/4.3.0": {
@@ -336,9 +273,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.ILGeneration.dll": {}
@@ -353,9 +288,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.Lightweight.dll": {}
@@ -369,17 +302,13 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/System.Reflection.Primitives.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard1.0/System.Reflection.Primitives.dll": {}
         }
       },
       "System.Reflection.TypeExtensions/4.4.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/System.Reflection.TypeExtensions.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/System.Reflection.TypeExtensions.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Reflection.TypeExtensions.dll": {}
@@ -392,22 +321,16 @@
           "Microsoft.NETCore.Targets": "1.1.0"
         },
         "compile": {
-          "ref/netstandard1.5/System.Runtime.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard1.5/System.Runtime.dll": {}
         }
       },
       "System.Runtime.CompilerServices.Unsafe/4.5.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/_._": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
-          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
         }
       },
       "System.Security.AccessControl/4.5.0": {
@@ -416,9 +339,7 @@
           "System.Security.Principal.Windows": "4.5.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Security.AccessControl.dll": {}
@@ -433,9 +354,7 @@
       "System.Security.Principal.Windows/4.5.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/_._": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Security.Principal.Windows.dll": {}
@@ -455,9 +374,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.3/System.Text.Encoding.dll": {
-            "related": ".xml"
-          }
+          "ref/netstandard1.3/System.Text.Encoding.dll": {}
         }
       },
       "System.Text.Encoding.CodePages/4.5.0": {
@@ -466,9 +383,7 @@
           "System.Runtime.CompilerServices.Unsafe": "4.5.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {
-            "related": ".xml"
-          }
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
@@ -488,18 +403,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.3/System.Threading.Tasks.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "WinFormAnimation/1.6.0.4": {
-        "type": "package",
-        "compile": {
-          "lib/net40/WinFormAnimation.dll": {}
-        },
-        "runtime": {
-          "lib/net40/WinFormAnimation.dll": {}
+          "ref/netstandard1.3/System.Threading.Tasks.dll": {}
         }
       },
       "DAL/1.0.0": {
@@ -540,26 +444,6 @@
     }
   },
   "libraries": {
-    "BouncyCastle.Cryptography/2.4.0": {
-      "sha512": "SwXsAV3sMvAU/Nn31pbjhWurYSjJ+/giI/0n6tCrYoupEK34iIHCuk3STAd9fx8yudM85KkLSVdn951vTng/vQ==",
-      "type": "package",
-      "path": "bouncycastle.cryptography/2.4.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.md",
-        "README.md",
-        "bouncycastle.cryptography.2.4.0.nupkg.sha512",
-        "bouncycastle.cryptography.nuspec",
-        "lib/net461/BouncyCastle.Cryptography.dll",
-        "lib/net461/BouncyCastle.Cryptography.xml",
-        "lib/net6.0/BouncyCastle.Cryptography.dll",
-        "lib/net6.0/BouncyCastle.Cryptography.xml",
-        "lib/netstandard2.0/BouncyCastle.Cryptography.dll",
-        "lib/netstandard2.0/BouncyCastle.Cryptography.xml",
-        "packageIcon.png"
-      ]
-    },
     "CircularProgressBar/2.8.0.16": {
       "sha512": "P31wJxwTcQ2mA7wB4X+tnc9QlfSNyPzEOyt3qjf2/6cLLi8mERAfEwNcgt3Qv38/Xiyreo/nVYDe2zIVEv4SQw==",
       "type": "package",
@@ -1894,20 +1778,6 @@
         "system.threading.tasks.nuspec"
       ]
     },
-    "WinFormAnimation/1.6.0.4": {
-      "sha512": "YSic50luSCgFq+JejHBq5DKwxpNP1VH7uOyBXC+8v6dd+CuUYGlKSOL4EbwT1WeWJQvFBoDMqHnq7HsF95kxrw==",
-      "type": "package",
-      "path": "winformanimation/1.6.0.4",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "lib/net40/WinFormAnimation.dll",
-        "readme.txt",
-        "winformanimation.1.6.0.4.nupkg.sha512",
-        "winformanimation.nuspec"
-      ]
-    },
     "DAL/1.0.0": {
       "type": "project",
       "path": "../DAL/DAL.csproj",
@@ -1932,23 +1802,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Asus\\.nuget\\packages\\": {},
+    "C:\\Users\\ajay\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Asus\\Desktop\\Food_Beverage\\BLL\\BLL.csproj",
+      "projectUniqueName": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\BLL\\BLL.csproj",
       "projectName": "BLL",
-      "projectPath": "C:\\Users\\Asus\\Desktop\\Food_Beverage\\BLL\\BLL.csproj",
-      "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Asus\\Desktop\\Food_Beverage\\BLL\\obj\\",
+      "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\BLL\\BLL.csproj",
+      "packagesPath": "C:\\Users\\ajay\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\BLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1963,11 +1833,11 @@
         "netstandard2.0": {
           "targetAlias": "netstandard2.0",
           "projectReferences": {
-            "C:\\Users\\Asus\\Desktop\\Food_Beverage\\DAL\\DAL.csproj": {
-              "projectPath": "C:\\Users\\Asus\\Desktop\\Food_Beverage\\DAL\\DAL.csproj"
+            "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\DAL.csproj": {
+              "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\DAL.csproj"
             },
-            "C:\\Users\\Asus\\Desktop\\Food_Beverage\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\Asus\\Desktop\\Food_Beverage\\Domain\\Domain.csproj"
+            "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj"
             }
           }
         }
@@ -1976,13 +1846,7 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.300"
+      }
     },
     "frameworks": {
       "netstandard2.0": {
@@ -2021,12 +1885,11 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -2035,7 +1898,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'CircularProgressBar 2.8.0.16' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'CircularProgressBar 2.8.0.16' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
       "libraryId": "CircularProgressBar",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -2045,7 +1908,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'iTextSharp 5.5.13.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'iTextSharp 5.5.13.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
       "libraryId": "iTextSharp",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -2055,7 +1918,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'LiveCharts 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'LiveCharts 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
       "libraryId": "LiveCharts",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -2065,7 +1928,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'LiveCharts.WinForms 0.9.7.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'LiveCharts.WinForms 0.9.7.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
       "libraryId": "LiveCharts.WinForms",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -2075,7 +1938,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'LiveCharts.Wpf 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'LiveCharts.Wpf 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
       "libraryId": "LiveCharts.Wpf",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
@@ -2085,18 +1948,8 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'RJCodeAdvance.RJControls 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'RJCodeAdvance.RJControls 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
       "libraryId": "RJCodeAdvance.RJControls",
-      "targetGraphs": [
-        ".NETStandard,Version=v2.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'WinFormAnimation 1.6.0.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
-      "libraryId": "WinFormAnimation",
       "targetGraphs": [
         ".NETStandard,Version=v2.0"
       ]

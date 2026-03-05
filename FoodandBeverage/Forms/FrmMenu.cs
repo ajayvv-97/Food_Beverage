@@ -751,7 +751,7 @@ namespace FoodandBeverage.Forms
                         "LEFT JOIN tblCategory_FTI c ON C.Fcid = P.Fcid " +
                         "LEFT JOIN tblMenu m ON m.ProductId = p.ProductId AND m.producttype = 0";
 
-                    where = "WHERE p.status=1 AND m.status=1";
+                    where = "WHERE p.status=1 AND (m.status=1 OR p.IsStockTracked = 1)";
 
                     if (selectedCategoryId == -2)
                         where += " AND p.ProductType = 1";
@@ -797,6 +797,7 @@ namespace FoodandBeverage.Forms
             {
                 if (productData == null || productData.Count == 0)
                 {
+                    dgv_menu.Rows.Clear();
                     lblpagerinfo.TextAlign = ContentAlignment.MiddleCenter;
                     return;
                 }

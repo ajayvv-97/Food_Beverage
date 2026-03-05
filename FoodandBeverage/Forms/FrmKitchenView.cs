@@ -1240,7 +1240,7 @@ namespace FoodandBeverage.Forms
                         " Left Join tblOfferMaster ofm  on od.ItemId = ofm.Omid and od.TableType = 3" +
                         " Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid" +
                         " Left Join tblEmployee e  on e.EmployeeId = om.CreatedBy";
-                    dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2;// " and p.PreparationMode ="+ Convert.ToInt32(PreparationType.kitchen);
+                    dmnSearchDetails.WhereNdGroupBy = "where om.status=1 and ko.OrderMasterId=" + orders.Field1 + " and ko.OrderNo =" + orders.Field2+" and ko.PreparationMode = "+ Convert.ToInt32(PreparationType.kitchen);
                     dmnSearchDetails.OrderBy = "order by od.AddonStatus ";
 
                     var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
@@ -1861,7 +1861,7 @@ namespace FoodandBeverage.Forms
                                             " Left Join tblOfferMaster ofm on ofm.Omid = od.ItemId" +
                                             " Left Join tblOfferDetails ofd on ofd.Omid = ofm.Omid"+
                                             " Left Join tblEmployee e  on e.EmployeeId = om.CreatedBy";
-                    dmnSearchDetails.WhereNdGroupBy = $" where om.status=1 and ko.OrderMasterId=" + ordermid + " and ko.OrderNo=" + orderno + " and od.TableType=" + Convert.ToInt32(Tabletype.ComboProduct) + " and ko.status in(1,2)";
+                    dmnSearchDetails.WhereNdGroupBy = $" where om.status=1 and ko.OrderMasterId=" + ordermid + " and ko.OrderNo=" + orderno + " and od.TableType=" + Convert.ToInt32(Tabletype.ComboProduct) + " and ko.status in(1,2) and ko.PreparationMode = "+ Convert.ToInt32(PreparationType.kitchen);
                     dmnSearchDetails.OrderBy = "order by AddonStatus";
                     var BillDetails = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetails);
                     if (BillDetails.Count > 0)
