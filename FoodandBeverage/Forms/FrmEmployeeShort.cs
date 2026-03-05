@@ -1409,7 +1409,10 @@ namespace FoodandBeverage.Forms
                         txtphone.Text = gridSource[0].Mobile;
                         txtemail.Text = gridSource[0].Email;
                         txtCardnumber.Text = gridSource[0].ICardNo;
-                        txtICardNo1.Text = "XXXX XX" + gridSource[0].ICardNo.Substring(gridSource[0].ICardNo.Length - 6, 6);
+
+                        if(gridSource[0].ICardNo != null && gridSource[0].ICardNo != "")
+                            txtICardNo1.Text = "XXXX XX" + gridSource[0].ICardNo.Substring(gridSource[0].ICardNo.Length - 6, 6);
+
                         txtnote.Text = gridSource[0].Remarks;
                         txtempcode.Text = gridSource[0].EmployeeCode;
                         if (gridSource[0].Status == 1)

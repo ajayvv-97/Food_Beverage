@@ -11,6 +11,7 @@ using OfficeOpenXml;
 using System.Drawing.Drawing2D;
 using System.Drawing;
 using System.Collections.Generic;
+using FoodandBeverage.Interfaces;
 
 namespace FoodandBeverage.Classes
 {
@@ -62,6 +63,38 @@ namespace FoodandBeverage.Classes
 
             tlp.Controls.Clear();
             tlp.Dispose();
+        }
+        public int CheckButtonPermission(int UserType,int Form)
+        {
+            try
+            {
+                BllSearch<DmnForms> bllacctype = new BllSearch<DmnForms>();
+                DmnSearch dmnforms = new DmnSearch();
+                dmnforms.Select = "*";
+                dmnforms.Table = " tblforms ";
+                dmnforms.WhereNdGroupBy = " where UserType=" + UserType + " and Status=1 and Form=" + Form;
+                dmnforms.OrderBy = "order by Form";
+                var gridesource = bllacctype.GetSearchData("prdSearch", dmnforms);
+                if (gridesource.Count > 0)
+                {
+                    if (gridesource[0].Write == 1)
+                    {
+                        return Convert.ToInt32(PermissionLevel.FullPermission); // Full permission
+                    }
+                    else if (gridesource[0].Write == 1)
+                    {
+                        return Convert.ToInt32(PermissionLevel.ReadOnly); // Read-only permission
+                    }
+                }
+                return Convert.ToInt32(PermissionLevel.NoPermission);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // LogException("DashBoard page ChkWritePermission()", ex, FrmLogin.EmployeName, frmLogin.Designation, Convert.ToInt32(formsenum.DashBoard));
+                return Convert.ToInt32(PermissionLevel.NoPermission);
+            }
+
         }
 
         private void ClearList<T>(List<T> list)

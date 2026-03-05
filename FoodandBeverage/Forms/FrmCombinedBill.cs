@@ -1,18 +1,19 @@
 ﻿using BLL;
 using Domain;
 using FoodandBeverage.Classes;
+using FoodandBeverage.Forms.UserControl;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 using System.Windows.Forms;
-using FoodandBeverage.Forms.UserControl;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace FoodandBeverage.Forms
 {
@@ -1607,15 +1608,36 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                DrawerCheck();
-                using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
+                int permissionlevel = clsgen.CheckButtonPermission(Convert.ToInt32(FrmLogin.UserAccountTypeId), Convert.ToInt32(RolePermission.YOut));
+                if (permissionlevel == Convert.ToInt32(PermissionLevel.NoPermission))
                 {
-                    if (FrmDashboard.XYDalvalue)
-                        frmzout.ShowDialog();
-                    else
-                        frmzout.PrintAll();
+                    frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(RolePermission.YOut));
+                    frm.ShowDialog();
+                    if (frmExtraAccessChk.access == true)
+                    {
+                        DrawerCheck();
+                        using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
+                        {
+                            if (FrmDashboard.XYDalvalue)
+                                frmzout.ShowDialog();
+                            else
+                                frmzout.PrintAll();
+                        }
+                        MessageBox.Show("Yout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
-                MessageBox.Show("Yout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else if (permissionlevel == Convert.ToInt32(PermissionLevel.FullPermission) || permissionlevel == Convert.ToInt32(PermissionLevel.ReadOnly))
+                {
+                    DrawerCheck();
+                    using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
+                    {
+                        if (FrmDashboard.XYDalvalue)
+                            frmzout.ShowDialog();
+                        else
+                            frmzout.PrintAll();
+                    }
+                    MessageBox.Show("Yout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -1627,84 +1649,179 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                DrawerCheck();
-                if (FrmDrawer.DrawerID > 0)
+                int permissionlevel = clsgen.CheckButtonPermission(Convert.ToInt32(FrmLogin.UserAccountTypeId), Convert.ToInt32(RolePermission.YOut));
+                if (permissionlevel == Convert.ToInt32(PermissionLevel.NoPermission))
                 {
-                    var confirmResult = MessageBox.Show(
-                     "This will print the Z-Out report and sign you out.\n\n" +
-                     "Make sure all transactions are completed.\n\n" +
-                     "Do you want to proceed and end your shift?",
-                     "Confirm Z-Out and Sign Out",
-                     MessageBoxButtons.YesNo,
-                     MessageBoxIcon.Question
-                 );
-
-                    if (confirmResult != DialogResult.Yes)
-                        return;
-
-                    using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Zout), Drawerassginstaffid))
+                    frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(RolePermission.YOut));
+                    frm.ShowDialog();
+                    if (frmExtraAccessChk.access == true)
                     {
-                        if (FrmDashboard.XYDalvalue)
-                            frmzout.ShowDialog();
+                        #region Zout
+                        DrawerCheck();
+                        if (FrmDrawer.DrawerID > 0)
+                        {
+                            var confirmResult = MessageBox.Show(
+                             "This will print the Z-Out report and sign you out.\n\n" +
+                             "Make sure all transactions are completed.\n\n" +
+                             "Do you want to proceed and end your shift?",
+                             "Confirm Z-Out and Sign Out",
+                             MessageBoxButtons.YesNo,
+                             MessageBoxIcon.Question
+                         );
+
+                            if (confirmResult != DialogResult.Yes)
+                                return;
+
+                            using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Zout), Drawerassginstaffid))
+                            {
+                                if (FrmDashboard.XYDalvalue)
+                                    frmzout.ShowDialog();
+                                else
+                                    frmzout.PrintAll();
+                            }
+
+                            MessageBox.Show("Zout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            Dmndrawer dmndrawer = new Dmndrawer();
+                            Blldrawer blldrawer = new Blldrawer();
+
+                            if (flagDrawerF)
+                            {
+                                dmndrawer.Id = Drawerassginid;
+                            }
+                            else
+                            {
+                                if (FrmDrawer.DrawerID > 0)
+                                    dmndrawer.Id = FrmDrawer.DrawerID;
+                            }
+
+                            dmndrawer.BranchId = FrmDashboard.BranchId;
+                            dmndrawer.CreatedBy = FrmDashboard.UserId;
+                            dmndrawer.Status = 0;
+                            var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer);
+                            if (InsertStatus.Id > 0)
+                            {
+                                FrmDrawer.DrawerID = 0;
+                                tlp_outbtn.Visible = false;
+                                tlp_previous_bill.Visible = false;
+                                tlp_control.Visible = false;
+                                FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
+                                FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
+                            }
+                            #region Close all form Return Login page
+                            Application.Exit();
+                            //foreach (Form openForm in Application.OpenForms.Cast<Form>().ToList())
+                            //{
+                            //    if (!(openForm is FoodandBeverage.Forms.FrmLogin) && !(openForm is FoodandBeverage.Forms.FrmSplash))
+                            //        openForm.Close();
+                            //}
+
+                            //System.Threading.Thread.Sleep(500);
+                            //if (existingLogin == null)
+                            //{
+                            //    FoodandBeverage.Forms.FrmLogin loginForm = new FoodandBeverage.Forms.FrmLogin();
+                            //    loginForm.Show();
+                            //}
+                            //else
+                            //{
+                            //    existingLogin.Opacity = 100;
+                            //    existingLogin.BringToFront();
+                            //    existingLogin.Focus();
+                            //}
+                            #endregion
+
+                        }
                         else
-                            frmzout.PrintAll();
+                        {
+                            MessageBox.Show("Zout Cannot be Completed", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        #endregion
                     }
-
-                    MessageBox.Show("Zout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    Dmndrawer dmndrawer = new Dmndrawer();
-                    Blldrawer blldrawer = new Blldrawer();
-
-                    if (flagDrawerF)
+                }
+                else if (permissionlevel == Convert.ToInt32(PermissionLevel.FullPermission) || permissionlevel == Convert.ToInt32(PermissionLevel.ReadOnly))
+                {
+                    #region Zout
+                    DrawerCheck();
+                    if (FrmDrawer.DrawerID > 0)
                     {
-                        dmndrawer.Id = Drawerassginid;
+                        var confirmResult = MessageBox.Show(
+                         "This will print the Z-Out report and sign you out.\n\n" +
+                         "Make sure all transactions are completed.\n\n" +
+                         "Do you want to proceed and end your shift?",
+                         "Confirm Z-Out and Sign Out",
+                         MessageBoxButtons.YesNo,
+                         MessageBoxIcon.Question
+                     );
+
+                        if (confirmResult != DialogResult.Yes)
+                            return;
+
+                        using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Zout), Drawerassginstaffid))
+                        {
+                            if (FrmDashboard.XYDalvalue)
+                                frmzout.ShowDialog();
+                            else
+                                frmzout.PrintAll();
+                        }
+
+                        MessageBox.Show("Zout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        Dmndrawer dmndrawer = new Dmndrawer();
+                        Blldrawer blldrawer = new Blldrawer();
+
+                        if (flagDrawerF)
+                        {
+                            dmndrawer.Id = Drawerassginid;
+                        }
+                        else
+                        {
+                            if (FrmDrawer.DrawerID > 0)
+                                dmndrawer.Id = FrmDrawer.DrawerID;
+                        }
+
+                        dmndrawer.BranchId = FrmDashboard.BranchId;
+                        dmndrawer.CreatedBy = FrmDashboard.UserId;
+                        dmndrawer.Status = 0;
+                        var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer);
+                        if (InsertStatus.Id > 0)
+                        {
+                            FrmDrawer.DrawerID = 0;
+                            tlp_outbtn.Visible = false;
+                            tlp_previous_bill.Visible = false;
+                            tlp_control.Visible = false;
+                            FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
+                            FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
+                        }
+                        #region Close all form Return Login page
+                        Application.Exit();
+                        //foreach (Form openForm in Application.OpenForms.Cast<Form>().ToList())
+                        //{
+                        //    if (!(openForm is FoodandBeverage.Forms.FrmLogin) && !(openForm is FoodandBeverage.Forms.FrmSplash))
+                        //        openForm.Close();
+                        //}
+
+                        //System.Threading.Thread.Sleep(500);
+                        //if (existingLogin == null)
+                        //{
+                        //    FoodandBeverage.Forms.FrmLogin loginForm = new FoodandBeverage.Forms.FrmLogin();
+                        //    loginForm.Show();
+                        //}
+                        //else
+                        //{
+                        //    existingLogin.Opacity = 100;
+                        //    existingLogin.BringToFront();
+                        //    existingLogin.Focus();
+                        //}
+                        #endregion
+
                     }
                     else
                     {
-                        if (FrmDrawer.DrawerID > 0)
-                            dmndrawer.Id = FrmDrawer.DrawerID;
+                        MessageBox.Show("Zout Cannot be Completed", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
-                    dmndrawer.BranchId = FrmDashboard.BranchId;
-                    dmndrawer.CreatedBy = FrmDashboard.UserId;
-                    dmndrawer.Status = 0;
-                    var InsertStatus = blldrawer.AddEditDatadrawer("prdInsertDrawer", dmndrawer);
-                    if (InsertStatus.Id > 0)
-                    {
-                        FrmDrawer.DrawerID = 0;
-                        tlp_outbtn.Visible = false;
-                        tlp_previous_bill.Visible = false;
-                        tlp_control.Visible = false;
-                        FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
-                        FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
-                    }
-                    #region Close all form Return Login page
-                    Application.Exit();
-                    //foreach (Form openForm in Application.OpenForms.Cast<Form>().ToList())
-                    //{
-                    //    if (!(openForm is FoodandBeverage.Forms.FrmLogin) && !(openForm is FoodandBeverage.Forms.FrmSplash))
-                    //        openForm.Close();
-                    //}
-
-                    //System.Threading.Thread.Sleep(500);
-                    //if (existingLogin == null)
-                    //{
-                    //    FoodandBeverage.Forms.FrmLogin loginForm = new FoodandBeverage.Forms.FrmLogin();
-                    //    loginForm.Show();
-                    //}
-                    //else
-                    //{
-                    //    existingLogin.Opacity = 100;
-                    //    existingLogin.BringToFront();
-                    //    existingLogin.Focus();
-                    //}
                     #endregion
+                }
 
-                }
-                else
-                {
-                    MessageBox.Show("Zout Cannot be Completed", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
             }
             catch (Exception ex)
             {

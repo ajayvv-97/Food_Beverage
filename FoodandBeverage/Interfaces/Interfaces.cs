@@ -616,6 +616,57 @@ namespace FoodandBeverage.Interfaces
         GST = 1,
         TRN = 2
     }
+    public enum Apptype
+    {
+        BackOffice = 1,
+        PosScreen = 2,
+        webportal = 3
+    };
+    public enum PermissionLevel
+    {
+        NoPermission = 1,
+        ReadOnly = 2,
+        FullPermission = 3
+    }
+    public enum RolePermission
+    {
+        Order = 1,
+        Billing = 2,
+        Settings = 3,
+        DashboardCharts = 4,
+        Company = 5,
+        Kitchen_View = 6,
+        OrderView = 7,
+        Category = 8,
+        Product = 9,
+        Menu = 10,
+        Unit = 11,
+        Table = 12,
+        Purchase = 13,
+        Purchase_Return = 14,
+        Tax = 15,
+        Vendor = 16,
+        Discount_And_Offer = 17,
+        Expence = 18,
+        PromoCode = 19,
+        Item = 20,
+        Reservation = 21,
+        Addon = 22,
+        Employee = 23,
+        Department = 24,
+        Designation = 25,
+        User_Account = 26,
+        User_Permission = 27,
+        AllowCashDrawer = 28,
+        AllowDrawerpermissionFullControl = 29,
+        YOut = 30,
+        ZOut = 31,
+        Report = 32,
+        Refund = 33,
+        ExtraLoginAccess = 34,
+        UnitConversion = 35,
+        VoidSale = 36
+    }
 }
 
 

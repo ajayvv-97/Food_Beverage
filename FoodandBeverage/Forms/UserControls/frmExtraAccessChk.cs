@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,8 +26,8 @@ namespace FoodandBeverage.Forms.UserControls
         public byte[] encryptPassword;
         public  int rfid = 0;
         BllEncryption bllEncryption = new BllEncryption();
-        public  bool access = false;
-        public  long EmployeeId;
+        public static bool access = false;
+        public static long EmployeeId;
         int FormId = 0;
         public frmExtraAccessChk(int formId)
         {
@@ -34,9 +35,23 @@ namespace FoodandBeverage.Forms.UserControls
             InitializeComponent();
         }
 
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
         private void frmExtraAccessChk_Load(object sender, EventArgs e)
         {
-           
+            this.FormBorderStyle = FormBorderStyle.None; 
+
+            this.Region = System.Drawing.Region.FromHrgn(
+                CreateRoundRectRgn(0, 0, this.Width, this.Height, 20, 20)
+            );
             //BllSearch<DmnComboBox> bllSearchBranch = new BllSearch<DmnComboBox>();
             //DmnSearch dmnSearchBranch = new DmnSearch();
             //dmnSearchBranch.Select = "LocId,Name";

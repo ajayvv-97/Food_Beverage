@@ -1226,7 +1226,7 @@ namespace FoodandBeverage.Forms
                         {
                             frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
                             frm.ShowDialog();
-                            if (frm.access == true)
+                            if (frmExtraAccessChk.access)
                             {
                                 tlp_main.Enabled = false;
                                 refreshtimer_sub.Stop();
@@ -1777,7 +1777,7 @@ namespace FoodandBeverage.Forms
                 {
                     frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(formsenum.ExtraLoginAccess));
                     frm.ShowDialog();
-                    if (frm.access == true)
+                    if (frmExtraAccessChk.access == true)
                     {
                         UIHelper.CenterAndResize(pnl_products_rem_descr, 25, 25);
                         UIHelper.RoundCorners(tlp_order_desc, 25);
