@@ -7616,7 +7616,11 @@ namespace FoodandBeverage.Forms
 
                                     dmnorderdetail.BranchId = FrmDashboard.BranchId;
                                     dmnorderdetail.CreatedBy = FrmDashboard.UserId;
-                                    dmnorderdetail.Status = 1;
+
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value) == Convert.ToInt32(PreparationType.Counter))
+                                        dmnorderdetail.Status = 3;
+                                    else
+                                        dmnorderdetail.Status = 1;
 
                                     dmnorderdetail.OrderDetailsId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                     dmnorderdetail.NetAmount = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
