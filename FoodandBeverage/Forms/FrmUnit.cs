@@ -369,8 +369,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
-            
             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
             int returnValue = 0;
             DataTable dtColumnAlign = new DataTable();

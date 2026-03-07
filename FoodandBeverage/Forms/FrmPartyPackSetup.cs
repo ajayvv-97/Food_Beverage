@@ -264,7 +264,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         private void LoadMenuCategory_Cutom()
@@ -292,7 +292,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
@@ -437,7 +437,7 @@ namespace FoodandBeverage.Forms
 
                 if (packstatus.PartyPackId <= 0)
                 {
-                    MessageBox.Show("Error saving Party Pack");
+                    CMessageBox.Show("Error saving Party Pack");
                     return;
                 }
 
@@ -634,15 +634,15 @@ namespace FoodandBeverage.Forms
 
                 if (gridcount == statuscount)
                 {
-                    MessageBox.Show("Party Pack Saved Successfully");
+                    CMessageBox.Show("Party Pack Saved Successfully");
                     clearall();
                 }
                 else
-                    MessageBox.Show("Some Items Not Saved Properly");
+                    CMessageBox.Show("Some Items Not Saved Properly");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -663,21 +663,21 @@ namespace FoodandBeverage.Forms
 
                 if (string.IsNullOrWhiteSpace(txtpackname.Text))
                 {
-                    MessageBox.Show("Please Enter Party Pack Name", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please Enter Party Pack Name", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtpackname.Focus();
                     return false;
                 }
 
                 if (Convert.ToDecimal(txtadultprice.Text) <= 0)
                 {
-                    MessageBox.Show("Please Enter Valid Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please Enter Valid Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtadultprice.Focus();
                     return false;
                 }
 
                 if (string.IsNullOrWhiteSpace(cmbTaxType.Text))
                 {
-                    MessageBox.Show("Please Select Tax Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please Select Tax Type", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbTaxType.Focus();
                     return false;
                 }
@@ -685,7 +685,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (cmbIgstPrcnt.SelectedValue == null || Convert.ToInt32(cmbIgstPrcnt.SelectedValue) <= 0)
                     {
-                        MessageBox.Show("Please Select IGST %", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please Select IGST %", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         cmbIgstPrcnt.Focus();
                         return false;
                     }
@@ -694,7 +694,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (cmbVatPrcnt.SelectedValue == null || Convert.ToInt32(cmbVatPrcnt.SelectedValue) <= 0)
                     {
-                        MessageBox.Show("Please Select VAT %", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please Select VAT %", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         cmbVatPrcnt.Focus();
                         return false;
                     }
@@ -721,7 +721,7 @@ namespace FoodandBeverage.Forms
 
                 //if (!hasItem)
                 //{
-                //    MessageBox.Show("Please Add At Least One Item in Pack", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    CMessageBox.Show("Please Add At Least One Item in Pack", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //    dgv_packs_default.Focus();
                 //    return false;
                 //}
@@ -892,7 +892,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -939,7 +939,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1030,7 +1030,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
             finally
             {
@@ -1104,7 +1104,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
             finally
             {
@@ -1178,7 +1178,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1190,7 +1190,7 @@ namespace FoodandBeverage.Forms
 
                 if (row.IsNewRow) return;
 
-                DialogResult result = MessageBox.Show(
+                DialogResult result = CMessageBox.Show(
                     "Are you sure you want to delete this item?",
                     "Confirm",
                     MessageBoxButtons.YesNo,
@@ -1234,7 +1234,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1282,7 +1282,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         private void DeleteCustomGridRow(int rowIndex)
@@ -1293,7 +1293,7 @@ namespace FoodandBeverage.Forms
 
                 if (row.IsNewRow) return;
 
-                DialogResult result = MessageBox.Show(
+                DialogResult result = CMessageBox.Show(
                     "Are you sure you want to delete this item?",
                     "Confirm",
                     MessageBoxButtons.YesNo,
@@ -1338,7 +1338,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1413,7 +1413,7 @@ namespace FoodandBeverage.Forms
                 }
 
                 // ✅ Confirmation
-                DialogResult result = MessageBox.Show(
+                DialogResult result = CMessageBox.Show(
                     "Are you sure you want to delete this pack?",
                     "Confirm Delete",
                     MessageBoxButtons.YesNo,
@@ -1449,7 +1449,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1479,7 +1479,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1497,7 +1497,7 @@ namespace FoodandBeverage.Forms
 
                 if (string.IsNullOrWhiteSpace(txtfoodCate.Text))
                 {
-                    MessageBox.Show("Enter Category Name");
+                    CMessageBox.Show("Enter Category Name");
                     return;
                 }
 
@@ -1512,7 +1512,7 @@ namespace FoodandBeverage.Forms
                 dmnfood.BranchId = FrmDashboard.BranchId;
                 dmnfood.Status = 1;
                 var result = bllcategory.AddeditData("prdInsert_upd_Category", dmnfood);
-                MessageBox.Show("Category Saved");
+                CMessageBox.Show("Category Saved");
                 txtFcid.Text = "0";
                 txtfoodCate.Clear();
 
@@ -1521,7 +1521,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1531,11 +1531,11 @@ namespace FoodandBeverage.Forms
             {
                 if (string.IsNullOrWhiteSpace(txtFcid.Text) || txtFcid.Text == "0")
                 {
-                    MessageBox.Show("Select Category to Delete");
+                    CMessageBox.Show("Select Category to Delete");
                     return;
                 }
 
-                DialogResult result = MessageBox.Show(
+                DialogResult result = CMessageBox.Show(
                     "Are you sure you want to delete this category?",
                     "Confirm",
                     MessageBoxButtons.YesNo,
@@ -1555,7 +1555,7 @@ namespace FoodandBeverage.Forms
 
                 bllcategory.AddeditData("prdInsert_upd_Category", dmnfood);
 
-                MessageBox.Show("Category Deleted");
+                CMessageBox.Show("Category Deleted");
 
                 // Reset
                 txtFcid.Text = "0";
@@ -1568,7 +1568,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1765,7 +1765,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1851,7 +1851,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         private void dgv_card_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -1882,7 +1882,7 @@ namespace FoodandBeverage.Forms
 
                 if (gridSource.Count == 0)
                 {
-                    MessageBox.Show("No Records Found");
+                    CMessageBox.Show("No Records Found");
                 }
                 else
                 {
@@ -1909,7 +1909,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         private void LoadCakeById(int id)
@@ -1947,7 +1947,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         private void btndel_cake_Click(object sender, EventArgs e)
@@ -1956,7 +1956,7 @@ namespace FoodandBeverage.Forms
             {
                 if (selectedCakeId == 0)
                 {
-                    MessageBox.Show("Select Cake First");
+                    CMessageBox.Show("Select Cake First");
                     return;
                 }
 
@@ -1981,7 +1981,7 @@ namespace FoodandBeverage.Forms
 
                 var result = bllPack.AddData_Cake("prdInsert_Upd_PartyPackCake", cake);
 
-                MessageBox.Show("Deleted Successfully");
+                CMessageBox.Show("Deleted Successfully");
 
                 ClearCake();
                 selectedCakeId = 0;
@@ -1989,7 +1989,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -1999,7 +1999,7 @@ namespace FoodandBeverage.Forms
             {
                 if (string.IsNullOrWhiteSpace(txtcaketype.Text))
                 {
-                    MessageBox.Show("Enter Cake Type");
+                    CMessageBox.Show("Enter Cake Type");
                     return;
                 }
 
@@ -2027,7 +2027,7 @@ namespace FoodandBeverage.Forms
 
                 if (result.PartyPackCakeId > 0)
                 {
-                    MessageBox.Show(selectedCakeId > 0 ? "Updated Successfully" : "Saved Successfully");
+                    CMessageBox.Show(selectedCakeId > 0 ? "Updated Successfully" : "Saved Successfully");
 
                     ClearCake();
                     selectedCakeId = 0;   
@@ -2036,7 +2036,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CMessageBox.Show(ex.Message);
             }
         }
         public void ClearCake()

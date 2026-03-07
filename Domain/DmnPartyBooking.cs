@@ -27,6 +27,10 @@ namespace Domain
         public string TaxType { get; set; }
         public decimal TaxPer { get; set; }
         public decimal TaxAmount { get; set; }
+        public decimal IGSTAmt { get; set; }
+        public decimal CGSTAmt { get; set; }
+        public decimal SGSTAmt { get; set; }
+        public decimal VATAmt { get; set; }
 
         public decimal DiscountPer { get; set; }
         public decimal DiscountAmount { get; set; }
@@ -46,6 +50,26 @@ namespace Domain
         public int Status { get; set; }
         public string DiscountReason { get; set; }
         public string EventDescription { get; set; }
+
+        // 🔹 Cake Totals
+        public decimal CakeGrandTotal { get; set; }
+        public decimal CakePreTaxAmount { get; set; }
+        public decimal CakeTaxAmount { get; set; }
+
+        // 🔹 Card Totals
+        public decimal CardGrandTotal { get; set; }
+        public decimal CardPreTaxAmount { get; set; }
+        public decimal CardTaxAmount { get; set; }
+
+        // 🔹 Gift Totals
+        public decimal GiftGrandTotal { get; set; }
+        public decimal GiftPreTaxAmount { get; set; }
+        public decimal GiftTaxAmount { get; set; }
+
+        // 🔹 Package Totals
+        public decimal PackGrandTotal { get; set; }
+        public decimal PackPreTaxAmount { get; set; }
+        public decimal PackTaxAmount { get; set; }
     }
     
 }

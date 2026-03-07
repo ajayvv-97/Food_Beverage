@@ -42,6 +42,6 @@ namespace Domain
         public string Product { get; set; }
         public string CakeRemarks { get; set; }
         public string CakeMessage { get; set; }
+        public bool IsPackage { get; set; }
     }
 }
- 

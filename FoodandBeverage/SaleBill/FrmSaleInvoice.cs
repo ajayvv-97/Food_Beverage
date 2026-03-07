@@ -1226,11 +1226,10 @@ namespace FoodandBeverage.SaleBill
             {
                 string returnValue = string.Empty;
                 DataTable dtColumnAlign = new DataTable();
-
-                // Search object for customer
                 DmnSearch _objSearch = new DmnSearch();
+
                 _objSearch.ColumnHeaders = "CusId,FirstName,SecondName,CompanyName,GSTNo,PhoneNumber,EmailAddress,FullAddress";
-                _objSearch.Select = "CusId,FirstName,SecondName,CompanyName,GSTNo,PhoneNumber,EmailAddress,FullAddress,Gender";
+                _objSearch.Select = "CusId id,FirstName Field1,SecondName Field2,CompanyName Field3,GSTNo Field4,PhoneNumber Field5,EmailAddress Field6,FullAddress Field7";
                 _objSearch.Table = " tblCustomer ";
                 _objSearch.WhereNdGroupBy = " WHERE Status = 1 ";
                 _objSearch.OrderBy = " ORDER BY CusId DESC";

@@ -81,7 +81,22 @@ namespace FoodandBeverage.Classes
         {
 
         }
+        public static void SetRoundCorner(Control ctrl, int radius)
+        {
+            if (ctrl == null) return;
 
+            Rectangle rect = new Rectangle(0, 0, ctrl.Width, ctrl.Height);
+            GraphicsPath path = new GraphicsPath();
+            int d = radius * 2;
+
+            path.AddArc(rect.X, rect.Y, d, d, 180, 90);
+            path.AddArc(rect.Width - d, rect.Y, d, d, 270, 90);
+            path.AddArc(rect.Width - d, rect.Height - d, d, d, 0, 90);
+            path.AddArc(rect.X, rect.Height - d, d, d, 90, 90);
+            path.CloseFigure();
+
+            ctrl.Region = new Region(path);
+        }
         #region  open form closeinng and Dispose
         public static void CloseIfOpen<T>() where T : Form
         {

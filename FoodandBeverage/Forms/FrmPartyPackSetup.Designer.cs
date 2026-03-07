@@ -428,7 +428,7 @@
             this.tlp_setting.ColumnCount = 3;
             this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 95.57603F));
             this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.423963F));
-            this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tlp_setting.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tlp_setting.Controls.Add(this.btnclose_drawer, 1, 0);
@@ -450,7 +450,7 @@
             this.btnclose_drawer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnclose_drawer.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnclose_drawer.ForeColor = System.Drawing.Color.Red;
-            this.btnclose_drawer.Location = new System.Drawing.Point(749, 3);
+            this.btnclose_drawer.Location = new System.Drawing.Point(747, 3);
             this.btnclose_drawer.Name = "btnclose_drawer";
             this.btnclose_drawer.Size = new System.Drawing.Size(28, 28);
             this.btnclose_drawer.TabIndex = 21;
@@ -467,7 +467,7 @@
             this.label1.Location = new System.Drawing.Point(2, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(742, 34);
+            this.label1.Size = new System.Drawing.Size(740, 34);
             this.label1.TabIndex = 22;
             this.label1.Text = "Party Pack Setup";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -566,13 +566,13 @@
             // tlp_sections
             // 
             this.tlp_sections.ColumnCount = 7;
-            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.25917F));
-            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.87041F));
-            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.08068F));
-            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.05868F));
-            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.54768F));
-            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.75795F));
-            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
+            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_sections.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_sections.Controls.Add(this.btn_cardpacks, 1, 0);
             this.tlp_sections.Controls.Add(this.btn_stanpackage, 0, 0);
             this.tlp_sections.Controls.Add(this.btn_cakepacks, 4, 0);

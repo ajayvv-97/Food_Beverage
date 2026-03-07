@@ -2767,7 +2767,7 @@ namespace FoodandBeverage.Forms
                 refreshtimer.Stop();
                 cmbserachtype.SelectedIndex = 0;
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
-                btn_viewmore_order.Visible = true;
+                //btn_viewmore_order.Visible = true;
                 pnl_empty_msg.Visible = false;
 
                 txtsearchData.Text = GetPlaceholder();

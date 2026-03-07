@@ -34,6 +34,10 @@ namespace BLL
             parms.Add("TaxType", obj.TaxType);
             parms.Add("TaxPer", obj.TaxPer);
             parms.Add("TaxAmount", obj.TaxAmount);
+            parms.Add("IGSTAmt", obj.IGSTAmt);
+            parms.Add("CGSTAmt", obj.CGSTAmt);
+            parms.Add("SGSTAmt", obj.SGSTAmt);
+            parms.Add("VATAmt", obj.VATAmt);
 
             parms.Add("DiscountPer", obj.DiscountPer);
             parms.Add("DiscountAmount", obj.DiscountAmount);
@@ -54,6 +58,26 @@ namespace BLL
 
             parms.Add("DiscountReason", obj.DiscountReason);
             parms.Add("EventDescription", obj.EventDescription);
+
+            // 🔹 CAKE TOTALS
+            parms.Add("CakeGrandTotal", obj.CakeGrandTotal);
+            parms.Add("CakePreTaxAmount", obj.CakePreTaxAmount);
+            parms.Add("CakeTaxAmount", obj.CakeTaxAmount);
+
+            // 🔹 CARD TOTALS
+            parms.Add("CardGrandTotal", obj.CardGrandTotal);
+            parms.Add("CardPreTaxAmount", obj.CardPreTaxAmount);
+            parms.Add("CardTaxAmount", obj.CardTaxAmount);
+
+            // 🔹 GIFT TOTALS
+            parms.Add("GiftGrandTotal", obj.GiftGrandTotal);
+            parms.Add("GiftPreTaxAmount", obj.GiftPreTaxAmount);
+            parms.Add("GiftTaxAmount", obj.GiftTaxAmount);
+
+            // 🔹 PACKAGE TOTALS
+            parms.Add("PackGrandTotal", obj.PackGrandTotal);
+            parms.Add("PackPreTaxAmount", obj.PackPreTaxAmount);
+            parms.Add("PackTaxAmount", obj.PackTaxAmount);
 
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
@@ -81,6 +105,11 @@ namespace BLL
             parms.Add("TaxAmount", obj.TaxAmount);
             parms.Add("TaxSettingId", obj.TaxSettingId);
 
+            parms.Add("IGSTAmt", obj.IGSTAmt);
+            parms.Add("VATAmt", obj.VATAmt);
+            parms.Add("CGSTAmt", obj.CGSTAmt);
+            parms.Add("SGSTAmt", obj.SGSTAmt);
+
             parms.Add("DiscountPer", obj.DiscountPer);
             parms.Add("DiscountAmount", obj.DiscountAmount);
 
@@ -98,10 +127,12 @@ namespace BLL
             parms.Add("CakeRemarks", obj.CakeRemarks);
             parms.Add("CakeMessage", obj.CakeMessage);
 
+            parms.Add("IsPackage", obj.IsPackage);
+
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
-
+        
     }
     
 }
