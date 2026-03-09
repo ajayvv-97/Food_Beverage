@@ -105,10 +105,10 @@ namespace FoodandBeverage.Forms
 
         public int Productrate_ID = 0;
 
-        public static Decimal midas_balance = 0;
+        public Decimal midas_balance = 0;
         private List<(string PartPayId, string PartAmount)> partPayments = new List<(string, string)>();
         int partCount = 0;
-        public static bool exitstatus = false;
+        public bool exitstatus = false;
 
         #region Grid Declaration 
         // Registration Grid
@@ -11754,10 +11754,10 @@ namespace FoodandBeverage.Forms
                     {
                         if (exitstatus == false)
                             CMessageBox.Show(
-    "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
-    "Warning",
-    MessageBoxButtons.RetryCancel,
-    MessageBoxIcon.Warning
+                                            "Amount should not be greater than TotalAmount.\nCURRENT BALANCE: " + bal,
+                                            "Warning",
+                                            MessageBoxButtons.RetryCancel,
+                                            MessageBoxIcon.Warning
 );
                         lblpartAmt1.Text = "0.00";
                     }
@@ -11921,7 +11921,6 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
         private void netbanking_part_Click(object sender, EventArgs e)
         {
             try
@@ -12011,7 +12010,6 @@ namespace FoodandBeverage.Forms
             }
 
         }
-
         private void credit_part_Click(object sender, EventArgs e)
         {
             try

@@ -36,5 +36,8 @@ namespace Domain
         public DateTime CreatedDateTime { get; set; }
         public String DBname { get; set; }
         public bool Cancelorderstatus { get; set; }
+
+        public decimal RefundAmount { get; set; }
+        public string RefundMode { get; set; }
     }
 }

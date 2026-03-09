@@ -26,6 +26,7 @@ namespace BLL
             parms.Add("CreatedBy", obj.CreatedBy);
             parms.Add("BranchId", obj.BranchId);
             parms.Add("Status", obj.Status);
+            parms.Add("IsSplitPayment", obj.IsSplitPayment);
 
             var data = repo.AddandReturnID("prdInsert_Upd_PartyBookingPayment", parms);
             return data;

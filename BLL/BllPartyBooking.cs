@@ -132,7 +132,22 @@ namespace BLL
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
-        
+
+        public DmnPartyBooking VoidData(string procedureName, DmnPartyBooking obj)
+        {
+            DAL.DapperRepository<DmnPartyBooking> repo = new DAL.DapperRepository<DmnPartyBooking>();
+
+            DynamicParameters parms = new DynamicParameters();
+
+            parms.Add("PartyBookingId", obj.PartyBookingId);
+            parms.Add("CreatedBy", obj.CreatedBy);
+            parms.Add("BranchId", obj.BranchId);
+            parms.Add("Status", obj.Status);   
+
+            var data = repo.AddandReturnID(procedureName, parms);
+            return data;
+        }
+
     }
     
 }
