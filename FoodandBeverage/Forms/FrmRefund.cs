@@ -283,98 +283,110 @@ namespace FoodandBeverage.Forms
 
         private void btnrefund_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtsalemasterid.Text))
+            try
             {
-                MessageBox.Show("Please select a bill before continuing.",
-                    "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (cmbRefundPayType.SelectedIndex < 0)
-            {
-                MessageBox.Show("Please select a refund Pay Type",
-                    "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (cmbRefundReson.SelectedIndex == 0)
-            {
-                MessageBox.Show("Please select a refund Reason",
-                    "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            else if (cmbRefundReson.SelectedIndex == 5)
-            {
-                if (string.IsNullOrWhiteSpace(txtRenote.Text))
+                if (string.IsNullOrWhiteSpace(txtsalemasterid.Text))
                 {
-                    MessageBox.Show("Please enter a reason in the note box.",
-                        "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtRenote.Focus();
-                    return;
-                }
-            }
-            if (cmbRefundPayType.SelectedIndex == 1)
-            {
-                if (string.IsNullOrWhiteSpace(lblcashrefundamt.Text) || lblcashrefundamt.Text == "0.00")
-                {
-                    MessageBox.Show("Please Enter The Amount to Refund.",
+                    MessageBox.Show("Please select a bill before continuing.",
                         "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                
+
+                if (cmbRefundPayType.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Please select a refund Pay Type",
+                        "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (cmbRefundReson.SelectedIndex == 0)
+                {
+                    MessageBox.Show("Please select a refund Reason",
+                        "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (cmbRefundReson.SelectedIndex == 5)
+                {
+                    if (string.IsNullOrWhiteSpace(txtRenote.Text))
+                    {
+                        MessageBox.Show("Please enter a reason in the note box.",
+                            "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtRenote.Focus();
+                        return;
+                    }
+                }
+                if (cmbRefundPayType.SelectedIndex == 1)
+                {
+                    if (string.IsNullOrWhiteSpace(lblcashrefundamt.Text) || lblcashrefundamt.Text == "0.00")
+                    {
+                        MessageBox.Show("Please Enter The Amount to Refund.",
+                            "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                }
+                if (cmbRefundPayType.SelectedIndex == 2 && Convert.ToString(lblcardno.Text) == "")
+                {
+                    MessageBox.Show("Please Click on card Tap.",
+                        "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+
+                DmnRefund dmnRefund = new DmnRefund();
+                BllRefund bllRefund = new BllRefund();
+
+                dmnRefund.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
+                dmnRefund.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
+
+                if (Convert.ToInt32(cmbRefundPayType.SelectedValue) == 1)
+                    dmnRefund.RefundpayType = Convert.ToInt32(PaymentType.CASH);
+                else if (Convert.ToInt32(cmbRefundPayType.SelectedValue) == 2)
+                    dmnRefund.RefundpayType = Convert.ToInt32(PaymentType.MidasCard);
+
+                dmnRefund.RefundReason = Convert.ToInt32(cmbRefundReson.SelectedValue);
+                dmnRefund.ReasonNote = txtRenote.Text;
+                if (cmbRefundPayType.SelectedIndex == 1)
+                {
+                    dmnRefund.CashRefund = Convert.ToDecimal(lblcashrefundamt.Text);
+                }
+                if (cmbRefundPayType.SelectedIndex == 2)
+                {
+                    dmnRefund.DebitLedgerId = Convert.ToInt32(lblDebitLedgerId.Text);
+                    dmnRefund.CardType = Convert.ToInt32(lblCardType.Text);
+                    dmnRefund.FMCardType = Convert.ToInt32(lblFMCardType.Text);
+                    dmnRefund.DebitICardNo = Convert.ToString(lblcardno.Text);
+                    dmnRefund.CashBalanceRefund = Convert.ToDecimal(lblnetamount.Text);
+                }
+
+                //// Balances
+                //dmnRefund.CashBalance = Convert.ToDecimal(lblCashBal.Text);
+                //dmnRefund.BonusBalance = Convert.ToDecimal(lblBonusBal.Text);
+                //dmnRefund.PointBalnce = Convert.ToDecimal(lblPointBal.Text);  // Correct spelling
+                //dmnRefund.TokenBalance = Convert.ToDecimal(lblTokenBal.Text);
+
+                //// Refund amounts
+                //dmnRefund.CashBalanceRefund = dmnRefund.CashRefund;
+                //dmnRefund.BonusRefund = Convert.ToDecimal(lblReBonusBal.Text);
+                //dmnRefund.PointRefund = Convert.ToDecimal(lblRePointBal.Text);
+                //dmnRefund.TokenRefund = Convert.ToDecimal(lblReTokenBal.Text);
+
+
+                dmnRefund.CreatedBy = FrmDashboard.UserId;
+                dmnRefund.BranchId = FrmDashboard.BranchId;
+                dmnRefund.Status = 1;
+                dmnRefund.DBname = GameDB;
+                dmnRefund.CreatedDateTime = DateTime.Now;
+                var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
+                if (data.Id > 0)
+                    MessageBox.Show("Refund Amount Completed",
+                           "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                clearall();
             }
-            if (cmbRefundPayType.SelectedIndex == 2 && Convert.ToString(lblcardno.Text) == "")
+            catch(Exception ex)
             {
-                MessageBox.Show("Please Click on card Tap.",
-                    "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+
             }
-
-
-            DmnRefund dmnRefund = new DmnRefund();
-            BllRefund bllRefund = new BllRefund();
-
-            dmnRefund.SalesMasterId = Convert.ToInt32(txtsalemasterid.Text);
-            dmnRefund.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
-            dmnRefund.RefundpayType = Convert.ToInt32(cmbRefundPayType.SelectedValue);
-            dmnRefund.RefundReason = Convert.ToInt32(cmbRefundReson.SelectedValue);
-            dmnRefund.ReasonNote = txtRenote.Text;
-            if (cmbRefundPayType.SelectedIndex == 1)
-            {
-                dmnRefund.CashRefund = Convert.ToDecimal(lblcashrefundamt.Text);
             }
-            if (cmbRefundPayType.SelectedIndex == 2)
-            {
-                dmnRefund.DebitLedgerId = Convert.ToInt32(lblDebitLedgerId.Text);
-                dmnRefund.CardType = Convert.ToInt32(lblCardType.Text);
-                dmnRefund.FMCardType = Convert.ToInt32(lblFMCardType.Text);
-                dmnRefund.DebitICardNo = Convert.ToString(lblcardno.Text);
-                dmnRefund.CashBalanceRefund = Convert.ToDecimal(lblnetamount.Text);
-            }
-
-            //// Balances
-            //dmnRefund.CashBalance = Convert.ToDecimal(lblCashBal.Text);
-            //dmnRefund.BonusBalance = Convert.ToDecimal(lblBonusBal.Text);
-            //dmnRefund.PointBalnce = Convert.ToDecimal(lblPointBal.Text);  // Correct spelling
-            //dmnRefund.TokenBalance = Convert.ToDecimal(lblTokenBal.Text);
-
-            //// Refund amounts
-            //dmnRefund.CashBalanceRefund = dmnRefund.CashRefund;
-            //dmnRefund.BonusRefund = Convert.ToDecimal(lblReBonusBal.Text);
-            //dmnRefund.PointRefund = Convert.ToDecimal(lblRePointBal.Text);
-            //dmnRefund.TokenRefund = Convert.ToDecimal(lblReTokenBal.Text);
-
-
-            dmnRefund.CreatedBy = FrmDashboard.UserId;
-            dmnRefund.BranchId = FrmDashboard.BranchId;
-            dmnRefund.Status = 1;
-            dmnRefund.DBname = GameDB;
-            dmnRefund.CreatedDateTime = DateTime.Now;
-            var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
-            if (data.Id > 0)
-               MessageBox.Show("Refund Amount Completed",
-                      "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            clearall();
-        }
 
         private void cmbRefundPayType_SelectionChangeCommitted(object sender, EventArgs e)
         {

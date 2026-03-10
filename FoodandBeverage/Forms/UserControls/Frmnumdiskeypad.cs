@@ -47,13 +47,21 @@ namespace FoodandBeverage.Forms.UserControl
                     btnper.Dock = DockStyle.None;
                     btnper.Visible = false;
                 }
-                if (Ktype == Convert.ToInt32(KeypadType.NoDecimal))
+                else if (Ktype == Convert.ToInt32(KeypadType.NoDecimal))
                 {
                     tlp_reason.Visible = false;
                     btnclear.Dock = DockStyle.None;
                     btnper.Dock = DockStyle.None;
                     btnper.Visible = false;
                     btndecimal.Visible = false;
+                }
+                else if (Ktype == Convert.ToInt32(KeypadType.NoPercentageReason))
+                {
+                    tlp_reason.Visible = false;
+                    btnclear.Dock = DockStyle.None;
+                    btnper.Dock = DockStyle.None;
+                    btnper.Visible = false;
+                    btndecimal.Visible = true;
                 }
                 else
                 {

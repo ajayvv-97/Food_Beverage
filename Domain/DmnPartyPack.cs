@@ -20,7 +20,7 @@ namespace Domain
         public int Status { get; set; }
         public int DetailsCount { get; set; }
         public string Tax { get; set; }
-        
+        public decimal MinimumAdvanceAmount { get; set; }
     }
     public class DmnPartyPackDetails
     {

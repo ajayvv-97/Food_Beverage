@@ -190,7 +190,10 @@ namespace FoodandBeverage
         private List<(string PartPayId, string PartAmount)> partPayments = new List<(string, string)>();
         int partCount = 0;
         public bool exitstatus = false;
-        int BookingId = 0;
+        int BookingId = 0,SalesMasterId=0;
+        decimal MinimumAdvance = 0;
+
+        private readonly Image Grid_Remove = Properties.Resources.Round_Close;
         #endregion
 
         public FrmPartyBooking()
@@ -200,22 +203,41 @@ namespace FoodandBeverage
 
         private void FrmPartyBooking_Load(object sender, EventArgs e)
         {
-            ToggleFirstRow(0);
-            TogglePayCancel(0);
+            try
+            {
+                lblNetAmt.ForeColor = Color.DarkBlue;
+                lbladvamtdata.ForeColor = Color.SeaGreen;
+                txtRcvAmt.ForeColor = Color.Black;
+                lblBalAmt.ForeColor = Color.IndianRed;
 
-            textb_shape();
-            if (FrmLogin.GameBranchId > 0)
-            {
-                btngift.Visible = true;
-                btncard.Visible = true;
+                lblnetcaption.ForeColor = Color.DimGray;
+                lbladvamt.ForeColor = Color.DimGray;
+                lblreciamt.ForeColor = Color.DimGray;
+                lblbalapay.ForeColor = Color.DimGray;
+
+                lblpackname.ForeColor = Color.DimGray;
+
+                ToggleFirstRow(0);
+                TogglePayCancel(0);
+
+                textb_shape();
+                if (FrmLogin.GameBranchId > 0)
+                {
+                    btngift.Visible = true;
+                    btncard.Visible = true;
+                }
+                else
+                {
+                    btngift.Visible = false;
+                    btncard.Visible = false;
+                }
+                LoadEventItems();
+                LoadCakeTypes();
             }
-            else
+            catch(Exception ex)
             {
-                btngift.Visible = false;
-                btncard.Visible = false;
+
             }
-            LoadEventItems();
-            LoadCakeTypes();
         }
 
 
@@ -290,7 +312,7 @@ namespace FoodandBeverage
                             (SELECT COUNT(1) 
                              FROM tblPartyPackDetails d 
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
-                             AND d.Status = 1) AS DetailsCount";
+                             AND d.Status = 1) AS DetailsCount,MinimumAdvanceAmount";
                 search.Table = "tblPartyPackMaster";
                 search.WhereNdGroupBy = "WHERE Status = 1 and PartyPackId ="+ pkid;
                 search.OrderBy = "ORDER BY PackName";
@@ -301,12 +323,12 @@ namespace FoodandBeverage
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
                     txttax.Text = Convert.ToString(list[0].Tax);
+                    MinimumAdvance= Convert.ToDecimal(list[0].MinimumAdvanceAmount);
                 }
      
             }
             catch (Exception ex)
             {
-
             }
         }
         private void LoadPartyPacks()
@@ -413,9 +435,6 @@ namespace FoodandBeverage
 
                     Partypackid = Convert.ToInt32(list[0].PartyPackId);
 
-                    LoadPackRelatedItems(Convert.ToInt32(list[0].PartyPackId));
-
-
                     foreach (var item in list)
                     {
                         // 🔷 CARD
@@ -505,6 +524,7 @@ namespace FoodandBeverage
 
                                 OpenPackEntryPanel();
                             }
+                            LoadPackRelatedItems(packId);
                             textb_shape();
                         };
 
@@ -595,7 +615,6 @@ namespace FoodandBeverage
                 int sl = 1;
 
                 BllSearch<DmnPartyPackDetails> bll = new BllSearch<DmnPartyPackDetails>();
-
                 DmnSearch search = new DmnSearch();
                 search.Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId";
                 search.Table = "tblPartyPackDetails";
@@ -890,8 +909,6 @@ namespace FoodandBeverage
         {
             try
             {
-
-
                 Button btn = sender as Button;
                 if (btn == null) return;
 
@@ -1578,13 +1595,16 @@ namespace FoodandBeverage
                     targetRow.Cells[mainslno].Value = sl++;
                     targetRow.Cells[mainitemno].Value = sourceRow.Cells[selecteditemitemno].Value;
 
-                    if(sourceRow.Cells[selecteditemcategmenuno].Value !=null)
-                        targetRow.Cells[maincategmenuno].Value =Convert.ToInt64(sourceRow.Cells[selecteditemcategmenuno].Value);
+                    if (sourceRow.Cells[selecteditemcategmenuno].Value != null)
+                        targetRow.Cells[maincategmenuno].Value = Convert.ToInt64(sourceRow.Cells[selecteditemcategmenuno].Value);
 
-                    targetRow.Cells[mainqtyno].Value =   sourceRow.Cells[selecteditemqtyno].Value;
+                    targetRow.Cells[mainqtyno].Value = sourceRow.Cells[selecteditemqtyno].Value;
                     targetRow.Cells[mainppcdiidno].Value = sourceRow.Cells[selecteditemppcdiidno].Value;
                     targetRow.Cells[maindefaultno].Value = sourceRow.Cells[selecteditemdeafultno].Value;
 
+                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs.Rows[rowIndex].Cells[mainactionno];
+                    cellcolumntype.Value = Grid_Remove;
+                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 }
 
                 pnl_foodpacks.Visible = false;
@@ -2457,6 +2477,11 @@ namespace FoodandBeverage
                         DataGridViewRow row = dgv_card.Rows[rowIndex];
 
                         row.Cells[Cardslno].Value = rowIndex + 1;
+
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_card.Rows[rowIndex].Cells[Cardactionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                         row.Cells[Carditemno].Value = item.Field1;
                         row.Cells[Cardqtyno].Value = 1;
 
@@ -2566,7 +2591,10 @@ namespace FoodandBeverage
 
                 CalculateGrandTotal_Card();
             }
-            catch { }
+            catch(Exception ex)
+            {
+
+            }
         }
         private void CalculateGrandTotal_Card()
         {
@@ -3304,6 +3332,10 @@ namespace FoodandBeverage
                 row.Cells[GiftPartydeafult].Value = 0;
                 row.Cells[Gifttaxsettingid].Value = taxSettingId;
 
+                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_gift.Rows[rowIndex].Cells[Giftactionno];
+                cellcolumntype.Value = Grid_Remove;
+                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                 CalculateGrandTotal_Gift();
             }
             catch (Exception ex)
@@ -3982,6 +4014,10 @@ namespace FoodandBeverage
                 row.Cells[Cakemessageno].Value = _cakeMessage;
                 row.Cells[Cakeremarksno].Value = _cakeRemarks;
 
+                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvcake.Rows[rowIndex].Cells[CakeActionNo];
+                cellcolumntype.Value = Grid_Remove;
+                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                 CalculateGrandTotal_Cake();
                 ResetCakeFields();
             }
@@ -4341,6 +4377,11 @@ namespace FoodandBeverage
                         row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
                         row.Cells[CardPartydeafult].Value = 1;
                         row.ReadOnly = true;
+
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_card.Rows[rowIndex].Cells[Cardactionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                     }
 
                     // ✅ GIFT ITEMS
@@ -4358,6 +4399,10 @@ namespace FoodandBeverage
                         row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
                         row.Cells[GiftPartydeafult].Value = 1;
                         row.ReadOnly = true;
+
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_gift.Rows[rowIndex].Cells[Giftactionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
                 }
             }
@@ -4368,37 +4413,45 @@ namespace FoodandBeverage
         }
         private void btndispanel_Click(object sender, EventArgs e)
         {
-            decimal kdata = 0;
-            using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
+            try
             {
-                frm.ShowDialog();
+                decimal kdata = 0;
+                using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
+                {
+                    frm.ShowDialog();
 
-                if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
-                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
-                txtdiscountreason.Text = frm.txtdesc.Text;
+                    if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+
+                    txtdiscountreason.Text = frm.txtdesc.Text.Trim() == "Enter Remarks Here....." ? "" : frm.txtdesc.Text;
+
+                }
+                if (Frmnumdiskeypad.flagpercentage)
+                {
+                    discountper.Text = kdata.ToString("0.00");
+
+                    ApplyDiscountToCardRows(kdata, 0, true);
+                    ApplyDiscountToGiftRows(kdata, 0, true);
+
+                    CalculateDiscountAmount();
+                    CalculatePackValues();
+                }
+                else
+                {
+                    txtTotalDiscountAmt.Text = kdata.ToString("0.00");
+
+                    ApplyDiscountToCardRows(0, kdata, false);
+                    ApplyDiscountToGiftRows(kdata, 0, false);
+
+                    CalculateDiscountPer();
+                    CalculatePackValues();
+                }
+                CalculateNetAmount();
             }
-            if (Frmnumdiskeypad.flagpercentage)
+            catch(Exception ex)
             {
-                discountper.Text = kdata.ToString("0.00");
 
-                ApplyDiscountToCardRows(kdata, 0, true);
-                ApplyDiscountToGiftRows(kdata, 0, true);
-
-                CalculateDiscountAmount();
-                CalculatePackValues();
             }
-            else
-            {
-                txtTotalDiscountAmt.Text = kdata.ToString("0.00");
-
-                ApplyDiscountToCardRows(0, kdata, false);
-                ApplyDiscountToGiftRows(kdata, 0, false);
-
-                CalculateDiscountPer();
-                CalculatePackValues();
-            }
-
-            CalculateNetAmount();
         }
         private void txtadults_TextChanged(object sender, EventArgs e)
         {
@@ -4598,6 +4651,7 @@ namespace FoodandBeverage
 
                 TogglePayCancel(0);
                 BookingId = 0;
+                SalesMasterId = 0;
             }
             catch (Exception ex)
             {
@@ -4682,13 +4736,6 @@ namespace FoodandBeverage
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txtRcvAmt.Text) || Convert.ToDecimal(txtRcvAmt.Text) == 0)
-                {
-                    CMessageBox.Show("Please type received amount", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtRcvAmt.Focus();
-                    return;
-                }
-
                 if (dgv_packs.CurrentRow == null)
                 {
                     CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -4704,7 +4751,29 @@ namespace FoodandBeverage
                     txtAdults.Focus();
                     return;
                 }
-  
+
+                decimal rcvAmt = Convert.ToDecimal(txtRcvAmt.Text);
+               
+                if (rcvAmt == 0)
+                {
+                    CMessageBox.Show("Please type received amount", "Validation",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtRcvAmt.Focus();
+                    return;
+                }
+
+                if (MinimumAdvance > 0 && rcvAmt < MinimumAdvance)
+                {
+                    CMessageBox.Show(
+                        $"Minimum advance for package '{lblpackname.Text}' is {MinimumAdvance}",
+                        "Validation",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    txtRcvAmt.Focus();
+                    return;
+                }
+
                 //if (dgv_packs_items.Rows.Count == 0)
                 //{
                 //    CMessageBox.Show("No pack items found. Please select valid pack.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -4731,7 +4800,7 @@ namespace FoodandBeverage
             {
                 decimal typedAmount = 0;
 
-                using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
+                using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReason)))
                 {
                     frm.ShowDialog();
 
@@ -4808,7 +4877,6 @@ namespace FoodandBeverage
                         PaymentMode = Convert.ToInt32(PaymentType.Nocharge);
                         break;
                 }
-
                 Paybill();
             }
             catch (Exception ex)
@@ -4816,7 +4884,6 @@ namespace FoodandBeverage
                 CMessageBox.Show(ex.Message);
             }
         }
-
 
         private int GetInt(TextBox txt)
         {
@@ -5600,6 +5667,10 @@ namespace FoodandBeverage
                         row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
                         row.Cells[CardPartydeafult].Value = 0; 
                         row.ReadOnly = true;
+
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_card.Rows[rowIndex].Cells[Cardactionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
                     // 🔹 Gift
                     else if ((PackItemType)item.PackItemType == PackItemType.Gift)
@@ -5614,6 +5685,10 @@ namespace FoodandBeverage
                         row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
                         row.Cells[GiftPartydeafult].Value = 0; 
                         row.ReadOnly = true;
+
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_gift.Rows[rowIndex].Cells[Giftactionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
                     // 🔹 Food Pack
                     else if ((PackItemType)item.PackItemType == PackItemType.FoodItem)
@@ -5630,6 +5705,10 @@ namespace FoodandBeverage
                         row.Cells[mainqtyno].Value = item.Quantity;
                         row.Cells[mainppcdiidno].Value = item.PartyPackDetailsId;
                         row.Cells[maindefaultno].Value = 0;   // 1 = Default Pack Item
+
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs.Rows[rowIndex].Cells[mainactionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
                 }
                 #endregion
@@ -5684,6 +5763,10 @@ namespace FoodandBeverage
                             row.Cells[CakeNetAmtNo].Value = item.NetAmount;
                             row.Cells[Cakeremarksno].Value = item.CakeRemarks;
                             row.Cells[Cakemessageno].Value = item.CakeMessage;
+
+                            DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvcake.Rows[rowIndex].Cells[CakeActionNo];
+                            cellcolumntype.Value = Grid_Remove;
+                            cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                         }
                         #endregion
                     }
@@ -5784,7 +5867,7 @@ namespace FoodandBeverage
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txtdiscountreason, txteventdesc, txtemail, txtph, txtname, txtRcvAmt, txtTotalDiscountAmt, txtTotalTaxAmount, txtaddress, txtChild, txtAdults, txttotalguest })
+                foreach (TextBox textBox in new TextBox[] { txtdiscountreason, txteventdesc, txtemail, txtph, txtname, txtRcvAmt, txtTotalDiscountAmt, txtTotalTaxAmount, txtaddress, txtChild, txtAdults, txttotalguest, txtRenote, txtrefundamt })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -6345,7 +6428,6 @@ namespace FoodandBeverage
             try
             {
                 decimal totalPaid = GetTotalPaidAmount(BookingId);
-
                 lbltotalcancelamt.Text = totalPaid.ToString("N2");
                 pnl_bookingcancel.Visible = true;
                 pnl_bookingcancel.BringToFront();
@@ -6387,30 +6469,63 @@ namespace FoodandBeverage
             }
 
         }
+        private void ProcessPartyBookingRefund(int  refundMode)
+        {
+            try
+            {
+                DmnRefund dmnRefund = new DmnRefund();
+                BllRefund bllRefund = new BllRefund();
+
+                dmnRefund.PartyBookingId = BookingId;
+                dmnRefund.RefundAmount = Convert.ToDecimal(txtrefundamt.Text);
+                dmnRefund.RefundMode = refundMode;
+                dmnRefund.RefundReason = 5;
+                dmnRefund.ReasonNote = txtRenote.Text;
+                dmnRefund.SalesMasterId = SalesMasterId;
+
+                dmnRefund.CreatedBy = FrmDashboard.UserId;
+                dmnRefund.BranchId = FrmDashboard.BranchId;
+                dmnRefund.Status = 1;
+                dmnRefund.DBname = GameDB;
+                dmnRefund.CreatedDateTime = DateTime.Now;
+
+                var data = bllRefund.AddRefundBooking("prdInsertRefund_PartyBooking", dmnRefund);
+
+                if (data.Id > 0)
+                {
+                    pnl_bookingcancel.Visible = false;
+                    ClearAll();
+                    CMessageBox.Show("Refund Amount Completed","Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch(Exception ex)
+            {
+            }
+        }
 
         private void btncash_refund_Click(object sender, EventArgs e)
         {
-
+            ProcessPartyBookingRefund(Convert.ToInt32(PaymentType.CASH));
         }
 
         private void btnupi_refund_Click(object sender, EventArgs e)
         {
-
+            ProcessPartyBookingRefund(Convert.ToInt32(PaymentType.UPI));
         }
 
         private void btndebit_refund_Click(object sender, EventArgs e)
         {
-
+            ProcessPartyBookingRefund(Convert.ToInt32(PaymentType.DEBITCARD));
         }
 
         private void btninterbanking_refund_Click(object sender, EventArgs e)
         {
-
+            ProcessPartyBookingRefund(Convert.ToInt32(PaymentType.BANKINGONLINE));
         }
 
         private void btncredit_refund_Click(object sender, EventArgs e)
         {
-
+            ProcessPartyBookingRefund(Convert.ToInt32(PaymentType.CREDITCARD));
         }
 
         private void btn_bookingvoid_Click(object sender, EventArgs e)
@@ -6443,6 +6558,7 @@ namespace FoodandBeverage
 
             }
         }
+
 
 
         #endregion

@@ -37,7 +37,8 @@ namespace Domain
         public String DBname { get; set; }
         public bool Cancelorderstatus { get; set; }
 
+        public int PartyBookingId { get; set; }
         public decimal RefundAmount { get; set; }
-        public string RefundMode { get; set; }
+        public int RefundMode { get; set; }
     }
 }

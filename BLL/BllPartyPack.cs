@@ -26,7 +26,8 @@ namespace BLL
             parms.Add("CreatedBy", obj.CreatedBy);
             parms.Add("BranchId", obj.BranchId);
             parms.Add("Status", obj.Status);
-
+            parms.Add("MinimumAdvanceAmount", obj.MinimumAdvanceAmount);
+            
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }

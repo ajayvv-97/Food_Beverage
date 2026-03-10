@@ -634,6 +634,7 @@ namespace FoodandBeverage.Forms
                         DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)Dgv_Selected_Item.Rows[r].Cells[iaction];
                         cellcolumntype.Value = imgTime;
                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                         Dgv_Selected_Item.Rows[r].Cells[iname].Value = bannerText;
                         Dgv_Selected_Item.Rows[r].DefaultCellStyle.BackColor = Color.LightGray;
                         Dgv_Selected_Item.Rows[r].DefaultCellStyle.Font = normalFont;
@@ -7424,8 +7425,10 @@ namespace FoodandBeverage.Forms
                     setKitchenperfix();
                     bool flage = false;
                     int GBL_pkid = 0;
+
                     DmnOrderMaster dmnordermaster = new DmnOrderMaster();
                     DmnOrderDetails dmnorderdetail = new DmnOrderDetails();
+
                     BllOrder bll_order = new BllOrder();
                     dmnordermaster.BookmasterId = Bookingmasterid;
                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);

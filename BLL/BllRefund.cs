@@ -1,5 +1,4 @@
-﻿
-using Dapper;
+﻿using Dapper;
 using Domain;
 using System;
 
@@ -12,20 +11,45 @@ namespace BLL
             DAL.DapperRepository<DmnRefund> repo = new DAL.DapperRepository<DmnRefund>();
             DynamicParameters parms = new DynamicParameters();
 
-            // Mandatory IDs
+            // 🔹 Sales Refund IDs
             parms.Add("@OrderMasterId", dmnRefund.OrderMasterId);
             parms.Add("@SalesMasterId", dmnRefund.SalesMasterId);
 
-            // Reason details
+            // 🔹 Party Booking Refund
+            parms.Add("@PartyBookingId", dmnRefund.PartyBookingId);
+            parms.Add("@RefundAmount", dmnRefund.RefundAmount);
+            parms.Add("@RefundMode", dmnRefund.RefundMode);
+
+            // 🔹 Reason details
             parms.Add("@ReasonNote", dmnRefund.ReasonNote);
             parms.Add("@RefundType", dmnRefund.RefundpayType);
             parms.Add("@RefundReason", dmnRefund.RefundReason);
+
+            // 🔹 Refund values
             parms.Add("@CashRefund", dmnRefund.CashRefund);
             parms.Add("@CashBalanceRefund", dmnRefund.CashBalanceRefund);
+
+            // 🔹 Card refund details
             parms.Add("@DebitICardNo", dmnRefund.DebitICardNo);
             parms.Add("@DebitLedgerId", dmnRefund.DebitLedgerId);
             parms.Add("@FMCardType", dmnRefund.FMCardType);
             parms.Add("@CardType", dmnRefund.CardType);
+
+            // 🔹 System fields
+            parms.Add("@DBname", dmnRefund.DBname);
+            parms.Add("@Status", dmnRefund.Status);
+            parms.Add("@BranchId", dmnRefund.BranchId);
+            parms.Add("@CreatedBy", dmnRefund.CreatedBy);
+            parms.Add("@Cancelorderstatus", dmnRefund.Cancelorderstatus);
+
+            var result = repo.AddandReturnID(procedureName, parms);
+
+            return result;
+
+
+            // ============================================
+            // OLD CODE (KEPT FOR FUTURE USE)
+            // ============================================
 
             //// Card details
             //parms.Add("@IcardNo", dmnRefund.IcardNo);
@@ -43,15 +67,29 @@ namespace BLL
             //parms.Add("@PointRefund", dmnRefund.PointRefund);
             //parms.Add("@TokenRefund", dmnRefund.TokenRefund);
 
-            //// Other fields
+        }
 
-            
-            parms.Add("@DBname", dmnRefund.DBname);
-            parms.Add("@Status", dmnRefund.Status);
+        public DmnRefund AddRefundBooking(string procedureName, DmnRefund dmnRefund)
+        {
+            DAL.DapperRepository<DmnRefund> repo = new DAL.DapperRepository<DmnRefund>();
+            DynamicParameters parms = new DynamicParameters();
+
+            // 🔹 Party Booking Refund
+            parms.Add("@PartyBookingId", dmnRefund.PartyBookingId);
+            parms.Add("@RefundAmount", dmnRefund.RefundAmount);
+            parms.Add("@RefundMode", dmnRefund.RefundMode);
+
+            // 🔹 Reason
+            parms.Add("@ReasonNote", dmnRefund.ReasonNote);
+            parms.Add("@RefundReason", dmnRefund.RefundReason);
+
+            // 🔹 System Fields
             parms.Add("@BranchId", dmnRefund.BranchId);
             parms.Add("@CreatedBy", dmnRefund.CreatedBy);
-            parms.Add("@Cancelorderstatus", dmnRefund.Cancelorderstatus); 
+            parms.Add("@SalesMasterId", dmnRefund.SalesMasterId);
+            
             var result = repo.AddandReturnID(procedureName, parms);
+
             return result;
         }
     }

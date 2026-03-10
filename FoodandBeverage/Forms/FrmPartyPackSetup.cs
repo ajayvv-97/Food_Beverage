@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -97,6 +99,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                textb_shape();
+
                 if (FrmLogin.GameBranchId > 0)
                 {
                     btn_giftpacks.Visible = true;
@@ -322,6 +326,9 @@ namespace FoodandBeverage.Forms
 
                 lbltax.Dock = DockStyle.Fill;
                 lbltaxtype.Dock = DockStyle.Fill;
+
+                lblminadvamt.Dock = DockStyle.Fill;
+                txtminadvamt.Dock = DockStyle.Fill;
                 if (cmbTaxType.Text == "GST")
                 {
                     lbligst.Dock = DockStyle.Fill;
@@ -340,8 +347,12 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(txtCgstPrcnt, 0, 6);
                     tlp_registration.Controls.Add(txtSgstPrcnt, 1, 6);
 
+               
+                    tlp_registration.Controls.Add(lblminadvamt, 2, 5);
+                    tlp_registration.Controls.Add(txtminadvamt, 2, 6);
+
                     //row3
-                    tlp_registration.Controls.Add(btn_del_pack, 2, 6);                    
+                    tlp_registration.Controls.Add(btn_del_pack, 3, 6);
 
                 }
                 else if (cmbTaxType.Text == "VAT")
@@ -355,8 +366,11 @@ namespace FoodandBeverage.Forms
                     //row2
                     tlp_registration.Controls.Add(cmbVatPrcnt, 3, 4);
 
+                    tlp_registration.Controls.Add(lblminadvamt, 0, 5);
+                    tlp_registration.Controls.Add(txtminadvamt, 0, 6);
+
                     //row3
-                    tlp_registration.Controls.Add(btn_del_pack, 0, 5);
+                    tlp_registration.Controls.Add(btn_del_pack, 1, 6);
 
                 }
             }
@@ -419,18 +433,26 @@ namespace FoodandBeverage.Forms
                 {
                     PartyPackId = currentPackId,
                     PackName = txtpackname.Text,
-                    AdultPrice = Convert.ToDecimal(txtadultprice.Text),
-                    ChildPrice = Convert.ToDecimal(txtchildprice.Text),
-                    DiscountPer = Convert.ToDecimal(txtDisPer.Text),
-                    DiscountAmt = Convert.ToDecimal(txtDiscAmnt.Text),
+
+                    AdultPrice = string.IsNullOrWhiteSpace(txtadultprice.Text) ? 0 : Convert.ToDecimal(txtadultprice.Text),
+                    ChildPrice = string.IsNullOrWhiteSpace(txtchildprice.Text) ? 0 : Convert.ToDecimal(txtchildprice.Text),
+
+                    DiscountPer = string.IsNullOrWhiteSpace(txtDisPer.Text) ? 0 : Convert.ToDecimal(txtDisPer.Text),
+                    DiscountAmt = string.IsNullOrWhiteSpace(txtDiscAmnt.Text) ? 0 : Convert.ToDecimal(txtDiscAmnt.Text),
+
                     TaxType = cmbTaxType.Text,
+
                     TaxSettingsId = cmbTaxType.Text == "GST"
-                        ? Convert.ToInt32(cmbIgstPrcnt.SelectedValue)
-                        : Convert.ToInt32(cmbVatPrcnt.SelectedValue),
+         ? Convert.ToInt32(cmbIgstPrcnt.SelectedValue)
+         : Convert.ToInt32(cmbVatPrcnt.SelectedValue),
+
                     Tax = cmbtax.Text,
+
                     CreatedBy = FrmDashboard.UserId,
                     BranchId = FrmDashboard.BranchId,
-                    Status = 1
+                    Status = 1,
+
+                    MinimumAdvanceAmount = string.IsNullOrWhiteSpace(txtminadvamt.Text) ? 0 : Convert.ToDecimal(txtminadvamt.Text)
                 };
 
                 var packstatus = bllPack.AddEditData("prdInsert_Upd_PartyPack", dmn);
@@ -922,6 +944,7 @@ namespace FoodandBeverage.Forms
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
                     cmbTaxType.Text = data.TaxType;
                     cmbTaxType.Text = data.Tax;
+                    txtDiscAmnt.Text = data.MinimumAdvanceAmount.ToString();
 
                     if (data.TaxType == "GST")
                         cmbIgstPrcnt.SelectedValue = Convert.ToInt64(data.TaxSettingsId);
@@ -934,7 +957,9 @@ namespace FoodandBeverage.Forms
                     LoadCardProducts("ALL");    
                     
                     LoadPackDetails(id);               
-                    ApplyCardSelectionToGrid();        
+                    ApplyCardSelectionToGrid();
+
+                    textb_shape();
                 }
             }
             catch (Exception ex)
@@ -2207,7 +2232,79 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Partypacksetup page cmbIgstPrcnt_cake_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
+        private void AllowIntegerOnly(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private void AllowDecimalOnly(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
 
+            // Allow control keys (Backspace)
+            if (char.IsControl(e.KeyChar))
+                return;
 
+            // Allow digits
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Allow only one decimal point
+            if (e.KeyChar == '.' && !txt.Text.Contains("."))
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                foreach (TextBox textBox in new TextBox[] { txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Product page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        #endregion
+
+        private void FrmPartyPackSetup_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
+        }
     }
 }
