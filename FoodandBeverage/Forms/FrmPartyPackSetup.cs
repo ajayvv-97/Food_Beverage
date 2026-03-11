@@ -90,7 +90,9 @@ namespace FoodandBeverage.Forms
 
         int selectedCakeId = 0;
 
+        private readonly Image Grid_Remove = Properties.Resources.Round_Close;
         #endregion
+
         public FrmPartyPackSetup()
         {
             InitializeComponent();
@@ -329,6 +331,8 @@ namespace FoodandBeverage.Forms
 
                 lblminadvamt.Dock = DockStyle.Fill;
                 txtminadvamt.Dock = DockStyle.Fill;
+                tlp_time_del_contrl.Dock = DockStyle.Fill;
+
                 if (cmbTaxType.Text == "GST")
                 {
                     lbligst.Dock = DockStyle.Fill;
@@ -352,7 +356,7 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(txtminadvamt, 2, 6);
 
                     //row3
-                    tlp_registration.Controls.Add(btn_del_pack, 3, 6);
+                    tlp_registration.Controls.Add(tlp_time_del_contrl, 3, 6);
 
                 }
                 else if (cmbTaxType.Text == "VAT")
@@ -370,7 +374,7 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(txtminadvamt, 0, 6);
 
                     //row3
-                    tlp_registration.Controls.Add(btn_del_pack, 1, 6);
+                    tlp_registration.Controls.Add(tlp_time_del_contrl, 1, 6);
 
                 }
             }
@@ -443,8 +447,8 @@ namespace FoodandBeverage.Forms
                     TaxType = cmbTaxType.Text,
 
                     TaxSettingsId = cmbTaxType.Text == "GST"
-         ? Convert.ToInt32(cmbIgstPrcnt.SelectedValue)
-         : Convert.ToInt32(cmbVatPrcnt.SelectedValue),
+                     ? Convert.ToInt32(cmbIgstPrcnt.SelectedValue)
+                     : Convert.ToInt32(cmbVatPrcnt.SelectedValue),
 
                     Tax = cmbtax.Text,
 
@@ -462,6 +466,55 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show("Error saving Party Pack");
                     return;
                 }
+
+                #region Package Time (24-Hour Enforced)
+
+                string[] days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+                CheckBox[] chkDays =
+                                {
+                    chk_sunday,
+                    chk_monday,
+                    chk_tuesday,
+                    chk_wednesday,
+                    chk_thursday,
+                    chk_friday,
+                    chk_saturday
+                };
+
+                BllPackageWorkTime bllPackTime = new BllPackageWorkTime();
+
+                for (int i = 1; i <= 7; i++)
+                {
+                    var fPicker = tlp_timedetails.Controls["ftime" + i] as DateTimePicker;
+                    var tPicker = tlp_timedetails.Controls["totime" + i] as DateTimePicker;
+
+                    if (fPicker == null || tPicker == null)
+                        continue;
+
+                    int status = chkDays[i - 1].Checked ? 1 : 0;
+
+                    DmnPackageWorkTime dmnPackTime = new DmnPackageWorkTime
+                    {
+                        PartyPackId = packstatus.PartyPackId,
+                        BranchId = FrmDashboard.BranchId,
+                        DayId = i,
+                        FromTime = fPicker.Value.TimeOfDay,
+                        ToTime = tPicker.Value.TimeOfDay,
+                        Status = status,
+                        CreatedBy = FrmDashboard.UserId,
+                        CreatedDateTime = DateTime.Now
+                    };
+
+                    bool saveStatus = bllPackTime.AddEditPackageWorkTime("PrdInsert_Upd_PackageWorkTime",dmnPackTime);
+
+                    if (!saveStatus)
+                    {
+                        MessageBox.Show($"Failed to save package time for {days[i - 1]}","Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                #endregion
 
                 #region Default
 
@@ -909,6 +962,7 @@ namespace FoodandBeverage.Forms
                     if (returnValue > 0)
                     {
                         FillData(returnValue);
+                        LoadPackageWorkTime(returnValue);
                     }
                 }
             }
@@ -954,7 +1008,7 @@ namespace FoodandBeverage.Forms
                     btn_del_pack.Visible = true;
 
                     LoadGiftProducts();                
-                    LoadCardProducts("ALL");    
+                    LoadCardProducts("ALL");  
                     
                     LoadPackDetails(id);               
                     ApplyCardSelectionToGrid();
@@ -968,6 +1022,57 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void LoadPackageWorkTime(int branchId)
+        {
+            try
+            {
+                BllSearch<DmnPackageWorkTime> bll = new BllSearch<DmnPackageWorkTime>();
+                DmnSearch search = new DmnSearch();
+                search.Select = "*";
+                search.Table = "tblPackageWorkTime";
+                search.WhereNdGroupBy = "WHERE BranchId = " + branchId;
+
+                var result = bll.GetSearchData("prdSearch", search);
+
+                if (result.Count > 0)
+                {
+                    CheckBox[] chkDays =
+                    {
+                chk_sunday,
+                chk_monday,
+                chk_tuesday,
+                chk_wednesday,
+                chk_thursday,
+                chk_friday,
+                chk_saturday
+            };
+
+                    foreach (var data in result)
+                    {
+                        if (!data.DayId.HasValue)
+                            continue;
+
+                        int day = data.DayId.Value;
+
+                        var fPicker = tlp_timedetails.Controls["ftime" + day] as DateTimePicker;
+                        var tPicker = tlp_timedetails.Controls["totime" + day] as DateTimePicker;
+
+                        if (fPicker != null && data.FromTime.HasValue)
+                            fPicker.Value = DateTime.Today.Add(data.FromTime.Value);
+
+                        if (tPicker != null && data.ToTime.HasValue)
+                            tPicker.Value = DateTime.Today.Add(data.ToTime.Value);
+
+                        if (day >= 1 && day <= 7)
+                            chkDays[day - 1].Checked = data.Status.HasValue && data.Status.Value == 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(ex.Message);
+            }
+        }
         private void LoadPackDetails(int packId = 0)
         {
             try
@@ -1119,6 +1224,10 @@ namespace FoodandBeverage.Forms
                         dgv_packcustom.Rows[rowIndex].Cells[Ccategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
 
                     // dgv_packcustom.Rows[rowIndex].Cells[Cmpriceno].Value = item.Price;
+
+                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packcustom.Rows[rowIndex].Cells[Cmactionno];
+                    cellcolumntype.Value = Grid_Remove;
+                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 }
 
                 RefreshCustomSlNo();
@@ -2263,7 +2372,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname })
+                foreach (TextBox textBox in new TextBox[] { txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -2306,5 +2415,42 @@ namespace FoodandBeverage.Forms
         {
             textb_shape();
         }
+
+        #region Package time Setting 
+
+        private void btn_packtimesett_Click(object sender, EventArgs e)
+        {
+            pnl_packtime.Visible = true;
+            pnl_packtime.BringToFront();
+            pnl_packtime.Left = (this.ClientSize.Width - pnl_packtime.Width) / 2;
+            pnl_packtime.Top = (this.ClientSize.Height - pnl_packtime.Height) / 2;
+        }
+
+        private void btn_submittime_Click(object sender, EventArgs e)
+        {
+            pnl_packtime.Visible = false;
+        }
+
+        private void button1btnpacktimeclose_Click(object sender, EventArgs e)
+        {
+            pnl_packtime.Visible = false;
+        }
+        private void chk_time_atv_all_CheckedChanged(object sender, EventArgs e)
+        {
+
+            bool check = chk_time_atv_all.Checked;
+
+            chk_sunday.Checked = check;
+            chk_monday.Checked = check;
+            chk_tuesday.Checked = check;
+            chk_wednesday.Checked = check;
+            chk_thursday.Checked = check;
+            chk_friday.Checked = check;
+            chk_saturday.Checked = check;
+
+        }
+        #endregion
+
+
     }
 }
