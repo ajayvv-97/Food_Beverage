@@ -861,12 +861,10 @@ namespace FoodandBeverage.Report
                 dmnSearch.Select = @"
                                     ISNULL(SUM(TotalTax),0) AS Field1, 
                                     ISNULL(SUM(TotalPreTaxAmt),0) AS Field2";
-
                 dmnSearch.Table = "tblSalesMaster";
-
                 dmnSearch.WhereNdGroupBy = $@"
-                                        WHERE CreatedDateTime >= '{fromDate}' 
-                                        AND CreatedDateTime <= '{toDate}'
+                                        WHERE EntryDate >= '{fromDate}' 
+                                        AND EntryDate <= '{toDate}'
                                         AND Status = 1
                                         AND BranchId = {BranchId}
                                         AND PaymentMode != {Convert.ToInt32(PaymentType.COMPLEMENTRY)}

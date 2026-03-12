@@ -57,6 +57,14 @@ namespace Domain
         public int OrderStatus { get; set; }
         public bool IsStockTracked { get; set; }
         public decimal PreTaxAmt { get; set; }
+
+        public bool IsPackage { get; set; }
+        public string CakeMessage { get; set; }
+        public int PackageType { get; set; }
+        public int PartyBookingId { get; set; }
+        public int PartyBookingDetailsId { get; set; }
+
+        
     }
     
 }

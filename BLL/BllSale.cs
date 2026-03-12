@@ -49,7 +49,6 @@ namespace BLL
             parms.Add("ReservationTotal", objTestClass.ReservationTotal);
             parms.Add("AdvanceAmount", objTestClass.AdvanceAmount);
 
-
             parms.Add("TimeDuration", objTestClass.TimeDuration);
             parms.Add("Rev_Status", objTestClass.Rev_Status);
             parms.Add("ICardNo", objTestClass.ICardNo);
@@ -80,25 +79,7 @@ namespace BLL
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
-        }
-        
-        //public DmnCardSales AddEditDataCustomer(string procedureName, DmnCardSales objTestClass)
-        //{
-        //    DAL.DapperRepository<DmnCardSales> dapperRepository = new DAL.DapperRepository<DmnCardSales>();
-        //    DynamicParameters parms = new DynamicParameters();
-        //    parms.Add("CustomerId", objTestClass.CustomerId);
-        //    parms.Add("CustomerName", objTestClass.Customer);
-        //    parms.Add("Address", objTestClass.Address);
-        //    parms.Add("Telephone", objTestClass.ContactNo);
-        //    parms.Add("Email", objTestClass.Email);
-        //    parms.Add("CreatedBy", objTestClass.CreatedBy);
-        //    parms.Add("ModifiedBy", objTestClass.ModifiedBy);
-        //    parms.Add("BranchId", objTestClass.BranchId);
-        //    parms.Add("Status", objTestClass.Status);
-        //    var lstData = dapperRepository.AddandReturnID(procedureName, parms);
-        //    return lstData;
-        //}
-
+        }        
         public DmnSaledetails AddEditDataDet(string procedureName, DmnSaledetails objTestClass)
         {
             DAL.DapperRepository<DmnSaledetails> dapperRepository = new DAL.DapperRepository<DmnSaledetails>();
@@ -148,6 +129,116 @@ namespace BLL
             return lstData;
 
         }
+
+        public DmnSalemaster AddEditPartyBookingSale(string procedureName, DmnSalemaster obj)
+        {
+            DAL.DapperRepository<DmnSalemaster> dapperRepository =
+                new DAL.DapperRepository<DmnSalemaster>();
+
+            DynamicParameters parms = new DynamicParameters();
+
+            parms.Add("@SalesMasterId", obj.SalesMasterId);
+            parms.Add("@EntryNo", obj.EntryNo);
+            parms.Add("@EntryDate", obj.EntryDate);
+
+            parms.Add("@TotalQuantity", obj.TotQty);
+            parms.Add("@TotalAmount", obj.TotalAmnt);
+
+            parms.Add("@TotalDiscount", obj.TotalDiscount);
+            parms.Add("@DiscountPer", obj.DisPer);
+            parms.Add("@DiscountAmount", obj.DisAmnt);
+
+            parms.Add("@NetAmount", obj.NetAmount);
+
+            parms.Add("@TotalTax", obj.TotalTax);
+            parms.Add("@TotalIGST", obj.TotalIGST);
+            parms.Add("@TotalCGST", obj.TotalCGST);
+            parms.Add("@TotalSGST", obj.TotalSGST);
+            parms.Add("@TotalVAT", obj.TotalVAT);
+
+            parms.Add("@RcvAmnt", obj.RcvAmnt);
+            parms.Add("@BalAmnt", obj.BalAmnt);
+
+            parms.Add("@PaymentMode", obj.PayId);
+
+            parms.Add("@PartyBookingId", obj.PartyBookingId);
+
+            // Customer
+            parms.Add("@FirstName", obj.FirstName);
+            parms.Add("@SecondName", obj.SecondName);
+            parms.Add("@CompanyName", obj.CompanyName);
+            parms.Add("@PhoneNumber", obj.PhoneNumber);
+            parms.Add("@EmailAddress", obj.EmailAddress);
+
+            parms.Add("@CusId", obj.cusid);
+
+            parms.Add("@TotalPreTaxAmt", obj.TotalPreTaxAmt);
+
+            parms.Add("@SaleType", 2);
+
+            parms.Add("@CreatedBy", obj.CreatedBy);
+            parms.Add("@BranchId", obj.BranchId);
+            parms.Add("@Status", obj.Status);
+
+            parms.Add("@mDeviceIP", obj.mDeviceIP);
+            parms.Add("@mDevice", obj.mDevice);
+
+            var data = dapperRepository.AddandReturnID(procedureName, parms);
+
+            return data;
+        }
+
+        public DmnSaledetails AddEditPartyBookingSaleDetails(string procedureName, DmnSaledetails obj)
+        {
+            DAL.DapperRepository<DmnSaledetails> dapperRepository =
+                new DAL.DapperRepository<DmnSaledetails>();
+
+            DynamicParameters parms = new DynamicParameters();
+
+            parms.Add("@SalesDetailsId", obj.SalesDetailsId);
+            parms.Add("@SalesMasterId", obj.SalesMasterId);
+
+            parms.Add("@PartyBookingDetailsId", obj.PartyBookingDetailsId);
+
+            parms.Add("@ItemName", obj.ItemName);
+            parms.Add("@ItemId", obj.itemid);
+            parms.Add("@ProductType", obj.ProductType);
+
+            parms.Add("@Quantity", obj.Quantity);
+            parms.Add("@SalesRate", obj.SalesRate);
+            parms.Add("@Amount", obj.Amount);
+
+            parms.Add("@DiscountPer", obj.DiscountPer);
+            parms.Add("@DiscountAmount", obj.DiscountAmount);
+
+            parms.Add("@Tax", obj.Tax);
+            parms.Add("@TaxType", obj.TaxType);
+            parms.Add("@TaxPer", obj.TaxPer);
+            parms.Add("@TaxAmount", obj.TaxAmount);
+
+            parms.Add("@IGSTAmount", obj.IGSTAmount);
+            parms.Add("@CGSTAmount", obj.CGSTAmount);
+            parms.Add("@SGSTAmount", obj.SGSTAmount);
+            parms.Add("@VatAmount", obj.VatAmount);
+
+            parms.Add("@PreTaxAmt", obj.PreTaxAmt);
+            parms.Add("@NetAmount", obj.NetAmount);
+
+            parms.Add("@BranchId", obj.BranchId);
+            parms.Add("@CreatedBy", obj.CreatedBy);
+            parms.Add("@Status", obj.Status);
+
+            // NEW PARAMETERS
+            parms.Add("@IsPackage", obj.IsPackage);
+            parms.Add("@CakeMessage", obj.CakeMessage);
+            parms.Add("@PackageType", obj.PackageType);
+            parms.Add("@PartyBookingId", obj.PartyBookingId);
+
+            var data = dapperRepository.AddandReturnID(procedureName, parms);
+
+            return data;
+        }
+
         public DmnSalemaster AddEditSplit(string procedureName, DmnSalemaster objTestClass)
         {
             DAL.DapperRepository<DmnSalemaster> dapperRepository = new DAL.DapperRepository<DmnSalemaster>();
@@ -224,6 +315,23 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+
+        //public DmnCardSales AddEditDataCustomer(string procedureName, DmnCardSales objTestClass)
+        //{
+        //    DAL.DapperRepository<DmnCardSales> dapperRepository = new DAL.DapperRepository<DmnCardSales>();
+        //    DynamicParameters parms = new DynamicParameters();
+        //    parms.Add("CustomerId", objTestClass.CustomerId);
+        //    parms.Add("CustomerName", objTestClass.Customer);
+        //    parms.Add("Address", objTestClass.Address);
+        //    parms.Add("Telephone", objTestClass.ContactNo);
+        //    parms.Add("Email", objTestClass.Email);
+        //    parms.Add("CreatedBy", objTestClass.CreatedBy);
+        //    parms.Add("ModifiedBy", objTestClass.ModifiedBy);
+        //    parms.Add("BranchId", objTestClass.BranchId);
+        //    parms.Add("Status", objTestClass.Status);
+        //    var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+        //    return lstData;
+        //}
     }
 }
 

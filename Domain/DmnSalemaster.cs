@@ -130,6 +130,9 @@ namespace Domain
         public int Gender { get; set; }
 
         public decimal TotalPreTaxAmt { get; set; }
+        public int SaleType { get; set; }
+        public int PartyBookingId { get; set; }
+        
     }
     
 

@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 using Color = System.Drawing.Color;
 using Control = System.Windows.Forms.Control;
@@ -39,6 +40,8 @@ namespace FoodandBeverage
         public int mainactionno = 4;
         public int mainppcdiidno = 5;
         public int maindefaultno = 6;
+        public int mainsalemasteridno = 7;
+        public int mainsaledetailidno = 8;
 
         public int showonlyslno = 0;
         public int showonlyitemno = 1;
@@ -86,6 +89,8 @@ namespace FoodandBeverage
         public int CardPartydeafult = 18;
         public int Cardtaxsettingid = 19;
         public int Cardpretaxamt= 20;
+        public int Cardsalemasteridno = 21;
+        public int Cardsaledetailidno = 22;
 
 
         public int Giftslno = 0;
@@ -110,6 +115,8 @@ namespace FoodandBeverage
         public int Gifttaxsettingid = 19; 
         public int Giftpretaxamt = 20;
         public int Giftprid = 21;
+        public int Giftsalemasteridno = 22;
+        public int Giftsaledetailidno = 23;
 
 
         public int CakeSlNo = 0;
@@ -131,6 +138,8 @@ namespace FoodandBeverage
         public int Cakemessageno = 16;
         public int Cakeremarksno = 17;
         public int Cakeppcdiidno = 18;
+        public int Cakesalemasteridno = 19;
+        public int Cakesaledetailidno = 20;
 
         #endregion
 
@@ -192,10 +201,11 @@ namespace FoodandBeverage
         private List<(string PartPayId, string PartAmount)> partPayments = new List<(string, string)>();
         int partCount = 0;
         public bool exitstatus = false;
-        int BookingId = 0,SalesMasterId=0;
+        int BookingId = 0, SalesMasterId = 0, PartyBookingDetailsId = 0,Partypacksaledetailid = 0;
         decimal MinimumAdvance = 0;
 
         private readonly Image Grid_Remove = Properties.Resources.Round_Close;
+        private bool isCategoryExpanded = false;
         #endregion
 
         public FrmPartyBooking()
@@ -1737,12 +1747,11 @@ namespace FoodandBeverage
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = " TOP 8 g.Caption as Field1,g.GTypeSubId as Field2";
                 dmnSearch.Table = " tblGeneralOptions g ";
-                dmnSearch.WhereNdGroupBy = " where g.GTypeId=58 and g.Status=0 and GTypeSubId in(1,3,5,7)";
+                dmnSearch.WhereNdGroupBy = " where g.GTypeId=58 and g.Status=0";// and GTypeSubId in(1,3,5,7)";
                 dmnSearch.OrderBy = "order by GTypeSubId";
                 var gridesource = bllacctype.GetSearchData("prdSearch", dmnSearch);
                 if (gridesource.Count > 0)
                 {
-
                     int columns = 4;
                     int spacing = 1;
 
@@ -1753,6 +1762,10 @@ namespace FoodandBeverage
                         dynamicButton.Width = flw_categ.Width/5;
                         dynamicButton.Height = (int)(flw_categ.Height * 0.8m);
 
+                        if (i > 3)
+                            dynamicButton.Visible = false;
+                        else
+                            dynamicButton.Visible = true;
 
                         if (!string.IsNullOrEmpty(Categorybg))
                         {
@@ -1784,6 +1797,7 @@ namespace FoodandBeverage
                         }
                         else
                             dynamicButton.Text = gridesource[i].Field1;
+
 
                         dynamicButton.Tag = gridesource[i].Field2;
                         dynamicButton.Name = "DynamicButton" + i;
@@ -2213,6 +2227,7 @@ namespace FoodandBeverage
                 //clsGeneral.LogException("POSDashboard page  DynamicButton_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.POSDashboard));
             }
         }
+
         private void DynamicButtonProduct_Click(object sender, EventArgs e)
         {
             try
@@ -2535,7 +2550,6 @@ namespace FoodandBeverage
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void RecalculateCardRow(int rowIndex)
         {
             try
@@ -2653,8 +2667,7 @@ namespace FoodandBeverage
                     total += netAmt;
                     totalDiscount += discountAmt;
 
-                    // 🔹 TAX TYPE CALCULATION
-                    if (taxType == "IGST")
+                    if (taxType == "GST")
                         totalIGST += taxAmt;
                     else
                         totalVAT += taxAmt;
@@ -2743,13 +2756,10 @@ namespace FoodandBeverage
                 }
             }
         }
-
-
         private void BtnBack_Click(object sender, EventArgs e)
         {
             FillForms();
         }
-
         private Image LoadButtonImage(string fileName, Image fallbackImage)
         {
             if (string.IsNullOrEmpty(fileName)) return fallbackImage;
@@ -2787,7 +2797,6 @@ namespace FoodandBeverage
             }
 
         }
-
         private void btncards_cls_Click(object sender, EventArgs e)
         {
             pnl_cardpreview.Visible = false;
@@ -2809,7 +2818,6 @@ namespace FoodandBeverage
             pnlcards.Visible = true;
             pnlcards.BringToFront();
         }
-
         private void btn_card_cls_Click(object sender, EventArgs e)
         {
             pnlcards.Visible = false;
@@ -2946,12 +2954,10 @@ namespace FoodandBeverage
                
             }
         }
-
         private void btncardserach_Click(object sender, EventArgs e)
         {
 
         }
-
         private void txtcardserach_TextChanged(object sender, EventArgs e)
         {
             int tag = 0;
@@ -2978,7 +2984,44 @@ namespace FoodandBeverage
 
             LoadProducts(tag, txtcardserach.Text.Trim());
         }
+        private void dgv_card_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
 
+            if (e.ColumnIndex == Cardactionno)
+            {
+                var row = dgv_card.Rows[e.RowIndex];
+
+                int partyDefault = 0;
+                int.TryParse(Convert.ToString(row.Cells[CardPartydeafult].Value), out partyDefault);
+
+                int detailsId = 0;
+                int.TryParse(Convert.ToString(row.Cells[CardPartyPackDetailsId].Value), out detailsId);
+
+                if (partyDefault == 1)
+                {
+                    CMessageBox.Show("This card is a default party item and cannot be deleted.",
+                        "Delete Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (detailsId > 0)
+                {
+                    DialogResult result = CMessageBox.Show(
+                        "Are you sure you want to delete this card?",
+                        "Confirm Delete",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (result == DialogResult.No)
+                        return;
+                }
+
+                dgv_card.Rows.RemoveAt(e.RowIndex);
+                CalculateGrandTotal_Card();
+            }
+        }
         #endregion
 
         #region Gift Panel
@@ -3003,12 +3046,10 @@ namespace FoodandBeverage
             pnlgifts.Visible = true;
             pnlgifts.BringToFront();
         }
-
         private void btngiftclose_Click(object sender, EventArgs e)
         {
             pnlgifts.Visible = false;
         }
-
         private void btnaddgifts_Click(object sender, EventArgs e)
         {
             pnlgiftpreview.Visible = true;
@@ -3018,12 +3059,10 @@ namespace FoodandBeverage
             pnlgifts.Visible = false;
             Redeemproducts();
         }
-
         private void txtserachgift_TextChanged(object sender, EventArgs e)
         {
             Redeemproducts(txtserachgift.Text.Trim());
         }
-
         private void btn_searchgift_Click(object sender, EventArgs e)
         {
             Redeemproducts(txtserachgift.Text.Trim());
@@ -3219,21 +3258,36 @@ namespace FoodandBeverage
             {
                 if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-                if (e.ColumnIndex == Giftactionno) 
+                if (e.ColumnIndex == Giftactionno)
                 {
                     DataGridViewRow row = dgv_gift.Rows[e.RowIndex];
+
                     int partyDefault = 0;
                     int.TryParse(Convert.ToString(row.Cells[GiftPartydeafult].Value), out partyDefault);
 
-                    if (partyDefault == 0)
+                    int detailsId = 0;
+                    int.TryParse(Convert.ToString(row.Cells[GiftPartyPackDetailsId].Value), out detailsId);
+
+                    if (partyDefault == 1)
                     {
-                        dgv_gift.Rows.RemoveAt(e.RowIndex);
+                        CMessageBox.Show("Default item cannot be deleted",
+                            "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
-                    else
+                    if (detailsId > 0)
                     {
-                        CMessageBox.Show("Default item cannot be deleted", "Warning",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        DialogResult result = CMessageBox.Show(
+                            "Are you sure you want to delete this product?",
+                            "Confirm Delete",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+
+                        if (result == DialogResult.No)
+                            return;
                     }
+
+                    dgv_gift.Rows.RemoveAt(e.RowIndex);
+                    CalculateGrandTotal_Gift();
                 }
             }
             catch (Exception ex)
@@ -3446,8 +3500,7 @@ namespace FoodandBeverage
                     total += netAmt;
                     totalDiscount += discountAmt;
 
-                    // 🔹 TAX TYPE SPLIT
-                    if (taxType == "IGST")
+                    if (taxType == "GST")
                         totalIGST += taxAmt;
                     else
                         totalVAT += taxAmt;
@@ -3482,7 +3535,6 @@ namespace FoodandBeverage
                 RecalculateGiftRow(e.RowIndex);
             }
         }
-
         private void ApplyDiscountToGiftRows(decimal discountPer, decimal discountAmt, bool isPercentage)
         {
             decimal totalAmount = 0;
@@ -3542,7 +3594,6 @@ namespace FoodandBeverage
         {
             pnlgifts.Visible = false;
         }
-
         #endregion
 
         #region Party Booking Calculation
@@ -3893,7 +3944,6 @@ namespace FoodandBeverage
             cmbcaketype.SelectedIndex = -1;
 
         }
-
         private void btnaddcakes_Click(object sender, EventArgs e)
         {
             try
@@ -4041,10 +4091,6 @@ namespace FoodandBeverage
                 CMessageBox.Show(ex.Message);
             }
         }
-
-
-
-
         private void RecalculateCakeRow(int rowIndex)
         {
             try
@@ -4247,30 +4293,34 @@ namespace FoodandBeverage
         {
             try
             {
-                if (e.RowIndex >= 0 && e.ColumnIndex == CakeActionNo)
+                if (e.RowIndex < 0 || e.ColumnIndex != CakeActionNo)
+                    return;
+
+                DataGridViewRow row = dgvcake.Rows[e.RowIndex];
+
+                int detailsId = 0;
+                int.TryParse(Convert.ToString(row.Cells[Cakeppcdiidno].Value), out detailsId);
+                if (detailsId > 0)
                 {
-                    var result = CMessageBox.Show("Remove this cake?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        dgvcake.Rows.RemoveAt(e.RowIndex);
-
-
-                        for (int i = 0; i < dgvcake.Rows.Count; i++)
-                        {
-                            if (!dgvcake.Rows[i].IsNewRow)
-                                dgvcake.Rows[i].Cells[CakeSlNo].Value = i + 1;
-                        }
-
-                        CalculateGrandTotal_Cake();
-                    }
+                    DialogResult result = CMessageBox.Show("Remove this cake?","Confirm",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
+                        return;
                 }
+
+                dgvcake.Rows.RemoveAt(e.RowIndex);
+                for (int i = 0; i < dgvcake.Rows.Count; i++)
+                {
+                    if (!dgvcake.Rows[i].IsNewRow)
+                        dgvcake.Rows[i].Cells[CakeSlNo].Value = i + 1;
+                }
+                CalculateGrandTotal_Cake();
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(ex.Message);
             }
         }
+
         private void btncake_Click(object sender, EventArgs e)
         {
             pnlcake.Visible = true;
@@ -4504,33 +4554,6 @@ namespace FoodandBeverage
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
-
-        private void dgv_card_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-          
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
-
-            if (e.ColumnIndex == Cardactionno)
-            {
-                var row = dgv_card.Rows[e.RowIndex];
-                int partyDefault = 0;
-                if (row.Cells[CardPartydeafult].Value != null)
-                    int.TryParse(row.Cells[CardPartydeafult].Value.ToString(), out partyDefault);
-
-                if (partyDefault == 0)
-                {
-                    dgv_card.Rows.RemoveAt(e.RowIndex);
-                    CalculateGrandTotal_Card();
-                }
-                else
-                {
-                    CMessageBox.Show("This card is a default party item and cannot be deleted.",
-                                    "Delete Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-        }
-
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
@@ -4931,15 +4954,40 @@ namespace FoodandBeverage
             decimal.TryParse(lbl.Text, out decimal val);
             return val;
         }
+        public void setperfixsale()
+        {
+            try
+            {
+                BllSearch<DmnSalemaster> bllSearch = new BllSearch<DmnSalemaster>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "SalesPrefix ,SalesSerialNo";
+                dmnSearch.Table = " tblHotelRegistration";
+                dmnSearch.WhereNdGroupBy = " Where BranchId = " + FrmDashboard.BranchId;
+                dmnSearch.OrderBy = "";
+                var gridSource1 = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource1.Count > 0)
+                {
+                    txtinvoiceno.Text = gridSource1[0].SalesPrefix + FrmDashboard.BranchId + DateTime.Now.Year.ToString() + gridSource1[0].SalesSerialNo;//PERRET20221001
+                }
+            }
+            catch (Exception ex)
+            {
+
+                clsgen.LogException("Order page  setperfixsale()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
         public  void Paybill()
         {
             try
             {
+                int bookingId = 0;
                 GetInt(txtpartybookingid);
                 GetInt(txtdeafultpackid);
                 
                 BllPartyBooking bll = new BllPartyBooking();
                 DmnPartyBooking booking = new DmnPartyBooking();
+
+                #region BBOOKING MASTER AND DETAILS
 
                 #region PARTY MASTER
 
@@ -5047,7 +5095,7 @@ namespace FoodandBeverage
                     return;
                 }
 
-                int bookingId = result.PartyBookingId;
+                 bookingId = result.PartyBookingId;
 
                 #endregion
 
@@ -5193,8 +5241,9 @@ namespace FoodandBeverage
                 packDetails.BranchId = FrmDashboard.BranchId;
                 packDetails.Status = 1;
                 packDetails.IsPackage = true;
-                
-                bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", packDetails);
+
+                var resultpack = bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", packDetails);
+                PartyBookingDetailsId = resultpack.PartyBookingDetailsId;
 
                 #endregion
 
@@ -5203,38 +5252,47 @@ namespace FoodandBeverage
                 {
                     if (row.IsNewRow) continue;
 
-                    int cardDefault = Convert.ToInt32(row.Cells[CardPartydeafult].Value ?? 0);
+                    DmnPartyBookingDetails det = new DmnPartyBookingDetails();
 
-                    // 🔥 INSERT ONLY IF DEFAULT = 0
-                    if (cardDefault == 0)
-                    {
-                        DmnPartyBookingDetails det = new DmnPartyBookingDetails();
+                    det.PartyBookingDetailsId = Convert.ToInt32(row.Cells[CardPartyPackDetailsId].Value ?? 0);
+                    det.PartyBookingId = bookingId;
 
-                        det.PartyBookingDetailsId = 0;
-                        det.PartyBookingId = bookingId; 
+                    // 🔹 PRODUCT INFO
+                    det.Product = Convert.ToString(row.Cells[Carditemno].Value ?? "");
+                    det.ProductId = Convert.ToInt32(row.Cells[CardProductid].Value ?? 0);
+                    det.ProductType = Convert.ToInt32(PackItemType.Card);
+                    det.TableType = Convert.ToInt32(ProductType.Card);
 
-                        det.Product = Convert.ToString(row.Cells[Carditemno].Value ?? "");
-                        det.ProductId = Convert.ToInt32(row.Cells[CardProductid].Value ?? 0);
-                        det.ProductType = Convert.ToInt32(PackItemType.Card);
-                        det.TableType = Convert.ToInt32(ProductType.Card);
+                    // 🔹 QTY & PRICE
+                    det.Qty = Convert.ToDecimal(row.Cells[Cardqtyno].Value ?? 0);
+                    det.Price = Convert.ToDecimal(row.Cells[CardPrice].Value ?? 0);
 
-                        det.Qty = Convert.ToDecimal(row.Cells[Cardqtyno].Value ?? 0);
-                        det.Price = Convert.ToDecimal(row.Cells[CardPrice].Value ?? 0);
+                    // 🔹 TAX
+                    det.Tax = Convert.ToString(row.Cells[Cardtax].Value ?? "");
+                    det.TaxType = Convert.ToString(row.Cells[Cardtaxtype].Value ?? "");
+                    det.TaxPer = Convert.ToDecimal(row.Cells[Cardtaxper].Value ?? 0);
+                    det.TaxAmount = Convert.ToDecimal(row.Cells[Cardtaxamt].Value ?? 0);
+                    det.TaxSettingId = Convert.ToInt32(row.Cells[Cardtaxsettingid].Value ?? 0);
 
-                        det.Tax = Convert.ToString(row.Cells[Cardtax].Value ?? "");
-                        det.TaxType = Convert.ToString(row.Cells[Cardtaxtype].Value ?? "");
-                        det.TaxPer = Convert.ToDecimal(row.Cells[Cardtaxper].Value ?? 0);
-                        det.TaxAmount = Convert.ToDecimal(row.Cells[Cardtaxamt].Value ?? 0);
+                    det.IGSTAmt = Convert.ToDecimal(row.Cells[Cardigstamt].Value ?? 0);
+                    det.VATAmt = Convert.ToDecimal(row.Cells[Cardvatamt].Value ?? 0);
 
-                        det.PreTaxAmount = Convert.ToDecimal(row.Cells[Cardpretaxamt].Value ?? 0);
-                        det.NetAmount = Convert.ToDecimal(row.Cells[Cardnetamt].Value ?? 0);
+                    // 🔹 DISCOUNT
+                    det.DiscountPer = Convert.ToDecimal(row.Cells[Carddiscper].Value ?? 0);
+                    det.DiscountAmount = Convert.ToDecimal(row.Cells[Carddisamt].Value ?? 0);
 
-                        det.CreatedBy = FrmDashboard.UserId;
-                        det.BranchId = FrmDashboard.BranchId;
-                        det.Status = 1;
+                    // 🔹 AMOUNT
+                    det.NetAmount = Convert.ToDecimal(row.Cells[Cardnetamt].Value ?? 0);
+                    det.PreTaxAmount = Convert.ToDecimal(row.Cells[Cardpretaxamt].Value ?? 0);
 
-                        bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
-                    }
+                    // 🔹 AUDIT
+                    det.CreatedBy = FrmDashboard.UserId;
+                    det.BranchId = FrmDashboard.BranchId;
+                    det.Status = 1;
+
+                    var resultcard = bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
+                    det.PartyBookingDetailsId = resultcard.PartyBookingDetailsId;
+
                 }
                 #endregion
 
@@ -5243,40 +5301,48 @@ namespace FoodandBeverage
                 {
                     if (row.IsNewRow) continue;
 
-                    int giftDefault = Convert.ToInt32(row.Cells[GiftPartydeafult].Value ?? 0);
+                    DmnPartyBookingDetails det = new DmnPartyBookingDetails();
 
-                    // 🔥 INSERT ONLY IF DEFAULT = 0
-                    if (giftDefault == 0)
-                    {
-                        DmnPartyBookingDetails det = new DmnPartyBookingDetails();
+                    det.PartyBookingDetailsId = Convert.ToInt32(row.Cells[GiftPartyPackDetailsId].Value ?? 0);
+                    det.PartyBookingId = bookingId;
 
-                        det.PartyBookingDetailsId = 0;
-                        det.PartyBookingId = bookingId;
+                    // 🔹 PRODUCT INFO
+                    det.Product = Convert.ToString(row.Cells[Giftitemno].Value ?? "");
+                    det.ProductId = Convert.ToInt32(row.Cells[GiftProductid].Value ?? 0);
+                    det.ProductType = Convert.ToInt32(PackItemType.Gift);
+                    det.TableType = Convert.ToInt32(ProductType.RedemptionTicket);
 
-                        det.Product = Convert.ToString(row.Cells[Giftitemno].Value ?? "");
-                        det.ProductId = Convert.ToInt32(row.Cells[GiftProductid].Value ?? 0);
-                        det.ProductType = Convert.ToInt32(PackItemType.Gift);
-                        det.TableType = Convert.ToInt32(ProductType.RedemptionTicket);
+                    det.Prid = Convert.ToInt32(row.Cells[Giftprid].Value ?? 0);
 
-                        det.Prid = Convert.ToInt32(row.Cells[Giftprid].Value ?? 0);
+                    // 🔹 QTY & PRICE
+                    det.Qty = Convert.ToDecimal(row.Cells[Giftqtyno].Value ?? 0);
+                    det.Price = Convert.ToDecimal(row.Cells[GiftPrice].Value ?? 0);
 
-                        det.Qty = Convert.ToDecimal(row.Cells[Giftqtyno].Value ?? 0);
-                        det.Price = Convert.ToDecimal(row.Cells[GiftPrice].Value ?? 0);
+                    // 🔹 TAX
+                    det.Tax = Convert.ToString(row.Cells[Gifttax].Value ?? "");
+                    det.TaxType = Convert.ToString(row.Cells[Gifttaxtype].Value ?? "");
+                    det.TaxPer = Convert.ToDecimal(row.Cells[Gifttaxper].Value ?? 0);
+                    det.TaxAmount = Convert.ToDecimal(row.Cells[Gifttaxamt].Value ?? 0);
+                    det.TaxSettingId = Convert.ToInt32(row.Cells[Gifttaxsettingid].Value ?? 0);
 
-                        det.Tax = Convert.ToString(row.Cells[Gifttax].Value ?? "");
-                        det.TaxType = Convert.ToString(row.Cells[Gifttaxtype].Value ?? "");
-                        det.TaxPer = Convert.ToDecimal(row.Cells[Gifttaxper].Value ?? 0);
-                        det.TaxAmount = Convert.ToDecimal(row.Cells[Gifttaxamt].Value ?? 0);
+                    det.IGSTAmt = Convert.ToDecimal(row.Cells[Giftigstamt].Value ?? 0);
+                    det.VATAmt = Convert.ToDecimal(row.Cells[Giftvatamt].Value ?? 0);
 
-                        det.PreTaxAmount = Convert.ToDecimal(row.Cells[Giftpretaxamt].Value ?? 0);
-                        det.NetAmount = Convert.ToDecimal(row.Cells[Giftnetamt].Value ?? 0);
+                    // 🔹 DISCOUNT
+                    det.DiscountPer = Convert.ToDecimal(row.Cells[Giftdiscper].Value ?? 0);
+                    det.DiscountAmount = Convert.ToDecimal(row.Cells[Giftdisamt].Value ?? 0);
 
-                        det.CreatedBy = FrmDashboard.UserId;
-                        det.BranchId = FrmDashboard.BranchId;
-                        det.Status = 1;
+                    // 🔹 AMOUNT
+                    det.NetAmount = Convert.ToDecimal(row.Cells[Giftnetamt].Value ?? 0);
+                    det.PreTaxAmount = Convert.ToDecimal(row.Cells[Giftpretaxamt].Value ?? 0);
 
-                        bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
-                    }
+                    // 🔹 AUDIT
+                    det.CreatedBy = FrmDashboard.UserId;
+                    det.BranchId = FrmDashboard.BranchId;
+                    det.Status = 1;
+
+                    var resultgift = bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
+                    det.PartyBookingDetailsId = resultgift.PartyBookingDetailsId;
                 }
                 #endregion
 
@@ -5329,8 +5395,284 @@ namespace FoodandBeverage
                     det.BranchId = FrmDashboard.BranchId;
                     det.Status = 1;
 
-                    bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
+                    var resultcake = bll.AddEditDataDetails("prdInsert_Upd_PartyBookingDetails", det);
+                    det.PartyBookingDetailsId = resultcake.PartyBookingDetailsId;
                 }
+                #endregion
+
+                #endregion
+
+                #region SALE MASTER AND DETAILS
+
+                #region SALE MASTER
+
+                BllSale bllSales = new BllSale();
+                DmnSalemaster sale = new DmnSalemaster();
+
+                sale.SalesMasterId = SalesMasterId;
+                setperfixsale();
+                sale.EntryNo = txtinvoiceno.Text;
+                sale.EntryDate = dtpEventDate.Value.Date.Add(dtpEventTime.Value.TimeOfDay);
+
+                sale.PayId = PaymentMode;
+
+                sale.TotalAmnt = booking.NetAmount;
+                sale.NetAmount = booking.NetAmount;
+                sale.TotalTax = booking.TaxAmount;
+
+                sale.TotalIGST = booking.IGSTAmt;
+                sale.TotalCGST = booking.CGSTAmt;
+                sale.TotalSGST = booking.SGSTAmt;
+                sale.TotalVAT = booking.VATAmt;
+
+                sale.RcvAmnt = booking.ReceivedAmount;
+                sale.BalAmnt = booking.BalanceAmount;
+
+                sale.Remark = txtdiscountreason.Text;
+
+                sale.CreatedBy = FrmLogin.EmployeeId;
+                sale.BranchId = FrmDashboard.BranchId;
+                sale.Status = 1;
+
+                sale.mDeviceIP = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
+                sale.mDevice = clsgen.FetchMacId();
+
+                sale.TotalPreTaxAmt = booking.PreTaxAmount;
+                sale.DisAmnt = booking.DiscountAmount;
+                sale.DisPer = booking.DiscountPer;
+
+                sale.PartyBookingId = bookingId;
+                
+                var saleResult = bllSales.AddEditPartyBookingSale("prdInsert_Upd_SalesMaster_PartyBooking", sale);
+
+                if (saleResult.SalesMasterId <= 0)
+                {
+                    CMessageBox.Show("Sale Master Save Failed");
+                    return;
+                }
+
+                SalesMasterId = saleResult.SalesMasterId;
+
+                #endregion
+
+                #region INSERT PACK SALE DETAILS
+
+                DmnSaledetails detPack = new DmnSaledetails();
+
+                detPack.SalesMasterId = SalesMasterId;
+                detPack.SalesDetailsId = Partypacksaledetailid;
+
+                detPack.itemid = Partypackid;
+                detPack.ItemName = "Party Pack";
+
+                detPack.Quantity = 1;
+                detPack.SalesRate = booking.PackPrice;
+                detPack.MRP = booking.PackPrice;
+
+                detPack.Amount = booking.PackPreTaxAmount;
+
+                detPack.DiscountPer = booking.DiscountPer;
+                detPack.DiscountAmount = booking.DiscountAmount;
+
+                detPack.Tax = booking.Tax;
+                detPack.TaxType = booking.TaxType;
+                detPack.TaxPer = booking.TaxPer;
+
+                detPack.TaxAmount = booking.PackTaxAmount;
+
+                detPack.IGSTAmount = booking.IGSTAmt;
+                detPack.CGSTAmount = booking.CGSTAmt;
+                detPack.SGSTAmount = booking.SGSTAmt;
+
+                detPack.VatAmount = booking.VATAmt;
+
+                detPack.MarketPrice = booking.PackPrice;
+
+                detPack.PreTaxAmt = booking.PackPreTaxAmount;
+                detPack.NetAmount = booking.PackGrandTotal;
+
+                detPack.IsPackage = true;
+                detPack.PackageType = 1;
+                detPack.PartyBookingId = bookingId;
+
+                detPack.PartyBookingDetailsId = PartyBookingDetailsId;
+       
+                detPack.CreatedBy = FrmDashboard.UserId;
+                detPack.BranchId = FrmDashboard.BranchId;
+                detPack.Status = 1;
+
+                bllSales.AddEditPartyBookingSaleDetails("prdInsert_Upd_SalesDetails_PartyBooking", detPack);
+
+                #endregion
+
+                #region CARD SALE DETAILS
+
+                foreach (DataGridViewRow row in dgv_card.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    DmnSaledetails detCard = new DmnSaledetails();
+
+                    detCard.SalesMasterId = SalesMasterId;
+                    detCard.SalesDetailsId = Convert.ToInt32(row.Cells[Cardsaledetailidno].Value ?? 0);
+
+                    detCard.itemid = Convert.ToInt32(row.Cells[CardProductid].Value ?? 0);
+                    detCard.ItemName = Convert.ToString(row.Cells[Carditemno].Value ?? "");
+
+                    detCard.Quantity = Convert.ToDecimal(row.Cells[Cardqtyno].Value ?? 0);
+                    detCard.SalesRate = Convert.ToDecimal(row.Cells[CardPrice].Value ?? 0);
+                    detCard.MRP = detCard.SalesRate;
+
+                    detCard.Amount = Convert.ToDecimal(row.Cells[Cardpretaxamt].Value ?? 0);
+
+                    detCard.DiscountPer = Convert.ToDecimal(row.Cells[Carddiscper].Value ?? 0);
+                    detCard.DiscountAmount = Convert.ToDecimal(row.Cells[Carddisamt].Value ?? 0);
+
+                    detCard.Tax = Convert.ToString(row.Cells[Cardtax].Value ?? "");
+                    detCard.TaxType = Convert.ToString(row.Cells[Cardtaxtype].Value ?? "");
+                    detCard.TaxPer = Convert.ToDecimal(row.Cells[Cardtaxper].Value ?? 0);
+
+                    detCard.TaxAmount = Convert.ToDecimal(row.Cells[Cardtaxamt].Value ?? 0);
+
+                    detCard.IGSTAmount = Convert.ToDecimal(row.Cells[Cardigstamt].Value ?? 0);
+                    detCard.CGSTAmount = detCard.IGSTAmount / 2;
+                    detCard.SGSTAmount = detCard.IGSTAmount / 2;
+
+                    detCard.VatAmount = Convert.ToDecimal(row.Cells[Cardvatamt].Value ?? 0);
+
+                    detCard.MarketPrice = detCard.SalesRate;
+
+                    detCard.PreTaxAmt = Convert.ToDecimal(row.Cells[Cardpretaxamt].Value ?? 0);
+                    detCard.NetAmount = Convert.ToDecimal(row.Cells[Cardnetamt].Value ?? 0);
+
+                    detCard.IsPackage = false;
+                    detCard.PackageType = 2;
+                    detCard.PartyBookingId = bookingId;
+
+                    detCard.CreatedBy = FrmDashboard.UserId;
+                    detCard.BranchId = FrmDashboard.BranchId;
+
+                    detCard.PartyBookingDetailsId = detCard.PartyBookingDetailsId;
+
+                    detCard.Status = 1;
+
+                    bllSales.AddEditPartyBookingSaleDetails("prdInsert_Upd_SalesDetails_PartyBooking", detCard);
+                }
+
+                #endregion
+
+                #region GIFT SALE DETAILS
+
+                foreach (DataGridViewRow row in dgv_gift.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    DmnSaledetails detGift = new DmnSaledetails();
+
+                    detGift.SalesMasterId = SalesMasterId;
+                    detGift.SalesDetailsId = Convert.ToInt32(row.Cells[Giftsaledetailidno].Value ?? 0);
+
+                    detGift.itemid = Convert.ToInt32(row.Cells[GiftProductid].Value ?? 0);
+                    detGift.ItemName = Convert.ToString(row.Cells[Giftitemno].Value ?? "");
+
+                    detGift.Quantity = Convert.ToDecimal(row.Cells[Giftqtyno].Value ?? 0);
+                    detGift.SalesRate = Convert.ToDecimal(row.Cells[GiftPrice].Value ?? 0);
+                    detGift.MRP = detGift.SalesRate;
+
+                    detGift.Amount = Convert.ToDecimal(row.Cells[Giftpretaxamt].Value ?? 0);
+
+                    detGift.DiscountPer = Convert.ToDecimal(row.Cells[Giftdiscper].Value ?? 0);
+                    detGift.DiscountAmount = Convert.ToDecimal(row.Cells[Giftdisamt].Value ?? 0);
+
+                    detGift.Tax = Convert.ToString(row.Cells[Gifttax].Value ?? "");
+                    detGift.TaxType = Convert.ToString(row.Cells[Gifttaxtype].Value ?? "");
+                    detGift.TaxPer = Convert.ToDecimal(row.Cells[Gifttaxper].Value ?? 0);
+
+                    detGift.TaxAmount = Convert.ToDecimal(row.Cells[Gifttaxamt].Value ?? 0);
+
+                    detGift.IGSTAmount = Convert.ToDecimal(row.Cells[Giftigstamt].Value ?? 0);
+                    detGift.CGSTAmount = detGift.IGSTAmount / 2;
+                    detGift.SGSTAmount = detGift.IGSTAmount / 2;
+
+                    detGift.VatAmount = Convert.ToDecimal(row.Cells[Giftvatamt].Value ?? 0);
+
+                    detGift.MarketPrice = detGift.SalesRate;
+
+                    detGift.PreTaxAmt = Convert.ToDecimal(row.Cells[Giftpretaxamt].Value ?? 0);
+                    detGift.NetAmount = Convert.ToDecimal(row.Cells[Giftnetamt].Value ?? 0);
+
+                    detGift.IsPackage = false;
+                    detGift.PackageType = 3;
+                    detGift.PartyBookingId = bookingId;
+
+                    detGift.CreatedBy = FrmDashboard.UserId;
+                    detGift.BranchId = FrmDashboard.BranchId;
+                    detGift.Status = 1;
+
+                    detGift.PartyBookingDetailsId = detGift.PartyBookingDetailsId;
+
+                    bllSales.AddEditPartyBookingSaleDetails("prdInsert_Upd_SalesDetails_PartyBooking", detGift);
+                }
+
+                #endregion
+
+                #region CAKE SALE DETAILS
+
+                foreach (DataGridViewRow row in dgvcake.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    DmnSaledetails detCake = new DmnSaledetails();
+
+                    detCake.SalesMasterId = SalesMasterId;
+                    detCake.SalesDetailsId = Convert.ToInt32(row.Cells[Cakesaledetailidno].Value ?? 0); 
+
+                    detCake.itemid = Convert.ToInt32(row.Cells[CakeIdno].Value ?? 0);
+                    detCake.ItemName = Convert.ToString(row.Cells[CakeItemNo].Value ?? "");
+
+                    detCake.Quantity = Convert.ToDecimal(row.Cells[CakeQtyNo].Value ?? 0);
+                    detCake.SalesRate = Convert.ToDecimal(row.Cells[CakeAmountNo].Value ?? 0);
+                    detCake.MRP = detCake.SalesRate;
+
+                    detCake.Amount = Convert.ToDecimal(row.Cells[CakeNetAmtNo].Value ?? 0);
+
+                    detCake.DiscountPer = Convert.ToDecimal(row.Cells[Cakediscper].Value ?? 0);
+                    detCake.DiscountAmount = Convert.ToDecimal(row.Cells[Cakedisamt].Value ?? 0);
+
+                    detCake.Tax = Convert.ToString(row.Cells[CakeTaxNo].Value ?? "");
+                    detCake.TaxType = Convert.ToString(row.Cells[CakeTaxTypeNo].Value ?? "");
+                    detCake.TaxPer = Convert.ToDecimal(row.Cells[CakeTaxPerNo].Value ?? 0);
+
+                    detCake.TaxAmount = Convert.ToDecimal(row.Cells[CakeTaxAmtNo].Value ?? 0);
+
+                    detCake.IGSTAmount = Convert.ToDecimal(row.Cells[CakeIgstAmtNo].Value ?? 0);
+                    detCake.CGSTAmount = detCake.IGSTAmount / 2;
+                    detCake.SGSTAmount = detCake.IGSTAmount / 2;
+
+                    detCake.VatAmount = Convert.ToDecimal(row.Cells[CakeVatAmtNo].Value ?? 0);
+
+                    detCake.MarketPrice = detCake.SalesRate;
+
+                    detCake.PreTaxAmt = Convert.ToDecimal(row.Cells[CakeNetAmtNo].Value ?? 0);
+                    detCake.NetAmount = Convert.ToDecimal(row.Cells[CakeNetAmtNo].Value ?? 0);
+
+                    detCake.CakeMessage = Convert.ToString(row.Cells[Cakemessageno].Value ?? "");
+
+                    detCake.IsPackage = false;
+                    detCake.PackageType = 4;
+                    detCake.PartyBookingId = bookingId;
+
+                    detCake.CreatedBy = FrmDashboard.UserId;
+                    detCake.BranchId = FrmDashboard.BranchId;
+                    detCake.Status = 1;
+
+                    detCake.PartyBookingDetailsId = detCake.PartyBookingDetailsId;
+
+                    bllSales.AddEditPartyBookingSaleDetails("prdInsert_Upd_SalesDetails_PartyBooking", detCake);
+                }
+
+                #endregion
+
                 #endregion
 
                 CMessageBox.Show("Party Booking Saved Successfully");
@@ -5673,9 +6015,6 @@ namespace FoodandBeverage
                 int packSl = 1;
 
                 #region Load Deafult Pack ,Cake ,Card ,Gift
-                // =======================================
-                // 🔹 1️⃣ Load Default Pack Items (tblPartyPackDetails)
-                // =======================================
                 BllSearch<DmnPartyPackDetails> bllPack = new BllSearch<DmnPartyPackDetails>();
                 DmnSearch searchPack = new DmnSearch
                 {
@@ -5747,10 +6086,7 @@ namespace FoodandBeverage
                 }
                 #endregion
 
-                // =======================================
-                // 🔹 2️⃣ Load Booking-Added Items (tblPartyBookingDetails)
-                // =======================================
-
+                #region Load Custom Product, card , Gifts
                 BllSearch<DmnPartyBookingDetails> bllBooking = new BllSearch<DmnPartyBookingDetails>();
                 DmnSearch searchBooking = new DmnSearch
                 {
@@ -5763,9 +6099,9 @@ namespace FoodandBeverage
                 if (bookingItems.Count > 0)
                 {
                     foreach (var item in bookingItems)
-                     {
+                    {
                         #region INSERT PARTY PACK AS DETAILS
-                        if (item.IsPackage) 
+                        if (item.IsPackage)
                         {
                             txttax.Text = item.Tax;
                             txtTaxtype_pack.Text = item.TaxType;
@@ -5774,11 +6110,12 @@ namespace FoodandBeverage
                             txtPreTaxAmount_pack.Text = item.PreTaxAmount.ToString();
                             txtGrandTotal_pack.Text = item.NetAmount.ToString();
                             txtdeafultpackid.Text = item.PartyBookingDetailsId.ToString();
+                            Partypacksaledetailid = item.SalesDetailsId;
                         }
                         #endregion
 
                         #region Cake
-                        if (item.ProductType == (int)PackItemType.Cake && item.Status==1)
+                        if (item.ProductType == (int)PackItemType.Cake && item.Status == 1)
                         {
                             int rowIndex = dgvcake.Rows.Add();
                             var row = dgvcake.Rows[rowIndex];
@@ -5798,96 +6135,124 @@ namespace FoodandBeverage
                             row.Cells[CakeNetAmtNo].Value = item.NetAmount;
                             row.Cells[Cakeremarksno].Value = item.CakeRemarks;
                             row.Cells[Cakemessageno].Value = item.CakeMessage;
+                            row.Cells[Cakediscper].Value = item.DiscountPer;
+                            row.Cells[Cakedisamt].Value = item.DiscountAmount;
 
                             DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgvcake.Rows[rowIndex].Cells[CakeActionNo];
                             cellcolumntype.Value = Grid_Remove;
                             cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                         }
                         #endregion
+
+                        #region Card
+                        if (item.ProductType == (int)PackItemType.Card && item.Status == 1)
+                        {
+                            int rowIndex = dgv_card.Rows.Add();
+                            var row = dgv_card.Rows[rowIndex];
+
+                            row.Cells[Cardslno].Value = cardSl++;
+                            row.Cells[CardPartyPackDetailsId].Value = item.PartyBookingDetailsId;
+
+                            row.Cells[Carditemno].Value = item.Product;
+                            row.Cells[Cardqtyno].Value = item.Qty;
+                            row.Cells[CardPrice].Value = item.Price;
+
+                            row.Cells[CardProductid].Value = item.ProductId;
+                            row.Cells[Cardproducttype].Value = item.ProductType;
+
+                            row.Cells[Cardtax].Value = item.Tax;
+                            row.Cells[Cardtaxtype].Value = item.TaxType;
+                            row.Cells[Cardtaxper].Value = item.TaxPer;
+                            row.Cells[Cardtaxamt].Value = item.TaxAmount;
+
+                            row.Cells[Cardpretaxamt].Value = item.PreTaxAmount;
+                            row.Cells[Cardnetamt].Value = item.NetAmount;
+
+                            row.Cells[Carddiscper].Value = item.DiscountPer;
+                            row.Cells[Carddisamt].Value = item.DiscountAmount;
+
+                            row.Cells[Cardigstamt].Value = item.IGSTAmt;
+                            row.Cells[Cardvatamt].Value = item.VATAmt;
+
+                            row.Cells[Cardtaxsettingid].Value = item.TaxSettingId;
+
+                            row.Cells[CardPartydeafult].Value = 0;
+
+                            DataGridViewImageCell cellcolumntype =(DataGridViewImageCell)dgv_card.Rows[rowIndex].Cells[Cardactionno];
+
+                            cellcolumntype.Value = Grid_Remove;
+                            cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        }
+                        #endregion
+
+                        #region Gift
+                        if (item.ProductType == (int)PackItemType.Gift && item.Status == 1)
+                        {
+                            int rowIndex = dgv_gift.Rows.Add();
+                            var row = dgv_gift.Rows[rowIndex];
+
+                            row.Cells[Giftslno].Value = giftSl++;
+                            row.Cells[GiftPartyPackDetailsId].Value = item.PartyBookingDetailsId;
+
+                            row.Cells[Giftitemno].Value = item.Product;
+                            row.Cells[Giftqtyno].Value = item.Qty;
+                            row.Cells[GiftPrice].Value = item.Price;
+
+                            row.Cells[GiftProductid].Value = item.ProductId;
+                            row.Cells[Giftproducttype].Value = item.ProductType;
+
+                            row.Cells[Gifttax].Value = item.Tax;
+                            row.Cells[Gifttaxtype].Value = item.TaxType;
+                            row.Cells[Gifttaxper].Value = item.TaxPer;
+                            row.Cells[Gifttaxamt].Value = item.TaxAmount;
+
+                            row.Cells[Giftpretaxamt].Value = item.PreTaxAmount;
+                            row.Cells[Giftnetamt].Value = item.NetAmount;
+
+                            row.Cells[Giftdiscper].Value = item.DiscountPer;
+                            row.Cells[Giftdisamt].Value = item.DiscountAmount;
+
+                            row.Cells[Giftigstamt].Value = item.IGSTAmt;
+                            row.Cells[Giftvatamt].Value = item.VATAmt;
+
+                            row.Cells[Gifttaxsettingid].Value = item.TaxSettingId;
+
+                            row.Cells[GiftPartydeafult].Value = 0;
+                            row.Cells[Giftprid].Value = item.ProductId;
+
+                            DataGridViewImageCell cell =
+                                (DataGridViewImageCell)dgv_gift.Rows[rowIndex].Cells[Giftactionno];
+
+                            cell.Value = Grid_Remove;
+                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        }
+                        #endregion
+
+                        #region Food Pack
+                        else if (item.ProductType == (int)PackItemType.Pack && item.Status == 1 && !item.IsPackage)
+                        {
+                            int rowIndex = dgv_packs.Rows.Add();
+                            var row = dgv_packs.Rows[rowIndex];
+
+                            row.Cells[mainslno].Value = packSl++;
+                            row.Cells[mainitemno].Value = item.Product;
+                            row.Cells[mainqtyno].Value = item.Qty;
+
+                            row.Cells[mainppcdiidno].Value = item.PartyBookingDetailsId;
+                            row.Cells[maindefaultno].Value = 1;
+
+                            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_packs.Rows[rowIndex].Cells[mainactionno];
+
+                            cell.Value = Grid_Remove;
+                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        }
+                        #endregion
                     }
                 }
+               
 
-                //
-                //    // 🔹 Card
-                //    if (item.ProductType == (int)PackItemType.Card)
-                //    {
-                //        int rowIndex = dgv_card.Rows.Add();
-                //        var row = dgv_card.Rows[rowIndex];
 
-                //        row.Cells[Cardslno].Value = cardSl++;
-                //        row.Cells[Carditemno].Value = item.Product;
-                //        row.Cells[Cardqtyno].Value = item.Qty;
-                //        row.Cells[CardPrice].Value = item.Price;
-                //        row.Cells[CardProductid].Value = item.ProductId;
-                //        row.Cells[Cardproducttype].Value = item.ProductType;
-                //        //row.Cells[CardPartyPackDetailsId].Value = item.PartyPackDetailsId;
-
-                //        row.Cells[Cardtax].Value = item.Tax;
-                //        row.Cells[Cardtaxtype].Value = item.TaxType;
-                //        row.Cells[Cardtaxper].Value = item.TaxPer;
-                //        row.Cells[Cardtaxamt].Value = item.TaxAmount;
-                //        row.Cells[Cardpretaxamt].Value = item.PreTaxAmount;
-                //        row.Cells[Cardnetamt].Value = item.NetAmount;
-
-                //        row.Cells[CardPartydeafult].Value = 0; // Booking-added item
-                //    }
-                //    // 🔹 Gift
-                //    else if (item.ProductType == (int)PackItemType.Gift)
-                //    {
-                //        int rowIndex = dgv_gift.Rows.Add();
-                //        var row = dgv_gift.Rows[rowIndex];
-
-                //        row.Cells[Giftslno].Value = giftSl++;
-                //        row.Cells[Giftitemno].Value = item.Product;
-                //        row.Cells[Giftqtyno].Value = item.Qty;
-                //        row.Cells[GiftPrice].Value = item.Price;
-                //        row.Cells[GiftProductid].Value = item.ProductId;
-                //        row.Cells[Giftproducttype].Value = item.ProductType;
-                //        //row.Cells[GiftPartyPackDetailsId].Value = item.PartyPackDetailsId;
-                //        row.Cells[Giftprid].Value = item.Prid;
-
-                //        row.Cells[Gifttax].Value = item.Tax;
-                //        row.Cells[Gifttaxtype].Value = item.TaxType;
-                //        row.Cells[Gifttaxper].Value = item.TaxPer;
-                //        row.Cells[Gifttaxamt].Value = item.TaxAmount;
-                //        row.Cells[Giftpretaxamt].Value = item.PreTaxAmount;
-                //        row.Cells[Giftnetamt].Value = item.NetAmount;
-
-                //        row.Cells[GiftPartydeafult].Value = 0; // Booking-added item
-                //    }
-                //    // 🔹 Cake
-                //    else if (item.ProductType == (int)PackItemType.Cake)
-                //    {
-                //        int rowIndex = dgvcake.Rows.Add();
-                //        var row = dgvcake.Rows[rowIndex];
-
-                //        row.Cells[CakeItemNo].Value = item.Product;
-                //        row.Cells[CakeQtyNo].Value = item.Qty;
-                //        row.Cells[CakeAmountNo].Value = item.Price;
-                //        row.Cells[CakeIdno].Value = item.ProductId;
-                //        row.Cells[CakeTaxNo].Value = item.Tax;
-                //        row.Cells[CakeTaxTypeNo].Value = item.TaxType;
-                //        row.Cells[CakeTaxPerNo].Value = item.TaxPer;
-                //        row.Cells[CakeTaxAmtNo].Value = item.TaxAmount;
-                //        row.Cells[CaketaxsettingidNo].Value = item.TaxSettingId;
-                //        row.Cells[CakeNetAmtNo].Value = item.NetAmount;
-                //        row.Cells[Cakeremarksno].Value = item.CakeRemarks;
-                //        row.Cells[Cakemessageno].Value = item.CakeMessage;
-                //    }
-                //    // 🔹 Food Pack (Booking-added)
-                //    else if (item.ProductType == (int)PackItemType.Pack)
-                //    {
-                //        int rowIndex = dgv_packenter.Rows.Add();
-                //        var row = dgv_packenter.Rows[rowIndex];
-
-                //        row.Cells[selecteditemslno].Value = packSl++;
-                //        row.Cells[selecteditemitemno].Value = item.Product;
-                //        row.Cells[selecteditemqtyno].Value = item.Qty;
-                //        //row.Cells[selecteditemcategmenuno].Value = item.MenuCategoryId;
-                //        //row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
-                //    }
-                //}
-
+                #endregion
             }
             catch (Exception ex)
             {
@@ -6564,6 +6929,7 @@ namespace FoodandBeverage
             ProcessPartyBookingRefund(Convert.ToInt32(PaymentType.CREDITCARD));
         }
 
+
         private void btn_bookingvoid_Click(object sender, EventArgs e)
         {
             try
@@ -6594,11 +6960,18 @@ namespace FoodandBeverage
 
             }
         }
-
-
-
         #endregion
 
+        #region Main Datagridview 
+        private void btnotherarange_Click(object sender, EventArgs e)
+        {
 
+        }
+        private void btn_cate_more_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }

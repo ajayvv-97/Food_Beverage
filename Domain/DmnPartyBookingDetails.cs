@@ -43,5 +43,10 @@ namespace Domain
         public string CakeRemarks { get; set; }
         public string CakeMessage { get; set; }
         public bool IsPackage { get; set; }
+
+        public int SalesMasterId { get; set; }
+        public int SalesDetailsId { get; set; }
     }
 }
+
+    
