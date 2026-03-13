@@ -15,6 +15,7 @@ namespace Domain
 
         public decimal Qty { get; set; }
         public decimal Price { get; set; }
+        public decimal Amount { get; set; }
 
         public string Tax { get; set; }
         public string TaxType { get; set; }
@@ -46,6 +47,8 @@ namespace Domain
 
         public int SalesMasterId { get; set; }
         public int SalesDetailsId { get; set; }
+
+        public string CategoryName { get; set; }
     }
 }
 

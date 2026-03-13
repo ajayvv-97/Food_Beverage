@@ -98,6 +98,7 @@ namespace BLL
 
             parms.Add("Qty", obj.Qty);
             parms.Add("Price", obj.Price);
+            parms.Add("Amount", obj.Amount);
 
             parms.Add("Tax", obj.Tax);
             parms.Add("TaxType", obj.TaxType);
@@ -128,6 +129,8 @@ namespace BLL
             parms.Add("CakeMessage", obj.CakeMessage);
 
             parms.Add("IsPackage", obj.IsPackage);
+
+            parms.Add("CategoryName", obj.CategoryName);
 
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
