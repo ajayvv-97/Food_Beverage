@@ -1003,6 +1003,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap dot {
+            get {
+                object obj = ResourceManager.GetObject("dot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap down_arrow {
             get {
                 object obj = ResourceManager.GetObject("down_arrow", resourceCulture);
@@ -1116,6 +1126,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap empty_orders {
             get {
                 object obj = ResourceManager.GetObject("empty_orders", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap error {
+            get {
+                object obj = ResourceManager.GetObject("error", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1496,6 +1516,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap INACTIVEBUTTON {
             get {
                 object obj = ResourceManager.GetObject("INACTIVEBUTTON", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap information {
+            get {
+                object obj = ResourceManager.GetObject("information", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -3395,6 +3425,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap start {
             get {
                 object obj = ResourceManager.GetObject("start", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap success {
+            get {
+                object obj = ResourceManager.GetObject("success", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

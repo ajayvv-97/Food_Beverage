@@ -2017,6 +2017,10 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\error.png" />
+    <None Include="Resources\success.png" />
+    <None Include="Resources\information.png" />
+    <None Include="Resources\dot.png" />
     <None Include="Resources\N_CANCEL BOOKING.png" />
     <None Include="Resources\Untitled-2 2030.png" />
     <None Include="Resources\font_mouselick.png" />
