@@ -2098,7 +2098,6 @@ namespace FoodandBeverage
                 //clsGeneral.LogException("POSDashboard page  DynamicButton_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.POSDashboard));
             }
         }
-
         private void DynamicButtonProduct_Click(object sender, EventArgs e)
         {
             try
@@ -2295,6 +2294,28 @@ namespace FoodandBeverage
                 {
                     foreach (var item in gridSource)
                     {
+
+                        bool exists = false;
+                        foreach (DataGridViewRow dgRow in dgv_product.Rows)
+                        {
+                            if (dgRow.IsNewRow) continue;
+
+                            int pid = Convert.ToInt32(dgRow.Cells[pProductid].Value ?? 0);
+                            int ptype = Convert.ToInt32(dgRow.Cells[PPackProductTypeno].Value ?? 0);
+                            if (pid == item.Id && ptype == (int)PackItemType.Card)
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
+
+                        if (exists)
+                        {
+                            CMessageBox.Show("This product already added!", "Duplicate",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            continue;
+                        }
+
                         decimal price = Convert.ToDecimal(item.Field2);
                         int taxSettingId = Convert.ToInt32(item.Field4);
                         string taxMode = Convert.ToString(item.Field3);
@@ -2311,15 +2332,16 @@ namespace FoodandBeverage
                         decimal totalPercent = 0;
                         string taxType = "";
 
-                        // 🔹 FETCH TAX SETTINGS
                         if (taxSettingId > 0)
                         {
                             BllSearch<DmnTaxSettings> _bllTax = new BllSearch<DmnTaxSettings>();
-                            DmnSearch dmnTax = new DmnSearch();
 
-                            dmnTax.Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt";
-                            dmnTax.Table = $"[{GameDB}].dbo.tblTaxSettings";
-                            dmnTax.WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}";
+                            DmnSearch dmnTax = new DmnSearch
+                            {
+                                Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt",
+                                Table = $"[{GameDB}].dbo.tblTaxSettings",
+                                WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}"
+                            };
 
                             var taxSettings = _bllTax.GetSearchData("prdSearch", dmnTax);
 
@@ -2332,27 +2354,37 @@ namespace FoodandBeverage
 
                                 taxType = taxSettings[0].TaxType;
 
-                                if (taxType == "GST")
-                                    totalPercent = igst;
-                                else
-                                    totalPercent = vat;
+                                totalPercent = (taxType == "GST") ? igst : vat;
                             }
                         }
+
+                        decimal qty = 1;
+
+                        // 🔹 DISCOUNT
+                        decimal discountPercent = 0;
+                        decimal.TryParse(discountper.Text == "" ? "0" : discountper.Text, out discountPercent);
+
+                        decimal grossAmount = qty * price;
+                        decimal discountAmt = grossAmount * discountPercent / 100;
+                        decimal amountAfterDiscount = grossAmount - discountAmt;
 
                         // 🔹 TAX CALCULATION
                         if (taxMode == "Inclusive")
                         {
-                            baseAmt = price / (1 + (totalPercent / 100));
-                            taxAmt = price - baseAmt;
-                            netAmt = price;
+                            baseAmt = amountAfterDiscount / (1 + (totalPercent / 100));
+                            taxAmt = amountAfterDiscount - baseAmt;
+                            netAmt = amountAfterDiscount;
                         }
                         else
                         {
-                            baseAmt = price;
-                            taxAmt = price * totalPercent / 100;
-                            netAmt = price + taxAmt;
+                            baseAmt = amountAfterDiscount;
+                            taxAmt = amountAfterDiscount * totalPercent / 100;
+                            netAmt = amountAfterDiscount + taxAmt;
                         }
 
+                        // 🔹 ROUND VALUES
+                        grossAmount = Math.Round(grossAmount, 2, MidpointRounding.AwayFromZero);
+                        discountAmt = Math.Round(discountAmt, 2, MidpointRounding.AwayFromZero);
                         baseAmt = Math.Round(baseAmt, 2, MidpointRounding.AwayFromZero);
                         taxAmt = Math.Round(taxAmt, 2, MidpointRounding.AwayFromZero);
                         netAmt = Math.Round(netAmt, 2, MidpointRounding.AwayFromZero);
@@ -2362,16 +2394,21 @@ namespace FoodandBeverage
 
                         row.Cells[pslno].Value = rowIndex + 1;
 
-                        DataGridViewImageCell cellcolumntype =(DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
+                        DataGridViewImageCell cellcolumntype =
+                            (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
                         cellcolumntype.Value = Grid_Remove;
                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
                         row.Cells[pitemno].Value = item.Field1;
                         row.Cells[pcategmenuno].Value = ((ProductType)ptypeno).ToString();
-                        row.Cells[pqtyno].Value = 1;
+                        row.Cells[pqtyno].Value = qty;
 
                         row.Cells[pPrice].Value = price;
-                        row.Cells[pAmount].Value = price;
+                        row.Cells[pAmount].Value = grossAmount;
+
+                        row.Cells[pdiscper].Value = discountPercent;
+                        row.Cells[pdisamt].Value = discountAmt;
+
                         row.Cells[ptax].Value = taxMode;
                         row.Cells[ptaxtype].Value = taxType;
                         row.Cells[ptaxper].Value = totalPercent;
@@ -2382,16 +2419,9 @@ namespace FoodandBeverage
                         if (taxType == "GST")
                         {
                             if (igst > 0)
-                            {
                                 row.Cells[pigstamt].Value = Math.Round(taxAmt * igst / totalPercent, 2);
-                            }
                             else
-                            {
-                                decimal cgstAmt = Math.Round(taxAmt * cgst / totalPercent, 2);
-                                decimal sgstAmt = Math.Round(taxAmt * sgst / totalPercent, 2);
-
-                                row.Cells[pigstamt].Value = cgstAmt + sgstAmt;
-                            }
+                                row.Cells[pigstamt].Value = Math.Round(cgst + sgst, 2);
 
                             row.Cells[pvatamt].Value = 0;
                         }
@@ -2434,18 +2464,16 @@ namespace FoodandBeverage
                 int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0);
                 if (productType != (int)PackItemType.Card) return;
 
-                // Read input values safely
                 decimal qty = 0, price = 0, taxPercent = 0, discountPer = 0;
                 decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value), out qty);
                 decimal.TryParse(Convert.ToString(row.Cells[pPrice].Value), out price);
                 decimal.TryParse(Convert.ToString(row.Cells[ptaxper].Value), out taxPercent);
-                decimal.TryParse(Convert.ToString(row.Cells[pdiscper].Value), out discountPer);
+                discountPer = Convert.ToDecimal(discountper.Text);
                 if (qty <= 0) qty = 1;
 
                 string taxMode = Convert.ToString(row.Cells[ptax].Value ?? "");
                 string taxType = Convert.ToString(row.Cells[ptaxtype].Value ?? "");
 
-                // Calculate gross and discount
                 decimal grossAmount = qty * price;
                 decimal discountAmt = grossAmount * discountPer / 100;
                 decimal amountAfterDiscount = grossAmount - discountAmt;
@@ -2465,32 +2493,25 @@ namespace FoodandBeverage
                     netAmt = amountAfterDiscount + taxAmt;
                 }
 
-                // Round values
-                baseAmt = Math.Round(baseAmt, 2);
-                taxAmt = Math.Round(taxAmt, 2);
-                netAmt = Math.Round(netAmt, 2);
-                discountAmt = Math.Round(discountAmt, 2);
+                row.Cells[ppretaxamt].Value = baseAmt.ToString("0.00"); 
+                row.Cells[ptaxamt].Value = taxAmt.ToString("0.00"); 
+                row.Cells[pnetamt].Value = netAmt.ToString("0.00"); 
+                row.Cells[pdisamt].Value = discountAmt.ToString("0.00"); 
+                row.Cells[pAmount].Value = grossAmount.ToString("0.00"); 
 
-                row.Cells[ppretaxamt].Value = baseAmt;
-                row.Cells[ptaxamt].Value = taxAmt;
-                row.Cells[pnetamt].Value = netAmt;
-                row.Cells[pdisamt].Value = discountAmt;
-                row.Cells[pAmount].Value = grossAmount;
-
-                // Split tax based on type
                 if (taxType == "GST")
                 {
                     decimal igstPercent = taxPercent;
                     decimal cgstPercent = taxPercent / 2;
                     decimal sgstPercent = taxPercent / 2;
 
-                    row.Cells[pigstamt].Value = Math.Round(taxAmt * igstPercent / taxPercent, 2);
-                    row.Cells[pvatamt].Value = 0;
+                    row.Cells[pigstamt].Value = (taxAmt * igstPercent / taxPercent).ToString("0.00"); 
+                    row.Cells[pvatamt].Value = "0";
                 }
                 else // VAT
                 {
-                    row.Cells[pigstamt].Value = 0;
-                    row.Cells[pvatamt].Value = taxAmt;
+                    row.Cells[pigstamt].Value = "0";
+                    row.Cells[pvatamt].Value = taxAmt.ToString("0.00"); 
                 }
 
                 CalculateGrandTotal_Card();
@@ -2511,7 +2532,7 @@ namespace FoodandBeverage
             {
                 if (row.IsNewRow) continue;
 
-                int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value);
+                int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0);
 
                 if (productType != (int)PackItemType.Card)
                     continue;
@@ -2521,12 +2542,12 @@ namespace FoodandBeverage
                 decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value), out qty);
                 decimal.TryParse(Convert.ToString(row.Cells[pPrice].Value), out price);
                 decimal.TryParse(Convert.ToString(row.Cells[ptaxper].Value), out taxPercent);
-                decimal.TryParse(Convert.ToString(row.Cells[pdiscper].Value), out discountPer);
+                //decimal.TryParse(Convert.ToString(row.Cells[pdiscper].Value), out discountPer);
 
                 if (qty <= 0) qty = 1;
 
-                string taxMode = Convert.ToString(row.Cells[ptax].Value);
-                string taxType = Convert.ToString(row.Cells[ptaxtype].Value);
+                string taxMode = Convert.ToString(row.Cells[ptax].Value ?? "");
+                string taxType = Convert.ToString(row.Cells[ptaxtype].Value ?? "");
 
                 decimal grossAmount = qty * price;
                 decimal discountAmt = grossAmount * discountPer / 100;
@@ -2536,7 +2557,7 @@ namespace FoodandBeverage
                 decimal taxAmt = 0;
                 decimal netAmt = 0;
 
-                if (taxMode == "Inclusive")
+                if (taxMode.Equals("Inclusive", StringComparison.OrdinalIgnoreCase))
                 {
                     baseAmt = amount / (1 + (taxPercent / 100));
                     taxAmt = amount - baseAmt;
@@ -2549,20 +2570,17 @@ namespace FoodandBeverage
                     netAmt = amount + taxAmt;
                 }
 
-                baseAmt = Math.Round(baseAmt, 2);
-                taxAmt = Math.Round(taxAmt, 2);
-                netAmt = Math.Round(netAmt, 2);
-
                 totalPreTax += baseAmt;
                 totalTax += taxAmt;
                 total += netAmt;
                 totalDiscount += discountAmt;
 
-                if (taxType == "GST")
+                if (taxType.Equals("GST", StringComparison.OrdinalIgnoreCase))
                     totalIGST += taxAmt;
                 else
                     totalVAT += taxAmt;
             }
+
 
             txtPreTaxAmount_card.Text = totalPreTax.ToString("0.00");
             txtTotalTaxAmount_card.Text = totalTax.ToString("0.00");
@@ -2587,10 +2605,8 @@ namespace FoodandBeverage
                     continue;
 
                 decimal qty = 0, price = 0;
-
                 decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value), out qty);
                 decimal.TryParse(Convert.ToString(row.Cells[pPrice].Value), out price);
-
                 if (qty <= 0) qty = 1;
 
                 totalAmount += qty * price;
@@ -2608,14 +2624,11 @@ namespace FoodandBeverage
                     continue;
 
                 decimal qty = 0, price = 0;
-
                 decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value), out qty);
                 decimal.TryParse(Convert.ToString(row.Cells[pPrice].Value), out price);
-
                 if (qty <= 0) qty = 1;
 
                 decimal rowAmount = qty * price;
-
                 decimal rowDiscount = 0;
                 decimal rowDiscountPer = 0;
 
@@ -2630,8 +2643,8 @@ namespace FoodandBeverage
                     rowDiscountPer = rowAmount == 0 ? 0 : (rowDiscount / rowAmount) * 100;
                 }
 
-                row.Cells[pdiscper].Value = Math.Round(rowDiscountPer, 2);
-                row.Cells[pdisamt].Value = Math.Round(rowDiscount, 2);
+                row.Cells[pdiscper].Value = rowDiscountPer.ToString("0.000"); 
+                row.Cells[pdisamt].Value = rowDiscount.ToString("0.000");
 
                 RecalculateCardRow(row.Index);
             }
@@ -3297,12 +3310,12 @@ namespace FoodandBeverage
                 }
             }
 
-            txtPreTaxAmount_gift.Text = totalPreTax.ToString("0.00");
-            txtTotalTaxAmount_gift.Text = totalTax.ToString("0.00");
-            txtGiftGrandTotal.Text = total.ToString("0.00");
+            txtPreTaxAmount_gift.Text = totalPreTax.ToString("0.000");
+            txtTotalTaxAmount_gift.Text = totalTax.ToString("0.000");
+            txtGiftGrandTotal.Text = total.ToString("0.000");
 
-            txtIGSTAmt_gift.Text = totalIGST.ToString("0.00");
-            txtVATAmt_gift.Text = totalVAT.ToString("0.00");
+            txtIGSTAmt_gift.Text = totalIGST.ToString("0.000");
+            txtVATAmt_gift.Text = totalVAT.ToString("0.000");
 
             CalculateNetAmount();
         }
@@ -3312,9 +3325,23 @@ namespace FoodandBeverage
 
             foreach (DataGridViewRow row in dgv_product.Rows)
             {
-                if (!row.IsNewRow && (PackItemType)row.Cells[PPackProductTypeno].Value == PackItemType.Gift)
+                if (row.IsNewRow) continue;
+
+                if (row.Cells[PPackProductTypeno].Value == null) continue;
+                if (row.Cells[pProductid].Value == null) continue;
+
+                int productId = 0;
+                int.TryParse(Convert.ToString(row.Cells[pProductid].Value), out productId);
+
+                if (productId <= 0) continue;
+
+                PackItemType productType = (PackItemType)Convert.ToInt32(row.Cells[PPackProductTypeno].Value);
+
+                if (productType == PackItemType.Gift)
                 {
-                    decimal qty = 0, price = 0;
+                    decimal qty = 0;
+                    decimal price = 0;
+
                     decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value), out qty);
                     decimal.TryParse(Convert.ToString(row.Cells[pPrice].Value), out price);
 
@@ -3377,43 +3404,61 @@ namespace FoodandBeverage
                     decimal.TryParse(txt.Text, out decimal val);
                     return val;
                 }
+                decimal GetDecimal_label(Label lbl)
+                {
+                    decimal.TryParse(lbl.Text, out decimal val);
+                    return val;
+                }
 
-                // 🔹 PACK
+                decimal Tdiacounamt = GetDecimal(txtTotalDiscountAmt);
+
+                // PACK
                 decimal packPreTax = GetDecimal(txtPreTaxAmount_pack);
                 decimal packTax = GetDecimal(txtTotalTaxAmount_pack);
                 decimal packVAT = GetDecimal(txtVatamt_pack);
                 decimal packIGST = GetDecimal(txtIGSTAmt_pack);
+                decimal PackTotalamt = GetDecimal(txtGrandTotal_pack);
 
-                // 🔹 CAKE
+                // CAKE
                 decimal cakePreTax = GetDecimal(txtPreTaxAmount_cake);
                 decimal cakeTax = GetDecimal(txtTotalTaxAmount_cake);
                 decimal cakeVAT = GetDecimal(txtVATAmt_cake);
                 decimal cakeIGST = GetDecimal(txtIGSTAmt_cake);
+                decimal CakeTotalamt = GetDecimal(txtCakeGrandTotal);
 
-                // 🔹 CARD
+                // CARD
                 decimal cardPreTax = GetDecimal(txtPreTaxAmount_card);
                 decimal cardTax = GetDecimal(txtTotalTaxAmount_card);
                 decimal cardVAT = GetDecimal(txtVATAmt_card);
                 decimal cardIGST = GetDecimal(txtIGSTAmt_card);
+                decimal CardTotalamt = GetDecimal(txtCardGrandTotal);
 
-                // 🔹 GIFT
+                // GIFT
                 decimal giftPreTax = GetDecimal(txtPreTaxAmount_gift);
                 decimal giftTax = GetDecimal(txtTotalTaxAmount_gift);
                 decimal giftVAT = GetDecimal(txtVATAmt_gift);
                 decimal giftIGST = GetDecimal(txtIGSTAmt_gift);
+                decimal GiftTotalamt = GetDecimal(txtGiftGrandTotal);
 
-                // 🔥 FINAL TOTALS
+                // FINAL TOTALS
                 decimal totalPreTax = packPreTax + cakePreTax + cardPreTax + giftPreTax;
                 decimal totalTax = packTax + cakeTax + cardTax + giftTax;
 
                 decimal totalVAT = packVAT + cakeVAT + cardVAT + giftVAT;
                 decimal totalIGST = packIGST + cakeIGST + cardIGST + giftIGST;
 
-                decimal finalNet = totalPreTax + totalTax;
+                decimal Netamount = PackTotalamt + CakeTotalamt + CardTotalamt + GiftTotalamt;
+                decimal finalNet = Netamount - Tdiacounamt;
 
-                // 🔹 UPDATE UI
+                decimal discountPer = 0;
+                decimal.TryParse(discountper.Text, out discountPer);
+                decimal discountTax = totalTax * discountPer / 100;
+
+                decimal finalTax = totalTax - discountTax;
+
                 txtPreTaxAmount.Text = totalPreTax.ToString("N2");
-                txtTotalTaxAmount.Text = totalTax.ToString("N2");
+                txtTotalTaxAmount.Text = finalTax.ToString("N2");
+
 
                 txtTotalVATAmt.Text = totalVAT.ToString("N2");
                 txtTotalIGSTAmt.Text = totalIGST.ToString("N2");
@@ -3455,42 +3500,16 @@ namespace FoodandBeverage
                     return val;
                 }
 
-                UpdateGrandTotal();
+                UpdateGrandTotal(); 
 
                 decimal grandTotal = GetDecimal(txtGrandTotal_pack);
-                decimal discountPer = GetDecimal(discountper);   
+                decimal discountPer = 0;//GetDecimal(discountper);
                 decimal otherAdd = GetDecimal(txtOAAmount);
                 decimal otherDeduct = GetDecimal(txtODAmount);
 
-                decimal discountAmt = 0;
-
-                if (discountPer > 0)
-                {
-                    discountAmt = (grandTotal * discountPer) / 100;
-                }
-                else
-                {
-                    discountAmt = GetDecimal(txtTotalDiscountAmt); 
-                }
-
-                discountAmt = Math.Round(discountAmt, 2);
-
-                txttotaldisamt_pack.Text = discountAmt.ToString("N2");
-
-                // 🔹 3️⃣ NET BEFORE TAX
-                decimal netBeforeTax = grandTotal - discountAmt + otherAdd - otherDeduct;
-
-                // 🔹 TAX VARIABLES
-                decimal baseAmt = 0;
-                decimal taxAmt = 0;
-                decimal netAmt = 0;
-
-                decimal igst = 0;
-                decimal cgst = 0;
-                decimal sgst = 0;
-                decimal vat = 0;
+                // 🔹 TAX SETTINGS
+                decimal igst = 0, cgst = 0, sgst = 0, vat = 0;
                 decimal totalPercent = 0;
-
                 string taxType = "";
                 string taxMode = txttax.Text.Trim(); // Inclusive / Exclusive
 
@@ -3499,11 +3518,12 @@ namespace FoodandBeverage
                     int taxSettingId = Convert.ToInt32(txtTaxSettingId.Text);
 
                     BllSearch<DmnTaxSettings> _bllSearch = new BllSearch<DmnTaxSettings>();
-                    DmnSearch dmnSearch = new DmnSearch();
-
-                    dmnSearch.Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt";
-                    dmnSearch.Table = "tblTaxSettings";
-                    dmnSearch.WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}";
+                    DmnSearch dmnSearch = new DmnSearch
+                    {
+                        Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt",
+                        Table = "tblTaxSettings",
+                        WhereNdGroupBy = $"WHERE Status=1 AND TaxSettingsId={taxSettingId}"
+                    };
 
                     var taxSettings = _bllSearch.GetSearchData("prdSearch", dmnSearch);
 
@@ -3516,49 +3536,52 @@ namespace FoodandBeverage
 
                         taxType = taxSettings[0].TaxType;
 
-                        if (taxType == "GST")
-                            totalPercent = igst;  
-                        else
-                            totalPercent = vat;
+                        totalPercent = taxType == "GST" ? igst : vat;
 
                         txtTaxtype_pack.Text = taxType;
                         txtTaxPer_pack.Text = totalPercent.ToString("N2");
                     }
                 }
 
-                if (taxMode.ToUpper() == "INCLUSIVE")
+                decimal discountAmt = 0;// discountPer > 0 ? (grandTotal * discountPer) / 100 : GetDecimal(txtTotalDiscountAmt);
+                txttotaldisamt_pack.Text = discountAmt.ToString("0.00");
+
+                decimal netBeforeTax = grandTotal - discountAmt + otherAdd - otherDeduct;
+
+                decimal baseAmt = 0, taxAmt = 0, netAmt = 0;
+
+                if (taxMode.Equals("INCLUSIVE", StringComparison.OrdinalIgnoreCase))
                 {
                     baseAmt = netBeforeTax / (1 + (totalPercent / 100));
                     taxAmt = netBeforeTax - baseAmt;
                     netAmt = netBeforeTax;
                 }
-                else 
+                else
                 {
                     baseAmt = netBeforeTax;
                     taxAmt = netBeforeTax * totalPercent / 100;
                     netAmt = netBeforeTax + taxAmt;
                 }
 
-                baseAmt = Math.Round(baseAmt, 2, MidpointRounding.AwayFromZero);
-                taxAmt = Math.Round(taxAmt, 2, MidpointRounding.AwayFromZero);
-                netAmt = Math.Round(netAmt, 2, MidpointRounding.AwayFromZero);
+                txtPreTaxAmount_pack.Text = baseAmt.ToString("0.00");
+                txtTotalTaxAmount_pack.Text = taxAmt.ToString("0.00");
+                txtGrandTotal_pack.Text = netAmt.ToString("0.00");
 
-                txtPreTaxAmount_pack.Text = baseAmt.ToString("N2");
-                txtTotalTaxAmount_pack.Text = taxAmt.ToString("N2");
-                txtGrandTotal_pack.Text = netAmt.ToString("N2");
-                txtPackTaxPer.Text = totalPercent.ToString("N2");
-
+                // 🔹 Split tax for display
                 if (taxType == "GST")
                 {
-                    txtIGSTAmt_pack.Text = taxAmt.ToString("N2");
-                    txtVatamt_pack.Text = "0.00";
+                    decimal igstAmt = igst > 0 ? taxAmt : 0;
+                    decimal cgstAmt = cgst > 0 ? taxAmt * (cgst / totalPercent) : 0;
+                    decimal sgstAmt = sgst > 0 ? taxAmt * (sgst / totalPercent) : 0;
+
+                    txtIGSTAmt_pack.Text = igstAmt.ToString("0.00");
+                    txtVatamt_pack.Text = (cgstAmt + sgstAmt).ToString("0.00");
                 }
                 else
                 {
-                    txtVatamt_pack.Text = taxAmt.ToString("N2");
+                    txtVatamt_pack.Text = taxAmt.ToString("0.00");
                     txtIGSTAmt_pack.Text = "0.00";
                 }
-
             }
             catch (Exception ex)
             {
@@ -3617,7 +3640,7 @@ namespace FoodandBeverage
                 }
 
                 decimal discountPer = grandTotal == 0 ? 0 : (discountAmt / grandTotal * 100);
-                discountper.Text = discountPer.ToString("N2");
+                discountper.Text = discountPer.ToString("0.000");
 
                 CalculateNetAmount();
             }
@@ -3626,25 +3649,13 @@ namespace FoodandBeverage
 
             }
         }
-
         private void txtOAAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
         private void txtRcvAmt_TextChanged(object sender, EventArgs e)
         {
             GetDecimal(txtRcvAmt);
             CalculateNetAmount();
         }
-        private void discountper_TextChanged(object sender, EventArgs e)
-        {
-            CalculateDiscountAmount();
-            RecalculateAllCakeRows();
-            CalculatePackValues();
-        }
-        private void txtTotalDiscountAmt_TextChanged(object sender, EventArgs e)
-        {
-            CalculateDiscountPer();
-            RecalculateAllCakeRows();
-            CalculatePackValues();
-        }
+
         private void txtODAmount_TextChanged(object sender, EventArgs e) => CalculateNetAmount();
 
         #endregion
@@ -3676,7 +3687,8 @@ namespace FoodandBeverage
 
                     if (productId == _cakeId && productType == (int)PackItemType.Cake)
                     {
-                        CMessageBox.Show("This cake is already added!", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("This cake is already added!", "Duplicate",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
                 }
@@ -3729,9 +3741,7 @@ namespace FoodandBeverage
                 decimal.TryParse(discountper.Text == "" ? "0" : discountper.Text, out discountPercent);
 
                 decimal amount = qty * price;
-
                 decimal discountAmt = amount * discountPercent / 100;
-
                 decimal afterDiscount = amount - discountAmt;
 
                 if (_cakeTaxMode == "Inclusive")
@@ -3747,6 +3757,9 @@ namespace FoodandBeverage
                     netAmt = afterDiscount + taxAmt;
                 }
 
+                // ROUND EVERYTHING
+                amount = Math.Round(amount, 2, MidpointRounding.AwayFromZero);
+                discountAmt = Math.Round(discountAmt, 2, MidpointRounding.AwayFromZero);
                 baseAmt = Math.Round(baseAmt, 2, MidpointRounding.AwayFromZero);
                 taxAmt = Math.Round(taxAmt, 2, MidpointRounding.AwayFromZero);
                 netAmt = Math.Round(netAmt, 2, MidpointRounding.AwayFromZero);
@@ -3760,7 +3773,7 @@ namespace FoodandBeverage
                 row.Cells[pqtyno].Value = qty;
 
                 row.Cells[pPrice].Value = price;
-                row.Cells[pAmount].Value = price;
+                row.Cells[pAmount].Value = amount;
                 row.Cells[pdiscper].Value = discountPercent;
                 row.Cells[pdisamt].Value = discountAmt;
 
@@ -3790,13 +3803,13 @@ namespace FoodandBeverage
                 row.Cells[pProductid].Value = _cakeId;
                 row.Cells[pmessageno].Value = _cakeMessage;
                 row.Cells[premarksno].Value = _cakeRemarks;
-                row.Cells[PPackProductTypeno].Value = (int)PackItemType.Cake; 
+                row.Cells[PPackProductTypeno].Value = (int)PackItemType.Cake;
 
                 DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)row.Cells[pactionno];
                 cellcolumntype.Value = Grid_Remove;
                 cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
-                RecalculateAllCakeRows(); 
+                RecalculateAllCakeRows();
                 ResetCakeFields();
                 LoadAllcakeTotal();
 
@@ -3817,12 +3830,16 @@ namespace FoodandBeverage
                 DataGridViewRow row = dgv_product.Rows[rowIndex];
                 if (row.IsNewRow) return;
 
-                decimal qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 1);
-                decimal price = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0);
+                decimal qty = 1;
+                decimal price = 0;
                 decimal discountPercent = 0;
-                decimal.TryParse(discountper.Text, out discountPercent);
+                decimal totalPercent = 0;
 
-                decimal totalPercent = Convert.ToDecimal(row.Cells[ptaxper].Value ?? 0);
+                decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value), out qty);
+                decimal.TryParse(Convert.ToString(row.Cells[pPrice].Value), out price);
+                decimal.TryParse(discountper.Text, out discountPercent);
+                decimal.TryParse(Convert.ToString(row.Cells[ptaxper].Value), out totalPercent);
+
                 string taxMode = Convert.ToString(row.Cells[ptax].Value);
                 string taxType = Convert.ToString(row.Cells[ptaxtype].Value);
 
@@ -3830,7 +3847,9 @@ namespace FoodandBeverage
                 decimal discountAmt = amount * discountPercent / 100;
                 decimal afterDiscount = amount - discountAmt;
 
-                decimal baseAmt = 0, taxAmt = 0, netAmt = 0;
+                decimal baseAmt = 0;
+                decimal taxAmt = 0;
+                decimal netAmt = 0;
 
                 if (taxMode == "Inclusive")
                 {
@@ -3845,21 +3864,25 @@ namespace FoodandBeverage
                     netAmt = afterDiscount + taxAmt;
                 }
 
+                // Round to 2 decimals
+                amount = Math.Round(amount, 2, MidpointRounding.AwayFromZero);
+                discountAmt = Math.Round(discountAmt, 2, MidpointRounding.AwayFromZero);
                 baseAmt = Math.Round(baseAmt, 2, MidpointRounding.AwayFromZero);
                 taxAmt = Math.Round(taxAmt, 2, MidpointRounding.AwayFromZero);
                 netAmt = Math.Round(netAmt, 2, MidpointRounding.AwayFromZero);
 
                 row.Cells[pAmount].Value = amount;
+                row.Cells[pdisamt].Value = discountAmt;
+                row.Cells[ppretaxamt].Value = baseAmt;
                 row.Cells[ptaxamt].Value = taxAmt;
                 row.Cells[pnetamt].Value = netAmt;
-                row.Cells[ppretaxamt].Value = baseAmt;
-                row.Cells[pdisamt].Value = discountAmt;
 
                 if (taxType == "GST")
                 {
-                    decimal cgst = taxAmt / 2;
-                    decimal sgst = taxAmt / 2;
-                    row.Cells[pigstamt].Value = Math.Round(cgst + sgst, 2);
+                    decimal cgst = Math.Round(taxAmt / 2, 2, MidpointRounding.AwayFromZero);
+                    decimal sgst = Math.Round(taxAmt / 2, 2, MidpointRounding.AwayFromZero);
+
+                    row.Cells[pigstamt].Value = cgst + sgst;
                     row.Cells[pvatamt].Value = 0;
                 }
                 else
@@ -3868,9 +3891,11 @@ namespace FoodandBeverage
                     row.Cells[pigstamt].Value = 0;
                 }
 
-                CalculateGrandTotal_Cake(); // Keep function name same
+                CalculateGrandTotal_Cake();
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void RecalculateAllCakeRows()
@@ -4238,29 +4263,34 @@ namespace FoodandBeverage
                     txtdiscountreason.Text = frm.txtdesc.Text.Trim() == "Enter Remarks Here....." ? "" : frm.txtdesc.Text;
 
                 }
+
                 if (Frmnumdiskeypad.flagpercentage)
                 {
-                    discountper.Text = kdata.ToString("0.00");
-
-                    ApplyDiscountToCardRows(kdata, 0, true);
-                    ApplyDiscountToGiftRows(kdata, 0, true);
-
+                    discountper.Text = kdata.ToString("0.000");
                     CalculateDiscountAmount();
+
                     CalculatePackValues();
-                    RecalculateAllCakeRows();
+                    CalculateGrandTotal_Card();
+
+                    //ApplyDiscountToCardRows(kdata, 0, true);
+                    //ApplyDiscountToGiftRows(kdata, 0, true);
+                    //CalculatePackValues();
+                    //RecalculateAllCakeRows();
                 }
                 else
                 {
-                    txtTotalDiscountAmt.Text = kdata.ToString("0.00");
-
-                    ApplyDiscountToCardRows(0, kdata, false);
-                    ApplyDiscountToGiftRows(kdata, 0, false);
-
+                    txtTotalDiscountAmt.Text = kdata.ToString("0.000");
                     CalculateDiscountPer();
-                    CalculatePackValues();
-                    RecalculateAllCakeRows();
 
+                    //ApplyDiscountToCardRows( Convert.ToDecimal(discountper.Text), 0, true);
+                    //ApplyDiscountToGiftRows(Convert.ToDecimal(discountper.Text), 0, true);
+
+                    CalculatePackValues();
+                    CalculateGrandTotal_Card();
+
+                   // RecalculateAllCakeRows();
                 }
+
                 CalculateNetAmount();
             }
             catch(Exception ex)
@@ -4453,17 +4483,14 @@ namespace FoodandBeverage
             if (e.KeyChar == '\r')
                 e.Handled = true;
 
-            // Allow control keys (Backspace, Delete)
             if (char.IsControl(e.KeyChar))
                 return;
 
-            // Allow only digits
             if (!char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }
         }
-
 
         private void txtph_TextChanged(object sender, EventArgs e)
         {
