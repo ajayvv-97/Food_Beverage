@@ -132,7 +132,8 @@ namespace Domain
         public decimal TotalPreTaxAmt { get; set; }
         public int SaleType { get; set; }
         public int PartyBookingId { get; set; }
-        
+        public string AdditionalChargeDescription { get; set; }
+        public decimal AdditionalChargeAmt { get; set; }
     }
     
 

@@ -183,6 +183,9 @@ namespace BLL
             parms.Add("@mDeviceIP", obj.mDeviceIP);
             parms.Add("@mDevice", obj.mDevice);
 
+            parms.Add("AdditionalChargeDescription", obj.AdditionalChargeDescription);
+            parms.Add("AdditionalChargeAmt", obj.AdditionalChargeAmt);
+
             var data = dapperRepository.AddandReturnID(procedureName, parms);
 
             return data;

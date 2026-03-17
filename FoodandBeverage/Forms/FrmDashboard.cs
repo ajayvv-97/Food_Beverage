@@ -6166,7 +6166,6 @@ namespace FoodandBeverage.Forms
             {
                 PrepareForSideMenuNavigation();
 
-                // ✅ Check if already opened
                 if (Application.OpenForms["FrmPartyBooking"] != null)
                 {
                     FrmPartyBooking frm = Application.OpenForms["FrmPartyBooking"] as FrmPartyBooking;
@@ -6188,19 +6187,24 @@ namespace FoodandBeverage.Forms
                 {
                     using (FrmPartyBooking _instanceFrmpb = new FrmPartyBooking())
                     {
+                        int maxWidth = 1366;
+                        int maxHeight = 768;
+
+                        if (Screen.PrimaryScreen.WorkingArea.Width > maxWidth ||
+                            Screen.PrimaryScreen.WorkingArea.Height > maxHeight)
+                        {
+                            _instanceFrmpb.Width = maxWidth;
+                            _instanceFrmpb.Height = maxHeight;
+                            _instanceFrmpb.StartPosition = FormStartPosition.CenterScreen;
+                        }
+                        else
+                        {
+                            _instanceFrmpb.WindowState = FormWindowState.Maximized;
+                        }
+
                         _instanceFrmpb.ShowDialog();
                         _instanceFrmpb.BringToFront();
-                        _instanceFrmpb.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                     }
-
-                    //// ✅ Create new instance (NO using)
-                    //FrmPartyBooking frm = new FrmPartyBooking();
-                    //ResizeForm(frm);
-                    //frm.TopLevel = false;
-                    //panelDesktop.Controls.Add(frm);
-                    //frm.Show();
-                    //frm.WindowState = FormWindowState.Maximized;
-                    //frm.BringToFront();
                 }
             }
             catch (Exception ex)

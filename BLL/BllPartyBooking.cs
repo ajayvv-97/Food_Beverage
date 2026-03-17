@@ -79,6 +79,10 @@ namespace BLL
             parms.Add("PackPreTaxAmount", obj.PackPreTaxAmount);
             parms.Add("PackTaxAmount", obj.PackTaxAmount);
 
+            // 🔹 ADDITIONAL CHARGE
+            parms.Add("AdditionalChargeAmt", obj.AdditionalChargeAmt);
+            parms.Add("AdditionalChargeDescription", obj.AdditionalChargeDescription);
+
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
