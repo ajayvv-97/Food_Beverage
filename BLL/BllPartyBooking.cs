@@ -83,6 +83,10 @@ namespace BLL
             parms.Add("AdditionalChargeAmt", obj.AdditionalChargeAmt);
             parms.Add("AdditionalChargeDescription", obj.AdditionalChargeDescription);
 
+            parms.Add("ExtraChargeGrandTotal", obj.ExtraChargeGrandTotal);
+            parms.Add("ExtraChargePreTaxAmount", obj.ExtraChargePreTaxAmount);
+            parms.Add("ExtraChargeTaxAmount", obj.ExtraChargeTaxAmount);
+
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }

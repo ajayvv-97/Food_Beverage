@@ -2341,6 +2341,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Partypacksetup page cmbIgstPrcnt_cake_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
+
         private void AllowIntegerOnly(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
@@ -2367,6 +2368,7 @@ namespace FoodandBeverage.Forms
             // Block everything else
             e.Handled = true;
         }
+
         #region TexBox Round function
         public void textb_shape()
         {

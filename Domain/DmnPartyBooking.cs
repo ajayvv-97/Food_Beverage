@@ -71,8 +71,15 @@ namespace Domain
         public decimal PackPreTaxAmount { get; set; }
         public decimal PackTaxAmount { get; set; }
 
-        public string AdditionalChargeDescription { get; set; }  
+        public string AdditionalChargeDescription { get; set; }
         public decimal AdditionalChargeAmt { get; set; }
+
+        public decimal ExtraChargeGrandTotal { get; set; }
+        public decimal ExtraChargePreTaxAmount { get; set; }
+        public decimal ExtraChargeTaxAmount { get; set; }
+
+
     }
+
     
 }
