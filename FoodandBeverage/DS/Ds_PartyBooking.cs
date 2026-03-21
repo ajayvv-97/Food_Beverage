@@ -4,6 +4,6 @@
 
     partial class Ds_PartyBooking
     {
-       
+
     }
 }

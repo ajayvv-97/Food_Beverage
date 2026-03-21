@@ -134,7 +134,9 @@ namespace Domain
         public int PartyBookingId { get; set; }
         public string AdditionalChargeDescription { get; set; }
         public decimal AdditionalChargeAmt { get; set; }
-    }
-    
+        public int PaymentSettlementStatus { get; set; }
+
+    }   
 
 }
+

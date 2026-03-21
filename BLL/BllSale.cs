@@ -138,6 +138,7 @@ namespace BLL
             DynamicParameters parms = new DynamicParameters();
 
             parms.Add("@SalesMasterId", obj.SalesMasterId);
+            parms.Add("@PartyBookingId", obj.PartyBookingId);
             parms.Add("@EntryNo", obj.EntryNo);
             parms.Add("@EntryDate", obj.EntryDate);
 
@@ -161,8 +162,6 @@ namespace BLL
 
             parms.Add("@PaymentMode", obj.PayId);
 
-            parms.Add("@PartyBookingId", obj.PartyBookingId);
-
             // Customer
             parms.Add("@FirstName", obj.FirstName);
             parms.Add("@SecondName", obj.SecondName);
@@ -174,7 +173,7 @@ namespace BLL
 
             parms.Add("@TotalPreTaxAmt", obj.TotalPreTaxAmt);
 
-            parms.Add("@SaleType", 2);
+            parms.Add("@SaleType", obj.SaleType);
 
             parms.Add("@CreatedBy", obj.CreatedBy);
             parms.Add("@BranchId", obj.BranchId);
@@ -183,8 +182,9 @@ namespace BLL
             parms.Add("@mDeviceIP", obj.mDeviceIP);
             parms.Add("@mDevice", obj.mDevice);
 
-            parms.Add("AdditionalChargeDescription", obj.AdditionalChargeDescription);
-            parms.Add("AdditionalChargeAmt", obj.AdditionalChargeAmt);
+            parms.Add("@AdvanceAmount", obj.AdvanceAmount);
+
+            parms.Add("PaymentSettlementStatus", obj.PaymentSettlementStatus);
 
             var data = dapperRepository.AddandReturnID(procedureName, parms);
 

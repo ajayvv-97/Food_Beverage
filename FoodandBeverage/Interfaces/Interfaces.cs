@@ -309,7 +309,7 @@ namespace FoodandBeverage.Interfaces
         NormalBill = 1,
         BillCopy = 2,
         PickupBill=3,
-        Partybill=4
+        Partybill=4,
     }
     public enum PageType
     {
@@ -669,6 +669,19 @@ namespace FoodandBeverage.Interfaces
         UnitConversion = 35,
         VoidSale = 36
     }
+    public enum PaymentSettlementStatus
+    {
+        Settled = 1,
+        RefundDue = 2,
+        AdditionalDue = 3
+    }
+    public enum SaleCategory
+    {
+        Table = 1,
+        Pickup = 2,
+        PartyBooking = 3
+    }
+
 }
 
 

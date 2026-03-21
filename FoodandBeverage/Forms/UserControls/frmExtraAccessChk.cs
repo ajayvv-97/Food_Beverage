@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -52,6 +53,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.Region = System.Drawing.Region.FromHrgn(
                 CreateRoundRectRgn(0, 0, this.Width, this.Height, 20, 20)
             );
+
             //BllSearch<DmnComboBox> bllSearchBranch = new BllSearch<DmnComboBox>();
             //DmnSearch dmnSearchBranch = new DmnSearch();
             //dmnSearchBranch.Select = "LocId,Name";
@@ -62,8 +64,49 @@ namespace FoodandBeverage.Forms.UserControls
             //cboBranch.DisplayMember = "Value";
             //cboBranch.ValueMember = "Id";
             //cboBranch.SelectedIndex = 0;
+
             access = false;
+
         }
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                foreach (TextBox textBox in new TextBox[] { txtPwd, txtUserName })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    //textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        #endregion
 
         private void txtUserName_Enter(object sender, EventArgs e)
         {
@@ -309,6 +352,7 @@ namespace FoodandBeverage.Forms.UserControls
                         {
                             if (IsPasswordvalid())
                             {
+
                             #region retrieve data after login
 
                             FrmDataGridView<DmnGridFields> frmGridSearch = new FrmDataGridView<DmnGridFields>();

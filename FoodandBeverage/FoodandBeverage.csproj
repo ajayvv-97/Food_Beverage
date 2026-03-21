@@ -2017,6 +2017,8 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\userlock.png" />
+    <None Include="Resources\user_lock.png" />
     <None Include="Resources\error.png" />
     <None Include="Resources\success.png" />
     <None Include="Resources\information.png" />
