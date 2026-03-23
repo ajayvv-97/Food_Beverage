@@ -1781,7 +1781,7 @@ namespace FoodandBeverage.Forms
                     str1 = RemoveSpecialCharacters(str1.Trim());
                     if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact" || str1 == "InvalidCard")
                     {
-                        MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         pnlwifi.Visible = false;
                     }
                     else

@@ -621,7 +621,7 @@ namespace FoodandBeverage.Forms
             this.pnlcerti_view.Controls.Add(this.tableLayoutPanel1);
             this.pnlcerti_view.Location = new System.Drawing.Point(872, 50);
             this.pnlcerti_view.Name = "pnlcerti_view";
-            this.pnlcerti_view.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlcerti_view.Padding = new System.Windows.Forms.Padding(2);
             this.pnlcerti_view.Size = new System.Drawing.Size(368, 450);
             this.pnlcerti_view.TabIndex = 0;
             this.pnlcerti_view.Visible = false;
@@ -726,7 +726,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 3;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.65233F));
@@ -1299,7 +1299,7 @@ namespace FoodandBeverage.Forms
             this.pnl_certview.Controls.Add(this.tlp_certview);
             this.pnl_certview.Location = new System.Drawing.Point(272, 436);
             this.pnl_certview.Name = "pnl_certview";
-            this.pnl_certview.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.pnl_certview.Padding = new System.Windows.Forms.Padding(8);
             this.pnl_certview.Size = new System.Drawing.Size(427, 79);
             this.pnl_certview.TabIndex = 333;
             // 

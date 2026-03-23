@@ -192,7 +192,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 #region Void Order Items
-                DialogResult result = MessageBox.Show("Do you want to void this sale?","Void Confirmation",
+                DialogResult result = CMessageBox.Show("Do you want to void this sale?","Void Confirmation",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
                 );
@@ -205,7 +205,7 @@ namespace FoodandBeverage.Forms
                     dmn.Field1 = Convert.ToString(dgv_productlist.Rows[0].Cells[sid].Value);
 
                     bllfav.AddEditData_voidsale("prd_VoidSale", dmn);
-                    MessageBox.Show("Void Sale Successfull", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Void Sale Successfull", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dgv_productlist.Rows.Clear();
                     lblorderstatus.Visible = false;
                     return;

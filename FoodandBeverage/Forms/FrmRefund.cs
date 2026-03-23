@@ -287,20 +287,20 @@ namespace FoodandBeverage.Forms
             {
                 if (string.IsNullOrWhiteSpace(txtsalemasterid.Text))
                 {
-                    MessageBox.Show("Please select a bill before continuing.",
+                    CMessageBox.Show("Please select a bill before continuing.",
                         "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 if (cmbRefundPayType.SelectedIndex < 0)
                 {
-                    MessageBox.Show("Please select a refund Pay Type",
+                    CMessageBox.Show("Please select a refund Pay Type",
                         "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (cmbRefundReson.SelectedIndex == 0)
                 {
-                    MessageBox.Show("Please select a refund Reason",
+                    CMessageBox.Show("Please select a refund Reason",
                         "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -308,7 +308,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (string.IsNullOrWhiteSpace(txtRenote.Text))
                     {
-                        MessageBox.Show("Please enter a reason in the note box.",
+                        CMessageBox.Show("Please enter a reason in the note box.",
                             "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtRenote.Focus();
                         return;
@@ -318,7 +318,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (string.IsNullOrWhiteSpace(lblcashrefundamt.Text) || lblcashrefundamt.Text == "0.00")
                     {
-                        MessageBox.Show("Please Enter The Amount to Refund.",
+                        CMessageBox.Show("Please Enter The Amount to Refund.",
                             "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -326,7 +326,7 @@ namespace FoodandBeverage.Forms
                 }
                 if (cmbRefundPayType.SelectedIndex == 2 && Convert.ToString(lblcardno.Text) == "")
                 {
-                    MessageBox.Show("Please Click on card Tap.",
+                    CMessageBox.Show("Please Click on card Tap.",
                         "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -378,7 +378,7 @@ namespace FoodandBeverage.Forms
                 dmnRefund.CreatedDateTime = DateTime.Now;
                 var data = bllRefund.AddRefund("prdInsertRefund", dmnRefund);
                 if (data.Id > 0)
-                    MessageBox.Show("Refund Amount Completed",
+                    CMessageBox.Show("Refund Amount Completed",
                            "Success", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 clearall();
             }
@@ -425,7 +425,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (kdata > Convert.ToDecimal(lblnetamount.Text))
                     {
-                        MessageBox.Show("Refund Amount cannot be greater than Payable Amount",
+                        CMessageBox.Show("Refund Amount cannot be greater than Payable Amount",
                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else
@@ -475,7 +475,7 @@ namespace FoodandBeverage.Forms
                     str1 = RemoveSpecialCharacters(str1.Trim());
                     if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact" || str1 == "InvalidCard")
                     {
-                        MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         pnlwifi.Visible = false;
                     }
                     else
@@ -501,7 +501,7 @@ namespace FoodandBeverage.Forms
             {
                 if (CheckEmployeeCard(cardno))
                 {
-                    MessageBox.Show("Employee ID cards cannot be used for purchases or recharges.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Employee ID cards cannot be used for purchases or recharges.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -513,7 +513,7 @@ namespace FoodandBeverage.Forms
                         case CardType.FamilyCard:
                             if (!FrmDashboard.EnableFamilyCardInPayment)
                             {
-                                MessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 wificard_timer.Start();
                                 return;
                             }
@@ -535,7 +535,7 @@ namespace FoodandBeverage.Forms
                         case CardType.FamilyCardMaster:
                             if (!FrmDashboard.EnableFamilyCardInPayment)
                             {
-                                MessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Family card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 wificard_timer.Start();
                                 return;
                             }
@@ -564,14 +564,14 @@ namespace FoodandBeverage.Forms
                         case CardType.GroupCard:
                             if (!FrmDashboard.EnableGroupCardInPayment)
                             {
-                                MessageBox.Show("Group Sale card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("Group Sale card payment option is disabled.", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 wificard_timer.Start();
                                 return;
                             }
                             if (CheckGroupsaleExpire(cardno))
                             {
                                 wificard_timer.Stop();
-                                MessageBox.Show("This Group Sale Card has expired or has no active member.\nPayment cannot be processed for expired cards.", "Group Card Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                CMessageBox.Show("This Group Sale Card has expired or has no active member.\nPayment cannot be processed for expired cards.", "Group Card Expired", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return;
                             }
                             CardTypeno = Convert.ToInt32(CardType.GroupCard);
@@ -581,7 +581,7 @@ namespace FoodandBeverage.Forms
                             break;
 
                         default:
-                            MessageBox.Show("Invalid or unknown card type.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            CMessageBox.Show("Invalid or unknown card type.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                     }
                     objSearch.OrderBy = "";

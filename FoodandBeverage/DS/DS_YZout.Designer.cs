@@ -1741,6 +1741,16 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnTotalFoodDamageAmt;
             
+            private global::System.Data.DataColumn columnTotalCashRefund;
+            
+            private global::System.Data.DataColumn columnTotalUpiRefund;
+            
+            private global::System.Data.DataColumn columnTotalBankingRefund;
+            
+            private global::System.Data.DataColumn columnTotalCreditCardRefund;
+            
+            private global::System.Data.DataColumn columnTotalDebitCardRefund;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_ReturnDataTable() {
@@ -1824,6 +1834,46 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalCashRefundColumn {
+                get {
+                    return this.columnTotalCashRefund;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalUpiRefundColumn {
+                get {
+                    return this.columnTotalUpiRefund;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalBankingRefundColumn {
+                get {
+                    return this.columnTotalBankingRefund;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalCreditCardRefundColumn {
+                get {
+                    return this.columnTotalCreditCardRefund;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalDebitCardRefundColumn {
+                get {
+                    return this.columnTotalDebitCardRefund;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1859,7 +1909,7 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public DT_ReturnRow AddDT_ReturnRow(decimal TotalRtnCash, decimal TotalRtnCard, int TotalRtnQty, decimal TotalRtnAmt, int TotalFooddamageQty, decimal TotalFoodDamageAmt) {
+            public DT_ReturnRow AddDT_ReturnRow(decimal TotalRtnCash, decimal TotalRtnCard, int TotalRtnQty, decimal TotalRtnAmt, int TotalFooddamageQty, decimal TotalFoodDamageAmt, decimal TotalCashRefund, decimal TotalUpiRefund, decimal TotalBankingRefund, decimal TotalCreditCardRefund, decimal TotalDebitCardRefund) {
                 DT_ReturnRow rowDT_ReturnRow = ((DT_ReturnRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         TotalRtnCash,
@@ -1867,7 +1917,12 @@ namespace FoodandBeverage.DS {
                         TotalRtnQty,
                         TotalRtnAmt,
                         TotalFooddamageQty,
-                        TotalFoodDamageAmt};
+                        TotalFoodDamageAmt,
+                        TotalCashRefund,
+                        TotalUpiRefund,
+                        TotalBankingRefund,
+                        TotalCreditCardRefund,
+                        TotalDebitCardRefund};
                 rowDT_ReturnRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_ReturnRow);
                 return rowDT_ReturnRow;
@@ -1896,6 +1951,11 @@ namespace FoodandBeverage.DS {
                 this.columnTotalRtnAmt = base.Columns["TotalRtnAmt"];
                 this.columnTotalFooddamageQty = base.Columns["TotalFooddamageQty"];
                 this.columnTotalFoodDamageAmt = base.Columns["TotalFoodDamageAmt"];
+                this.columnTotalCashRefund = base.Columns["TotalCashRefund"];
+                this.columnTotalUpiRefund = base.Columns["TotalUpiRefund"];
+                this.columnTotalBankingRefund = base.Columns["TotalBankingRefund"];
+                this.columnTotalCreditCardRefund = base.Columns["TotalCreditCardRefund"];
+                this.columnTotalDebitCardRefund = base.Columns["TotalDebitCardRefund"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1913,6 +1973,16 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnTotalFooddamageQty);
                 this.columnTotalFoodDamageAmt = new global::System.Data.DataColumn("TotalFoodDamageAmt", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalFoodDamageAmt);
+                this.columnTotalCashRefund = new global::System.Data.DataColumn("TotalCashRefund", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalCashRefund);
+                this.columnTotalUpiRefund = new global::System.Data.DataColumn("TotalUpiRefund", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalUpiRefund);
+                this.columnTotalBankingRefund = new global::System.Data.DataColumn("TotalBankingRefund", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalBankingRefund);
+                this.columnTotalCreditCardRefund = new global::System.Data.DataColumn("TotalCreditCardRefund", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalCreditCardRefund);
+                this.columnTotalDebitCardRefund = new global::System.Data.DataColumn("TotalDebitCardRefund", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalDebitCardRefund);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2967,6 +3037,86 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalCashRefund {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalCashRefundColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalCashRefund\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalCashRefundColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalUpiRefund {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalUpiRefundColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalUpiRefund\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalUpiRefundColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalBankingRefund {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalBankingRefundColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalBankingRefund\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalBankingRefundColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalCreditCardRefund {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalCreditCardRefundColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalCreditCardRefund\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalCreditCardRefundColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalDebitCardRefund {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_Return.TotalDebitCardRefundColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalDebitCardRefund\' in table \'DT_Return\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Return.TotalDebitCardRefundColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsTotalRtnCashNull() {
                 return this.IsNull(this.tableDT_Return.TotalRtnCashColumn);
             }
@@ -3035,6 +3185,66 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetTotalFoodDamageAmtNull() {
                 this[this.tableDT_Return.TotalFoodDamageAmtColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalCashRefundNull() {
+                return this.IsNull(this.tableDT_Return.TotalCashRefundColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalCashRefundNull() {
+                this[this.tableDT_Return.TotalCashRefundColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalUpiRefundNull() {
+                return this.IsNull(this.tableDT_Return.TotalUpiRefundColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalUpiRefundNull() {
+                this[this.tableDT_Return.TotalUpiRefundColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalBankingRefundNull() {
+                return this.IsNull(this.tableDT_Return.TotalBankingRefundColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalBankingRefundNull() {
+                this[this.tableDT_Return.TotalBankingRefundColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalCreditCardRefundNull() {
+                return this.IsNull(this.tableDT_Return.TotalCreditCardRefundColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalCreditCardRefundNull() {
+                this[this.tableDT_Return.TotalCreditCardRefundColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalDebitCardRefundNull() {
+                return this.IsNull(this.tableDT_Return.TotalDebitCardRefundColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalDebitCardRefundNull() {
+                this[this.tableDT_Return.TotalDebitCardRefundColumn] = global::System.Convert.DBNull;
             }
         }
         

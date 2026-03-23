@@ -298,7 +298,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+
             }
         }
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
@@ -380,7 +380,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CCMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Partypacksetup page cmbTaxType_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
@@ -407,7 +407,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CCMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Partypacksetup page cmbIgstPrcnt_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
@@ -509,7 +509,7 @@ namespace FoodandBeverage.Forms
 
                     if (!saveStatus)
                     {
-                        MessageBox.Show($"Failed to save package time for {days[i - 1]}","Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        CMessageBox.Show($"Failed to save package time for {days[i - 1]}","Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
                         return;
                     }
                 }

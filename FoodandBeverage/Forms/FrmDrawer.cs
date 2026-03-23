@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Forms.UserControls;
@@ -103,7 +104,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Convert.ToDecimal(txtloanamt.Text) > Convert.ToDecimal(txtinitialamt.Text))
                 {
-                    MessageBox.Show("Loan amount should not be greater than initial amount.",
+                    CMessageBox.Show("Loan amount should not be greater than initial amount.",
                                     "Information",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Warning);
@@ -111,13 +112,13 @@ namespace FoodandBeverage.Forms
                 }
                 if (flagDrawerF && string.IsNullOrWhiteSpace(txtstaffname.Text))
                 {
-                    MessageBox.Show("Please select Employee", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please select Employee", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtstaffname.Focus();
                     return false;
                 }
                 if (string.IsNullOrWhiteSpace(txtinitialamt.Text) || Convert.ToDecimal(txtinitialamt.Text) == 0)
                 {
-                    MessageBox.Show("Please Enter Initial Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please Enter Initial Amount", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
 
@@ -126,7 +127,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 //clsg.LogException("Admin page MandatoryCheckDrawer()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.Admin));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -168,7 +169,7 @@ namespace FoodandBeverage.Forms
                         if (txtdrawerid.Text == null || txtdrawerid.Text == "0")
                         {
                             DrawerID = InsertStatus.Id;
-                            MessageBox.Show("Drawer Assign Completed", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CMessageBox.Show("Drawer Assign Completed", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             txtinitialamt.ReadOnly = true;
                             ShowDrawerEmployee();
                             this.Close();   
@@ -176,13 +177,13 @@ namespace FoodandBeverage.Forms
                         else
                         {
                             DrawerID = Convert.ToInt32(txtdrawerid.Text);
-                            MessageBox.Show("Update Sucessfull", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CMessageBox.Show("Update Sucessfull", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Close();
                         }
         
                     }
                     else
-                        MessageBox.Show("Assign Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Assign Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     if (DrawerID > 0)
                     {
@@ -247,7 +248,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                // MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Drawer page  ShowDrawerEmployee()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Drawer));
             }
 
@@ -304,7 +305,7 @@ namespace FoodandBeverage.Forms
                     int eid = Convert.ToInt32(returnValue);
                     if (DrawerCheckBranch(eid))
                     {
-                        MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        CMessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         return;
                     }
 
@@ -327,7 +328,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 ///clsg.LogException("Admin page  StaffPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.Admin));
-                ////MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ////CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -341,7 +342,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 //clsg.LogException("Admin page txtstaffname_KeyDown", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.Admin));
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public string RemoveSpecialCharacters(string str)
@@ -361,7 +362,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 //clsg.LogException("Admin page  RemoveSpecialCharacters()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.Admin));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return "";
             }
 
@@ -381,14 +382,14 @@ namespace FoodandBeverage.Forms
                 {
                     if (DrawerCheckBranch(Convert.ToInt32(itemSource[0].Field1)))
                     {
-                        MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        CMessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         return;
                     }
                     else
                     {
                         if (Checkcardstatus(cardno) == false)
                         {
-                            MessageBox.Show("Staff Details Not Found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CMessageBox.Show("Staff Details Not Found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
                         }
                     }
@@ -397,7 +398,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //clsg.LogException("Admin page FetchDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosForm.Admin));
             }
         }
@@ -422,14 +423,14 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    MessageBox.Show(this, "Invalid card number. Please try again.", "Card Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show(this, "Invalid card number. Please try again.", "Card Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 return false;
             }
             catch (Exception ex)
             {
                 //clsg.LogException("Admin page  Checkcardstatus()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.Admin));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -449,7 +450,7 @@ namespace FoodandBeverage.Forms
                     str1 = RemoveSpecialCharacters(str1.Trim());
                     if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact" || str1 == "InvalidCard")
                     {
-                        MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
@@ -461,7 +462,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 // clsg.LogException("Admin page  timer1_Tick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.Admin));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

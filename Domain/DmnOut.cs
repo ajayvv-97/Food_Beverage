@@ -54,6 +54,12 @@ namespace Domain
         public decimal TotalRtnCard { get; set; }
         public int TotalFooddamagQty { get; set; }
 
+        public decimal TotalCashRefund { get; set; }
+        public decimal TotalUpiRefund { get; set; }
+        public decimal TotalBankingRefund { get; set; }
+        public decimal TotalCreditCardRefund { get; set; }
+        public decimal TotalDebitCardRefund { get; set; }
+
     }
 }
 

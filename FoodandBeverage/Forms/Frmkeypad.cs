@@ -36,7 +36,7 @@ namespace FoodandBeverage.Forms.UserAccount
                 if (string.IsNullOrWhiteSpace(cardNumber))
                 {
                     // Show an error message to the user
-                    MessageBox.Show("Please enter RFID Card No.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CMessageBox.Show("Please enter RFID Card No.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtkeypadno.Focus();
                     return;
                 }
@@ -44,7 +44,7 @@ namespace FoodandBeverage.Forms.UserAccount
                 {
                     int currentPosition = txtkeypadno.SelectionStart;
                     // Show an error message to the user
-                    MessageBox.Show("RFID Card No. must contain exactly 16 digits.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CMessageBox.Show("RFID Card No. must contain exactly 16 digits.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtkeypadno.Focus();
                     txtkeypadno.Select(currentPosition, 0); // Move the cursor to the last position
                     return;
@@ -62,7 +62,6 @@ namespace FoodandBeverage.Forms.UserAccount
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsGen.LogException("Keypad Page mbtnSave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Keypad));
             }
         }

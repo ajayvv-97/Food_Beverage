@@ -734,7 +734,7 @@ namespace FoodandBeverage.Forms
                     var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                     if (itemSource.Count > 0)
                     {
-                        MessageBox.Show("Department Name Already Exist", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Department Name Already Exist", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         mtxtName.Text = "";
                     }
                 }

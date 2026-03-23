@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using FoodandBeverage.Forms.UserControls;
 using FoodandBeverage.Forms;
+using CustomMessageBox;
 
 namespace FoodandBeverage.Classes
 {
@@ -40,7 +41,7 @@ namespace FoodandBeverage.Classes
                     {
                         progressForm.Invoke((Action)(() =>
                         {
-                            MessageBox.Show("Error installing Crystal Reports: " + ex.Message,
+                            CMessageBox.Show("Error installing Crystal Reports: " + ex.Message,
                                             "Installer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }));
                     }
@@ -56,7 +57,7 @@ namespace FoodandBeverage.Classes
 
                             if (installedSomething)
                             {
-                                DialogResult dr = MessageBox.Show(
+                                DialogResult dr = CMessageBox.Show(
                                     "Crystal Reports runtime was installed successfully.\n\n" +
                                     "The application needs to restart for changes to take effect.\n\n" +
                                     "Do you want to restart now?",

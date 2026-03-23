@@ -1770,7 +1770,7 @@ namespace FoodandBeverage.Forms
             if (e.RowIndex < 0) return;
             if (e.ColumnIndex == deleteorderno)
             {
-                if (MessageBox.Show("Are you sure you want to cancel this order?",
+                if (CMessageBox.Show("Are you sure you want to cancel this order?",
                      "Cancel Order",
                      MessageBoxButtons.YesNo,
                      MessageBoxIcon.Warning) == DialogResult.Yes)

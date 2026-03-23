@@ -3118,7 +3118,7 @@ namespace FoodandBeverage.Forms
             // Mandatory textbox check
             if (string.IsNullOrWhiteSpace(txtsearchData.Text))
             {
-                MessageBox.Show("Please enter search text.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please enter search text.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtsearchData.Focus();
                 return;
             }
@@ -3126,7 +3126,7 @@ namespace FoodandBeverage.Forms
             // Mandatory combobox check
             if (cmbserachtype.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select search type.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please select search type.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbserachtype.DroppedDown = true;
                 return;
             }

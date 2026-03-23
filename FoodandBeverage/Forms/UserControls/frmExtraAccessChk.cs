@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
@@ -116,7 +117,6 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Extra Aceess txtUserName_Enter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
 
             }
@@ -131,7 +131,6 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Extra login Access page txtUserName_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
 
             }
@@ -174,7 +173,7 @@ namespace FoodandBeverage.Forms.UserControls
                     }
                     else if (userdetails.Rows.Count <= 0)
                     {
-                        MessageBox.Show("Invalid UserName", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Invalid UserName", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         txtUserName.Text = "";
                         txtUserName.Focus();
                     }
@@ -199,7 +198,6 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Login page txtUserName_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
 
             }
@@ -211,7 +209,7 @@ namespace FoodandBeverage.Forms.UserControls
             {
                 if (string.IsNullOrWhiteSpace(txtUserName.Text))
                 {
-                    MessageBox.Show(this, "User is Empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CMessageBox.Show(this, "User is Empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtPwd.Text = "";
                     txtUserName.Focus();
                 }
@@ -221,7 +219,7 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 objGeneral.LogException("Login page txtPwd_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
 
             }
@@ -235,7 +233,7 @@ namespace FoodandBeverage.Forms.UserControls
                 {
                     if (!IsPasswordvalid() && !string.IsNullOrWhiteSpace(txtPwd.Text.Trim()) && !string.IsNullOrWhiteSpace(txtUserName.Text.Trim()))
                     {
-                        MessageBox.Show(this, "Invalid Password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show(this, "Invalid Password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         txtPwd.Text = "";
                         txtPwd.Focus();
                     }
@@ -253,7 +251,6 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Login page txtPwd_Leave()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
 
             }
@@ -285,8 +282,7 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                objGeneral.LogException("Login page IsUsernameValid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
+                    objGeneral.LogException("Login page IsUsernameValid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
                 return false;
             }
         }
@@ -318,7 +314,6 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Login page IsPasswordvalid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
                 return false;
             }
@@ -333,7 +328,7 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 objGeneral.LogException("Login page cboBranch_KeyDown()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
 
 
@@ -367,7 +362,7 @@ namespace FoodandBeverage.Forms.UserControls
                             int Allaccess = Convert.ToInt32(userDetails["Field7", 0].Value);
                             if (Allaccess != 1)
                             {
-                                MessageBox.Show(this, "\nInvalid credentials", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                CMessageBox.Show(this, "\nInvalid credentials", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 txtUserName.Focus();
                                 access = false;
                             }
@@ -394,7 +389,7 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 objGeneral.LogException("Login page btnLogin_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
 
             }
@@ -415,7 +410,6 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Login page IsValid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
                 return false;
             }
@@ -440,7 +434,7 @@ namespace FoodandBeverage.Forms.UserControls
                     str1 = RemoveSpecialCharacters(str1.Trim());
                     if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "Cardnotincontact" || str1 == "InvalidCard")
                     {
-                        MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     else
@@ -474,7 +468,6 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Login page timer1_Tick_1()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
 
             }
@@ -495,7 +488,6 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Extra Login Access page RemoveSpecialCharacters()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
                 return string.Empty;
             }
@@ -518,10 +510,14 @@ namespace FoodandBeverage.Forms.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 objGeneral.LogException("Extra Login Access  page  ProcessCmdKey()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.ExtraLoginAccess));
                 return false;
             }
+        }
+
+        private void btncancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

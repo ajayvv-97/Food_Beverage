@@ -40,5 +40,12 @@ namespace Domain
         public int PartyBookingId { get; set; }
         public decimal RefundAmount { get; set; }
         public int RefundMode { get; set; }
+
+        public decimal TotalCashRefund { get; set; }
+        public decimal TotalUpiRefund { get; set; }
+        public decimal TotalBankingRefund { get; set; }
+        public decimal TotalCreditCardRefund { get; set; }
+        public decimal TotalDebitCardRefund { get; set; }
+
     }
 }

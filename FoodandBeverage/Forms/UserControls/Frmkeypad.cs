@@ -1,4 +1,5 @@
-﻿using FoodandBeverage.Classes;
+﻿using CustomMessageBox;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -437,7 +438,7 @@ namespace FoodandBeverage.Forms.UserControl
                 if (string.IsNullOrWhiteSpace(cardNumber))
                 {
                     // Show an error message to the user
-                    MessageBox.Show("Please Enter Rfid Card No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CMessageBox.Show("Please Enter Rfid Card No", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtkeypadno.Focus();
                     return;
                 }
@@ -445,7 +446,7 @@ namespace FoodandBeverage.Forms.UserControl
                 {
                     int currentPosition = txtkeypadno.SelectionStart;
                     // Show an error message to the user
-                    MessageBox.Show("Rfid Card No must contain exactly 10 Digits.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CMessageBox.Show("Rfid Card No must contain exactly 10 Digits.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtkeypadno.Focus();
                     txtkeypadno.Select(currentPosition, 0); // Move the cursor to the last position
                     return;
@@ -454,7 +455,7 @@ namespace FoodandBeverage.Forms.UserControl
                 {
                     if (cardNumber == "0000000000")
                     {
-                        MessageBox.Show("Please enter a valid RFID card number.", "Invalid RFID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please enter a valid RFID card number.", "Invalid RFID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtkeypadno.Focus();
                         return;
                     }

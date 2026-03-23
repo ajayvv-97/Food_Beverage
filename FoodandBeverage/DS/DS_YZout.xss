@@ -10,7 +10,7 @@
     <Shape ID="DesignTable:DT_Header" ZOrder="4" X="554" Y="42" Height="124" Width="150" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="120" />
     <Shape ID="DesignTable:DT_Drawer" ZOrder="3" X="212" Y="43" Height="105" Width="150" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="101" />
     <Shape ID="DesignTable:DT_Geninfo" ZOrder="2" X="390" Y="43" Height="257" Width="150" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="253" />
-    <Shape ID="DesignTable:DT_Return" ZOrder="1" X="733" Y="43" Height="163" Width="187" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="159" />
+    <Shape ID="DesignTable:DT_Return" ZOrder="1" X="733" Y="43" Height="238" Width="164" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="234" />
   </Shapes>
   <Connectors />
 </DiagramLayout>

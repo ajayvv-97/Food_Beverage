@@ -113,7 +113,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
 
@@ -452,7 +452,7 @@ namespace FoodandBeverage.Forms
 
                 if (string.IsNullOrEmpty(productName))
                 {
-                    MessageBox.Show("Enter product name");
+                    CMessageBox.Show("Enter product name");
                     return;
                 }
 
@@ -680,7 +680,7 @@ namespace FoodandBeverage.Forms
 
                 if (string.IsNullOrEmpty(widthValue) || string.IsNullOrEmpty(heightValue))
                 {
-                    MessageBox.Show("Width and Height required");
+                    CMessageBox.Show("Width and Height required");
                     return;
                 }
 
@@ -694,11 +694,11 @@ namespace FoodandBeverage.Forms
                 config.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection("appSettings");
 
-                MessageBox.Show("Design settings saved successfully.");
+                CMessageBox.Show("Design settings saved successfully.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
         private void SetAppSetting(Configuration config, string key, string value)

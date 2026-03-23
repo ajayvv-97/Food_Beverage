@@ -1190,7 +1190,7 @@ namespace FoodandBeverage.Forms
 
                 string actionText = currentStatus ? "Disable" : "Activate";
 
-                DialogResult dr = MessageBox.Show(
+                DialogResult dr = CMessageBox.Show(
                     $"Are you sure you want to {actionText} this menu item?",
                     "Confirm",
                     MessageBoxButtons.YesNo,
@@ -1211,7 +1211,7 @@ namespace FoodandBeverage.Forms
                     bllmenu.SetMenuActiveStatus("prdUpdate_MenuStatus", dmnmenu);
                     row.Cells[pstatusno].Value = !currentStatus;
                     row.Cells[pactiveinactiveno].Value = !currentStatus ? "Disable" : "Activate";
-                    MessageBox.Show("Menu item successfully " + row.Cells[pactiveinactiveno].Value, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Menu item successfully " + row.Cells[pactiveinactiveno].Value, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (currentStatus)
                     {
                         // Currently active: show "Disable" in red
@@ -1240,7 +1240,7 @@ namespace FoodandBeverage.Forms
                     bllmenu.SetMenuActiveStatus("prdUpdate_MenuStatus", dmnmenu);
                     row.Cells[pstatusno].Value = !currentStatus;
                     row.Cells[pactiveinactiveno].Value = !currentStatus ? "Disable" : "Activate";
-                    MessageBox.Show("Menu item successfully " + row.Cells[pactiveinactiveno].Value, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Menu item successfully " + row.Cells[pactiveinactiveno].Value, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (currentStatus)
                     {
                         // Currently active: show "Disable" in red

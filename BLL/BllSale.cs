@@ -141,6 +141,7 @@ namespace BLL
             parms.Add("@PartyBookingId", obj.PartyBookingId);
             parms.Add("@EntryNo", obj.EntryNo);
             parms.Add("@EntryDate", obj.EntryDate);
+            //parms.Add("@CreatedDateTime", obj.CreatedDateTime);
 
             parms.Add("@TotalQuantity", obj.TotQty);
             parms.Add("@TotalAmount", obj.TotalAmnt);

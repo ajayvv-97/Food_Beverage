@@ -151,7 +151,7 @@ namespace FoodandBeverage.Forms
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.53659F));
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.46341F));
             this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
-            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tlp_custom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlp_custom.Controls.Add(this.lblDebitLedgerId, 0, 2);
             this.tlp_custom.Controls.Add(this.lblFMCardType, 3, 1);
             this.tlp_custom.Controls.Add(this.lblCardType, 3, 0);
@@ -184,7 +184,7 @@ namespace FoodandBeverage.Forms
             // lblFMCardType
             // 
             this.lblFMCardType.AutoSize = true;
-            this.lblFMCardType.Location = new System.Drawing.Point(562, 15);
+            this.lblFMCardType.Location = new System.Drawing.Point(561, 15);
             this.lblFMCardType.Name = "lblFMCardType";
             this.lblFMCardType.Size = new System.Drawing.Size(0, 13);
             this.lblFMCardType.TabIndex = 7;
@@ -193,7 +193,7 @@ namespace FoodandBeverage.Forms
             // lblCardType
             // 
             this.lblCardType.AutoSize = true;
-            this.lblCardType.Location = new System.Drawing.Point(562, 0);
+            this.lblCardType.Location = new System.Drawing.Point(561, 0);
             this.lblCardType.Name = "lblCardType";
             this.lblCardType.Size = new System.Drawing.Size(0, 13);
             this.lblCardType.TabIndex = 6;
@@ -230,7 +230,7 @@ namespace FoodandBeverage.Forms
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.label4.Location = new System.Drawing.Point(186, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(189, 15);
+            this.label4.Size = new System.Drawing.Size(188, 15);
             this.label4.TabIndex = 1;
             this.label4.Text = "Refund Balance";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -240,7 +240,7 @@ namespace FoodandBeverage.Forms
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.label5.Location = new System.Drawing.Point(381, 0);
+            this.label5.Location = new System.Drawing.Point(380, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(175, 15);
             this.label5.TabIndex = 2;
@@ -255,7 +255,7 @@ namespace FoodandBeverage.Forms
             this.lblrefunbalance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblrefunbalance.Location = new System.Drawing.Point(186, 15);
             this.lblrefunbalance.Name = "lblrefunbalance";
-            this.lblrefunbalance.Size = new System.Drawing.Size(189, 32);
+            this.lblrefunbalance.Size = new System.Drawing.Size(188, 32);
             this.lblrefunbalance.TabIndex = 3;
             this.lblrefunbalance.Text = "label8";
             this.lblrefunbalance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -265,7 +265,7 @@ namespace FoodandBeverage.Forms
             this.lblcardno.AutoSize = true;
             this.lblcardno.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblcardno.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblcardno.Location = new System.Drawing.Point(381, 15);
+            this.lblcardno.Location = new System.Drawing.Point(380, 15);
             this.lblcardno.Name = "lblcardno";
             this.lblcardno.Size = new System.Drawing.Size(175, 32);
             this.lblcardno.TabIndex = 5;

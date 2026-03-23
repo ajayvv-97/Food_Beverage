@@ -3038,7 +3038,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Please select variation and enter valid price.", "Validation",
+                    CMessageBox.Show("Please select variation and enter valid price.", "Validation",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
@@ -3306,7 +3306,7 @@ namespace FoodandBeverage.Forms
 
                 if (gridSource.Count == 0)
                 {
-                    MessageBox.Show("No Records Found");
+                    CMessageBox.Show("No Records Found");
                 }
                 else
                 {
@@ -3333,7 +3333,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
         private void LoadVariationById(int productId)
@@ -3376,7 +3376,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
 
@@ -3397,11 +3397,11 @@ namespace FoodandBeverage.Forms
 
                 dgv_variation.Rows.RemoveAt(dgv_variation.CurrentRow.Index);
 
-                MessageBox.Show("Deleted Successfully");
+                CMessageBox.Show("Deleted Successfully");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
         private void SaveVariation()
@@ -3432,7 +3432,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
         private void LoadVariationCombo()
@@ -3459,7 +3459,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
         private void dgv_variation_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -3482,7 +3482,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
         private void dgv_variation_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -3559,7 +3559,7 @@ namespace FoodandBeverage.Forms
                 if (e.RowIndex < 0) return;
                 if (e.ColumnIndex != Vactionno) return;
 
-                DialogResult result = MessageBox.Show(
+                DialogResult result = CMessageBox.Show(
                     "Are you sure you want to delete this row?",
                     "Confirm Delete",
                     MessageBoxButtons.YesNo,
@@ -3684,7 +3684,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
 

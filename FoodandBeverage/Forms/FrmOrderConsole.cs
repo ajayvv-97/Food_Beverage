@@ -4490,7 +4490,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+
             }
         }
         private string GetVariationName(int variationId)
@@ -4686,7 +4686,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -6368,7 +6367,7 @@ namespace FoodandBeverage.Forms
 
                     if (saleAmount > grossTotal)
                     {
-                        MessageBox.Show("Discount amount cannot be greater than total amount",
+                        CMessageBox.Show("Discount amount cannot be greater than total amount",
                                         "Invalid Discount",
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Warning);
@@ -9159,7 +9158,6 @@ namespace FoodandBeverage.Forms
                                     else
                                         dmnordermaster.Status = 3;
 
-
                                     dmnordermaster.Tid = tableId;
 
                                     if (Convert.ToInt32(txtsalemasterid.Text) > 0)
@@ -9544,6 +9542,7 @@ namespace FoodandBeverage.Forms
                                             var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                                         }
                                     }
+
                                     #region To Save partpayment Table 
                                     if (payid == Convert.ToInt32(PaymentType.SPLIT))
                                     {
@@ -9576,6 +9575,7 @@ namespace FoodandBeverage.Forms
                                         }
                                     }
                                     #endregion
+
                                     #region Midascard
                                     if (payid == Convert.ToInt32(PaymentType.MidasCard))
                                     {

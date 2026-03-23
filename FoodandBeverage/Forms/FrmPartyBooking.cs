@@ -4296,6 +4296,7 @@ namespace FoodandBeverage
                 setperfixsale();
                 sale.EntryNo = txtinvoiceno.Text;
                 sale.EntryDate = dtpEventDate.Value.Date.Add(dtpEventTime.Value.TimeOfDay);
+                //sale.CreatedDateTime = dtpEventDate.Value.Date.Add(dtpEventTime.Value.TimeOfDay); 
 
                 #region Customer Info
                 sale.FirstName = txtname.Text;
@@ -5636,6 +5637,7 @@ namespace FoodandBeverage
                     dmnRefund.RefundAmount = Convert.ToDecimal(txtrefundamt.Text);
                 else
                     dmnRefund.RefundAmount = Convert.ToDecimal(txtrefundamt.Text);
+
                 dmnRefund.RefundMode = refundMode;
                 dmnRefund.RefundReason = 5;
                 dmnRefund.ReasonNote = txtRenote.Text;
@@ -6704,7 +6706,7 @@ namespace FoodandBeverage
             // Description
             if (string.IsNullOrWhiteSpace(txtextracharge_des.Text))
             {
-                MessageBox.Show("Please enter Description", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please enter Description", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtextracharge_des.Focus();
                 return false;
             }
@@ -6713,7 +6715,7 @@ namespace FoodandBeverage
             if (string.IsNullOrWhiteSpace(txtextracharge_amt.Text) ||
                 !decimal.TryParse(txtextracharge_amt.Text, out amt) || amt <= 0)
             {
-                MessageBox.Show("Please enter valid Extra Charge Amount", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please enter valid Extra Charge Amount", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtextracharge_amt.Focus();
                 return false;
             }
@@ -6721,7 +6723,7 @@ namespace FoodandBeverage
             // Tax Mode (Inclusive / Exclusive)
             if (cmbtax.SelectedIndex < 0)
             {
-                MessageBox.Show("Please select Tax Mode (Inclusive / Exclusive)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please select Tax Mode (Inclusive / Exclusive)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbtax.Focus();
                 return false;
             }
@@ -6729,7 +6731,7 @@ namespace FoodandBeverage
             // Tax Type
             if (cmbTaxType.SelectedIndex < 0)
             {
-                MessageBox.Show("Please select Tax Type (GST / VAT)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("Please select Tax Type (GST / VAT)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbTaxType.Focus();
                 return false;
             }    
@@ -6740,7 +6742,7 @@ namespace FoodandBeverage
             {
                 if (cmbIgstPrcnt.SelectedIndex < 0)
                 {
-                    MessageBox.Show("Please select IGST %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please select IGST %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbIgstPrcnt.Focus();
                     return false;
                 }
@@ -6749,7 +6751,7 @@ namespace FoodandBeverage
             {
                 if (cmbVatPrcnt.SelectedIndex < 0)
                 {
-                    MessageBox.Show("Please select VAT %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please select VAT %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbVatPrcnt.Focus();
                     return false;
                 }

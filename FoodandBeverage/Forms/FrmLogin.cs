@@ -877,7 +877,7 @@ namespace FoodandBeverage.Forms
             if (username == validUser && password == validPass)
             {
                 pnlDBLogin.Visible = false;
-                MessageBox.Show("Login successful!", "Authentication", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CMessageBox.Show("Login successful!", "Authentication", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (File.Exists(configPath))
                 {
                     string savedConnection = File.ReadAllText(configPath).Trim();
@@ -892,7 +892,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                MessageBox.Show("Invalid username or password.", "Authentication Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("Invalid username or password.", "Authentication Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -907,7 +907,7 @@ namespace FoodandBeverage.Forms
 
                 if (string.IsNullOrWhiteSpace(newConnection))
                 {
-                    MessageBox.Show("Please enter a connection string before saving.",
+                    CMessageBox.Show("Please enter a connection string before saving.",
                                     "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -915,7 +915,7 @@ namespace FoodandBeverage.Forms
                 // Save to file
                 File.WriteAllText(configPath, newConnection);
 
-                MessageBox.Show("✅ New database connection has been saved successfully!",
+                CMessageBox.Show("✅ New database connection has been saved successfully!",
                                 "DB Config Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 if (File.Exists(configPath))
@@ -928,7 +928,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("❌ Failed to save database connection!\n\nError: " + ex.Message,"DB Config Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show("❌ Failed to save database connection!\n\nError: " + ex.Message,"DB Config Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -938,7 +938,7 @@ namespace FoodandBeverage.Forms
 
             if (!File.Exists(configPath))
             {
-                MessageBox.Show("Database settings file not found:\n" + configPath,
+                CMessageBox.Show("Database settings file not found:\n" + configPath,
                                 "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -952,12 +952,12 @@ namespace FoodandBeverage.Forms
                     connection.Open();
                     if (connection.State == ConnectionState.Open)
                     {
-                        MessageBox.Show("✅ Database connection successful!",
+                        CMessageBox.Show("✅ Database connection successful!",
                                         "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show("⚠ Database connection could not be established.",
+                        CMessageBox.Show("⚠ Database connection could not be established.",
                                         "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }

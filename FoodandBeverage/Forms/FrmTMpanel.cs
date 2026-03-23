@@ -1,4 +1,5 @@
 ﻿using BLL;
+using CustomMessageBox;
 using Dapper;
 using Domain;
 using FoodandBeverage.Classes;
@@ -271,17 +272,17 @@ namespace FoodandBeverage.Forms
             {
                 if (lblfrompayid.Text == cmbpaymode.SelectedValue.ToString())
                 {
-                    MessageBox.Show("No changes in payment mode to save.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("No changes in payment mode to save.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txtremarks.Text))
                 {
-                    MessageBox.Show("Please Enter Reason ", "Information ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please Enter Reason ", "Information ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtremarks.Focus();
                     return;
                 }
-                DialogResult result = MessageBox.Show("Are you sure you want to save this record?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = CMessageBox.Show("Are you sure you want to save this record?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                     DmnPaymentAdjustments dmnsalemaster = new DmnPaymentAdjustments();
@@ -310,21 +311,21 @@ namespace FoodandBeverage.Forms
                         FillData();
 
                         if (FrmDashboard.UserSavePrompt)
-                            MessageBox.Show("Record saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CMessageBox.Show("Record saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         pnl_actionpanel.Visible = false;
                         txtremarks.Text = "";
                     }
                     else
                     {
-                        MessageBox.Show("Operation cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Operation cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
 
 
                 else
                 {
-                    MessageBox.Show("Operation cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Operation cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch(Exception ex)
@@ -448,7 +449,7 @@ namespace FoodandBeverage.Forms
                         lblserach_caption.Visible = false;
                         txtSearchBox.Visible = false;
                         cmbstype.Visible = false;
-                        //MessageBox.Show("Invalid selection.");
+                        //CMessageBox.Show("Invalid selection.");
                     }
                 }
             }
@@ -486,7 +487,7 @@ namespace FoodandBeverage.Forms
 
                 if (fromDateTime > toDateTime)
                 {
-                    MessageBox.Show("The 'From Date & Time' cannot be later than the 'To Date & Time'.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("The 'From Date & Time' cannot be later than the 'To Date & Time'.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dtppicker_from.Focus();
                     return;
                 }
@@ -502,7 +503,7 @@ namespace FoodandBeverage.Forms
                         _objSearch.WhereNdGroupBy += $" AND EntryNo LIKE '%{invoiceNo}%'";
                     else
                     {
-                        MessageBox.Show("Please enter an Invoice No to search.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please enter an Invoice No to search.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtSearchBox.Focus();
                         return;
                     }
@@ -511,7 +512,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (cmbstype.SelectedValue == null)
                     {
-                        MessageBox.Show("Please select a valid Payment Type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please select a valid Payment Type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         cmbstype.Focus();
                         return;
                     }
@@ -526,7 +527,7 @@ namespace FoodandBeverage.Forms
                         _objSearch.WhereNdGroupBy += $" AND NetAmount = {netAmount}";
                     else
                     {
-                        MessageBox.Show("Please enter a valid Net Amount.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please enter a valid Net Amount.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtSearchBox.Focus();
                         return;
                     }
@@ -543,7 +544,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Please enter an table code to search.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please enter an table code to search.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtSearchBox.Focus();
                         return;
                     }
@@ -560,7 +561,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Please enter an pick up No to search.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please enter an pick up No to search.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtSearchBox.Focus();
                         return;
                     }
@@ -570,13 +571,13 @@ namespace FoodandBeverage.Forms
                     string netamt = txtSearchBox.Text.Trim();
                     if (string.IsNullOrEmpty(netamt))
                     {
-                        MessageBox.Show("Please enter a valid Net Amount.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please enter a valid Net Amount.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         txtSearchBox.Focus();
                         return;
                     }
                     if (cmbstype.SelectedValue == null || Convert.ToInt32(cmbstype.SelectedIndex) == 0)
                     {
-                        MessageBox.Show("Please select a valid Payment Type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("Please select a valid Payment Type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         cmbstype.Focus();
                         return;
                     }
@@ -627,7 +628,7 @@ namespace FoodandBeverage.Forms
             {
                 if (Transactiondata == null || Transactiondata.Count == 0)
                 {
-                    MessageBox.Show("No records found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("No records found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
                 // Apply pagination
@@ -880,14 +881,14 @@ namespace FoodandBeverage.Forms
 
                 if (string.IsNullOrEmpty(username))
                 {
-                    MessageBox.Show("Please enter username.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please enter username.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtUserName.Focus();
                     return;
                 }
 
                 if (string.IsNullOrEmpty(password))
                 {
-                    MessageBox.Show("Please enter password.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please enter password.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtPwd.Focus();
                     return;
                 }
@@ -897,7 +898,7 @@ namespace FoodandBeverage.Forms
                 if (username == validUser && password == "123")
                 {
                     Fullpermissionflag = true;
-                    MessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dtppicker_from.MinDate = DateTimePicker.MinimumDateTime;
 
                     dtppicker_from.Enabled = true;
@@ -907,7 +908,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CMessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtPwd.Clear();
                     txtPwd.Focus();
                 }
@@ -957,7 +958,7 @@ namespace FoodandBeverage.Forms
                 DateTimePicker dtp = sender as DateTimePicker;
                 if (dtp.Value.TimeOfDay < Dassigntime.TimeOfDay)
                 {
-                    MessageBox.Show("You cannot select a time earlier than the drawer assigned time.", "Invalid Time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("You cannot select a time earlier than the drawer assigned time.", "Invalid Time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dtp.Value = Dassigntime;
                 }
             }
@@ -989,7 +990,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsGeneral.LogException("transactionManagerPanel page  RemoveSpecialCharacters()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.transactionManagerPanel));
                 return string.Empty;
             }
@@ -1050,7 +1051,7 @@ namespace FoodandBeverage.Forms
                         str1 = RemoveSpecialCharacters(str1.Trim());
                         if (str1 == "" || string.IsNullOrWhiteSpace(str1) || str1 == "FailAuthenticationFailAuthenticationFailAuthentication" || str1 == "InvalidCard")
                         {
-                            MessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CMessageBox.Show("Card not in contact", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
                         }
                         txtSearchBox.Text = str1;

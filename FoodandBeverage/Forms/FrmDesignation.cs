@@ -187,7 +187,7 @@ namespace FoodandBeverage.Forms
                     var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
                     if (gridSource[0].Count >= 1)
                     {
-                        MessageBox.Show("Designation Name " + Convert.ToString(mtxtName.Text) + " Already Exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Designation Name " + Convert.ToString(mtxtName.Text) + " Already Exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         mtxtName.Text = "";
                         mtxtName.Focus();
                         return false;
@@ -451,7 +451,7 @@ namespace FoodandBeverage.Forms
                     DesignationId = Convert.ToInt32(dgvDesignation.CurrentRow.Cells[0].Value);
                     if (e.KeyCode == Keys.Delete)
                     {
-                        DialogResult result = MessageBox.Show("Confirm to delete" + dgvDesignation.CurrentRow.Cells[1].Value.ToString() + "?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult result = CMessageBox.Show("Confirm to delete" + dgvDesignation.CurrentRow.Cells[1].Value.ToString() + "?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
                         {
                             DmnDesignation dmnDesignation = new DmnDesignation();

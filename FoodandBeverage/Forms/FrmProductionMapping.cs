@@ -199,7 +199,7 @@ namespace FoodandBeverage.Forms
 
                 if (count > 0)
                 {
-                    MessageBox.Show("Successfully saved", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    CMessageBox.Show("Successfully saved", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     ProductionMapping_Fill();
                 }
             }
@@ -231,7 +231,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error while refreshing: " + ex.Message);
+                CMessageBox.Show("Error while refreshing: " + ex.Message);
             }
         }
 

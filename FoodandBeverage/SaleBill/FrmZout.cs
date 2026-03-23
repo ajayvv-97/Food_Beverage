@@ -1,6 +1,7 @@
 ﻿using BLL;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using CustomMessageBox;
 using Domain;
 using FastMember;
 using FoodandBeverage.Classes;
@@ -998,14 +999,14 @@ namespace FoodandBeverage.SaleBill
                 #region General Information
                 DmnSearch dmnSearchGeninfo = new DmnSearch();
                 dmnSearchGeninfo.Select = "[CREDIT CARD] as TotalCreditAmt,[DEBIT CARD] as TotalDebitAmt, [UPI] as TotalUPI, [BANKING ONLINE] as TotalBankonline, [CASH] as TotalCash, [OTHERS] as Others, [COMPLEMENTRY] as TotalCompAmt,[Discount] as TotalDiscount,[TotalTax] as Totaltax,[NetAmount] as TotalAmount,[TotalQuantity] as TotalQuantity,[TotalPreTaxAmt] AS TotalPreTaxAmt,[MIDASCARD] as Totalmidascard";
-                dmnSearchGeninfo.Table = "(select g.Caption as Caption,CAST(Sum(sm.NetAmount) AS decimal(18,2))  as amount from tblSalesMaster sm left join tblGeneralOptions g on g.GTypeSubId =sm.PaymentMode and g.GTypeId = 2 where sm.status = 1 and sm.BranchId = " + BranchId + " and sm.CreatedBy = " + UserId + " and sm.CreatedDateTime >= '" + Drawerassigntime + "' AND sm.CreatedDateTime <= SYSDATETIME() GROUP BY  g.Caption,sm.NetAmount" +
-                    " union all Select 'Discount' Caption ,CAST(Sum(DiscountAmount) AS decimal(18,2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
-                    " Union all Select 'TotalPreTaxAmt', CAST(SUM(NetAmount) - SUM(TotalTax) AS decimal(18, 2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " AND Status = 1 AND CreatedBy = " + UserId + " AND CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
-                    " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) +
-                    " Union all Select 'NetAmount' Caption,CAST(Sum(NetAmount) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) +
-                    " Union all Select 'TotalQuantity',Sum(TotalQuantity) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1 and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" +
-                    " UNION ALL SELECT g.Caption AS Caption,CAST(SUM(p.paidAmt) AS decimal(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = p.PayMode AND g.GTypeId = 2 WHERE p.PayMode!= 11 AND s.BranchId= " + BranchId + " AND s.PaymentMode = 12 AND s.Status = 1 AND s.CreatedBy = " + UserId + " and s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME() GROUP BY g.Caption" +
-                    " UNION ALL  SELECT 'MIDASCARD' AS Caption, CAST(SUM(p.paidAmt) AS DECIMAL(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId WHERE p.PayMode = 11 AND s.PaymentMode = 12 AND s.BranchId= " + BranchId + " AND s.Status = 1 AND s.CreatedBy = " + UserId + "AND s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME()" +
+                dmnSearchGeninfo.Table = "(select g.Caption as Caption,CAST(Sum(sm.NetAmount) AS decimal(18,2))  as amount from tblSalesMaster sm left join tblGeneralOptions g on g.GTypeSubId =sm.PaymentMode and g.GTypeId = 2 where sm.status = 1 and sm.BranchId = " + BranchId + " and sm.CreatedBy = " + UserId + " and sm.CreatedDateTime >= '" + Drawerassigntime + "' AND sm.CreatedDateTime <= SYSDATETIME() and sm.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) + " GROUP BY  g.Caption,sm.NetAmount" +
+                    " union all Select 'Discount' Caption ,CAST(Sum(DiscountAmount) AS decimal(18,2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    " Union all Select 'TotalPreTaxAmt', CAST(SUM(NetAmount) - SUM(TotalTax) AS decimal(18, 2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " AND Status = 1 AND CreatedBy = " + UserId + " AND CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    " Union all Select 'NetAmount' Caption,CAST(Sum(NetAmount) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    " Union all Select 'TotalQuantity',Sum(TotalQuantity) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1 and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    " UNION ALL SELECT g.Caption AS Caption,CAST(SUM(p.paidAmt) AS decimal(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = p.PayMode AND g.GTypeId = 2 WHERE p.PayMode!= 11 AND s.BranchId= " + BranchId + " AND s.PaymentMode = 12 AND s.Status = 1 AND s.CreatedBy = " + UserId + " and s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME() and s.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) + " GROUP BY g.Caption" +
+                    " UNION ALL  SELECT 'MIDASCARD' AS Caption, CAST(SUM(p.paidAmt) AS DECIMAL(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId WHERE p.PayMode = 11 AND s.PaymentMode = 12 AND s.BranchId= " + BranchId + " AND s.Status = 1 AND s.CreatedBy = " + UserId + "AND s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME() and s.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     ")ps PIVOT (SUM(amount)FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS],[COMPLEMENTRY],[Discount],[TotalTax],[NetAmount],[TotalQuantity],[MIDASCARD],[TotalPreTaxAmt])) AS pvt  ";
                 dmnSearchGeninfo.WhereNdGroupBy = "";
                 var GenInfoResult = bllGeninfo.GetSearchData("prdSearch", dmnSearchGeninfo);
@@ -1031,11 +1032,19 @@ namespace FoodandBeverage.SaleBill
 
                 #region Return Summary
                 DmnSearch dmnSearchRtn = new DmnSearch();
-                dmnSearchRtn.Select = "sum(cashRefund) as TotalRtnCash,sum(cashbalanceRefund) as TotalRtnCard";
+                dmnSearchRtn.Select = @"
+                                        SUM(CashRefund) AS TotalRtnCash,
+                                        SUM(CashBalanceRefund) AS TotalRtnCard,
+                                        SUM(TotalCashRefund) AS TotalCashRefund,
+                                        SUM(TotalUpiRefund) AS TotalUpiRefund,
+                                        SUM(TotalBankingRefund) AS TotalBankingRefund,
+                                        SUM(TotalCreditCardRefund) AS TotalCreditCardRefund,
+                                        SUM(TotalDebitCardRefund) AS TotalDebitCardRefund
+                                        "; 
                 dmnSearchRtn.Table = "tblrefund r";
                 dmnSearchRtn.WhereNdGroupBy = "where r.Status = 1 AND r.BranchId = " + BranchId + " AND r.CreatedBy = " + FrmDashboard.UserId + "  AND r.CreatedDateTime >= '" + Drawerassigntime + "' AND r.CreatedDateTime <= SYSDATETIME()";
                 var RtnResult = bllReturn.GetSearchData("prdSearch", dmnSearchRtn);
-                using (var reader = ObjectReader.Create(RtnResult, "TotalRtnCash", "TotalRtnCard"))//"TotalRtnQty", "TotalRtnAmt"
+                using (var reader = ObjectReader.Create(RtnResult, "TotalRtnCash", "TotalRtnCard", "TotalCashRefund", "TotalUpiRefund", "TotalBankingRefund", "TotalCreditCardRefund", "TotalDebitCardRefund"))//"TotalRtnQty", "TotalRtnAmt"
                 {
                     DT_Return.Load(reader);
                 }
@@ -1106,7 +1115,7 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, reportpdfPath);
                     #endregion
 
-                    MessageBox.Show($"PDF saved at:\n{reportpdfPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show($"PDF saved at:\n{reportpdfPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -1250,11 +1259,19 @@ namespace FoodandBeverage.SaleBill
 
                 #region Return Summary
                 DmnSearch dmnSearchRtn = new DmnSearch();
-                dmnSearchRtn.Select = "sum(cashRefund) as TotalRtnCash,sum(cashbalanceRefund) as TotalRtnCard";
+                dmnSearchRtn.Select = @"
+                                    SUM(CashRefund) AS TotalRtnCash,
+                                    SUM(CashBalanceRefund) AS TotalRtnCard,
+                                    SUM(TotalCashRefund) AS TotalCashRefund,
+                                    SUM(TotalUpiRefund) AS TotalUpiRefund,
+                                    SUM(TotalBankingRefund) AS TotalBankingRefund,
+                                    SUM(TotalCreditCardRefund) AS TotalCreditCardRefund,
+                                    SUM(TotalDebitCardRefund) AS TotalDebitCardRefund
+                                    "; 
                 dmnSearchRtn.Table = "tblrefund r";
                 dmnSearchRtn.WhereNdGroupBy = "where r.Status = 1 AND r.BranchId = " + BranchId + " AND r.CreatedBy = " + FrmDashboard.UserId + "  AND r.CreatedDateTime >= '" + Drawerassigntime + "' AND r.CreatedDateTime <= SYSDATETIME()";
                 var RtnResult = bllReturn.GetSearchData("prdSearch", dmnSearchRtn);
-                using (var reader = ObjectReader.Create(RtnResult, "TotalRtnCash", "TotalRtnCard"))//"TotalRtnQty", "TotalRtnAmt"
+                using (var reader = ObjectReader.Create(RtnResult, "TotalRtnCash", "TotalRtnCard", "TotalCashRefund","TotalUpiRefund","TotalBankingRefund","TotalCreditCardRefund","TotalDebitCardRefund"))//"TotalRtnQty", "TotalRtnAmt"
                 {
                     DT_Return.Load(reader);
                 }
@@ -1326,7 +1343,7 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, reportpdfPath);
                     #endregion
 
-                    MessageBox.Show($"PDF saved at:\n{reportpdfPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show($"PDF saved at:\n{reportpdfPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -1479,7 +1496,7 @@ namespace FoodandBeverage.SaleBill
             {
                 if (txt_gmail_report.Text == "" || txt_gmail_report.Text == null)
                 {
-                    MessageBox.Show("Please Enter Mail ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CMessageBox.Show("Please Enter Mail ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txt_gmail_report.Focus();
                 }
                 else
@@ -1521,11 +1538,11 @@ namespace FoodandBeverage.SaleBill
                         //dmngmail.Status = 1;
                         //var InsertStatus = Bllgmail.AddEditDataGmail("prdInsertGmail", dmngmail);
 
-                        MessageBox.Show("Mail sent successfully", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Mail sent successfully", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Please Enter Valid Mail ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Please Enter Valid Mail ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         txt_gmail_report.Focus();
                     }
 

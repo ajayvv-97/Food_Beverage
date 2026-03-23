@@ -12,7 +12,7 @@
   <xs:element name="DS_YZout" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DS_YZout" msprop:Generator_UserDSName="DS_YZout">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="DT_Products" msprop:Generator_TableClassName="DT_ProductsDataTable" msprop:Generator_TableVarName="tableDT_Products" msprop:Generator_TablePropName="DT_Products" msprop:Generator_RowDeletingName="DT_ProductsRowDeleting" msprop:Generator_RowChangingName="DT_ProductsRowChanging" msprop:Generator_RowEvHandlerName="DT_ProductsRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_ProductsRowDeleted" msprop:Generator_UserTableName="DT_Products" msprop:Generator_RowChangedName="DT_ProductsRowChanged" msprop:Generator_RowEvArgName="DT_ProductsRowChangeEvent" msprop:Generator_RowClassName="DT_ProductsRow">
+        <xs:element name="DT_Products" msprop:Generator_TableClassName="DT_ProductsDataTable" msprop:Generator_TableVarName="tableDT_Products" msprop:Generator_RowChangedName="DT_ProductsRowChanged" msprop:Generator_TablePropName="DT_Products" msprop:Generator_RowDeletingName="DT_ProductsRowDeleting" msprop:Generator_RowChangingName="DT_ProductsRowChanging" msprop:Generator_RowEvHandlerName="DT_ProductsRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_ProductsRowDeleted" msprop:Generator_RowClassName="DT_ProductsRow" msprop:Generator_UserTableName="DT_Products" msprop:Generator_RowEvArgName="DT_ProductsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TotalQuantity" msprop:Generator_ColumnVarNameInTable="columnTotalQuantity" msprop:Generator_ColumnPropNameInRow="TotalQuantity" msprop:Generator_ColumnPropNameInTable="TotalQuantityColumn" msprop:Generator_UserColumnName="TotalQuantity" type="xs:decimal" minOccurs="0" />
@@ -23,7 +23,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="DT_Header" msprop:Generator_TableClassName="DT_HeaderDataTable" msprop:Generator_TableVarName="tableDT_Header" msprop:Generator_TablePropName="DT_Header" msprop:Generator_RowDeletingName="DT_HeaderRowDeleting" msprop:Generator_RowChangingName="DT_HeaderRowChanging" msprop:Generator_RowEvHandlerName="DT_HeaderRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_HeaderRowDeleted" msprop:Generator_UserTableName="DT_Header" msprop:Generator_RowChangedName="DT_HeaderRowChanged" msprop:Generator_RowEvArgName="DT_HeaderRowChangeEvent" msprop:Generator_RowClassName="DT_HeaderRow">
+        <xs:element name="DT_Header" msprop:Generator_TableClassName="DT_HeaderDataTable" msprop:Generator_TableVarName="tableDT_Header" msprop:Generator_RowChangedName="DT_HeaderRowChanged" msprop:Generator_TablePropName="DT_Header" msprop:Generator_RowDeletingName="DT_HeaderRowDeleting" msprop:Generator_RowChangingName="DT_HeaderRowChanging" msprop:Generator_RowEvHandlerName="DT_HeaderRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_HeaderRowDeleted" msprop:Generator_RowClassName="DT_HeaderRow" msprop:Generator_UserTableName="DT_Header" msprop:Generator_RowEvArgName="DT_HeaderRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
@@ -34,7 +34,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="DT_Drawer" msprop:Generator_TableClassName="DT_DrawerDataTable" msprop:Generator_TableVarName="tableDT_Drawer" msprop:Generator_RowChangedName="DT_DrawerRowChanged" msprop:Generator_TablePropName="DT_Drawer" msprop:Generator_RowDeletingName="DT_DrawerRowDeleting" msprop:Generator_RowChangingName="DT_DrawerRowChanging" msprop:Generator_RowEvHandlerName="DT_DrawerRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_DrawerRowDeleted" msprop:Generator_RowClassName="DT_DrawerRow" msprop:Generator_UserTableName="DT_Drawer" msprop:Generator_RowEvArgName="DT_DrawerRowChangeEvent">
+        <xs:element name="DT_Drawer" msprop:Generator_TableClassName="DT_DrawerDataTable" msprop:Generator_TableVarName="tableDT_Drawer" msprop:Generator_TablePropName="DT_Drawer" msprop:Generator_RowDeletingName="DT_DrawerRowDeleting" msprop:Generator_RowChangingName="DT_DrawerRowChanging" msprop:Generator_RowEvHandlerName="DT_DrawerRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_DrawerRowDeleted" msprop:Generator_UserTableName="DT_Drawer" msprop:Generator_RowChangedName="DT_DrawerRowChanged" msprop:Generator_RowEvArgName="DT_DrawerRowChangeEvent" msprop:Generator_RowClassName="DT_DrawerRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="InitialAmount" msprop:Generator_ColumnVarNameInTable="columnInitialAmount" msprop:Generator_ColumnPropNameInRow="InitialAmount" msprop:Generator_ColumnPropNameInTable="InitialAmountColumn" msprop:Generator_UserColumnName="InitialAmount" type="xs:decimal" minOccurs="0" />
@@ -44,7 +44,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="DT_Geninfo" msprop:Generator_TableClassName="DT_GeninfoDataTable" msprop:Generator_TableVarName="tableDT_Geninfo" msprop:Generator_RowChangedName="DT_GeninfoRowChanged" msprop:Generator_TablePropName="DT_Geninfo" msprop:Generator_RowDeletingName="DT_GeninfoRowDeleting" msprop:Generator_RowChangingName="DT_GeninfoRowChanging" msprop:Generator_RowEvHandlerName="DT_GeninfoRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_GeninfoRowDeleted" msprop:Generator_RowClassName="DT_GeninfoRow" msprop:Generator_UserTableName="DT_Geninfo" msprop:Generator_RowEvArgName="DT_GeninfoRowChangeEvent">
+        <xs:element name="DT_Geninfo" msprop:Generator_TableClassName="DT_GeninfoDataTable" msprop:Generator_TableVarName="tableDT_Geninfo" msprop:Generator_TablePropName="DT_Geninfo" msprop:Generator_RowDeletingName="DT_GeninfoRowDeleting" msprop:Generator_RowChangingName="DT_GeninfoRowChanging" msprop:Generator_RowEvHandlerName="DT_GeninfoRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_GeninfoRowDeleted" msprop:Generator_UserTableName="DT_Geninfo" msprop:Generator_RowChangedName="DT_GeninfoRowChanged" msprop:Generator_RowEvArgName="DT_GeninfoRowChangeEvent" msprop:Generator_RowClassName="DT_GeninfoRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TotalCreditAmt" msprop:Generator_ColumnVarNameInTable="columnTotalCreditAmt" msprop:Generator_ColumnPropNameInRow="TotalCreditAmt" msprop:Generator_ColumnPropNameInTable="TotalCreditAmtColumn" msprop:Generator_UserColumnName="TotalCreditAmt" type="xs:decimal" minOccurs="0" />
@@ -63,7 +63,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="DT_Return" msprop:Generator_TableClassName="DT_ReturnDataTable" msprop:Generator_TableVarName="tableDT_Return" msprop:Generator_TablePropName="DT_Return" msprop:Generator_RowDeletingName="DT_ReturnRowDeleting" msprop:Generator_RowChangingName="DT_ReturnRowChanging" msprop:Generator_RowEvHandlerName="DT_ReturnRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_ReturnRowDeleted" msprop:Generator_UserTableName="DT_Return" msprop:Generator_RowChangedName="DT_ReturnRowChanged" msprop:Generator_RowEvArgName="DT_ReturnRowChangeEvent" msprop:Generator_RowClassName="DT_ReturnRow">
+        <xs:element name="DT_Return" msprop:Generator_TableClassName="DT_ReturnDataTable" msprop:Generator_TableVarName="tableDT_Return" msprop:Generator_RowChangedName="DT_ReturnRowChanged" msprop:Generator_TablePropName="DT_Return" msprop:Generator_RowDeletingName="DT_ReturnRowDeleting" msprop:Generator_RowChangingName="DT_ReturnRowChanging" msprop:Generator_RowEvHandlerName="DT_ReturnRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_ReturnRowDeleted" msprop:Generator_RowClassName="DT_ReturnRow" msprop:Generator_UserTableName="DT_Return" msprop:Generator_RowEvArgName="DT_ReturnRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="TotalRtnCash" msprop:Generator_ColumnVarNameInTable="columnTotalRtnCash" msprop:Generator_ColumnPropNameInRow="TotalRtnCash" msprop:Generator_ColumnPropNameInTable="TotalRtnCashColumn" msprop:Generator_UserColumnName="TotalRtnCash" type="xs:decimal" minOccurs="0" />
@@ -72,6 +72,11 @@
               <xs:element name="TotalRtnAmt" msprop:Generator_ColumnVarNameInTable="columnTotalRtnAmt" msprop:Generator_ColumnPropNameInRow="TotalRtnAmt" msprop:Generator_ColumnPropNameInTable="TotalRtnAmtColumn" msprop:Generator_UserColumnName="TotalRtnAmt" type="xs:decimal" minOccurs="0" />
               <xs:element name="TotalFooddamageQty" msprop:Generator_ColumnVarNameInTable="columnTotalFooddamageQty" msprop:Generator_ColumnPropNameInRow="TotalFooddamageQty" msprop:Generator_ColumnPropNameInTable="TotalFooddamageQtyColumn" msprop:Generator_UserColumnName="TotalFooddamageQty" type="xs:int" minOccurs="0" />
               <xs:element name="TotalFoodDamageAmt" msprop:Generator_ColumnVarNameInTable="columnTotalFoodDamageAmt" msprop:Generator_ColumnPropNameInRow="TotalFoodDamageAmt" msprop:Generator_ColumnPropNameInTable="TotalFoodDamageAmtColumn" msprop:Generator_UserColumnName="TotalFoodDamageAmt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalCashRefund" msprop:Generator_ColumnVarNameInTable="columnTotalCashRefund" msprop:Generator_ColumnPropNameInRow="TotalCashRefund" msprop:Generator_ColumnPropNameInTable="TotalCashRefundColumn" msprop:Generator_UserColumnName="TotalCashRefund" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalUpiRefund" msprop:Generator_ColumnVarNameInTable="columnTotalUpiRefund" msprop:Generator_ColumnPropNameInRow="TotalUpiRefund" msprop:Generator_ColumnPropNameInTable="TotalUpiRefundColumn" msprop:Generator_UserColumnName="TotalUpiRefund" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalBankingRefund" msprop:Generator_ColumnVarNameInTable="columnTotalBankingRefund" msprop:Generator_ColumnPropNameInRow="TotalBankingRefund" msprop:Generator_ColumnPropNameInTable="TotalBankingRefundColumn" msprop:Generator_UserColumnName="TotalBankingRefund" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalCreditCardRefund" msprop:Generator_ColumnVarNameInTable="columnTotalCreditCardRefund" msprop:Generator_ColumnPropNameInRow="TotalCreditCardRefund" msprop:Generator_ColumnPropNameInTable="TotalCreditCardRefundColumn" msprop:Generator_UserColumnName="TotalCreditCardRefund" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalDebitCardRefund" msprop:Generator_ColumnVarNameInTable="columnTotalDebitCardRefund" msprop:Generator_ColumnPropNameInRow="TotalDebitCardRefund" msprop:Generator_ColumnPropNameInTable="TotalDebitCardRefundColumn" msprop:Generator_UserColumnName="TotalDebitCardRefund" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

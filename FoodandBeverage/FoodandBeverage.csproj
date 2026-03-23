@@ -322,6 +322,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DS_Sale.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DS\DS_YZout.cs">
+      <DependentUpon>DS_YZout.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DS\DS_YZout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

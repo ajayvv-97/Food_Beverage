@@ -455,7 +455,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("homepage IsValidHtmlColor()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
                 return false;
             }
@@ -616,7 +615,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Home Page AppColorSetting()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
@@ -641,7 +639,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("homepage Page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
@@ -1329,7 +1326,7 @@ namespace FoodandBeverage.Forms
                         }
                         else // other employee drawer assigned on other employee
                         {
-                            MessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            CMessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
                             {
                                 FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
@@ -1353,10 +1350,10 @@ namespace FoodandBeverage.Forms
                         FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                         if (DrawerCheckBranch(Convert.ToInt32(FrmLogin.EmployeeId)))
                         {
-                            MessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            CMessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             return;
                         }
-                        DialogResult result = MessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                        DialogResult result = CMessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
                         if (result == DialogResult.OK)
                         {
                             if (System.Windows.Forms.Application.OpenForms["FrmDrawer"] != null)
@@ -1396,7 +1393,7 @@ namespace FoodandBeverage.Forms
 
                     if (AllowDrawerpermissionFullControl == false && AllowCashDrawer == false) //Both permission are false
                     {
-                        MessageBox.Show("You do not have permission to assign a drawer.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CMessageBox.Show("You do not have permission to assign a drawer.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
                         FrmDashboard.Instance.lbl_drawer.Visible = true;
                         FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
@@ -3970,18 +3967,18 @@ namespace FoodandBeverage.Forms
                 dmngen.Status = 1;
                 if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
                 {
-                    MessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (Save_Daily.Checked == true && string.IsNullOrEmpty(DailyPath.Text))
                 {
-                    MessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen);
                     if (InsertStatus.Gid > 0)
                     {
-                        MessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Generalsettingcheck();
                         txtgenid.Text = Convert.ToString(InsertStatus.Gid);
                         FrmLogin.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
@@ -3989,7 +3986,7 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Saving Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CMessageBox.Show("Saving Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
 
@@ -4183,7 +4180,7 @@ namespace FoodandBeverage.Forms
             {
                 if (string.IsNullOrWhiteSpace(txtlogouttime.Text) || txtlogouttime.Text.Trim() == "0")
                 {
-                    MessageBox.Show("Please enter a valid timeout value.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please enter a valid timeout value.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     rtb_logouttime.Checked = false;
                 }
             }
@@ -4517,7 +4514,7 @@ namespace FoodandBeverage.Forms
                     if (Convert.ToInt32(cmb_taxcate.SelectedIndex) == -1)
                     {
 
-                        MessageBox.Show("Please Select GST or TRN and all red color fields are mandatory",
+                        CMessageBox.Show("Please Select GST or TRN and all red color fields are mandatory",
                                         "Mandatory Field",
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Warning);
@@ -4527,7 +4524,7 @@ namespace FoodandBeverage.Forms
 
                     //if (string.IsNullOrWhiteSpace(txt_cmpname.Text))
                     //{
-                    //    MessageBox.Show("Enter Company Name and all red color fields are mandatory",
+                    //    CMessageBox.Show("Enter Company Name and all red color fields are mandatory",
                     //                    "Mandatory Field",
                     //                    MessageBoxButtons.OK,
                     //                    MessageBoxIcon.Warning);
@@ -4537,7 +4534,7 @@ namespace FoodandBeverage.Forms
 
                     //if (string.IsNullOrWhiteSpace(txt_cmpaddress.Text))
                     //{
-                    //    MessageBox.Show("Enter Company Address and all red color fields are mandatory",
+                    //    CMessageBox.Show("Enter Company Address and all red color fields are mandatory",
                     //                    "Mandatory Field",
                     //                    MessageBoxButtons.OK,
                     //                    MessageBoxIcon.Warning);
@@ -4547,7 +4544,7 @@ namespace FoodandBeverage.Forms
 
                     //if (string.IsNullOrWhiteSpace(txt_footer_lang.Text))
                     //{
-                    //    MessageBox.Show("Enter Footer Language and all red color fields are mandatory",
+                    //    CMessageBox.Show("Enter Footer Language and all red color fields are mandatory",
                     //                    "Mandatory Field",
                     //                    MessageBoxButtons.OK,
                     //                    MessageBoxIcon.Warning);
@@ -4655,7 +4652,7 @@ namespace FoodandBeverage.Forms
                     }
                     //else
                     //{
-                    //    MessageBox.Show("Please select a logo image before uploading.", "No Image", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //    CMessageBox.Show("Please select a logo image before uploading.", "No Image", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     //}
 
                     #endregion
@@ -4676,7 +4673,7 @@ namespace FoodandBeverage.Forms
                     var InsertStatus = bllgen.AddEditDataGenConf("prdInsertUpdateGenConf", dmngen);
                     if (InsertStatus.Gid > 0)
                     {
-                        MessageBox.Show("General settings saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CMessageBox.Show("General settings saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         FetchBillDetails();
                     }
 
@@ -4797,7 +4794,7 @@ namespace FoodandBeverage.Forms
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Invalid image! Please select a PNG image with:\n" +
+                                    CMessageBox.Show("Invalid image! Please select a PNG image with:\n" +
                                         "• Dimensions: 2498 × 2463 pixels\n" +
                                         "• Size: ~430 KB",
                                         "Invalid Image", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -4885,7 +4882,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CCMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Home Page  ib_billsetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
@@ -4933,7 +4930,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                //CCMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Home Page  ib_msgsetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
@@ -5124,7 +5121,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //CCMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("homepage StartTimerAndRefreshLabel", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }

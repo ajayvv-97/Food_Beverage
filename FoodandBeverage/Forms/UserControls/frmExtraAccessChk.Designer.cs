@@ -37,13 +37,14 @@ namespace FoodandBeverage.Forms.UserControls
             this.label3 = new System.Windows.Forms.Label();
             this.txtRFID = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.btnRFID = new System.Windows.Forms.Button();
             this.cboBranch = new System.Windows.Forms.ComboBox();
             this.lblUser = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnRFID = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btncancel = new System.Windows.Forms.Button();
             this.pnlextracess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -52,6 +53,7 @@ namespace FoodandBeverage.Forms.UserControls
             // 
             this.pnlextracess.BackColor = System.Drawing.Color.White;
             this.pnlextracess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pnlextracess.Controls.Add(this.btncancel);
             this.pnlextracess.Controls.Add(this.label1);
             this.pnlextracess.Controls.Add(this.label5);
             this.pnlextracess.Controls.Add(this.label4);
@@ -67,7 +69,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.pnlextracess.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlextracess.Location = new System.Drawing.Point(0, 0);
             this.pnlextracess.Name = "pnlextracess";
-            this.pnlextracess.Size = new System.Drawing.Size(331, 342);
+            this.pnlextracess.Size = new System.Drawing.Size(331, 392);
             this.pnlextracess.TabIndex = 2;
             // 
             // label1
@@ -76,7 +78,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(63, 290);
+            this.label1.Location = new System.Drawing.Point(63, 340);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(185, 20);
             this.label1.TabIndex = 105;
@@ -139,13 +141,28 @@ namespace FoodandBeverage.Forms.UserControls
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Segoe UI Semibold", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnLogin.Location = new System.Drawing.Point(34, 229);
+            this.btnLogin.Location = new System.Drawing.Point(34, 238);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(260, 33);
             this.btnLogin.TabIndex = 3;
             this.btnLogin.Text = "LOGIN";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
+            // btnRFID
+            // 
+            this.btnRFID.BackColor = System.Drawing.Color.Transparent;
+            this.btnRFID.BackgroundImage = global::FoodandBeverage.Properties.Resources.RFID_1;
+            this.btnRFID.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnRFID.FlatAppearance.BorderSize = 0;
+            this.btnRFID.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRFID.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRFID.Location = new System.Drawing.Point(296, 99);
+            this.btnRFID.Name = "btnRFID";
+            this.btnRFID.Size = new System.Drawing.Size(32, 39);
+            this.btnRFID.TabIndex = 5;
+            this.btnRFID.UseVisualStyleBackColor = false;
+            this.btnRFID.Click += new System.EventHandler(this.btnRFID_Click);
             // 
             // cboBranch
             // 
@@ -184,6 +201,17 @@ namespace FoodandBeverage.Forms.UserControls
             this.txtPwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPwd_KeyDown);
             this.txtPwd.Leave += new System.EventHandler(this.txtPwd_Leave);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.DimGray;
+            this.pictureBox1.Image = global::FoodandBeverage.Properties.Resources.userlock;
+            this.pictureBox1.Location = new System.Drawing.Point(148, 33);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(41, 38);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
             // txtUserName
             // 
             this.txtUserName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
@@ -202,37 +230,29 @@ namespace FoodandBeverage.Forms.UserControls
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // btnRFID
+            // btncancel
             // 
-            this.btnRFID.BackColor = System.Drawing.Color.Transparent;
-            this.btnRFID.BackgroundImage = global::FoodandBeverage.Properties.Resources.RFID_1;
-            this.btnRFID.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnRFID.FlatAppearance.BorderSize = 0;
-            this.btnRFID.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRFID.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRFID.Location = new System.Drawing.Point(296, 99);
-            this.btnRFID.Name = "btnRFID";
-            this.btnRFID.Size = new System.Drawing.Size(32, 39);
-            this.btnRFID.TabIndex = 5;
-            this.btnRFID.UseVisualStyleBackColor = false;
-            this.btnRFID.Click += new System.EventHandler(this.btnRFID_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.DimGray;
-            this.pictureBox1.Image = global::FoodandBeverage.Properties.Resources.userlock;
-            this.pictureBox1.Location = new System.Drawing.Point(148, 33);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(41, 38);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+            this.btncancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btncancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncancel.FlatAppearance.BorderSize = 0;
+            this.btncancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btncancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btncancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncancel.Font = new System.Drawing.Font("Segoe UI Semibold", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncancel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btncancel.Location = new System.Drawing.Point(34, 290);
+            this.btncancel.Name = "btncancel";
+            this.btncancel.Size = new System.Drawing.Size(260, 33);
+            this.btncancel.TabIndex = 106;
+            this.btncancel.Text = "close";
+            this.btncancel.UseVisualStyleBackColor = false;
+            this.btncancel.Click += new System.EventHandler(this.btncancel_Click);
             // 
             // frmExtraAccessChk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 342);
+            this.ClientSize = new System.Drawing.Size(328, 392);
             this.Controls.Add(this.pnlextracess);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
@@ -266,5 +286,6 @@ namespace FoodandBeverage.Forms.UserControls
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btncancel;
     }
 }

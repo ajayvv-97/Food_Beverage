@@ -1036,7 +1036,7 @@ namespace FoodandBeverage.Report
                 DmnSearch dmnSearchDetBill = new DmnSearch();
                 dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,FirstName  as sFld3,PhoneNumber  as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4";/*,fcm. as dFld2,fcm.Tax as dFld3*/
                 dmnSearchDetBill.Table = "tblSalesMaster s";
-                dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and s.BranchId = " + BranchId + "and s.Status=1 and s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and s.PaymentMode != "+Convert.ToInt32(PaymentType.Nocharge);
+                dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and s.BranchId = " + BranchId + "and s.Status=1 and s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " and s.PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and s.Saletype != " + Convert.ToInt32(SaleCategory.PartyBooking);
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
                 if (invoiceBillMasters.Count > 0)
                 {
