@@ -5270,8 +5270,6 @@ namespace FoodandBeverage.Forms
             {
 
                 ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
-
-
                 int ReportLevelID = 7;
                 ReportForm(ReportLevelID);
             }
@@ -5483,8 +5481,6 @@ namespace FoodandBeverage.Forms
             {
 
                 ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
-
-
                 int ReportLevelID = 9;
                 ReportForm(ReportLevelID);
             }
@@ -5571,10 +5567,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
-
-
                 int ReportLevelID = 23;
                 ReportForm(ReportLevelID);
             }
@@ -5609,8 +5602,6 @@ namespace FoodandBeverage.Forms
             {
 
                 ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
-
-
                 int ReportLevelID = 8;
                 ReportForm(ReportLevelID);
             }
@@ -6232,6 +6223,35 @@ namespace FoodandBeverage.Forms
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void partyBookingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+                int ReportLevelID = 27;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("DashBoard page partyBookingToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void partyBookingDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+                int ReportLevelID = 28;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("DashBoard page partyBookingDetailsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
 

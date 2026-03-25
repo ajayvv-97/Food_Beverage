@@ -32,7 +32,7 @@ namespace FoodandBeverage.Report
             InitializeComponent();
             Reportid = Rpid;
             textBox1.Text = id.ToString();
-            UserId = Convert.ToInt32(FrmLogin.UserId);
+            UserId = Convert.ToInt32(FrmLogin.EmployeeId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
         }
@@ -383,6 +383,12 @@ namespace FoodandBeverage.Report
                     case 26:
                         s_FillReport_Complementary();
                         break;
+                    case 27:
+                        s_FillReport_Partybooking();
+                        break;
+                    case 28:
+                        s_FillReport_PartybookingDetails();
+                        break; 
                 }
             }
             catch (Exception ex)
@@ -809,6 +815,254 @@ namespace FoodandBeverage.Report
 
             }
         }
+        public void s_FillReport_Partybooking()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+
+                #region  PARTY BOOKING DATA
+
+                BllSearch<DmnRpt_1> bllParty = new BllSearch<DmnRpt_1>();
+                DmnSearch searchParty = new DmnSearch();
+
+                string fromDate = fTime.ToString("yyyy-MM-dd HH:mm:ss");
+                string toDate = tTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+                searchParty.Select = @"
+                                    pb.CustomerName AS sFld1,
+                                    pb.Phone AS sFld2,
+                                    pb.Address AS sFld3,
+                                    ISNULL(e.ItemName,'') AS sFld4,
+
+                                    (pb.NoOfAdults + pb.NoOfChildren) AS nFld1,
+                                    pb.NoOfAdults  AS nFld2,
+                                    pb.NoOfChildren AS nFld3,
+
+                                    ISNULL(pb.TaxAmount,0) AS dFld1,
+                                    ISNULL(pb.NetAmount - pb.TaxAmount,0) AS dFld2,
+                                    ISNULL(pb.NetAmount,0) AS dFld3,
+                                    ISNULL(pb.AdvanceAmount,0) AS dFld4,
+                                    ISNULL(pb.ReceivedAmount,0) AS dFld5,
+                                    ISNULL(pb.DiscountAmount,0) AS dFld6,
+                                    ISNULL(pb.BalanceAmount,0) AS dFld7,
+                                    pb.BookingDateTime AS dt1 
+                                ";
+
+                searchParty.Table = @"
+                                    tblPartyBooking pb
+                                    LEFT JOIN tblEventCommonItems e 
+                                        ON e.EventItemId = pb.EventType
+                                ";
+
+                searchParty.WhereNdGroupBy = $@"
+                                                WHERE pb.Status = 1
+                                                AND pb.BookingDateTime >= '{fromDate}'
+                                                AND pb.BookingDateTime <= '{toDate}'
+                                                AND pb.BranchId = {BranchId}";
+
+                var partyList = bllParty.GetSearchData("prdSearch", searchParty);
+
+                DataTable dtParty = new DataTable("Rpt_DT");
+
+                using (var reader = ObjectReader.Create(partyList,
+                    "sFld1", "sFld2", "sFld3", "sFld4",
+                    "nFld1", "nFld2", "nFld3",
+                    "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6","dFld7",
+                    "dt1"))
+                {
+                    dtParty.Load(reader);
+                }
+
+                dsReport.Tables.Add(dtParty);
+
+                #endregion
+
+                #region TAX CALCULATION
+
+                decimal totalTax = partyList.Sum(x => x.dFld1);
+                decimal totalPreTax = partyList.Sum(x => x.dFld2);
+
+                TotalTaxAmt = totalTax.ToString("0.00");
+                TotalPreTax = totalPreTax.ToString("0.00");
+
+                decimal halfTax = totalTax / 2;
+
+                TotalSGST = halfTax.ToString("0.00");
+                TotalCGST = halfTax.ToString("0.00");
+
+                #endregion
+
+                #region  LOAD REPORT
+
+                reportDocument.Load(Path + @"\Rpt_PartyBooking.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                // 🔹 HEADER
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+                // 🔹 TAX VALUES
+                //reportDocument.SetParameterValue("TotalPreTax", TotalPreTax);
+                //reportDocument.SetParameterValue("TotalTaxamt", TotalTaxAmt);
+                //reportDocument.SetParameterValue("TotalSGST", TotalSGST);
+                //reportDocument.SetParameterValue("TotalCGST", TotalCGST);
+
+                // 🔹 VIEW
+                crv_report.ReportSource = reportDocument;
+                crv_report.Refresh();
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void s_FillReport_PartybookingDetails()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+
+                #region  PARTY BOOKING + DETAILS DATA
+
+                BllSearch<DmnRpt_1> bllParty = new BllSearch<DmnRpt_1>();
+                DmnSearch searchParty = new DmnSearch();
+
+                string fromDate = fTime.ToString("yyyy-MM-dd HH:mm:ss");
+                string toDate = tTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+                searchParty.Select = @"
+                                    pb.PartyBookingId AS nFld7,
+
+                                    pb.CustomerName AS sFld1,
+                                    pb.Phone AS sFld2,
+                                    pb.Address AS sFld3,
+                                    ISNULL(e.ItemName,'') AS sFld4,
+
+                                    (pb.NoOfAdults + pb.NoOfChildren) AS nFld1,
+                                    pb.NoOfAdults  AS nFld2,
+                                    pb.NoOfChildren AS nFld3,
+
+                                    ISNULL(pb.TaxAmount,0) AS dFld1,
+                                    ISNULL(pb.NetAmount - pb.TaxAmount,0) AS dFld2,
+                                    ISNULL(pb.NetAmount,0) AS dFld3,
+                                    ISNULL(pb.AdvanceAmount,0) AS dFld4,
+                                    ISNULL(pb.ReceivedAmount,0) AS dFld5,
+                                    ISNULL(pb.DiscountAmount,0) AS dFld6,
+                                    ISNULL(pb.BalanceAmount,0) AS dFld7,
+
+                                    pb.BookingDateTime AS dt1,
+
+                                    ISNULL(d.Product,'') AS sFld5,
+                                    ISNULL(d.Qty,0) AS dFld8,
+                                    ISNULL(d.Price,0) AS dFld9,
+                                    ISNULL(d.TaxAmount,0) AS dFld10,
+                                    ISNULL(d.DiscountAmount,0) AS dFld11,
+                                    ISNULL(d.NetAmount,0) AS dFld12
+                                ";
+
+                searchParty.Table = @"
+                                    tblPartyBooking pb
+                                    LEFT JOIN tblEventCommonItems e 
+                                        ON e.EventItemId = pb.EventType
+                                    LEFT JOIN tblPartyBookingDetails d 
+                                        ON d.PartyBookingId = pb.PartyBookingId
+                                ";
+
+                searchParty.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId}";
+
+                var partyList = bllParty.GetSearchData("prdSearch", searchParty);
+
+                DataTable dtParty = new DataTable("Rpt_DT");
+
+                using (var reader = ObjectReader.Create(partyList,
+                    "nFld7",
+                    "sFld1", "sFld2", "sFld3", "sFld4",
+                    "nFld1", "nFld2", "nFld3",
+                    "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6", "dFld7",
+                    "dt1",
+                    "sFld5", "dFld8", "dFld9", "dFld10", "dFld11", "dFld12"
+                ))
+                {
+                    dtParty.Load(reader);
+                }
+
+                dsReport.Tables.Add(dtParty);
+
+                #endregion
+
+                #region TAX CALCULATION (FIXED DUPLICATION)
+
+                var grouped = partyList
+                    .GroupBy(x => x.nFld7) 
+                    .Select(g => g.First());
+
+                decimal totalTax = grouped.Sum(x => x.dFld1);
+                decimal totalPreTax = grouped.Sum(x => x.dFld2);
+
+                TotalTaxAmt = totalTax.ToString("0.00");
+                TotalPreTax = totalPreTax.ToString("0.00");
+
+                decimal halfTax = totalTax / 2;
+
+                TotalSGST = halfTax.ToString("0.00");
+                TotalCGST = halfTax.ToString("0.00");
+
+                #endregion
+
+                #region  LOAD REPORT
+
+                reportDocument.Load(Path + @"\Rpt_PartyBookingDetails.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                // 🔹 HEADER
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+
+                // 🔹 DATE RANGE
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+                // 🔹 VIEW
+                crv_report.ReportSource = reportDocument;
+                crv_report.Refresh();
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         public void s_FillReport_CashRevenue()
         {
             try
@@ -817,8 +1071,7 @@ namespace FoodandBeverage.Report
                 DataSet dsReport = new DataSet();
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
-                DmnSearch dmnSearchDetBill = new DmnSearch();
-                
+                DmnSearch dmnSearchDetBill = new DmnSearch();                
 
                  dmnSearchDetBill.Select = "(select CONVERT(varchar(50),EntryDa,105)) as sFld1," +
                         "[CREDIT CARD] as dFld1,[DEBIT CARD] as dFld2,[UPI] as dFld3," +
@@ -829,7 +1082,7 @@ namespace FoodandBeverage.Report
                     " from tblSalesMaster s left join tblGeneralOptions g1 on g1.GTypeSubId=s.PaymentMode and g1.GTypeId=2 " +
                     "where EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     "and EntryDate<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
-                    "and s.status=1 and BranchId=" + BranchId + " and PaymentMode!= 12 AND  PaymentMode!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " AND  PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) +
+                    "and s.status=1 and BranchId=" + BranchId + " and PaymentMode!= 12 AND  PaymentMode!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " AND  PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and s.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " GROUP BY CAST(EntryDate AS DATE), g1.Caption  " +
 
                     " UNION ALL " +
@@ -837,8 +1090,24 @@ namespace FoodandBeverage.Report
                     " FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON s.SalesMasterId = p.SalesMasterId LEFT JOIN tblGeneralOptions g2" +
                     " ON g2.GTypeSubId = p.PayMode AND g2.GTypeId = 2 WHERE s.status=1 AND s.EntryDate >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
                     " AND s.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.BranchId = " + BranchId + "  AND p.PayMode != 10" +
-                    " GROUP BY CAST(s.EntryDate AS DATE), g2.Caption ) ps " +
-                    " PIVOT (SUM(Amount) FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS (Loyalty)])) AS pvt " +
+                    " GROUP BY CAST(s.EntryDate AS DATE), g2.Caption "+
+
+                    " UNION ALL " +
+                    " SELECT CAST(s.EntryDate AS DATE) AS EntryDa, " +
+                    "        SUM(pbp.PaidAmount) AS Amount, " +
+                    "        ISNULL(g.Caption, 'OTHERS') AS Caption " +
+                    " FROM tblPartyBookingPayment pbp " +
+                    " INNER JOIN tblSalesMaster s ON s.PartyBookingId = pbp.PartyBookingId " +
+                    " LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = pbp.PaymentMode AND g.GTypeId = 2 " +
+                    " WHERE s.Status = 1 " +
+                    "   AND s.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                    "   AND s.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                    "   AND s.BranchId = " + BranchId +
+                    "   AND pbp.CreatedBy = " + UserId + 
+                    "   AND s.Saletype = " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    " GROUP BY CAST(s.EntryDate AS DATE), g.Caption " +
+
+                    ") ps PIVOT (SUM(Amount) FOR Caption IN([CREDIT CARD],[DEBIT CARD],[UPI],[BANKING ONLINE],[CASH],[OTHERS (Loyalty)])) AS pvt " +
                     " order by EntryDa ";
                 dmnSearchDetBill.WhereNdGroupBy = "";
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
@@ -1036,18 +1305,27 @@ namespace FoodandBeverage.Report
                 DmnSearch dmnSearchDetBill = new DmnSearch();
                 dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,FirstName  as sFld3,PhoneNumber  as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4";/*,fcm. as dFld2,fcm.Tax as dFld3*/
                 dmnSearchDetBill.Table = "tblSalesMaster s";
-                dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and s.BranchId = " + BranchId + "and s.Status=1 and s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " and s.PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and s.Saletype != " + Convert.ToInt32(SaleCategory.PartyBooking);
+                dmnSearchDetBill.WhereNdGroupBy =
+                                                 "WHERE (" +
+                                                 "(s.SaleType = 3 AND s.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "') " +
+                                                 "OR " +
+                                                 "(s.SaleType <> 3 AND s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "')" +
+                                                 ") " +
+                                                 "AND s.BranchId = " + BranchId +
+                                                 " AND s.Status = 1" +
+                                                 " AND s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                                                 " AND s.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
                 if (invoiceBillMasters.Count > 0)
                 {
                     invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
                     invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
-                    
                 }
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "dFld1", "dFld2", "dFld3", "dFld4"))
                 {
                     dt_Rpt.Load(reader);
                 }
+
                 dsReport.Tables.Add(dt_Rpt);
                 reportDocument.Load(Path + @"\Rpt_SaleReport.rpt");
                 reportDocument.SetDataSource(dsReport);
@@ -1091,7 +1369,6 @@ namespace FoodandBeverage.Report
                 ReportDocument reportDocument = new ReportDocument();
                 DataSet dsReport = new DataSet();
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
-                // 🔹 1️⃣ Invoice Detail Data
                 BllSearch<DmnRpt_1> bllSearchDetails1 = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchDetBill1 = new DmnSearch();
 
@@ -1114,9 +1391,12 @@ namespace FoodandBeverage.Report
 
                 dmnSearchDetBill1.Table ="tblSalesMaster sm LEFT JOIN tblSalesDetails sd ON sm.SalesMasterId = sd.SalesMasterId";
                 dmnSearchDetBill1.WhereNdGroupBy =
-                "WHERE sm.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") +
-                "' AND sm.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") +
-                "' AND sm.BranchId = " + BranchId +
+                "WHERE (" +
+                "(sm.SaleType = 3 AND sm.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sm.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "') " +
+                "OR " +
+                "(sm.SaleType <> 3 AND sm.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sm.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "')" +
+                ") " +
+                "AND sm.BranchId = " + BranchId +
                 " AND sm.Status = 1 AND sd.Status = 1" +
                 " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                 " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);
@@ -1134,11 +1414,13 @@ namespace FoodandBeverage.Report
                                         SUM(NetAmount) as dFld4";
 
                 dmnSearchSummary.Table = "tblSalesMaster s";
-
                 dmnSearchSummary.WhereNdGroupBy =
-                "WHERE s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") +
-                "' AND s.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") +
-                "' AND s.BranchId = " + BranchId +
+                "WHERE (" +
+                "(s.SaleType = 3 AND s.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "') " +
+                "OR " +
+                "(s.SaleType <> 3 AND s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "')" +
+                ") " +
+                "AND s.BranchId = " + BranchId +
                 " AND s.Status = 1" +
                 " AND s.PaymentMode !=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                 " AND s.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);

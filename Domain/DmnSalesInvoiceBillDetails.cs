@@ -31,6 +31,7 @@ namespace Domain
         public int Prid { get; set; }
         public string VariatiionName { get; set; }
         public int PartyBookingId { get; set; }
+        public int PackageType { get; set; }
         
     }
 }

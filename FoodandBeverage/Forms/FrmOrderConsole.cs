@@ -8378,9 +8378,7 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException("Order page  FinalTax()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
-
         }
-
 
         public void paybillcal(int payid)
         {

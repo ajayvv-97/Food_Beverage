@@ -75,6 +75,10 @@ namespace FoodandBeverage.SaleBill
             }
             else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
             {
+                rb_a4.Visible = true;
+                rb_th.Visible = true;
+
+                rb_th.Checked = true;
                 PrintPartyBill();
             }
         }
@@ -653,7 +657,7 @@ namespace FoodandBeverage.SaleBill
                 var detailSearch = new DmnSearch
                 {
                     Select = @"ItemName, Quantity, SalesRate AS SalesRate,
-                       NetAmount, DiscountAmount, Amount, Taxper,PartyBookingId",
+                       NetAmount, DiscountAmount, Amount, Taxper,PartyBookingId,PackageType,TaxAmount",
                     Table = "tblSalesDetails",
                     WhereNdGroupBy = "WHERE SalesMasterId=" + SalesMasterId
                 };
@@ -664,7 +668,7 @@ namespace FoodandBeverage.SaleBill
                     PartybookingId = detailData[0].PartyBookingId;
                 }
 
-                using (var reader = ObjectReader.Create(detailData,"ItemName", "Quantity", "SalesRate","NetAmount", "DiscountAmount", "Amount", "Taxper"))
+                using (var reader = ObjectReader.Create(detailData,"ItemName", "Quantity", "SalesRate","NetAmount", "DiscountAmount", "Amount", "Taxper", "PackageType", "TaxAmount"))
                 {
                     dtSalesDetail.Load(reader);
                 }
@@ -681,8 +685,7 @@ namespace FoodandBeverage.SaleBill
                             pb.Phone,
                             pb.Email,
                             pb.Address,
-                            CONVERT(date, pb.BookingDate) AS BookingDate,     
-                            CONVERT(time, pb.BookingTime) AS BookingTime,  
+                            pb.BookingDateTime,     
                             e.ItemName AS EventType,
                             pb.NoOfAdults,
                             pb.NoOfChildren,
@@ -702,8 +705,7 @@ namespace FoodandBeverage.SaleBill
                         "Phone",
                         "Email",
                         "Address",
-                        "BookingDate",
-                        "BookingTime",
+                        "BookingDateTime",
                         "EventType",        
                         "NoOfAdults",
                         "NoOfChildren",
@@ -728,7 +730,12 @@ namespace FoodandBeverage.SaleBill
                 #region REPORT LOAD
 
                 if (BillTypeData == Convert.ToInt32(BillType.Partybill))
-                    reportDocument.Load(RPTPath + @"\CR_PartyBill_TH.rpt");
+                {
+                    if(rb_th.Checked)
+                        reportDocument.Load(RPTPath + @"\CR_PartyBill_TH.rpt");
+                    else if(rb_a4.Checked)
+                        reportDocument.Load(RPTPath + @"\CR_PartyBill_A4.rpt");
+                }
 
                 reportDocument.SetDataSource(dsReport);
 
@@ -991,7 +998,23 @@ namespace FoodandBeverage.SaleBill
                 pnl_userreg.Visible = false;
                 GstBillflag = true;
                 if(InsertStatus.CusId>0)
-                    PrintBill();
+                {
+                    if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill))
+                    {
+                        rb_a4.Visible = false;
+                        rb_th.Visible = false;
+
+                        PrintBill();
+                    }
+                    else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
+                    {
+                        rb_a4.Visible = true;
+                        rb_th.Visible = true;
+
+                        PrintPartyBill();
+                    }
+                }
+                   
             }
             catch (Exception ex)
             {

@@ -1473,6 +1473,10 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnTotalQTY;
             
+            private global::System.Data.DataColumn columnPackageType;
+            
+            private global::System.Data.DataColumn columnTaxAmount;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_saledetailsDataTable() {
@@ -1596,6 +1600,22 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PackageTypeColumn {
+                get {
+                    return this.columnPackageType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TaxAmountColumn {
+                get {
+                    return this.columnTaxAmount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1631,7 +1651,7 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public DT_saledetailsRow AddDT_saledetailsRow(string ItemName, decimal Quantity, decimal SalesRate, decimal NetAmount, decimal Amount, decimal DiscountAmount, decimal Taxper, int MainCategoryCount, string MainCategory, int AddonStatus, decimal TotalQTY) {
+            public DT_saledetailsRow AddDT_saledetailsRow(string ItemName, decimal Quantity, decimal SalesRate, decimal NetAmount, decimal Amount, decimal DiscountAmount, decimal Taxper, int MainCategoryCount, string MainCategory, int AddonStatus, decimal TotalQTY, int PackageType, decimal TaxAmount) {
                 DT_saledetailsRow rowDT_saledetailsRow = ((DT_saledetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ItemName,
@@ -1644,7 +1664,9 @@ namespace FoodandBeverage.DS {
                         MainCategoryCount,
                         MainCategory,
                         AddonStatus,
-                        TotalQTY};
+                        TotalQTY,
+                        PackageType,
+                        TaxAmount};
                 rowDT_saledetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_saledetailsRow);
                 return rowDT_saledetailsRow;
@@ -1678,6 +1700,8 @@ namespace FoodandBeverage.DS {
                 this.columnMainCategory = base.Columns["MainCategory"];
                 this.columnAddonStatus = base.Columns["AddonStatus"];
                 this.columnTotalQTY = base.Columns["TotalQTY"];
+                this.columnPackageType = base.Columns["PackageType"];
+                this.columnTaxAmount = base.Columns["TaxAmount"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1705,6 +1729,10 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnAddonStatus);
                 this.columnTotalQTY = new global::System.Data.DataColumn("TotalQTY", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalQTY);
+                this.columnPackageType = new global::System.Data.DataColumn("PackageType", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPackageType);
+                this.columnTaxAmount = new global::System.Data.DataColumn("TaxAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTaxAmount);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3257,6 +3285,38 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int PackageType {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_saledetails.PackageTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PackageType\' in table \'DT_saledetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_saledetails.PackageTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TaxAmount {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_saledetails.TaxAmountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TaxAmount\' in table \'DT_saledetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_saledetails.TaxAmountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsItemNameNull() {
                 return this.IsNull(this.tableDT_saledetails.ItemNameColumn);
             }
@@ -3385,6 +3445,30 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetTotalQTYNull() {
                 this[this.tableDT_saledetails.TotalQTYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPackageTypeNull() {
+                return this.IsNull(this.tableDT_saledetails.PackageTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPackageTypeNull() {
+                this[this.tableDT_saledetails.PackageTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTaxAmountNull() {
+                return this.IsNull(this.tableDT_saledetails.TaxAmountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTaxAmountNull() {
+                this[this.tableDT_saledetails.TaxAmountColumn] = global::System.Convert.DBNull;
             }
         }
         

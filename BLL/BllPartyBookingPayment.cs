@@ -15,7 +15,8 @@ namespace BLL
             parms.Add("PartyBookingId", obj.PartyBookingId);
             parms.Add("PaymentMode", obj.PaymentMode);
             parms.Add("PaymentAmount", obj.PaymentAmount);
-
+            parms.Add("NetAmount", obj.NetAmount);
+            
             // 🔹 New fields
             parms.Add("RcvAmnt", obj.RcvAmnt);
             parms.Add("BalAmnt", obj.BalAmnt);
