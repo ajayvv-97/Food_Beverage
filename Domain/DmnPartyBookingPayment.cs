@@ -20,6 +20,7 @@ namespace Domain
         public int Status { get; set; }
         public bool IsSplitPayment { get; set; }
         public decimal PaidAmount { get; set; }
+        public decimal NetAmount { get; set; }
     }
     
 }

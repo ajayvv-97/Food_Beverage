@@ -21,8 +21,8 @@ namespace BLL
             parms.Add("Email", obj.Email);
             parms.Add("Address", obj.Address);
 
-            parms.Add("BookingDate", obj.BookingDate);
-            parms.Add("BookingTime", obj.BookingTime);
+            parms.Add("BookingDateTime", obj.BookingDateTime);
+
             parms.Add("EventType", obj.EventType);
 
             parms.Add("NoOfAdults", obj.NoOfAdults);

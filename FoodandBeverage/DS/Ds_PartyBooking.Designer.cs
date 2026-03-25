@@ -1510,6 +1510,8 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnPartyBookingId;
             
+            private global::System.Data.DataColumn columnPackageType;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_saledetailsDataTable() {
@@ -1641,6 +1643,14 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PackageTypeColumn {
+                get {
+                    return this.columnPackageType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1676,7 +1686,7 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public DT_saledetailsRow AddDT_saledetailsRow(string ItemName, decimal Quantity, decimal SalesRate, decimal NetAmount, decimal Amount, decimal DiscountAmount, decimal Taxper, int MainCategoryCount, string MainCategory, int AddonStatus, decimal TotalQTY, int PartyBookingId) {
+            public DT_saledetailsRow AddDT_saledetailsRow(string ItemName, decimal Quantity, decimal SalesRate, decimal NetAmount, decimal Amount, decimal DiscountAmount, decimal Taxper, int MainCategoryCount, string MainCategory, int AddonStatus, decimal TotalQTY, int PartyBookingId, int PackageType) {
                 DT_saledetailsRow rowDT_saledetailsRow = ((DT_saledetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ItemName,
@@ -1690,7 +1700,8 @@ namespace FoodandBeverage.DS {
                         MainCategory,
                         AddonStatus,
                         TotalQTY,
-                        PartyBookingId};
+                        PartyBookingId,
+                        PackageType};
                 rowDT_saledetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_saledetailsRow);
                 return rowDT_saledetailsRow;
@@ -1725,6 +1736,7 @@ namespace FoodandBeverage.DS {
                 this.columnAddonStatus = base.Columns["AddonStatus"];
                 this.columnTotalQTY = base.Columns["TotalQTY"];
                 this.columnPartyBookingId = base.Columns["PartyBookingId"];
+                this.columnPackageType = base.Columns["PackageType"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1754,6 +1766,8 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnTotalQTY);
                 this.columnPartyBookingId = new global::System.Data.DataColumn("PartyBookingId", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPartyBookingId);
+                this.columnPackageType = new global::System.Data.DataColumn("PackageType", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPackageType);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1895,9 +1909,7 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnAddress;
             
-            private global::System.Data.DataColumn columnBookingDate;
-            
-            private global::System.Data.DataColumn columnBookingTime;
+            private global::System.Data.DataColumn columnBookingDateTime;
             
             private global::System.Data.DataColumn columnEventType;
             
@@ -1976,17 +1988,9 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn BookingDateColumn {
+            public global::System.Data.DataColumn BookingDateTimeColumn {
                 get {
-                    return this.columnBookingDate;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn BookingTimeColumn {
-                get {
-                    return this.columnBookingTime;
+                    return this.columnBookingDateTime;
                 }
             }
             
@@ -2067,15 +2071,14 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public DT_PartybookingRow AddDT_PartybookingRow(string CustomerName, string Phone, string Email, string Address, string BookingDate, string BookingTime, string EventType, int NoOfAdults, int NoOfChildren, string DiscountReason, string EventDescription) {
+            public DT_PartybookingRow AddDT_PartybookingRow(string CustomerName, string Phone, string Email, string Address, string BookingDateTime, string EventType, int NoOfAdults, int NoOfChildren, string DiscountReason, string EventDescription) {
                 DT_PartybookingRow rowDT_PartybookingRow = ((DT_PartybookingRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         CustomerName,
                         Phone,
                         Email,
                         Address,
-                        BookingDate,
-                        BookingTime,
+                        BookingDateTime,
                         EventType,
                         NoOfAdults,
                         NoOfChildren,
@@ -2107,8 +2110,7 @@ namespace FoodandBeverage.DS {
                 this.columnPhone = base.Columns["Phone"];
                 this.columnEmail = base.Columns["Email"];
                 this.columnAddress = base.Columns["Address"];
-                this.columnBookingDate = base.Columns["BookingDate"];
-                this.columnBookingTime = base.Columns["BookingTime"];
+                this.columnBookingDateTime = base.Columns["BookingDateTime"];
                 this.columnEventType = base.Columns["EventType"];
                 this.columnNoOfAdults = base.Columns["NoOfAdults"];
                 this.columnNoOfChildren = base.Columns["NoOfChildren"];
@@ -2127,10 +2129,8 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnEmail);
                 this.columnAddress = new global::System.Data.DataColumn("Address", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAddress);
-                this.columnBookingDate = new global::System.Data.DataColumn("BookingDate", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnBookingDate);
-                this.columnBookingTime = new global::System.Data.DataColumn("BookingTime", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnBookingTime);
+                this.columnBookingDateTime = new global::System.Data.DataColumn("BookingDateTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBookingDateTime);
                 this.columnEventType = new global::System.Data.DataColumn("EventType", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEventType);
                 this.columnNoOfAdults = new global::System.Data.DataColumn("NoOfAdults", typeof(int), null, global::System.Data.MappingType.Element);
@@ -3709,6 +3709,22 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int PackageType {
+                get {
+                    try {
+                        return ((int)(this[this.tableDT_saledetails.PackageTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PackageType\' in table \'DT_saledetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_saledetails.PackageTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsItemNameNull() {
                 return this.IsNull(this.tableDT_saledetails.ItemNameColumn);
             }
@@ -3850,6 +3866,18 @@ namespace FoodandBeverage.DS {
             public void SetPartyBookingIdNull() {
                 this[this.tableDT_saledetails.PartyBookingIdColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPackageTypeNull() {
+                return this.IsNull(this.tableDT_saledetails.PackageTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPackageTypeNull() {
+                this[this.tableDT_saledetails.PackageTypeColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -3932,33 +3960,17 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string BookingDate {
+            public string BookingDateTime {
                 get {
                     try {
-                        return ((string)(this[this.tableDT_Partybooking.BookingDateColumn]));
+                        return ((string)(this[this.tableDT_Partybooking.BookingDateTimeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'BookingDate\' in table \'DT_Partybooking\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'BookingDateTime\' in table \'DT_Partybooking\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDT_Partybooking.BookingDateColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string BookingTime {
-                get {
-                    try {
-                        return ((string)(this[this.tableDT_Partybooking.BookingTimeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'BookingTime\' in table \'DT_Partybooking\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDT_Partybooking.BookingTimeColumn] = value;
+                    this[this.tableDT_Partybooking.BookingDateTimeColumn] = value;
                 }
             }
             
@@ -4092,26 +4104,14 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsBookingDateNull() {
-                return this.IsNull(this.tableDT_Partybooking.BookingDateColumn);
+            public bool IsBookingDateTimeNull() {
+                return this.IsNull(this.tableDT_Partybooking.BookingDateTimeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetBookingDateNull() {
-                this[this.tableDT_Partybooking.BookingDateColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsBookingTimeNull() {
-                return this.IsNull(this.tableDT_Partybooking.BookingTimeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetBookingTimeNull() {
-                this[this.tableDT_Partybooking.BookingTimeColumn] = global::System.Convert.DBNull;
+            public void SetBookingDateTimeNull() {
+                this[this.tableDT_Partybooking.BookingDateTimeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

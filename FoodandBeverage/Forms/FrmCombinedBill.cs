@@ -1718,6 +1718,7 @@ namespace FoodandBeverage.Forms
                                 FrmDashboard.Instance.lbl_drawer.Text = "Cash Drawer Not Assigned";
                                 FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                             }
+
                             #region Close all form Return Login page
                             Application.Exit();
                             //foreach (Form openForm in Application.OpenForms.Cast<Form>().ToList())
@@ -1775,6 +1776,7 @@ namespace FoodandBeverage.Forms
                         }
 
                         CMessageBox.Show("Zout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
 
                         Dmndrawer dmndrawer = new Dmndrawer();
                         Blldrawer blldrawer = new Blldrawer();

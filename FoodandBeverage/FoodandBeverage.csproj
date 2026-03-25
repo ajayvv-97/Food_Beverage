@@ -309,6 +309,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DSKitchen.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DS\DS_FBreport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DS_FBreport.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DS\Ds_PartyBooking.cs">
       <DependentUpon>Ds_PartyBooking.xsd</DependentUpon>
     </Compile>
@@ -740,6 +745,18 @@
       <DependentUpon>Rpt_OfferList_Combo.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\Rpt_PartyBooking.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_PartyBooking.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\Rpt_PartybookingDetails.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_PartybookingDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\Rpt_PopularItem.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -846,6 +863,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CR_Bill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SaleBill\CR_PartyBill_A4.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CR_PartyBill_A4.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SaleBill\CR_PartyBill_TH.cs">
@@ -1107,6 +1130,14 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_OfferList_Combo.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\Rpt_PartyBooking.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_PartyBooking.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Rpt_PartybookingDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_PartybookingDetails.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\Rpt_PopularItem.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_PopularItem.cs</LastGenOutput>
@@ -1171,6 +1202,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_Bill.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SaleBill\CR_PartyBill_A4.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CR_PartyBill_A4.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="SaleBill\CR_PartyBill_TH.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CR_PartyBill_TH.cs</LastGenOutput>
@@ -1204,6 +1239,17 @@
     </None>
     <None Include="DS\DSKitchen.xss">
       <DependentUpon>DSKitchen.xsd</DependentUpon>
+    </None>
+    <None Include="DS\DS_FBreport.xsc">
+      <DependentUpon>DS_FBreport.xsd</DependentUpon>
+    </None>
+    <None Include="DS\DS_FBreport.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DS_FBreport.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DS\DS_FBreport.xss">
+      <DependentUpon>DS_FBreport.xsd</DependentUpon>
     </None>
     <None Include="DS\Ds_PartyBooking.xsc">
       <DependentUpon>Ds_PartyBooking.xsd</DependentUpon>

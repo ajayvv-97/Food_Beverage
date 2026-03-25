@@ -13,9 +13,8 @@ namespace Domain
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
+        public DateTime BookingDateTime { get; set; }
 
-        public DateTime BookingDate { get; set; }
-        public TimeSpan BookingTime { get; set; }
         public int EventType { get; set; }
 
         public int NoOfAdults { get; set; }
