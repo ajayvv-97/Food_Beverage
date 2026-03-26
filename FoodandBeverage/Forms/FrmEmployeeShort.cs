@@ -1105,7 +1105,7 @@ namespace FoodandBeverage.Forms
                     dmnEmployee.TimeOut = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfJoin = dtpBirthDate.MinDate;
                     dmnEmployee.DateOfResign = dtpBirthDate.MinDate;
-                    dmnEmployee.BranchId = FrmLogin.BranchId;
+                    dmnEmployee.BranchId = FrmLogin.BranchId == 0 ? 1 : FrmLogin.BranchId;
                     dmnEmployee.RFID_Login_Status = Convert.ToInt32(chk_Rfid_Login.CheckState);
                     dmnEmployee.Status = Convert.ToInt32(chkactive.CheckState);
                     dmnEmployee.ModifiedBy = FrmLogin.UserId;
