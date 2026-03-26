@@ -1512,6 +1512,8 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnPackageType;
             
+            private global::System.Data.DataColumn columnTaxAmount;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_saledetailsDataTable() {
@@ -1651,6 +1653,14 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TaxAmountColumn {
+                get {
+                    return this.columnTaxAmount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1686,7 +1696,7 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public DT_saledetailsRow AddDT_saledetailsRow(string ItemName, decimal Quantity, decimal SalesRate, decimal NetAmount, decimal Amount, decimal DiscountAmount, decimal Taxper, int MainCategoryCount, string MainCategory, int AddonStatus, decimal TotalQTY, int PartyBookingId, int PackageType) {
+            public DT_saledetailsRow AddDT_saledetailsRow(string ItemName, decimal Quantity, decimal SalesRate, decimal NetAmount, decimal Amount, decimal DiscountAmount, decimal Taxper, int MainCategoryCount, string MainCategory, int AddonStatus, decimal TotalQTY, int PartyBookingId, int PackageType, decimal TaxAmount) {
                 DT_saledetailsRow rowDT_saledetailsRow = ((DT_saledetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ItemName,
@@ -1701,7 +1711,8 @@ namespace FoodandBeverage.DS {
                         AddonStatus,
                         TotalQTY,
                         PartyBookingId,
-                        PackageType};
+                        PackageType,
+                        TaxAmount};
                 rowDT_saledetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_saledetailsRow);
                 return rowDT_saledetailsRow;
@@ -1737,6 +1748,7 @@ namespace FoodandBeverage.DS {
                 this.columnTotalQTY = base.Columns["TotalQTY"];
                 this.columnPartyBookingId = base.Columns["PartyBookingId"];
                 this.columnPackageType = base.Columns["PackageType"];
+                this.columnTaxAmount = base.Columns["TaxAmount"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1768,6 +1780,8 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnPartyBookingId);
                 this.columnPackageType = new global::System.Data.DataColumn("PackageType", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPackageType);
+                this.columnTaxAmount = new global::System.Data.DataColumn("TaxAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTaxAmount);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3725,6 +3739,22 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TaxAmount {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_saledetails.TaxAmountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TaxAmount\' in table \'DT_saledetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_saledetails.TaxAmountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsItemNameNull() {
                 return this.IsNull(this.tableDT_saledetails.ItemNameColumn);
             }
@@ -3877,6 +3907,18 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetPackageTypeNull() {
                 this[this.tableDT_saledetails.PackageTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTaxAmountNull() {
+                return this.IsNull(this.tableDT_saledetails.TaxAmountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTaxAmountNull() {
+                this[this.tableDT_saledetails.TaxAmountColumn] = global::System.Convert.DBNull;
             }
         }
         

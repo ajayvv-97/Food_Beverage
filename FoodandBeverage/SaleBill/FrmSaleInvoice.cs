@@ -63,10 +63,15 @@ namespace FoodandBeverage.SaleBill
         public bool Logo_Status = false;
         public bool QR_Status = false;
         public bool Customer_Status = false;
-        public string FooterMsg = ""; 
+        public string FooterMsg = "";
+        int Fdefaultwidth = 0;
+        int Fdefaultheight = 0;
         #endregion
         private void FrmSaleInvoice_Load(object sender, EventArgs e)
         {
+            Fdefaultwidth = this.Width;
+            Fdefaultheight = this.Height;
+
             textb_shape();
             MessageCheck();
             if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill))
@@ -744,26 +749,27 @@ namespace FoodandBeverage.SaleBill
                 else
                     reportDocument.SetParameterValue("Gstbill", 0);
 
-                reportDocument.SetParameterValue("payname", payname);
-                reportDocument.SetParameterValue("cashamount", cashamount);
-                reportDocument.SetParameterValue("otheramount", 0);
-                reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
-                reportDocument.SetParameterValue("footermsg", FooterMsg);
-
-                reportDocument.SetParameterValue("smid", SalesMasterId);
-
-                string imgpath = FrmLogin.logoPath + @"sblogo.png";
-                if (File.Exists(imgpath))
+                if (rb_th.Checked)
                 {
-                    reportDocument.SetParameterValue("Logopath", imgpath);
+                    reportDocument.SetParameterValue("payname", payname);
+                    reportDocument.SetParameterValue("cashamount", cashamount);
+                    reportDocument.SetParameterValue("otheramount", 0);
+                    reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
+                    reportDocument.SetParameterValue("footermsg", FooterMsg);
+
+                    reportDocument.SetParameterValue("smid", SalesMasterId);
+
+                    string imgpath = FrmLogin.logoPath + @"sblogo.png";
+                    if (File.Exists(imgpath))
+                    {
+                        reportDocument.SetParameterValue("Logopath", imgpath);
+                    }
+                    else
+                    {
+                        reportDocument.SetParameterValue("Logopath", string.Empty);
+                    }
+
                 }
-                else
-                {
-                    reportDocument.SetParameterValue("Logopath", string.Empty);
-                }
-
-
-
                 #endregion
 
                 #region SHOW + EXPORT
@@ -899,14 +905,58 @@ namespace FoodandBeverage.SaleBill
         {
             try
             {
-                ReportDocument reportDocument = crvSalesBill.ReportSource as ReportDocument;
-                reportDocument.PrintToPrinter(1, false, 0, 0);
+                if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill))
+                {
+                    ReportDocument reportDocument = crvSalesBill.ReportSource as ReportDocument;
+                    reportDocument.PrintToPrinter(1, false, 0, 0);
+                }
+                else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
+                {
+                    ApplyFormSize();
+                    ReportDocument reportDocument = crvSalesBill.ReportSource as ReportDocument;
+                    reportDocument.PrintToPrinter(1, false, 0, 0);
+                }
             }
             catch(Exception ex)
             {
 
             }
         }
+        private void ApplyFormSize()
+        {
+            if (rb_a4.Checked)
+            {
+                int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
+                int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+
+                this.Width = (int)(screenWidth * 0.8);
+                this.Height = (int)(screenHeight * 0.8);
+            }
+            else if (rb_th.Checked)
+            {
+                this.Width = Fdefaultwidth;
+                this.Height = Fdefaultheight;
+            }
+            else
+            {
+                this.Width = Fdefaultwidth;
+                this.Height = Fdefaultheight;
+            }
+
+            crvSalesBill.Dock = DockStyle.Fill;
+
+            CenterForm(); 
+        }
+        private void CenterForm()
+        {
+            this.StartPosition = FormStartPosition.Manual;
+
+            int x = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
+            int y = (Screen.PrimaryScreen.WorkingArea.Height - this.Height) / 2;
+
+            this.Location = new Point(x, y);
+        }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -1321,5 +1371,24 @@ namespace FoodandBeverage.SaleBill
                 ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
             }
         }
+
+        private void rb_th_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_th.Checked)
+            {
+                ApplyFormSize();
+                PrintPartyBill(); 
+            }
+        }
+
+        private void rb_a4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_a4.Checked)
+            {
+                ApplyFormSize();
+                PrintPartyBill(); 
+            }
+        }
+      
     }
 }

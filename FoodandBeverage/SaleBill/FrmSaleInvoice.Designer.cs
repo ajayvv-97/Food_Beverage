@@ -31,7 +31,6 @@ namespace FoodandBeverage.SaleBill
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSaleInvoice));
             this.tlp_printbox = new System.Windows.Forms.TableLayoutPanel();
-            this.btngst = new System.Windows.Forms.Button();
             this.lab_prinnter = new System.Windows.Forms.Label();
             this.txt_gmail_report = new System.Windows.Forms.TextBox();
             this.btn_gmail = new System.Windows.Forms.Button();
@@ -40,6 +39,9 @@ namespace FoodandBeverage.SaleBill
             this.btn_whatsup = new System.Windows.Forms.Button();
             this.lab_repor_cls = new System.Windows.Forms.Label();
             this.btn_print = new System.Windows.Forms.Button();
+            this.btngst = new System.Windows.Forms.Button();
+            this.rb_a4 = new System.Windows.Forms.RadioButton();
+            this.rb_th = new System.Windows.Forms.RadioButton();
             this.pd_POS = new System.Windows.Forms.PrintDialog();
             this.crvSalesBill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.tlp_main_bill = new System.Windows.Forms.TableLayoutPanel();
@@ -72,8 +74,6 @@ namespace FoodandBeverage.SaleBill
             this.btn_userreg_cls = new System.Windows.Forms.Button();
             this.tlp_userreg_btns = new System.Windows.Forms.TableLayoutPanel();
             this.btn_userreg_submit = new System.Windows.Forms.Button();
-            this.rb_a4 = new System.Windows.Forms.RadioButton();
-            this.rb_th = new System.Windows.Forms.RadioButton();
             this.tlp_printbox.SuspendLayout();
             this.tlp_main_bill.SuspendLayout();
             this.pnl_userreg.SuspendLayout();
@@ -91,7 +91,6 @@ namespace FoodandBeverage.SaleBill
             this.tlp_printbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tlp_printbox.ColumnCount = 1;
             this.tlp_printbox.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_printbox.Controls.Add(this.rb_a4, 0, 1);
             this.tlp_printbox.Controls.Add(this.lab_prinnter, 0, 4);
             this.tlp_printbox.Controls.Add(this.txt_gmail_report, 0, 5);
             this.tlp_printbox.Controls.Add(this.btn_gmail, 0, 6);
@@ -100,8 +99,9 @@ namespace FoodandBeverage.SaleBill
             this.tlp_printbox.Controls.Add(this.btn_whatsup, 0, 8);
             this.tlp_printbox.Controls.Add(this.lab_repor_cls, 0, 11);
             this.tlp_printbox.Controls.Add(this.btn_print, 0, 3);
-            this.tlp_printbox.Controls.Add(this.rb_th, 0, 2);
             this.tlp_printbox.Controls.Add(this.btngst, 0, 12);
+            this.tlp_printbox.Controls.Add(this.rb_a4, 0, 2);
+            this.tlp_printbox.Controls.Add(this.rb_th, 0, 1);
             this.tlp_printbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_printbox.Location = new System.Drawing.Point(3, 3);
             this.tlp_printbox.Name = "tlp_printbox";
@@ -124,30 +124,14 @@ namespace FoodandBeverage.SaleBill
             this.tlp_printbox.Size = new System.Drawing.Size(111, 634);
             this.tlp_printbox.TabIndex = 66;
             // 
-            // btngst
-            // 
-            this.btngst.BackgroundImage = global::FoodandBeverage.Properties.Resources.GST;
-            this.btngst.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btngst.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btngst.FlatAppearance.BorderSize = 0;
-            this.btngst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btngst.Location = new System.Drawing.Point(3, 373);
-            this.btngst.Name = "btngst";
-            this.btngst.Size = new System.Drawing.Size(105, 42);
-            this.btngst.TabIndex = 62;
-            this.btngst.Text = "GST Bill";
-            this.btngst.UseVisualStyleBackColor = true;
-            this.btngst.Click += new System.EventHandler(this.btngst_Click);
-            // 
             // lab_prinnter
             // 
             this.lab_prinnter.AutoSize = true;
-            this.lab_prinnter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lab_prinnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lab_prinnter.ForeColor = System.Drawing.Color.Red;
             this.lab_prinnter.Location = new System.Drawing.Point(3, 119);
             this.lab_prinnter.Name = "lab_prinnter";
-            this.lab_prinnter.Size = new System.Drawing.Size(105, 18);
+            this.lab_prinnter.Size = new System.Drawing.Size(68, 18);
             this.lab_prinnter.TabIndex = 60;
             this.lab_prinnter.Text = "Press F4";
             this.lab_prinnter.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -156,7 +140,6 @@ namespace FoodandBeverage.SaleBill
             // txt_gmail_report
             // 
             this.txt_gmail_report.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txt_gmail_report.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_gmail_report.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_gmail_report.Location = new System.Drawing.Point(3, 140);
             this.txt_gmail_report.Multiline = true;
@@ -197,7 +180,6 @@ namespace FoodandBeverage.SaleBill
             // txt_ph_report
             // 
             this.txt_ph_report.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txt_ph_report.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_ph_report.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_ph_report.Location = new System.Drawing.Point(3, 224);
             this.txt_ph_report.Multiline = true;
@@ -222,12 +204,11 @@ namespace FoodandBeverage.SaleBill
             // lab_repor_cls
             // 
             this.lab_repor_cls.AutoSize = true;
-            this.lab_repor_cls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lab_repor_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lab_repor_cls.ForeColor = System.Drawing.Color.Red;
             this.lab_repor_cls.Location = new System.Drawing.Point(3, 352);
             this.lab_repor_cls.Name = "lab_repor_cls";
-            this.lab_repor_cls.Size = new System.Drawing.Size(105, 18);
+            this.lab_repor_cls.Size = new System.Drawing.Size(68, 18);
             this.lab_repor_cls.TabIndex = 61;
             this.lab_repor_cls.Text = "Press F6";
             this.lab_repor_cls.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -249,6 +230,48 @@ namespace FoodandBeverage.SaleBill
             this.btn_print.MouseLeave += new System.EventHandler(this.btn_print_MouseLeave);
             this.btn_print.MouseHover += new System.EventHandler(this.btn_print_MouseHover);
             // 
+            // btngst
+            // 
+            this.btngst.BackgroundImage = global::FoodandBeverage.Properties.Resources.GST;
+            this.btngst.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btngst.FlatAppearance.BorderSize = 0;
+            this.btngst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btngst.Location = new System.Drawing.Point(3, 373);
+            this.btngst.Name = "btngst";
+            this.btngst.Size = new System.Drawing.Size(105, 42);
+            this.btngst.TabIndex = 62;
+            this.btngst.Text = "GST Bill";
+            this.btngst.UseVisualStyleBackColor = true;
+            this.btngst.Click += new System.EventHandler(this.btngst_Click);
+            // 
+            // rb_a4
+            // 
+            this.rb_a4.AutoSize = true;
+            this.rb_a4.Checked = true;
+            this.rb_a4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rb_a4.Location = new System.Drawing.Point(3, 49);
+            this.rb_a4.Name = "rb_a4";
+            this.rb_a4.Size = new System.Drawing.Size(44, 20);
+            this.rb_a4.TabIndex = 64;
+            this.rb_a4.TabStop = true;
+            this.rb_a4.Text = "A4";
+            this.rb_a4.UseVisualStyleBackColor = true;
+            this.rb_a4.Visible = false;
+            this.rb_a4.CheckedChanged += new System.EventHandler(this.rb_a4_CheckedChanged);
+            // 
+            // rb_th
+            // 
+            this.rb_th.AutoSize = true;
+            this.rb_th.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rb_th.Location = new System.Drawing.Point(3, 23);
+            this.rb_th.Name = "rb_th";
+            this.rb_th.Size = new System.Drawing.Size(83, 20);
+            this.rb_th.TabIndex = 63;
+            this.rb_th.Text = "Thermal";
+            this.rb_th.UseVisualStyleBackColor = true;
+            this.rb_th.Visible = false;
+            this.rb_th.CheckedChanged += new System.EventHandler(this.rb_th_CheckedChanged);
+            // 
             // pd_POS
             // 
             this.pd_POS.UseEXDialog = true;
@@ -267,7 +290,6 @@ namespace FoodandBeverage.SaleBill
             this.crvSalesBill.ShowGroupTreeButton = false;
             this.crvSalesBill.ShowLogo = false;
             this.crvSalesBill.ShowParameterPanelButton = false;
-            this.crvSalesBill.ShowPrintButton = false;
             this.crvSalesBill.ShowTextSearchButton = false;
             this.crvSalesBill.ShowZoomButton = false;
             this.crvSalesBill.Size = new System.Drawing.Size(396, 634);
@@ -278,15 +300,15 @@ namespace FoodandBeverage.SaleBill
             // tlp_main_bill
             // 
             this.tlp_main_bill.ColumnCount = 2;
-            this.tlp_main_bill.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.73603F));
-            this.tlp_main_bill.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.26397F));
+            this.tlp_main_bill.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_main_bill.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_main_bill.Controls.Add(this.tlp_printbox, 0, 0);
             this.tlp_main_bill.Controls.Add(this.crvSalesBill, 1, 0);
             this.tlp_main_bill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main_bill.Location = new System.Drawing.Point(0, 0);
             this.tlp_main_bill.Name = "tlp_main_bill";
             this.tlp_main_bill.RowCount = 1;
-            this.tlp_main_bill.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_main_bill.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_main_bill.Size = new System.Drawing.Size(519, 640);
             this.tlp_main_bill.TabIndex = 68;
             // 
@@ -699,34 +721,6 @@ namespace FoodandBeverage.SaleBill
             this.btn_userreg_submit.TabIndex = 10;
             this.btn_userreg_submit.UseVisualStyleBackColor = true;
             this.btn_userreg_submit.Click += new System.EventHandler(this.btn_userreg_submit_Click);
-            // 
-            // rb_a4
-            // 
-            this.rb_a4.AutoSize = true;
-            this.rb_a4.Checked = true;
-            this.rb_a4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rb_a4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rb_a4.Location = new System.Drawing.Point(3, 23);
-            this.rb_a4.Name = "rb_a4";
-            this.rb_a4.Size = new System.Drawing.Size(105, 20);
-            this.rb_a4.TabIndex = 64;
-            this.rb_a4.TabStop = true;
-            this.rb_a4.Text = "Thermal";
-            this.rb_a4.UseVisualStyleBackColor = true;
-            this.rb_a4.Visible = false;
-            // 
-            // rb_th
-            // 
-            this.rb_th.AutoSize = true;
-            this.rb_th.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rb_th.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rb_th.Location = new System.Drawing.Point(3, 49);
-            this.rb_th.Name = "rb_th";
-            this.rb_th.Size = new System.Drawing.Size(105, 20);
-            this.rb_th.TabIndex = 63;
-            this.rb_th.Text = "A4";
-            this.rb_th.UseVisualStyleBackColor = true;
-            this.rb_th.Visible = false;
             // 
             // FrmSaleInvoice
             // 
