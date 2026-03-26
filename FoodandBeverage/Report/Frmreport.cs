@@ -1147,14 +1147,19 @@ namespace FoodandBeverage.Report
                 dmnSearch.Select = @"
                                     ISNULL(SUM(TotalTax),0) AS Field1, 
                                     ISNULL(SUM(TotalPreTaxAmt),0) AS Field2";
-                dmnSearch.Table = "tblSalesMaster";
-                dmnSearch.WhereNdGroupBy = $@"
-                                        WHERE EntryDate >= '{fromDate}' 
-                                        AND EntryDate <= '{toDate}'
-                                        AND Status = 1
-                                        AND BranchId = {BranchId}
-                                        AND PaymentMode != {Convert.ToInt32(PaymentType.COMPLEMENTRY)}
-                                        AND PaymentMode != {Convert.ToInt32(PaymentType.Nocharge)}";
+                dmnSearch.Table = "tblSalesMaster s";
+    
+                dmnSearch.WhereNdGroupBy = @"  WHERE (
+                                                    (s.SaleType = 3 AND s.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + @"' 
+                                                     AND s.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + @"')
+                                                    OR
+                                                    (s.SaleType <> 3 AND s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + @"' 
+                                                     AND s.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + @"')
+                                                )
+                                                AND s.Status = 1
+                                                AND s.BranchId = " + BranchId + @"
+                                                AND s.PaymentMode != " + Convert.ToInt32(PaymentType.COMPLEMENTRY) + @"
+                                                AND s.PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge);
 
                 var itemsourcetax = blltax.GetSearchData("prdSearch", dmnSearch);
                 if (itemsourcetax.Count > 0)

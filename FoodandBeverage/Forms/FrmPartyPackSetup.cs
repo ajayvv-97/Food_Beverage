@@ -91,6 +91,7 @@ namespace FoodandBeverage.Forms
         int selectedCakeId = 0;
 
         private readonly Image Grid_Remove = Properties.Resources.Round_Close;
+        private readonly Image Blankimage = Properties.Resources.backspace;
         #endregion
 
         public FrmPartyPackSetup()
@@ -115,6 +116,7 @@ namespace FoodandBeverage.Forms
                 }
 
                 Taxfill();
+
                 LoadMenuCategory();
                 LoadMenuCategory_Cutom();
 
@@ -122,9 +124,13 @@ namespace FoodandBeverage.Forms
 
                 dgv_packs_default.BringToFront();
                 dgv_packs_default.Visible = true;
-
                 if (dgv_packs_default.Rows.Count == 0)
-                    dgv_packs_default.Rows.Add();
+                {
+                    int rowIndexDefault = dgv_packs_default.Rows.Add();
+                    DataGridViewImageCell cellDefault = (DataGridViewImageCell)dgv_packs_default.Rows[rowIndexDefault].Cells[Ractionno];
+                    cellDefault.Value = Grid_Remove;
+                    cellDefault.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                }
 
                 RefreshSlNo();
 
@@ -141,7 +147,12 @@ namespace FoodandBeverage.Forms
                 };
 
                 if (dgv_packcustom.Rows.Count == 0)
-                    dgv_packcustom.Rows.Add();
+                {
+                    int rowIndexCustom = dgv_packcustom.Rows.Add();
+                    DataGridViewImageCell cellCustom = (DataGridViewImageCell)dgv_packcustom.Rows[rowIndexCustom].Cells[Cmactionno];
+                    cellCustom.Value = Grid_Remove;
+                    cellCustom.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                }
 
                 RefreshCustomSlNo();
 
@@ -179,12 +190,12 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 cmbtax_cake.SelectedIndex = 0;
+
             }
             catch(Exception ex)
             {
-
             }
-            }
+        }
 
         private bool HasEmptyRow()
         {
@@ -244,7 +255,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Product page Taxfill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
         }
-
         private void LoadMenuCategory()
         {
             try
@@ -259,9 +269,7 @@ namespace FoodandBeverage.Forms
 
                 categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
 
-                // ✅ Bind to DataGridView ComboBox column
-                DataGridViewComboBoxColumn cmb =
-                    (DataGridViewComboBoxColumn)dgv_packs_default.Columns[Rcategmenuno];
+                DataGridViewComboBoxColumn cmb = (DataGridViewComboBoxColumn)dgv_packs_default.Columns[Rcategmenuno];
 
                 cmb.DataSource = categoryList;
                 cmb.DisplayMember = "CategoryName";
@@ -412,18 +420,14 @@ namespace FoodandBeverage.Forms
             }
         }
 
-       
-
         private void btncancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnclose_drawer_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnsave_Click(object sender, EventArgs e)
         {
             try
@@ -720,8 +724,6 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(ex.Message);
             }
         }
-
-
         public bool MandatoryCheck_PartyPack()
         {
             try
@@ -743,7 +745,7 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
 
-                if (Convert.ToDecimal(txtadultprice.Text) <= 0)
+                if (Convert.ToDecimal(txtadultprice.Text) < 0)
                 {
                     CMessageBox.Show("Please Enter Valid Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtadultprice.Focus();
@@ -809,12 +811,10 @@ namespace FoodandBeverage.Forms
                 return false;
             }
         }
-
         private void btnrefresh_Click(object sender, EventArgs e)
         {
             clearall();
         }
-
         public void clearall()
         {
             try
@@ -837,11 +837,19 @@ namespace FoodandBeverage.Forms
                 txtSgstPrcnt.Text = "";
 
                 cmbTaxType.SelectedIndex = 0;
+
                 dgv_packs_default.Rows.Clear();
-                dgv_packs_default.Rows.Add();
+                int rowIndex = dgv_packs_default.Rows.Add();
+                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs_default.Rows[rowIndex].Cells[Ractionno];
+                cellcolumntype.Value = Grid_Remove;
+                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
                 dgv_packcustom.Rows.Clear();
-                dgv_packcustom.Rows.Add();
+                rowIndex = dgv_packcustom.Rows.Add();
+                cellcolumntype = (DataGridViewImageCell)dgv_packcustom.Rows[rowIndex].Cells[Cmactionno];
+                cellcolumntype.Value = Grid_Remove;
+                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
                 LoadCustomMenu();
                 btn_del_pack.Visible = false;
 
@@ -876,6 +884,7 @@ namespace FoodandBeverage.Forms
 
                 ClearCake();
 
+                pnl_cakeconfig.Visible = false;
             }
             catch (Exception ex)
             {
@@ -910,14 +919,15 @@ namespace FoodandBeverage.Forms
 
                     if (isLastRow && !HasEmptyRow())
                     {
-                        dgv_packs_default.Rows.Add();
+                        int rowi=dgv_packs_default.Rows.Add();
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs_default.Rows[rowi].Cells[Ractionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
-
                     RefreshSlNo();
                 }
             }
         }
-
         private void btnSearch_Click(object sender, EventArgs e)
         {
             try
@@ -971,7 +981,6 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(ex.Message);
             }
         }
-
         private void FillData(int id)
         {
             try
@@ -1021,7 +1030,6 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(ex.Message);
             }
         }
-
         private void LoadPackageWorkTime(int branchId)
         {
             try
@@ -1118,6 +1126,10 @@ namespace FoodandBeverage.Forms
                         {
                             row.Cells[Rcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
                         }
+
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs_default.Rows[rowIndex].Cells[Ractionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
                     // ------------------ GIFT ITEMS ------------------
                     else if (item.PackItemType == (int)PackItemType.Gift)
@@ -1167,7 +1179,6 @@ namespace FoodandBeverage.Forms
                 Loaddetailsflag = false;
             }
         }
-
         private void ApplyCardSelectionToGrid()
         {
             foreach (DataGridViewRow row in dgv_card.Rows)
@@ -1191,7 +1202,6 @@ namespace FoodandBeverage.Forms
                 }
             }
         }
-
         private void LoadCustomMenu(int packId=0)
         {
             try
@@ -1233,7 +1243,10 @@ namespace FoodandBeverage.Forms
                 RefreshCustomSlNo();
                 if (!HasEmptyRowCustom())
                 {
-                    dgv_packcustom.Rows.Add();
+                    int rowIndex = dgv_packcustom.Rows.Add();
+                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packcustom.Rows[rowIndex].Cells[Cmactionno];
+                    cellcolumntype.Value = Grid_Remove;
+                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 }
             }
             catch (Exception ex)
@@ -1245,7 +1258,6 @@ namespace FoodandBeverage.Forms
                 Loadcustomflag = false;
             }
         }
-
         private bool HasEmptyRowCustom()
         {
             foreach (DataGridViewRow row in dgv_packcustom.Rows)
@@ -1260,7 +1272,6 @@ namespace FoodandBeverage.Forms
             }
             return false;
         }
-
         private void RefreshCustomSlNo()
         {
             for (int i = 0; i < dgv_packcustom.Rows.Count; i++)
@@ -1292,8 +1303,6 @@ namespace FoodandBeverage.Forms
                 }
             }
         }
-
-
         private void dgv_packs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -1315,7 +1324,6 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(ex.Message);
             }
         }
-
         private void DeleteGridRow(int rowIndex)
         {
             try
@@ -1371,32 +1379,6 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(ex.Message);
             }
         }
-
-
-        private void dgv_packs_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            if (e.ColumnIndex == Ractionno)
-            {
-                var row = dgv_packs_default.Rows[e.RowIndex];
-
-                if (row.IsNewRow ||
-                    row.Cells[Ritemno].Value == null ||
-                    string.IsNullOrWhiteSpace(row.Cells[Ritemno].Value.ToString()))
-                {
-                    e.Value = null; // hide
-                }
-                else
-                {
-                    e.Value = Properties.Resources.Round_Close; // ✅ your image
-                }
-            }
-        }
-
-
-
- 
 
         private void dgv_packcustom_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1475,28 +1457,7 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show(ex.Message);
             }
         }
-
-        private void dgv_packcustom_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            if (e.ColumnIndex == Cmactionno)
-            {
-                var row = dgv_packcustom.Rows[e.RowIndex];
-
-                if (row.IsNewRow ||
-                    row.Cells[Cmitemno].Value == null ||
-                    string.IsNullOrWhiteSpace(row.Cells[Cmitemno].Value.ToString()))
-                {
-                    e.Value = null; // hide image
-                }
-                else
-                {
-                    e.Value = Properties.Resources.Round_Close; // show image
-                }
-            }
-        }
-
+        
         private void dgv_packcustom_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (Loadcustomflag) return;
@@ -1520,21 +1481,19 @@ namespace FoodandBeverage.Forms
                         qtyCell.Value = 1;
                     }
 
-                    // ✅ Optional: Auto set price (if product has price)
-                    // row.Cells[Cmprice].Value = GetProductPrice(Convert.ToInt32(value));
-
                     bool isLastRow = e.RowIndex == dgv_packcustom.Rows.Count - 1;
 
                     if (isLastRow && !HasEmptyRowCustom())
                     {
-                        dgv_packcustom.Rows.Add();
+                        int rowi=dgv_packcustom.Rows.Add();
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packcustom.Rows[rowi].Cells[Cmactionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
-
                     RefreshCustomSlNo();
                 }
             }
         }
-
         private void btn_del_pack_Click(object sender, EventArgs e)
         {
             try
@@ -2166,6 +2125,7 @@ namespace FoodandBeverage.Forms
                     ClearCake();
                     selectedCakeId = 0;   
                     btndel_cake.Visible = false;
+                    pnl_cakeconfig.Visible = false;
                 }
             }
             catch (Exception ex)

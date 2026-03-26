@@ -368,75 +368,7 @@ namespace FoodandBeverage
                     txttax.Text = Convert.ToString(list[0].Tax);
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
 
-
-                    for (int col = 1; col < tlp_reg_contrl.ColumnCount; col++)
-                    {
-                        Control c1 = tlp_reg_contrl.GetControlFromPosition(col, 4);
-                        if (c1 != null) tlp_reg_contrl.Controls.Remove(c1);
-
-                        Control c2 = tlp_reg_contrl.GetControlFromPosition(col, 5);
-                        if (c2 != null) tlp_reg_contrl.Controls.Remove(c2);
-                    }
-
-                    int rowLabel = 4;
-                    int rowTextBox = 5;
-
-                    lbladult.Dock = DockStyle.Fill;
-                    txtAdults.Dock = DockStyle.Fill;
-
-                    lbltotalguest.Dock = DockStyle.Fill;
-                    txttotalguest.Dock = DockStyle.Fill;
-
-                    txtChild.Visible = false;
-                    lblnochild.Visible = false;
-
-                    txtAdults.Visible = false;
-                    lbladult.Visible = false;
-                    tlp_adult_child_label.Dock = DockStyle.Fill;
-                    tlp_adult_child_text.Dock = DockStyle.Fill;
-
-                    if ((list[0].ChildPrice > 0) && (list[0].AdultPrice > 0))
-                    {
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
-
-                        tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
-                        tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
-
-                        txtChild.Visible = true;
-                        lblnochild.Visible = true;
-
-                        txtAdults.Visible = true;
-                        lbladult.Visible = true;
-                    }
-                    else if (list[0].ChildPrice > 0)
-                    {
-                        lblnochild.Dock = DockStyle.Fill;
-                        txtChild.Dock = DockStyle.Fill;
-
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
-
-                        tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
-                        tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
-
-                        txtChild.Visible = true;
-                        lblnochild.Visible = true;
-
-                        txtAdults.Visible = false;
-                        lbladult.Visible = false;
-                    }
-                    else
-                    {
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
-
-                        txtChild.Visible = false;
-                        lblnochild.Visible = false;
-
-                        txtAdults.Visible = true;
-                        lbladult.Visible = true;
-                    }
+                    SetupGuestControls();
 
                     foreach (var item in list)
                     {
@@ -518,6 +450,7 @@ namespace FoodandBeverage
                             Partypackid = packId;
 
                             Loadprice(packId);
+
                             if (item.DetailsCount > 0)
                             {
                                 OpenPackEntryPanel();
@@ -531,7 +464,10 @@ namespace FoodandBeverage
                                 lblpackname.Text = SetPackName(packId);
                                 OpenPackEntryPanel();
                             }
+
+                            SetupGuestControls();
                             textb_shape();
+
                         };
 
                         if (item.DetailsCount > 0)
@@ -584,6 +520,100 @@ namespace FoodandBeverage
             catch (Exception ex)
             {
                 CMessageBox.Show(ex.Message);
+            }
+        }
+        private void SetupGuestControls()
+        {
+            try
+            {
+                decimal childPrice = 0;
+                decimal adultPrice = 0;
+
+                decimal.TryParse(txtChildPrice.Text, out childPrice);
+                decimal.TryParse(txtAdultPrice.Text, out adultPrice);
+
+                for (int col = 1; col < tlp_reg_contrl.ColumnCount; col++)
+                {
+                    Control c1 = tlp_reg_contrl.GetControlFromPosition(col, 4);
+                    if (c1 != null) tlp_reg_contrl.Controls.Remove(c1);
+
+                    Control c2 = tlp_reg_contrl.GetControlFromPosition(col, 5);
+                    if (c2 != null) tlp_reg_contrl.Controls.Remove(c2);
+                }
+
+                int rowLabel = 4;
+                int rowTextBox = 5;
+
+                txtChild.Visible = false;
+                lblnochild.Visible = false;
+                txtAdults.Visible = false;
+                lbladult.Visible = false;
+
+                tlp_reg_contrl.ColumnCount = 3;
+
+                if (childPrice > 0 && adultPrice > 0)
+                {
+                    tlp_adult_child_text.ColumnStyles[0].SizeType = SizeType.Percent;
+                    tlp_adult_child_text.ColumnStyles[0].Width = 50;
+
+                    tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.Percent;
+                    tlp_adult_child_text.ColumnStyles[1].Width = 50;
+
+                    tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                    tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
+
+                    tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
+                    tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
+
+                    txtChild.Visible = true;
+                    lblnochild.Visible = true;
+
+                    txtAdults.Visible = true;
+                    lbladult.Visible = true;
+                }
+                else if (childPrice > 0)
+                {
+                    tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.AutoSize;
+                    tlp_adult_child_text.ColumnStyles[0].SizeType = SizeType.Percent;
+                    tlp_adult_child_text.ColumnStyles[0].Width = 100;
+
+                    tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                    tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
+
+                    txtChild.Visible = true;
+                    lblnochild.Visible = true;
+
+                    txtAdults.Visible = false;
+                    lbladult.Visible = false;
+                }
+                else
+                {
+                    tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.AutoSize;
+                    tlp_adult_child_text.ColumnStyles[0].SizeType = SizeType.Percent;
+                    tlp_adult_child_text.ColumnStyles[0].Width = 100;
+
+                    tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
+                    tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
+
+                    txtChild.Visible = false;
+                    lblnochild.Visible = false;
+
+                    txtAdults.Visible = true;
+                    lbladult.Visible = true;
+                }
+
+                lbladult.Dock = DockStyle.Fill;
+                txtAdults.Dock = DockStyle.Fill;
+                lbltotalguest.Dock = DockStyle.Fill;
+                txttotalguest.Dock = DockStyle.Fill;
+
+                tlp_adult_child_label.Dock = DockStyle.Fill;
+                tlp_adult_child_text.Dock = DockStyle.Fill;
+
+                textb_shape();
+            }
+            catch(Exception ex)
+            {
             }
         }
         private void LoadPartyPackDetails(int packid)
@@ -1067,14 +1097,12 @@ namespace FoodandBeverage
             try
             {
                 dgv_product.Rows.Clear();
+                int sl = 1; 
 
-                int sl = 1;
                 foreach (DataGridViewRow sourceRow in dgv_packenter.Rows)
                 {
                     if (sourceRow.IsNewRow) continue;
-
-                    if (sourceRow.Cells[selecteditemitemno].Value == null)
-                        continue;
+                    if (sourceRow.Cells[selecteditemitemno].Value == null) continue;
 
                     int rowIndex = dgv_product.Rows.Add();
                     DataGridViewRow targetRow = dgv_product.Rows[rowIndex];
@@ -1096,16 +1124,56 @@ namespace FoodandBeverage
                     targetRow.Cells[proPartyPackDetailsId].Value = sourceRow.Cells[selecteditemppcdiidno].Value;
                     targetRow.Cells[pPartydeafult].Value = sourceRow.Cells[selecteditemdeafultno].Value;
 
-                    DataGridViewImageCell cellcolumntype =(DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
+                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
 
                     targetRow.DefaultCellStyle.BackColor = Color.Gainsboro;
                     targetRow.DefaultCellStyle.ForeColor = Color.Black;
-
                     targetRow.ReadOnly = true;
 
                     cellcolumntype.Value = Blankimage;
                     cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 }
+
+
+                BllSearch<DmnPartyPackDetails> bll = new BllSearch<DmnPartyPackDetails>();
+                DmnSearch search = new DmnSearch();
+                search.Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId";
+                search.Table = "tblPartyPackDetails";
+                search.WhereNdGroupBy = $"WHERE PartyPackId = {Partypackid} AND Status = 1 AND " +
+                    $"(PackItemType = {Convert.ToInt32(PackItemType.Card)} OR PackItemType = {Convert.ToInt32(PackItemType.Gift)})";
+
+                var result = bll.GetSearchData("prdSearch", search);
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        int rowIndex = dgv_product.Rows.Add();
+                        DataGridViewRow targetRow = dgv_product.Rows[rowIndex];
+
+                        targetRow.Cells[pslno].Value = sl++; // continue serial
+                        targetRow.Cells[pitemno].Value = item.Item;
+
+                        if (item.MenuCategoryId != null && Convert.ToInt32(item.MenuCategoryId) > 0)
+                            targetRow.Cells[pcategmenuno].Value = GetCategoryName(Convert.ToInt32(item.MenuCategoryId));
+                        else
+                            targetRow.Cells[pcategmenuno].Value = "None";
+
+                        targetRow.Cells[pqtyno].Value = item.Quantity;
+                        targetRow.Cells[proPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                        targetRow.Cells[pPartydeafult].Value = 1;
+
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
+
+                        targetRow.DefaultCellStyle.BackColor = Color.Gainsboro;
+                        targetRow.DefaultCellStyle.ForeColor = Color.Black;
+                        targetRow.ReadOnly = true;
+
+                        cellcolumntype.Value = Blankimage;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    }
+                }
+
 
                 pnl_foodpacks.Visible = false;
                 pnl_enter_paks.Visible = false;
@@ -3609,6 +3677,8 @@ namespace FoodandBeverage
                 txtAdults.Focus();
 
                 lblBalAmt.Text = "0";
+
+                SetupGuestControls();
             }
             catch (Exception ex)
             {
@@ -3701,6 +3771,29 @@ namespace FoodandBeverage
                 if (adultPrice <= 0 && childPrice <= 0)
                 {
                     CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Check Name
+                if (string.IsNullOrWhiteSpace(txtname.Text))
+                {
+                    CMessageBox.Show("Please enter Name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtname.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtph.Text))
+                {
+                    CMessageBox.Show("Please enter Phone Number", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtph.Focus();
+                    return;
+                }
+
+                string phone = txtph.Text.Trim();
+                if (phone.Length < 10)
+                {
+                    CMessageBox.Show("Phone Number must be at least 10 digits", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtph.Focus();
                     return;
                 }
 
@@ -4850,76 +4943,7 @@ namespace FoodandBeverage
                     txtChildPrice.Text = master.ChildPrice != null ? Convert.ToDecimal(master.ChildPrice).ToString("0.00") : "0.00";
                     txtTaxSettingId.Text = Convert.ToString(master.TaxSettingsId);
 
-                    for (int col = 1; col < tlp_reg_contrl.ColumnCount; col++)
-                    {
-                        Control c1 = tlp_reg_contrl.GetControlFromPosition(col, 4);
-                        if (c1 != null) tlp_reg_contrl.Controls.Remove(c1);
-
-                        Control c2 = tlp_reg_contrl.GetControlFromPosition(col, 5);
-                        if (c2 != null) tlp_reg_contrl.Controls.Remove(c2);
-                    }
-
-                    int rowLabel = 4;
-                    int rowTextBox = 5;
-
-                    tlp_adult_child_label.Dock = DockStyle.Fill;
-                    tlp_adult_child_text.Dock = DockStyle.Fill;
-
-                    lbltotalguest.Dock = DockStyle.Fill;
-                    txttotalguest.Dock = DockStyle.Fill;
-
-                    lbltotalguest.Visible = true;
-                    txttotalguest.Visible = true;
-                    tlp_adult_child_label.Visible = true;
-                    tlp_adult_child_text.Visible = true;
-                    lblpackname.Visible = true;
-                    lblpacklabel.Visible = true;
-
-                    if ((master.ChildPrice > 0) && (master.AdultPrice > 0))
-                    {
-
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
-
-                        tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
-                        tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
-
-                        lbltotalguest.Visible = true;
-                        txttotalguest.Visible = true;
-                        tlp_adult_child_label.Visible = true;
-                        tlp_adult_child_text.Visible = true;
-                        lblpackname.Visible = true;
-                        lblpacklabel.Visible = true;
-                    }
-                    else if (master.ChildPrice > 0)
-                    {
-                        lblnochild.Dock = DockStyle.Fill;
-                        txtChild.Dock = DockStyle.Fill;
-
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
-
-                        tlp_reg_contrl.Controls.Add(lbltotalguest, 2, rowLabel);
-                        tlp_reg_contrl.Controls.Add(txttotalguest, 2, rowTextBox);
-
-                        txtChild.Visible = true;
-                        lblnochild.Visible = true;
-
-                        txtAdults.Visible = false;
-                        lbladult.Visible = false;
-
-                    }
-                    else
-                    {
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_label, 1, rowLabel);
-                        tlp_reg_contrl.Controls.Add(tlp_adult_child_text, 1, rowTextBox);
-
-                        txtChild.Visible = false;
-                        lblnochild.Visible = false;
-
-                        txtAdults.Visible = true;
-                        lbladult.Visible = true;
-                    }
+                    SetupGuestControls();
 
                 }
 
@@ -6806,7 +6830,7 @@ namespace FoodandBeverage
 
             if (taxType == "GST")
             {
-                if (cmbIgstPrcnt.SelectedIndex < 0)
+                if (cmbIgstPrcnt.SelectedIndex <= 0)
                 {
                     CMessageBox.Show("Please select IGST %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbIgstPrcnt.Focus();
@@ -6815,7 +6839,7 @@ namespace FoodandBeverage
             }
             else if (taxType == "VAT")
             {
-                if (cmbVatPrcnt.SelectedIndex < 0)
+                if (cmbVatPrcnt.SelectedIndex <= 0)
                 {
                     CMessageBox.Show("Please select VAT %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbVatPrcnt.Focus();
@@ -6895,7 +6919,8 @@ namespace FoodandBeverage
                 CalculateAndApplyTax(rowIndex, (int)PackItemType.ExtraChargeProduct, 0);
 
                 pnl_extracharge.Visible = false;
-
+                GetGrandTotal_All();
+                RecalculateAllRowsAndTotals();
                 CalculateDiscountPer();
                 CalculateNetAmount();
 
@@ -6921,8 +6946,6 @@ namespace FoodandBeverage
         {
             pnl_extracharge.Visible = false;
         }
-
-
         private void txtextracharge_amt_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
