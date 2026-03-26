@@ -7793,10 +7793,6 @@ namespace FoodandBeverage.Forms
 
                 List<KitchenProcessedRow> processedData = new List<KitchenProcessedRow>();
 
-                // ================================
-                // 1. READ DATA FROM DATAGRIDVIEW
-                // ================================
-
                 decimal totalQty = 0;
                 for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                 {
@@ -7859,9 +7855,7 @@ namespace FoodandBeverage.Forms
                     });
                 }
 
-                // ================================
-                // 2. MAIN CATEGORY COUNT (FOR LOOP)
-                // ================================
+
                 for (int i = 0; i < processedData.Count; i++)
                 {
                     int count = 0;
@@ -7873,9 +7867,6 @@ namespace FoodandBeverage.Forms
                     processedData[i].MainCategoryCount = count;
                 }
 
-                // ================================
-                // 3. LIST → DATATABLE
-                // ================================
                 if (processedData.Count > 0)
                 {
                     using (var reader = ObjectReader.Create(
@@ -7892,19 +7883,21 @@ namespace FoodandBeverage.Forms
 
                     dsReport.Tables.Add(dtSalesDetail);
                 }
+                if (processedData.Count > 0)
+                {
+                    // ================================
+                    // 4. CRYSTAL REPORT PRINT
+                    // ================================
+                    string reportPath = RPTPath + "CRkitchenbillnokot.rpt";
 
-                // ================================
-                // 4. CRYSTAL REPORT PRINT
-                // ================================
-                string reportPath = RPTPath + "CRkitchenbillnokot.rpt";
+                    if (!File.Exists(reportPath))
+                        throw new FileNotFoundException("Report file not found.", reportPath);
 
-                if (!File.Exists(reportPath))
-                    throw new FileNotFoundException("Report file not found.", reportPath);
-
-                reportDocument.Load(reportPath);
-                reportDocument.SetDataSource(dsReport);
-                crvkitchenbill.ReportSource = reportDocument;
-                reportDocument.PrintToPrinter(1, false, 0, 0);
+                    reportDocument.Load(reportPath);
+                    reportDocument.SetDataSource(dsReport);
+                    crvkitchenbill.ReportSource = reportDocument;
+                    reportDocument.PrintToPrinter(1, false, 0, 0);
+                }
                 #endregion
             }
             catch (Exception ex)
