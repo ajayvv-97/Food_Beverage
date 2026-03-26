@@ -3224,40 +3224,40 @@ namespace FoodandBeverage.Forms
 
                 btn_pickup.Visible = true;
 
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "COUNT(*) OVER() AS Field1";
-                objSearch.Table = "tbltable_info";
-                objSearch.WhereNdGroupBy = "Where Status=1";
-                objSearch.OrderBy = "";
-                var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
-                if (itemSource.Count > 0)
-                {
-                    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
-                    {
-                        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
-                        if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
-                            _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                        else
-                        {
-                            tlp_tablestatus.SuspendLayout();
-                            //btn_rev.Visible = true;
-                            //btn_running.Visible = true;
-                            //btn_avial.Visible = true;
-                            //btntrefresh.Visible = true;
-                            tlp_tablestatus.ResumeLayout();
+                //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                //DmnSearch objSearch = new DmnSearch();
+                //objSearch.Select = "COUNT(*) OVER() AS Field1";
+                //objSearch.Table = "tbltable_info";
+                //objSearch.WhereNdGroupBy = "Where Status=1";
+                //objSearch.OrderBy = "";
+                //var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                //if (itemSource.Count > 0)
+                //{
+                //    if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+                //    {
+                //        FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                //        if (_instanceFrmTableView.WindowState == FormWindowState.Minimized)
+                //            _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                //        else
+                //        {
+                //            tlp_tablestatus.SuspendLayout();
+                //            //btn_rev.Visible = true;
+                //            //btn_running.Visible = true;
+                //            //btn_avial.Visible = true;
+                //            //btntrefresh.Visible = true;
+                //            tlp_tablestatus.ResumeLayout();
 
-                            _instanceFrmTableView.Visible = true;
-                            _instanceFrmTableView.AutoTimer.Start();
-                            _instanceFrmTableView.Dock = DockStyle.Fill;
-                            ResizeForm(_instanceFrmTableView);
-                            panelDesktop.Controls.Add(_instanceFrmTableView);
-                            _instanceFrmTableView.Show();
-                            _instanceFrmTableView.BringToFront();
-                        }
-                    }
-                    else
-                    {
+                //            _instanceFrmTableView.Visible = true;
+                //            _instanceFrmTableView.AutoTimer.Start();
+                //            _instanceFrmTableView.Dock = DockStyle.Fill;
+                //            ResizeForm(_instanceFrmTableView);
+                //            panelDesktop.Controls.Add(_instanceFrmTableView);
+                //            _instanceFrmTableView.Show();
+                //            _instanceFrmTableView.BringToFront();
+                //        }
+                //    }
+                //    else
+                //    {
                         tlp_tablestatus.SuspendLayout();
                         //btn_rev.Visible = true;
                         //btn_running.Visible = true;
@@ -3273,35 +3273,12 @@ namespace FoodandBeverage.Forms
                         _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                         _instanceFrmTableView.BringToFront();
 
-                    }
-                }
-                else
-                {
-                    btn_pickup.PerformClick();
-                }
-
-                //        _instanceFrmTableView = new FrmOrder(
-                //    0,
-                //     Convert.ToInt32(DashboardTableType.PickupOrder),
-                //     0,
-                //     null,
-                //     Convert.ToInt32(PageType.Billpage),
-                //     0,
-                //     Convert.ToInt32(SourcepageType.Pickuppage)
-                // );
-
-                //        ResizeForm(_instanceFrmTableView);
-
-                //        _instanceFrmTableView.TopLevel = false;
-                //_instanceFrmTableView.FormBorderStyle = FormBorderStyle.None;
-
-                //panelDesktop.Controls.Add(_instanceFrmTableView);
-
-                //_instanceFrmTableView.Show();
-                //_instanceFrmTableView.WindowState = FormWindowState.Maximized;
-                //_instanceFrmTableView.BringToFront();
-
-
+                   // }
+                //}
+                //else
+                //{
+                //    btn_pickup.PerformClick();
+                //}
 
 
                 menutable_click = true;

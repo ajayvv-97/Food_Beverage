@@ -1011,24 +1011,36 @@ namespace FoodandBeverage.Report
 
                 #endregion
 
-                #region TAX CALCULATION (FIXED DUPLICATION)
+                BllSearch<DmnRpt_1> bllSearchSummary = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchSummary = new DmnSearch();
 
-                var grouped = partyList
-                    .GroupBy(x => x.nFld7) 
-                    .Select(g => g.First());
+                dmnSearchSummary.Select = @"
+                                        SUM(TaxAmount) as dFld2,
+                                        SUM(DiscountAmount) as dFld3,
+                                        SUM(NetAmount) as dFld4";
 
-                decimal totalTax = grouped.Sum(x => x.dFld1);
-                decimal totalPreTax = grouped.Sum(x => x.dFld2);
+                dmnSearchSummary.Table = "tblPartyBooking pb";
+                searchParty.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId}";
 
-                TotalTaxAmt = totalTax.ToString("0.00");
-                TotalPreTax = totalPreTax.ToString("0.00");
+                var invoiceSummary = bllSearchSummary.GetSearchData("prdSearch", dmnSearchSummary);
+                decimal totalQty = 0;
+                decimal totalDiscount = 0;
+                decimal totalNetAmount = 0;
 
-                decimal halfTax = totalTax / 2;
+                if (invoiceSummary.Count > 0)
+                {
+                    totalNetAmount = invoiceSummary[0].dFld4;
+                    totalQty = invoiceSummary[0].dFld1;
+                    TotalTaxAmt =Convert.ToString(invoiceSummary[0].dFld2);
+                    decimal totpre= totalNetAmount -Convert.ToDecimal(invoiceSummary[0].dFld2);
+                    TotalPreTax = Convert.ToString(totpre);
+                    totalDiscount = invoiceSummary[0].dFld3;
+                }
 
-                TotalSGST = halfTax.ToString("0.00");
-                TotalCGST = halfTax.ToString("0.00");
-
-                #endregion
 
                 #region  LOAD REPORT
 
@@ -1052,7 +1064,12 @@ namespace FoodandBeverage.Report
                 reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
                 reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
 
-                // 🔹 VIEW
+                reportDocument.SetParameterValue("TotalTaxamt", TotalTaxAmt);
+                reportDocument.SetParameterValue("TotaPretaxamt", TotalPreTax);
+                reportDocument.SetParameterValue("Totadisamt", totalDiscount);
+                reportDocument.SetParameterValue("Totalnetamt", totalNetAmount);
+                
+                // 🔹 VIEW  
                 crv_report.ReportSource = reportDocument;
                 crv_report.Refresh();
 
@@ -1403,7 +1420,7 @@ namespace FoodandBeverage.Report
 
                 var invoiceBillMasters = bllSearchDetails1.GetSearchData("prdSearch", dmnSearchDetBill1);
                 /* -------------------------------------------------- */
-                // 🔹 2️⃣ Summary Total Data
+
                 BllSearch<DmnRpt_1> bllSearchSummary = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchSummary = new DmnSearch();
 
