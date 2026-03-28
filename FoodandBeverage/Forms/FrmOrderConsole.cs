@@ -6408,6 +6408,11 @@ namespace FoodandBeverage.Forms
                     txtGrandTotal.Text = (Convert.ToDecimal(grossTotal) - Convert.ToDecimal(enteredValue)).ToString();
                     txtnetamount.Text = (Convert.ToDecimal(grossTotal) - Convert.ToDecimal(enteredValue)).ToString();
                 }
+                else
+                {
+                    txtGrandTotal.Text = (Convert.ToDecimal(grossTotal) - Convert.ToDecimal(saleAmount)).ToString();
+                    txtnetamount.Text = (Convert.ToDecimal(grossTotal) - Convert.ToDecimal(saleAmount)).ToString();
+                }
 
                 DiscountApplied = true;
 
