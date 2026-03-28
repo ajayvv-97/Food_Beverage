@@ -204,6 +204,7 @@ namespace FoodandBeverage
         decimal originalGrandTotal = 0, originalTotalTax=0;
 
         private int PaymentSettleStatusData = 0;
+        private bool Fullpaymentflag = false, Advanceflag = false;
         #endregion
         public FrmPartyBooking()
         {
@@ -1122,16 +1123,26 @@ namespace FoodandBeverage
 
                     targetRow.Cells[pqtyno].Value = sourceRow.Cells[selecteditemqtyno].Value;
                     targetRow.Cells[proPartyPackDetailsId].Value = sourceRow.Cells[selecteditemppcdiidno].Value;
-                    targetRow.Cells[pPartydeafult].Value = sourceRow.Cells[selecteditemdeafultno].Value;
+                    targetRow.Cells[PPackProductTypeno].Value = (int)PackItemType.ManualProduct; 
+                    
 
-                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
-
-                    targetRow.DefaultCellStyle.BackColor = Color.Gainsboro;
-                    targetRow.DefaultCellStyle.ForeColor = Color.Black;
-                    targetRow.ReadOnly = true;
-
-                    cellcolumntype.Value = Blankimage;
-                    cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    if (Convert.ToInt32(sourceRow.Cells[selecteditemdeafultno].Value) ==1)
+                    {
+                        targetRow.ReadOnly = true;
+                        targetRow.DefaultCellStyle.BackColor = Color.Gainsboro;
+                        targetRow.DefaultCellStyle.ForeColor = Color.Black;
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
+                        cellcolumntype.Value = Blankimage;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        targetRow.Cells[pPartydeafult].Value = sourceRow.Cells[selecteditemdeafultno].Value;
+                    }
+                    else
+                    {
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
+                        cellcolumntype.Value = Grid_Remove;
+                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        targetRow.Cells[pPartydeafult].Value = sourceRow.Cells[selecteditemdeafultno].Value;
+                    }
                 }
 
 
@@ -1218,6 +1229,7 @@ namespace FoodandBeverage
                     row.Cells[selecteditemqtyno].Value.ToString().Trim() == "")
                 {
                     row.Cells[selecteditemqtyno].Value = 1;
+                    row.Cells[selecteditemdeafultno].Value = 2;
                 }
 
                 if (e.RowIndex == dgv_packenter.Rows.Count - 1)
@@ -2390,7 +2402,7 @@ namespace FoodandBeverage
                         row.Cells[PPackProductTypeno].Value = (int)PackItemType.Card;
                         row.Cells[pproducttype].Value = ptypeno;
                         row.Cells[proPartyPackDetailsId].Value = 0;
-                        row.Cells[pPartydeafult].Value = 0;
+                        row.Cells[pPartydeafult].Value = 2;
                         row.Cells[ptaxsettingid].Value = Convert.ToInt32(item.Field4);
 
                         DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)row.Cells[pactionno];
@@ -2846,7 +2858,7 @@ namespace FoodandBeverage
 
                 row.Cells[pproducttype].Value = ptypeno;
                 row.Cells[proPartyPackDetailsId].Value = 0;
-                row.Cells[pPartydeafult].Value = 0;
+                row.Cells[pPartydeafult].Value = 2;
                 row.Cells[ptaxsettingid].Value = Convert.ToInt32(item.Field4);
 
                 row.Cells[PPackProductTypeno].Value = Convert.ToInt32(PackItemType.Gift);
@@ -2890,8 +2902,8 @@ namespace FoodandBeverage
             int.TryParse(txtChild.Text, out children);
 
             decimal grandTotal = (adultPrice * adults) + (childPrice * children);
-
             txtGrandTotal_pack.Text = grandTotal.ToString("N2");
+
         }
         private decimal GetDecimal(TextBox txt)
         {
@@ -3124,6 +3136,7 @@ namespace FoodandBeverage
                 row.Cells[pnetamt].Value = _cakePrice;
                 row.Cells[pigstamt].Value = 0;
                 row.Cells[pvatamt].Value = 0;
+                row.Cells[pPartydeafult].Value = 2;
 
                 DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)row.Cells[pactionno];
                 cellcolumntype.Value = Grid_Remove;
@@ -3453,8 +3466,11 @@ namespace FoodandBeverage
             UpdateGrandTotal_Pack();
 
             CalculatePackValues();
+            if(Convert.ToDecimal(txtTotalDiscountAmt.Text)>0)
+                CalculateDiscountPer();
+            else
+                CalculateDiscountAmount();
 
-            CalculateDiscountAmount();
             CalculateNetAmount();
         }
         private void txtchild_TextChanged(object sender, EventArgs e)
@@ -3679,6 +3695,9 @@ namespace FoodandBeverage
                 lblBalAmt.Text = "0";
 
                 SetupGuestControls();
+
+                Fullpaymentflag = false;
+                Advanceflag = false;
             }
             catch (Exception ex)
             {
@@ -3764,56 +3783,86 @@ namespace FoodandBeverage
         {
             try
             {
-                decimal adultPrice = 0, childPrice = 0;
-                decimal.TryParse(txtAdultPrice.Text, out adultPrice);
-                decimal.TryParse(txtChildPrice.Text, out childPrice);
 
-                if (adultPrice <= 0 && childPrice <= 0)
-                {
-                    CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (!Mandatorycheck())
                     return;
-                }
 
-                // Check Name
-                if (string.IsNullOrWhiteSpace(txtname.Text))
-                {
-                    CMessageBox.Show("Please enter Name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtname.Focus();
-                    return;
-                }
+                pnl_PaymentOptions.Visible = true;
+                pnl_PaymentOptions.BringToFront();
+                pnl_PaymentOptions.Left = (this.ClientSize.Width - pnl_PaymentOptions.Width) / 2;
+                pnl_PaymentOptions.Top = (this.ClientSize.Height - pnl_PaymentOptions.Height) / 2;
+            }
+            catch (Exception ex)
+            {
+                // Optional: log exception
+                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-                if (string.IsNullOrWhiteSpace(txtph.Text))
-                {
-                    CMessageBox.Show("Please enter Phone Number", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtph.Focus();
-                    return;
-                }
+        // Return true if all validations pass
+        public bool Mandatorycheck()
+        {
+            decimal adultPrice = 0, childPrice = 0;
+            decimal.TryParse(txtAdultPrice.Text, out adultPrice);
+            decimal.TryParse(txtChildPrice.Text, out childPrice);
 
-                string phone = txtph.Text.Trim();
-                if (phone.Length < 10)
-                {
-                    CMessageBox.Show("Phone Number must be at least 10 digits", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtph.Focus();
-                    return;
-                }
+            if (adultPrice <= 0 && childPrice <= 0)
+            {
+                CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
-                int adults = GetInt(txtAdults);
-                int children = GetInt(txtChild);
+            // Check Name
+            if (string.IsNullOrWhiteSpace(txtname.Text))
+            {
+                CMessageBox.Show("Please enter Name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtname.Focus();
+                return false;
+            }
 
-                if (adults == 0 && children == 0)
-                {
-                    CMessageBox.Show("Please enter number of attendees (Adults or Children)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtAdults.Focus();
-                    return;
-                }
+            // Check Phone
+            if (string.IsNullOrWhiteSpace(txtph.Text))
+            {
+                CMessageBox.Show("Please enter Phone Number", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtph.Focus();
+                return false;
+            }
 
-                if (string.IsNullOrWhiteSpace(cmbevent.Text))
-                {
-                    CMessageBox.Show("Please select an Event Type", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cmbevent.Focus();
-                    return;
-                }
+            string phone = txtph.Text.Trim();
+            if (phone.Length < 10)
+            {
+                CMessageBox.Show("Phone Number must be at least 10 digits", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtph.Focus();
+                return false;
+            }
 
+            if (string.IsNullOrWhiteSpace(cmbevent.Text))
+            {
+                CMessageBox.Show("Please select an Event Type", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbevent.Focus();
+                return false;
+            }
+
+            int adults = GetInt(txtAdults);
+            int children = GetInt(txtChild);
+
+            if (adults == 0 && children == 0)
+            {
+                CMessageBox.Show("Please enter number of attendees (Adults or Children)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAdults.Focus();
+                return false;
+            }
+
+
+
+            // All checks passed
+            return true;
+        }
+        public void PaymentProcess()
+        {
+            try
+            {
+              
                 decimal rcvAmt = 0;
                 decimal.TryParse(txtRcvAmt.Text, out rcvAmt);
 
@@ -3835,11 +3884,11 @@ namespace FoodandBeverage
                     bool adjustmentExists = bookingItemAdjustments.Count > 0;
                     bool netChanged = newNetAmount != dbNetAmount;
                     bool paymentChanged = balamt > 0;
-                    bool refundRequired = refundAmount > 0; 
+                    bool refundRequired = refundAmount > 0;
 
 
                     // NEW CASE: ADVANCE AGAIN (SECOND / MULTIPLE ADVANCE)
-      
+
                     bool isAdvanceOnly =
                         advancePaid > 0 &&
                         rcvAmt > 0 &&
@@ -3932,63 +3981,63 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show("Error: " + ex.Message);
+                
             }
         }
 
         private void txtRcvAmt_Click(object sender, EventArgs e)
         {
-            try
-            {
-                decimal typedAmount = 0;
+            //try
+            //{
+            //    decimal typedAmount = 0;
 
-                using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReason)))
-                {
-                    frm.ShowDialog();
+            //    using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReason)))
+            //    {
+            //        frm.ShowDialog();
 
-                    if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
-                        typedAmount = Convert.ToDecimal(frm.txtkeypadvalue.Text);
-                }
+            //        if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+            //            typedAmount = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+            //    }
 
-                if (typedAmount <= 0)
-                {
-                    CMessageBox.Show("Please enter a valid received amount", "Validation",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtRcvAmt.Focus();
-                    return;
-                }
+            //    if (typedAmount <= 0)
+            //    {
+            //        CMessageBox.Show("Please enter a valid received amount", "Validation",
+            //            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //        txtRcvAmt.Focus();
+            //        return;
+            //    }
 
-                decimal netAmt = Convert.ToDecimal(lblNetAmt.Text);
+            //    decimal netAmt = Convert.ToDecimal(lblNetAmt.Text);
 
-                txtRcvAmt.Text = typedAmount.ToString("N2");
+            //    txtRcvAmt.Text = typedAmount.ToString("N2");
 
-                decimal totalAdvance = dbAdvanceAmount+ typedAmount;
+            //    decimal totalAdvance = dbAdvanceAmount+ typedAmount;
 
-                if (totalAdvance < netAmt)
-                {
-                    if(dbAdvanceAmount > 0 )
-                    {
-                        AdvanceFlag = true;
-                        ToggleFirstRow(1);
-                    }
-                    else
-                        AdvanceFlag = false;
-                    //lbladvamtdata.Text = totalAdvance.ToString("N2");
-                    lblBalAmt.Text = (netAmt - totalAdvance).ToString("N2");
-                }
-                else
-                {
-                    AdvanceFlag = false;
-                    ToggleFirstRow(0);
-                    //lbladvamtdata.Text = netAmt.ToString("N2");
-                    lblBalAmt.Text = "0.00";
-                }
+            //    if (totalAdvance < netAmt)
+            //    {
+            //        if(dbAdvanceAmount > 0 )
+            //        {
+            //            AdvanceFlag = true;
+            //            ToggleFirstRow(1);
+            //        }
+            //        else
+            //            AdvanceFlag = false;
+            //        //lbladvamtdata.Text = totalAdvance.ToString("N2");
+            //        lblBalAmt.Text = (netAmt - totalAdvance).ToString("N2");
+            //    }
+            //    else
+            //    {
+            //        AdvanceFlag = false;
+            //        ToggleFirstRow(0);
+            //        //lbladvamtdata.Text = netAmt.ToString("N2");
+            //        lblBalAmt.Text = "0.00";
+            //    }
 
-                textb_shape();
-            }
-            catch
-            {
-            }
+            //    textb_shape();
+            //}
+            //catch
+            //{
+            //}
         }
 
         private void btncash_Click(object sender, EventArgs e)
@@ -4147,7 +4196,7 @@ namespace FoodandBeverage
 
                 decimal lblBalance = decimal.TryParse(lblBalAmt.Text, out decimal bal) ? bal : 0;
 
-                if (lblBalance == 0 || PaymentSettleStatusData == Convert.ToInt32(PaymentSettlementStatus.RefundDue) || PaymentSettleStatusData == Convert.ToInt32(PaymentSettlementStatus.AdditionalDue))
+                if (lblBalance == 0 || PaymentSettleStatusData == Convert.ToInt32(PaymentSettlementStatus.RefundDue) || PaymentSettleStatusData == Convert.ToInt32(PaymentSettlementStatus.AdditionalDue) || Fullpaymentflag)
                 {
                     booking.AdvanceAmount = 0;
                     booking.ReceivedAmount = 0;
@@ -4369,11 +4418,15 @@ namespace FoodandBeverage
 
                     int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0);
                     int productId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0);
+                    int Defaultproduct = Convert.ToInt32(row.Cells[pPartydeafult].Value ?? 0);
+
+                    if (Defaultproduct == 1)
+                        continue;
 
                     if (productType <= 0)
                         continue;
 
-                    if (productType != (int)PackItemType.ExtraChargeProduct && productId <= 0)
+                    if (productType != (int)PackItemType.ExtraChargeProduct && productType != (int)PackItemType.ManualProduct && productId <= 0)
                         continue;
 
                     DmnPartyBookingDetails det = new DmnPartyBookingDetails();
@@ -4576,11 +4629,15 @@ namespace FoodandBeverage
 
                     int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0);
                     int productId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0);
+                    int Defaultproduct = Convert.ToInt32(row.Cells[pPartydeafult].Value ?? 0);
+
+                    if (Defaultproduct ==1 )
+                        continue;
 
                     if (productType <= 0)
                         continue;
 
-                    if (productType != (int)PackItemType.ExtraChargeProduct && productId <= 0)
+                    if (productType != (int)PackItemType.ExtraChargeProduct && productType != (int)PackItemType.ManualProduct && productId <= 0)
                         continue;
 
                     DmnSaledetails detSale = new DmnSaledetails();
@@ -4626,6 +4683,10 @@ namespace FoodandBeverage
                         detSale.PackageType = (int)PackItemType.Card; // Card
                     else if (productType == (int)PackItemType.Gift)
                         detSale.PackageType = (int)PackItemType.Gift; // Gift
+                    else if (productType == (int)PackItemType.ExtraChargeProduct)
+                        detSale.PackageType = (int)PackItemType.ExtraChargeProduct; 
+                    else if (productType == (int)PackItemType.ManualProduct)
+                        detSale.PackageType = (int)PackItemType.ManualProduct; 
 
                     detSale.IsPackage = false;
                     detSale.PartyBookingId = bookingId;
@@ -4823,6 +4884,30 @@ namespace FoodandBeverage
                 var result = bll.GetSearchData("prdSearch", search).FirstOrDefault();
                 if (result == null) return;
 
+                txtpartpackid.Text = result.PartyPackId.ToString();
+                Partypackid = Convert.ToInt32(result.PartyPackId);
+                txtpartybookingid.Text = result.PartyBookingId.ToString();
+
+                BllSearch<DmnPartyPack> bllMaster = new BllSearch<DmnPartyPack>();
+                DmnSearch searchMaster = new DmnSearch
+                {
+                    Select = "PartyPackId, PackName, AdultPrice, ChildPrice, DiscountPer, DiscountAmt, TaxType, Tax,TaxSettingsId",
+                    Table = "tblPartyPackMaster",
+                    WhereNdGroupBy = $"WHERE PartyPackId = {Convert.ToInt32(txtpartpackid.Text)} AND Status = 1"
+                };
+
+                var master = bllMaster.GetSearchData("prdSearch", searchMaster).FirstOrDefault();
+
+                if (master != null)
+                {
+                    txttax.Text = master.Tax;
+                    txtAdultPrice.Text = master.AdultPrice != null ? Convert.ToDecimal(master.AdultPrice).ToString("0.00") : "0.00";
+                    txtChildPrice.Text = master.ChildPrice != null ? Convert.ToDecimal(master.ChildPrice).ToString("0.00") : "0.00";
+                    txtTaxSettingId.Text = Convert.ToString(master.TaxSettingsId);
+                    SetupGuestControls();
+
+                }
+
                 txtname.Text = result.CustomerName;
                 txtph.Text = result.Phone;
                 txtemail.Text = result.Email;
@@ -4836,6 +4921,7 @@ namespace FoodandBeverage
 
                 txtDiscountPer.Text = result.DiscountPer.ToString("0.00");
                 txtTotalTaxAmount.Text = result.TaxAmount.ToString();
+
 
                 txtextracharge_amt.Text = Convert.ToString(result.AdditionalChargeAmt);
                 txtextracharge_des.Text =result.AdditionalChargeDescription;
@@ -4882,9 +4968,7 @@ namespace FoodandBeverage
 
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
 
-                txtpartpackid.Text = result.PartyPackId.ToString();
-                Partypackid = Convert.ToInt32(result.PartyPackId);
-                txtpartybookingid.Text = result.PartyBookingId.ToString();
+
 
                 // ===============================
                 // 🔹 CAKE TOTALS
@@ -4927,25 +5011,8 @@ namespace FoodandBeverage
                     dtpEventTime.Value = DateTime.Today.Add(result.BookingDateTime.TimeOfDay); 
                 }
 
-                BllSearch<DmnPartyPack> bllMaster = new BllSearch<DmnPartyPack>();
-                DmnSearch searchMaster = new DmnSearch
-                {
-                    Select = "PartyPackId, PackName, AdultPrice, ChildPrice, DiscountPer, DiscountAmt, TaxType, Tax,TaxSettingsId",
-                    Table = "tblPartyPackMaster",
-                    WhereNdGroupBy = $"WHERE PartyPackId = {Convert.ToInt32(txtpartpackid.Text)} AND Status = 1"
-                };
-
-                var master = bllMaster.GetSearchData("prdSearch", searchMaster).FirstOrDefault();
-
-                if (master != null)
-                {
-                    txtAdultPrice.Text = master.AdultPrice != null ? Convert.ToDecimal(master.AdultPrice).ToString("0.00") : "0.00";
-                    txtChildPrice.Text = master.ChildPrice != null ? Convert.ToDecimal(master.ChildPrice).ToString("0.00") : "0.00";
-                    txtTaxSettingId.Text = Convert.ToString(master.TaxSettingsId);
-
-                    SetupGuestControls();
-
-                }
+                txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
+                PriceChangecalculation();
 
             }
             catch (Exception ex)
@@ -6550,11 +6617,13 @@ namespace FoodandBeverage
             try
             {
                 decimal grandTotal = 0;
-                decimal packTotal = 0;
+                decimal packTotal = 0,discounttotal=0;
                 decimal.TryParse(txtGrandTotal_pack.Text, out packTotal);
+                decimal.TryParse(txtTotalDiscountAmt.Text, out discounttotal);
                 grandTotal += packTotal;
 
-                decimal cardTotal = 0, giftTotal = 0, cakeTotal = 0,addcharge=0,Tottax=0;
+                decimal cardTotal = 0, giftTotal = 0, cakeTotal = 0, addcharge = 0, Tottax = 0;
+
                 foreach (DataGridViewRow row in dgv_product.Rows)
                 {
                     if (row.IsNewRow) continue;
@@ -6583,10 +6652,17 @@ namespace FoodandBeverage
                             break;
                     }
                 }
+                grandTotal += cardTotal + giftTotal + cakeTotal + addcharge;
+                if (discounttotal > 0)
+                {
+                    originalGrandTotal = grandTotal-discounttotal;
+                }
+                else
+                {
 
-                grandTotal += cardTotal + giftTotal + cakeTotal+ addcharge;
-                originalGrandTotal = grandTotal;
-                originalTotalTax = Tottax;
+                    originalGrandTotal = grandTotal;
+                    originalTotalTax = Tottax;
+                }
 
             }
             catch (Exception ex)
@@ -6850,6 +6926,8 @@ namespace FoodandBeverage
             return true;
         }
 
+
+
         private void btn_ec_submit_Click(object sender, EventArgs e)
         {
             try
@@ -6887,6 +6965,7 @@ namespace FoodandBeverage
                 row.Cells[pitemno].Value = txtextracharge_des.Text;
                 row.Cells[pcategmenuno].Value = "Extra Charge";
                 row.Cells[pqtyno].Value = 1;
+                row.Cells[pPartydeafult].Value = 2;
 
                 row.Cells[pPrice].Value = amt;
                 row.Cells[pAmount].Value = amt;
@@ -6978,6 +7057,81 @@ namespace FoodandBeverage
             }
         }
 
+        #endregion
+
+        #region Payment Option 
+        private void btn_poption_cls_Click(object sender, EventArgs e)
+        {
+            pnl_PaymentOptions.Visible = false;
+        }
+        private void btn_fullpayment_Click(object sender, EventArgs e)
+        {
+            Fullpaymentflag = true;
+            pnl_PaymentOptions.Visible = false;
+            pnlPaymode.Visible = true;
+            pnlPaymode.BringToFront();
+
+            pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
+            pnlPaymode.Top = (this.ClientSize.Height - pnlPaymode.Height) / 2;
+        }
+
+        private void btn_advance_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                pnl_PaymentOptions.Visible = false;
+                decimal typedAmount = 0;
+                using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReason)))
+                {
+                    frm.ShowDialog();
+
+                    if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                        typedAmount = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+                }
+
+                if (typedAmount <= 0)
+                {
+                    CMessageBox.Show("Please enter a valid received amount", "Validation",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtRcvAmt.Focus();
+                    return;
+                }
+
+                Advanceflag = true;
+                decimal netAmt = Convert.ToDecimal(lblNetAmt.Text);
+
+                txtRcvAmt.Text = typedAmount.ToString("N2");
+
+                decimal totalAdvance = dbAdvanceAmount + typedAmount;
+
+                if (totalAdvance < netAmt)
+                {
+                    if (dbAdvanceAmount > 0)
+                    {
+                        AdvanceFlag = true;
+                        ToggleFirstRow(1);
+                    }
+                    else
+                        AdvanceFlag = false;
+                    //lbladvamtdata.Text = totalAdvance.ToString("N2");
+                    lblBalAmt.Text = (netAmt - totalAdvance).ToString("N2");
+                }
+                else
+                {
+                    AdvanceFlag = false;
+                    ToggleFirstRow(0);
+                    //lbladvamtdata.Text = netAmt.ToString("N2");
+                    lblBalAmt.Text = "0.00";
+                }
+
+                textb_shape();
+
+                PaymentProcess();
+            }
+            catch
+            {
+            }
+        }
         #endregion
     }
 }

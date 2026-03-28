@@ -354,7 +354,7 @@ namespace FoodandBeverage.Report
                         s_FillReport_Stockusage();
                         break;
                     case 17:
-                        s_FillReport_AnuvalGameRevenue();
+                        s_FillReport_AnuvalRevenue();
                         break;
                     case 18:
                         s_FillReport_TableOccupancyReport();
@@ -1746,7 +1746,7 @@ namespace FoodandBeverage.Report
 
             }
         }
-        public void s_FillReport_AnuvalGameRevenue()
+        public void s_FillReport_AnuvalRevenue()
         {
             try
             {
