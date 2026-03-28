@@ -3148,10 +3148,11 @@ namespace FoodandBeverage
                 LoadAllcakeTotal();
 
                 pnl_cakeregister.Visible = false;
+
+                ResetDiscount();
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -3466,6 +3467,7 @@ namespace FoodandBeverage
             UpdateGrandTotal_Pack();
 
             CalculatePackValues();
+
             if(Convert.ToDecimal(txtTotalDiscountAmt.Text)>0)
                 CalculateDiscountPer();
             else
@@ -4326,11 +4328,29 @@ namespace FoodandBeverage
                     }
                     else
                     {
-                        currentReceived = booking.ReceivedAmount;
+                        decimal balance = 0;
+                        decimal pdamt = 0;
 
-                        totalAdvance = dbAdvanceAmount + currentReceived;
+                        decimal alreadyPaid = dbAdvanceAmount;
 
-                        decimal balance;
+                        if (Fullpaymentflag)
+                        {
+                            decimal remainingAmount = booking.NetAmount - alreadyPaid;
+
+                            if (remainingAmount < 0)
+                                remainingAmount = 0;
+
+                            pdamt = remainingAmount;
+                            currentReceived = remainingAmount;
+                        }
+                        else
+                        {
+                            pdamt = GetDecimal(txtRcvAmt);
+                            currentReceived = pdamt; 
+                        }
+
+                        totalAdvance = alreadyPaid + currentReceived;
+
                         if (totalAdvance >= booking.NetAmount)
                         {
                             totalAdvance = 0;
@@ -4347,7 +4367,7 @@ namespace FoodandBeverage
                             PartyBookingId = bookingId,
                             PaymentMode = PaymentMode,
 
-                            PaymentAmount = GetDecimal(txtRcvAmt),
+                            PaymentAmount = pdamt,
                             NetAmount = booking.NetAmount,
                             RcvAmnt = currentReceived,
                             BalAmnt = balance,
@@ -5012,14 +5032,13 @@ namespace FoodandBeverage
                 }
 
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
+
                 PriceChangecalculation();
 
             }
             catch (Exception ex)
             {
-
             }
-
         }
 
         private void LoadDefaultPackAndBookingItems(int partyPackId, int bookingId)
@@ -5178,10 +5197,10 @@ namespace FoodandBeverage
                 }
               
                 #endregion
+
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -6226,6 +6245,13 @@ namespace FoodandBeverage
         #endregion
 
         #region Net Amount And Tax Calculation
+
+        public void ResetDiscount()
+        {
+            txtTotalDiscountAmt.Text = "";
+            PriceChangecalculation();
+        }
+
 
         private void btnadd_cus_Click(object sender, EventArgs e)
         {
