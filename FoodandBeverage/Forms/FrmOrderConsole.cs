@@ -847,8 +847,7 @@ namespace FoodandBeverage.Forms
                                             cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                         }
 
-                                        Dgv_Selected_Item.Rows[r].Cells[ioriginalprice].Value =
-                                        Convert.ToDecimal(Dgv_Selected_Item.Rows[r].Cells[itotal].Value);
+                                        Dgv_Selected_Item.Rows[r].Cells[ioriginalprice].Value = Convert.ToDecimal(Dgv_Selected_Item.Rows[r].Cells[itotal].Value);
 
                                         r++;
                                         #endregion
@@ -2366,8 +2365,7 @@ namespace FoodandBeverage.Forms
                                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                                     }
 
-                                    Dgv_Selected_Item.Rows[r].Cells[ioriginalprice].Value =
-                                    Convert.ToDecimal(Dgv_Selected_Item.Rows[r].Cells[itotal].Value);
+                                    Dgv_Selected_Item.Rows[r].Cells[ioriginalprice].Value =  Convert.ToDecimal(Dgv_Selected_Item.Rows[r].Cells[itotal].Value);
 
                                     r++;
                                     #endregion
@@ -4819,6 +4817,8 @@ namespace FoodandBeverage.Forms
                             #region New Product
                             if (flagexist)
                             {
+                                ResetNetAmount();
+
                                 if (Booking_Status == false)
                                 {
                                     if (string.IsNullOrEmpty(txtGrandTotal.Text))
@@ -6332,16 +6332,56 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException("Order page btn_custom_details_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
+        }
 
+        private void ResetNetAmount()
+        {
+            try
+            {
+                txtdis_per.Text = "0.000";
+                txtdis_amt.Text = "0.000";
+
+                decimal totalAmount = 0;
+
+                for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+                {
+                    var row = Dgv_Selected_Item.Rows[i];
+                    if (row.Cells[iitemid].Value != null && row.Cells[iitemid].Value.ToString() != "")
+                    {
+                        row.Cells[isalediamtno].Value = "0.000";
+                        row.Cells[iSaledisperno].Value = "0.000";
+
+                        decimal rowTotal = 0;
+                        decimal.TryParse(Convert.ToString(row.Cells[itotal].Value), out rowTotal);
+                        totalAmount += rowTotal;
+                    }
+                }
+
+                txtGrandTotal.Text = totalAmount.ToString("0.00");
+                txtnetamount.Text = totalAmount.ToString("0.00");
+
+                FinalTax();
+
+                TotalCGST = Math.Round(TotalTax / 2m, 2, MidpointRounding.AwayFromZero);
+                TotalSGST = Math.Round(TotalTax / 2m, 2, MidpointRounding.AwayFromZero);
+                TotalPreTaxAmt = Math.Round(totalAmount - TotalTax, 2, MidpointRounding.AwayFromZero);
+
+                DiscountApplied = false;
+                DiscountAmountApplied = false;
+
+                netAmount();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error resetting amounts: " + ex.Message);
+            }
         }
         private void btn_offer_calc_Click(object sender, EventArgs e)
         {
             try
             {
                 decimal enteredValue = 0;
-
-                using (UserControl.Frmnumdiskeypad frm =
-                    new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
+                using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.Number)))
                 {
                     frm.ShowDialog();
                     enteredValue = string.IsNullOrEmpty(frm.txtkeypadvalue.Text)
@@ -6350,71 +6390,63 @@ namespace FoodandBeverage.Forms
                 }
 
                 decimal grossTotal = GetGrossTotal();
+                if (grossTotal <= 0) return;
 
                 decimal salePercent = 0;
                 decimal saleAmount = 0;
 
                 if (UserControl.Frmnumdiskeypad.flagpercentage)
                 {
-                    DiscountAmountApplied = false;
                     salePercent = enteredValue;
-                    saleAmount = (grossTotal * salePercent) / 100;
-
-                    txtdis_per.Text = salePercent.ToString("0.##");
-                    txtdis_amt.Text = saleAmount.ToString("0.##");
+                    saleAmount = (grossTotal * salePercent) / 100m;
                 }
                 else
                 {
-                    DiscountAmountApplied = true;
                     saleAmount = enteredValue;
-
                     if (saleAmount > grossTotal)
                     {
-                        MessageBox.Show("Discount amount cannot be greater than total amount",
+                        CMessageBox.Show("Discount amount cannot be greater than total amount",
                                         "Invalid Discount",
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Warning);
                         return;
                     }
 
-                    if (grossTotal > 0)
-                        salePercent = (saleAmount * 100) / grossTotal;
-
-                    txtdis_amt.Text = saleAmount.ToString("0.##");
-                    txtdis_per.Text = salePercent.ToString("0.##");
-                    for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
-                    {
-                        if (Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != "" && Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != null)
-                        {
-                            Dgv_Selected_Item.Rows[i].Cells[isalediamtno].Value = saleAmount.ToString("0.##");
-                        }
-                    }
-
-
+                    salePercent = (saleAmount * 100m) / grossTotal;
                 }
 
-                txtGrandTotal.Text = "0";
+                txtdis_per.Text = salePercent.ToString("0.000");
+                txtdis_amt.Text = saleAmount.ToString("0.000");
+
                 for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                 {
-                    if (Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != "" && Dgv_Selected_Item.Rows[i].Cells[iitemid].Value != null)
+                    var row = Dgv_Selected_Item.Rows[i];
+                    if (row.Cells[iitemid].Value != null && row.Cells[iitemid].Value.ToString() != "")
                     {
-                        Dgv_Selected_Item.Rows[i].Cells[iSaledisperno].Value = salePercent.ToString("0.##");
+                        decimal rowAmount = Convert.ToDecimal(row.Cells[iamount].Value ?? 0);
 
-                        CalculateFullRow(i);
+                        decimal rowDiscountAmount = (rowAmount * salePercent) / 100m;
+
+                        row.Cells[isalediamtno].Value = rowDiscountAmount.ToString("0.000");
+                        row.Cells[iSaledisperno].Value = salePercent.ToString("0.000");
                     }
                 }
-                if (DiscountAmountApplied == true)
-                {
-                    txtGrandTotal.Text = (Convert.ToDecimal(grossTotal) - Convert.ToDecimal(enteredValue)).ToString();
-                    txtnetamount.Text = (Convert.ToDecimal(grossTotal) - Convert.ToDecimal(enteredValue)).ToString();
-                }
-                else
-                {
-                    txtGrandTotal.Text = (Convert.ToDecimal(grossTotal) - Convert.ToDecimal(saleAmount)).ToString();
-                    txtnetamount.Text = (Convert.ToDecimal(grossTotal) - Convert.ToDecimal(saleAmount)).ToString();
-                }
+
+                decimal discountedGrossTotal = grossTotal - saleAmount;
+                txtGrandTotal.Text = discountedGrossTotal.ToString("0.00");
+                txtnetamount.Text = discountedGrossTotal.ToString("0.00");
+
+                FinalTax(); 
+
+                decimal discountedTax = TotalTax - (TotalTax * salePercent / 100m);
+
+                TotalCGST = discountedTax / 2m;
+                TotalSGST = discountedTax / 2m;
+
+                TotalPreTaxAmt = discountedGrossTotal - discountedTax;
 
                 DiscountApplied = true;
+                DiscountAmountApplied = !UserControl.Frmnumdiskeypad.flagpercentage;
 
                 netAmount();
             }
@@ -6427,6 +6459,38 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(FormType.Order));
             }
         }
+
+        private void CalculateDiscountTaxAmt()
+        {
+            try
+            {
+                FinalTax();
+
+                decimal discountPerc = 0;
+                if (!decimal.TryParse(txtdis_per.Text, out discountPerc))
+                    discountPerc = 0;
+
+                decimal netAmount = 0;
+                if (!decimal.TryParse(txtnetamount.Text, out netAmount))
+                    netAmount = 0;
+
+                decimal discountedTax = TotalTax - (TotalTax * discountPerc / 100m);
+                discountedTax = Math.Round(discountedTax, 2, MidpointRounding.AwayFromZero);
+
+                TotalIGST = discountedTax;
+                TotalTax = discountedTax;
+                TotalCGST = Math.Round(discountedTax / 2m, 2, MidpointRounding.AwayFromZero);
+                TotalSGST = Math.Round(discountedTax / 2m, 2, MidpointRounding.AwayFromZero);
+
+                TotalPreTaxAmt = Math.Round(netAmount - discountedTax, 2, MidpointRounding.AwayFromZero);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         private decimal GetGrossTotal()
         {
             try
@@ -8509,13 +8573,19 @@ namespace FoodandBeverage.Forms
 
                         dmnsalemaster.AdvanceAmount = Convert.ToDecimal(txtadvance.Text);
                         dmnsalemaster.ReservationTotal = Convert.ToDecimal(txtreservationtotal.Text);
-                        FinalTax();
+
+                        if(DiscountApplied)
+                            CalculateDiscountTaxAmt();
+                        else
+                            FinalTax();
+
                         //dmnsalemaster.TotalDiscount = Convert.ToDecimal(txtDiscAmnt.Text);
                         dmnsalemaster.TotalTax = TotalTax;
                         dmnsalemaster.TotalIGST = TotalIGST;
                         dmnsalemaster.TotalCGST = TotalCGST;
                         dmnsalemaster.TotalSGST = TotalSGST;
                         dmnsalemaster.TotalVAT = TotalVAT;
+
                         dmnsalemaster.mDeviceIP = " [ " + System.Environment.MachineName + " ]  -" + Dns.GetHostByName(System.Environment.MachineName).AddressList[0].ToString();
                         dmnsalemaster.mDevice = clsgen.FetchMacId();
 
@@ -9505,7 +9575,12 @@ namespace FoodandBeverage.Forms
 
                             dmnsalemaster.AdvanceAmount = Convert.ToDecimal(txtadvance.Text);
                             dmnsalemaster.ReservationTotal = Convert.ToDecimal(txtreservationtotal.Text);
-                            FinalTax();
+
+                            if (DiscountApplied)
+                                CalculateDiscountTaxAmt();
+                            else
+                                FinalTax();
+
                             //dmnsalemaster.TotalDiscount = Convert.ToDecimal(txtDiscAmnt.Text);
                             dmnsalemaster.TotalTax = TotalTax;
                             dmnsalemaster.TotalIGST = TotalIGST;
@@ -10778,6 +10853,7 @@ namespace FoodandBeverage.Forms
                     if (kdata == 0)
                         return;
 
+                    ResetNetAmount();
                     int prid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[ipridno].Value);
                     int pid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iitemid].Value);
                     string Av_ID = Convert.ToString(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iavid].Value);
@@ -11095,6 +11171,8 @@ namespace FoodandBeverage.Forms
                 }
                 else if (e.ColumnIndex == iaction)
                 {
+                    ResetNetAmount();
+
                     int rowType = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[itabletype].Value);
                     int pid = Convert.ToInt32(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iitemid].Value);
                     decimal qty = Convert.ToDecimal(Dgv_Selected_Item.Rows[e.RowIndex].Cells[iqty].Value);
@@ -12223,10 +12301,6 @@ namespace FoodandBeverage.Forms
             netAmount();
         }
 
-        private void Dgv_Selected_Item_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void txtpkchrge_amt_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -12826,6 +12900,7 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(FormType.Order));
             }
         }
+
         #endregion
 
     }
