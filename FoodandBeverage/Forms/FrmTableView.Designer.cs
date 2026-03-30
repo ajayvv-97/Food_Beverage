@@ -227,6 +227,7 @@ namespace FoodandBeverage.Forms
             this.txttablecode_search.Size = new System.Drawing.Size(258, 33);
             this.txttablecode_search.TabIndex = 0;
             this.txttablecode_search.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txttablecode_search.Visible = false;
             // 
             // btnsearch
             // 
@@ -239,6 +240,7 @@ namespace FoodandBeverage.Forms
             this.btnsearch.Size = new System.Drawing.Size(50, 32);
             this.btnsearch.TabIndex = 1;
             this.btnsearch.UseVisualStyleBackColor = true;
+            this.btnsearch.Visible = false;
             this.btnsearch.Click += new System.EventHandler(this.btnsearch_Click);
             // 
             // btn_cancle_pickup

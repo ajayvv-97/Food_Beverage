@@ -2833,7 +2833,7 @@ namespace FoodandBeverage.Forms
                         btn_PrintCopy.Visible = false;
                         if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                         {
-                            btndirectpaybill.Visible = true;
+                            //btndirectpaybill.Visible = true;
                             btn_savekot_print.Visible = true;
                             btn_saveKOT.Visible = false;
                             btn_promo_code.Visible = true;
@@ -2849,7 +2849,7 @@ namespace FoodandBeverage.Forms
                         btn_PrintCopy.Visible = true;
                         btn_offer_calc.Visible = true;
                         btn_promo_code.Visible = true;
-                        btndirectpaybill.Visible = true;
+                        //btndirectpaybill.Visible = true;
                         btn_entire_desc.Visible = false;
                         if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
                         {
@@ -9545,6 +9545,7 @@ namespace FoodandBeverage.Forms
                             if (KOT_saleprint_status)
                             {
                                 #region  Sale Detail from  Datagridview 
+
                                 if (InsertStatusP.SalesMasterId != 0)
                                 {
                                     if (payid == Convert.ToInt32(PaymentType.PART))
@@ -9738,7 +9739,11 @@ namespace FoodandBeverage.Forms
                                     }
 
                                 }
+
                                 #endregion
+                                CounterKotNo = dmnsalemaster.PkId;
+                                PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder));
+
                             }
                             else
                             {
