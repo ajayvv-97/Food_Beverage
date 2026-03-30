@@ -330,6 +330,12 @@ namespace FoodandBeverage.Forms
             //AutoCloseTimer.Tick += AutoCloseTimer_Tick;
             //AutoCloseTimer.Start();
 
+            // Caption
+            lbldis_caption.BackColor = Color.FromArgb(76, 175, 80); // Green
+            lbldis_caption.ForeColor = Color.White;
+
+            lbldiscdata.BackColor = Color.FromArgb(232, 245, 233); // Light green
+            lbldiscdata.ForeColor = Color.FromArgb(27, 94, 32);
 
             ShowLoadingdGif();
             pageSize = Pagecount;
@@ -6338,6 +6344,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                tlp_discountshow.Visible = false;
+
                 txtdis_per.Text = "0.000";
                 txtdis_amt.Text = "0.000";
 
@@ -6417,6 +6425,10 @@ namespace FoodandBeverage.Forms
 
                 txtdis_per.Text = salePercent.ToString("0.000");
                 txtdis_amt.Text = saleAmount.ToString("0.000");
+
+                tlp_discountshow.Visible = true;
+                lbldiscdata.Text = salePercent.ToString("0.00") + "% - ₹" + saleAmount.ToString("0.00") + "";
+                UIHelper.RoundCorners(tlp_discountshow, 15);
 
                 for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                 {
@@ -8104,6 +8116,8 @@ namespace FoodandBeverage.Forms
                 }
 
                 AddEmptyRowIfNeeded();
+
+                tlp_discountshow.Visible = false;
             }
             catch (Exception ex)
             {
