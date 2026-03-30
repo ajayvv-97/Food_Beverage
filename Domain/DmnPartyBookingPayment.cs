@@ -21,6 +21,7 @@ namespace Domain
         public bool IsSplitPayment { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal NetAmount { get; set; }
+        public int RefundStatus { get; set; }
     }
     
 }

@@ -583,6 +583,7 @@ namespace FoodandBeverage.SaleBill
                 DataTable dtSalesMaster = new DataTable("DT_salemaster");
                 DataTable dtSalesDetail = new DataTable("DT_saledetails");
                 DataTable dtPartybooking = new DataTable("DT_Partybooking");
+                DataTable dtPartybookingpayment = new DataTable("DT_PartybookingPayment");
 
                 #endregion
 
@@ -723,6 +724,85 @@ namespace FoodandBeverage.SaleBill
 
                 #endregion
 
+                #region PARTY BOOKING PAYMENT
+
+                var bllPartyPayment = new BllSearch<DmnPartyBookingPayment>();
+
+                var partyPaymentSearch = new DmnSearch
+                {
+                    Select = @"
+                            PaymentId,
+                            PaymentMode,
+                            NetAmount,
+                            RcvAmnt,
+                            BalAmnt,
+                            IsSplitPayment,
+                            PaidAmount,
+                            RefundStatus",
+                    Table = "tblPartyBookingPayment",
+
+                    WhereNdGroupBy = "WHERE PartyBookingId = " + PartybookingId
+                };
+
+                var partyPaymentData = bllPartyPayment.GetSearchData("prdSearch", partyPaymentSearch);
+
+                decimal lastReceivedAmount = 0;
+                decimal totalAdvanceAmount = 0;
+                decimal netAmount = 0;
+
+                if (partyPaymentData != null && partyPaymentData.Count > 0)
+                {
+                    var sortedList = partyPaymentData
+                                        .OrderBy(x => Convert.ToInt32(x.PaymentId))
+                                        .ToList();
+
+                    int count = sortedList.Count;
+
+                    // Get NetAmount (same for all rows, take from first)
+                    netAmount = Convert.ToDecimal(sortedList[0].NetAmount);
+
+                    decimal totalPaid = sortedList.Sum(x => Convert.ToDecimal(x.PaidAmount));
+
+                    var lastRow = sortedList.Last();
+                    lastReceivedAmount = Convert.ToDecimal(lastRow.PaidAmount);
+
+                    if (count == 1)
+                    {
+                        if (lastReceivedAmount == netAmount)
+                        {
+                            // Full payment in single entry
+                            totalAdvanceAmount = 0;
+                        }
+                        else
+                        {
+                            // Partial → advance
+                            totalAdvanceAmount = lastReceivedAmount;
+                        }
+                    }
+                    else
+                    {
+                        // Multiple payments
+                        totalAdvanceAmount = totalPaid - lastReceivedAmount;
+                    }
+                
+
+                using (var reader = ObjectReader.Create(partyPaymentData,
+                      "PaymentId",
+                      "PaymentMode",
+                      "NetAmount",
+                      "RcvAmnt",
+                      "BalAmnt",
+                      "IsSplitPayment",
+                      "PaidAmount",
+                      "RefundStatus"))
+                    {
+                        dtPartybookingpayment.Load(reader);
+                    }
+                }
+
+
+                #endregion
+
                 #region DATASET
 
                 dsReport.Tables.Add(dtSalesHeader);
@@ -758,6 +838,9 @@ namespace FoodandBeverage.SaleBill
                     reportDocument.SetParameterValue("footermsg", FooterMsg);
 
                     reportDocument.SetParameterValue("smid", SalesMasterId);
+
+                    reportDocument.SetParameterValue("RecvAmt", lastReceivedAmount);
+                    reportDocument.SetParameterValue("BalAmt", totalAdvanceAmount);
 
                     string imgpath = FrmLogin.logoPath + @"sblogo.png";
                     if (File.Exists(imgpath))
