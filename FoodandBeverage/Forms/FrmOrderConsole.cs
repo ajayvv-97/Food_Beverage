@@ -2765,6 +2765,32 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  totQty()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+        private decimal RecalculateGridTotal()
+        {
+            decimal totalAmount = 0;
+
+            try
+            {
+                foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    if (row.Cells[iitemid].Value != null &&
+                        !string.IsNullOrWhiteSpace(row.Cells[iitemid].Value.ToString()))
+                    {
+                        decimal rowTotal = 0;
+                        decimal.TryParse(Convert.ToString(row.Cells[itotal].Value), out rowTotal);
+                        totalAmount += rowTotal;
+                    }
+                }
+                txtGrandTotal.Text = totalAmount.ToString("0.00"); 
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return totalAmount; 
+        }
         public void netAmount()
         {
             try
@@ -10904,8 +10930,8 @@ namespace FoodandBeverage.Forms
                                 newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
                                 decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
                                 grand = grand - oldTotal + newTotal;
-                                txtGrandTotal.Text = grand.ToString();
-                                txtnetamount.Text = grand.ToString();
+                                RecalculateGridTotal();
+                                netAmount();
                                 break;
                             }
                         }
@@ -10967,67 +10993,6 @@ namespace FoodandBeverage.Forms
                     }
                     else if (saletype == Convert.ToInt32(Tabletype.Product))
                     {
-                        #region old code
-                        //for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
-                        //{
-                        //    if (pid == Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[itabletype].Value) == Convert.ToInt32(Tabletype.Product) && Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[istatusno].Value) != 0)
-                        //    {
-                        //        bool isStockTracked = Product_isstocktrack(pid, 1);
-                        //        if (isStockTracked)
-                        //        {
-                        //            int prep = 0;
-                        //            var dataresult = ProductQtyCheckMenuQty(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), 0);
-                        //            int availableQty = dataresult.Quantity;
-                        //            prep = dataresult.PreparationMode;
-                        //            //if (availableQty <= 0 && prep == Convert.ToInt32(PreparationType.ReadyFood))
-                        //            if (availableQty <= 0)
-                        //            {
-
-                        //                MessageBox.Show("Stock Out! This item is not available.",
-                        //                                    "Out of Stock",
-                        //                                    MessageBoxButtons.OK,
-                        //                                    MessageBoxIcon.Warning);
-                        //                return;
-
-                        //            }
-
-                        //            //if (kdata > availableQty && prep == Convert.ToInt32(PreparationType.ReadyFood))
-                        //            if (kdata > availableQty)
-                        //            {
-                        //                MessageBox.Show($"Only {availableQty} Qty Available.",
-                        //                                "Stock Warning",
-                        //                                MessageBoxButtons.OK,
-                        //                                MessageBoxIcon.Warning);
-                        //                return;
-                        //            }
-
-                        //        }
-
-                        //        decimal oldTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value); // OLD row total
-
-                        //        int beforeQty = 0;
-                        //        object oldVal = Dgv_Selected_Item.Rows[i].Cells[iqty].Value;
-
-                        //        if (oldVal != null && oldVal != DBNull.Value)
-                        //        {
-                        //            beforeQty = Convert.ToInt32(Convert.ToDecimal(oldVal));
-                        //        }
-                        //        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
-                        //        ReserveQtyRouter(Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iitemid].Value), Convert.ToInt32(ReserveQtyProducttype.Menu), Convert.ToInt32(ReserveQtyActiontype.Update), Convert.ToInt32(ReserveQtyTabletype.Menu), Convert.ToInt32(kdata),Convert.ToInt32(CustomQty.Enabled), beforeQty);
-
-                        //        Dgv_Selected_Item.Rows[i].Cells[iqty].Value = kdata;
-                        //        decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
-                        //        totalcellamount(i);
-                        //        newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
-                        //        decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
-                        //        grand = grand - oldTotal + newTotal;
-                        //        txtGrandTotal.Text = grand.ToString();
-                        //        txtnetamount.Text = grand.ToString();
-                        //        break;
-
-                        //    }
-                        //}
-                        #endregion
 
                         for (int i = 0; i <= Dgv_Selected_Item.RowCount - 1; i++)
                         {
@@ -11121,14 +11086,11 @@ namespace FoodandBeverage.Forms
                                 }
 
                                 totalcellamount(i);
-
+                                netAmount();
                                 decimal newTotal = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[itotal].Value);
-                                txtGrandTotal.Text = Convert.ToString(newTotal);
+                                RecalculateGridTotal();
                                 decimal grand = Convert.ToDecimal(txtGrandTotal.Text);
-                                //grand = grand - oldTotal + newTotal;
-
-                                txtGrandTotal.Text = grand.ToString();
-                                txtnetamount.Text = grand.ToString();
+                                txtnetamount.Text = Convert.ToString(totalamt);
 
                                 break;
                             }
