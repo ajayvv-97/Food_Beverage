@@ -2768,7 +2768,6 @@ namespace FoodandBeverage.Forms
         private decimal RecalculateGridTotal()
         {
             decimal totalAmount = 0;
-
             try
             {
                 foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
