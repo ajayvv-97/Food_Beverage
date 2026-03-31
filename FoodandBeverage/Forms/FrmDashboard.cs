@@ -3940,7 +3940,8 @@ namespace FoodandBeverage.Forms
                 dmngen.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
                 dmngen.LogoutFormscustom = logoutformsno;
                 dmngen.EnableUserPrompt = rtb_userpmpt.Checked;
-
+                dmngen.EnableCompbillPrompt = rtb_compbillpmpt.Checked;
+                
                 dmngen.Status = 1;
                 if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
                 {
@@ -3952,7 +3953,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen);
+                    var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen); 
                     if (InsertStatus.Gid > 0)
                     {
                         CMessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -4099,6 +4100,7 @@ namespace FoodandBeverage.Forms
                         btn_adv_idlelogout.Enabled = false;
 
                     rtb_userpmpt.Checked = settings.EnableUserPrompt;
+                    rtb_compbillpmpt.Checked = settings.EnableCompbillPrompt;
                 }
             }
             catch (Exception ex)

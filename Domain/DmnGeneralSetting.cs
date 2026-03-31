@@ -56,6 +56,7 @@ namespace Domain
         public string LogoutFormscustom { get; set; }
         public string DefaultUserName { get; set; }
         public bool EnableUserPrompt { get; set; }
+        public bool EnableCompbillPrompt { get; set; }
 
 
     }

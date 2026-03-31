@@ -296,6 +296,7 @@ namespace FoodandBeverage.Forms
         public bool Comboproductflag = false;
         public bool DiscountApplied = false;
         public bool DiscountAmountApplied = false;
+        public bool CompBillPreview = false;
         #endregion
         public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype, int cdstatus)
         {
@@ -340,6 +341,7 @@ namespace FoodandBeverage.Forms
             ShowLoadingdGif();
             pageSize = Pagecount;
 
+            Generalsettingcheck();
 
             #region ChkWritePermission
             if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
@@ -502,7 +504,6 @@ namespace FoodandBeverage.Forms
 
             }
 
-
             #region Palce Holder  Textboxes setting
             txtname_search.Text = "Food Name .....";
             txtitemcode_serach.Text = "Item Code .....";
@@ -542,6 +543,32 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region Common Used Fuction
+
+        public void Generalsettingcheck()
+        {
+            try
+            {
+                BllSearch<DmnGeneralSetting> bllsearchdrawer = new BllSearch<DmnGeneralSetting>();
+                DmnSearch dmnsearckgen = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = $"where BranchId={FrmDashboard.BranchId} and Status=1",
+                    OrderBy = ""
+                };
+                var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckgen);
+                if (gridesource.Count > 0)
+                {
+                    var settings = gridesource[0];
+                    CompBillPreview = settings.EnableCompbillPrompt;
+                    FrmDashboard.UserSavePrompt= settings.EnableUserPrompt;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page  Generalsettingcheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
         public void discountPer()
         {
             try
@@ -7822,7 +7849,10 @@ namespace FoodandBeverage.Forms
                             ResetTableViewPage();
                         else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                             ResetPickupViewPage();
-                        CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        if (FrmDashboard.UserSavePrompt)
+                            CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                         ClearAll();
                         this.Close();
                         this.Dispose();
@@ -8008,8 +8038,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Kitchen Print Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Order page  PrintOrderNokot()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
             finally
             {
@@ -9142,12 +9171,16 @@ namespace FoodandBeverage.Forms
                                 }
                                 if (dgv_combined.RowCount == countflag)
                                 {
-                                    //if (payid != 12)
-                                    //{
-                                    FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
-                                    frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                    frmSalesInvoice.ShowDialog();
-                                    CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    bool isComplimentary = payid == Convert.ToInt32(PaymentType.COMPLEMENTRY);//                         if(FrmDashboard.UserSavePrompt)
+                                    if (!isComplimentary || (isComplimentary && CompBillPreview))
+                                    {
+                                        FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
+                                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                        frmSalesInvoice.ShowDialog();
+                                    }
+
+                                    if(FrmDashboard.UserSavePrompt)
+                                        CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                     if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
                                         ResetTableViewPage();
@@ -9818,12 +9851,18 @@ namespace FoodandBeverage.Forms
 
                                     if (payid == 0)
                                     {
-                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, 3))
+                                        bool isComplimentary = payid == Convert.ToInt32(PaymentType.COMPLEMENTRY);
+                                        if (!isComplimentary || (isComplimentary && CompBillPreview))
                                         {
-                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                            frmSalesInvoice.ShowDialog();
+                                            using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, 3))
+                                            {
+                                                frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                                frmSalesInvoice.ShowDialog();
+                                            }
                                         }
-                                        CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                        if (FrmDashboard.UserSavePrompt)
+                                            CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                         if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
                                             ResetTableViewPage();
@@ -9835,12 +9874,18 @@ namespace FoodandBeverage.Forms
                                     }
                                     else
                                     {
-                                        using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, 3))
+                                        bool isComplimentary = payid == Convert.ToInt32(PaymentType.COMPLEMENTRY);  //if (FrmDashboard.UserSavePrompt)                   
+                                        if (!isComplimentary || (isComplimentary && CompBillPreview))
                                         {
-                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                            frmSalesInvoice.ShowDialog();
+                                            using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, 3))
+                                            {
+                                                frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                                frmSalesInvoice.ShowDialog();
+                                            }
                                         }
-                                        //CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                        if (FrmDashboard.UserSavePrompt)
+                                            CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                         if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
                                             ResetTableViewPage();
@@ -10018,10 +10063,18 @@ namespace FoodandBeverage.Forms
                                     {
                                         if (payid == 0)
                                         {
-                                            FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
-                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                            frmSalesInvoice.ShowDialog();
-                                            CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            bool isComplimentary = payid == Convert.ToInt32(PaymentType.COMPLEMENTRY);  //if (FrmDashboard.UserSavePrompt)                   
+                                            if (!isComplimentary || (isComplimentary && CompBillPreview))
+                                            {
+                                                using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno))
+                                                {
+                                                    frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                                    frmSalesInvoice.ShowDialog();
+                                                }
+                                            }
+
+                                            if (FrmDashboard.UserSavePrompt)
+                                                CMessageBox.Show("Billing Printing Completed Successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                             if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
                                                 ResetTableViewPage();
@@ -10032,10 +10085,18 @@ namespace FoodandBeverage.Forms
                                         }
                                         else
                                         {
-                                            FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno);
-                                            frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                                            frmSalesInvoice.ShowDialog();
-                                            CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            bool isComplimentary = payid == Convert.ToInt32(PaymentType.COMPLEMENTRY);  //if (FrmDashboard.UserSavePrompt)                   
+                                            if (!isComplimentary || (isComplimentary && CompBillPreview))
+                                            {
+                                                using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(InsertStatusP.SalesMasterId, payid, 0, Biltypeno))
+                                                {
+                                                    frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
+                                                    frmSalesInvoice.ShowDialog();
+                                                }
+                                            }
+
+                                            if (FrmDashboard.UserSavePrompt)
+                                                CMessageBox.Show("Transaction Completed Sucessfully", "Sucessfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                             if (sourcepage == Convert.ToInt32(SourcepageType.Tableviewpage))
                                                 ResetTableViewPage();
