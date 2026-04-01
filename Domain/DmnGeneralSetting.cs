@@ -57,8 +57,7 @@ namespace Domain
         public string DefaultUserName { get; set; }
         public bool EnableUserPrompt { get; set; }
         public bool EnableCompbillPrompt { get; set; }
-
-
+        public int ProductpageperCount { get; set; }
     }
 
 }

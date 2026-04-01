@@ -46,7 +46,8 @@ namespace BLL
             parms.Add("DefaultUserName", objTestClass.DefaultUserName);
             parms.Add("EnableUserPrompt", objTestClass.EnableUserPrompt);
             parms.Add("EnableCompbillPrompt", objTestClass.EnableCompbillPrompt);
-            
+            parms.Add("ProductpageperCount", objTestClass.ProductpageperCount);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

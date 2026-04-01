@@ -2411,8 +2411,14 @@ namespace FoodandBeverage.Forms
             chk_saturday.Checked = check;
 
         }
+
         #endregion
 
-
+        private void btncakerefresh_Click(object sender, EventArgs e)
+        {
+            ClearCake();
+            selectedCakeId = 0;
+            btndel_cake.Visible = false;
+        }
     }
 }

@@ -3941,7 +3941,8 @@ namespace FoodandBeverage.Forms
                 dmngen.LogoutFormscustom = logoutformsno;
                 dmngen.EnableUserPrompt = rtb_userpmpt.Checked;
                 dmngen.EnableCompbillPrompt = rtb_compbillpmpt.Checked;
-                
+                dmngen.ProductpageperCount = Convert.ToInt32(txtorderpagecount.Text);
+
                 dmngen.Status = 1;
                 if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
                 {
@@ -4101,6 +4102,7 @@ namespace FoodandBeverage.Forms
 
                     rtb_userpmpt.Checked = settings.EnableUserPrompt;
                     rtb_compbillpmpt.Checked = settings.EnableCompbillPrompt;
+                    txtorderpagecount.Text=Convert.ToString(settings.ProductpageperCount);
                 }
             }
             catch (Exception ex)
@@ -6231,6 +6233,34 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 clsgen.LogException("DashBoard page partyBookingDetailsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void txtorderpagecount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; 
+            }
+        }
+
+        private void txtorderpagecount_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtorderpagecount.Text))
+                return;
+
+            if (int.TryParse(txtorderpagecount.Text, out int value))
+            {
+                if (value < 10)
+                {
+                    txtorderpagecount.Text = "10";
+                    txtorderpagecount.SelectionStart = txtorderpagecount.Text.Length; 
+                }
+            }
+            else
+            {
+                txtorderpagecount.Text = "10";
+                txtorderpagecount.SelectionStart = txtorderpagecount.Text.Length;
             }
         }
 
