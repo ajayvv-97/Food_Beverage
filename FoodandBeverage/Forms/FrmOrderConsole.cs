@@ -3613,7 +3613,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (j == 1)
                     {
-                        dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
+                        dmnSearch.Select = "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
 
                         dmnSearch.Table = "tblProduct p " +
                             "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
@@ -3628,16 +3628,16 @@ namespace FoodandBeverage.Forms
                             "WHERE p.Status=1 " +
                             "AND fav_status=1 " +
                             "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 )";
-                    }
+            }
                     else
-                    {
-                        dmnSearch.Select = " i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8";
-                        dmnSearch.Table = " tblItem i" +
-                            " OUTER APPLY(Select ofd.Discountper, ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
-                        dmnSearch.WhereNdGroupBy = " where  i.Saletype=1 and i.Status=1  and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0 and  i.fav_status=1";
-                    }
+            {
+                dmnSearch.Select = " i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8";
+                dmnSearch.Table = " tblItem i" +
+                    " OUTER APPLY(Select ofd.Discountper, ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
+                dmnSearch.WhereNdGroupBy = " where  i.Saletype=1 and i.Status=1  and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0 and  i.fav_status=1";
+            }
 
-                    var queryResult = bllSearch.GetSearchData("prdSearch", dmnSearch);
+            var queryResult = bllSearch.GetSearchData("prdSearch", dmnSearch);
                     ProductData.AddRange(queryResult);
                 }
                 totalPages = (int)Math.Ceiling((double)ProductData.Count / pageSize);
@@ -3669,6 +3669,7 @@ namespace FoodandBeverage.Forms
                     int productId = Convert.ToInt32(item.Field2);
                     int favStatus = Convert.ToInt32(item.Field4);
                     int saleType = Convert.ToInt32(item.Field3);
+                    int foodType = Convert.ToInt32(item.Field8);
 
                     decimal price = Convert.ToDecimal(item.Field5);
                     decimal discountPrice = Convert.ToDecimal(item.Field7);
@@ -3766,6 +3767,34 @@ namespace FoodandBeverage.Forms
 
                     tile.Controls.Add(picFav);
                     picFav.BringToFront();
+
+
+                    // ---------- VEG / NON-VEG INDICATOR (Top Left Circle) ----------
+                    Panel pnlType = new Panel();
+                    pnlType.Width = 12;
+                    pnlType.Height = 12;
+                    pnlType.Location = new Point(5, 5);
+                    pnlType.BackColor = Color.Transparent;
+
+                    Color indicatorColor = Color.Gray;
+
+                    // 🔥 Your condition here
+                    if (foodType == 1)        // Veg
+                        indicatorColor = Color.Green;
+                    else if (foodType == 2)   // Non-Veg
+                        indicatorColor = Color.Red;
+
+                    pnlType.Paint += (s, e) =>
+                    {
+                        e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        using (SolidBrush brush = new SolidBrush(indicatorColor))
+                        {
+                            e.Graphics.FillEllipse(brush, 0, 0, pnlType.Width - 1, pnlType.Height - 1);
+                        }
+                    };
+
+                    tile.Controls.Add(pnlType);
+                    pnlType.BringToFront();
 
                     UIHelper.RoundCorners(tile, Productcorner, null);
 
@@ -6317,7 +6346,7 @@ namespace FoodandBeverage.Forms
                     BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                     DmnSearch dmnSearch = new DmnSearch();
 
-                    dmnSearch.Select = "OfferName as Field1,Omid as Field2,3 as Field3,Discountper as Field4,FinalPrice Field5,cmphid Field6,1 Field8";
+                    dmnSearch.Select = "OfferName as Field1,Omid as Field2,3 as Field3,Discountper as Field4,FinalPrice Field5,cmphid Field6,1 Field8,0 Field9";
                     dmnSearch.Table = "tblOfferMaster";
                     dmnSearch.WhereNdGroupBy =
                         " where Status=1 AND OfferType=1 AND OfferstartDatetime <= SYSDATETIME() " +
@@ -6329,7 +6358,7 @@ namespace FoodandBeverage.Forms
 
                     #region Offer product and Without offer product
                     dmnSearch.Select =
-    "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,ofd.Discountper Field6,ofd.FinalPrice Field7,2 Field8";
+    "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,ofd.Discountper Field6,ofd.FinalPrice Field7,2 Field8,p.FoodType Field9";
 
                     dmnSearch.Table =
                     "tblProduct p " +
@@ -6343,7 +6372,7 @@ namespace FoodandBeverage.Forms
                     "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
                     "AND p.Product LIKE '%" + txtname_search.Text.Trim() + "%'" +
 
-                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
+                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8,0 Field9 from " +
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
                     dmnSearch.WhereNdGroupBy =
@@ -7268,7 +7297,7 @@ namespace FoodandBeverage.Forms
 
                     #region Offer product and Without offer product
                     dmnSearch.Select =
-    "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,ofd.Discountper Field6,ofd.FinalPrice Field7,2 Field8";
+    "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,ofd.Discountper Field6,ofd.FinalPrice Field7,2 Field8,p.FoodType Field9";
 
                     dmnSearch.Table =
                     "tblProduct p " +
@@ -7283,7 +7312,7 @@ namespace FoodandBeverage.Forms
                     "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
                     "AND p.ItemCode = '" + txtitemcode_serach.Text.Trim() + "'" +
 
-                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8 from " +
+                    " Union Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(select SRate from tblProductRate ) Field5,ofm.Discountper Field6,ofd.FinalPrice Field7,2 Field8,0 Field9 from " +
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
                     dmnSearch.WhereNdGroupBy =
@@ -7336,6 +7365,7 @@ namespace FoodandBeverage.Forms
                         decimal originalPrice = Convert.ToDecimal(item.Field5);
                         decimal discountPrice = Convert.ToDecimal(item.Field7);
                         decimal discountper = Convert.ToDecimal(item.Field6);
+                        int foodType = Convert.ToInt32(item.Field9);
 
                         #region Design Product (One Panel + One TLP + 3 Rows)
 
@@ -7442,6 +7472,34 @@ namespace FoodandBeverage.Forms
                         tile.Controls.Add(picFav);
                         picFav.BringToFront();
 
+                        // ---------- VEG / NON-VEG INDICATOR (Top Left Circle) ----------
+                        Panel pnlType = new Panel();
+                        pnlType.Width = 12;
+                        pnlType.Height = 12;
+                        pnlType.Location = new Point(5, 5);
+                        pnlType.BackColor = Color.Transparent;
+
+                        Color indicatorColor = Color.Gray;
+
+                        // 🔥 Your condition here
+                        if (foodType == 1)        // Veg
+                            indicatorColor = Color.Green;
+                        else if (foodType == 2)   // Non-Veg
+                            indicatorColor = Color.Red;
+
+                        pnlType.Paint += (s, e) =>
+                        {
+                            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                            using (SolidBrush brush = new SolidBrush(indicatorColor))
+                            {
+                                e.Graphics.FillEllipse(brush, 0, 0, pnlType.Width - 1, pnlType.Height - 1);
+                            }
+                        };
+
+                        tile.Controls.Add(pnlType);
+                        pnlType.BringToFront();
+
+                        //
                         UIHelper.RoundCorners(tile, Productcorner, null);
 
                         flp_productview.Controls.Add(tile);
@@ -7454,6 +7512,7 @@ namespace FoodandBeverage.Forms
                         int comboId = Convert.ToInt32(item.Field2);
                         int cmphid = Convert.ToInt32(item.Field6);
                         string totalPrice = item.Field5;
+                        int foodType = Convert.ToInt32(item.Field9);
 
                         #region Design Product
 
@@ -7525,6 +7584,35 @@ namespace FoodandBeverage.Forms
                         picMore.Click += new EventHandler(ButtonviewmoreClickEventHandler);
                         tile.Controls.Add(picMore);
                         picMore.BringToFront();
+
+                        // ---------- VEG / NON-VEG INDICATOR (Top Left Circle) ----------
+                        Panel pnlType = new Panel();
+                        pnlType.Width = 12;
+                        pnlType.Height = 12;
+                        pnlType.Location = new Point(5, 5);
+                        pnlType.BackColor = Color.Transparent;
+
+                        Color indicatorColor = Color.Gray;
+
+                        // 🔥 Your condition here
+                        if (foodType == 1)        // Veg
+                            indicatorColor = Color.Green;
+                        else if (foodType == 2)   // Non-Veg
+                            indicatorColor = Color.Red;
+
+                        pnlType.Paint += (s, e) =>
+                        {
+                            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                            using (SolidBrush brush = new SolidBrush(indicatorColor))
+                            {
+                                e.Graphics.FillEllipse(brush, 0, 0, pnlType.Width - 1, pnlType.Height - 1);
+                            }
+                        };
+
+                        tile.Controls.Add(pnlType);
+                        pnlType.BringToFront();
+                        //
+
 
                         UIHelper.RoundCorners(tile, Productcorner, null);
 
