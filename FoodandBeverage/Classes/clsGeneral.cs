@@ -275,7 +275,7 @@ namespace FoodandBeverage.Classes
             }
             catch (Exception logEx)
             {
-                CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
+                //CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
             }
         }
         public void GridAutoSizeSmart(DataGridView dgv)

@@ -3613,7 +3613,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (j == 1)
                     {
-                        dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
+                        dmnSearch.Select = "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
 
                         dmnSearch.Table = "tblProduct p " +
                             "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
