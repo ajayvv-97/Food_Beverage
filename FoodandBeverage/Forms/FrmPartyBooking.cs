@@ -2380,6 +2380,8 @@ namespace FoodandBeverage
                             continue;
                         }
 
+                        ResetDiscount();
+
                         int rowIndex = dgv_product.Rows.Add();
                         DataGridViewRow row = dgv_product.Rows[rowIndex];
 
@@ -2837,6 +2839,8 @@ namespace FoodandBeverage
                     }
                 }
 
+                ResetDiscount();
+
                 int rowIndex = dgv_product.Rows.Add();
                 var row = dgv_product.Rows[rowIndex];
 
@@ -3110,6 +3114,8 @@ namespace FoodandBeverage
                         return;
                     }
                 }
+
+                ResetDiscount();
 
                 _cakeMessage = txtcakemessage.Text;
                 _cakeRemarks = txtcakeremarks.Text;
@@ -5786,7 +5792,6 @@ namespace FoodandBeverage
             }
             catch(Exception ex)
             {
-
             }
         }
         private void btncls_bookingcancel_Click(object sender, EventArgs e)
@@ -5997,6 +6002,8 @@ namespace FoodandBeverage
                         if (result != DialogResult.Yes) return;
                     }
 
+                    ResetDiscount();
+
                     dgv_product.Rows.RemoveAt(e.RowIndex);
 
                     CalculateDiscountPer();
@@ -6007,8 +6014,6 @@ namespace FoodandBeverage
 
                 // NORMAL PRODUCT DELETE 
 
-
-
                 if (partyPackDetailsId > 0)
                 {
                     var result = CMessageBox.Show(
@@ -6018,6 +6023,8 @@ namespace FoodandBeverage
                         MessageBoxIcon.Question);
 
                     if (result != DialogResult.Yes) return;
+
+                    ResetDiscount();
 
                     BookingItemAdjustment item = new BookingItemAdjustment()
                     {
@@ -6054,6 +6061,8 @@ namespace FoodandBeverage
 
             if (e.ColumnIndex == pqtyno)
             {
+                ResetDiscount();
+
                 decimal qty = 0;
                 decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value ?? "0"), out qty);
                 row.Cells[pqtyno].Value = Math.Round(qty, 2);
@@ -6266,7 +6275,8 @@ namespace FoodandBeverage
 
         public void ResetDiscount()
         {
-            txtTotalDiscountAmt.Text = "";
+            txtTotalDiscountAmt.Text="0";
+            discountper.Text = "0";
             PriceChangecalculation();
         }
 
@@ -6560,7 +6570,6 @@ namespace FoodandBeverage
                 CMessageBox.Show(ex.Message);
             }
         }
-
         public void CalculateNetAmount()
         {
             if (isUpdating) return;
@@ -6666,7 +6675,6 @@ namespace FoodandBeverage
                 isUpdating = false;
             }
         }
-
         private void GetGrandTotal_All()
         {
             try
@@ -6989,6 +6997,8 @@ namespace FoodandBeverage
             {
                 if (!ValidateExtraCharge())
                     return;
+
+                ResetDiscount();
 
                 decimal amt = Convert.ToDecimal(txtextracharge_amt.Text);
 

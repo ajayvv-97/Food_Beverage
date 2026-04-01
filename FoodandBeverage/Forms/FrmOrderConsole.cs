@@ -562,6 +562,19 @@ namespace FoodandBeverage.Forms
                     var settings = gridesource[0];
                     CompBillPreview = settings.EnableCompbillPrompt;
                     FrmDashboard.UserSavePrompt= settings.EnableUserPrompt;
+                    Pagecount = settings.ProductpageperCount;
+
+                    Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    if (config.AppSettings.Settings["FBpagescount"] != null)
+                    {
+                        config.AppSettings.Settings["FBpagescount"].Value = settings.ProductpageperCount.ToString();
+                    }
+                    else
+                    {
+                        config.AppSettings.Settings.Add("FBpagescount", settings.ProductpageperCount.ToString());
+                    }
+                    config.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection("appSettings");
                 }
             }
             catch (Exception ex)
