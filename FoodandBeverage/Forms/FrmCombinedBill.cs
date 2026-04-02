@@ -1776,7 +1776,7 @@ namespace FoodandBeverage.Forms
                         }
 
                         CMessageBox.Show("Zout Print Completed", "Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
+                        //return;
 
                         Dmndrawer dmndrawer = new Dmndrawer();
                         Blldrawer blldrawer = new Blldrawer();
