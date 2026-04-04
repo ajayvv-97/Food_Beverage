@@ -6235,6 +6235,20 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("DashBoard page partyBookingDetailsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+        private void partyBookingPaymentDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+                int ReportLevelID = 29;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("DashBoard page partyBookingPaymentDetailsToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
 
         private void txtorderpagecount_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -6263,7 +6277,6 @@ namespace FoodandBeverage.Forms
                 txtorderpagecount.SelectionStart = txtorderpagecount.Text.Length;
             }
         }
-
 
         #endregion
 

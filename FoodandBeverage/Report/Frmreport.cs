@@ -69,6 +69,10 @@ namespace FoodandBeverage.Report
                 
                 Fill_combo_finyear();
                 FetchBillDetails();
+                phno.Text = "Enter Phone No.";
+                phno.ForeColor = Color.Gray;
+
+                party_status.SelectedIndex = 0;
 
                 dtpfrom.Dock = DockStyle.Fill;
                 dtpto.Dock = DockStyle.Fill;
@@ -388,7 +392,12 @@ namespace FoodandBeverage.Report
                         break;
                     case 28:
                         s_FillReport_PartybookingDetails();
-                        break; 
+                        break;
+                    case 29:
+                        phno.Visible = true;
+                        party_status.Visible = true;
+                        s_FillReport_PartybookingPaymentDetails();
+                        break;
                 }
             }
             catch (Exception ex)
@@ -1069,6 +1078,256 @@ namespace FoodandBeverage.Report
                 reportDocument.SetParameterValue("Totadisamt", totalDiscount);
                 reportDocument.SetParameterValue("Totalnetamt", totalNetAmount);
                 
+                // 🔹 VIEW  
+                crv_report.ReportSource = reportDocument;
+                crv_report.Refresh();
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void s_FillReport_PartybookingPaymentDetails()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+
+                #region  PARTY BOOKING + PAYMENT DETAILS DATA
+
+                BllSearch<DmnRpt_1> bllParty = new BllSearch<DmnRpt_1>();
+                DmnSearch searchParty = new DmnSearch();
+
+                string fromDate = fTime.ToString("yyyy-MM-dd HH:mm:ss");
+                string toDate = tTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+                searchParty.Select = @"
+                                    pb.PartyBookingId AS nFld7,
+
+                                    pb.CustomerName AS sFld1,
+                                    pb.Phone AS sFld2,
+                                    pb.Address AS sFld3,
+                                    ISNULL(e.ItemName,'') AS sFld4,
+
+                                    (pb.NoOfAdults + pb.NoOfChildren) AS nFld1,
+                                    pb.NoOfAdults  AS nFld2,
+                                    pb.NoOfChildren AS nFld3,
+
+                                    ISNULL(pb.TaxAmount,0) AS dFld1,
+                                    ISNULL(pb.NetAmount - pb.TaxAmount,0) AS dFld2,
+                                    ISNULL(pb.NetAmount,0) AS dFld3,
+                                    ISNULL(pb.AdvanceAmount,0) AS dFld4,
+                                    ISNULL(pb.ReceivedAmount,0) AS dFld5,
+                                    ISNULL(pb.DiscountAmount,0) AS dFld6,
+                                    ISNULL(pb.BalanceAmount,0) AS dFld7,
+
+                                    pb.BookingDateTime AS dt1,
+
+                                    ISNULL(d.PaymentDate,'') AS sFld5,
+                                    ISNULL(d.PaymentMode,0) AS sFld6,
+                                    ISNULL(d.RcvAmnt,0) AS dFld9,
+                                    ISNULL(d.BalAmnt,0) AS dFld10,
+                                    ISNULL(d.IsSplitPayment,0) AS dFld11,
+                                    ISNULL(d.PaidAmount,0) AS dFld12
+                                ";
+
+                searchParty.Table = @"
+                                    tblPartyBooking pb
+                                    LEFT JOIN tblEventCommonItems e 
+                                        ON e.EventItemId = pb.EventType
+                                    LEFT JOIN tblPartyBookingPayment d 
+                                        ON d.PartyBookingId = pb.PartyBookingId
+                                ";
+                if(phno.Text!= "Enter Phone No.")
+                {
+                    string phnumber = phno.Text;
+                    if(party_status.SelectedIndex == 0)
+                    {
+                        searchParty.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1 AND  pb.RefundStatus!=1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId} AND pb.Phone = '{phnumber}'";
+                    }
+                    else if(party_status.SelectedIndex == 1)
+                    {
+                        searchParty.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1 AND  pb.RefundStatus=1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId} AND pb.Phone = '{phnumber}'";
+                    }
+                    else if(party_status.SelectedIndex == 2)
+                    {
+                        searchParty.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 0
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId} AND pb.Phone = '{phnumber}'";
+                    }
+                    
+                }
+                else
+                {
+                    if (party_status.SelectedIndex == 0)
+                    {
+                        searchParty.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1 AND  pb.RefundStatus!=1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId}";
+                    }
+                    else if(party_status.SelectedIndex == 1)
+                    {
+                        searchParty.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1 AND  pb.RefundStatus=1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId}";
+                    }
+                    else if(party_status.SelectedIndex == 2)
+                    {
+                        searchParty.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 0
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId}";
+                    }
+
+                       
+                }
+                
+
+                var partyList = bllParty.GetSearchData("prdSearch", searchParty);
+
+                DataTable dtParty = new DataTable("Rpt_DT");
+
+                using (var reader = ObjectReader.Create(partyList,
+                    "nFld7",
+                    "sFld1", "sFld2", "sFld3", "sFld4",
+                    "nFld1", "nFld2", "nFld3",
+                    "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6", "dFld7",
+                    "dt1",
+                    "sFld5", "sFld6", "dFld9", "dFld10", "dFld11", "dFld12"
+                ))
+                {
+                    dtParty.Load(reader);
+                }
+
+                dsReport.Tables.Add(dtParty);
+
+                #endregion
+
+                BllSearch<DmnRpt_1> bllSearchSummary = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchSummary = new DmnSearch();
+
+                dmnSearchSummary.Select = @"
+                                        SUM(AdvanceAmount) as dFld2,
+                                        SUM(BalanceAmount) as dFld3,
+                                        SUM(NetAmount) as dFld4";
+
+                dmnSearchSummary.Table = "tblPartyBooking pb";
+                if (phno.Text != "Enter Phone No.")
+                {
+                    string phnumber = phno.Text;
+                    if (party_status.SelectedIndex == 0)
+                    {
+                        dmnSearchSummary.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1 AND pb.RefundStatus!=1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId} AND pb.Phone = '{phnumber}'";
+                    }
+                    else if (party_status.SelectedIndex == 1)
+                    {
+                        dmnSearchSummary.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1 AND pb.RefundStatus=1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId} AND pb.Phone = '{phnumber}'";
+                    }
+                    else if (party_status.SelectedIndex == 2)
+                    {
+                        dmnSearchSummary.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 0
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId} AND pb.Phone = '{phnumber}'";
+                    }
+
+
+                }
+                else
+                {
+                    if (party_status.SelectedIndex == 0)
+                    {
+                        dmnSearchSummary.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1 AND pb.RefundStatus!=1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId}";
+                    }
+                    else if (party_status.SelectedIndex == 1)
+                    {
+                        dmnSearchSummary.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 1 AND pb.RefundStatus=1
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId}";
+                    }
+                    else if (party_status.SelectedIndex == 2)
+                    {
+
+                        dmnSearchSummary.WhereNdGroupBy = $@"
+                                            WHERE pb.Status = 0
+                                            AND pb.BookingDateTime >= '{fromDate}'
+                                            AND pb.BookingDateTime <= '{toDate}'
+                                            AND pb.BranchId = {BranchId}";
+                    }
+                }
+
+                var invoiceSummary = bllSearchSummary.GetSearchData("prdSearch", dmnSearchSummary);
+                decimal totalPaid = 0;
+                decimal totalBal = 0;
+                decimal totalNetAmount = 0;
+
+                if (invoiceSummary.Count > 0)
+                {
+                    totalNetAmount = invoiceSummary[0].dFld4;
+                    totalPaid = invoiceSummary[0].dFld2;
+                    totalBal = invoiceSummary[0].dFld3;
+                }
+
+
+                #region  LOAD REPORT
+
+                reportDocument.Load(Path + @"\Rpt_PartyBookingPaymentDetails.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                // 🔹 HEADER
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+
+                // 🔹 DATE RANGE
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+                reportDocument.SetParameterValue("TotalPaid", totalPaid);
+                reportDocument.SetParameterValue("TotalBalance", totalBal);
+                reportDocument.SetParameterValue("Totalnetamt", totalNetAmount);
+
                 // 🔹 VIEW  
                 crv_report.ReportSource = reportDocument;
                 crv_report.Refresh();
@@ -2958,6 +3217,24 @@ namespace FoodandBeverage.Report
         private void btncolse_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void phno_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(phno.Text))
+            {
+                phno.Text = "Enter Phone No.";
+                phno.ForeColor = Color.Gray;
+            }
+        }
+
+        private void phno_Enter(object sender, EventArgs e)
+        {
+            if (phno.Text == "Enter Phone No.")
+            {
+                phno.Text = "";
+                phno.ForeColor = Color.Black;
+            }
         }
 
         public void combofill_report()

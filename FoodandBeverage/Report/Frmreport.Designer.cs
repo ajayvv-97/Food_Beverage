@@ -41,8 +41,10 @@ namespace FoodandBeverage.Report
             this.cmb_fin_year = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tabDateTimePanel = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.chk_time = new System.Windows.Forms.CheckBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.party_status = new System.Windows.Forms.ComboBox();
+            this.phno = new System.Windows.Forms.TextBox();
             this.tlp_second_row = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_reorder = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -226,7 +228,7 @@ namespace FoodandBeverage.Report
             // tabDateTimePanel
             // 
             this.tabDateTimePanel.BackColor = System.Drawing.Color.Transparent;
-            this.tabDateTimePanel.ColumnCount = 8;
+            this.tabDateTimePanel.ColumnCount = 11;
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -235,8 +237,13 @@ namespace FoodandBeverage.Report
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tabDateTimePanel.Controls.Add(this.textBox1, 7, 0);
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 122F));
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
+            this.tabDateTimePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tabDateTimePanel.Controls.Add(this.chk_time, 0, 0);
+            this.tabDateTimePanel.Controls.Add(this.textBox1, 1, 0);
+            this.tabDateTimePanel.Controls.Add(this.party_status, 8, 0);
+            this.tabDateTimePanel.Controls.Add(this.phno, 7, 0);
             this.tabDateTimePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabDateTimePanel.Location = new System.Drawing.Point(319, 3);
             this.tabDateTimePanel.Name = "tabDateTimePanel";
@@ -246,6 +253,19 @@ namespace FoodandBeverage.Report
             this.tabDateTimePanel.Size = new System.Drawing.Size(565, 44);
             this.tabDateTimePanel.TabIndex = 33;
             // 
+            // chk_time
+            // 
+            this.chk_time.AutoSize = true;
+            this.chk_time.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chk_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.chk_time.Location = new System.Drawing.Point(3, 3);
+            this.chk_time.Name = "chk_time";
+            this.chk_time.Size = new System.Drawing.Size(60, 26);
+            this.chk_time.TabIndex = 34;
+            this.chk_time.Text = "Time";
+            this.chk_time.UseVisualStyleBackColor = true;
+            this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);
+            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(69, 3);
@@ -254,18 +274,36 @@ namespace FoodandBeverage.Report
             this.textBox1.TabIndex = 35;
             this.textBox1.Visible = false;
             // 
-            // chk_time
+            // party_status
             // 
-            this.chk_time.AutoSize = true;
-            this.chk_time.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.chk_time.Location = new System.Drawing.Point(3, 3);
-            this.chk_time.Name = "chk_time";
-            this.chk_time.Size = new System.Drawing.Size(60, 22);
-            this.chk_time.TabIndex = 34;
-            this.chk_time.Text = "Time";
-            this.chk_time.UseVisualStyleBackColor = true;
-            this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);
+            this.party_status.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.party_status.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.party_status.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.party_status.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.party_status.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.party_status.FormattingEnabled = true;
+            this.party_status.Items.AddRange(new object[] {
+            "Active",
+            "Refunded",
+            "Cancelled"});
+            this.party_status.Location = new System.Drawing.Point(291, 3);
+            this.party_status.Name = "party_status";
+            this.party_status.Size = new System.Drawing.Size(116, 26);
+            this.party_status.TabIndex = 49;
+            this.party_status.Visible = false;
+            // 
+            // phno
+            // 
+            this.phno.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.phno.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.phno.Location = new System.Drawing.Point(175, 3);
+            this.phno.Multiline = true;
+            this.phno.Name = "phno";
+            this.phno.Size = new System.Drawing.Size(110, 26);
+            this.phno.TabIndex = 36;
+            this.phno.Visible = false;
+            this.phno.Enter += new System.EventHandler(this.phno_Enter);
+            this.phno.Leave += new System.EventHandler(this.phno_Leave);
             // 
             // tlp_second_row
             // 
@@ -625,5 +663,7 @@ namespace FoodandBeverage.Report
         private System.Windows.Forms.Button btnmini;
         private System.Windows.Forms.Button btncolse;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox phno;
+        private System.Windows.Forms.ComboBox party_status;
     }
 }
