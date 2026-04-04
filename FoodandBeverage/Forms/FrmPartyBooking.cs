@@ -718,7 +718,7 @@ namespace FoodandBeverage
 
                 categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
 
-                DataGridViewComboBoxColumn cmb = (DataGridViewComboBoxColumn)dgv_cus_menu_items.Columns[customitemcategmenuno];
+                DataGridViewComboBoxColumn cmb =(DataGridViewComboBoxColumn)dgv_cus_menu_items.Columns[customitemcategmenuno];
 
                 cmb.DataSource = categoryList;
                 cmb.DisplayMember = "CategoryName";
@@ -1459,7 +1459,12 @@ namespace FoodandBeverage
 
                     targetRow.Cells[selecteditemslno].Value = sl;
                     targetRow.Cells[selecteditemitemno].Value = item.ItemName;
-                    targetRow.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.CategoryId);
+
+                    if (item.CategoryId != null && Convert.ToInt32(item.CategoryId) > 0)
+                    {
+                        targetRow.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.CategoryId);
+                    }
+
                     targetRow.Cells[selecteditemqtyno].Value = item.Qty;
                     targetRow.Cells[selecteditemppcdiidno].Value = item.PartyPackCustomDetailsId;
                     targetRow.Cells[selecteditemdeafultno].Value = 1;
@@ -1505,6 +1510,7 @@ namespace FoodandBeverage
         {
             try
             {
+                
                 dgv_cus_menu_items.Rows.Clear();
                 flp_cus_menuitems.Controls.Clear();
 
@@ -1514,7 +1520,6 @@ namespace FoodandBeverage
                 search.Select = "PartyPackCustomDetailsId, Product, qty, MenuCategoryId";
                 search.Table = "tblPartyPackCustomMenu";
                 search.WhereNdGroupBy = "WHERE Status = 1";
-
                 customMenuList = bll.GetSearchData("prdSearch", search);
 
                 LoadCustomUsedCategories();
@@ -1542,7 +1547,12 @@ namespace FoodandBeverage
 
                     row.Cells[customitemslno].Value = sl++;
                     row.Cells[customitemno].Value = item.Product;
-                    row.Cells[customitemcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+
+                    if (item.MenuCategoryId != null && Convert.ToInt32(item.MenuCategoryId) > 0)
+                    {
+                        row.Cells[customitemcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                    }
+
                     row.Cells[customitemqtyno].Value = item.Qty;
                     row.Cells[customitemppcdiidno].Value = item.PartyPackCustomDetailsId;
 
@@ -3716,6 +3726,10 @@ namespace FoodandBeverage
                 Advanceflag = false;
 
                 pnl_PaymentOptions.Visible = false;
+
+                btnnocharge.Visible = true;
+                btn_other.Visible = true;
+                btncomple.Visible = true;
             }
             catch (Exception ex)
             {
@@ -3804,34 +3818,61 @@ namespace FoodandBeverage
                 if (!Mandatorycheck())
                     return;
 
-                decimal rcvAmt = 0;
-                decimal.TryParse(txtRcvAmt.Text, out rcvAmt);
+                btnnocharge.Visible = true;
+                btn_other.Visible = true;
+                btncomple.Visible = true;
 
-                decimal balAmt = 0;
-                decimal.TryParse(lblBalAmt.Text, out balAmt);
+                decimal rcvAmt = decimal.TryParse(txtRcvAmt.Text, out decimal ra) ? ra : 0;
 
-                //REFUND DIRECT CASE
-                if (balAmt < 0)
+                // Check booking
+                if (!string.IsNullOrEmpty(txtpartybookingid.Text) &&
+                    int.TryParse(txtpartybookingid.Text, out int bookingId) &&
+                    bookingId > 0)
                 {
-                    if (!string.IsNullOrEmpty(txtpartybookingid.Text) &&
-                        int.TryParse(txtpartybookingid.Text, out int bookingId) &&
-                        bookingId > 0)
+                    decimal lblNet = decimal.TryParse(lblNetAmt.Text, out decimal na) ? na : 0;
+                    decimal advancePaid = decimal.TryParse(lbladvamtdata.Text, out decimal aa) ? aa : 0;
+
+                    decimal totalAdjustment = bookingItemAdjustments.Sum(a => a.Amount);
+
+                    decimal newNetAmount = lblNet ;
+                    decimal totalPaid = advancePaid + rcvAmt;
+
+                    decimal refundAmount = totalPaid - newNetAmount;   // >0 → refund
+                    decimal finalBalance = newNetAmount - totalPaid;   // >0 → pending
+
+                    bool isFullySettled = Math.Abs(newNetAmount - totalPaid) < 0.01m;
+                    bool refundRequired = refundAmount > 0;
+                    bool paymentPending = finalBalance > 0;
+
+                    // ✅ 1. FULLY SETTLED (NO PAYMENT / NO REFUND)
+                    if (isFullySettled)
                     {
-                        decimal lblNet = decimal.TryParse(lblNetAmt.Text, out decimal na) ? na : 0;
-                        decimal advancePaid = decimal.TryParse(lbladvamtdata.Text, out decimal aa) ? aa : 0;
+                        ShowPaymentSettlementPanel(lblNet, advancePaid, rcvAmt, refundAmount);
+                        return;
+                    }
 
-                        decimal totalAdjustment = bookingItemAdjustments.Sum(a => a.Amount);
-                        decimal newNetAmount = lblNet + totalAdjustment;
-                        decimal totalPaid = advancePaid + rcvAmt;
-
-                        decimal refundAmount = totalPaid - newNetAmount;
+                    // ✅ 2. REFUND CASE
+                    if (refundRequired )
+                    {
+                        btnnocharge.Visible = false;
+                        btn_other.Visible = false;
+                        btncomple.Visible = false;
 
                         ShowPaymentSettlementPanel(lblNet, advancePaid, rcvAmt, refundAmount);
                         return;
                     }
+
+                    // ✅ 3. PAYMENT REQUIRED
+                    if (paymentPending)
+                    {
+                        pnl_PaymentOptions.Visible = true;
+                        pnl_PaymentOptions.BringToFront();
+                        pnl_PaymentOptions.Left = (this.ClientSize.Width - pnl_PaymentOptions.Width) / 2;
+                        pnl_PaymentOptions.Top = (this.ClientSize.Height - pnl_PaymentOptions.Height) / 2;
+                        return;
+                    }
                 }
 
-                // NORMAL payment
                 pnl_PaymentOptions.Visible = true;
                 pnl_PaymentOptions.BringToFront();
                 pnl_PaymentOptions.Left = (this.ClientSize.Width - pnl_PaymentOptions.Width) / 2;
@@ -4034,10 +4075,10 @@ namespace FoodandBeverage
                         break;
                 }
                 Paybill();
+                
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
             }
         }
 
@@ -4688,33 +4729,34 @@ namespace FoodandBeverage
 
                 #region BILL PRINT
 
-                if (PaymentSettleStatusData != Convert.ToInt32(PaymentSettlementStatus.RefundDue) || PaymentSettleStatusData != Convert.ToInt32(PaymentSettlementStatus.Settled))
+                if (PaymentSettleStatusData != Convert.ToInt32(PaymentSettlementStatus.RefundDue) &&
+                    PaymentSettleStatusData != Convert.ToInt32(PaymentSettlementStatus.Settled))
                 {
                     using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(SalesMasterId, PaymentMode, 0, Convert.ToInt32(BillType.Partybill)))
                     {
                         frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
                         frmSalesInvoice.ShowDialog();
                     }
-                    switch ((PaymentSettlementStatus)PaymentSettleStatusData)
-                    {
-                        case PaymentSettlementStatus.Settled:
-                            CMessageBox.Show("Party Booking Saved Successfully. Payment is fully settled.");
-                            break;
-
-                        case PaymentSettlementStatus.RefundDue:
-                            CMessageBox.Show("Party Booking Saved Successfully. Refund is due to the customer.");
-                            break;
-
-                        case PaymentSettlementStatus.AdditionalDue:
-                            CMessageBox.Show("Party Booking Saved Successfully. Additional payment is required from the customer.");
-                            break;
-
-                        default:
-                            CMessageBox.Show("Party Booking Saved Successfully.");
-                            break;
-                    }
-
                 }
+                switch ((PaymentSettlementStatus)PaymentSettleStatusData)
+                {
+                    case PaymentSettlementStatus.Settled:
+                        CMessageBox.Show("Party Booking Saved Successfully. Payment is fully settled.");
+                        break;
+
+                    case PaymentSettlementStatus.RefundDue:
+                        CMessageBox.Show("Party Booking Saved Successfully. Refund is due to the customer.");
+                        break;
+
+                    case PaymentSettlementStatus.AdditionalDue:
+                        CMessageBox.Show("Party Booking Saved Successfully. Additional payment is required from the customer.");
+                        break;
+
+                    default:
+                        CMessageBox.Show("Party Booking Saved Successfully.");
+                        break;
+                }
+
                 ClearAll();
 
                 #endregion
@@ -4901,11 +4943,16 @@ namespace FoodandBeverage
 
                         if (sortedList.Count == 1)
                         {
-                            totalAdvanceAmount = lastReceivedAmount;
+                            if (totalPaid >= netAmount)
+                            {
+                                totalAdvanceAmount = totalPaid;
+                            }
+                            else
+                                totalAdvanceAmount = lastReceivedAmount;
                         }
                         else
                         {
-                            totalAdvanceAmount = totalPaid - lastReceivedAmount;
+                            totalAdvanceAmount = totalPaid;
                         }
                     }
                 }
@@ -5832,8 +5879,11 @@ namespace FoodandBeverage
                 BllRefund bllRefund = new BllRefund();
 
                 dmnRefund.PartyBookingId = BookingId;
-                if(PaymentSettleStatusData == Convert.ToInt32(PaymentSettlementStatus.RefundDue))
-                    dmnRefund.RefundAmount = Convert.ToDecimal(txtrefundamt.Text);
+                if (PaymentSettleStatusData == Convert.ToInt32(PaymentSettlementStatus.RefundDue))
+                {
+                    decimal balAmt = decimal.TryParse(lblBalAmt.Text, out decimal ba) ? ba : 0;
+                    dmnRefund.RefundAmount = Math.Abs(balAmt);
+                }
                 else
                     dmnRefund.RefundAmount = Convert.ToDecimal(txtrefundamt.Text);
 
@@ -6003,6 +6053,22 @@ namespace FoodandBeverage
                     }
 
                     ResetDiscount();
+
+                    BookingItemAdjustment item = new BookingItemAdjustment()
+                    {
+                        SlNo = bookingItemAdjustments.Count + 1,
+                        Product = productName,
+                        Qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0),
+                        Price = Convert.ToDecimal(row.Cells[pnetamt].Value ?? 0),
+                        Amount = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0),
+                        ProductCategory = Convert.ToString(row.Cells[pcategmenuno].Value ?? ""),
+                        ProductType = productType,
+                        ProductId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0),
+                        SaleDetailId = Convert.ToInt32(row.Cells[psaledetailidno].Value ?? 0),
+                        PartyBookingDetailsid = partyPackDetailsId
+                    };
+
+                    bookingItemAdjustments.Add(item);
 
                     dgv_product.Rows.RemoveAt(e.RowIndex);
 
@@ -6222,7 +6288,7 @@ namespace FoodandBeverage
                     lbl_paymentsubhead.Text = "Refund Required";
 
                     lbl_sum_adjamt.Text = diff.ToString("0.00");
-                    lbl_sum_revamt.Text = refundAmt.ToString("0.00");
+                    lbl_sum_revamt.Text = "0.00"; 
                     lbl_sum_dueamt.Text = "0.00";
 
                     pnl_ref_ad_msg.Visible = true;
@@ -6244,7 +6310,7 @@ namespace FoodandBeverage
 
                     lbl_sum_adjamt.Text = "+" + dueAmt.ToString("0.00");
                     lbl_sum_dueamt.Text = dueAmt.ToString("0.00");
-                    lbl_sum_revamt.Text = "0.00";
+                    lbl_sum_revamt.Text = dueAmt.ToString("0.00");
 
                     pnl_ref_ad_msg.Visible = true;
                     pnl_ref_ad_msg.BackColor = Color.LemonChiffon;
@@ -6265,7 +6331,6 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Settlement Error: " + ex.Message);
             }
         }
 
@@ -7162,17 +7227,20 @@ namespace FoodandBeverage
         }
         private void btn_fullpayment_Click(object sender, EventArgs e)
         {
+            pnl_PaymentOptions.Visible = false;
+
             decimal rcvAmt = 0;
             decimal.TryParse(txtRcvAmt.Text, out rcvAmt);
+            decimal totalAdjustment = bookingItemAdjustments.Sum(a => a.Amount);
+            decimal lblNet = decimal.TryParse(lblNetAmt.Text, out decimal na) ? na : 0;
 
             if (!string.IsNullOrEmpty(txtpartybookingid.Text) &&
                 int.TryParse(txtpartybookingid.Text, out int bookingId) &&
-                bookingId > 0)
+                bookingId > 0 && dbNetAmount < lblNet)
             {
-                decimal lblNet = decimal.TryParse(lblNetAmt.Text, out decimal na) ? na : 0;
+
                 decimal advancePaid = decimal.TryParse(lbladvamtdata.Text, out decimal aa) ? aa : 0;
 
-                decimal totalAdjustment = bookingItemAdjustments.Sum(a => a.Amount);
                 decimal newNetAmount = lblNet + totalAdjustment;
                 decimal totalPaid = advancePaid + rcvAmt;
 

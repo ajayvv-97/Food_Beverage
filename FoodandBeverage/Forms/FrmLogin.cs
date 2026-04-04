@@ -84,17 +84,17 @@ namespace FoodandBeverage.Forms
         {
             if (PrintpathValue == 1)
             {
-                KitchenBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-                ReportPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Report\";
-                SaleBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                XYZPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                logoPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+                //KitchenBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                //ReportPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Report\";
+                //SaleBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                //XYZPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                //logoPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
 
-                //KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-                //ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report\";
-                //SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                //XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                //logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+                KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report\";
+                SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
 
                 //KitchenBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
                 //ReportPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Report";
@@ -845,10 +845,8 @@ namespace FoodandBeverage.Forms
         {
             if (isMouseDown)
             {
-                pressDuration += 100; // increase time by 100ms
-
-                // Check if pressed for at least 2 seconds (2000 ms)
-                if (pressDuration >= 5000) // 5 seconds long press
+                pressDuration += 100; 
+                if (pressDuration >= 3000) // 3 seconds long press
                 {
                     longPressTimer.Stop();
                     isMouseDown = false;
@@ -924,11 +922,11 @@ namespace FoodandBeverage.Forms
                     txtext_conn.Text = savedConnection;
                     txtnew_conn.Text = "";
                 }
-                this.Close();
+
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show("❌ Failed to save database connection!\n\nError: " + ex.Message,"DB Config Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CMessageBox.Show("❌ Failed to save database connection!\n\nError: " + ex.Message,"DB Config Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -964,7 +962,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("❌ Database connection failed!\n\nError: " + ex.Message,"Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("❌ Database connection failed!\n\nError: " + ex.Message,"Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }      
         private void pblogo_MouseDown(object sender, MouseEventArgs e)
@@ -1014,6 +1012,16 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
+        }
+
+        private void btndblogin_close_Click(object sender, EventArgs e)
+        {
+            pnlDBLogin.Visible = false;
+        }
+
+        private void btn_dbconf_close_Click(object sender, EventArgs e)
+        {
+            pnlDbSettings.Visible = false;
         }
     }
 }
