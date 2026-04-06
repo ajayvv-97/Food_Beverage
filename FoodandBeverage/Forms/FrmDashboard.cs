@@ -6162,9 +6162,11 @@ namespace FoodandBeverage.Forms
                         if (Screen.PrimaryScreen.WorkingArea.Width > maxWidth ||
                             Screen.PrimaryScreen.WorkingArea.Height > maxHeight)
                         {
+                            this.Opacity = 0.7;
                             _instanceFrmpb.Width = maxWidth;
                             _instanceFrmpb.Height = maxHeight;
                             _instanceFrmpb.StartPosition = FormStartPosition.CenterScreen;
+                            _instanceFrmpb.WindowState = FormWindowState.Normal;
                         }
                         else
                         {
@@ -6185,6 +6187,10 @@ namespace FoodandBeverage.Forms
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.homepage)
                 );
+            }
+            finally
+            {
+                this.Opacity = 1.0;
             }
         }
 
