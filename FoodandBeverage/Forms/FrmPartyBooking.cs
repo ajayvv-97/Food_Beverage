@@ -4795,8 +4795,30 @@ namespace FoodandBeverage
                 netbanking_part.Enabled = true;
                 midas_part.Enabled = true;
 
-                lblPartNetAmt.Text = txtRcvAmt.Text;
-                lblPartBalAmt.Text = txtRcvAmt.Text;
+                if(Fullpaymentflag)
+                {
+                    decimal pdamt = 0,remainingAmount = 0,balance = 0;
+
+                    decimal alreadyPaid = dbAdvanceAmount;
+
+                    decimal netamt = decimal.TryParse(lblNetAmt.Text, out decimal na) ? na : 0;
+
+                    if (Fullpaymentflag || PaymentSettleStatusData == Convert.ToInt32(PaymentSettlementStatus.AdditionalDue))
+                    {
+                        remainingAmount = netamt - alreadyPaid;
+                        if (remainingAmount < 0)
+                            remainingAmount = 0;
+                    }
+
+                    lblPartNetAmt.Text = remainingAmount.ToString();
+                    lblPartBalAmt.Text = remainingAmount.ToString();
+                }
+                else
+                {
+                    lblPartNetAmt.Text = txtRcvAmt.Text;
+                    lblPartBalAmt.Text = txtRcvAmt.Text;
+                }
+
             }
             catch(Exception)
             { 
