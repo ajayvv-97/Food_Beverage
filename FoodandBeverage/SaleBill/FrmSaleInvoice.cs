@@ -696,7 +696,9 @@ namespace FoodandBeverage.SaleBill
                             pb.NoOfAdults,
                             pb.NoOfChildren,
                             pb.DiscountReason,
-                            pb.EventDescription",
+                            pb.EventDescription,
+                            pb.NoOfAdults,
+                            pb.NoOfChildren",
 
                     Table = "tblPartyBooking pb " +
                             "LEFT JOIN tblEventCommonItems e ON e.EventItemId = pb.EventType AND e.Status = 1",
