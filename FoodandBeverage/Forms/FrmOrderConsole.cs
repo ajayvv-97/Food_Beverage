@@ -3264,7 +3264,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
 
-                dmnSearch.Select = "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
+                dmnSearch.Select = "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8,p.ForeColor Field9,p.BackColor Field10";
 
                 dmnSearch.Table =
                 "tblProduct p " +
@@ -3280,7 +3280,7 @@ namespace FoodandBeverage.Forms
                 "AND p.Fcid=" + clickedControl.Tag + " " +
                 "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
 
-                " Union all Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8 from " +
+                " Union all Select i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8,'' Field9,'' Field10 from " +
                     " tblItem i " +
                     " OUTER APPLY ( Select ofd.Discountper,ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
                 // " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
@@ -3331,7 +3331,23 @@ namespace FoodandBeverage.Forms
                     Panel tile = new Panel();
                     tile.Width = tileW;
                     tile.Height = tileH;
-                    tile.BackColor = Color.White;
+
+                    if (!string.IsNullOrEmpty(item.Field10))
+                    {
+                        try
+                        {
+                            tile.BackColor = ColorTranslator.FromHtml(item.Field10);
+                        }
+                        catch
+                        {
+                            tile.BackColor = Color.White; 
+                        }
+                    }
+                    else
+                    {
+                        tile.BackColor = Color.White;
+                    }
+
                     tile.Margin = new Padding(spacing);
                     tile.Tag = productId;
                     tile.AccessibleDescription = Convert.ToString(Saletypeno);
@@ -3353,7 +3369,23 @@ namespace FoodandBeverage.Forms
                     lblName.TextAlign = ContentAlignment.MiddleCenter;
                     lblName.Dock = DockStyle.Fill;
                     lblName.Padding = new Padding(5);
-                    lblName.ForeColor = Color.Black;
+
+                    if (!string.IsNullOrWhiteSpace(item.Field9))
+                    {
+                        try
+                        {
+                            lblName.ForeColor = ColorTranslator.FromHtml(item.Field9);
+                        }
+                        catch
+                        {
+                            lblName.ForeColor = Color.Black; 
+                        }
+                    }
+                    else
+                    {
+                        lblName.ForeColor = Color.Black; // default
+                    }
+
                     lblName.BackColor = Color.Transparent;
                     lblName.AutoEllipsis = true;
 
@@ -3627,7 +3659,7 @@ namespace FoodandBeverage.Forms
                 {
                     if (j == 1)
                     {
-                        dmnSearch.Select = "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8";
+                        dmnSearch.Select = "DISTINCT p.Product as Field1,p.ProductId as Field2,0 as Field3,fav_status as Field4,p.price Field5,q.Discountper Field6,q.FinalPrice Field7,p.foodtype Field8,p.ForeColor Field9,p.BackColor Field10";
 
                         dmnSearch.Table = "tblProduct p " +
                             "LEFT JOIN tblMenu m on m.ProductId=p.ProductId " +
@@ -3645,7 +3677,7 @@ namespace FoodandBeverage.Forms
             }
                     else
             {
-                dmnSearch.Select = " i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8";
+                dmnSearch.Select = " i.Itemname as Field1,i.ItemId as Field2,i.Saletype as Field3,i.fav_status as Field4,(SELECT MAX(SRate) FROM tblProductRate WHERE ProductId = i.ItemId) AS Field5,q.Discountper Field6,q.FinalPrice Field7,0 Field8,'' Field9,'' Field10";
                 dmnSearch.Table = " tblItem i" +
                     " OUTER APPLY(Select ofd.Discountper, ofd.FinalPrice from  tblOfferDetails ofd   LEFT JOIN tblOfferMaster ofm ON ofd.omid = ofm.omid AND ofd.status = 1   where ofm.status = 1 AND ofd.Producttype=2  AND ofm.OfferType = 0 AND i.itemid = ofd.ProductId and ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status = 1)q";
                 dmnSearch.WhereNdGroupBy = " where  i.Saletype=1 and i.Status=1  and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0 and  i.fav_status=1";
@@ -3693,11 +3725,26 @@ namespace FoodandBeverage.Forms
                     {
                         Width = tileW,
                         Height = tileH,
-                        BackColor = Color.White,
                         Margin = new Padding(spacing),
                         Tag = productId,
                         AccessibleDescription = saleType.ToString()
                     };
+
+                    if (!string.IsNullOrEmpty(item.Field10))
+                    {
+                        try
+                        {
+                            tile.BackColor = ColorTranslator.FromHtml(item.Field10);
+                        }
+                        catch
+                        {
+                            tile.BackColor = Color.White;
+                        }
+                    }
+                    else
+                    {
+                        tile.BackColor = Color.White;
+                    }
 
                     TableLayoutPanel tlpMain = new TableLayoutPanel
                     {
@@ -3722,6 +3769,22 @@ namespace FoodandBeverage.Forms
                         ForeColor = Color.Black,
                         BackColor = Color.Transparent
                     };
+
+                    if (!string.IsNullOrWhiteSpace(item.Field9))
+                    {
+                        try
+                        {
+                            lblName.ForeColor = ColorTranslator.FromHtml(item.Field9);
+                        }
+                        catch
+                        {
+                            lblName.ForeColor = Color.Black;
+                        }
+                    }
+                    else
+                    {
+                        lblName.ForeColor = Color.Black; // default
+                    }
 
                     Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
                     lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;

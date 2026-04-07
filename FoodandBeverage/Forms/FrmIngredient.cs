@@ -427,6 +427,7 @@ namespace FoodandBeverage.Forms
                 tlp_registration.Focus();
                 txtproductname.Focus();
                 txtPpid.Text = "0";
+
                 if (FrmDashboard.DefaultTaxType != "")
                 {
                     cmbTaxType.Text = FrmDashboard.DefaultTaxType;
@@ -569,7 +570,7 @@ namespace FoodandBeverage.Forms
                 clearall();
                 combofill();
                 rearrange_slno();
-                textb_shape();
+
                 LoadVariationCombo();
 
                 if (FrmDashboard.DefaultTaxType != "")
@@ -615,9 +616,12 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 #endregion
+
                 txtsearch.Text = "Food Name .....";
                 txtsearch.ForeColor = Color.Gray;
                 txtproductname.Focus();
+
+                textb_shape();
             }
             catch (Exception ex)
             {
@@ -1224,7 +1228,7 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(lbltax, 0, 5);
                     tlp_registration.Controls.Add(lbltaxtype, 1, 5);
                     tlp_registration.Controls.Add(lbligst, 2, 5);
-                    tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 5);
+                    tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 5); 
 
                     //row2
                     tlp_registration.Controls.Add(cmbtax, 0, 6);
@@ -1280,6 +1284,9 @@ namespace FoodandBeverage.Forms
                     txtdes.Dock = DockStyle.Fill;
                     ApplyRoundedTextBox(txtdes, 10);
                 }
+
+                tlp_S_C_text.Dock = DockStyle.Fill;
+                tlp_s_c_gst_lbl.Dock = DockStyle.Fill;
             }
             catch (Exception ex)
             {
@@ -2977,6 +2984,7 @@ namespace FoodandBeverage.Forms
             {
                 tlp_regform_grid.RowStyles[1] = new RowStyle(SizeType.AutoSize);
             }
+            textb_shape();
         }
 
         private void btnvariation_Click(object sender, EventArgs e)

@@ -7204,10 +7204,115 @@ namespace FoodandBeverage
             }
         }
 
+        private void txtname_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
         private void btn_ec_cancel_Click(object sender, EventArgs e)
         {
             pnl_extracharge.Visible = false;
         }
+
+        private void txtname_TextChanged(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtph_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtemail_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtaddress_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txteventdesc_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtAdults_Click(object sender, EventArgs e)
+        {
+            decimal kdata = 0;
+            using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
+            {
+                frm.ShowDialog();
+
+                if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+
+                txtdiscountreason.Text = frm.txtdesc.Text.Trim() == "Enter Remarks Here....." ? "" : frm.txtdesc.Text;
+            }
+            if (kdata > 0)
+            {
+                txtAdults.Text = kdata.ToString();
+            }
+        }
+
+        private void txtChild_Click(object sender, EventArgs e)
+        {
+            decimal kdata = 0;
+            using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
+            {
+                frm.ShowDialog();
+
+                if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                    kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+
+                txtdiscountreason.Text = frm.txtdesc.Text.Trim() == "Enter Remarks Here....." ? "" : frm.txtdesc.Text;
+            }
+            if (kdata > 0)
+            {
+                txtChild.Text = kdata.ToString();
+            }
+        }
+
+        private void txtextracharge_amt_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Number)
+            {
+                decimal kdata = 0;
+                using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
+                {
+                    frm.ShowDialog();
+
+                    if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+
+                    txtdiscountreason.Text = frm.txtdesc.Text.Trim() == "Enter Remarks Here....." ? "" : frm.txtdesc.Text;
+                }
+                if (kdata > 0)
+                    txtextracharge_amt.Text = kdata.ToString();
+            }
+
+        }
+
         private void txtextracharge_amt_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -7360,5 +7465,84 @@ namespace FoodandBeverage
         }
 
         #endregion
+
+        #region Keyboard
+
+        public void ShowKeyboard(Control activeControl, int kbtype)
+        {
+            try
+            {
+                if (activeControl == null) return;
+
+                if (activeControl is TextBox activeTextBox)
+                {
+                    Point textBoxScreenLocation = activeTextBox.PointToScreen(Point.Empty);
+                    int desiredX = 0, desiredY = 0;
+                    if (Frmkeyboard.IsOpen)
+                    {
+                        Frmkeyboard.Instance.Close();
+                    }
+
+                    Frmkeyboard frmKey = new Frmkeyboard(kbtype);
+
+                    #region Calculate Position of Keyboard 
+                    desiredX = textBoxScreenLocation.X + (activeTextBox.Width / 2) - (Frmkeyboard.Instance.Width / 2);
+                    desiredY = textBoxScreenLocation.Y + activeTextBox.Height + 5;
+                    Rectangle screenBounds = Screen.FromControl(activeTextBox).WorkingArea;
+                    if (desiredX < screenBounds.Left)
+                        desiredX = screenBounds.Left;
+                    else if (desiredX + Frmkeyboard.Instance.Width > screenBounds.Right)
+                        desiredX = screenBounds.Right - Frmkeyboard.Instance.Width;
+                    if (desiredY + Frmkeyboard.Instance.Height > screenBounds.Bottom)
+                    {
+                        desiredY = textBoxScreenLocation.Y - Frmkeyboard.Instance.Height - 5;
+                        if (desiredY < screenBounds.Top)
+                            desiredY = screenBounds.Top;
+                    }
+                    Frmkeyboard.Instance.StartPosition = FormStartPosition.Manual;
+                    Frmkeyboard.Instance.Location = new Point(desiredX, desiredY);
+                    #endregion
+
+
+                    frmKey.OnKeyPressed += (keyText) =>
+                    {
+                        if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.backspace))
+                        {
+                            if (activeTextBox.Text.Length > 0)
+                                activeTextBox.Text = activeTextBox.Text.Substring(0, activeTextBox.Text.Length - 1);
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.space))
+                        {
+                            activeTextBox.Text += " ";
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.clear))
+                        {
+                            activeTextBox.Text = "";
+                        }
+                        else if (FoodandBeverage.Forms.UserControl.Frmkeyboard.KeyTypevalue == Convert.ToInt32(KeyType.keyf8))
+                        {
+                            if (Convert.ToInt32(activeTextBox.Tag) == 1)
+                            { }
+                        }
+                        else
+                        {
+                            activeTextBox.Text += keyText;
+                        }
+                        activeTextBox.SelectionStart = activeTextBox.Text.Length;
+                        activeTextBox.SelectionLength = 0;
+                    };
+
+                    frmKey.Show();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(" page ShowKeyboard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+        #endregion
+
+
     }
 }

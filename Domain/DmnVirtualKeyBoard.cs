@@ -27,6 +27,7 @@ namespace Domain
         public bool Enb_KitchenView_Number { get; set; }
         public bool Enb_SearchPage_Number { get; set; }
         public bool Enb_SaleBill_YZoutPage_Number { get; set; }
+        public bool Enb_party_Normal { get; set; }
 
         // === Normal Keyboard Access ===
         public bool Enb_Home_Normal { get; set; }
@@ -40,5 +41,6 @@ namespace Domain
         public bool Enb_KitchenView_Normal { get; set; }
         public bool Enb_SearchPage_Normal { get; set; }
         public bool Enb_SaleBill_YZoutPage_Normal { get; set; }
+        public bool Enb_Party_Number  { get; set; }
     }
 }
