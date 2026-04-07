@@ -336,6 +336,8 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(btn_del_tax, 3, 1);
 
                 }
+
+                textb_shape();
             }
             catch (Exception ex)
             {
@@ -908,9 +910,9 @@ namespace FoodandBeverage.Forms
             #region setting Corner Round 
             UIHelper.RoundCorners(tlp_registration, 25, null);
             UIHelper.RoundCorners(dgvTaxSettings, 25, null);
-            UIHelper.RoundCorners(tlp_navbar, 10, null);            
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
             #endregion
-
+            
             textb_shape();
         }
 

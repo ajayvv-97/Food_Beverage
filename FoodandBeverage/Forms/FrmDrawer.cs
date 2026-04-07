@@ -31,6 +31,7 @@ namespace FoodandBeverage.Forms
         public int Drawerassginstaffid;
 
         public string Drawersystemname;
+        bool formloadflag = false;
         #endregion
 
         public FrmDrawer()
@@ -44,9 +45,19 @@ namespace FoodandBeverage.Forms
         }
         private void FrmDrawer_Load(object sender, EventArgs e)
         {
-            CheckPermission();
-            AssignDrawerCheck();
-            UIHelper.RoundCorners(tlp_setting, 25, null);
+            try
+            {
+                formloadflag = true;
+
+                CheckPermission();
+                AssignDrawerCheck();
+                UIHelper.RoundCorners(tlp_setting, 25, null);
+            }
+            catch(Exception ex)
+            {
+
+            }
+
         }
         public void AssignDrawerCheck()
         {
@@ -478,6 +489,9 @@ namespace FoodandBeverage.Forms
 
         private void txtinitialamt_Enter(object sender, EventArgs e)
         {
+            if (formloadflag)
+                return;
+                
             decimal kdata = 0;
             using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoDecimal)))
             {
@@ -488,10 +502,15 @@ namespace FoodandBeverage.Forms
                 return;
            
             txtinitialamt.Text = kdata.ToString("0.00");
+
+            formloadflag = false;
         }
 
         private void txtdropamt_Enter(object sender, EventArgs e)
         {
+            if (formloadflag)
+                return;
+
             decimal kdata = 0;
             using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoDecimal)))
             {
@@ -502,10 +521,15 @@ namespace FoodandBeverage.Forms
                 return;
 
             txtdropamt.Text = kdata.ToString("0.00");
+
+            formloadflag = false;
         }
 
         private void txtloanamt_Enter(object sender, EventArgs e)
         {
+            if (formloadflag)
+                return;
+
             decimal kdata = 0;
             using (UserControl.Frmnumdiskeypad frm = new UserControl.Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoDecimal)))
             {
@@ -516,6 +540,9 @@ namespace FoodandBeverage.Forms
                 return;
 
             txtloanamt.Text = kdata.ToString("0.00");
+
+            formloadflag = false;
+
         }
 
         private void btnclose_drawer_Click(object sender, EventArgs e)

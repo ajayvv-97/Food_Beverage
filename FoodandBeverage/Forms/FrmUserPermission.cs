@@ -510,6 +510,11 @@ namespace FoodandBeverage.Forms
                     btnSave.Enabled = false;
                 }
 
+                #region setting Corner Round 
+                UIHelper.RoundCorners(tlp_two_box, 25, null);
+                UIHelper.RoundCorners(dgvforms, 10, null);
+                #endregion
+
             }
             catch (Exception ex)
             {

@@ -61,21 +61,18 @@ namespace FoodandBeverage.Forms
                     "LEFT JOIN tblOrderMaster om ON om.SalesMasterId = S.SalesMasterId";
 
                 _objSearch.WhereNdGroupBy =
-                    "WHERE S.Status = 1 " +
-                    "AND S.Tid = 0 " +
-                    "AND om.Status = 1 " +
+                    "WHERE S.Status = 1 " +// "AND S.Tid = 0 " +     "AND om.Status = 1 " +
+                    "AND S.saletype in(1,2) " +
                     "GROUP BY S.SalesMasterId, S.EntryNo, S.EntryDate, S.NetAmount";
 
                 _objSearch.OrderBy =
                     "ORDER BY Id DESC";
 
-
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
 
                 if (gridSource.Count == 0)
                 {
-                    CMessageBox.Show("No Records", "Empty",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("No Records", "Empty",MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {

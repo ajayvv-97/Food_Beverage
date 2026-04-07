@@ -342,6 +342,7 @@ namespace FoodandBeverage.Forms
             pageSize = Pagecount;
 
             Generalsettingcheck();
+            Pagecount = Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
 
             #region ChkWritePermission
             if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)

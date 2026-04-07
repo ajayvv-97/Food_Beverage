@@ -144,6 +144,14 @@ namespace FoodandBeverage.Forms
                 tlp_single_main.Visible = true;
                 tlp_main.Controls.Add(tlp_single_main, 0, 2);
                 tlp_single_main.Dock = DockStyle.Fill;
+
+                #region setting Corner Round 
+
+                UIHelper.RoundCorners(tlp_single, 25, null);
+                UIHelper.RoundCorners(dgv_sigle_product, 25, null);
+                UIHelper.RoundCorners(tlp_navbar, 10, null);
+                #endregion
+
                 textb_shape();
                 tlp_button.Visible = true;
                 // LoadFlag_Product = true;
@@ -195,6 +203,7 @@ namespace FoodandBeverage.Forms
                     else
                         btnsave.Enabled = false;
                 }
+
                 dgv_product_list.BorderStyle = BorderStyle.None;
                 dgv_product_list.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 dgv_product_list.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -310,6 +319,8 @@ namespace FoodandBeverage.Forms
                 cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
                 tlp_desc_del.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 100);
+
+                btnsingle.PerformClick();
 
             }
             catch (Exception ex)
@@ -5447,15 +5458,8 @@ namespace FoodandBeverage.Forms
 
         private void FrmOfferDiscount_Resize(object sender, EventArgs e)
         {
-            #region setting Corner Round 
-            UIHelper.RoundCorners(tlp_comboproduct_view, 25, null);
-            UIHelper.RoundCorners(tlp_single, 25, null);
-            UIHelper.RoundCorners(dgv_sigle_product, 25, null);
-            
-            UIHelper.RoundCorners(tlp_navbar, 10, null);
-            #endregion
 
-            textb_shape();
+
             if (ProductPage)
             {
                 clsgen.GrideAutoSize(dgv_product_list);
@@ -5463,6 +5467,16 @@ namespace FoodandBeverage.Forms
             }
             else if (ComboPage)
                 clsgen.GrideAutoSize(dgv_sele_cmb_products);
+
+            #region setting Corner Round 
+            UIHelper.RoundCorners(tlp_comboproduct_view, 25, null);
+            UIHelper.RoundCorners(tlp_single, 25, null);
+            UIHelper.RoundCorners(dgv_sigle_product, 25, null);
+
+            UIHelper.RoundCorners(tlp_navbar, 10, null);
+            #endregion
+
+            textb_shape();
         }
 
         private void btn_refresh_productlist_Click(object sender, EventArgs e)

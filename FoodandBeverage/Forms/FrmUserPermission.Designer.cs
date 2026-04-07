@@ -550,7 +550,7 @@ namespace FoodandBeverage.Forms
             // 
             // tlp_usertype_header
             // 
-            this.tlp_usertype_header.BackColor = System.Drawing.Color.SteelBlue;
+            this.tlp_usertype_header.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
             this.tlp_usertype_header.ColumnCount = 2;
             this.tlp_usertype_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_usertype_header.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));

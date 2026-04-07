@@ -90,7 +90,7 @@
             this.cmbSearchlist.FormattingEnabled = true;
             this.cmbSearchlist.Location = new System.Drawing.Point(3, 3);
             this.cmbSearchlist.Name = "cmbSearchlist";
-            this.cmbSearchlist.Size = new System.Drawing.Size(186, 28);
+            this.cmbSearchlist.Size = new System.Drawing.Size(185, 28);
             this.cmbSearchlist.TabIndex = 0;
             // 
             // tlp_main
@@ -103,7 +103,7 @@
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(6, 6);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 2;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -161,7 +161,7 @@
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Location = new System.Drawing.Point(105, 4);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(95, 32);
             this.btnSearch.TabIndex = 1;
@@ -441,9 +441,9 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 24);
+            this.label2.Size = new System.Drawing.Size(198, 24);
             this.label2.TabIndex = 12;
-            this.label2.Text = "Menu";
+            this.label2.Text = "Production Mapping";
             // 
             // btnmini
             // 
@@ -517,7 +517,7 @@
             this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.52427F));
             this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.47573F));
             this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 210F));
-            this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 116F));
+            this.tlp_search_box.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 117F));
             this.tlp_search_box.Controls.Add(this.btn_refresh_list2, 1, 0);
             this.tlp_search_box.Controls.Add(this.Search, 3, 0);
             this.tlp_search_box.Controls.Add(this.txtsearch, 2, 0);
@@ -538,7 +538,7 @@
             this.btn_refresh_list2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_refresh_list2.FlatAppearance.BorderSize = 0;
             this.btn_refresh_list2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh_list2.Location = new System.Drawing.Point(195, 3);
+            this.btn_refresh_list2.Location = new System.Drawing.Point(194, 3);
             this.btn_refresh_list2.Name = "btn_refresh_list2";
             this.btn_refresh_list2.Size = new System.Drawing.Size(34, 31);
             this.btn_refresh_list2.TabIndex = 1;
@@ -552,9 +552,9 @@
             this.Search.FlatAppearance.BorderSize = 0;
             this.Search.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Search.Location = new System.Drawing.Point(445, 3);
+            this.Search.Location = new System.Drawing.Point(444, 3);
             this.Search.Name = "Search";
-            this.Search.Size = new System.Drawing.Size(111, 31);
+            this.Search.Size = new System.Drawing.Size(112, 31);
             this.Search.TabIndex = 3;
             this.Search.UseVisualStyleBackColor = true;
             // 
@@ -564,7 +564,7 @@
             this.txtsearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtsearch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtsearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtsearch.Location = new System.Drawing.Point(235, 3);
+            this.txtsearch.Location = new System.Drawing.Point(234, 3);
             this.txtsearch.Multiline = true;
             this.txtsearch.Name = "txtsearch";
             this.txtsearch.Size = new System.Drawing.Size(204, 31);
@@ -592,7 +592,7 @@
             // 
             this.chk_kitchenall.AutoSize = true;
             this.chk_kitchenall.Location = new System.Drawing.Point(91, 285);
-            this.chk_kitchenall.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chk_kitchenall.Margin = new System.Windows.Forms.Padding(2);
             this.chk_kitchenall.Name = "chk_kitchenall";
             this.chk_kitchenall.Size = new System.Drawing.Size(15, 14);
             this.chk_kitchenall.TabIndex = 13;
@@ -603,7 +603,7 @@
             // 
             this.chkcounterall.AutoSize = true;
             this.chkcounterall.Location = new System.Drawing.Point(694, 306);
-            this.chkcounterall.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkcounterall.Margin = new System.Windows.Forms.Padding(2);
             this.chkcounterall.Name = "chkcounterall";
             this.chkcounterall.Size = new System.Drawing.Size(15, 14);
             this.chkcounterall.TabIndex = 12;
@@ -622,9 +622,9 @@
             this.Controls.Add(this.chk_selectall);
             this.Controls.Add(this.txtmid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FrmProductionMapping";
-            this.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Padding = new System.Windows.Forms.Padding(6);
             this.Text = "FrmProductionMapping";
             this.Load += new System.EventHandler(this.FrmProductionMapping_Load);
             this.tlp_main.ResumeLayout(false);

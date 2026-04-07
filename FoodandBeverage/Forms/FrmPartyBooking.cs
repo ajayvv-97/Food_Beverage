@@ -6022,97 +6022,125 @@ namespace FoodandBeverage
             {
                 if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-                int actionCol = pactionno;
-                if (e.ColumnIndex != actionCol) return;
-
                 var row = dgv_product.Rows[e.RowIndex];
+                int actionCol = pactionno;
 
-                int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0);
-                int defaultType = Convert.ToInt32(row.Cells[pPartydeafult].Value ?? 0);
-                string productName = Convert.ToString(row.Cells[pitemno].Value ?? "");
-                int partyPackDetailsId = Convert.ToInt32(row.Cells[proPartyPackDetailsId].Value ?? 0);
-
-                if (defaultType == 1)
+                if (e.ColumnIndex == actionCol)
                 {
-                    CMessageBox.Show($"Cannot delete default item '{productName}'!",
-                        "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                    int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0);
+                    int defaultType = Convert.ToInt32(row.Cells[pPartydeafult].Value ?? 0);
+                    string productName = Convert.ToString(row.Cells[pitemno].Value ?? "");
+                    int partyPackDetailsId = Convert.ToInt32(row.Cells[proPartyPackDetailsId].Value ?? 0);
 
-                if (productType == (int)PackItemType.ExtraChargeProduct)
-                {
+                    if (defaultType == 1)
+                    {
+                        CMessageBox.Show($"Cannot delete default item '{productName}'!",
+                            "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (productType == (int)PackItemType.ExtraChargeProduct)
+                    {
+                        if (partyPackDetailsId > 0)
+                        {
+                            var result = CMessageBox.Show(
+                            $"Are you sure you want to delete Extra Charge '{productName}'?",
+                            "Confirm Delete",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+
+                            if (result != DialogResult.Yes) return;
+                        }
+
+                        ResetDiscount();
+
+                        BookingItemAdjustment item = new BookingItemAdjustment()
+                        {
+                            SlNo = bookingItemAdjustments.Count + 1,
+                            Product = productName,
+                            Qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0),
+                            Price = Convert.ToDecimal(row.Cells[pnetamt].Value ?? 0),
+                            Amount = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0),
+                            ProductCategory = Convert.ToString(row.Cells[pcategmenuno].Value ?? ""),
+                            ProductType = productType,
+                            ProductId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0),
+                            SaleDetailId = Convert.ToInt32(row.Cells[psaledetailidno].Value ?? 0),
+                            PartyBookingDetailsid = partyPackDetailsId
+                        };
+
+                        bookingItemAdjustments.Add(item);
+
+                        dgv_product.Rows.RemoveAt(e.RowIndex);
+
+                        CalculateDiscountPer();
+                        RecalculateAllRowsAndTotals();
+
+                        return;
+                    }
+
+                    // NORMAL PRODUCT DELETE 
+
                     if (partyPackDetailsId > 0)
                     {
                         var result = CMessageBox.Show(
-                        $"Are you sure you want to delete Extra Charge '{productName}'?",
-                        "Confirm Delete",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question);
+                            $"Are you sure you want to delete the product '{productName}'?",
+                            "Confirm Delete",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
 
                         if (result != DialogResult.Yes) return;
+
+                        ResetDiscount();
+
+                        BookingItemAdjustment item = new BookingItemAdjustment()
+                        {
+                            SlNo = bookingItemAdjustments.Count + 1,
+                            Product = productName,
+                            Qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0),
+                            Price = Convert.ToDecimal(row.Cells[pnetamt].Value ?? 0),
+                            Amount = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0),
+                            ProductCategory = Convert.ToString(row.Cells[pcategmenuno].Value ?? ""),
+                            ProductType = productType,
+                            ProductId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0),
+                            SaleDetailId = Convert.ToInt32(row.Cells[psaledetailidno].Value ?? 0),
+                            PartyBookingDetailsid = partyPackDetailsId
+                        };
+
+                        bookingItemAdjustments.Add(item);
                     }
-
-                    ResetDiscount();
-
-                    BookingItemAdjustment item = new BookingItemAdjustment()
-                    {
-                        SlNo = bookingItemAdjustments.Count + 1,
-                        Product = productName,
-                        Qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0),
-                        Price = Convert.ToDecimal(row.Cells[pnetamt].Value ?? 0),
-                        Amount = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0),
-                        ProductCategory = Convert.ToString(row.Cells[pcategmenuno].Value ?? ""),
-                        ProductType = productType,
-                        ProductId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0),
-                        SaleDetailId = Convert.ToInt32(row.Cells[psaledetailidno].Value ?? 0),
-                        PartyBookingDetailsid = partyPackDetailsId
-                    };
-
-                    bookingItemAdjustments.Add(item);
 
                     dgv_product.Rows.RemoveAt(e.RowIndex);
 
                     CalculateDiscountPer();
                     RecalculateAllRowsAndTotals();
-
-                    return;
                 }
-
-                // NORMAL PRODUCT DELETE 
-
-                if (partyPackDetailsId > 0)
+                else if (e.ColumnIndex == pqtyno)
                 {
-                    var result = CMessageBox.Show(
-                        $"Are you sure you want to delete the product '{productName}'?",
-                        "Confirm Delete",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question);
-
-                    if (result != DialogResult.Yes) return;
-
-                    ResetDiscount();
-
-                    BookingItemAdjustment item = new BookingItemAdjustment()
+                    decimal kdata = 0;
+                    using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
                     {
-                        SlNo = bookingItemAdjustments.Count + 1,
-                        Product = productName,
-                        Qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0),
-                        Price = Convert.ToDecimal(row.Cells[pnetamt].Value ?? 0),
-                        Amount = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0),
-                        ProductCategory = Convert.ToString(row.Cells[pcategmenuno].Value ?? ""),
-                        ProductType = productType,
-                        ProductId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0),
-                        SaleDetailId = Convert.ToInt32(row.Cells[psaledetailidno].Value ?? 0),
-                        PartyBookingDetailsid = partyPackDetailsId
-                    };
+                        frm.ShowDialog();
 
-                    bookingItemAdjustments.Add(item);
+                        if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                            kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+
+                        txtdiscountreason.Text = frm.txtdesc.Text.Trim() == "Enter Remarks Here....." ? "" : frm.txtdesc.Text;
+                    }
+                    if (kdata > 0)
+                    {
+                        row.Cells[pqtyno].Value = kdata;
+                        ResetDiscount();
+
+                        decimal qty = 0;
+                        decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value ?? "0"), out qty);
+                        row.Cells[pqtyno].Value = Math.Round(qty, 2);
+
+                        int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0);
+                        int productId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0);
+
+                        CalculateAndApplyTax(e.RowIndex, productType, productId);
+                    }
                 }
-
-                dgv_product.Rows.RemoveAt(e.RowIndex);
-
-                CalculateDiscountPer();
-                RecalculateAllRowsAndTotals();
             }
             catch(Exception ex)
             {
@@ -6121,23 +6149,7 @@ namespace FoodandBeverage
 
         private void dgv_product_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
-            var row = dgv_product.Rows[e.RowIndex];
-
-            if (e.ColumnIndex == pqtyno)
-            {
-                ResetDiscount();
-
-                decimal qty = 0;
-                decimal.TryParse(Convert.ToString(row.Cells[pqtyno].Value ?? "0"), out qty);
-                row.Cells[pqtyno].Value = Math.Round(qty, 2);
-
-                int productType = Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0);
-                int productId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0);
-
-                CalculateAndApplyTax(e.RowIndex, productType, productId);
-            }
+           
         }
 
         #endregion
@@ -6440,46 +6452,7 @@ namespace FoodandBeverage
                     row.Cells[pigstamt].Value = 0.ToString("N2");
                 }
 
-                void UpdateUI(TextBox pre, TextBox tax, TextBox vatBox, TextBox igstBox, TextBox net)
-                {
-                    decimal GetDecimal(TextBox tb) =>
-                        string.IsNullOrEmpty(tb.Text) ? 0 : Convert.ToDecimal(tb.Text);
-
-                    pre.Text = (GetDecimal(pre) + baseAmt).ToString("N2");
-                    tax.Text = (GetDecimal(tax) + taxAmt).ToString("N2");
-
-                    decimal vatValue = (taxType != "GST" ? taxAmt : 0);
-                    vatBox.Text = (GetDecimal(vatBox) + vatValue).ToString("N2");
-
-                    decimal igstValue = (taxType == "GST" && totalPercent > 0
-                                         ? Math.Round(taxAmt * igst / totalPercent, 2, MidpointRounding.AwayFromZero)
-                                         : 0);
-                    igstBox.Text = (GetDecimal(igstBox) + igstValue).ToString("N2");
-
-                    net.Text = (GetDecimal(net) + netAmt).ToString("N2");
-                }
-
-                switch ((PackItemType)productType)
-                {
-                    case PackItemType.Pack:
-                        UpdateUI(txtPreTaxAmount_pack, txtTotalTaxAmount_pack, txtVatamt_pack, txtIGSTAmt_pack, txtGrandTotal_pack);
-                        break;
-                    case PackItemType.Cake:
-                        UpdateUI(txtPreTaxAmount_cake, txtTotalTaxAmount_cake, txtVATAmt_cake, txtIGSTAmt_cake, txtCakeGrandTotal);
-                        break;
-                    case PackItemType.Card:
-                        UpdateUI(txtPreTaxAmount_card, txtTotalTaxAmount_card, txtVATAmt_card, txtIGSTAmt_card, txtCardGrandTotal);
-                        break;
-                    case PackItemType.Gift:
-                        UpdateUI(txtPreTaxAmount_gift, txtTotalTaxAmount_gift, txtVATAmt_gift, txtIGSTAmt_gift, txtGiftGrandTotal);
-                        break;
-                    case PackItemType.ExtraChargeProduct:
-                        UpdateUI(txtPreTaxAmount_extracharge, txtTotalTaxAmount_extracharge, txtVatamt_extracharge, txtIGSTAmt_extracharge, txtExtrachargeGrandTotal);
-                        break;
-                }
-
-                CalculateDiscountPer();
-                CalculateNetAmount();
+                RecalculateAllRowsAndTotals();
             }
             catch (Exception ex)
             {
@@ -6627,7 +6600,7 @@ namespace FoodandBeverage
                 txtIGSTAmt_extracharge.Text = tax_extra.ToString("N2");
                 txtExtrachargeGrandTotal.Text = net_extra.ToString("N2");
 
-                CalculatePackValues();
+                CalculateDiscountPer();
                 CalculateNetAmount();
             }
             catch (Exception ex)
@@ -7178,6 +7151,33 @@ namespace FoodandBeverage
                 ShowPaymentSettlementPanel(lblNet, advancePaid, rcvAmt, refundAmount);
             }
             catch(Exception ex)
+            {
+            }
+        }
+
+        private void dgv_product_CellEndEdit_1(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+                if (e.ColumnIndex == pqtyno)
+                {
+                    var cell = dgv_product.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                    {
+                        cell.Value = 1;
+                    }
+                    else
+                    {
+                        if (Convert.ToDecimal(cell.Value) <= 0)
+                        {
+                            cell.Value = 1;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
             {
             }
         }

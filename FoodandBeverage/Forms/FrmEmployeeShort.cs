@@ -1760,6 +1760,11 @@ namespace FoodandBeverage.Forms
                     }
 
                 }
+
+                UIHelper.RoundCorners(tp_employee, 25, null);
+                UIHelper.RoundCorners(tlp_role_regis, 25, null);
+                
+                textb_shape();
             }
             catch (Exception ex)
             {
@@ -2063,8 +2068,8 @@ namespace FoodandBeverage.Forms
             UIHelper.RoundCorners(tlp_role_design, 10, null);
             UIHelper.RoundCorners(tp_employee, 25, null);
             UIHelper.RoundCorners(tlp_employe_header, 10, null);
-            UIHelper.RoundCorners(dgvforms, 25, null); 
-
+            UIHelper.RoundCorners(dgvforms, 25, null);
+            UIHelper.RoundCorners(tlp_role_regis, 25, null);
             #endregion
 
             textb_shape();

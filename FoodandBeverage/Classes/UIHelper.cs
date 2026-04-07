@@ -62,6 +62,37 @@ namespace FoodandBeverage.Classes
             }
         }
 
+        public static void OpenDialog(Form parent, Form child)
+        {
+            int maxWidth = 1366;
+            int maxHeight = 768;
+
+            try
+            {
+                if (Screen.PrimaryScreen.WorkingArea.Width > maxWidth ||
+                    Screen.PrimaryScreen.WorkingArea.Height > maxHeight)
+                {
+                    parent.Opacity = 0.7;
+
+                    child.Width = maxWidth;
+                    child.Height = maxHeight;
+                    child.StartPosition = FormStartPosition.CenterScreen;
+                    child.WindowState = FormWindowState.Normal;
+                }
+                else
+                {
+                    child.WindowState = FormWindowState.Maximized;
+                }
+
+                child.ShowDialog();
+                child.BringToFront();
+            }
+            finally
+            {
+                parent.Opacity = 1; 
+                child.Dispose();    
+            }
+        }
         public static class NotificationService
         {
             public static event Action<OrderNotification> OnNotify;

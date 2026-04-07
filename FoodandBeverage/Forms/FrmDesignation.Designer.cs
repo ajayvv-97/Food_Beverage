@@ -282,7 +282,6 @@
             this.mbtnSave.UseVisualStyleBackColor = true;
             this.mbtnSave.Click += new System.EventHandler(this.MbtnSave_Click);
             this.mbtnSave.MouseLeave += new System.EventHandler(this.mbtnSave_MouseLeave);
-            //this.mbtnSave.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
             // 
             // mbtnRefresh
             // 
@@ -297,8 +296,6 @@
             this.mbtnRefresh.TabIndex = 17;
             this.mbtnRefresh.UseVisualStyleBackColor = true;
             this.mbtnRefresh.Click += new System.EventHandler(this.MbtnRefresh_Click);
-            //this.mbtnRefresh.MouseLeave += new System.EventHandler(this.mbtnRefresh_MouseLeave);
-            //this.mbtnRefresh.MouseHover += new System.EventHandler(this.mbtnRefresh_MouseHover);
             // 
             // mbtnClose
             // 
@@ -313,12 +310,10 @@
             this.mbtnClose.TabIndex = 18;
             this.mbtnClose.UseVisualStyleBackColor = true;
             this.mbtnClose.Click += new System.EventHandler(this.mbtnClose_Click);
-            //this.mbtnClose.MouseLeave += new System.EventHandler(this.mbtnClose_MouseLeave);
-            //this.mbtnClose.MouseHover += new System.EventHandler(this.mbtnClose_MouseHover);
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.BackColor = System.Drawing.Color.SteelBlue;
+            this.tableLayoutPanel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
@@ -365,11 +360,11 @@
             this.btnmini.TabIndex = 10;
             this.btnmini.Text = "-";
             this.btnmini.UseVisualStyleBackColor = false;
-            //this.btnmini.Click += new System.EventHandler(this.btnmini_Click);
             // 
             // label23
             // 
             this.label23.AutoSize = true;
+            this.label23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
             this.label23.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.label23.ForeColor = System.Drawing.SystemColors.ButtonFace;

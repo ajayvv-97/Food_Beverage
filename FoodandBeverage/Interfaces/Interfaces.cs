@@ -373,15 +373,17 @@ namespace FoodandBeverage.Interfaces
         Normal = 1,
         FunctionKey = 2
     }
+
     public enum KeypadType
     {
         Number = 1,
         percentage = 2,
         None = 3,
         NoDecimal=4,
-        NoPercentageReason=5
-       
+        NoPercentageReason = 5,
+        NoPercentageReasonNoDecimal = 6
     }
+
     public enum AutoPrintToPrinter
     {
         Yes = 1,

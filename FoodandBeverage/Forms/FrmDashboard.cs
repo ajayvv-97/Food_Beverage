@@ -1597,13 +1597,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmFTICategory _instanceFrmFTICategory = new FrmFTICategory();
-                    ResizeForm(_instanceFrmFTICategory);
-                    _instanceFrmFTICategory.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmFTICategory);
-                    _instanceFrmFTICategory.Show();
-                    _instanceFrmFTICategory.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmFTICategory.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmFTICategory());
                 }
             }
             catch (Exception ex)
@@ -1636,13 +1630,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmItemRegistartion _instanceItemRegistartion = new FrmItemRegistartion();
-                    ResizeForm(_instanceItemRegistartion);
-                    _instanceItemRegistartion.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceItemRegistartion);
-                    _instanceItemRegistartion.Show();
-                    _instanceItemRegistartion.WindowState = FormWindowState.Maximized;
-                    _instanceItemRegistartion.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmItemRegistartion());
                 }
             }
             catch (Exception ex)
@@ -1684,14 +1672,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmMenu _instanceFrmMenu = new FrmMenu();
-                    ResizeForm(_instanceFrmMenu);
-                    _instanceFrmMenu.TopLevel = false;
-                    _instanceFrmMenu.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmMenu);
-                    _instanceFrmMenu.Show();
-                    _instanceFrmMenu.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmMenu.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmMenu());
                 }
             }
             catch (Exception ex)
@@ -1724,14 +1705,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmIngredient _instanceFrmIngredient = new FrmIngredient();
-                    ResizeForm(_instanceFrmIngredient);
-                    _instanceFrmIngredient.TopLevel = false;
-                    _instanceFrmIngredient.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmIngredient);
-                    _instanceFrmIngredient.Show();
-                    _instanceFrmIngredient.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmIngredient.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmIngredient());
                 }
             }
             catch (Exception ex)
@@ -1762,13 +1736,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmUnit _instanceFrmUnit = new FrmUnit();
-                    ResizeForm(_instanceFrmUnit);
-                    _instanceFrmUnit.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmUnit);
-                    _instanceFrmUnit.Show();
-                    _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmUnit.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmUnit());
                 }
             }
             catch (Exception ex)
@@ -1799,13 +1767,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmTableInfo _instanceTableInfo = new FrmTableInfo();
-                    ResizeForm(_instanceTableInfo);
-                    _instanceTableInfo.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceTableInfo);
-                    _instanceTableInfo.Show();
-                    _instanceTableInfo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceTableInfo.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmTableInfo());
                 }
             }
             catch (Exception ex)
@@ -1835,13 +1797,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmPurchase _instanceFrmPurchase = new FrmPurchase();
-                    ResizeForm(_instanceFrmPurchase);
-                    _instanceFrmPurchase.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmPurchase);
-                    _instanceFrmPurchase.Show();
-                    _instanceFrmPurchase.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmPurchase.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmPurchase());
                 }
             }
             catch (Exception ex)
@@ -1871,14 +1827,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmPurchaseReturn _instancePurchaseReturn = new FrmPurchaseReturn();
-                    _instancePurchaseReturn.Dock = DockStyle.None;
-                    ResizeForm(_instancePurchaseReturn);
-                    _instancePurchaseReturn.TopLevel = false;
-                    panelDesktop.Controls.Add(_instancePurchaseReturn);
-                    _instancePurchaseReturn.Show();
-                    _instancePurchaseReturn.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instancePurchaseReturn.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmPurchaseReturn());
                 }
             }
             catch (Exception ex)
@@ -1908,14 +1857,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmTaxSetting _instanceTaxSetting = new FrmTaxSetting();
-                    ResizeForm(_instanceTaxSetting);
-                    _instanceTaxSetting.TopLevel = false;
-                    _instanceTaxSetting.Dock = DockStyle.None;
-                    panelDesktop.Controls.Add(_instanceTaxSetting);
-                    _instanceTaxSetting.Show();
-                    _instanceTaxSetting.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceTaxSetting.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmTaxSetting());
                 }
             }
             catch (Exception ex)
@@ -2091,13 +2033,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmVendor _instanceFrmVendor = new FrmVendor();
-                    ResizeForm(_instanceFrmVendor);
-                    _instanceFrmVendor.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmVendor);
-                    _instanceFrmVendor.Show();
-                    _instanceFrmVendor.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmVendor.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmVendor());
                 }
             }
             catch (Exception ex)
@@ -2194,14 +2130,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmOfferDiscount _instanceFrmOfferDiscount = new FrmOfferDiscount();
-                    ResizeForm(_instanceFrmOfferDiscount);
-                    _instanceFrmOfferDiscount.TopLevel = false;
-                    _instanceFrmOfferDiscount.Dock = DockStyle.None;
-                    panelDesktop.Controls.Add(_instanceFrmOfferDiscount);
-                    _instanceFrmOfferDiscount.Show();
-                    _instanceFrmOfferDiscount.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmOfferDiscount.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmOfferDiscount());
                 }
             }
             catch (Exception ex)
@@ -2233,12 +2162,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmExpence _instanceFrmexpence = new FrmExpence();
-                    ResizeForm(_instanceFrmexpence);
-                    _instanceFrmexpence.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmexpence);
-                    _instanceFrmexpence.Show();
-                    _instanceFrmexpence.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmExpence());
                 }
             }
             catch (Exception ex)
@@ -2344,13 +2268,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmPromo _instanceFrmPromo = new FrmPromo();
-                    ResizeForm(_instanceFrmPromo);
-                    _instanceFrmPromo.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmPromo);
-                    _instanceFrmPromo.Show();
-                    _instanceFrmPromo.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmPromo.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmPromo());
                 }
             }
             catch (Exception ex)
@@ -2525,14 +2443,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmRegistration _instanceFrmreg = new FrmRegistration();
-                    _instanceFrmreg.Margin = new Padding(20, 10, 0, 0);
-                    _instanceFrmreg.TopLevel = false;
-                    _instanceFrmreg.Dock = DockStyle.None;
-                    panelDesktop.Controls.Add(_instanceFrmreg);
-                    _instanceFrmreg.Show();
-                    _instanceFrmreg.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmreg.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmRegistration());
                 }
             }
             catch (Exception ex)
@@ -2617,13 +2528,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmEmployeeShort _instanceFrmEmp = new FrmEmployeeShort();
-                    ResizeForm(_instanceFrmEmp);
-                    _instanceFrmEmp.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmEmp);
-                    _instanceFrmEmp.Show();
-                    _instanceFrmEmp.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmEmp.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmEmployeeShort());
                 }
             }
             catch (Exception ex)
@@ -2657,14 +2562,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmDepartment _instanceFrmDep = new FrmDepartment();
-                    ResizeForm(_instanceFrmDep);
-                    _instanceFrmDep.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmDep);
-                    _instanceFrmDep.Show();
-                    _instanceFrmDep.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmDep.BringToFront();
-                    UIHelper.ApplyRoundedCorners(_instanceFrmDep, 30);
+                    UIHelper.OpenDialog(this, new FrmDepartment());
                 }
             }
             catch (Exception ex)
@@ -2695,13 +2593,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmDesignation _instanceFrmDesig = new FrmDesignation();
-                    ResizeForm(_instanceFrmDesig);
-                    _instanceFrmDesig.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmDesig);
-                    _instanceFrmDesig.Show();
-                    _instanceFrmDesig.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmDesig.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmDesignation());
                 }
             }
             catch (Exception ex)
@@ -2732,13 +2624,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmUserAccount _instanceFrmuser = new FrmUserAccount();
-                    ResizeForm(_instanceFrmuser);
-                    _instanceFrmuser.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmuser);
-                    _instanceFrmuser.Show();
-                    _instanceFrmuser.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmuser.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmUserAccount());
                 }
             }
             catch (Exception ex)
@@ -2809,13 +2695,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmUserPermission _instanceFrmuserper = new FrmUserPermission();
-                    ResizeForm(_instanceFrmuserper);
-                    _instanceFrmuserper.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmuserper);
-                    _instanceFrmuserper.Show();
-                    _instanceFrmuserper.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmuserper.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmUserPermission());
                 }
             }
             catch (Exception ex)
@@ -3323,14 +3203,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmAddon _instanceFrmAddon = new FrmAddon();
-                    ResizeForm(_instanceFrmAddon);
-                    _instanceFrmAddon.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmAddon);
-                    _instanceFrmAddon.Show();
-                    _instanceFrmAddon.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmAddon.BringToFront();
-                    UIHelper.ApplyRoundedCorners(_instanceFrmAddon,30);
+                    UIHelper.OpenDialog(this, new FrmAddon());
                 }
             }
             catch (Exception ex)
@@ -5064,13 +4937,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmRefund _instanceFrmRefund = new FrmRefund();
-                    ResizeForm(_instanceFrmRefund);
-                    _instanceFrmRefund.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmRefund);
-                    _instanceFrmRefund.Show();
-                    _instanceFrmRefund.WindowState = FormWindowState.Maximized;
-                    _instanceFrmRefund.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmRefund());
                 }
             }
             catch (Exception ex)
@@ -5715,13 +5582,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    Frmvoidsale _instanceFrmVoidSale = new Frmvoidsale();
-                    ResizeForm(_instanceFrmVoidSale);
-                    _instanceFrmVoidSale.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmVoidSale);
-                    _instanceFrmVoidSale.Show();
-                    _instanceFrmVoidSale.WindowState = FormWindowState.Maximized;
-                    _instanceFrmVoidSale.BringToFront();
+                    UIHelper.OpenDialog(this, new Frmvoidsale());
                 }
             }
             catch (Exception ex)
@@ -5757,13 +5618,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmUnitConversion _instanceFrmUnit = new FrmUnitConversion();
-                    ResizeForm(_instanceFrmUnit);
-                    _instanceFrmUnit.TopLevel = false;
-                    panelDesktop.Controls.Add(_instanceFrmUnit);
-                    _instanceFrmUnit.Show();
-                    _instanceFrmUnit.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmUnit.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmUnitConversion());
                 }
             }
             catch (Exception ex)
@@ -6013,20 +5868,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    using (FrmTMpanel _instanceFrmTM = new FrmTMpanel())
-                    {
-                        _instanceFrmTM.ShowDialog();
-                        _instanceFrmTM.BringToFront();
-                        _instanceFrmTM.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-
-                    //FrmTMpanel _instanceFrmTM = new FrmTMpanel();
-                    //ResizeForm(_instanceFrmTM);
-                    //_instanceFrmTM.TopLevel = false;
-                    //panelDesktop.Controls.Add(_instanceFrmTM);
-                    //_instanceFrmTM.Show();
-                    //_instanceFrmTM.WindowState = FormWindowState.Maximized;
-                    //_instanceFrmTM.BringToFront();
+                        UIHelper.OpenDialog(this, new FrmTMpanel());
                 }
             }
             catch (Exception ex)
@@ -6061,13 +5903,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmPartyPackSetup frm = new FrmPartyPackSetup();
-                    ResizeForm(frm);
-                    frm.TopLevel = false;
-                    panelDesktop.Controls.Add(frm);
-                    frm.Show();
-                    frm.WindowState = FormWindowState.Maximized;
-                    frm.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmPartyPackSetup());
                 }
             }
             catch (Exception ex)
@@ -6108,13 +5944,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmProductionMapping newFrm = new FrmProductionMapping();
-                    ResizeForm(newFrm);
-                    newFrm.TopLevel = false;
-                    panelDesktop.Controls.Add(newFrm);
-                    newFrm.Show();
-                    newFrm.WindowState = FormWindowState.Maximized;
-                    newFrm.BringToFront();
+                    UIHelper.OpenDialog(this, new FrmProductionMapping());
                 }
             }
             catch (Exception ex)
@@ -6154,28 +5984,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    using (FrmPartyBooking _instanceFrmpb = new FrmPartyBooking())
-                    {
-                        int maxWidth = 1366;
-                        int maxHeight = 768;
-
-                        if (Screen.PrimaryScreen.WorkingArea.Width > maxWidth ||
-                            Screen.PrimaryScreen.WorkingArea.Height > maxHeight)
-                        {
-                            this.Opacity = 0.7;
-                            _instanceFrmpb.Width = maxWidth;
-                            _instanceFrmpb.Height = maxHeight;
-                            _instanceFrmpb.StartPosition = FormStartPosition.CenterScreen;
-                            _instanceFrmpb.WindowState = FormWindowState.Normal;
-                        }
-                        else
-                        {
-                            _instanceFrmpb.WindowState = FormWindowState.Maximized;
-                        }
-
-                        _instanceFrmpb.ShowDialog();
-                        _instanceFrmpb.BringToFront();
-                    }
+                    UIHelper.OpenDialog(this, new FrmPartyBooking());
                 }
             }
             catch (Exception ex)
@@ -6264,7 +6073,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void txtorderpagecount_TextChanged(object sender, EventArgs e)
+        private void txtorderpagecount_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtorderpagecount.Text))
                 return;
@@ -6274,7 +6083,7 @@ namespace FoodandBeverage.Forms
                 if (value < 10)
                 {
                     txtorderpagecount.Text = "10";
-                    txtorderpagecount.SelectionStart = txtorderpagecount.Text.Length; 
+                    txtorderpagecount.SelectionStart = txtorderpagecount.Text.Length;
                 }
             }
             else
