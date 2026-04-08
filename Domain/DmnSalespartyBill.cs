@@ -20,6 +20,9 @@ namespace Domain
 
         public string EventDescription { get; set; }
         public string DiscountReason { get; set; }
+        public string PartyPackId { get; set; }
+        public string AdultPrice { get; set; }
+        public string ChildPrice { get; set; }
 
     }
 }

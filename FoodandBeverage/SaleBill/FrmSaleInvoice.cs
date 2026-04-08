@@ -698,10 +698,14 @@ namespace FoodandBeverage.SaleBill
                             pb.DiscountReason,
                             pb.EventDescription,
                             pb.NoOfAdults,
-                            pb.NoOfChildren",
+                            pb.NoOfChildren,
+                            pb.PartyPackId,
+                            pm.AdultPrice, 
+                            pm.ChildPrice",
 
                     Table = "tblPartyBooking pb " +
-                            "LEFT JOIN tblEventCommonItems e ON e.EventItemId = pb.EventType AND e.Status = 1",
+                            "LEFT JOIN tblEventCommonItems e ON e.EventItemId = pb.EventType AND e.Status = 1 " +
+                            "LEFT JOIN tblPartyPackMaster pm ON pb.PartyPackId=pm.PartyPackId",
                     WhereNdGroupBy = "WHERE pb.PartyBookingId = " + PartybookingId
                 };
 
@@ -718,12 +722,14 @@ namespace FoodandBeverage.SaleBill
                         "NoOfAdults",
                         "NoOfChildren",
                         "DiscountReason",   
-                        "EventDescription"))
+                        "EventDescription",
+                        "PartyPackId",
+                        "AdultPrice",
+                        "ChildPrice"))
                     {
                         dtPartybooking.Load(reader);
                     }
                 }
-
                 #endregion
 
                 #region PARTY BOOKING PAYMENT
