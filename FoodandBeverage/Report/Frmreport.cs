@@ -1029,7 +1029,7 @@ namespace FoodandBeverage.Report
                                         SUM(NetAmount) as dFld4";
 
                 dmnSearchSummary.Table = "tblPartyBooking pb";
-                searchParty.WhereNdGroupBy = $@"
+                dmnSearchSummary.WhereNdGroupBy = $@"
                                             WHERE pb.Status = 1
                                             AND pb.BookingDateTime >= '{fromDate}'
                                             AND pb.BookingDateTime <= '{toDate}'
@@ -1225,11 +1225,11 @@ namespace FoodandBeverage.Report
                 DmnSearch dmnSearchSummary = new DmnSearch();
 
                 dmnSearchSummary.Select = @"
-                                        SUM(AdvanceAmount) as dFld2,
+                                        SUM(pm.RcvAmnt) as dFld2,
                                         SUM(BalanceAmount) as dFld3,
-                                        SUM(NetAmount) as dFld4";
+                                        SUM(pb.NetAmount) as dFld4";
 
-                dmnSearchSummary.Table = "tblPartyBooking pb";
+                dmnSearchSummary.Table = "tblPartyBooking pb LEFT JOIN tblPartyBookingPayment pm ON pb.PartyBookingId = pm.PartyBookingId";
                 if (phno.Text != "Enter Phone No.")
                 {
                     string phnumber = phno.Text;
