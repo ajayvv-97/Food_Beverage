@@ -1,0 +1,24 @@
+Date and Time: 2026-04-07 15:18:34
+Page : Login Page IsUsernameValid()
+Exception: Cannot open database "S_FoodBeverage" requested by the login. The login failed.
+Login failed for user 'sa'.
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 2026-04-07 15:18:34
+Page : Login Page IsUsernameValid()
+Exception: Cannot open database "S_FoodBeverage" requested by the login. The login failed.
+Login failed for user 'sa'.
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 2026-04-07 15:19:11
+Page : Login Page IsUsernameValid()
+Exception: Cannot open database "S_FoodBeverage" requested by the login. The login failed.
+Login failed for user 'sa'.
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------

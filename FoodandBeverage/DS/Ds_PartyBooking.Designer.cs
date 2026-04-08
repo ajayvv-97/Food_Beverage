@@ -1970,6 +1970,12 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnEventDescription;
             
+            private global::System.Data.DataColumn columnPartyPackId;
+            
+            private global::System.Data.DataColumn columnAdultPrice;
+            
+            private global::System.Data.DataColumn columnChildPrice;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_PartybookingDataTable() {
@@ -2085,6 +2091,30 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PartyPackIdColumn {
+                get {
+                    return this.columnPartyPackId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn AdultPriceColumn {
+                get {
+                    return this.columnAdultPrice;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ChildPriceColumn {
+                get {
+                    return this.columnChildPrice;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2120,7 +2150,7 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public DT_PartybookingRow AddDT_PartybookingRow(string CustomerName, string Phone, string Email, string Address, string BookingDateTime, string EventType, int NoOfAdults, int NoOfChildren, string DiscountReason, string EventDescription) {
+            public DT_PartybookingRow AddDT_PartybookingRow(string CustomerName, string Phone, string Email, string Address, string BookingDateTime, string EventType, int NoOfAdults, int NoOfChildren, string DiscountReason, string EventDescription, string PartyPackId, string AdultPrice, string ChildPrice) {
                 DT_PartybookingRow rowDT_PartybookingRow = ((DT_PartybookingRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         CustomerName,
@@ -2132,7 +2162,10 @@ namespace FoodandBeverage.DS {
                         NoOfAdults,
                         NoOfChildren,
                         DiscountReason,
-                        EventDescription};
+                        EventDescription,
+                        PartyPackId,
+                        AdultPrice,
+                        ChildPrice};
                 rowDT_PartybookingRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_PartybookingRow);
                 return rowDT_PartybookingRow;
@@ -2165,6 +2198,9 @@ namespace FoodandBeverage.DS {
                 this.columnNoOfChildren = base.Columns["NoOfChildren"];
                 this.columnDiscountReason = base.Columns["DiscountReason"];
                 this.columnEventDescription = base.Columns["EventDescription"];
+                this.columnPartyPackId = base.Columns["PartyPackId"];
+                this.columnAdultPrice = base.Columns["AdultPrice"];
+                this.columnChildPrice = base.Columns["ChildPrice"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2190,6 +2226,12 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnDiscountReason);
                 this.columnEventDescription = new global::System.Data.DataColumn("EventDescription", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEventDescription);
+                this.columnPartyPackId = new global::System.Data.DataColumn("PartyPackId", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPartyPackId);
+                this.columnAdultPrice = new global::System.Data.DataColumn("AdultPrice", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAdultPrice);
+                this.columnChildPrice = new global::System.Data.DataColumn("ChildPrice", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnChildPrice);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4478,6 +4520,54 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string PartyPackId {
+                get {
+                    try {
+                        return ((string)(this[this.tableDT_Partybooking.PartyPackIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PartyPackId\' in table \'DT_Partybooking\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Partybooking.PartyPackIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string AdultPrice {
+                get {
+                    try {
+                        return ((string)(this[this.tableDT_Partybooking.AdultPriceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AdultPrice\' in table \'DT_Partybooking\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Partybooking.AdultPriceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ChildPrice {
+                get {
+                    try {
+                        return ((string)(this[this.tableDT_Partybooking.ChildPriceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ChildPrice\' in table \'DT_Partybooking\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_Partybooking.ChildPriceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsCustomerNameNull() {
                 return this.IsNull(this.tableDT_Partybooking.CustomerNameColumn);
             }
@@ -4594,6 +4684,42 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetEventDescriptionNull() {
                 this[this.tableDT_Partybooking.EventDescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPartyPackIdNull() {
+                return this.IsNull(this.tableDT_Partybooking.PartyPackIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPartyPackIdNull() {
+                this[this.tableDT_Partybooking.PartyPackIdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsAdultPriceNull() {
+                return this.IsNull(this.tableDT_Partybooking.AdultPriceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetAdultPriceNull() {
+                this[this.tableDT_Partybooking.AdultPriceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsChildPriceNull() {
+                return this.IsNull(this.tableDT_Partybooking.ChildPriceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetChildPriceNull() {
+                this[this.tableDT_Partybooking.ChildPriceColumn] = global::System.Convert.DBNull;
             }
         }
         
