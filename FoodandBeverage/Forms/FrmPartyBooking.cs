@@ -3453,6 +3453,7 @@ namespace FoodandBeverage
         {
             try
             {
+
                 decimal kdata = 0;
                 using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
                 {
@@ -7311,6 +7312,78 @@ namespace FoodandBeverage
                     txtextracharge_amt.Text = kdata.ToString();
             }
 
+        }
+
+        private void txtdiscountreason_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtcakemessage_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtcakeremarks_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtRenote_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtItemName_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtDescription_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtcardserach_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtextracharge_des_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
+        }
+
+        private void txtserachgift_Click(object sender, EventArgs e)
+        {
+            if (FrmDashboard.Enb_Party_Normal)
+            {
+                ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+            }
         }
 
         private void txtextracharge_amt_KeyPress(object sender, KeyPressEventArgs e)
