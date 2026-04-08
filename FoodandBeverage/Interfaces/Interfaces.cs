@@ -289,7 +289,8 @@ namespace FoodandBeverage.Interfaces
         transactionManagerPanel = 40,
         Partypacksetup=41,
         FoodPreparationMapping=42,
-        Partybooking=43
+        Partybooking=43,
+        OrderconsoleCustomdesign=44
 
     };
     public enum Menubutton

@@ -2112,7 +2112,7 @@
             this.tlp_timedetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.19896F));
             this.tlp_timedetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.07853F));
             this.tlp_timedetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.72251F));
-            this.tlp_timedetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tlp_timedetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
             this.tlp_timedetails.Controls.Add(this.label19, 3, 0);
             this.tlp_timedetails.Controls.Add(this.totime7, 2, 7);
             this.tlp_timedetails.Controls.Add(this.label16, 0, 1);
@@ -2163,7 +2163,7 @@
             // 
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label19.Location = new System.Drawing.Point(487, 0);
+            this.label19.Location = new System.Drawing.Point(485, 0);
             this.label19.Name = "label19";
             this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label19.Size = new System.Drawing.Size(91, 25);
@@ -2176,7 +2176,7 @@
             this.totime7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totime7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.totime7.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.totime7.Location = new System.Drawing.Point(329, 276);
+            this.totime7.Location = new System.Drawing.Point(327, 276);
             this.totime7.Name = "totime7";
             this.totime7.ShowUpDown = true;
             this.totime7.Size = new System.Drawing.Size(152, 24);
@@ -2191,7 +2191,7 @@
             this.label16.Location = new System.Drawing.Point(3, 39);
             this.label16.Name = "label16";
             this.label16.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label16.Size = new System.Drawing.Size(150, 39);
+            this.label16.Size = new System.Drawing.Size(149, 39);
             this.label16.TabIndex = 3;
             this.label16.Text = "Sunday";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2201,10 +2201,10 @@
             this.ftime7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ftime7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ftime7.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.ftime7.Location = new System.Drawing.Point(159, 276);
+            this.ftime7.Location = new System.Drawing.Point(158, 276);
             this.ftime7.Name = "ftime7";
             this.ftime7.ShowUpDown = true;
-            this.ftime7.Size = new System.Drawing.Size(164, 24);
+            this.ftime7.Size = new System.Drawing.Size(163, 24);
             this.ftime7.TabIndex = 12;
             this.ftime7.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
             // 
@@ -2213,10 +2213,10 @@
             this.ftime1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ftime1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ftime1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.ftime1.Location = new System.Drawing.Point(159, 42);
+            this.ftime1.Location = new System.Drawing.Point(158, 42);
             this.ftime1.Name = "ftime1";
             this.ftime1.ShowUpDown = true;
-            this.ftime1.Size = new System.Drawing.Size(164, 24);
+            this.ftime1.Size = new System.Drawing.Size(163, 24);
             this.ftime1.TabIndex = 0;
             this.ftime1.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
             // 
@@ -2228,7 +2228,7 @@
             this.label17.Location = new System.Drawing.Point(3, 273);
             this.label17.Name = "label17";
             this.label17.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label17.Size = new System.Drawing.Size(150, 40);
+            this.label17.Size = new System.Drawing.Size(149, 40);
             this.label17.TabIndex = 253;
             this.label17.Text = "Saturday";
             // 
@@ -2237,7 +2237,7 @@
             this.totime1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totime1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.totime1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.totime1.Location = new System.Drawing.Point(329, 42);
+            this.totime1.Location = new System.Drawing.Point(327, 42);
             this.totime1.Name = "totime1";
             this.totime1.ShowUpDown = true;
             this.totime1.Size = new System.Drawing.Size(152, 24);
@@ -2249,7 +2249,7 @@
             this.totime6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totime6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.totime6.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.totime6.Location = new System.Drawing.Point(329, 237);
+            this.totime6.Location = new System.Drawing.Point(327, 237);
             this.totime6.Name = "totime6";
             this.totime6.ShowUpDown = true;
             this.totime6.Size = new System.Drawing.Size(152, 24);
@@ -2260,9 +2260,9 @@
             // 
             this.label26.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(159, 0);
+            this.label26.Location = new System.Drawing.Point(158, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(164, 39);
+            this.label26.Size = new System.Drawing.Size(163, 39);
             this.label26.TabIndex = 0;
             this.label26.Text = "Opening Time";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2272,10 +2272,10 @@
             this.ftime6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ftime6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ftime6.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.ftime6.Location = new System.Drawing.Point(159, 237);
+            this.ftime6.Location = new System.Drawing.Point(158, 237);
             this.ftime6.Name = "ftime6";
             this.ftime6.ShowUpDown = true;
-            this.ftime6.Size = new System.Drawing.Size(164, 24);
+            this.ftime6.Size = new System.Drawing.Size(163, 24);
             this.ftime6.TabIndex = 10;
             this.ftime6.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
             // 
@@ -2283,7 +2283,7 @@
             // 
             this.label27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(329, 0);
+            this.label27.Location = new System.Drawing.Point(327, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(152, 39);
             this.label27.TabIndex = 1;
@@ -2298,7 +2298,7 @@
             this.label28.Location = new System.Drawing.Point(3, 234);
             this.label28.Name = "label28";
             this.label28.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label28.Size = new System.Drawing.Size(150, 39);
+            this.label28.Size = new System.Drawing.Size(149, 39);
             this.label28.TabIndex = 250;
             this.label28.Text = "Friday";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2311,7 +2311,7 @@
             this.label18.Location = new System.Drawing.Point(3, 78);
             this.label18.Name = "label18";
             this.label18.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label18.Size = new System.Drawing.Size(150, 39);
+            this.label18.Size = new System.Drawing.Size(149, 39);
             this.label18.TabIndex = 238;
             this.label18.Text = "Monday";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2321,7 +2321,7 @@
             this.totime5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totime5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.totime5.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.totime5.Location = new System.Drawing.Point(329, 198);
+            this.totime5.Location = new System.Drawing.Point(327, 198);
             this.totime5.Name = "totime5";
             this.totime5.ShowUpDown = true;
             this.totime5.Size = new System.Drawing.Size(152, 24);
@@ -2333,10 +2333,10 @@
             this.ftime2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ftime2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ftime2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.ftime2.Location = new System.Drawing.Point(159, 81);
+            this.ftime2.Location = new System.Drawing.Point(158, 81);
             this.ftime2.Name = "ftime2";
             this.ftime2.ShowUpDown = true;
-            this.ftime2.Size = new System.Drawing.Size(164, 24);
+            this.ftime2.Size = new System.Drawing.Size(163, 24);
             this.ftime2.TabIndex = 2;
             this.ftime2.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
             // 
@@ -2345,10 +2345,10 @@
             this.ftime5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ftime5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ftime5.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.ftime5.Location = new System.Drawing.Point(159, 198);
+            this.ftime5.Location = new System.Drawing.Point(158, 198);
             this.ftime5.Name = "ftime5";
             this.ftime5.ShowUpDown = true;
-            this.ftime5.Size = new System.Drawing.Size(164, 24);
+            this.ftime5.Size = new System.Drawing.Size(163, 24);
             this.ftime5.TabIndex = 8;
             this.ftime5.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
             // 
@@ -2357,7 +2357,7 @@
             this.totime2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totime2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.totime2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.totime2.Location = new System.Drawing.Point(329, 81);
+            this.totime2.Location = new System.Drawing.Point(327, 81);
             this.totime2.Name = "totime2";
             this.totime2.ShowUpDown = true;
             this.totime2.Size = new System.Drawing.Size(152, 24);
@@ -2372,7 +2372,7 @@
             this.label30.Location = new System.Drawing.Point(3, 195);
             this.label30.Name = "label30";
             this.label30.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label30.Size = new System.Drawing.Size(150, 39);
+            this.label30.Size = new System.Drawing.Size(149, 39);
             this.label30.TabIndex = 247;
             this.label30.Text = "Thursday";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2385,7 +2385,7 @@
             this.label31.Location = new System.Drawing.Point(3, 117);
             this.label31.Name = "label31";
             this.label31.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label31.Size = new System.Drawing.Size(150, 39);
+            this.label31.Size = new System.Drawing.Size(149, 39);
             this.label31.TabIndex = 241;
             this.label31.Text = "Tuesday";
             this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2395,7 +2395,7 @@
             this.totime4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totime4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.totime4.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.totime4.Location = new System.Drawing.Point(329, 159);
+            this.totime4.Location = new System.Drawing.Point(327, 159);
             this.totime4.Name = "totime4";
             this.totime4.ShowUpDown = true;
             this.totime4.Size = new System.Drawing.Size(152, 24);
@@ -2407,10 +2407,10 @@
             this.ftime3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ftime3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ftime3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.ftime3.Location = new System.Drawing.Point(159, 120);
+            this.ftime3.Location = new System.Drawing.Point(158, 120);
             this.ftime3.Name = "ftime3";
             this.ftime3.ShowUpDown = true;
-            this.ftime3.Size = new System.Drawing.Size(164, 24);
+            this.ftime3.Size = new System.Drawing.Size(163, 24);
             this.ftime3.TabIndex = 4;
             this.ftime3.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
             // 
@@ -2419,10 +2419,10 @@
             this.ftime4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ftime4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ftime4.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.ftime4.Location = new System.Drawing.Point(159, 159);
+            this.ftime4.Location = new System.Drawing.Point(158, 159);
             this.ftime4.Name = "ftime4";
             this.ftime4.ShowUpDown = true;
-            this.ftime4.Size = new System.Drawing.Size(164, 24);
+            this.ftime4.Size = new System.Drawing.Size(163, 24);
             this.ftime4.TabIndex = 6;
             this.ftime4.Value = new System.DateTime(2022, 1, 24, 9, 0, 0, 0);
             // 
@@ -2431,7 +2431,7 @@
             this.totime3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totime3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.totime3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.totime3.Location = new System.Drawing.Point(329, 120);
+            this.totime3.Location = new System.Drawing.Point(327, 120);
             this.totime3.Name = "totime3";
             this.totime3.ShowUpDown = true;
             this.totime3.Size = new System.Drawing.Size(152, 24);
@@ -2446,7 +2446,7 @@
             this.label32.Location = new System.Drawing.Point(3, 156);
             this.label32.Name = "label32";
             this.label32.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label32.Size = new System.Drawing.Size(150, 39);
+            this.label32.Size = new System.Drawing.Size(149, 39);
             this.label32.TabIndex = 244;
             this.label32.Text = "Wednesday";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2455,10 +2455,10 @@
             // 
             this.chk_sunday.AutoSize = true;
             this.chk_sunday.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_sunday.Location = new System.Drawing.Point(494, 49);
+            this.chk_sunday.Location = new System.Drawing.Point(492, 49);
             this.chk_sunday.Margin = new System.Windows.Forms.Padding(10);
             this.chk_sunday.Name = "chk_sunday";
-            this.chk_sunday.Size = new System.Drawing.Size(91, 19);
+            this.chk_sunday.Size = new System.Drawing.Size(93, 19);
             this.chk_sunday.TabIndex = 254;
             this.chk_sunday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chk_sunday.UseVisualStyleBackColor = true;
@@ -2467,10 +2467,10 @@
             // 
             this.chk_monday.AutoSize = true;
             this.chk_monday.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_monday.Location = new System.Drawing.Point(494, 88);
+            this.chk_monday.Location = new System.Drawing.Point(492, 88);
             this.chk_monday.Margin = new System.Windows.Forms.Padding(10);
             this.chk_monday.Name = "chk_monday";
-            this.chk_monday.Size = new System.Drawing.Size(91, 19);
+            this.chk_monday.Size = new System.Drawing.Size(93, 19);
             this.chk_monday.TabIndex = 255;
             this.chk_monday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chk_monday.UseVisualStyleBackColor = true;
@@ -2479,10 +2479,10 @@
             // 
             this.chk_tuesday.AutoSize = true;
             this.chk_tuesday.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_tuesday.Location = new System.Drawing.Point(494, 127);
+            this.chk_tuesday.Location = new System.Drawing.Point(492, 127);
             this.chk_tuesday.Margin = new System.Windows.Forms.Padding(10);
             this.chk_tuesday.Name = "chk_tuesday";
-            this.chk_tuesday.Size = new System.Drawing.Size(91, 19);
+            this.chk_tuesday.Size = new System.Drawing.Size(93, 19);
             this.chk_tuesday.TabIndex = 256;
             this.chk_tuesday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chk_tuesday.UseVisualStyleBackColor = true;
@@ -2491,10 +2491,10 @@
             // 
             this.chk_wednesday.AutoSize = true;
             this.chk_wednesday.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_wednesday.Location = new System.Drawing.Point(494, 166);
+            this.chk_wednesday.Location = new System.Drawing.Point(492, 166);
             this.chk_wednesday.Margin = new System.Windows.Forms.Padding(10);
             this.chk_wednesday.Name = "chk_wednesday";
-            this.chk_wednesday.Size = new System.Drawing.Size(91, 19);
+            this.chk_wednesday.Size = new System.Drawing.Size(93, 19);
             this.chk_wednesday.TabIndex = 257;
             this.chk_wednesday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chk_wednesday.UseVisualStyleBackColor = true;
@@ -2503,10 +2503,10 @@
             // 
             this.chk_thursday.AutoSize = true;
             this.chk_thursday.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_thursday.Location = new System.Drawing.Point(494, 205);
+            this.chk_thursday.Location = new System.Drawing.Point(492, 205);
             this.chk_thursday.Margin = new System.Windows.Forms.Padding(10);
             this.chk_thursday.Name = "chk_thursday";
-            this.chk_thursday.Size = new System.Drawing.Size(91, 19);
+            this.chk_thursday.Size = new System.Drawing.Size(93, 19);
             this.chk_thursday.TabIndex = 258;
             this.chk_thursday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chk_thursday.UseVisualStyleBackColor = true;
@@ -2515,10 +2515,10 @@
             // 
             this.chk_friday.AutoSize = true;
             this.chk_friday.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_friday.Location = new System.Drawing.Point(494, 244);
+            this.chk_friday.Location = new System.Drawing.Point(492, 244);
             this.chk_friday.Margin = new System.Windows.Forms.Padding(10);
             this.chk_friday.Name = "chk_friday";
-            this.chk_friday.Size = new System.Drawing.Size(91, 19);
+            this.chk_friday.Size = new System.Drawing.Size(93, 19);
             this.chk_friday.TabIndex = 259;
             this.chk_friday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chk_friday.UseVisualStyleBackColor = true;
@@ -2527,10 +2527,10 @@
             // 
             this.chk_saturday.AutoSize = true;
             this.chk_saturday.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_saturday.Location = new System.Drawing.Point(494, 283);
+            this.chk_saturday.Location = new System.Drawing.Point(492, 283);
             this.chk_saturday.Margin = new System.Windows.Forms.Padding(10);
             this.chk_saturday.Name = "chk_saturday";
-            this.chk_saturday.Size = new System.Drawing.Size(91, 20);
+            this.chk_saturday.Size = new System.Drawing.Size(93, 20);
             this.chk_saturday.TabIndex = 260;
             this.chk_saturday.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chk_saturday.UseVisualStyleBackColor = true;

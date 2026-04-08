@@ -188,7 +188,7 @@ namespace FoodandBeverage
         private List<(string PartPayId, string PartAmount)> partPayments = new List<(string, string)>();
         int partCount = 0;
         public bool exitstatus = false;
-        int BookingId = 0, SalesMasterId = 0, PartyBookingDetailsId = 0,Partypacksaledetailid = 0;
+        int BookingId = 0, SalesMasterId = 0, PartyBookingDetailsId = 0, Partypacksaledetailid = 0;
         decimal MinimumAdvance = 0;
 
         private readonly Image Grid_Remove = Properties.Resources.Round_Close;
@@ -201,7 +201,7 @@ namespace FoodandBeverage
         decimal dbBalanceAmount = 0;
 
         private bool isUpdating = false;
-        decimal originalGrandTotal = 0, originalTotalTax=0;
+        decimal originalGrandTotal = 0, originalTotalTax = 0;
 
         private int PaymentSettleStatusData = 0;
         private bool Fullpaymentflag = false, Advanceflag = false;
@@ -247,10 +247,10 @@ namespace FoodandBeverage
                 }
                 LoadEventItems();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page  FrmPartyBooking_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
-
         }
 
         #region Events And common Fuction 
@@ -320,7 +320,7 @@ namespace FoodandBeverage
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
                              AND d.Status = 1) AS DetailsCount,MinimumAdvanceAmount";
                 search.Table = "tblPartyPackMaster";
-                search.WhereNdGroupBy = "WHERE Status = 1 and PartyPackId ="+ pkid;
+                search.WhereNdGroupBy = "WHERE Status = 1 and PartyPackId =" + pkid;
                 search.OrderBy = "ORDER BY PackName";
                 var list = bll.GetSearchData("prdSearch", search);
                 if (list.Count > 0)
@@ -329,12 +329,13 @@ namespace FoodandBeverage
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
                     txttax.Text = Convert.ToString(list[0].Tax);
-                    MinimumAdvance= Convert.ToDecimal(list[0].MinimumAdvanceAmount);
+                    MinimumAdvance = Convert.ToDecimal(list[0].MinimumAdvanceAmount);
                 }
-     
+
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page  Loadprice()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void LoadPartyPacks()
@@ -392,7 +393,7 @@ namespace FoodandBeverage
                         card.MouseEnter += (s, e) =>
                         {
                             card.BackColor = Color.FromArgb(230, 240, 255); // soft blue hover
-                        card.Location = new Point(card.Location.X, card.Location.Y - 3);
+                            card.Location = new Point(card.Location.X, card.Location.Y - 3);
                         };
 
                         card.MouseLeave += (s, e) =>
@@ -522,7 +523,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadPartyPacks()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void SetupGuestControls()
@@ -573,7 +574,7 @@ namespace FoodandBeverage
 
                     tlp_adult_child_label.ColumnStyles[0].Width = 100F;
                     tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.AutoSize;
- 
+
 
                     tlp_adult_child_label.ColumnStyles[1].SizeType = SizeType.Percent;
                     tlp_adult_child_label.ColumnStyles[1].Width = 50F;
@@ -610,8 +611,9 @@ namespace FoodandBeverage
 
                 textb_shape();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page  SetupGuestControls()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void LoadPartyPackDetails(int packid)
@@ -644,8 +646,8 @@ namespace FoodandBeverage
                         row.Cells[selecteditemslno].Value = sl++;
                         row.Cells[selecteditemitemno].Value = item.Item;
 
-                        if(item.MenuCategoryId!=null &&Convert.ToInt32(item.MenuCategoryId)>0 )
-                            row.Cells[selecteditemcategmenuno].Value =Convert.ToInt64(item.MenuCategoryId);
+                        if (item.MenuCategoryId != null && Convert.ToInt32(item.MenuCategoryId) > 0)
+                            row.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
 
                         row.Cells[selecteditemqtyno].Value = item.Quantity;
                         row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
@@ -659,25 +661,34 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadPartyPackDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private string SetPackName(int packId)
         {
-            BllSearch<DmnPartyPack> bll = new BllSearch<DmnPartyPack>();
+            try
+            {
 
-            DmnSearch search = new DmnSearch();
-            search.Select = "PackName";
-            search.Table = "tblPartyPackMaster";
-            search.WhereNdGroupBy = $"WHERE PartyPackId = {packId} AND Status = 1";
+                BllSearch<DmnPartyPack> bll = new BllSearch<DmnPartyPack>();
 
-            var result = bll.GetSearchData("prdSearch", search)
-                            .FirstOrDefault();
+                DmnSearch search = new DmnSearch();
+                search.Select = "PackName";
+                search.Table = "tblPartyPackMaster";
+                search.WhereNdGroupBy = $"WHERE PartyPackId = {packId} AND Status = 1";
 
-            if (result != null)
-                return result.PackName;
+                var result = bll.GetSearchData("prdSearch", search)
+                                .FirstOrDefault();
 
-            return "";
+                if (result != null)
+                    return result.PackName;
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page  LoadPartyPackDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+                return "";
+            }
         }
         private void LoadMenuCategory()
         {
@@ -701,7 +712,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadMenuCategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void LoadMenuCategory_cutom()
@@ -718,7 +729,7 @@ namespace FoodandBeverage
 
                 categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
 
-                DataGridViewComboBoxColumn cmb =(DataGridViewComboBoxColumn)dgv_cus_menu_items.Columns[customitemcategmenuno];
+                DataGridViewComboBoxColumn cmb = (DataGridViewComboBoxColumn)dgv_cus_menu_items.Columns[customitemcategmenuno];
 
                 cmb.DataSource = categoryList;
                 cmb.DisplayMember = "CategoryName";
@@ -726,7 +737,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadMenuCategory_cutom()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void LoadPackItems(int packId)
@@ -760,16 +771,16 @@ namespace FoodandBeverage
                     }
                     else
                     {
-                        row.Cells[showonlycategmenuno].Value = DBNull.Value; 
+                        row.Cells[showonlycategmenuno].Value = DBNull.Value;
                     }
                     row.Cells[showonlyqtyno].Value = item.Quantity;
                 }
 
-                 LoadUsedCategories();
+                LoadUsedCategories();
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadPackItems()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void LoadUsedCategories()
@@ -809,7 +820,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadUsedCategories()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void CategoryFilter_Click(object sender, EventArgs e)
@@ -842,8 +853,9 @@ namespace FoodandBeverage
                     row.Cells[showonlyqtyno].Value = item.Quantity;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page  CategoryFilter_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         public class RoundedPanel : Panel
@@ -866,23 +878,7 @@ namespace FoodandBeverage
                 this.Region = new Region(path);
             }
         }
-        private void PackButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Button btn = sender as Button;
-
-                if (btn != null && btn.Tag != null)
-                {
-                    int packId = Convert.ToInt32(btn.Tag);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                CMessageBox.Show(ex.Message);
-            }
-        }
+    
         private void FrmPartyBooking_Resize(object sender, EventArgs e)
         {
 
@@ -902,17 +898,17 @@ namespace FoodandBeverage
             UIHelper.SetRoundCorner(tlpTop, 15);
             UIHelper.SetRoundCorner(tlp_dis_remarks, 15);
             UIHelper.SetRoundCorner(tlp_function_btn, 15);
-            
-        }      
+
+        }
         private void LoadEventItems()
         {
             try
             {
-                BllSearch<DmnEventCommonItems> bllSearch =new BllSearch<DmnEventCommonItems>();
+                BllSearch<DmnEventCommonItems> bllSearch = new BllSearch<DmnEventCommonItems>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "EventItemId, ItemName";
                 objSearch.Table = "tblEventCommonItems";
-                objSearch.WhereNdGroupBy ="WHERE Status = 1 AND EventCategoryType = 1 AND BranchId = "+ FrmDashboard.BranchId;
+                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND EventCategoryType = 1 AND BranchId = " + FrmDashboard.BranchId;
                 objSearch.OrderBy = "ORDER BY ItemName";
                 var eventList = bllSearch.GetSearchData("prdSearch", objSearch);
                 cmbevent.DataSource = eventList;
@@ -922,7 +918,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadEventItems()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void btncls_eventreg_Click(object sender, EventArgs e)
@@ -950,7 +946,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  btneventreg_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private bool ValidateEvent()
@@ -1008,7 +1004,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  btn_del_event_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void btnserach_event_Click(object sender, EventArgs e)
@@ -1025,7 +1021,7 @@ namespace FoodandBeverage
                 _objSearch.ColumnHeaders = "ID,Item Name,Type";
                 _objSearch.Select = "EventItemId as Id, ItemName as Field1, EventCategoryType as Field2";
                 _objSearch.Table = "tblEventCommonItems";
-                _objSearch.WhereNdGroupBy ="WHERE Status = 1 AND BranchId = " + FrmDashboard.BranchId;
+                _objSearch.WhereNdGroupBy = "WHERE Status = 1 AND BranchId = " + FrmDashboard.BranchId;
                 _objSearch.OrderBy = "ORDER BY ItemName";
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource.Count == 0)
@@ -1054,12 +1050,12 @@ namespace FoodandBeverage
                 {
                     FillEventData(returnValue);
                     btn_del_event.Visible = true;
-                    btn_del_event.Tag = returnValue; 
+                    btn_del_event.Tag = returnValue;
                 }
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  btnserach_event_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void FillEventData(int id)
@@ -1085,7 +1081,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  FillEventData()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void btn_pak_details_cls_Click(object sender, EventArgs e)
@@ -1101,7 +1097,7 @@ namespace FoodandBeverage
             try
             {
                 dgv_product.Rows.Clear();
-                int sl = 1; 
+                int sl = 1;
 
                 foreach (DataGridViewRow sourceRow in dgv_packenter.Rows)
                 {
@@ -1126,10 +1122,10 @@ namespace FoodandBeverage
 
                     targetRow.Cells[pqtyno].Value = sourceRow.Cells[selecteditemqtyno].Value;
                     targetRow.Cells[proPartyPackDetailsId].Value = sourceRow.Cells[selecteditemppcdiidno].Value;
-                    targetRow.Cells[PPackProductTypeno].Value = (int)PackItemType.ManualProduct; 
-                    
+                    targetRow.Cells[PPackProductTypeno].Value = (int)PackItemType.ManualProduct;
 
-                    if (Convert.ToInt32(sourceRow.Cells[selecteditemdeafultno].Value) ==1)
+
+                    if (Convert.ToInt32(sourceRow.Cells[selecteditemdeafultno].Value) == 1)
                     {
                         targetRow.ReadOnly = true;
                         targetRow.DefaultCellStyle.BackColor = Color.Gainsboro;
@@ -1200,23 +1196,32 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  btnaddpack_main_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void AllowDecimalInput(object sender, KeyPressEventArgs e)
         {
-            TextBox txt = sender as TextBox;
-
-            if (txt == null) return;
-
-
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            try
             {
-                e.Handled = true; 
+
+
+                TextBox txt = sender as TextBox;
+
+                if (txt == null) return;
+
+
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+                {
+                    e.Handled = true;
+                }
+                if (e.KeyChar == '.' && txt.Text.Contains("."))
+                {
+                    e.Handled = true;
+                }
             }
-            if (e.KeyChar == '.' && txt.Text.Contains("."))
+            catch (Exception ex)
             {
-                e.Handled = true;
+                clsgen.LogException("Partybooking page  AllowDecimalInput()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -1260,7 +1265,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  dgv_packenter_CellEndEdit()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void OpenPackEntryPanel()
@@ -1285,7 +1290,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  OpenPackEntryPanel()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void AddNewRow()
@@ -1316,7 +1321,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadMenuCategory_packenter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -1363,7 +1368,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  btn_savemenucateg_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         #endregion
@@ -1387,6 +1392,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page  btn_addCusItems_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -1500,7 +1506,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  btn_cus_menu_submit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -1510,7 +1516,7 @@ namespace FoodandBeverage
         {
             try
             {
-                
+
                 dgv_cus_menu_items.Rows.Clear();
                 flp_cus_menuitems.Controls.Clear();
 
@@ -1527,7 +1533,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  LoadCustomMenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -1565,7 +1571,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Partybooking page  BindCustomGrid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -1622,6 +1628,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page  LoadCustomUsedCategories()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -1671,7 +1678,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show("Error while selecting item.\n" + ex.Message);
+                clsgen.LogException("Partybooking page  dgv_cus_menu_items_CellContentClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -1714,7 +1721,7 @@ namespace FoodandBeverage
                     {
                         s = Convert.ToDecimal(i) / 8;
                         Button dynamicButton = new Button();
-                        dynamicButton.Width = flw_categ.Width/5;
+                        dynamicButton.Width = flw_categ.Width / 5;
                         dynamicButton.Height = (int)(flw_categ.Height * 0.8m);
 
                         if (i > 3)
@@ -1827,7 +1834,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-               // clsGeneral.LogException("POSDashboard page  FillForms()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.POSDashboard));
+                clsgen.LogException("Partybooking page  FillForms()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void DynamicButton_Click(object sender, EventArgs e)
@@ -1854,7 +1861,7 @@ namespace FoodandBeverage
                 string heading = "";
                 string productcolumnname = "";
 
-                int locationId = FrmLogin.GameBranchId; 
+                int locationId = FrmLogin.GameBranchId;
                 switch ((PosSalProduct)tag)
                 {
                     case PosSalProduct.Card:
@@ -1889,23 +1896,23 @@ namespace FoodandBeverage
                         throw new ArgumentException("Invalid product tag");
                 }
 
-             
+
                 txtTable.Text = table;
                 lblProductHeading.Text = heading;
 
-             
+
                 dmnSearch.Select = $@"
                                     TOP 50
                                     {productcolumnname} as Field1,
                                     p.Description as Field2,
                                     0 as Field3,
                                     0 as Field4";
-                                                
+
                 dmnSearch.Table = $@"
                                     [{GameDB}].dbo.{table} p
                                     LEFT JOIN [{GameDB}].dbo.tblCardProductLocMapping pm 
                                         ON pm.Product = {productcolumnname} AND pm.ProductType = {tabtype}";
-                                              
+
                 dmnSearch.WhereNdGroupBy = $@"
                                     WHERE pm.Location = {locationId} 
                                     AND pm.Status = 1 and p.Status=1
@@ -1914,272 +1921,272 @@ namespace FoodandBeverage
                 dmnSearch.OrderBy = "ORDER BY p.Description";
 
                 var gridesource = _bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    if (gridesource.Count > 0)
+                if (gridesource.Count > 0)
+                {
+                    if (tag == Convert.ToInt32(PosSalProduct.Card))
                     {
-                        if (tag == Convert.ToInt32(PosSalProduct.Card))
-                        {
-                            // REMOVE DUPLICATES BY SubCategoryId (Field5)
-                            var filteredSource = gridesource
-                               .GroupBy(x =>
-                                   x.Field6 == null || Convert.ToInt32(x.Field6) == 0
-                                       ? Guid.NewGuid().ToString()
-                                       : x.Field5.ToString())
-                               .Select(g => g.First())
-                               .ToList();
+                        // REMOVE DUPLICATES BY SubCategoryId (Field5)
+                        var filteredSource = gridesource
+                           .GroupBy(x =>
+                               x.Field6 == null || Convert.ToInt32(x.Field6) == 0
+                                   ? Guid.NewGuid().ToString()
+                                   : x.Field5.ToString())
+                           .Select(g => g.First())
+                           .ToList();
 
-                            if (filteredSource.Count > 0)
-                            {
-                                txtTable.Text = table;
-
-                                TableLayoutPanel tlpProduct = new TableLayoutPanel();
-                                tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
-                                tlpProduct.Size = pnlitembuttons.Size;
-                                tlpProduct.AutoScroll = true;
-                                tlpProduct.Name = "tlp_" + table.Trim();
-                                tlpProduct.AutoScrollMargin = new Size(10, 10);
-                                tlpProduct.ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
-
-                                for (int i = 0; i < filteredSource.Count; i++)
-                                {
-                                    var item = filteredSource[i];
-
-                                    Button dynamicButton = new Button();
-                                    dynamicButton.Height = 70;
-                                    dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
-                                    dynamicButton.Dock = DockStyle.None;
-
-                                    if (Convert.ToInt32(item.Field5) > 0)
-                                    {
-                                        dynamicButton.Text = item.Field6;
-                                        dynamicButton.Tag = item.Field5;
-                                        dynamicButton.AccessibleDescription = "1";
-                                    }
-                                    else
-                                    {
-                                        dynamicButton.Text = item.Field2;
-                                        dynamicButton.Tag = item.Field1;
-                                        dynamicButton.AccessibleDescription = "0";
-                                    }
-
-
-                                    dynamicButton.Name = "DynamicButton" + i;
-                                    dynamicButton.FlatStyle = FlatStyle.Flat;
-                                    dynamicButton.ForeColor = Color.White;
-
-                                    // ENABLE / DISABLE LOGIC
-                                    if (tabtype == (int)ProductType.FB ||
-                                        tabtype == (int)ProductType.Merchandise ||
-                                        tabtype == (int)ProductType.Bowling)
-                                    {
-                                        if (item.Field5 == null || Convert.ToInt32(item.Field5) <= 0)
-                                        {
-                                            dynamicButton.Enabled = false;
-                                            dynamicButton.BackgroundImage = LoadButtonImage("inactive", null);
-                                        }
-                                        else
-                                        {
-                                            dynamicButton.BackgroundImage =
-                                                string.IsNullOrEmpty(item.Field3)
-                                                    ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
-                                                    : LoadButtonImage(item.Field3, null);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        dynamicButton.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
-                                    }
-
-                                    dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
-
-                             
-                                if (string.IsNullOrEmpty(item.Field4) || Convert.ToInt32(item.Field4) == 0)
-                                {
-                                        dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
-                                            ? new Font("Georgia", 14)
-                                            : new Font("Georgia", 10);
-                                    }
-                                    else
-                                    {
-                                        string[] textSplit = item.Field4.Split(',');
-                                        string fontName = textSplit[0];
-                                        float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
-
-                                        dynamicButton.Font = new Font(fontName, fontSize);
-                                    }
-
-                                    // CONTEXT MENU
-                                    ContextMenuStrip contextMenu = new ContextMenuStrip();
-                                    ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
-                                    ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
-
-                                    item1.Image = Properties.Resources.background_mouse_clcik;
-                                    item2.Image = Properties.Resources.font_mouselick;
-                                    item1.Font = item2.Font = new Font("Arial", 12, FontStyle.Bold);
-                                    item1.ForeColor = item2.ForeColor = Color.Black;
-
-                                    //item1.Click += Item1_Click;
-                                    //item2.Click += Item2_Click;
-
-                                    contextMenu.Items.Add(item1);
-                                    contextMenu.Items.Add(item2);
-                                    dynamicButton.ContextMenuStrip = contextMenu;
-
-                                    dynamicButton.Click += DynamicButtonProduct_Click;
-
-                                    // GRID POSITIONING
-                                    tlpProduct.Controls.Add(dynamicButton, c, r);
-                                    c++;
-
-                                    if (c >= tlpProduct.ColumnCount)
-                                    {
-                                        c = 0;
-                                        r++;
-                                    }
-                                }
-
-                                pnlitembuttons.Controls.Add(tlpProduct);
-                            }
-                        }
-                        else
+                        if (filteredSource.Count > 0)
                         {
                             txtTable.Text = table;
+
                             TableLayoutPanel tlpProduct = new TableLayoutPanel();
                             tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
                             tlpProduct.Size = pnlitembuttons.Size;
                             tlpProduct.AutoScroll = true;
-                            tlpProduct.AutoScrollMargin = new System.Drawing.Size(10, 10);
-                            //tlpProduct.Name = tlpProduct + table;
-                            if (screnwidth > 1365 && screnheight > 765)
+                            tlpProduct.Name = "tlp_" + table.Trim();
+                            tlpProduct.AutoScrollMargin = new Size(10, 10);
+                            tlpProduct.ColumnCount = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
+
+                            for (int i = 0; i < filteredSource.Count; i++)
                             {
-                                tlpProduct.ColumnCount = 6;
-                            }
-                            else
-                            {
-                                tlpProduct.ColumnCount = 5;
-                            }
-                            for (int i = 0; i < gridesource.Count; i++)
-                            {
-                                s = Convert.ToDecimal(i % 6);
+                                var item = filteredSource[i];
+
                                 Button dynamicButton = new Button();
                                 dynamicButton.Height = 70;
-                                if (screnwidth > 1365 && screnheight > 765)
+                                dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
+                                dynamicButton.Dock = DockStyle.None;
+
+                                if (Convert.ToInt32(item.Field5) > 0)
                                 {
-                                    dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
-                                    dynamicButton.Dock = DockStyle.None;
+                                    dynamicButton.Text = item.Field6;
+                                    dynamicButton.Tag = item.Field5;
+                                    dynamicButton.AccessibleDescription = "1";
                                 }
                                 else
                                 {
-                                    dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;//dynamicButton.Width = 156;
-                                    dynamicButton.Dock = DockStyle.None;
+                                    dynamicButton.Text = item.Field2;
+                                    dynamicButton.Tag = item.Field1;
+                                    dynamicButton.AccessibleDescription = "0";
                                 }
 
-                                if (tabtype == Convert.ToInt32(ProductType.FB) || tabtype == Convert.ToInt32(ProductType.Merchandise) || tabtype == Convert.ToInt32(ProductType.Bowling))
+
+                                dynamicButton.Name = "DynamicButton" + i;
+                                dynamicButton.FlatStyle = FlatStyle.Flat;
+                                dynamicButton.ForeColor = Color.White;
+
+                                // ENABLE / DISABLE LOGIC
+                                if (tabtype == (int)ProductType.FB ||
+                                    tabtype == (int)ProductType.Merchandise ||
+                                    tabtype == (int)ProductType.Bowling)
                                 {
-                                    if (Convert.ToInt32(gridesource[i].Field5) <= 0)
+                                    if (item.Field5 == null || Convert.ToInt32(item.Field5) <= 0)
                                     {
                                         dynamicButton.Enabled = false;
-                                        dynamicButton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\inactive.png");
-                                        dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
-                                        dynamicButton.FlatStyle = FlatStyle.Flat;
-                                        dynamicButton.ForeColor = System.Drawing.Color.White;
+                                        dynamicButton.BackgroundImage = LoadButtonImage("inactive", null);
                                     }
                                     else
                                     {
-                                        if (gridesource[i].Field3 == null || gridesource[i].Field3 == "")
-                                        {
-                                            dynamicButton.BackgroundImage = Properties.Resources.Untitled_2_2030;
-                                        }
-                                        else
-                                        {
-                                            dynamicButton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\" + gridesource[i].Field3 + ".png");
-                                        }
-                                        dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
-                                        dynamicButton.FlatStyle = FlatStyle.Flat;
-                                        dynamicButton.ForeColor = System.Drawing.Color.White;
+                                        dynamicButton.BackgroundImage =
+                                            string.IsNullOrEmpty(item.Field3)
+                                                ? LoadButtonImage(null, Properties.Resources.Untitled_2_2030)
+                                                : LoadButtonImage(item.Field3, null);
                                     }
                                 }
                                 else
                                 {
-                                    if (gridesource[i].Field3 == null || gridesource[i].Field3 == "")
-                                    {
-                                        dynamicButton.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
-                                    }
-                                    else
-                                    {
-                                        dynamicButton.BackgroundImage = LoadButtonImage(gridesource[i].Field3, Properties.Resources.Untitled_2_2030);
-                                    }
-                                    dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
-                                    dynamicButton.FlatStyle = FlatStyle.Flat;
-                                    dynamicButton.ForeColor = System.Drawing.Color.White;
+                                    dynamicButton.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
                                 }
 
-                                if (s == 0 && i != 0)
-                                {
-                                    r = r + 1;
-                                    c = 0;
-                                }
-                                dynamicButton.Text = gridesource[i].Field2;
-                                dynamicButton.Tag = gridesource[i].Field1;
-                                dynamicButton.Name = "DynamicButton_P" + i;
-                                if ((gridesource[i].Field4 == null) || (gridesource[i].Field4 == "") || (Convert.ToInt32(gridesource[i].Field4) == 0))
-                                {
-                                    if (screnwidth > 1365 && screnheight > 765)
-                                    {
-                                        dynamicButton.Font = new Font("Georgia", 14);
-                                    }
-                                    else
-                                    {
-                                        dynamicButton.Font = new Font("Georgia", 10);
-                                    }
+                                dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
 
+
+                                if (string.IsNullOrEmpty(item.Field4) || Convert.ToInt32(item.Field4) == 0)
+                                {
+                                    dynamicButton.Font = (screnwidth > 1365 && screnheight > 765)
+                                        ? new Font("Georgia", 14)
+                                        : new Font("Georgia", 10);
                                 }
                                 else
                                 {
-                                    string strng = gridesource[i].Field4;
-                                    string[] textSplit = strng.Split(',');
-                                    int f = textSplit.Length - 2;
-                                    string fontn = "";
-                                    for (int t = 0; t < textSplit.Length - 1; t++)
-                                    {
-                                        fontn = fontn + textSplit[f];
-                                    }
-                                    float fontsz = float.Parse(textSplit[textSplit.Length - 1]);
-                                    dynamicButton.Font = new Font(fontn, fontsz);
+                                    string[] textSplit = item.Field4.Split(',');
+                                    string fontName = textSplit[0];
+                                    float fontSize = float.Parse(textSplit[textSplit.Length - 1]);
+
+                                    dynamicButton.Font = new Font(fontName, fontSize);
                                 }
 
-                                /* Button sub menu list */
+                                // CONTEXT MENU
                                 ContextMenuStrip contextMenu = new ContextMenuStrip();
                                 ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
                                 ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
+
+                                item1.Image = Properties.Resources.background_mouse_clcik;
+                                item2.Image = Properties.Resources.font_mouselick;
+                                item1.Font = item2.Font = new Font("Arial", 12, FontStyle.Bold);
+                                item1.ForeColor = item2.ForeColor = Color.Black;
+
+                                //item1.Click += Item1_Click;
+                                //item2.Click += Item2_Click;
+
                                 contextMenu.Items.Add(item1);
                                 contextMenu.Items.Add(item2);
-
-                                item1.Image = FoodandBeverage.Properties.Resources.background_mouse_clcik;
-                                item2.Image = FoodandBeverage.Properties.Resources.font_mouselick;
-                                item1.ForeColor = Color.Black;
-                                item2.ForeColor = Color.Black;
-                                item1.Font = new Font("Arial", 12, FontStyle.Bold);
-                                item2.Font = new Font("Arial", 12, FontStyle.Bold);
-
                                 dynamicButton.ContextMenuStrip = contextMenu;
-                                //item1.Click += new EventHandler(Item1_Click);
-                                //item2.Click += new EventHandler(Item2_Click);
 
+                                dynamicButton.Click += DynamicButtonProduct_Click;
 
-                                dynamicButton.Click += new EventHandler(DynamicButtonProduct_Click);
+                                // GRID POSITIONING
                                 tlpProduct.Controls.Add(dynamicButton, c, r);
-
                                 c++;
+
+                                if (c >= tlpProduct.ColumnCount)
+                                {
+                                    c = 0;
+                                    r++;
+                                }
                             }
 
                             pnlitembuttons.Controls.Add(tlpProduct);
                         }
                     }
-                
+                    else
+                    {
+                        txtTable.Text = table;
+                        TableLayoutPanel tlpProduct = new TableLayoutPanel();
+                        tlpProduct.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+                        tlpProduct.Size = pnlitembuttons.Size;
+                        tlpProduct.AutoScroll = true;
+                        tlpProduct.AutoScrollMargin = new System.Drawing.Size(10, 10);
+                        //tlpProduct.Name = tlpProduct + table;
+                        if (screnwidth > 1365 && screnheight > 765)
+                        {
+                            tlpProduct.ColumnCount = 6;
+                        }
+                        else
+                        {
+                            tlpProduct.ColumnCount = 5;
+                        }
+                        for (int i = 0; i < gridesource.Count; i++)
+                        {
+                            s = Convert.ToDecimal(i % 6);
+                            Button dynamicButton = new Button();
+                            dynamicButton.Height = 70;
+                            if (screnwidth > 1365 && screnheight > 765)
+                            {
+                                dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;
+                                dynamicButton.Dock = DockStyle.None;
+                            }
+                            else
+                            {
+                                dynamicButton.Width = (pnlitembuttons.Width - 43) / tlpProduct.ColumnCount;//dynamicButton.Width = 156;
+                                dynamicButton.Dock = DockStyle.None;
+                            }
+
+                            if (tabtype == Convert.ToInt32(ProductType.FB) || tabtype == Convert.ToInt32(ProductType.Merchandise) || tabtype == Convert.ToInt32(ProductType.Bowling))
+                            {
+                                if (Convert.ToInt32(gridesource[i].Field5) <= 0)
+                                {
+                                    dynamicButton.Enabled = false;
+                                    dynamicButton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\inactive.png");
+                                    dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+                                    dynamicButton.FlatStyle = FlatStyle.Flat;
+                                    dynamicButton.ForeColor = System.Drawing.Color.White;
+                                }
+                                else
+                                {
+                                    if (gridesource[i].Field3 == null || gridesource[i].Field3 == "")
+                                    {
+                                        dynamicButton.BackgroundImage = Properties.Resources.Untitled_2_2030;
+                                    }
+                                    else
+                                    {
+                                        dynamicButton.BackgroundImage = new Bitmap(Application.StartupPath + "\\Background_Images\\" + gridesource[i].Field3 + ".png");
+                                    }
+                                    dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+                                    dynamicButton.FlatStyle = FlatStyle.Flat;
+                                    dynamicButton.ForeColor = System.Drawing.Color.White;
+                                }
+                            }
+                            else
+                            {
+                                if (gridesource[i].Field3 == null || gridesource[i].Field3 == "")
+                                {
+                                    dynamicButton.BackgroundImage = LoadButtonImage(null, Properties.Resources.Untitled_2_2030);
+                                }
+                                else
+                                {
+                                    dynamicButton.BackgroundImage = LoadButtonImage(gridesource[i].Field3, Properties.Resources.Untitled_2_2030);
+                                }
+                                dynamicButton.BackgroundImageLayout = ImageLayout.Stretch;
+                                dynamicButton.FlatStyle = FlatStyle.Flat;
+                                dynamicButton.ForeColor = System.Drawing.Color.White;
+                            }
+
+                            if (s == 0 && i != 0)
+                            {
+                                r = r + 1;
+                                c = 0;
+                            }
+                            dynamicButton.Text = gridesource[i].Field2;
+                            dynamicButton.Tag = gridesource[i].Field1;
+                            dynamicButton.Name = "DynamicButton_P" + i;
+                            if ((gridesource[i].Field4 == null) || (gridesource[i].Field4 == "") || (Convert.ToInt32(gridesource[i].Field4) == 0))
+                            {
+                                if (screnwidth > 1365 && screnheight > 765)
+                                {
+                                    dynamicButton.Font = new Font("Georgia", 14);
+                                }
+                                else
+                                {
+                                    dynamicButton.Font = new Font("Georgia", 10);
+                                }
+
+                            }
+                            else
+                            {
+                                string strng = gridesource[i].Field4;
+                                string[] textSplit = strng.Split(',');
+                                int f = textSplit.Length - 2;
+                                string fontn = "";
+                                for (int t = 0; t < textSplit.Length - 1; t++)
+                                {
+                                    fontn = fontn + textSplit[f];
+                                }
+                                float fontsz = float.Parse(textSplit[textSplit.Length - 1]);
+                                dynamicButton.Font = new Font(fontn, fontsz);
+                            }
+
+                            /* Button sub menu list */
+                            ContextMenuStrip contextMenu = new ContextMenuStrip();
+                            ToolStripMenuItem item1 = new ToolStripMenuItem("BG Image");
+                            ToolStripMenuItem item2 = new ToolStripMenuItem("Font Style");
+                            contextMenu.Items.Add(item1);
+                            contextMenu.Items.Add(item2);
+
+                            item1.Image = FoodandBeverage.Properties.Resources.background_mouse_clcik;
+                            item2.Image = FoodandBeverage.Properties.Resources.font_mouselick;
+                            item1.ForeColor = Color.Black;
+                            item2.ForeColor = Color.Black;
+                            item1.Font = new Font("Arial", 12, FontStyle.Bold);
+                            item2.Font = new Font("Arial", 12, FontStyle.Bold);
+
+                            dynamicButton.ContextMenuStrip = contextMenu;
+                            //item1.Click += new EventHandler(Item1_Click);
+                            //item2.Click += new EventHandler(Item2_Click);
+
+
+                            dynamicButton.Click += new EventHandler(DynamicButtonProduct_Click);
+                            tlpProduct.Controls.Add(dynamicButton, c, r);
+
+                            c++;
+                        }
+
+                        pnlitembuttons.Controls.Add(tlpProduct);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
-                //clsGeneral.LogException("POSDashboard page  DynamicButton_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(PosFormtype.POSDashboard));
+                clsgen.LogException("Partybooking page  DynamicButton_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void DynamicButtonProduct_Click(object sender, EventArgs e)
@@ -2424,7 +2431,7 @@ namespace FoodandBeverage
                         cellcolumntype.Value = Grid_Remove;
                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
-                        CalculateAndApplyTax(rowIndex, (int)PackItemType.Card,Convert.ToInt32(item.Id));
+                        CalculateAndApplyTax(rowIndex, (int)PackItemType.Card, Convert.ToInt32(item.Id));
 
                     }
                 }
@@ -2433,7 +2440,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Partybooking page  DynamicButtonProduct_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void BtnBack_Click(object sender, EventArgs e)
@@ -2442,16 +2449,29 @@ namespace FoodandBeverage
         }
         private Image LoadButtonImage(string fileName, Image fallbackImage)
         {
-            if (string.IsNullOrEmpty(fileName)) return fallbackImage;
-
-            string imagePath = Path.Combine(Application.StartupPath, "Background_Images", fileName + ".png");
-            if (!File.Exists(imagePath)) return fallbackImage;
-
-            using (Image img = Image.FromFile(imagePath))
+            try
             {
-                return new Bitmap(img);
-            }
+                if (string.IsNullOrEmpty(fileName))
+                    return fallbackImage;
 
+                string imagePath = Path.Combine(Application.StartupPath, "Background_Images", fileName + ".png");
+
+                if (!File.Exists(imagePath))
+                    return fallbackImage;
+
+                using (Image img = Image.FromFile(imagePath))
+                {
+                    return new Bitmap(img); // safe copy
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page LoadButtonImage()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+
+                return fallbackImage;
+            }
         }
         private void btncards_cls_Click(object sender, EventArgs e)
         {
@@ -2459,19 +2479,28 @@ namespace FoodandBeverage
         }
         private void btncard_Click(object sender, EventArgs e)
         {
-            pnl_cardpreview.Visible = true;
-            pnl_cardpreview.BringToFront();
+            try
+            {
 
-            int widthPercent = 80;
-            int heightPercent = 80;
 
-            pnl_cardpreview.Width = this.ClientSize.Width * widthPercent / 100;
-            pnl_cardpreview.Height = this.ClientSize.Height * heightPercent / 100;
+                pnl_cardpreview.Visible = true;
+                pnl_cardpreview.BringToFront();
 
-            pnl_cardpreview.Left = (this.ClientSize.Width - pnl_cardpreview.Width) / 2;
-            pnl_cardpreview.Top = (this.ClientSize.Height - pnl_cardpreview.Height) / 2;
+                int widthPercent = 80;
+                int heightPercent = 80;
 
-            FillForms();
+                pnl_cardpreview.Width = this.ClientSize.Width * widthPercent / 100;
+                pnl_cardpreview.Height = this.ClientSize.Height * heightPercent / 100;
+
+                pnl_cardpreview.Left = (this.ClientSize.Width - pnl_cardpreview.Width) / 2;
+                pnl_cardpreview.Top = (this.ClientSize.Height - pnl_cardpreview.Height) / 2;
+
+                FillForms();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page  btncard_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
         }
         private void LoadProducts(int tag, string searchText = "")
         {
@@ -2598,7 +2627,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-               
+                clsgen.LogException("Partybooking page  btncard_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void btncardserach_Click(object sender, EventArgs e)
@@ -2607,29 +2636,36 @@ namespace FoodandBeverage
         }
         private void txtcardserach_TextChanged(object sender, EventArgs e)
         {
-            int tag = 0;
-
-            if (lblProductHeading.Text == "Card Products")
-                tag = (int)PosSalProduct.Card;
-            else if (lblProductHeading.Text == "Gate Pass")
-                tag = (int)PosSalProduct.GateAccess;
-            else if (lblProductHeading.Text == "Trampolining")
-                tag = (int)PosSalProduct.Trampoline;
-            else if (lblProductHeading.Text == "TimePlay Products")
-                tag = (int)PosSalProduct.TimePlay;
-
-            if (tag == 0)
+            try
             {
-                CMessageBox.Show("Please select category first.",
-                                "Information",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                int tag = 0;
 
-                txtcardserach.Clear();   // optional: clear search box
-                return;
+                if (lblProductHeading.Text == "Card Products")
+                    tag = (int)PosSalProduct.Card;
+                else if (lblProductHeading.Text == "Gate Pass")
+                    tag = (int)PosSalProduct.GateAccess;
+                else if (lblProductHeading.Text == "Trampolining")
+                    tag = (int)PosSalProduct.Trampoline;
+                else if (lblProductHeading.Text == "TimePlay Products")
+                    tag = (int)PosSalProduct.TimePlay;
+
+                if (tag == 0)
+                {
+                    CMessageBox.Show("Please select category first.",
+                                    "Information",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+
+                    txtcardserach.Clear();   // optional: clear search box
+                    return;
+                }
+
+                LoadProducts(tag, txtcardserach.Text.Trim());
             }
-
-            LoadProducts(tag, txtcardserach.Text.Trim());
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page  txtcardserach_TextChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
         }
 
         #endregion
@@ -2655,6 +2691,7 @@ namespace FoodandBeverage
         {
             Redeemproducts(txtserachgift.Text.Trim());
         }
+
         private void Redeemproducts(string searchText = "")
         {
             try
@@ -2720,71 +2757,81 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page  Redeemproducts()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private Button CreateProductButton(DmnGridFields item)
         {
-            Button btn = new Button
+            try
             {
-                Height = 70,
-                FlatStyle = FlatStyle.Flat,
-                BackgroundImageLayout = ImageLayout.Stretch,
-                ForeColor = Color.White,
-                Tag = item.Id,
-                Text = item.Field2,
-                Name = "DynamicButton_P" + item.Id
-            };
 
-            int columns = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
-            btn.Width = (pnlitembuttons.Width - 43) / columns;
 
-            if (Convert.ToInt32(item.Field5) <= 0)
-            {
-                btn.Enabled = false;
-                btn.BackgroundImage = Properties.Resources.INACTIVEBUTTON;
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(item.Field6))
-                    btn.BackgroundImage = Properties.Resources.N_dashboard_button;//Properties.Resources.Untitled_2_2030;
+                Button btn = new Button
+                {
+                    Height = 70,
+                    FlatStyle = FlatStyle.Flat,
+                    BackgroundImageLayout = ImageLayout.Stretch,
+                    ForeColor = Color.White,
+                    Tag = item.Id,
+                    Text = item.Field2,
+                    Name = "DynamicButton_P" + item.Id
+                };
+
+                int columns = (screnwidth > 1365 && screnheight > 765) ? 6 : 5;
+                btn.Width = (pnlitembuttons.Width - 43) / columns;
+
+                if (Convert.ToInt32(item.Field5) <= 0)
+                {
+                    btn.Enabled = false;
+                    btn.BackgroundImage = Properties.Resources.INACTIVEBUTTON;
+                }
                 else
                 {
-                    string path = Path.Combine(Application.StartupPath, "Background_Images", item.Field6 + ".png");
-                    if (File.Exists(path))
-                        btn.BackgroundImage = Image.FromFile(path);
+                    if (string.IsNullOrEmpty(item.Field6))
+                        btn.BackgroundImage = Properties.Resources.N_dashboard_button;//Properties.Resources.Untitled_2_2030;
                     else
-                        btn.BackgroundImage = Properties.Resources.N_dashboard_button;
+                    {
+                        string path = Path.Combine(Application.StartupPath, "Background_Images", item.Field6 + ".png");
+                        if (File.Exists(path))
+                            btn.BackgroundImage = Image.FromFile(path);
+                        else
+                            btn.BackgroundImage = Properties.Resources.N_dashboard_button;
+                    }
                 }
-            }
 
-            if (!string.IsNullOrEmpty(item.Field7))
-            {
-                try
+                if (!string.IsNullOrEmpty(item.Field7))
                 {
-                    string[] split = item.Field7.Split(',');
-                    float size = float.Parse(split.Last());
-                    string fontName = string.Join(",", split.Take(split.Length - 1));
-                    btn.Font = new Font(fontName, size);
+                    try
+                    {
+                        string[] split = item.Field7.Split(',');
+                        float size = float.Parse(split.Last());
+                        string fontName = string.Join(",", split.Take(split.Length - 1));
+                        btn.Font = new Font(fontName, size);
+                    }
+                    catch { btn.Font = new Font("Georgia", 10); }
                 }
-                catch { btn.Font = new Font("Georgia", 10); }
-            }
-            else
-            {
-                btn.Font = (screnwidth > 1365 && screnheight > 765)
-                    ? new Font("Georgia", 14)
-                    : new Font("Georgia", 10);
-            }
+                else
+                {
+                    btn.Font = (screnwidth > 1365 && screnheight > 765)
+                        ? new Font("Georgia", 14)
+                        : new Font("Georgia", 10);
+                }
 
-            ContextMenuStrip menu = new ContextMenuStrip();
-            ToolStripMenuItem bgItem = new ToolStripMenuItem("BG Image", FoodandBeverage.Properties.Resources.background_mouse_clcik);
-            ToolStripMenuItem fontItem = new ToolStripMenuItem("Font Style", FoodandBeverage.Properties.Resources.font_mouselick);
-            bgItem.ForeColor = fontItem.ForeColor = Color.Black;
-            bgItem.Font = fontItem.Font = new Font("Arial", 12, FontStyle.Bold);
-            menu.Items.AddRange(new[] { bgItem, fontItem });
-            btn.ContextMenuStrip = menu;
-            btn.Click += RedemptionProduct_clcik;
-            return btn;
+                ContextMenuStrip menu = new ContextMenuStrip();
+                ToolStripMenuItem bgItem = new ToolStripMenuItem("BG Image", FoodandBeverage.Properties.Resources.background_mouse_clcik);
+                ToolStripMenuItem fontItem = new ToolStripMenuItem("Font Style", FoodandBeverage.Properties.Resources.font_mouselick);
+                bgItem.ForeColor = fontItem.ForeColor = Color.Black;
+                bgItem.Font = fontItem.Font = new Font("Arial", 12, FontStyle.Bold);
+                menu.Items.AddRange(new[] { bgItem, fontItem });
+                btn.ContextMenuStrip = menu;
+                btn.Click += RedemptionProduct_clcik;
+                return btn;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page  CreateProductButton()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+                return null;
+            }
         }
 
         public void RedemptionProduct_clcik(object sender, EventArgs e)
@@ -2828,7 +2875,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show("Error loading product");
+                clsgen.LogException("Partybooking page  RedemptionProduct_clcik()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void AddGiftRow(dynamic item, int ptypeno)
@@ -2862,8 +2909,8 @@ namespace FoodandBeverage
                 row.Cells[pPrice].Value = Convert.ToDecimal(item.Field2);
                 row.Cells[pAmount].Value = Convert.ToDecimal(item.Field2);
 
-                row.Cells[ptax].Value = Convert.ToString(item.Field3);       
-                row.Cells[ptaxtype].Value = "";                              
+                row.Cells[ptax].Value = Convert.ToString(item.Field3);
+                row.Cells[ptaxtype].Value = "";
                 row.Cells[ptaxper].Value = 0;
                 row.Cells[ptaxamt].Value = 0;
                 row.Cells[ppretaxamt].Value = Convert.ToDecimal(item.Field2); // Pre-tax = price
@@ -2889,7 +2936,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                // Optionally log ex.Message
+                clsgen.LogException("Partybooking page  AddGiftRow()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -2906,26 +2953,46 @@ namespace FoodandBeverage
 
             txttotalguest.Text = (adults + children).ToString();
         }
+
         private void UpdateGrandTotal_Pack()
         {
-            decimal adultPrice = 0;
-            decimal childPrice = 0;
-            int adults = 0;
-            int children = 0;
+            try
+            {
+                decimal adultPrice = 0;
+                decimal childPrice = 0;
+                int adults = 0;
+                int children = 0;
 
-            decimal.TryParse(txtAdultPrice.Text, out adultPrice);
-            decimal.TryParse(txtChildPrice.Text, out childPrice);
-            int.TryParse(txtAdults.Text, out adults);
-            int.TryParse(txtChild.Text, out children);
+                decimal.TryParse(txtAdultPrice.Text, out adultPrice);
+                decimal.TryParse(txtChildPrice.Text, out childPrice);
+                int.TryParse(txtAdults.Text, out adults);
+                int.TryParse(txtChild.Text, out children);
 
-            decimal grandTotal = (adultPrice * adults) + (childPrice * children);
-            txtGrandTotal_pack.Text = grandTotal.ToString("N2");
-
+                decimal grandTotal = (adultPrice * adults) + (childPrice * children);
+                txtGrandTotal_pack.Text = grandTotal.ToString("N2");
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page UpdateGrandTotal_Pack()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
         private decimal GetDecimal(TextBox txt)
         {
-            decimal.TryParse(txt.Text, out decimal val);
-            return val;
+            try
+            {
+                decimal.TryParse(txt.Text, out decimal val);
+                return val;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page GetDecimal()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+
+                return 0;
+            }
         }
         private void CalculatePackValues()
         {
@@ -2964,7 +3031,7 @@ namespace FoodandBeverage
 
                     if (taxSettings.Count > 0)
                     {
-                        txtTaxtype_pack.Text= taxSettings[0].TaxType;
+                        txtTaxtype_pack.Text = taxSettings[0].TaxType;
                         igst = taxSettings[0].IgstPrcnt;
                         cgst = taxSettings[0].CgstPrcnt;
                         sgst = taxSettings[0].SgstPrcnt;
@@ -3009,21 +3076,23 @@ namespace FoodandBeverage
                     decimal sgstAmt = Math.Round(sgst > 0 ? taxAmt * (sgst / totalPercent) : 0, 2, MidpointRounding.AwayFromZero);
 
                     txtIGSTAmt_pack.Text = igstAmt.ToString("0.00");
-                    txtVatamt_pack.Text ="0.00";
+                    txtVatamt_pack.Text = "0.00";
                 }
                 else
                 {
                     txtVatamt_pack.Text = taxAmt.ToString("0.00");
                     txtIGSTAmt_pack.Text = "0.00";
                 }
+
             }
             catch (Exception ex)
             {
-                clsgen.LogException("PartyBooking - CalculatePackValues()", ex,
+                clsgen.LogException("Partybooking page CalculatePackValues()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Order));
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
+
         public void CalculateDiscountAmount()
         {
             try
@@ -3032,7 +3101,7 @@ namespace FoodandBeverage
                 if (string.IsNullOrEmpty(txtGrandTotal.Text)) txtGrandTotal.Text = "0";
 
                 decimal discountPer = Convert.ToDecimal(discountper.Text);
-                GetGrandTotal_All(); 
+                GetGrandTotal_All();
 
                 if (discountPer > 100)
                 {
@@ -3051,6 +3120,7 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page  CalculateDiscountAmount()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
         public void CalculateDiscountPer()
@@ -3078,9 +3148,11 @@ namespace FoodandBeverage
 
                 CalculateNetAmount();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                clsgen.LogException("Partybooking page CalculateDiscountPer()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -3172,6 +3244,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page btnaddcakes_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void btncake_refresh_Click(object sender, EventArgs e)
@@ -3232,7 +3307,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show("Error loading cakes: " + ex.Message);
+                clsgen.LogException("Partybooking page LoadCakeList()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void LoadCakeDetails(int cakeId)
@@ -3254,7 +3331,7 @@ namespace FoodandBeverage
                 {
                     var item = list[0];
 
-                    lblcakename.Text= item.CakeType;
+                    lblcakename.Text = item.CakeType;
 
                     // Basic
                     _cakeId = item.PartyPackCakeId;
@@ -3276,9 +3353,12 @@ namespace FoodandBeverage
                     txtcakeremarks.Clear();
                 }
             }
+
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page LoadCakeDetails()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void btncake_Click(object sender, EventArgs e)
@@ -3288,7 +3368,7 @@ namespace FoodandBeverage
             pnlcake.Left = (this.ClientSize.Width - pnlcake.Width) / 2;
             pnlcake.Top = (this.ClientSize.Height - pnlcake.Height) / 2;
 
-            LoadCakeList(); 
+            LoadCakeList();
         }
 
         private void btncakesubmit_Click(object sender, EventArgs e)
@@ -3324,7 +3404,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page LoadAllcakeTotal()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -3333,59 +3415,77 @@ namespace FoodandBeverage
         #region Common
         public void ToggleFirstRow(int mode)
         {
-
-            tlp_textboxes.ColumnCount = 2;
-            tlp_textboxes.ColumnStyles[0].SizeType = SizeType.Percent;
-            tlp_textboxes.ColumnStyles[1].SizeType = SizeType.Percent;
-            tlp_textboxes.ColumnStyles[0].Width = 50;
-            tlp_textboxes.ColumnStyles[1].Width = 50;
-
-            if (mode == 1) 
+            try
             {
-                tlp_textboxes.RowCount = 4;
+                tlp_textboxes.ColumnCount = 2;
+                tlp_textboxes.ColumnStyles[0].SizeType = SizeType.Percent;
+                tlp_textboxes.ColumnStyles[1].SizeType = SizeType.Percent;
+                tlp_textboxes.ColumnStyles[0].Width = 50;
+                tlp_textboxes.ColumnStyles[1].Width = 50;
 
-                for (int i = 0; i < 4; i++)
+                if (mode == 1)
                 {
-                    tlp_textboxes.RowStyles[i].SizeType = SizeType.Percent;
-                    tlp_textboxes.RowStyles[i].Height = 25f;
+                    tlp_textboxes.RowCount = 4;
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        tlp_textboxes.RowStyles[i].SizeType = SizeType.Percent;
+                        tlp_textboxes.RowStyles[i].Height = 25f;
+                    }
+
+                    foreach (Control c in tlp_textboxes.Controls)
+                    {
+                        if (tlp_textboxes.GetRow(c) == 0)
+                            c.Visible = true;
+                    }
                 }
-
-                foreach (Control c in tlp_textboxes.Controls)
+                else
                 {
-                    if (tlp_textboxes.GetRow(c) == 0)
-                        c.Visible = true;
+                    tlp_textboxes.RowStyles[0].Height = 0f;
+
+                    for (int i = 1; i < 4; i++)
+                    {
+                        tlp_textboxes.RowStyles[i].SizeType = SizeType.Percent;
+                        tlp_textboxes.RowStyles[i].Height = 33.33f;
+                    }
+
+                    foreach (Control c in tlp_textboxes.Controls)
+                    {
+                        if (tlp_textboxes.GetRow(c) == 0)
+                            c.Visible = false;
+                    }
                 }
             }
-            else 
+            catch (Exception ex)
             {
-                tlp_textboxes.RowStyles[0].Height = 0f;
-
-                for (int i = 1; i < 4; i++)
-                {
-                    tlp_textboxes.RowStyles[i].SizeType = SizeType.Percent;
-                    tlp_textboxes.RowStyles[i].Height = 33.33f;
-                }
-
-                foreach (Control c in tlp_textboxes.Controls)
-                {
-                    if (tlp_textboxes.GetRow(c) == 0)
-                        c.Visible = false;
-                }
+                clsgen.LogException("Partybooking page ToggleFirstRow()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private string GetCategoryName(int fcid)
         {
-            string categoryName = "";
-            BllSearch<DmnCategory> bll = new BllSearch<DmnCategory>();
-            DmnSearch search = new DmnSearch();
-            search.Select = "CategoryName";
-            search.Table = "tblCategory_FTI";
-            search.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 5 AND Fcid = " + fcid;
-            var list = bll.GetSearchData("prdSearch", search);
-            if (list != null && list.Count > 0)
-                categoryName = Convert.ToString(list[0].CategoryName);
+            try
+            {
+                string categoryName = "";
+                BllSearch<DmnCategory> bll = new BllSearch<DmnCategory>();
+                DmnSearch search = new DmnSearch();
+                search.Select = "CategoryName";
+                search.Table = "tblCategory_FTI";
+                search.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 5 AND Fcid = " + fcid;
+                var list = bll.GetSearchData("prdSearch", search);
+                if (list != null && list.Count > 0)
+                    categoryName = Convert.ToString(list[0].CategoryName);
 
-            return categoryName;
+                return categoryName;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page ToggleFirstRow()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+                return "";
+            }
         }
         private void LoadPackRelatedItems(int partyPackId)
         {
@@ -3421,8 +3521,8 @@ namespace FoodandBeverage
                     row.Cells[pitemno].Value = item.Item;
                     row.Cells[pqtyno].Value = item.Quantity;
 
-                   if (item.MenuCategoryId != null)
-                        row.Cells[pcategmenuno].Value = item.MenuCategoryId;                    
+                    if (item.MenuCategoryId != null)
+                        row.Cells[pcategmenuno].Value = item.MenuCategoryId;
 
                     row.Cells[ppridno].Value = item.Productid;
 
@@ -3437,7 +3537,7 @@ namespace FoodandBeverage
                     row.DefaultCellStyle.BackColor = Color.Gainsboro;
                     row.DefaultCellStyle.ForeColor = Color.Black;
 
-                    DataGridViewImageCell cellcolumntype =  (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
+                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
 
                     cellcolumntype.Value = Blankimage;
                     cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
@@ -3445,7 +3545,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page LoadPackRelatedItems()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -3453,7 +3555,6 @@ namespace FoodandBeverage
         {
             try
             {
-
                 decimal kdata = 0;
                 using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.percentage)))
                 {
@@ -3478,6 +3579,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page btndispanel_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -3487,17 +3591,28 @@ namespace FoodandBeverage
         }
         public void PriceChangecalculation()
         {
-            UpdateTotalGuests();
-            UpdateGrandTotal_Pack();
+            try
+            {
 
-            CalculatePackValues();
 
-            if(Convert.ToDecimal(txtTotalDiscountAmt.Text)>0)
-                CalculateDiscountPer();
-            else
-                CalculateDiscountAmount();
+                UpdateTotalGuests();
+                UpdateGrandTotal_Pack();
 
-            CalculateNetAmount();
+                CalculatePackValues();
+
+                if (Convert.ToDecimal(txtTotalDiscountAmt.Text) > 0)
+                    CalculateDiscountPer();
+                else
+                    CalculateDiscountAmount();
+
+                CalculateNetAmount();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page PriceChangecalculation()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
         private void txtchild_TextChanged(object sender, EventArgs e)
         {
@@ -3734,7 +3849,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show("Error in ClearAll: " + ex.Message);
+                clsgen.LogException("Partybooking page ClearAll()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -3743,69 +3860,109 @@ namespace FoodandBeverage
         #region Reegistartion event And Fuctions
         private void txtph_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r')
-                e.Handled = true;
-
-            if (char.IsControl(e.KeyChar))
-                return;
-
-            if (!char.IsDigit(e.KeyChar))
+            try
             {
-                e.Handled = true;
+                if (e.KeyChar == '\r')
+                    e.Handled = true;
+
+                if (char.IsControl(e.KeyChar))
+                    return;
+
+                if (!char.IsDigit(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page txtph_KeyPress()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
         private void txtph_TextChanged(object sender, EventArgs e)
         {
-            string digitsOnly = new string(txtph.Text.Where(char.IsDigit).ToArray());
-
-            if (txtph.Text != digitsOnly)
-            {
-                int selectionStart = txtph.SelectionStart;
-                txtph.Text = digitsOnly;
-                txtph.SelectionStart = Math.Min(selectionStart, txtph.Text.Length);
-            }
-        }
-        private bool IsValidEmail(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-                return false;
-
             try
             {
+                string digitsOnly = new string(txtph.Text.Where(char.IsDigit).ToArray());
+
+                if (txtph.Text != digitsOnly)
+                {
+                    int selectionStart = txtph.SelectionStart;
+                    txtph.Text = digitsOnly;
+                    txtph.SelectionStart = Math.Min(selectionStart, txtph.Text.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page txtph_TextChanged()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email))
+                    return false;
+
                 return System.Text.RegularExpressions.Regex.IsMatch(
                     email,
                     @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
                     System.Text.RegularExpressions.RegexOptions.IgnoreCase
                 );
             }
-            catch
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page IsValidEmail()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+
                 return false;
             }
         }
 
         private void txtemail_Leave(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtemail.Text))
+            try
             {
-                if (!IsValidEmail(txtemail.Text))
+                if (!string.IsNullOrWhiteSpace(txtemail.Text))
                 {
-                    CMessageBox.Show("Please enter a valid email address");
-                    txtemail.Focus();
+                    if (!IsValidEmail(txtemail.Text))
+                    {
+                        CMessageBox.Show("Please enter a valid email address");
+                        txtemail.Focus();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page txtemail_Leave()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
+
         private void OnlyInteger_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Allow control keys (Backspace, Delete)
-            if (char.IsControl(e.KeyChar))
-                return;
-
-            // Allow only digits
-            if (!char.IsDigit(e.KeyChar))
+            try
             {
-                e.Handled = true;
+                if (char.IsControl(e.KeyChar))
+                    return;
+
+                if (!char.IsDigit(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page OnlyInteger_KeyPress()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -3835,7 +3992,7 @@ namespace FoodandBeverage
 
                     decimal totalAdjustment = bookingItemAdjustments.Sum(a => a.Amount);
 
-                    decimal newNetAmount = lblNet ;
+                    decimal newNetAmount = lblNet;
                     decimal totalPaid = advancePaid + rcvAmt;
 
                     decimal refundAmount = totalPaid - newNetAmount;   // >0 → refund
@@ -3853,7 +4010,7 @@ namespace FoodandBeverage
                     }
 
                     // ✅ 2. REFUND CASE
-                    if (refundRequired )
+                    if (refundRequired)
                     {
                         btnnocharge.Visible = false;
                         btn_other.Visible = false;
@@ -3881,70 +4038,84 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Partybooking page btn_paynow_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
         public bool Mandatorycheck()
         {
-            decimal adultPrice = 0, childPrice = 0;
-            decimal.TryParse(txtAdultPrice.Text, out adultPrice);
-            decimal.TryParse(txtChildPrice.Text, out childPrice);
-
-            if (adultPrice <= 0 && childPrice <= 0)
+            try
             {
-                CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+
+                decimal adultPrice = 0, childPrice = 0;
+                decimal.TryParse(txtAdultPrice.Text, out adultPrice);
+                decimal.TryParse(txtChildPrice.Text, out childPrice);
+
+                if (adultPrice <= 0 && childPrice <= 0)
+                {
+                    CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                // Check Name
+                if (string.IsNullOrWhiteSpace(txtname.Text))
+                {
+                    CMessageBox.Show("Please enter Name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtname.Focus();
+                    return false;
+                }
+
+                // Check Phone
+                if (string.IsNullOrWhiteSpace(txtph.Text))
+                {
+                    CMessageBox.Show("Please enter Phone Number", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtph.Focus();
+                    return false;
+                }
+
+                string phone = txtph.Text.Trim();
+                if (phone.Length < 10)
+                {
+                    CMessageBox.Show("Phone Number must be at least 10 digits", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtph.Focus();
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(cmbevent.Text))
+                {
+                    CMessageBox.Show("Please select an Event Type", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbevent.Focus();
+                    return false;
+                }
+
+                int adults = GetInt(txtAdults);
+                int children = GetInt(txtChild);
+
+                if (adults == 0 && children == 0)
+                {
+                    CMessageBox.Show("Please enter number of attendees (Adults or Children)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtAdults.Focus();
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page btn_paynow_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
                 return false;
             }
-
-            // Check Name
-            if (string.IsNullOrWhiteSpace(txtname.Text))
-            {
-                CMessageBox.Show("Please enter Name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtname.Focus();
-                return false;
-            }
-
-            // Check Phone
-            if (string.IsNullOrWhiteSpace(txtph.Text))
-            {
-                CMessageBox.Show("Please enter Phone Number", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtph.Focus();
-                return false;
-            }
-
-            string phone = txtph.Text.Trim();
-            if (phone.Length < 10)
-            {
-                CMessageBox.Show("Phone Number must be at least 10 digits", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtph.Focus();
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(cmbevent.Text))
-            {
-                CMessageBox.Show("Please select an Event Type", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbevent.Focus();
-                return false;
-            }
-
-            int adults = GetInt(txtAdults);
-            int children = GetInt(txtChild);
-
-            if (adults == 0 && children == 0)
-            {
-                CMessageBox.Show("Please enter number of attendees (Adults or Children)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtAdults.Focus();
-                return false;
-            }
-
-            return true;
         }
         public void PaymentProcess()
         {
             try
             {
-              
+
                 decimal rcvAmt = 0;
                 decimal.TryParse(txtRcvAmt.Text, out rcvAmt);
 
@@ -3985,66 +4156,17 @@ namespace FoodandBeverage
                 pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
                 pnlPaymode.Top = (this.ClientSize.Height - pnlPaymode.Height) / 2;
             }
+
             catch (Exception ex)
             {
-                
+                clsgen.LogException("Partybooking page PaymentProcess()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+
             }
         }
 
-        private void txtRcvAmt_Click(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    decimal typedAmount = 0;
 
-            //    using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReason)))
-            //    {
-            //        frm.ShowDialog();
-
-            //        if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
-            //            typedAmount = Convert.ToDecimal(frm.txtkeypadvalue.Text);
-            //    }
-
-            //    if (typedAmount <= 0)
-            //    {
-            //        CMessageBox.Show("Please enter a valid received amount", "Validation",
-            //            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //        txtRcvAmt.Focus();
-            //        return;
-            //    }
-
-            //    decimal netAmt = Convert.ToDecimal(lblNetAmt.Text);
-
-            //    txtRcvAmt.Text = typedAmount.ToString("N2");
-
-            //    decimal totalAdvance = dbAdvanceAmount+ typedAmount;
-
-            //    if (totalAdvance < netAmt)
-            //    {
-            //        if(dbAdvanceAmount > 0 )
-            //        {
-            //            AdvanceFlag = true;
-            //            ToggleFirstRow(1);
-            //        }
-            //        else
-            //            AdvanceFlag = false;
-            //        //lbladvamtdata.Text = totalAdvance.ToString("N2");
-            //        lblBalAmt.Text = (netAmt - totalAdvance).ToString("N2");
-            //    }
-            //    else
-            //    {
-            //        AdvanceFlag = false;
-            //        ToggleFirstRow(0);
-            //        //lbladvamtdata.Text = netAmt.ToString("N2");
-            //        lblBalAmt.Text = "0.00";
-            //    }
-
-            //    textb_shape();
-            //}
-            //catch
-            //{
-            //}
-        }
 
         private void btncash_Click(object sender, EventArgs e)
         {
@@ -4076,10 +4198,14 @@ namespace FoodandBeverage
                         break;
                 }
                 Paybill();
-                
+
             }
+
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page btncash_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -4117,12 +4243,13 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-
-                clsgen.LogException("Order page  setperfixsale()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Partybooking page setperfixsale()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
-        public  void Paybill()
+        public void Paybill()
         {
             try
             {
@@ -4761,10 +4888,13 @@ namespace FoodandBeverage
                 ClearAll();
 
                 #endregion
-               
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page Paybill()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -4796,9 +4926,9 @@ namespace FoodandBeverage
                 netbanking_part.Enabled = true;
                 midas_part.Enabled = true;
 
-                if(Fullpaymentflag)
+                if (Fullpaymentflag)
                 {
-                    decimal pdamt = 0,remainingAmount = 0,balance = 0;
+                    decimal pdamt = 0, remainingAmount = 0, balance = 0;
 
                     decimal alreadyPaid = dbAdvanceAmount;
 
@@ -4821,8 +4951,11 @@ namespace FoodandBeverage
                 }
 
             }
-            catch(Exception)
-            { 
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page btn_other_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -4852,17 +4985,17 @@ namespace FoodandBeverage
                 var gridesource = bllSearch.GetSearchData("prdSearch", search);
                 if (gridesource.Count == 0)
                 {
-                    CMessageBox.Show("No Records");;
+                    CMessageBox.Show("No Records"); ;
                     return;
                 }
-                    using (var frm = new FrmSearch<DmnGridFields>(
-                    search,
-                    SearchMode.FirstCharacter,
-                    this.Width - 300,
-                    this.Height - 300,
-                    this.Location.Y + 50,
-                    this.Location.X + 20,
-                    null))
+                using (var frm = new FrmSearch<DmnGridFields>(
+                search,
+                SearchMode.FirstCharacter,
+                this.Width - 300,
+                this.Height - 300,
+                this.Location.Y + 50,
+                this.Location.X + 20,
+                null))
                 {
                     if (frm.ShowDialog() == DialogResult.OK)
                     {
@@ -4891,9 +5024,12 @@ namespace FoodandBeverage
 
                 SetupGuestControls();
             }
+
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page btnSearch_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -4917,8 +5053,11 @@ namespace FoodandBeverage
 
                 return totalPaid;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page GetTotalPaidAmount()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
                 return 0;
             }
         }
@@ -4980,14 +5119,18 @@ namespace FoodandBeverage
                     }
                 }
             }
-            catch (Exception)
+
+            catch (Exception ex)
             {
-                totalAdvanceAmount = 0;
+                clsgen.LogException("Partybooking page GettotaladvanceAmount()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+                return 0;
             }
 
             return totalAdvanceAmount;
         }
-        private void LoadBookingMaster(int bookingId,int packid)
+        private void LoadBookingMaster(int bookingId, int packid)
         {
             try
             {
@@ -5075,7 +5218,7 @@ namespace FoodandBeverage
                 txtTotalTaxAmount.Text = result.TaxAmount.ToString();
 
                 txtextracharge_amt.Text = Convert.ToString(result.AdditionalChargeAmt);
-                txtextracharge_des.Text =result.AdditionalChargeDescription;
+                txtextracharge_des.Text = result.AdditionalChargeDescription;
                 txtaddcharge.Text = Convert.ToString(result.AdditionalChargeAmt);
 
                 decimal netAmt = result.NetAmount;
@@ -5122,16 +5265,20 @@ namespace FoodandBeverage
 
                 if (result.BookingDateTime != DateTime.MinValue)
                 {
-                    dtpEventDate.Value = result.BookingDateTime.Date;        
-                    dtpEventTime.Value = DateTime.Today.Add(result.BookingDateTime.TimeOfDay); 
+                    dtpEventDate.Value = result.BookingDateTime.Date;
+                    dtpEventTime.Value = DateTime.Today.Add(result.BookingDateTime.TimeOfDay);
                 }
 
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
 
                 PriceChangecalculation();
             }
+
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page GettotaladvanceAmount()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -5190,7 +5337,7 @@ namespace FoodandBeverage
                     row.DefaultCellStyle.ForeColor = Color.Black;
 
 
-                    DataGridViewImageCell cellcolumntype =(DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
+                    DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
                     cellcolumntype.Value = Blankimage;
                     cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                 }
@@ -5231,7 +5378,7 @@ namespace FoodandBeverage
                            (item.ProductType == (int)PackItemType.Cake ||
                             item.ProductType == (int)PackItemType.Card ||
                             item.ProductType == (int)PackItemType.Gift ||
-                            item.ProductType == (int)PackItemType.ExtraChargeProduct ))
+                            item.ProductType == (int)PackItemType.ExtraChargeProduct))
                         {
                             int rowIndex = dgv_product.Rows.Add();
 
@@ -5280,7 +5427,7 @@ namespace FoodandBeverage
                             row.Cells[psaledetailidno].Value = item.SalesDetailsId;
                             row.Cells[psalemasteridno].Value = item.SalesMasterId;
 
-                            DataGridViewImageCell cell =(DataGridViewImageCell)row.Cells[pactionno];
+                            DataGridViewImageCell cell = (DataGridViewImageCell)row.Cells[pactionno];
                             cell.Value = Grid_Remove;
                             cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                         }
@@ -5289,13 +5436,17 @@ namespace FoodandBeverage
 
                     }
                 }
-              
+
                 #endregion
 
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page LoadDefaultPackAndBookingItems()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
+
         }
         #endregion
 
@@ -5312,9 +5463,12 @@ namespace FoodandBeverage
                 }
 
             }
+
             catch (Exception ex)
             {
-                clsgen.LogException("Product page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Partybooking page textb_shape()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
@@ -5335,8 +5489,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Product page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Partybooking page ApplyRoundedTextBox()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -5345,18 +5500,29 @@ namespace FoodandBeverage
         #region Split Payment
         private void btnPartRefresh_Click(object sender, EventArgs e)
         {
-            lblpartpayment1.Text = "Payment 1";
-            lblpartAmt2.Text = "Payment 2";
-            lblpartAmt1.Text = "0.00";
-            lblpartAmt2.Text = "0.00";
-            lblPartBalAmt.Text = lblPartNetAmt.Text;
-            btnPartPaynow.Visible = false;
-            cash_part.Enabled = true;
-            Debit_part.Enabled = true;
-            credit_part.Enabled = true;
-            netbanking_part.Enabled = true;
-            midas_part.Enabled = true;
-            upi_part.Enabled = true;
+            try
+            {
+
+
+                lblpartpayment1.Text = "Payment 1";
+                lblpartAmt2.Text = "Payment 2";
+                lblpartAmt1.Text = "0.00";
+                lblpartAmt2.Text = "0.00";
+                lblPartBalAmt.Text = lblPartNetAmt.Text;
+                btnPartPaynow.Visible = false;
+                cash_part.Enabled = true;
+                Debit_part.Enabled = true;
+                credit_part.Enabled = true;
+                netbanking_part.Enabled = true;
+                midas_part.Enabled = true;
+                upi_part.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page btnPartRefresh_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
         private void btnPartPaynow_Click(object sender, EventArgs e)
         {
@@ -5445,10 +5611,11 @@ namespace FoodandBeverage
 
                 }
             }
-
             catch (Exception ex)
             {
-                clsgen.LogException("POSDashboard page cash_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Partybooking page cash_part_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
 
         }
@@ -5540,7 +5707,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                clsgen.LogException("POSDashboard page Debit_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Partybooking page Debit_part_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
 
         }
@@ -5587,9 +5756,6 @@ namespace FoodandBeverage
                         decimal balAmt = currentBalance - amt2;
                         lblPartBalAmt.Text = balAmt.ToString();
                     }
-
-
-
                 }
                 else if (partCount == 1)
                 {
@@ -5632,10 +5798,11 @@ namespace FoodandBeverage
 
                 }
             }
-
             catch (Exception ex)
             {
-                clsgen.LogException("POSDashboard page upi_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Partybooking page upi_part_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
 
         }
@@ -5721,10 +5888,11 @@ namespace FoodandBeverage
 
                 }
             }
-
             catch (Exception ex)
             {
-                clsgen.LogException("POSDashboard page netbanking_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Partybooking page netbanking_part_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
 
         }
@@ -5812,10 +5980,11 @@ namespace FoodandBeverage
 
                 }
             }
-
             catch (Exception ex)
             {
-                clsgen.LogException("POSDashboard page credit_part_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Partybooking page credit_part_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
 
         }
@@ -5860,7 +6029,7 @@ namespace FoodandBeverage
                 pnl_bookingcancel.Left = (this.ClientSize.Width - pnl_bookingcancel.Width) / 2;
                 pnl_bookingcancel.Top = (this.ClientSize.Height - pnl_bookingcancel.Height) / 2;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
         }
@@ -5889,12 +6058,15 @@ namespace FoodandBeverage
 
                 txtrefundamt.Text = typedAmount.ToString("N2");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page txtrefundamt_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
-        private void ProcessPartyBookingRefund(int  refundMode)
+        private void ProcessPartyBookingRefund(int refundMode)
         {
             try
             {
@@ -5934,8 +6106,11 @@ namespace FoodandBeverage
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page ProcessPartyBookingRefund()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -5994,9 +6169,11 @@ namespace FoodandBeverage
                     CMessageBox.Show("Void Failed");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                clsgen.LogException("Partybooking page btn_bookingvoid_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         #endregion
@@ -6004,14 +6181,25 @@ namespace FoodandBeverage
         #region Main Datagridview 
         private void dgv_product_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dgv_product.CurrentCell.ColumnIndex == pqtyno) 
+            try
             {
-                TextBox tb = e.Control as TextBox;
-                if (tb != null)
+
+
+                if (dgv_product.CurrentCell.ColumnIndex == pqtyno)
                 {
-                    tb.KeyPress -= QuantityColumn_KeyPress;
-                    tb.KeyPress += QuantityColumn_KeyPress;
+                    TextBox tb = e.Control as TextBox;
+                    if (tb != null)
+                    {
+                        tb.KeyPress -= QuantityColumn_KeyPress;
+                        tb.KeyPress += QuantityColumn_KeyPress;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page dgv_product_EditingControlShowing()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -6024,21 +6212,33 @@ namespace FoodandBeverage
         }
         private void dgv_product_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (dgv_product.CurrentCell == null) return;
-
-            int qtyCol = pqtyno; 
-            if (dgv_product.CurrentCell.ColumnIndex == qtyCol)
+            try
             {
-                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+
+
+                if (dgv_product.CurrentCell == null) return;
+
+                int qtyCol = pqtyno;
+                if (dgv_product.CurrentCell.ColumnIndex == qtyCol)
                 {
-                    e.Handled = true;
-                }
-                if (e.KeyChar == '.' && dgv_product.CurrentCell.Value != null && dgv_product.CurrentCell.Value.ToString().Contains("."))
-                {
-                    e.Handled = true;
+                    if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+                    {
+                        e.Handled = true;
+                    }
+                    if (e.KeyChar == '.' && dgv_product.CurrentCell.Value != null && dgv_product.CurrentCell.Value.ToString().Contains("."))
+                    {
+                        e.Handled = true;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page dgv_product_KeyPress()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
+
         private void dgv_product_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -6165,15 +6365,15 @@ namespace FoodandBeverage
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page dgv_product_CellClick()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
-        private void dgv_product_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-           
-        }
+
 
         #endregion
 
@@ -6196,9 +6396,13 @@ namespace FoodandBeverage
                 {
                     Paybill();
                 }
+
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page btn_paynow_ref_add_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -6224,21 +6428,31 @@ namespace FoodandBeverage
         }
         private void LoadAdjustmentGrid()
         {
-            dgv_cancelleditems.Rows.Clear();
-
-            int sl = 1;
-
-            foreach (var item in bookingItemAdjustments)
+            try
             {
-                dgv_cancelleditems.Rows.Add(
-                    sl,
-                    item.Product,
-                    item.ProductCategory,
-                    item.Qty,
-                    item.Price
-                );
+                dgv_cancelleditems.Rows.Clear();
 
-                sl++;
+                int sl = 1;
+
+                foreach (var item in bookingItemAdjustments)
+                {
+                    dgv_cancelleditems.Rows.Add(
+                        sl,
+                        item.Product,
+                        item.ProductCategory,
+                        item.Qty,
+                        item.Price
+                    );
+
+                    sl++;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page LoadAdjustmentGrid()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -6281,7 +6495,7 @@ namespace FoodandBeverage
                 pnl_ref_ad_msg.Visible = false;
                 dgv_cancelleditems.Visible = false;
 
-                decimal totalPaid = advancePaid + paymentReceived ;
+                decimal totalPaid = advancePaid + paymentReceived;
                 decimal diff = netAmount - totalPaid;
 
                 // 🔹 COLOR INDICATOR
@@ -6323,7 +6537,7 @@ namespace FoodandBeverage
                     lbl_paymentsubhead.Text = "Refund Required";
 
                     lbl_sum_adjamt.Text = diff.ToString("0.00");
-                    lbl_sum_revamt.Text = "0.00"; 
+                    lbl_sum_revamt.Text = "0.00";
                     lbl_sum_dueamt.Text = "0.00";
 
                     pnl_ref_ad_msg.Visible = true;
@@ -6366,6 +6580,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page ShowPaymentSettlementPanel()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -6375,7 +6592,7 @@ namespace FoodandBeverage
 
         public void ResetDiscount()
         {
-            txtTotalDiscountAmt.Text="0";
+            txtTotalDiscountAmt.Text = "0";
             discountper.Text = "0";
             PriceChangecalculation();
         }
@@ -6479,7 +6696,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page CalculateAndApplyTax()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void RecalculateAllRowsAndTotals()
@@ -6628,7 +6847,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page RecalculateAllRowsAndTotals()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         public void CalculateNetAmount()
@@ -6729,7 +6950,7 @@ namespace FoodandBeverage
             {
                 clsgen.LogException("PartyBooking - CalculateNetAmount()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Order));
+                    Convert.ToInt32(FormType.Partybooking));
             }
             finally
             {
@@ -6741,7 +6962,7 @@ namespace FoodandBeverage
             try
             {
                 decimal grandTotal = 0;
-                decimal packTotal = 0,discounttotal=0;
+                decimal packTotal = 0, discounttotal = 0;
                 decimal.TryParse(txtGrandTotal_pack.Text, out packTotal);
                 decimal.TryParse(txtTotalDiscountAmt.Text, out discounttotal);
                 grandTotal += packTotal;
@@ -6779,7 +7000,7 @@ namespace FoodandBeverage
                 grandTotal += cardTotal + giftTotal + cakeTotal + addcharge;
                 if (discounttotal > 0)
                 {
-                    originalGrandTotal = grandTotal-discounttotal;
+                    originalGrandTotal = grandTotal - discounttotal;
                 }
                 else
                 {
@@ -6791,7 +7012,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Partybooking page GetGrandTotal_All()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -6843,9 +7066,9 @@ namespace FoodandBeverage
                 if (!found)
                 {
                     if (cmbIgstPrcnt.Items.Count > 0)
-                        cmbIgstPrcnt.SelectedIndex = 0; 
+                        cmbIgstPrcnt.SelectedIndex = 0;
                     else
-                        cmbIgstPrcnt.SelectedIndex = -1; 
+                        cmbIgstPrcnt.SelectedIndex = -1;
                 }
             }
             catch (Exception ex)
@@ -6853,7 +7076,7 @@ namespace FoodandBeverage
                 clsgen.LogException("SetDefaultIGST()", ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Partypacksetup));
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void btn_ecclose_Click(object sender, EventArgs e)
@@ -6892,7 +7115,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Product page Taxfill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Partybooking page Taxfill()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
@@ -6918,7 +7143,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partypacksetup page cmbIgstPrcnt_cake_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                clsgen.LogException("Partybooking page cmbIgstPrcnt_SelectedIndexChanged()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -6983,71 +7210,81 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                clsgen.LogException(
-                    "Cake setup page cmbTaxType_cake_SelectionChangeCommitted()",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Partypacksetup));
+                clsgen.LogException("Partybooking page cmbTaxType_SelectedValueChanged()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private bool ValidateExtraCharge()
         {
-            // Description
-            if (string.IsNullOrWhiteSpace(txtextracharge_des.Text))
+            try
             {
-                CMessageBox.Show("Please enter Description", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtextracharge_des.Focus();
-                return false;
-            }
-            // Amount
-            decimal amt;
-            if (string.IsNullOrWhiteSpace(txtextracharge_amt.Text) ||
-                !decimal.TryParse(txtextracharge_amt.Text, out amt) || amt <= 0)
-            {
-                CMessageBox.Show("Please enter valid Extra Charge Amount", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtextracharge_amt.Focus();
-                return false;
-            }
 
-            // Tax Mode (Inclusive / Exclusive)
-            if (cmbtax.SelectedIndex < 0)
-            {
-                CMessageBox.Show("Please select Tax Mode (Inclusive / Exclusive)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbtax.Focus();
-                return false;
-            }
 
-            // Tax Type
-            if (cmbTaxType.SelectedIndex < 0)
-            {
-                CMessageBox.Show("Please select Tax Type (GST / VAT)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbTaxType.Focus();
-                return false;
-            }    
 
-            string taxType = cmbTaxType.Text.ToUpper();
-
-            if (taxType == "GST")
-            {
-                if (cmbIgstPrcnt.SelectedIndex <= 0)
+                // Description
+                if (string.IsNullOrWhiteSpace(txtextracharge_des.Text))
                 {
-                    CMessageBox.Show("Please select IGST %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cmbIgstPrcnt.Focus();
+                    CMessageBox.Show("Please enter Description", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtextracharge_des.Focus();
                     return false;
                 }
-            }
-            else if (taxType == "VAT")
-            {
-                if (cmbVatPrcnt.SelectedIndex <= 0)
+                // Amount
+                decimal amt;
+                if (string.IsNullOrWhiteSpace(txtextracharge_amt.Text) ||
+                    !decimal.TryParse(txtextracharge_amt.Text, out amt) || amt <= 0)
                 {
-                    CMessageBox.Show("Please select VAT %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cmbVatPrcnt.Focus();
+                    CMessageBox.Show("Please enter valid Extra Charge Amount", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtextracharge_amt.Focus();
                     return false;
                 }
-            }
 
-            return true;
+                // Tax Mode (Inclusive / Exclusive)
+                if (cmbtax.SelectedIndex < 0)
+                {
+                    CMessageBox.Show("Please select Tax Mode (Inclusive / Exclusive)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbtax.Focus();
+                    return false;
+                }
+
+                // Tax Type
+                if (cmbTaxType.SelectedIndex < 0)
+                {
+                    CMessageBox.Show("Please select Tax Type (GST / VAT)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbTaxType.Focus();
+                    return false;
+                }
+
+                string taxType = cmbTaxType.Text.ToUpper();
+
+                if (taxType == "GST")
+                {
+                    if (cmbIgstPrcnt.SelectedIndex <= 0)
+                    {
+                        CMessageBox.Show("Please select IGST %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cmbIgstPrcnt.Focus();
+                        return false;
+                    }
+                }
+                else if (taxType == "VAT")
+                {
+                    if (cmbVatPrcnt.SelectedIndex <= 0)
+                    {
+                        CMessageBox.Show("Please select VAT %", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cmbVatPrcnt.Focus();
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page ValidateExtraCharge()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+                return false;
+            }
         }
 
 
@@ -7096,7 +7333,7 @@ namespace FoodandBeverage
                 row.Cells[pPrice].Value = amt;
                 row.Cells[pAmount].Value = amt;
 
-                row.Cells[pProductid].Value = 0; 
+                row.Cells[pProductid].Value = 0;
                 row.Cells[pmessageno].Value = "";
                 row.Cells[premarksno].Value = "";
 
@@ -7133,19 +7370,32 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partybooking page btn_ec_submit_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
         private void ResetExtraChargeFields()
         {
-            txtextracharge_amt.Text = "";
-            txtextracharge_des.Text = "";
-            cmbTaxType.SelectedIndex = 0;
-            cmbtax.SelectedIndex = 0;
-            cmbIgstPrcnt.SelectedIndex = -1;
-            cmbVatPrcnt.SelectedIndex = -1;
-            SetDefaultIGST();
+            try
+            {
+
+
+                txtextracharge_amt.Text = "";
+                txtextracharge_des.Text = "";
+                cmbTaxType.SelectedIndex = 0;
+                cmbtax.SelectedIndex = 0;
+                cmbIgstPrcnt.SelectedIndex = -1;
+                cmbVatPrcnt.SelectedIndex = -1;
+                SetDefaultIGST();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page ResetExtraChargeFields()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
 
         private void btnrefund_Click(object sender, EventArgs e)
@@ -7173,8 +7423,11 @@ namespace FoodandBeverage
 
                 ShowPaymentSettlementPanel(lblNet, advancePaid, rcvAmt, refundAmount);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page btnrefund_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -7202,6 +7455,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page dgv_product_CellEndEdit_1()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -7416,39 +7672,51 @@ namespace FoodandBeverage
                     row.Cells[selecteditemqtyno].Value = kdata;
                 }
             }
-            
+
         }
 
         private void txtextracharge_amt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox txt = sender as TextBox;
+            try
+            {
 
 
-            if (char.IsControl(e.KeyChar))
-            {
-                return;
-            }
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-                return;
-            }
-            if (e.KeyChar == '.' && txt.Text.Contains("."))
-            {
-                e.Handled = true;
-                return;
-            }
-            if (txt.Text.Contains("."))
-            {
-                int index = txt.Text.IndexOf(".");
-                string decimals = txt.Text.Substring(index + 1);
+                TextBox txt = sender as TextBox;
 
-                if (txt.SelectionStart > index && decimals.Length >= 2)
+
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+                if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
                 {
                     e.Handled = true;
                     return;
                 }
+                if (e.KeyChar == '.' && txt.Text.Contains("."))
+                {
+                    e.Handled = true;
+                    return;
+                }
+                if (txt.Text.Contains("."))
+                {
+                    int index = txt.Text.IndexOf(".");
+                    string decimals = txt.Text.Substring(index + 1);
+
+                    if (txt.SelectionStart > index && decimals.Length >= 2)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page txtextracharge_amt_KeyPress()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+
         }
 
         #endregion
@@ -7460,38 +7728,49 @@ namespace FoodandBeverage
         }
         private void btn_fullpayment_Click(object sender, EventArgs e)
         {
-            pnl_PaymentOptions.Visible = false;
-
-            decimal rcvAmt = 0;
-            decimal.TryParse(txtRcvAmt.Text, out rcvAmt);
-            decimal totalAdjustment = bookingItemAdjustments.Sum(a => a.Amount);
-            decimal lblNet = decimal.TryParse(lblNetAmt.Text, out decimal na) ? na : 0;
-
-            if (!string.IsNullOrEmpty(txtpartybookingid.Text) &&
-                int.TryParse(txtpartybookingid.Text, out int bookingId) &&
-                bookingId > 0 && dbNetAmount < lblNet)
+            try
             {
 
-                decimal advancePaid = decimal.TryParse(lbladvamtdata.Text, out decimal aa) ? aa : 0;
 
-                decimal newNetAmount = lblNet + totalAdjustment;
-                decimal totalPaid = advancePaid + rcvAmt;
+                pnl_PaymentOptions.Visible = false;
 
-                if (totalPaid < newNetAmount)
+                decimal rcvAmt = 0;
+                decimal.TryParse(txtRcvAmt.Text, out rcvAmt);
+                decimal totalAdjustment = bookingItemAdjustments.Sum(a => a.Amount);
+                decimal lblNet = decimal.TryParse(lblNetAmt.Text, out decimal na) ? na : 0;
+
+                if (!string.IsNullOrEmpty(txtpartybookingid.Text) &&
+                    int.TryParse(txtpartybookingid.Text, out int bookingId) &&
+                    bookingId > 0 && dbNetAmount < lblNet)
                 {
-                    ShowPaymentSettlementPanel(lblNet, advancePaid, rcvAmt, 0);
-                    return;
+
+                    decimal advancePaid = decimal.TryParse(lbladvamtdata.Text, out decimal aa) ? aa : 0;
+
+                    decimal newNetAmount = lblNet + totalAdjustment;
+                    decimal totalPaid = advancePaid + rcvAmt;
+
+                    if (totalPaid < newNetAmount)
+                    {
+                        ShowPaymentSettlementPanel(lblNet, advancePaid, rcvAmt, 0);
+                        return;
+                    }
                 }
+
+                Fullpaymentflag = true;
+                pnl_PaymentOptions.Visible = false;
+
+                pnlPaymode.Visible = true;
+                pnlPaymode.BringToFront();
+
+                pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
+                pnlPaymode.Top = (this.ClientSize.Height - pnlPaymode.Height) / 2;
             }
-
-            Fullpaymentflag = true;
-            pnl_PaymentOptions.Visible = false;
-
-            pnlPaymode.Visible = true;
-            pnlPaymode.BringToFront();
-
-            pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
-            pnlPaymode.Top = (this.ClientSize.Height - pnlPaymode.Height) / 2;
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page btn_fullpayment_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
 
         private void btn_advance_Click(object sender, EventArgs e)
@@ -7565,8 +7844,11 @@ namespace FoodandBeverage
                 pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
                 pnlPaymode.Top = (this.ClientSize.Height - pnlPaymode.Height) / 2;
             }
-            catch
+            catch (Exception ex)
             {
+                clsgen.LogException("Partybooking page btn_advance_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
 
@@ -7644,7 +7926,9 @@ namespace FoodandBeverage
             }
             catch (Exception ex)
             {
-                clsgen.LogException(" page ShowKeyboard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Partybooking page ShowKeyboard()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         #endregion

@@ -721,17 +721,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-
-        private void rb_pos_CheckedChanged(object sender, EventArgs e)
-        {
-         FillData();            
-        }
-
-        private void rb_reg_CheckedChanged(object sender, EventArgs e)
-        {
-                FillData();
-        }
-
         private void txtSearchBox_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode==Keys.Enter)
