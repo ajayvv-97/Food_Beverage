@@ -81,7 +81,7 @@ namespace FoodandBeverage.Forms
             public int Id { get; set; }
             public string Name { get; set; }
             public int Type { get; set; }
-            public string Category { get; set; }  
+            public string Category { get; set; }
         }
 
         List<SelectedCardItem> selectedCardItems = new List<SelectedCardItem>();
@@ -192,23 +192,33 @@ namespace FoodandBeverage.Forms
                 cmbtax_cake.SelectedIndex = 0;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partypacksetup page  FrmPartyPackSetup_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
         private bool HasEmptyRow()
         {
-            foreach (DataGridViewRow row in dgv_packs_default.Rows)
+            try
             {
-                if (row.IsNewRow) continue;
+                foreach (DataGridViewRow row in dgv_packs_default.Rows)
+                {
+                    if (row.IsNewRow) continue;
 
-                var val = row.Cells[Ritemno].Value;
+                    var val = row.Cells[Ritemno].Value;
 
-                if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
-                    return true;
+                    if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
+                        return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  HasEmptyRow()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                return false;
+            }
+
         }
 
         public void Taxfill()
@@ -251,8 +261,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Product page Taxfill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Partypacksetup page Taxfill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void LoadMenuCategory()
@@ -273,13 +282,14 @@ namespace FoodandBeverage.Forms
 
                 cmb.DataSource = categoryList;
                 cmb.DisplayMember = "CategoryName";
-                cmb.ValueMember = "Fcid";     
-                
+                cmb.ValueMember = "Fcid";
+
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  LoadMenuCategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
         }
         private void LoadMenuCategory_Cutom()
         {
@@ -306,8 +316,9 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("Partypacksetup page  LoadMenuCategory_Cutom()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
         }
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -352,14 +363,14 @@ namespace FoodandBeverage.Forms
                     //row1
                     tlp_registration.Controls.Add(lbligst, 3, 3);
                     tlp_registration.Controls.Add(lblcgst, 0, 5);
-                    tlp_registration.Controls.Add(lblsgst, 1, 5); 
+                    tlp_registration.Controls.Add(lblsgst, 1, 5);
 
                     //row2
                     tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 4);
                     tlp_registration.Controls.Add(txtCgstPrcnt, 0, 6);
                     tlp_registration.Controls.Add(txtSgstPrcnt, 1, 6);
 
-               
+
                     tlp_registration.Controls.Add(lblminadvamt, 2, 5);
                     tlp_registration.Controls.Add(txtminadvamt, 2, 6);
 
@@ -388,7 +399,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CCMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Partypacksetup page cmbTaxType_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
@@ -415,7 +425,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CCMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Partypacksetup page cmbIgstPrcnt_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
@@ -473,7 +482,7 @@ namespace FoodandBeverage.Forms
 
                 #region Package Time (24-Hour Enforced)
 
-                string[] days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+                string[] days = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
                 CheckBox[] chkDays =
                                 {
                     chk_sunday,
@@ -509,11 +518,11 @@ namespace FoodandBeverage.Forms
                         CreatedDateTime = DateTime.Now
                     };
 
-                    bool saveStatus = bllPackTime.AddEditPackageWorkTime("PrdInsert_Upd_PackageWorkTime",dmnPackTime);
+                    bool saveStatus = bllPackTime.AddEditPackageWorkTime("PrdInsert_Upd_PackageWorkTime", dmnPackTime);
 
                     if (!saveStatus)
                     {
-                        CMessageBox.Show($"Failed to save package time for {days[i - 1]}","Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        CMessageBox.Show($"Failed to save package time for {days[i - 1]}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
@@ -721,7 +730,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  btnsave_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         public bool MandatoryCheck_PartyPack()
@@ -825,7 +834,7 @@ namespace FoodandBeverage.Forms
                 txtchildprice.Text = "";
                 txtDiscAmnt.Text = "";
                 txtDisPer.Text = "";
-                
+
                 cmbtax.SelectedIndex = 0;
                 cmbTaxType.SelectedIndex = 0;
                 cmbIgstPrcnt.SelectedIndex = 0;
@@ -894,38 +903,45 @@ namespace FoodandBeverage.Forms
         }
         private void dgv_packs_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (Loaddetailsflag) return;
-
-            if (e.RowIndex < 0) return;
-
-            if (e.ColumnIndex == Ritemno)
+            try
             {
-                var row = dgv_packs_default.Rows[e.RowIndex];
-                var value = row.Cells[Ritemno].Value;
+                if (Loaddetailsflag) return;
 
-                if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
+                if (e.RowIndex < 0) return;
+
+                if (e.ColumnIndex == Ritemno)
                 {
-                    // ✅ Default Qty
-                    var qtyCell = row.Cells[Rqtyno];
+                    var row = dgv_packs_default.Rows[e.RowIndex];
+                    var value = row.Cells[Ritemno].Value;
 
-                    if (qtyCell.Value == null ||
-                        string.IsNullOrWhiteSpace(qtyCell.Value.ToString()) ||
-                        Convert.ToInt32(qtyCell.Value) == 0)
+                    if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
                     {
-                        qtyCell.Value = 1;
-                    }
+                        // ✅ Default Qty
+                        var qtyCell = row.Cells[Rqtyno];
 
-                    bool isLastRow = e.RowIndex == dgv_packs_default.Rows.Count - 1;
+                        if (qtyCell.Value == null ||
+                            string.IsNullOrWhiteSpace(qtyCell.Value.ToString()) ||
+                            Convert.ToInt32(qtyCell.Value) == 0)
+                        {
+                            qtyCell.Value = 1;
+                        }
 
-                    if (isLastRow && !HasEmptyRow())
-                    {
-                        int rowi=dgv_packs_default.Rows.Add();
-                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs_default.Rows[rowi].Cells[Ractionno];
-                        cellcolumntype.Value = Grid_Remove;
-                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        bool isLastRow = e.RowIndex == dgv_packs_default.Rows.Count - 1;
+
+                        if (isLastRow && !HasEmptyRow())
+                        {
+                            int rowi = dgv_packs_default.Rows.Add();
+                            DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs_default.Rows[rowi].Cells[Ractionno];
+                            cellcolumntype.Value = Grid_Remove;
+                            cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        }
+                        RefreshSlNo();
                     }
-                    RefreshSlNo();
                 }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  dgv_packs_CellValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void btnSearch_Click(object sender, EventArgs e)
@@ -978,7 +994,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void FillData(int id)
@@ -1016,10 +1032,10 @@ namespace FoodandBeverage.Forms
 
                     btn_del_pack.Visible = true;
 
-                    LoadGiftProducts();                
-                    LoadCardProducts("ALL");  
-                    
-                    LoadPackDetails(id);               
+                    LoadGiftProducts();
+                    LoadCardProducts("ALL");
+
+                    LoadPackDetails(id);
                     ApplyCardSelectionToGrid();
 
                     textb_shape();
@@ -1027,7 +1043,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  FillData()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void LoadPackageWorkTime(int branchId)
@@ -1078,7 +1094,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  LoadPackageWorkTime()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void LoadPackDetails(int packId = 0)
@@ -1172,41 +1188,49 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  LoadPackDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
             finally
             {
                 Loaddetailsflag = false;
             }
+
         }
         private void ApplyCardSelectionToGrid()
         {
-            foreach (DataGridViewRow row in dgv_card.Rows)
+            try
             {
-                if (row.IsNewRow) continue;
-
-                int productId = 0;
-                int.TryParse(row.Cells[CardProductid].Value?.ToString(), out productId);
-
-                var selected = selectedCardItems.FirstOrDefault(x => x.ProductId == productId);
-
-                if (selected != null)
+                foreach (DataGridViewRow row in dgv_card.Rows)
                 {
-                    row.Cells[Cardselectno].Value = true;
-                    row.Cells[Cardqtyno].Value = selected.Qty;
-                    row.Cells[CardPartyPackDetailsId].Value = 0; 
-                }
-                else
-                {
-                    row.Cells[Cardselectno].Value = false;
+                    if (row.IsNewRow) continue;
+
+                    int productId = 0;
+                    int.TryParse(row.Cells[CardProductid].Value?.ToString(), out productId);
+
+                    var selected = selectedCardItems.FirstOrDefault(x => x.ProductId == productId);
+
+                    if (selected != null)
+                    {
+                        row.Cells[Cardselectno].Value = true;
+                        row.Cells[Cardqtyno].Value = selected.Qty;
+                        row.Cells[CardPartyPackDetailsId].Value = 0;
+                    }
+                    else
+                    {
+                        row.Cells[Cardselectno].Value = false;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  ApplyCardSelectionToGrid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
-        private void LoadCustomMenu(int packId=0)
+        private void LoadCustomMenu(int packId = 0)
         {
             try
             {
-                 Loadcustomflag = true;
+                Loadcustomflag = true;
                 dgv_packcustom.Rows.Clear();
 
                 BllSearch<DmnPartyPackCustom> bll = new BllSearch<DmnPartyPackCustom>();
@@ -1214,7 +1238,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch search = new DmnSearch();
                 search.Select = "PartyPackCustomDetailsId, Product, Qty, Price,MenuCategoryId";
                 search.Table = "tblPartyPackCustomMenu";
-                if(packId==0)
+                if (packId == 0)
                     search.WhereNdGroupBy = "WHERE status=1";
                 else
                     search.WhereNdGroupBy = "WHERE status=1 and PartyPackId = " + packId;
@@ -1251,57 +1275,82 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  LoadCustomMenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
             finally
             {
                 Loadcustomflag = false;
             }
+
         }
         private bool HasEmptyRowCustom()
         {
-            foreach (DataGridViewRow row in dgv_packcustom.Rows)
+            try
             {
-                if (row.IsNewRow) return true;
-
-                if (row.Cells[Cmitemno].Value == null ||
-                    string.IsNullOrWhiteSpace(row.Cells[Cmitemno].Value.ToString()))
+                foreach (DataGridViewRow row in dgv_packcustom.Rows)
                 {
-                    return true;
+                    if (row.IsNewRow) return true;
+
+                    if (row.Cells[Cmitemno].Value == null ||
+                        string.IsNullOrWhiteSpace(row.Cells[Cmitemno].Value.ToString()))
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  HasEmptyRowCustom()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                return false;
+            }
         }
         private void RefreshCustomSlNo()
         {
-            for (int i = 0; i < dgv_packcustom.Rows.Count; i++)
+            try
             {
-                dgv_packcustom.Rows[i].Cells[Cmslno].Value = i + 1;
+                for (int i = 0; i < dgv_packcustom.Rows.Count; i++)
+                {
+                    dgv_packcustom.Rows[i].Cells[Cmslno].Value = i + 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  RefreshCustomSlNo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void RefreshSlNo()
         {
-            int sl = 1;
 
-            foreach (DataGridViewRow row in dgv_packs_default.Rows)
+            try
             {
-                if (row.IsNewRow)
-                {
-                    row.Cells[Rslno].Value = null;
-                    continue;
-                }
+                int sl = 1;
 
-                var val = row.Cells[Ritemno].Value;
+                foreach (DataGridViewRow row in dgv_packs_default.Rows)
+                {
+                    if (row.IsNewRow)
+                    {
+                        row.Cells[Rslno].Value = null;
+                        continue;
+                    }
 
-                if (val != null && !string.IsNullOrWhiteSpace(val.ToString()))
-                {
-                    row.Cells[Rslno].Value = sl++;
-                }
-                else
-                {
-                    row.Cells[Rslno].Value = null;
+                    var val = row.Cells[Ritemno].Value;
+
+                    if (val != null && !string.IsNullOrWhiteSpace(val.ToString()))
+                    {
+                        row.Cells[Rslno].Value = sl++;
+                    }
+                    else
+                    {
+                        row.Cells[Rslno].Value = null;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  RefreshSlNo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+
         }
         private void dgv_packs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1321,7 +1370,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  dgv_packs_CellContentClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void DeleteGridRow(int rowIndex)
@@ -1376,8 +1425,10 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  DeleteGridRow()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
+
         }
 
         private void dgv_packcustom_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -1398,8 +1449,9 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  dgv_packcustom_CellContentClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
         }
         private void DeleteCustomGridRow(int rowIndex)
         {
@@ -1454,44 +1506,56 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  DeleteCustomGridRow()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
+
         }
-        
+
         private void dgv_packcustom_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (Loadcustomflag) return;
 
-            if (e.RowIndex < 0) return;
-
-            if (e.ColumnIndex == Cmitemno)
+            try
             {
-                var row = dgv_packcustom.Rows[e.RowIndex];
-                var value = row.Cells[Cmitemno].Value;
 
-                if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
+                if (Loadcustomflag) return;
+
+                if (e.RowIndex < 0) return;
+
+                if (e.ColumnIndex == Cmitemno)
                 {
-                    // ✅ Default Qty = 1
-                    var qtyCell = row.Cells[Cmqtyno];
+                    var row = dgv_packcustom.Rows[e.RowIndex];
+                    var value = row.Cells[Cmitemno].Value;
 
-                    if (qtyCell.Value == null ||
-                        string.IsNullOrWhiteSpace(qtyCell.Value.ToString()) ||
-                        Convert.ToDecimal(qtyCell.Value) == 0)
+                    if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
                     {
-                        qtyCell.Value = 1;
-                    }
+                        // ✅ Default Qty = 1
+                        var qtyCell = row.Cells[Cmqtyno];
 
-                    bool isLastRow = e.RowIndex == dgv_packcustom.Rows.Count - 1;
+                        if (qtyCell.Value == null ||
+                            string.IsNullOrWhiteSpace(qtyCell.Value.ToString()) ||
+                            Convert.ToDecimal(qtyCell.Value) == 0)
+                        {
+                            qtyCell.Value = 1;
+                        }
 
-                    if (isLastRow && !HasEmptyRowCustom())
-                    {
-                        int rowi=dgv_packcustom.Rows.Add();
-                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packcustom.Rows[rowi].Cells[Cmactionno];
-                        cellcolumntype.Value = Grid_Remove;
-                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        bool isLastRow = e.RowIndex == dgv_packcustom.Rows.Count - 1;
+
+                        if (isLastRow && !HasEmptyRowCustom())
+                        {
+                            int rowi = dgv_packcustom.Rows.Add();
+                            DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packcustom.Rows[rowi].Cells[Cmactionno];
+                            cellcolumntype.Value = Grid_Remove;
+                            cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        }
+                        RefreshCustomSlNo();
                     }
-                    RefreshCustomSlNo();
                 }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  dgv_packcustom_CellValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void btn_del_pack_Click(object sender, EventArgs e)
@@ -1537,13 +1601,14 @@ namespace FoodandBeverage.Forms
                 var packstatus = bllPack.AddEditData("prdInsert_Upd_PartyPack", dmn);
 
                 CMessageBox.Show("Pack deleted successfully");
-                clearall(); 
+                clearall();
 
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  btn_del_pack_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
         }
 
         private void dgv_packs_default_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -1572,7 +1637,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  dgv_packs_default_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
@@ -1599,7 +1664,7 @@ namespace FoodandBeverage.Forms
 
                 dmnfood.Fcid = fcid;
                 dmnfood.CategoryName = txtfoodCate.Text;
-                dmnfood.CategoryType = 5; 
+                dmnfood.CategoryType = 5;
                 dmnfood.Description = "";
                 dmnfood.CreatedBy = FrmDashboard.UserId;
                 dmnfood.BranchId = FrmDashboard.BranchId;
@@ -1614,8 +1679,10 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  btn_savemenucateg_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
+
         }
 
         private void btn_del_cate_Click(object sender, EventArgs e)
@@ -1661,84 +1728,133 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  btn_del_cate_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
+
         }
 
         private void HideAllGrids()
         {
-            dgv_packs_default.Visible = false;
-            dgv_packcustom.Visible = false;
-            dgv_card.Visible = false;
-            dgv_gift.Visible = false;
-            tlp_subcategory.Visible = false;
+            try
+            {
+                dgv_packs_default.Visible = false;
+                dgv_packcustom.Visible = false;
+                dgv_card.Visible = false;
+                dgv_gift.Visible = false;
+                tlp_subcategory.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  HideAllGrids()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+
+
         }
 
         private void btn_stanpackage_Click(object sender, EventArgs e)
         {
-            HideAllGrids();
-            dgv_packs_default.Visible = true;
-            dgv_packs_default.BringToFront();
+            try
+            {
+                HideAllGrids();
+                dgv_packs_default.Visible = true;
+                dgv_packs_default.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  btn_stanpackage_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+
         }
 
         private void btn_custommenu_Click(object sender, EventArgs e)
         {
-            HideAllGrids();
-            dgv_packcustom.Visible = true;
-            dgv_packcustom.BringToFront();
+            try
+            {
+                HideAllGrids();
+                dgv_packcustom.Visible = true;
+                dgv_packcustom.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  btn_custommenu_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+
         }
 
         private void btn_cardpacks_Click(object sender, EventArgs e)
         {
-            HideAllGrids();
-            dgv_card.Visible = true;
-            dgv_card.BringToFront();
-            tlp_subcategory.Visible = true;
-            LoadCardProducts("ALL");
+            try
+            {
+                HideAllGrids();
+                dgv_card.Visible = true;
+                dgv_card.BringToFront();
+                tlp_subcategory.Visible = true;
+                LoadCardProducts("ALL");
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  btn_cardpacks_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+
         }
 
         private void btn_giftpacks_Click(object sender, EventArgs e)
         {
-            HideAllGrids();
-            dgv_gift.Visible = true;
-            dgv_gift.BringToFront();
+            try
+            {
+                HideAllGrids();
+                dgv_gift.Visible = true;
+                dgv_gift.BringToFront();
 
-            LoadGiftProducts();
+                LoadGiftProducts();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  btn_giftpacks_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+
         }
 
         private void btn_cakepacks_Click(object sender, EventArgs e)
         {
-            if (pnl_cakeconfig.Visible)
+            try
             {
-                pnl_cakeconfig.Visible = false;
-            }
-            else
-            {
-                if (FrmDashboard.DefaultTaxType != "")
+                if (pnl_cakeconfig.Visible)
                 {
-                    cmbTaxType_cake.Text = FrmDashboard.DefaultTaxType;
-                    if (cmbTaxType_cake.Text == "GST")
-                    {
-                        cmbIgstPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
-                    }
-                    else if (cmbTaxType_cake.Text == "VAT")
-                    {
-                        cmbVatPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
-                    }
+                    pnl_cakeconfig.Visible = false;
                 }
-                cmbtax_cake.SelectedIndex = 0;
+                else
+                {
+                    if (FrmDashboard.DefaultTaxType != "")
+                    {
+                        cmbTaxType_cake.Text = FrmDashboard.DefaultTaxType;
+                        if (cmbTaxType_cake.Text == "GST")
+                        {
+                            cmbIgstPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                        }
+                        else if (cmbTaxType_cake.Text == "VAT")
+                        {
+                            cmbVatPrcnt_cake.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                        }
+                    }
+                    cmbtax_cake.SelectedIndex = 0;
 
-                //pnl_cakeconfig.Width = (int)(this.ClientSize.Width * 0.5);
-                //pnl_cakeconfig.Height = (int)(this.ClientSize.Height * 0.4);
+                    //pnl_cakeconfig.Width = (int)(this.ClientSize.Width * 0.5);
+                    //pnl_cakeconfig.Height = (int)(this.ClientSize.Height * 0.4);
 
-                pnl_cakeconfig.Left = (this.ClientSize.Width - pnl_cakeconfig.Width) / 2;
-                pnl_cakeconfig.Top = (this.ClientSize.Height - pnl_cakeconfig.Height) / 2;
-                pnl_cakeconfig.BringToFront();
-                pnl_cakeconfig.Visible = true;
+                    pnl_cakeconfig.Left = (this.ClientSize.Width - pnl_cakeconfig.Width) / 2;
+                    pnl_cakeconfig.Top = (this.ClientSize.Height - pnl_cakeconfig.Height) / 2;
+                    pnl_cakeconfig.BringToFront();
+                    pnl_cakeconfig.Visible = true;
 
 
+                }
             }
-
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  btn_cakepacks_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
 
@@ -1748,18 +1864,25 @@ namespace FoodandBeverage.Forms
 
         private void cmbsubcategory_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            string type = cmbsubcategory.Text;
+            try
+            {
+                string type = cmbsubcategory.Text;
 
-            if (type == "ALL")
-                LoadCardProducts("ALL");
-            else if (type == "CardProducts")
-                LoadCardProducts("1");
-            else if (type == "Trampolining")
-                LoadCardProducts("2");
-            else if (type == "TimePlayProducts")
-                LoadCardProducts("3");
-            else if (type == "GatePass")
-                LoadCardProducts("4");
+                if (type == "ALL")
+                    LoadCardProducts("ALL");
+                else if (type == "CardProducts")
+                    LoadCardProducts("1");
+                else if (type == "Trampolining")
+                    LoadCardProducts("2");
+                else if (type == "TimePlayProducts")
+                    LoadCardProducts("3");
+                else if (type == "GatePass")
+                    LoadCardProducts("4");
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  cmbsubcategory_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
         private void LoadCardProducts(string type = "ALL")
         {
@@ -1858,52 +1981,60 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  LoadCardProducts()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+
         }
 
         private void dgv_card_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex != Cardselectno)
-                return;
-
-            var row = dgv_card.Rows[e.RowIndex];
-
-  
-            if (row.Cells[CardProductid].Value == null)
-                return;
-
-            bool isChecked = row.Cells[Cardselectno].Value != null &&
-                             Convert.ToBoolean(row.Cells[Cardselectno].Value);
-
-            int productId = Convert.ToInt32(row.Cells[CardProductid].Value);
-
-            string name = row.Cells[Carditemno].Value?.ToString() ?? "";
-
-            int qty = 1;
-            if (row.Cells[Cardqtyno].Value != null)
-                int.TryParse(row.Cells[Cardqtyno].Value.ToString(), out qty);
-
-            int type = 0;
-            if (row.Cells[Cardproducttype].Value != null)
-                int.TryParse(row.Cells[Cardproducttype].Value.ToString(), out type);
-
-            if (isChecked)
+            try
             {
-                if (!selectedCardItems.Any(x => x.ProductId == productId))
+                if (e.RowIndex < 0 || e.ColumnIndex != Cardselectno)
+                    return;
+
+                var row = dgv_card.Rows[e.RowIndex];
+
+
+                if (row.Cells[CardProductid].Value == null)
+                    return;
+
+                bool isChecked = row.Cells[Cardselectno].Value != null &&
+                                 Convert.ToBoolean(row.Cells[Cardselectno].Value);
+
+                int productId = Convert.ToInt32(row.Cells[CardProductid].Value);
+
+                string name = row.Cells[Carditemno].Value?.ToString() ?? "";
+
+                int qty = 1;
+                if (row.Cells[Cardqtyno].Value != null)
+                    int.TryParse(row.Cells[Cardqtyno].Value.ToString(), out qty);
+
+                int type = 0;
+                if (row.Cells[Cardproducttype].Value != null)
+                    int.TryParse(row.Cells[Cardproducttype].Value.ToString(), out type);
+
+                if (isChecked)
                 {
-                    selectedCardItems.Add(new SelectedCardItem
+                    if (!selectedCardItems.Any(x => x.ProductId == productId))
                     {
-                        ProductId = productId,
-                        ProductName = name,
-                        Qty = qty,
-                        ProductType = type
-                    });
+                        selectedCardItems.Add(new SelectedCardItem
+                        {
+                            ProductId = productId,
+                            ProductName = name,
+                            Qty = qty,
+                            ProductType = type
+                        });
+                    }
+                }
+                else
+                {
+                    selectedCardItems.RemoveAll(x => x.ProductId == productId);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                selectedCardItems.RemoveAll(x => x.ProductId == productId);
+                clsgen.LogException("Partypacksetup page  dgv_card_CellValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
@@ -1944,14 +2075,23 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  LoadGiftProducts()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void dgv_card_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (dgv_card.IsCurrentCellDirty)
+            try
             {
-                dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+
+
+                if (dgv_card.IsCurrentCellDirty)
+                {
+                    dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  dgv_card_CurrentCellDirtyStateChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         #endregion
@@ -2002,7 +2142,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  btnserach_cake_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void LoadCakeById(int id)
@@ -2034,13 +2174,13 @@ namespace FoodandBeverage.Forms
 
 
                     cmbTaxType_cake.Text = item.TaxType;
-                    cmbIgstPrcnt.SelectedValue =Convert.ToUInt64(item.TaxSettingsId);
+                    cmbIgstPrcnt.SelectedValue = Convert.ToUInt64(item.TaxSettingsId);
                     cmbtax_cake.Text = item.Tax;
                 }
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  LoadCakeById()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void btndel_cake_Click(object sender, EventArgs e)
@@ -2082,7 +2222,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  btndel_cake_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
@@ -2123,14 +2263,14 @@ namespace FoodandBeverage.Forms
                     CMessageBox.Show(selectedCakeId > 0 ? "Updated Successfully" : "Saved Successfully");
 
                     ClearCake();
-                    selectedCakeId = 0;   
+                    selectedCakeId = 0;
                     btndel_cake.Visible = false;
                     pnl_cakeconfig.Visible = false;
                 }
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(ex.Message);
+                clsgen.LogException("Partypacksetup page  btnsave_cake_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         public void ClearCake()
@@ -2156,8 +2296,9 @@ namespace FoodandBeverage.Forms
                 }
                 cmbtax_cake.SelectedIndex = 0;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                clsgen.LogException("Partypacksetup page  ClearCake()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         #endregion
@@ -2169,37 +2310,46 @@ namespace FoodandBeverage.Forms
 
         private void Decimal_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox txt = sender as TextBox;
-            if (txt == null) return;
-
-            // allow control keys
-            if (char.IsControl(e.KeyChar))
-                return;
-
-            // allow only numbers and dot
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            try
             {
-                e.Handled = true;
-                return;
-            }
 
-            // allow only one dot
-            if (e.KeyChar == '.' && txt.Text.Contains("."))
-            {
-                e.Handled = true;
-                return;
-            }
 
-            // allow only 2 decimal places
-            if (txt.Text.Contains("."))
-            {
-                int index = txt.Text.IndexOf('.');
-                string decimalPart = txt.Text.Substring(index + 1);
+                TextBox txt = sender as TextBox;
+                if (txt == null) return;
 
-                if (txt.SelectionStart > index && decimalPart.Length >= 2)
+                // allow control keys
+                if (char.IsControl(e.KeyChar))
+                    return;
+
+                // allow only numbers and dot
+                if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
                 {
                     e.Handled = true;
+                    return;
                 }
+
+                // allow only one dot
+                if (e.KeyChar == '.' && txt.Text.Contains("."))
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                // allow only 2 decimal places
+                if (txt.Text.Contains("."))
+                {
+                    int index = txt.Text.IndexOf('.');
+                    string decimalPart = txt.Text.Substring(index + 1);
+
+                    if (txt.SelectionStart > index && decimalPart.Length >= 2)
+                    {
+                        e.Handled = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  Decimal_KeyPress()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
@@ -2311,22 +2461,31 @@ namespace FoodandBeverage.Forms
         }
         private void AllowDecimalOnly(object sender, KeyPressEventArgs e)
         {
-            TextBox txt = sender as TextBox;
+            try
+            {
 
-            // Allow control keys (Backspace)
-            if (char.IsControl(e.KeyChar))
-                return;
 
-            // Allow digits
-            if (char.IsDigit(e.KeyChar))
-                return;
+                TextBox txt = sender as TextBox;
 
-            // Allow only one decimal point
-            if (e.KeyChar == '.' && !txt.Text.Contains("."))
-                return;
+                // Allow control keys (Backspace)
+                if (char.IsControl(e.KeyChar))
+                    return;
 
-            // Block everything else
-            e.Handled = true;
+                // Allow digits
+                if (char.IsDigit(e.KeyChar))
+                    return;
+
+                // Allow only one decimal point
+                if (e.KeyChar == '.' && !txt.Text.Contains("."))
+                    return;
+
+                // Block everything else
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  AllowDecimalOnly()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         #region TexBox Round function
@@ -2342,9 +2501,10 @@ namespace FoodandBeverage.Forms
                 }
 
             }
+
             catch (Exception ex)
             {
-                clsgen.LogException("Product page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Partypacksetup page  textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
@@ -2363,11 +2523,13 @@ namespace FoodandBeverage.Forms
                 path.CloseAllFigures();
                 // Set the Region property of the textbox to the new path
                 textBox.Region = new Region(path);
+
+
             }
+
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Product page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Partypacksetup page  ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
@@ -2382,10 +2544,18 @@ namespace FoodandBeverage.Forms
 
         private void btn_packtimesett_Click(object sender, EventArgs e)
         {
-            pnl_packtime.Visible = true;
-            pnl_packtime.BringToFront();
-            pnl_packtime.Left = (this.ClientSize.Width - pnl_packtime.Width) / 2;
-            pnl_packtime.Top = (this.ClientSize.Height - pnl_packtime.Height) / 2;
+            try
+            {
+                pnl_packtime.Visible = true;
+                pnl_packtime.BringToFront();
+                pnl_packtime.Left = (this.ClientSize.Width - pnl_packtime.Width) / 2;
+                pnl_packtime.Top = (this.ClientSize.Height - pnl_packtime.Height) / 2;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  btn_packtimesett_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+
         }
 
         private void btn_submittime_Click(object sender, EventArgs e)
@@ -2399,16 +2569,22 @@ namespace FoodandBeverage.Forms
         }
         private void chk_time_atv_all_CheckedChanged(object sender, EventArgs e)
         {
+            try
+            {
+                bool check = chk_time_atv_all.Checked;
+                chk_sunday.Checked = check;
+                chk_monday.Checked = check;
+                chk_tuesday.Checked = check;
+                chk_wednesday.Checked = check;
+                chk_thursday.Checked = check;
+                chk_friday.Checked = check;
+                chk_saturday.Checked = check;
+            }
 
-            bool check = chk_time_atv_all.Checked;
-
-            chk_sunday.Checked = check;
-            chk_monday.Checked = check;
-            chk_tuesday.Checked = check;
-            chk_wednesday.Checked = check;
-            chk_thursday.Checked = check;
-            chk_friday.Checked = check;
-            chk_saturday.Checked = check;
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page  chk_time_atv_all_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
 
         }
 

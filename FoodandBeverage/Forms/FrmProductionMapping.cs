@@ -35,8 +35,6 @@ namespace FoodandBeverage.Forms
 
 
         #endregion
-
-
         public FrmProductionMapping()
         {
             InitializeComponent();
@@ -109,18 +107,14 @@ namespace FoodandBeverage.Forms
                     dgv_menu.Rows.Add();
                     dgv_menu.Rows[0].Cells[pnameno].Value = "No Products Found";
                 }
-            }
+         
+        }
+
             catch (Exception ex)
             {
-                clsgen.LogException(
-                    "Production Mapping Search",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Menu)
-                );
+                clsgen.LogException("FoodPreparationMapping page  ProductionMapping_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
             }
-        }
+}
 
 
         public void Fillcombo()
@@ -229,11 +223,13 @@ namespace FoodandBeverage.Forms
                 dgv_menu.ClearSelection();
                 RefreshSlNo();
             }
+             
+
             catch (Exception ex)
             {
-                CMessageBox.Show("Error while refreshing: " + ex.Message);
+                clsgen.LogException("FoodPreparationMapping page  btnrefresh_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
             }
-        }
+}
 
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -312,7 +308,7 @@ namespace FoodandBeverage.Forms
                     ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Menu)
+                    Convert.ToInt32(FormType.FoodPreparationMapping)
                 );
             }
         }
@@ -342,13 +338,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException(
-                    "Category Change - Production Mapping",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Menu)
-                );
+                clsgen.LogException("FoodPreparationMapping page  cmbMenu_category_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
             }
         }
 
@@ -370,13 +360,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException(
-                    "Search Button Click",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Menu)
-                );
+                clsgen.LogException("FoodPreparationMapping page  btnseach_menu_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
             }
         }
 
@@ -386,6 +370,10 @@ namespace FoodandBeverage.Forms
         }
         private void dgv_menu_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            try
+            {
+
+            
             if (e.RowIndex < 0) return;
 
             if (e.ColumnIndex == pkitchenstatusno)
@@ -395,6 +383,11 @@ namespace FoodandBeverage.Forms
             else if (e.ColumnIndex == pcounterstatusno)
             {
                 dgv_menu.Rows[e.RowIndex].Cells[pkitchenstatusno].Value = false;
+            }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("FoodPreparationMapping page  dgv_menu_CellContentClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
             }
         }
         private void RefreshSlNo()
@@ -425,7 +418,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Kitchen select error: " + ex.Message);
+                clsgen.LogException("FoodPreparationMapping page  chk_kitchenall_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
             }
         }
 
@@ -450,7 +443,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Counter select error: " + ex.Message);
+                clsgen.LogException("FoodPreparationMapping page  chkcounterall_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
             }
         }
 
@@ -476,7 +469,10 @@ namespace FoodandBeverage.Forms
                         dgv_menu.Rows[e.RowIndex].Cells[pkitchenstatusno].Value = false;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                clsgen.LogException("FoodPreparationMapping page  dgv_menu_CellValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
+            }
         }
 
         private void dgv_menu_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -512,7 +508,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Header checkbox error: " + ex.Message);
+                clsgen.LogException("FoodPreparationMapping page  AddHeaderCheckboxes()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.FoodPreparationMapping));
             }
         }
 

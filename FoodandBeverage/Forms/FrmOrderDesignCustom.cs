@@ -113,7 +113,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                clsgen.LogException("OrderconsoleCustomdesign page  FrmOrderDesignCustom_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
 
@@ -126,6 +126,8 @@ namespace FoodandBeverage.Forms
         }
         private void btn_showmenu_Click(object sender, EventArgs e)
         {
+            try
+            {
             Memoryrelease();
 
             flp_sidemenu.Visible = !flp_sidemenu.Visible;
@@ -173,6 +175,12 @@ namespace FoodandBeverage.Forms
                 item.Margin = new Padding((flp_sidemenu.Width - item.Width) / 2, 5, 0, 5);
 
             flp_sidemenu.BringToFront();
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page  btn_showmenu_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
         }
         private void GenerateSideMenu()
         {
@@ -222,12 +230,15 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page GenerateSidemenu()", ex, FrmLogin.EmployeName,
-                    FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("OrderconsoleCustomdesign page GenerateSideMenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
         private Button CreateSideMenuButton(string text, string name)
         {
+            try
+            {
+
+            
             int bheight = btn_showmenu.Height + (btn_showmenu.Height / 2);
             int bWidth = btn_showmenu.Width;
 
@@ -250,6 +261,12 @@ namespace FoodandBeverage.Forms
             sideMenuToolTip.SetToolTip(btn, text);
 
             return btn;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page CreateSideMenuButton()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+                return btn;
+            }
         }
 
         #endregion
@@ -309,9 +326,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page SidebuttonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("OrderconsoleCustomdesign page  SidebuttonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
-
         }
         public void GenearteNormalProduct()
         {
@@ -424,9 +440,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page GenearteNormalProduct()", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Order));
+                clsgen.LogException("OrderconsoleCustomdesign page GenearteNormalProduct()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
 
@@ -437,11 +451,18 @@ namespace FoodandBeverage.Forms
 
         private void FrmOrderDesignCustom_Resize(object sender, EventArgs e)
         {
+            try
+            {
             maxColumns = columncount;
             spacing = Productspace;
             containerWidth = flp_productview.ClientSize.Width;
             tileW = (int)(Productwidth);
             tileH = (int)(Productheight);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page FrmOrderDesignCustom_Resize()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
         }
 
         private void btn_custom_menu_Click(object sender, EventArgs e)
@@ -465,9 +486,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("btn_custom_menu_Click", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Order));
+                clsgen.LogException("OrderconsoleCustomdesign page btn_custom_menu_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
         private void CreateCustomTile(string productName, int productId, int favStatus, int saleTypeNo, int foodType)
@@ -546,15 +565,17 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("CreateCustomTile()", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Order));
+                clsgen.LogException("OrderconsoleCustomdesign page CreateCustomTile()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
 
 
         private void AllowOnlyDecimal(object sender, KeyPressEventArgs e)
         {
+            try
+            {
+
+            
             TextBox txt = sender as TextBox;
 
             // Allow control keys (Backspace, Delete, etc.)
@@ -571,20 +592,36 @@ namespace FoodandBeverage.Forms
 
             // Block everything else
             e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page AllowOnlyDecimal()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
         }
 
         private void btnwidth_add_Click(object sender, EventArgs e)
         {
+            try { 
+
             int val = 0;
             int.TryParse(txtwidth.Text, out val);
 
             val += 1; // ➕ increase by 1
             txtwidth.Text = val.ToString();
 
-            UpdateTileSize(); // 🔥 call common method
+            UpdateTileSize();
         }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page btnwidth_add_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
+}
         private void btnheightadd_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+            
             int val = 0;
             int.TryParse(txtheight.Text, out val);
 
@@ -592,6 +629,11 @@ namespace FoodandBeverage.Forms
             txtheight.Text = val.ToString();
 
             UpdateTileSize(); // 🔥 call common method
+}
+            catch (Exception ex)
+{
+    clsgen.LogException("OrderconsoleCustomdesign page btnheightadd_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+}
         }
 
         private void txtwidth_TextChanged(object sender, EventArgs e)
@@ -634,14 +676,14 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("UpdateTileSize()", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Order));
+                clsgen.LogException("OrderconsoleCustomdesign page UpdateTileSize()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
 
         private void btnwidth_rem_Click(object sender, EventArgs e)
         {
+            try
+            {
             int val;
 
             if (!int.TryParse(txtwidth.Text, out val))
@@ -653,9 +695,18 @@ namespace FoodandBeverage.Forms
             txtwidth.Text = val.ToString();
 
             UpdateTileSize();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page btnwidth_rem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
         }
         private void btnheightrem_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+            
             int val;
 
             if (!int.TryParse(txtheight.Text, out val))
@@ -668,6 +719,11 @@ namespace FoodandBeverage.Forms
 
             UpdateTileSize();
         }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page btnheightrem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
+}
 
 
         private void btnapplydesign_Click(object sender, EventArgs e)
@@ -696,46 +752,84 @@ namespace FoodandBeverage.Forms
 
                 CMessageBox.Show("Design settings saved successfully.");
             }
+                
             catch (Exception ex)
             {
-
+                clsgen.LogException("OrderconsoleCustomdesign page btnapplydesign_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
-        }
+}
+
         private void SetAppSetting(Configuration config, string key, string value)
         {
-            if (config.AppSettings.Settings[key] != null)
+            try
             {
-                config.AppSettings.Settings[key].Value = value;
+                if (config.AppSettings.Settings[key] != null)
+                {
+                    config.AppSettings.Settings[key].Value = value;
+                }
+                else
+                {
+                    config.AppSettings.Settings.Add(key, value);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                config.AppSettings.Settings.Add(key, value);
+                clsgen.LogException("OrderconsoleCustomdesign page SetAppSetting()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
 
         private void btncorner_rem_Click(object sender, EventArgs e)
         {
-            if (cornerRadius > 0)
-                cornerRadius--;
+            try
+            {
+                if (cornerRadius > 0)
+                    cornerRadius--;
 
-            txtcorner.Text = cornerRadius.ToString(); 
-            GenearteNormalProduct();
+                txtcorner.Text = cornerRadius.ToString();
+                GenearteNormalProduct();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page btncorner_rem_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
         }
 
         private void btncorner_add_Click(object sender, EventArgs e)
         {
-            cornerRadius++;
+            try
+            {
+                cornerRadius++;
 
-            txtcorner.Text = cornerRadius.ToString(); 
-            GenearteNormalProduct();
+                txtcorner.Text = cornerRadius.ToString();
+                GenearteNormalProduct();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page btncorner_add_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
         }
 
         private void txtcorner_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(txtcorner.Text, out int value))
+            try
             {
-                cornerRadius = value;
-                GenearteNormalProduct(); 
+                if (int.TryParse(txtcorner.Text, out int value))
+                {
+                    cornerRadius = value;
+                    GenearteNormalProduct();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page txtcorner_TextChanged()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
     }
