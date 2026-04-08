@@ -7386,6 +7386,39 @@ namespace FoodandBeverage
             }
         }
 
+        private void dgv_packenter_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            var row = dgv_packenter.Rows[e.RowIndex];
+
+            if (e.ColumnIndex == selecteditemitemno)
+            {
+                //if (FrmDashboard.Enb_Party_Normal)
+                //{
+                //    ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
+                //}
+            }
+            else if (e.ColumnIndex == selecteditemqtyno)
+            {
+                decimal kdata = 0;
+                using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
+                {
+                    frm.ShowDialog();
+
+                    if (!string.IsNullOrEmpty(frm.txtkeypadvalue.Text))
+                        kdata = Convert.ToDecimal(frm.txtkeypadvalue.Text);
+
+                    txtdiscountreason.Text = frm.txtdesc.Text.Trim() == "Enter Remarks Here....." ? "" : frm.txtdesc.Text;
+                }
+                if (kdata > 0)
+                {
+                    row.Cells[selecteditemqtyno].Value = kdata;
+                }
+            }
+            
+        }
+
         private void txtextracharge_amt_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
