@@ -117,6 +117,7 @@ namespace FoodandBeverage.Forms
         public static bool Enb_KitchenView_Number { get; set; } = false;
         public static bool Enb_SearchPage_Number { get; set; } = false;
         public static bool Enb_SaleBill_YZoutPage_Number { get; set; } = false;
+        public static bool Enb_Party_Number { get; set; } = false;
 
         // === Normal Keyboard Access ===
         public static bool Enb_Home_Normal { get; set; } = false;
@@ -130,6 +131,8 @@ namespace FoodandBeverage.Forms
         public static bool Enb_KitchenView_Normal { get; set; } = false;
         public static bool Enb_SearchPage_Normal { get; set; } = false;
         public static bool Enb_SaleBill_YZoutPage_Normal { get; set; } = false;
+        public static bool Enb_Party_Normal { get; set; } = false;
+
         #endregion
 
         public string Compressedimg = Application.StartupPath + "\\CompressedImg";
@@ -263,6 +266,8 @@ namespace FoodandBeverage.Forms
                 loadingForm.Invoke(new Action(() => loadingForm.Close()));
             }
             StyleReportMenu();
+
+            virtualkeyboardCheck();
         }
         private void LoadMainForm()
         {
@@ -4123,6 +4128,10 @@ namespace FoodandBeverage.Forms
                 dmnVirtual.Enb_SaleBill_YZoutPage_Normal = chk_billyz_normal.Checked;
                 dmnVirtual.Enb_SaleBill_YZoutPage_Number = chk_billyz_number.Checked;
 
+                // === Sale Bill / Y-Z Out Page ===
+                dmnVirtual.Enb_party_Normal = chk_party_normal.Checked;
+                dmnVirtual.Enb_Party_Number = chk_party_number.Checked;
+
                 // === System Fields ===
                 dmnVirtual.mDeviceIP = System.Environment.MachineName;
                 dmnVirtual.BranchId = FrmDashboard.BranchId;
@@ -4165,6 +4174,7 @@ namespace FoodandBeverage.Forms
                 Enb_KitchenView_Number,
                 Enb_SearchPage_Number,
                 Enb_SaleBill_YZoutPage_Number,
+                Enb_Party_Number ,
 
                 Enb_Home_Normal,
                 Enb_AllowVirtualKeyboardLogin_Normal,
@@ -4177,8 +4187,8 @@ namespace FoodandBeverage.Forms
                 Enb_KitchenView_Normal,
                 Enb_SearchPage_Normal,
                 Enb_SaleBill_YZoutPage_Normal,
-
-                DeviceName,     -- ✅ ADDED
+                Enb_party_Normal,
+                DeviceName,    
                 Id
             ",
                     Table = "tblVirtualKeyBoard",
@@ -4236,6 +4246,8 @@ namespace FoodandBeverage.Forms
                     Enb_Home_Number = data.Enb_Home_Number;
                     FrmLogin.loginkeyboard = data.Enb_AllowVirtualKeyboardLogin_Number;
                     Enb_TablePickUp_Number = data.Enb_TablePickUp_Number;
+                    Enb_TablePickUp_Number = data.Enb_TablePickUp_Number;
+                    Enb_Party_Number = data.Enb_Party_Number;
 
                     Enb_SaleBill_YZoutPage_Normal = data.Enb_SaleBill_YZoutPage_Normal;
                     Enb_SearchPage_Normal = data.Enb_SearchPage_Normal;
@@ -4248,6 +4260,7 @@ namespace FoodandBeverage.Forms
                     Enb_Home_Normal = data.Enb_Home_Normal;
                     Enb_AllowVirtualKeyboardLogin_Normal = data.Enb_AllowVirtualKeyboardLogin_Normal;
                     Enb_TablePickUp_Normal = data.Enb_TablePickUp_Normal;
+                    Enb_Party_Normal = data.Enb_party_Normal;
 
                     txtvirId.Text = Convert.ToString(data.Id);
                 }
@@ -4283,6 +4296,7 @@ namespace FoodandBeverage.Forms
                 chk_billing_number.Checked = isChecked;
                 chk_emp_number.Checked = isChecked;
                 chk_oper_number.Checked = isChecked;
+                chk_party_number.Checked = isChecked;
             }
             catch (Exception ex)
             {
@@ -4309,6 +4323,7 @@ namespace FoodandBeverage.Forms
                 chk_billing_normal.Checked = isChecked;
                 chk_emp_normal.Checked = isChecked;
                 chk_oper_normal.Checked = isChecked;
+                chk_party_normal.Checked = isChecked;
             }
             catch (Exception ex)
             {
@@ -5623,7 +5638,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Homepage ib_unitConversion_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
@@ -5632,7 +5646,6 @@ namespace FoodandBeverage.Forms
         {
             UIHelper.CloseAllMasterForms();
         }
-
 
         #region Notification MSG
 

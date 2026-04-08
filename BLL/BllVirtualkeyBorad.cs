@@ -28,6 +28,7 @@ namespace BLL
             parms.Add("Enb_KitchenView_Number", objTestClass.Enb_KitchenView_Number);
             parms.Add("Enb_SearchPage_Number", objTestClass.Enb_SearchPage_Number);
             parms.Add("Enb_SaleBill_YZoutPage_Number", objTestClass.Enb_SaleBill_YZoutPage_Number);
+            parms.Add("Enb_Party_Number", objTestClass.Enb_Party_Number);
 
             // === Normal Keyboard Columns ===
             parms.Add("Enb_Home_Normal", objTestClass.Enb_Home_Normal);
@@ -41,6 +42,7 @@ namespace BLL
             parms.Add("Enb_KitchenView_Normal", objTestClass.Enb_KitchenView_Normal);
             parms.Add("Enb_SearchPage_Normal", objTestClass.Enb_SearchPage_Normal);
             parms.Add("Enb_SaleBill_YZoutPage_Normal", objTestClass.Enb_SaleBill_YZoutPage_Normal);
+            parms.Add("Enb_party_Normal", objTestClass.Enb_party_Normal);
 
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
