@@ -265,7 +265,7 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 clsgen.LogException("OrderconsoleCustomdesign page CreateSideMenuButton()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
-                return btn;
+                return null;
             }
         }
 

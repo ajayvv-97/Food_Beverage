@@ -1031,7 +1031,7 @@
             this.txtRcvAmt.TabIndex = 9;
             this.txtRcvAmt.Text = "0.00";
             this.txtRcvAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtRcvAmt.Click += new System.EventHandler(this.txtRcvAmt_Click);
+            //this.txtRcvAmt.Click += new System.EventHandler(this.txtRcvAmt_Click);
             this.txtRcvAmt.TextChanged += new System.EventHandler(this.txtRcvAmt_TextChanged);
             this.txtRcvAmt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AllowDecimalInput);
             // 
