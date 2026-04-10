@@ -1327,6 +1327,7 @@ namespace FoodandBeverage.Report
                 reportDocument.SetParameterValue("TotalPaid", totalPaid);
                 reportDocument.SetParameterValue("TotalBalance", totalBal);
                 reportDocument.SetParameterValue("Totalnetamt", totalNetAmount);
+                reportDocument.SetParameterValue("party_status", party_status.SelectedIndex);
 
                 // 🔹 VIEW  
                 crv_report.ReportSource = reportDocument;
