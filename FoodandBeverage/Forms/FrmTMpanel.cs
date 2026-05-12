@@ -157,13 +157,23 @@ namespace FoodandBeverage.Forms
         }
 
    
-        public void FillAction(int rowno)
+        public bool FillAction(int rowno)
         {         
 
             try
             {
                 if (rowno >= 0 && rowno < dgv_tmpanel.Rows.Count) 
                 {
+                    // Check split payment
+                    if (Convert.ToInt64(dgv_tmpanel.Rows[rowno].Cells[spayiddno].Value) == 12)
+                    {
+                        MessageBox.Show("SplitPayment Paymode cannot be changed.",
+                                        "Warning",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+
+                        return false;
+                    }
                     this.Invoke(new Action(() =>
                     {
 
@@ -183,7 +193,7 @@ namespace FoodandBeverage.Forms
                         cmbpaymode.SelectedValue = Convert.ToInt64(dgv_tmpanel.Rows[rowno].Cells[spayiddno].Value);
 
                     }));
-                    
+                    return true;
                 }
 
             }
@@ -191,6 +201,7 @@ namespace FoodandBeverage.Forms
             {
                 clsGeneral.LogException("TransactionManagerPanel page  FillAction()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.transactionManagerPanel));
             }
+            return false;
         }
 
         private void btnactionclose_Click(object sender, EventArgs e)
@@ -796,7 +807,11 @@ namespace FoodandBeverage.Forms
                 {
                     CenterPanelOnScreen(pnl_actionpanel);
                     txtremarks.Text = "";
-                    FillAction(Convert.ToInt32(e.RowIndex));
+                    bool result = FillAction(Convert.ToInt32(e.RowIndex));
+                    if (!result)
+                    {
+                        return;
+                    }
                     pnl_actionpanel.Visible = true;
                     pnl_actionpanel.BringToFront();
                     rowno = e.RowIndex;
