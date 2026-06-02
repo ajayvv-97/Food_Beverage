@@ -1348,14 +1348,14 @@ namespace FoodandBeverage.Report
                 DataSet dsReport = new DataSet();
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
-                DmnSearch dmnSearchDetBill = new DmnSearch();                
+                DmnSearch dmnSearchDetBill = new DmnSearch();
 
-                 dmnSearchDetBill.Select = "(select CONVERT(varchar(50),EntryDa,105)) as sFld1," +
-                        "[CREDIT CARD] as dFld1,[DEBIT CARD] as dFld2,[UPI] as dFld3," +
-                        "[BANKING ONLINE] as dFld4,[CASH] as dFld5,[OTHERS (Loyalty)] as dFld6," +
-                        "(ISNULL([CREDIT CARD],0)+ISNULL([DEBIT CARD],0)+ISNULL([UPI],0)+ISNULL([BANKING ONLINE],0)+ISNULL([CASH],0)+ISNULL([OTHERS (Loyalty)],0)) dFld7";
+                dmnSearchDetBill.Select = "(select CONVERT(varchar(50),EntryDa,105)) as sFld1," +
+                       "[CREDIT CARD] as dFld1,[DEBIT CARD] as dFld2,[UPI] as dFld3," +
+                       "[BANKING ONLINE] as dFld4,[CASH] as dFld5,[OTHERS (Loyalty)] as dFld6," +
+                       "(ISNULL([CREDIT CARD],0)+ISNULL([DEBIT CARD],0)+ISNULL([UPI],0)+ISNULL([BANKING ONLINE],0)+ISNULL([CASH],0)+ISNULL([OTHERS (Loyalty)],0)) dFld7";
 
-                dmnSearchDetBill.Table ="(select CAST(EntryDate AS DATE) EntryDa, Sum(NetAmount) Amount, ISNULL(Caption,'OTHERS') as Caption " +
+                dmnSearchDetBill.Table = "(select CAST(EntryDate AS DATE) EntryDa, Sum(NetAmount) Amount, ISNULL(Caption,'OTHERS') as Caption " +
                     " from tblSalesMaster s left join tblGeneralOptions g1 on g1.GTypeSubId=s.PaymentMode and g1.GTypeId=2 " +
                     "where EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     "and EntryDate<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
@@ -1367,7 +1367,7 @@ namespace FoodandBeverage.Report
                     " FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON s.SalesMasterId = p.SalesMasterId LEFT JOIN tblGeneralOptions g2" +
                     " ON g2.GTypeSubId = p.PayMode AND g2.GTypeId = 2 WHERE s.status=1 AND s.EntryDate >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
                     " AND s.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.BranchId = " + BranchId + "  AND p.PayMode != 10" +
-                    " GROUP BY CAST(s.EntryDate AS DATE), g2.Caption "+
+                    " GROUP BY CAST(s.EntryDate AS DATE), g2.Caption " +
 
                     " UNION ALL " +
                     " SELECT CAST(s.EntryDate AS DATE) AS EntryDa, " +
@@ -1380,7 +1380,7 @@ namespace FoodandBeverage.Report
                     "   AND s.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     "   AND s.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     "   AND s.BranchId = " + BranchId +
-                    "   AND pbp.CreatedBy = " + UserId + 
+                    "   AND pbp.CreatedBy = " + UserId +
                     "   AND s.Saletype = " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " GROUP BY CAST(s.EntryDate AS DATE), g.Caption " +
 
