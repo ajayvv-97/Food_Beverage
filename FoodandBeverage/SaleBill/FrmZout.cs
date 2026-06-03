@@ -354,6 +354,8 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
+                clsgen.LogException("YZout page PrintAll()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.YZout));
+
             }
         }
         public void Generalsettingcheck()

@@ -5976,6 +5976,11 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                AssignDrawerCheck();
+                if (FrmDrawer.DrawerID == 0)
+                {
+                    return;
+                }
                 PrepareForSideMenuNavigation();
 
                 if (Application.OpenForms["FrmPartyBooking"] != null)

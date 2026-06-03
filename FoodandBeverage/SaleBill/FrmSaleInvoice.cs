@@ -4,6 +4,7 @@ using CrystalDecisions.Shared;
 using CustomMessageBox;
 using Domain;
 using FastMember;
+using FoodandBeverage.Classes;
 using FoodandBeverage.Forms;
 using FoodandBeverage.Forms.UserControl;
 using FoodandBeverage.Forms.UserControls;
@@ -43,6 +44,7 @@ namespace FoodandBeverage.SaleBill
         public string pdfPath = "";
         bool GstBillflag = false;
         ReportDocument reportDocument = new ReportDocument();
+        ClsGeneral clsgen = new ClsGeneral();
         public FrmSaleInvoice(int masterId,int paytype,int paytid,int BillType )
         {
             SalesMasterId = masterId;
@@ -165,9 +167,9 @@ namespace FoodandBeverage.SaleBill
                     FooterMsg = Convert.ToString(itemSource[0].FooterContent);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                clsgen.LogException("Addon page MessageCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
             }
         }
         #endregion
@@ -548,7 +550,9 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page PrintBill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
+
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -879,7 +883,8 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page PrintPartyBill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -919,6 +924,7 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Addon page GenerateBarcode()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
 
             }
         }
@@ -1010,6 +1016,7 @@ namespace FoodandBeverage.SaleBill
             }
             catch(Exception ex)
             {
+                clsgen.LogException("Addon page btn_print_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
 
             }
         }
@@ -1159,7 +1166,9 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error saving customer details: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("Addon page btn_userreg_submit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
+
+                //MessageBox.Show("Error saving customer details: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1239,6 +1248,7 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
+                clsgen.LogException("Addon page LoadCustomer()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
 
             }
         }
@@ -1307,7 +1317,7 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
-               // clsgen.LogException("Customer Registration page LedgerPopup()", ex,FrmLogin.EmployeName,FrmLogin.Designation,Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Addon page LedgerPopup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
             }
         }
 
