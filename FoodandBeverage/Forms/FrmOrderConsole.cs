@@ -3151,9 +3151,9 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch dmnSearch = new DmnSearch
                 {
-                    Select = "*",
-                    Table = "tblCategory_FTI",
-                    WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = " + Convert.ToInt32(CategoryType.Menu_Category),
+                    Select = "distinct CategoryName,c.Fcid",
+                    Table = "tblProduct p  left join tblCategory_FTI c on c.Fcid = p.Fcid and c.Status = 1",
+                    WhereNdGroupBy = "WHERE p.Status = 1 AND c.CategoryType = " + Convert.ToInt32(CategoryType.Menu_Category),
                     OrderBy = ""
                 };
 

@@ -81,6 +81,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                Generalsettingcheck();
+
                 pageSize = Pagecount;
 
                 string width = ConfigurationManager.AppSettings["Productwidth"];
@@ -116,7 +118,43 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("OrderconsoleCustomdesign page  FrmOrderDesignCustom_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
             }
         }
+        public void Generalsettingcheck()
+        {
+            try
+            {
+                BllSearch<DmnGeneralSetting> bllsearchdrawer = new BllSearch<DmnGeneralSetting>();
+                DmnSearch dmnsearckgen = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = $"where BranchId={FrmDashboard.BranchId} and Status=1",
+                    OrderBy = ""
+                };
+                var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckgen);
+                if (gridesource.Count > 0)
+                {
+                    var settings = gridesource[0];
 
+                    Pagecount = settings.ProductpageperCount;
+
+                    Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    if (config.AppSettings.Settings["FBpagescount"] != null)
+                    {
+                        config.AppSettings.Settings["FBpagescount"].Value = settings.ProductpageperCount.ToString();
+                    }
+                    else
+                    {
+                        config.AppSettings.Settings.Add("FBpagescount", settings.ProductpageperCount.ToString());
+                    }
+                    config.Save(ConfigurationSaveMode.Modified);
+                    ConfigurationManager.RefreshSection("appSettings");
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("OrderconsoleCustomdesign page  Generalsettingcheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.OrderconsoleCustomdesign));
+            }
+        }
 
         #region side menu
         public void Memoryrelease()
@@ -190,11 +228,12 @@ namespace FoodandBeverage.Forms
                 int bWidth = btn_showmenu.Width;
 
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
+
                 DmnSearch dmnSearch = new DmnSearch
                 {
-                    Select = "*",
-                    Table = "tblCategory_FTI",
-                    WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = " + Convert.ToInt32(CategoryType.Menu_Category),
+                    Select = "distinct CategoryName,c.Fcid",
+                    Table = "tblProduct p  left join tblCategory_FTI c on c.Fcid = p.Fcid and c.Status = 1",
+                    WhereNdGroupBy = "WHERE p.Status = 1 AND c.CategoryType = " + Convert.ToInt32(CategoryType.Menu_Category),
                     OrderBy = ""
                 };
 

@@ -824,9 +824,11 @@ namespace FoodandBeverage.Forms
                 PrepareForSideMenuNavigation();
 
                 ProfilPIC_update();
+
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 panelDesktop.Controls.Clear();
                 btn_pickup.Visible = false;
+
                 if (ChkWritePermission(Convert.ToInt32(formsenum.DashboardCharts)))
                 {
                     if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
@@ -866,28 +868,27 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Home Page  Menuhome_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
         private void DashboardButtonClickEventHandler(object sender, EventArgs e)
         {
-            //item Chosse from serach Box 
             try
             {
                 Control clickedControl = sender as Control;
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Home Page  DashboardButtonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
+
         private void ToggleSideMenu()
         {
             try
             {
                 CloseTableViewPage();
+
                 if (ButtonID == Convert.ToInt32(Menubutton.Menutable))
                 {
                     tlp_tablestatus.SuspendLayout();
@@ -974,6 +975,7 @@ namespace FoodandBeverage.Forms
                 PrepareForSideMenuNavigation();
 
                 AdjustButtonsToPanel();
+
                 ButtonID = Convert.ToInt32(Menubutton.Menuoperation);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -1295,6 +1297,7 @@ namespace FoodandBeverage.Forms
                 return true;
             }
         }
+
         #region drawerAssign
         public void AssignDrawerCheck()
         {
@@ -1816,6 +1819,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 PrepareForSideMenuNavigation();
+
                 if (System.Windows.Forms.Application.OpenForms["FrmPurchaseReturn"] != null)
                 {
                     FrmPurchaseReturn _instancePurchaseReturn = Application.OpenForms["FrmPurchaseReturn"] as FrmPurchaseReturn;
@@ -2172,7 +2176,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Homepage ib_withdrawal_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
@@ -2741,6 +2744,7 @@ namespace FoodandBeverage.Forms
 
         private void AdjustButtonsToPanel()
         {
+
             if (panelDesktop == null || panelDesktop.Width == 0)
                 return;
 
@@ -2753,8 +2757,8 @@ namespace FoodandBeverage.Forms
             int availableWidth = panelWidth - totalHorizontalMargin;
 
             columns = screenWidth > 1366 ? 4 : 3;
-            lblinact_timer.Text = columns+" "+ screenWidth.ToString();
-            int buttonWidth = availableWidth / columns;  ;
+            lblinact_timer.Text = columns + " " + screenWidth.ToString();
+            int buttonWidth = availableWidth / columns; ;
 
             //int buttonHeight = (int)(buttonWidth * 0.35);
             int buttonHeight = (int)(Menuhome.Height * 0.92);
@@ -2762,32 +2766,38 @@ namespace FoodandBeverage.Forms
             ResizeButtonsInFlow(flp_empbuttons, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
             ResizeButtonsInFlow(flp_operabuttons, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
             ResizeButtonsInFlow(flp_settingbtn, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
-
         }
 
         private void ResizeButtonsInFlow(FlowLayoutPanel flow, int width, int height, int marginX, int marginY)
         {
-            if (flow == null) return;
-
-            flow.WrapContents = true;
-            flow.AutoSize = false;
-            flow.FlowDirection = FlowDirection.LeftToRight;
-            flow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-
-            foreach (Control ctrl in flow.Controls)
+            try
             {
-                if (ctrl is Button btn)
+                if (flow == null) return;
+
+                flow.WrapContents = true;
+                flow.AutoSize = false;
+                flow.FlowDirection = FlowDirection.LeftToRight;
+                flow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+                foreach (Control ctrl in flow.Controls)
                 {
-                    btn.Width = width;
-                    btn.Height = height;
+                    if (ctrl is Button btn)
+                    {
+                        btn.Width = width;
+                        btn.Height = height;
 
-                    // Margins
-                    btn.Margin = new Padding(marginX, marginY, marginX, marginY);
+                        // Margins
+                        btn.Margin = new Padding(marginX, marginY, marginX, marginY);
 
-                    // Adjust font size to match smaller height
-                    float fontSize = Math.Max(9f, width / 18f);
-                    btn.Font = AppFonts.GetFont(12);
+                        // Adjust font size to match smaller height
+                        float fontSize = Math.Max(9f, width / 18f);
+                        btn.Font = AppFonts.GetFont(12);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                clsgen.LogException("homepage ResizeButtonsInFlow", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
 
@@ -2993,7 +3003,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("homepage FormPermissionChecking", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
@@ -3022,7 +3031,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("homepage ChkWritePermission()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
                 return false;
             }
@@ -3063,11 +3071,9 @@ namespace FoodandBeverage.Forms
                 {
                     CMessageBox.Show(this, "Operation failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                //tlp_main_sidebar_pnldesktop.Enabled = true;
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("homepage btn_save_msg_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
@@ -3076,7 +3082,6 @@ namespace FoodandBeverage.Forms
         private void btn_close_msg_Click(object sender, EventArgs e)
         {
             panl_msgsettings.Visible = false;
-            //tlp_main_sidebar_pnldesktop.Enabled = true;
         }
 
         private void Menutable_Click(object sender, EventArgs e)
@@ -3084,6 +3089,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 PrepareForSideMenuNavigation();
+
                 ButtonID = Convert.ToInt32(Menubutton.Menutable);
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -3098,6 +3104,7 @@ namespace FoodandBeverage.Forms
                     _instanceFrmCombinedBill.Dispose();
                     GC.Collect();
                 }
+
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
@@ -3143,6 +3150,7 @@ namespace FoodandBeverage.Forms
                 //    }
                 //    else
                 //    {
+
                         tlp_tablestatus.SuspendLayout();
                         //btn_rev.Visible = true;
                         //btn_running.Visible = true;
@@ -3167,11 +3175,11 @@ namespace FoodandBeverage.Forms
 
 
                 menutable_click = true;
-                panelDesktop.ResumeLayout();              
+                panelDesktop.ResumeLayout();       
+                
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("homepage Menutable_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
@@ -3184,6 +3192,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 PrepareForSideMenuNavigation();
+
                 panelDesktop.BackColor = SystemColors.Control;
                 if (System.Windows.Forms.Application.OpenForms["FrmAddon"] != null)
                 {
@@ -5976,6 +5985,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                AssignDrawerCheck();
+                if (FrmDrawer.DrawerID == 0)
+                {
+                    return;
+                }
+
                 PrepareForSideMenuNavigation();
 
                 if (Application.OpenForms["FrmPartyBooking"] != null)
