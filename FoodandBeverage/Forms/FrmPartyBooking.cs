@@ -226,6 +226,7 @@ namespace FoodandBeverage
                 lblbalapay.ForeColor = Color.DimGray;
 
                 lblpackname.ForeColor = Color.DimGray;
+                
 
                 Taxfill();
 
