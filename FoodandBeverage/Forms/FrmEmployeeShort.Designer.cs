@@ -206,7 +206,7 @@ namespace FoodandBeverage.Forms
             // 
             // tlp_employe_reg_outer
             // 
-            this.tlp_employe_reg_outer.BackColor = System.Drawing.Color.Yellow;
+            this.tlp_employe_reg_outer.BackColor = System.Drawing.Color.Transparent;
             this.tlp_employe_reg_outer.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tlp_employe_reg_outer.ColumnCount = 2;
             this.tlp_employe_reg_outer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
@@ -898,7 +898,7 @@ namespace FoodandBeverage.Forms
             this.tp_rolereg.Controls.Add(this.tlp_role_design);
             this.tp_rolereg.Location = new System.Drawing.Point(4, 27);
             this.tp_rolereg.Name = "tp_rolereg";
-            this.tp_rolereg.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.tp_rolereg.Padding = new System.Windows.Forms.Padding(10);
             this.tp_rolereg.Size = new System.Drawing.Size(889, 347);
             this.tp_rolereg.TabIndex = 1;
             this.tp_rolereg.Text = "Role Registration";
@@ -912,7 +912,7 @@ namespace FoodandBeverage.Forms
             this.tlp_role_design.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_role_design.Location = new System.Drawing.Point(10, 10);
             this.tlp_role_design.Name = "tlp_role_design";
-            this.tlp_role_design.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.tlp_role_design.Padding = new System.Windows.Forms.Padding(8);
             this.tlp_role_design.RowCount = 2;
             this.tlp_role_design.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_role_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -1098,7 +1098,7 @@ namespace FoodandBeverage.Forms
             this.tp_userreg.Controls.Add(this.tlp_user_reg);
             this.tp_userreg.Location = new System.Drawing.Point(4, 27);
             this.tp_userreg.Name = "tp_userreg";
-            this.tp_userreg.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.tp_userreg.Padding = new System.Windows.Forms.Padding(10);
             this.tp_userreg.Size = new System.Drawing.Size(889, 347);
             this.tp_userreg.TabIndex = 2;
             this.tp_userreg.Text = "User Registration";
@@ -1435,7 +1435,7 @@ namespace FoodandBeverage.Forms
             this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main.Location = new System.Drawing.Point(0, 0);
             this.tlp_main.Name = "tlp_main";
-            this.tlp_main.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_main.RowCount = 3;
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -1453,7 +1453,7 @@ namespace FoodandBeverage.Forms
             this.pnlusertype.Location = new System.Drawing.Point(30, 268);
             this.pnlusertype.Margin = new System.Windows.Forms.Padding(0);
             this.pnlusertype.Name = "pnlusertype";
-            this.pnlusertype.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pnlusertype.Padding = new System.Windows.Forms.Padding(6);
             this.pnlusertype.Size = new System.Drawing.Size(419, 281);
             this.pnlusertype.TabIndex = 286;
             this.pnlusertype.Visible = false;
@@ -1707,7 +1707,7 @@ namespace FoodandBeverage.Forms
             this.pnlwifi.Controls.Add(this.tableLayoutPanel8);
             this.pnlwifi.Location = new System.Drawing.Point(223, 268);
             this.pnlwifi.Name = "pnlwifi";
-            this.pnlwifi.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.pnlwifi.Padding = new System.Windows.Forms.Padding(10);
             this.pnlwifi.Size = new System.Drawing.Size(349, 274);
             this.pnlwifi.TabIndex = 319;
             this.pnlwifi.Visible = false;
@@ -1722,7 +1722,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel8.Location = new System.Drawing.Point(10, 10);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tableLayoutPanel8.Padding = new System.Windows.Forms.Padding(5);
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));

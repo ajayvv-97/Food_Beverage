@@ -1899,7 +1899,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "p.Product as Field1,p.ProductId as Field2,0 as Field3";
-                dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId where p.Status=1 and p.Fcid= " + clickedControl.Tag + "and m.Status=1 " +
+                dmnSearch.Table = "tblProduct p LEFT JOIN tblMenu m on m.ProductId=p.ProductId where p.Status=1 and p.Fcid= " + clickedControl.Tag + 
                     " Union Select Itemname as Field1,ItemId as Field2,Saletype as Field3 from tblItem ";//i left join tblProductRate pr on pr.ProductId = i.ItemId
                 dmnSearch.WhereNdGroupBy = "where Fcid= " + clickedControl.Tag + " and Saletype=1 and Status=1 ";//and pr.QOH>0
                 dmnSearch.OrderBy = "";
@@ -2484,6 +2484,7 @@ namespace FoodandBeverage.Forms
                                 dgv_sele_cmb_products.Rows[r].Cells[Caddonstatusno].Value = 0;
                                 totalcellamount_Combo(r);
                                 #endregion
+
                                 GridSlnoReset();
                                 CalcTotalAmtCombo(Convert.ToInt32(clickedControl.Tag), 1);
                                 TableLayoutPanel tlp_selected_Item_Box = new TableLayoutPanel();

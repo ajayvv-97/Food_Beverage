@@ -416,12 +416,9 @@ namespace FoodandBeverage.Report
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchDetBill = new DmnSearch();
                 dmnSearchDetBill.Select = "m.StockDate sFld1, m.Name sFld2,m.OpeningQty nFld1, CASE WHEN m.PreparationMode = 2 THEN ISNULL(SUM(sd.Quantity), 0) ELSE m.UsedQty END AS nFld2,m.RemainingQty AS nFld3,m.PreparationMode,m.ProductId";
-                dmnSearchDetBill.Table = "tblMenuDailyStock m LEFT JOIN tblsalesdetails sd ON sd.itemid = m.ProductId AND sd.CreatedDateTime >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sd.CreatedDateTime <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' ";
-                
+                dmnSearchDetBill.Table = "tblMenuDailyStock m LEFT JOIN tblsalesdetails sd ON sd.itemid = m.ProductId AND sd.CreatedDateTime >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sd.CreatedDateTime <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' ";                
                 dmnSearchDetBill.WhereNdGroupBy = "where  StockDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and StockDate<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' GROUP BY m.StockDate,m.Name,m.OpeningQty,m.UsedQty,m.RemainingQty,m.PreparationMode,m.ProductId";
-
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
-
                 if (invoiceBillMasters.Count > 0)
                 {
                     invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
@@ -431,6 +428,7 @@ namespace FoodandBeverage.Report
                 {
                     dt_Rpt.Load(reader);
                 }
+
                 dsReport.Tables.Add(dt_Rpt);
                 reportDocument.Load(Path + @"\Rpt_MenuReport.rpt");
                 reportDocument.SetDataSource(dsReport);
@@ -2831,7 +2829,7 @@ namespace FoodandBeverage.Report
                 {
                     dmnSearchDetBill.Select = "i.ItemCode_UPC as sFld1,i.Itemname as sFld2,pr.QOH as sFld3,pr.PRate as dFld1,pr.SRate as dFld2,pr.MRP  as dFld3";
                     dmnSearchDetBill.Table = " tblItem i left join tblProductRate pr on pr.ProductId=i.ItemId";
-                    dmnSearchDetBill.WhereNdGroupBy = " where i.Status = 1 and  (select Sum(QOH) from tblProductRate where ProductId=i.ItemId) >0 and saletype=0";
+                    dmnSearchDetBill.WhereNdGroupBy = " where i.Status = 1 and  (select Sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0 and saletype=0";
                     dmnSearchDetBill.OrderBy = "";
                     Inventry_Name = "Kitchen Item Inventory Report";
                 }

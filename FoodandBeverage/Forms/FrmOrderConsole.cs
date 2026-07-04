@@ -6445,7 +6445,6 @@ namespace FoodandBeverage.Forms
                     "LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 AND p.ProductId=ofd.ProductId " +
 
                     "WHERE p.Status=1 " +
-                    "AND m.Status=1 " +
                     "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
                     "AND p.Product LIKE '%" + txtname_search.Text.Trim() + "%'" +
 
@@ -7385,7 +7384,6 @@ namespace FoodandBeverage.Forms
                     "LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 AND p.ProductId=ofd.ProductId " +
 
                     "WHERE p.Status=1 " +
-                    "AND m.Status=1 " +
                     "AND (p.IsStockTracked = 0 OR m.Quantity > 0 or m.Status=1 ) " +
                     "AND p.ItemCode = '" + txtitemcode_serach.Text.Trim() + "'" +
 
@@ -10065,6 +10063,7 @@ namespace FoodandBeverage.Forms
                                 }
 
                                 #endregion
+
                                 CounterKotNo = dmnsalemaster.PkId;
                                 PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder));
 
@@ -11163,6 +11162,7 @@ namespace FoodandBeverage.Forms
 
                         #endregion
                     }
+
                     else if (saletype == Convert.ToInt32(Tabletype.ComboProduct))
                     {
                         #region Existing combo product
@@ -11555,6 +11555,13 @@ namespace FoodandBeverage.Forms
                 e.Handled = true;
             }
         }
+        private void txtpaidamount_TextChanged(object sender, EventArgs e)
+        {
+            if (txtpaidamount.Text != "." && txtpaidamount.Text != "")
+            {
+                netAmount();
+            }
+        }
 
         #region Product Description
 
@@ -11650,13 +11657,7 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-        private void txtpaidamount_TextChanged(object sender, EventArgs e)
-        {
-            if (txtpaidamount.Text != "." && txtpaidamount.Text != "")
-            {
-                netAmount();
-            }
-        }
+
 
         #region Customer Registration 
 

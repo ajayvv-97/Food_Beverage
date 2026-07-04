@@ -22,3 +22,166 @@ User Name:
 Designation: 
 FormTypeId: 25
 -------------------------------------------------------------------------
+Date and Time: 06/02/2026 11:46:03 AM
+Page : Login Page IsUsernameValid()
+Exception: Cannot open database "FoodBeverages" requested by the login. The login failed.
+Login failed for user 'sa'.
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 11:46:08 AM
+Page : Login Page IsUsernameValid()
+Exception: Cannot open database "FoodBeverages" requested by the login. The login failed.
+Login failed for user 'sa'.
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 11:46:08 AM
+Page : Login Page IsUsernameValid()
+Exception: Cannot open database "FoodBeverages" requested by the login. The login failed.
+Login failed for user 'sa'.
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:41:45 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'Enb_Party_Number'.
+Invalid column name 'Enb_party_Normal'.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:44:50 PM
+Page : homepage btnsavegen_Click
+Exception: Procedure or function prdInsertGeneralsetting has too many arguments specified.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:44:51 PM
+Page : homepage btnsavegen_Click
+Exception: Procedure or function prdInsertGeneralsetting has too many arguments specified.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:45:23 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'Enb_Party_Number'.
+Invalid column name 'Enb_party_Normal'.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:50:28 PM
+Page : homepage btnsavegen_Click
+Exception: Procedure or function prdInsertGeneralsetting has too many arguments specified.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:50:30 PM
+Page : homepage btnsavegen_Click
+Exception: Procedure or function prdInsertGeneralsetting has too many arguments specified.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:50:39 PM
+Page : homepage btnsavegen_Click
+Exception: Procedure or function prdInsertGeneralsetting has too many arguments specified.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:50:39 PM
+Page : homepage btnsavegen_Click
+Exception: Procedure or function prdInsertGeneralsetting has too many arguments specified.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:50:40 PM
+Page : homepage btnsavegen_Click
+Exception: Procedure or function prdInsertGeneralsetting has too many arguments specified.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:50:40 PM
+Page : homepage btnsavegen_Click
+Exception: Procedure or function prdInsertGeneralsetting has too many arguments specified.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/02/2026 5:53:42 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'Enb_Party_Number'.
+Invalid column name 'Enb_party_Normal'.
+User Name: funnfood cafe
+Designation: Cashier
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/03/2026 10:54:52 AM
+Page : OrderconsoleCustomdesign page GenerateSideMenu()
+Exception: The multi-part identifier "f.Status" could not be bound.
+User Name: admin
+Designation: Manager
+FormTypeId: 44
+-------------------------------------------------------------------------
+Date and Time: 06/03/2026 10:54:55 AM
+Page : OrderconsoleCustomdesign page GenerateSideMenu()
+Exception: The multi-part identifier "f.Status" could not be bound.
+User Name: admin
+Designation: Manager
+FormTypeId: 44
+-------------------------------------------------------------------------
+Date and Time: 06/03/2026 10:54:55 AM
+Page : OrderconsoleCustomdesign page GenerateSideMenu()
+Exception: The multi-part identifier "f.Status" could not be bound.
+User Name: admin
+Designation: Manager
+FormTypeId: 44
+-------------------------------------------------------------------------
+Date and Time: 06/03/2026 10:54:57 AM
+Page : OrderconsoleCustomdesign page GenerateSideMenu()
+Exception: The multi-part identifier "f.Status" could not be bound.
+User Name: admin
+Designation: Manager
+FormTypeId: 44
+-------------------------------------------------------------------------
+Date and Time: 06/03/2026 10:55:30 AM
+Page : OrderconsoleCustomdesign page GenerateSideMenu()
+Exception: The multi-part identifier "f.Status" could not be bound.
+User Name: admin
+Designation: Manager
+FormTypeId: 44
+-------------------------------------------------------------------------
+Date and Time: 06/05/2026 2:45:55 PM
+Page : Login Page IsUsernameValid()
+Exception: Cannot open database "fb_omax" requested by the login. The login failed.
+Login failed for user 'sa'.
+User Name: 
+Designation: 
+FormTypeId: 25
+-------------------------------------------------------------------------
+Date and Time: 06/05/2026 2:46:41 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'Enb_Party_Number'.
+Invalid column name 'Enb_party_Normal'.
+User Name: admin
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 06/05/2026 3:38:32 PM
+Page : home page virtualkeyboardCheck()
+Exception: Invalid column name 'Enb_Party_Number'.
+Invalid column name 'Enb_party_Normal'.
+User Name: admin
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------

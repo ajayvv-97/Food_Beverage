@@ -758,7 +758,7 @@ namespace FoodandBeverage.Forms
                     else if (selectedCategoryId > 0)
                         where += " AND p.Fcid = " + selectedCategoryId;
 
-                    if (!string.IsNullOrEmpty(searchText))
+                    if (!string.IsNullOrEmpty(searchText) && searchText.Trim()!="Food Name .....")
                         where += " AND (p.Product LIKE '%" + searchText + "%' " +
                                  "OR C.CategoryName LIKE '%" + searchText + "%')";
 
@@ -832,6 +832,7 @@ namespace FoodandBeverage.Forms
                         dgv_menu.Rows[i].Cells[pcatno].Value = itemSource[i].Field3;
                         dgv_menu.Rows[i].Cells[ppriceno].Value = itemSource[i].Field4;
                         dgv_menu.Rows[i].Cells[pfcidno].Value = itemSource[i].Field5;
+                        dgv_menu.Rows[i].Cells[pdefstock].Value = itemSource[i].Field10;
 
                         if (currentMenuType == MenuFillType.Item)
                         {
