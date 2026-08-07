@@ -31,6 +31,7 @@ namespace FoodandBeverage.Forms.UserControls
         {
             this.components = new System.ComponentModel.Container();
             this.pnlextracess = new System.Windows.Forms.Panel();
+            this.btncancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -44,14 +45,13 @@ namespace FoodandBeverage.Forms.UserControls
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btncancel = new System.Windows.Forms.Button();
             this.pnlextracess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlextracess
             // 
-            this.pnlextracess.BackColor = System.Drawing.Color.White;
+            this.pnlextracess.BackColor = System.Drawing.Color.Gainsboro;
             this.pnlextracess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnlextracess.Controls.Add(this.btncancel);
             this.pnlextracess.Controls.Add(this.label1);
@@ -69,8 +69,26 @@ namespace FoodandBeverage.Forms.UserControls
             this.pnlextracess.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlextracess.Location = new System.Drawing.Point(0, 0);
             this.pnlextracess.Name = "pnlextracess";
-            this.pnlextracess.Size = new System.Drawing.Size(331, 392);
+            this.pnlextracess.Size = new System.Drawing.Size(331, 436);
             this.pnlextracess.TabIndex = 2;
+            // 
+            // btncancel
+            // 
+            this.btncancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btncancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btncancel.FlatAppearance.BorderSize = 0;
+            this.btncancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btncancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btncancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btncancel.Font = new System.Drawing.Font("Segoe UI Semibold", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncancel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btncancel.Location = new System.Drawing.Point(34, 339);
+            this.btncancel.Name = "btncancel";
+            this.btncancel.Size = new System.Drawing.Size(260, 33);
+            this.btncancel.TabIndex = 106;
+            this.btncancel.Text = "close";
+            this.btncancel.UseVisualStyleBackColor = false;
+            this.btncancel.Click += new System.EventHandler(this.btncancel_Click);
             // 
             // label1
             // 
@@ -78,7 +96,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(63, 340);
+            this.label1.Location = new System.Drawing.Point(63, 389);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(185, 20);
             this.label1.TabIndex = 105;
@@ -90,7 +108,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(238, 16);
+            this.label5.Location = new System.Drawing.Point(129, 68);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(76, 21);
             this.label5.TabIndex = 104;
@@ -103,7 +121,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(34, 149);
+            this.label4.Location = new System.Drawing.Point(34, 198);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(82, 21);
             this.label4.TabIndex = 103;
@@ -115,7 +133,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(34, 72);
+            this.label3.Location = new System.Drawing.Point(34, 121);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 21);
             this.label3.TabIndex = 102;
@@ -141,7 +159,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Segoe UI Semibold", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnLogin.Location = new System.Drawing.Point(34, 238);
+            this.btnLogin.Location = new System.Drawing.Point(34, 287);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(260, 33);
             this.btnLogin.TabIndex = 3;
@@ -181,7 +199,7 @@ namespace FoodandBeverage.Forms.UserControls
             this.lblUser.BackColor = System.Drawing.Color.Transparent;
             this.lblUser.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUser.ForeColor = System.Drawing.Color.White;
-            this.lblUser.Location = new System.Drawing.Point(226, 33);
+            this.lblUser.Location = new System.Drawing.Point(133, 87);
             this.lblUser.Name = "lblUser";
             this.lblUser.Size = new System.Drawing.Size(69, 30);
             this.lblUser.TabIndex = 95;
@@ -189,10 +207,10 @@ namespace FoodandBeverage.Forms.UserControls
             // 
             // txtPwd
             // 
-            this.txtPwd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtPwd.BackColor = System.Drawing.Color.White;
             this.txtPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPwd.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPwd.Location = new System.Drawing.Point(34, 171);
+            this.txtPwd.Location = new System.Drawing.Point(34, 220);
             this.txtPwd.Multiline = true;
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.PasswordChar = '*';
@@ -205,7 +223,7 @@ namespace FoodandBeverage.Forms.UserControls
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.DimGray;
             this.pictureBox1.Image = global::FoodandBeverage.Properties.Resources.userlock;
-            this.pictureBox1.Location = new System.Drawing.Point(148, 33);
+            this.pictureBox1.Location = new System.Drawing.Point(148, 16);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(41, 38);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -214,10 +232,10 @@ namespace FoodandBeverage.Forms.UserControls
             // 
             // txtUserName
             // 
-            this.txtUserName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtUserName.BackColor = System.Drawing.Color.White;
             this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUserName.Location = new System.Drawing.Point(34, 103);
+            this.txtUserName.Location = new System.Drawing.Point(34, 152);
             this.txtUserName.Multiline = true;
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(260, 38);
@@ -230,29 +248,11 @@ namespace FoodandBeverage.Forms.UserControls
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // btncancel
-            // 
-            this.btncancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btncancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btncancel.FlatAppearance.BorderSize = 0;
-            this.btncancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btncancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btncancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btncancel.Font = new System.Drawing.Font("Segoe UI Semibold", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btncancel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btncancel.Location = new System.Drawing.Point(34, 290);
-            this.btncancel.Name = "btncancel";
-            this.btncancel.Size = new System.Drawing.Size(260, 33);
-            this.btncancel.TabIndex = 106;
-            this.btncancel.Text = "close";
-            this.btncancel.UseVisualStyleBackColor = false;
-            this.btncancel.Click += new System.EventHandler(this.btncancel_Click);
-            // 
             // frmExtraAccessChk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 392);
+            this.ClientSize = new System.Drawing.Size(328, 436);
             this.Controls.Add(this.pnlextracess);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;

@@ -76,7 +76,7 @@ namespace FoodandBeverage.SaleBill
 
             textb_shape();
             MessageCheck();
-            if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill))
+            if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill) || BillTypeData == Convert.ToInt32(BillType.BillCopy))//
             {
                 PrintBill();
             }

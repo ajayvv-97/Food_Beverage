@@ -4384,8 +4384,7 @@ namespace FoodandBeverage.Forms
                      WHERE om.Status = 1
                        AND om.OfferType = 1
                        AND om.OfferstartDatetime <= SYSDATETIME()
-                       AND om.OfferEndDatetime >= SYSDATETIME()
-                       AND tm.ProductType = 3                      
+                       AND om.OfferEndDatetime >= SYSDATETIME()                    
                      GROUP BY om.OfferName, om.Omid, om.Discountper, om.FinalPrice, om.cmphid";// AND tm.Quantity > 0
 
                 ProductData = bllSearch.GetSearchData("prdSearch", dmnSearch);

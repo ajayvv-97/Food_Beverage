@@ -59,7 +59,7 @@ namespace FoodandBeverage.Forms
         private List<DmnGridFields> pagedata;
         private List<DmnGridFields> Resultdata;
         int currentPage = 1;
-        int pageSize = 5;
+        int pageSize = 20;
         int totalPages = 0;
         public bool SerachFlag = false,ordercancelfalg=false;
         public DateTime startTime = DateTime.Now;
@@ -537,6 +537,7 @@ namespace FoodandBeverage.Forms
                     btnprevious.Visible = true;
                     btnnext.Visible = true;
                 }
+
                 #region Fill Orders in Datagrid
                 int rowIndex = 0;
 
@@ -548,7 +549,8 @@ namespace FoodandBeverage.Forms
                     int x = dgvorderview.RowCount;
                     for (int i = 0; i < gridSource.Count; i++)
                     {
-                        dgvorderview.Rows[rowIndex].Cells[cslno].Value = rowIndex + 1;
+                        dgvorderview.Rows[rowIndex].Cells[cslno].Value = ((currentPage - 1) * pageSize) + i + 1;
+
                         dgvorderview.Rows[rowIndex].Cells[orderidno].Value = gridSource[i].Field1;
 
                         if (Convert.ToInt32(gridSource[i].Field7) > 0)
@@ -1309,18 +1311,29 @@ namespace FoodandBeverage.Forms
                     //{
                     if (ordercancelfalg)
                     {
-                        int smid = 0, tableId = 0;                  
+                        int smid = 0, tableId = 0;
                         BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                         DmnSearch dmnSearch = new DmnSearch();
                         dmnSearch.Select = "SalesMasterId Field1";
                         dmnSearch.Table = "tblSalesMaster";
-                        dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + tableId;
+                        dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + OrderMasterId;
                         dmnSearch.OrderBy = "";
                         var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
                         if (gridSource.Count > 0)
                         {
                             smid = Convert.ToInt32(gridSource[0].Field1);
                         }
+
+                        //dmnSearch.Select = "SalesMasterId Field1";
+                        //dmnSearch.Table = "tblSalesMaster";
+                        //dmnSearch.WhereNdGroupBy = "where  OrderMasterId = " + OrderMasterId;
+                        //dmnSearch.OrderBy = "";
+                        //var gridSourcesale = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                        //if (gridSource.Count > 0)
+                        //{
+                        //    smid = Convert.ToInt32(gridSource[0].Field1);
+                        //}
+
                         DmnCancelOrder cancelod = new DmnCancelOrder();
                         BllCancelOrder bllcancelod = new BllCancelOrder();
                         cancelod.SalesMasterId = smid;

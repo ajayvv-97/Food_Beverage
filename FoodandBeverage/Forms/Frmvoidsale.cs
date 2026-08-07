@@ -188,6 +188,22 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (dgv_productlist.Rows.Count == 0)
+                {
+                    CMessageBox.Show("No Sale available to void.", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var sidValue = dgv_productlist.Rows[0].Cells[sid].Value;
+
+                if (sidValue == null || string.IsNullOrWhiteSpace(sidValue.ToString()))
+                {
+                    CMessageBox.Show("Invalid Sale. Cannot void this sale.", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 #region Void Order Items
                 DialogResult result = CMessageBox.Show("Do you want to void this sale?","Void Confirmation",
                 MessageBoxButtons.YesNo,
