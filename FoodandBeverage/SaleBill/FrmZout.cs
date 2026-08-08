@@ -1082,6 +1082,8 @@ namespace FoodandBeverage.SaleBill
                 reportDocument.SetParameterValue("Designation", Convert.ToString(Addressdata[0].Field8));
                 string devicename = System.Environment.MachineName;
                 reportDocument.SetParameterValue("Device_name", devicename);
+                reportDocument.SetParameterValue("Drawerassigntime", Drawerassigntime);
+                
                 GetRegadd();
                 reportDocument.SetParameterValue("Regaddress", Regaddress);
                 /*End Header section*/
@@ -1312,6 +1314,7 @@ namespace FoodandBeverage.SaleBill
                 GetRegadd();
                 reportDocument.SetParameterValue("Regaddress", Regaddress); 
                 reportDocument.SetParameterValue("Device_name", devicename);
+                reportDocument.SetParameterValue("Drawerassigntime", Drawerassigntime);
                 /*End Header section*/
 
                 /* report header Name*/
