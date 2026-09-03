@@ -12,6 +12,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing;
 using System.Collections.Generic;
 using FoodandBeverage.Interfaces;
+using FoodandBeverage.Forms;
+using System.Linq;
 
 namespace FoodandBeverage.Classes
 {
@@ -23,7 +25,9 @@ namespace FoodandBeverage.Classes
         ////public static string BugReportFile = @"C:\Users\ajay\OneDrive\Desktop\Food_Beverage\FoodandBeverage\BugReport\BugReport.txt";
         public static string BugReportFileExcel = Application.StartupPath + @"\BugReport\BugReport.xlsx";
         public static string BugReportFile = Application.StartupPath + @"\BugReport\BugReport.txt";
-
+        public static string ZoutLogsFilepath = Application.StartupPath + @"\TrackZoutLogs\";
+        private static int _zoutLogSerialNo = 0;
+        private static readonly object _zoutLogLock = new object();
         public void NextConrolOnEnterPress(object sender, KeyEventArgs e)
         {
             Control ctrl;
@@ -210,11 +214,93 @@ namespace FoodandBeverage.Classes
         //        MessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
         //    }
         //}
-        public void LogExceptionExcel(string page, Exception ex, string userName, string designation, int formTypeId)
+        public void StartZoutLog()
         {
-            
-        }
+            lock (_zoutLogLock)
+            {
+                _zoutLogSerialNo = 0;
+            }
 
+            TrackZoutLog(
+                "POSDashboard",
+                "ZOUT_SESSION_START",
+                "New Zout session started");
+        }
+        public void TrackZoutLog(string page, string step, string message = "")
+        {
+            try
+            {
+                string logFolder = ZoutLogsFilepath;
+
+                if (!Directory.Exists(logFolder))
+                {
+                    Directory.CreateDirectory(logFolder);
+                }
+
+                string fileName =
+                    "ZoutLog_" +
+                    DateTime.Now.ToString("yyyy-MM-dd") +
+                    ".txt";
+
+                string logFile = Path.Combine(logFolder, fileName);
+
+                int serialNo;
+
+                lock (_zoutLogLock)
+                {
+                    _zoutLogSerialNo++;
+                    serialNo = _zoutLogSerialNo;
+
+                    string logLine =
+                        serialNo.ToString() +
+                        " | " +
+                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") +
+                        " | Machine=" + Environment.MachineName +
+                        " | User=" + Convert.ToString(FrmLogin.EmployeName) +
+                        " | Page=" + page +
+                        " | Step=" + step +
+                        " | " + message;
+
+                    using (StreamWriter sw = new StreamWriter(logFile, true))
+                    {
+                        sw.WriteLine(logLine);
+                    }
+                }
+            }
+            catch
+            {
+                // Do not throw logging exceptions
+            }
+        }
+        public void WriteZoutSeparator()
+        {
+            try
+            {
+                string logFolder = ZoutLogsFilepath;
+
+                if (!Directory.Exists(logFolder))
+                {
+                    Directory.CreateDirectory(logFolder);
+                }
+
+                string fileName =
+                    "ZoutLog_" +
+                    DateTime.Now.ToString("yyyy-MM-dd") +
+                    ".txt";
+
+                string logFile = Path.Combine(logFolder, fileName);
+
+                using (StreamWriter sw = new StreamWriter(logFile, true))
+                {
+                    sw.WriteLine();
+                    sw.WriteLine(new string('-', 150));
+                    sw.WriteLine();
+                }
+            }
+            catch
+            {
+            }
+        }
         public  void LogException(string page, Exception ex,string userName, string designation,int Formtypeid)
         {
             try
@@ -278,6 +364,7 @@ namespace FoodandBeverage.Classes
                 //CMessageBox.Show("An error occurred while logging the exception: " + logEx.Message);
             }
         }
+
         public void GridAutoSizeSmart(DataGridView dgv)
         {
             try

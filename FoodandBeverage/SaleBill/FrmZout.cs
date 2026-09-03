@@ -298,7 +298,10 @@ namespace FoodandBeverage.SaleBill
             this.Name = "FrmZout";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Tag = "34";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmZout_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmZout_FormClosed);
             this.Load += new System.EventHandler(this.FrmZout_Load);
+            this.Shown += new System.EventHandler(this.FrmZout_Shown);
             this.tlp_btns.ResumeLayout(false);
             this.tlp_main.ResumeLayout(false);
             this.pnlgmail.ResumeLayout(false);
@@ -338,6 +341,7 @@ namespace FoodandBeverage.SaleBill
                 Generalsettingcheck();
                 if (flag == Convert.ToInt32(BillCategory.Zout))
                 {
+                    clsgen.TrackZoutLog("FrmZout","FORM_LOAD","Zout form loaded");
                     PrintZout();
                     if (XYDalvalue == false)
                         this.Close();
@@ -898,22 +902,24 @@ namespace FoodandBeverage.SaleBill
                 Console.WriteLine("No PDF files found in the directory.");
             }
         }
-        #endregion  
+        #endregion
 
         #region Zout
         public void PrintZout()
         {
+            clsgen.TrackZoutLog("FrmZout","PRINT_ZOUT_START","PrintZout() started");
+
+            printname = "Zout";
             try
             {
-                printname = "Zout";
                 DataSet dsReport = new DataSet();
-
                 string Drawerassigntime = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                 DataTable DT_Drawer = new DataTable("DT_Drawer");
                 DataTable DT_Geninfo = new DataTable("DT_Geninfo");
                 DataTable DT_Products = new DataTable("DT_Products");
                 DataTable dtgeneralsettings = new DataTable("DT_GeneralSettings");
-                DataTable DT_Return = new DataTable("DT_Return"); 
+                DataTable DT_Return = new DataTable("DT_Return");
+                clsgen.TrackZoutLog( "FrmZout","REPORT_DATA_INITIALIZED","All Zout DataTables initialized");
 
                 BllSearch<DmnOutDrawer> bllDrawer = new BllSearch<DmnOutDrawer>();
                 BllSearch<DmnOutGenInfo> bllGeninfo = new BllSearch<DmnOutGenInfo>();
@@ -963,9 +969,9 @@ namespace FoodandBeverage.SaleBill
                 DmnSearch dmnSearchProduct = new DmnSearch();
                 dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,d.ItemName as Itemname, CAST(SUM(d.DiscountAmount) AS decimal(18,2)) AS TotalDiscount, CAST(sum(d.NetAmount) AS decimal(18,2)) TotalAmount,g.Caption as ProductType,d.ProductType as ProductId,CAST(sum(d.TaxAmount) AS decimal(18,2)) as Totaltax ";
                 dmnSearchProduct.Table = "tblSalesDetails d " +
-                    "LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 " + " and M.PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) +
-                    "LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
-                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  d.ItemName ,g.Caption,d.ProductType";
+                   " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 " + " and M.PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and M.PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                   " LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
+                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.PaymentMode!= 0 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  d.ItemName ,g.Caption,d.ProductType";
                 var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
                 using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax", "ProductType", "ProductId"))
                 {
@@ -1003,7 +1009,7 @@ namespace FoodandBeverage.SaleBill
                 dmnSearchGeninfo.Table = "(select g.Caption as Caption,CAST(Sum(sm.NetAmount) AS decimal(18,2))  as amount from tblSalesMaster sm left join tblGeneralOptions g on g.GTypeSubId =sm.PaymentMode and g.GTypeId = 2 where sm.status = 1 and sm.BranchId = " + BranchId + " and sm.CreatedBy = " + UserId + " and sm.CreatedDateTime >= '" + Drawerassigntime + "' AND sm.CreatedDateTime <= SYSDATETIME() and sm.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) + " GROUP BY  g.Caption,sm.NetAmount" +
                     " union all Select 'Discount' Caption ,CAST(Sum(DiscountAmount) AS decimal(18,2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " Union all Select 'TotalPreTaxAmt', CAST(SUM(NetAmount) - SUM(TotalTax) AS decimal(18, 2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " AND Status = 1 AND CreatedBy = " + UserId + " AND CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
-                    " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= 0 and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " Union all Select 'NetAmount' Caption,CAST(Sum(NetAmount) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " Union all Select 'TotalQuantity',Sum(TotalQuantity) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1 and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " UNION ALL SELECT g.Caption AS Caption,CAST(SUM(p.paidAmt) AS decimal(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = p.PayMode AND g.GTypeId = 2 WHERE p.PayMode!= 11 AND s.BranchId= " + BranchId + " AND s.PaymentMode = 12 AND s.Status = 1 AND s.CreatedBy = " + UserId + " and s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME() and s.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) + " GROUP BY g.Caption" +
@@ -1070,9 +1076,15 @@ namespace FoodandBeverage.SaleBill
                 {
 
                 }
+                clsgen.TrackZoutLog("FrmZout","REPORT_LOAD_SUCCESS","Crystal Report loaded successfully");
+
                 reportDocument.SetDataSource(dsReport);
 
+                clsgen.TrackZoutLog("FrmZout", "REPORT_DATASOURCE_SUCCESS", "DataSet assigned to Crystal Report");
+
                 /* header section*/
+                clsgen.TrackZoutLog("FrmZout","REPORT_PARAMETERS_START","Setting Zout report parameters");
+
                 Addressdata = Get_CompantDetails();
                 reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Field1));
                 reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].Field5));
@@ -1091,20 +1103,39 @@ namespace FoodandBeverage.SaleBill
                 /* report header Name*/
                 reportDocument.SetParameterValue("OutHeading", "Zout");
 
+                clsgen.TrackZoutLog("FrmZout","REPORT_PARAMETERS_SUCCESS","All Zout report parameters assigned");
+
                 crvout.ReuseParameterValuesOnRefresh = true;
                 //crvout.RefreshReport();
                 crvout.ReportSource = reportDocument;
-                if (Convert.ToInt32(AutoPrint) == Convert.ToInt32(AutoPrintToPrinter.Yes))
-                {
-                    if (selectedPrinters_TH.Count > 0)
-                        SetDefaultPrinter(selectedPrinters_TH[0]);
 
-                    //if (XYDalvalue == false || DalDalvalue == false)
+                clsgen.TrackZoutLog("FrmZout","REPORT_VIEWER_SUCCESS", "Report assigned to CrystalReportViewer");
+
+                clsgen.TrackZoutLog( "FrmZout", "AUTOPRINT_CHECK", "AutoPrint=" + AutoPrint);
+
+                if (Convert.ToInt32(AutoPrint) ==  Convert.ToInt32(AutoPrintToPrinter.Yes))
+                {
+                    clsgen.TrackZoutLog("FrmZout","AUTOPRINT_ENABLED", "Auto print enabled");
+                    if (selectedPrinters_TH.Count > 0)
+                    {
+                        clsgen.TrackZoutLog("FrmZout","PRINTER_SET_START","Setting printer=" + selectedPrinters_TH[0]);
+                        SetDefaultPrinter(selectedPrinters_TH[0]);
+                        clsgen.TrackZoutLog("FrmZout","PRINTER_SET_SUCCESS","Default printer set");
+                    }
+
+                    clsgen.TrackZoutLog("FrmZout","PRINT_START","Calling PrintToPrinter");
                     reportDocument.PrintToPrinter(1, false, 0, 0);
+
+                    clsgen.TrackZoutLog("FrmZout","PRINT_SUCCESS","PrintToPrinter completed");
+                }
+                else
+                {
+                    clsgen.TrackZoutLog("FrmZout","AUTOPRINT_DISABLED","Auto print disabled");
                 }
 
                 if (Convert.ToInt32(Save_YZout) == Convert.ToInt32(Save_Copy_YZout.Yes))
                 {
+                    clsgen.TrackZoutLog("FrmZout","PDF_EXPORT_START","PDF path=" + reportpdfPath);
                     string folderPath = YZPath + "\\Yout";
                     if (!Directory.Exists(folderPath))
                     {
@@ -1118,13 +1149,15 @@ namespace FoodandBeverage.SaleBill
                     // Export report to PDF
                     reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, reportpdfPath);
                     #endregion
-
+                    clsgen.TrackZoutLog("FrmZout", "PDF_EXPORT_SUCCESS","PDF generated successfully");
                     CMessageBox.Show($"PDF saved at:\n{reportpdfPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                clsgen.TrackZoutLog("FrmZout","PRINT_ZOUT_COMPLETE","PrintZout completed successfully");
             }
             catch (Exception ex)
             {
-                clsgen.LogException("ZOut Page PrintXout()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.YZout));
+                clsgen.TrackZoutLog("FrmZout","PRINT_ZOUT_EXCEPTION",ex.ToString());
+                clsgen.LogException("ZOut Page PrintXout()", ex,FrmLogin.EmployeName,FrmLogin.Designation,Convert.ToInt32(FormType.YZout));
             }
         }
         #endregion
@@ -1192,9 +1225,9 @@ namespace FoodandBeverage.SaleBill
                 DmnSearch dmnSearchProduct = new DmnSearch();
                 dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,d.ItemName as Itemname, CAST(SUM(d.DiscountAmount) AS decimal(18,2)) AS TotalDiscount, CAST(sum(d.NetAmount) AS decimal(18,2)) TotalAmount,g.Caption as ProductType,d.ProductType as ProductId,CAST(sum(d.TaxAmount) AS decimal(18,2)) as Totaltax ";
                 dmnSearchProduct.Table = "tblSalesDetails d " +
-                    " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 and PaymentMode!= " + Convert.ToInt32(PaymentType.Nocharge) + 
+                    " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 and PaymentMode!= " + Convert.ToInt32(PaymentType.Nocharge) + " and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY)+
                     " LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
-                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  d.ItemName ,g.Caption,d.ProductType";
+                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and m.PaymentMode!= 0 and d.Status= 1 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  d.ItemName ,g.Caption,d.ProductType";
                 var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
                 using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax", "ProductType", "ProductId"))
                 {
@@ -1232,7 +1265,7 @@ namespace FoodandBeverage.SaleBill
                 dmnSearchGeninfo.Table = "(select g.Caption as Caption,CAST(Sum(sm.NetAmount) AS decimal(18,2))  as amount from tblSalesMaster sm left join tblGeneralOptions g on g.GTypeSubId =sm.PaymentMode and g.GTypeId = 2 where sm.status = 1 and sm.BranchId = " + BranchId + " and sm.CreatedBy = " + UserId + " and sm.CreatedDateTime >= '" + Drawerassigntime + "' AND sm.CreatedDateTime <= SYSDATETIME() and sm.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) + " GROUP BY  g.Caption,sm.NetAmount" +
                     " union all Select 'Discount' Caption ,CAST(Sum(DiscountAmount) AS decimal(18,2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " Union all Select 'TotalPreTaxAmt', CAST(SUM(NetAmount) - SUM(TotalTax) AS decimal(18, 2)) as amount from tblSalesMaster WHERE BranchId = " + BranchId + " AND Status = 1 AND CreatedBy = " + UserId + " AND CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
-                    " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    " Union all Select 'TotalTax' Caption ,CAST(Sum(TotalTax) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()and  PaymentMode!= 0 and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +" and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " Union all Select 'NetAmount' Caption,CAST(Sum(NetAmount) AS decimal(18,2)) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1  and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME() and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " and PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " Union all Select 'TotalQuantity',Sum(TotalQuantity) as amount  from tblSalesMaster WHERE BranchId = " + BranchId + " and Status=1 and CreatedBy = " + UserId + " and CreatedDateTime >= '" + Drawerassigntime + "' AND CreatedDateTime <= SYSDATETIME()" + " and saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " UNION ALL SELECT g.Caption AS Caption,CAST(SUM(p.paidAmt) AS decimal(18, 2)) AS amount FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON p.SalesMasterId = s.SalesMasterId LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = p.PayMode AND g.GTypeId = 2 WHERE p.PayMode!= 11 AND s.BranchId= " + BranchId + " AND s.PaymentMode = 12 AND s.Status = 1 AND s.CreatedBy = " + UserId + " and s.CreatedDateTime >= '" + Drawerassigntime + "' AND s.CreatedDateTime <= SYSDATETIME()" + " and s.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +" GROUP BY g.Caption" +
@@ -1385,7 +1418,6 @@ namespace FoodandBeverage.SaleBill
         {
             try
             {
-                // Get the ReportDocument object used by the Crystal Report Viewer
                 ReportDocument reportDocument = crvout.ReportSource as ReportDocument;
                 if (selectedPrinters_TH.Count > 0)
                     SetDefaultPrinter(selectedPrinters_TH[0]);
@@ -1557,6 +1589,33 @@ namespace FoodandBeverage.SaleBill
             catch (Exception ex)
             {
                 clsgen.LogException("ZOut Page btngmailsend_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.YZout));
+            }
+        }
+
+        private void FrmZout_Shown(object sender, EventArgs e)
+        {
+            if (flag == Convert.ToInt32(BillCategory.Zout))
+            {
+                clsgen.TrackZoutLog("FrmZout", "FORM_SHOWN", "Zout form displayed to user");
+            }
+        }
+
+        private void FrmZout_FormClosing( object sender, FormClosingEventArgs e)
+        {
+            if (flag == Convert.ToInt32(BillCategory.Zout))
+            {
+                clsgen.TrackZoutLog("FrmZout", "FORM_CLOSING", "Reason=" + e.CloseReason.ToString());
+            }
+        }
+
+        private void FrmZout_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (flag == Convert.ToInt32(BillCategory.Zout))
+            {
+                clsgen.TrackZoutLog(
+                "FrmZout",
+                "FORM_CLOSED",
+                "Zout form completely closed");
             }
         }
 

@@ -815,6 +815,50 @@ namespace FoodandBeverage.SaleBill
 
                 #endregion
 
+                #region PayType Check
+                if (paytypeid == Convert.ToInt32(PaymentType.SPLIT))
+                {
+                    DmnSearch objPART = new DmnSearch();
+                    BllSearch<DmnGridFields> bllpaymentsPART = new BllSearch<DmnGridFields>();
+                    objPART.Select = "PaymentMode Field1, PaidAmount Field2";
+                    objPART.Table = "tblPartyBookingPayment";
+                    objPART.WhereNdGroupBy = " where PartyBookingId=" + PartybookingId;
+                    var invpaymentPART = bllpaymentsPART.GetSearchData("prdSearch", objPART);
+                    if (invpaymentPART.Count > 0)
+                    {
+                        for (int i = 0; i < invpaymentPART.Count; i++)
+                        {
+                            switch (Convert.ToInt32(invpaymentPART[i].Field1))
+                            {
+                                case 1:
+                                    cashamount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    break;
+                                case 5:
+                                    otheramount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "DEBITCARD";
+                                    break;
+                                case 4:
+                                    otheramount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "UPI";
+                                    break;
+                                case 6:
+                                    otheramount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "BANKINGONLINE";
+                                    break;
+                                case 8:
+                                    otheramount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "CREDIT";
+                                    break;
+                                case 7:
+                                    otheramount = Convert.ToDecimal(invpaymentPART[i].Field2);
+                                    payname = "OTHERS";
+                                    break;
+                            }
+                        }
+                    }
+                }
+                #endregion
+
                 #region DATASET
 
                 dsReport.Tables.Add(dtSalesHeader);
@@ -845,7 +889,8 @@ namespace FoodandBeverage.SaleBill
                 {
                     reportDocument.SetParameterValue("payname", payname);
                     reportDocument.SetParameterValue("cashamount", cashamount);
-                    reportDocument.SetParameterValue("otheramount", 0);
+                    reportDocument.SetParameterValue("otheramount", otheramount);
+
                     reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
                     reportDocument.SetParameterValue("footermsg", FooterMsg);
 
@@ -1002,7 +1047,7 @@ namespace FoodandBeverage.SaleBill
         {
             try
             {
-                if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill))
+                if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill) || BillTypeData == Convert.ToInt32(BillType.BillCopy))
                 {
                     ReportDocument reportDocument = crvSalesBill.ReportSource as ReportDocument;
                     reportDocument.PrintToPrinter(1, false, 0, 0);

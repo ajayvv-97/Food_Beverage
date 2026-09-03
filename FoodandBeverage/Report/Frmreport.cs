@@ -87,6 +87,8 @@ namespace FoodandBeverage.Report
                 tabDateTimePanel.Controls.Add(chk_time, 0, 0);
                 tabDateTimePanel.Controls.Add(label6, 1, 0);
                 tabDateTimePanel.Controls.Add(label5, 3, 0);
+
+                ReportLoad();
             }
             catch (Exception ex)
             {
@@ -292,6 +294,11 @@ namespace FoodandBeverage.Report
         }
         private void btnserach_Click(object sender, EventArgs e)
         {
+            ReportLoad();
+        }
+
+        public void ReportLoad()
+        {
             try
             {
                 if (chk_time.Checked == true)
@@ -398,12 +405,15 @@ namespace FoodandBeverage.Report
                         party_status.Visible = true;
                         s_FillReport_PartybookingPaymentDetails();
                         break;
+                    case 30:
+                        s_FillReport_ComplementaryDetails();
+                        break;
                 }
             }
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Report page  btnserach_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+                clsgen.LogException("Report page  ReportLoad()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
         }
         public void s_FillReport_MenuReport()
@@ -1357,14 +1367,17 @@ namespace FoodandBeverage.Report
                     " from tblSalesMaster s left join tblGeneralOptions g1 on g1.GTypeSubId=s.PaymentMode and g1.GTypeId=2 " +
                     "where EntryDate>='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     "and EntryDate<='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
-                    "and s.status=1 and BranchId=" + BranchId + " and PaymentMode!= 12 AND  PaymentMode!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " AND  PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and s.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
+                    "and s.status=1 and BranchId=" + BranchId + " and PaymentMode!= 12 AND  PaymentMode!=" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                    " AND  PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and s.saletype!= " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " GROUP BY CAST(EntryDate AS DATE), g1.Caption  " +
 
                     " UNION ALL " +
                     " SELECT CAST(s.EntryDate AS DATE) AS EntryDa, SUM(p.PaidAmt) AS Amount, ISNULL(g2.Caption, 'OTHERS') AS Caption" +
-                    " FROM tblPartPaymentDetails p INNER JOIN tblSalesMaster s ON s.SalesMasterId = p.SalesMasterId LEFT JOIN tblGeneralOptions g2" +
+                    " FROM tblPartPaymentDetails p " +
+                    " INNER JOIN tblSalesMaster s ON s.SalesMasterId = p.SalesMasterId" +
+                    " LEFT JOIN tblGeneralOptions g2" +
                     " ON g2.GTypeSubId = p.PayMode AND g2.GTypeId = 2 WHERE s.status=1 AND s.EntryDate >='" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-                    " AND s.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.BranchId = " + BranchId + "  AND p.PayMode != 10" +
+                    " AND s.EntryDate <='" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.BranchId = " + BranchId + "  AND p.PayMode != 10 AND p.Status = 1 " +
                     " GROUP BY CAST(s.EntryDate AS DATE), g2.Caption " +
 
                     " UNION ALL " +
@@ -1378,7 +1391,7 @@ namespace FoodandBeverage.Report
                     "   AND s.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     "   AND s.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     "   AND s.BranchId = " + BranchId +
-                    "   AND pbp.CreatedBy = " + UserId +
+                    //"   AND pbp.CreatedBy = " + UserId +
                     "   AND s.Saletype = " + Convert.ToInt32(SaleCategory.PartyBooking) +
                     " GROUP BY CAST(s.EntryDate AS DATE), g.Caption " +
 
@@ -1643,7 +1656,6 @@ namespace FoodandBeverage.Report
         }
         public void s_FillReport_saleDetailsReport()
         {
-
             try
             {
                 ReportDocument reportDocument = new ReportDocument();
@@ -3142,9 +3154,7 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Report page  s_FillReport_EmployeeList()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
-
             }
 
         }
@@ -3207,8 +3217,138 @@ namespace FoodandBeverage.Report
             }
             catch (Exception ex)
             {
-                CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Report page  s_FillReport_MidasCard_PaymetReport()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+
+            }
+        }
+        public void s_FillReport_ComplementaryDetails()
+        {
+            try
+            {
+                ReportDocument reportDocument = new ReportDocument();
+                DataSet dsReport = new DataSet();
+                DataTable dt_Rpt = new DataTable("Rpt_DT");
+                BllSearch<DmnRpt_1> bllSearchDetails1 = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill1 = new DmnSearch();
+
+                dmnSearchDetBill1.Select = @"
+                                            CONVERT(varchar(50), sm.CreatedDateTime, 105) as sFld1,
+                                            sm.EntryNo as sFld2,
+                                            sm.FirstName as sFld3,
+                                            sm.PhoneNumber as sFld4,
+                                            sm.TotalQuantity as dFld1,
+                                            sm.TotalTax as dFld2,
+                                            sm.DiscountAmount as dFld3,
+                                            sm.NetAmount as dFld4,
+                                            sd.Itemname as sFld5,
+                                            sd.Quantity as nFld1,
+                                            sd.SalesRate as dFld5,
+                                            sd.Amount as dFld6,
+                                            sd.TaxAmount as dFld7,
+                                            sd.DiscountAmount as dFld8,
+                                            sd.NetAmount as dFld9";
+
+                dmnSearchDetBill1.Table = "tblSalesMaster sm LEFT JOIN tblSalesDetails sd ON sm.SalesMasterId = sd.SalesMasterId";
+                dmnSearchDetBill1.WhereNdGroupBy =
+                "WHERE (" +
+                "(sm.SaleType = 3 AND sm.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sm.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "') " +
+                "OR " +
+                "(sm.SaleType <> 3 AND sm.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sm.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "')" +
+                ") " +
+                "AND sm.BranchId = " + BranchId +
+                " AND sm.Status = 1 AND sd.Status = 1" +
+                " AND sm.PaymentMode =" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                " AND sm.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);
+
+                var invoiceBillMasters = bllSearchDetails1.GetSearchData("prdSearch", dmnSearchDetBill1);
+                /* -------------------------------------------------- */
+
+                BllSearch<DmnRpt_1> bllSearchSummary = new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchSummary = new DmnSearch();
+
+                dmnSearchSummary.Select = @"
+                                        SUM(TotalQuantity) as dFld1,
+                                        SUM(TotalTax) as dFld2,
+                                        SUM(DiscountAmount) as dFld3,
+                                        SUM(NetAmount) as dFld4";
+
+                dmnSearchSummary.Table = "tblSalesMaster s";
+                dmnSearchSummary.WhereNdGroupBy =
+                "WHERE (" +
+                "(s.SaleType = 3 AND s.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "') " +
+                "OR " +
+                "(s.SaleType <> 3 AND s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND s.CreatedDateTime <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "')" +
+                ") " +
+                "AND s.BranchId = " + BranchId +
+                " AND s.Status = 1" +
+                " AND s.PaymentMode =" + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                " AND s.PaymentMode !=" + Convert.ToInt32(PaymentType.Nocharge);
+
+                var invoiceSummary = bllSearchSummary.GetSearchData("prdSearch", dmnSearchSummary);
+                decimal totalQty = 0;
+                decimal totalTax = 0;
+                decimal totalDiscount = 0;
+                decimal totalNetAmount = 0;
+
+                if (invoiceSummary.Count > 0)
+                {
+                    totalQty = invoiceSummary[0].dFld1;
+                    totalTax = invoiceSummary[0].dFld2;
+                    totalDiscount = invoiceSummary[0].dFld3;
+                    totalNetAmount = invoiceSummary[0].dFld4;
+                }
+
+                if (invoiceBillMasters.Count > 0)
+                {
+                    invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
+                    invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
+                }
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6", "dFld7", "dFld8", "dFld9", "nFld1"))
+                {
+                    dt_Rpt.Load(reader);
+                }
+                dsReport.Tables.Add(dt_Rpt);
+                reportDocument.Load(Path + @"\Rpt_ComplementaryDetails.rpt");
+                reportDocument.SetDataSource(dsReport);
+
+                /* header section*/
+                Addressdata = Get_CompantDetails();
+                reportDocument.SetParameterValue("Loc_Name", Convert.ToString(Addressdata[0].Name));
+                reportDocument.SetParameterValue("City", Convert.ToString(Addressdata[0].City));
+                reportDocument.SetParameterValue("Employe_Name", Convert.ToString(FrmLogin.EmployeName));
+                reportDocument.SetParameterValue("GSTno", Convert.ToString(Addressdata[0].GstNo));
+                string devicename = System.Environment.MachineName;
+                reportDocument.SetParameterValue("Device_name", devicename);
+                /*End Header section*/
+
+                reportDocument.SetParameterValue("MyFromDtm", dtpfrom.Value.ToString(Dtformat));
+                reportDocument.SetParameterValue("MyToDatem", dtpto.Value.ToString(Dtformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+                reportDocument.SetParameterValue("From_re_time", dtp_from_time.Value.ToString(Timeformat));
+                reportDocument.SetParameterValue("To_re_time", dtp_to_time.Value.ToString(Timeformat));
+
+                // 🔹 Totals
+                reportDocument.SetParameterValue("Total_Qty", totalQty);
+                reportDocument.SetParameterValue("Total_Tax", totalTax);
+                reportDocument.SetParameterValue("Total_Discount", totalDiscount);
+                reportDocument.SetParameterValue("Total_NetAmount", totalNetAmount);
+
+                if (ColorChk == true)
+                {
+                    FindAndSetColor(reportDocument, "Box2", selectedColor);
+                    FindAndSetColor(reportDocument, "Box3", selectedColor);
+                }
+
+                crv_report.ReuseParameterValuesOnRefresh = true;
+                crv_report.RefreshReport();
+                crv_report.ReportSource = reportDocument;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Report page  s_FillReport_ComplementaryDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
 
             }
         }

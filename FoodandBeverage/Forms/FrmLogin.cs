@@ -82,34 +82,34 @@ namespace FoodandBeverage.Forms
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            //if (PrintpathValue == 1)
-            //{
-            //    //KitchenBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-            //    //ReportPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Report\";
-            //    //SaleBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-            //    //XYZPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-            //    //logoPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+            if (PrintpathValue == 1)
+            {
+                //    //KitchenBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                //    //ReportPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Report\";
+                //    //SaleBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                //    //XYZPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                //    //logoPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
 
-            //    KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-            //    ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report\";
-            //    SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-            //    XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-            //    logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+                KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report\";
+                SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
 
-            //    //KitchenBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-            //    //ReportPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Report";
-            //    //SaleBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill";
-            //    //XYZPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-            //    //logoPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
-            //}
-            //else
-            //{
+                //    //KitchenBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                //    //ReportPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Report";
+                //    //SaleBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill";
+                //    //XYZPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                //    //logoPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+            }
+            else
+            {
                 KitchenBillPath = Application.StartupPath + @"\KitchenBill\";
                 ReportPath = Application.StartupPath + @"\Report\";
                 SaleBillPath = Application.StartupPath + @"\SaleBill\";
                 XYZPath = Application.StartupPath + @"\SaleBill\";
                 logoPath = Application.StartupPath + @"\logoFile\";
-            //}
+            }
 
             //txtUserName.Text = "User Name .....";
             //txtPwd.Text = "Password .....";

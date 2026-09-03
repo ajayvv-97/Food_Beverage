@@ -65,7 +65,10 @@ namespace FoodandBeverage.Forms
             UserId = Convert.ToInt32(FrmLogin.EmployeeId);
             BranchId = Convert.ToInt32(FrmLogin.BranchId);
             UserType = Convert.ToInt32(FrmLogin.UserAccountTypeId);
+
+            Application.ApplicationExit += Application_ApplicationExit;
         }
+
         #region grid Declarationassign
 
         public int desiredWidth = 0;
@@ -170,7 +173,13 @@ namespace FoodandBeverage.Forms
             int nWidthEllipse,
             int nHeightEllipse
         );
-
+        private void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            clsgen.TrackZoutLog(
+                "Application",
+                "APPLICATION_EXIT",
+                "Application exit event received");
+        }
         private void Menulogout_Click(object sender, EventArgs e)
         {
             try
@@ -2987,6 +2996,13 @@ namespace FoodandBeverage.Forms
                             Menureport.Visible = true;
                         }
                         #endregion
+
+                        #region RemoveComplimentary
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.RemoveComplimentary) && gridesource[i].Write == 1)
+                        {
+                            ib_removecomplementry.Visible = true;
+                        }
+                        #endregion
                     }
 
                 }
@@ -4157,7 +4173,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                string deviceName = System.Environment.MachineName; // ✅ DEVICE NAME
+                string deviceName = System.Environment.MachineName; 
 
                 BllSearch<DmnVirtualKeyBoard> Bllvirtualkeyboard = new BllSearch<DmnVirtualKeyBoard>();
                 DmnSearch dmnsearchvir = new DmnSearch
@@ -4730,14 +4746,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ib_appcolor_Click(object sender, EventArgs e)
-        {
-            chkdef.Checked = false;
-            AppColorSetting();
-            pnlappcolor.Visible = true;
-            pnlappcolor.Location = new Point(this.ClientSize.Width / 2 - pnlappcolor.Size.Width / 2, this.ClientSize.Height / 2 - pnlappcolor.Size.Height / 2);
-            pnlappcolor.BringToFront();
-        }
 
         private void ib_billsetting_Click(object sender, EventArgs e)
         {
@@ -6111,6 +6119,22 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void complementaryDetailsReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
+                int ReportLevelID = 30;
+                ReportForm(ReportLevelID);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("DashBoard page complementaryDetailsReportToolStripMenuItem_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+
         #endregion
 
         #region Keyboard
@@ -6188,6 +6212,8 @@ namespace FoodandBeverage.Forms
             }
 
         }
+
+       
         #endregion
 
         #region Sync Animation
@@ -6211,6 +6237,8 @@ namespace FoodandBeverage.Forms
             pnl_datasync.Location = new Point(x, y);
         }
 
+       
+
         private void timerSync_Tick(object sender, EventArgs e)
         {
             syncValue++;
@@ -6231,6 +6259,404 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
+
+        #region Complementary Remove
+
+        private void ib_removecomplementry_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                pnl_comple_remove.Visible = true;
+
+                pnl_comple_remove.Location = new Point(
+                    this.ClientSize.Width / 2 - pnl_comple_remove.Size.Width / 2,
+                    this.ClientSize.Height / 2 - pnl_comple_remove.Size.Height / 2);
+
+                pnl_comple_remove.BringToFront();
+
+                rd_month.Checked = true;
+
+                dtp_fromdate.Value = new DateTime(
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    1);
+
+                dtp_todate.Value = DateTime.Now;
+
+                LoadComplimentarySales();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page ib_removecomplementry_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btn_close_compleremove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                pnl_comple_remove.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page btn_close_compleremove_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void rd_month_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!rd_month.Checked)
+                    return;
+
+                tlp_customdate.Enabled = false;
+
+                DateTime selectedDate = dtp_fromdate.Value;
+
+                DateTime firstDay = new DateTime(
+                    selectedDate.Year,
+                    selectedDate.Month,
+                    1);
+
+                DateTime lastDay = firstDay
+                    .AddMonths(1)
+                    .AddDays(-1);
+
+                dtp_fromdate.Value = firstDay;
+                dtp_todate.Value = lastDay;
+
+                LoadComplimentarySales();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page rd_month_CheckedChanged()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void rd_customdate_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!rd_customdate.Checked)
+                    return;
+
+                tlp_customdate.Enabled = true;
+
+                dtp_fromdate.Focus();
+
+                LoadComplimentarySales();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page rd_customdate_CheckedChanged()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void dtp_fromdate_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (rd_month.Checked)
+                    return;
+
+                if (rd_customdate.Checked)
+                {
+                    LoadComplimentarySales();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page dtp_fromdate_ValueChanged()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void dtp_todate_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (rd_month.Checked)
+                    return;
+
+                if (rd_customdate.Checked)
+                {
+                    LoadComplimentarySales();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page dtp_todate_ValueChanged()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private bool ValidateComplimentaryDate()
+        {
+            try
+            {
+                DateTime fromDate = dtp_fromdate.Value.Date;
+                DateTime toDate = dtp_todate.Value.Date;
+
+                if (fromDate > toDate)
+                {
+                    MessageBox.Show(
+                        "From Date cannot be greater than To Date.",
+                        "Invalid Date",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    dtp_fromdate.Focus();
+
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page ValidateComplimentaryDate()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+
+                return false;
+            }
+        }
+
+        private void LoadComplimentarySales()
+        {
+            try
+            {
+                if (!ValidateComplimentaryDate())
+                    return;
+
+                DateTime fromDate = dtp_fromdate.Value.Date;
+
+                DateTime toDate = dtp_todate.Value.Date
+                    .AddDays(1)
+                    .AddSeconds(-1);
+
+                BllSearch<DmnRpt_1> bllSearchDetails =
+                    new BllSearch<DmnRpt_1>();
+
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+
+                dmnSearchDetBill.Select =
+                    "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1," +
+                    "EntryNo as sFld2," +
+                    "FirstName as sFld3," +
+                    "PhoneNumber as sFld4," +
+                    "TotalQuantity as dFld1," +
+                    "TotalTax as dFld2," +
+                    "DiscountAmount as dFld3," +
+                    "NetAmount as dFld4," +
+                    "alt.ICardNo as sFld5";
+
+                dmnSearchDetBill.Table =
+                    "tblSalesMaster s " +
+                    "left join tblAccountLedger_Transaction alt " +
+                    "on alt.SalesMasterId = s.SalesMasterId";
+
+                dmnSearchDetBill.WhereNdGroupBy =
+                    "where s.CreatedDateTime >= '" +
+                    fromDate.ToString("yyyy-MM-dd HH:mm:ss") +
+                    "' and s.CreatedDateTime <= '" +
+                    toDate.ToString("yyyy-MM-dd HH:mm:ss") +
+                    "' and s.PaymentMode = " +
+                    Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                    " and s.status=1 and s.BranchId = " +
+                    BranchId;
+
+                var invoiceBillMasters =
+                    bllSearchDetails.GetSearchData(
+                        "prdSearch",
+                        dmnSearchDetBill);
+
+                decimal totalQty = 0;
+                decimal totalNetAmount = 0;
+
+                if (invoiceBillMasters != null)
+                {
+                    foreach (var item in invoiceBillMasters)
+                    {
+                        totalQty += Convert.ToDecimal(item.dFld1);
+                        totalNetAmount += Convert.ToDecimal(item.dFld4);
+                    }
+                }
+
+                lbltotalqty.Text = totalQty.ToString("0.###");
+                lblsalenetamt.Text = totalNetAmount.ToString("0.00");
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page LoadComplimentarySales()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btn_cancel_com_rem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                pnl_comple_remove.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page btn_cancel_com_rem_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btn_com_rem_submit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!ValidateComplimentaryDate())
+                    return;
+
+                DateTime fromDate = dtp_fromdate.Value.Date;
+                DateTime toDate = dtp_todate.Value.Date.AddDays(1).AddSeconds(-1);
+
+                BllSearch<DmnRpt_1> bllSearchDetails =  new BllSearch<DmnRpt_1>();
+                DmnSearch dmnSearchDetBill = new DmnSearch();
+                dmnSearchDetBill.Select = "COUNT(*) as dFld1";
+
+                dmnSearchDetBill.Table = "tblSalesMaster s";
+
+                dmnSearchDetBill.WhereNdGroupBy =
+                    "where s.Status = 1 " +
+                    "and s.CreatedDateTime >= '" +
+                    fromDate.ToString("yyyy-MM-dd HH:mm:ss") +
+                    "' and s.CreatedDateTime <= '" +
+                    toDate.ToString("yyyy-MM-dd HH:mm:ss") +
+                    "' and s.PaymentMode = " +
+                    Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                    " and s.BranchId = " +
+                    BranchId;
+
+                var searchResult =
+                    bllSearchDetails.GetSearchData(
+                        "prdSearch",
+                        dmnSearchDetBill);
+
+                int count = 0;
+
+                if (searchResult != null && searchResult.Count > 0)
+                {
+                    count = Convert.ToInt32(searchResult[0].dFld1);
+                }
+
+                if (count <= 0)
+                {
+                    MessageBox.Show(
+                        "No complimentary sales found for the selected period.",
+                        "Complimentary Sale",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
+                }
+
+                DialogResult confirmResult = MessageBox.Show(
+                    "The complimentary sales selected for the period\n\n" +
+                    "From : " + fromDate.ToString("dd-MM-yyyy") + "\n" +
+                    "To   : " + dtp_todate.Value.ToString("dd-MM-yyyy") + "\n\n" +
+                    "Number of Sales : " + count + "\n\n" +
+                    "These complimentary sales will be archived and then " +
+                    "permanently removed from the sales tables.\n\n" +
+                    "This action cannot be undone.\n\n" +
+                    "Do you want to continue?",
+                    "Remove Complimentary Sales",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
+
+                if (confirmResult != DialogResult.Yes)
+                    return;
+
+                DmnRemoveComplimentarySale obj = new DmnRemoveComplimentarySale();
+                obj.FromDate = fromDate;
+                obj.ToDate = toDate;
+                obj.BranchId = BranchId;
+                obj.CreatedBy = FrmLogin.EmployeeId;
+                obj.CreatedBy = FrmLogin.EmployeeId;
+                obj.PaymentMode = Convert.ToInt32(PaymentType.COMPLEMENTRY);                
+                BllRemoveComplimentarySale bll = new BllRemoveComplimentarySale();
+                var response = bll.RemoveComplimentarySale("prdRemoveComplimentarySale", obj);
+                if (response != null)
+                {
+                    MessageBox.Show(
+                        "Complimentary sales removed successfully.",
+                        "Completed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    LoadComplimentarySales();
+
+                    pnl_comple_remove.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Home Page btn_com_rem_submit_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+
+                MessageBox.Show(
+                    "Unable to remove complimentary sales.\n\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
     }
 
 }
