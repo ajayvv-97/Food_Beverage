@@ -71,6 +71,7 @@ namespace FoodandBeverage.Forms
         int count = 0;
         private bool isRefreshingTableStatus;
         private bool isApplyingTableUI;
+        private bool isTableViewClosing;
         private Font tableStatusFont;
         private Font tableNameFont;
 
@@ -300,7 +301,7 @@ namespace FoodandBeverage.Forms
             }
             finally
             {
-                if (!IsDisposed && !Disposing)
+                if (!isTableViewClosing && !IsDisposed && !Disposing)
                     AutoTimer.Start();
             }
         }
@@ -827,7 +828,7 @@ namespace FoodandBeverage.Forms
             finally
             {
                 isRefreshingTableStatus = false;
-                if (!IsDisposed && !Disposing)
+                if (!isTableViewClosing && !IsDisposed && !Disposing)
                     AutoTimer.Start();
             }
         }
@@ -1556,6 +1557,7 @@ namespace FoodandBeverage.Forms
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            isTableViewClosing = true;
             AutoTimer?.Stop();
             AutoTimer?.Dispose();
             if (tableStatusFont != null)
