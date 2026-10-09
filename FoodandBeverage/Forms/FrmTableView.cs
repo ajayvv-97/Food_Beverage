@@ -504,6 +504,9 @@ namespace FoodandBeverage.Forms
 
         private void ApplyPaging()
         {
+            if (pageSize <= 0)
+                pageSize = Pagecount;
+
             totalPages = (int)Math.Ceiling(allTables.Count / (double)pageSize);
 
             currentPageTables = allTables
@@ -511,8 +514,9 @@ namespace FoodandBeverage.Forms
                 .Take(pageSize)
                 .ToList();
 
-            lblpagerinfo.Text =
-                $"Page {currentPage} of {totalPages} | Total Records: {allTables.Count}";
+            lblpagerinfo.Text = allTables.Count == 0
+                ? "No tables found"
+                : $"Page {currentPage} of {totalPages} | Total Records: {allTables.Count}";
 
             btnprev.Enabled = currentPage > 1;
             btnnext.Enabled = currentPage < totalPages;
@@ -1400,6 +1404,8 @@ namespace FoodandBeverage.Forms
                 currentPage = 1;
                 pageSize = Pagecount;
                 ApplyPaging();
+                if (allTables.Count == 0)
+                    lblpagerinfo.Text = "No tables found";
 
                 if (reusablePanels.Count == 0)
                     CreateReusablePanels();
