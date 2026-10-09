@@ -1396,6 +1396,7 @@ namespace FoodandBeverage.Forms
                     Field24 = Convert.ToString(Pagecount)
                 };
 
+                AutoTimer.Stop();
                 var results = search.serachreport("prdTableView", param);
                 if (results == null)
                     results = new List<DmnGridFields>();
@@ -1418,6 +1419,11 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException("TableView page btnsearch_Click()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
+            }
+            finally
+            {
+                if (!isTableViewClosing && !IsDisposed && !Disposing)
+                    AutoTimer.Start();
             }
         }
     }
