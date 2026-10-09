@@ -146,12 +146,6 @@ namespace FoodandBeverage.Forms
             this.txtPwd.Size = new System.Drawing.Size(28, 38);
             this.txtPwd.TabIndex = 1;
             this.txtPwd.Visible = false;
-            this.txtPwd.Click += new System.EventHandler(this.txtPwd_Click);
-            this.txtPwd.TextChanged += new System.EventHandler(this.txtPwd_TextChanged);
-            this.txtPwd.Enter += new System.EventHandler(this.txtPwd_Enter);
-            this.txtPwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPwd_KeyDown);
-            this.txtPwd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPwd_KeyPress);
-            this.txtPwd.Leave += new System.EventHandler(this.txtPwd_Leave);
             // 
             // txtUserName
             // 
@@ -167,11 +161,6 @@ namespace FoodandBeverage.Forms
             this.txtUserName.TabIndex = 0;
             this.txtUserName.Tag = "";
             this.txtUserName.Visible = false;
-            this.txtUserName.Click += new System.EventHandler(this.txtUserName_Click);
-            this.txtUserName.Enter += new System.EventHandler(this.txtusername_Enter);
-            this.txtUserName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);
-            this.txtUserName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUserName_KeyPress);
-            this.txtUserName.Leave += new System.EventHandler(this.txtusername_Leave);
             // 
             // btnrfid
             // 
@@ -622,9 +611,14 @@ namespace FoodandBeverage.Forms
             this.txt_password.MinimumSize = new System.Drawing.Size(150, 38);
             this.txt_password.Name = "txt_password";
             this.txt_password.Padding = new System.Windows.Forms.Padding(2);
-            this.txt_password.Placeholder = "Enter text";
+            this.txt_password.Placeholder = "Password";
             this.txt_password.Size = new System.Drawing.Size(269, 46);
             this.txt_password.TabIndex = 261;
+            this.txt_password.Click += new System.EventHandler(this.txtPwd_Click);
+            this.txt_password.Enter += new System.EventHandler(this.txtPwd_Enter);
+            this.txt_password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPwd_KeyDown);
+            this.txt_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPwd_KeyPress);
+            this.txt_password.Leave += new System.EventHandler(this.txtPwd_Leave);
             // 
             // txt_username
             // 
@@ -640,9 +634,14 @@ namespace FoodandBeverage.Forms
             this.txt_username.MinimumSize = new System.Drawing.Size(150, 38);
             this.txt_username.Name = "txt_username";
             this.txt_username.Padding = new System.Windows.Forms.Padding(2);
-            this.txt_username.Placeholder = "Enter text";
+            this.txt_username.Placeholder = "Username";
             this.txt_username.Size = new System.Drawing.Size(269, 46);
             this.txt_username.TabIndex = 260;
+            this.txt_username.Click += new System.EventHandler(this.txtUserName_Click);
+            this.txt_username.Enter += new System.EventHandler(this.txtusername_Enter);
+            this.txt_username.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);
+            this.txt_username.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUserName_KeyPress);
+            this.txt_username.Leave += new System.EventHandler(this.txtusername_Leave);
             // 
             // FrmLogin
             // 
