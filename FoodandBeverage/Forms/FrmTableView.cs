@@ -332,12 +332,12 @@ namespace FoodandBeverage.Forms
             if (list == null)
                 return;
 
-            orderStatusCache.Clear();
+            var refreshedStatus = new Dictionary<int, TableOrderStatus>();
 
             foreach (var r in list)
             {
                 int tableId = Convert.ToInt32(r.Field6);
-                orderStatusCache[tableId] = new TableOrderStatus
+                refreshedStatus[tableId] = new TableOrderStatus
                 {
                     TotalItems = Convert.ToInt32(r.Field2),
                     PendingCount = Convert.ToInt32(r.Field3),
@@ -349,6 +349,10 @@ namespace FoodandBeverage.Forms
                     CustomerInformedCancel = Convert.ToInt32(r.Field8) == 1
                 };
             }
+
+            orderStatusCache.Clear();
+            foreach (var entry in refreshedStatus)
+                orderStatusCache[entry.Key] = entry.Value;
         }
 
 
@@ -356,6 +360,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (IsDisposed || Disposing || isRefreshingTableStatus)
+                    return;
+
                 LoadOrderStatusCache();
                 UpdateTableUI();
             }
