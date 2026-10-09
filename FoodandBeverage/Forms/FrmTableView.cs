@@ -1098,7 +1098,6 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
-                            int tagValue;
                             if (clickedControl.Tag != null)
                             {
                                 using (FrmOrderConsole memtest = new FrmOrderConsole(clickedTableId, Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage), Cancelorderstatus))
