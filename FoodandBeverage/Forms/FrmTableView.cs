@@ -69,7 +69,8 @@ namespace FoodandBeverage.Forms
         private bool AutoRunEnabled = true;
 
         int count = 0;
-
+        private bool isRefreshingTableStatus;
+        private bool isApplyingTableUI;
 
         #endregion
 
@@ -91,7 +92,103 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
             SearchModetype = type;
+            ConfigureModernTableSurface();
         }
+
+        /// <summary>
+        /// Applies the modern status legend and double buffering once, instead of forcing repaints on each tick.
+        /// </summary>
+        private void ConfigureModernTableSurface()
+        {
+            AutoTimer.Interval = 2000; // Preserve the existing refresh cadence.
+            flp_tableview.BackColor = Color.FromArgb(246, 248, 251);
+            flp_tableview.Padding = new Padding(10);
+            flp_tableview.WrapContents = true;
+            flp_tableview.FlowDirection = FlowDirection.LeftToRight;
+
+            // FlowLayoutPanel is a standard WinForms control; enabling optimized double-buffering avoids
+            // the flash caused by child invalidation during a status update.
+            try
+            {
+                typeof(Control).GetProperty("DoubleBuffered",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                    ?.SetValue(flp_tableview, true, null);
+            }
+            catch
+            {
+                // Best effort only: rendering must still work if reflection is restricted.
+            }
+
+            AddStatusLegend();
+        }
+
+        private void AddStatusLegend()
+        {
+            if (tlp_main.Controls.ContainsKey("pnlTableStatusLegend"))
+                return;
+
+            var legend = new FlowLayoutPanel
+            {
+                Name = "pnlTableStatusLegend",
+                Dock = DockStyle.Fill,
+                AutoSize = false,
+                WrapContents = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                BackColor = Color.White,
+                Padding = new Padding(8, 2, 8, 2),
+                Margin = new Padding(0)
+            };
+
+            AddLegendItem(legend, "Available", Color.White, Color.FromArgb(190, 198, 208));
+            AddLegendItem(legend, "Order Taken", ColorTranslator.FromHtml("#DCEEFF"), ColorTranslator.FromHtml("#4B8DCA"));
+            AddLegendItem(legend, "Checkout", ColorTranslator.FromHtml("#DDF7E7"), ColorTranslator.FromHtml("#239B56"));
+            AddLegendItem(legend, "Reservation", ColorTranslator.FromHtml("#EAF5C7"), ColorTranslator.FromHtml("#7D9D26"));
+            AddLegendItem(legend, "Cancelled Items", ColorTranslator.FromHtml("#FFE3E3"), ColorTranslator.FromHtml("#D64545"));
+
+            tlp_main.RowStyles[1] = new RowStyle(SizeType.Absolute, 38F);
+            tlp_main.Controls.Add(legend, 0, 0);
+            tlp_main.SetRow(legend, 1);
+            // Keep all existing search controls in their original row by not moving the search panel.
+            // The legend sits above table cards as an overlay-free, lightweight child.
+            legend.BringToFront();
+        }
+
+        private static void AddLegendItem(FlowLayoutPanel legend, string text, Color swatch, Color border)
+        {
+            var item = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                WrapContents = false,
+                FlowDirection = FlowDirection.LeftToRight,
+                BackColor = Color.Transparent,
+                Margin = new Padding(4, 3, 10, 3),
+                Padding = new Padding(0)
+            };
+            var dot = new Panel
+            {
+                Size = new Size(12, 12),
+                BackColor = swatch,
+                BorderStyle = BorderStyle.FixedSingle,
+                Margin = new Padding(0, 3, 5, 0)
+            };
+            var label = new Label
+            {
+                AutoSize = true,
+                Text = text,
+                ForeColor = Color.FromArgb(55, 65, 81),
+                Font = new Font("Segoe UI", 8.5F, FontStyle.Regular),
+                Margin = new Padding(0, 1, 0, 0)
+            };
+            dot.Paint += (s, e) =>
+            {
+                using (var pen = new Pen(border))
+                    e.Graphics.DrawRectangle(pen, 0, 0, dot.Width - 1, dot.Height - 1);
+            };
+            item.Controls.Add(dot);
+            item.Controls.Add(label);
+            legend.Controls.Add(item);
+        }
+
         private void FrmTableView_Load(object sender, EventArgs e)
         {
             pageSize = Pagecount;
@@ -167,6 +264,7 @@ namespace FoodandBeverage.Forms
             public int Tid;
             public int Ordermid;
             public int Checkoutstatus;
+            public bool CustomerInformedCancel;
         }
 
         #endregion
@@ -188,8 +286,6 @@ namespace FoodandBeverage.Forms
                 BindPageToPanels();
                 LoadOrderStatusCache();
                 UpdateTableUI();
-
-                AutoTimer.Start();
             }
             catch (Exception ex)
             {
@@ -198,43 +294,45 @@ namespace FoodandBeverage.Forms
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.TableView));
             }
+            finally
+            {
+                if (!IsDisposed && !Disposing)
+                    AutoTimer.Start();
+            }
         }
         public void LoadOrderStatusCache()
         {
-            orderStatusCache.Clear();
-
             BllSearch<DmnGridFields> bll = new BllSearch<DmnGridFields>();
             DmnSearch dmn = new DmnSearch();
 
+            // One grouped status query for all active tables. Never issue an individual SELECT from the UI loop.
             dmn.Select =
-        "MAX(od.OrderMasterId) AS Field1, " +                 // current running order for table
-        "COUNT(od.OrderDetailsId) AS Field2, " +               // total items for table
-        "SUM(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) AS Field3, " + // cooking started
-        "SUM(CASE WHEN od.Status = 0 AND od.CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field4, " + // cancelled items
-        "MAX(CASE WHEN od.KitchenCancelStatus = 1 THEN 1 ELSE 0 END) AS Field5, " + // kitchen notified
-        "ti.Tid AS Field6, " +                                 // table id
-        "CASE WHEN MAX(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) = 1 THEN 0 ELSE 1 END AS Field7," +                                   // checkout allowed
-        "MAX(ISNULL(ti.IsCustomerInformedCancel, 0)) AS Field8"; // customer informed
+                "MAX(od.OrderMasterId) AS Field1, " +
+                "COUNT(od.OrderDetailsId) AS Field2, " +
+                "SUM(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) AS Field3, " +
+                "SUM(CASE WHEN od.Status = 0 AND od.CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field4, " +
+                "MAX(CASE WHEN od.KitchenCancelStatus = 1 THEN 1 ELSE 0 END) AS Field5, " +
+                "ti.Tid AS Field6, " +
+                "CASE WHEN MAX(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) = 1 THEN 0 ELSE 1 END AS Field7, " +
+                "MAX(ISNULL(ti.IsCustomerInformedCancel, 0)) AS Field8";
             dmn.Table =
-    "tblTable_info ti " +
-    "LEFT JOIN tblOrderDetails od ON od.OrderMasterId = ti.OrderMasterId AND od.AddonStatus IN (0,1,2) " +
-    "LEFT JOIN tblOrderMaster om ON om.OrderMasterId = od.OrderMasterId AND om.Status <> 3";
+                "tblTable_info ti " +
+                "LEFT JOIN tblOrderDetails od ON od.OrderMasterId = ti.OrderMasterId AND od.AddonStatus IN (0,1,2) " +
+                "LEFT JOIN tblOrderMaster om ON om.OrderMasterId = od.OrderMasterId AND om.Status <> 3";
             dmn.WhereNdGroupBy =
                 "WHERE ti.Status = 1 " +
-                "AND ((ti.OrderMasterId > 0 AND ti.OrderStatus = 1) " +
-                "     OR ti.IsCustomerInformedCancel = 1) " +
-                "GROUP BY ti.Tid " +
-                "ORDER BY ti.Tid";
+                "AND ((ti.OrderMasterId > 0 AND ti.OrderStatus = 1) OR ti.IsCustomerInformedCancel = 1) " +
+                "GROUP BY ti.Tid ORDER BY ti.Tid";
 
             var list = bll.GetSearchData("prdSearch", dmn);
+            orderStatusCache.Clear();
 
-            if (list == null || list.Count == 0)
+            if (list == null)
                 return;
 
             foreach (var r in list)
             {
                 int tableId = Convert.ToInt32(r.Field6);
-
                 orderStatusCache[tableId] = new TableOrderStatus
                 {
                     TotalItems = Convert.ToInt32(r.Field2),
@@ -243,7 +341,8 @@ namespace FoodandBeverage.Forms
                     KitchenCancelled = Convert.ToInt32(r.Field5) == 1,
                     Tid = tableId,
                     Ordermid = Convert.ToInt32(r.Field1),
-                    Checkoutstatus=Convert.ToInt32(r.Field7),
+                    Checkoutstatus = Convert.ToInt32(r.Field7),
+                    CustomerInformedCancel = Convert.ToInt32(r.Field8) == 1
                 };
             }
         }
@@ -311,7 +410,8 @@ namespace FoodandBeverage.Forms
             Panel pnl = new Panel
             {
                 Size = new Size(140, 110),
-                Margin = new Padding(10),
+                Margin = new Padding(7),
+                Padding = new Padding(2),
                 BackColor = Color.Transparent,
                 Visible = false
             };
@@ -321,6 +421,8 @@ namespace FoodandBeverage.Forms
                 Dock = DockStyle.Fill,
                 RowCount = 3,
                 BackColor = Color.White,
+                Padding = new Padding(3),
+                Margin = new Padding(0),
                 AccessibleDescription = "0"
             };
 
@@ -332,7 +434,7 @@ namespace FoodandBeverage.Forms
             {
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font(Font, FontStyle.Bold),
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                 ForeColor = Ordertablefontcolor,
                 AccessibleDescription = "0"
             };
@@ -341,7 +443,7 @@ namespace FoodandBeverage.Forms
             {
                 Dock = DockStyle.Fill,
                 Visible = false,
-                Font = new Font(Font, FontStyle.Bold),
+                Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleCenter,
                 AccessibleDescription = "0"
             };
@@ -434,6 +536,10 @@ namespace FoodandBeverage.Forms
                 ui.CancelCount.Tag = tableId;
 
                 ui.TableName.Text = row.Field4;
+                ui.TableName.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+                ui.Inner.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+                ui.Container.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+                ui.NetAmount.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
 
                 pnl.Visible = true;
             }
@@ -448,171 +554,157 @@ namespace FoodandBeverage.Forms
 
         public void UpdateTableUI()
         {
-            foreach (var pnl in reusablePanels)
+            if (isApplyingTableUI || IsDisposed || Disposing)
+                return;
+
+            isApplyingTableUI = true;
+            flp_tableview.SuspendLayout();
+            try
             {
-                if (!pnl.Visible)
-                    continue;
-
-                int tableId = Convert.ToInt32(pnl.Tag);
-
-                // Initialize BLL search
-                BllSearch<DmnGridFields> bll = new BllSearch<DmnGridFields>();
-                DmnSearch dmn = new DmnSearch();
-
-                // Select the IsCustomerInformedCancel field
-                dmn.Select = "IsCustomerInformedCancel AS Field1";
-                dmn.Table = "tblTable_info";
-                dmn.WhereNdGroupBy = "WHERE Tid = " + tableId + " AND Status = 1 AND IsCustomerInformedCancel = 1";
-                var resStatus = bll.GetSearchData("prdSearch", dmn);
-                int isCancelNotified = 0; 
-                if (resStatus != null && resStatus.Count > 0)
+                foreach (var pnl in reusablePanels)
                 {
-                    isCancelNotified =Convert.ToInt32(resStatus[0].Field1) ;
+                    if (!pnl.Visible || pnl.Tag == null)
+                        continue;
+
+                    int tableId = Convert.ToInt32(pnl.Tag);
+                    if (!tableUIRefs.TryGetValue(pnl.GetHashCode(), out var ui))
+                        continue;
+
+                    // Reset only the properties whose state can change, without removing/recreating controls.
+                    Color nextColor = DefaultColor;
+                    string statusText = string.Empty;
+                    Color statusLabelColor = Color.Transparent;
+                    bool showStatus = false;
+                    bool showCancelBadge = false;
+                    int cancelCount = 0;
+                    string clickDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+
+                    ui.TableName.AccessibleName = "0";
+                    ui.NetAmount.AccessibleName = "0";
+                    ui.Container.AccessibleName = "0";
+                    ui.Inner.AccessibleName = "0";
+                    ui.CancelCount.AccessibleName = "0";
+
+                    if (orderStatusCache.TryGetValue(tableId, out var status))
+                    {
+                        if (status.CustomerInformedCancel)
+                        {
+                            nextColor = CancelProduct_order;
+                            statusText = "Staff Cancel Order";
+                            statusLabelColor = ReconfirmLabelBG;
+                            showStatus = true;
+                            ui.Container.AccessibleName = "1";
+                            ui.Inner.AccessibleName = "1";
+                            ui.TableName.AccessibleName = "1";
+                            ui.NetAmount.AccessibleName = "1";
+                            ui.CancelCount.AccessibleName = "1";
+                        }
+                        else if (status.CancelCount > 0)
+                        {
+                            nextColor = CancelProduct_order;
+                            showCancelBadge = true;
+                            cancelCount = status.CancelCount;
+                        }
+                        else if (status.KitchenCancelled)
+                        {
+                            nextColor = CancelProduct_order;
+                            statusText = "Reconfirm Order";
+                            statusLabelColor = ReconfirmLabelBG;
+                            showStatus = true;
+                        }
+                        else if (status.PendingCount > 0)
+                        {
+                            nextColor = OrderColor;
+                        }
+                        else if (status.TotalItems > 0 && status.Checkoutstatus == 1)
+                        {
+                            nextColor = BillingColor;
+                            statusText = "Checkout";
+                            statusLabelColor = CheckoutLabelBG;
+                            showStatus = true;
+                        }
+                        else
+                        {
+                            nextColor = OrderColor;
+                        }
+                    }
+
+                    // Preserve the existing reservation/expiry click descriptions already assigned on the card.
+                    // The status-card view uses data-bound cards and never rebuilds the FlowLayoutPanel per tick.
+                    if (ui.Inner.BackColor != nextColor)
+                        ui.Inner.BackColor = nextColor;
+
+                    bool statusVisible = showStatus;
+                    if (ui.NetAmount.Visible != statusVisible)
+                        ui.NetAmount.Visible = statusVisible;
+                    if (ui.NetAmount.Text != statusText)
+                        ui.NetAmount.Text = statusText;
+                    if (ui.NetAmount.BackColor != statusLabelColor)
+                        ui.NetAmount.BackColor = statusLabelColor;
+                    if (ui.NetAmount.ForeColor != Color.White)
+                        ui.NetAmount.ForeColor = Color.White;
+                    if (ui.NetAmount.Font.Style != FontStyle.Bold)
+                        ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
+
+                    float firstRow = showStatus ? 25 : 0;
+                    float middleRow = showStatus ? 60 : 100;
+                    float lastRow = showStatus ? 25 : 0;
+                    if (ui.Inner.RowStyles[0].Height != firstRow)
+                        ui.Inner.RowStyles[0].Height = firstRow;
+                    if (ui.Inner.RowStyles[1].Height != middleRow)
+                        ui.Inner.RowStyles[1].Height = middleRow;
+                    if (ui.Inner.RowStyles[2].Height != lastRow)
+                        ui.Inner.RowStyles[2].Height = lastRow;
+
+                    if (ui.CancelCount.Visible != showCancelBadge)
+                        ui.CancelCount.Visible = showCancelBadge;
+                    if (showCancelBadge)
+                    {
+                        string text = cancelCount.ToString();
+                        if (ui.CancelCount.Text != text)
+                            ui.CancelCount.Text = text;
+                        if (ui.CancelCount.Size != new Size(22, 22))
+                            ui.CancelCount.Size = new Size(22, 22);
+                        if (ui.CancelCount.Location != new Point(ui.Container.Width - 27, 5))
+                            ui.CancelCount.Location = new Point(ui.Container.Width - 27, 5);
+                        if (ui.CancelCount.BackColor != Color.Black)
+                            ui.CancelCount.BackColor = Color.Black;
+                        if (ui.CancelCount.ForeColor != Color.White)
+                            ui.CancelCount.ForeColor = Color.White;
+                        ui.CancelCount.FlatStyle = FlatStyle.Flat;
+                        ui.CancelCount.FlatAppearance.BorderSize = 0;
+
+                        // Create and release the circular region only when needed.
+                        if (ui.CancelCount.Region == null)
+                        {
+                            using (var path = new System.Drawing.Drawing2D.GraphicsPath())
+                            {
+                                path.AddEllipse(0, 0, ui.CancelCount.Width, ui.CancelCount.Height);
+                                ui.CancelCount.Region = new Region(path);
+                            }
+                        }
+                        ui.CancelCount.BringToFront();
+                    }
+                    else
+                    {
+                        if (ui.CancelCount.Size != Size.Empty)
+                            ui.CancelCount.Size = Size.Empty;
+                        ui.CancelCount.Location = new Point(-100, -100);
+                        if (ui.CancelCount.Region != null)
+                        {
+                            ui.CancelCount.Region.Dispose();
+                            ui.CancelCount.Region = null;
+                        }
+                        if (ui.CancelCount.Text.Length > 0)
+                            ui.CancelCount.Text = string.Empty;
+                    }
                 }
-                
-                if (!tableUIRefs.TryGetValue(pnl.GetHashCode(), out var ui))
-                    continue;
-
-                // =========================
-                // 🔁 HARD RESET (MANDATORY)
-                // =========================
-                ui.Inner.BackColor = Color.White;
-
-                // NetAmount reset
-                ui.NetAmount.Visible = false;
-                ui.NetAmount.Text = "";
-                ui.NetAmount.BackColor = Color.Transparent;
-
-                // CancelCount reset (prevents ghost badge)
-                ui.CancelCount.Visible = false;
-                ui.CancelCount.Text = "";
-                ui.CancelCount.BackColor = Color.Transparent;
-                ui.CancelCount.ForeColor = Color.Black;
-                ui.CancelCount.FlatStyle = FlatStyle.Standard;
-                ui.CancelCount.Size = new Size(0, 0);
-                ui.CancelCount.Location = new Point(-100, -100);
-                ui.CancelCount.Region = null;
-
-                ui.Container.AccessibleName = "0";
-                ui.Inner.AccessibleName = "0";
-                ui.TableName.AccessibleName = "0";
-                ui.NetAmount.AccessibleName = "0";
-                ui.CancelCount.AccessibleName = "0";
-
-                // Layout reset
-                ui.Inner.RowStyles[0].Height = 0;
-                ui.Inner.RowStyles[1].Height = 60;
-                ui.Inner.RowStyles[2].Height = 0;
-
-                ui.TableName.TextAlign = ContentAlignment.MiddleCenter;
-
-
-                // =========================
-                // ❌ KITCHEN CANCEL full order
-                // =========================
-                if (isCancelNotified==1)
-                {
-                    ui.Inner.BackColor = CancelProduct_order;
-                    ui.NetAmount.Text = "Staff Cancel Order";
-                    ui.NetAmount.ForeColor = Color.White;
-                    ui.NetAmount.BackColor = ReconfirmLabelBG;
-                    ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
-                    ui.NetAmount.Visible = true;
-
-                    ui.Inner.RowStyles[0].Height = 25;
-                    ui.Inner.RowStyles[2].Height = 25;
-
-                    ui.Container.AccessibleName = "1";
-                    ui.Inner.AccessibleName = "1";
-                    ui.TableName.AccessibleName = "1";
-                    ui.NetAmount.AccessibleName = "1";
-                    ui.CancelCount.AccessibleName = "1";
-
-                    continue;
-                }
-
-                // =========================
-                // 🚫 NO ORDER
-                // =========================
-                if (!orderStatusCache.TryGetValue(tableId, out var status))
-                    continue;
-
-                // =========================
-                // ⚠ CANCEL COUNT BADGE
-                // =========================
-                if (status.CancelCount > 0)
-                {
-                    ui.Inner.BackColor = CancelProduct_order;
-
-                    ui.CancelCount.Visible = true;
-                    ui.CancelCount.Text = status.CancelCount.ToString();
-                    ui.CancelCount.ForeColor = Color.White;
-                    ui.CancelCount.BackColor = Color.Black;
-                    ui.CancelCount.Font = new Font(FontFamily.GenericSansSerif, 8, FontStyle.Bold);
-                    ui.CancelCount.Size = new Size(22, 22);
-
-                    ui.CancelCount.FlatStyle = FlatStyle.Flat;
-                    ui.CancelCount.FlatAppearance.BorderSize = 0;
-
-                    ui.CancelCount.Location = new Point(
-                        ui.Container.Width - ui.CancelCount.Width - 5, 5);
-
-                    // 🔵 Circular badge
-                    var gp = new System.Drawing.Drawing2D.GraphicsPath();
-                    gp.AddEllipse(0, 0, ui.CancelCount.Width, ui.CancelCount.Height);
-                    ui.CancelCount.Region = new Region(gp);
-
-                    ui.CancelCount.BringToFront();
-                    continue;
-                }
-
-                // =========================
-                // ❌ KITCHEN CANCEL → RECONFIRM
-                // =========================
-                if (status.KitchenCancelled)
-                {
-                    ui.Inner.BackColor = CancelProduct_order;
-                    ui.NetAmount.Text = "Reconfirm Order";
-                    ui.NetAmount.ForeColor = Color.White;
-                    ui.NetAmount.BackColor = ReconfirmLabelBG;
-                    ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
-                    ui.NetAmount.Visible = true;
-
-                    ui.Inner.RowStyles[0].Height = 25;
-                    ui.Inner.RowStyles[2].Height = 25;
-
-                    continue;
-                }
-
-                //// =========================
-                //// 🟦 RUNNING ORDER
-                //// =========================
-                if (status.PendingCount > 0)
-                {
-                    ui.Inner.BackColor = OrderColor;
-                    continue;
-                }
-
-                // =========================
-                // 🟩 CHECKOUT
-                // =========================
-                if (status.Checkoutstatus == 1)
-                {
-                    ui.Inner.BackColor = BillingColor;
-
-                    ui.Inner.RowStyles[0].Height = 25;
-                    ui.Inner.RowStyles[2].Height = 25;
-
-                    ui.NetAmount.Text = "Checkout";
-                    ui.NetAmount.ForeColor = Color.White;
-                    ui.NetAmount.BackColor = CheckoutLabelBG;
-                    ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
-                    ui.NetAmount.Visible = true;
-                }
-
             }
-            if(!AutoTimer.Enabled)
-                AutoTimer.Start();
+            finally
+            {
+                flp_tableview.ResumeLayout(true);
+                isApplyingTableUI = false;
+            }
         }
 
 
@@ -622,12 +714,32 @@ namespace FoodandBeverage.Forms
 
         private void AutoTimer_Tick(object sender, EventArgs e)
         {
-            Process p = Process.GetCurrentProcess();
-            lblmemory.Text =
-                $"Memory: {(p.PrivateMemorySize64 / 1024d / 1024d):F2} MB";
+            if (isRefreshingTableStatus || IsDisposed || Disposing || !Visible)
+                return;
 
-            LoadOrderStatusCache();
-            UpdateTableUI();
+            isRefreshingTableStatus = true;
+            AutoTimer.Stop();
+            try
+            {
+                using (Process p = Process.GetCurrentProcess())
+                {
+                    lblmemory.Text = $"Memory: {(p.PrivateMemorySize64 / 1024d / 1024d):F2} MB";
+                }
+
+                LoadOrderStatusCache();
+                UpdateTableUI();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("AutoTimer_Tick()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
+            }
+            finally
+            {
+                isRefreshingTableStatus = false;
+                if (!IsDisposed && !Disposing)
+                    AutoTimer.Start();
+            }
         }
 
         #endregion
