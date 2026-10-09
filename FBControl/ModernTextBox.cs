@@ -31,7 +31,6 @@ namespace FBControl
         private Color focusBorderColor = Color.FromArgb(116, 45, 238);
         private Color inputBackColor = Color.FromArgb(255, 255, 255);
         private Color inputForeColor = Color.FromArgb(35, 35, 72);
-        private Color placeholderColor = Color.FromArgb(132, 128, 157);
         private Color iconColor = Color.FromArgb(105, 28, 235);
         private bool usePassword;
         private bool showIcon = true;
@@ -49,6 +48,8 @@ namespace FBControl
             MinimumSize = new Size(150, 38);
             BackColor = Color.Transparent;
             Font = new Font("Segoe UI", 10.5F, FontStyle.Regular);
+
+            Padding = new Padding(3);
 
             inputSurface = new Panel
             {
@@ -88,6 +89,7 @@ namespace FBControl
             inputSurface.Controls.Add(iconLabel);
             Controls.Add(inputSurface);
 
+            textBox.HandleCreated += delegate { ApplyPlaceholder(); };
             textBox.GotFocus += delegate { Invalidate(); };
             textBox.LostFocus += delegate { Invalidate(); };
             textBox.TextChanged += delegate
@@ -198,17 +200,6 @@ namespace FBControl
         }
 
         [Category("Appearance")]
-        public Color PlaceholderColor
-        {
-            get { return placeholderColor; }
-            set
-            {
-                placeholderColor = value;
-                ApplyPlaceholder();
-            }
-        }
-
-        [Category("Appearance")]
         public Color IconColor
         {
             get { return iconColor; }
@@ -231,8 +222,6 @@ namespace FBControl
                 Invalidate();
             }
         }
-
-        public event EventHandler TextChanged;
 
         public override string Text
         {
