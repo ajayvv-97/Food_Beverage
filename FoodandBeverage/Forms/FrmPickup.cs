@@ -219,16 +219,16 @@ namespace FoodandBeverage.Forms
 
                     if (PickupCache.TryGetValue(item.Field3, out cacheItem))
                     {
-                        UpdatePickupPanel(cacheItem.Card, item);
+                        UpdatePickupCard(cacheItem.Card, item);
                         PickupCache[item.Field3] = (cacheItem.Card, status);
                     }
                     else
                     {
-                        var card = CreatePickupPanel(item);
+                        var card = CreatePickupCard(item);
                         if (card == null)
                             continue;
                         PickupCache[item.Field3] = (card, status);
-                        UpdatePickupPanel(card, item);
+                        UpdatePickupCard(card, item);
                         flp_pickup_view.Controls.Add(card);
                     }
                     PickupCache[item.Field3].Card.Visible = true;
@@ -241,7 +241,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Pickuppage LoadPickupView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
         }
-        private ModernPickupCard CreatePickupPanel(DmnGridFields item)
+        private ModernPickupCard CreatePickupCard(DmnGridFields item)
         {
             try
             {
@@ -261,13 +261,13 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage CreatePickupPanel()", ex, FrmLogin.EmployeName,
+                clsgen.LogException("Pickuppage CreatePickupCard()", ex, FrmLogin.EmployeName,
                     FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
                 return null;
             }
         }
 
-        private void UpdatePickupPanel(ModernPickupCard card, DmnGridFields item, bool useSourceKitchenCancelFlag = true)
+        private void UpdatePickupCard(ModernPickupCard card, DmnGridFields item, bool useSourceKitchenCancelFlag = true)
         {
             try
             {
@@ -302,7 +302,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage UpdatePickupPanel()", ex, FrmLogin.EmployeName,
+                clsgen.LogException("Pickuppage UpdatePickupCard()", ex, FrmLogin.EmployeName,
                     FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
         }
@@ -327,11 +327,11 @@ namespace FoodandBeverage.Forms
 
                 foreach (DmnGridFields item in results ?? new List<DmnGridFields>())
                 {
-                    ModernPickupCard card = CreatePickupPanel(item);
+                    ModernPickupCard card = CreatePickupCard(item);
                     if (card == null)
                         continue;
 
-                    UpdatePickupPanel(card, item, false);
+                    UpdatePickupCard(card, item, false);
                     card.Visible = true;
 
                     PickupCache[Convert.ToString(item.Field3)] = (card, Convert.ToInt32(item.Field7));
@@ -430,16 +430,16 @@ namespace FoodandBeverage.Forms
 
                     if (PickupCache.TryGetValue(item.Field3, out cacheItem))
                     {
-                        UpdatePickupPanel(cacheItem.Card, item);
+                        UpdatePickupCard(cacheItem.Card, item);
                         PickupCache[item.Field3] = (cacheItem.Card, status);
                     }
                     else
                     { 
-                        var card = CreatePickupPanel(item);
+                        var card = CreatePickupCard(item);
                         if (card == null)
                             continue;
                         PickupCache[item.Field3] = (card, status);
-                        UpdatePickupPanel(card, item);
+                        UpdatePickupCard(card, item);
                         flp_pickup_view.Controls.Add(card);
                     }
                     PickupCache[item.Field3].Card.Visible = true;
@@ -1104,10 +1104,14 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                AutoTimer.Stop();
                 Control clickedControl = sender as Control;
-                int Cancelorderstatus = Convert.ToInt32(clickedControl.AccessibleName);
-                if (clickedControl != null)
+                if (clickedControl == null)
+                    return;
+
+                AutoTimer.Stop();
+                int Cancelorderstatus;
+                if (!int.TryParse(clickedControl.AccessibleName, out Cancelorderstatus))
+                    Cancelorderstatus = 0;
                 {
                     if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
                     {
@@ -1217,7 +1221,7 @@ namespace FoodandBeverage.Forms
                         if (TableData.Count == 0)
                             return;
 
-                                                DisplayPickupSearchResults(TableData);
+                                DisplayPickupSearchResults(TableData);
                     }
                     else
                     {
@@ -1274,7 +1278,7 @@ namespace FoodandBeverage.Forms
                         if (TableData.Count == 0)
                             return;
 
-                                                DisplayPickupSearchResults(TableData);
+                                DisplayPickupSearchResults(TableData);
                     }
                     else
                     {
