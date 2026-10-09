@@ -501,22 +501,31 @@ namespace FoodandBeverage.Forms
                 {
                     DateTime reservationEnd = row.EndDate;
                     DateTime now = DateTime.Now;
+                    DateTime reservationWindowStart = reservationEnd.AddMinutes(
+                        -Math.Max(0, Convert.ToDouble(FrmLogin.BookingInterwell)));
+
+                    // Before the configured booking lead-in, keep the reservation visible without
+                    // treating the table as ready for check-in. After the end time it becomes expired.
                     ui.IsExpiredReservation = now > reservationEnd;
-                    if (ui.IsExpiredReservation)
+                    bool isReservationReady = now >= reservationWindowStart && now <= reservationEnd;
+                    string description = ui.IsExpiredReservation
+                        ? Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + row.Field7
+                        : Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + row.Field7;
+
+                    ui.Container.AccessibleDescription = description;
+                    ui.Inner.AccessibleDescription = description;
+                    ui.TableName.AccessibleDescription = description;
+                    ui.NetAmount.AccessibleDescription = description;
+
+                    // Keep the reservation's availability state explicit on the card.
+                    ui.IsReservation = !ui.IsExpiredReservation && isReservationReady;
+                    if (!ui.IsReservation && !ui.IsExpiredReservation)
                     {
-                        string description = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel)
-                            + "," + row.Field7;
-                        ui.Container.AccessibleDescription = description;
-                        ui.Inner.AccessibleDescription = description;
-                        ui.TableName.AccessibleDescription = description;
-                    }
-                    else
-                    {
-                        string description = Convert.ToInt32(DashboardTableType.Reverse_Table)
-                            + "," + row.Field7;
-                        ui.Container.AccessibleDescription = description;
-                        ui.Inner.AccessibleDescription = description;
-                        ui.TableName.AccessibleDescription = description;
+                        ui.Container.AccessibleDescription =
+                            Convert.ToString((int)DashboardTableType.Normalorder);
+                        ui.Inner.AccessibleDescription = ui.Container.AccessibleDescription;
+                        ui.TableName.AccessibleDescription = ui.Container.AccessibleDescription;
+                        ui.NetAmount.AccessibleDescription = ui.Container.AccessibleDescription;
                     }
                 }
 
