@@ -71,6 +71,8 @@ namespace FoodandBeverage.Forms
         int count = 0;
         private bool isRefreshingTableStatus;
         private bool isApplyingTableUI;
+        private Font tableStatusFont;
+        private Font tableNameFont;
 
         #endregion
 
@@ -92,6 +94,8 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
             SearchModetype = type;
+            tableStatusFont = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+            tableNameFont = new Font("Segoe UI", 10F, FontStyle.Bold);
             ConfigureModernTableSurface();
         }
 
@@ -434,7 +438,7 @@ namespace FoodandBeverage.Forms
             {
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                Font = tableNameFont,
                 ForeColor = Ordertablefontcolor,
                 AccessibleDescription = "0"
             };
@@ -443,7 +447,7 @@ namespace FoodandBeverage.Forms
             {
                 Dock = DockStyle.Fill,
                 Visible = false,
-                Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
+                Font = tableStatusFont,
                 TextAlign = ContentAlignment.MiddleCenter,
                 AccessibleDescription = "0"
             };
@@ -478,6 +482,7 @@ namespace FoodandBeverage.Forms
             };
 
             pnl.Click += tableClickEventHandler;
+            tlp.Click += tableClickEventHandler;
             lblName.Click += tableClickEventHandler;
             lblNet.Click += tableClickEventHandler;
 
@@ -670,7 +675,7 @@ namespace FoodandBeverage.Forms
                             statusLabelColor = ReconfirmLabelBG;
                             showStatus = true;
                         }
-                        else if (status.PendingCount > 0)
+                        else if (status.TotalItems > 0 && status.PendingCount > 0)
                         {
                             nextColor = OrderColor;
                         }
@@ -683,7 +688,9 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
-                            nextColor = status.TotalItems > 0 ? OrderColor : DefaultColor;
+                            nextColor = status.Ordermid > 0 && status.TotalItems > 0
+                                ? OrderColor
+                                : DefaultColor;
                         }
                     }
                     else
@@ -719,8 +726,8 @@ namespace FoodandBeverage.Forms
                         ui.NetAmount.BackColor = statusLabelColor;
                     if (ui.NetAmount.ForeColor != Color.White)
                         ui.NetAmount.ForeColor = Color.White;
-                    if (ui.NetAmount.Font.Style != FontStyle.Bold)
-                        ui.NetAmount.Font = new Font(Font, FontStyle.Bold);
+                    if (!ReferenceEquals(ui.NetAmount.Font, tableStatusFont))
+                        ui.NetAmount.Font = tableStatusFont;
 
                     float firstRow = showStatus ? 25 : 0;
                     float middleRow = showStatus ? 60 : 100;
@@ -1544,6 +1551,16 @@ namespace FoodandBeverage.Forms
         {
             AutoTimer?.Stop();
             AutoTimer?.Dispose();
+            if (tableStatusFont != null)
+            {
+                tableStatusFont.Dispose();
+                tableStatusFont = null;
+            }
+            if (tableNameFont != null)
+            {
+                tableNameFont.Dispose();
+                tableNameFont = null;
+            }
             base.OnFormClosing(e);
         }
         public void CheckexpireTable(int tid, int Bmid)
