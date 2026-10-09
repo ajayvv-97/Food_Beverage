@@ -2125,10 +2125,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\Loginbox.png" />
     <None Include="Resources\Footerloginbg.png" />
     <None Include="Resources\Fb_left_text.png" />
     <None Include="Resources\RestaurantLogo.png" />
-    <None Include="Resources\Loginbox.png" />
     <None Include="Resources\Loginbg.png" />
     <None Include="Resources\Roundoff.png" />
     <None Include="Resources\CartButton1.png" />

@@ -37,8 +37,6 @@ namespace FoodandBeverage.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
-            this.modernTextBox2 = new FBControl.ModernTextBox();
-            this.modernTextBox1 = new FBControl.ModernTextBox();
             this.btnrfid = new System.Windows.Forms.Button();
             this.btncancel = new System.Windows.Forms.Button();
             this.btnlogin = new System.Windows.Forms.Button();
@@ -72,6 +70,8 @@ namespace FoodandBeverage.Forms
             this.longpress_midascard = new System.Windows.Forms.Timer(this.components);
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.modernTextBox2 = new FBControl.ModernTextBox();
+            this.modernTextBox1 = new FBControl.ModernTextBox();
             this.pnlloginbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pblogo)).BeginInit();
             this.Pnl_wifiPopup.SuspendLayout();
@@ -112,6 +112,7 @@ namespace FoodandBeverage.Forms
             // 
             // label2
             // 
+            this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(30, 65);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -120,10 +121,10 @@ namespace FoodandBeverage.Forms
             this.label2.TabIndex = 283;
             this.label2.Text = "Sign in to continue to Midasfun";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label2.Visible = false;
             // 
             // label1
             // 
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(44, 39);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -132,7 +133,6 @@ namespace FoodandBeverage.Forms
             this.label1.TabIndex = 282;
             this.label1.Text = "Welcome Back";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.Visible = false;
             // 
             // txtPwd
             // 
@@ -173,32 +173,6 @@ namespace FoodandBeverage.Forms
             this.txtUserName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUserName_KeyPress);
             this.txtUserName.Leave += new System.EventHandler(this.txtusername_Leave);
             // 
-            // modernTextBox2
-            // 
-            this.modernTextBox2.BackColor = System.Drawing.Color.White;
-            this.modernTextBox2.IconText = "";
-            this.modernTextBox2.Location = new System.Drawing.Point(73, 207);
-            this.modernTextBox2.Name = "modernTextBox2";
-            this.modernTextBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.modernTextBox2.Placeholder = "Enter text";
-            this.modernTextBox2.Size = new System.Drawing.Size(269, 46);
-            this.modernTextBox2.TabIndex = 261;
-            this.modernTextBox2.TextValue = "";
-            this.modernTextBox2.UsePassword = false;
-            // 
-            // modernTextBox1
-            // 
-            this.modernTextBox1.BackColor = System.Drawing.Color.White;
-            this.modernTextBox1.IconText = "";
-            this.modernTextBox1.Location = new System.Drawing.Point(73, 131);
-            this.modernTextBox1.Name = "modernTextBox1";
-            this.modernTextBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.modernTextBox1.Placeholder = "Enter text";
-            this.modernTextBox1.Size = new System.Drawing.Size(269, 46);
-            this.modernTextBox1.TabIndex = 260;
-            this.modernTextBox1.TextValue = "";
-            this.modernTextBox1.UsePassword = false;
-            // 
             // btnrfid
             // 
             this.btnrfid.BackColor = System.Drawing.Color.Transparent;
@@ -222,6 +196,9 @@ namespace FoodandBeverage.Forms
             this.btncancel.BackgroundImage = global::FoodandBeverage.Properties.Resources.Logincancel;
             this.btncancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btncancel.FlatAppearance.BorderSize = 0;
+            this.btncancel.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btncancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btncancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btncancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncancel.Location = new System.Drawing.Point(113, 340);
@@ -238,6 +215,9 @@ namespace FoodandBeverage.Forms
             this.btnlogin.BackgroundImage = global::FoodandBeverage.Properties.Resources.Loginokay;
             this.btnlogin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnlogin.FlatAppearance.BorderSize = 0;
+            this.btnlogin.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btnlogin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnlogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnlogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnlogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnlogin.Location = new System.Drawing.Point(98, 275);
@@ -627,6 +607,42 @@ namespace FoodandBeverage.Forms
             this.pictureBox3.Size = new System.Drawing.Size(212, 64);
             this.pictureBox3.TabIndex = 283;
             this.pictureBox3.TabStop = false;
+            // 
+            // modernTextBox2
+            // 
+            this.modernTextBox2.BackColor = System.Drawing.Color.White;
+            this.modernTextBox2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
+            this.modernTextBox2.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
+            this.modernTextBox2.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.modernTextBox2.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
+            this.modernTextBox2.IconText = "";
+            this.modernTextBox2.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.modernTextBox2.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
+            this.modernTextBox2.Location = new System.Drawing.Point(73, 207);
+            this.modernTextBox2.MinimumSize = new System.Drawing.Size(150, 38);
+            this.modernTextBox2.Name = "modernTextBox2";
+            this.modernTextBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.modernTextBox2.Placeholder = "Enter text";
+            this.modernTextBox2.Size = new System.Drawing.Size(269, 46);
+            this.modernTextBox2.TabIndex = 261;
+            // 
+            // modernTextBox1
+            // 
+            this.modernTextBox1.BackColor = System.Drawing.Color.White;
+            this.modernTextBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
+            this.modernTextBox1.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
+            this.modernTextBox1.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.modernTextBox1.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
+            this.modernTextBox1.IconText = "";
+            this.modernTextBox1.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.modernTextBox1.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
+            this.modernTextBox1.Location = new System.Drawing.Point(73, 131);
+            this.modernTextBox1.MinimumSize = new System.Drawing.Size(150, 38);
+            this.modernTextBox1.Name = "modernTextBox1";
+            this.modernTextBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.modernTextBox1.Placeholder = "Enter text";
+            this.modernTextBox1.Size = new System.Drawing.Size(269, 46);
+            this.modernTextBox1.TabIndex = 260;
             // 
             // FrmLogin
             // 

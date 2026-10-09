@@ -1100,6 +1100,7 @@ D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\EPPlus.Interfaces.dll
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\EPPlus.System.Drawing.dll
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\ExcelNumberFormat.dll
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FastMember.dll
+D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.dll
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FontAwesome.Sharp.dll
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\Irony.dll
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\itextsharp.dll
@@ -1157,6 +1158,8 @@ D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\stdole.dll
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\BLL.pdb
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\DAL.pdb
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\Domain.pdb
+D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.pdb
+D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.dll.config
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\BouncyCastle.Cryptography.xml
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\CircularProgressBar.xml
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\ClosedXML.xml
@@ -1259,6 +1262,3 @@ D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cspro
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
-D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.dll
-D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.pdb
-D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.dll.config
