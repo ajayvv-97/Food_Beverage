@@ -66,7 +66,6 @@ namespace FBControl
                 Margin = Padding.Empty,
                 AutoSize = false,
                 UseCompatibleTextRendering = true,
-                TextAlign = ContentAlignment.MiddleCenter,
                 Visible = false
             };
 
