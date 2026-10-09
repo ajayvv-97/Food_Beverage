@@ -627,7 +627,6 @@ namespace FoodandBeverage.Forms
             this.pictureBox3.Size = new System.Drawing.Size(212, 64);
             this.pictureBox3.TabIndex = 283;
             this.pictureBox3.TabStop = false;
-            this.pictureBox3.Visible = false;
             // 
             // FrmLogin
             // 
