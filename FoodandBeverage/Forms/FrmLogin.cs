@@ -31,25 +31,13 @@ namespace FoodandBeverage.Forms
             txt_username.IconText = "\uE77B";
             txt_username.CornerRadius = 11;
             txt_username.Size = new Size(286, 48);
-            txt_username.TextChanged += delegate
-            {
-                if (txtUserName.Text != txt_username.TextValue)
-                    txtUserName.Text = txt_username.TextValue;
-            };
-
-            txt_password.Placeholder = "Password";
+txt_password.Placeholder = "Password";
             txt_password.ShowIcon = true;
             txt_password.IconText = "\uE72E";
             txt_password.UsePassword = true;
             txt_password.CornerRadius = 11;
             txt_password.Size = new Size(286, 48);
-            txt_password.TextChanged += delegate
-            {
-                if (txtPwd.Text != txt_password.TextValue)
-                    txtPwd.Text = txt_password.TextValue;
-            };
-
-            Resize += delegate { ApplyLoginRoundedCorners(); };
+Resize += delegate { ApplyLoginRoundedCorners(); };
             ApplyLoginRoundedCorners();
         }
 
@@ -167,8 +155,8 @@ namespace FoodandBeverage.Forms
                 logoPath = Application.StartupPath + @"\logoFile\";
             }
 
-            //txtUserName.Text = "User Name .....";
-            //txtPwd.Text = "Password .....";
+            //txt_username.TextValue = "User Name .....";
+            //txt_password.TextValue = "Password .....";
             if (FormSize.IsEmpty)
                 FormSize = this.Size;
             //virtualkeyboardCheck();
@@ -191,21 +179,8 @@ namespace FoodandBeverage.Forms
         #region TexBox Round function
         public void textb_shape()
         {
-            try
-            {
-                // Apply rounded corners to text boxes based on the list
-                foreach (TextBox textBox in new TextBox[] { txtPwd, txtUserName })
-                {
-                    ApplyRoundedTextBox(textBox, 10);
-                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
-                    textBox.BorderStyle = BorderStyle.None;
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login Page textb_shape()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
-            }
+            txt_username.CornerRadius = 11;
+            txt_password.CornerRadius = 11;
         }
 
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
@@ -264,41 +239,15 @@ namespace FoodandBeverage.Forms
         }
         private void txtusername_Enter(object sender, EventArgs e)
         {
-            try
-            {
-                timer1.Start();
-                if (txtUserName.Text == "User Name .....")
-                {
-                    txtUserName.Text = "";
-                    txtUserName.ForeColor = Color.Black;
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login Page txtusername_Enter()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
-            }      
-      
-        }       
+            // Keep the existing virtual-keyboard timer behavior.
+            timer1.Start();
+        }
 
         private void txtusername_Leave(object sender, EventArgs e)
         {
-            try
-            {
-                timer1.Stop();
-                if (txtUserName.Text == "")
-                {
-                    txtUserName.Text = "User Name .....";
-                    txtUserName.ForeColor = Color.DarkGray;
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login Page txtusername_Leave()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
-            } 
+            timer1.Stop();
         }
-        
+
         private void btncancel_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -315,7 +264,7 @@ namespace FoodandBeverage.Forms
                         if (IsPasswordvalid())
                         {
                             #region frist Login Empty db
-                            if(txtUserName.Text== "test" && txtPwd.Text == "test")
+                            if(txt_username.TextValue== "test" && txt_password.TextValue == "test")
                             {
                                 this.Visible = false;
                                 DmnSearch obj = new DmnSearch();
@@ -358,14 +307,14 @@ namespace FoodandBeverage.Forms
                                     "Left join tblHotelRegistration h on h.BranchId=ua.BranchID"+
                                     " Left join tbldepartment dt on dt.departmentid=emp.departmentid";//f.Form = " + Convert.ToInt32(PosForm.AllLocationAccess) + "and
 
-                                objSearch.WhereNdGroupBy = " Where Username = '" + txtUserName.Text.Trim().ToUpper() + "'";
+                                objSearch.WhereNdGroupBy = " Where Username = '" + txt_username.TextValue.Trim().ToUpper() + "'";
                                 var userDetails = frmGridSearch.GetSearchGrid(objSearch);
                                 UserAccountTypeId = Convert.ToInt64(userDetails["Field5", 0].Value);
                                 int Allaccess = Convert.ToInt32(userDetails["Field7", 0].Value);
                                 if (Allaccess != 1 && Convert.ToString(BranchId) != Convert.ToString(userDetails["Field3", 0].Value))
                                 {
                                     CMessageBox.Show("Invalid credentials", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    txtUserName.Focus();
+                                    txt_username.FocusInput();
                                 }
                                 else
                                 {
@@ -437,18 +386,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (txtUserName.Text == "test")
+                if (txt_username.TextValue == "test")
                     return true;
 
                 BllSearch<DmnUserAccount> bllSearch = new BllSearch<DmnUserAccount>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "PasswordHash,PasswordSalt ";
                 objSearch.Table = " tblUserAccount ";
-                objSearch.WhereNdGroupBy = " Where Username = '" + txtUserName.Text.Trim().ToUpper() + "'AND Status=1 ";
+                objSearch.WhereNdGroupBy = " Where Username = '" + txt_username.TextValue.Trim().ToUpper() + "'AND Status=1 ";
                 var pwdDetails = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (pwdDetails.Count > 0)
                 {
-                    //lblUser.Text = txtUserName.Text.Trim().ToUpper();
+                    //lblUser.Text = txt_username.TextValue.Trim().ToUpper();
                     passwordSalt = pwdDetails[0].PasswordSalt;
                     passwordHash = pwdDetails[0].PasswordHash;
                     encryptPassword = pwdDetails[0].PasswordHash;
@@ -457,7 +406,7 @@ namespace FoodandBeverage.Forms
                 else
                 {
 
-                    txtUserName.Focus();
+                    txt_username.FocusInput();
                     CMessageBox.Show("Invalid User Name", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
                 }
@@ -474,7 +423,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 bool result = true;
-                if (txtPwd.Text == "test")
+                if (txt_password.TextValue == "test")
                     return true;
 
                 if (passwordSalt == null || passwordHash == null)
@@ -482,7 +431,7 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
                 if (rfid == 0)
-                    result = bllEncryption.verifyPassword(txtPwd.Text.Trim(), passwordSalt, passwordHash);
+                    result = bllEncryption.verifyPassword(txt_password.TextValue.Trim(), passwordSalt, passwordHash);
                 else
                 {
                     for (int i = 0; i < encryptPassword.Length; i++)
@@ -497,7 +446,7 @@ namespace FoodandBeverage.Forms
                     return true;
                 }
                 CMessageBox.Show("Invalid Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtPwd.Focus();
+                txt_password.FocusInput();
                 return false;
             }
             catch (Exception ex)
@@ -575,8 +524,8 @@ namespace FoodandBeverage.Forms
                     if (gridSource[0].RFID_Login_Status == 1)
                     {
                         timer1.Stop();
-                        txtUserName.Text = Convert.ToString(gridSource[0].Username);
-                        txtPwd.Text = Convert.ToString(gridSource[0].PasswordHash);
+                        txt_username.TextValue = Convert.ToString(gridSource[0].Username);
+                        txt_password.TextValue = Convert.ToString(gridSource[0].PasswordHash);
                         encryptPassword = gridSource[0].PasswordHash;
                         var data = new List<byte>();
                         rfid = 1;
@@ -594,16 +543,16 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (txtUserName.Text == "User Name .....")
+                if (string.IsNullOrWhiteSpace(txt_username.TextValue))
                 {
-                    CMessageBox.Show("Please Enter UserName", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtUserName.Focus();
+                    CMessageBox.Show("Please enter username.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txt_username.FocusInput();
                     return false;
                 }
-                if (txtPwd.Text == "Password .....")
+                if (string.IsNullOrWhiteSpace(txt_password.TextValue))
                 {
-                    CMessageBox.Show("Please Enter Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtPwd.Focus();
+                    CMessageBox.Show("Please enter password.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txt_password.FocusInput();
                     return false;
                 }
                 return true;
@@ -628,14 +577,14 @@ namespace FoodandBeverage.Forms
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    if (string.IsNullOrEmpty(txtUserName.Text))
+                    if (string.IsNullOrEmpty(txt_username.TextValue))
                     {
                         CMessageBox.Show("Please Enter UserName", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtUserName.Focus();
+                        txt_username.FocusInput();
                         return;
                     }
                     else
-                        txtPwd.Focus();
+                        txt_password.FocusInput();
                 }
             }
             catch (Exception ex)
@@ -674,36 +623,12 @@ namespace FoodandBeverage.Forms
 
         private void txtPwd_Enter(object sender, EventArgs e)
         {
-            try
-            {
-                if (txtPwd.Text == "Password .....")
-                {
-                    txtPwd.Text = "";
-                    txtPwd.ForeColor = Color.Black;
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login page txtPwd_Enter()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
-            }
+            // Placeholder text is handled by ModernTextBox.
         }
 
         private void txtPwd_Leave(object sender, EventArgs e)
         {
-            try
-            {
-                if (txtPwd.Text == "")
-                {
-                    txtPwd.Text = "Password .....";
-                    txtPwd.ForeColor = Color.DarkGray;
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login page txtPwd_Leave()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
-            }
+            // Placeholder text is handled by ModernTextBox.
         }
 
         private void txtPwd_KeyDown(object sender, KeyEventArgs e)
@@ -712,10 +637,10 @@ namespace FoodandBeverage.Forms
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    if (string.IsNullOrEmpty(txtPwd.Text))
+                    if (string.IsNullOrEmpty(txt_password.TextValue))
                     {
                         CMessageBox.Show("Please Enter Password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        txtPwd.Focus();
+                        txt_password.FocusInput();
                         return;
                     }
                     else
@@ -745,15 +670,7 @@ namespace FoodandBeverage.Forms
 
         private void txtPwd_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                txtPwd.PasswordChar = '*';
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login page txtPwd_TextChanged()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
-            }
+            // Password masking is handled by txt_password.UsePassword.
         }
 
         private void FrmLogin_Shown(object sender, EventArgs e)
@@ -765,7 +682,7 @@ namespace FoodandBeverage.Forms
         {
             if (loginkeyboard)
             {
-                ShowKeyboard(sender as TextBox);
+                ShowKeyboard(txt_username.InputTextBox);
             }
         }
 
@@ -857,7 +774,7 @@ namespace FoodandBeverage.Forms
         {
             if (loginkeyboard)
             {
-                ShowKeyboard(sender as TextBox);
+                ShowKeyboard(txt_password.InputTextBox);
             }
         }
 
