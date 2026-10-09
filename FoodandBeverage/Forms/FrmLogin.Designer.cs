@@ -70,8 +70,8 @@ namespace FoodandBeverage.Forms
             this.longpress_midascard = new System.Windows.Forms.Timer(this.components);
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.modernTextBox2 = new FBControl.ModernTextBox();
-            this.modernTextBox1 = new FBControl.ModernTextBox();
+            this.txt_password = new FBControl.ModernTextBox();
+            this.txt_username = new FBControl.ModernTextBox();
             this.pnlloginbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pblogo)).BeginInit();
             this.Pnl_wifiPopup.SuspendLayout();
@@ -98,8 +98,8 @@ namespace FoodandBeverage.Forms
             this.pnlloginbox.Controls.Add(this.label1);
             this.pnlloginbox.Controls.Add(this.txtPwd);
             this.pnlloginbox.Controls.Add(this.txtUserName);
-            this.pnlloginbox.Controls.Add(this.modernTextBox2);
-            this.pnlloginbox.Controls.Add(this.modernTextBox1);
+            this.pnlloginbox.Controls.Add(this.txt_password);
+            this.pnlloginbox.Controls.Add(this.txt_username);
             this.pnlloginbox.Controls.Add(this.btnrfid);
             this.pnlloginbox.Controls.Add(this.btncancel);
             this.pnlloginbox.Controls.Add(this.btnlogin);
@@ -140,7 +140,7 @@ namespace FoodandBeverage.Forms
             this.txtPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPwd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPwd.ForeColor = System.Drawing.Color.DarkGray;
-            this.txtPwd.Location = new System.Drawing.Point(39, 86);
+            this.txtPwd.Location = new System.Drawing.Point(21, 85);
             this.txtPwd.Multiline = true;
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.Size = new System.Drawing.Size(28, 38);
@@ -159,7 +159,7 @@ namespace FoodandBeverage.Forms
             this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUserName.ForeColor = System.Drawing.Color.DarkGray;
-            this.txtUserName.Location = new System.Drawing.Point(39, 131);
+            this.txtUserName.Location = new System.Drawing.Point(21, 128);
             this.txtUserName.Margin = new System.Windows.Forms.Padding(0);
             this.txtUserName.Multiline = true;
             this.txtUserName.Name = "txtUserName";
@@ -181,7 +181,7 @@ namespace FoodandBeverage.Forms
             this.btnrfid.FlatAppearance.BorderSize = 0;
             this.btnrfid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnrfid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnrfid.Location = new System.Drawing.Point(346, 136);
+            this.btnrfid.Location = new System.Drawing.Point(325, 136);
             this.btnrfid.Name = "btnrfid";
             this.btnrfid.Size = new System.Drawing.Size(28, 30);
             this.btnrfid.TabIndex = 257;
@@ -608,41 +608,41 @@ namespace FoodandBeverage.Forms
             this.pictureBox3.TabIndex = 283;
             this.pictureBox3.TabStop = false;
             // 
-            // modernTextBox2
+            // txt_password
             // 
-            this.modernTextBox2.BackColor = System.Drawing.Color.White;
-            this.modernTextBox2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
-            this.modernTextBox2.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
-            this.modernTextBox2.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            this.modernTextBox2.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
-            this.modernTextBox2.IconText = "";
-            this.modernTextBox2.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.modernTextBox2.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
-            this.modernTextBox2.Location = new System.Drawing.Point(73, 207);
-            this.modernTextBox2.MinimumSize = new System.Drawing.Size(150, 38);
-            this.modernTextBox2.Name = "modernTextBox2";
-            this.modernTextBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.modernTextBox2.Placeholder = "Enter text";
-            this.modernTextBox2.Size = new System.Drawing.Size(269, 46);
-            this.modernTextBox2.TabIndex = 261;
+            this.txt_password.BackColor = System.Drawing.Color.White;
+            this.txt_password.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
+            this.txt_password.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
+            this.txt_password.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_password.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
+            this.txt_password.IconText = "";
+            this.txt_password.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txt_password.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
+            this.txt_password.Location = new System.Drawing.Point(52, 207);
+            this.txt_password.MinimumSize = new System.Drawing.Size(150, 38);
+            this.txt_password.Name = "txt_password";
+            this.txt_password.Padding = new System.Windows.Forms.Padding(2);
+            this.txt_password.Placeholder = "Enter text";
+            this.txt_password.Size = new System.Drawing.Size(269, 46);
+            this.txt_password.TabIndex = 261;
             // 
-            // modernTextBox1
+            // txt_username
             // 
-            this.modernTextBox1.BackColor = System.Drawing.Color.White;
-            this.modernTextBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
-            this.modernTextBox1.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
-            this.modernTextBox1.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            this.modernTextBox1.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
-            this.modernTextBox1.IconText = "";
-            this.modernTextBox1.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.modernTextBox1.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
-            this.modernTextBox1.Location = new System.Drawing.Point(73, 131);
-            this.modernTextBox1.MinimumSize = new System.Drawing.Size(150, 38);
-            this.modernTextBox1.Name = "modernTextBox1";
-            this.modernTextBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.modernTextBox1.Placeholder = "Enter text";
-            this.modernTextBox1.Size = new System.Drawing.Size(269, 46);
-            this.modernTextBox1.TabIndex = 260;
+            this.txt_username.BackColor = System.Drawing.Color.White;
+            this.txt_username.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
+            this.txt_username.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
+            this.txt_username.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_username.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
+            this.txt_username.IconText = "";
+            this.txt_username.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txt_username.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
+            this.txt_username.Location = new System.Drawing.Point(52, 131);
+            this.txt_username.MinimumSize = new System.Drawing.Size(150, 38);
+            this.txt_username.Name = "txt_username";
+            this.txt_username.Padding = new System.Windows.Forms.Padding(2);
+            this.txt_username.Placeholder = "Enter text";
+            this.txt_username.Size = new System.Drawing.Size(269, 46);
+            this.txt_username.TabIndex = 260;
             // 
             // FrmLogin
             // 
@@ -719,8 +719,8 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TextBox txtusernamedb;
         private System.Windows.Forms.Timer longpress_midascard;
         private System.Windows.Forms.Button btn_dbconf_close;
-        private FBControl.ModernTextBox modernTextBox2;
-        private FBControl.ModernTextBox modernTextBox1;
+        private FBControl.ModernTextBox txt_password;
+        private FBControl.ModernTextBox txt_username;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox2;

@@ -26,27 +26,27 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
 
             // Keep the visible modern fields connected to the existing login logic.
-            modernTextBox1.Placeholder = "Username";
-            modernTextBox1.ShowIcon = true;
-            modernTextBox1.IconText = "\uE77B";
-            modernTextBox1.CornerRadius = 11;
-            modernTextBox1.Size = new Size(286, 48);
-            modernTextBox1.TextChanged += delegate
+            txt_username.Placeholder = "Username";
+            txt_username.ShowIcon = true;
+            txt_username.IconText = "\uE77B";
+            txt_username.CornerRadius = 11;
+            txt_username.Size = new Size(286, 48);
+            txt_username.TextChanged += delegate
             {
-                if (txtUserName.Text != modernTextBox1.TextValue)
-                    txtUserName.Text = modernTextBox1.TextValue;
+                if (txtUserName.Text != txt_username.TextValue)
+                    txtUserName.Text = txt_username.TextValue;
             };
 
-            modernTextBox2.Placeholder = "Password";
-            modernTextBox2.ShowIcon = true;
-            modernTextBox2.IconText = "\uE72E";
-            modernTextBox2.UsePassword = true;
-            modernTextBox2.CornerRadius = 11;
-            modernTextBox2.Size = new Size(286, 48);
-            modernTextBox2.TextChanged += delegate
+            txt_password.Placeholder = "Password";
+            txt_password.ShowIcon = true;
+            txt_password.IconText = "\uE72E";
+            txt_password.UsePassword = true;
+            txt_password.CornerRadius = 11;
+            txt_password.Size = new Size(286, 48);
+            txt_password.TextChanged += delegate
             {
-                if (txtPwd.Text != modernTextBox2.TextValue)
-                    txtPwd.Text = modernTextBox2.TextValue;
+                if (txtPwd.Text != txt_password.TextValue)
+                    txtPwd.Text = txt_password.TextValue;
             };
 
             Resize += delegate { ApplyLoginRoundedCorners(); };
