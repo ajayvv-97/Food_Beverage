@@ -567,31 +567,45 @@ namespace FoodandBeverage.Forms
 
                     if (ui.IsReservation && ui.IsExpiredReservation)
                     {
+                        nextColor = ExpiredColor;
+                        statusText = "Reservation Expired";
+                        statusLabelColor = ExpiredColor;
+                        showStatus = true;
                         string expiredDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel)
                             + "," + ui.ReservationBookmasterId;
                         ui.Container.AccessibleDescription = expiredDescription;
                         ui.Inner.AccessibleDescription = expiredDescription;
                         ui.TableName.AccessibleDescription = expiredDescription;
                         ui.NetAmount.AccessibleDescription = expiredDescription;
-                        nextColor = ExpiredColor;
-                        statusText = "Reservation Expired";
-                        statusLabelColor = ExpiredColor;
-                        showStatus = true;
                     }
                     else if (ui.IsReservation && ui.IsReservationReady)
                     {
+                        nextColor = ReservationColor;
+                        statusText = "Reservation";
+                        statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
+                        showStatus = true;
                         string reservationDescription = Convert.ToInt32(DashboardTableType.Reverse_Table)
                             + "," + ui.ReservationBookmasterId;
                         ui.Container.AccessibleDescription = reservationDescription;
                         ui.Inner.AccessibleDescription = reservationDescription;
                         ui.TableName.AccessibleDescription = reservationDescription;
                         ui.NetAmount.AccessibleDescription = reservationDescription;
+                    }
+                    else if (ui.IsReservation)
+                    {
+                        // The booking is outside its check-in window. Keep the reservation visible
+                        // and prevent a premature check-in action.
                         nextColor = ReservationColor;
-                        statusText = "Reservation";
+                        statusText = "Reserved";
                         statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
                         showStatus = true;
+                        string reservedDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+                        ui.Container.AccessibleDescription = reservedDescription;
+                        ui.Inner.AccessibleDescription = reservedDescription;
+                        ui.TableName.AccessibleDescription = reservedDescription;
+                        ui.NetAmount.AccessibleDescription = reservedDescription;
                     }
-                    else if (!ui.IsReservation && orderStatusCache.TryGetValue(tableId, out var status))
+                    else if (orderStatusCache.TryGetValue(tableId, out var status))
                     {
                         string normalDescription = Convert.ToString((int)DashboardTableType.Normalorder);
                         ui.Container.AccessibleDescription = normalDescription;
@@ -641,14 +655,6 @@ namespace FoodandBeverage.Forms
                                 ? OrderColor
                                 : DefaultColor;
                         }
-                    }
-                    else if (ui.IsReservation && !ui.IsExpiredReservation)
-                    {
-                        // Upcoming reservation outside the booking lead-in remains reserved, but isn't actionable yet.
-                        nextColor = ReservationColor;
-                        statusText = "Reserved";
-                        statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
-                        showStatus = true;
                     }
                     else
                     {
