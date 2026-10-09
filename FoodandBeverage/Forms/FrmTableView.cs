@@ -937,16 +937,6 @@ namespace FoodandBeverage.Forms
                         var result = CMessageBox.Show("Do You want Cancel  This Reservation", "Confirm The Action", MessageBoxButtons.YesNo);
                         if (result == DialogResult.Yes)
                         {
-                            //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                            //DmnSearch dmnSearch = new DmnSearch();
-                            //dmnSearch.Select = " bm.BookmasterId Field1";
-                            //dmnSearch.Table = "tblBookDetails bd " +
-                            //    "LEFT JOIN tblbookMaster bm on bm.BookmasterId=bd.BookmasterId ";
-                            //dmnSearch.WhereNdGroupBy = " where bm.Status=1 and Rid=0 and bd.MTID= " + clickedControl.Tag;
-                            //dmnSearch.OrderBy = "";
-                            //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                            //if(gridSource.Count>0)
-                            //{
                             BllReservation bllReservation = new BllReservation();
                             DmnReservation dmnReservation = new DmnReservation();
                             dmnReservation.BookmasterId = Convert.ToInt32(bmasterid);
@@ -963,15 +953,10 @@ namespace FoodandBeverage.Forms
                                 UpdateTableUI();
 
                             }
-                            //}
                         }
                         else if (result == DialogResult.No)
                         {
-                            //using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel), Convert.ToInt32(bmasterid), CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
-                            //{
-                            //    _instanceFrmOrder.ShowDialog();
-                            //}
-
+                            // The user chose not to cancel the expired reservation.
                         }
                     }
                     else if (Btype == Convert.ToInt32(DashboardTableType.Reverse_Table))
