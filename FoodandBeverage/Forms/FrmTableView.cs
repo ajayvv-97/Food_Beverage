@@ -328,7 +328,7 @@ namespace FoodandBeverage.Forms
                 Field24 = Pagecount.ToString()
             };
 
-            allTables = search.serachreport("prdTableView", param);
+            allTables = search.serachreport("prdTableView", param) ?? new List<DmnGridFields>();
         }
 
         #endregion
@@ -947,6 +947,47 @@ namespace FoodandBeverage.Forms
             button.Click += SideMenuClick;
             menuTooltip.SetToolTip(button, caption);
             flp_sidemenu.Controls.Add(button);
+        }
+
+        private void btnsearch_Click(object sender, EventArgs e)
+        {
+            AutoTimer.Stop();
+            try
+            {
+                BllTableView<DmnGridFields> search = new BllTableView<DmnGridFields>();
+                DmnGridFields param = new DmnGridFields
+                {
+                    Field30 = Convert.ToString(FrmLogin.BookingInterwell),
+                    Field29 = Convert.ToString(SearchModetype),
+                    Field28 = Convert.ToString(categoryId),
+                    Field26 = "1",
+                    Field27 = Convert.ToString(txttablecode_search.Text),
+                    Field25 = Convert.ToString(categorystatus),
+                    Field24 = Convert.ToString(Pagecount)
+                };
+
+                allTables = search.serachreport("prdTableView", param) ?? new List<DmnGridFields>();
+                currentPage = 1;
+                pageSize = Pagecount;
+                ApplyPaging();
+
+                if (reusablePanels.Count == 0)
+                    CreateReusablePanels();
+
+                BindPageToPanels();
+                LoadOrderStatusCache();
+                UpdateTableUI();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("TableView page btnsearch_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.TableView));
+            }
+            finally
+            {
+                if (!isTableViewClosing && !IsDisposed && !Disposing)
+                    AutoTimer.Start();
+            }
         }
 
         private void SideMenuClick(object sender, EventArgs e)
