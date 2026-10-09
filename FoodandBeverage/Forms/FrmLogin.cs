@@ -24,6 +24,60 @@ namespace FoodandBeverage.Forms
         public FrmLogin()
         {
             InitializeComponent();
+
+            // Keep the visible modern fields connected to the existing login logic.
+            modernTextBox1.Placeholder = "Username";
+            modernTextBox1.ShowIcon = false;
+            modernTextBox1.CornerRadius = 11;
+            modernTextBox1.Size = new Size(286, 48);
+            modernTextBox1.TextChanged += delegate
+            {
+                if (txtUserName.Text != modernTextBox1.TextValue)
+                    txtUserName.Text = modernTextBox1.TextValue;
+            };
+
+            modernTextBox2.Placeholder = "Password";
+            modernTextBox2.ShowIcon = false;
+            modernTextBox2.UsePassword = true;
+            modernTextBox2.CornerRadius = 11;
+            modernTextBox2.Size = new Size(286, 48);
+            modernTextBox2.TextChanged += delegate
+            {
+                if (txtPwd.Text != modernTextBox2.TextValue)
+                    txtPwd.Text = modernTextBox2.TextValue;
+            };
+
+            Resize += delegate { ApplyLoginRoundedCorners(); };
+            ApplyLoginRoundedCorners();
+        }
+
+        private void ApplyLoginRoundedCorners()
+        {
+            ApplyRoundedRegion(this, 22);
+            ApplyRoundedRegion(pnlloginbox, 24);
+        }
+
+        private static void ApplyRoundedRegion(Control control, int radius)
+        {
+            if (control == null || control.IsDisposed ||
+                control.Width < radius * 2 || control.Height < radius * 2)
+                return;
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                int diameter = radius * 2;
+                path.AddArc(0, 0, diameter, diameter, 180, 90);
+                path.AddArc(control.Width - diameter, 0, diameter, diameter, 270, 90);
+                path.AddArc(control.Width - diameter, control.Height - diameter,
+                    diameter, diameter, 0, 90);
+                path.AddArc(0, control.Height - diameter, diameter, diameter, 90, 90);
+                path.CloseFigure();
+
+                Region oldRegion = control.Region;
+                control.Region = new Region(path);
+                if (oldRegion != null)
+                    oldRegion.Dispose();
+            }
         }
         private LoadingGIF_Timer loadingForm;
 
@@ -116,7 +170,9 @@ namespace FoodandBeverage.Forms
             if (FormSize.IsEmpty)
                 FormSize = this.Size;
             //virtualkeyboardCheck();
-            pnlloginbox.BackColor = Color.FromArgb(150, 250, 250, 250);
+            // Keep the panel transparent so the PNG artwork is not washed out.
+            pnlloginbox.BackColor = Color.Transparent;
+            ApplyLoginRoundedCorners();
             //Task.Run(() =>
             //{
             //    FrmSplash loadingForm = new FrmSplash();
