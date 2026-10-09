@@ -1362,6 +1362,10 @@
       <Project>{45AF665B-7ADF-4BEC-8FF9-3806483B13F5}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FBControl\FBControl.csproj">
+      <Project>{3FD30CC7-3E0E-4D2F-A9CA-92D83EC311BA}</Project>
+      <Name>FBControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\button_roundedge.png" />
@@ -2121,6 +2125,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\Footerloginbg.png" />
+    <None Include="Resources\Fb_left_text.png" />
+    <None Include="Resources\RestaurantLogo.png" />
     <None Include="Resources\Loginbox.png" />
     <None Include="Resources\Loginbg.png" />
     <None Include="Resources\Roundoff.png" />

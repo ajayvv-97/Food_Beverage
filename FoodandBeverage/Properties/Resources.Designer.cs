@@ -1213,6 +1213,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fb_left_text {
+            get {
+                object obj = ResourceManager.GetObject("Fb_left_text", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FB_LOGIN_BG {
             get {
                 object obj = ResourceManager.GetObject("FB_LOGIN_BG", resourceCulture);
@@ -1346,6 +1356,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap foodpicchart {
             get {
                 object obj = ResourceManager.GetObject("foodpicchart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Footerloginbg {
+            get {
+                object obj = ResourceManager.GetObject("Footerloginbg", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -3205,6 +3225,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap restaurant {
             get {
                 object obj = ResourceManager.GetObject("restaurant", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RestaurantLogo {
+            get {
+                object obj = ResourceManager.GetObject("RestaurantLogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

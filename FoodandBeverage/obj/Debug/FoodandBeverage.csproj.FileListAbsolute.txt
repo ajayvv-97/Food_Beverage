@@ -1259,3 +1259,6 @@ D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cspro
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
+D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.dll
+D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.pdb
+D:\Developers\Ajay\Food_Beverage\FoodandBeverage\bin\Debug\FBControl.dll.config

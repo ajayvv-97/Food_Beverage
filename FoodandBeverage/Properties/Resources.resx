@@ -121,6 +121,9 @@
   <data name="category" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\category.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="mobile_banking_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mobile-banking_chart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="keypad_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\keypad_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -130,8 +133,8 @@
   <data name="N_orderpage_cancelorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_orderpage_cancelorder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PromoCode" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PromoCode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Delete_Grid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delete_Grid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Displaymore_kitchenorder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\more (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -147,9 +150,6 @@
   </data>
   <data name="Admin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Admin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="INACTIVEBUTTON" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\INACTIVEBUTTON.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="foodmenu_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FoodPic1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -178,9 +178,6 @@
   <data name="logout" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logout.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Loginbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Loginbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Internet_Banking" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Internet Banking.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -202,14 +199,11 @@
   <data name="reg_certificate_icon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\reg_certificate_icon1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cancel_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cancel_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="table" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="dish_remarks_notes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dish_remarks_notes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="N_refreshicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\N_refreshicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="upi_icon_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\upi-icon_chart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -247,8 +241,8 @@
   <data name="orderview_blank_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\orderview_blank_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="orderview_addon_blank_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\orderview_addon_blank icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="okay_report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\okay_report.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="white_star" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\white star.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -291,6 +285,9 @@
   </data>
   <data name="CartButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CartButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eye" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eye.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="chart_Creditcard_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chart_Creditcard icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -355,8 +352,8 @@
   <data name="billselectedicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\billselectedicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="orderview_next_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\orderview_next icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icons8-home-50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-home-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="usericon_dashboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\usericon_dashboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -376,8 +373,8 @@
   <data name="N_searchbutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_searchbutton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Untitled_2_2030" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Untitled-2 2030.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Permission_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Permission icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="no_pictures" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\no-pictures.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -397,8 +394,8 @@
   <data name="start" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="blank_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\blank_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="RestaurantLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RestaurantLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="orderpage_product_Descriptionicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\orderpage_product_Descriptionicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -433,8 +430,8 @@
   <data name="orderpage_print_bill_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\orderpage_print_bill_button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="success" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\success.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="orderview_cancel_oder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderview_cancel oder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="close_price_change1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\close_price_change.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -451,17 +448,20 @@
   <data name="space_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\space_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="orderview_cancel_oder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\orderview_cancel oder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="msgcancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\msgcancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="success" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\success.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ready_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ready.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="orderpage_save_kot_print_button1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\orderpage_save_kot_print_button1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blank_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blank_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="minimize_button1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\minimize_button1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -481,8 +481,11 @@
   <data name="cancelled_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\orderview_cancelled1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="fav_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fav_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="key_large2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_large2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cancel_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="chart_Others_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chart_Others icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -490,8 +493,8 @@
   <data name="food_cancel_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\food cancel icon 3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="eye" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\eye.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Loginbox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Loginbox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="N_LOCKSCREEN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_LOCKSCREEN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -516,9 +519,6 @@
   </data>
   <data name="fdnumber_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fdnumber_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="cancel_description" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cancel_description.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="N_okay" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_okay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -559,6 +559,9 @@
   <data name="registartion_search_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\registartion_search_icon1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="orderview_next_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderview_next icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="reserveicon_table" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\reserveicon_table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -574,14 +577,8 @@
   <data name="key_large1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\key_large1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SaveButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SaveButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="N_SEARCH" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_SEARCH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Permission_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Permission icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="N_MORE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_MORE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -634,11 +631,8 @@
   <data name="N_REFESH" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_REFESH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="grid_registration" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\grid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="table" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="INACTIVEBUTTON" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\INACTIVEBUTTON.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="chart_previous" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chart_previous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -660,6 +654,9 @@
   </data>
   <data name="employee_file_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\employee_file icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromoCode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PromoCode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="searchbill" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\searchbill.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -696,9 +693,6 @@
   </data>
   <data name="combo_button_percentage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\combo_button_percentage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="add_row" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\add_row.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="user_add_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\user_add_edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -781,17 +775,17 @@
   <data name="backspace_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\backspace_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Y-OUT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Y-OUT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="okay_report" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\okay_report.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="reg_view_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\reg_view_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="gallery" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gallery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="orderview_cancelled_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\orderview_cancelled icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Search_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Search_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="chart_netbanking_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chart_netbanking icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -820,9 +814,6 @@
   <data name="orderpage_bill_copy_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\orderpage_bill_copy_button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="error" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="icons8-logout-50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-logout-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -838,8 +829,8 @@
   <data name="N_CANCEL ORDERBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_CANCEL ORDERBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="payment_hide_show" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\payment_hide_show.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="error" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="userlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\userlock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -868,11 +859,17 @@
   <data name="DEACTIVIATE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DEACTIVIATE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fav_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fav_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="RFID_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RFID_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="time" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\time.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="reservation_icon_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\reservation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -907,8 +904,8 @@
   <data name="table_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\table_view.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="font_mouselick" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\font_mouselick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Loginbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Loginbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icons8-report-50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-report-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -936,12 +933,6 @@
   </data>
   <data name="kitchengridcomboicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kitchengridcomboicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Delete_Grid" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Delete_Grid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icons8-home-50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-home-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Item_reg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Item_reg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1015,14 +1006,20 @@
   <data name="keypad_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\keypad_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Search_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Search_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Y-OUT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Y-OUT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="clear_userdetails" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\clear_userdetails.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="grid_select" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\grid_select.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="orderview_addon_tick_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\orderview_addon_tick icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orderview_addon_blank_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orderview_addon_blank icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="msgsend" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\msgsend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1045,8 +1042,8 @@
   <data name="combined_backbill" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\combined_backbill.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="reg_view_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\reg_view_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="font_mouselick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\font_mouselick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pay_per_click" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pay-per-click.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1075,8 +1072,8 @@
   <data name="others" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\others.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="mobile_banking_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mobile-banking_chart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="grid_registration" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\grid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LoginButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\login button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1090,8 +1087,8 @@
   <data name="kitchenprintcounticon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kitchenprintcounticon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="time" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\time.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SaveButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SaveButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="N_SUBMIT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_SUBMIT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1111,11 +1108,14 @@
   <data name="part_icon_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\part_icon_chart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="key_smalll" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\key_smalll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Untitled_2_2030" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Untitled-2 2030.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SPACE_BUTTON_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SPACE BUTTON_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="aviable_dashboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\aviable_dashboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="blank" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\blank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1132,8 +1132,11 @@
   <data name="shift_pressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\shift_pressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="key_large2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\key_large2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="cancel_description" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel_description.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Fb_left_text" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fb_left_text.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="food_category" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\food category.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1168,6 +1171,9 @@
   <data name="kitchen_order_sound" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kitchen_order_sound.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="payment_hide_show" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\payment_hide_show.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="kitchentotalodericon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kitchentotalodericon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1201,8 +1207,8 @@
   <data name="BillType" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BillType.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="grid_select" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\grid_select.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="add_row" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_row.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="employe_add_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\employe_add icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1210,8 +1216,8 @@
   <data name="N_dashboard_pickupmain" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N_dashboard_pickupmain.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="aviable_dashboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\aviable_dashboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="N_refreshicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\N_refreshicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Designation_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Designation icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -1219,10 +1225,13 @@
   <data name="comapny" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\comapny.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="key_smalll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_smalll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="logopbright" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logopbright.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Loginbox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Loginbox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Footerloginbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Footerloginbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

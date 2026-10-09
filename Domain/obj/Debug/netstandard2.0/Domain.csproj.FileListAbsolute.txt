@@ -78,6 +78,7 @@ C:\Users\ajay\Desktop\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.pdb
 D:\Developers\Ajay\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.deps.json
 D:\Developers\Ajay\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.dll
 D:\Developers\Ajay\Food_Beverage\Domain\bin\Debug\netstandard2.0\Domain.pdb
+D:\Developers\Ajay\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.csproj.AssemblyReference.cache
 D:\Developers\Ajay\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
 D:\Developers\Ajay\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfoInputs.cache
 D:\Developers\Ajay\Food_Beverage\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfo.cs
