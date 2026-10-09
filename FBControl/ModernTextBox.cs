@@ -60,11 +60,13 @@ namespace FBControl
                 Dock = DockStyle.None,
                 Width = 30,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe MDL2 Assets", 15F, FontStyle.Regular),
+                Font = new Font("Segoe MDL2 Assets", 17F, FontStyle.Regular),
                 ForeColor = iconColor,
                 BackColor = inputBackColor,
                 Margin = Padding.Empty,
                 AutoSize = false,
+                UseCompatibleTextRendering = true,
+                TextAlign = ContentAlignment.MiddleCenter,
                 Visible = false
             };
 
@@ -130,6 +132,10 @@ namespace FBControl
                 iconLabel.Text = iconText;
                 iconLabel.Visible = showIcon && iconText.Length > 0;
                 UpdateInputLayout();
+                if (iconLabel.Visible)
+                    iconLabel.BringToFront();
+                if (iconLabel.Visible)
+                    iconLabel.BringToFront();
             }
         }
 
@@ -315,6 +321,8 @@ namespace FBControl
             if (iconLabel.Visible)
             {
                 iconLabel.Bounds = new Rectangle(8, 0, 32, surfaceHeight);
+                iconLabel.TextAlign = ContentAlignment.MiddleCenter;
+                iconLabel.BringToFront();
                 left = iconLabel.Right + 8;
             }
             else
