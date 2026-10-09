@@ -51,13 +51,13 @@ namespace FBControl
                 Location = new Point(2, 2),
                 Size = new Size(Math.Max(1, Width - 4), Math.Max(1, Height - 4)),
                 BackColor = inputBackColor,
-                Padding = new Padding(12, 0, 12, 0),
+                Padding = Padding.Empty,
                 Margin = Padding.Empty
             };
 
             iconLabel = new Label
             {
-                Dock = DockStyle.Left,
+                Dock = DockStyle.None,
                 Width = 30,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Segoe MDL2 Assets", 15F, FontStyle.Regular),
@@ -72,7 +72,7 @@ namespace FBControl
             {
                 BorderStyle = BorderStyle.None,
                 Multiline = false,
-                Dock = DockStyle.Fill,
+                Dock = DockStyle.None,
                 Font = Font,
                 ForeColor = inputForeColor,
                 BackColor = inputBackColor,
@@ -89,8 +89,22 @@ namespace FBControl
             textBox.HandleCreated += delegate { ApplyPlaceholder(); };
             textBox.GotFocus += delegate { Invalidate(); };
             textBox.LostFocus += delegate { Invalidate(); };
+            textBox.Enter += delegate { OnEnter(EventArgs.Empty); };
+            textBox.Leave += delegate { OnLeave(EventArgs.Empty); };
+            textBox.Click += delegate { OnClick(EventArgs.Empty); };
+            textBox.KeyDown += delegate(object sender, KeyEventArgs e) { OnKeyDown(e); };
+            textBox.KeyPress += delegate(object sender, KeyPressEventArgs e) { OnKeyPress(e); };
             textBox.TextChanged += delegate { OnTextChanged(EventArgs.Empty); };
-            inputSurface.Resize += delegate { UpdateSurfaceRegion(); };
+            iconLabel.Click += delegate
+            {
+                textBox.Focus();
+                OnClick(EventArgs.Empty);
+            };
+            inputSurface.Resize += delegate
+            {
+                UpdateSurfaceRegion();
+                UpdateInputLayout();
+            };
 
             ApplyPlaceholder();
             ApplyPasswordSetting();
@@ -115,7 +129,7 @@ namespace FBControl
                 iconText = value ?? string.Empty;
                 iconLabel.Text = iconText;
                 iconLabel.Visible = showIcon && iconText.Length > 0;
-                inputSurface.Padding = new Padding(iconLabel.Visible ? 8 : 14, 0, 14, 0);
+                UpdateInputLayout();
             }
         }
 
@@ -128,7 +142,7 @@ namespace FBControl
             {
                 showIcon = value;
                 iconLabel.Visible = showIcon && iconText.Length > 0;
-                inputSurface.Padding = new Padding(iconLabel.Visible ? 8 : 14, 0, 14, 0);
+                UpdateInputLayout();
             }
         }
 
@@ -138,6 +152,13 @@ namespace FBControl
         {
             get { return usePassword; }
             set { usePassword = value; ApplyPasswordSetting(); }
+        }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public TextBox InputTextBox
+        {
+            get { return textBox; }
         }
 
         [Browsable(false)]
@@ -254,6 +275,7 @@ namespace FBControl
 
             inputSurface.Bounds = new Rectangle(2, 2, Width - 4, Height - 4);
             UpdateSurfaceRegion();
+            UpdateInputLayout();
 
             using (GraphicsPath path = CreateRoundedPath(
                 new Rectangle(0, 0, Width, Height), cornerRadius))
@@ -276,6 +298,35 @@ namespace FBControl
                 inputSurface.Region = new Region(path);
                 if (old != null) old.Dispose();
             }
+        }
+
+        private void UpdateInputLayout()
+        {
+            if (inputSurface == null || textBox == null || iconLabel == null ||
+                inputSurface.ClientSize.Width <= 0 || inputSurface.ClientSize.Height <= 0)
+                return;
+
+            int surfaceHeight = inputSurface.ClientSize.Height;
+            int textHeight = Math.Min(surfaceHeight - 4,
+                Math.Max(22, TextRenderer.MeasureText("Ag", textBox.Font).Height + 2));
+            int textY = Math.Max(2, (surfaceHeight - textHeight) / 2);
+            int left = 14;
+
+            if (iconLabel.Visible)
+            {
+                iconLabel.Bounds = new Rectangle(8, 0, 32, surfaceHeight);
+                left = iconLabel.Right + 8;
+            }
+            else
+            {
+                iconLabel.Bounds = Rectangle.Empty;
+            }
+
+            textBox.Bounds = new Rectangle(
+                left,
+                textY,
+                Math.Max(20, inputSurface.ClientSize.Width - left - 14),
+                textHeight);
         }
 
         private void ApplyPlaceholder()
