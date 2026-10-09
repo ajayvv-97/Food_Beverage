@@ -124,7 +124,7 @@ namespace FoodandBeverage.Controls
             using (SolidBrush tokenBrush = new SolidBrush(palette.TokenText))
                 g.DrawString("TOKEN  " + tokenNumber, TokenFont, tokenBrush, token, CenterFormat);
 
-            string statusLabel = GetStatusLabel(visualStatus);
+            string statusLabel = GetStatusLabel(visualStatus, cancelledItemCount);
             RectangleF statusPill = new RectangleF(card.Left + 8F, card.Bottom - 27F, card.Width - 16F, 18F);
 
             using (GraphicsPath pillPath = RoundedPath(statusPill, 8F))
@@ -201,14 +201,17 @@ namespace FoodandBeverage.Controls
             base.OnMouseUp(e);
         }
 
-        private static string GetStatusLabel(PickupVisualStatus status)
+        private static string GetStatusLabel(PickupVisualStatus status, int cancelledItems)
         {
-            switch (status)
-            {
-                case PickupVisualStatus.CookingStarted: return "PAID  •  COOKING STARTED";
-                case PickupVisualStatus.CancelledByKitchen: return "CANCELLED BY KITCHEN";
-                default: return "PAID  •  ORDER SENT";
-            }
+            if (status == PickupVisualStatus.CancelledByKitchen)
+                return "CANCELLED BY KITCHEN";
+
+            if (cancelledItems > 0)
+                return "CANCELLED ITEMS: " + cancelledItems;
+
+            return status == PickupVisualStatus.CookingStarted
+                ? "PAID  •  COOKING STARTED"
+                : "PAID  •  ORDER SENT";
         }
 
         private static readonly PickupPalette OrderSentPalette =
