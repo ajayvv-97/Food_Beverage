@@ -268,14 +268,14 @@ namespace FoodandBeverage.Controls
             public readonly Color MutedText;
 
             public PickupPalette(Color background, Color accent, Color statusBackground,
-                Color statusText, Color tokenText, Color mutedText = default(Color))
+                Color statusText, Color tokenText)
             {
                 Background = background;
                 Accent = accent;
                 StatusBackground = statusBackground;
                 StatusText = statusText;
                 TokenText = tokenText;
-                MutedText = mutedText == default(Color) ? Color.FromArgb(91, 101, 116) : mutedText;
+                MutedText = Color.FromArgb(91, 101, 116);
             }
         }
     }
