@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMessageBox", "CustomM
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "FoodBeverage_Setup", "FoodBeverage_Setup\FoodBeverage_Setup.vdproj", "{48D634F7-7567-4280-AABF-83EA33BA5A1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBControl", "FBControl\FBControl.csproj", "{3FD30CC7-3E0E-4D2F-A9CA-92D83EC311BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,8 +47,11 @@ Global
 		{68255BFA-DB01-4583-9578-F9DBD47F37D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68255BFA-DB01-4583-9578-F9DBD47F37D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{48D634F7-7567-4280-AABF-83EA33BA5A1A}.Debug|Any CPU.ActiveCfg = Debug
-		{48D634F7-7567-4280-AABF-83EA33BA5A1A}.Debug|Any CPU.Build.0 = Debug
 		{48D634F7-7567-4280-AABF-83EA33BA5A1A}.Release|Any CPU.ActiveCfg = Release
+		{3FD30CC7-3E0E-4D2F-A9CA-92D83EC311BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FD30CC7-3E0E-4D2F-A9CA-92D83EC311BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FD30CC7-3E0E-4D2F-A9CA-92D83EC311BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FD30CC7-3E0E-4D2F-A9CA-92D83EC311BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

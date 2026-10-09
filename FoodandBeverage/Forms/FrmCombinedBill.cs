@@ -2343,7 +2343,8 @@ namespace FoodandBeverage.Forms
                         FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                         if (DrawerCheckBranch(Convert.ToInt32(FrmLogin.EmployeeId)))
                         {
-                           CMessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                           CMessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            return;
                         }
                         DialogResult result =CMessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
 
@@ -2576,10 +2577,7 @@ namespace FoodandBeverage.Forms
            
         }
 
-        private void dgvorderview_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
 
         public bool DrawerCheckBranch(int empid)
         {
@@ -2590,7 +2588,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnsearckdrawer = new DmnSearch();
                 dmnsearckdrawer.Select = "COUNT(*) OVER() AS Field1,t.CreatedBy as Field2,e.EmployeeName as Field3,d.DesignationName as Field4,t.Id as Field5,t.LoanAmount as Field6,t.Drops as Field7,u.UserAccountId as Field8,e.EmployeeId as Field9,t.DName as Field10";
                 dmnsearckdrawer.Table = "tblDrawerAssign t   left join tblUserAccount  u on u.EmployeeId= t.EmployeeId left join tblEmployee  e on e.EmployeeId=t.EmployeeId left join tblDesignation  d on d.DesignationId=e.DesignationId";
-                dmnsearckdrawer.WhereNdGroupBy = "where t.Status=1 and t.EmployeeId =" + empid;
+                dmnsearckdrawer.WhereNdGroupBy = "where  t.BranchId=" + FrmDashboard.BranchId + " and t.Status=1 and t.EmployeeId =" + empid;
                 dmnsearckdrawer.OrderBy = "";
                 var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckdrawer);
                 if (gridesource.Count > 0)

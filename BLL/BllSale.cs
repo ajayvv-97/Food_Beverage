@@ -77,6 +77,10 @@ namespace BLL
             parms.Add("Cusid", objTestClass.cusid);
             parms.Add("TotalPreTaxAmt", objTestClass.TotalPreTaxAmt);
 
+            parms.Add("Roundoff", objTestClass.Roundoff);
+            parms.Add("ReasonId", objTestClass.ReasonId);
+            parms.Add("ReasonText", objTestClass.ReasonText);
+             
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }        

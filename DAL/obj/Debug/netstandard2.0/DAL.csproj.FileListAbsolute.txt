@@ -506,3 +506,16 @@ C:\Users\ajay\Desktop\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.csproj.Core
 C:\Users\ajay\Desktop\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
 C:\Users\ajay\Desktop\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.dll
 C:\Users\ajay\Desktop\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.pdb
+D:\Developers\Ajay\Food_Beverage\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+D:\Developers\Ajay\Food_Beverage\DAL\bin\Debug\netstandard2.0\DAL.dll
+D:\Developers\Ajay\Food_Beverage\DAL\bin\Debug\netstandard2.0\DAL.pdb
+D:\Developers\Ajay\Food_Beverage\DAL\bin\Debug\netstandard2.0\Domain.dll
+D:\Developers\Ajay\Food_Beverage\DAL\bin\Debug\netstandard2.0\Domain.pdb
+D:\Developers\Ajay\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.csproj.AssemblyReference.cache
+D:\Developers\Ajay\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Developers\Ajay\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+D:\Developers\Ajay\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+D:\Developers\Ajay\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+D:\Developers\Ajay\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+D:\Developers\Ajay\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.dll
+D:\Developers\Ajay\Food_Beverage\DAL\obj\Debug\netstandard2.0\DAL.pdb

@@ -454,7 +454,6 @@ namespace FoodandBeverage.Forms
             this.dgvorderview.RowTemplate.Height = 44;
             this.dgvorderview.Size = new System.Drawing.Size(792, 488);
             this.dgvorderview.TabIndex = 219;
-            this.dgvorderview.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvorderview_CellContentClick);
             this.dgvorderview.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvorderview_CellDoubleClick);
             this.dgvorderview.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvorderview_DataError);
             // 

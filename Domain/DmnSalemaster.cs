@@ -135,6 +135,10 @@ namespace Domain
         public string AdditionalChargeDescription { get; set; }
         public decimal AdditionalChargeAmt { get; set; }
         public int PaymentSettlementStatus { get; set; }
+        public decimal Roundoff { get; set; }
+
+        public decimal ReasonId { get; set; }
+        public string ReasonText { get; set; }
 
     }   
 

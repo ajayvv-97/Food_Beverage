@@ -33,12 +33,6 @@ namespace FoodandBeverage.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tlp_mainouterdesign = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_right = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.pblogo = new System.Windows.Forms.PictureBox();
-            this.lblcname2 = new System.Windows.Forms.Label();
-            this.lblcname = new System.Windows.Forms.Label();
             this.pnlloginbox = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtPwd = new System.Windows.Forms.TextBox();
@@ -47,12 +41,15 @@ namespace FoodandBeverage.Forms
             this.btnrfid = new System.Windows.Forms.Button();
             this.btncancel = new System.Windows.Forms.Button();
             this.btnlogin = new System.Windows.Forms.Button();
-            this.pbleftdesign = new System.Windows.Forms.PictureBox();
+            this.pblogo = new System.Windows.Forms.PictureBox();
+            this.lblcname2 = new System.Windows.Forms.Label();
+            this.lblcname = new System.Windows.Forms.Label();
             this.Pnl_wifiPopup = new System.Windows.Forms.Panel();
             this.tlp_wifiPopup = new System.Windows.Forms.TableLayoutPanel();
             this.pbwifi = new System.Windows.Forms.PictureBox();
             this.btnwificancel = new System.Windows.Forms.Button();
             this.pnlDbSettings = new System.Windows.Forms.Panel();
+            this.btn_dbconf_close = new System.Windows.Forms.Button();
             this.btndbcls = new System.Windows.Forms.Button();
             this.btnsavedbconfig = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
@@ -74,16 +71,10 @@ namespace FoodandBeverage.Forms
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtusernamedb = new System.Windows.Forms.TextBox();
             this.longpress_midascard = new System.Windows.Forms.Timer(this.components);
-            this.btn_dbconf_close = new System.Windows.Forms.Button();
-            this.tlp_mainouterdesign.SuspendLayout();
-            this.tlp_right.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pblogo)).BeginInit();
             this.pnlloginbox.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbleftdesign)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pblogo)).BeginInit();
             this.Pnl_wifiPopup.SuspendLayout();
             this.tlp_wifiPopup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbwifi)).BeginInit();
@@ -101,122 +92,31 @@ namespace FoodandBeverage.Forms
             // 
             this.tlp_mainouterdesign.BackColor = System.Drawing.Color.Transparent;
             this.tlp_mainouterdesign.ColumnCount = 2;
-            this.tlp_mainouterdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.03266F));
-            this.tlp_mainouterdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.96734F));
-            this.tlp_mainouterdesign.Controls.Add(this.tlp_right, 1, 0);
-            this.tlp_mainouterdesign.Controls.Add(this.pbleftdesign, 0, 0);
-            this.tlp_mainouterdesign.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_mainouterdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.02116F));
+            this.tlp_mainouterdesign.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.97884F));
             this.tlp_mainouterdesign.Location = new System.Drawing.Point(0, 0);
             this.tlp_mainouterdesign.Margin = new System.Windows.Forms.Padding(0);
             this.tlp_mainouterdesign.Name = "tlp_mainouterdesign";
             this.tlp_mainouterdesign.RowCount = 1;
             this.tlp_mainouterdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_mainouterdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 580F));
-            this.tlp_mainouterdesign.Size = new System.Drawing.Size(959, 580);
+            this.tlp_mainouterdesign.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 451F));
+            this.tlp_mainouterdesign.Size = new System.Drawing.Size(279, 451);
             this.tlp_mainouterdesign.TabIndex = 7;
-            // 
-            // tlp_right
-            // 
-            this.tlp_right.BackgroundImage = global::FoodandBeverage.Properties.Resources.logopbright;
-            this.tlp_right.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tlp_right.ColumnCount = 1;
-            this.tlp_right.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_right.Controls.Add(this.tableLayoutPanel1, 0, 0);
-            this.tlp_right.Controls.Add(this.pnlloginbox, 0, 1);
-            this.tlp_right.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_right.Location = new System.Drawing.Point(508, 0);
-            this.tlp_right.Margin = new System.Windows.Forms.Padding(0);
-            this.tlp_right.Name = "tlp_right";
-            this.tlp_right.RowCount = 2;
-            this.tlp_right.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.37037F));
-            this.tlp_right.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.62963F));
-            this.tlp_right.Size = new System.Drawing.Size(451, 580);
-            this.tlp_right.TabIndex = 10;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblcname2, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblcname, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 2);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 73.83721F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 26.16279F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(447, 172);
-            this.tableLayoutPanel1.TabIndex = 261;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.pblogo, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(2, 2);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(443, 100);
-            this.tableLayoutPanel2.TabIndex = 260;
-            // 
-            // pblogo
-            // 
-            this.pblogo.BackgroundImage = global::FoodandBeverage.Properties.Resources.midas_logo;
-            this.pblogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pblogo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pblogo.Location = new System.Drawing.Point(174, 2);
-            this.pblogo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.pblogo.Name = "pblogo";
-            this.pblogo.Size = new System.Drawing.Size(94, 96);
-            this.pblogo.TabIndex = 258;
-            this.pblogo.TabStop = false;
-            this.pblogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pblogo_MouseDown);
-            this.pblogo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pblogo_MouseUp);
-            // 
-            // lblcname2
-            // 
-            this.lblcname2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblcname2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblcname2.Location = new System.Drawing.Point(2, 141);
-            this.lblcname2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblcname2.Name = "lblcname2";
-            this.lblcname2.Size = new System.Drawing.Size(443, 31);
-            this.lblcname2.TabIndex = 260;
-            this.lblcname2.Text = "RESTURANT MANAGEMENT";
-            this.lblcname2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblcname
-            // 
-            this.lblcname.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblcname.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblcname.Location = new System.Drawing.Point(2, 104);
-            this.lblcname.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblcname.Name = "lblcname";
-            this.lblcname.Size = new System.Drawing.Size(443, 37);
-            this.lblcname.TabIndex = 259;
-            this.lblcname.Text = "MIDAS FUN";
-            this.lblcname.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlloginbox
             // 
+            this.pnlloginbox.BackColor = System.Drawing.Color.Transparent;
+            this.pnlloginbox.BackgroundImage = global::FoodandBeverage.Properties.Resources.Loginbox;
+            this.pnlloginbox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnlloginbox.Controls.Add(this.panel2);
             this.pnlloginbox.Controls.Add(this.panel1);
             this.pnlloginbox.Controls.Add(this.btnrfid);
             this.pnlloginbox.Controls.Add(this.btncancel);
             this.pnlloginbox.Controls.Add(this.btnlogin);
-            this.pnlloginbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlloginbox.Location = new System.Drawing.Point(0, 176);
+            this.pnlloginbox.Location = new System.Drawing.Point(243, 82);
             this.pnlloginbox.Margin = new System.Windows.Forms.Padding(0);
             this.pnlloginbox.Name = "pnlloginbox";
-            this.pnlloginbox.Size = new System.Drawing.Size(451, 404);
+            this.pnlloginbox.Size = new System.Drawing.Size(687, 396);
             this.pnlloginbox.TabIndex = 0;
             this.pnlloginbox.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlloginbox_Paint);
             // 
@@ -330,17 +230,40 @@ namespace FoodandBeverage.Forms
             this.btnlogin.UseVisualStyleBackColor = false;
             this.btnlogin.Click += new System.EventHandler(this.btnlogin_Click);
             // 
-            // pbleftdesign
+            // pblogo
             // 
-            this.pbleftdesign.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pbleftdesign.BackgroundImage")));
-            this.pbleftdesign.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbleftdesign.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbleftdesign.Location = new System.Drawing.Point(0, 0);
-            this.pbleftdesign.Margin = new System.Windows.Forms.Padding(0);
-            this.pbleftdesign.Name = "pbleftdesign";
-            this.pbleftdesign.Size = new System.Drawing.Size(508, 580);
-            this.pbleftdesign.TabIndex = 11;
-            this.pbleftdesign.TabStop = false;
+            this.pblogo.BackgroundImage = global::FoodandBeverage.Properties.Resources.midas_logo;
+            this.pblogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pblogo.Location = new System.Drawing.Point(692, -20);
+            this.pblogo.Margin = new System.Windows.Forms.Padding(2);
+            this.pblogo.Name = "pblogo";
+            this.pblogo.Size = new System.Drawing.Size(94, 96);
+            this.pblogo.TabIndex = 258;
+            this.pblogo.TabStop = false;
+            this.pblogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pblogo_MouseDown);
+            this.pblogo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pblogo_MouseUp);
+            // 
+            // lblcname2
+            // 
+            this.lblcname2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblcname2.Location = new System.Drawing.Point(207, 75);
+            this.lblcname2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblcname2.Name = "lblcname2";
+            this.lblcname2.Size = new System.Drawing.Size(443, 31);
+            this.lblcname2.TabIndex = 260;
+            this.lblcname2.Text = "RESTURANT MANAGEMENT";
+            this.lblcname2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblcname
+            // 
+            this.lblcname.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblcname.Location = new System.Drawing.Point(245, 25);
+            this.lblcname.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblcname.Name = "lblcname";
+            this.lblcname.Size = new System.Drawing.Size(443, 37);
+            this.lblcname.TabIndex = 259;
+            this.lblcname.Text = "MIDAS FUN";
+            this.lblcname.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Pnl_wifiPopup
             // 
@@ -349,7 +272,7 @@ namespace FoodandBeverage.Forms
             this.Pnl_wifiPopup.Controls.Add(this.tlp_wifiPopup);
             this.Pnl_wifiPopup.Location = new System.Drawing.Point(986, 114);
             this.Pnl_wifiPopup.Name = "Pnl_wifiPopup";
-            this.Pnl_wifiPopup.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.Pnl_wifiPopup.Padding = new System.Windows.Forms.Padding(10);
             this.Pnl_wifiPopup.Size = new System.Drawing.Size(358, 304);
             this.Pnl_wifiPopup.TabIndex = 279;
             this.Pnl_wifiPopup.Visible = false;
@@ -365,7 +288,7 @@ namespace FoodandBeverage.Forms
             this.tlp_wifiPopup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_wifiPopup.Location = new System.Drawing.Point(10, 10);
             this.tlp_wifiPopup.Name = "tlp_wifiPopup";
-            this.tlp_wifiPopup.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlp_wifiPopup.Padding = new System.Windows.Forms.Padding(5);
             this.tlp_wifiPopup.RowCount = 2;
             this.tlp_wifiPopup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.tlp_wifiPopup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -413,11 +336,25 @@ namespace FoodandBeverage.Forms
             this.pnlDbSettings.Controls.Add(this.txtnew_conn);
             this.pnlDbSettings.Controls.Add(this.pictureBox5);
             this.pnlDbSettings.Controls.Add(this.txtext_conn);
-            this.pnlDbSettings.Location = new System.Drawing.Point(199, 72);
+            this.pnlDbSettings.Location = new System.Drawing.Point(980, 72);
             this.pnlDbSettings.Name = "pnlDbSettings";
             this.pnlDbSettings.Size = new System.Drawing.Size(392, 426);
             this.pnlDbSettings.TabIndex = 280;
             this.pnlDbSettings.Visible = false;
+            // 
+            // btn_dbconf_close
+            // 
+            this.btn_dbconf_close.BackColor = System.Drawing.Color.Transparent;
+            this.btn_dbconf_close.BackgroundImage = global::FoodandBeverage.Properties.Resources.Round_Close;
+            this.btn_dbconf_close.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_dbconf_close.FlatAppearance.BorderSize = 0;
+            this.btn_dbconf_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_dbconf_close.Location = new System.Drawing.Point(327, 10);
+            this.btn_dbconf_close.Name = "btn_dbconf_close";
+            this.btn_dbconf_close.Size = new System.Drawing.Size(57, 38);
+            this.btn_dbconf_close.TabIndex = 108;
+            this.btn_dbconf_close.UseVisualStyleBackColor = false;
+            this.btn_dbconf_close.Click += new System.EventHandler(this.btn_dbconf_close_Click);
             // 
             // btndbcls
             // 
@@ -550,9 +487,9 @@ namespace FoodandBeverage.Forms
             this.pnlDBLogin.Controls.Add(this.txtpwddb);
             this.pnlDBLogin.Controls.Add(this.pictureBox1);
             this.pnlDBLogin.Controls.Add(this.txtusernamedb);
-            this.pnlDBLogin.Location = new System.Drawing.Point(334, 72);
+            this.pnlDBLogin.Location = new System.Drawing.Point(980, 72);
             this.pnlDBLogin.Name = "pnlDBLogin";
-            this.pnlDBLogin.Size = new System.Drawing.Size(331, 351);
+            this.pnlDBLogin.Size = new System.Drawing.Size(271, 351);
             this.pnlDBLogin.TabIndex = 281;
             this.pnlDBLogin.Visible = false;
             // 
@@ -669,27 +606,18 @@ namespace FoodandBeverage.Forms
             // 
             this.longpress_midascard.Tick += new System.EventHandler(this.longpress_midascard_Tick);
             // 
-            // btn_dbconf_close
-            // 
-            this.btn_dbconf_close.BackColor = System.Drawing.Color.Transparent;
-            this.btn_dbconf_close.BackgroundImage = global::FoodandBeverage.Properties.Resources.Round_Close;
-            this.btn_dbconf_close.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_dbconf_close.FlatAppearance.BorderSize = 0;
-            this.btn_dbconf_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_dbconf_close.Location = new System.Drawing.Point(327, 10);
-            this.btn_dbconf_close.Name = "btn_dbconf_close";
-            this.btn_dbconf_close.Size = new System.Drawing.Size(57, 38);
-            this.btn_dbconf_close.TabIndex = 108;
-            this.btn_dbconf_close.UseVisualStyleBackColor = false;
-            this.btn_dbconf_close.Click += new System.EventHandler(this.btn_dbconf_close_Click);
-            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = global::FoodandBeverage.Properties.Resources.Loginbg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(959, 580);
+            this.Controls.Add(this.lblcname2);
+            this.Controls.Add(this.pblogo);
+            this.Controls.Add(this.pnlloginbox);
+            this.Controls.Add(this.lblcname);
             this.Controls.Add(this.pnlDbSettings);
             this.Controls.Add(this.pnlDBLogin);
             this.Controls.Add(this.Pnl_wifiPopup);
@@ -700,17 +628,12 @@ namespace FoodandBeverage.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FrmLogin_Load);
             this.Shown += new System.EventHandler(this.FrmLogin_Shown);
-            this.tlp_mainouterdesign.ResumeLayout(false);
-            this.tlp_right.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pblogo)).EndInit();
             this.pnlloginbox.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbleftdesign)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pblogo)).EndInit();
             this.Pnl_wifiPopup.ResumeLayout(false);
             this.tlp_wifiPopup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbwifi)).EndInit();
@@ -732,16 +655,12 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tlp_mainouterdesign;
         private System.Windows.Forms.Panel pnlloginbox;
         private System.Windows.Forms.TextBox txtPwd;
-        private System.Windows.Forms.TableLayoutPanel tlp_right;
         private System.Windows.Forms.Button btnrfid;
         private System.Windows.Forms.PictureBox pblogo;
         private System.Windows.Forms.Label lblcname2;
         private System.Windows.Forms.Label lblcname;
-        private System.Windows.Forms.PictureBox pbleftdesign;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Panel Pnl_wifiPopup;
         private System.Windows.Forms.TableLayoutPanel tlp_wifiPopup;
         private System.Windows.Forms.PictureBox pbwifi;

@@ -123,7 +123,8 @@ namespace FoodandBeverage.Interfaces
         UnitConversion = 35,
         VoidSale = 36,
         RemoveComplimentary = 37,
-        Keypad = 38
+        Complementaryreason = 38,
+        Keypad = 39
     };
     public enum DashboardTableType
     {
@@ -292,7 +293,8 @@ namespace FoodandBeverage.Interfaces
         FoodPreparationMapping=42,
         Partybooking=43,
         OrderconsoleCustomdesign=44,
-        SalesBill =45
+        SalesBill =45,
+        Reason=46
 
     };
     public enum Menubutton
@@ -384,7 +386,9 @@ namespace FoodandBeverage.Interfaces
         None = 3,
         NoDecimal=4,
         NoPercentageReason = 5,
-        NoPercentageReasonNoDecimal = 6
+        NoPercentageReasonNoDecimal = 6,
+        Roundoff=7
+
     }
 
     public enum AutoPrintToPrinter
@@ -687,7 +691,12 @@ namespace FoodandBeverage.Interfaces
         Pickup = 2,
         PartyBooking = 3
     }
-
+    public enum RoundOffMode
+    {
+        None,
+        Auto,
+        Manual
+    }
 }
 
 

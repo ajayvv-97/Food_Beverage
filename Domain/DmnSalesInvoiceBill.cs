@@ -46,6 +46,8 @@ namespace Domain
         public int Gender { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
+        public Decimal Roundoff { get; set; }
+        
     }
 
 }

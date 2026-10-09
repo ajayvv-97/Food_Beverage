@@ -185,3 +185,293 @@ User Name: admin
 Designation: Manager
 FormTypeId: 26
 -------------------------------------------------------------------------
+Date and Time: 10/7/2026 9:34:28 AM
+Page : Billcomplete_Fill()
+Exception: Error creating window handle.
+User Name: admin
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 10/7/2026 9:34:28 AM
+Page : Home Page  Menubilling_Click()
+Exception: Error creating window handle.
+User Name: admin
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 10/7/2026 9:34:30 AM
+Page : CombinedBill Page btn_prevbill_Click()
+Exception: Error creating window handle.
+User Name: admin
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 10/7/2026 9:34:47 AM
+Page : homepage StartTimerAndRefreshLabel
+Exception: Error creating window handle.
+User Name: admin
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 10/8/2026 11:01:02 AM
+Page : Order page  paybillcal()
+Exception: Input string was not in a correct format.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/8/2026 11:02:12 AM
+Page : Order page  paybillcal()
+Exception: Input string was not in a correct format.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/8/2026 11:15:53 AM
+Page : Order page  paybillcal()
+Exception: Input string was not in a correct format.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:10 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:23 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:40 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:40 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:40 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:41 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:41 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:41 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:41 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:41 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:49:41 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:50:04 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:50:04 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:50:04 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:51:08 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:52:01 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 12:52:05 PM
+Page : Reason page FillReason()
+Exception: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+User Name: admin
+Designation: Manager
+FormTypeId: 46
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 1:23:38 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 1:23:53 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 1:24:07 PM
+Page : Order page  paybillcal()
+Exception: Procedure or function prdInsert_Upd_SalesMaster has too many arguments specified.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 1:24:11 PM
+Page : Order page  paybillcal()
+Exception: Procedure or function prdInsert_Upd_SalesMaster has too many arguments specified.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 1:24:11 PM
+Page : Order page  paybillcal()
+Exception: Procedure or function prdInsert_Upd_SalesMaster has too many arguments specified.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 1:24:11 PM
+Page : Order page  paybillcal()
+Exception: Procedure or function prdInsert_Upd_SalesMaster has too many arguments specified.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:07:52 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:08:50 PM
+Page : Billcomplete_Fill()
+Exception: Error creating window handle.
+User Name: admin
+Designation: Manager
+FormTypeId: 32
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:08:50 PM
+Page : Home Page  Menubilling_Click()
+Exception: Error creating window handle.
+User Name: admin
+Designation: Manager
+FormTypeId: 26
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:08:56 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:12:29 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:13:19 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:13:28 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:16:47 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------
+Date and Time: 10/9/2026 2:17:49 PM
+Page : homepage page  FillComboReason()
+Exception: Invalid object name 'reason'.
+User Name: admin
+Designation: Manager
+FormTypeId: 1
+-------------------------------------------------------------------------

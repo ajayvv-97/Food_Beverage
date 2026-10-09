@@ -533,6 +533,26 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CartButton {
+            get {
+                object obj = ResourceManager.GetObject("CartButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CartButton1 {
+            get {
+                object obj = ResourceManager.GetObject("CartButton1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cash {
             get {
                 object obj = ResourceManager.GetObject("cash", resourceCulture);
@@ -1765,6 +1785,26 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap loading_gif {
             get {
                 object obj = ResourceManager.GetObject("loading_gif", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Loginbg {
+            get {
+                object obj = ResourceManager.GetObject("Loginbg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Loginbox {
+            get {
+                object obj = ResourceManager.GetObject("Loginbox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -3195,6 +3235,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap Round_Close {
             get {
                 object obj = ResourceManager.GetObject("Round_Close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Roundoff {
+            get {
+                object obj = ResourceManager.GetObject("Roundoff", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

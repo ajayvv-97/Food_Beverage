@@ -776,6 +776,8 @@ namespace FoodandBeverage.DS {
             
             private global::System.Data.DataColumn columnGSTNo;
             
+            private global::System.Data.DataColumn columnRoundoff;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public DT_salemasterDataTable() {
@@ -1083,6 +1085,14 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn RoundoffColumn {
+                get {
+                    return this.columnRoundoff;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1152,7 +1162,8 @@ namespace FoodandBeverage.DS {
                         int OrderType, 
                         int PkId, 
                         string CompanyName, 
-                        string GSTNo) {
+                        string GSTNo, 
+                        decimal Roundoff) {
                 DT_salemasterRow rowDT_salemasterRow = ((DT_salemasterRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         EntryNo,
@@ -1188,7 +1199,8 @@ namespace FoodandBeverage.DS {
                         OrderType,
                         PkId,
                         CompanyName,
-                        GSTNo};
+                        GSTNo,
+                        Roundoff};
                 rowDT_salemasterRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDT_salemasterRow);
                 return rowDT_salemasterRow;
@@ -1245,6 +1257,7 @@ namespace FoodandBeverage.DS {
                 this.columnPkId = base.Columns["PkId"];
                 this.columnCompanyName = base.Columns["CompanyName"];
                 this.columnGSTNo = base.Columns["GSTNo"];
+                this.columnRoundoff = base.Columns["Roundoff"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1318,6 +1331,8 @@ namespace FoodandBeverage.DS {
                 base.Columns.Add(this.columnCompanyName);
                 this.columnGSTNo = new global::System.Data.DataColumn("GSTNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGSTNo);
+                this.columnRoundoff = new global::System.Data.DataColumn("Roundoff", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRoundoff);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2686,6 +2701,22 @@ namespace FoodandBeverage.DS {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal Roundoff {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDT_salemaster.RoundoffColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Roundoff\' in table \'DT_salemaster\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDT_salemaster.RoundoffColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsEntryNoNull() {
                 return this.IsNull(this.tableDT_salemaster.EntryNoColumn);
             }
@@ -3090,6 +3121,18 @@ namespace FoodandBeverage.DS {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetGSTNoNull() {
                 this[this.tableDT_salemaster.GSTNoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsRoundoffNull() {
+                return this.IsNull(this.tableDT_salemaster.RoundoffColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetRoundoffNull() {
+                this[this.tableDT_salemaster.RoundoffColumn] = global::System.Convert.DBNull;
             }
         }
         

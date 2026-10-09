@@ -1808,11 +1808,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\BLL\\BLL.csproj",
+      "projectUniqueName": "D:\\Developers\\Ajay\\Food_Beverage\\BLL\\BLL.csproj",
       "projectName": "BLL",
-      "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\BLL\\BLL.csproj",
+      "projectPath": "D:\\Developers\\Ajay\\Food_Beverage\\BLL\\BLL.csproj",
       "packagesPath": "C:\\Users\\ajay\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\BLL\\obj\\",
+      "outputPath": "D:\\Developers\\Ajay\\Food_Beverage\\BLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1833,11 +1833,11 @@
         "netstandard2.0": {
           "targetAlias": "netstandard2.0",
           "projectReferences": {
-            "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\DAL.csproj": {
-              "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\DAL\\DAL.csproj"
+            "D:\\Developers\\Ajay\\Food_Beverage\\DAL\\DAL.csproj": {
+              "projectPath": "D:\\Developers\\Ajay\\Food_Beverage\\DAL\\DAL.csproj"
             },
-            "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\ajay\\Desktop\\Food_Beverage\\Domain\\Domain.csproj"
+            "D:\\Developers\\Ajay\\Food_Beverage\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\Developers\\Ajay\\Food_Beverage\\Domain\\Domain.csproj"
             }
           }
         }

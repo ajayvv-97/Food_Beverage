@@ -1,0 +1,14 @@
+1 | 2026-10-08 10:12:09.701 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 10:35:51.052 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 11:23:19.422 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 12:48:35.013 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 13:59:28.476 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 14:13:05.964 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+2 | 2026-10-08 14:13:05.964 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 14:20:28.093 | Machine=WIN-SDOFN341QVO | User=manu | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 15:06:55.760 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 15:08:57.588 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 15:11:41.600 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 15:21:20.768 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 15:50:01.577 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-08 16:13:02.242 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received

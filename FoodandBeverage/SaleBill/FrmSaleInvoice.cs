@@ -230,7 +230,7 @@ namespace FoodandBeverage.SaleBill
                    " S.OaAmount, S.OdAmount, S.Remarks, S.PaymentMode, " +
                    " S.PromoDId, S.PromoAmount, S.AdvanceAmount, " +
                    " S.ReservationTotal, S.PkChargeAmount, " +
-                   " S.Rev_Status, S.OrderType, S.PkId ,s.Cusid,s.Gender,s.FirstName,s.SecondName";
+                   " S.Rev_Status, S.OrderType, S.PkId ,s.Cusid,s.Gender,s.FirstName,s.SecondName,s.Roundoff";
 
                 dmnSearchInvoiceBill.Table = " tblSalesMaster AS S";
                 dmnSearchInvoiceBill.WhereNdGroupBy = " WHERE S.SalesMasterId = " + SalesMasterId;
@@ -469,7 +469,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId", "CompanyName", "GSTNo"))
+    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId", "CompanyName", "GSTNo", "Roundoff"))
                 {
                     dtSalesMaster.Load(reader);
                 }

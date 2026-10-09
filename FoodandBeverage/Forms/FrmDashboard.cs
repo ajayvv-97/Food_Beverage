@@ -1270,7 +1270,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("HomePage Menusetting_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
@@ -1300,7 +1299,6 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 clsgen.LogException("Admin page DrawerCheckBranch()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
         }
@@ -2926,6 +2924,11 @@ namespace FoodandBeverage.Forms
                         else if (gridesource[i].Form == Convert.ToInt32(formsenum.VoidSale) && gridesource[i].Write == 1)
                         {
                             ib_void.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.Complementaryreason) && gridesource[i].Write == 1)
+                        {
+                            ib_complemetryreason.Visible = true;
                             Menuoperation.Visible = true;
                         }
                         #endregion
@@ -6420,6 +6423,49 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(FormType.homepage));
             }
         }
+
+
+        private void ib_complemetryreason_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                if (Application.OpenForms["FrmReason"] != null)
+                {
+                    FrmReason _instanceFrmReason =
+                        Application.OpenForms["FrmReason"] as FrmReason;
+
+                    if (_instanceFrmReason.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmReason.WindowState =
+                            FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmReason.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmReason);
+                        panelDesktop.Controls.Add(_instanceFrmReason);
+                        _instanceFrmReason.Show();
+                        _instanceFrmReason.BringToFront();
+                    }
+                }
+                else
+                {
+                    UIHelper.OpenDialog(this, new FrmReason());
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ib_complemetryreason_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
 
         private bool ValidateComplimentaryDate()
         {
