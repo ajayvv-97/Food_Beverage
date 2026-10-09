@@ -218,34 +218,43 @@ namespace FoodandBeverage.Controls
             }
         }
 
+        private static readonly TablePalette AvailablePalette =
+            new TablePalette(Color.White, Color.FromArgb(156, 163, 175),
+                Color.FromArgb(229, 233, 239), Color.FromArgb(91, 101, 116));
+        private static readonly TablePalette OrderTakenPalette =
+            new TablePalette(Color.FromArgb(239, 246, 255), Color.FromArgb(49, 121, 203),
+                Color.FromArgb(225, 237, 253), Color.FromArgb(43, 106, 179));
+        private static readonly TablePalette CheckoutPalette =
+            new TablePalette(Color.FromArgb(235, 249, 240), Color.FromArgb(46, 161, 97),
+                Color.FromArgb(222, 244, 230), Color.FromArgb(36, 132, 77));
+        private static readonly TablePalette ReservationPalette =
+            new TablePalette(Color.FromArgb(246, 249, 234), Color.FromArgb(125, 157, 38),
+                Color.FromArgb(234, 242, 211), Color.FromArgb(91, 119, 26));
+        private static readonly TablePalette ReservationExpiredPalette =
+            new TablePalette(Color.FromArgb(255, 241, 241), Color.FromArgb(211, 66, 66),
+                Color.FromArgb(253, 226, 226), Color.FromArgb(174, 42, 42));
+        private static readonly TablePalette CancelledItemsPalette =
+            new TablePalette(Color.FromArgb(255, 244, 244), Color.FromArgb(213, 83, 83),
+                Color.FromArgb(255, 229, 229), Color.FromArgb(184, 52, 52));
+        private static readonly TablePalette StaffCancelledPalette =
+            new TablePalette(Color.FromArgb(255, 248, 235), Color.FromArgb(203, 137, 31),
+                Color.FromArgb(252, 237, 207), Color.FromArgb(151, 97, 15));
+        private static readonly TablePalette ReconfirmPalette =
+            new TablePalette(Color.FromArgb(255, 245, 235), Color.FromArgb(220, 120, 47),
+                Color.FromArgb(252, 230, 213), Color.FromArgb(172, 81, 24));
+
         private static TablePalette GetPalette(ModernTableCardState state)
         {
             switch (state)
             {
-                case ModernTableCardState.OrderTaken:
-                    return new TablePalette(Color.FromArgb(239, 246, 255), Color.FromArgb(49, 121, 203),
-                        Color.FromArgb(225, 237, 253), Color.FromArgb(43, 106, 179));
-                case ModernTableCardState.Checkout:
-                    return new TablePalette(Color.FromArgb(235, 249, 240), Color.FromArgb(46, 161, 97),
-                        Color.FromArgb(222, 244, 230), Color.FromArgb(36, 132, 77));
-                case ModernTableCardState.Reservation:
-                    return new TablePalette(Color.FromArgb(246, 249, 234), Color.FromArgb(125, 157, 38),
-                        Color.FromArgb(234, 242, 211), Color.FromArgb(91, 119, 26));
-                case ModernTableCardState.ReservationExpired:
-                    return new TablePalette(Color.FromArgb(255, 241, 241), Color.FromArgb(211, 66, 66),
-                        Color.FromArgb(253, 226, 226), Color.FromArgb(174, 42, 42));
-                case ModernTableCardState.CancelledItems:
-                    return new TablePalette(Color.FromArgb(255, 244, 244), Color.FromArgb(213, 83, 83),
-                        Color.FromArgb(255, 229, 229), Color.FromArgb(184, 52, 52));
-                case ModernTableCardState.StaffCancelled:
-                    return new TablePalette(Color.FromArgb(255, 248, 235), Color.FromArgb(203, 137, 31),
-                        Color.FromArgb(252, 237, 207), Color.FromArgb(151, 97, 15));
-                case ModernTableCardState.ReconfirmOrder:
-                    return new TablePalette(Color.FromArgb(255, 245, 235), Color.FromArgb(220, 120, 47),
-                        Color.FromArgb(252, 230, 213), Color.FromArgb(172, 81, 24));
-                default:
-                    return new TablePalette(Color.White, Color.FromArgb(156, 163, 175),
-                        Color.FromArgb(229, 233, 239), Color.FromArgb(91, 101, 116));
+                case ModernTableCardState.OrderTaken: return OrderTakenPalette;
+                case ModernTableCardState.Checkout: return CheckoutPalette;
+                case ModernTableCardState.Reservation: return ReservationPalette;
+                case ModernTableCardState.ReservationExpired: return ReservationExpiredPalette;
+                case ModernTableCardState.CancelledItems: return CancelledItemsPalette;
+                case ModernTableCardState.StaffCancelled: return StaffCancelledPalette;
+                case ModernTableCardState.ReconfirmOrder: return ReconfirmPalette;
+                default: return AvailablePalette;
             }
         }
 
