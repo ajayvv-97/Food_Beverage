@@ -925,7 +925,7 @@ namespace FoodandBeverage.Forms
             flp_sidemenu.BringToFront();
         }
 
-        private void AddTableCategoryButton(string caption, int id, bool isCategory)
+        private void AddTableCategoryButton(string caption, long id, bool isCategory)
         {
             var button = new Button
             {
@@ -937,7 +937,7 @@ namespace FoodandBeverage.Forms
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(43, 54, 73),
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                Font = SystemFonts.MessageBoxFont,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Padding = new Padding(10, 0, 4, 0),
                 Cursor = Cursors.Hand
