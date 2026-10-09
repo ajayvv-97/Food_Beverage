@@ -60,7 +60,7 @@ namespace FBControl
                 Dock = DockStyle.Left,
                 Width = 30,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI Symbol", 15F, FontStyle.Regular),
+                Font = new Font("Segoe MDL2 Assets", 15F, FontStyle.Regular),
                 ForeColor = iconColor,
                 BackColor = inputBackColor,
                 Margin = Padding.Empty,
@@ -281,7 +281,7 @@ namespace FBControl
         private void ApplyPlaceholder()
         {
             if (textBox == null || !textBox.IsHandleCreated) return;
-            SendMessage(textBox.Handle, EM_SETCUEBANNER, new IntPtr(1), placeholder);
+            SendMessage(textBox.Handle, EM_SETCUEBANNER, IntPtr.Zero, placeholder);
         }
 
         private void ApplyPasswordSetting()
