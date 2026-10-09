@@ -190,6 +190,7 @@ namespace FoodandBeverage.Forms
             public Label NetAmount;
             public Button CancelCount;
             public bool IsReservation;
+            public bool IsReservationReady;
             public bool IsExpiredReservation;
             public string ReservationBookmasterId;
         }
@@ -490,6 +491,7 @@ namespace FoodandBeverage.Forms
                 ui.CancelCount.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
                 ui.IsReservation = Convert.ToInt32(row.Field5) == 0
                     && row.EndDate != null && row.Field7 != null;
+                ui.IsReservationReady = false;
                 ui.IsExpiredReservation = false;
                 ui.ReservationBookmasterId = row.Field7;
                 ui.TableName.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
@@ -504,29 +506,20 @@ namespace FoodandBeverage.Forms
                     DateTime reservationWindowStart = reservationEnd.AddMinutes(
                         -Math.Max(0, Convert.ToDouble(FrmLogin.BookingInterwell)));
 
-                    // Before the configured booking lead-in, keep the reservation visible without
-                    // treating the table as ready for check-in. After the end time it becomes expired.
+                    // Keep a future booking visible. It becomes a check-in action during the configured
+                    // lead-in period and a cancellation action only after its end time.
                     ui.IsExpiredReservation = now > reservationEnd;
-                    bool isReservationReady = now >= reservationWindowStart && now <= reservationEnd;
+                    ui.IsReservationReady = now >= reservationWindowStart && now <= reservationEnd;
                     string description = ui.IsExpiredReservation
                         ? Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + row.Field7
-                        : Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + row.Field7;
+                        : (ui.IsReservationReady
+                            ? Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + row.Field7
+                            : Convert.ToString((int)DashboardTableType.Normalorder));
 
                     ui.Container.AccessibleDescription = description;
                     ui.Inner.AccessibleDescription = description;
                     ui.TableName.AccessibleDescription = description;
                     ui.NetAmount.AccessibleDescription = description;
-
-                    // Keep the reservation's availability state explicit on the card.
-                    ui.IsReservation = !ui.IsExpiredReservation && isReservationReady;
-                    if (!ui.IsReservation && !ui.IsExpiredReservation)
-                    {
-                        ui.Container.AccessibleDescription =
-                            Convert.ToString((int)DashboardTableType.Normalorder);
-                        ui.Inner.AccessibleDescription = ui.Container.AccessibleDescription;
-                        ui.TableName.AccessibleDescription = ui.Container.AccessibleDescription;
-                        ui.NetAmount.AccessibleDescription = ui.Container.AccessibleDescription;
-                    }
                 }
 
                 pnl.Visible = true;
@@ -585,7 +578,7 @@ namespace FoodandBeverage.Forms
                         statusLabelColor = ExpiredColor;
                         showStatus = true;
                     }
-                    else if (ui.IsReservation)
+                    else if (ui.IsReservation && ui.IsReservationReady)
                     {
                         string reservationDescription = Convert.ToInt32(DashboardTableType.Reverse_Table)
                             + "," + ui.ReservationBookmasterId;
@@ -598,7 +591,7 @@ namespace FoodandBeverage.Forms
                         statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
                         showStatus = true;
                     }
-                    else if (orderStatusCache.TryGetValue(tableId, out var status))
+                    else if (!ui.IsReservation && orderStatusCache.TryGetValue(tableId, out var status))
                     {
                         string normalDescription = Convert.ToString((int)DashboardTableType.Normalorder);
                         ui.Container.AccessibleDescription = normalDescription;
@@ -648,6 +641,14 @@ namespace FoodandBeverage.Forms
                                 ? OrderColor
                                 : DefaultColor;
                         }
+                    }
+                    else if (ui.IsReservation && !ui.IsExpiredReservation)
+                    {
+                        // Upcoming reservation outside the booking lead-in remains reserved, but isn't actionable yet.
+                        nextColor = ReservationColor;
+                        statusText = "Reserved";
+                        statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
+                        showStatus = true;
                     }
                     else
                     {
