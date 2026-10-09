@@ -29,8 +29,8 @@ namespace FoodandBeverage.Forms
         List<DmnTableinfo> TableDataList = new List<DmnTableinfo>();
 
         public Color DefaultColor = Color.White;                           // Available
-        public Color OrderColor = ColorTranslator.FromHtml("#ADD8E6");     // Running
-        public Color BillingColor = ColorTranslator.FromHtml("#ADD8E6");   // Checkout 2ECC71
+        public Color OrderColor = ColorTranslator.FromHtml("#DCEEFF");     // Order taken / running
+        public Color BillingColor = ColorTranslator.FromHtml("#DDF7E7");   // Checkout complete
         public Color CheckoutLabelBG = ColorTranslator.FromHtml("#2ECC71");
         public Color ReconfirmLabelBG = ColorTranslator.FromHtml("#F39C12");
 
@@ -145,12 +145,9 @@ namespace FoodandBeverage.Forms
             AddLegendItem(legend, "Reservation", ColorTranslator.FromHtml("#EAF5C7"), ColorTranslator.FromHtml("#7D9D26"));
             AddLegendItem(legend, "Cancelled Items", ColorTranslator.FromHtml("#FFE3E3"), ColorTranslator.FromHtml("#D64545"));
 
-            tlp_main.RowStyles[1] = new RowStyle(SizeType.Absolute, 38F);
+            tlp_main.RowStyles[0] = new RowStyle(SizeType.Absolute, 34F);
             tlp_main.Controls.Add(legend, 0, 0);
-            tlp_main.SetRow(legend, 1);
-            // Keep all existing search controls in their original row by not moving the search panel.
-            // The legend sits above table cards as an overlay-free, lightweight child.
-            legend.BringToFront();
+            // Search and table controls keep their existing rows.
         }
 
         private static void AddLegendItem(FlowLayoutPanel legend, string text, Color swatch, Color border)
@@ -253,6 +250,9 @@ namespace FoodandBeverage.Forms
             public Label TableName;
             public Label NetAmount;
             public Button CancelCount;
+            public bool IsReservation;
+            public bool IsExpiredReservation;
+            public string ReservationBookmasterId;
         }
 
         class TableOrderStatus
@@ -325,10 +325,10 @@ namespace FoodandBeverage.Forms
                 "GROUP BY ti.Tid ORDER BY ti.Tid";
 
             var list = bll.GetSearchData("prdSearch", dmn);
-            orderStatusCache.Clear();
-
             if (list == null)
                 return;
+
+            orderStatusCache.Clear();
 
             foreach (var r in list)
             {
@@ -536,10 +536,37 @@ namespace FoodandBeverage.Forms
                 ui.CancelCount.Tag = tableId;
 
                 ui.TableName.Text = row.Field4;
+                ui.IsReservation = Convert.ToInt32(row.Field5) == 0
+                    && row.EndDate != null && row.Field7 != null;
+                ui.IsExpiredReservation = false;
+                ui.ReservationBookmasterId = row.Field7;
                 ui.TableName.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
                 ui.Inner.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
                 ui.Container.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
                 ui.NetAmount.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+
+                if (ui.IsReservation)
+                {
+                    DateTime reservationEnd = row.EndDate;
+                    DateTime now = DateTime.Now;
+                    ui.IsExpiredReservation = now > reservationEnd;
+                    if (ui.IsExpiredReservation)
+                    {
+                        string description = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel)
+                            + "," + row.Field7;
+                        ui.Container.AccessibleDescription = description;
+                        ui.Inner.AccessibleDescription = description;
+                        ui.TableName.AccessibleDescription = description;
+                    }
+                    else
+                    {
+                        string description = Convert.ToInt32(DashboardTableType.Reverse_Table)
+                            + "," + row.Field7;
+                        ui.Container.AccessibleDescription = description;
+                        ui.Inner.AccessibleDescription = description;
+                        ui.TableName.AccessibleDescription = description;
+                    }
+                }
 
                 pnl.Visible = true;
             }
@@ -577,7 +604,6 @@ namespace FoodandBeverage.Forms
                     bool showStatus = false;
                     bool showCancelBadge = false;
                     int cancelCount = 0;
-                    string clickDescription = Convert.ToString((int)DashboardTableType.Normalorder);
 
                     ui.TableName.AccessibleName = "0";
                     ui.NetAmount.AccessibleName = "0";
@@ -585,7 +611,21 @@ namespace FoodandBeverage.Forms
                     ui.Inner.AccessibleName = "0";
                     ui.CancelCount.AccessibleName = "0";
 
-                    if (orderStatusCache.TryGetValue(tableId, out var status))
+                    if (ui.IsReservation && ui.IsExpiredReservation)
+                    {
+                        nextColor = ExpiredColor;
+                        statusText = "Reservation Expired";
+                        statusLabelColor = ExpiredColor;
+                        showStatus = true;
+                    }
+                    else if (ui.IsReservation)
+                    {
+                        nextColor = ReservationColor;
+                        statusText = "Reservation";
+                        statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
+                        showStatus = true;
+                    }
+                    else if (orderStatusCache.TryGetValue(tableId, out var status))
                     {
                         if (status.CustomerInformedCancel)
                         {
@@ -633,6 +673,14 @@ namespace FoodandBeverage.Forms
                     // The status-card view uses data-bound cards and never rebuilds the FlowLayoutPanel per tick.
                     if (ui.Inner.BackColor != nextColor)
                         ui.Inner.BackColor = nextColor;
+
+                    string currentDescription = ui.Container.AccessibleDescription;
+                    if (!string.IsNullOrEmpty(currentDescription))
+                    {
+                        ui.Inner.AccessibleDescription = currentDescription;
+                        ui.TableName.AccessibleDescription = currentDescription;
+                        ui.NetAmount.AccessibleDescription = currentDescription;
+                    }
 
                     bool statusVisible = showStatus;
                     if (ui.NetAmount.Visible != statusVisible)
