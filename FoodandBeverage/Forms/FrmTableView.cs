@@ -74,6 +74,7 @@ namespace FoodandBeverage.Forms
         {
             AutoTimer.Interval = 2000; // Preserve the existing refresh cadence.
             flp_tableview.BackColor = Color.FromArgb(246, 248, 251);
+            flp_tableview.SuspendLayout();
             flp_tableview.Padding = new Padding(10);
             flp_tableview.WrapContents = true;
             flp_tableview.FlowDirection = FlowDirection.LeftToRight;
@@ -92,6 +93,7 @@ namespace FoodandBeverage.Forms
             }
 
             AddStatusLegend();
+            flp_tableview.ResumeLayout(true);
         }
 
         private void AddStatusLegend()
@@ -667,8 +669,7 @@ namespace FoodandBeverage.Forms
                         ui.NetAmount.AccessibleDescription = availableDescription;
                     }
 
-                    // Preserve the existing reservation/expiry click descriptions already assigned on the card.
-                    // The status-card view uses data-bound cards and never rebuilds the FlowLayoutPanel per tick.
+                    // Update only when the visual value changes; controls and panel instances are reused.
                     if (ui.Inner.BackColor != nextColor)
                         ui.Inner.BackColor = nextColor;
 
