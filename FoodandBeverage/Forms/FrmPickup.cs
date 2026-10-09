@@ -214,7 +214,7 @@ namespace FoodandBeverage.Forms
 
                 foreach (var item in pagedatadata)
                 {
-                    (TableLayoutPanel Panel, int Status) cacheItem;
+                    (ModernPickupCard Card, int Status) cacheItem;
                     int status = Convert.ToInt32(item.Field7);
 
                     if (PickupCache.TryGetValue(item.Field3, out cacheItem))
@@ -425,7 +425,7 @@ namespace FoodandBeverage.Forms
 
                 foreach (var item in pagedatadata)
                 {
-                    (TableLayoutPanel Panel, int Status) cacheItem;
+                    (ModernPickupCard Card, int Status) cacheItem;
                     int status = Convert.ToInt32(item.Field7);
 
                     if (PickupCache.TryGetValue(item.Field3, out cacheItem))
@@ -1106,8 +1106,6 @@ namespace FoodandBeverage.Forms
             {
                 AutoTimer.Stop();
                 Control clickedControl = sender as Control;
-                int pkid;
-                int.TryParse(clickedControl.AccessibleDescription, out pkid);
                 int Cancelorderstatus = Convert.ToInt32(clickedControl.AccessibleName);
                 if (clickedControl != null)
                 {
