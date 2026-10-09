@@ -1109,40 +1109,40 @@ namespace FoodandBeverage.Forms
                     return;
 
                 AutoTimer.Stop();
-                int Cancelorderstatus;
-                if (!int.TryParse(clickedControl.AccessibleName, out Cancelorderstatus))
-                    Cancelorderstatus = 0;
+
+                int cancelOrderStatus;
+                if (!int.TryParse(clickedControl.AccessibleName, out cancelOrderStatus))
+                    cancelOrderStatus = 0;
+
+                if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
+                    // Reuse the existing order console behavior when it is already open.
+                    // The current form's existing modal/navigation flow remains unchanged.
+                }
+                else if (clickedControl.Tag != null)
+                {
+                    using (FrmOrderConsole orderConsole = new FrmOrderConsole(
+                        0,
+                        Convert.ToInt32(DashboardTableType.PickupOrder),
+                        0,
+                        CheckedtableNames,
+                        Convert.ToInt32(PageType.Billpage),
+                        Convert.ToInt32(clickedControl.Tag),
+                        Convert.ToInt32(SourcepageType.Pickuppage),
+                        cancelOrderStatus))
                     {
-                        //FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
-                        //if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                        //{
-                        //    _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                        //}
-                        //else
-                        //{
-                        //    _instanceFrmOrder.ShowDialog();
-                        //}
-                    }
-                    else
-                    {
-                        if (clickedControl.Tag != null)
-                        {
-                            using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage), Cancelorderstatus))
-                            {
-                                _instanceFrmOrder.ShowDialog();
-                            }
-                        }
+                        orderConsole.ShowDialog();
                     }
                 }
-
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage page  PickupboxClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                clsgen.LogException("Pickuppage page PickupboxClickEventHandler()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Pickuppage));
             }
         }
+
         private void btnaddnew_Click(object sender, EventArgs e)
         {
             try
