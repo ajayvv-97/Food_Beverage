@@ -26,8 +26,6 @@ namespace FoodandBeverage.Forms
         public int tabletype = 0;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-        List<DmnTableinfo> TableDataList = new List<DmnTableinfo>();
-
         public Color DefaultColor = Color.White;                           // Available
         public Color OrderColor = ColorTranslator.FromHtml("#DCEEFF");     // Order taken / running
         public Color BillingColor = ColorTranslator.FromHtml("#DDF7E7");   // Checkout complete
@@ -45,30 +43,13 @@ namespace FoodandBeverage.Forms
 
         ClsGeneral clsgen = new ClsGeneral();
         int categoryId = 0, SearchModetype = 0, categorystatus = 0;
-        private Dictionary<string, Control> panelLookup = new Dictionary<string, Control>();
-
-        float PRODUCT_WIDTH_PERCENT = 0.80f;
-        float PRODUCT_HEIGHT_PERCENT = 0.80f;
-        int maxColumns = 10;
-        int tileW = 0;
-        int tileH = 0;
-
         int Pagecount = 60;// Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
         int currentPage = 1;
         int pageSize = 0;
         int totalPages = 0;
-        private List<DmnGridFields> TableData;
-        private List<DmnGridFields> pagedatadata;
-     
         private ToolTip menuTooltip = new ToolTip();
         private Image menuButtonImage = (Image)Properties.Resources.fb_sidemenu.Clone();
 
-        private System.Windows.Forms.Timer AutoRunTimer = new System.Windows.Forms.Timer();
-        private int AutoRunIndex = 0;
-        private List<Control> TableList = new List<Control>();
-        private bool AutoRunEnabled = true;
-
-        int count = 0;
         private bool isRefreshingTableStatus;
         private bool isApplyingTableUI;
         private bool isTableViewClosing;
@@ -199,34 +180,6 @@ namespace FoodandBeverage.Forms
                 //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
             }
             LoadTableStatus(tabletype);
-
-            //TableList = flp_tableview.Controls.Cast<Control>().ToList();
-            //AutoRunTimer.Interval = 2000; // open next table every 2 sec
-            //AutoRunTimer.Tick += AutoRunTimer_Tick;
-            ////AutoRunTimer.Start();            
-        }
-
-        private void AutoRunTimer_Tick(object sender, EventArgs e)
-        {
-            if (!AutoRunEnabled) return;
-
-            if (AutoRunIndex >= TableList.Count)
-                AutoRunIndex = 0;
-
-            Control table = TableList[AutoRunIndex];
-            AutoRunIndex++;
-
-            int tableId = Convert.ToInt32(table.Tag);
-
-            AutoRunTimer.Stop();   // stop main timer when opening form
-
-            //using (FrmOrderConsole memtest = new FrmOrderConsole(Convert.ToInt32(tableId), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage)))
-            //{
-            //    memtest.ShowDialog();
-            //}
-            count = count + 1;
-            lblpagerinfo.Text = Convert.ToString(count);
-            AutoRunTimer.Start();
         }
 
         #region Table Creation & Updation (ZERO-GC PAGING | 1000+ TABLES)
