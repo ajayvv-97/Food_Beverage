@@ -549,6 +549,7 @@ namespace FoodandBeverage.Forms
                 ui.CancelCount.Tag = tableId;
 
                 ui.TableName.Text = row.Field4;
+                ui.CancelCount.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
                 ui.IsReservation = Convert.ToInt32(row.Field5) == 0
                     && row.EndDate != null && row.Field7 != null;
                 ui.IsExpiredReservation = false;
@@ -610,7 +611,7 @@ namespace FoodandBeverage.Forms
                     if (!tableUIRefs.TryGetValue(pnl.GetHashCode(), out var ui))
                         continue;
 
-                    // Reset only the properties whose state can change, without removing/recreating controls.
+                    // Reusable card font and padding are initialized once, then only changed when the data changes.
                     Color nextColor = DefaultColor;
                     string statusText = string.Empty;
                     Color statusLabelColor = Color.Transparent;
@@ -923,8 +924,25 @@ namespace FoodandBeverage.Forms
 
                 CheckedtableNames.Clear();
                 Control clickedControl = sender as Control;
-                string textvalue = clickedControl.AccessibleDescription;
+                if (clickedControl == null)
+                    return;
+
+                // A click can originate from a nested control, so resolve the reusable card's data consistently.
+                Control tableControl = clickedControl;
+                while (tableControl != null && tableControl.Tag == null)
+                    tableControl = tableControl.Parent;
+                if (tableControl == null)
+                    return;
+
+                string textvalue = !string.IsNullOrEmpty(clickedControl.AccessibleDescription)
+                    ? clickedControl.AccessibleDescription
+                    : tableControl.AccessibleDescription;
+                if (string.IsNullOrEmpty(textvalue))
+                    textvalue = Convert.ToString((int)DashboardTableType.Normalorder);
+
                 int Cancelorderstatus = Convert.ToInt32(clickedControl.AccessibleName);
+                if (Cancelorderstatus == 0)
+                    Cancelorderstatus = Convert.ToInt32(tableControl.AccessibleName);
                 string[] parts = textvalue.Split(',');
                 string bmasterid = "";
                 int Btype = 0;
@@ -939,6 +957,7 @@ namespace FoodandBeverage.Forms
                 if (clickedControl != null)
                 {
                     string tableCode = clickedControl.Name;
+                    int clickedTableId = Convert.ToInt32(tableControl.Tag);
                     int screenWidth = Screen.PrimaryScreen.Bounds.Width;
                     int screenHeight = Screen.PrimaryScreen.Bounds.Height;
                     if (Btype == Convert.ToInt32(DashboardTableType.Normalorder))
@@ -962,7 +981,7 @@ namespace FoodandBeverage.Forms
                             int tagValue;
                             if (clickedControl.Tag != null)
                             {
-                                using (FrmOrderConsole memtest = new FrmOrderConsole(Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage), Cancelorderstatus))
+                                using (FrmOrderConsole memtest = new FrmOrderConsole(clickedTableId, Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage), Cancelorderstatus))
                                 {
                                     memtest.ShowDialog();
                                 }
