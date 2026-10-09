@@ -237,13 +237,13 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
                 clsgen.LogException("home page virtualkeyboardCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
-        private void txtusername_Enter(object sender, EventArgs e)
+        private void txt_username_Enter(object sender, EventArgs e)
         {
             // Keep the existing virtual-keyboard timer behavior.
             timer1.Start();
         }
 
-        private void txtusername_Leave(object sender, EventArgs e)
+        private void txt_username_Leave(object sender, EventArgs e)
         {
             timer1.Stop();
         }
@@ -566,12 +566,12 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
 
         }
 
-        private void txtUserName_KeyPress(object sender, KeyPressEventArgs e)
+        private void txt_username_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')             
                 e.Handled = true; 
         }
-        private void txtUserName_KeyDown(object sender, KeyEventArgs e)
+        private void txt_username_KeyDown(object sender, KeyEventArgs e)
         {
             try
             {
@@ -590,7 +590,7 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
             catch (Exception ex)
             {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login page txtUserName_KeyDown()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+                clsgen.LogException("Login page txt_username_KeyDown()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
 
@@ -621,17 +621,17 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
 
         }
 
-        private void txtPwd_Enter(object sender, EventArgs e)
+        private void txt_password_Enter(object sender, EventArgs e)
         {
             // Placeholder text is handled by ModernTextBox.
         }
 
-        private void txtPwd_Leave(object sender, EventArgs e)
+        private void txt_password_Leave(object sender, EventArgs e)
         {
             // Placeholder text is handled by ModernTextBox.
         }
 
-        private void txtPwd_KeyDown(object sender, KeyEventArgs e)
+        private void txt_password_KeyDown(object sender, KeyEventArgs e)
         {
             try
             {
@@ -650,11 +650,11 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
             catch (Exception ex)
             {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login page txtPwd_KeyDown()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+                clsgen.LogException("Login page txt_password_KeyDown()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
         }
 
-        private void txtPwd_KeyPress(object sender, KeyPressEventArgs e)
+        private void txt_password_KeyPress(object sender, KeyPressEventArgs e)
         {
             try
             {
@@ -664,13 +664,8 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
             catch (Exception ex)
             {
                 //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Login page txtPwd_KeyPress()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
+                clsgen.LogException("Login page txt_password_KeyPress()", ex, EmployeName, Designation, Convert.ToInt32(FormType.Login));
             }
-        }
-
-        private void txtPwd_TextChanged(object sender, EventArgs e)
-        {
-            // Password masking is handled by txt_password.UsePassword.
         }
 
         private void FrmLogin_Shown(object sender, EventArgs e)
@@ -678,7 +673,7 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
             FormSize = this.Size;
         }
 
-        private void txtUserName_Click(object sender, EventArgs e)
+        private void txt_username_Click(object sender, EventArgs e)
         {
             if (loginkeyboard)
             {
@@ -770,7 +765,7 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
         }
         #endregion
 
-        private void txtPwd_Click(object sender, EventArgs e)
+        private void txt_password_Click(object sender, EventArgs e)
         {
             if (loginkeyboard)
             {
