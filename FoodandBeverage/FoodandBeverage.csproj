@@ -542,6 +542,7 @@
     <Compile Include="Forms\FrmTableInfo.Designer.cs">
       <DependentUpon>FrmTableInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ModernTableCard.cs" />
     <Compile Include="Forms\FrmTableView.cs">
       <SubType>Form</SubType>
     </Compile>
