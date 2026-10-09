@@ -58,20 +58,6 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-        #region Fields
-
-        //private List<TableViewItem> tables = new List<TableViewItem>();
-
-        //private int columns = 10;
-        //private int spacing = 10;
-
-        //// Colors
-        //private Color FreeColor = Color.LightGreen;
-        //private Color BookingColor = Color.LightBlue;
-        //private Color BillingColor = Color.Orange;
-        //private Color CancelColor = Color.Red;
-        //private Color ExpiredColor = Color.Gray;
-        #endregion
         public FrmTableView(int type)
         {
             InitializeComponent();
@@ -133,7 +119,6 @@ namespace FoodandBeverage.Forms
 
             tlp_main.RowStyles[0] = new RowStyle(SizeType.Absolute, 34F);
             tlp_main.Controls.Add(legend, 0, 0);
-            legend.BringToFront();
         }
 
         private static void AddLegendItem(FlowLayoutPanel legend, string text, Color swatch, Color border)
@@ -182,9 +167,7 @@ namespace FoodandBeverage.Forms
             LoadTableStatus(tabletype);
         }
 
-        #region Table Creation & Updation (ZERO-GC PAGING | 1000+ TABLES)
-
-        #region Fields
+        #region Modern Table View
 
         private readonly List<Panel> reusablePanels = new List<Panel>();
 
@@ -196,8 +179,6 @@ namespace FoodandBeverage.Forms
 
         private List<DmnGridFields> allTables = new List<DmnGridFields>();
         private List<DmnGridFields> currentPageTables = new List<DmnGridFields>();
-
-        #endregion
 
         #region Helper Classes
 
@@ -821,7 +802,7 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-        #endregion // Modern reusable table view
+        #endregion // Modern Table View
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
