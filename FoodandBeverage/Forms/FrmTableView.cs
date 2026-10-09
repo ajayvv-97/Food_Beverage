@@ -151,7 +151,7 @@ namespace FoodandBeverage.Forms
 
             tlp_main.RowStyles[0] = new RowStyle(SizeType.Absolute, 34F);
             tlp_main.Controls.Add(legend, 0, 0);
-            // Search and table controls keep their existing rows.
+            legend.BringToFront();
         }
 
         private static void AddLegendItem(FlowLayoutPanel legend, string text, Color swatch, Color border)
@@ -177,7 +177,7 @@ namespace FoodandBeverage.Forms
                 AutoSize = true,
                 Text = text,
                 ForeColor = Color.FromArgb(55, 65, 81),
-                Font = new Font("Segoe UI", 8.5F, FontStyle.Regular),
+                Font = SystemFonts.MessageBoxFont,
                 Margin = new Padding(0, 1, 0, 0)
             };
             dot.Paint += (s, e) =>
