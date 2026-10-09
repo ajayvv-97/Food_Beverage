@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
 using System.Threading;
 using FoodandBeverage.Classes;
+using FoodandBeverage.Controls;
 using System.Configuration;
 using System.Diagnostics;
 
@@ -52,8 +53,6 @@ namespace FoodandBeverage.Forms
         private bool isRefreshingTableStatus;
         private bool isApplyingTableUI;
         private bool isTableViewClosing;
-        private Font tableStatusFont;
-        private Font tableNameFont;
 
         #endregion
 
@@ -61,25 +60,15 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
             SearchModetype = type;
-            tableStatusFont = new Font("Segoe UI", 8.5F, FontStyle.Bold);
-            tableNameFont = new Font("Segoe UI", 10F, FontStyle.Bold);
             ConfigureModernTableSurface();
         }
 
         /// <summary>
-        /// Applies the modern status legend and double buffering once, instead of forcing repaints on each tick.
+        /// Leaves the form design unchanged and enables buffered painting for the table area.
         /// </summary>
         private void ConfigureModernTableSurface()
         {
-            AutoTimer.Interval = 2000; // Preserve the existing refresh cadence.
-            flp_tableview.BackColor = Color.FromArgb(246, 248, 251);
-            flp_tableview.SuspendLayout();
-            flp_tableview.Padding = new Padding(10);
-            flp_tableview.WrapContents = true;
-            flp_tableview.FlowDirection = FlowDirection.LeftToRight;
-
-            // FlowLayoutPanel is a standard WinForms control; enabling optimized double-buffering avoids
-            // the flash caused by child invalidation during a status update.
+            AutoTimer.Interval = 2000;
             try
             {
                 typeof(Control).GetProperty("DoubleBuffered",
@@ -88,74 +77,8 @@ namespace FoodandBeverage.Forms
             }
             catch
             {
-                // Best effort only: rendering must still work if reflection is restricted.
+                // Best-effort anti-flicker optimization only.
             }
-
-            AddStatusLegend();
-            flp_tableview.ResumeLayout(true);
-        }
-
-        private void AddStatusLegend()
-        {
-            if (tlp_main.Controls.ContainsKey("pnlTableStatusLegend"))
-                return;
-
-            var legend = new FlowLayoutPanel
-            {
-                Name = "pnlTableStatusLegend",
-                Dock = DockStyle.Fill,
-                AutoSize = false,
-                WrapContents = true,
-                FlowDirection = FlowDirection.LeftToRight,
-                BackColor = Color.White,
-                Padding = new Padding(8, 2, 8, 2),
-                Margin = new Padding(0)
-            };
-
-            AddLegendItem(legend, "Available", Color.White, Color.FromArgb(190, 198, 208));
-            AddLegendItem(legend, "Order Taken", ColorTranslator.FromHtml("#DCEEFF"), ColorTranslator.FromHtml("#4B8DCA"));
-            AddLegendItem(legend, "Checkout", ColorTranslator.FromHtml("#DDF7E7"), ColorTranslator.FromHtml("#239B56"));
-            AddLegendItem(legend, "Reservation", ColorTranslator.FromHtml("#EAF5C7"), ColorTranslator.FromHtml("#7D9D26"));
-            AddLegendItem(legend, "Cancelled Items", ColorTranslator.FromHtml("#FFE3E3"), ColorTranslator.FromHtml("#D64545"));
-
-            tlp_main.RowStyles[0] = new RowStyle(SizeType.Absolute, 34F);
-            tlp_main.Controls.Add(legend, 0, 0);
-        }
-
-        private static void AddLegendItem(FlowLayoutPanel legend, string text, Color swatch, Color border)
-        {
-            var item = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                WrapContents = false,
-                FlowDirection = FlowDirection.LeftToRight,
-                BackColor = Color.Transparent,
-                Margin = new Padding(4, 3, 10, 3),
-                Padding = new Padding(0)
-            };
-            var dot = new Panel
-            {
-                Size = new Size(12, 12),
-                BackColor = swatch,
-                BorderStyle = BorderStyle.FixedSingle,
-                Margin = new Padding(0, 3, 5, 0)
-            };
-            var label = new Label
-            {
-                AutoSize = true,
-                Text = text,
-                ForeColor = Color.FromArgb(55, 65, 81),
-                Font = SystemFonts.MessageBoxFont,
-                Margin = new Padding(0, 1, 0, 0)
-            };
-            dot.Paint += (s, e) =>
-            {
-                using (var pen = new Pen(border))
-                    e.Graphics.DrawRectangle(pen, 0, 0, dot.Width - 1, dot.Height - 1);
-            };
-            item.Controls.Add(dot);
-            item.Controls.Add(label);
-            legend.Controls.Add(item);
         }
 
         private void FrmTableView_Load(object sender, EventArgs e)
@@ -170,10 +93,11 @@ namespace FoodandBeverage.Forms
 
         #region Modern Table View
 
-        private readonly List<Panel> reusablePanels = new List<Panel>();
+        private readonly List<ModernTableCard> reusablePanels =
+            new List<ModernTableCard>();
 
-        private readonly Dictionary<int, TableUIRefs> tableUIRefs =
-            new Dictionary<int, TableUIRefs>();
+        private readonly Dictionary<ModernTableCard, TableCardBinding> tableUIRefs =
+            new Dictionary<ModernTableCard, TableCardBinding>();
 
         private readonly Dictionary<int, TableOrderStatus> orderStatusCache =
             new Dictionary<int, TableOrderStatus>();
@@ -183,20 +107,16 @@ namespace FoodandBeverage.Forms
 
         #region Helper Classes
 
-        class TableUIRefs
+        private sealed class TableCardBinding
         {
-            public Panel Container;
-            public TableLayoutPanel Inner;
-            public Label TableName;
-            public Label NetAmount;
-            public Button CancelCount;
+            public ModernTableCard Card;
             public bool IsReservation;
             public bool IsReservationReady;
             public bool IsExpiredReservation;
             public string ReservationBookmasterId;
         }
 
-        class TableOrderStatus
+        private sealed class TableOrderStatus
         {
             public int TotalItems;
             public int PendingCount;
@@ -333,106 +253,45 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-        #region Panel Creation (ONCE)
+        #region Custom Table Cards (ONCE)
 
         private void CreateReusablePanels()
         {
             flp_tableview.SuspendLayout();
 
-            flp_tableview.Controls.Clear();
-            reusablePanels.Clear();
-            tableUIRefs.Clear();
-
-            for (int i = 0; i < pageSize; i++)
+            try
             {
-                Panel pnl = CreateEmptyTablePanel();
-                reusablePanels.Add(pnl);
-                flp_tableview.Controls.Add(pnl);
-            }
+                flp_tableview.Controls.Clear();
+                reusablePanels.Clear();
+                tableUIRefs.Clear();
 
-            flp_tableview.ResumeLayout();
+                for (int i = 0; i < pageSize; i++)
+                {
+                    ModernTableCard card = CreateEmptyTableCard();
+                    reusablePanels.Add(card);
+                    tableUIRefs[card] = new TableCardBinding { Card = card };
+                    flp_tableview.Controls.Add(card);
+                }
+            }
+            finally
+            {
+                flp_tableview.ResumeLayout(true);
+            }
         }
 
-        private Panel CreateEmptyTablePanel()
+        private ModernTableCard CreateEmptyTableCard()
         {
-            Panel pnl = new Panel
+            ModernTableCard card = new ModernTableCard
             {
                 Size = new Size(140, 110),
                 Margin = new Padding(7),
-                Padding = new Padding(2),
-                BackColor = Color.Transparent,
-                Visible = false
-            };
-
-            TableLayoutPanel tlp = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                RowCount = 3,
-                BackColor = Color.White,
-                Padding = new Padding(3),
-                Margin = new Padding(0),
-                AccessibleDescription = "0"
-            };
-
-            tlp.RowStyles.Add(new RowStyle(SizeType.Absolute, 0));
-            tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            tlp.RowStyles.Add(new RowStyle(SizeType.Absolute, 0));
-
-            Label lblName = new Label
-            {
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = tableNameFont,
-                ForeColor = Ordertablefontcolor,
-                AccessibleDescription = "0"
-            };
-
-            Label lblNet = new Label
-            {
-                Dock = DockStyle.Fill,
                 Visible = false,
-                Font = tableStatusFont,
-                TextAlign = ContentAlignment.MiddleCenter,
-                AccessibleDescription = "0"
+                Name = "tableCard"
             };
 
-            Button btnCancel = new Button
-            {
-                Size = new Size(22, 22),
-                Visible = false,
-                FlatStyle = FlatStyle.Flat
-            };
-            btnCancel.FlatAppearance.BorderSize = 0;
-
-            tlp.Controls.Add(lblName, 0, 1);
-            tlp.Controls.Add(lblNet, 0, 2);
-
-            pnl.Controls.Add(tlp);
-            pnl.Controls.Add(btnCancel);
-
-            btnCancel.Location = new Point(pnl.Width - 27, 5);
-            btnCancel.BringToFront();
-
-            UIHelper.RoundCorners(pnl, 25, null);
-
-            int key = pnl.GetHashCode();
-            tableUIRefs[key] = new TableUIRefs
-            {
-                Container = pnl,
-                Inner = tlp,
-                TableName = lblName,
-                NetAmount = lblNet,
-                CancelCount = btnCancel
-            };
-
-            pnl.Click += tableClickEventHandler;
-            tlp.Click += tableClickEventHandler;
-            lblName.Click += tableClickEventHandler;
-            lblNet.Click += tableClickEventHandler;
-
-            return pnl;
+            card.Click += tableClickEventHandler;
+            return card;
         }
-
 
         #endregion
 
@@ -466,69 +325,59 @@ namespace FoodandBeverage.Forms
         {
             flp_tableview.SuspendLayout();
 
-            for (int i = 0; i < reusablePanels.Count; i++)
+            try
             {
-                Panel pnl = reusablePanels[i];
-                pnl.Visible = false;
-
-                if (i >= currentPageTables.Count)
-                    continue;
-
-                var row = currentPageTables[i];
-                int tableId = Convert.ToInt32(row.Field3);
-
-                pnl.Tag = tableId;
-                pnl.Name = "pnl_" + tableId;
-
-                var ui = tableUIRefs[pnl.GetHashCode()];
-
-                ui.Container.Tag = tableId;
-                ui.Inner.Tag = tableId;
-                ui.TableName.Tag = tableId;
-                ui.NetAmount.Tag = tableId;
-                ui.CancelCount.Tag = tableId;
-
-                ui.TableName.Text = row.Field4;
-                ui.CancelCount.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
-                ui.IsReservation = Convert.ToInt32(row.Field5) == 0
-                    && row.EndDate != null && row.Field7 != null;
-                ui.IsReservationReady = false;
-                ui.IsExpiredReservation = false;
-                ui.ReservationBookmasterId = row.Field7;
-                ui.TableName.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
-                ui.Inner.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
-                ui.Container.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
-                ui.NetAmount.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
-
-                if (ui.IsReservation)
+                for (int i = 0; i < reusablePanels.Count; i++)
                 {
-                    DateTime reservationEnd = row.EndDate;
-                    DateTime now = DateTime.Now;
-                    DateTime reservationWindowStart = reservationEnd.AddMinutes(
-                        -Math.Max(0, Convert.ToDouble(FrmLogin.BookingInterwell)));
+                    ModernTableCard card = reusablePanels[i];
+                    card.Visible = false;
 
-                    // Keep a future booking visible. It becomes a check-in action during the configured
-                    // lead-in period and a cancellation action only after its end time.
-                    ui.IsExpiredReservation = now > reservationEnd;
-                    ui.IsReservationReady = now >= reservationWindowStart && now <= reservationEnd;
-                    string description = ui.IsExpiredReservation
-                        ? Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + row.Field7
-                        : (ui.IsReservationReady
-                            ? Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + row.Field7
-                            : Convert.ToString((int)DashboardTableType.Normalorder));
+                    if (i >= currentPageTables.Count)
+                        continue;
 
-                    ui.Container.AccessibleDescription = description;
-                    ui.Inner.AccessibleDescription = description;
-                    ui.TableName.AccessibleDescription = description;
-                    ui.NetAmount.AccessibleDescription = description;
+                    DmnGridFields row = currentPageTables[i];
+                    int tableId = Convert.ToInt32(row.Field3);
+                    TableCardBinding binding = tableUIRefs[card];
+
+                    card.Tag = tableId;
+                    card.Name = "pnl_" + tableId;
+                    card.Text = Convert.ToString(row.Field4) ?? string.Empty;
+                    card.AccessibleName = "0";
+                    card.AccessibleDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+
+                    binding.IsReservation = Convert.ToInt32(row.Field5) == 0
+                        && row.EndDate != null && row.Field7 != null;
+                    binding.IsReservationReady = false;
+                    binding.IsExpiredReservation = false;
+                    binding.ReservationBookmasterId = row.Field7;
+
+                    if (binding.IsReservation)
+                    {
+                        DateTime reservationEnd = row.EndDate;
+                        DateTime now = DateTime.Now;
+                        DateTime reservationWindowStart = reservationEnd.AddMinutes(
+                            -Math.Max(0, Convert.ToDouble(FrmLogin.BookingInterwell)));
+
+                        binding.IsExpiredReservation = now > reservationEnd;
+                        binding.IsReservationReady = now >= reservationWindowStart && now <= reservationEnd;
+
+                        string description = binding.IsExpiredReservation
+                            ? Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," + row.Field7
+                            : (binding.IsReservationReady
+                                ? Convert.ToInt32(DashboardTableType.Reverse_Table) + "," + row.Field7
+                                : Convert.ToString((int)DashboardTableType.Normalorder));
+
+                        card.AccessibleDescription = description;
+                    }
+
+                    card.Visible = true;
                 }
-
-                pnl.Visible = true;
             }
-
-            flp_tableview.ResumeLayout();
+            finally
+            {
+                flp_tableview.ResumeLayout(true);
+            }
         }
-
 
         #endregion
 
@@ -541,209 +390,99 @@ namespace FoodandBeverage.Forms
 
             isApplyingTableUI = true;
             flp_tableview.SuspendLayout();
+
             try
             {
-                foreach (var pnl in reusablePanels)
+                foreach (ModernTableCard card in reusablePanels)
                 {
-                    if (!pnl.Visible || pnl.Tag == null)
+                    if (!card.Visible || card.Tag == null)
                         continue;
 
-                    int tableId = Convert.ToInt32(pnl.Tag);
-                    if (!tableUIRefs.TryGetValue(pnl.GetHashCode(), out var ui))
+                    int tableId = Convert.ToInt32(card.Tag);
+                    if (!tableUIRefs.TryGetValue(card, out TableCardBinding binding))
                         continue;
 
-                    // Reusable card font and padding are initialized once, then only changed when the data changes.
-                    Color nextColor = DefaultColor;
+                    ModernTableCardState nextState = ModernTableCardState.Available;
                     string statusText = string.Empty;
-                    Color statusLabelColor = Color.Transparent;
-                    bool showStatus = false;
-                    bool showCancelBadge = false;
-                    int cancelCount = 0;
+                    int cancelledCount = 0;
 
-                    ui.TableName.AccessibleName = "0";
-                    ui.NetAmount.AccessibleName = "0";
-                    ui.Container.AccessibleName = "0";
-                    ui.Inner.AccessibleName = "0";
-                    ui.CancelCount.AccessibleName = "0";
+                    card.AccessibleName = "0";
 
-                    if (ui.IsReservation && ui.IsExpiredReservation)
+                    if (binding.IsReservation && binding.IsExpiredReservation)
                     {
-                        nextColor = ExpiredColor;
+                        nextState = ModernTableCardState.ReservationExpired;
                         statusText = "Reservation Expired";
-                        statusLabelColor = ExpiredColor;
-                        showStatus = true;
-                        string expiredDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel)
-                            + "," + ui.ReservationBookmasterId;
-                        ui.Container.AccessibleDescription = expiredDescription;
-                        ui.Inner.AccessibleDescription = expiredDescription;
-                        ui.TableName.AccessibleDescription = expiredDescription;
-                        ui.NetAmount.AccessibleDescription = expiredDescription;
+                        card.AccessibleDescription =
+                            Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel)
+                            + "," + binding.ReservationBookmasterId;
                     }
-                    else if (ui.IsReservation && ui.IsReservationReady)
+                    else if (binding.IsReservation && binding.IsReservationReady)
                     {
-                        nextColor = ReservationColor;
+                        nextState = ModernTableCardState.Reservation;
                         statusText = "Reservation";
-                        statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
-                        showStatus = true;
-                        string reservationDescription = Convert.ToInt32(DashboardTableType.Reverse_Table)
-                            + "," + ui.ReservationBookmasterId;
-                        ui.Container.AccessibleDescription = reservationDescription;
-                        ui.Inner.AccessibleDescription = reservationDescription;
-                        ui.TableName.AccessibleDescription = reservationDescription;
-                        ui.NetAmount.AccessibleDescription = reservationDescription;
+                        card.AccessibleDescription =
+                            Convert.ToInt32(DashboardTableType.Reverse_Table)
+                            + "," + binding.ReservationBookmasterId;
                     }
-                    else if (ui.IsReservation)
+                    else if (binding.IsReservation)
                     {
-                        // The booking is outside its check-in window. Keep the reservation visible
-                        // and prevent a premature check-in action.
-                        nextColor = ReservationColor;
+                        nextState = ModernTableCardState.Reservation;
                         statusText = "Reserved";
-                        statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
-                        showStatus = true;
-                        string reservedDescription = Convert.ToString((int)DashboardTableType.Normalorder);
-                        ui.Container.AccessibleDescription = reservedDescription;
-                        ui.Inner.AccessibleDescription = reservedDescription;
-                        ui.TableName.AccessibleDescription = reservedDescription;
-                        ui.NetAmount.AccessibleDescription = reservedDescription;
+                        card.AccessibleDescription =
+                            Convert.ToString((int)DashboardTableType.Normalorder);
                     }
-                    else if (orderStatusCache.TryGetValue(tableId, out var status))
+                    else if (orderStatusCache.TryGetValue(tableId, out TableOrderStatus status))
                     {
-                        string normalDescription = Convert.ToString((int)DashboardTableType.Normalorder);
-                        ui.Container.AccessibleDescription = normalDescription;
-                        ui.Inner.AccessibleDescription = normalDescription;
-                        ui.TableName.AccessibleDescription = normalDescription;
-                        ui.NetAmount.AccessibleDescription = normalDescription;
+                        card.AccessibleDescription =
+                            Convert.ToString((int)DashboardTableType.Normalorder);
 
                         if (status.CustomerInformedCancel)
                         {
-                            nextColor = CancelProduct_order;
+                            nextState = ModernTableCardState.StaffCancelled;
                             statusText = "Staff Cancel Order";
-                            statusLabelColor = ReconfirmLabelBG;
-                            showStatus = true;
-                            ui.Container.AccessibleName = "1";
-                            ui.Inner.AccessibleName = "1";
-                            ui.TableName.AccessibleName = "1";
-                            ui.NetAmount.AccessibleName = "1";
-                            ui.CancelCount.AccessibleName = "1";
+                            card.AccessibleName = "1";
                         }
                         else if (status.CancelCount > 0)
                         {
-                            nextColor = CancelProduct_order;
-                            showCancelBadge = true;
-                            cancelCount = status.CancelCount;
+                            nextState = ModernTableCardState.CancelledItems;
+                            statusText = "Cancelled Items";
+                            cancelledCount = status.CancelCount;
                         }
                         else if (status.KitchenCancelled)
                         {
-                            nextColor = CancelProduct_order;
+                            nextState = ModernTableCardState.ReconfirmOrder;
                             statusText = "Reconfirm Order";
-                            statusLabelColor = ReconfirmLabelBG;
-                            showStatus = true;
                         }
                         else if (status.TotalItems > 0 && status.PendingCount > 0)
                         {
-                            nextColor = OrderColor;
+                            nextState = ModernTableCardState.OrderTaken;
+                            statusText = "Order Taken";
                         }
                         else if (status.TotalItems > 0 && status.Checkoutstatus == 1)
                         {
-                            nextColor = BillingColor;
+                            nextState = ModernTableCardState.Checkout;
                             statusText = "Checkout";
-                            statusLabelColor = CheckoutLabelBG;
-                            showStatus = true;
+                        }
+                        else if (status.Ordermid > 0 && status.TotalItems > 0)
+                        {
+                            nextState = ModernTableCardState.OrderTaken;
+                            statusText = "Order Taken";
                         }
                         else
                         {
-                            nextColor = status.Ordermid > 0 && status.TotalItems > 0
-                                ? OrderColor
-                                : DefaultColor;
+                            nextState = ModernTableCardState.Available;
+                            statusText = "Available";
                         }
                     }
                     else
                     {
-                        // No current order/reservation means table is available.
-                        nextColor = DefaultColor;
-                        string availableDescription = Convert.ToString((int)DashboardTableType.Normalorder);
-                        ui.Container.AccessibleDescription = availableDescription;
-                        ui.Inner.AccessibleDescription = availableDescription;
-                        ui.TableName.AccessibleDescription = availableDescription;
-                        ui.NetAmount.AccessibleDescription = availableDescription;
+                        nextState = ModernTableCardState.Available;
+                        statusText = "Available";
+                        card.AccessibleDescription =
+                            Convert.ToString((int)DashboardTableType.Normalorder);
                     }
 
-                    // Update only when the visual value changes; controls and panel instances are reused.
-                    if (ui.Inner.BackColor != nextColor)
-                        ui.Inner.BackColor = nextColor;
-
-                    string currentDescription = ui.Container.AccessibleDescription;
-                    if (!string.IsNullOrEmpty(currentDescription))
-                    {
-                        ui.Inner.AccessibleDescription = currentDescription;
-                        ui.TableName.AccessibleDescription = currentDescription;
-                        ui.NetAmount.AccessibleDescription = currentDescription;
-                    }
-
-                    bool statusVisible = showStatus;
-                    if (ui.NetAmount.Visible != statusVisible)
-                        ui.NetAmount.Visible = statusVisible;
-                    if (ui.NetAmount.Text != statusText)
-                        ui.NetAmount.Text = statusText;
-                    if (ui.NetAmount.BackColor != statusLabelColor)
-                        ui.NetAmount.BackColor = statusLabelColor;
-                    if (ui.NetAmount.ForeColor != Color.White)
-                        ui.NetAmount.ForeColor = Color.White;
-                    if (!ReferenceEquals(ui.NetAmount.Font, tableStatusFont))
-                        ui.NetAmount.Font = tableStatusFont;
-
-                    float firstRow = showStatus ? 25 : 0;
-                    float middleRow = showStatus ? 60 : 100;
-                    float lastRow = showStatus ? 25 : 0;
-                    if (ui.Inner.RowStyles[0].Height != firstRow)
-                        ui.Inner.RowStyles[0].Height = firstRow;
-                    if (ui.Inner.RowStyles[1].Height != middleRow)
-                        ui.Inner.RowStyles[1].Height = middleRow;
-                    if (ui.Inner.RowStyles[2].Height != lastRow)
-                        ui.Inner.RowStyles[2].Height = lastRow;
-
-                    if (ui.CancelCount.Visible != showCancelBadge)
-                        ui.CancelCount.Visible = showCancelBadge;
-                    if (showCancelBadge)
-                    {
-                        string text = cancelCount.ToString();
-                        if (ui.CancelCount.Text != text)
-                            ui.CancelCount.Text = text;
-                        if (ui.CancelCount.Size != new Size(22, 22))
-                            ui.CancelCount.Size = new Size(22, 22);
-                        if (ui.CancelCount.Location != new Point(ui.Container.Width - 27, 5))
-                            ui.CancelCount.Location = new Point(ui.Container.Width - 27, 5);
-                        if (ui.CancelCount.BackColor != Color.Black)
-                            ui.CancelCount.BackColor = Color.Black;
-                        if (ui.CancelCount.ForeColor != Color.White)
-                            ui.CancelCount.ForeColor = Color.White;
-                        ui.CancelCount.FlatStyle = FlatStyle.Flat;
-                        ui.CancelCount.FlatAppearance.BorderSize = 0;
-
-                        // Create and release the circular region only when needed.
-                        if (ui.CancelCount.Region == null)
-                        {
-                            using (var path = new System.Drawing.Drawing2D.GraphicsPath())
-                            {
-                                path.AddEllipse(0, 0, ui.CancelCount.Width, ui.CancelCount.Height);
-                                ui.CancelCount.Region = new Region(path);
-                            }
-                        }
-                        ui.CancelCount.BringToFront();
-                    }
-                    else
-                    {
-                        if (ui.CancelCount.Size != Size.Empty)
-                            ui.CancelCount.Size = Size.Empty;
-                        ui.CancelCount.Location = new Point(-100, -100);
-                        if (ui.CancelCount.Region != null)
-                        {
-                            ui.CancelCount.Region.Dispose();
-                            ui.CancelCount.Region = null;
-                        }
-                        if (ui.CancelCount.Text.Length > 0)
-                            ui.CancelCount.Text = string.Empty;
-                    }
+                    card.SetVisualState(nextState, statusText, cancelledCount);
                 }
             }
             finally
@@ -752,7 +491,6 @@ namespace FoodandBeverage.Forms
                 isApplyingTableUI = false;
             }
         }
-
 
         #endregion
 
@@ -823,16 +561,6 @@ namespace FoodandBeverage.Forms
             isTableViewClosing = true;
             AutoTimer?.Stop();
             AutoTimer?.Dispose();
-            if (tableStatusFont != null)
-            {
-                tableStatusFont.Dispose();
-                tableStatusFont = null;
-            }
-            if (tableNameFont != null)
-            {
-                tableNameFont.Dispose();
-                tableNameFont = null;
-            }
             base.OnFormClosing(e);
         }
         private void btnclose_Click(object sender, EventArgs e)
