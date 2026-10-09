@@ -613,6 +613,12 @@ namespace FoodandBeverage.Forms
 
                     if (ui.IsReservation && ui.IsExpiredReservation)
                     {
+                        string expiredDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel)
+                            + "," + ui.ReservationBookmasterId;
+                        ui.Container.AccessibleDescription = expiredDescription;
+                        ui.Inner.AccessibleDescription = expiredDescription;
+                        ui.TableName.AccessibleDescription = expiredDescription;
+                        ui.NetAmount.AccessibleDescription = expiredDescription;
                         nextColor = ExpiredColor;
                         statusText = "Reservation Expired";
                         statusLabelColor = ExpiredColor;
@@ -620,6 +626,12 @@ namespace FoodandBeverage.Forms
                     }
                     else if (ui.IsReservation)
                     {
+                        string reservationDescription = Convert.ToInt32(DashboardTableType.Reverse_Table)
+                            + "," + ui.ReservationBookmasterId;
+                        ui.Container.AccessibleDescription = reservationDescription;
+                        ui.Inner.AccessibleDescription = reservationDescription;
+                        ui.TableName.AccessibleDescription = reservationDescription;
+                        ui.NetAmount.AccessibleDescription = reservationDescription;
                         nextColor = ReservationColor;
                         statusText = "Reservation";
                         statusLabelColor = ColorTranslator.FromHtml("#6F8D22");
@@ -627,6 +639,12 @@ namespace FoodandBeverage.Forms
                     }
                     else if (orderStatusCache.TryGetValue(tableId, out var status))
                     {
+                        string normalDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+                        ui.Container.AccessibleDescription = normalDescription;
+                        ui.Inner.AccessibleDescription = normalDescription;
+                        ui.TableName.AccessibleDescription = normalDescription;
+                        ui.NetAmount.AccessibleDescription = normalDescription;
+
                         if (status.CustomerInformedCancel)
                         {
                             nextColor = CancelProduct_order;
@@ -665,8 +683,18 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
-                            nextColor = OrderColor;
+                            nextColor = status.TotalItems > 0 ? OrderColor : DefaultColor;
                         }
+                    }
+                    else
+                    {
+                        // No current order/reservation means table is available.
+                        nextColor = DefaultColor;
+                        string availableDescription = Convert.ToString((int)DashboardTableType.Normalorder);
+                        ui.Container.AccessibleDescription = availableDescription;
+                        ui.Inner.AccessibleDescription = availableDescription;
+                        ui.TableName.AccessibleDescription = availableDescription;
+                        ui.NetAmount.AccessibleDescription = availableDescription;
                     }
 
                     // Preserve the existing reservation/expiry click descriptions already assigned on the card.
