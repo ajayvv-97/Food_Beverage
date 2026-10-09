@@ -334,7 +334,9 @@ namespace FoodandBeverage.Forms
                     UpdatePickupCard(card, item, false);
                     card.Visible = true;
 
-                    PickupCache[Convert.ToString(item.Field3)] = (card, Convert.ToInt32(item.Field7));
+                    int sourceStatus;
+                    int.TryParse(Convert.ToString(item.Field7), out sourceStatus);
+                    PickupCache[Convert.ToString(item.Field3)] = (card, sourceStatus);
                     flp_pickup_view.Controls.Add(card);
                 }
             }
