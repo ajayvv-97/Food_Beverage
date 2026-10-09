@@ -35,8 +35,6 @@ namespace FoodandBeverage.Forms
             this.pnlloginbox = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtPwd = new System.Windows.Forms.TextBox();
-            this.txtUserName = new System.Windows.Forms.TextBox();
             this.btnrfid = new System.Windows.Forms.Button();
             this.btncancel = new System.Windows.Forms.Button();
             this.btnlogin = new System.Windows.Forms.Button();
@@ -96,8 +94,6 @@ namespace FoodandBeverage.Forms
             this.pnlloginbox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnlloginbox.Controls.Add(this.label2);
             this.pnlloginbox.Controls.Add(this.label1);
-            this.pnlloginbox.Controls.Add(this.txtPwd);
-            this.pnlloginbox.Controls.Add(this.txtUserName);
             this.pnlloginbox.Controls.Add(this.txt_password);
             this.pnlloginbox.Controls.Add(this.txt_username);
             this.pnlloginbox.Controls.Add(this.btnrfid);
@@ -133,34 +129,6 @@ namespace FoodandBeverage.Forms
             this.label1.TabIndex = 282;
             this.label1.Text = "Welcome Back";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtPwd
-            // 
-            this.txtPwd.BackColor = System.Drawing.Color.White;
-            this.txtPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPwd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPwd.ForeColor = System.Drawing.Color.DarkGray;
-            this.txtPwd.Location = new System.Drawing.Point(21, 85);
-            this.txtPwd.Multiline = true;
-            this.txtPwd.Name = "txtPwd";
-            this.txtPwd.Size = new System.Drawing.Size(28, 38);
-            this.txtPwd.TabIndex = 1;
-            this.txtPwd.Visible = false;
-            // 
-            // txtUserName
-            // 
-            this.txtUserName.BackColor = System.Drawing.Color.White;
-            this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUserName.ForeColor = System.Drawing.Color.DarkGray;
-            this.txtUserName.Location = new System.Drawing.Point(21, 128);
-            this.txtUserName.Margin = new System.Windows.Forms.Padding(0);
-            this.txtUserName.Multiline = true;
-            this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(28, 38);
-            this.txtUserName.TabIndex = 0;
-            this.txtUserName.Tag = "";
-            this.txtUserName.Visible = false;
             // 
             // btnrfid
             // 
@@ -614,11 +582,11 @@ namespace FoodandBeverage.Forms
             this.txt_password.Placeholder = "Password";
             this.txt_password.Size = new System.Drawing.Size(269, 46);
             this.txt_password.TabIndex = 261;
-            this.txt_password.Click += new System.EventHandler(this.txtPwd_Click);
-            this.txt_password.Enter += new System.EventHandler(this.txtPwd_Enter);
-            this.txt_password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPwd_KeyDown);
-            this.txt_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPwd_KeyPress);
-            this.txt_password.Leave += new System.EventHandler(this.txtPwd_Leave);
+            this.txt_password.Click += new System.EventHandler(this.txt_password_Click);
+            this.txt_password.Enter += new System.EventHandler(this.txt_password_Enter);
+            this.txt_password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_password_KeyDown);
+            this.txt_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_password_KeyPress);
+            this.txt_password.Leave += new System.EventHandler(this.txt_password_Leave);
             // 
             // txt_username
             // 
@@ -637,11 +605,11 @@ namespace FoodandBeverage.Forms
             this.txt_username.Placeholder = "Username";
             this.txt_username.Size = new System.Drawing.Size(269, 46);
             this.txt_username.TabIndex = 260;
-            this.txt_username.Click += new System.EventHandler(this.txtUserName_Click);
-            this.txt_username.Enter += new System.EventHandler(this.txtusername_Enter);
-            this.txt_username.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);
-            this.txt_username.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUserName_KeyPress);
-            this.txt_username.Leave += new System.EventHandler(this.txtusername_Leave);
+            this.txt_username.Click += new System.EventHandler(this.txt_username_Click);
+            this.txt_username.Enter += new System.EventHandler(this.txt_username_Enter);
+            this.txt_username.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_username_KeyDown);
+            this.txt_username.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_username_KeyPress);
+            this.txt_username.Leave += new System.EventHandler(this.txt_username_Leave);
             // 
             // FrmLogin
             // 
@@ -683,12 +651,10 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
-        private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.Button btnlogin;
         private System.Windows.Forms.Button btncancel;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel pnlloginbox;
-        private System.Windows.Forms.TextBox txtPwd;
         private System.Windows.Forms.Button btnrfid;
         private System.Windows.Forms.PictureBox pblogo;
         private System.Windows.Forms.Panel Pnl_wifiPopup;
