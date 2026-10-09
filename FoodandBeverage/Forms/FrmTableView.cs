@@ -109,7 +109,6 @@ namespace FoodandBeverage.Forms
 
         private sealed class TableCardBinding
         {
-            public ModernTableCard Card;
             public bool IsReservation;
             public bool IsReservationReady;
             public bool IsExpiredReservation;
@@ -269,7 +268,7 @@ namespace FoodandBeverage.Forms
                 {
                     ModernTableCard card = CreateEmptyTableCard();
                     reusablePanels.Add(card);
-                    tableUIRefs[card] = new TableCardBinding { Card = card };
+                    tableUIRefs[card] = new TableCardBinding();
                     flp_tableview.Controls.Add(card);
                 }
             }
