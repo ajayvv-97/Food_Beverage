@@ -27,7 +27,8 @@ namespace FoodandBeverage.Forms
 
             // Keep the visible modern fields connected to the existing login logic.
             modernTextBox1.Placeholder = "Username";
-            modernTextBox1.ShowIcon = false;
+            modernTextBox1.ShowIcon = true;
+            modernTextBox1.IconText = "\\uE77B";
             modernTextBox1.CornerRadius = 11;
             modernTextBox1.Size = new Size(286, 48);
             modernTextBox1.TextChanged += delegate
@@ -37,7 +38,8 @@ namespace FoodandBeverage.Forms
             };
 
             modernTextBox2.Placeholder = "Password";
-            modernTextBox2.ShowIcon = false;
+            modernTextBox2.ShowIcon = true;
+            modernTextBox2.IconText = "\\uE72E";
             modernTextBox2.UsePassword = true;
             modernTextBox2.CornerRadius = 11;
             modernTextBox2.Size = new Size(286, 48);
