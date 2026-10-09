@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using FoodandBeverage.Interfaces;
 using System.Threading;
 using FoodandBeverage.Classes;
-using System.Windows.Forms;
 using System.Configuration;
 using System.Diagnostics;
 
@@ -817,8 +816,6 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-        #endregion
-
         #endregion // Modern Table View
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -838,6 +835,133 @@ namespace FoodandBeverage.Forms
             }
             base.OnFormClosing(e);
         }
+        private void btnclose_Click(object sender, EventArgs e)
+        {
+            FrmDashboard.Instance.Menuhome.PerformClick();
+            Close();
+        }
+
+        private void btn_refresh_Click(object sender, EventArgs e)
+        {
+            currentPage = 1;
+            categoryId = 0;
+            categorystatus = 0;
+            SearchModetype = 0;
+            flp_sidemenu.Visible = false;
+            txttablecode_search.Clear();
+            LoadTableStatus(0);
+        }
+
+        private void FrmTableView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            clsgen.Memoryrelease();
+            if (FrmDashboard.AutoLogoutWhenIdle)
+                AppSession.UnregisterForm(this);
+
+            if (menuTooltip != null)
+                menuTooltip.RemoveAll();
+            if (menuButtonImage != null)
+            {
+                menuButtonImage.Dispose();
+                menuButtonImage = null;
+            }
+        }
+
+        private void FrmTableView_Resize(object sender, EventArgs e)
+        {
+            // FlowLayoutPanel performs wrapping itself; keep the current cards and avoid rebuilding them.
+            if (flp_tableview != null)
+            {
+                flp_tableview.WrapContents = true;
+                flp_tableview.PerformLayout();
+            }
+
+            if (flp_sidemenu != null && flp_sidemenu.Visible)
+                flp_sidemenu.Height = Math.Max(120, (int)(ClientSize.Height * 0.5));
+        }
+
+        private void btn_showmenu_Click(object sender, EventArgs e)
+        {
+            flp_sidemenu.Visible = !flp_sidemenu.Visible;
+            if (!flp_sidemenu.Visible)
+                return;
+
+            if (flp_sidemenu.Controls.Count == 0)
+            {
+                flp_sidemenu.SuspendLayout();
+                try
+                {
+                    flp_sidemenu.FlowDirection = FlowDirection.TopDown;
+                    flp_sidemenu.WrapContents = false;
+                    flp_sidemenu.AutoScroll = true;
+                    flp_sidemenu.BackColor = Color.FromArgb(32, 41, 58);
+                    flp_sidemenu.Width = Math.Max(180, btn_showmenu.Width);
+                    flp_sidemenu.Height = Math.Max(120, (int)(ClientSize.Height * 0.5));
+
+                    AddTableCategoryButton("All tables", 0, false);
+
+                    BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
+                    DmnSearch query = new DmnSearch
+                    {
+                        Select = "Fcid,CategoryName",
+                        Table = "tblCategory_FTI",
+                        WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 1",
+                        OrderBy = ""
+                    };
+
+                    var categories = bllSearch.GetSearchData("prdSearch", query);
+                    if (categories != null)
+                    {
+                        foreach (var category in categories)
+                            AddTableCategoryButton(category.CategoryName, category.Fcid, true);
+                    }
+                }
+                finally
+                {
+                    flp_sidemenu.ResumeLayout(true);
+                }
+            }
+
+            flp_sidemenu.BringToFront();
+        }
+
+        private void AddTableCategoryButton(string caption, int id, bool isCategory)
+        {
+            var button = new Button
+            {
+                Name = isCategory ? "btnTableCategory_" + id : "btnTableCategory_All",
+                Tag = id,
+                Text = caption,
+                Width = Math.Max(160, flp_sidemenu.ClientSize.Width - 24),
+                Height = 38,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.FromArgb(43, 54, 73),
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(10, 0, 4, 0),
+                Cursor = Cursors.Hand
+            };
+            button.FlatAppearance.BorderSize = 0;
+            button.FlatAppearance.MouseOverBackColor = Color.FromArgb(58, 75, 100);
+            button.Click += SideMenuClick;
+            menuTooltip.SetToolTip(button, caption);
+            flp_sidemenu.Controls.Add(button);
+        }
+
+        private void SideMenuClick(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null)
+                return;
+
+            categoryId = Convert.ToInt32(button.Tag);
+            categorystatus = categoryId == 0 ? 0 : 1;
+            currentPage = 1;
+            flp_sidemenu.Visible = false;
+            LoadTableStatus(0);
+        }
+
         public void CheckexpireTable(int tid, int Bmid)
         {
             try
