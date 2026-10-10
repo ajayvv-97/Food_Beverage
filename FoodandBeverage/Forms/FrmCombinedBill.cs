@@ -782,17 +782,14 @@ namespace FoodandBeverage.Forms
                     var itemToRemove = CheckedtableNames.FirstOrDefault(x => x.Ordermasterid == orderMasterId);
                     if (itemToRemove != null)
                         CheckedtableNames.Remove(itemToRemove);
-
                     cmb_tbl_names.Items.Remove(pkid > 0 ? pkid.ToString() : tableCode);
                 }
 
+                string amount = tableAmountCache.TryGetValue(tid, out string currentAmount)
+                    ? currentAmount : string.Empty;
                 card.SetBillData(
-                    tableCode,
-                    ReadCardAmount(card),
-                    card.AccessibleDescription,
-                    Convert.ToInt32(card.Tag),
-                    false,
-                    selectedTableIds.Contains(tid));
+                    tableCode, amount, card.AccessibleDescription,
+                    Convert.ToInt32(card.Tag), false, selectedTableIds.Contains(tid));
 
                 UpdateSelectedCountUI(pkid);
             }
@@ -817,7 +814,6 @@ namespace FoodandBeverage.Forms
                 cmb_tbl_names.Visible = true;
                 if (cmb_tbl_names.Items.Count > 0 && cmb_tbl_names.SelectedIndex < 0)
                     cmb_tbl_names.SelectedIndex = 0;
-
                 lbl_tbl_totalcount.Text = pkid > 0
                     ? "Pickup Orders : " + count
                     : "Total Tables : " + count;
