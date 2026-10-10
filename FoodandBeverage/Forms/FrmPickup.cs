@@ -57,6 +57,7 @@ namespace FoodandBeverage.Forms
             {
                 //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
             }
+            ConfigurePickupCardHost();
             LoadPickupView(Searchmode);
             ShowEmptyOrderIcon();
             textb_shape();
@@ -64,6 +65,44 @@ namespace FoodandBeverage.Forms
             txtPkid_search.ForeColor = Color.DarkGray;
         }
        
+
+        private void ConfigurePickupCardHost()
+        {
+            flp_pickup_view.Dock = DockStyle.Fill;
+            flp_pickup_view.AutoScroll = true;
+            flp_pickup_view.WrapContents = true;
+            flp_pickup_view.FlowDirection = FlowDirection.LeftToRight;
+            flp_pickup_view.Resize -= flp_pickup_view_ResponsiveResize;
+            flp_pickup_view.Resize += flp_pickup_view_ResponsiveResize;
+            ResizePickupCards();
+        }
+
+        private void flp_pickup_view_ResponsiveResize(object sender, EventArgs e)
+        {
+            ResizePickupCards();
+        }
+
+        private void ResizePickupCards()
+        {
+            if (flp_pickup_view.ClientSize.Width <= 0)
+                return;
+
+            int availableWidth = Math.Max(132, flp_pickup_view.ClientSize.Width -
+                flp_pickup_view.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 8);
+            int columns = availableWidth >= 1100 ? 5 : availableWidth >= 850 ? 4 :
+                availableWidth >= 620 ? 3 : availableWidth >= 400 ? 2 : 1;
+            int cardWidth = Math.Max(132, (availableWidth - columns * 18) / columns);
+            int cardHeight = Math.Max(95, Math.Min(120, (int)(cardWidth * 0.78)));
+
+            foreach (Control control in flp_pickup_view.Controls)
+            {
+                if (control is ModernPickupCard)
+                {
+                    control.Size = new Size(cardWidth, cardHeight);
+                    control.Margin = new Padding(5, 5, 5, 5);
+                }
+            }
+        }
 
         private void ShowEmptyOrderIcon()
         {
@@ -233,8 +272,10 @@ namespace FoodandBeverage.Forms
                     }
                     PickupCache[item.Field3].Card.Visible = true;
                 }
-                flp_pickup_view.ResumeLayout();
-                AutoTimer.Start();
+                flp_pickup_view.ResumeLayout(true);
+                ResizePickupCards();
+                ShowEmptyOrderIcon();
+                if (!AutoTimer.Enabled) AutoTimer.Start();
             }
             catch (Exception ex)
             {
@@ -249,8 +290,9 @@ namespace FoodandBeverage.Forms
                 {
                     Name = "tlpboxpkup_add_" + Convert.ToString(item.Field3),
                     Tag = item.Field3,
-                    Size = new Size(140, 110),
-                    Margin = new Padding(15, 10, 15, 10),
+                    Size = new Size(150, 110),
+                    MinimumSize = new Size(132, 95),
+                    Margin = new Padding(5, 5, 5, 5),
                     AccessibleDescription = Convert.ToString(item.Field1),
                     AccessibleName = "0",
                     Visible = false
@@ -447,8 +489,10 @@ namespace FoodandBeverage.Forms
                     PickupCache[item.Field3].Card.Visible = true;
                 }
 
-                flp_pickup_view.ResumeLayout();
-                AutoTimer.Start();
+                flp_pickup_view.ResumeLayout(true);
+                ResizePickupCards();
+                ShowEmptyOrderIcon();
+                if (!AutoTimer.Enabled) AutoTimer.Start();
             }
             catch (Exception ex)
             {
@@ -641,8 +685,10 @@ namespace FoodandBeverage.Forms
                     tlp.Visible = true;
                 }
 
-                flp_pickup_view.ResumeLayout();
-                AutoTimer.Start();
+                flp_pickup_view.ResumeLayout(true);
+                ResizePickupCards();
+                ShowEmptyOrderIcon();
+                if (!AutoTimer.Enabled) AutoTimer.Start();
             }
             catch (Exception ex)
             {
