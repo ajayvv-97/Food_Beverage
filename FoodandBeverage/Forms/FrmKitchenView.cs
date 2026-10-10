@@ -185,7 +185,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                GC.Collect();
                 SetEmptyIcon();
                 //+ " and p.PreparationMode ="+ Convert.ToInt32(PreparationType.kitchen);
 
@@ -269,6 +268,9 @@ namespace FoodandBeverage.Forms
                         if (dead != null && dead.CardPanel != null)
                         {
                             flp_order_view.Controls.Remove(dead.CardPanel);
+                            if (dead.Grid != null)
+                                orderbox.RemoveAll(x => string.Equals(
+                                    x.datagridviewname, dead.Grid.Name, StringComparison.OrdinalIgnoreCase));
                             dead.CardPanel.Dispose();
                         }
                     }
@@ -473,6 +475,15 @@ namespace FoodandBeverage.Forms
                 cache.BtnReprint = reprintButton;
                 cache.CreatedTime = details[0].Fielddatetime;
                 cache.CancelStatus = Convert.ToInt32(details[0].Field27);
+
+                orderbox.RemoveAll(x => string.Equals(
+                    x.datagridviewname, grid.Name, StringComparison.OrdinalIgnoreCase));
+                orderbox.Add(new datagrid
+                {
+                    Id = Convert.ToInt32(details[0].Field8),
+                    datagridviewname = grid.Name,
+                    createtime = details[0].Fielddatetime
+                });
 
                 UpdateGridFull(grid, details);
                 if (waitingForCustomer)
@@ -3096,8 +3107,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                GC.Collect();
-
                 refreshtimer.Stop();
 
                 SetEmptyIcon();
@@ -3138,6 +3147,9 @@ namespace FoodandBeverage.Forms
                             cachedCard == null || cachedCard.CardPanel == null ||
                             !preserveNameSet.Contains(cachedCard.CardPanel.Name))
                         {
+                            if (cachedCard != null && cachedCard.Grid != null)
+                                orderbox.RemoveAll(x => string.Equals(
+                                    x.datagridviewname, cachedCard.Grid.Name, StringComparison.OrdinalIgnoreCase));
                             KitchenCardCache.Remove(cacheKey);
                         }
                     }
@@ -3149,7 +3161,6 @@ namespace FoodandBeverage.Forms
                         {
                             flp_order_view.Controls.Remove(control);
                             control.Dispose();
-                            clsgen.Memoryrelease();
                         }
                         l = l + 1;
                     }
