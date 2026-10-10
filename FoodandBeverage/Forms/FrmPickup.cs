@@ -6,6 +6,7 @@ using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Interfaces;
 using FoodandBeverage.Classes;
+using FoodandBeverage.Controls;
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing.Drawing2D;
@@ -39,7 +40,7 @@ namespace FoodandBeverage.Forms
         int totalPages = 0;
         private List<DmnGridFields> TableData;
         private List<DmnGridFields> pagedatadata;
-        private Dictionary<string, (TableLayoutPanel Panel, int Status)> PickupCache = new Dictionary<string, (TableLayoutPanel, int)>();
+        private Dictionary<string, (ModernPickupCard Card, int Status)> PickupCache = new Dictionary<string, (ModernPickupCard, int)>();
 
         #endregion
         public FrmPickup(int type)
@@ -213,22 +214,24 @@ namespace FoodandBeverage.Forms
 
                 foreach (var item in pagedatadata)
                 {
-                    (TableLayoutPanel Panel, int Status) cacheItem;
+                    (ModernPickupCard Card, int Status) cacheItem;
                     int status = Convert.ToInt32(item.Field7);
 
                     if (PickupCache.TryGetValue(item.Field3, out cacheItem))
                     {
-                        UpdatePickupPanel(cacheItem.Panel, item);
-                        PickupCache[item.Field3] = (cacheItem.Panel, status);
+                        UpdatePickupCard(cacheItem.Card, item);
+                        PickupCache[item.Field3] = (cacheItem.Card, status);
                     }
                     else
                     {
-                        var panel = CreatePickupPanel(item);
-                        PickupCache[item.Field3] = (panel, status);
-                        UpdatePickupPanel(panel, item);
-                        flp_pickup_view.Controls.Add(panel);
+                        var card = CreatePickupCard(item);
+                        if (card == null)
+                            continue;
+                        PickupCache[item.Field3] = (card, status);
+                        UpdatePickupCard(card, item);
+                        flp_pickup_view.Controls.Add(card);
                     }
-                    PickupCache[item.Field3].Panel.Visible = true;
+                    PickupCache[item.Field3].Card.Visible = true;
                 }
                 flp_pickup_view.ResumeLayout();
                 AutoTimer.Start();
@@ -238,137 +241,111 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Pickuppage LoadPickupView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
         }
-        private TableLayoutPanel CreatePickupPanel(DmnGridFields item)
+        private ModernPickupCard CreatePickupCard(DmnGridFields item)
         {
             try
             {
-                TableLayoutPanel tlp = new TableLayoutPanel
+                ModernPickupCard card = new ModernPickupCard
                 {
-                    RowCount = 2,
-                    Name = "tlpboxpkup_add_" + item.Field3,
+                    Name = "tlpboxpkup_add_" + Convert.ToString(item.Field3),
                     Tag = item.Field3,
-                    BackColor = Color.White,
+                    Size = new Size(140, 110),
                     Margin = new Padding(15, 10, 15, 10),
-                    AccessibleName = "0"
+                    AccessibleDescription = Convert.ToString(item.Field1),
+                    AccessibleName = "0",
+                    Visible = false
                 };
 
-                tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-                tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-
-                Label lblName = new Label
-                {
-                    Name = "lbtablename_pkup_" + item.Field3,
-                    Dock = DockStyle.Fill,
-                    Tag = item.Field3,
-                    Font = new Font("Arial", 10, FontStyle.Bold),
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    BackColor = Color.Transparent,
-                    AccessibleName = "0"
-                };
-
-                Label lblAmount = new Label
-                {
-                    Name = "lb_netamount_pkup_" + item.Field3,
-                    Dock = DockStyle.Fill,
-                    Tag = item.Field3,
-                    Font = new Font("Arial", 10, FontStyle.Bold),
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    BackColor = Color.Transparent,
-                    AccessibleName = "0"
-                };
-
-
-                tlp.Controls.Add(lblName, 0, 0);
-                tlp.Controls.Add(lblAmount, 0, 1);
-
-
-                tlp.Click += PickupboxClickEventHandler;
-                lblName.Click += PickupboxClickEventHandler;
-                lblAmount.Click += PickupboxClickEventHandler;
-
-                return tlp;
+                card.Click += PickupboxClickEventHandler;
+                return card;
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage CreatePickupPanel()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                clsgen.LogException("Pickuppage CreatePickupCard()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
                 return null;
             }
         }
-        private void UpdatePickupPanel(TableLayoutPanel tlp, DmnGridFields item)
+
+        private void UpdatePickupCard(ModernPickupCard card, DmnGridFields item, bool useSourceKitchenCancelFlag = true)
         {
             try
             {
-            Label lblName = tlp.Controls[0] as Label;
-            Label lblAmount = tlp.Controls[1] as Label;
+                if (card == null || item == null)
+                    return;
 
-            lblName.Text = "Pick Up\n" + item.Field6;
+                BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
+                DmnSearch statusQuery = new DmnSearch
+                {
+                    Select =
+                        "CASE WHEN SUM(CASE WHEN Status <> 1 THEN 1 ELSE 0 END) > 0 THEN 1 ELSE 0 END AS Field1," +
+                        "SUM(CASE WHEN Status = 0 AND AddonStatus IN(1,0) AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field2",
+                    Table = "tblOrderDetails",
+                    WhereNdGroupBy = "WHERE AddonStatus in (1,0) AND OrderMasterId=" + item.Field3
+                };
 
+                var grid = bllSearch_order.GetSearchData("prdSearch", statusQuery);
+                int orderStatus = grid != null && grid.Count > 0 ? Convert.ToInt32(grid[0].Field1) : 0;
+                int cancelCount = grid != null && grid.Count > 0 ? Convert.ToInt32(grid[0].Field2) : 0;
+                bool cancelledByKitchen = useSourceKitchenCancelFlag && Convert.ToInt32(item.Field7) == 1;
 
-            BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-            DmnSearch dmnSearch = new DmnSearch();
+                card.Tag = item.Field3;
+                card.AccessibleDescription = Convert.ToString(item.Field1);
+                card.AccessibleName = cancelledByKitchen ? "1" : "0";
+                card.SetPickupData(
+                    Convert.ToString(item.Field6),
+                    orderStatus,
+                    cancelCount,
+                    cancelledByKitchen);
 
-            dmnSearch.Select =
-                "CASE WHEN SUM(CASE WHEN Status<> 1 THEN 1 ELSE 0 END) > 0 THEN 1 ELSE 0 END AS Field1," +
-                "SUM(CASE WHEN Status = 0 AND AddonStatus IN(1,0) AND CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field2";
-
-            dmnSearch.Table = "tblOrderDetails";
-            dmnSearch.WhereNdGroupBy =
-                "WHERE AddonStatus in (1,0) AND OrderMasterId=" + item.Field3;
-
-            var grid = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-
-            int status = Convert.ToInt32(grid[0].Field1);
-            int cancelCount = Convert.ToInt32(grid[0].Field2);
-
-            // Order Status Coloring
-            if (status == 1)
-            {
-                lblAmount.Text = "Paid\nCooking Started";
-                tlp.BackColor = BillingColor;
-            }
-            else
-            {
-                lblAmount.Text = "Paid\nOrder Sent";
-                tlp.BackColor = Color.White;
-            }
-
-            if (cancelCount > 0)
-            {
-                tlp.BackColor = CancelProduct_order;
-            }
-
-
-            if (Convert.ToInt32(item.Field7) == 1)
-            {
-                tlp.BackColor = CancelProduct_order;
-                lblAmount.TextAlign = ContentAlignment.TopLeft;
-                lblAmount.Text = "Cancelled by Kitchen";
-                lblAmount.Visible = true;
-
-                tlp.AccessibleName = "1";
-                lblName.AccessibleName = "1";
-                lblAmount.AccessibleName = "1";
-            }
-            else
-            {
-                
-                lblAmount.TextAlign = ContentAlignment.MiddleCenter;
-                lblName.AccessibleName = "0";
-                tlp.AccessibleName = "0";
-                lblAmount.AccessibleName = "0";
-            }
-
-            tlp.Width = 140;
-            tlp.Height = 110;
-
-            UIHelper.RoundCorners(tlp, 25, null);
-
+                card.Name = "tlpboxpkup_add_" + Convert.ToString(item.Field3);
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage UpdatePickupPanel()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                clsgen.LogException("Pickuppage UpdatePickupCard()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
         }
+
+        private void DisplayPickupSearchResults(List<DmnGridFields> results)
+        {
+            flp_pickup_view.SuspendLayout();
+
+            try
+            {
+                foreach (Control control in flp_pickup_view.Controls.Cast<Control>().ToList())
+                {
+                    if (control is ModernPickupCard ||
+                        control.Name.StartsWith("tlpboxpkup_add_", StringComparison.Ordinal))
+                    {
+                        flp_pickup_view.Controls.Remove(control);
+                        control.Dispose();
+                    }
+                }
+
+                PickupCache.Clear();
+
+                foreach (DmnGridFields item in results ?? new List<DmnGridFields>())
+                {
+                    ModernPickupCard card = CreatePickupCard(item);
+                    if (card == null)
+                        continue;
+
+                    UpdatePickupCard(card, item, false);
+                    card.Visible = true;
+
+                    int sourceStatus;
+                    int.TryParse(Convert.ToString(item.Field7), out sourceStatus);
+                    PickupCache[Convert.ToString(item.Field3)] = (card, sourceStatus);
+                    flp_pickup_view.Controls.Add(card);
+                }
+            }
+            finally
+            {
+                flp_pickup_view.ResumeLayout(true);
+            }
+        }
+
         public void UpdatePickupView(int searchMode)
         {
             try
@@ -450,22 +427,24 @@ namespace FoodandBeverage.Forms
 
                 foreach (var item in pagedatadata)
                 {
-                    (TableLayoutPanel Panel, int Status) cacheItem;
+                    (ModernPickupCard Card, int Status) cacheItem;
                     int status = Convert.ToInt32(item.Field7);
 
                     if (PickupCache.TryGetValue(item.Field3, out cacheItem))
                     {
-                        UpdatePickupPanel(cacheItem.Panel, item);
-                        PickupCache[item.Field3] = (cacheItem.Panel, status);
+                        UpdatePickupCard(cacheItem.Card, item);
+                        PickupCache[item.Field3] = (cacheItem.Card, status);
                     }
                     else
                     { 
-                        var panel = CreatePickupPanel(item);
-                        PickupCache[item.Field3] = (panel, status);
-                        UpdatePickupPanel(panel, item);
-                        flp_pickup_view.Controls.Add(panel);
+                        var card = CreatePickupCard(item);
+                        if (card == null)
+                            continue;
+                        PickupCache[item.Field3] = (card, status);
+                        UpdatePickupCard(card, item);
+                        flp_pickup_view.Controls.Add(card);
                     }
-                    PickupCache[item.Field3].Panel.Visible = true;
+                    PickupCache[item.Field3].Card.Visible = true;
                 }
 
                 flp_pickup_view.ResumeLayout();
@@ -1127,42 +1106,45 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                AutoTimer.Stop();
                 Control clickedControl = sender as Control;
-                int pkid = Convert.ToInt32(clickedControl.AccessibleDescription);
-                int Cancelorderstatus = Convert.ToInt32(clickedControl.AccessibleName);
-                if (clickedControl != null)
+                if (clickedControl == null)
+                    return;
+
+                AutoTimer.Stop();
+
+                int cancelOrderStatus;
+                if (!int.TryParse(clickedControl.AccessibleName, out cancelOrderStatus))
+                    cancelOrderStatus = 0;
+
+                if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
+                    // Reuse the existing order console behavior when it is already open.
+                    // The current form's existing modal/navigation flow remains unchanged.
+                }
+                else if (clickedControl.Tag != null)
+                {
+                    using (FrmOrderConsole orderConsole = new FrmOrderConsole(
+                        0,
+                        Convert.ToInt32(DashboardTableType.PickupOrder),
+                        0,
+                        CheckedtableNames,
+                        Convert.ToInt32(PageType.Billpage),
+                        Convert.ToInt32(clickedControl.Tag),
+                        Convert.ToInt32(SourcepageType.Pickuppage),
+                        cancelOrderStatus))
                     {
-                        //FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
-                        //if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                        //{
-                        //    _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                        //}
-                        //else
-                        //{
-                        //    _instanceFrmOrder.ShowDialog();
-                        //}
-                    }
-                    else
-                    {
-                        if (clickedControl.Tag != null)
-                        {
-                            using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), Convert.ToInt32(clickedControl.Tag), Convert.ToInt32(SourcepageType.Pickuppage), Cancelorderstatus))
-                            {
-                                _instanceFrmOrder.ShowDialog();
-                            }
-                        }
+                        orderConsole.ShowDialog();
                     }
                 }
-
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage page  PickupboxClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                clsgen.LogException("Pickuppage page PickupboxClickEventHandler()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Pickuppage));
             }
         }
+
         private void btnaddnew_Click(object sender, EventArgs e)
         {
             try
@@ -1241,149 +1223,7 @@ namespace FoodandBeverage.Forms
                         if (TableData.Count == 0)
                             return;
 
-                        #region Clear existing controls (except Add New)
-                        string addbuttonname = "tlp_addnew";
-
-                        foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToArray())
-                        {
-                            if (ctrl.Name != addbuttonname)
-                            {
-                                flp_pickup_view.Controls.Remove(ctrl);
-                                ctrl.Dispose();
-                            }
-                        }
-                        #endregion
-
-                        flp_pickup_view.SuspendLayout();
-
-                        foreach (var item in TableData)
-                        {
-                            // MAIN PANEL
-                            TableLayoutPanel tlp = new TableLayoutPanel
-                            {
-                                RowCount = 2,
-                                Name = "tlpboxpkup_add_" + item.Field3,
-                                Tag = item.Field3,
-                                BorderStyle = BorderStyle.None,
-                                Dock = DockStyle.Top,
-                                Margin = new Padding(15, 10, 15, 10),
-                                AccessibleDescription = item.Field1,
-                                BackColor = Color.White,
-                                Visible = false
-                            };
-
-                            tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                            tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-                            // LABEL 1: Name
-                            Label lblName = new Label
-                            {
-                                Name = "lbtablename_pkup_" + item.Field3,
-                                Tag = item.Field3,
-                                Text = "Pick Up \n " + item.Field6,
-                                ForeColor = Defaultfontcolor,
-                                BackColor = Color.Transparent,
-                                Font = new Font("Arial", 10, FontStyle.Bold),
-                                Dock = DockStyle.Fill,
-                                TextAlign = ContentAlignment.TopCenter,
-                                AccessibleDescription = item.Field1,
-                            };
-
-                            // LABEL 2: Amount
-                            Label lblAmount = new Label
-                            {
-                                Name = "lb_netamount_pkup_" + item.Field3,
-                                Tag = item.Field3,
-                                //Text = "\u20B9" + Convert.ToString(item.Field4),
-                                ForeColor = Netamountfontcolor,
-                                BackColor = Color.Transparent,
-                                Font = new Font("Arial", 10, FontStyle.Bold),
-                                Dock = DockStyle.Fill,
-                                Visible = false,
-                                TextAlign = ContentAlignment.MiddleCenter,
-                                AccessibleDescription = item.Field1
-                            };
-
-                            #region Order Complete Check - Show Amount
-                            BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                            dmnSearch.Select = "CASE WHEN SUM(CASE WHEN Status<> 1 THEN 1 ELSE 0 END) > 0 THEN 1   ELSE 0 END AS Field1, SUM(CASE WHEN Status = 0 AND AddonStatus IN(1, 0)  AND CancelNotifyStatus = 1  THEN 1   ELSE 0  END ) AS Field2";
-                            dmnSearch.Table = "tblOrderDetails";
-                            dmnSearch.WhereNdGroupBy = "WHERE  AddonStatus in (1,0) AND OrderMasterId=" + item.Field3;
-                            dmnSearch.OrderBy = "";
-                            var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-                            int status = Convert.ToInt32(gridSource_order[0].Field1);
-
-                            if (status == 1)
-                            {
-                                lblAmount.Visible = true;
-                                tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
-                                tlp.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
-
-                                lblAmount.Dock = DockStyle.Fill;
-                                lblAmount.TextAlign = ContentAlignment.MiddleCenter;
-                                lblAmount.Text = "Paid " + Environment.NewLine + " cooking started";
-                                //lblAmount.Text = "\u20B9" + Convert.ToString(item.Field4);
-                                lblName.TextAlign = ContentAlignment.MiddleCenter;
-                                lblName.Dock = DockStyle.Fill;
-                            }
-                            else
-                            {
-                                lblAmount.Visible = true;
-                                tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
-                                tlp.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
-
-                                lblName.Dock = DockStyle.Fill;
-                                lblName.TextAlign = ContentAlignment.MiddleCenter;
-                                //lblAmount.Text = "";
-                                lblAmount.Text = "Paid " + Environment.NewLine + " Order Sent";
-                            }
-                            if (Convert.ToInt32(gridSource_order[0].Field2) > 0)
-                            {
-                                //btnCancelCount.Visible = true;
-                                //btnCancelCount.Text = gridSource_order[0].Field3;
-                                tlp.BackColor = CancelProduct_order;
-
-                            }
-                            else
-                            {
-                                //btnCancelCount.Visible = false;
-                                if (status == 1)
-                                    tlp.BackColor = BillingColor;
-                            }
-                            #endregion
-
-                            #region Size Settings
-                            if (screenWidth > 1366)
-                            {
-                                tlp.Width = 300;
-                                tlp.Height = 100;
-                            }
-                            else
-                            {
-                                tlp.Width = 120;
-                                tlp.Height = 100;
-                            }
-                            #endregion
-
-                            #region Rounded Corners (Safe, No Leak)
-                            UIHelper.RoundCorners(tlp, 25);
-                            #endregion
-
-                            // ADD CONTROLS
-                            tlp.Controls.Add(lblName, 0, 0);
-                            tlp.Controls.Add(lblAmount, 0, 1);
-
-                            // CLICK EVENTS
-                            EventHandler ev = new EventHandler(PickupboxClickEventHandler);
-                            lblName.Click += ev;
-                            lblAmount.Click += ev;
-                            tlp.Click += ev;
-
-                            flp_pickup_view.Controls.Add(tlp);
-                            tlp.Visible = true;
-                        }
-
-                        flp_pickup_view.ResumeLayout();
+                                DisplayPickupSearchResults(TableData);
                     }
                     else
                     {
@@ -1440,149 +1280,7 @@ namespace FoodandBeverage.Forms
                         if (TableData.Count == 0)
                             return;
 
-                        #region Clear existing controls (except Add New)
-                        string addbuttonname = "tlp_addnew";
-
-                        foreach (Control ctrl in flp_pickup_view.Controls.Cast<Control>().ToArray())
-                        {
-                            if (ctrl.Name != addbuttonname)
-                            {
-                                flp_pickup_view.Controls.Remove(ctrl);
-                                ctrl.Dispose();
-                            }
-                        }
-                        #endregion
-
-                        flp_pickup_view.SuspendLayout();
-
-                        foreach (var item in TableData)
-                        {
-                            // MAIN PANEL
-                            TableLayoutPanel tlp = new TableLayoutPanel
-                            {
-                                RowCount = 2,
-                                Name = "tlpboxpkup_add_" + item.Field3,
-                                Tag = item.Field3,
-                                BorderStyle = BorderStyle.None,
-                                Dock = DockStyle.Top,
-                                Margin = new Padding(15, 10, 15, 10),
-                                AccessibleDescription = item.Field1,
-                                BackColor = Color.White,
-                                Visible = false
-                            };
-
-                            tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                            tlp.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-                            // LABEL 1: Name
-                            Label lblName = new Label
-                            {
-                                Name = "lbtablename_pkup_" + item.Field3,
-                                Tag = item.Field3,
-                                Text = "Pick Up \n " + item.Field6,
-                                ForeColor = Defaultfontcolor,
-                                BackColor = Color.Transparent,
-                                Font = new Font("Arial", 10, FontStyle.Bold),
-                                Dock = DockStyle.Fill,
-                                TextAlign = ContentAlignment.TopCenter,
-                                AccessibleDescription = item.Field1,
-                            };
-
-                            // LABEL 2: Amount
-                            Label lblAmount = new Label
-                            {
-                                Name = "lb_netamount_pkup_" + item.Field3,
-                                Tag = item.Field3,
-                                //Text = "\u20B9" + Convert.ToString(item.Field4),
-                                ForeColor = Netamountfontcolor,
-                                BackColor = Color.Transparent,
-                                Font = new Font("Arial", 10, FontStyle.Bold),
-                                Dock = DockStyle.Fill,
-                                Visible = false,
-                                TextAlign = ContentAlignment.MiddleCenter,
-                                AccessibleDescription = item.Field1
-                            };
-
-                            #region Order Complete Check - Show Amount
-                            BllSearch<DmnGridFields> bllSearch_order = new BllSearch<DmnGridFields>();
-                            dmnSearch.Select = "CASE WHEN SUM(CASE WHEN Status<> 1 THEN 1 ELSE 0 END) > 0 THEN 1   ELSE 0 END AS Field1, SUM(CASE WHEN Status = 0 AND AddonStatus IN(1, 0)  AND CancelNotifyStatus = 1  THEN 1   ELSE 0  END ) AS Field2";
-                            dmnSearch.Table = "tblOrderDetails";
-                            dmnSearch.WhereNdGroupBy = "WHERE  AddonStatus in (1,0) AND OrderMasterId=" + item.Field3;
-                            dmnSearch.OrderBy = "";
-                            var gridSource_order = bllSearch_order.GetSearchData("prdSearch", dmnSearch);
-                            int status = Convert.ToInt32(gridSource_order[0].Field1);
-
-                            if (status == 1)
-                            {
-                                lblAmount.Visible = true;
-                                tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
-                                tlp.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
-
-                                lblAmount.Dock = DockStyle.Fill;
-                                lblAmount.TextAlign = ContentAlignment.MiddleCenter;
-                                lblAmount.Text = "Paid " + Environment.NewLine + " cooking started";
-                                //lblAmount.Text = "\u20B9" + Convert.ToString(item.Field4);
-                                lblName.TextAlign = ContentAlignment.MiddleCenter;
-                                lblName.Dock = DockStyle.Fill;
-                            }
-                            else
-                            {
-                                lblAmount.Visible = true;
-                                tlp.RowStyles[0] = new RowStyle(SizeType.Percent, 50);
-                                tlp.RowStyles[1] = new RowStyle(SizeType.Percent, 50);
-
-                                lblName.Dock = DockStyle.Fill;
-                                lblName.TextAlign = ContentAlignment.MiddleCenter;
-                                //lblAmount.Text = "";
-                                lblAmount.Text = "Paid " + Environment.NewLine + " Order Sent";
-                            }
-                            if (Convert.ToInt32(gridSource_order[0].Field2) > 0)
-                            {
-                                //btnCancelCount.Visible = true;
-                                //btnCancelCount.Text = gridSource_order[0].Field3;
-                                tlp.BackColor = CancelProduct_order;
-
-                            }
-                            else
-                            {
-                                //btnCancelCount.Visible = false;
-                                if (status == 1)
-                                    tlp.BackColor = BillingColor;
-                            }
-                            #endregion
-
-                            #region Size Settings
-                            if (screenWidth > 1366)
-                            {
-                                tlp.Width = 300;
-                                tlp.Height = 100;
-                            }
-                            else
-                            {
-                                tlp.Width = 120;
-                                tlp.Height = 100;
-                            }
-                            #endregion
-
-                            #region Rounded Corners (Safe, No Leak)
-                            UIHelper.RoundCorners(tlp, 25);
-                            #endregion
-
-                            // ADD CONTROLS
-                            tlp.Controls.Add(lblName, 0, 0);
-                            tlp.Controls.Add(lblAmount, 0, 1);
-
-                            // CLICK EVENTS
-                            EventHandler ev = new EventHandler(PickupboxClickEventHandler);
-                            lblName.Click += ev;
-                            lblAmount.Click += ev;
-                            tlp.Click += ev;
-
-                            flp_pickup_view.Controls.Add(tlp);
-                            tlp.Visible = true;
-                        }
-
-                        flp_pickup_view.ResumeLayout();
+                                DisplayPickupSearchResults(TableData);
                     }
                     else
                     {

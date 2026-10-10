@@ -476,6 +476,7 @@
     <Compile Include="Forms\FrmPartyPackSetup.Designer.cs">
       <DependentUpon>FrmPartyPackSetup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ModernPickupCard.cs" />
     <Compile Include="Forms\FrmPickup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -542,6 +543,7 @@
     <Compile Include="Forms\FrmTableInfo.Designer.cs">
       <DependentUpon>FrmTableInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ModernTableCard.cs" />
     <Compile Include="Forms\FrmTableView.cs">
       <SubType>Form</SubType>
     </Compile>
