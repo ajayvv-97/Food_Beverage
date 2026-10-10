@@ -1034,12 +1034,14 @@ namespace FoodandBeverage.Forms
 
                 string[] parts = (card.AccessibleDescription ?? string.Empty).Split(',');
                 string tableCode = parts.Length > 3 ? parts[3] : string.Empty;
+                bool isBooking = Convert.ToInt32(card.Tag) == Convert.ToInt32(CombinedBillType.BookingBill);
+
                 card.SetBillData(
                     tableCode,
                     ReadCardAmount(card),
                     card.AccessibleDescription,
                     Convert.ToInt32(card.Tag),
-                    Convert.ToInt32(card.Tag) == Convert.ToInt32(CombinedBillType.BookingBill),
+                    isBooking,
                     false);
             }
 
