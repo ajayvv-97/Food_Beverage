@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace FoodandBeverage.Controls
 {
-    internal enum KitchenOrderVisualState
+    public enum KitchenOrderVisualState
     {
         NewOrder,
         InProgress,
@@ -18,7 +18,7 @@ namespace FoodandBeverage.Controls
     /// kitchen handlers and Controls.Find lookups continue to work, while keeping all
     /// order controls directly on one container instead of nested header/button/description panels.
     /// </summary>
-    internal sealed class ModernKitchenOrderCard : TableLayoutPanel
+    public sealed class ModernKitchenOrderCard : TableLayoutPanel
     {
         private Color accentColor = Color.FromArgb(56, 112, 186);
         private Color headerColor = Color.FromArgb(60, 90, 160);
@@ -165,15 +165,12 @@ namespace FoodandBeverage.Controls
             using (GraphicsPath path = CreateRoundedPath(bounds, 13F))
             {
                 Region next = new Region(path);
-                Region previous = Region;
                 Region = next;
 
                 if (roundedRegion != null)
                     roundedRegion.Dispose();
 
                 roundedRegion = next;
-                // Region is owned by the control after assignment; do not dispose previous
-                // because WinForms may still be using its handle during resize.
             }
         }
 
@@ -181,6 +178,9 @@ namespace FoodandBeverage.Controls
         {
             if (disposing && roundedRegion != null)
             {
+                if (ReferenceEquals(Region, roundedRegion))
+                    Region = null;
+
                 roundedRegion.Dispose();
                 roundedRegion = null;
             }
