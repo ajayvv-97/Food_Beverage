@@ -1108,28 +1108,29 @@ namespace FoodandBeverage.Forms
 
                 int status = Convert.ToInt32(rowObj.Field12);
                 DataGridViewImageCell actionCell = (DataGridViewImageCell)row.Cells[dactionno];
+                Image targetActionImage;
                 if (status == 0)
                 {
-                    RowBlinkCounter[keyRow]++;
-                    if (RowBlinkCounter[keyRow] >= BlinkThreshold)
-                    {
-                        RowBlinkCounter[keyRow] = 0;
-                        RowBlinkState[keyRow] = !RowBlinkState[keyRow];
-                    }
-
-                    row.DefaultCellStyle.BackColor =
-                        RowBlinkState[keyRow] ? Color.LightCoral : Color.White;
-                    actionCell.Value = Properties.Resources.orderview_cancelled;
+                    // Keep cancelled rows visually stable. Reassigning the image on every
+                    // refresh causes DataGridView to repaint the Action cell repeatedly,
+                    // which looks like the cancel icon is vibrating.
+                    targetActionImage = Properties.Resources.orderview_cancelled;
+                    row.DefaultCellStyle.BackColor = Color.FromArgb(255, 235, 235);
                     row.ReadOnly = true;
                 }
                 else
                 {
-                    actionCell.Value = Properties.Resources.kitchenfood_cancel_icon;
-                    if (Convert.ToInt32(rowObj.Field19) == 1)
+                    targetActionImage = Properties.Resources.kitchenfood_cancel_icon;
+                    if (Convert.ToInt32(rowObj.Field19) == 1 &&
+                        row.DefaultCellStyle.BackColor != Color.White)
                         row.DefaultCellStyle.BackColor = Color.White;
                 }
 
-                actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                if (!ReferenceEquals(actionCell.Value, targetActionImage))
+                    actionCell.Value = targetActionImage;
+
+                if (actionCell.ImageLayout != DataGridViewImageCellLayout.Zoom)
+                    actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
             }
 
             if (dgv.Columns.Count > dptypeno)
