@@ -14,14 +14,63 @@ namespace FoodandBeverage.Controls
     }
 
     /// <summary>
+    /// Compact rounded status badge used in kitchen ticket headers.
+    /// </summary>
+    public sealed class ModernKitchenStatusLabel : Label
+    {
+        public ModernKitchenStatusLabel()
+        {
+            AutoSize = false;
+            TextAlign = ContentAlignment.MiddleCenter;
+            BorderStyle = BorderStyle.None;
+            Margin = new Padding(4, 5, 4, 5);
+            Padding = new Padding(5, 0, 5, 0);
+            Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            BackColor = Color.FromArgb(238, 242, 255);
+            ForeColor = Color.FromArgb(79, 70, 229);
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            if (Width <= 0 || Height <= 0)
+                return;
+
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            using (GraphicsPath path = new GraphicsPath())
+            using (SolidBrush brush = new SolidBrush(BackColor))
+            {
+                float diameter = Math.Min(Height, Width);
+                path.AddArc(0, 0, diameter, Height, 90F, 180F);
+                path.AddArc(Width - diameter, 0, diameter, Height, 270F, 180F);
+                path.CloseFigure();
+                e.Graphics.FillPath(brush, path);
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            TextRenderer.DrawText(
+                e.Graphics,
+                Text,
+                Font,
+                ClientRectangle,
+                ForeColor,
+                TextFormatFlags.HorizontalCenter |
+                TextFormatFlags.VerticalCenter |
+                TextFormatFlags.EndEllipsis |
+                TextFormatFlags.SingleLine);
+        }
+    }
+
+    /// <summary>
     /// Rounded kitchen ticket container. It derives from TableLayoutPanel so the existing
     /// kitchen handlers and Controls.Find lookups continue to work, while keeping all
     /// order controls directly on one container instead of nested header/button/description panels.
     /// </summary>
     public sealed class ModernKitchenOrderCard : TableLayoutPanel
     {
-        private Color accentColor = Color.FromArgb(56, 112, 186);
-        private Color headerColor = Color.FromArgb(60, 90, 160);
+        private Color accentColor = Color.FromArgb(99, 102, 241);
+        private Color headerColor = Color.FromArgb(39, 52, 72);
         private Region roundedRegion;
 
         internal static readonly Font TableCodeFont = new Font("Segoe UI", 10F, FontStyle.Bold);
@@ -64,20 +113,20 @@ namespace FoodandBeverage.Controls
             switch (state)
             {
                 case KitchenOrderVisualState.WaitingForCustomer:
-                    accentColor = Color.FromArgb(208, 132, 35);
-                    headerColor = Color.FromArgb(146, 88, 21);
+                    accentColor = Color.FromArgb(217, 119, 6);
+                    headerColor = Color.FromArgb(111, 65, 22);
                     break;
                 case KitchenOrderVisualState.Ready:
-                    accentColor = Color.FromArgb(42, 151, 91);
-                    headerColor = Color.FromArgb(35, 126, 77);
+                    accentColor = Color.FromArgb(22, 133, 91);
+                    headerColor = Color.FromArgb(31, 91, 70);
                     break;
                 case KitchenOrderVisualState.InProgress:
-                    accentColor = Color.FromArgb(47, 132, 203);
-                    headerColor = Color.FromArgb(44, 96, 163);
+                    accentColor = Color.FromArgb(37, 99, 235);
+                    headerColor = Color.FromArgb(39, 52, 72);
                     break;
                 default:
-                    accentColor = Color.FromArgb(56, 112, 186);
-                    headerColor = Color.FromArgb(60, 90, 160);
+                    accentColor = Color.FromArgb(99, 102, 241);
+                    headerColor = Color.FromArgb(39, 52, 72);
                     break;
             }
 
@@ -89,7 +138,13 @@ namespace FoodandBeverage.Controls
 
                 if (label.Name.StartsWith("lbl_status_K_", StringComparison.Ordinal))
                 {
-                    label.BackColor = Color.White;
+                    label.BackColor = state == KitchenOrderVisualState.WaitingForCustomer
+                        ? Color.FromArgb(255, 247, 237)
+                        : state == KitchenOrderVisualState.Ready
+                            ? Color.FromArgb(220, 252, 231)
+                            : state == KitchenOrderVisualState.InProgress
+                                ? Color.FromArgb(219, 234, 254)
+                                : Color.FromArgb(238, 242, 255);
                     label.ForeColor = headerColor;
                     switch (state)
                     {
@@ -132,6 +187,10 @@ namespace FoodandBeverage.Controls
                 e.Graphics.FillRectangle(parentBrush, ClientRectangle);
 
             Rectangle bounds = new Rectangle(1, 1, Math.Max(1, Width - 3), Math.Max(1, Height - 3));
+            using (GraphicsPath shadowPath = CreateRoundedPath(new Rectangle(2, 3, Math.Max(1, bounds.Width), Math.Max(1, bounds.Height)), 13F))
+            using (SolidBrush shadowBrush = new SolidBrush(Color.FromArgb(18, 15, 23, 42)))
+                e.Graphics.FillPath(shadowBrush, shadowPath);
+
             using (GraphicsPath path = CreateRoundedPath(bounds, 13F))
             using (SolidBrush cardBrush = new SolidBrush(BackColor))
                 e.Graphics.FillPath(cardBrush, path);
@@ -153,6 +212,7 @@ namespace FoodandBeverage.Controls
                 accent.StartCap = LineCap.Round;
                 accent.EndCap = LineCap.Round;
                 e.Graphics.DrawLine(accent, 13F, 2.5F, Math.Max(13F, Width - 14F), 2.5F);
+                e.Graphics.DrawLine(accent, 2.5F, 13F, 2.5F, Math.Max(13F, Height - 14F));
             }
         }
 
