@@ -89,6 +89,8 @@ namespace FoodandBeverage.Forms
         private Point startPoint = new Point(0, 0);
         private bool isCancelPrintingRunning = false;
         private bool isOrderPrintingRunning = false;
+        private bool emptyStateVisibilityInitialized = false;
+        private bool emptyStateShouldBeVisible = false;
 
         Dictionary<string, int> rowCounters = new Dictionary<string, int>(); 
         Dictionary<string, bool> rowColorState = new Dictionary<string, bool>(); 
@@ -2639,7 +2641,7 @@ namespace FoodandBeverage.Forms
                 cmbserachtype.SelectedIndex = 0;
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
                 //btn_viewmore_order.Visible = true;
-                pnl_empty_msg.Visible = false;
+                // Preserve current empty-state visibility until the refresh has a result.
 
                 txtsearchData.Text = GetPlaceholder();
                 txtsearchData.ForeColor = Color.DarkGray;
@@ -3329,11 +3331,16 @@ namespace FoodandBeverage.Forms
                     pnl_empty_msg.Anchor = AnchorStyles.None;
                 }
 
-                // Avoid repeated show/hide and BringToFront calls during auto-refresh.
-                if (pnl_empty_msg.Visible == showEmptyState)
+                // Track the requested state separately from Control.Visible, which can
+                // report false while the form or a parent is temporarily hidden/minimized.
+                if (emptyStateVisibilityInitialized &&
+                    emptyStateShouldBeVisible == showEmptyState)
                     return;
 
                 pnl_empty_msg.Visible = showEmptyState;
+                emptyStateShouldBeVisible = showEmptyState;
+                emptyStateVisibilityInitialized = true;
+
                 if (showEmptyState)
                     pnl_empty_msg.BringToFront();
             }
