@@ -179,6 +179,8 @@ namespace FoodandBeverage.Forms
         private Dictionary<string, int> RowBlinkCounter = new Dictionary<string, int>();
         private Dictionary<string, bool> RowBlinkState = new Dictionary<string, bool>();
         private const int BlinkThreshold = 1;
+        private bool emptyStateVisibilityInitialized;
+        private bool emptyStateShouldBeVisible;
 
         /// <summary>
         /// Main optimized FillOrdersAsync - creates cards once and updates on subsequent calls.
@@ -1431,7 +1433,6 @@ namespace FoodandBeverage.Forms
                 isOrderPrintingRunning = false;
                 reportDocument.Close();
                 reportDocument.Dispose();
-                GC.Collect();
                 GC.WaitForPendingFinalizers();
 
             }
@@ -1554,7 +1555,6 @@ namespace FoodandBeverage.Forms
                     reportDocument.Close();
                     reportDocument.Dispose();
                 }
-                GC.Collect();
                 GC.WaitForPendingFinalizers();
                 isCancelPrintingRunning = false;
             }
@@ -2028,7 +2028,6 @@ namespace FoodandBeverage.Forms
             {
                 reportDocument.Close();
                 reportDocument.Dispose();
-                GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
         }
