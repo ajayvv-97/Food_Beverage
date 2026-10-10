@@ -44,10 +44,13 @@ namespace FoodandBeverage.Controls
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw |
-                ControlStyles.Selectable,
+                ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor,
                 true);
 
-            BackColor = Color.White;
+            // Leave the area outside the rounded card transparent so the host's
+            // lavender background shows through (no unwanted square tile).
+            BackColor = Color.Transparent;
             ForeColor = Color.FromArgb(31, 41, 55);
             Cursor = Cursors.Hand;
             TabStop = false;
@@ -215,17 +218,17 @@ namespace FoodandBeverage.Controls
         }
 
         private static readonly PickupPalette OrderSentPalette =
-            new PickupPalette(Color.FromArgb(247, 250, 255), Color.FromArgb(56, 112, 186),
-                Color.FromArgb(222, 233, 249), Color.FromArgb(36, 91, 156), Color.FromArgb(31, 41, 55));
+            new PickupPalette(Color.FromArgb(239, 246, 255), Color.FromArgb(49, 121, 203),
+                Color.FromArgb(43, 106, 179), Color.White, Color.FromArgb(31, 41, 55));
         private static readonly PickupPalette CookingPalette =
-            new PickupPalette(Color.FromArgb(243, 250, 245), Color.FromArgb(43, 153, 91),
-                Color.FromArgb(222, 243, 229), Color.FromArgb(29, 115, 67), Color.FromArgb(31, 41, 55));
+            new PickupPalette(Color.FromArgb(235, 249, 240), Color.FromArgb(46, 161, 97),
+                Color.FromArgb(36, 132, 77), Color.White, Color.FromArgb(31, 41, 55));
         private static readonly PickupPalette CancelledItemsPalette =
-            new PickupPalette(Color.FromArgb(255, 246, 246), Color.FromArgb(204, 72, 72),
-                Color.FromArgb(255, 226, 226), Color.FromArgb(174, 45, 45), Color.FromArgb(31, 41, 55));
+            new PickupPalette(Color.FromArgb(255, 244, 244), Color.FromArgb(213, 83, 83),
+                Color.FromArgb(184, 52, 52), Color.White, Color.FromArgb(31, 41, 55));
         private static readonly PickupPalette CancelledPalette =
-            new PickupPalette(Color.FromArgb(255, 242, 242), Color.FromArgb(193, 48, 48),
-                Color.FromArgb(255, 222, 222), Color.FromArgb(166, 30, 30), Color.FromArgb(125, 31, 31));
+            new PickupPalette(Color.FromArgb(255, 241, 241), Color.FromArgb(211, 66, 66),
+                Color.FromArgb(174, 42, 42), Color.White, Color.FromArgb(125, 31, 31));
 
         private static PickupPalette GetPalette(PickupVisualStatus status, bool hasCancelledItems)
         {
