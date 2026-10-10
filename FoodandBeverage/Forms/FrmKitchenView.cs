@@ -967,18 +967,19 @@ namespace FoodandBeverage.Forms
         }
 
 
-        private void UpdateGridLight( DataGridView dgv, List<Dmnkitchendetails> details)
+        private void UpdateGridLight(DataGridView dgv, List<Dmnkitchendetails> details)
         {
-            if (dgv == null || details == null) return;
+            if (dgv == null || details == null)
+                return;
 
-            for (int k = 0; k < details.Count; k++)
+            bool comboPresent = false;
+            bool addonPresent = false;
+
+            for (int k = 0; k < details.Count && k < dgv.Rows.Count; k++)
             {
-                if (k >= dgv.Rows.Count) break;
-
-                var rowObj = details[k];
+                Dmnkitchendetails rowObj = details[k];
                 DataGridViewRow row = dgv.Rows[k];
 
-                // Unique blink key
                 string keyRow = Convert.ToString(rowObj.Field8);
                 if (string.IsNullOrEmpty(keyRow))
                     keyRow = Convert.ToString(rowObj.Field9);
@@ -988,10 +989,52 @@ namespace FoodandBeverage.Forms
                 if (!RowBlinkState.ContainsKey(keyRow))
                     RowBlinkState[keyRow] = false;
 
-                int status = Convert.ToInt32(rowObj.Field12);
-                var actionCell = (DataGridViewImageCell)row.Cells[dactionno];
+                // Keep the displayed product and backend values synchronized without rebuilding rows.
+                string itemName = Convert.ToString(rowObj.Field4);
+                string variant = Convert.ToString(rowObj.Field24);
+                row.Cells[ditemno].Value = string.IsNullOrWhiteSpace(variant)
+                    ? itemName
+                    : itemName + " ( " + variant + " )";
 
-                if (status == 0) // cancelled
+                decimal quantity;
+                decimal.TryParse(Convert.ToString(rowObj.Field5), out quantity);
+                row.Cells[dqtyno].Value = (int)Math.Floor(quantity);
+                row.Cells[dnotes].Value = rowObj.Field6;
+                row.Cells[dremnoteno].Value = rowObj.Field11;
+                row.Cells[ddetailsidno].Value = rowObj.Field9;
+                row.Cells[dkoidno].Value = rowObj.Field8;
+                row.Cells[dtidno].Value = rowObj.Field10;
+                row.Cells[dordermasteridno].Value = rowObj.Field1;
+                row.Cells[ddatetimeno].Value = rowObj.Fielddatetime;
+                row.Cells[dstatusno].Value = rowObj.Field12;
+                row.Cells[ditemidno].Value = rowObj.Field14;
+                row.Cells[dtabletypeno].Value = rowObj.Field15;
+                row.Cells[dorderno].Value = rowObj.Field17;
+                row.Cells[dAddonStatusno].Value = rowObj.Field19;
+                row.Cells[dAVIDno].Value = rowObj.Field20;
+
+                DataGridViewImageCell typeCell = (DataGridViewImageCell)row.Cells[dptypeno];
+                if (Convert.ToInt32(rowObj.Field13) == Convert.ToInt32(Tabletype.ComboProduct))
+                {
+                    comboPresent = true;
+                    typeCell.Value = Properties.Resources.kitchengridcomboicon;
+                }
+                else if (Convert.ToInt32(rowObj.Field23) >= 1)
+                {
+                    addonPresent = true;
+                    typeCell.Value = Properties.Resources.addonbutton;
+                }
+                else
+                {
+                    typeCell.Value = (k % 2 == 0)
+                        ? Properties.Resources.orderview_blank
+                        : Properties.Resources.orderview_blank_2;
+                }
+                typeCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+                int status = Convert.ToInt32(rowObj.Field12);
+                DataGridViewImageCell actionCell = (DataGridViewImageCell)row.Cells[dactionno];
+                if (status == 0)
                 {
                     RowBlinkCounter[keyRow]++;
                     if (RowBlinkCounter[keyRow] >= BlinkThreshold)
@@ -1002,23 +1045,21 @@ namespace FoodandBeverage.Forms
 
                     row.DefaultCellStyle.BackColor =
                         RowBlinkState[keyRow] ? Color.LightCoral : Color.White;
-
                     actionCell.Value = Properties.Resources.orderview_cancelled;
+                    row.ReadOnly = true;
                 }
                 else
                 {
                     actionCell.Value = Properties.Resources.kitchenfood_cancel_icon;
                     if (Convert.ToInt32(rowObj.Field19) == 1)
                         row.DefaultCellStyle.BackColor = Color.White;
-
                 }
 
-                // Live fields (safe)
-                row.Cells[dqtyno].Value =
-                    (int)Math.Floor(Convert.ToDecimal(rowObj.Field5));
-                row.Cells[dnotes].Value = rowObj.Field6;
-                row.Cells[dremnoteno].Value = rowObj.Field11;
+                actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
             }
+
+            if (dgv.Columns.Count > dptypeno)
+                dgv.Columns[dptypeno].Visible = comboPresent || addonPresent;
         }
 
 
@@ -3187,8 +3228,6 @@ namespace FoodandBeverage.Forms
                                 string readybuttonname = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                                 string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17;
                                 string rprint = "reprintbutton_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-
-                                string pnldesname = "pnl_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17;
 
                                 // ---------------- FIND ALL CONTROLS ----------------
 
