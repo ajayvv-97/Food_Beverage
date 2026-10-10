@@ -771,6 +771,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 isUserSelecting = true;
+
                 string[] parts = card.AccessibleDescription.Split(',');
                 int orderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
                 int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
@@ -783,9 +784,16 @@ namespace FoodandBeverage.Forms
                     return;
 
                 CheckCombinedOrNot(orderMasterId);
-                bool isSelected = selectedTableIds.Contains(tid);
 
-                if (!isSelected)
+                if (selectedTableIds.Contains(tid))
+                {
+                    selectedTableIds.Remove(tid);
+                    var existing = CheckedtableNames.FirstOrDefault(x => x.Ordermasterid == orderMasterId);
+                    if (existing != null)
+                        CheckedtableNames.Remove(existing);
+                    cmb_tbl_names.Items.Remove(pkid > 0 ? pkid.ToString() : tableCode);
+                }
+                else
                 {
                     selectedTableIds.Add(tid);
                     CheckedtableNames.Add(new DmnNameList
@@ -797,25 +805,15 @@ namespace FoodandBeverage.Forms
                         pkid = pkid
                     });
 
-                    string comboValue = pkid > 0 ? pkid.ToString() : tableCode;
-                    if (!cmb_tbl_names.Items.Contains(comboValue))
-                        cmb_tbl_names.Items.Add(comboValue);
-                }
-                else
-                {
-                    selectedTableIds.Remove(tid);
-                    var itemToRemove = CheckedtableNames.FirstOrDefault(x => x.Ordermasterid == orderMasterId);
-                    if (itemToRemove != null)
-                        CheckedtableNames.Remove(itemToRemove);
-                    cmb_tbl_names.Items.Remove(pkid > 0 ? pkid.ToString() : tableCode);
+                    string value = pkid > 0 ? pkid.ToString() : tableCode;
+                    if (!cmb_tbl_names.Items.Contains(value))
+                        cmb_tbl_names.Items.Add(value);
                 }
 
                 string amount = tableAmountCache.TryGetValue(tid, out string currentAmount)
                     ? currentAmount : string.Empty;
-                card.SetBillData(
-                    tableCode, amount, card.AccessibleDescription,
+                card.SetBillData(tableCode, amount, card.AccessibleDescription,
                     Convert.ToInt32(card.Tag), false, selectedTableIds.Contains(tid));
-
                 UpdateSelectedCountUI(pkid);
             }
             catch (Exception ex)
