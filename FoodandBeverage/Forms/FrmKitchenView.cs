@@ -138,6 +138,7 @@ namespace FoodandBeverage.Forms
                 textb_shape();
                 tlp_order_col.Dock = DockStyle.Fill;
 
+                ConfigureKitchenCardHost();
                 InitTimer();
 
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
@@ -153,6 +154,44 @@ namespace FoodandBeverage.Forms
             refreshtimer.Stop();
             this.Close();
             this.Dispose();
+        }
+
+        /// <summary>
+        /// Size tickets against the current POS viewport so the footer actions are not clipped.
+        /// </summary>
+        private void ConfigureKitchenCardHost()
+        {
+            flp_order_view.Dock = DockStyle.Fill;
+            flp_order_view.AutoScroll = true;
+            flp_order_view.WrapContents = true;
+            flp_order_view.FlowDirection = FlowDirection.LeftToRight;
+            flp_order_view.Padding = new Padding(6);
+            flp_order_view.Margin = Padding.Empty;
+            flp_order_view.Resize -= flp_order_view_ResponsiveResize;
+            flp_order_view.Resize += flp_order_view_ResponsiveResize;
+        }
+
+        private void flp_order_view_ResponsiveResize(object sender, EventArgs e)
+        {
+            if (flp_order_view.ClientSize.Width <= 0)
+                return;
+
+            int availableWidth = Math.Max(285, flp_order_view.ClientSize.Width -
+                flp_order_view.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 12);
+            int columns = availableWidth >= 1250 ? 3 : availableWidth >= 820 ? 2 : 1;
+            int cardWidth = Math.Max(285, (availableWidth - (columns - 1) * 14) / columns);
+            int cardHeight = Math.Max(205, Math.Min(310, (flp_order_view.ClientSize.Height - 18) / 2));
+
+            foreach (OrderCardCache cache in KitchenCardCache.Values)
+            {
+                if (cache == null || cache.CardPanel == null || cache.CardPanel.IsDisposed)
+                    continue;
+
+                cache.CardPanel.SuspendLayout();
+                cache.CardPanel.Size = new Size(cardWidth, cardHeight);
+                cache.CardPanel.Margin = new Padding(4, 5, 4, 5);
+                cache.CardPanel.ResumeLayout(true);
+            }
         }
 
         #region KitchenView - Cached card UI (Layout A) and blinking
@@ -312,8 +351,9 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                timer1.Start();
-                refreshtimer.Start();
+                flp_order_view_ResponsiveResize(flp_order_view, EventArgs.Empty);
+                if (!timer1.Enabled) timer1.Start();
+                if (!refreshtimer.Enabled) refreshtimer.Start();
                 SetEmptyIcon();
             }
             catch (Exception ex)
@@ -337,17 +377,24 @@ namespace FoodandBeverage.Forms
                 string cardName = "tlp_product_box_k_" + orderId + suffix;
                 OrderCardCache cache = new OrderCardCache();
 
-                int controlWidth = Math.Max(300, (int)(ClientSize.Width * 0.30));
-                int controlHeight = Math.Max(250, (int)(ClientSize.Height * 0.40));
-                int headerHeight = (screenWidth > 1367 && screenHeight > 769) ? 42 : 32;
-                int buttonHeight = (screenWidth > 1367 && screenHeight > 769) ? 45 : 35;
+                int hostWidth = flp_order_view.ClientSize.Width > 0
+                    ? flp_order_view.ClientSize.Width
+                    : ClientSize.Width;
+                int availableWidth = Math.Max(285, hostWidth - flp_order_view.Padding.Horizontal -
+                    SystemInformation.VerticalScrollBarWidth - 12);
+                int columns = availableWidth >= 1250 ? 3 : availableWidth >= 820 ? 2 : 1;
+                int controlWidth = Math.Max(285, (availableWidth - (columns - 1) * 14) / columns);
+                int controlHeight = Math.Max(205,
+                    Math.Min(310, Math.Max(205, flp_order_view.ClientSize.Height - 18) / 2));
+                int headerHeight = 30;
+                int buttonHeight = 34;
 
                 ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
                     Name = cardName,
                     Size = new Size(controlWidth, controlHeight),
-                    MinimumSize = new Size(300, 230),
-                    Margin = new Padding(12, 8, 8, 0),
+                    MinimumSize = new Size(285, 205),
+                    Margin = new Padding(4, 5, 4, 5),
                     BackColor = Color.White,
                     Visible = true,
                     RowCount = 4,
@@ -355,10 +402,10 @@ namespace FoodandBeverage.Forms
                 };
 
                 card.ColumnStyles.Clear();
-                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22F));
-                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27F));
-                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27F));
                 card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
+                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 26F));
                 card.RowStyles.Clear();
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, headerHeight));
                 card.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -384,7 +431,7 @@ namespace FoodandBeverage.Forms
                 Label token = new Label
                 {
                     Name = "lbl_tokkenno_k_" + orderId + suffix,
-                    Text = "KITCHEN TOKEN " + Convert.ToString(details[0].Field22),
+                    Text = "TOKEN " + Convert.ToString(details[0].Field22),
                     Dock = DockStyle.Fill,
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleCenter,
@@ -776,8 +823,14 @@ namespace FoodandBeverage.Forms
                     ToggleDescriptionRow(cache.CardPanel, hasDescription);
                 }
 
-                cache.CardPanel.SetKitchenState(
-                    GetKitchenVisualState(waitingForCustomer, details));
+                KitchenOrderVisualState nextVisualState =
+                    GetKitchenVisualState(waitingForCustomer, details);
+                if (!(cache.CardPanel.Tag is KitchenOrderVisualState) ||
+                    (KitchenOrderVisualState)cache.CardPanel.Tag != nextVisualState)
+                {
+                    cache.CardPanel.Tag = nextVisualState;
+                    cache.CardPanel.SetKitchenState(nextVisualState);
+                }
                 cache.CancelStatus = Convert.ToInt32(details[0].Field27);
             }
             catch (Exception ex)
@@ -2690,35 +2743,22 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Assuming orderbox is a member of the class
-                foreach (var dataGridViewInfo in orderbox)
+                DateTime now = DateTime.Now;
+                foreach (OrderCardCache cache in KitchenCardCache.Values)
                 {
-                    string dataGridViewName = dataGridViewInfo.datagridviewname;
-                    DataGridView dgv = Controls.Find(dataGridViewName, true).FirstOrDefault() as DataGridView;
-                    if (dgv != null)
-                    {
-                        string lbltimename = "lbl_time_K_" + dgv.Tag;
-                        DateTime startTime = dataGridViewInfo.createtime;
-                        DateTime currentTime = DateTime.Now;
-                        TimeSpan timeDifference = currentTime - startTime;
+                    if (cache == null || cache.TimeLabel == null || cache.TimeLabel.IsDisposed)
+                        continue;
 
-                        int hoursDifference = timeDifference.Hours;
-                        int minutesDifference = timeDifference.Minutes;
-                        int secondsDifference = timeDifference.Seconds;
-
-                        string timeDifferenceString = $"{hoursDifference} h, {minutesDifference} min, {secondsDifference} s";
-                        Label lbl_time = Controls.Find(lbltimename, true).FirstOrDefault() as Label;
-                        if (lbl_time != null)
-                            lbl_time.Text = timeDifferenceString;
-                    }
+                    string elapsedText = FormatKitchenElapsed(now - cache.CreatedTime);
+                    if (!string.Equals(cache.TimeLabel.Text, elapsedText, StringComparison.Ordinal))
+                        cache.TimeLabel.Text = elapsedText;
                 }
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Kitchen_View timer1_Tick", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+                clsgen.LogException("Kitchen_View timer1_Tick", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
-
         }
         private string GetPlaceholder()
         {
