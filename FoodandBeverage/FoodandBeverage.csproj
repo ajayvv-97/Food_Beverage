@@ -356,6 +356,7 @@
     <Compile Include="Forms\FrmAddon.Designer.cs">
       <DependentUpon>FrmAddon.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ModernCombinedBillCard.cs" />
     <Compile Include="Forms\FrmCombinedBill.cs">
       <SubType>Form</SubType>
     </Compile>
