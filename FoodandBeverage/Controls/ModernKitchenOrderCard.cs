@@ -25,7 +25,7 @@ namespace FoodandBeverage.Controls
             BorderStyle = BorderStyle.None;
             Margin = new Padding(4, 5, 4, 5);
             Padding = new Padding(5, 0, 5, 0);
-            Font = ModernKitchenOrderCard.StatusFont;
+            Font = StatusPillFont;
             BackColor = Color.FromArgb(238, 242, 255);
             ForeColor = Color.FromArgb(79, 70, 229);
         }
@@ -76,6 +76,7 @@ namespace FoodandBeverage.Controls
         internal static readonly Font TableCodeFont = new Font("Segoe UI", 10F, FontStyle.Bold);
         internal static readonly Font TokenFont = new Font("Segoe UI", 10F, FontStyle.Bold);
         internal static readonly Font StatusFont = new Font("Segoe UI", 8F, FontStyle.Bold);
+        private static readonly Font StatusPillFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
         internal static readonly Font TimeFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
 
         public ModernKitchenOrderCard()
