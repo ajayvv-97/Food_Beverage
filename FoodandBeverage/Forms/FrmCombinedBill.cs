@@ -855,17 +855,19 @@ namespace FoodandBeverage.Forms
             try
             {
                 CombineBillAutoTimer.Stop();
+
                 Control clickedControl = sender as Control;
-                if (clickedControl == null || string.IsNullOrEmpty(clickedControl.AccessibleDescription))
+                if (clickedControl == null ||
+                    string.IsNullOrWhiteSpace(clickedControl.AccessibleDescription))
                     return;
 
                 string[] parts = clickedControl.AccessibleDescription.Split(',');
                 int billType = Convert.ToInt32(clickedControl.Tag);
                 int orderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
-                int tableId = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
+                int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
                 int bookingMasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
 
-                CheckCombinedOrNot_Tid(tableId);
+                CheckCombinedOrNot_Tid(tid);
 
                 if (CheckedtableNames.Count > 1)
                 {
@@ -898,7 +900,7 @@ namespace FoodandBeverage.Forms
                     if (Application.OpenForms["FrmOrderConsole"] == null)
                     {
                         using (FrmOrderConsole orderConsole = new FrmOrderConsole(
-                            tableId,
+                            tid,
                             Convert.ToInt32(DashboardTableType.Normalorder),
                             0,
                             CheckedtableNames,
@@ -917,10 +919,13 @@ namespace FoodandBeverage.Forms
                     {
                         FrmOrderConsole orderConsole =
                             Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
-                        if (orderConsole != null && orderConsole.WindowState == FormWindowState.Minimized)
-                            orderConsole.WindowState = FormWindowState.Maximized;
-                        else
-                            orderConsole?.BringToFront();
+                        if (orderConsole != null)
+                        {
+                            if (orderConsole.WindowState == FormWindowState.Minimized)
+                                orderConsole.WindowState = FormWindowState.Maximized;
+                            else
+                                orderConsole.BringToFront();
+                        }
                     }
                 }
                 else if (billType == Convert.ToInt32(CombinedBillType.BookingBill))
@@ -928,7 +933,7 @@ namespace FoodandBeverage.Forms
                     if (Application.OpenForms["FrmOrderConsole"] == null)
                     {
                         using (FrmOrderConsole orderConsole = new FrmOrderConsole(
-                            tableId,
+                            tid,
                             Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel),
                             bookingMasterId,
                             CheckedtableNames,
@@ -948,10 +953,13 @@ namespace FoodandBeverage.Forms
                     {
                         FrmOrderConsole orderConsole =
                             Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
-                        if (orderConsole != null && orderConsole.WindowState == FormWindowState.Minimized)
-                            orderConsole.WindowState = FormWindowState.Maximized;
-                        else
-                            orderConsole?.BringToFront();
+                        if (orderConsole != null)
+                        {
+                            if (orderConsole.WindowState == FormWindowState.Minimized)
+                                orderConsole.WindowState = FormWindowState.Maximized;
+                            else
+                                orderConsole.BringToFront();
+                        }
                     }
                 }
             }
