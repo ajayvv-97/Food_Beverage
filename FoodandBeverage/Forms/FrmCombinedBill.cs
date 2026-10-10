@@ -319,6 +319,15 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        /// <summary>
+        /// Timer callback wired by FrmCombinedBill.Designer.cs.
+        /// Refreshes the currently displayed combined-bill cards.
+        /// </summary>
+        private void CombineBillAutoTimer_Tick(object sender, EventArgs e)
+        {
+            BillCombineBill_Update();
+        }
+
 #region old code bill print
         //public void Billcomplete_Fill()
         //{
