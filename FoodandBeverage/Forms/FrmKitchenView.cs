@@ -384,8 +384,9 @@ namespace FoodandBeverage.Forms
                 int controlWidth = Math.Max(285, (availableWidth - (columns - 1) * 14) / columns);
                 int controlHeight = Math.Max(220,
                     Math.Min(260, Math.Max(220, flp_order_view.ClientSize.Height - 18) / 2));
-                int headerHeight = 30;
-                int buttonHeight = 34;
+                bool isPickupOrder = Convert.ToInt32(details[0].Field25) > 0;
+                int headerHeight = 34;
+                int buttonHeight = 36;
 
                 ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
@@ -400,10 +401,21 @@ namespace FoodandBeverage.Forms
                 };
 
                 card.ColumnStyles.Clear();
-                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
-                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 26F));
+                if (isPickupOrder)
+                {
+                    // Give the pickup number a wider header area and remove the redundant label.
+                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
+                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27F));
+                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28F));
+                }
+                else
+                {
+                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
+                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 26F));
+                }
                 card.RowStyles.Clear();
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, headerHeight));
                 card.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -414,8 +426,8 @@ namespace FoodandBeverage.Forms
                 Label tableCode = new Label
                 {
                     Name = "lbl_tablecod_k_" + orderId + suffix,
-                    Text = Convert.ToInt32(details[0].Field25) > 0
-                        ? "PICKUP ORDER"
+                    Text = isPickupOrder
+                        ? string.Empty
                         : Convert.ToString(details[0].Field2),
                     Dock = DockStyle.Fill,
                     AutoSize = false,
@@ -429,8 +441,9 @@ namespace FoodandBeverage.Forms
                 Label token = new Label
                 {
                     Name = "lbl_tokkenno_k_" + orderId + suffix,
-                    Text = Convert.ToInt32(details[0].Field25) > 0
-                        ? "PICKUP NO: " + Convert.ToString(details[0].Field25)
+                    // Pickup cards show only the pickup number; regular kitchen cards show their token.
+                    Text = isPickupOrder
+                        ? Convert.ToString(details[0].Field25)
                         : "TOKEN " + Convert.ToString(details[0].Field22),
                     Dock = DockStyle.Fill,
                     AutoSize = false,
@@ -465,8 +478,17 @@ namespace FoodandBeverage.Forms
                     ForeColor = Color.White
                 };
 
-                card.Controls.Add(tableCode, 0, 0);
-                card.Controls.Add(token, 1, 0);
+                if (isPickupOrder)
+                {
+                    // The pickup number spans the first two header columns for breathing room.
+                    card.Controls.Add(token, 0, 0);
+                    card.SetColumnSpan(token, 2);
+                }
+                else
+                {
+                    card.Controls.Add(tableCode, 0, 0);
+                    card.Controls.Add(token, 1, 0);
+                }
                 card.Controls.Add(statusLabel, 2, 0);
                 card.Controls.Add(time, 3, 0);
 
@@ -510,7 +532,7 @@ namespace FoodandBeverage.Forms
                 bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
                 startButton.Visible = hasPendingStart && !waitingForCustomer;
-                readyButton.Visible = !hasPendingStart && !waitingForCustomer;
+                readyButton.Visible = !hasPendingStart && hasInProgress && !waitingForCustomer;
                 cancelButton.Visible = (hasPendingStart || hasInProgress) && !waitingForCustomer;
                 reprintButton.Visible = !waitingForCustomer;
 
@@ -808,8 +830,9 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
+                    // Start and Ready share a slot but must never be visible together.
                     if (cache.BtnStart != null) cache.BtnStart.Visible = hasPendingStart;
-                    if (cache.BtnReady != null) cache.BtnReady.Visible = hasInProgress || !hasPendingStart;
+                    if (cache.BtnReady != null) cache.BtnReady.Visible = !hasPendingStart && hasInProgress;
                     if (cache.BtnCancel != null) cache.BtnCancel.Visible = hasPendingStart || hasInProgress;
                     if (cache.BtnReprint != null) cache.BtnReprint.Visible = true;
 
@@ -2132,194 +2155,133 @@ namespace FoodandBeverage.Forms
             try
             {
                 refreshtimer.Stop();
-                PictureBox clickedPictureBox = (PictureBox)sender;
-                int id = Convert.ToInt32(clickedPictureBox.Tag);
-                string dgvname = "dgv_product_details_k_" + clickedPictureBox.AccessibleDescription + id;
-                string startbuttonname = "pb_start_k_" + clickedPictureBox.AccessibleDescription + id;
-                string readybuttonname = "pb_ready_k_" + clickedPictureBox.AccessibleDescription + id;
-                string tlpname = "tlp_product_box_k_" + clickedPictureBox.AccessibleDescription + id;
-                string cancelfoodbuttonname = "pictureBoxRemove_k_" + clickedPictureBox.AccessibleDescription + id;
-                DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
-                BllOrder bll_order = new BllOrder();
-                PictureBox btn_ready = this.Controls.Find(readybuttonname, true).FirstOrDefault() as PictureBox;
-                if (btn_ready != null)
-                    btn_ready.Visible = true;
-                PictureBox btn_start = this.Controls.Find(startbuttonname, true).FirstOrDefault() as PictureBox;
-                if (btn_start != null)
-                {
-                    // Keep the button instance alive so the cached card can refresh its state.
-                    btn_start.Visible = false;
-                }
-                PictureBox btn_cancelfood = this.Controls.Find(cancelfoodbuttonname, true).FirstOrDefault() as PictureBox;
+                PictureBox clicked = sender as PictureBox;
+                if (clicked == null) return;
 
-                DataGridView dgv_product_details = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
-                if (dgv_product_details != null)
-                {
-                    int tid = 0, orderno = 0, ordermid = 0;
+                string gridName = "dgv_product_details_k_" + clicked.AccessibleDescription + Convert.ToString(clicked.Tag);
+                DataGridView grid = this.Controls.Find(gridName, true).FirstOrDefault() as DataGridView;
+                if (grid == null) return;
 
-                    ordermid = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dordermasteridno].Value);
-                    dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_product_details.Rows[0].Cells[ddetailsidno].Value);
-                    dmnRemove_order.koid = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dkoidno].Value);
-                    dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dordermasteridno].Value);
-                    dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dAddonStatusno].Value);
-                    dmnRemove_order.AV_id = Convert.ToString(dgv_product_details.Rows[0].Cells[dAVIDno].Value);
-                    dmnRemove_order.OrderNo = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dorderno].Value);
-                    //dmnRemove_order.Tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
-                    //decimal originalValue = Convert.ToDecimal(dgv_product_details.Rows[i].Cells[dqtyno].Value);
-                    //dmnRemove_order.Quantity = (int)Math.Floor(originalValue);  
-                    //tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
-                    //dmnRemove_order.RemoveNotes = "";
-                    dmnRemove_order.CreatedBy = FrmDashboard.UserId;
-                    dmnRemove_order.BranchId = FrmDashboard.BranchId;
-                    dmnRemove_order.Status = 2;
-                    var InsertStatusP = bll_order.Remove_order_KitchenOrder_Start_Rady("prd_KitchenOrder_Updates", dmnRemove_order);
-                    if (InsertStatusP.Status == 1)
-                    {
-                        TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                        if (tlp_sele != null)
-                        {
-                            #region Grid Edit Cancel  product
-                            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                            DmnSearch dmnSearch = new DmnSearch();
-                            dmnSearch.Select = "Status Field1,Koid Field2";
-                            dmnSearch.Table = " tblkitchenOrder";
-                            dmnSearch.WhereNdGroupBy = "where  AddonStatus in(1,0)  and  OrderNo = " + id + " and OrderMasterId = " + ordermid;
-                            dmnSearch.OrderBy = "";
-                            var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                // Start every pending line in this ticket. Updating only row zero leaves
+                // mixed status values, causing Start/Ready to alternate on refresh.
+                bool updated = UpdateKitchenOrderRows(grid, 1, 2);
+                FillOrders();
 
-                            for (int k = 0; k < gridSource.Count; k++)
-                            {
-                                dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
+                if (!updated)
+                    System.Diagnostics.Debug.WriteLine("Kitchen Start: no pending rows were updated.");
 
-                                dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSource[k].Field1;
-
-
-                                for (int j = 0; j < dgv_product_details.RowCount; j++)
-                                {
-                                    DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[j].Cells[dactionno];
-                                    if (Convert.ToInt32(dgv_product_details.Rows[j].Cells[dkoidno].Value) == Convert.ToInt32(gridSource[k].Field2))
-                                    {
-                                        if (Convert.ToInt32(gridSource[k].Field1) == 0)
-                                        {
-                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                            cell.Value = Properties.Resources.orderview_cancelled;
-                                            dgv_product_details.Rows[j].ReadOnly = true;
-                                        }
-                                        else
-                                        {
-                                            cell.Value = Properties.Resources.close_price_change;
-                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                        }
-                                    }
-
-                                }
-                            }
-                            #endregion
-
-                            #region Edit Ready and Close Button 
-                            btn_start.Visible = false;
-                            btn_ready.Visible = true;
-                            btn_cancelfood.Visible = true;
-                            #endregion
-
-                            refreshtimer.Start();
-                        }
-                        if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-                        {
-                            FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                            _instanceFrmOrderView.FillOrders();
-
-                        }
-                    }
-
-                }
+                if (Application.OpenForms["FrmOrderView"] is FrmOrderView orderView)
+                    orderView.FillOrders();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Kitchen_View pbstart_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+                clsgen.LogException("Kitchen_View pbstart_Click", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+            }
+            finally
+            {
+                if (!IsDisposed && !refreshtimer.Enabled)
+                    refreshtimer.Start();
             }
         }
+
         private void pbreadyfood_Click(object sender, EventArgs e)
         {
             try
             {
                 refreshtimer.Stop();
-                PictureBox clickedPictureBox = (PictureBox)sender;
-                int id = Convert.ToInt32(clickedPictureBox.Tag);
-                string dgvname = "dgv_product_details_k_" + clickedPictureBox.AccessibleDescription + id;
-                DmnOrderMaster dmnRemove_order = new DmnOrderMaster();
-                BllOrder bll_order = new BllOrder();
+                PictureBox clicked = sender as PictureBox;
+                if (clicked == null) return;
 
-                DataGridView dgv_product_details = this.Controls.Find(dgvname, true).FirstOrDefault() as DataGridView;
-                if (dgv_product_details != null)
-                {
-                    int tid = 0, koid = 0;
+                string gridName = "dgv_product_details_k_" + clicked.AccessibleDescription + Convert.ToString(clicked.Tag);
+                DataGridView grid = this.Controls.Find(gridName, true).FirstOrDefault() as DataGridView;
+                if (grid == null) return;
 
-                    //tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
-                    //dmnRemove_order.Tid = Convert.ToInt32(dgv_product_details.Rows[i].Cells[dtidno].Value);
-                    //decimal originalValue = Convert.ToDecimal(dgv_product_details.Rows[i].Cells[dqtyno].Value);  
-                    //dmnRemove_order.Quantity = (int)Math.Floor(originalValue); 
-                    //dmnRemove_order.RemoveNotes = "";
-                    dmnRemove_order.AddonStatus = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dAddonStatusno].Value);
-                    dmnRemove_order.AV_id = Convert.ToString(dgv_product_details.Rows[0].Cells[dAVIDno].Value);
-                    dmnRemove_order.OrderDetailsId = Convert.ToInt32(dgv_product_details.Rows[0].Cells[ddetailsidno].Value);
-                    dmnRemove_order.koid = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dkoidno].Value);
-                    dmnRemove_order.OrderMasterId = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dordermasteridno].Value);
-                    dmnRemove_order.OrderNo = Convert.ToInt32(dgv_product_details.Rows[0].Cells[dorderno].Value);
-                    dmnRemove_order.CreatedBy = FrmDashboard.UserId;
-                    dmnRemove_order.BranchId = FrmDashboard.BranchId;
-                    dmnRemove_order.Status = 3;
-                    var InsertStatusP = bll_order.Remove_order_KitchenOrder_Start_Rady("prd_KitchenOrder_Updates", dmnRemove_order);
+                // Mark every in-progress line ready together, rather than completing only
+                // the first product and allowing the same ticket to reappear on refresh.
+                bool updated = UpdateKitchenOrderRows(grid, 2, 3);
+                FillOrders();
 
-                    if (InsertStatusP.Status == 1)
-                    {
-                        string dgvName = "dgv_product_details_k_" + clickedPictureBox.AccessibleDescription + id;
-                        string startButtonName = "pb_start_k_" + clickedPictureBox.AccessibleDescription + id;
-                        string readyButtonName = "pb_ready_k_" + clickedPictureBox.AccessibleDescription + id;
-                        string cancelFoodButtonName = "pictureBoxRemove_k_" + clickedPictureBox.AccessibleDescription + id;
-                        string lblTimeName = "lbl_time_K_" + clickedPictureBox.AccessibleDescription + id;
-                        string lblTableCodeName = "lbl_tablecod_k_" + clickedPictureBox.AccessibleDescription + id;
+                if (!updated)
+                    System.Diagnostics.Debug.WriteLine("Kitchen Ready: no in-progress rows were updated.");
 
-                        Label lblTime = this.Controls.Find(lblTimeName, true).FirstOrDefault() as Label;
-                        Label lblTableCode = this.Controls.Find(lblTableCodeName, true).FirstOrDefault() as Label;
-                        PictureBox btnReady = this.Controls.Find(readyButtonName, true).FirstOrDefault() as PictureBox;
-                        PictureBox btnStart = this.Controls.Find(startButtonName, true).FirstOrDefault() as PictureBox;
-                        PictureBox btnCancelFood = this.Controls.Find(cancelFoodButtonName, true).FirstOrDefault() as PictureBox;
-                        if (btnReady != null && btnStart != null && btnCancelFood != null && lblTime != null && lblTableCode != null)
-                        {
-                            btnReady.Dispose();
-                            btnStart.Dispose();
-                            btnCancelFood.Dispose();
-                            lblTime?.Dispose();
-                            lblTableCode?.Dispose();
-                        }
-
-
-                        string tlpname = "tlp_product_box_k_" + clickedPictureBox.AccessibleDescription + id;
-                        TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                        if (tlp_sele != null && flp_order_view.Controls.Contains(tlp_sele))
-                        {
-                            flp_order_view.Controls.Remove(tlp_sele);
-                            tlp_sele.Dispose();
-                            refreshtimer.Start();
-                        }
-
-                        if (System.Windows.Forms.Application.OpenForms["FrmOrderView"] != null)
-                        {
-                            FrmOrderView _instanceFrmOrderView = Application.OpenForms["FrmOrderView"] as FrmOrderView;
-                            _instanceFrmOrderView.FillOrders();
-                        }
-                    }
-
-                }
+                if (Application.OpenForms["FrmOrderView"] is FrmOrderView orderView)
+                    orderView.FillOrders();
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Kitchen_View pbreadyfood_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+                clsgen.LogException("Kitchen_View pbreadyfood_Click", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+            }
+            finally
+            {
+                if (!IsDisposed && !refreshtimer.Enabled)
+                    refreshtimer.Start();
+            }
+        }
+
+        private bool UpdateKitchenOrderRows(DataGridView grid, int expectedStatus, int newStatus)
+        {
+            if (grid == null || grid.IsDisposed || grid.Rows.Count == 0)
+                return false;
+
+            BllOrder orderService = new BllOrder();
+            HashSet<string> processedRows = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            bool foundEligibleRow = false;
+            bool allUpdatesSucceeded = true;
+
+            for (int i = 0; i < grid.Rows.Count; i++)
+            {
+                DataGridViewRow row = grid.Rows[i];
+                if (row.IsNewRow || row.Cells[dstatusno].Value == null)
+                    continue;
+
+                int currentStatus;
+                if (!int.TryParse(Convert.ToString(row.Cells[dstatusno].Value), out currentStatus) ||
+                    currentStatus != expectedStatus)
+                    continue;
+
+                string koid = Convert.ToString(row.Cells[dkoidno].Value);
+                string addonStatus = Convert.ToString(row.Cells[dAddonStatusno].Value);
+                string avid = Convert.ToString(row.Cells[dAVIDno].Value);
+                string rowKey = koid + "|" + addonStatus + "|" + avid;
+                if (!processedRows.Add(rowKey))
+                    continue;
+
+                foundEligibleRow = true;
+
+                DmnOrderMaster update = new DmnOrderMaster
+                {
+                    OrderDetailsId = Convert.ToInt32(row.Cells[ddetailsidno].Value),
+                    koid = Convert.ToInt32(row.Cells[dkoidno].Value),
+                    OrderMasterId = Convert.ToInt32(row.Cells[dordermasteridno].Value),
+                    AddonStatus = Convert.ToInt32(row.Cells[dAddonStatusno].Value),
+                    AV_id = Convert.ToString(row.Cells[dAVIDno].Value),
+                    OrderNo = Convert.ToInt32(row.Cells[dorderno].Value),
+                    CreatedBy = FrmDashboard.UserId,
+                    BranchId = FrmDashboard.BranchId,
+                    Status = newStatus
+                };
+
+                try
+                {
+                    var result = orderService.Remove_order_KitchenOrder_Start_Rady(
+                        "prd_KitchenOrder_Updates", update);
+                    if (result == null || result.Status != 1)
+                        allUpdatesSucceeded = false;
+                }
+                catch (Exception ex)
+                {
+                    allUpdatesSucceeded = false;
+                    clsgen.LogException("Kitchen_View UpdateKitchenOrderRows", ex,
+                        FrmLogin.EmployeName, FrmLogin.Designation,
+                        Convert.ToInt32(FormType.Kitchen_View));
+                }
             }
 
+            return foundEligibleRow && allUpdatesSucceeded;
         }
+
         private void txt_product_remove_des_Enter(object sender, EventArgs e)
         {
             if (txt_product_remove_des.Text == "Reason type here .....")
