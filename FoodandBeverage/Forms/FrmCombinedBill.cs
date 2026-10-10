@@ -737,6 +737,98 @@ namespace FoodandBeverage.Forms
             public int Fcid { get; set; }
             public string CategoryName { get; set; }
         }
+        private void CombinedBillCard_SelectRequested(object sender, EventArgs e)
+        {
+            ModernCombinedBillCard card = sender as ModernCombinedBillCard;
+            if (card == null || string.IsNullOrEmpty(card.AccessibleDescription))
+                return;
+
+            try
+            {
+                isUserSelecting = true;
+                string[] parts = card.AccessibleDescription.Split(',');
+                int orderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
+                int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
+                string tableCode = parts.Length > 3 ? parts[3] : string.Empty;
+                int bookingMasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
+                int pkid = parts.Length > 5 ? Convert.ToInt32(parts[5]) : 0;
+
+                if (tid <= 0 ||
+                    Convert.ToInt32(card.Tag) == Convert.ToInt32(CombinedBillType.BookingBill))
+                    return;
+
+                CheckCombinedOrNot(orderMasterId);
+                bool isSelected = selectedTableIds.Contains(tid);
+
+                if (!isSelected)
+                {
+                    selectedTableIds.Add(tid);
+                    CheckedtableNames.Add(new DmnNameList
+                    {
+                        Id = tid,
+                        Ordermasterid = orderMasterId,
+                        Tablecode = tableCode,
+                        BookingMasterid = bookingMasterId,
+                        pkid = pkid
+                    });
+
+                    string comboValue = pkid > 0 ? pkid.ToString() : tableCode;
+                    if (!cmb_tbl_names.Items.Contains(comboValue))
+                        cmb_tbl_names.Items.Add(comboValue);
+                }
+                else
+                {
+                    selectedTableIds.Remove(tid);
+                    var itemToRemove = CheckedtableNames.FirstOrDefault(x => x.Ordermasterid == orderMasterId);
+                    if (itemToRemove != null)
+                        CheckedtableNames.Remove(itemToRemove);
+
+                    cmb_tbl_names.Items.Remove(pkid > 0 ? pkid.ToString() : tableCode);
+                }
+
+                card.SetBillData(
+                    tableCode,
+                    ReadCardAmount(card),
+                    card.AccessibleDescription,
+                    Convert.ToInt32(card.Tag),
+                    false,
+                    selectedTableIds.Contains(tid));
+
+                UpdateSelectedCountUI(pkid);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("CombinedBillCard_SelectRequested()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+            finally
+            {
+                isUserSelecting = false;
+            }
+        }
+
+        private void UpdateSelectedCountUI(int pkid)
+        {
+            int count = CheckedtableNames.Count;
+            if (count > 1)
+            {
+                lbl_tbl_totalcount.Visible = true;
+                cmb_tbl_names.Visible = true;
+                if (cmb_tbl_names.Items.Count > 0 && cmb_tbl_names.SelectedIndex < 0)
+                    cmb_tbl_names.SelectedIndex = 0;
+
+                lbl_tbl_totalcount.Text = pkid > 0
+                    ? "Pickup Orders : " + count
+                    : "Total Tables : " + count;
+            }
+            else
+            {
+                lbl_tbl_totalcount.Visible = false;
+                cmb_tbl_names.Visible = false;
+            }
+        }
+
         private void CompleteEventHandler(object sender, EventArgs e)
         {
             try
