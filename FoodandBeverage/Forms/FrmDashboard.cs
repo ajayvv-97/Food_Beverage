@@ -1338,7 +1338,7 @@ namespace FoodandBeverage.Forms
                         }
                         else // other employee drawer assigned on other employee
                         {
-                            CMessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            CMessageBox.Show("Drawer Already Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4, "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             if (FrmDashboard.Instance != null && !FrmDashboard.Instance.IsDisposed)
                             {
                                 FrmDashboard.Instance.lbl_drawer.Text = "Drawer Assigned on " + gridesource[0].Field3 + " , " + gridesource[0].Field4;
@@ -1362,7 +1362,7 @@ namespace FoodandBeverage.Forms
                         FrmDashboard.Instance.lbl_drawer.ForeColor = Color.Red;
                         if (DrawerCheckBranch(Convert.ToInt32(FrmLogin.EmployeeId)))
                         {
-                            CMessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            CMessageBox.Show("Drawer Already Assigned on " + Drawersystemname + "System", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                             return;
                         }
                         DialogResult result = CMessageBox.Show("Please Assign Drawer First", "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);

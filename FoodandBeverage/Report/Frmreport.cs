@@ -3171,8 +3171,11 @@ namespace FoodandBeverage.Report
                 DataTable dt_Rpt = new DataTable("Rpt_DT");
                 BllSearch<DmnRpt_1> bllSearchDetails = new BllSearch<DmnRpt_1>();
                 DmnSearch dmnSearchDetBill = new DmnSearch();
-                dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,FirstName as sFld3,PhoneNumber as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4,alt.ICardNo sFld5";/*,fcm. as dFld2,fcm.Tax as dFld3*/
-                dmnSearchDetBill.Table = "tblSalesMaster s left join  tblAccountLedger_Transaction alt on alt.SalesMasterId=s.SalesMasterId";
+                dmnSearchDetBill.Select = "(select CONVERT(varchar(50), s.CreatedDateTime, 105)) as sFld1,EntryNo as sFld2,FirstName as sFld3," +
+                    "PhoneNumber as sFld4,TotalQuantity  as dFld1,TotalTax  as dFld2,DiscountAmount  as dFld3,NetAmount  as dFld4,alt.ICardNo sFld5,r.ReasonName sFld6,s.ReasonText sFld7";/*,fcm. as dFld2,fcm.Tax as dFld3*/
+                dmnSearchDetBill.Table = "tblSalesMaster s" +
+                    " left join  tblAccountLedger_Transaction alt on alt.SalesMasterId=s.SalesMasterId" +
+                    " left join  tblReason r on r.ReasonId=s.ReasonId and r.Status=1";
                 dmnSearchDetBill.WhereNdGroupBy = "where  s.CreatedDateTime >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "'   and  s.CreatedDateTime<= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "' and  s.PaymentMode =" + Convert.ToInt32(PaymentType.COMPLEMENTRY) + " and  s.BranchId = " + BranchId;
                 var invoiceBillMasters = bllSearchDetails.GetSearchData("prdSearch", dmnSearchDetBill);
                 if (invoiceBillMasters.Count > 0)
@@ -3180,7 +3183,7 @@ namespace FoodandBeverage.Report
                     invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
                     invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
                 }
-                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "dFld1", "dFld2", "dFld3", "dFld4"))
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "sFld6", "sFld7", "dFld1", "dFld2", "dFld3", "dFld4"))
                 {
                     dt_Rpt.Load(reader);
                 }
@@ -3246,9 +3249,11 @@ namespace FoodandBeverage.Report
                                             sd.Amount as dFld6,
                                             sd.TaxAmount as dFld7,
                                             sd.DiscountAmount as dFld8,
-                                            sd.NetAmount as dFld9";
+                                            sd.NetAmount as dFld9,r.ReasonName sFld6,sm.ReasonText sFld7";
 
-                dmnSearchDetBill1.Table = "tblSalesMaster sm LEFT JOIN tblSalesDetails sd ON sm.SalesMasterId = sd.SalesMasterId";
+                dmnSearchDetBill1.Table = "tblSalesMaster sm " +
+                    " LEFT JOIN tblSalesDetails sd ON sm.SalesMasterId = sd.SalesMasterId " +
+                    " left join  tblReason r on r.ReasonId=sm.ReasonId and r.Status=1";
                 dmnSearchDetBill1.WhereNdGroupBy =
                 "WHERE (" +
                 "(sm.SaleType = 3 AND sm.EntryDate >= '" + fTime.ToString("yyyy-MM-dd HH:mm:ss") + "' AND sm.EntryDate <= '" + tTime.ToString("yyyy-MM-dd HH:mm:ss") + "') " +
@@ -3303,7 +3308,7 @@ namespace FoodandBeverage.Report
                     invoiceBillMasters[0].FromDate = Convert.ToDateTime(dtpfrom.Text);
                     invoiceBillMasters[0].ToDate = Convert.ToDateTime(dtpto.Text);
                 }
-                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6", "dFld7", "dFld8", "dFld9", "nFld1"))
+                using (var reader = ObjectReader.Create(invoiceBillMasters, "sFld1", "sFld2", "sFld3", "sFld4", "sFld5", "sFld6", "sFld7", "dFld1", "dFld2", "dFld3", "dFld4", "dFld5", "dFld6", "dFld7", "dFld8", "dFld9", "nFld1"))
                 {
                     dt_Rpt.Load(reader);
                 }

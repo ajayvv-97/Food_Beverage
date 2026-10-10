@@ -53,8 +53,7 @@
     </Win32Resource>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>RestaurantLogo_256.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -356,7 +355,9 @@
     <Compile Include="Forms\FrmAddon.Designer.cs">
       <DependentUpon>FrmAddon.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ModernCombinedBillCard.cs" />
+    <Compile Include="Controls\ModernCombinedBillCard.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\FrmCombinedBill.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -423,7 +424,9 @@
     <Compile Include="Forms\Frmkeypad.Designer.cs">
       <DependentUpon>Frmkeypad.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ModernKitchenOrderCard.cs" />
+    <Compile Include="Controls\ModernKitchenOrderCard.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\FrmKitchenView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -478,7 +481,9 @@
     <Compile Include="Forms\FrmPartyPackSetup.Designer.cs">
       <DependentUpon>FrmPartyPackSetup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ModernPickupCard.cs" />
+    <Compile Include="Controls\ModernPickupCard.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\FrmPickup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -545,7 +550,9 @@
     <Compile Include="Forms\FrmTableInfo.Designer.cs">
       <DependentUpon>FrmTableInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ModernTableCard.cs" />
+    <Compile Include="Controls\ModernTableCard.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\FrmTableView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2129,6 +2136,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BugReport\BugReport.txt" />
+    <None Include="Resources\RestaurantLogo1.png" />
+    <None Include="Resources\ResEmblem.png" />
+    <None Include="Resources\Login_dine_logo.png" />
+    <None Include="Resources\Login_Report_logo.png" />
+    <None Include="Resources\Login_tabel_logo.png" />
+    <None Include="Resources\MIDAS_FUN_Wordmark.png" />
+    <None Include="Resources\Logo_word.png" />
+    <None Include="Resources\loginrfid.png" />
+    <Content Include="RestaurantLogo.ico" />
+    <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />
     <None Include="Resources\Footerloginbg.png" />
     <None Include="Resources\Fb_left_text.png" />
