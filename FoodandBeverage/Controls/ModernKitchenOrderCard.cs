@@ -91,6 +91,21 @@ namespace FoodandBeverage.Controls
                 {
                     label.BackColor = Color.White;
                     label.ForeColor = headerColor;
+                    switch (state)
+                    {
+                        case KitchenOrderVisualState.WaitingForCustomer:
+                            label.Text = "WAITING CUSTOMER";
+                            break;
+                        case KitchenOrderVisualState.Ready:
+                            label.Text = "READY";
+                            break;
+                        case KitchenOrderVisualState.InProgress:
+                            label.Text = "IN PROGRESS";
+                            break;
+                        default:
+                            label.Text = "NEW ORDER";
+                            break;
+                    }
                 }
                 else if (label.Name.StartsWith("lbl_tablecod_k_", StringComparison.Ordinal) ||
                          label.Name.StartsWith("lbl_tokkenno_k_", StringComparison.Ordinal) ||
