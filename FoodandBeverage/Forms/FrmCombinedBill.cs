@@ -151,11 +151,13 @@ namespace FoodandBeverage.Forms
             try
             {
                 SuspendLayout();
-
                 pnl_complebill_prevbill.Visible = true;
                 pnl_empty_msg.Visible = false;
 
+                flp_billlayout.SuspendLayout();
                 flp_billlayout.Controls.Clear();
+                tableCache.Clear();
+                tableAmountCache.Clear();
                 flp_billlayout.Dock = DockStyle.Fill;
                 flp_billlayout.AutoScroll = true;
                 flp_billlayout.FlowDirection = FlowDirection.LeftToRight;
@@ -169,315 +171,57 @@ namespace FoodandBeverage.Forms
                         Fcid = categoryId
                     });
 
-                flp_billlayout.SuspendLayout();
-
                 foreach (var tabledata in gridSource)
                 {
                     int tid = Convert.ToInt32(tabledata.Tid);
-                    if (tid <= 0) continue;
+                    if (tid <= 0)
+                        continue;
 
-                    if (!tableCache.TryGetValue(tid, out TableControls controls))
+                    bool isBooking = tabledata.BookmasterId > 0 ||
+                                     Convert.ToInt32(tabledata.Cbid) > 0;
+                    string description = BuildCombinedBillDescription(
+                        Convert.ToInt32(isBooking
+                            ? DashboardTableType.Reverse_overtime_Cancel
+                            : DashboardTableType.Normalorder),
+                        tabledata.OrderMasterId, tabledata.Tid, tabledata.TableCode,
+                        Convert.ToInt32(tabledata.BookmasterId), Convert.ToInt32(tabledata.pkid));
+
+                    string amount = "₹" + Convert.ToString(tabledata.NetAmount);
+                    tableAmountCache[tid] = amount;
+
+                    ModernCombinedBillCard card = new ModernCombinedBillCard
                     {
-                        TableLayoutPanel tlp = new TableLayoutPanel
-                        {
-                            Name = "tlp_com" + tabledata.Tid,
-                            RowCount = 3,
-                            Width = 140,
-                            Height = 110,
-                            Margin = new Padding(5),
-                            BackColor = Color.White,
-                            Tag = Convert.ToInt32(CombinedBillType.Normal)
-                        };
+                        Name = "tlp_com" + tid,
+                        Size = new Size(140, 110),
+                        Margin = new Padding(5),
+                        Visible = tabledata.BillStatus == 0
+                    };
+                    card.SelectRequested += CombinedBillCard_SelectRequested;
+                    card.OpenRequested += CompleteEventHandler;
+                    card.SetBillData(
+                        tabledata.TableCode, amount, description,
+                        Convert.ToInt32(isBooking ? CombinedBillType.BookingBill : CombinedBillType.Normal),
+                        isBooking, selectedTableIds.Contains(tid));
 
-                        tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                        tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-                        tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
-          
-                        Label lblSelect = new Label
-                        {
-                            Dock = DockStyle.Fill,
-                            TextAlign = ContentAlignment.MiddleCenter,
-                            Font = new Font("Arial", 9, FontStyle.Bold),
-                            ForeColor = Color.White,
-                            BackColor = Color.Gray,
-                            Text = "ADD",
-                            Cursor = Cursors.Hand,
-                            Tag = tid
-                        };
-                        lblSelect.Click += SelectLabel_Click;
-
-
-                        Label lblTable = new Label
-                        {
-                            Dock = DockStyle.Fill,
-                            TextAlign = ContentAlignment.MiddleCenter,
-                            Font = new Font("Arial", 10, FontStyle.Bold),
-                            ForeColor = Description_color,
-                            Tag = Convert.ToInt32(CombinedBillType.Normal)
-                        };
-
-     
-                        Label lblNet = new Label
-                        {
-                            Dock = DockStyle.Fill,
-                            TextAlign = ContentAlignment.MiddleCenter,
-                            Font = new Font("Arial", 10, FontStyle.Bold),
-                            ForeColor = Netamountcolor,
-                            Tag = Convert.ToInt32(CombinedBillType.Normal)
-                        };
-
-                        tlp.Controls.Add(lblSelect, 0, 0);
-                        tlp.Controls.Add(lblTable, 0, 1);
-                        tlp.Controls.Add(lblNet, 0, 2);
-
-
-
-                        tlp.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," + 
-                                                                                    Convert.ToString(tabledata.OrderMasterId) + "," +
-                                                                                    tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
-                                                                                    Convert.ToInt32(tabledata.BookmasterId) + "," +
-                                                                                    Convert.ToInt32(tabledata.pkid);
-
-                        lblTable.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," +
-                                                                                    Convert.ToString(tabledata.OrderMasterId) + "," +
-                                                                                    tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
-                                                                                    Convert.ToInt32(tabledata.BookmasterId) + "," +
-                                                                                    Convert.ToInt32(tabledata.pkid);
-
-                        lblNet.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," +
-                                                                                    Convert.ToString(tabledata.OrderMasterId) + "," +
-                                                                                    tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
-                                                                                    Convert.ToInt32(tabledata.BookmasterId) + "," +
-                                                                                    Convert.ToInt32(tabledata.pkid);
-
-                        lblSelect.AccessibleDescription = lblNet.AccessibleDescription;
-
-                        tlp.Click += new EventHandler(CompleteEventHandler);
-                        lblTable.Click += new EventHandler(CompleteEventHandler);
-                        lblNet.Click += new EventHandler(CompleteEventHandler);
-
-                        UIHelper.RoundCorners(tlp, 25, null);
-
-                        controls = new TableControls
-                        {
-                            TablePanel = tlp,
-                            SelectLabel = lblSelect,
-                            TableNameLabel = lblTable,
-                            NetAmountLabel = lblNet
-                        };
-
-                        tableCache[tid] = controls;
-                        flp_billlayout.Controls.Add(tlp);
-                    }
-
-                    controls.TableNameLabel.Text = tabledata.TableCode;
-                    controls.NetAmountLabel.Text = "₹" + tabledata.NetAmount;
-                    controls.TablePanel.Visible = tabledata.BillStatus == 0;
-
-                    if (tabledata.BookmasterId > 0 || Convert.ToInt32(tabledata.Cbid) > 0)
-                    {
-                        controls.SelectLabel.Visible = false;
-
-                        controls.TablePanel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-                        controls.TableNameLabel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-                        controls.NetAmountLabel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
-
-                        controls.TableNameLabel.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," +
-                                                              Convert.ToString(tabledata.OrderMasterId) + "," +
-                                                              tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
-                                                              Convert.ToInt32(tabledata.BookmasterId) + "," +
-                                                              Convert.ToInt32(tabledata.pkid);
-                        controls.TableNameLabel.AccessibleDescription = controls.TableNameLabel.AccessibleDescription;
-                        controls.NetAmountLabel.AccessibleDescription = controls.TableNameLabel.AccessibleDescription;
-
-                    }
-                    else
-                    {
-                        controls.SelectLabel.Visible = true;
-                        UpdateSelectLabelUI(tid, controls.SelectLabel);
-                    }
+                    tableCache[tid] = new TableControls { Card = card };
+                    flp_billlayout.Controls.Add(card);
                 }
 
-                flp_billlayout.ResumeLayout();
+                flp_billlayout.ResumeLayout(true);
                 CombineBillAutoTimer.Start();
                 SetEmptyIcon();
-
-                ResumeLayout();
+                ResumeLayout(true);
             }
             catch (Exception ex)
             {
+                flp_billlayout.ResumeLayout(true);
                 clsgen.LogException("Billcomplete_Fill()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation,
                     Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
 
-        public void BillCombineBill_Update()
-        {
-            if (isUserSelecting) return;
-
-            try
-            {
-                var gridSource = new BllTableData<DmncombinedBill>()
-                    .serachreport("prdBillData", new DmncombinedBill
-                    {
-                        BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell),
-                        Fcid = categoryId
-                    });
-
-                flp_billlayout.SuspendLayout();
-
-                foreach (var tabledata in gridSource)
-                {
-                    int tid = Convert.ToInt32(tabledata.Tid);
-                    if (!tableCache.TryGetValue(tid, out TableControls controls))
-                        continue;
-
-                    controls.NetAmountLabel.Text = "₹" + tabledata.NetAmount;
-                    controls.TablePanel.Visible = tabledata.BillStatus == 0;
-
-                    if (tabledata.BookmasterId > 0 || Convert.ToInt32(tabledata.Cbid) > 0)
-                    {
-                        controls.SelectLabel.Visible = false;
-                    }
-                    else
-                    {
-                        controls.SelectLabel.Visible = true;
-                        UpdateSelectLabelUI(tid, controls.SelectLabel);
-                    }
-                }
-
-                flp_billlayout.ResumeLayout();
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("BillCombineBill_Update()", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.CombinedBillpage));
-            }
-        }
-
-        private void SelectLabel_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                isUserSelecting = true;
-
-                Label lbl = sender as Label;
-                if (lbl == null || string.IsNullOrEmpty(lbl.AccessibleDescription))
-                    return;
-
-                // Same parsing logic as button
-                string[] parts = lbl.AccessibleDescription.Split(',');
-
-                int Btype = parts.Length > 0 ? Convert.ToInt32(parts[0]) : 0;
-                int OrderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
-                int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
-                string tableCode = parts.Length > 3 ? parts[3] : "";
-                int BmasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
-                int pkid = parts.Length > 5 ? Convert.ToInt32(parts[5]) : 0;
-
-                // Check already combined or not (your existing logic)
-                CheckCombinedOrNot(OrderMasterId);
-
-                bool isSelected = selectedTableIds.Contains(tid);
-
-                if (!isSelected)
-                {
-                    /* ================= ADD ================= */
-
-                    selectedTableIds.Add(tid);
-
-                    CheckedtableNames.Add(new DmnNameList
-                    {
-                        Id = tid,
-                        Ordermasterid = OrderMasterId,
-                        Tablecode = tableCode,
-                        BookingMasterid = BmasterId,
-                        pkid = pkid,
-                    });
-
-                    // Combo box add
-                    cmb_tbl_names.Items.Add(pkid > 0 ? pkid.ToString() : tableCode);
-                }
-                else
-                {
-                    /* ================= REMOVE ================= */
-
-                    selectedTableIds.Remove(tid);
-
-                    var itemToRemove = CheckedtableNames
-                        .FirstOrDefault(x => x.Ordermasterid == OrderMasterId);
-
-                    if (itemToRemove != null)
-                        CheckedtableNames.Remove(itemToRemove);
-
-                    cmb_tbl_names.Items.Remove(pkid > 0 ? pkid.ToString() : tableCode);
-                }
-
-                // Update label UI
-                UpdateSelectLabelUI(tid, lbl);
-
-                // Update count & visibility
-                UpdateSelectedCountUI(pkid);
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("SelectLabel_Click()", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.CombinedBillpage));
-            }
-            finally
-            {
-                isUserSelecting = false;
-            }
-        }
-        private void UpdateSelectedCountUI(int pkid)
-        {
-            int count = CheckedtableNames.Count;
-
-            if (count > 1)
-            {
-                lbl_tbl_totalcount.Visible = true;
-                cmb_tbl_names.Visible = true;
-                cmb_tbl_names.SelectedIndex = 0;
-
-                lbl_tbl_totalcount.Text =
-                    pkid > 0
-                    ? "Pickup Orders : " + count
-                    : "Total Tables : " + count;
-            }
-            else
-            {
-                lbl_tbl_totalcount.Visible = false;
-                cmb_tbl_names.Visible = false;
-            }
-        }
-        private void UpdateSelectLabelUI(int tid, Label lbl)
-        {
-            if (selectedTableIds.Contains(tid))
-            {
-                lbl.Text = "SELECTED";
-                lbl.BackColor = Color.Green;
-                lbl.ForeColor = Color.White;
-            }
-            else
-            {
-                lbl.Text = "ADD";
-                lbl.BackColor = Color.Gray;
-                lbl.ForeColor = Color.White;
-            }
-        }
-
-        private void CombineBillAutoTimer_Tick(object sender, EventArgs e)
-        {
-            BillCombineBill_Update();
-        }
-
-        #endregion
-
-
-        #region old code bill print
+#region old code bill print
         //public void Billcomplete_Fill()
         //{
         //    try
