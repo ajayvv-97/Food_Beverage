@@ -378,22 +378,22 @@ namespace FoodandBeverage.Forms
                 int hostWidth = flp_order_view.ClientSize.Width > 0
                     ? flp_order_view.ClientSize.Width
                     : ClientSize.Width;
-                int availableWidth = Math.Max(285, hostWidth - flp_order_view.Padding.Horizontal -
-                    SystemInformation.VerticalScrollBarWidth - 12);
+                int availableWidth = Math.Max(300, hostWidth - flp_order_view.Padding.Horizontal -
+                    SystemInformation.VerticalScrollBarWidth - 18);
                 int columns = availableWidth >= 1250 ? 3 : availableWidth >= 820 ? 2 : 1;
-                int controlWidth = Math.Max(285, (availableWidth - (columns - 1) * 14) / columns);
-                int controlHeight = Math.Max(220,
-                    Math.Min(260, Math.Max(220, flp_order_view.ClientSize.Height - 18) / 2));
+                int controlWidth = Math.Max(300, (availableWidth - (columns - 1) * 20) / columns);
+                int controlHeight = Math.Max(230,
+                    Math.Min(280, Math.Max(230, flp_order_view.ClientSize.Height - 24) / 2));
                 bool isPickupOrder = Convert.ToInt32(details[0].Field25) > 0;
-                int headerHeight = 34;
-                int buttonHeight = 36;
+                int headerHeight = 36;
+                int buttonHeight = 42;
 
                 ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
                     Name = cardName,
                     Size = new Size(controlWidth, controlHeight),
-                    MinimumSize = new Size(285, 205),
-                    Margin = new Padding(4, 5, 4, 5),
+                    MinimumSize = new Size(300, 220),
+                    Margin = new Padding(8, 8, 8, 8),
                     BackColor = Color.White,
                     Visible = true,
                     RowCount = 4,
@@ -462,8 +462,8 @@ namespace FoodandBeverage.Forms
                     Margin = new Padding(4, 5, 4, 5),
                     Font = ModernKitchenOrderCard.StatusFont,
                     ForeColor = Color.FromArgb(44, 96, 163),
-                    // Pickup tickets do not need the extra NEW status pill.
-                    Visible = !isPickupOrder
+                    Text = isPickupOrder ? "PICKUP" : "NEW",
+                    Visible = true
                 };
 
                 TimeSpan elapsed = DateTime.Now - details[0].Fielddatetime;
@@ -524,11 +524,36 @@ namespace FoodandBeverage.Forms
                     "reprintbutton_k_" + orderId + suffix, Properties.Resources.reprint,
                     suffix, orderId, reprintbutton_Click);
 
-                // Ready replaces Start in the same first action slot.
-                card.Controls.Add(startButton, 0, 3);
-                card.Controls.Add(readyButton, 0, 3);
-                card.Controls.Add(cancelButton, 2, 3);
-                card.Controls.Add(reprintButton, 3, 3);
+                // Use a dedicated three-column action strip so Start/Ready, Cancel,
+                // and Reprint all receive exactly the same width and height.
+                TableLayoutPanel actionStrip = new TableLayoutPanel
+                {
+                    Name = "pnl_actions_k_" + orderId + suffix,
+                    Dock = DockStyle.Fill,
+                    Margin = new Padding(4, 2, 4, 3),
+                    Padding = Padding.Empty,
+                    BackColor = Color.White,
+                    ColumnCount = 3,
+                    RowCount = 1
+                };
+                actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.333F));
+                actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.333F));
+                actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.334F));
+                actionStrip.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+
+                foreach (PictureBox actionButton in new[]
+                    { startButton, readyButton, cancelButton, reprintButton })
+                {
+                    actionButton.Dock = DockStyle.Fill;
+                    actionButton.Margin = new Padding(4, 2, 4, 2);
+                }
+
+                actionStrip.Controls.Add(startButton, 0, 0);
+                actionStrip.Controls.Add(readyButton, 0, 0);
+                actionStrip.Controls.Add(cancelButton, 1, 0);
+                actionStrip.Controls.Add(reprintButton, 2, 0);
+                card.Controls.Add(actionStrip, 0, 3);
+                card.SetColumnSpan(actionStrip, 4);
 
                 bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
                 bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
