@@ -218,8 +218,6 @@ namespace FoodandBeverage.Forms
         private Dictionary<string, int> RowBlinkCounter = new Dictionary<string, int>();
         private Dictionary<string, bool> RowBlinkState = new Dictionary<string, bool>();
         private const int BlinkThreshold = 1;
-        private bool emptyStateVisibilityInitialized;
-        private bool emptyStateShouldBeVisible;
 
         /// <summary>
         /// Main optimized FillOrdersAsync - creates cards once and updates on subsequent calls.
