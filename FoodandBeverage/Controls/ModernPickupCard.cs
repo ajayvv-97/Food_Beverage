@@ -265,6 +265,7 @@ namespace FoodandBeverage.Controls
         {
             public readonly Color Background;
             public readonly Color Accent;
+            public readonly Color Border;
             public readonly Color StatusBackground;
             public readonly Color StatusText;
             public readonly Color TokenText;
@@ -275,6 +276,7 @@ namespace FoodandBeverage.Controls
             {
                 Background = background;
                 Accent = accent;
+                Border = ControlPaint.Light(accent, 0.65F);
                 StatusBackground = statusBackground;
                 StatusText = statusText;
                 TokenText = tokenText;
