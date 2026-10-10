@@ -3271,24 +3271,30 @@ namespace FoodandBeverage.Forms
 
                                 if (waitingForCustomer)
                                 {
-                                    if (btn_ready != null)
-                                        btn_ready.Visible = false;
-                                    if (btn_start != null)
-                                        btn_start.Visible = false;
-                                    if (btn_cancelfood != null)
-                                        btn_cancelfood.Visible = false;
-                                    if (pbrprint != null)
-                                        pbrprint.Visible = false;
+                                    if (btn_ready != null) btn_ready.Visible = false;
+                                    if (btn_start != null) btn_start.Visible = false;
+                                    if (btn_cancelfood != null) btn_cancelfood.Visible = false;
+                                    if (pbrprint != null) pbrprint.Visible = false;
 
                                     if (txtdes != null)
                                     {
                                         txtdes.Visible = true;
                                         txtdes.Text = "Waiting for customer confirmation.";
                                     }
-                                    tlp_sele.RowStyles[2] = new RowStyle(SizeType.AutoSize);
+                                    ToggleDescriptionRow(tlp_sele, true);
                                 }
                                 else
                                 {
+                                    bool hasDescription = !string.IsNullOrWhiteSpace(Convert.ToString(gridSourcedetails[0].Field16));
+                                    if (txtdes != null)
+                                    {
+                                        txtdes.Text = hasDescription
+                                            ? "Note: " + Convert.ToString(gridSourcedetails[0].Field16)
+                                            : string.Empty;
+                                        txtdes.Visible = hasDescription;
+                                    }
+                                    ToggleDescriptionRow(tlp_sele, hasDescription);
+
                                     #region Grid Edit Cancel  product
 
                                     for (int k = 0; k < gridSourcedetails.Count; k++)
@@ -3367,16 +3373,15 @@ namespace FoodandBeverage.Forms
                                     #region Edit Ready and Close Button 
                                     if (flagstart_ready)
                                     {
-                                        btn_start.Visible = true;
-                                        btn_cancelfood.Visible = true;
-                                        btn_ready.Visible = false;
+                                        if (btn_start != null) btn_start.Visible = true;
+                                        if (btn_cancelfood != null) btn_cancelfood.Visible = true;
+                                        if (btn_ready != null) btn_ready.Visible = false;
                                     }
                                     else
                                     {
-                                        if (btn_start != null)
-                                            btn_start.Visible = false;
-                                        btn_ready.Visible = true;
-                                        btn_cancelfood.Visible = false;
+                                        if (btn_start != null) btn_start.Visible = false;
+                                        if (btn_ready != null) btn_ready.Visible = true;
+                                        if (btn_cancelfood != null) btn_cancelfood.Visible = false;
                                     }
                                     #endregion
                                 }
