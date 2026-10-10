@@ -415,7 +415,7 @@ namespace FoodandBeverage.Forms
                 {
                     Name = "lbl_tablecod_k_" + orderId + suffix,
                     Text = Convert.ToInt32(details[0].Field25) > 0
-                        ? "PICK UP " + Convert.ToString(details[0].Field25)
+                        ? "PICKUP ORDER"
                         : Convert.ToString(details[0].Field2),
                     Dock = DockStyle.Fill,
                     AutoSize = false,
@@ -429,7 +429,9 @@ namespace FoodandBeverage.Forms
                 Label token = new Label
                 {
                     Name = "lbl_tokkenno_k_" + orderId + suffix,
-                    Text = "TOKEN " + Convert.ToString(details[0].Field22),
+                    Text = Convert.ToInt32(details[0].Field25) > 0
+                        ? "PICKUP NO: " + Convert.ToString(details[0].Field25)
+                        : "TOKEN " + Convert.ToString(details[0].Field22),
                     Dock = DockStyle.Fill,
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleCenter,
@@ -498,8 +500,9 @@ namespace FoodandBeverage.Forms
                     "reprintbutton_k_" + orderId + suffix, Properties.Resources.reprint,
                     suffix, orderId, reprintbutton_Click);
 
+                // Ready replaces Start in the same first action slot.
                 card.Controls.Add(startButton, 0, 3);
-                card.Controls.Add(readyButton, 1, 3);
+                card.Controls.Add(readyButton, 0, 3);
                 card.Controls.Add(cancelButton, 2, 3);
                 card.Controls.Add(reprintButton, 3, 3);
 
@@ -507,8 +510,8 @@ namespace FoodandBeverage.Forms
                 bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
                 startButton.Visible = hasPendingStart && !waitingForCustomer;
+                readyButton.Visible = !hasPendingStart && !waitingForCustomer;
                 cancelButton.Visible = (hasPendingStart || hasInProgress) && !waitingForCustomer;
-                readyButton.Visible = (hasInProgress || !hasPendingStart) && !waitingForCustomer;
                 reprintButton.Visible = !waitingForCustomer;
 
                 card.SetKitchenState(GetKitchenVisualState(waitingForCustomer, details));

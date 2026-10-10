@@ -870,7 +870,7 @@ namespace FoodandBeverage.Forms
             // refreshtimer
             // 
             this.refreshtimer.Enabled = true;
-            this.refreshtimer.Interval = 2000;
+            this.refreshtimer.Interval = 500;
             this.refreshtimer.Tick += new System.EventHandler(this.refreshtimer_Tick);
             // 
             // tm_memory
