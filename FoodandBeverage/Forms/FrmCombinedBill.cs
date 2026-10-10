@@ -249,6 +249,76 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        /// <summary>
+        /// Refreshes combined-bill cards after bill data changes.
+        /// Called by FrmOrderConsole, so this method intentionally remains public.
+        /// </summary>
+        public void BillCombineBill_Update()
+        {
+            if (isUserSelecting || IsDisposed || Disposing)
+                return;
+
+            try
+            {
+                var gridSource = new BllTableData<DmncombinedBill>()
+                    .serachreport("prdBillData", new DmncombinedBill
+                    {
+                        BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell),
+                        Fcid = categoryId
+                    });
+
+                flp_billlayout.SuspendLayout();
+
+                foreach (var tabledata in gridSource)
+                {
+                    int tid = Convert.ToInt32(tabledata.Tid);
+                    if (tid <= 0)
+                        continue;
+
+                    if (!tableCache.TryGetValue(tid, out TableControls controls) ||
+                        controls == null || controls.Card == null)
+                        continue;
+
+                    bool isBooking = tabledata.BookmasterId > 0 ||
+                                     Convert.ToInt32(tabledata.Cbid) > 0;
+                    string description = BuildCombinedBillDescription(
+                        Convert.ToInt32(isBooking
+                            ? DashboardTableType.Reverse_overtime_Cancel
+                            : DashboardTableType.Normalorder),
+                        tabledata.OrderMasterId,
+                        tabledata.Tid,
+                        tabledata.TableCode,
+                        Convert.ToInt32(tabledata.BookmasterId),
+                        Convert.ToInt32(tabledata.pkid));
+
+                    string amount = "₹" + Convert.ToString(tabledata.NetAmount);
+                    tableAmountCache[tid] = amount;
+
+                    controls.Card.SetBillData(
+                        tabledata.TableCode,
+                        amount,
+                        description,
+                        Convert.ToInt32(isBooking
+                            ? CombinedBillType.BookingBill
+                            : CombinedBillType.Normal),
+                        isBooking,
+                        selectedTableIds.Contains(tid));
+
+                    controls.Card.Visible = tabledata.BillStatus == 0;
+                }
+
+                flp_billlayout.ResumeLayout(true);
+                SetEmptyIcon();
+            }
+            catch (Exception ex)
+            {
+                flp_billlayout.ResumeLayout(true);
+                clsgen.LogException("BillCombineBill_Update()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
 #region old code bill print
         //public void Billcomplete_Fill()
         //{
