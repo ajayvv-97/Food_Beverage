@@ -33,6 +33,7 @@ namespace FoodandBeverage.Controls
 
         public event EventHandler SelectRequested;
         public event EventHandler OpenRequested;
+        public event EventHandler AddButtonClicked;
 
         public ModernCombinedBillCard()
         {
@@ -157,10 +158,34 @@ namespace FoodandBeverage.Controls
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
+
+            // Clicking the card body opens the order page for normal tables.
+            // Only the small ADD/SELECTED badge toggles selection.
             if (isBooking)
                 OpenRequested?.Invoke(this, EventArgs.Empty);
             else
+                OpenRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+
+            if (isBooking || e.Button != MouseButtons.Left)
+                return;
+
+            RectangleF card = new RectangleF(2F, 3F, Width - 5F, Height - 6F);
+            float actionWidth = Math.Min(card.Width - 18F, Math.Max(70F, card.Width * 0.70F));
+            RectangleF action = new RectangleF(
+                card.Left + (card.Width - actionWidth) / 2F,
+                card.Bottom - 27F,
+                actionWidth,
+                18F);
+
+            if (action.Contains(e.Location))
+            {
                 SelectRequested?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         protected override void OnMouseEnter(EventArgs e)
