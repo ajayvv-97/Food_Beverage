@@ -443,7 +443,7 @@ namespace FoodandBeverage.Forms
                     Name = "lbl_tokkenno_k_" + orderId + suffix,
                     // Pickup cards show only the pickup number; regular kitchen cards show their token.
                     Text = isPickupOrder
-                        ? Convert.ToString(details[0].Field25)
+                        ? "PICKUP NO: " + Convert.ToString(details[0].Field25)
                         : "TOKEN " + Convert.ToString(details[0].Field22),
                     Dock = DockStyle.Fill,
                     AutoSize = false,
@@ -461,7 +461,9 @@ namespace FoodandBeverage.Forms
                     TextAlign = ContentAlignment.MiddleCenter,
                     Margin = new Padding(4, 5, 4, 5),
                     Font = ModernKitchenOrderCard.StatusFont,
-                    ForeColor = Color.FromArgb(44, 96, 163)
+                    ForeColor = Color.FromArgb(44, 96, 163),
+                    // Pickup tickets do not need the extra NEW status pill.
+                    Visible = !isPickupOrder
                 };
 
                 TimeSpan elapsed = DateTime.Now - details[0].Fielddatetime;
