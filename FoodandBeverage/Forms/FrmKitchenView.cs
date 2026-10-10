@@ -1188,6 +1188,7 @@ namespace FoodandBeverage.Forms
                     catch { }
                 }
                 KitchenCardCache.Clear();
+                orderbox.Clear();
 
                 foreach (Control ctrl in flp_order_view.Controls)
                 {
@@ -3283,6 +3284,18 @@ namespace FoodandBeverage.Forms
                     btnprintcount.Text = Convert.ToString(countpendingorder);
 
                     var preserveNames = distinctOrders.Select(orders => "tlp_product_box_k_" + orders.Field1 + orders.Field2);
+                    HashSet<string> preserveNameSet = new HashSet<string>(preserveNames);
+                    foreach (string cacheKey in KitchenCardCache.Keys.ToList())
+                    {
+                        OrderCardCache cachedCard;
+                        if (!KitchenCardCache.TryGetValue(cacheKey, out cachedCard) ||
+                            cachedCard == null || cachedCard.CardPanel == null ||
+                            !preserveNameSet.Contains(cachedCard.CardPanel.Name))
+                        {
+                            KitchenCardCache.Remove(cacheKey);
+                        }
+                    }
+
                     int l = 0;
                     foreach (Control control in flp_order_view.Controls.Cast<Control>().ToArray())
                     {
@@ -3506,14 +3519,9 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     btntotalorders.Text = "0";
-                    timer1.Stop();
-                    foreach (Control ctrl in flp_order_view.Controls)
-                    {
-                        ctrl.Dispose();
-                    }
-
-                    flp_order_view.Controls.Clear();
-                    // pnl_empty_msg.Location = new Point(this.ClientSize.Width / 2 - pnl_empty_msg.Size.Width / 2, this.ClientSize.Height / 2 - pnl_empty_msg.Size.Height / 2);
+                    btnprintcount.Text = "0";
+                    ClearKitchenUI();
+                    SetEmptyIcon();
                 }
 
                 SetEmptyIcon();
