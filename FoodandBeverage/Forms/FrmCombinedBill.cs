@@ -856,191 +856,118 @@ namespace FoodandBeverage.Forms
             {
                 CombineBillAutoTimer.Stop();
                 Control clickedControl = sender as Control;
-                if (clickedControl != null)
+                if (clickedControl == null || string.IsNullOrEmpty(clickedControl.AccessibleDescription))
+                    return;
+
+                string[] parts = clickedControl.AccessibleDescription.Split(',');
+                int billType = Convert.ToInt32(clickedControl.Tag);
+                int orderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
+                int tableId = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
+                int bookingMasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
+
+                CheckCombinedOrNot_Tid(tableId);
+
+                if (CheckedtableNames.Count > 1)
                 {
-                    int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-                    int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-
-                    string textvalue = clickedControl.AccessibleDescription;
-                    string[] parts = textvalue.Split(',');
-
-                    int Btype = Convert.ToInt32(clickedControl.Tag);
-                    int OrderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
-                    int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
-                    string tableCode = parts.Length > 3 ? parts[3] : "";
-                    int BmasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
-                    int pkid = parts.Length > 4 ? Convert.ToInt32(parts[5]) : 0;
-
-                    CheckCombinedOrNot_Tid(tid);
-
-                    #region Combined Bill Order
-                    if (CheckedtableNames.Count > 1)
+                    if (Application.OpenForms["FrmOrderConsole"] == null)
                     {
-                        if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
+                        using (FrmOrderConsole orderConsole = new FrmOrderConsole(
+                            0,
+                            Convert.ToInt32(DashboardTableType.CombinedOrderBill),
+                            0,
+                            CheckedtableNames,
+                            Convert.ToInt32(PageType.Billpage),
+                            0,
+                            Convert.ToInt32(SourcepageType.Billingpage),
+                            0))
                         {
-                            ////FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrder;
-                            //if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                            //{
-                            //    _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                            //}
-                            //else
-                            //{
-                            //    _instanceFrmOrder.ShowDialog();
-                            //    _instanceFrmOrder.BringToFront();
-                            //}
+                            orderConsole.WindowState = FormWindowState.Maximized;
+                            orderConsole.Opacity = 0;
+                            orderConsole.Visible = false;
+                            orderConsole.ShowDialog();
+                            orderConsole.BringToFront();
                         }
-                        else
-                        {
-                            using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(
-                                        0,
-                                        Convert.ToInt32(DashboardTableType.CombinedOrderBill),
-                                        0,
-                                        CheckedtableNames,
-                                        Convert.ToInt32(PageType.Billpage),
-                                        0,
-                                        Convert.ToInt32(SourcepageType.Billingpage),0))
-                            {
-                                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                                _instanceFrmOrder.Opacity = 0;
-                                _instanceFrmOrder.Visible = false;
-                                _instanceFrmOrder.ShowDialog();
-                                _instanceFrmOrder.BringToFront();
-                            }
-
-                        }
-                        ResetCombinedBillSelection();
                     }
-                    #endregion
 
+                    ResetCombinedBillSelection();
+                    return;
+                }
+
+                if (billType == Convert.ToInt32(CombinedBillType.Normal))
+                {
+                    if (Application.OpenForms["FrmOrderConsole"] == null)
+                    {
+                        using (FrmOrderConsole orderConsole = new FrmOrderConsole(
+                            tableId,
+                            Convert.ToInt32(DashboardTableType.Normalorder),
+                            0,
+                            CheckedtableNames,
+                            Convert.ToInt32(PageType.Billpage),
+                            0,
+                            Convert.ToInt32(SourcepageType.Billingpage),
+                            0))
+                        {
+                            orderConsole.WindowState = FormWindowState.Maximized;
+                            orderConsole.Opacity = 0;
+                            orderConsole.Visible = false;
+                            orderConsole.ShowDialog();
+                        }
+                    }
                     else
                     {
-                        #region Normal Order 
-                        if (Btype == Convert.ToInt32(CombinedBillType.Normal))
-                        {
-                            if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
-                            {
-                                FrmOrderConsole _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
-                                if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                                {
-                                    _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                                }
-                                else
-                                {
-                                    _instanceFrmOrder.ShowDialog();
-                                    _instanceFrmOrder.BringToFront();
-                                }
-                            }
-                            else
-                            {
-                                int tagValue;
-                                if (clickedControl.Tag != null)
-                                {
-                                    using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(
-                                                tid,
-                                                Convert.ToInt32(DashboardTableType.Normalorder),
-                                                0,
-                                                CheckedtableNames,
-                                                Convert.ToInt32(PageType.Billpage),
-                                                0,
-                                                Convert.ToInt32(SourcepageType.Billingpage),0))
-                                    {
-                                        _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                                        _instanceFrmOrder.Opacity = 0;
-                                        _instanceFrmOrder.Visible = false;
-                                        _instanceFrmOrder.ShowDialog();
-                                    }
-
-                                }
-                            }
-                        }
-                        #endregion
-
-                        #region Booking Order 
-                        else if (Btype == Convert.ToInt32(CombinedBillType.BookingBill))
-                        {
-                            {
-                                if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
-                                {
-                                    FrmOrderConsole _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
-                                    if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                                    {
-                                        _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                                    }
-                                    else
-                                    {
-                                        _instanceFrmOrder.ShowDialog();
-                                        _instanceFrmOrder.BringToFront();
-                                    }
-                                }
-                                else
-                                {
-                                    using (FrmOrderConsole _instanceFrmOrder = new FrmOrderConsole(
-                                          tid,
-                                          Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel),
-                                          BmasterId,
-                                          CheckedtableNames,
-                                          Convert.ToInt32(PageType.Billpage),
-                                          0,
-                                          Convert.ToInt32(SourcepageType.Billingpage),0))
-                                    {
-                                        _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                                        _instanceFrmOrder.Opacity = 0;
-                                        _instanceFrmOrder.Visible = false;
-                                        _instanceFrmOrder.Show();
-                                        _instanceFrmOrder.BringToFront();
-                                    }
-
-
-                                }
-                            }
-                        }
-                        #endregion
-
-                        #region Pick UP Order
-                        //else if (Btype == Convert.ToInt32(CombinedBillType.PickupBill))
-                        //{
-                        //    if (System.Windows.Forms.Application.OpenForms["FrmOrder"] != null)
-                        //    {
-                        //        FrmOrder _instanceFrmOrder = Application.OpenForms["FrmOrder"] as FrmOrder;
-                        //        if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                        //        {
-                        //            _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                        //        }
-                        //        else
-                        //        {
-                        //            _instanceFrmOrder.ShowDialog();
-                        //            _instanceFrmOrder.BringToFront();
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        if (clickedControl.Tag != null)
-                        //        {
-                        //            using (FrmOrder _instanceFrmOrder = new FrmOrder(tid, Convert.ToInt32(DashboardTableType.PickupOrder), 0, CheckedtableNames, Convert.ToInt32(PageType.Billpage), OrderMasterId, Convert.ToInt32(SourcepageType.Pickuppage)))
-                        //            {
-                        //                _instanceFrmOrder.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                        //                _instanceFrmOrder.Opacity = 0;
-                        //                _instanceFrmOrder.Visible = false;
-                        //                _instanceFrmOrder.ShowDialog();
-                        //                _instanceFrmOrder.BringToFront();
-                        //            }
-                        //        }
-                        //    }
-                        //}
-
-                        #endregion
+                        FrmOrderConsole orderConsole =
+                            Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
+                        if (orderConsole != null && orderConsole.WindowState == FormWindowState.Minimized)
+                            orderConsole.WindowState = FormWindowState.Maximized;
+                        else
+                            orderConsole?.BringToFront();
                     }
-
                 }
-                CombineBillAutoTimer.Start();
+                else if (billType == Convert.ToInt32(CombinedBillType.BookingBill))
+                {
+                    if (Application.OpenForms["FrmOrderConsole"] == null)
+                    {
+                        using (FrmOrderConsole orderConsole = new FrmOrderConsole(
+                            tableId,
+                            Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel),
+                            bookingMasterId,
+                            CheckedtableNames,
+                            Convert.ToInt32(PageType.Billpage),
+                            0,
+                            Convert.ToInt32(SourcepageType.Billingpage),
+                            0))
+                        {
+                            orderConsole.WindowState = FormWindowState.Maximized;
+                            orderConsole.Opacity = 0;
+                            orderConsole.Visible = false;
+                            orderConsole.Show();
+                            orderConsole.BringToFront();
+                        }
+                    }
+                    else
+                    {
+                        FrmOrderConsole orderConsole =
+                            Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
+                        if (orderConsole != null && orderConsole.WindowState == FormWindowState.Minimized)
+                            orderConsole.WindowState = FormWindowState.Maximized;
+                        else
+                            orderConsole?.BringToFront();
+                    }
+                }
             }
-
             catch (Exception ex)
             {
-                clsgen.LogException("CombinedBill Page CompleteEventHandler", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+                clsgen.LogException("CombinedBill Page CompleteEventHandler()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
             }
-
+            finally
+            {
+                if (!IsDisposed && !Disposing)
+                    CombineBillAutoTimer.Start();
+            }
         }
+
         private void ResetCombinedBillSelection()
         {
             CombineBillAutoTimer.Stop();
