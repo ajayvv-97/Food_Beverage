@@ -310,7 +310,9 @@ namespace FoodandBeverage.Forms
 
                 timer1.Start();
                 refreshtimer.Start();
-                SetEmptyIcon();
+                bool hasCurrentOrders = KitchenCardCache.Values.Any(cache => cache != null && cache.CardPanel != null && !cache.CardPanel.IsDisposed);
+                if (hasCurrentOrders)
+                    SetEmptyIcon();
             }
             catch (Exception ex)
             {
@@ -3439,7 +3441,8 @@ namespace FoodandBeverage.Forms
                     SetEmptyIcon();
                 }
 
-                SetEmptyIcon();
+                // Do not toggle the empty panel on each search-refresh pass.
+                // The empty result branch above updates it only when there are no records.
 
                 #endregion
             }
