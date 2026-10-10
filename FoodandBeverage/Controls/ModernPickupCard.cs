@@ -125,7 +125,7 @@ namespace FoodandBeverage.Controls
 
             RectangleF token = new RectangleF(card.Left + 8F, card.Top + 30F, card.Width - 16F, 27F);
             using (SolidBrush tokenBrush = new SolidBrush(palette.TokenText))
-                g.DrawString("TOKEN  " + tokenNumber, TokenFont, tokenBrush, token, CenterFormat);
+                g.DrawString("PICKUP  " + tokenNumber, TokenFont, tokenBrush, token, CenterFormat);
 
             string statusLabel = GetStatusLabel(visualStatus, cancelledItemCount);
             RectangleF statusPill = new RectangleF(card.Left + 8F, card.Bottom - 27F, card.Width - 16F, 18F);

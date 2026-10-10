@@ -180,7 +180,7 @@ namespace FoodandBeverage.Forms
                 flp_order_view.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 12);
             int columns = availableWidth >= 1250 ? 3 : availableWidth >= 820 ? 2 : 1;
             int cardWidth = Math.Max(285, (availableWidth - (columns - 1) * 14) / columns);
-            int cardHeight = Math.Max(205, Math.Min(310, (flp_order_view.ClientSize.Height - 18) / 2));
+            int cardHeight = Math.Max(220, Math.Min(260, (flp_order_view.ClientSize.Height - 18) / 2));
 
             foreach (OrderCardCache cache in KitchenCardCache.Values)
             {
@@ -384,8 +384,8 @@ namespace FoodandBeverage.Forms
                     SystemInformation.VerticalScrollBarWidth - 12);
                 int columns = availableWidth >= 1250 ? 3 : availableWidth >= 820 ? 2 : 1;
                 int controlWidth = Math.Max(285, (availableWidth - (columns - 1) * 14) / columns);
-                int controlHeight = Math.Max(205,
-                    Math.Min(310, Math.Max(205, flp_order_view.ClientSize.Height - 18) / 2));
+                int controlHeight = Math.Max(220,
+                    Math.Min(260, Math.Max(220, flp_order_view.ClientSize.Height - 18) / 2));
                 int headerHeight = 30;
                 int buttonHeight = 34;
 
@@ -506,10 +506,11 @@ namespace FoodandBeverage.Forms
                 card.Controls.Add(reprintButton, 3, 3);
 
                 bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
+                bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
                 startButton.Visible = hasPendingStart && !waitingForCustomer;
-                cancelButton.Visible = hasPendingStart && !waitingForCustomer;
-                readyButton.Visible = !hasPendingStart && !waitingForCustomer;
+                cancelButton.Visible = (hasPendingStart || hasInProgress) && !waitingForCustomer;
+                readyButton.Visible = (hasInProgress || !hasPendingStart) && !waitingForCustomer;
                 reprintButton.Visible = !waitingForCustomer;
 
                 card.SetKitchenState(GetKitchenVisualState(waitingForCustomer, details));
@@ -784,6 +785,7 @@ namespace FoodandBeverage.Forms
 
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
                 bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
+                bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool hasDescription = !string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16));
 
                 if (waitingForCustomer)
@@ -806,8 +808,8 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     if (cache.BtnStart != null) cache.BtnStart.Visible = hasPendingStart;
-                    if (cache.BtnReady != null) cache.BtnReady.Visible = !hasPendingStart;
-                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = hasPendingStart;
+                    if (cache.BtnReady != null) cache.BtnReady.Visible = hasInProgress || !hasPendingStart;
+                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = hasPendingStart || hasInProgress;
                     if (cache.BtnReprint != null) cache.BtnReprint.Visible = true;
 
                     if (cache.Description != null)
@@ -2220,18 +2222,9 @@ namespace FoodandBeverage.Forms
                             #endregion
 
                             #region Edit Ready and Close Button 
-                            if (flagstart_ready)
-                            {
-                                btn_start.Visible = true;
-                                btn_cancelfood.Visible = true;
-                                btn_ready.Visible = false;
-                            }
-                            else
-                            {
-                                btn_start.Visible = false;
-                                btn_ready.Visible = true;
-                                btn_cancelfood.Visible = false;
-                            }
+                            btn_start.Visible = false;
+                            btn_ready.Visible = true;
+                            btn_cancelfood.Visible = true;
                             #endregion
 
                             refreshtimer.Start();

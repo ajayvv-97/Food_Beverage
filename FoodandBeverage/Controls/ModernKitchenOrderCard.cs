@@ -161,7 +161,7 @@ namespace FoodandBeverage.Controls
                             label.Text = "IN PROGRESS";
                             break;
                         default:
-                            label.Text = "NEW ORDER";
+                            label.Text = "NEW";
                             break;
                     }
                 }

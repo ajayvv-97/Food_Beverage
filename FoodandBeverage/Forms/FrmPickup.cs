@@ -335,7 +335,7 @@ namespace FoodandBeverage.Forms
                 card.AccessibleDescription = Convert.ToString(item.Field1);
                 card.AccessibleName = cancelledByKitchen ? "1" : "0";
                 card.SetPickupData(
-                    Convert.ToString(item.Field6),
+                    Convert.ToString(item.Field5),
                     orderStatus,
                     cancelCount,
                     cancelledByKitchen);
