@@ -201,7 +201,9 @@ namespace FoodandBeverage.Forms
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
                     btntotalorders.Text = "0";
+                    btnprintcount.Text = "0";
                     ClearKitchenUI();
+                    // Empty state is applied after reconciliation below, not during each refresh.
                     SetEmptyIcon();
                     return;
                 }
