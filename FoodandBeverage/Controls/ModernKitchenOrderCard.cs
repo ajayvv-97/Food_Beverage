@@ -27,7 +27,8 @@ namespace FoodandBeverage.Controls
             Padding = new Padding(5, 0, 5, 0);
             Font = StatusPillFont;
             BackColor = Color.FromArgb(238, 242, 255);
-            ForeColor = Color.FromArgb(79, 70, 229);
+            ForeColor = Color.FromArgb(55, 65, 81);
+            UseCompatibleTextRendering = false;
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)
