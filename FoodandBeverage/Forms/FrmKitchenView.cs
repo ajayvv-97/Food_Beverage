@@ -3460,7 +3460,7 @@ namespace FoodandBeverage.Forms
             {
                 bool hasOrders = flp_order_view.Controls
                     .OfType<ModernKitchenOrderCard>()
-                    .Any(card => !card.IsDisposed && card.Visible);
+                    .Any(card => !card.IsDisposed);
                 bool showEmptyState = !hasOrders;
 
                 if (showEmptyState)
