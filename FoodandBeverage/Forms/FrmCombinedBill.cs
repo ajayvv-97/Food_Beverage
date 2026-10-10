@@ -164,6 +164,8 @@ namespace FoodandBeverage.Forms
         }
         private bool isUserSelecting = false;
 
+        #endregion
+
         private void EnableDoubleBuffer(Control c)
         {
             typeof(Control)
