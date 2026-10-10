@@ -423,6 +423,7 @@
     <Compile Include="Forms\Frmkeypad.Designer.cs">
       <DependentUpon>Frmkeypad.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ModernKitchenOrderCard.cs" />
     <Compile Include="Forms\FrmKitchenView.cs">
       <SubType>Form</SubType>
     </Compile>
