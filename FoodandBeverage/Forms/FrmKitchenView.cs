@@ -3458,9 +3458,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                bool hasOrders = flp_order_view.Controls
-                    .OfType<ModernKitchenOrderCard>()
-                    .Any(card => !card.IsDisposed);
+                // Cache membership is stable during parent hide/show events; checking
+                // Control.Visible here can flicker when the form is minimized or repainted.
+                bool hasOrders = KitchenCardCache.Values.Any(cache =>
+                    cache != null && cache.CardPanel != null &&
+                    !cache.CardPanel.IsDisposed &&
+                    ReferenceEquals(cache.CardPanel.Parent, flp_order_view));
                 bool showEmptyState = !hasOrders;
 
                 if (showEmptyState)
