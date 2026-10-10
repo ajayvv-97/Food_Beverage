@@ -677,11 +677,33 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
         {
             if (loginkeyboard)
             {
-                ShowKeyboard(txt_username.InputTextBox);
+                ShowKeyboard(FindInputTextBox(txt_username));
             }
         }
 
         #region Keyboard
+
+        // Find the real WinForms TextBox inside ModernTextBox without depending on an
+        // InputTextBox property being present in an older locally referenced FBControl assembly.
+        private static TextBox FindInputTextBox(Control parent)
+        {
+            if (parent == null)
+                return null;
+
+            TextBox directTextBox = parent as TextBox;
+            if (directTextBox != null)
+                return directTextBox;
+
+            foreach (Control child in parent.Controls)
+            {
+                TextBox nestedTextBox = FindInputTextBox(child);
+                if (nestedTextBox != null)
+                    return nestedTextBox;
+            }
+
+            return null;
+        }
+
         public void ShowKeyboard(TextBox activeTextBox)
         {
             if (activeTextBox == null) return;
@@ -769,7 +791,7 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
         {
             if (loginkeyboard)
             {
-                ShowKeyboard(txt_password.InputTextBox);
+                ShowKeyboard(FindInputTextBox(txt_password));
             }
         }
 

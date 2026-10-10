@@ -156,11 +156,16 @@ namespace FoodandBeverage.Controls
 
         protected override void OnClick(EventArgs e)
         {
+            // Routing is handled once from OnMouseUp, where the release position
+            // is available. Do not also raise open/selection from Click: WinForms
+            // raises Click after MouseUp and that would execute both actions.
             base.OnClick(e);
-            if (isBooking)
-                OpenRequested?.Invoke(this, EventArgs.Empty);
-            else
-                SelectRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            // Intentionally no routing here. The decision was made in OnMouseUp.
+            base.OnMouseClick(e);
         }
 
         protected override void OnMouseEnter(EventArgs e)
@@ -192,7 +197,41 @@ namespace FoodandBeverage.Controls
         {
             isPressed = false;
             Invalidate();
+
+            // Use the release point so dragging from another spot onto the badge
+            // doesn't accidentally toggle selection.
+            bool isLeftClick = e.Button == MouseButtons.Left;
+            Point releasePoint = e.Location;
+
             base.OnMouseUp(e);
+
+            if (!isLeftClick || IsDisposed || Disposing)
+                return;
+
+            if (isBooking)
+            {
+                OpenRequested?.Invoke(this, EventArgs.Empty);
+                return;
+            }
+
+            RectangleF card = new RectangleF(2F, 3F, Width - 5F, Height - 6F);
+            float actionWidth = Math.Min(card.Width - 18F, Math.Max(70F, card.Width * 0.70F));
+            RectangleF action = new RectangleF(
+                card.Left + (card.Width - actionWidth) / 2F,
+                card.Bottom - 27F,
+                actionWidth,
+                18F);
+
+            if (action.Contains(releasePoint))
+            {
+                // ADD / SELECTED badge: only toggle selection.
+                SelectRequested?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                // Anywhere else on the card: open the order page.
+                OpenRequested?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private static Color Blend(Color first, Color second, float amount)
