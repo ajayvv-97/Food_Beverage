@@ -138,6 +138,19 @@ namespace FoodandBeverage.Forms
         private readonly Dictionary<int, string> tableAmountCache =
             new Dictionary<int, string>();
 
+        private string BuildCombinedBillDescription(
+            int dashboardType,
+            object orderMasterId,
+            object tableId,
+            string tableCode,
+            int bookingMasterId,
+            int pickupId)
+        {
+            return dashboardType + "," + Convert.ToString(orderMasterId) + "," +
+                   Convert.ToString(tableId) + "," + Convert.ToString(tableCode) + "," +
+                   bookingMasterId + "," + pickupId;
+        }
+
         private string ReadCardAmount(ModernCombinedBillCard card)
         {
             if (card == null)
