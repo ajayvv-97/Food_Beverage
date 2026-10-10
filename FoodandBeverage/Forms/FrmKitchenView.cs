@@ -310,9 +310,7 @@ namespace FoodandBeverage.Forms
 
                 timer1.Start();
                 refreshtimer.Start();
-                bool hasCurrentOrders = KitchenCardCache.Values.Any(cache => cache != null && cache.CardPanel != null && !cache.CardPanel.IsDisposed);
-                if (hasCurrentOrders)
-                    SetEmptyIcon();
+                SetEmptyIcon();
             }
             catch (Exception ex)
             {
