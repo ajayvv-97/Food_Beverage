@@ -959,7 +959,7 @@ namespace FoodandBeverage.Forms
 
             dgv_product_details.Columns[dptypeno].Visible = comboflag || addonflag;
 
-            dgv_product_details.ResumeLayout();
+            dgv_product_details.ResumeLayout(true);
 
             // Restore scroll
             if (scrollIndex >= 0 && scrollIndex < dgv_product_details.RowCount)
