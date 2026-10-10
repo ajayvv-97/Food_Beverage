@@ -25,7 +25,7 @@ namespace FoodandBeverage.Controls
             BorderStyle = BorderStyle.None;
             Margin = new Padding(4, 5, 4, 5);
             Padding = new Padding(5, 0, 5, 0);
-            Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            Font = ModernKitchenOrderCard.StatusFont;
             BackColor = Color.FromArgb(238, 242, 255);
             ForeColor = Color.FromArgb(79, 70, 229);
         }
