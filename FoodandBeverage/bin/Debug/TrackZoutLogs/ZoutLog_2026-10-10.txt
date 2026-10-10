@@ -1,0 +1,4 @@
+1 | 2026-10-10 09:30:57.717 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 09:39:05.551 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 09:58:18.559 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 10:22:43.508 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received

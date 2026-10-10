@@ -35,6 +35,8 @@ namespace FoodandBeverage.Forms
             this.pnlloginbox = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.txt_password = new FBControl.ModernTextBox();
+            this.txt_username = new FBControl.ModernTextBox();
             this.btnrfid = new System.Windows.Forms.Button();
             this.btncancel = new System.Windows.Forms.Button();
             this.btnlogin = new System.Windows.Forms.Button();
@@ -68,8 +70,6 @@ namespace FoodandBeverage.Forms
             this.longpress_midascard = new System.Windows.Forms.Timer(this.components);
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.txt_password = new FBControl.ModernTextBox();
-            this.txt_username = new FBControl.ModernTextBox();
             this.pnlloginbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pblogo)).BeginInit();
             this.Pnl_wifiPopup.SuspendLayout();
@@ -129,6 +129,52 @@ namespace FoodandBeverage.Forms
             this.label1.TabIndex = 282;
             this.label1.Text = "Welcome Back";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txt_password
+            // 
+            this.txt_password.BackColor = System.Drawing.Color.White;
+            this.txt_password.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
+            this.txt_password.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
+            this.txt_password.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_password.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
+            this.txt_password.IconText = "";
+            this.txt_password.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txt_password.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
+            this.txt_password.Location = new System.Drawing.Point(52, 207);
+            this.txt_password.MinimumSize = new System.Drawing.Size(150, 38);
+            this.txt_password.Name = "txt_password";
+            this.txt_password.Padding = new System.Windows.Forms.Padding(2);
+            this.txt_password.Placeholder = "Password";
+            this.txt_password.Size = new System.Drawing.Size(269, 46);
+            this.txt_password.TabIndex = 261;
+            this.txt_password.Click += new System.EventHandler(this.txt_password_Click);
+            this.txt_password.Enter += new System.EventHandler(this.txt_password_Enter);
+            this.txt_password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_password_KeyDown);
+            this.txt_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_password_KeyPress);
+            this.txt_password.Leave += new System.EventHandler(this.txt_password_Leave);
+            // 
+            // txt_username
+            // 
+            this.txt_username.BackColor = System.Drawing.Color.White;
+            this.txt_username.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
+            this.txt_username.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
+            this.txt_username.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            this.txt_username.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
+            this.txt_username.IconText = "";
+            this.txt_username.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txt_username.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
+            this.txt_username.Location = new System.Drawing.Point(52, 131);
+            this.txt_username.MinimumSize = new System.Drawing.Size(150, 38);
+            this.txt_username.Name = "txt_username";
+            this.txt_username.Padding = new System.Windows.Forms.Padding(2);
+            this.txt_username.Placeholder = "Username";
+            this.txt_username.Size = new System.Drawing.Size(269, 46);
+            this.txt_username.TabIndex = 260;
+            this.txt_username.Click += new System.EventHandler(this.txt_username_Click);
+            this.txt_username.Enter += new System.EventHandler(this.txt_username_Enter);
+            this.txt_username.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_username_KeyDown);
+            this.txt_username.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_username_KeyPress);
+            this.txt_username.Leave += new System.EventHandler(this.txt_username_Leave);
             // 
             // btnrfid
             // 
@@ -190,13 +236,12 @@ namespace FoodandBeverage.Forms
             this.pblogo.BackColor = System.Drawing.Color.Transparent;
             this.pblogo.BackgroundImage = global::FoodandBeverage.Properties.Resources.RestaurantLogo;
             this.pblogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pblogo.Location = new System.Drawing.Point(11, 11);
+            this.pblogo.Location = new System.Drawing.Point(181, 59);
             this.pblogo.Margin = new System.Windows.Forms.Padding(2);
             this.pblogo.Name = "pblogo";
-            this.pblogo.Size = new System.Drawing.Size(64, 64);
+            this.pblogo.Size = new System.Drawing.Size(194, 191);
             this.pblogo.TabIndex = 258;
             this.pblogo.TabStop = false;
-            this.pblogo.Visible = false;
             this.pblogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pblogo_MouseDown);
             this.pblogo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pblogo_MouseUp);
             // 
@@ -546,12 +591,13 @@ namespace FoodandBeverage.Forms
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.BackgroundImage = global::FoodandBeverage.Properties.Resources.Fb_left_text;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(34, 61);
+            this.pictureBox2.Location = new System.Drawing.Point(402, 399);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(464, 409);
+            this.pictureBox2.Size = new System.Drawing.Size(96, 71);
             this.pictureBox2.TabIndex = 282;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Visible = false;
             // 
             // pictureBox3
             // 
@@ -561,55 +607,9 @@ namespace FoodandBeverage.Forms
             this.pictureBox3.Location = new System.Drawing.Point(11, 514);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(212, 64);
+            this.pictureBox3.Size = new System.Drawing.Size(276, 64);
             this.pictureBox3.TabIndex = 283;
             this.pictureBox3.TabStop = false;
-            // 
-            // txt_password
-            // 
-            this.txt_password.BackColor = System.Drawing.Color.White;
-            this.txt_password.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
-            this.txt_password.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
-            this.txt_password.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            this.txt_password.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
-            this.txt_password.IconText = "";
-            this.txt_password.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.txt_password.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
-            this.txt_password.Location = new System.Drawing.Point(52, 207);
-            this.txt_password.MinimumSize = new System.Drawing.Size(150, 38);
-            this.txt_password.Name = "txt_password";
-            this.txt_password.Padding = new System.Windows.Forms.Padding(2);
-            this.txt_password.Placeholder = "Password";
-            this.txt_password.Size = new System.Drawing.Size(269, 46);
-            this.txt_password.TabIndex = 261;
-            this.txt_password.Click += new System.EventHandler(this.txt_password_Click);
-            this.txt_password.Enter += new System.EventHandler(this.txt_password_Enter);
-            this.txt_password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_password_KeyDown);
-            this.txt_password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_password_KeyPress);
-            this.txt_password.Leave += new System.EventHandler(this.txt_password_Leave);
-            // 
-            // txt_username
-            // 
-            this.txt_username.BackColor = System.Drawing.Color.White;
-            this.txt_username.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(211)))), ((int)(((byte)(248)))));
-            this.txt_username.FocusBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(116)))), ((int)(((byte)(45)))), ((int)(((byte)(238)))));
-            this.txt_username.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            this.txt_username.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(28)))), ((int)(((byte)(235)))));
-            this.txt_username.IconText = "";
-            this.txt_username.InputBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.txt_username.InputForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(72)))));
-            this.txt_username.Location = new System.Drawing.Point(52, 131);
-            this.txt_username.MinimumSize = new System.Drawing.Size(150, 38);
-            this.txt_username.Name = "txt_username";
-            this.txt_username.Padding = new System.Windows.Forms.Padding(2);
-            this.txt_username.Placeholder = "Username";
-            this.txt_username.Size = new System.Drawing.Size(269, 46);
-            this.txt_username.TabIndex = 260;
-            this.txt_username.Click += new System.EventHandler(this.txt_username_Click);
-            this.txt_username.Enter += new System.EventHandler(this.txt_username_Enter);
-            this.txt_username.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_username_KeyDown);
-            this.txt_username.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_username_KeyPress);
-            this.txt_username.Leave += new System.EventHandler(this.txt_username_Leave);
             // 
             // FrmLogin
             // 
@@ -633,7 +633,6 @@ namespace FoodandBeverage.Forms
             this.Load += new System.EventHandler(this.FrmLogin_Load);
             this.Shown += new System.EventHandler(this.FrmLogin_Shown);
             this.pnlloginbox.ResumeLayout(false);
-            this.pnlloginbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pblogo)).EndInit();
             this.Pnl_wifiPopup.ResumeLayout(false);
             this.tlp_wifiPopup.ResumeLayout(false);

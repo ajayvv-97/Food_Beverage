@@ -16,6 +16,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 namespace FoodandBeverage.Forms
@@ -303,6 +304,26 @@ namespace FoodandBeverage.Forms
         bool isRoundValueCaptured = false;
         private readonly string reasonPlaceholder = "Type reason description...";
 
+        #region Drag and Drop
+        private const int WM_NCLBUTTONDOWN = 0xA1;
+        private const int HTCAPTION = 0x02;
+
+        [DllImport("user32.dll")]
+        private static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(
+            IntPtr hWnd,
+            int msg,
+            IntPtr wParam,
+            IntPtr lParam);
+
+        private bool isDraggingProductCart;
+        private Point productCartDragStartMouse;
+        private Point productCartDragStartLocation;
+        private Control productCartDragSource;
+        #endregion
+
         #endregion
         public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype, int cdstatus)
         {
@@ -316,6 +337,11 @@ namespace FoodandBeverage.Forms
             OrderCancelStatus = cdstatus;
 
             InitializeComponent();
+
+            EnableProductCartDragging();
+
+            //lbl_header_cart.Cursor = Cursors.SizeAll;
+            //lbl_header_cart.MouseDown += lbl_header_cart_MouseDown;
 
             f11 = AppFonts.GetFont(11);
             f9 = AppFonts.GetFont(9);
@@ -13929,6 +13955,99 @@ namespace FoodandBeverage.Forms
                 txtcom_reason.Text = reasonPlaceholder;
                 txtcom_reason.ForeColor = Color.Gray;
             }
+        }
+        #endregion
+
+        #region Drag & Drop
+        private void lbl_header_cart_MouseDown( object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            ReleaseCapture();
+
+            SendMessage(
+                this.Handle,
+                WM_NCLBUTTONDOWN,
+                (IntPtr)HTCAPTION,
+                IntPtr.Zero);
+        }
+        private void EnableProductCartDragging()
+        {
+            // Drag using the Product Cart header or its title.
+            tlp_productcart_nav.Cursor = Cursors.SizeAll;
+            lbl_header_cart.Cursor = Cursors.SizeAll;
+
+            tlp_productcart_nav.MouseDown += ProductCartHeader_MouseDown;
+            tlp_productcart_nav.MouseMove += ProductCartHeader_MouseMove;
+            tlp_productcart_nav.MouseUp += ProductCartHeader_MouseUp;
+
+            lbl_header_cart.MouseDown += ProductCartHeader_MouseDown;
+            lbl_header_cart.MouseMove += ProductCartHeader_MouseMove;
+            lbl_header_cart.MouseUp += ProductCartHeader_MouseUp;
+        }
+
+        private void ProductCartHeader_MouseDown(
+            object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left ||
+                !pnl_productCart.Visible)
+                return;
+
+            productCartDragSource = sender as Control;
+
+            if (productCartDragSource == null)
+                return;
+
+            isDraggingProductCart = true;
+
+            productCartDragStartMouse = Control.MousePosition;
+            productCartDragStartLocation = pnl_productCart.Location;
+
+            // Continue tracking the mouse even if it leaves the header.
+            productCartDragSource.Capture = true;
+        }
+
+        private void ProductCartHeader_MouseMove(
+            object sender, MouseEventArgs e)
+        {
+            if (!isDraggingProductCart ||
+                e.Button != MouseButtons.Left)
+                return;
+
+            Point mouseNow = Control.MousePosition;
+
+            int x = productCartDragStartLocation.X
+                  + mouseNow.X - productCartDragStartMouse.X;
+
+            int y = productCartDragStartLocation.Y
+                  + mouseNow.Y - productCartDragStartMouse.Y;
+
+            // Keep the floating cart inside its parent form.
+            Control parent = pnl_productCart.Parent;
+
+            if (parent != null)
+            {
+                x = Math.Max(0, Math.Min(
+                    x, parent.ClientSize.Width - pnl_productCart.Width));
+
+                y = Math.Max(0, Math.Min(
+                    y, parent.ClientSize.Height - pnl_productCart.Height));
+            }
+
+            // Move only the Product Cart panel.
+            pnl_productCart.Location = new Point(x, y);
+        }
+
+        private void ProductCartHeader_MouseUp(
+            object sender, MouseEventArgs e)
+        {
+            isDraggingProductCart = false;
+
+            if (productCartDragSource != null)
+                productCartDragSource.Capture = false;
+
+            productCartDragSource = null;
         }
         #endregion
     }
