@@ -16,6 +16,7 @@ using DAL;
 using Domain;
 using FastMember;
 using FoodandBeverage.Classes;
+using FoodandBeverage.Controls;
 using FoodandBeverage.Interfaces;
 using Microsoft.AspNet.SignalR.Client;
 
@@ -155,16 +156,20 @@ namespace FoodandBeverage.Forms
         #region KitchenView - Cached card UI (Layout A) and blinking
         public class OrderCardCache
         {
-            public TableLayoutPanel CardPanel;   // main card container
-            public DataGridView Grid;           // product grid
-            public Label TimeLabel;             // live time counter label in header
-            public TextBox Description;         // description box
-            public PictureBox BtnStart;         // START button
-            public PictureBox BtnCancel;        // CANCEL button
-            public PictureBox BtnReprint;       // REPRINT button
-            public DateTime CreatedTime;        // created time reference
+            public ModernKitchenOrderCard CardPanel;
+            public DataGridView Grid;
+            public Label TimeLabel;
+            public Label StatusLabel;
+            public Label TableCodeLabel;
+            public TextBox Description;
+            public PictureBox BtnStart;
+            public PictureBox BtnReady;
+            public PictureBox BtnCancel;
+            public PictureBox BtnReprint;
+            public DateTime CreatedTime;
 
-            public Panel DescriptionPanel;
+            // DescriptionPanel remains a Control reference for the existing status/update path.
+            public Control DescriptionPanel;
             public int CancelStatus { get; set; } = -1;
 
         }
@@ -316,125 +321,228 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (details == null || details.Count == 0) return null;
+                if (details == null || details.Count == 0)
+                    return null;
 
-                // Key suffix
                 string suffix = Convert.ToString(details[0].Field17);
-                string orderKey = Convert.ToString(orders.Field1) + "_" + suffix;
-
+                string orderId = Convert.ToString(orders.Field1);
+                string cardName = "tlp_product_box_k_" + orderId + suffix;
                 OrderCardCache cache = new OrderCardCache();
 
-                // MAIN CARD (TableLayoutPanel)
-                TableLayoutPanel card = new TableLayoutPanel();
-                card.Name = "tlp_product_box_k_" + orders.Field1 + suffix;
-                card.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-                card.Dock = DockStyle.Top;
-                card.BackColor = boxcolor; // keep boxcolor from your form
-                card.Margin = new Padding(20, 10, 0, 0);
-                card.RowCount = 4;
-                card.ColumnCount = 1;
-                // rows: header, grid, description (auto), buttons
-                card.RowStyles.Add(new RowStyle(SizeType.AutoSize));   // header
-                card.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // grid
-                card.RowStyles.Add(new RowStyle(SizeType.AutoSize));   // description
-                card.RowStyles.Add(new RowStyle(SizeType.AutoSize));   // buttons
+                int controlWidth = Math.Max(300, (int)(ClientSize.Width * 0.30));
+                int controlHeight = Math.Max(250, (int)(ClientSize.Height * 0.40));
+                int headerHeight = (screenWidth > 1367 && screenHeight > 769) ? 42 : 32;
+                int buttonHeight = (screenWidth > 1367 && screenHeight > 769) ? 45 : 35;
+                int buttonWidth = (screenWidth > 1367 && screenHeight > 769) ? 120 : 80;
 
-                int WidthPercentage = 30;
-                int heightPercentage = 40;
-                int controlWidth = (int)(this.Width * WidthPercentage / 100);
-                int controlHeight = (int)(this.Height * heightPercentage / 100);
-                card.Size = new Size(controlWidth, controlHeight);
-
-
-                // Header
-                TableLayoutPanel header = BuildHeader(orders, details);
-                card.Controls.Add(header, 0, 0);
-
-                // Grid
-                DataGridView dgv = BuildProductGrid(orders, details);
-                card.Controls.Add(dgv, 0, 1);
-                dgv.Dock = DockStyle.Fill;
-
-                // Description area
-                // ======== DESCRIPTION PANEL ALWAYS CREATED ========
-                Panel pnldesc = new Panel();
-                pnldesc.Name = "pnl_Description_k_" + orders.Field1 + suffix;
-                pnldesc.AutoScroll = true;
-                pnldesc.Dock = DockStyle.Fill;
-
-                TextBox txtDesc = BuildDescription(orders, details);
-                pnldesc.Controls.Add(txtDesc);
-
-                // Add description panel ALWAYS (important!)
-                card.Controls.Add(pnldesc, 0, 2);
-
-                // Set initial visibility based on Field16
-                bool hasDescription = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
-                txtDesc.Visible = hasDescription;
-                pnldesc.Visible = hasDescription;
-
-                // Save references to cache
-                cache.Description = txtDesc;
-                cache.DescriptionPanel = pnldesc;
-
-                // Buttons
-                PictureBox startBtn, readyBtn, cancelBtn, reprintBtn;
-                TableLayoutPanel btnPanel = BuildButtons(orders, details, out startBtn, out readyBtn, out cancelBtn, out reprintBtn);
-                card.Controls.Add(btnPanel, 0, 3);
-
-                // Finalize
-                card.ResumeLayout();
-                card.Visible = true;
-
-                // Fill cache
-                cache.CardPanel = card;
-                cache.Grid = dgv;
-                cache.TimeLabel = header.Controls.Find("lbl_time_K_" + orders.Field1 + suffix, true).OfType<Label>().FirstOrDefault();
-                cache.Description = txtDesc;
-                cache.BtnStart = startBtn;
-                cache.BtnCancel = cancelBtn;
-                cache.BtnReprint = reprintBtn;
-
-                DateTime created = details[0].Fielddatetime;
-                cache.CreatedTime = created;
-
-                int currentField27 = Convert.ToInt32(details[0].Field27);
-
-                if (cache.CancelStatus != currentField27)
+                ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
-                    if (Convert.ToInt32(details[0].Field27) == 1)
-                    {
-                        if (cache.BtnStart != null) cache.BtnStart.Visible = false;
-                        if (cache.BtnCancel != null) cache.BtnCancel.Visible = false;
-                        if (cache.BtnReprint != null) cache.BtnReprint.Visible = false;
+                    Name = cardName,
+                    Size = new Size(controlWidth, controlHeight),
+                    MinimumSize = new Size(300, 230),
+                    Margin = new Padding(12, 8, 8, 0),
+                    BackColor = Color.White,
+                    Visible = true,
+                    RowCount = 4,
+                    ColumnCount = 4
+                };
 
-                        cache.Description.Text = "Waiting for customer confirmation.";
-                        cache.Description.Visible = true;
-                        cache.DescriptionPanel.Visible = true;
+                card.ColumnStyles.Clear();
+                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22F));
+                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27F));
+                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27F));
+                card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
+                card.RowStyles.Clear();
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, headerHeight));
+                card.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, buttonHeight));
+                card.SuspendLayout();
 
-                        ToggleDescriptionRow(cache.CardPanel, true);
-                    }
-                    else
-                    {
-                        bool hasDesc = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
+                Label tableCode = new Label
+                {
+                    Name = "lbl_tablecod_k_" + orderId + suffix,
+                    Text = Convert.ToInt32(details[0].Field25) > 0
+                        ? "PICK UP " + Convert.ToString(details[0].Field25)
+                        : Convert.ToString(details[0].Field2),
+                    Dock = DockStyle.Fill,
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Padding = new Padding(8, 0, 2, 0),
+                    Margin = Padding.Empty,
+                    Font = ModernKitchenOrderCard.TableCodeFont,
+                    ForeColor = Color.White
+                };
 
-                        cache.Description.Visible = hasDesc;
-                        cache.DescriptionPanel.Visible = hasDesc;
+                Label token = new Label
+                {
+                    Name = "lbl_tokkenno_k_" + orderId + suffix,
+                    Text = "KITCHEN TOKEN " + Convert.ToString(details[0].Field22),
+                    Dock = DockStyle.Fill,
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Margin = Padding.Empty,
+                    Font = ModernKitchenOrderCard.TokenFont,
+                    ForeColor = Color.White
+                };
 
-                        ToggleDescriptionRow(cache.CardPanel, hasDesc);
-                    }
-                    cache.CancelStatus = currentField27;
+                Label statusLabel = new Label
+                {
+                    Name = "lbl_status_K_" + orderId + suffix,
+                    Dock = DockStyle.Fill,
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Margin = new Padding(2, 5, 2, 5),
+                    Font = ModernKitchenOrderCard.StatusFont,
+                    ForeColor = Color.FromArgb(44, 96, 163)
+                };
+
+                TimeSpan elapsed = DateTime.Now - details[0].Fielddatetime;
+                Label time = new Label
+                {
+                    Name = "lbl_time_K_" + orderId + suffix,
+                    Text = FormatKitchenElapsed(elapsed),
+                    Dock = DockStyle.Fill,
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleRight,
+                    Padding = new Padding(0, 0, 8, 0),
+                    Margin = Padding.Empty,
+                    Font = ModernKitchenOrderCard.TimeFont,
+                    ForeColor = Color.White
+                };
+
+                card.Controls.Add(tableCode, 0, 0);
+                card.Controls.Add(token, 1, 0);
+                card.Controls.Add(statusLabel, 2, 0);
+                card.Controls.Add(time, 3, 0);
+
+                DataGridView grid = BuildProductGrid(orders, details);
+                grid.Dock = DockStyle.Fill;
+                grid.Margin = Padding.Empty;
+                card.Controls.Add(grid, 0, 1);
+                card.SetColumnSpan(grid, 4);
+
+                TextBox description = BuildDescription(orders, details);
+                description.Name = "txt_Description_k_" + orderId + suffix;
+                description.Dock = DockStyle.Fill;
+                description.Margin = new Padding(8, 4, 8, 4);
+                description.BackColor = Color.White;
+                description.ForeColor = Color.FromArgb(55, 65, 81);
+                description.Visible = !string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16));
+                card.Controls.Add(description, 0, 2);
+                card.SetColumnSpan(description, 4);
+
+                PictureBox startButton, readyButton, cancelButton, reprintButton;
+                startButton = CreateKitchenActionButton(
+                    "pb_start_k_" + orderId + suffix, Properties.Resources.start,
+                    suffix, orderId, buttonWidth, buttonHeight, pbstart_Click);
+                readyButton = CreateKitchenActionButton(
+                    "pb_ready_k_" + orderId + suffix, Properties.Resources.ready_button,
+                    suffix, orderId, buttonWidth, buttonHeight, pbreadyfood_Click);
+                cancelButton = CreateKitchenActionButton(
+                    "pictureBoxRemove_k_" + orderId + suffix, Properties.Resources.Kitchen_Ordercancel,
+                    suffix, orderId, buttonWidth, buttonHeight, pbcancelfood_Click);
+                reprintButton = CreateKitchenActionButton(
+                    "reprintbutton_k_" + orderId + suffix, Properties.Resources.reprint,
+                    suffix, orderId, buttonWidth, buttonHeight, reprintbutton_Click);
+
+                card.Controls.Add(startButton, 0, 3);
+                card.Controls.Add(readyButton, 1, 3);
+                card.Controls.Add(cancelButton, 2, 3);
+                card.Controls.Add(reprintButton, 3, 3);
+
+                bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
+                bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
+                startButton.Visible = hasPendingStart && !waitingForCustomer;
+                cancelButton.Visible = hasPendingStart && !waitingForCustomer;
+                readyButton.Visible = !hasPendingStart && !waitingForCustomer;
+                reprintButton.Visible = !waitingForCustomer;
+
+                card.SetKitchenState(GetKitchenVisualState(waitingForCustomer, hasPendingStart));
+                card.ResumeLayout(true);
+
+                cache.CardPanel = card;
+                cache.Grid = grid;
+                cache.TimeLabel = time;
+                cache.StatusLabel = statusLabel;
+                cache.TableCodeLabel = tableCode;
+                cache.Description = description;
+                cache.DescriptionPanel = description;
+                cache.BtnStart = startButton;
+                cache.BtnReady = readyButton;
+                cache.BtnCancel = cancelButton;
+                cache.BtnReprint = reprintButton;
+                cache.CreatedTime = details[0].Fielddatetime;
+                cache.CancelStatus = Convert.ToInt32(details[0].Field27);
+
+                UpdateGridFull(grid, details);
+                if (waitingForCustomer)
+                {
+                    description.Text = "Waiting for customer confirmation.";
+                    description.Visible = true;
+                    cache.BtnStart.Visible = false;
+                    cache.BtnReady.Visible = false;
+                    cache.BtnCancel.Visible = false;
+                    cache.BtnReprint.Visible = false;
+                    ToggleDescriptionRow(card, true);
                 }
-                // populate grid initially
-                UpdateGridFull(cache.Grid, details);
+                else
+                {
+                    description.Text = string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16))
+                        ? string.Empty
+                        : "Note: " + Convert.ToString(details[0].Field16);
+                    bool hasDescription = !string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16));
+                    ToggleDescriptionRow(card, hasDescription);
+                }
+
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
+                {
+                    FrmDashboard dashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                    if (dashboard != null)
+                        card.Enabled = dashboard.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View));
+                }
 
                 return cache;
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Pickuppage BuildOrderCard()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+                clsgen.LogException("FrmKitchenView BuildOrderCard()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
                 return null;
             }
+        }
+
+        private PictureBox CreateKitchenActionButton(
+            string name, Image image, object suffix, object orderMasterId,
+            int width, int height, EventHandler clickHandler)
+        {
+            PictureBox button = new PictureBox
+            {
+                Name = name,
+                Image = image,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Dock = DockStyle.Fill,
+                Margin = new Padding(3, 2, 3, 2),
+                Tag = suffix,
+                AccessibleDescription = Convert.ToString(orderMasterId),
+                Cursor = Cursors.Hand
+            };
+            button.Click += clickHandler;
+            return button;
+        }
+
+        private static string FormatKitchenElapsed(TimeSpan elapsed)
+        {
+            int hours = Math.Max(0, (int)elapsed.TotalHours);
+            return hours + " h, " + elapsed.Minutes + " min " + elapsed.Seconds + " s";
+        }
+
+        private static KitchenOrderVisualState GetKitchenVisualState(bool waitingForCustomer, bool pendingStart)
+        {
+            if (waitingForCustomer)
+                return KitchenOrderVisualState.WaitingForCustomer;
+            return pendingStart ? KitchenOrderVisualState.NewOrder : KitchenOrderVisualState.Ready;
         }
 
         /// <summary>
