@@ -2814,6 +2814,10 @@ namespace FoodandBeverage.Forms
             flp_order_view.Controls.Clear();
             flp_order_view.ResumeLayout(true);
             KitchenCardCache.Clear();
+
+            // Do not leave the previous no-orders panel visible while a manual refresh
+            // is fetching new data. SetEmptyIcon will decide after results are loaded.
+            emptyStateVisibilityInitialized = false;
         }
 
 
