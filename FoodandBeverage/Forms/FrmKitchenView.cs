@@ -2785,7 +2785,7 @@ namespace FoodandBeverage.Forms
                 cmbserachtype.SelectedIndex = 0;
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
                 //btn_viewmore_order.Visible = true;
-                // Preserve current empty-state visibility until the refresh has a result.
+                // Empty state is controlled only by SetEmptyIcon after the refresh resolves.
 
                 txtsearchData.Text = GetPlaceholder();
                 txtsearchData.ForeColor = Color.DarkGray;
@@ -3464,7 +3464,7 @@ namespace FoodandBeverage.Forms
                 bool hasOrders = KitchenCardCache.Values.Any(cache =>
                     cache != null && cache.CardPanel != null &&
                     !cache.CardPanel.IsDisposed &&
-                    ReferenceEquals(cache.CardPanel.Parent, flp_order_view));
+                    flp_order_view.Controls.Contains(cache.CardPanel));
                 bool showEmptyState = !hasOrders;
 
                 if (showEmptyState)
