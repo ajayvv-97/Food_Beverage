@@ -333,7 +333,6 @@ namespace FoodandBeverage.Forms
                 int controlHeight = Math.Max(250, (int)(ClientSize.Height * 0.40));
                 int headerHeight = (screenWidth > 1367 && screenHeight > 769) ? 42 : 32;
                 int buttonHeight = (screenWidth > 1367 && screenHeight > 769) ? 45 : 35;
-                int buttonWidth = (screenWidth > 1367 && screenHeight > 769) ? 120 : 80;
 
                 ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
@@ -435,16 +434,16 @@ namespace FoodandBeverage.Forms
                 PictureBox startButton, readyButton, cancelButton, reprintButton;
                 startButton = CreateKitchenActionButton(
                     "pb_start_k_" + orderId + suffix, Properties.Resources.start,
-                    suffix, orderId, buttonWidth, buttonHeight, pbstart_Click);
+                    suffix, orderId, pbstart_Click);
                 readyButton = CreateKitchenActionButton(
                     "pb_ready_k_" + orderId + suffix, Properties.Resources.ready_button,
-                    suffix, orderId, buttonWidth, buttonHeight, pbreadyfood_Click);
+                    suffix, orderId, pbreadyfood_Click);
                 cancelButton = CreateKitchenActionButton(
                     "pictureBoxRemove_k_" + orderId + suffix, Properties.Resources.Kitchen_Ordercancel,
-                    suffix, orderId, buttonWidth, buttonHeight, pbcancelfood_Click);
+                    suffix, orderId, pbcancelfood_Click);
                 reprintButton = CreateKitchenActionButton(
                     "reprintbutton_k_" + orderId + suffix, Properties.Resources.reprint,
-                    suffix, orderId, buttonWidth, buttonHeight, reprintbutton_Click);
+                    suffix, orderId, reprintbutton_Click);
 
                 card.Controls.Add(startButton, 0, 3);
                 card.Controls.Add(readyButton, 1, 3);
@@ -515,7 +514,7 @@ namespace FoodandBeverage.Forms
 
         private PictureBox CreateKitchenActionButton(
             string name, Image image, object suffix, object orderMasterId,
-            int width, int height, EventHandler clickHandler)
+            EventHandler clickHandler)
         {
             PictureBox button = new PictureBox
             {
@@ -543,74 +542,6 @@ namespace FoodandBeverage.Forms
             if (waitingForCustomer)
                 return KitchenOrderVisualState.WaitingForCustomer;
             return pendingStart ? KitchenOrderVisualState.NewOrder : KitchenOrderVisualState.Ready;
-        }
-
-        /// <summary>
-        /// Header builder: creates blue header with table/pickup, token no and time label.
-        /// </summary>
-        private TableLayoutPanel BuildHeader(DmnGridFields orders, List<Dmnkitchendetails> details)
-        {
-            string suffix = Convert.ToString(details[0].Field17);
-
-            TableLayoutPanel tlp_product_heading = new TableLayoutPanel();
-            tlp_product_heading.Name = "tlp_product_heading_k_" + orders.Field1 + suffix;
-            tlp_product_heading.Dock = DockStyle.Top;
-            tlp_product_heading.ColumnCount = 3;
-            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            tlp_product_heading.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            tlp_product_heading.Height = (screenWidth > 1367 && screenHeight > 769) ? 50 : 28;
-            tlp_product_heading.BackColor = Color.FromArgb(60, 90, 160); // stronger blue header
-
-            // Table code / pickup
-            Label lbl_tablecode = new Label();
-            lbl_tablecode.Name = "lbl_tablecod_k_" + orders.Field1 + suffix;
-            lbl_tablecode.Dock = DockStyle.Fill;
-            lbl_tablecode.ForeColor = Color.White;
-            lbl_tablecode.AutoSize = true;
-            lbl_tablecode.TextAlign = ContentAlignment.MiddleLeft;
-
-            int pickupNo = 0;
-            int.TryParse(Convert.ToString(details[0].Field25), out pickupNo);
-            if (pickupNo > 0)
-            {
-                lbl_tablecode.Text = "Pick Up  " + pickupNo;
-                lbl_tablecode.Font = new Font("Arial", 12, FontStyle.Bold);
-            }
-            else
-            {
-                lbl_tablecode.Text = Convert.ToString(details[0].Field2);
-                lbl_tablecode.Font = (screenWidth > 1367 && screenHeight > 769) ? new Font("Arial", 15, FontStyle.Bold)
-                                                                             : new Font("Arial", 10, FontStyle.Bold);
-            }
-
-            // Token no
-            Label lbl_tokkenno = new Label();
-            lbl_tokkenno.Text = "Kitchen Token No: " + Convert.ToString(details[0].Field22);
-            lbl_tokkenno.Name = "lbl_tokkenno_k_" + orders.Field1 + suffix;
-            lbl_tokkenno.Dock = DockStyle.Fill;
-            lbl_tokkenno.ForeColor = Color.White;
-            lbl_tokkenno.AutoSize = true;
-            lbl_tokkenno.TextAlign = ContentAlignment.MiddleCenter;
-            lbl_tokkenno.Font = (screenWidth > 1367 && screenHeight > 769) ? new Font("Arial", 15, FontStyle.Bold)
-                                                                             : new Font("Arial", 12, FontStyle.Bold);
-
-            // Time label
-            Label lbl_time = new Label();
-            lbl_time.Text = ""; // will be updated by UpdateOrderCard
-            lbl_time.Name = "lbl_time_K_" + orders.Field1 + suffix;
-            lbl_time.Dock = DockStyle.Fill;
-            lbl_time.ForeColor = Color.White;
-            lbl_time.AutoSize = true;
-            lbl_time.TextAlign = ContentAlignment.MiddleRight;
-            lbl_time.Font = (screenWidth > 1367 && screenHeight > 769) ? new Font("Arial", 11, FontStyle.Bold)
-                                                                          : new Font("Arial", 8, FontStyle.Bold);
-
-            tlp_product_heading.Controls.Add(lbl_tablecode, 0, 0);
-            tlp_product_heading.Controls.Add(lbl_tokkenno, 1, 0);
-            tlp_product_heading.Controls.Add(lbl_time, 2, 0);
-
-            return tlp_product_heading;
         }
 
         /// <summary>
@@ -753,91 +684,6 @@ namespace FoodandBeverage.Forms
             txt_Description.Visible = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
             txt_Description.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
             return txt_Description;
-        }
-
-        /// <summary>
-        /// Build bottom buttons and return panel; out parameters for buttons.
-        /// </summary>
-        private TableLayoutPanel BuildButtons(DmnGridFields orders, List<Dmnkitchendetails> details, out PictureBox startBtn, out PictureBox readyBtn, out PictureBox cancelBtn, out PictureBox reprintBtn)
-        {
-            string suffix = Convert.ToString(details[0].Field17);
-
-            TableLayoutPanel tlp_buttons = new TableLayoutPanel();
-            tlp_buttons.Name = "tlp_buttons_k_" + orders.Field1 + suffix;
-            tlp_buttons.Dock = DockStyle.Top;
-            tlp_buttons.ColumnCount = 4;
-            tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            tlp_buttons.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            tlp_buttons.Height = (screenWidth > 1367 && screenHeight > 769) ? 45 : 35;
-            tlp_buttons.BackColor = Color.FromArgb(60, 90, 160); // same blue as header base
-
-            startBtn = new PictureBox();
-            startBtn.Name = "pb_start_k_" + orders.Field1 + suffix;
-            startBtn.Image = Properties.Resources.start;
-            startBtn.SizeMode = PictureBoxSizeMode.StretchImage;
-            startBtn.Dock = DockStyle.None;
-            startBtn.Tag = suffix;
-            startBtn.AccessibleDescription = Convert.ToString(orders.Field1);
-            startBtn.Click += pbstart_Click;
-            startBtn.Width = (screenWidth > 1367 && screenHeight > 769) ? 120 : 80;
-            startBtn.Height = (screenWidth > 1367 && screenHeight > 769) ? 40 : 30;
-
-            readyBtn = new PictureBox();
-            readyBtn.Name = "pb_ready_k_" + orders.Field1 + suffix;
-            readyBtn.Image = Properties.Resources.ready_button;
-            readyBtn.SizeMode = PictureBoxSizeMode.StretchImage;
-            readyBtn.Dock = DockStyle.None;
-            readyBtn.Tag = suffix;
-            readyBtn.AccessibleDescription = Convert.ToString(orders.Field1);
-            readyBtn.Click += pbreadyfood_Click;
-            readyBtn.Width = startBtn.Width;
-            readyBtn.Height = startBtn.Height;
-
-            cancelBtn = new PictureBox();
-            cancelBtn.Name = "pictureBoxRemove_k_" + orders.Field1 + suffix;
-            cancelBtn.Image = Properties.Resources.Kitchen_Ordercancel;
-            cancelBtn.SizeMode = PictureBoxSizeMode.StretchImage;
-            cancelBtn.Dock = DockStyle.None;
-            cancelBtn.Tag = suffix;
-            cancelBtn.AccessibleDescription = Convert.ToString(orders.Field1);
-            cancelBtn.Click += pbcancelfood_Click;
-            cancelBtn.Width = startBtn.Width;
-            cancelBtn.Height = startBtn.Height;
-
-            reprintBtn = new PictureBox();
-            reprintBtn.Name = "reprintbutton_k_" + orders.Field1 + suffix;
-            reprintBtn.Image = Properties.Resources.reprint;
-            reprintBtn.SizeMode = PictureBoxSizeMode.StretchImage;
-            reprintBtn.Dock = DockStyle.None;
-            reprintBtn.Tag = suffix;
-            reprintBtn.AccessibleDescription = Convert.ToString(orders.Field1);
-            reprintBtn.Click += reprintbutton_Click;
-            reprintBtn.Width = startBtn.Width;
-            reprintBtn.Height = startBtn.Height;
-
-            // decide initial visibility based on details statuses
-            bool flagstart_ready = details.Any(d => Convert.ToInt32(d.Field12) == 1);
-            if (flagstart_ready)
-            {
-                startBtn.Visible = true;
-                cancelBtn.Visible = true;
-                readyBtn.Visible = false;
-            }
-            else
-            {
-                startBtn.Visible = false;
-                readyBtn.Visible = true;
-                cancelBtn.Visible = false;
-            }
-
-            tlp_buttons.Controls.Add(startBtn, 0, 0);
-            tlp_buttons.Controls.Add(readyBtn, 1, 0);
-            tlp_buttons.Controls.Add(cancelBtn, 2, 0);
-            tlp_buttons.Controls.Add(reprintBtn, 3, 0);
-
-            return tlp_buttons;
         }
 
         /// <summary>
