@@ -843,76 +843,72 @@ namespace FoodandBeverage.Forms
         /// <summary>
         /// Update a card's dynamic parts: time, description, buttons and grid
         /// </summary>
-        private void UpdateOrderCard(OrderCardCache cache,DmnGridFields orders,List<Dmnkitchendetails> details)
+        private void UpdateOrderCard(OrderCardCache cache, DmnGridFields orders, List<Dmnkitchendetails> details)
         {
             try
             {
-                if (cache == null || details == null || details.Count == 0)
+                if (cache == null || cache.CardPanel == null ||
+                    cache.Grid == null || details == null || details.Count == 0)
                     return;
 
-                // -------- TIME LABEL --------
+                TimeSpan elapsed = DateTime.Now - details[0].Fielddatetime;
                 if (cache.TimeLabel != null)
-                {
-                    TimeSpan tt = DateTime.Now - details[0].Fielddatetime;
-                    cache.TimeLabel.Text =
-                        $"{tt.Hours} h, {tt.Minutes} min {tt.Seconds} s";
-                }
+                    cache.TimeLabel.Text = FormatKitchenElapsed(elapsed);
 
-                // -------- GRID UPDATE (SMART SWITCH) --------
                 if (cache.Grid.Rows.Count == details.Count)
-                {
-                    // ⚡ NO SCROLL RESET
                     UpdateGridLight(cache.Grid, details);
-                }
                 else
-                {
-                    // 🔄 STRUCTURE CHANGED
                     UpdateGridFull(cache.Grid, details);
-                }
 
-                // -------- BUTTONS + DESCRIPTION --------
-                int field27 = Convert.ToInt32(details[0].Field27);
+                bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
+                bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
+                bool hasDescription = !string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16));
 
-                if (field27 == 1) // waiting customer
+                if (waitingForCustomer)
                 {
                     if (cache.BtnStart != null) cache.BtnStart.Visible = false;
+                    if (cache.BtnReady != null) cache.BtnReady.Visible = false;
                     if (cache.BtnCancel != null) cache.BtnCancel.Visible = false;
                     if (cache.BtnReprint != null) cache.BtnReprint.Visible = false;
 
-                    cache.Description.Text = "Waiting for customer confirmation.";
-                    cache.Description.Visible = true;
-                    cache.DescriptionPanel.Visible = true;
+                    if (cache.Description != null)
+                    {
+                        cache.Description.Text = "Waiting for customer confirmation.";
+                        cache.Description.Visible = true;
+                    }
+                    if (cache.DescriptionPanel != null)
+                        cache.DescriptionPanel.Visible = true;
 
                     ToggleDescriptionRow(cache.CardPanel, true);
                 }
                 else
                 {
-                    bool flagStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
-                    bool hasDesc = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
-
-                    if (cache.BtnStart != null) cache.BtnStart.Visible = flagStart;
-                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = flagStart;
+                    if (cache.BtnStart != null) cache.BtnStart.Visible = hasPendingStart;
+                    if (cache.BtnReady != null) cache.BtnReady.Visible = !hasPendingStart;
+                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = hasPendingStart;
                     if (cache.BtnReprint != null) cache.BtnReprint.Visible = true;
 
-                    cache.Description.Text = hasDesc
-                        ? "Note :   " + Convert.ToString(details[0].Field16)
-                        : string.Empty;
+                    if (cache.Description != null)
+                    {
+                        cache.Description.Text = hasDescription
+                            ? "Note: " + Convert.ToString(details[0].Field16)
+                            : string.Empty;
+                        cache.Description.Visible = hasDescription;
+                    }
+                    if (cache.DescriptionPanel != null)
+                        cache.DescriptionPanel.Visible = hasDescription;
 
-                    cache.Description.Visible = hasDesc;
-                    cache.DescriptionPanel.Visible = hasDesc;
-
-                    ToggleDescriptionRow(cache.CardPanel, hasDesc);
+                    ToggleDescriptionRow(cache.CardPanel, hasDescription);
                 }
 
-                cache.CancelStatus = field27;
+                cache.CardPanel.SetKitchenState(
+                    GetKitchenVisualState(waitingForCustomer, hasPendingStart));
+                cache.CancelStatus = Convert.ToInt32(details[0].Field27);
             }
             catch (Exception ex)
             {
-                clsgen.LogException(
-                    "Pickuppage UpdateOrderCard()",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
+                clsgen.LogException("FrmKitchenView UpdateOrderCard()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
                     Convert.ToInt32(FormType.Kitchen_View));
             }
         }
