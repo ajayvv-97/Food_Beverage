@@ -18,6 +18,8 @@ namespace FoodandBeverage.Controls
     /// </summary>
     public sealed class ModernKitchenStatusLabel : Label
     {
+        private static readonly Font StatusPillFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+
         public ModernKitchenStatusLabel()
         {
             AutoSize = false;
@@ -77,7 +79,6 @@ namespace FoodandBeverage.Controls
         internal static readonly Font TableCodeFont = new Font("Segoe UI", 10F, FontStyle.Bold);
         internal static readonly Font TokenFont = new Font("Segoe UI", 10F, FontStyle.Bold);
         internal static readonly Font StatusFont = new Font("Segoe UI", 8F, FontStyle.Bold);
-        private static readonly Font StatusPillFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
         internal static readonly Font TimeFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
 
         public ModernKitchenOrderCard()
