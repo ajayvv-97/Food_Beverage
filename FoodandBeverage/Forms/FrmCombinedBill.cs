@@ -129,14 +129,14 @@ namespace FoodandBeverage.Forms
 
         private class TableControls
         {
-            public TableLayoutPanel TablePanel { get; set; }
-            public Label SelectLabel { get; set; }
-            public Label TableNameLabel { get; set; }
-            public Label NetAmountLabel { get; set; }
+            public ModernCombinedBillCard Card { get; set; }
         }
 
-        private readonly Dictionary<int, TableControls> tableCache = new Dictionary<int, TableControls>();
+        private readonly Dictionary<int, TableControls> tableCache =
+            new Dictionary<int, TableControls>();
         private readonly HashSet<int> selectedTableIds = new HashSet<int>();
+        private readonly Dictionary<int, string> tableAmountCache =
+            new Dictionary<int, string>();
         private bool isUserSelecting = false;
 
         private void EnableDoubleBuffer(Control c)
@@ -931,25 +931,24 @@ namespace FoodandBeverage.Forms
         private void ResetCombinedBillSelection()
         {
             CombineBillAutoTimer.Stop();
-
             CheckedtableNames.Clear();
             selectedTableIds.Clear();
 
-            foreach (var kv in tableCache)
+            foreach (var entry in tableCache)
             {
-                TableControls controls = kv.Value;
+                ModernCombinedBillCard card = entry.Value?.Card;
+                if (card == null)
+                    continue;
 
-                if (controls?.SelectLabel != null)
-                {
-                    controls.SelectLabel.Text = "ADD";
-                    controls.SelectLabel.BackColor = Color.Gray;
-                    controls.SelectLabel.Visible = true;
-                }
-
-                if (controls?.TablePanel != null)
-                {
-                    controls.TablePanel.BackColor = NormalBillingColor;
-                }
+                string[] parts = (card.AccessibleDescription ?? string.Empty).Split(',');
+                string tableCode = parts.Length > 3 ? parts[3] : string.Empty;
+                card.SetBillData(
+                    tableCode,
+                    ReadCardAmount(card),
+                    card.AccessibleDescription,
+                    Convert.ToInt32(card.Tag),
+                    Convert.ToInt32(card.Tag) == Convert.ToInt32(CombinedBillType.BookingBill),
+                    false);
             }
 
             lbl_tbl_totalcount.Visible = false;
@@ -957,7 +956,6 @@ namespace FoodandBeverage.Forms
             cmb_tbl_names.Items.Clear();
 
             BillCombineBill_Update();
-
             CombineBillAutoTimer.Start();
         }
 
