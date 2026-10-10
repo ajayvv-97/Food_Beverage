@@ -525,6 +525,150 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private DataGridView BuildProductGrid(DmnGridFields orders, List<Dmnkitchendetails> details)
+        {
+            DataGridView dgv_product_details = new DataGridView();
+            string suffix = Convert.ToString(details[0].Field17);
+
+            dgv_product_details.Name = "dgv_product_details_k_" + orders.Field1 + suffix;
+            dgv_product_details.Tag = orders.Field1 + suffix;
+            dgv_product_details.CellClick += dgv_product_details_CellClick;
+            dgv_product_details.AllowUserToAddRows = false;
+            dgv_product_details.AllowUserToDeleteRows = true;
+            dgv_product_details.RowHeadersVisible = false;
+            dgv_product_details.BorderStyle = BorderStyle.None;
+            dgv_product_details.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dgv_product_details.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_product_details.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+            dgv_product_details.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dgv_product_details.BackgroundColor = Color.White;
+            dgv_product_details.EnableHeadersVisualStyles = false;
+            dgv_product_details.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_product_details.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dgv_product_details.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_product_details.AllowUserToResizeRows = false;
+
+            if (screenWidth > 1367 && screenHeight > 769)
+            {
+                dgv_product_details.ColumnHeadersHeight = 50;
+                dgv_product_details.RowTemplate.Height = 50;
+            }
+            else
+            {
+                dgv_product_details.ColumnHeadersHeight = 30;
+                dgv_product_details.RowTemplate.Height = 30;
+            }
+
+            // create columns in same order as your indices
+            dgv_product_details.Columns.Clear();
+
+            // 0 - Slno (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Slno", HeaderText = "Slno" });
+
+            // 1 - Action (image)
+            dgv_product_details.Columns.Add(new DataGridViewImageColumn() { Name = "Action", HeaderText = "Action" });
+
+            // 2 - PType (image)
+            dgv_product_details.Columns.Add(new DataGridViewImageColumn() { Name = "PType", HeaderText = "PType" });
+
+            // 3 - Item Name
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "ItemName", HeaderText = "Item Name" });
+
+            // 4 - Qty
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Qty", HeaderText = "Qty" });
+
+            // 5 - Notes
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Notes", HeaderText = "Notes" });
+
+            // 6 - Remove Notes
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "RemoveNotes", HeaderText = "Remove Notes" });
+
+            // 7 - orderdetailsid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "orderdetailsid", HeaderText = "orderdetailsid" });
+
+            // 8 - koid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "koid", HeaderText = "koid" });
+
+            // 9 - tid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "tid", HeaderText = "tid" });
+
+            // 10 - Ordermasterid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Ordermasterid", HeaderText = "Ordermasterid" });
+
+            // 11 - datetime (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "datetime", HeaderText = "datetime" });
+
+            // 12 - status (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "status", HeaderText = "status" });
+
+            // 13 - itemid (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "itemid", HeaderText = "itemid" });
+
+            // 14 - tabletype (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "tabletype", HeaderText = "tabletype" });
+
+            // 15 - orderno (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "orderno", HeaderText = "orderno" });
+
+            // 16 - AddonStatus (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "AddonStatus", HeaderText = "AddonStatus" });
+
+            // 17 - AVID (hidden)
+            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "AVID", HeaderText = "AVID" });
+
+            // Hide backend columns
+            //dgv_product_details.Columns[0].Visible = false; // Slno
+            for (int i = 7; i <= 17; i++)
+            {
+                dgv_product_details.Columns[i].Visible = false;
+                dgv_product_details.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv_product_details.Columns[i].Width = 1;
+            }
+
+            // fix widths
+            dgv_product_details.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dgv_product_details.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgv_product_details.ScrollBars = ScrollBars.Both;
+            dgv_product_details.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            // item name wide
+            dgv_product_details.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgv_product_details.Columns[3].Width = 260;
+
+            // image columns width
+            dgv_product_details.Columns[1].Width = 60;
+            dgv_product_details.Columns[2].Width = 80;
+
+            dgv_product_details.AllowUserToResizeColumns = false;
+
+            return dgv_product_details;
+        }
+
+        /// <summary>
+        /// Build description textbox
+        /// </summary>
+
+        private TextBox BuildDescription(DmnGridFields orders, List<Dmnkitchendetails> details)
+        {
+            TextBox txt_Description = new TextBox();
+            txt_Description.Text = "Note :   " + Convert.ToString(details[0].Field16);
+            txt_Description.Name = "txt_Description_k_" + orders.Field1 + details[0].Field17;
+            txt_Description.Dock = DockStyle.Fill;
+            txt_Description.ForeColor = Color.FromArgb(55, 65, 81);
+            txt_Description.BackColor = Color.White;
+            txt_Description.ReadOnly = true;
+            txt_Description.Multiline = true;
+            txt_Description.ScrollBars = ScrollBars.Vertical;
+            txt_Description.BorderStyle = BorderStyle.None;
+            txt_Description.Visible = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
+            txt_Description.Font = ModernKitchenOrderCard.TokenFont;
+            return txt_Description;
+        }
+
+        /// <summary>
+        /// Build bottom buttons and return panel; out parameters for buttons.
+        /// </summary>
+
         private PictureBox CreateKitchenActionButton(
             string name, Image image, object suffix, object orderMasterId,
             EventHandler clickHandler)
