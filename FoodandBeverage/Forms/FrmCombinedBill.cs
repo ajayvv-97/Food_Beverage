@@ -137,6 +137,18 @@ namespace FoodandBeverage.Forms
         private readonly HashSet<int> selectedTableIds = new HashSet<int>();
         private readonly Dictionary<int, string> tableAmountCache =
             new Dictionary<int, string>();
+
+        private string ReadCardAmount(ModernCombinedBillCard card)
+        {
+            if (card == null)
+                return string.Empty;
+
+            int tid;
+            return int.TryParse(card.Name.Replace("tlp_com", string.Empty), out tid) &&
+                   tableAmountCache.TryGetValue(tid, out string amount)
+                ? amount
+                : string.Empty;
+        }
         private bool isUserSelecting = false;
 
         private void EnableDoubleBuffer(Control c)
