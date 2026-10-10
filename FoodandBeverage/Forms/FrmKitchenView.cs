@@ -2176,8 +2176,6 @@ namespace FoodandBeverage.Forms
                         TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
                         if (tlp_sele != null)
                         {
-                            bool flagstart_ready = false;
-
                             #region Grid Edit Cancel  product
                             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                             DmnSearch dmnSearch = new DmnSearch();
@@ -2189,11 +2187,6 @@ namespace FoodandBeverage.Forms
 
                             for (int k = 0; k < gridSource.Count; k++)
                             {
-                                if (Convert.ToInt32(gridSource[k].Field1) == 1)
-                                {
-                                    flagstart_ready = true;
-                                }
-
                                 dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
 
                                 dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSource[k].Field1;
