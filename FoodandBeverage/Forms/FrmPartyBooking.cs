@@ -218,12 +218,19 @@ namespace FoodandBeverage
         int tileW = 0;
         int tileH = 0;
 
-        int Pagecount = Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]);
         int currentPage = 1;
         int pageSize = 0;
         int totalPages = 0;
         private List<DmnGridFields> ProductData;
         private List<DmnGridFields> pagedatadata;
+        private List<DmnGridFields> partyMenuAllProducts;
+        private bool partyMenuProductsLoaded = false;
+        private bool partyMenuCategoriesLoaded = false;
+        private int partyMenuColumns = 1;
+        private int partyMenuRows = 1;
+        private int partyMenuTileWidth = 150;
+        private int partyMenuTileHeight = 100;
+        private int partyMenuGap = 8;
         public string msgnodata = " No records available";
 
         public int McategoryID = 0;
@@ -7998,6 +8005,7 @@ namespace FoodandBeverage
             {
                 int width = Math.Min((int)(ClientSize.Width * 0.86), ClientSize.Width - 20);
                 int height = Math.Min((int)(ClientSize.Height * 0.86), ClientSize.Height - 20);
+
                 pnl_menu.SuspendLayout();
                 pnl_menu.Width = width;
                 pnl_menu.Height = height;
@@ -8006,17 +8014,25 @@ namespace FoodandBeverage
                 pnl_menu.Visible = true;
                 pnl_menu.BringToFront();
 
-                // Menu mode: show the product list above the selected-items grid.
                 tlp_menu_main.Visible = true;
                 tlp_menu_main.BringToFront();
                 flp_productview.Visible = true;
                 Dgv_Selected_Item.Visible = false;
                 flp_sidemenu.Visible = false;
+
                 currentPage = 1;
-                if (pageSize <= 0)
-                    pageSize = Math.Max(1, Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]));
                 pnl_menu.ResumeLayout(true);
-                GenerateSideMenu();
+                pnl_menu.PerformLayout();
+                pnl_dgv_menu.PerformLayout();
+                tlp_menu_main.PerformLayout();
+                flp_productview.PerformLayout();
+                ApplyPartyMenuRoundedRegions();
+
+                if (!partyMenuCategoriesLoaded)
+                    GenerateSideMenu();
+
+                // Product/food-item records are cached after the first database load,
+                // so reopening the menu does not repeat the same queries.
                 LoadPartyMenuProductsForCategory(0);
             }
             catch (Exception ex)
@@ -8085,6 +8101,9 @@ namespace FoodandBeverage
         {
             try
             {
+                if (partyMenuCategoriesLoaded)
+                    return;
+
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
                 DmnSearch dmnSearch = new DmnSearch
                 {
@@ -8114,6 +8133,7 @@ namespace FoodandBeverage
                 }
 
                 flp_sidemenu.ResumeLayout(true);
+                partyMenuCategoriesLoaded = true;
             }
             catch (Exception ex)
             {
@@ -8162,45 +8182,76 @@ namespace FoodandBeverage
             }
         }
 
+        private void EnsurePartyMenuProductsLoaded()
+        {
+            if (partyMenuProductsLoaded && partyMenuAllProducts != null)
+                return;
+
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            DmnSearch search = new DmnSearch();
+            List<DmnGridFields> loadedProducts = new List<DmnGridFields>();
+
+            search.Select = "p.Product AS Field1, p.ProductId AS Field2, 0 AS Field3, 0 AS Field4, p.Price AS Field5, p.MRP AS Field6, p.Tax AS Field7, p.TaxType AS Field8, p.Fcid AS Field9, p.TaxSettingsId AS Field10, p.ItemCode AS Field11, 0 AS Field12, ISNULL(p.foodtype,0) AS Field13, p.ForeColor AS Field14, p.BackColor AS Field15";
+            search.Table = "tblProduct p";
+            search.WhereNdGroupBy = "WHERE p.Status = 1";
+            search.OrderBy = "ORDER BY p.Product";
+            loadedProducts.AddRange(bllSearch.GetSearchData("prdSearch", search));
+
+            search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, 0 AS Field4, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.Unit,0) AS Field12, 0 AS Field13, '' AS Field14, '' AS Field15";
+            search.Table = "tblItem i";
+            search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1";
+            search.OrderBy = "ORDER BY i.Itemname";
+            loadedProducts.AddRange(bllSearch.GetSearchData("prdSearch", search));
+
+            partyMenuAllProducts = loadedProducts;
+            partyMenuProductsLoaded = true;
+        }
+
         private void LoadPartyMenuProductsForCategory(int categoryId, string productName = "", string itemCode = "")
         {
             try
             {
-                ProductData = new List<DmnGridFields>();
-                pagedatadata = new List<DmnGridFields>();
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                DmnSearch search = new DmnSearch();
-                string nameFilter = string.IsNullOrWhiteSpace(productName) ? "" : " AND p.Product LIKE '%" + productName.Replace("'", "''") + "%'";
-                string itemFilter = string.IsNullOrWhiteSpace(itemCode) ? "" : " AND p.ItemCode_UPC = '" + itemCode.Replace("'", "''") + "'";
-                if (categoryId >= 0)
+                EnsurePartyMenuProductsLoaded();
+
+                IEnumerable<DmnGridFields> filteredProducts = partyMenuAllProducts ?? new List<DmnGridFields>();
+
+                if (categoryId > 0)
                 {
-                    search.Select = "p.Product AS Field1, p.ProductId AS Field2, 0 AS Field3, ISNULL(p.fav_status,0) AS Field4, p.Price AS Field5, p.MRP AS Field6, p.Tax AS Field7, p.TaxType AS Field8, p.Fcid AS Field9, p.TaxSettingsId AS Field10, p.ItemCode AS Field11, 0 AS Field12, ISNULL(p.foodtype,0) AS Field13, p.ForeColor AS Field14, p.BackColor AS Field15";
-                    search.Table = "tblProduct p";
-                    search.WhereNdGroupBy = "WHERE p.Status = 1" + (categoryId > 0 ? " AND p.Fcid = " + categoryId : "") + nameFilter + itemFilter;
-                    search.OrderBy = "ORDER BY p.Product";
-
-                    var products = bllSearch.GetSearchData("prdSearch", search);
-                    ProductData.AddRange(products);
-
-                    search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, ISNULL(i.fav_status,0) AS Field4, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.Unit,0) AS Field12, 0 AS Field13, '' AS Field14, '' AS Field15";
-                    search.Table = "tblItem i";
-                    search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1" + (categoryId > 0 ? " AND i.Fcid = " + categoryId : "") + nameFilter.Replace("p.Product", "i.Itemname") + itemFilter.Replace("p.ItemCode_UPC", "i.ItemCode_UPC");
-                    search.OrderBy = "ORDER BY i.Itemname";
-                    var items = bllSearch.GetSearchData("prdSearch", search);
-                    ProductData.AddRange(items);
+                    filteredProducts = filteredProducts.Where(item =>
+                    {
+                        int productCategoryId;
+                        return int.TryParse(Convert.ToString(item.Field9), out productCategoryId)
+                            && productCategoryId == categoryId;
+                    });
                 }
 
-                pageSize = Math.Max(1, pageSize);
-                totalPages = (int)Math.Ceiling((double)ProductData.Count / pageSize);
-                if (currentPage > Math.Max(1, totalPages))
-                    currentPage = 1;
-                pagedatadata = ProductData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
-                lblpagerinfo.Text = ProductData.Count == 0 ? "No products found" : $"Page {currentPage} of {totalPages} | Total Records: {ProductData.Count}";
-                btnprev.Enabled = currentPage > 1;
-                btnnext.Enabled = currentPage < totalPages;
-                GeneratePartyMenuProducts();
+                if (!string.IsNullOrWhiteSpace(productName))
+                {
+                    string nameFilter = productName.Trim();
+                    filteredProducts = filteredProducts.Where(item =>
+                        (Convert.ToString(item.Field1) ?? string.Empty).IndexOf(nameFilter, StringComparison.CurrentCultureIgnoreCase) >= 0);
+                }
 
-                // Keep the product list in front when a category/search result is loaded.
+                if (!string.IsNullOrWhiteSpace(itemCode))
+                {
+                    string codeFilter = itemCode.Trim();
+                    filteredProducts = filteredProducts.Where(item =>
+                        string.Equals(Convert.ToString(item.Field11), codeFilter, StringComparison.OrdinalIgnoreCase));
+                }
+
+                ProductData = filteredProducts
+                    .OrderBy(item => Convert.ToString(item.Field1), StringComparer.CurrentCultureIgnoreCase)
+                    .ToList();
+
+                pagedatadata = new List<DmnGridFields>();
+                pnl_menu.PerformLayout();
+                pnl_dgv_menu.PerformLayout();
+                tlp_menu_main.PerformLayout();
+                flp_productview.PerformLayout();
+
+                CalculatePartyMenuLayout();
+                ShowPartyMenuPage();
+
                 tlp_menu_main.Visible = true;
                 tlp_menu_main.BringToFront();
                 flp_productview.Visible = true;
@@ -8210,6 +8261,27 @@ namespace FoodandBeverage
             {
                 clsgen.LogException("Partybooking page LoadPartyMenuProductsForCategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
+        }
+
+        private void CalculatePartyMenuLayout()
+        {
+            flp_productview.WrapContents = true;
+            flp_productview.FlowDirection = FlowDirection.LeftToRight;
+            flp_productview.AutoScroll = true;
+
+            partyMenuGap = Math.Max(4, Math.Min(10, Productspace));
+            int availableWidth = Math.Max(180, flp_productview.ClientSize.Width - flp_productview.Padding.Horizontal);
+            int availableHeight = Math.Max(120, flp_productview.ClientSize.Height - flp_productview.Padding.Vertical);
+
+            const int minimumCardWidth = 150;
+            partyMenuColumns = Math.Max(1, (availableWidth + (2 * partyMenuGap)) / (minimumCardWidth + (2 * partyMenuGap)));
+            partyMenuTileWidth = Math.Max(110, (availableWidth / partyMenuColumns) - (2 * partyMenuGap));
+            partyMenuTileHeight = Math.Max(88, Math.Min(124, (int)(partyMenuTileWidth * 0.67m)));
+
+            // The number of items per page is calculated from the actual viewport.
+            // No FBpagescount or OrderPageProductViewRow default is required.
+            partyMenuRows = Math.Max(1, (availableHeight + (2 * partyMenuGap)) / (partyMenuTileHeight + (2 * partyMenuGap)));
+            pageSize = Math.Max(1, partyMenuColumns * partyMenuRows);
         }
 
         private void GeneratePartyMenuProducts()
@@ -8224,25 +8296,13 @@ namespace FoodandBeverage
                 flp_productview.WrapContents = true;
                 flp_productview.FlowDirection = FlowDirection.LeftToRight;
                 flp_productview.AutoScroll = true;
-                flp_productview.Padding = new Padding(4);
-
-                if (flp_productview.ClientSize.Width <= 0)
-                    flp_productview.PerformLayout();
-
-                // Compact, rounded product cards matching Order Console.
-                int columns = Math.Max(1, Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow"]));
-                int gap = Math.Max(6, Productspace);
-                int availableWidth = Math.Max(300, flp_productview.ClientSize.Width - SystemInformation.VerticalScrollBarWidth);
-                int width = Math.Max(125, (availableWidth - ((columns + 1) * gap)) / columns);
-                int height = Math.Max(88, Math.Min(124, (int)(width * 0.67m)));
+                flp_productview.Padding = new Padding(6);
 
                 foreach (var item in pagedatadata)
                 {
                     int productId = Convert.ToInt32(item.Field2);
                     int saleType = 0;
                     int.TryParse(Convert.ToString(item.Field3), out saleType);
-                    int favoriteStatus = 0;
-                    int.TryParse(Convert.ToString(item.Field4), out favoriteStatus);
                     int foodType = 0;
                     int.TryParse(Convert.ToString(item.Field13), out foodType);
                     string productName = Convert.ToString(item.Field1) ?? string.Empty;
@@ -8257,24 +8317,14 @@ namespace FoodandBeverage
 
                     Panel tile = new Panel
                     {
-                        Width = width,
-                        Height = height,
+                        Width = partyMenuTileWidth,
+                        Height = partyMenuTileHeight,
                         BackColor = tileColor,
-                        Margin = new Padding(gap),
+                        Margin = new Padding(partyMenuGap),
                         Tag = productId,
                         AccessibleDescription = Convert.ToString(saleType),
                         Cursor = Cursors.Hand,
                         BorderStyle = BorderStyle.None
-                    };
-
-                    // Add a subtle lavender outline; the database BackColor still wins when configured.
-                    tile.Paint += (sender, paintArgs) =>
-                    {
-                        Rectangle bounds = tile.ClientRectangle;
-                        bounds.Width -= 1;
-                        bounds.Height -= 1;
-                        using (Pen pen = new Pen(Color.FromArgb(229, 218, 241)))
-                            paintArgs.Graphics.DrawRectangle(pen, bounds);
                     };
 
                     TableLayoutPanel tileLayout = new TableLayoutPanel
@@ -8313,30 +8363,13 @@ namespace FoodandBeverage
                         AutoEllipsis = true
                     };
                     Size textSize = TextRenderer.MeasureText(productName, AppFonts.GetFont(11));
-                    if (textSize.Width > width - 18)
+                    if (textSize.Width > partyMenuTileWidth - 18)
                         name.Font = AppFonts.GetFont(9);
 
                     tileLayout.Controls.Add(name, 0, 0);
                     tile.Controls.Add(tileLayout);
 
-                    PictureBox favoriteIcon = new PictureBox
-                    {
-                        Name = "picFav_" + productId + "_" + saleType,
-                        Width = 22,
-                        Height = 22,
-                        BackColor = Color.Transparent,
-                        SizeMode = PictureBoxSizeMode.StretchImage,
-                        Location = new Point(width - 30, 8),
-                        Anchor = AnchorStyles.Top | AnchorStyles.Right,
-                        Tag = productId,
-                        AccessibleDescription = Convert.ToString(saleType),
-                        Image = favoriteStatus == 1
-                            ? Properties.Resources.fav_enable
-                            : Properties.Resources.fav_disable
-                    };
-                    tile.Controls.Add(favoriteIcon);
-                    favoriteIcon.BringToFront();
-
+                    // Small food-type indicator remains; favorites and card border are removed.
                     Panel foodIndicator = new Panel
                     {
                         Width = 12,
@@ -8723,13 +8756,21 @@ namespace FoodandBeverage
 
         private void ShowPartyMenuPage()
         {
-            if (pageSize <= 0)
-                pageSize = Math.Max(1, Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]));
+            CalculatePartyMenuLayout();
             totalPages = (int)Math.Ceiling((double)(ProductData?.Count ?? 0) / pageSize);
             if (currentPage < 1)
                 currentPage = 1;
-            pagedatadata = (ProductData ?? new List<DmnGridFields>()).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
-            lblpagerinfo.Text = (ProductData == null || ProductData.Count == 0) ? "No products found" : $"Page {currentPage} of {Math.Max(1, totalPages)} | Total Records: {ProductData.Count}";
+            if (totalPages > 0 && currentPage > totalPages)
+                currentPage = totalPages;
+
+            pagedatadata = (ProductData ?? new List<DmnGridFields>())
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            lblpagerinfo.Text = (ProductData == null || ProductData.Count == 0)
+                ? "No products found"
+                : $"Page {currentPage} of {Math.Max(1, totalPages)} | Total Records: {ProductData.Count}";
             btnprev.Enabled = currentPage > 1;
             btnnext.Enabled = currentPage < totalPages;
             GeneratePartyMenuProducts();
@@ -8754,36 +8795,37 @@ namespace FoodandBeverage
         private void ApplyPartyMenuVisualStyles()
         {
             Color accentPurple = Color.FromArgb(101, 80, 185);
+            Color menuLavender = Color.FromArgb(236, 220, 244);
             Color softLavender = Color.FromArgb(247, 240, 251);
-            Color lightLavender = Color.FromArgb(252, 248, 255);
             Color borderLavender = Color.FromArgb(226, 214, 239);
             Color textColor = Color.FromArgb(42, 34, 55);
 
-            // Product area: soft lavender backdrop makes white/default product cards distinct.
             flp_productview.BackColor = softLavender;
-            flp_productview.Padding = new Padding(8);
+            flp_productview.Padding = new Padding(6);
             flp_productview.Margin = new Padding(0);
 
-            // Search fields match the menu instead of using stark white boxes.
-            tlp_serachbox.BackColor = lightLavender;
-            txtname_search.BackColor = softLavender;
-            txtitemcode_serach.BackColor = softLavender;
-            txtname_search.BorderStyle = BorderStyle.FixedSingle;
-            txtitemcode_serach.BorderStyle = BorderStyle.FixedSingle;
+            // Requested menu/search strip background.
+            tableLayoutPanel45.BackColor = menuLavender;
+            tlp_serachbox.BackColor = menuLavender;
+
+            // Flat white, borderless search fields with rounded corners.
+            txtname_search.BackColor = Color.White;
+            txtitemcode_serach.BackColor = Color.White;
+            txtname_search.BorderStyle = BorderStyle.None;
+            txtitemcode_serach.BorderStyle = BorderStyle.None;
             txtname_search.Font = AppFonts.GetFont(10);
             txtitemcode_serach.Font = AppFonts.GetFont(10);
             txtname_search.ForeColor = Color.FromArgb(139, 124, 153);
             txtitemcode_serach.ForeColor = Color.FromArgb(139, 124, 153);
+
             btn_serach.FlatStyle = FlatStyle.Flat;
             btn_serach.FlatAppearance.BorderSize = 0;
-            btn_serach.FlatAppearance.MouseOverBackColor = borderLavender;
+            btn_serach.FlatAppearance.MouseOverBackColor = menuLavender;
             btn_serach.FlatAppearance.MouseDownBackColor = Color.FromArgb(216, 197, 235);
 
-            // Keep the pagination strip consistent with the Party Booking title bar.
-            tlp_footer.BackColor = softLavender;
+            tlp_footer.BackColor = menuLavender;
             lblpagerinfo.ForeColor = textColor;
 
-            // Modern styling for the temporary selected-food DataGridView.
             Dgv_Selected_Item.SuspendLayout();
             Dgv_Selected_Item.BorderStyle = BorderStyle.None;
             Dgv_Selected_Item.BackgroundColor = Color.White;
@@ -8799,7 +8841,6 @@ namespace FoodandBeverage
             Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.SelectionBackColor = accentPurple;
             Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White;
-
             Dgv_Selected_Item.DefaultCellStyle.BackColor = Color.White;
             Dgv_Selected_Item.DefaultCellStyle.ForeColor = textColor;
             Dgv_Selected_Item.DefaultCellStyle.SelectionBackColor = Color.FromArgb(231, 218, 244);
@@ -8813,6 +8854,17 @@ namespace FoodandBeverage
             Dgv_Selected_Item.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             Dgv_Selected_Item.MultiSelect = false;
             Dgv_Selected_Item.ResumeLayout(true);
+
+            ApplyPartyMenuRoundedRegions();
+        }
+
+        private void ApplyPartyMenuRoundedRegions()
+        {
+            // Reapply after resizing the popup so the rounded regions match current sizes.
+            UIHelper.RoundCorners(txtname_search, 10);
+            UIHelper.RoundCorners(txtitemcode_serach, 10);
+            UIHelper.RoundCorners(pnl_dgv_menu, 25);
+            UIHelper.RoundCorners(tlp_footer, 25);
         }
 
         private void SetPartyMenuSearchPlaceholders()
@@ -8841,7 +8893,7 @@ namespace FoodandBeverage
             if (textBox.Text == placeholder)
                 textBox.Clear();
 
-            textBox.BackColor = Color.FromArgb(239, 226, 249);
+            textBox.BackColor = Color.White;
             textBox.ForeColor = Color.FromArgb(56, 41, 73);
         }
 
@@ -8852,7 +8904,7 @@ namespace FoodandBeverage
                 return;
 
             textBox.Text = textBox == txtname_search ? "Food Name ....." : "Item Code .....";
-            textBox.BackColor = Color.FromArgb(247, 240, 251);
+            textBox.BackColor = Color.White;
             textBox.ForeColor = Color.FromArgb(139, 124, 153);
         }
 
