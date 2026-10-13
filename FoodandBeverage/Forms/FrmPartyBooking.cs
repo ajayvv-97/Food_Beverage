@@ -8070,6 +8070,10 @@ namespace FoodandBeverage
                 flp_sidemenu.FlowDirection = FlowDirection.TopDown;
                 flp_sidemenu.WrapContents = false;
                 flp_sidemenu.AutoScroll = true;
+                flp_sidemenu.AutoScrollMinSize = Size.Empty;
+                flp_sidemenu.HorizontalScroll.Enabled = false;
+                flp_sidemenu.HorizontalScroll.Visible = false;
+                flp_sidemenu.VerticalScroll.Enabled = true;
 
                 // flp_sidemenu is a form-level control while btn_showmenu is inside pnl_menu.
                 // Convert the button's screen position into form coordinates so the category
@@ -8089,6 +8093,11 @@ namespace FoodandBeverage
                 flp_sidemenu.Top = Math.Max(0, dropdownLocation.Y + 4);
 
                 GenerateSideMenu();
+
+                // Refit after the popup dimensions and scrollbar visibility are finalized.
+                flp_sidemenu.PerformLayout();
+                FitPartyMenuCategoryButtonWidths();
+                flp_sidemenu.PerformLayout();
                 flp_sidemenu.BringToFront();
             }
             catch (Exception ex)
@@ -8133,6 +8142,7 @@ namespace FoodandBeverage
                 }
 
                 flp_sidemenu.ResumeLayout(true);
+                FitPartyMenuCategoryButtonWidths();
                 partyMenuCategoriesLoaded = true;
             }
             catch (Exception ex)
@@ -8148,9 +8158,10 @@ namespace FoodandBeverage
                 Text = text,
                 Name = name,
                 Tag = 0,
-                Width = Math.Max(150, flp_sidemenu.ClientSize.Width - 20),
+                Width = Math.Max(100, flp_sidemenu.ClientSize.Width - SystemInformation.VerticalScrollBarWidth - 20),
                 Height = Math.Max(btn_showmenu.Height, 38),
                 Margin = new Padding(5),
+                AutoEllipsis = true,
                 ForeColor = Color.White,
                 BackgroundImage = Properties.Resources.fb_sidemenu,
                 BackgroundImageLayout = ImageLayout.Stretch,
@@ -8162,6 +8173,46 @@ namespace FoodandBeverage
             if (sideMenuToolTip != null)
                 sideMenuToolTip.SetToolTip(button, text);
             return button;
+        }
+
+        private void FitPartyMenuCategoryButtonWidths()
+        {
+            if (flp_sidemenu == null || flp_sidemenu.IsDisposed)
+                return;
+
+            flp_sidemenu.FlowDirection = FlowDirection.TopDown;
+            flp_sidemenu.WrapContents = false;
+            flp_sidemenu.AutoScroll = true;
+            flp_sidemenu.AutoScrollMinSize = Size.Empty;
+            flp_sidemenu.HorizontalScroll.Enabled = false;
+            flp_sidemenu.HorizontalScroll.Visible = false;
+            flp_sidemenu.VerticalScroll.Enabled = true;
+
+            // Reserve room for the vertical scrollbar and button margins, preventing
+            // any category button from forcing a horizontal scrollbar.
+            int usableWidth = flp_sidemenu.ClientSize.Width
+                - flp_sidemenu.Padding.Horizontal
+                - SystemInformation.VerticalScrollBarWidth
+                - 12;
+            int buttonWidth = Math.Max(100, usableWidth);
+
+            foreach (Control control in flp_sidemenu.Controls)
+            {
+                Button categoryButton = control as Button;
+                if (categoryButton == null)
+                    continue;
+
+                categoryButton.AutoSize = false;
+                categoryButton.MinimumSize = new Size(100, categoryButton.Height);
+                categoryButton.MaximumSize = new Size(buttonWidth, 0);
+                categoryButton.Width = buttonWidth;
+                categoryButton.Margin = new Padding(5);
+                categoryButton.AutoEllipsis = true;
+            }
+
+            flp_sidemenu.PerformLayout();
+            flp_sidemenu.HorizontalScroll.Enabled = false;
+            flp_sidemenu.HorizontalScroll.Visible = false;
         }
 
         private void SidebuttonClickEventHandler(object sender, EventArgs e)
