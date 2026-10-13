@@ -8031,6 +8031,15 @@ namespace FoodandBeverage
                 if (!pnl_menu.Visible)
                     btn_menu_Click(sender, e);
 
+                // Clicking Menu again must restore the product tiles after a product click
+                // has switched the overlay to the temporary selected-items grid.
+                pnl_menu.Visible = true;
+                pnl_menu.BringToFront();
+                tlp_menu_main.Visible = true;
+                tlp_menu_main.BringToFront();
+                flp_productview.Visible = true;
+                Dgv_Selected_Item.Visible = false;
+
                 flp_sidemenu.Visible = !flp_sidemenu.Visible;
                 if (!flp_sidemenu.Visible)
                     return;
