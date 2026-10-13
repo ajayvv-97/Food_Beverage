@@ -311,6 +311,15 @@ namespace FoodandBeverage
             txtitemcode_serach.Leave += PartyMenuSearchTextBox_Leave;
         }
 
+        /// <summary>
+        /// Prefills the event start date and time when this form is opened from the party calendar.
+        /// </summary>
+        public void SetCalendarBookingStart(DateTime startDateTime)
+        {
+            dtpEventDate.Value = startDateTime.Date;
+            dtpEventTime.Value = DateTime.Today.Add(startDateTime.TimeOfDay);
+        }
+
         private void FrmPartyBooking_Load(object sender, EventArgs e)
         {
             try
