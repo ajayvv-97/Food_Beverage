@@ -28,11 +28,11 @@ namespace FoodandBeverage.Forms
         private static readonly Font DayNumberFont = new Font("Segoe UI", 11F, FontStyle.Bold);
         private static readonly Font TodayNumberFont = new Font("Segoe UI", 12.5F, FontStyle.Bold);
         private static readonly Font EventNameFont = new Font("Segoe UI", 8.5F, FontStyle.Bold);
-        private static readonly Font EventNameCompactFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-        private static readonly Font EventTimeFont = new Font("Segoe UI", 8F, FontStyle.Regular);
-        private static readonly Font EventTimeCompactFont = new Font("Segoe UI", 7F, FontStyle.Regular);
-        private static readonly Font MoreBookingsFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-        private static readonly Font LegendFont = new Font("Segoe UI", 8F, FontStyle.Regular);
+        private static readonly Font EventNameCompactFont = new Font("Segoe UI", 8F, FontStyle.Bold);
+        private static readonly Font EventTimeFont = new Font("Segoe UI", 8F, FontStyle.Bold);
+        private static readonly Font EventTimeCompactFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+        private static readonly Font MoreBookingsFont = new Font("Segoe UI", 8F, FontStyle.Bold);
+        private static readonly Font LegendFont = new Font("Segoe UI", 9F, FontStyle.Bold);
         private readonly Dictionary<string, Color> eventColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
         private List<PartyBookingEvent> bookings = new List<PartyBookingEvent>();
         private DateTime currentDate = DateTime.Today;
@@ -90,13 +90,13 @@ namespace FoodandBeverage.Forms
             // Use real WinForms text buttons rather than stretched bitmap backgrounds.
             // This keeps captions aligned and readable at every supported screen size.
             StyleButton(btn_search, accent);
-            btn_search.Text = "⌕  Apply Filter";
+            btn_search.Text = "Apply Filter";
             btn_search.BackgroundImage = null;
             StyleButton(btnclear, Color.FromArgb(239, 237, 250));
-            btnclear.Text = "↻  Clear";
+            btnclear.Text = "Clear";
             btnclear.BackgroundImage = null;
             StyleButton(btnsumbit, Color.FromArgb(91, 62, 205));
-            btnsumbit.Text = "＋  Create Booking";
+            btnsumbit.Text = "Create";
             btnsumbit.BackgroundImage = null;
             StyleButton(btn_prev, Color.FromArgb(239, 237, 250));
             btn_prev.Text = "‹";
@@ -108,13 +108,13 @@ namespace FoodandBeverage.Forms
             btn_today.Text = "Today";
             btn_today.BackgroundImage = null;
             StyleButton(btn_month, accent);
-            btn_month.Text = "▦  Month";
+            btn_month.Text = "Month";
             btn_month.BackgroundImage = null;
             StyleButton(btn_week, Color.FromArgb(239, 237, 250));
-            btn_week.Text = "▤  Week";
+            btn_week.Text = "Week";
             btn_week.BackgroundImage = null;
             StyleButton(btn_day, Color.FromArgb(239, 237, 250));
-            btn_day.Text = "▣  Day";
+            btn_day.Text = "Day";
             btn_day.BackgroundImage = null;
 
             lbl_calenderinfo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
@@ -757,7 +757,7 @@ namespace FoodandBeverage.Forms
                 Height = expanded ? 21 : 17,
                 AutoEllipsis = true,
                 ForeColor = Color.FromArgb(45, 42, 75),
-                Font = expanded ? EventNameFont : new Font("Segoe UI", 8F, FontStyle.Bold),
+                Font = expanded ? EventNameFont : EventNameCompactFont,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = Padding.Empty
             };
@@ -767,7 +767,7 @@ namespace FoodandBeverage.Forms
                 Dock = DockStyle.Fill,
                 AutoEllipsis = true,
                 ForeColor = Color.FromArgb(75, 70, 105),
-                Font = expanded ? EventTimeFont : new Font("Segoe UI", 7.5F, FontStyle.Bold),
+                Font = expanded ? EventTimeFont : EventTimeCompactFont,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = Padding.Empty
             };
@@ -853,7 +853,7 @@ namespace FoodandBeverage.Forms
                         AutoSize = true,
                         Text = category,
                         ForeColor = textColor,
-                        Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                        Font = LegendFont,
                         Margin = new Padding(0, 0, 2, 0),
                         AutoEllipsis = false
                     });
