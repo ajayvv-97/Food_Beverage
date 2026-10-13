@@ -9018,9 +9018,6 @@ namespace FoodandBeverage
             {
                 if (!pnl_menu.Visible)
                     btn_menu_Click(sender, e);
-
-                // Toggle between the product tiles and the temporary cart grid.
-                // This does not submit the selected food to the main Party Booking grid.
                 bool cartIsVisible = Dgv_Selected_Item.Visible && !flp_productview.Visible;
                 if (cartIsVisible)
                     ShowPartyProductTiles();

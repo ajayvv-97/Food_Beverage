@@ -2852,6 +2852,26 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Party_Cart_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Party_Cart_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Party_Food_Items_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Party_Food_Items_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pay_per_click {
             get {
                 object obj = ResourceManager.GetObject("pay_per_click", resourceCulture);
