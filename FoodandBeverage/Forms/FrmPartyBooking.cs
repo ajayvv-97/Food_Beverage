@@ -8765,6 +8765,17 @@ namespace FoodandBeverage
             }
         }
 
+        private void ShowPartyProductTiles()
+        {
+            // Return to the current product/search/category page without clearing cart rows.
+            tlp_menu_main.Visible = true;
+            tlp_menu_main.BringToFront();
+            flp_productview.Visible = true;
+            flp_sidemenu.Visible = false;
+            Dgv_Selected_Item.Visible = false;
+            flp_productview.BringToFront();
+        }
+
         private void ShowPartySelectedItems()
         {
             // Product-click mode: move the selected-items grid above the product layout.
@@ -9003,7 +9014,24 @@ namespace FoodandBeverage
         }
         private void btn_cart_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (!pnl_menu.Visible)
+                    btn_menu_Click(sender, e);
 
+                // Toggle between the product tiles and the temporary cart grid.
+                // This does not submit the selected food to the main Party Booking grid.
+                bool cartIsVisible = Dgv_Selected_Item.Visible && !flp_productview.Visible;
+                if (cartIsVisible)
+                    ShowPartyProductTiles();
+                else
+                    ShowPartySelectedItems();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page btn_cart_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
         }
         #endregion
 
