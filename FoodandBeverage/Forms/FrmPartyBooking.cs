@@ -298,7 +298,6 @@ namespace FoodandBeverage
             InitializeComponent();
             btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
             btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
-            btn_cart.Click += btn_cart_Click;
             btnprev.Click += btnprev_Click;
             btnnext.Click += btnnext_Click;
             btn_serach.Click += btn_serach_Click;
