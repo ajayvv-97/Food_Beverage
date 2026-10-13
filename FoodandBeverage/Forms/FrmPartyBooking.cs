@@ -294,7 +294,6 @@ namespace FoodandBeverage
             btn_serach.Click += btn_serach_Click;
             Dgv_Selected_Item.CellClick += Dgv_Selected_Item_CellClick;
             Dgv_Selected_Item.CellPainting += Dgv_Selected_Item_CellPainting;
-            button1.Click += btn_menu_submit_Click;
             txtname_search.KeyDown += txtname_search_KeyDown;
             txtitemcode_serach.KeyDown += txtitemcode_serach_KeyDown;
             txtname_search.Enter += PartyMenuSearchTextBox_Enter;
@@ -8755,6 +8754,7 @@ namespace FoodandBeverage
                 txtitemcode_serach.ForeColor = Color.DarkGray;
             }
         }
+
 
         private void PartyMenuSearchTextBox_Enter(object sender, EventArgs e)
         {
