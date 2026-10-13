@@ -318,7 +318,8 @@ namespace FoodandBeverage
 
                 lblpackname.ForeColor = Color.DimGray;
 
-                // Match the visible search placeholders used by Order Console.
+                // Apply the Party Booking menu's matching lavender theme and modern grid styles.
+                ApplyPartyMenuVisualStyles();
                 SetPartyMenuSearchPlaceholders();
                 
 
@@ -8266,6 +8267,16 @@ namespace FoodandBeverage
                         BorderStyle = BorderStyle.None
                     };
 
+                    // Add a subtle lavender outline; the database BackColor still wins when configured.
+                    tile.Paint += (sender, paintArgs) =>
+                    {
+                        Rectangle bounds = tile.ClientRectangle;
+                        bounds.Width -= 1;
+                        bounds.Height -= 1;
+                        using (Pen pen = new Pen(Color.FromArgb(229, 218, 241)))
+                            paintArgs.Graphics.DrawRectangle(pen, bounds);
+                    };
+
                     TableLayoutPanel tileLayout = new TableLayoutPanel
                     {
                         Dock = DockStyle.Fill,
@@ -8313,7 +8324,7 @@ namespace FoodandBeverage
                         Name = "picFav_" + productId + "_" + saleType,
                         Width = 22,
                         Height = 22,
-                        BackColor = Color.White,
+                        BackColor = Color.Transparent,
                         SizeMode = PictureBoxSizeMode.StretchImage,
                         Location = new Point(width - 30, 8),
                         Anchor = AnchorStyles.Top | AnchorStyles.Right,
@@ -8740,6 +8751,70 @@ namespace FoodandBeverage
             ShowPartyMenuPage();
         }
 
+        private void ApplyPartyMenuVisualStyles()
+        {
+            Color accentPurple = Color.FromArgb(101, 80, 185);
+            Color softLavender = Color.FromArgb(247, 240, 251);
+            Color lightLavender = Color.FromArgb(252, 248, 255);
+            Color borderLavender = Color.FromArgb(226, 214, 239);
+            Color textColor = Color.FromArgb(42, 34, 55);
+
+            // Product area: soft lavender backdrop makes white/default product cards distinct.
+            flp_productview.BackColor = softLavender;
+            flp_productview.Padding = new Padding(8);
+            flp_productview.Margin = new Padding(0);
+
+            // Search fields match the menu instead of using stark white boxes.
+            tlp_serachbox.BackColor = lightLavender;
+            txtname_search.BackColor = softLavender;
+            txtitemcode_serach.BackColor = softLavender;
+            txtname_search.BorderStyle = BorderStyle.FixedSingle;
+            txtitemcode_serach.BorderStyle = BorderStyle.FixedSingle;
+            txtname_search.Font = AppFonts.GetFont(10);
+            txtitemcode_serach.Font = AppFonts.GetFont(10);
+            txtname_search.ForeColor = Color.FromArgb(139, 124, 153);
+            txtitemcode_serach.ForeColor = Color.FromArgb(139, 124, 153);
+            btn_serach.FlatStyle = FlatStyle.Flat;
+            btn_serach.FlatAppearance.BorderSize = 0;
+            btn_serach.FlatAppearance.MouseOverBackColor = borderLavender;
+            btn_serach.FlatAppearance.MouseDownBackColor = Color.FromArgb(216, 197, 235);
+
+            // Keep the pagination strip consistent with the Party Booking title bar.
+            tlp_footer.BackColor = softLavender;
+            lblpagerinfo.ForeColor = textColor;
+
+            // Modern styling for the temporary selected-food DataGridView.
+            Dgv_Selected_Item.SuspendLayout();
+            Dgv_Selected_Item.BorderStyle = BorderStyle.None;
+            Dgv_Selected_Item.BackgroundColor = Color.White;
+            Dgv_Selected_Item.GridColor = borderLavender;
+            Dgv_Selected_Item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            Dgv_Selected_Item.EnableHeadersVisualStyles = false;
+            Dgv_Selected_Item.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            Dgv_Selected_Item.ColumnHeadersHeight = 42;
+            Dgv_Selected_Item.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.BackColor = accentPurple;
+            Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.Font = new Font(AppFonts.GetFont(10), FontStyle.Bold);
+            Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.SelectionBackColor = accentPurple;
+            Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White;
+
+            Dgv_Selected_Item.DefaultCellStyle.BackColor = Color.White;
+            Dgv_Selected_Item.DefaultCellStyle.ForeColor = textColor;
+            Dgv_Selected_Item.DefaultCellStyle.SelectionBackColor = Color.FromArgb(231, 218, 244);
+            Dgv_Selected_Item.DefaultCellStyle.SelectionForeColor = textColor;
+            Dgv_Selected_Item.DefaultCellStyle.Font = AppFonts.GetFont(10);
+            Dgv_Selected_Item.DefaultCellStyle.Padding = new Padding(4, 2, 4, 2);
+            Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 246, 253);
+            Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.ForeColor = textColor;
+            Dgv_Selected_Item.RowTemplate.Height = 34;
+            Dgv_Selected_Item.RowHeadersVisible = false;
+            Dgv_Selected_Item.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            Dgv_Selected_Item.MultiSelect = false;
+            Dgv_Selected_Item.ResumeLayout(true);
+        }
+
         private void SetPartyMenuSearchPlaceholders()
         {
             if (string.IsNullOrWhiteSpace(txtname_search.Text))
@@ -8766,7 +8841,8 @@ namespace FoodandBeverage
             if (textBox.Text == placeholder)
                 textBox.Clear();
 
-            textBox.ForeColor = Color.Black;
+            textBox.BackColor = Color.FromArgb(239, 226, 249);
+            textBox.ForeColor = Color.FromArgb(56, 41, 73);
         }
 
         private void PartyMenuSearchTextBox_Leave(object sender, EventArgs e)
@@ -8776,7 +8852,8 @@ namespace FoodandBeverage
                 return;
 
             textBox.Text = textBox == txtname_search ? "Food Name ....." : "Item Code .....";
-            textBox.ForeColor = Color.DarkGray;
+            textBox.BackColor = Color.FromArgb(247, 240, 251);
+            textBox.ForeColor = Color.FromArgb(139, 124, 153);
         }
 
         private void btn_serach_Click(object sender, EventArgs e)
