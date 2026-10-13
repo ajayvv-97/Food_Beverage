@@ -475,6 +475,12 @@
     <Compile Include="Forms\FrmPartyBooking.Designer.cs">
       <DependentUpon>FrmPartyBooking.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmPartyBookingCalendar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPartyBookingCalendar.Designer.cs">
+      <DependentUpon>FrmPartyBookingCalendar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPartyPackSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1012,6 +1018,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPartyBooking.resx">
       <DependentUpon>FrmPartyBooking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPartyBookingCalendar.resx">
+      <DependentUpon>FrmPartyBookingCalendar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPartyPackSetup.resx">
       <DependentUpon>FrmPartyPackSetup.cs</DependentUpon>
