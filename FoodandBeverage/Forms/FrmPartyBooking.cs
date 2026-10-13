@@ -8038,10 +8038,24 @@ namespace FoodandBeverage
                 flp_sidemenu.FlowDirection = FlowDirection.TopDown;
                 flp_sidemenu.WrapContents = false;
                 flp_sidemenu.AutoScroll = true;
-                flp_sidemenu.Width = Math.Max(btn_showmenu.Width + 20, 180);
-                flp_sidemenu.Height = Math.Min(pnl_dgv_menu.Height - 20, 420);
-                flp_sidemenu.Left = Math.Max(0, btn_showmenu.Left);
-                flp_sidemenu.Top = btn_showmenu.Bottom + 4;
+
+                // flp_sidemenu is a form-level control while btn_showmenu is inside pnl_menu.
+                // Convert the button's screen position into form coordinates so the category
+                // dropdown opens directly below Menu instead of at the left edge of the form.
+                Point menuButtonBottom = btn_showmenu.PointToScreen(new Point(0, btn_showmenu.Height));
+                Point dropdownLocation = this.PointToClient(menuButtonBottom);
+
+                flp_sidemenu.Width = Math.Min(
+                    Math.Max(btn_showmenu.Width, 180),
+                    Math.Max(180, ClientSize.Width - 20));
+                flp_sidemenu.Height = Math.Max(
+                    120,
+                    Math.Min(ClientSize.Height - dropdownLocation.Y - 20, 420));
+                flp_sidemenu.Left = Math.Max(
+                    0,
+                    Math.Min(dropdownLocation.X, ClientSize.Width - flp_sidemenu.Width));
+                flp_sidemenu.Top = Math.Max(0, dropdownLocation.Y + 4);
+
                 GenerateSideMenu();
                 flp_sidemenu.BringToFront();
             }
