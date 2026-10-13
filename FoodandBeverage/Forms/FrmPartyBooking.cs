@@ -8175,7 +8175,7 @@ namespace FoodandBeverage
                     var products = bllSearch.GetSearchData("prdSearch", search);
                     ProductData.AddRange(products);
 
-                    search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field4, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, i.Tax AS Field6, i.TaxType AS Field7, i.Fcid AS Field8, i.TaxSettingsId AS Field9, i.ItemCode_UPC AS Field10, ISNULL(i.UnitId,0) AS Field11";
+                    search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field4, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, i.Tax AS Field6, i.TaxType AS Field7, i.Fcid AS Field8, i.TaxSettingsId AS Field9, i.ItemCode_UPC AS Field10, ISNULL(i.Unit,0) AS Field11";
                     search.Table = "tblItem i";
                     search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1" + (categoryId > 0 ? " AND i.Fcid = " + categoryId : "") + nameFilter.Replace("p.Product", "i.Itemname") + itemFilter.Replace("p.ItemCode_UPC", "i.ItemCode_UPC");
                     search.OrderBy = "ORDER BY i.Itemname";
