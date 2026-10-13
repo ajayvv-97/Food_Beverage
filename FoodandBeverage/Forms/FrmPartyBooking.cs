@@ -540,7 +540,7 @@ namespace FoodandBeverage
 
                         btnSelect.Click += (s, e) =>
                         {
-                            ClearAll();
+                            //ClearAll();
 
                             pnl_foodpacks.Visible = false;
 
@@ -4103,11 +4103,7 @@ namespace FoodandBeverage
                 decimal.TryParse(txtAdultPrice.Text, out adultPrice);
                 decimal.TryParse(txtChildPrice.Text, out childPrice);
 
-                if (adultPrice <= 0 && childPrice <= 0)
-                {
-                    CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
-                }
+
 
                 // Check Name
                 if (string.IsNullOrWhiteSpace(txtname.Text))
@@ -4137,6 +4133,12 @@ namespace FoodandBeverage
                 {
                     CMessageBox.Show("Please select an Event Type", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbevent.Focus();
+                    return false;
+                }
+
+                if (adultPrice <= 0 && childPrice <= 0)
+                {
+                    CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
 
@@ -8905,7 +8907,7 @@ namespace FoodandBeverage
             Dgv_Selected_Item.DefaultCellStyle.Padding = new Padding(4, 2, 4, 2);
             Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 246, 253);
             Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.ForeColor = textColor;
-            Dgv_Selected_Item.RowTemplate.Height = 50;
+            Dgv_Selected_Item.RowTemplate.Height = 34;
             Dgv_Selected_Item.RowHeadersVisible = false;
             Dgv_Selected_Item.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             Dgv_Selected_Item.MultiSelect = false;
@@ -8938,6 +8940,7 @@ namespace FoodandBeverage
             }
         }
 
+       
 
         private void PartyMenuSearchTextBox_Enter(object sender, EventArgs e)
         {
@@ -8998,7 +9001,10 @@ namespace FoodandBeverage
                 e.SuppressKeyPress = true;
             }
         }
+        private void btn_cart_Click(object sender, EventArgs e)
+        {
 
+        }
         #endregion
 
     }
