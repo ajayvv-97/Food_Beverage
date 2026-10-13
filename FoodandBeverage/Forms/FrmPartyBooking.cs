@@ -8984,6 +8984,8 @@ namespace FoodandBeverage
             textBox.ForeColor = Color.FromArgb(56, 41, 73);
         }
 
+       
+
         private void PartyMenuSearchTextBox_Leave(object sender, EventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -9047,6 +9049,17 @@ namespace FoodandBeverage
                     FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
+
+        private void btndateslect_Click(object sender, EventArgs e)
+        {
+            using (FrmPartyBookingCalendar frm = new FrmPartyBookingCalendar())
+            {
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.ShowInTaskbar = false;
+                frm.ShowDialog(this);
+            }
+        }
+
         #endregion
 
     }

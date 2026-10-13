@@ -570,6 +570,7 @@
             this.btnadd_cus = new System.Windows.Forms.Button();
             this.btneventreg = new System.Windows.Forms.Button();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btndateslect = new System.Windows.Forms.Button();
             this.tlp_main.SuspendLayout();
             this.tlp_registartion_main.SuspendLayout();
             this.tlp_paymentsection.SuspendLayout();
@@ -1158,11 +1159,11 @@
             // 
             this.tlp_reg_contrl.BackColor = System.Drawing.Color.White;
             this.tlp_reg_contrl.ColumnCount = 3;
-            this.tlp_reg_contrl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.43108F));
-            this.tlp_reg_contrl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.87149F));
+            this.tlp_reg_contrl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.09897F));
             this.tlp_reg_contrl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.74594F));
+            this.tlp_reg_contrl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.15509F));
+            this.tlp_reg_contrl.Controls.Add(this.btndateslect, 0, 3);
             this.tlp_reg_contrl.Controls.Add(this.lblpackname, 0, 5);
-            this.tlp_reg_contrl.Controls.Add(this.tableLayoutPanel2, 0, 3);
             this.tlp_reg_contrl.Controls.Add(this.label31, 0, 2);
             this.tlp_reg_contrl.Controls.Add(this.label1, 1, 0);
             this.tlp_reg_contrl.Controls.Add(this.label2, 2, 0);
@@ -1201,7 +1202,7 @@
             this.lblpackname.ForeColor = System.Drawing.Color.Black;
             this.lblpackname.Location = new System.Drawing.Point(3, 145);
             this.lblpackname.Name = "lblpackname";
-            this.lblpackname.Size = new System.Drawing.Size(220, 41);
+            this.lblpackname.Size = new System.Drawing.Size(191, 41);
             this.lblpackname.TabIndex = 205;
             this.lblpackname.Text = "Pack ";
             this.lblpackname.Visible = false;
@@ -1213,12 +1214,11 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.dtpEventTime, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.dtpEventDate, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 80);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(171, 19);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(220, 35);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(132, 35);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // dtpEventTime
@@ -1227,10 +1227,10 @@
             this.dtpEventTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtpEventTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.dtpEventTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpEventTime.Location = new System.Drawing.Point(113, 3);
+            this.dtpEventTime.Location = new System.Drawing.Point(69, 3);
             this.dtpEventTime.Name = "dtpEventTime";
             this.dtpEventTime.ShowUpDown = true;
-            this.dtpEventTime.Size = new System.Drawing.Size(104, 26);
+            this.dtpEventTime.Size = new System.Drawing.Size(60, 26);
             this.dtpEventTime.TabIndex = 1;
             // 
             // dtpEventDate
@@ -1241,7 +1241,7 @@
             this.dtpEventDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpEventDate.Location = new System.Drawing.Point(3, 3);
             this.dtpEventDate.Name = "dtpEventDate";
-            this.dtpEventDate.Size = new System.Drawing.Size(104, 26);
+            this.dtpEventDate.Size = new System.Drawing.Size(60, 26);
             this.dtpEventDate.TabIndex = 0;
             // 
             // label31
@@ -1253,7 +1253,7 @@
             this.label31.ForeColor = System.Drawing.Color.Black;
             this.label31.Location = new System.Drawing.Point(3, 59);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(220, 18);
+            this.label31.Size = new System.Drawing.Size(191, 18);
             this.label31.TabIndex = 202;
             this.label31.Text = "Date";
             // 
@@ -1264,9 +1264,9 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(229, 0);
+            this.label1.Location = new System.Drawing.Point(200, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(202, 18);
+            this.label1.Size = new System.Drawing.Size(235, 18);
             this.label1.TabIndex = 175;
             this.label1.Text = "Phone  *";
             // 
@@ -1277,9 +1277,9 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(437, 0);
+            this.label2.Location = new System.Drawing.Point(441, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(237, 18);
+            this.label2.Size = new System.Drawing.Size(233, 18);
             this.label2.TabIndex = 177;
             this.label2.Text = "Email";
             // 
@@ -1292,7 +1292,7 @@
             this.txtname.Location = new System.Drawing.Point(3, 21);
             this.txtname.Multiline = true;
             this.txtname.Name = "txtname";
-            this.txtname.Size = new System.Drawing.Size(220, 35);
+            this.txtname.Size = new System.Drawing.Size(191, 35);
             this.txtname.TabIndex = 0;
             this.txtname.Click += new System.EventHandler(this.txtname_Click);
             this.txtname.TextChanged += new System.EventHandler(this.txtname_TextChanged);
@@ -1303,10 +1303,10 @@
             this.txtph.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtph.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtph.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtph.Location = new System.Drawing.Point(229, 21);
+            this.txtph.Location = new System.Drawing.Point(200, 21);
             this.txtph.Multiline = true;
             this.txtph.Name = "txtph";
-            this.txtph.Size = new System.Drawing.Size(202, 35);
+            this.txtph.Size = new System.Drawing.Size(235, 35);
             this.txtph.TabIndex = 1;
             this.txtph.Click += new System.EventHandler(this.txtph_Click);
             this.txtph.TextChanged += new System.EventHandler(this.txtph_TextChanged);
@@ -1318,10 +1318,10 @@
             this.txtemail.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtemail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtemail.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtemail.Location = new System.Drawing.Point(437, 21);
+            this.txtemail.Location = new System.Drawing.Point(441, 21);
             this.txtemail.Multiline = true;
             this.txtemail.Name = "txtemail";
-            this.txtemail.Size = new System.Drawing.Size(237, 35);
+            this.txtemail.Size = new System.Drawing.Size(233, 35);
             this.txtemail.TabIndex = 2;
             this.txtemail.Click += new System.EventHandler(this.txtemail_Click);
             this.txtemail.Leave += new System.EventHandler(this.txtemail_Leave);
@@ -1335,7 +1335,7 @@
             this.label8.ForeColor = System.Drawing.Color.Black;
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(220, 18);
+            this.label8.Size = new System.Drawing.Size(191, 18);
             this.label8.TabIndex = 173;
             this.label8.Text = "Name  *";
             // 
@@ -1346,9 +1346,9 @@
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(437, 59);
+            this.label6.Location = new System.Drawing.Point(441, 59);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(237, 18);
+            this.label6.Size = new System.Drawing.Size(233, 18);
             this.label6.TabIndex = 183;
             this.label6.Text = "Event  Description";
             // 
@@ -1358,10 +1358,10 @@
             this.txteventdesc.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txteventdesc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txteventdesc.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txteventdesc.Location = new System.Drawing.Point(437, 80);
+            this.txteventdesc.Location = new System.Drawing.Point(441, 80);
             this.txteventdesc.Multiline = true;
             this.txteventdesc.Name = "txteventdesc";
-            this.txteventdesc.Size = new System.Drawing.Size(237, 35);
+            this.txteventdesc.Size = new System.Drawing.Size(233, 35);
             this.txteventdesc.TabIndex = 5;
             this.txteventdesc.Click += new System.EventHandler(this.txteventdesc_Click);
             // 
@@ -1372,9 +1372,9 @@
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(229, 59);
+            this.label5.Location = new System.Drawing.Point(200, 59);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(202, 18);
+            this.label5.Size = new System.Drawing.Size(235, 18);
             this.label5.TabIndex = 181;
             this.label5.Text = "Event   *";
             // 
@@ -1386,11 +1386,11 @@
             this.tlp_event.Controls.Add(this.btneventreg, 1, 0);
             this.tlp_event.Controls.Add(this.cmbevent, 0, 0);
             this.tlp_event.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_event.Location = new System.Drawing.Point(229, 80);
+            this.tlp_event.Location = new System.Drawing.Point(200, 80);
             this.tlp_event.Name = "tlp_event";
             this.tlp_event.RowCount = 1;
             this.tlp_event.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_event.Size = new System.Drawing.Size(202, 35);
+            this.tlp_event.Size = new System.Drawing.Size(235, 35);
             this.tlp_event.TabIndex = 203;
             // 
             // cmbevent
@@ -1402,7 +1402,7 @@
             this.cmbevent.FormattingEnabled = true;
             this.cmbevent.Location = new System.Drawing.Point(3, 3);
             this.cmbevent.Name = "cmbevent";
-            this.cmbevent.Size = new System.Drawing.Size(143, 28);
+            this.cmbevent.Size = new System.Drawing.Size(176, 28);
             this.cmbevent.TabIndex = 4;
             // 
             // lblpacklabel
@@ -1414,7 +1414,7 @@
             this.lblpacklabel.ForeColor = System.Drawing.Color.Black;
             this.lblpacklabel.Location = new System.Drawing.Point(3, 118);
             this.lblpacklabel.Name = "lblpacklabel";
-            this.lblpacklabel.Size = new System.Drawing.Size(220, 27);
+            this.lblpacklabel.Size = new System.Drawing.Size(191, 27);
             this.lblpacklabel.TabIndex = 204;
             this.lblpacklabel.Text = "Pack  Name";
             this.lblpacklabel.Visible = false;
@@ -1426,9 +1426,9 @@
             this.lbltotalguest.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbltotalguest.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbltotalguest.ForeColor = System.Drawing.Color.Black;
-            this.lbltotalguest.Location = new System.Drawing.Point(437, 118);
+            this.lbltotalguest.Location = new System.Drawing.Point(441, 118);
             this.lbltotalguest.Name = "lbltotalguest";
-            this.lbltotalguest.Size = new System.Drawing.Size(237, 27);
+            this.lbltotalguest.Size = new System.Drawing.Size(233, 27);
             this.lbltotalguest.TabIndex = 205;
             this.lbltotalguest.Text = "Total Guests";
             // 
@@ -1438,11 +1438,11 @@
             this.txttotalguest.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txttotalguest.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txttotalguest.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txttotalguest.Location = new System.Drawing.Point(437, 148);
+            this.txttotalguest.Location = new System.Drawing.Point(441, 148);
             this.txttotalguest.Multiline = true;
             this.txttotalguest.Name = "txttotalguest";
             this.txttotalguest.ReadOnly = true;
-            this.txttotalguest.Size = new System.Drawing.Size(237, 35);
+            this.txttotalguest.Size = new System.Drawing.Size(233, 35);
             this.txttotalguest.TabIndex = 207;
             // 
             // tlp_adult_child_label
@@ -1454,11 +1454,11 @@
             this.tlp_adult_child_label.Controls.Add(this.lbladult, 0, 0);
             this.tlp_adult_child_label.Controls.Add(this.lblnochild, 1, 0);
             this.tlp_adult_child_label.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_adult_child_label.Location = new System.Drawing.Point(229, 121);
+            this.tlp_adult_child_label.Location = new System.Drawing.Point(200, 121);
             this.tlp_adult_child_label.Name = "tlp_adult_child_label";
             this.tlp_adult_child_label.RowCount = 1;
             this.tlp_adult_child_label.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_adult_child_label.Size = new System.Drawing.Size(202, 21);
+            this.tlp_adult_child_label.Size = new System.Drawing.Size(235, 21);
             this.tlp_adult_child_label.TabIndex = 236;
             // 
             // lbladult
@@ -1483,7 +1483,7 @@
             this.lblnochild.ForeColor = System.Drawing.Color.Black;
             this.lblnochild.Location = new System.Drawing.Point(105, 0);
             this.lblnochild.Name = "lblnochild";
-            this.lblnochild.Size = new System.Drawing.Size(94, 21);
+            this.lblnochild.Size = new System.Drawing.Size(127, 21);
             this.lblnochild.TabIndex = 204;
             this.lblnochild.Text = "No. Of Child";
             // 
@@ -1496,11 +1496,11 @@
             this.tlp_adult_child_text.Controls.Add(this.txtAdults, 0, 0);
             this.tlp_adult_child_text.Controls.Add(this.txtChild, 1, 0);
             this.tlp_adult_child_text.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_adult_child_text.Location = new System.Drawing.Point(229, 148);
+            this.tlp_adult_child_text.Location = new System.Drawing.Point(200, 148);
             this.tlp_adult_child_text.Name = "tlp_adult_child_text";
             this.tlp_adult_child_text.RowCount = 1;
             this.tlp_adult_child_text.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_adult_child_text.Size = new System.Drawing.Size(202, 35);
+            this.tlp_adult_child_text.Size = new System.Drawing.Size(235, 35);
             this.tlp_adult_child_text.TabIndex = 235;
             // 
             // txtAdults
@@ -1527,7 +1527,7 @@
             this.txtChild.Location = new System.Drawing.Point(112, 3);
             this.txtChild.Multiline = true;
             this.txtChild.Name = "txtChild";
-            this.txtChild.Size = new System.Drawing.Size(87, 32);
+            this.txtChild.Size = new System.Drawing.Size(120, 32);
             this.txtChild.TabIndex = 208;
             this.txtChild.Click += new System.EventHandler(this.txtChild_Click);
             this.txtChild.TextChanged += new System.EventHandler(this.txtchild_TextChanged);
@@ -2018,7 +2018,7 @@
             this.sterms.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.sterms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.sterms.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.sterms.Location = new System.Drawing.Point(-139, -236);
+            this.sterms.Location = new System.Drawing.Point(-67, -232);
             this.sterms.Multiline = true;
             this.sterms.Name = "sterms";
             this.sterms.Size = new System.Drawing.Size(67, 25);
@@ -2825,6 +2825,7 @@
             // pnl_hidecontrl
             // 
             this.pnl_hidecontrl.Controls.Add(this.txtTotalTaxAmount_extracharge);
+            this.pnl_hidecontrl.Controls.Add(this.tableLayoutPanel2);
             this.pnl_hidecontrl.Controls.Add(this.txtPreTaxAmount_extracharge);
             this.pnl_hidecontrl.Controls.Add(this.txtVatamt_extracharge);
             this.pnl_hidecontrl.Controls.Add(this.txtIGSTAmt_extracharge);
@@ -2890,7 +2891,7 @@
             this.pnl_hidecontrl.Controls.Add(this.txtAdultPrice);
             this.pnl_hidecontrl.Location = new System.Drawing.Point(0, 6);
             this.pnl_hidecontrl.Name = "pnl_hidecontrl";
-            this.pnl_hidecontrl.Size = new System.Drawing.Size(28, 35);
+            this.pnl_hidecontrl.Size = new System.Drawing.Size(173, 42);
             this.pnl_hidecontrl.TabIndex = 318;
             this.pnl_hidecontrl.Visible = false;
             // 
@@ -3019,7 +3020,7 @@
             this.cmbVatPrcnt.FormattingEnabled = true;
             this.cmbVatPrcnt.Location = new System.Drawing.Point(630, 327);
             this.cmbVatPrcnt.Name = "cmbVatPrcnt";
-            this.cmbVatPrcnt.Size = new System.Drawing.Size(0, 26);
+            this.cmbVatPrcnt.Size = new System.Drawing.Size(145, 26);
             this.cmbVatPrcnt.TabIndex = 338;
             // 
             // cmbIgstPrcnt
@@ -3033,7 +3034,7 @@
             this.cmbIgstPrcnt.FormattingEnabled = true;
             this.cmbIgstPrcnt.Location = new System.Drawing.Point(630, 295);
             this.cmbIgstPrcnt.Name = "cmbIgstPrcnt";
-            this.cmbIgstPrcnt.Size = new System.Drawing.Size(0, 26);
+            this.cmbIgstPrcnt.Size = new System.Drawing.Size(145, 26);
             this.cmbIgstPrcnt.TabIndex = 339;
             this.cmbIgstPrcnt.SelectedIndexChanged += new System.EventHandler(this.cmbIgstPrcnt_SelectedIndexChanged);
             // 
@@ -7879,7 +7880,7 @@
             this.btneventreg.FlatAppearance.BorderSize = 0;
             this.btneventreg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btneventreg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btneventreg.Location = new System.Drawing.Point(152, 3);
+            this.btneventreg.Location = new System.Drawing.Point(185, 3);
             this.btneventreg.Name = "btneventreg";
             this.btneventreg.Size = new System.Drawing.Size(47, 29);
             this.btneventreg.TabIndex = 5;
@@ -7894,6 +7895,24 @@
             this.dataGridViewImageColumn2.MinimumWidth = 6;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.Width = 125;
+            // 
+            // btndateslect
+            // 
+            this.btndateslect.BackColor = System.Drawing.Color.Transparent;
+            this.btndateslect.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btndateslect.BackgroundImage")));
+            this.btndateslect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btndateslect.FlatAppearance.BorderSize = 0;
+            this.btndateslect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btndateslect.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btndateslect.ForeColor = System.Drawing.Color.White;
+            this.btndateslect.Location = new System.Drawing.Point(0, 77);
+            this.btndateslect.Margin = new System.Windows.Forms.Padding(0);
+            this.btndateslect.Name = "btndateslect";
+            this.btndateslect.Size = new System.Drawing.Size(127, 37);
+            this.btndateslect.TabIndex = 351;
+            this.btndateslect.Text = "Package";
+            this.btndateslect.UseVisualStyleBackColor = false;
+            this.btndateslect.Click += new System.EventHandler(this.btndateslect_Click);
             // 
             // FrmPartyBooking
             // 
@@ -8613,5 +8632,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel44;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btn_cart;
+        private System.Windows.Forms.Button btndateslect;
     }
 }
