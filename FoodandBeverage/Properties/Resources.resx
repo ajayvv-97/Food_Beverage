@@ -1267,4 +1267,37 @@
   <data name="Party_Food_Items_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Party_Food_Items_Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Party_Apply_Filter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Apply_Filter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\party_clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_Day" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Day.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_Filter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Filter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_Month" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Month.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_Month_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Month_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_New_Booking" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_New_Booking.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_Next_Month" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Next_Month.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_Previous_Month" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Previous_Month.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_Today" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Today.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Party_Week" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Week.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

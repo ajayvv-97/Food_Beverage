@@ -188,3 +188,4 @@ D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csp
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.CopyComplete
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.exe
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.pdb
+D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.AssemblyReference.cache
