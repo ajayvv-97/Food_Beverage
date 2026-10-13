@@ -7998,6 +7998,10 @@ namespace FoodandBeverage
                 pnl_menu.Top = (ClientSize.Height - height) / 2;
                 pnl_menu.Visible = true;
                 pnl_menu.BringToFront();
+
+                // Menu mode: show the product list above the selected-items grid.
+                tlp_menu_main.Visible = true;
+                tlp_menu_main.BringToFront();
                 flp_productview.Visible = true;
                 Dgv_Selected_Item.Visible = false;
                 flp_sidemenu.Visible = false;
@@ -8165,9 +8169,12 @@ namespace FoodandBeverage
                 btnprev.Enabled = currentPage > 1;
                 btnnext.Enabled = currentPage < totalPages;
                 GeneratePartyMenuProducts();
+
+                // Keep the product list in front when a category/search result is loaded.
+                tlp_menu_main.Visible = true;
+                tlp_menu_main.BringToFront();
                 flp_productview.Visible = true;
                 Dgv_Selected_Item.Visible = false;
-                flp_productview.BringToFront();
             }
             catch (Exception ex)
             {
@@ -8556,10 +8563,13 @@ namespace FoodandBeverage
 
         private void ShowPartySelectedItems()
         {
-            Dgv_Selected_Item.Visible = true;
-            Dgv_Selected_Item.BringToFront();
+            // Product-click mode: move the selected-items grid above the product layout.
+            tlp_menu_main.Visible = true;
+            tlp_menu_main.SendToBack();
             flp_productview.Visible = false;
             flp_sidemenu.Visible = false;
+            Dgv_Selected_Item.Visible = true;
+            Dgv_Selected_Item.BringToFront();
         }
 
         private void Dgv_Selected_Item_CellClick(object sender, DataGridViewCellEventArgs e)
