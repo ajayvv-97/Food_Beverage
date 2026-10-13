@@ -8905,7 +8905,7 @@ namespace FoodandBeverage
             Dgv_Selected_Item.DefaultCellStyle.Padding = new Padding(4, 2, 4, 2);
             Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 246, 253);
             Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.ForeColor = textColor;
-            Dgv_Selected_Item.RowTemplate.Height = 34;
+            Dgv_Selected_Item.RowTemplate.Height = 50;
             Dgv_Selected_Item.RowHeadersVisible = false;
             Dgv_Selected_Item.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             Dgv_Selected_Item.MultiSelect = false;
