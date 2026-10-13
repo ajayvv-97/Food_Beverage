@@ -6799,6 +6799,7 @@ namespace FoodandBeverage
                 decimal preTax_gift = 0, tax_gift = 0, net_gift = 0;
                 decimal preTax_pack = 0, tax_pack = 0, net_pack = 0;
                 decimal preTax_extra = 0, tax_extra = 0, net_extra = 0;
+                decimal preTax_food = 0, tax_food = 0, net_food = 0;
 
                 foreach (DataGridViewRow row in dgv_product.Rows)
                 {
@@ -6809,7 +6810,8 @@ namespace FoodandBeverage
                     if (productType != (int)PackItemType.Card &&
                         productType != (int)PackItemType.Gift &&
                         productType != (int)PackItemType.Cake &&
-                        productType != (int)PackItemType.ExtraChargeProduct)
+                        productType != (int)PackItemType.ExtraChargeProduct &&
+                        productType != (int)PackItemType.FoodItem)
                     {
                         continue;
                     }
@@ -6903,6 +6905,11 @@ namespace FoodandBeverage
                             tax_extra += taxAmt;
                             net_extra += netAmt;
                             break;
+                        case PackItemType.FoodItem:
+                            preTax_food += baseAmt;
+                            tax_food += taxAmt;
+                            net_food += netAmt;
+                            break;
                     }
                 }
 
@@ -6930,6 +6937,13 @@ namespace FoodandBeverage
                 txtVatamt_extracharge.Text = tax_extra.ToString("N2");
                 txtIGSTAmt_extracharge.Text = tax_extra.ToString("N2");
                 txtExtrachargeGrandTotal.Text = net_extra.ToString("N2");
+
+                // PARTY MENU FOOD
+                txtPreTaxAmount_extracharge.Text = (preTax_extra + preTax_food).ToString("N2");
+                txtTotalTaxAmount_extracharge.Text = (tax_extra + tax_food).ToString("N2");
+                txtVatamt_extracharge.Text = (tax_extra + tax_food).ToString("N2");
+                txtIGSTAmt_extracharge.Text = (tax_extra + tax_food).ToString("N2");
+                txtExtrachargeGrandTotal.Text = (net_extra + net_food).ToString("N2");
 
                 CalculateDiscountPer();
                 CalculateNetAmount();
