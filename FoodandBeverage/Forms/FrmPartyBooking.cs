@@ -297,6 +297,10 @@ namespace FoodandBeverage
             button1.Click += btn_menu_submit_Click;
             txtname_search.KeyDown += txtname_search_KeyDown;
             txtitemcode_serach.KeyDown += txtitemcode_serach_KeyDown;
+            txtname_search.Enter += PartyMenuSearchTextBox_Enter;
+            txtname_search.Leave += PartyMenuSearchTextBox_Leave;
+            txtitemcode_serach.Enter += PartyMenuSearchTextBox_Enter;
+            txtitemcode_serach.Leave += PartyMenuSearchTextBox_Leave;
         }
 
         private void FrmPartyBooking_Load(object sender, EventArgs e)
@@ -314,6 +318,9 @@ namespace FoodandBeverage
                 lblbalapay.ForeColor = Color.DimGray;
 
                 lblpackname.ForeColor = Color.DimGray;
+
+                // Match the visible search placeholders used by Order Console.
+                SetPartyMenuSearchPlaceholders();
                 
 
                 Taxfill();
@@ -8167,7 +8174,7 @@ namespace FoodandBeverage
                 string itemFilter = string.IsNullOrWhiteSpace(itemCode) ? "" : " AND p.ItemCode_UPC = '" + itemCode.Replace("'", "''") + "'";
                 if (categoryId >= 0)
                 {
-                    search.Select = "p.Product AS Field1, p.ProductId AS Field2, 0 AS Field3, p.Price AS Field4, p.MRP AS Field5, p.Tax AS Field6, p.TaxType AS Field7, p.Fcid AS Field8, p.TaxSettingsId AS Field9, p.ItemCode AS Field10, 0 AS Field11";
+                    search.Select = "p.Product AS Field1, p.ProductId AS Field2, 0 AS Field3, ISNULL(p.fav_status,0) AS Field4, p.Price AS Field5, p.MRP AS Field6, p.Tax AS Field7, p.TaxType AS Field8, p.Fcid AS Field9, p.TaxSettingsId AS Field10, p.ItemCode AS Field11, 0 AS Field12, ISNULL(p.foodtype,0) AS Field13, p.ForeColor AS Field14, p.BackColor AS Field15";
                     search.Table = "tblProduct p";
                     search.WhereNdGroupBy = "WHERE p.Status = 1" + (categoryId > 0 ? " AND p.Fcid = " + categoryId : "") + nameFilter + itemFilter;
                     search.OrderBy = "ORDER BY p.Product";
@@ -8175,7 +8182,7 @@ namespace FoodandBeverage
                     var products = bllSearch.GetSearchData("prdSearch", search);
                     ProductData.AddRange(products);
 
-                    search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field4, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, i.Tax AS Field6, i.TaxType AS Field7, i.Fcid AS Field8, i.TaxSettingsId AS Field9, i.ItemCode_UPC AS Field10, ISNULL(i.Unit,0) AS Field11";
+                    search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, ISNULL(i.fav_status,0) AS Field4, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.Unit,0) AS Field12, 0 AS Field13, '' AS Field14, '' AS Field15";
                     search.Table = "tblItem i";
                     search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1" + (categoryId > 0 ? " AND i.Fcid = " + categoryId : "") + nameFilter.Replace("p.Product", "i.Itemname") + itemFilter.Replace("p.ItemCode_UPC", "i.ItemCode_UPC");
                     search.OrderBy = "ORDER BY i.Itemname";
@@ -8213,66 +8220,139 @@ namespace FoodandBeverage
                 foreach (Control control in flp_productview.Controls)
                     control.Dispose();
                 flp_productview.Controls.Clear();
+
                 flp_productview.WrapContents = true;
                 flp_productview.FlowDirection = FlowDirection.LeftToRight;
                 flp_productview.AutoScroll = true;
+                flp_productview.Padding = new Padding(4);
 
                 if (flp_productview.ClientSize.Width <= 0)
                     flp_productview.PerformLayout();
 
+                // Compact, rounded product cards matching Order Console.
                 int columns = Math.Max(1, Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow"]));
-                int gap = Math.Max(2, Productspace);
-                int width = Math.Max(90, (flp_productview.ClientSize.Width - ((columns + 1) * gap)) / columns);
-                int height = Math.Max(60, (int)(width * Productheight));
+                int gap = Math.Max(6, Productspace);
+                int availableWidth = Math.Max(300, flp_productview.ClientSize.Width - SystemInformation.VerticalScrollBarWidth);
+                int width = Math.Max(125, (availableWidth - ((columns + 1) * gap)) / columns);
+                int height = Math.Max(88, Math.Min(124, (int)(width * 0.67m)));
 
                 foreach (var item in pagedatadata)
                 {
                     int productId = Convert.ToInt32(item.Field2);
-                    string saleType = Convert.ToString(item.Field3);
-                    decimal price = Convert.ToDecimal(item.Field4);
+                    int saleType = 0;
+                    int.TryParse(Convert.ToString(item.Field3), out saleType);
+                    int favoriteStatus = 0;
+                    int.TryParse(Convert.ToString(item.Field4), out favoriteStatus);
+                    int foodType = 0;
+                    int.TryParse(Convert.ToString(item.Field13), out foodType);
+                    string productName = Convert.ToString(item.Field1) ?? string.Empty;
+
+                    Color tileColor = Color.White;
+                    string backColorValue = Convert.ToString(item.Field15);
+                    if (!string.IsNullOrWhiteSpace(backColorValue))
+                    {
+                        try { tileColor = ColorTranslator.FromHtml(backColorValue); }
+                        catch { tileColor = Color.White; }
+                    }
+
                     Panel tile = new Panel
                     {
                         Width = width,
                         Height = height,
-                        BackColor = Color.White,
+                        BackColor = tileColor,
                         Margin = new Padding(gap),
                         Tag = productId,
-                        AccessibleDescription = saleType,
+                        AccessibleDescription = Convert.ToString(saleType),
                         Cursor = Cursors.Hand,
-                        BorderStyle = BorderStyle.FixedSingle
+                        BorderStyle = BorderStyle.None
                     };
+
+                    TableLayoutPanel tileLayout = new TableLayoutPanel
+                    {
+                        Dock = DockStyle.Fill,
+                        RowCount = 1,
+                        ColumnCount = 1,
+                        BackColor = Color.Transparent,
+                        Margin = new Padding(0),
+                        Padding = new Padding(0),
+                        Tag = productId,
+                        AccessibleDescription = Convert.ToString(saleType)
+                    };
+                    tileLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+                    tileLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+
+                    Color nameColor = Color.Black;
+                    string foreColorValue = Convert.ToString(item.Field14);
+                    if (!string.IsNullOrWhiteSpace(foreColorValue))
+                    {
+                        try { nameColor = ColorTranslator.FromHtml(foreColorValue); }
+                        catch { nameColor = Color.Black; }
+                    }
+
                     Label name = new Label
                     {
-                        Text = Convert.ToString(item.Field1),
+                        Text = productName,
                         Dock = DockStyle.Fill,
                         Tag = productId,
-                        AccessibleDescription = saleType,
+                        AccessibleDescription = Convert.ToString(saleType),
                         TextAlign = ContentAlignment.MiddleCenter,
                         Padding = new Padding(5),
-                        ForeColor = Color.Black,
+                        ForeColor = nameColor,
                         BackColor = Color.Transparent,
-                        Font = AppFonts.GetFont(10),
+                        Font = AppFonts.GetFont(11),
                         AutoEllipsis = true
                     };
-                    Label priceLabel = new Label
+                    Size textSize = TextRenderer.MeasureText(productName, AppFonts.GetFont(11));
+                    if (textSize.Width > width - 18)
+                        name.Font = AppFonts.GetFont(9);
+
+                    tileLayout.Controls.Add(name, 0, 0);
+                    tile.Controls.Add(tileLayout);
+
+                    PictureBox favoriteIcon = new PictureBox
                     {
-                        Text = price.ToString("N2"),
-                        Dock = DockStyle.Bottom,
-                        Height = 24,
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        ForeColor = Color.SeaGreen,
-                        BackColor = Color.Transparent,
-                        Font = AppFonts.GetFont(9),
-                        Cursor = Cursors.Hand,
+                        Name = "picFav_" + productId + "_" + saleType,
+                        Width = 22,
+                        Height = 22,
+                        BackColor = Color.White,
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        Location = new Point(width - 30, 8),
+                        Anchor = AnchorStyles.Top | AnchorStyles.Right,
                         Tag = productId,
-                        AccessibleDescription = saleType
+                        AccessibleDescription = Convert.ToString(saleType),
+                        Image = favoriteStatus == 1
+                            ? Properties.Resources.fav_enable
+                            : Properties.Resources.fav_disable
                     };
-                    tile.Click += MenuProductTile_Click;
-                    name.Click += MenuProductTile_Click;
-                    priceLabel.Click += MenuProductTile_Click;
-                    tile.Controls.Add(name);
-                    tile.Controls.Add(priceLabel);
-                    name.BringToFront();
+                    tile.Controls.Add(favoriteIcon);
+                    favoriteIcon.BringToFront();
+
+                    Panel foodIndicator = new Panel
+                    {
+                        Width = 12,
+                        Height = 12,
+                        Location = new Point(5, 5),
+                        BackColor = Color.Transparent
+                    };
+                    Color indicatorColor = foodType == 1
+                        ? Color.Green
+                        : foodType == 2
+                            ? Color.Red
+                            : Color.Gray;
+                    foodIndicator.Paint += (sender, paintArgs) =>
+                    {
+                        paintArgs.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                        using (SolidBrush brush = new SolidBrush(indicatorColor))
+                            paintArgs.Graphics.FillEllipse(brush, 0, 0, foodIndicator.Width - 1, foodIndicator.Height - 1);
+                    };
+                    tile.Controls.Add(foodIndicator);
+                    foodIndicator.BringToFront();
+
+                    tile.Click += (sender, args) => MenuProductTile_Click(tile, args);
+                    tileLayout.Click += (sender, args) => MenuProductTile_Click(tile, args);
+                    name.Click += (sender, args) => MenuProductTile_Click(tile, args);
+
+                    UIHelper.RoundCorners(tile, Productcorner, null);
                     flp_productview.Controls.Add(tile);
                 }
 
@@ -8659,6 +8739,44 @@ namespace FoodandBeverage
                 return;
             currentPage++;
             ShowPartyMenuPage();
+        }
+
+        private void SetPartyMenuSearchPlaceholders()
+        {
+            if (string.IsNullOrWhiteSpace(txtname_search.Text))
+            {
+                txtname_search.Text = "Food Name .....";
+                txtname_search.ForeColor = Color.DarkGray;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtitemcode_serach.Text))
+            {
+                txtitemcode_serach.Text = "Item Code .....";
+                txtitemcode_serach.ForeColor = Color.DarkGray;
+            }
+        }
+
+        private void PartyMenuSearchTextBox_Enter(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null)
+                return;
+
+            string placeholder = textBox == txtname_search ? "Food Name ....." : "Item Code .....";
+            if (textBox.Text == placeholder)
+                textBox.Clear();
+
+            textBox.ForeColor = Color.Black;
+        }
+
+        private void PartyMenuSearchTextBox_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null || !string.IsNullOrWhiteSpace(textBox.Text))
+                return;
+
+            textBox.Text = textBox == txtname_search ? "Food Name ....." : "Item Code .....";
+            textBox.ForeColor = Color.DarkGray;
         }
 
         private void btn_serach_Click(object sender, EventArgs e)
