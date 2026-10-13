@@ -8055,8 +8055,10 @@ namespace FoodandBeverage
                 DmnSearch dmnSearch = new DmnSearch
                 {
                     Select = "DISTINCT c.CategoryName, c.Fcid",
-                    Table = "tblProduct p INNER JOIN tblCategory_FTI c ON c.Fcid = p.Fcid",
-                    WhereNdGroupBy = "WHERE p.Status = 1 AND c.Status = 1 AND c.CategoryType = " + Convert.ToInt32(CategoryType.Menu_Category),
+                    Table = "tblCategory_FTI c",
+                    WhereNdGroupBy = "WHERE c.Status = 1 AND c.CategoryType = " + Convert.ToInt32(CategoryType.Menu_Category) +
+                        " AND (EXISTS (SELECT 1 FROM tblProduct p WHERE p.Fcid = c.Fcid AND p.Status = 1)" +
+                        " OR EXISTS (SELECT 1 FROM tblItem i WHERE i.Fcid = c.Fcid AND i.Status = 1 AND i.Saletype = 1))",
                     OrderBy = "ORDER BY c.CategoryName"
                 };
 
