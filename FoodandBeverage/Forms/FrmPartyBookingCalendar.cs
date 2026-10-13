@@ -25,7 +25,8 @@ namespace FoodandBeverage.Forms
         private readonly Color textColor = Color.FromArgb(38, 35, 73);
         // Shared fonts avoid allocating a new GDI font for every cell on each redraw.
         private static readonly Font WeekdayFont = new Font("Segoe UI", 9F, FontStyle.Bold);
-        private static readonly Font DayNumberFont = new Font("Segoe UI", 9F, FontStyle.Bold);
+        private static readonly Font DayNumberFont = new Font("Segoe UI", 11F, FontStyle.Bold);
+        private static readonly Font TodayNumberFont = new Font("Segoe UI", 12.5F, FontStyle.Bold);
         private static readonly Font EventNameFont = new Font("Segoe UI", 8.5F, FontStyle.Bold);
         private static readonly Font EventNameCompactFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
         private static readonly Font EventTimeFont = new Font("Segoe UI", 8F, FontStyle.Regular);
@@ -37,6 +38,8 @@ namespace FoodandBeverage.Forms
         private DateTime currentDate = DateTime.Today;
         private CalendarView currentView = CalendarView.Month;
         private bool filterApplied;
+        private int animationDirection = 1;
+        private System.Windows.Forms.Timer calendarAnimationTimer;
 
         public FrmPartyBookingCalendar()
         {
@@ -84,51 +87,72 @@ namespace FoodandBeverage.Forms
 
         private void FrmPartyBookingCalendar_Load(object sender, EventArgs e)
         {
+            ApplyScreenSize();
             currentDate = DateTime.Today;
-            BuildIndicators();
             LoadBookings();
             RenderCalendar();
+        }
+
+        private void ApplyScreenSize()
+        {
+            Screen screen = Owner != null
+                ? Screen.FromControl(Owner)
+                : Screen.FromControl(this);
+            Rectangle area = screen.WorkingArea;
+            Width = Math.Max(900, (int)(area.Width * 0.80));
+            Height = Math.Max(650, (int)(area.Height * 0.80));
+            Width = Math.Min(Width, area.Width);
+            Height = Math.Min(Height, area.Height);
+            StartPosition = FormStartPosition.Manual;
+            Location = new Point(
+                area.Left + (area.Width - Width) / 2,
+                area.Top + (area.Height - Height) / 2);
         }
 
         private void btncolse_Click(object sender, EventArgs e) { Close(); }
 
         private void btn_prev_Click(object sender, EventArgs e)
         {
+            animationDirection = -1;
             if (currentView == CalendarView.Month) currentDate = currentDate.AddMonths(-1);
             else if (currentView == CalendarView.Week) currentDate = currentDate.AddDays(-7);
             else currentDate = currentDate.AddDays(-1);
             LoadBookings();
-            RenderCalendar();
+            RenderCalendar(true);
         }
 
         private void btn_next_Click(object sender, EventArgs e)
         {
+            animationDirection = 1;
             if (currentView == CalendarView.Month) currentDate = currentDate.AddMonths(1);
             else if (currentView == CalendarView.Week) currentDate = currentDate.AddDays(7);
             else currentDate = currentDate.AddDays(1);
             LoadBookings();
-            RenderCalendar();
+            RenderCalendar(true);
         }
 
         private void btn_month_Click(object sender, EventArgs e)
         {
             currentView = CalendarView.Month;
+            animationDirection = 1;
             LoadBookings();
-            RenderCalendar();
+            RenderCalendar(true);
         }
 
         private void btn_week_Click(object sender, EventArgs e)
         {
             currentView = CalendarView.Week;
+            animationDirection = 1;
             LoadBookings();
-            RenderCalendar();
+            RenderCalendar(true);
         }
 
         private void btn_day_Click(object sender, EventArgs e)
         {
             currentView = CalendarView.Day;
+            animationDirection = 1;
             LoadBookings();
-            RenderCalendar();
+            RenderCalendar(true);
         }
 
         private void btn_today_Click(object sender, EventArgs e)
@@ -213,7 +237,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch search = new DmnSearch
                 {
                     ColumnHeaders = "Start,End,Event",
-                    Select = "b.BookingDateTime as Field1, b.BookingToDateTime as Field2, ISNULL(ec.ItemName, 'Other Event') as Field3",
+                    Select = "b.BookingDateTime as Field1, b.BookingToDateTime as Field2, ec.ItemName as Field3",
                     Table = "tblPartyBooking b LEFT JOIN tblEventCommonItems ec ON ec.EventItemId = b.EventType",
                     WhereNdGroupBy = "WHERE b.Status = 1 AND b.BookingDateTime <= CONVERT(datetime, '" + endText + "', 120) " +
                                      "AND ISNULL(b.BookingToDateTime, b.BookingDateTime) >= CONVERT(datetime, '" + startText + "', 120)",
@@ -222,7 +246,11 @@ namespace FoodandBeverage.Forms
 
                 List<DmnGridFields> result = new BllSearch<DmnGridFields>().GetSearchData("prdSearch", search);
                 bookings = new List<PartyBookingEvent>();
-                if (result == null) return;
+                if (result == null)
+                {
+                    BuildIndicators();
+                    return;
+                }
 
                 foreach (DmnGridFields row in result)
                 {
@@ -238,13 +266,16 @@ namespace FoodandBeverage.Forms
                     {
                         Start = start,
                         End = end < start ? start : end,
-                        EventName = string.IsNullOrWhiteSpace(row.Field3) ? "Other Event" : row.Field3.Trim()
+                        EventName = string.IsNullOrWhiteSpace(row.Field3) ? "Booking" : row.Field3.Trim()
                     });
                 }
+
+                BuildIndicators();
             }
             catch (Exception ex)
             {
                 bookings = new List<PartyBookingEvent>();
+                BuildIndicators();
                 MessageBox.Show("Unable to load party bookings. Please check the database connection.\r\n\r\n" + ex.Message,
                     "Party Booking Calendar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -256,7 +287,10 @@ namespace FoodandBeverage.Forms
             {
                 DateTime first = new DateTime(currentDate.Year, currentDate.Month, 1);
                 start = first.AddDays(-(int)first.DayOfWeek);
-                end = start.AddDays(42).AddTicks(-1);
+                int daysInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
+                int calendarDays = (int)first.DayOfWeek + daysInMonth;
+                int weekCount = (int)Math.Ceiling(calendarDays / 7.0);
+                end = start.AddDays(weekCount * 7).AddTicks(-1);
             }
             else if (currentView == CalendarView.Week)
             {
@@ -270,9 +304,10 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void RenderCalendar()
+        private void RenderCalendar(bool animate = false)
         {
             if (IsDisposed || pnl_calender == null) return;
+            StopCalendarAnimation();
             pnl_calender.SuspendLayout();
             try
             {
@@ -289,12 +324,15 @@ namespace FoodandBeverage.Forms
 
                 TableLayoutPanel grid = new TableLayoutPanel
                 {
-                    Dock = DockStyle.Fill,
+                    Dock = animate ? DockStyle.None : DockStyle.Fill,
                     BackColor = border,
                     Margin = Padding.Empty,
                     Padding = new Padding(1),
                     ColumnCount = currentView == CalendarView.Day ? 1 : 7,
-                    RowCount = currentView == CalendarView.Month ? 7 : 2,
+                    RowCount = currentView == CalendarView.Month
+                        ? (int)Math.Ceiling(((int)new DateTime(currentDate.Year, currentDate.Month, 1).DayOfWeek +
+                            DateTime.DaysInMonth(currentDate.Year, currentDate.Month)) / 7.0) + 1
+                        : 2,
                     CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
                     GrowStyle = TableLayoutPanelGrowStyle.FixedSize
                 };
@@ -305,15 +343,19 @@ namespace FoodandBeverage.Forms
 
                 if (currentView == CalendarView.Month)
                 {
-                    grid.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
-                    for (int i = 0; i < 6; i++)
-                        grid.RowStyles.Add(new RowStyle(SizeType.Percent, 16.6667f));
+                    int daysInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
+                    int calendarDays = (int)new DateTime(currentDate.Year, currentDate.Month, 1).DayOfWeek + daysInMonth;
+                    int weekCount = (int)Math.Ceiling(calendarDays / 7.0);
+                    grid.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
+                    for (int i = 0; i < weekCount; i++)
+                        grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / weekCount));
 
                     string[] days = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
                     for (int col = 0; col < 7; col++)
                         grid.Controls.Add(CreateWeekdayHeader(days[col]), col, 0);
 
-                    for (int index = 0; index < 42; index++)
+                    int totalDays = weekCount * 7;
+                    for (int index = 0; index < totalDays; index++)
                     {
                         DateTime date = rangeStart.AddDays(index);
                         grid.Controls.Add(CreateDayCell(date, date.Month != currentDate.Month, false), index % 7, (index / 7) + 1);
@@ -338,12 +380,57 @@ namespace FoodandBeverage.Forms
                     grid.Controls.Add(CreateDayCell(currentDate, false, true), 0, 1);
                 }
 
-                pnl_calender.Controls.Add(grid);
+                if (animate)
+                {
+                    grid.Dock = DockStyle.None;
+                    grid.Size = pnl_calender.ClientSize;
+                    grid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+                    grid.Location = new Point(animationDirection * 28, 0);
+                    pnl_calender.Controls.Add(grid);
+                    StartCalendarAnimation(grid);
+                }
+                else
+                {
+                    pnl_calender.Controls.Add(grid);
+                }
             }
             finally
             {
                 pnl_calender.ResumeLayout(true);
             }
+        }
+
+        private void StartCalendarAnimation(Control grid)
+        {
+            calendarAnimationTimer = new System.Windows.Forms.Timer();
+            calendarAnimationTimer.Interval = 15;
+            int step = 0;
+            calendarAnimationTimer.Tick += (s, e) =>
+            {
+                if (grid.IsDisposed || pnl_calender.IsDisposed)
+                {
+                    StopCalendarAnimation();
+                    return;
+                }
+
+                step++;
+                int remaining = Math.Max(0, 4 - step);
+                grid.Left = animationDirection * remaining * 7;
+                if (step >= 4)
+                {
+                    grid.Left = 0;
+                    StopCalendarAnimation();
+                }
+            };
+            calendarAnimationTimer.Start();
+        }
+
+        private void StopCalendarAnimation()
+        {
+            if (calendarAnimationTimer == null) return;
+            calendarAnimationTimer.Stop();
+            calendarAnimationTimer.Dispose();
+            calendarAnimationTimer = null;
         }
 
         private void ClearCalendarControls()
@@ -375,7 +462,7 @@ namespace FoodandBeverage.Forms
             Panel cell = new Panel
             {
                 Dock = DockStyle.Fill,
-                BackColor = date.Date == DateTime.Today ? Color.FromArgb(250, 248, 255) : Color.White,
+                BackColor = date.Date == DateTime.Today ? Color.FromArgb(239, 232, 255) : Color.White,
                 Margin = Padding.Empty,
                 Padding = new Padding(4),
                 Tag = date
@@ -396,11 +483,16 @@ namespace FoodandBeverage.Forms
             {
                 Text = date.Day.ToString(),
                 Dock = DockStyle.Top,
-                Height = 22,
+                Height = 27,
                 TextAlign = ContentAlignment.MiddleLeft,
-                Font = DayNumberFont,
-                ForeColor = outsideMonth ? Color.Silver : (date.DayOfWeek == DayOfWeek.Sunday ? Color.Firebrick : textColor),
-                Margin = Padding.Empty
+                Font = date.Date == DateTime.Today ? TodayNumberFont : DayNumberFont,
+                BackColor = date.Date == DateTime.Today ? Color.FromArgb(101, 65, 220) : Color.Transparent,
+                ForeColor = date.Date == DateTime.Today
+                    ? Color.White
+                    : (outsideMonth ? Color.FromArgb(180, 180, 196)
+                    : (date.DayOfWeek == DayOfWeek.Sunday ? Color.FromArgb(220, 48, 67) : textColor)),
+                Padding = new Padding(5, 0, 0, 0),
+                Margin = new Padding(0, 0, 0, 3)
             };
 
             cell.Controls.Add(eventList);
@@ -411,7 +503,16 @@ namespace FoodandBeverage.Forms
                 .OrderBy(b => b.Start)
                 .ToList();
 
-            int maxVisible = expanded ? int.MaxValue : 3;
+            int maxVisible;
+            if (expanded)
+                maxVisible = int.MaxValue;
+            else
+            {
+                // Month cells are intentionally compact: show complete cards and use an
+                // overflow count instead of rendering clipped booking text.
+                int availableHeight = Math.Max(0, cell.ClientSize.Height - 32);
+                maxVisible = Math.Max(1, Math.Min(3, availableHeight / 42));
+            }
             foreach (PartyBookingEvent item in dayBookings.Take(maxVisible))
                 eventList.Controls.Add(CreateEventCard(item, expanded));
 
@@ -442,7 +543,7 @@ namespace FoodandBeverage.Forms
             Color baseColor = GetEventColor(item.EventName);
             Panel card = new Panel
             {
-                Height = expanded ? 46 : 36,
+                Height = expanded ? 50 : 42,
                 Width = Math.Max(80, pnl_calender.ClientSize.Width / (currentView == CalendarView.Day ? 1 : 7) - 18),
                 BackColor = ControlPaint.Light(baseColor, 0.78f),
                 Margin = new Padding(1, 1, 1, 3),
@@ -455,7 +556,7 @@ namespace FoodandBeverage.Forms
             {
                 Text = item.EventName,
                 Dock = DockStyle.Top,
-                Height = expanded ? 20 : 17,
+                Height = expanded ? 22 : 19,
                 AutoEllipsis = true,
                 ForeColor = Color.FromArgb(45, 42, 75),
                 Font = expanded ? EventNameFont : EventNameCompactFont,
@@ -474,6 +575,11 @@ namespace FoodandBeverage.Forms
             };
             card.Controls.Add(time);
             card.Controls.Add(name);
+            card.Paint += (s, e) =>
+            {
+                using (SolidBrush stripe = new SolidBrush(baseColor))
+                    e.Graphics.FillRectangle(stripe, 0, 0, 4, card.Height);
+            };
             card.Click += (s, e) => ShowBookingDetails(item);
             name.Click += (s, e) => ShowBookingDetails(item);
             time.Click += (s, e) => ShowBookingDetails(item);
@@ -518,7 +624,14 @@ namespace FoodandBeverage.Forms
                     c.Dispose();
                 }
 
-                string[] categories = { "Birthday Party", "Family Gathering", "Corporate Event", "Engagement", "Get Together", "Other Event" };
+                string[] categories = bookings
+                    .Select(b => b.EventName)
+                    .Where(name => !string.IsNullOrWhiteSpace(name) &&
+                                   !string.Equals(name, "Booking", StringComparison.OrdinalIgnoreCase))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .OrderBy(name => name)
+                    .ToArray();
+
                 foreach (string category in categories)
                 {
                     FlowLayoutPanel item = new FlowLayoutPanel
