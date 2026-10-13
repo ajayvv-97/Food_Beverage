@@ -296,6 +296,9 @@ namespace FoodandBeverage
         public FrmPartyBooking()
         {
             InitializeComponent();
+            btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
+            btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
+            btn_cart.Click += btn_cart_Click;
             btnprev.Click += btnprev_Click;
             btnnext.Click += btnnext_Click;
             btn_serach.Click += btn_serach_Click;
@@ -8021,6 +8024,8 @@ namespace FoodandBeverage
                 flp_productview.Visible = true;
                 Dgv_Selected_Item.Visible = false;
                 flp_sidemenu.Visible = false;
+                btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
+                btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
 
                 currentPage = 1;
                 pnl_menu.ResumeLayout(true);
@@ -8768,6 +8773,8 @@ namespace FoodandBeverage
         private void ShowPartyProductTiles()
         {
             // Return to the current product/search/category page without clearing cart rows.
+            btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
+            btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
             tlp_menu_main.Visible = true;
             tlp_menu_main.BringToFront();
             flp_productview.Visible = true;
@@ -8778,7 +8785,9 @@ namespace FoodandBeverage
 
         private void ShowPartySelectedItems()
         {
-            // Product-click mode: move the selected-items grid above the product layout.
+            // Cart mode: use the food-items icon so the same button returns to products.
+            btn_cart.BackgroundImage = Properties.Resources.Party_Food_Items_Icon;
+            btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
             tlp_menu_main.Visible = true;
             tlp_menu_main.SendToBack();
             flp_productview.Visible = false;
