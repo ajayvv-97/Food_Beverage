@@ -8456,10 +8456,10 @@ namespace FoodandBeverage
 
             DataGridViewRow existing = dgv_product.Rows
                 .Cast<DataGridViewRow>()
-                .FirstOrDefault(row =>
-                    !row.IsNewRow &&
-                    Convert.ToInt32(row.Cells[pProductid].Value ?? 0) == item.ProductId &&
-                    Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.FoodItem);
+                .FirstOrDefault(candidate =>
+                    !candidate.IsNewRow &&
+                    Convert.ToInt32(candidate.Cells[pProductid].Value ?? 0) == item.ProductId &&
+                    Convert.ToInt32(candidate.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.FoodItem);
 
             if (existing != null)
             {
