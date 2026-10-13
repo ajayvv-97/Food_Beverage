@@ -2144,6 +2144,7 @@
     <None Include="Resources\MIDAS_FUN_Wordmark.png" />
     <None Include="Resources\Logo_word.png" />
     <None Include="Resources\loginrfid.png" />
+    <None Include="Resources\Partbooking_menu.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />
