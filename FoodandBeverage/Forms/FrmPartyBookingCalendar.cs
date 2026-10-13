@@ -49,7 +49,160 @@ namespace FoodandBeverage.Forms
             pnl_calender.BackColor = Color.White;
             flp_indicators.WrapContents = true;
             flp_indicators.AutoScroll = false;
+
+            ApplyModernTheme();
+            Resize += FrmPartyBookingCalendar_Resize;
+            tlp_navbar.Paint += TlpNavbar_Paint;
             ConfigureDateTimePickers();
+        }
+
+        private void ApplyModernTheme()
+        {
+            BackColor = Color.FromArgb(244, 242, 252);
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            Padding = new Padding(1);
+
+            tlp_main.BackColor = Color.FromArgb(244, 242, 252);
+            tlp_main.Padding = new Padding(8);
+            tlp_navbar.BackColor = accent;
+            tlp_navbar.Padding = new Padding(10, 2, 8, 2);
+            label12.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label12.ForeColor = Color.White;
+            btncolse.BackColor = Color.FromArgb(239, 68, 88);
+            btncolse.ForeColor = Color.White;
+            btncolse.FlatStyle = FlatStyle.Flat;
+            btncolse.FlatAppearance.BorderSize = 0;
+            btncolse.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btncolse.Cursor = Cursors.Hand;
+
+            StyleSurface(tableLayoutPanel1);
+            StyleSurface(tableLayoutPanel8);
+            StyleSurface(pnl_calender);
+
+            tableLayoutPanel2.BackColor = Color.White;
+            tableLayoutPanel3.BackColor = Color.White;
+            tableLayoutPanel5.BackColor = Color.White;
+            tableLayoutPanel4.BackColor = Color.White;
+            tableLayoutPanel7.BackColor = Color.White;
+            tableLayoutPanel6.BackColor = Color.White;
+
+            StyleLabels(this);
+            StyleButton(btn_search, accent);
+            StyleButton(btnclear, Color.FromArgb(239, 237, 250));
+            StyleButton(btnsumbit, Color.FromArgb(91, 62, 205));
+            StyleButton(btn_prev, Color.FromArgb(239, 237, 250));
+            StyleButton(btn_next, Color.FromArgb(239, 237, 250));
+            StyleButton(btn_today, Color.FromArgb(239, 237, 250));
+            StyleButton(btn_month, accent);
+            StyleButton(btn_week, Color.FromArgb(239, 237, 250));
+            StyleButton(btn_day, Color.FromArgb(239, 237, 250));
+
+            lbl_calenderinfo.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            lbl_calenderinfo.ForeColor = Color.FromArgb(40, 35, 78);
+            flp_indicators.BackColor = Color.White;
+            pnl_calender.Padding = new Padding(3);
+        }
+
+        private void StyleSurface(Control control)
+        {
+            control.BackColor = Color.White;
+            control.Padding = new Padding(4);
+            control.Margin = new Padding(4);
+        }
+
+        private void StyleLabels(Control parent)
+        {
+            foreach (Control control in parent.Controls)
+            {
+                Label label = control as Label;
+                if (label != null && label != label12 && label != lbl_calenderinfo)
+                {
+                    label.ForeColor = Color.FromArgb(49, 45, 84);
+                    if (label.Font.Size < 9F)
+                        label.Font = new Font("Segoe UI", 8.5F, FontStyle.Regular);
+                }
+
+                DateTimePicker picker = control as DateTimePicker;
+                if (picker != null)
+                {
+                    picker.CalendarMonthBackground = Color.White;
+                    picker.CalendarTitleBackColor = accent;
+                    picker.CalendarTitleForeColor = Color.White;
+                    picker.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+                }
+
+                foreach (Control child in control.Controls)
+                    StyleLabels(child);
+            }
+        }
+
+        private void StyleButton(Button button, Color backColor)
+        {
+            button.FlatStyle = FlatStyle.Flat;
+            button.FlatAppearance.BorderSize = 0;
+            button.BackColor = backColor;
+            button.ForeColor = backColor == Color.FromArgb(239, 237, 250)
+                ? Color.FromArgb(64, 52, 119)
+                : Color.White;
+            button.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button.Cursor = Cursors.Hand;
+            button.UseVisualStyleBackColor = false;
+            button.Padding = new Padding(4);
+            button.Resize -= RoundedButton_Resize;
+            button.Resize += RoundedButton_Resize;
+            ApplyRoundedRegion(button, 10);
+        }
+
+        private void RoundedButton_Resize(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            if (control != null)
+                ApplyRoundedRegion(control, 10);
+        }
+
+        private void TlpNavbar_Paint(object sender, PaintEventArgs e)
+        {
+            using (System.Drawing.Drawing2D.LinearGradientBrush brush =
+                new System.Drawing.Drawing2D.LinearGradientBrush(
+                    tlp_navbar.ClientRectangle,
+                    Color.FromArgb(91, 65, 190),
+                    Color.FromArgb(126, 91, 232),
+                    0F))
+            {
+                e.Graphics.FillRectangle(brush, tlp_navbar.ClientRectangle);
+            }
+        }
+
+        private void FrmPartyBookingCalendar_Resize(object sender, EventArgs e)
+        {
+            ApplyRoundedRegion(this, 18);
+            ApplyRoundedRegion(tlp_navbar, 14);
+            ApplyRoundedRegion(tableLayoutPanel1, 14);
+            ApplyRoundedRegion(tableLayoutPanel8, 12);
+            ApplyRoundedRegion(pnl_calender, 12);
+        }
+
+        private void ApplyRoundedRegion(Control control, int radius)
+        {
+            if (control == null || control.Width < 2 || control.Height < 2)
+                return;
+
+            using (System.Drawing.Drawing2D.GraphicsPath path =
+                new System.Drawing.Drawing2D.GraphicsPath())
+            {
+                int diameter = Math.Max(2, radius * 2);
+                Rectangle bounds = new Rectangle(0, 0, control.Width, control.Height);
+                path.AddArc(bounds.X, bounds.Y, diameter, diameter, 180, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Y, diameter, diameter, 270, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+                path.AddArc(bounds.X, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+                path.CloseFigure();
+
+                Region oldRegion = control.Region;
+                control.Region = new Region(path);
+                if (oldRegion != null)
+                    oldRegion.Dispose();
+            }
         }
 
         private void ConfigureDateTimePickers()
