@@ -8332,7 +8332,7 @@ namespace FoodandBeverage
             const int minimumCardWidth = 150;
             partyMenuColumns = Math.Max(1, availableWidth / (minimumCardWidth + (2 * partyMenuGap)));
             partyMenuTileWidth = Math.Max(110, (availableWidth / partyMenuColumns) - (2 * partyMenuGap));
-            partyMenuTileHeight = Math.Max(88, Math.Min(124, (int)(partyMenuTileWidth * 0.67m)));
+            partyMenuTileHeight = Math.Max(104, Math.Min(150, (int)(partyMenuTileWidth * 0.82m)));
 
             // The number of items per page is calculated from the actual viewport.
             // No FBpagescount or OrderPageProductViewRow default is required.
