@@ -87,20 +87,41 @@ namespace FoodandBeverage.Forms
             tableLayoutPanel6.BackColor = Color.White;
 
             StyleLabels(this);
+            // Use real WinForms text buttons rather than stretched bitmap backgrounds.
+            // This keeps captions aligned and readable at every supported screen size.
             StyleButton(btn_search, accent);
+            btn_search.Text = "⌕  Apply Filter";
+            btn_search.BackgroundImage = null;
             StyleButton(btnclear, Color.FromArgb(239, 237, 250));
+            btnclear.Text = "↻  Clear";
+            btnclear.BackgroundImage = null;
             StyleButton(btnsumbit, Color.FromArgb(91, 62, 205));
+            btnsumbit.Text = "＋  Create Booking";
+            btnsumbit.BackgroundImage = null;
             StyleButton(btn_prev, Color.FromArgb(239, 237, 250));
+            btn_prev.Text = "‹";
+            btn_prev.BackgroundImage = null;
             StyleButton(btn_next, Color.FromArgb(239, 237, 250));
+            btn_next.Text = "›";
+            btn_next.BackgroundImage = null;
             StyleButton(btn_today, Color.FromArgb(239, 237, 250));
+            btn_today.Text = "Today";
+            btn_today.BackgroundImage = null;
             StyleButton(btn_month, accent);
+            btn_month.Text = "▦  Month";
+            btn_month.BackgroundImage = null;
             StyleButton(btn_week, Color.FromArgb(239, 237, 250));
+            btn_week.Text = "▤  Week";
+            btn_week.BackgroundImage = null;
             StyleButton(btn_day, Color.FromArgb(239, 237, 250));
+            btn_day.Text = "▣  Day";
+            btn_day.BackgroundImage = null;
 
-            lbl_calenderinfo.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            lbl_calenderinfo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             lbl_calenderinfo.ForeColor = Color.FromArgb(40, 35, 78);
             flp_indicators.BackColor = Color.White;
-            pnl_calender.Padding = new Padding(3);
+            flp_indicators.Padding = new Padding(4, 2, 4, 2);
+            pnl_calender.Padding = new Padding(2);
         }
 
         private void StyleSurface(Control control)
@@ -147,7 +168,16 @@ namespace FoodandBeverage.Forms
             button.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             button.Cursor = Cursors.Hand;
             button.UseVisualStyleBackColor = false;
-            button.Padding = new Padding(4);
+            button.TextAlign = ContentAlignment.MiddleCenter;
+            button.Padding = new Padding(6, 2, 6, 2);
+            button.Margin = new Padding(3);
+            button.MinimumSize = new Size(0, 32);
+            button.FlatAppearance.MouseOverBackColor = backColor == accent ||
+                backColor == Color.FromArgb(91, 62, 205)
+                ? Color.FromArgb(119, 96, 211)
+                : Color.FromArgb(226, 220, 249);
+            button.FlatAppearance.MouseDownBackColor = Color.FromArgb(79, 57, 170);
+            button.BackgroundImage = null;
             button.Resize -= RoundedButton_Resize;
             button.Resize += RoundedButton_Resize;
             ApplyRoundedRegion(button, 10);
@@ -252,8 +282,8 @@ namespace FoodandBeverage.Forms
                 ? Screen.FromControl(Owner)
                 : Screen.FromControl(this);
             Rectangle area = screen.WorkingArea;
-            Width = Math.Max(900, (int)(area.Width * 0.80));
-            Height = Math.Max(650, (int)(area.Height * 0.80));
+            Width = Math.Max(900, (int)(area.Width * 0.92));
+            Height = Math.Max(650, (int)(area.Height * 0.92));
             Width = Math.Min(Width, area.Width);
             Height = Math.Min(Height, area.Height);
             StartPosition = FormStartPosition.Manual;
@@ -617,7 +647,7 @@ namespace FoodandBeverage.Forms
                 Dock = DockStyle.Fill,
                 BackColor = date.Date == DateTime.Today ? Color.FromArgb(239, 232, 255) : Color.White,
                 Margin = Padding.Empty,
-                Padding = new Padding(4),
+                Padding = new Padding(2),
                 Tag = date
             };
 
@@ -636,7 +666,7 @@ namespace FoodandBeverage.Forms
             {
                 Text = date.Day.ToString(),
                 Dock = DockStyle.Top,
-                Height = 27,
+                Height = 23,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = date.Date == DateTime.Today ? TodayNumberFont : DayNumberFont,
                 BackColor = date.Date == DateTime.Today ? Color.FromArgb(101, 65, 220) : Color.Transparent,
@@ -648,8 +678,10 @@ namespace FoodandBeverage.Forms
                 Margin = new Padding(0, 0, 0, 3)
             };
 
-            cell.Controls.Add(eventList);
+            // Add the day header first; the fill-docked event list then uses only
+            // the remaining area and cannot paint over the date number.
             cell.Controls.Add(dayNumber);
+            cell.Controls.Add(eventList);
 
             List<PartyBookingEvent> dayBookings = bookings
                 .Where(b => b.Start.Date <= date.Date && b.End.Date >= date.Date)
@@ -670,14 +702,14 @@ namespace FoodandBeverage.Forms
                     int daysInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
                     int weekCount = (int)Math.Ceiling(((int)firstOfMonth.DayOfWeek + daysInMonth) / 7.0);
                     int estimatedCellHeight = Math.Max(1, pnl_calender.ClientSize.Height / Math.Max(1, weekCount));
-                    availableHeight = Math.Max(0, estimatedCellHeight - 32);
+                    availableHeight = Math.Max(0, estimatedCellHeight - 28);
                 }
                 else
                 {
-                    availableHeight = Math.Max(0, cell.ClientSize.Height - 32);
+                    availableHeight = Math.Max(0, cell.ClientSize.Height - 28);
                 }
 
-                maxVisible = Math.Max(1, Math.Min(3, availableHeight / 42));
+                maxVisible = Math.Max(1, Math.Min(3, availableHeight / 38));
             }
             foreach (PartyBookingEvent item in dayBookings.Take(maxVisible))
                 eventList.Controls.Add(CreateEventCard(item, expanded));
@@ -709,11 +741,11 @@ namespace FoodandBeverage.Forms
             Color baseColor = GetEventColor(item.EventName);
             Panel card = new Panel
             {
-                Height = expanded ? 50 : 42,
-                Width = Math.Max(80, pnl_calender.ClientSize.Width / (currentView == CalendarView.Day ? 1 : 7) - 18),
+                Height = expanded ? 48 : 37,
+                Width = Math.Max(80, pnl_calender.ClientSize.Width / (currentView == CalendarView.Day ? 1 : 7) - 16),
                 BackColor = ControlPaint.Light(baseColor, 0.78f),
-                Margin = new Padding(1, 1, 1, 3),
-                Padding = new Padding(4, 2, 3, 2),
+                Margin = new Padding(1, 1, 1, 2),
+                Padding = new Padding(5, 1, 3, 1),
                 Cursor = Cursors.Hand,
                 Tag = item
             };
@@ -722,10 +754,10 @@ namespace FoodandBeverage.Forms
             {
                 Text = item.EventName,
                 Dock = DockStyle.Top,
-                Height = expanded ? 22 : 19,
+                Height = expanded ? 21 : 17,
                 AutoEllipsis = true,
                 ForeColor = Color.FromArgb(45, 42, 75),
-                Font = expanded ? EventNameFont : EventNameCompactFont,
+                Font = expanded ? EventNameFont : new Font("Segoe UI", 8F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = Padding.Empty
             };
@@ -735,7 +767,7 @@ namespace FoodandBeverage.Forms
                 Dock = DockStyle.Fill,
                 AutoEllipsis = true,
                 ForeColor = Color.FromArgb(75, 70, 105),
-                Font = expanded ? EventTimeFont : EventTimeCompactFont,
+                Font = expanded ? EventTimeFont : new Font("Segoe UI", 7.5F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = Padding.Empty
             };
@@ -821,8 +853,9 @@ namespace FoodandBeverage.Forms
                         AutoSize = true,
                         Text = category,
                         ForeColor = textColor,
-                        Font = LegendFont,
-                        Margin = Padding.Empty
+                        Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                        Margin = new Padding(0, 0, 2, 0),
+                        AutoEllipsis = false
                     });
                     flp_indicators.Controls.Add(item);
                 }
