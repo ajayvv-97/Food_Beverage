@@ -8274,13 +8274,13 @@ namespace FoodandBeverage
             int availableHeight = Math.Max(120, flp_productview.ClientSize.Height - flp_productview.Padding.Vertical);
 
             const int minimumCardWidth = 150;
-            partyMenuColumns = Math.Max(1, (availableWidth + (2 * partyMenuGap)) / (minimumCardWidth + (2 * partyMenuGap)));
+            partyMenuColumns = Math.Max(1, availableWidth / (minimumCardWidth + (2 * partyMenuGap)));
             partyMenuTileWidth = Math.Max(110, (availableWidth / partyMenuColumns) - (2 * partyMenuGap));
             partyMenuTileHeight = Math.Max(88, Math.Min(124, (int)(partyMenuTileWidth * 0.67m)));
 
             // The number of items per page is calculated from the actual viewport.
             // No FBpagescount or OrderPageProductViewRow default is required.
-            partyMenuRows = Math.Max(1, (availableHeight + (2 * partyMenuGap)) / (partyMenuTileHeight + (2 * partyMenuGap)));
+            partyMenuRows = Math.Max(1, availableHeight / (partyMenuTileHeight + (2 * partyMenuGap)));
             pageSize = Math.Max(1, partyMenuColumns * partyMenuRows);
         }
 
