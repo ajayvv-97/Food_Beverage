@@ -290,6 +290,13 @@ namespace FoodandBeverage
         public FrmPartyBooking()
         {
             InitializeComponent();
+            btnprev.Click += btnprev_Click;
+            btnnext.Click += btnnext_Click;
+            btn_serach.Click += btn_serach_Click;
+            Dgv_Selected_Item.CellClick += Dgv_Selected_Item_CellClick;
+            Dgv_Selected_Item.CellPainting += Dgv_Selected_Item_CellPainting;
+            txtname_search.KeyDown += txtname_search_KeyDown;
+            txtitemcode_serach.KeyDown += txtitemcode_serach_KeyDown;
         }
 
         private void FrmPartyBooking_Load(object sender, EventArgs e)
@@ -8020,15 +8027,627 @@ namespace FoodandBeverage
         #region Menu Selection
         private void btn_menu_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                int width = Math.Min((int)(ClientSize.Width * 0.86), ClientSize.Width - 20);
+                int height = Math.Min((int)(ClientSize.Height * 0.86), ClientSize.Height - 20);
+                pnl_menu.SuspendLayout();
+                pnl_menu.Width = width;
+                pnl_menu.Height = height;
+                pnl_menu.Left = (ClientSize.Width - width) / 2;
+                pnl_menu.Top = (ClientSize.Height - height) / 2;
+                pnl_menu.Visible = true;
+                pnl_menu.BringToFront();
+                flp_productview.Visible = true;
+                Dgv_Selected_Item.Visible = false;
+                flp_sidemenu.Visible = false;
+                currentPage = 1;
+                if (pageSize <= 0)
+                    pageSize = Math.Max(1, Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]));
+                pnl_menu.ResumeLayout(true);
+                GenerateSideMenu();
+                LoadPartyMenuProductsForCategory(0);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page btn_menu_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
         }
 
         private void btn_menu_close_Click(object sender, EventArgs e)
         {
             pnl_menu.Visible = false;
+            flp_sidemenu.Visible = false;
         }
 
+        private void btn_showmenu_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!pnl_menu.Visible)
+                    btn_menu_Click(sender, e);
 
+                flp_sidemenu.Visible = !flp_sidemenu.Visible;
+                if (!flp_sidemenu.Visible)
+                    return;
+
+                flp_sidemenu.FlowDirection = FlowDirection.TopDown;
+                flp_sidemenu.WrapContents = false;
+                flp_sidemenu.AutoScroll = true;
+                flp_sidemenu.Width = Math.Max(btn_showmenu.Width + 20, 180);
+                flp_sidemenu.Height = Math.Min(pnl_dgv_menu.Height - 20, 420);
+                flp_sidemenu.Left = Math.Max(0, btn_showmenu.Left);
+                flp_sidemenu.Top = btn_showmenu.Bottom + 4;
+                GenerateSideMenu();
+                flp_sidemenu.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page btn_showmenu_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void GenerateSideMenu()
+        {
+            try
+            {
+                BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
+                DmnSearch dmnSearch = new DmnSearch
+                {
+                    Select = "DISTINCT c.CategoryName, c.Fcid",
+                    Table = "tblProduct p INNER JOIN tblCategory_FTI c ON c.Fcid = p.Fcid",
+                    WhereNdGroupBy = "WHERE p.Status = 1 AND c.Status = 1 AND c.CategoryType = " + Convert.ToInt32(CategoryType.Menu_Category),
+                    OrderBy = "ORDER BY c.CategoryName"
+                };
+
+                var categories = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                flp_sidemenu.SuspendLayout();
+                foreach (Control control in flp_sidemenu.Controls)
+                    control.Dispose();
+                flp_sidemenu.Controls.Clear();
+
+                if (sideMenuToolTip == null)
+                    sideMenuToolTip = new ToolTip();
+
+                foreach (var category in categories)
+                {
+                    Button button = CreateSideMenuButton(category.CategoryName, "btn_menu_category_" + category.Fcid);
+                    button.Tag = category.Fcid;
+                    button.Click += SidebuttonClickEventHandler;
+                    flp_sidemenu.Controls.Add(button);
+                }
+
+                flp_sidemenu.ResumeLayout(true);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page GenerateSideMenu()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private Button CreateSideMenuButton(string text, string name)
+        {
+            Button button = new Button
+            {
+                Text = text,
+                Name = name,
+                Tag = 0,
+                Width = Math.Max(150, flp_sidemenu.ClientSize.Width - 20),
+                Height = Math.Max(btn_showmenu.Height, 38),
+                Margin = new Padding(5),
+                ForeColor = Color.White,
+                BackgroundImage = Properties.Resources.fb_sidemenu,
+                BackgroundImageLayout = ImageLayout.Stretch,
+                FlatStyle = FlatStyle.Flat,
+                Font = AppFonts.GetFont(10),
+                Cursor = Cursors.Hand
+            };
+            button.FlatAppearance.BorderSize = 0;
+            if (sideMenuToolTip != null)
+                sideMenuToolTip.SetToolTip(button, text);
+            return button;
+        }
+
+        private void SidebuttonClickEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clicked = sender as Control;
+                if (clicked == null || !int.TryParse(Convert.ToString(clicked.Tag), out int categoryId))
+                    return;
+                McategoryID = Convert.ToInt32(MenucategryType.NormalProduct);
+                currentPage = 1;
+                flp_sidemenu.Visible = false;
+                LoadPartyMenuProductsForCategory(categoryId);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page SidebuttonClickEventHandler()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void LoadPartyMenuProductsForCategory(int categoryId, string productName = "", string itemCode = "")
+        {
+            try
+            {
+                ProductData = new List<DmnGridFields>();
+                pagedatadata = new List<DmnGridFields>();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch search = new DmnSearch();
+                string nameFilter = string.IsNullOrWhiteSpace(productName) ? "" : " AND p.Product LIKE '%" + productName.Replace("'", "''") + "%'";
+                string itemFilter = string.IsNullOrWhiteSpace(itemCode) ? "" : " AND p.ItemCode_UPC = '" + itemCode.Replace("'", "''") + "'";
+                if (categoryId >= 0)
+                {
+                    search.Select = "p.Product AS Field1, p.ProductId AS Field2, 0 AS Field3, p.Price AS Field4, p.MRP AS Field5, p.Tax AS Field6, p.TaxType AS Field7, p.Fcid AS Field8, p.TaxSettingsId AS Field9, p.ItemCode AS Field10, 0 AS Field11";
+                    search.Table = "tblProduct p";
+                    search.WhereNdGroupBy = "WHERE p.Status = 1" + (categoryId > 0 ? " AND p.Fcid = " + categoryId : "") + nameFilter + itemFilter;
+                    search.OrderBy = "ORDER BY p.Product";
+
+                    var products = bllSearch.GetSearchData("prdSearch", search);
+                    ProductData.AddRange(products);
+
+                    search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field4, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, i.Tax AS Field6, i.TaxType AS Field7, i.Fcid AS Field8, i.TaxSettingsId AS Field9, i.ItemCode_UPC AS Field10, ISNULL(i.UnitId,0) AS Field11";
+                    search.Table = "tblItem i";
+                    search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1" + (categoryId > 0 ? " AND i.Fcid = " + categoryId : "") + nameFilter.Replace("p.Product", "i.Itemname") + itemFilter.Replace("p.ItemCode_UPC", "i.ItemCode_UPC");
+                    search.OrderBy = "ORDER BY i.Itemname";
+                    var items = bllSearch.GetSearchData("prdSearch", search);
+                    ProductData.AddRange(items);
+                }
+
+                pageSize = Math.Max(1, pageSize);
+                totalPages = (int)Math.Ceiling((double)ProductData.Count / pageSize);
+                if (currentPage > Math.Max(1, totalPages))
+                    currentPage = 1;
+                pagedatadata = ProductData.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                lblpagerinfo.Text = ProductData.Count == 0 ? "No products found" : $"Page {currentPage} of {totalPages} | Total Records: {ProductData.Count}";
+                btnprev.Enabled = currentPage > 1;
+                btnnext.Enabled = currentPage < totalPages;
+                GeneratePartyMenuProducts();
+                flp_productview.Visible = true;
+                Dgv_Selected_Item.Visible = false;
+                flp_productview.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page LoadPartyMenuProductsForCategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void GeneratePartyMenuProducts()
+        {
+            try
+            {
+                flp_productview.SuspendLayout();
+                foreach (Control control in flp_productview.Controls)
+                    control.Dispose();
+                flp_productview.Controls.Clear();
+                flp_productview.WrapContents = true;
+                flp_productview.FlowDirection = FlowDirection.LeftToRight;
+                flp_productview.AutoScroll = true;
+
+                if (flp_productview.ClientSize.Width <= 0)
+                    flp_productview.PerformLayout();
+
+                int columns = Math.Max(1, Convert.ToInt32(ConfigurationManager.AppSettings["OrderPageProductViewRow"]));
+                int gap = Math.Max(2, Productspace);
+                int width = Math.Max(90, (flp_productview.ClientSize.Width - ((columns + 1) * gap)) / columns);
+                int height = Math.Max(60, (int)(width * Productheight));
+
+                foreach (var item in pagedatadata)
+                {
+                    int productId = Convert.ToInt32(item.Field2);
+                    string saleType = Convert.ToString(item.Field3);
+                    decimal price = Convert.ToDecimal(item.Field4);
+                    Panel tile = new Panel
+                    {
+                        Width = width,
+                        Height = height,
+                        BackColor = Color.White,
+                        Margin = new Padding(gap),
+                        Tag = productId,
+                        AccessibleDescription = saleType,
+                        Cursor = Cursors.Hand,
+                        BorderStyle = BorderStyle.FixedSingle
+                    };
+                    Label name = new Label
+                    {
+                        Text = Convert.ToString(item.Field1),
+                        Dock = DockStyle.Fill,
+                        Tag = productId,
+                        AccessibleDescription = saleType,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Padding = new Padding(5),
+                        ForeColor = Color.Black,
+                        BackColor = Color.Transparent,
+                        Font = AppFonts.GetFont(10),
+                        AutoEllipsis = true
+                    };
+                    Label priceLabel = new Label
+                    {
+                        Text = price.ToString("N2"),
+                        Dock = DockStyle.Bottom,
+                        Height = 24,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        ForeColor = Color.SeaGreen,
+                        BackColor = Color.Transparent,
+                        Font = AppFonts.GetFont(9),
+                        Cursor = Cursors.Hand,
+                        Tag = productId,
+                        AccessibleDescription = saleType
+                    };
+                    tile.Click += MenuProductTile_Click;
+                    name.Click += MenuProductTile_Click;
+                    priceLabel.Click += MenuProductTile_Click;
+                    tile.Controls.Add(name);
+                    tile.Controls.Add(priceLabel);
+                    name.BringToFront();
+                    flp_productview.Controls.Add(tile);
+                }
+
+                flp_productview.ResumeLayout(true);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page GeneratePartyMenuProducts()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void MenuProductTile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Control clicked = sender as Control;
+                if (clicked == null || !int.TryParse(Convert.ToString(clicked.Tag), out int productId))
+                    return;
+                int saleType = 0;
+                int.TryParse(Convert.ToString(clicked.AccessibleDescription), out saleType);
+                AddPartyMenuProduct(productId, saleType);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page MenuProductTile_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void AddPartyMenuProduct(int productId, int saleType)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch search = new DmnSearch();
+                string categoryName = "";
+                decimal price = 0m, mrp = 0m;
+                string taxMode = "Exclusive", taxType = "GST", itemCode = "";
+                int categoryId = 0, taxSettingId = 0, unitId = 0;
+                string productName = "";
+
+                if (saleType == 0)
+                {
+                    search.Select = "p.Product AS Field1, p.Price AS Field2, p.MRP AS Field3, p.Tax AS Field4, p.TaxType AS Field5, p.Fcid AS Field6, p.TaxSettingsId AS Field7, p.ItemCode AS Field8, 0 AS Field9";
+                    search.Table = "tblProduct p";
+                    search.WhereNdGroupBy = "WHERE p.Status=1 AND p.ProductId=" + productId;
+                    search.OrderBy = "";
+                    var result = bllSearch.GetSearchData("prdSearch", search);
+                    if (result.Count == 0) return;
+                    productName = Convert.ToString(result[0].Field1);
+                    decimal.TryParse(Convert.ToString(result[0].Field2), out price);
+                    decimal.TryParse(Convert.ToString(result[0].Field3), out mrp);
+                    taxMode = string.IsNullOrWhiteSpace(Convert.ToString(result[0].Field4)) ? "Exclusive" : Convert.ToString(result[0].Field4);
+                    taxType = string.IsNullOrWhiteSpace(Convert.ToString(result[0].Field5)) ? "GST" : Convert.ToString(result[0].Field5);
+                    int.TryParse(Convert.ToString(result[0].Field6), out categoryId);
+                    int.TryParse(Convert.ToString(result[0].Field7), out taxSettingId);
+                    itemCode = Convert.ToString(result[0].Field8);
+                }
+                else
+                {
+                    search.Select = "i.Itemname AS Field1, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field2, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field3, i.Tax AS Field4, i.TaxType AS Field5, i.Fcid AS Field6, i.TaxSettingsId AS Field7, i.ItemCode_UPC AS Field8, ISNULL(i.UnitId,0) AS Field9";
+                    search.Table = "tblItem i";
+                    search.WhereNdGroupBy = "WHERE i.Status=1 AND i.Saletype=1 AND i.ItemId=" + productId;
+                    search.OrderBy = "";
+                    var result = bllSearch.GetSearchData("prdSearch", search);
+                    if (result.Count == 0) return;
+                    productName = Convert.ToString(result[0].Field1);
+                    decimal.TryParse(Convert.ToString(result[0].Field2), out price);
+                    decimal.TryParse(Convert.ToString(result[0].Field3), out mrp);
+                    taxMode = string.IsNullOrWhiteSpace(Convert.ToString(result[0].Field4)) ? "Exclusive" : Convert.ToString(result[0].Field4);
+                    taxType = string.IsNullOrWhiteSpace(Convert.ToString(result[0].Field5)) ? "GST" : Convert.ToString(result[0].Field5);
+                    int.TryParse(Convert.ToString(result[0].Field6), out categoryId);
+                    int.TryParse(Convert.ToString(result[0].Field7), out taxSettingId);
+                    itemCode = Convert.ToString(result[0].Field8);
+                    int.TryParse(Convert.ToString(result[0].Field9), out unitId);
+                }
+
+                if (price < 0m) price = 0m;
+                var existing = Dgv_Selected_Item.Rows.Cast<DataGridViewRow>().FirstOrDefault(row => !row.IsNewRow && Convert.ToInt32(row.Cells[iitemid].Value ?? 0) == productId && Convert.ToInt32(row.Cells[itype].Value ?? 0) == saleType);
+                if (existing != null)
+                {
+                    int qty = Convert.ToInt32(existing.Cells[iqty].Value ?? 1) + 1;
+                    existing.Cells[iqty].Value = qty;
+                    RefreshPartySelectedItemRow(existing);
+                }
+                else
+                {
+                    int rowIndex = Dgv_Selected_Item.Rows.Add();
+                    DataGridViewRow row = Dgv_Selected_Item.Rows[rowIndex];
+                    row.Cells[iaction].Value = Grid_Remove;
+                    row.Cells[islno].Value = rowIndex + 1;
+                    row.Cells[ibarcode].Value = itemCode;
+                    row.Cells[ibarcode2].Value = itemCode;
+                    row.Cells[iproducttypeno].Value = saleType == 0 ? "Food" : "Item";
+                    row.Cells[iname].Value = productName;
+                    row.Cells[iunit].Value = unitId;
+                    row.Cells[israte].Value = price;
+                    row.Cells[iqty].Value = 1;
+                    row.Cells[iprate].Value = price;
+                    row.Cells[iamount].Value = price;
+                    row.Cells[idisper].Value = 0;
+                    row.Cells[idisamt].Value = 0;
+                    row.Cells[itaxper].Value = 0;
+                    row.Cells[itaxamt].Value = 0;
+                    row.Cells[itotal].Value = price;
+                    row.Cells[iitemid].Value = productId;
+                    row.Cells[itax].Value = taxMode;
+                    row.Cells[itaxtype].Value = taxType;
+                    row.Cells[imrp].Value = mrp;
+                    row.Cells[itype].Value = saleType;
+                    row.Cells[itaxsettingid].Value = taxSettingId;
+                    row.Cells[iunitid].Value = unitId;
+                    row.Cells[ipretaxamtno].Value = price;
+                    row.Cells[iigstamtno].Value = 0;
+                    row.Cells[ivatamtno].Value = 0;
+                    row.Cells[ioriginalprice].Value = price;
+                    row.Cells[istatusno].Value = 1;
+                    row.Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
+                    row.Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+                    row.Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
+                    row.Cells[iorgname].Value = productName;
+                    row.Cells[istocktrackno].Value = false;
+                    ((DataGridViewImageCell)row.Cells[iaction]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    RefreshPartySelectedItemRow(row);
+                }
+
+                AddOrUpdatePartyFoodGrid(productId, saleType, productName, categoryId, unitId, price, mrp, taxMode, taxType, taxSettingId);
+                ShowPartySelectedItems();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page AddPartyMenuProduct()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void RefreshPartySelectedItemRow(DataGridViewRow row)
+        {
+            decimal qty = 0m, price = 0m, discountPer = 0m;
+            decimal.TryParse(Convert.ToString(row.Cells[iqty].Value), out qty);
+            decimal.TryParse(Convert.ToString(row.Cells[israte].Value), out price);
+            decimal.TryParse(Convert.ToString(row.Cells[idisper].Value), out discountPer);
+            decimal amount = Math.Round(qty * price, 2, MidpointRounding.AwayFromZero);
+            decimal discountAmount = Math.Round(amount * discountPer / 100m, 2, MidpointRounding.AwayFromZero);
+            decimal taxPer = 0m;
+            decimal.TryParse(Convert.ToString(row.Cells[itaxper].Value), out taxPer);
+            string taxMode = Convert.ToString(row.Cells[itax].Value);
+            decimal preTax = amount - discountAmount;
+            decimal tax = 0m;
+            if (taxMode.Equals("Inclusive", StringComparison.OrdinalIgnoreCase) && taxPer > 0m)
+            {
+                preTax = Math.Round((amount - discountAmount) * 100m / (100m + taxPer), 2, MidpointRounding.AwayFromZero);
+                tax = (amount - discountAmount) - preTax;
+            }
+            else
+            {
+                tax = Math.Round(preTax * taxPer / 100m, 2, MidpointRounding.AwayFromZero);
+            }
+            row.Cells[iamount].Value = amount.ToString("N2");
+            row.Cells[idisamt].Value = discountAmount.ToString("N2");
+            row.Cells[itaxamt].Value = tax.ToString("N2");
+            row.Cells[itotal].Value = (preTax + tax).ToString("N2");
+            row.Cells[ipretaxamtno].Value = preTax.ToString("N2");
+            row.Cells[iigstamtno].Value = row.Cells[itaxtype].Value?.ToString().Equals("GST", StringComparison.OrdinalIgnoreCase) == true ? tax.ToString("N2") : "0.00";
+            row.Cells[ivatamtno].Value = row.Cells[itaxtype].Value?.ToString().Equals("VAT", StringComparison.OrdinalIgnoreCase) == true ? tax.ToString("N2") : "0.00";
+            row.Cells[ioriginalprice].Value = row.Cells[itotal].Value;
+            GridSlno_Refresh();
+        }
+
+        private void AddOrUpdatePartyFoodGrid(int productId, int saleType, string productName, int categoryId, int unitId, decimal price, decimal mrp, string taxMode, string taxType, int taxSettingId)
+        {
+            try
+            {
+                var existing = dgv_product.Rows.Cast<DataGridViewRow>().FirstOrDefault(row =>
+                    !row.IsNewRow &&
+                    Convert.ToInt32(row.Cells[pProductid].Value ?? 0) == productId &&
+                    Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.FoodItem);
+
+                ResetDiscount();
+
+                if (existing != null)
+                {
+                    decimal qty = Convert.ToDecimal(existing.Cells[pqtyno].Value ?? 1) + 1;
+                    existing.Cells[pqtyno].Value = qty;
+                    int index = existing.Index;
+                    CalculateAndApplyTax(index, (int)PackItemType.FoodItem, productId);
+                }
+                else
+                {
+                    int index = dgv_product.Rows.Add();
+                    DataGridViewRow row = dgv_product.Rows[index];
+                    row.Cells[pslno].Value = index + 1;
+                    row.Cells[pitemno].Value = productName;
+                    row.Cells[pcategmenuno].Value = GetCategoryName(categoryId);
+                    row.Cells[pqtyno].Value = 1;
+                    row.Cells[pPrice].Value = price;
+                    row.Cells[pAmount].Value = price;
+                    row.Cells[pProductid].Value = productId;
+                    row.Cells[pproducttype].Value = saleType == 0 ? (int)ProductType.FB : (int)ProductType.FB;
+                    row.Cells[proPartyPackDetailsId].Value = 0;
+                    row.Cells[pPartydeafult].Value = 2;
+                    row.Cells[ptaxamt].Value = 0;
+                    row.Cells[ptax].Value = taxMode;
+                    row.Cells[ptaxtype].Value = taxType;
+                    row.Cells[ptaxper].Value = 0;
+                    row.Cells[ptaxsettingid].Value = taxSettingId;
+                    row.Cells[ppretaxamt].Value = price;
+                    row.Cells[pnetamt].Value = price;
+                    row.Cells[pigstamt].Value = 0;
+                    row.Cells[pvatamt].Value = 0;
+                    row.Cells[pdiscper].Value = 0;
+                    row.Cells[pdisamt].Value = 0;
+                    row.Cells[pmessageno].Value = "";
+                    row.Cells[premarksno].Value = "";
+                    row.Cells[PPackProductTypeno].Value = (int)PackItemType.FoodItem;
+                    row.ReadOnly = true;
+                    DataGridViewImageCell cell = (DataGridViewImageCell)row.Cells[pactionno];
+                    cell.Value = Grid_Remove;
+                    cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    CalculateAndApplyTax(index, (int)PackItemType.FoodItem, productId);
+                }
+
+                GetGrandTotal_All();
+                RecalculateAllRowsAndTotals();
+                CalculateDiscountPer();
+                CalculateNetAmount();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page AddOrUpdatePartyFoodGrid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void ShowPartySelectedItems()
+        {
+            Dgv_Selected_Item.Visible = true;
+            Dgv_Selected_Item.BringToFront();
+            flp_productview.Visible = false;
+            flp_sidemenu.Visible = false;
+        }
+
+        private void Dgv_Selected_Item_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                    return;
+                if (e.ColumnIndex != iaction)
+                    return;
+
+                DataGridViewRow row = Dgv_Selected_Item.Rows[e.RowIndex];
+                int productId = Convert.ToInt32(row.Cells[iitemid].Value ?? 0);
+                int saleType = Convert.ToInt32(row.Cells[itype].Value ?? 0);
+                int qty = Convert.ToInt32(row.Cells[iqty].Value ?? 1);
+
+                var foodRow = dgv_product.Rows.Cast<DataGridViewRow>().FirstOrDefault(r =>
+                    !r.IsNewRow &&
+                    Convert.ToInt32(r.Cells[pProductid].Value ?? 0) == productId &&
+                    Convert.ToInt32(r.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.FoodItem);
+                if (foodRow != null)
+                {
+                    if (Convert.ToInt32(foodRow.Cells[proPartyPackDetailsId].Value ?? 0) > 0)
+                    {
+                        CMessageBox.Show("This saved booking item cannot be removed from this menu.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    ResetDiscount();
+                    dgv_product.Rows.Remove(foodRow);
+                    for (int i = 0; i < dgv_product.Rows.Count; i++)
+                        if (!dgv_product.Rows[i].IsNewRow)
+                            dgv_product.Rows[i].Cells[pslno].Value = i + 1;
+                    GetGrandTotal_All();
+                    RecalculateAllRowsAndTotals();
+                }
+
+                Dgv_Selected_Item.Rows.RemoveAt(e.RowIndex);
+                GridSlno_Refresh();
+                CalculateDiscountPer();
+                CalculateNetAmount();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page Dgv_Selected_Item_CellClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void Dgv_Selected_Item_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+                e.CellStyle.ForeColor = Color.Black;
+            if (e.RowIndex == -1)
+            {
+                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+                e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+                e.AdvancedBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
+                e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+                e.PaintBackground(e.CellBounds, true);
+                e.PaintContent(e.CellBounds);
+                e.Handled = true;
+            }
+        }
+
+        private void ShowPartyMenuPage()
+        {
+            if (pageSize <= 0)
+                pageSize = Math.Max(1, Convert.ToInt32(ConfigurationManager.AppSettings["FBpagescount"]));
+            totalPages = (int)Math.Ceiling((double)(ProductData?.Count ?? 0) / pageSize);
+            if (currentPage < 1)
+                currentPage = 1;
+            pagedatadata = (ProductData ?? new List<DmnGridFields>()).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+            lblpagerinfo.Text = (ProductData == null || ProductData.Count == 0) ? "No products found" : $"Page {currentPage} of {Math.Max(1, totalPages)} | Total Records: {ProductData.Count}";
+            btnprev.Enabled = currentPage > 1;
+            btnnext.Enabled = currentPage < totalPages;
+            GeneratePartyMenuProducts();
+        }
+
+        private void btnprev_Click(object sender, EventArgs e)
+        {
+            if (currentPage <= 1)
+                return;
+            currentPage--;
+            ShowPartyMenuPage();
+        }
+
+        private void btnnext_Click(object sender, EventArgs e)
+        {
+            if (currentPage >= totalPages)
+                return;
+            currentPage++;
+            ShowPartyMenuPage();
+        }
+
+        private void btn_serach_Click(object sender, EventArgs e)
+        {
+            string name = txtname_search.Text;
+            string code = txtitemcode_serach.Text;
+            if (name == "Food Name ....." || name == "Food Name .....")
+                name = "";
+            if (code == "Item Code ....." || code == "Item Code .....")
+                code = "";
+            if (!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(code))
+            {
+                currentPage = 1;
+                LoadPartyMenuProductsForCategory(0, name, code);
+            }
+        }
+
+        private void txtname_search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_serach_Click(sender, e);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void txtitemcode_serach_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_serach_Click(sender, e);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        #endregion
 
         #region side menu
         private void btn_showmenu_Click(object sender, EventArgs e)
