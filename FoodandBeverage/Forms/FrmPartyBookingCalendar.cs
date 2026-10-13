@@ -510,7 +510,20 @@ namespace FoodandBeverage.Forms
             {
                 // Month cells are intentionally compact: show complete cards and use an
                 // overflow count instead of rendering clipped booking text.
-                int availableHeight = Math.Max(0, cell.ClientSize.Height - 32);
+                int availableHeight;
+                if (currentView == CalendarView.Month)
+                {
+                    DateTime firstOfMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
+                    int daysInMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
+                    int weekCount = (int)Math.Ceiling(((int)firstOfMonth.DayOfWeek + daysInMonth) / 7.0);
+                    int estimatedCellHeight = Math.Max(1, pnl_calender.ClientSize.Height / Math.Max(1, weekCount));
+                    availableHeight = Math.Max(0, estimatedCellHeight - 32);
+                }
+                else
+                {
+                    availableHeight = Math.Max(0, cell.ClientSize.Height - 32);
+                }
+
                 maxVisible = Math.Max(1, Math.Min(3, availableHeight / 42));
             }
             foreach (PartyBookingEvent item in dayBookings.Take(maxVisible))
