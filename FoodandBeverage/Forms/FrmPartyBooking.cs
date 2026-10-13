@@ -8338,7 +8338,7 @@ namespace FoodandBeverage
                 if (saleType == 0)
                 {
                     search.Select = "p.Product AS Field1, p.Price AS Field2, p.MRP AS Field3, p.Tax AS Field4, p.TaxType AS Field5, p.Fcid AS Field6, p.TaxSettingsId AS Field7, p.ItemCode AS Field8, 0 AS Field9";
-                    search.Table = "tblProduct p";
+                    search.Table = "tblProduct p LEFT JOIN tblMenu m ON m.ProductId=p.ProductId AND m.ProductType=0 AND m.Status=1";
                     search.WhereNdGroupBy = "WHERE p.Status=1 AND p.ProductId=" + productId;
                     search.OrderBy = "";
                     var result = bllSearch.GetSearchData("prdSearch", search);
