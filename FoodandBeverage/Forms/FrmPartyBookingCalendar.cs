@@ -23,6 +23,15 @@ namespace FoodandBeverage.Forms
         private readonly Color accent = Color.FromArgb(101, 80, 185);
         private readonly Color border = Color.FromArgb(224, 220, 241);
         private readonly Color textColor = Color.FromArgb(38, 35, 73);
+        // Shared fonts avoid allocating a new GDI font for every cell on each redraw.
+        private static readonly Font WeekdayFont = new Font("Segoe UI", 9F, FontStyle.Bold);
+        private static readonly Font DayNumberFont = new Font("Segoe UI", 9F, FontStyle.Bold);
+        private static readonly Font EventNameFont = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+        private static readonly Font EventNameCompactFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+        private static readonly Font EventTimeFont = new Font("Segoe UI", 8F, FontStyle.Regular);
+        private static readonly Font EventTimeCompactFont = new Font("Segoe UI", 7F, FontStyle.Regular);
+        private static readonly Font MoreBookingsFont = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+        private static readonly Font LegendFont = new Font("Segoe UI", 8F, FontStyle.Regular);
         private readonly Dictionary<string, Color> eventColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
         private List<PartyBookingEvent> bookings = new List<PartyBookingEvent>();
         private DateTime currentDate = DateTime.Today;
@@ -355,7 +364,7 @@ namespace FoodandBeverage.Forms
                 TextAlign = ContentAlignment.MiddleCenter,
                 BackColor = Color.FromArgb(246, 245, 250),
                 ForeColor = textColor,
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                Font = WeekdayFont,
                 Margin = Padding.Empty,
                 AutoEllipsis = true
             };
@@ -389,7 +398,7 @@ namespace FoodandBeverage.Forms
                 Dock = DockStyle.Top,
                 Height = 22,
                 TextAlign = ContentAlignment.MiddleLeft,
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                Font = DayNumberFont,
                 ForeColor = outsideMonth ? Color.Silver : (date.DayOfWeek == DayOfWeek.Sunday ? Color.Firebrick : textColor),
                 Margin = Padding.Empty
             };
@@ -415,7 +424,7 @@ namespace FoodandBeverage.Forms
                     Height = 18,
                     Width = Math.Max(60, pnl_calender.ClientSize.Width / 7 - 14),
                     ForeColor = accent,
-                    Font = new Font("Segoe UI", 7.5F, FontStyle.Bold),
+                    Font = MoreBookingsFont,
                     TextAlign = ContentAlignment.MiddleLeft,
                     Margin = new Padding(1)
                 });
@@ -449,7 +458,7 @@ namespace FoodandBeverage.Forms
                 Height = expanded ? 20 : 17,
                 AutoEllipsis = true,
                 ForeColor = Color.FromArgb(45, 42, 75),
-                Font = new Font("Segoe UI", expanded ? 8.5F : 7.5F, FontStyle.Bold),
+                Font = expanded ? EventNameFont : EventNameCompactFont,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = Padding.Empty
             };
@@ -459,7 +468,7 @@ namespace FoodandBeverage.Forms
                 Dock = DockStyle.Fill,
                 AutoEllipsis = true,
                 ForeColor = Color.FromArgb(75, 70, 105),
-                Font = new Font("Segoe UI", expanded ? 8F : 7F, FontStyle.Regular),
+                Font = expanded ? EventTimeFont : EventTimeCompactFont,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = Padding.Empty
             };
@@ -533,7 +542,7 @@ namespace FoodandBeverage.Forms
                         AutoSize = true,
                         Text = category,
                         ForeColor = textColor,
-                        Font = new Font("Segoe UI", 8F, FontStyle.Regular),
+                        Font = LegendFont,
                         Margin = Padding.Empty
                     });
                     flp_indicators.Controls.Add(item);
