@@ -2,3 +2,58 @@
 1 | 2026-10-10 09:39:05.551 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
 1 | 2026-10-10 09:58:18.559 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
 1 | 2026-10-10 10:22:43.508 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 17:03:59.134 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 17:17:24.430 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 17:19:10.542 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 17:24:16.812 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 17:32:07.255 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 17:37:01.645 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1 | 2026-10-10 15:58:23.506 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_SESSION_START | New Zout session started
+2 | 2026-10-10 15:58:23.507 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_BUTTON_CLICK | Zout button clicked
+3 | 2026-10-10 15:58:23.507 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=PERMISSION_CHECK_START | Checking Zout permission. UserAccountTypeId=1
+4 | 2026-10-10 15:58:23.560 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=PERMISSION_CHECK_RESULT | Zout permission level=3
+5 | 2026-10-10 15:58:23.560 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DIRECT_ZOUT_PERMISSION | User has direct Zout permission
+6 | 2026-10-10 15:58:23.561 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=PROCESS_ZOUT_START | Zout process started
+7 | 2026-10-10 15:58:23.562 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_CHECK_START | Checking assigned drawer
+8 | 2026-10-10 15:58:23.614 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_CHECK_RESULT | DrawerID=8217
+9 | 2026-10-10 15:58:23.614 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_VALID | Drawer is assigned. DrawerID=8217
+10 | 2026-10-10 15:58:23.614 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_CONFIRMATION_START | Showing Zout confirmation message
+11 | 2026-10-10 15:58:24.472 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_CONFIRMATION_RESULT | Confirmation result=Yes
+12 | 2026-10-10 15:58:24.472 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_CONFIRMATION_ACCEPTED | User confirmed Zout
+13 | 2026-10-10 15:58:24.472 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_FORM_CREATE_START | Creating FrmZout. BillCategory=1, DrawerAssignStaffId=0
+14 | 2026-10-10 15:58:24.497 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_FORM_CREATED | FrmZout created successfully
+15 | 2026-10-10 15:58:24.497 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_MODE_CHECK | XYDalvalue=True
+16 | 2026-10-10 15:58:24.497 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_SHOW_DIALOG_START | Opening FrmZout.ShowDialog()
+17 | 2026-10-10 15:58:24.611 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=FORM_LOAD | Zout form loaded
+18 | 2026-10-10 15:58:24.614 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=PRINT_ZOUT_START | PrintZout() started
+19 | 2026-10-10 15:58:24.631 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=REPORT_DATA_INITIALIZED | All Zout DataTables initialized
+20 | 2026-10-10 15:58:25.138 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=REPORT_LOAD_SUCCESS | Crystal Report loaded successfully
+21 | 2026-10-10 15:58:25.149 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=REPORT_DATASOURCE_SUCCESS | DataSet assigned to Crystal Report
+22 | 2026-10-10 15:58:25.150 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=REPORT_PARAMETERS_START | Setting Zout report parameters
+23 | 2026-10-10 15:58:25.275 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=REPORT_PARAMETERS_SUCCESS | All Zout report parameters assigned
+24 | 2026-10-10 15:58:25.294 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=REPORT_VIEWER_SUCCESS | Report assigned to CrystalReportViewer
+25 | 2026-10-10 15:58:25.294 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=AUTOPRINT_CHECK | AutoPrint=False
+26 | 2026-10-10 15:58:25.294 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=AUTOPRINT_DISABLED | Auto print disabled
+27 | 2026-10-10 15:58:25.294 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=PRINT_ZOUT_COMPLETE | PrintZout completed successfully
+28 | 2026-10-10 15:58:25.302 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=FORM_SHOWN | Zout form displayed to user
+29 | 2026-10-10 15:58:27.437 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=FORM_CLOSING | Reason=UserClosing
+30 | 2026-10-10 15:58:27.437 | Machine=WIN-SDOFN341QVO | User=Midas | Page=FrmZout | Step=FORM_CLOSED | Zout form completely closed
+31 | 2026-10-10 15:58:27.442 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_SHOW_DIALOG_RETURN | FrmZout.ShowDialog() returned
+32 | 2026-10-10 15:58:27.443 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_FORM_DISPOSED | FrmZout disposed successfully
+33 | 2026-10-10 15:58:27.443 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_PRINT_COMPLETED_MESSAGE_START | Showing Zout Print Completed message
+34 | 2026-10-10 15:58:28.460 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=ZOUT_PRINT_COMPLETED_MESSAGE_CLOSED | Zout Print Completed message closed
+35 | 2026-10-10 15:58:28.460 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_STATUS_UPDATE_START | Starting drawer status update
+36 | 2026-10-10 15:58:28.460 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_ID_SELECTED | Using FrmDrawer.DrawerID=8217
+37 | 2026-10-10 15:58:28.460 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_STATUS_UPDATE_PARAMETERS | DrawerId=8217, BranchId=1, CreatedBy=5, Status=0
+38 | 2026-10-10 15:58:28.461 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_STATUS_UPDATE_DATABASE_START | Calling prdInsertDrawer
+39 | 2026-10-10 15:58:28.626 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_STATUS_UPDATE_DATABASE_RESULT | InsertStatus.Id=8217
+40 | 2026-10-10 15:58:28.626 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_STATUS_UPDATE_SUCCESS | Drawer successfully closed/updated
+41 | 2026-10-10 15:58:28.626 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DRAWER_ID_RESET | FrmDrawer.DrawerID reset to 0
+42 | 2026-10-10 15:58:28.630 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=DASHBOARD_DRAWER_UI_UPDATED | Dashboard drawer status changed to Not Assigned
+43 | 2026-10-10 15:58:28.630 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=APPLICATION_EXIT_START | Calling Application.Exit()
+44 | 2026-10-10 15:58:28.645 | Machine=WIN-SDOFN341QVO | User=Midas | Page=POSDashboard | Step=APPLICATION_EXIT_RETURNED | Application.Exit() returned
+45 | 2026-10-10 15:58:28.693 | Machine=WIN-SDOFN341QVO | User=Midas | Page=Application | Step=APPLICATION_EXIT | Application exit event received
+1 | 2026-10-10 17:09:24.292 | Machine=WIN-SDOFN341QVO | User=admin | Page=Application | Step=APPLICATION_EXIT | Application exit event received

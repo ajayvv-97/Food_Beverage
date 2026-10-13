@@ -1432,6 +1432,7 @@ namespace FoodandBeverage.Forms
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
         public void Roundform(int size)
         {
             try
@@ -1453,7 +1454,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("homepage Roundform()", ex, FrmLogin.EmployeName, FrmLogin.Designation, (int)FormType.homepage);
             }
         }

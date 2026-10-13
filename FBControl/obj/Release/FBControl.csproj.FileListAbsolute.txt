@@ -1,0 +1,9 @@
+D:\Developers\Ajay\Food_Beverage\FBControl\bin\Release\FBControl.dll.config
+D:\Developers\Ajay\Food_Beverage\FBControl\bin\Release\FBControl.dll
+D:\Developers\Ajay\Food_Beverage\FBControl\bin\Release\FBControl.pdb
+D:\Developers\Ajay\Food_Beverage\FBControl\obj\Release\FBControl.csproj.AssemblyReference.cache
+D:\Developers\Ajay\Food_Beverage\FBControl\obj\Release\FBControl.Properties.Resources.resources
+D:\Developers\Ajay\Food_Beverage\FBControl\obj\Release\FBControl.csproj.GenerateResource.cache
+D:\Developers\Ajay\Food_Beverage\FBControl\obj\Release\FBControl.csproj.CoreCompileInputs.cache
+D:\Developers\Ajay\Food_Beverage\FBControl\obj\Release\FBControl.dll
+D:\Developers\Ajay\Food_Beverage\FBControl\obj\Release\FBControl.pdb
