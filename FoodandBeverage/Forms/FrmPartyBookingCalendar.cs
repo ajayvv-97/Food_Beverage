@@ -66,8 +66,14 @@ namespace FoodandBeverage.Forms
                 MaximizeBox = false;
                 BackColor = Color.FromArgb(246, 244, 253);
                 Font = new Font("Segoe UI", 9F);
-                Width = 490;
-                Height = Math.Min(720, Math.Max(270, 155 + items.Count * 116));
+                Screen ownerScreen = ownerScreen = Screen.FromControl(Owner ?? this);
+                Rectangle workingArea = ownerScreen.WorkingArea;
+                int availableWidth = Math.Max(420, workingArea.Width - 40);
+                int availableHeight = Math.Max(300, workingArea.Height - 40);
+                Width = Math.Min(680, availableWidth);
+                Height = Math.Min(760, Math.Min(availableHeight, Math.Max(310, 205 + items.Count * 132)));
+                MinimumSize = new Size(Math.Min(420, availableWidth), Math.Min(300, availableHeight));
+                MaximumSize = new Size(availableWidth, availableHeight);
 
                 Panel header = new Panel
                 {
@@ -85,6 +91,12 @@ namespace FoodandBeverage.Forms
                     TextAlign = ContentAlignment.MiddleLeft
                 };
                 header.Controls.Add(title);
+
+                Resize += (sender, args) =>
+                {
+                    foreach (Control control in list.Controls)
+                        control.Width = Math.Max(300, list.ClientSize.Width - list.Padding.Horizontal - 8);
+                };
 
                 Label hint = new Label
                 {
@@ -111,8 +123,8 @@ namespace FoodandBeverage.Forms
                 {
                     Panel card = new Panel
                     {
-                        Width = 430,
-                        Height = 104,
+                        Width = Math.Max(360, Width - 54),
+                        Height = 120,
                         Margin = new Padding(2, 3, 2, 6),
                         BackColor = Color.White,
                         Padding = new Padding(10, 5, 8, 5),
@@ -155,7 +167,9 @@ namespace FoodandBeverage.Forms
                     Label payment = new Label
                     {
                         Dock = DockStyle.Fill,
-                        Text = booking.PaymentStatus,
+                        Text = string.Format("{0}   |   Paid: {1:0.00} / {2:0.00}   |   Balance: {3:0.00}",
+                            booking.PaymentStatus, booking.PaidAmount, booking.NetAmount,
+                            Math.Max(0, booking.NetAmount - booking.PaidAmount)),
                         ForeColor = Color.White,
                         BackColor = booking.PaymentStatusColor,
                         Font = new Font("Segoe UI", 8F, FontStyle.Bold),
