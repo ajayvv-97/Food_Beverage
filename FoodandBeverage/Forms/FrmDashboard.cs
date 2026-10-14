@@ -2781,43 +2781,57 @@ namespace FoodandBeverage.Forms
 
         private void AdjustButtonsToPanel()
         {
-            // Keep menu buttons at a consistent, comfortable size on POS terminals,
-            // laptops and desktops. Do not stretch buttons to fill the entire screen.
-            const int buttonWidth = 210;
+            // Use a responsive three-column layout at every supported resolution.
+            // The available width determines each button width so longer labels fit
+            // without making buttons unnecessarily large on smaller POS screens.
             const int buttonHeight = 62;
             const int marginX = 8;
             const int marginY = 8;
             const int fontSize = 12;
+            const int columnCount = 3;
 
-            ResizeButtonsInFlow(flp_empbuttons, buttonWidth, buttonHeight, marginX, marginY, fontSize);
-            ResizeButtonsInFlow(flp_operabuttons, buttonWidth, buttonHeight, marginX, marginY, fontSize);
-            ResizeButtonsInFlow(flp_settingbtn, buttonWidth, buttonHeight, marginX, marginY, fontSize);
+            ResizeButtonsInFlow(flp_empbuttons, buttonHeight, marginX, marginY, fontSize, columnCount);
+            ResizeButtonsInFlow(flp_operabuttons, buttonHeight, marginX, marginY, fontSize, columnCount);
+            ResizeButtonsInFlow(flp_settingbtn, buttonHeight, marginX, marginY, fontSize, columnCount);
         }
 
-        private void ResizeButtonsInFlow(FlowLayoutPanel flow, int width, int height, int marginX, int marginY, int fontSize)
+        private void ResizeButtonsInFlow(FlowLayoutPanel flow, int height, int marginX, int marginY, int fontSize, int columnCount)
         {
             if (flow == null) return;
 
             flow.SuspendLayout();
-            flow.WrapContents = true;
-            flow.AutoSize = false;
-            flow.AutoScroll = true;
-            flow.FlowDirection = FlowDirection.LeftToRight;
-            flow.Dock = DockStyle.Fill;
-            flow.Padding = new Padding(4);
-
-            foreach (Control ctrl in flow.Controls)
+            try
             {
-                if (ctrl is Button btn)
+                flow.WrapContents = true;
+                flow.AutoSize = false;
+                flow.AutoScroll = true;
+                flow.FlowDirection = FlowDirection.LeftToRight;
+                flow.Dock = DockStyle.Fill;
+                flow.Padding = new Padding(4);
+
+                // Reserve space for panel padding, button margins and the vertical
+                // scrollbar. Recalculate on every dashboard resize.
+                int availableWidth = Math.Max(0, flow.ClientSize.Width - flow.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth);
+                int totalMargins = columnCount * marginX * 2;
+                int buttonWidth = Math.Max(160, (availableWidth - totalMargins) / columnCount);
+
+                foreach (Control ctrl in flow.Controls)
                 {
-                    btn.Size = new Size(width, height);
-                    btn.Margin = new Padding(marginX, marginY, marginX, marginY);
-                    btn.Font = AppFonts.GetFont(fontSize);
-                    btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    if (ctrl is Button btn)
+                    {
+                        btn.Size = new Size(buttonWidth, height);
+                        btn.Margin = new Padding(marginX, marginY, marginX, marginY);
+                        btn.Font = AppFonts.GetFont(fontSize);
+                        btn.TextAlign = ContentAlignment.MiddleCenter;
+                        btn.AutoEllipsis = false;
+                        btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    }
                 }
             }
-
-            flow.ResumeLayout(true);
+            finally
+            {
+                flow.ResumeLayout(true);
+            }
         }
 
         public void FormPermissionChecking()
