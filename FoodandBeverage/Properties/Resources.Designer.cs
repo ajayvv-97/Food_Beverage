@@ -2862,6 +2862,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Party_Calendar {
+            get {
+                object obj = ResourceManager.GetObject("Party_Calendar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Party_Cart_Icon {
             get {
                 object obj = ResourceManager.GetObject("Party_Cart_Icon", resourceCulture);

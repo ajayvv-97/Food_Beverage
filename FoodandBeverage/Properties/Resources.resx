@@ -1300,4 +1300,7 @@
   <data name="Party_Week" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Party_Week.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Party_Calendar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Party_Calendar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
