@@ -861,12 +861,21 @@ namespace FoodandBeverage.Forms
                 DateTime visibleStart, visibleEnd;
                 GetVisibleRange(out visibleStart, out visibleEnd);
 
-                DateTime queryStart = filterApplied
-                    ? CombineDateAndTime(dtp_fromdate.Value, dtp_fromtime.Value)
-                    : visibleStart;
-                DateTime queryEnd = filterApplied
-                    ? CombineDateAndTime(dtp_todate.Value, dtp_totime.Value)
-                    : visibleEnd;
+                // The filter defines the booking search range, not the calendar's
+                // navigation range. Always load the currently visible month/week/day
+                // as well, so changing months after applying a filter still shows bookings.
+                DateTime queryStart = visibleStart;
+                DateTime queryEnd = visibleEnd;
+
+                if (filterApplied)
+                {
+                    DateTime filterStart = CombineDateAndTime(dtp_fromdate.Value, dtp_fromtime.Value);
+                    DateTime filterEnd = CombineDateAndTime(dtp_todate.Value, dtp_totime.Value);
+
+                    // Include the filtered range and the visible calendar range together.
+                    if (filterStart < queryStart) queryStart = filterStart;
+                    if (filterEnd > queryEnd) queryEnd = filterEnd;
+                }
 
                 string startText = queryStart.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
                 string endText = queryEnd.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
