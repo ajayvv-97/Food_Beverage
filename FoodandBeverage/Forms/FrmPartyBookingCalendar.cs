@@ -210,7 +210,10 @@ namespace FoodandBeverage.Forms
                     };
                     card.Click += choose;
                     eventName.Click += choose;
+                    customer.Click += choose;
+                    phone.Click += choose;
                     time.Click += choose;
+                    payment.Click += choose;
                     card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(239, 234, 255);
                     card.MouseLeave += (s, e) => card.BackColor = Color.White;
                     list.Controls.Add(card);
