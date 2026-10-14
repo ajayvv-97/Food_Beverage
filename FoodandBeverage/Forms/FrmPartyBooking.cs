@@ -326,6 +326,7 @@ namespace FoodandBeverage
             _calendarBookingStart = startDateTime;
             _calendarBookingEnd = endDateTime < startDateTime ? startDateTime : endDateTime;
             ApplyCalendarDateTimeInterval();
+            UpdateSelectedDateLabel();
         }
 
         public void LoadBookingFromCalendar(int bookingId)
@@ -354,6 +355,24 @@ namespace FoodandBeverage
                 SetOptionalDateTimePicker("dtpEventDate_To", end.Date);
                 SetOptionalDateTimePicker("dtpEventTime_To", DateTime.Today.Add(end.TimeOfDay));
             }
+        }
+
+        private void UpdateSelectedDateLabel()
+        {
+            if (lbl_selectdate == null)
+                return;
+
+            DateTime fromDateTime = dtpEventDate_From.Value.Date.Add(dtpEventTime_From.Value.TimeOfDay);
+            DateTime? toDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
+            DateTime? toTime = GetOptionalDateTimePickerValue("dtpEventTime_To");
+            DateTime toDateTime = toDate.HasValue
+                ? toDate.Value.Date.Add((toTime ?? dtpEventTime_From.Value).TimeOfDay)
+                : fromDateTime;
+
+            lbl_selectdate.Text = string.Format(
+                "From: {0:dd MMM yyyy hh:mm tt}  |  To: {1:dd MMM yyyy hh:mm tt}",
+                fromDateTime,
+                toDateTime);
         }
 
         private void SetOptionalDateTimePicker(string controlName, DateTime value)
@@ -420,6 +439,8 @@ namespace FoodandBeverage
                 {
                     ApplyCalendarDateTimeInterval();
                 }
+
+                UpdateSelectedDateLabel();
             }
             catch (Exception ex)
             {
@@ -5433,6 +5454,7 @@ namespace FoodandBeverage
                         _calendarBookingEnd = result.BookingDateTime;
 
                     ApplyCalendarDateTimeInterval();
+                    UpdateSelectedDateLabel();
                 }
 
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
@@ -9162,6 +9184,8 @@ namespace FoodandBeverage
                 frm.ShowInTaskbar = false;
                 if (frm.ShowDialog(this) == DialogResult.OK && frm.SelectedBookingId > 0)
                     LoadBookingFromCalendar(frm.SelectedBookingId);
+                else
+                    UpdateSelectedDateLabel();
             }
         }
 
