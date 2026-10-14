@@ -236,10 +236,12 @@ namespace FoodandBeverage.Forms
         #region please wait loading
         private void ShowLoadingdGif()
         {
-            this.Opacity = 0;
-            LoadingGIF_Timer gifForm = new LoadingGIF_Timer();
-            gifForm.StartPosition = FormStartPosition.CenterScreen;
-            gifForm.ShowDialog();
+            // Keep the dashboard visible while the loading dialog is shown.
+            using (LoadingGIF_Timer gifForm = new LoadingGIF_Timer())
+            {
+                gifForm.StartPosition = FormStartPosition.CenterScreen;
+                gifForm.ShowDialog(this);
+            }
         }
         #endregion
 
@@ -262,17 +264,18 @@ namespace FoodandBeverage.Forms
             //lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
             lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " + Convert.ToString(FrmLogin.Designation)+"    ";
             AdjustButtonsToPanel();
-            Task.Run(() =>
+            // Display the loading animation on top of the dashboard on the UI thread.
+            // Keep the main window visible so startup never looks like a minimize action.
+            using (LoadingGIF_Timer startupLoader = new LoadingGIF_Timer())
             {
-                loadingForm = new LoadingGIF_Timer();
-                loadingForm.StartPosition = FormStartPosition.CenterScreen;
-                Application.Run(loadingForm);
-            });
-            LoadMainForm();
-            await Task.Delay(1000);
-            if (loadingForm != null && !loadingForm.IsDisposed)
-            {
-                loadingForm.Invoke(new Action(() => loadingForm.Close()));
+                startupLoader.StartPosition = FormStartPosition.CenterScreen;
+                startupLoader.Show();
+                startupLoader.Refresh();
+                await Task.Yield();
+                LoadMainForm();
+                await Task.Delay(350);
+                if (!startupLoader.IsDisposed)
+                    startupLoader.Close();
             }
             StyleReportMenu();
 
@@ -2748,54 +2751,49 @@ namespace FoodandBeverage.Forms
 
         private void AdjustButtonsToPanel()
         {
-            if (panelDesktop == null || panelDesktop.Width == 0)
+            if (panelDesktop == null || panelDesktop.ClientSize.Width <= 0 || panelDesktop.ClientSize.Height <= 0)
                 return;
 
             int panelWidth = panelDesktop.ClientSize.Width;
-            int columns = 4;
-            int marginLeftRight = 40;
-            int marginTopBottom = 12;
+            int panelHeight = panelDesktop.ClientSize.Height;
+            int columns = panelWidth >= 1050 ? 3 : (panelWidth >= 650 ? 2 : 1);
+            int marginX = panelWidth >= 1050 ? 12 : 8;
+            int marginY = panelHeight >= 700 ? 10 : 6;
+            int availableWidth = Math.Max(150, panelWidth - marginX * 2 - SystemInformation.VerticalScrollBarWidth);
+            int buttonWidth = Math.Max(150, availableWidth / columns);
+            int buttonHeight = Math.Max(58, Math.Min(95, (int)(Menuhome.Height * 0.92)));
+            int fontSize = panelWidth < 650 ? 10 : 12;
 
-            int totalHorizontalMargin = (marginLeftRight * 2 * columns);
-            int availableWidth = panelWidth - totalHorizontalMargin;
-
-            columns = screenWidth > 1366 ? 4 : 3;
-            lblinact_timer.Text = columns+" "+ screenWidth.ToString();
-            int buttonWidth = availableWidth / columns;  ;
-
-            //int buttonHeight = (int)(buttonWidth * 0.35);
-            int buttonHeight = (int)(Menuhome.Height * 0.92);
-
-            ResizeButtonsInFlow(flp_empbuttons, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
-            ResizeButtonsInFlow(flp_operabuttons, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
-            ResizeButtonsInFlow(flp_settingbtn, buttonWidth, buttonHeight, marginLeftRight, marginTopBottom);
-
+            ResizeButtonsInFlow(flp_empbuttons, buttonWidth, buttonHeight, marginX, marginY, fontSize);
+            ResizeButtonsInFlow(flp_operabuttons, buttonWidth, buttonHeight, marginX, marginY, fontSize);
+            ResizeButtonsInFlow(flp_settingbtn, buttonWidth, buttonHeight, marginX, marginY, fontSize);
         }
 
-        private void ResizeButtonsInFlow(FlowLayoutPanel flow, int width, int height, int marginX, int marginY)
+        private void ResizeButtonsInFlow(FlowLayoutPanel flow, int width, int height, int marginX, int marginY, int fontSize)
         {
             if (flow == null) return;
 
+            flow.SuspendLayout();
             flow.WrapContents = true;
             flow.AutoSize = false;
+            flow.AutoScroll = true;
             flow.FlowDirection = FlowDirection.LeftToRight;
-            flow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            flow.Dock = DockStyle.Fill;
+            flow.Padding = new Padding(Math.Max(4, marginX / 2));
 
+            int safeWidth = Math.Max(120, Math.Min(width, flow.ClientSize.Width - flow.Padding.Horizontal - marginX * 2));
             foreach (Control ctrl in flow.Controls)
             {
                 if (ctrl is Button btn)
                 {
-                    btn.Width = width;
+                    btn.Width = safeWidth;
                     btn.Height = height;
-
-                    // Margins
                     btn.Margin = new Padding(marginX, marginY, marginX, marginY);
-
-                    // Adjust font size to match smaller height
-                    float fontSize = Math.Max(9f, width / 18f);
-                    btn.Font = AppFonts.GetFont(12);
+                    btn.Font = AppFonts.GetFont(fontSize);
+                    btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 }
             }
+            flow.ResumeLayout(true);
         }
 
         public void FormPermissionChecking()
@@ -5048,40 +5046,35 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                PrepareForSideMenuNavigation();
+                panelDesktop.SuspendLayout();
                 panelDesktop.Controls.Clear();
-                if (System.Windows.Forms.Application.OpenForms["Frmreport"] != null)
-                {
-                    Report.Frmreport _instanceFrmreport = Application.OpenForms["Frmreport"] as Report.Frmreport;
 
-                    if (_instanceFrmreport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmreport.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmreport.Close();
-                        Report.Frmreport newFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem), id);
-                        newFrmreport.TopLevel = false;
-                        newFrmreport.Dock = DockStyle.Fill;
-                        panelDesktop.Controls.Add(newFrmreport);
-                        newFrmreport.Show();
-                    }
-                }
-                else
+                Report.Frmreport reportForm = new Report.Frmreport(
+                    Convert.ToInt32(ReportType.salesReportItem), id)
                 {
-                    Report.Frmreport _instanceFrmreport = new Report.Frmreport(Convert.ToInt32(ReportType.salesReportItem), id);
-                    _instanceFrmreport.TopLevel = false;
-                    _instanceFrmreport.Dock = DockStyle.Fill;
-                    panelDesktop.Controls.Add(_instanceFrmreport);
-                    _instanceFrmreport.Show();
-                }
+                    TopLevel = false,
+                    Dock = DockStyle.Fill,
+                    WindowState = FormWindowState.Normal
+                };
+
+                panelDesktop.Controls.Add(reportForm);
+                reportForm.Show();
+                reportForm.BringToFront();
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("Home Page  TableTurnoverReports_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("Home Page ReportForm()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
-
+            finally
+            {
+                panelDesktop.ResumeLayout(true);
+                if (WindowState == FormWindowState.Minimized)
+                    WindowState = FormWindowState.Maximized;
+                if (Opacity < 1.0)
+                    Opacity = 1.0;
+            }
         }
 
         private void saleReportsToolStripMenuItem_Click(object sender, EventArgs e)
