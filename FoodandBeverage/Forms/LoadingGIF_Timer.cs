@@ -10,7 +10,7 @@ namespace FoodandBeverage.Forms
         private readonly Timer animationTimer;
         private int animationAngle;
         private string titleText = "Preparing your workspace";
-        private string statusText = "Please wait…";
+        private string statusText = "Loading dashboard…";
 
         public string TitleText
         {
