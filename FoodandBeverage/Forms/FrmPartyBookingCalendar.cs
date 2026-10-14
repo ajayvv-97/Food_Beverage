@@ -1318,18 +1318,50 @@ namespace FoodandBeverage.Forms
                 .ToList());
         }
 
+        private static readonly Color[] EventColorPalette =
+        {
+            Color.FromArgb(255, 71, 145),  // Pink
+            Color.FromArgb(35, 132, 244),  // Blue
+            Color.FromArgb(35, 164, 104),  // Green
+            Color.FromArgb(146, 78, 235),  // Purple
+            Color.FromArgb(245, 145, 35),  // Orange
+            Color.FromArgb(0, 150, 166),   // Teal
+            Color.FromArgb(220, 65, 55),   // Red
+            Color.FromArgb(117, 92, 58),   // Brown
+            Color.FromArgb(190, 80, 190),  // Magenta
+            Color.FromArgb(90, 110, 210)   // Indigo
+        };
+
         private Color GetEventColor(string eventName)
         {
-            if (eventColors.TryGetValue(eventName, out Color color)) return color;
-            string value = (eventName ?? "").ToLowerInvariant();
-            if (value.Contains("birthday") || value.Contains("cake")) color = Color.FromArgb(255, 71, 145);
-            else if (value.Contains("family") || value.Contains("anniversary")) color = Color.FromArgb(35, 132, 244);
-            else if (value.Contains("corporate") || value.Contains("business")) color = Color.FromArgb(35, 164, 104);
-            else if (value.Contains("engagement") || value.Contains("wedding")) color = Color.FromArgb(146, 78, 235);
-            else if (value.Contains("get together") || value.Contains("get-together")) color = Color.FromArgb(245, 145, 35);
-            else color = Color.FromArgb(207, 154, 94);
-            eventColors[eventName] = color;
+            string key = (eventName ?? string.Empty).Trim();
+            if (key.Length == 0)
+                key = "Booking";
+
+            if (eventColors.TryGetValue(key, out Color color))
+                return color;
+
+            // Fallback for categories that are added after the legend is built.
+            // Use a stable palette slot rather than one shared fallback color.
+            int index = Math.Abs(StringComparer.OrdinalIgnoreCase.GetHashCode(key) % EventColorPalette.Length);
+            color = EventColorPalette[index];
+            eventColors[key] = color;
             return color;
+        }
+
+        private void AssignDistinctEventColors(IEnumerable<string> categories)
+        {
+            eventColors.Clear();
+            int index = 0;
+            foreach (string category in categories
+                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Select(name => name.Trim())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(name => name, StringComparer.OrdinalIgnoreCase))
+            {
+                eventColors[category] = EventColorPalette[index % EventColorPalette.Length];
+                index++;
+            }
         }
 
         private void BuildIndicators()
@@ -1350,6 +1382,10 @@ namespace FoodandBeverage.Forms
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .OrderBy(name => name)
                     .ToArray();
+
+                // Assign a different palette color to each category shown in the legend.
+                // This ensures multiple indicators never all inherit the same fallback color.
+                AssignDistinctEventColors(categories);
 
                 foreach (string category in categories)
                 {
