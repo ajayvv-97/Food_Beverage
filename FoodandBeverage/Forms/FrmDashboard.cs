@@ -445,7 +445,7 @@ namespace FoodandBeverage.Forms
 
                     }                
                 }
-                this.Opacity = 100;
+                this.Opacity = 1.0;
                 #endregion
             }
             catch (Exception ex)
