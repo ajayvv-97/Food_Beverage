@@ -369,8 +369,13 @@ namespace FoodandBeverage
                 ? toDate.Value.Date.Add((toTime ?? dtpEventTime_From.Value).TimeOfDay)
                 : fromDateTime;
 
+            // Keep the date summary compact so it never overlaps the calendar button.
+            lbl_selectdate.AutoSize = false;
+            lbl_selectdate.Dock = DockStyle.Fill;
+            lbl_selectdate.AutoEllipsis = true;
+            lbl_selectdate.TextAlign = ContentAlignment.MiddleLeft;
             lbl_selectdate.Text = string.Format(
-                "From: {0:dd MMM yyyy hh:mm tt}  |  To: {1:dd MMM yyyy hh:mm tt}",
+                "{0:dd MMM hh:mm tt} - {1:dd MMM hh:mm tt}",
                 fromDateTime,
                 toDateTime);
         }
@@ -798,12 +803,58 @@ namespace FoodandBeverage
                     lbladult.Visible = true;
                 }
 
-                txtChild.Dock = DockStyle.Fill;
-                lblnochild.Dock = DockStyle.Fill;
+                // Keep guest labels and textboxes aligned in matching two-column tables.
+                tlp_adult_child_label.SuspendLayout();
+                tlp_adult_child_text.SuspendLayout();
 
-                txtAdults.Dock = DockStyle.Fill;
+                tlp_adult_child_label.Dock = DockStyle.Fill;
+                tlp_adult_child_text.Dock = DockStyle.Fill;
+                tlp_adult_child_label.ColumnCount = 2;
+                tlp_adult_child_text.ColumnCount = 2;
+
+                if (childPrice > 0 && adultPrice > 0)
+                {
+                    tlp_adult_child_label.ColumnStyles[0].SizeType = SizeType.Percent;
+                    tlp_adult_child_label.ColumnStyles[0].Width = 50F;
+                    tlp_adult_child_label.ColumnStyles[1].SizeType = SizeType.Percent;
+                    tlp_adult_child_label.ColumnStyles[1].Width = 50F;
+
+                    tlp_adult_child_text.ColumnStyles[0].SizeType = SizeType.Percent;
+                    tlp_adult_child_text.ColumnStyles[0].Width = 50F;
+                    tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.Percent;
+                    tlp_adult_child_text.ColumnStyles[1].Width = 50F;
+                }
+                else
+                {
+                    int visibleColumn = adultPrice > 0 ? 0 : 1;
+                    int hiddenColumn = visibleColumn == 0 ? 1 : 0;
+
+                    tlp_adult_child_label.ColumnStyles[visibleColumn].SizeType = SizeType.Percent;
+                    tlp_adult_child_label.ColumnStyles[visibleColumn].Width = 100F;
+                    tlp_adult_child_text.ColumnStyles[visibleColumn].SizeType = SizeType.Percent;
+                    tlp_adult_child_text.ColumnStyles[visibleColumn].Width = 100F;
+
+                    tlp_adult_child_label.ColumnStyles[hiddenColumn].SizeType = SizeType.Absolute;
+                    tlp_adult_child_label.ColumnStyles[hiddenColumn].Width = 0F;
+                    tlp_adult_child_text.ColumnStyles[hiddenColumn].SizeType = SizeType.Absolute;
+                    tlp_adult_child_text.ColumnStyles[hiddenColumn].Width = 0F;
+                }
+
+                lbladult.AutoSize = false;
+                lblnochild.AutoSize = false;
+                lbladult.TextAlign = ContentAlignment.MiddleLeft;
+                lblnochild.TextAlign = ContentAlignment.MiddleLeft;
                 lbladult.Dock = DockStyle.Fill;
+                lblnochild.Dock = DockStyle.Fill;
+                txtAdults.Dock = DockStyle.Fill;
+                txtChild.Dock = DockStyle.Fill;
+                lbladult.Margin = new Padding(3, 0, 3, 0);
+                lblnochild.Margin = new Padding(3, 0, 3, 0);
+                txtAdults.Margin = new Padding(3);
+                txtChild.Margin = new Padding(3);
 
+                tlp_adult_child_label.ResumeLayout(true);
+                tlp_adult_child_text.ResumeLayout(true);
                 textb_shape();
             }
             catch (Exception ex)
