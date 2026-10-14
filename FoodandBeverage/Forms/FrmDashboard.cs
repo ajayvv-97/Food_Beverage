@@ -267,6 +267,8 @@ namespace FoodandBeverage.Forms
             WindowState = FormWindowState.Maximized;
             await Task.Yield();
 
+            // The form is already visible before the loader starts; this prevents
+            // the transparent designer setting from making navigation look minimized.
             Thread startupLoaderThread = new Thread(() =>
             {
                 using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
