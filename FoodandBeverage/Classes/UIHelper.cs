@@ -69,15 +69,13 @@ namespace FoodandBeverage.Classes
 
             try
             {
-                if (parent != null && parent.WindowState == FormWindowState.Minimized)
-                    parent.WindowState = FormWindowState.Maximized;
-
                 if (Screen.PrimaryScreen.WorkingArea.Width > maxWidth ||
                     Screen.PrimaryScreen.WorkingArea.Height > maxHeight)
                 {
-                    // Do not fade/hide the dashboard while opening a working form.
-                    child.Width = Math.Min(maxWidth, Screen.PrimaryScreen.WorkingArea.Width);
-                    child.Height = Math.Min(maxHeight, Screen.PrimaryScreen.WorkingArea.Height);
+                    parent.Opacity = 0.7;
+
+                    child.Width = maxWidth;
+                    child.Height = maxHeight;
                     child.StartPosition = FormStartPosition.CenterScreen;
                     child.WindowState = FormWindowState.Normal;
                 }
@@ -86,22 +84,13 @@ namespace FoodandBeverage.Classes
                     child.WindowState = FormWindowState.Maximized;
                 }
 
-                child.ShowDialog(parent);
+                child.ShowDialog();
                 child.BringToFront();
             }
             finally
             {
-                if (parent != null)
-                {
-                    if (parent.Opacity < 1.0)
-                        parent.Opacity = 1.0;
-                    if (parent.WindowState == FormWindowState.Minimized)
-                        parent.WindowState = FormWindowState.Maximized;
-                    parent.BringToFront();
-                }
-
-                if (child != null)
-                    child.Dispose();
+                parent.Opacity = 1; 
+                child.Dispose();    
             }
         }
         public static class NotificationService
