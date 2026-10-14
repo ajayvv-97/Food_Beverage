@@ -239,6 +239,170 @@ namespace FoodandBeverage.Forms
 
         public int SelectedBookingId { get; private set; }
 
+        private sealed class TimeChoiceDialog : Form
+        {
+            private readonly ComboBox hourBox = new ComboBox();
+            private readonly NumericUpDown minuteBox = new NumericUpDown();
+            private readonly ComboBox periodBox = new ComboBox();
+
+            public TimeSpan SelectedTime { get; private set; }
+
+            public TimeChoiceDialog(TimeSpan initialTime, Color accentColor)
+            {
+                Text = "Select Time";
+                StartPosition = FormStartPosition.CenterParent;
+                FormBorderStyle = FormBorderStyle.FixedDialog;
+                ShowInTaskbar = false;
+                MinimizeBox = false;
+                MaximizeBox = false;
+                Width = 390;
+                Height = 300;
+                BackColor = Color.FromArgb(246, 244, 253);
+                Font = new Font("Segoe UI", 9F);
+
+                Panel header = new Panel { Dock = DockStyle.Top, Height = 52, BackColor = accentColor };
+                header.Controls.Add(new Label
+                {
+                    Dock = DockStyle.Fill,
+                    Text = "Choose booking time",
+                    ForeColor = Color.White,
+                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Padding = new Padding(16, 0, 0, 0)
+                });
+
+                int hour = initialTime.Hours % 12;
+                if (hour == 0) hour = 12;
+                hourBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                for (int i = 1; i <= 12; i++) hourBox.Items.Add(i.ToString("00"));
+                hourBox.SelectedItem = hour.ToString("00");
+                hourBox.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+                hourBox.Width = 82;
+
+                minuteBox.Minimum = 0;
+                minuteBox.Maximum = 59;
+                minuteBox.Value = initialTime.Minutes;
+                minuteBox.Width = 82;
+                minuteBox.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+                minuteBox.TextAlign = HorizontalAlignment.Center;
+
+                periodBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                periodBox.Items.AddRange(new object[] { "AM", "PM" });
+                periodBox.SelectedItem = initialTime.Hours >= 12 ? "PM" : "AM";
+                periodBox.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+                periodBox.Width = 82;
+
+                FlowLayoutPanel timeRow = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Top,
+                    Height = 62,
+                    Padding = new Padding(22, 12, 8, 4),
+                    BackColor = Color.White,
+                    WrapContents = false
+                };
+                timeRow.Controls.Add(hourBox);
+                timeRow.Controls.Add(new Label { Text = ":", AutoSize = true, Font = new Font("Segoe UI", 16F, FontStyle.Bold), Margin = new Padding(4, 7, 4, 0) });
+                timeRow.Controls.Add(minuteBox);
+                timeRow.Controls.Add(periodBox);
+
+                Label quickLabel = new Label
+                {
+                    Dock = DockStyle.Top,
+                    Height = 30,
+                    Text = "Quick select",
+                    ForeColor = Color.FromArgb(70, 63, 105),
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Padding = new Padding(16, 0, 0, 0)
+                };
+                FlowLayoutPanel quickRow = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Top,
+                    Height = 44,
+                    Padding = new Padding(12, 2, 4, 2),
+                    WrapContents = false,
+                    BackColor = Color.FromArgb(246, 244, 253)
+                };
+                AddPreset(quickRow, "09:00 AM", 9, 0, "AM");
+                AddPreset(quickRow, "12:00 PM", 12, 0, "PM");
+                AddPreset(quickRow, "06:00 PM", 6, 0, "PM");
+                AddPreset(quickRow, "11:00 PM", 11, 0, "PM");
+
+                FlowLayoutPanel actions = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Bottom,
+                    Height = 50,
+                    FlowDirection = FlowDirection.RightToLeft,
+                    Padding = new Padding(8),
+                    BackColor = Color.White
+                };
+                Button ok = new Button
+                {
+                    Text = "Use Time",
+                    Width = 110,
+                    Height = 32,
+                    BackColor = accentColor,
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                    DialogResult = DialogResult.OK
+                };
+                ok.FlatAppearance.BorderSize = 0;
+                ok.Click += (s, e) =>
+                {
+                    int selectedHour = Convert.ToInt32(hourBox.SelectedItem);
+                    if (selectedHour == 12) selectedHour = 0;
+                    if (Convert.ToString(periodBox.SelectedItem) == "PM") selectedHour += 12;
+                    SelectedTime = new TimeSpan(selectedHour, (int)minuteBox.Value, 0);
+                };
+                Button cancel = new Button
+                {
+                    Text = "Cancel",
+                    Width = 90,
+                    Height = 32,
+                    BackColor = Color.FromArgb(235, 231, 249),
+                    ForeColor = Color.FromArgb(64, 52, 119),
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                    DialogResult = DialogResult.Cancel
+                };
+                cancel.FlatAppearance.BorderSize = 0;
+                actions.Controls.Add(ok);
+                actions.Controls.Add(cancel);
+
+                Controls.Add(actions);
+                Controls.Add(quickRow);
+                Controls.Add(quickLabel);
+                Controls.Add(timeRow);
+                Controls.Add(header);
+                AcceptButton = ok;
+                CancelButton = cancel;
+            }
+
+            private void AddPreset(FlowLayoutPanel panel, string caption, int hour, int minute, string period)
+            {
+                Button button = new Button
+                {
+                    Text = caption,
+                    Width = 82,
+                    Height = 30,
+                    Margin = new Padding(3),
+                    BackColor = Color.White,
+                    ForeColor = Color.FromArgb(64, 52, 119),
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 8F, FontStyle.Bold)
+                };
+                button.FlatAppearance.BorderColor = Color.FromArgb(218, 211, 243);
+                button.Click += (s, e) =>
+                {
+                    hourBox.SelectedItem = hour.ToString("00");
+                    minuteBox.Value = minute;
+                    periodBox.SelectedItem = period;
+                };
+                panel.Controls.Add(button);
+            }
+        }
+
         private readonly Color accent = Color.FromArgb(101, 80, 185);
         private readonly Color border = Color.FromArgb(224, 220, 241);
         private readonly Color textColor = Color.FromArgb(38, 35, 73);
@@ -273,6 +437,8 @@ namespace FoodandBeverage.Forms
             Resize += FrmPartyBookingCalendar_Resize;
             tlp_navbar.Paint += TlpNavbar_Paint;
             ConfigureDateTimePickers();
+            dtp_book_fromtime.MouseClick += BookingTimePicker_MouseClick;
+            dtp_book_totime.MouseClick += BookingTimePicker_MouseClick;
         }
 
         private void ApplyModernTheme()
@@ -485,6 +651,19 @@ namespace FoodandBeverage.Forms
             dtp_book_fromtime.Value = DateTime.Today.Add(now.TimeOfDay);
             dtp_book_todate.Value = now.Date;
             dtp_book_totime.Value = DateTime.Today.AddHours(23);
+        }
+
+        private void BookingTimePicker_MouseClick(object sender, MouseEventArgs e)
+        {
+            DateTimePicker picker = sender as DateTimePicker;
+            if (picker == null || e.Button != MouseButtons.Left || e.X >= picker.Width - 22)
+                return;
+
+            using (TimeChoiceDialog dialog = new TimeChoiceDialog(picker.Value.TimeOfDay, accent))
+            {
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                    picker.Value = DateTime.Today.Add(dialog.SelectedTime);
+            }
         }
 
         private void FrmPartyBookingCalendar_Load(object sender, EventArgs e)
