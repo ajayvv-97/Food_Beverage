@@ -9,6 +9,20 @@ namespace FoodandBeverage.Forms
     {
         private readonly Timer animationTimer;
         private int animationAngle;
+        private string titleText = "Preparing your workspace";
+        private string statusText = "Please wait…";
+
+        public string TitleText
+        {
+            get { return titleText; }
+            set { titleText = string.IsNullOrWhiteSpace(value) ? "Please wait" : value.Trim(); Invalidate(); }
+        }
+
+        public string StatusText
+        {
+            get { return statusText; }
+            set { statusText = string.IsNullOrWhiteSpace(value) ? "Working…" : value.Trim(); Invalidate(); }
+        }
 
         public LoadingGIF_Timer()
         {
@@ -93,8 +107,9 @@ namespace FoodandBeverage.Forms
             using (SolidBrush titleBrush = new SolidBrush(Color.FromArgb(43, 26, 82)))
             using (SolidBrush subtitleBrush = new SolidBrush(Color.FromArgb(125, 112, 151)))
             {
-                g.DrawString("Preparing your workspace", titleFont, titleBrush, 94, 43);
-                g.DrawString("Loading dashboard…", subtitleFont, subtitleBrush, 95, 68);
+                g.DrawString(TitleText, titleFont, titleBrush, 94, 43);
+                RectangleF statusBounds = new RectangleF(95, 67, ClientSize.Width - 108, 28);
+                g.DrawString(StatusText, subtitleFont, subtitleBrush, statusBounds);
             }
 
             using (SolidBrush dotBrush = new SolidBrush(Color.FromArgb(139, 55, 226)))
