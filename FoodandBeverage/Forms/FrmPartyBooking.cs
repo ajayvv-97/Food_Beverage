@@ -201,6 +201,9 @@ namespace FoodandBeverage
         decimal dbBalanceAmount = 0;
 
         private bool isUpdating = false;
+        private int _calendarBookingId;
+        private DateTime? _calendarBookingStart;
+        private DateTime? _calendarBookingEnd;
         decimal originalGrandTotal = 0, originalTotalTax = 0;
 
         private int PaymentSettleStatusData = 0;
@@ -316,8 +319,65 @@ namespace FoodandBeverage
         /// </summary>
         public void SetCalendarBookingStart(DateTime startDateTime)
         {
-            dtpEventDate.Value = startDateTime.Date;
-            dtpEventTime.Value = DateTime.Today.Add(startDateTime.TimeOfDay);
+            SetCalendarBookingInterval(startDateTime, startDateTime);
+        }
+
+        /// <summary>
+        /// Supplies the start/end interval selected in the calendar for a new booking.
+        /// Optional From/To controls are populated when they exist on this form.
+        /// </summary>
+        public void SetCalendarBookingInterval(DateTime startDateTime, DateTime endDateTime)
+        {
+            _calendarBookingId = 0;
+            _calendarBookingStart = startDateTime;
+            _calendarBookingEnd = endDateTime < startDateTime ? startDateTime : endDateTime;
+            ApplyCalendarDateTimeInterval();
+        }
+
+        /// <summary>
+        /// Loads an existing booking selected from the calendar into this form.
+        /// </summary>
+        public void LoadBookingFromCalendar(int bookingId)
+        {
+            if (bookingId <= 0)
+                return;
+
+            _calendarBookingId = bookingId;
+            LoadBookingById(bookingId);
+        }
+
+        private void ApplyCalendarDateTimeInterval()
+        {
+            if (_calendarBookingStart.HasValue)
+            {
+                DateTime start = _calendarBookingStart.Value;
+                dtpEventDate.Value = start.Date;
+                dtpEventTime.Value = DateTime.Today.Add(start.TimeOfDay);
+                SetOptionalDateTimePicker("dtpEventDate_From", start.Date);
+                SetOptionalDateTimePicker("dtpEventTime_From", DateTime.Today.Add(start.TimeOfDay));
+            }
+
+            if (_calendarBookingEnd.HasValue)
+            {
+                DateTime end = _calendarBookingEnd.Value;
+                SetOptionalDateTimePicker("dtpEventDate_To", end.Date);
+                SetOptionalDateTimePicker("dtpEventTime_To", DateTime.Today.Add(end.TimeOfDay));
+            }
+        }
+
+        private void SetOptionalDateTimePicker(string controlName, DateTime value)
+        {
+            Control[] matches = Controls.Find(controlName, true);
+            DateTimePicker picker = matches.FirstOrDefault() as DateTimePicker;
+            if (picker != null)
+                picker.Value = value;
+        }
+
+        private DateTime? GetOptionalDateTimePickerValue(string controlName)
+        {
+            Control[] matches = Controls.Find(controlName, true);
+            DateTimePicker picker = matches.FirstOrDefault() as DateTimePicker;
+            return picker == null ? (DateTime?)null : picker.Value;
         }
 
         private void FrmPartyBooking_Load(object sender, EventArgs e)
@@ -360,6 +420,15 @@ namespace FoodandBeverage
                     btncard.Visible = false;
                 }
                 LoadEventItems();
+
+                if (_calendarBookingId > 0)
+                {
+                    LoadBookingById(_calendarBookingId);
+                }
+                else if (_calendarBookingStart.HasValue)
+                {
+                    ApplyCalendarDateTimeInterval();
+                }
             }
             catch (Exception ex)
             {
@@ -4343,7 +4412,28 @@ namespace FoodandBeverage
 
                 // 🔹 DATEtime
 
-                booking.BookingDateTime = dtpEventDate.Value.Date + dtpEventTime.Value.TimeOfDay;
+                DateTime bookingStart = GetOptionalDateTimePickerValue("dtpEventDate_From").HasValue
+                    ? GetOptionalDateTimePickerValue("dtpEventDate_From").Value.Date +
+                      (GetOptionalDateTimePickerValue("dtpEventTime_From") ?? dtpEventTime.Value).TimeOfDay
+                    : dtpEventDate.Value.Date + dtpEventTime.Value.TimeOfDay;
+
+                DateTime? bookingEndDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
+                DateTime? bookingEndTime = GetOptionalDateTimePickerValue("dtpEventTime_To");
+                DateTime bookingEnd = bookingEndDate.HasValue
+                    ? bookingEndDate.Value.Date + (bookingEndTime ?? dtpEventTime.Value).TimeOfDay
+                    : (_calendarBookingEnd ?? bookingStart);
+
+                booking.BookingDateTime = bookingStart;
+                // Set through reflection to remain compatible with installations whose
+                // Domain assembly has not yet exposed BookingToDateTime as a property.
+                var endProperty = booking.GetType().GetProperty("BookingToDateTime");
+                if (endProperty != null && endProperty.CanWrite)
+                {
+                    Type propertyType = Nullable.GetUnderlyingType(endProperty.PropertyType) ?? endProperty.PropertyType;
+                    object endValue = propertyType == typeof(DateTime) ? (object)bookingEnd : null;
+                    if (endValue != null)
+                        endProperty.SetValue(booking, endValue, null);
+                }
 
                 // 🔹 PEOPLE COUNT
                 booking.NoOfAdults = GetInt(txtAdults);
@@ -5033,8 +5123,6 @@ namespace FoodandBeverage
         {
             try
             {
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                int returnValue = 0;
                 DmnSearch search = new DmnSearch();
                 search.ColumnHeaders = "ID,Customer,Event,DateTime,PhoneNo,Email";
                 search.Select = "PartyBookingId as Id, CustomerName as Field1, e.ItemName as Field2, " +
@@ -5044,52 +5132,66 @@ namespace FoodandBeverage
                     "left join tblPartyPackMaster pm on pm.PartyPackId=pb.PartyPackId and pm.status=1";
                 search.WhereNdGroupBy = "WHERE pb.Status = 1 and pb.refundstatus!=1";
                 search.OrderBy = " ORDER BY PartyBookingId DESC";
-                var gridesource = bllSearch.GetSearchData("prdSearch", search);
-                if (gridesource.Count == 0)
+
+                var gridSource = new BllSearch<DmnGridFields>().GetSearchData("prdSearch", search);
+                if (gridSource.Count == 0)
                 {
-                    CMessageBox.Show("No Records"); ;
+                    CMessageBox.Show("No Records");
                     return;
                 }
+
+                int bookingId = 0;
                 using (var frm = new FrmSearch<DmnGridFields>(
-                search,
-                SearchMode.FirstCharacter,
-                this.Width - 300,
-                this.Height - 300,
-                this.Location.Y + 50,
-                this.Location.X + 20,
-                null))
+                    search,
+                    SearchMode.FirstCharacter,
+                    this.Width - 300,
+                    this.Height - 300,
+                    this.Location.Y + 50,
+                    this.Location.X + 20,
+                    null))
                 {
                     if (frm.ShowDialog() == DialogResult.OK)
-                    {
-                        returnValue = Convert.ToInt32(frm._retValue);
-                    }
+                        bookingId = Convert.ToInt32(frm._retValue);
                 }
 
-                if (returnValue <= 0) return;
-
-                ClearAll();
-
-                BookingId = returnValue;
-
-                TogglePayCancel(1);
-
-                LoadBookingMaster(returnValue, Convert.ToInt32(txtpartpackid.Text));
-
-                LoadDefaultPackAndBookingItems(Convert.ToInt32(txtpartpackid.Text), returnValue);
-
-                lblpackname.Visible = true;
-                lblpacklabel.Visible = true;
-                lblpackname.Text = SetPackName(Convert.ToInt32(txtpartpackid.Text));
-
-                textb_shape();
-                RecalculateAllRowsAndTotals();
-
-                SetupGuestControls();
+                if (bookingId > 0)
+                    LoadBookingById(bookingId);
             }
-
             catch (Exception ex)
             {
                 clsgen.LogException("Partybooking page btnSearch_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void LoadBookingById(int bookingId)
+        {
+            if (bookingId <= 0)
+                return;
+
+            try
+            {
+                ClearAll();
+                BookingId = bookingId;
+                TogglePayCancel(1);
+                LoadBookingMaster(bookingId, 0);
+
+                int packId;
+                if (!int.TryParse(txtpartpackid.Text, out packId) || packId <= 0)
+                    return;
+
+                LoadDefaultPackAndBookingItems(packId, bookingId);
+                lblpackname.Visible = true;
+                lblpacklabel.Visible = true;
+                lblpackname.Text = SetPackName(packId);
+                textb_shape();
+                RecalculateAllRowsAndTotals();
+                SetupGuestControls();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partybooking page LoadBookingById()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation,
                     Convert.ToInt32(FormType.Partybooking));
             }
@@ -5329,6 +5431,17 @@ namespace FoodandBeverage
                 {
                     dtpEventDate.Value = result.BookingDateTime.Date;
                     dtpEventTime.Value = DateTime.Today.Add(result.BookingDateTime.TimeOfDay);
+                    _calendarBookingStart = result.BookingDateTime;
+
+                    var endProperty = result.GetType().GetProperty("BookingToDateTime");
+                    object endValue = endProperty == null ? null : endProperty.GetValue(result, null);
+                    DateTime endDateTime;
+                    if (endValue != null && DateTime.TryParse(Convert.ToString(endValue), out endDateTime))
+                        _calendarBookingEnd = endDateTime;
+                    else
+                        _calendarBookingEnd = result.BookingDateTime;
+
+                    ApplyCalendarDateTimeInterval();
                 }
 
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
@@ -9056,7 +9169,8 @@ namespace FoodandBeverage
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowInTaskbar = false;
-                frm.ShowDialog(this);
+                if (frm.ShowDialog(this) == DialogResult.OK && frm.SelectedBookingId > 0)
+                    LoadBookingFromCalendar(frm.SelectedBookingId);
             }
         }
 
