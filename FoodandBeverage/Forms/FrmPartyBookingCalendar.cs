@@ -1,4 +1,5 @@
 using BLL;
+using CustomMessageBox;
 using Domain;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace FoodandBeverage.Forms
     public partial class FrmPartyBookingCalendar : Form
     {
         private enum CalendarView { Month, Week, Day }
+        private enum BookingDateTarget { From, To }
 
         private sealed class PartyBookingEvent
         {
@@ -424,6 +426,7 @@ namespace FoodandBeverage.Forms
         private DateTime currentDate = DateTime.Today;
         private CalendarView currentView = CalendarView.Month;
         private bool filterApplied;
+        private BookingDateTarget activeBookingDateTarget = BookingDateTarget.From;
         private int animationDirection = 1;
         private System.Windows.Forms.Timer calendarAnimationTimer;
 
@@ -440,6 +443,10 @@ namespace FoodandBeverage.Forms
             Resize += FrmPartyBookingCalendar_Resize;
             tlp_navbar.Paint += TlpNavbar_Paint;
             ConfigureDateTimePickers();
+            dtp_book_fromdate.MouseDown += (s, e) => activeBookingDateTarget = BookingDateTarget.From;
+            dtp_book_fromdate.Enter += (s, e) => activeBookingDateTarget = BookingDateTarget.From;
+            dtp_book_todate.MouseDown += (s, e) => activeBookingDateTarget = BookingDateTarget.To;
+            dtp_book_todate.Enter += (s, e) => activeBookingDateTarget = BookingDateTarget.To;
             dtp_book_fromtime.MouseClick += BookingTimePicker_MouseClick;
             dtp_book_totime.MouseClick += BookingTimePicker_MouseClick;
         }
@@ -776,12 +783,23 @@ namespace FoodandBeverage.Forms
 
         private void btnsumbit_Click(object sender, EventArgs e)
         {
+            DateTime fromDate = dtp_book_fromdate.Value.Date;
+            DateTime toDate = dtp_book_todate.Value.Date;
+
+            if (toDate < fromDate)
+            {
+                CMessageBox.Show("To Date cannot be earlier than From Date. Please select a valid booking date range.");
+                dtp_book_todate.Focus();
+                return;
+            }
+
             DateTime from = CombineDateAndTime(dtp_book_fromdate.Value, dtp_book_fromtime.Value);
             DateTime to = CombineDateAndTime(dtp_book_todate.Value, dtp_book_totime.Value);
+
             if (to < from)
             {
-                MessageBox.Show("Booking end date and time must be after the start date and time.",
-                    "Invalid booking time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CMessageBox.Show("To Time must be the same as or later than From Time when both dates are the same. Please check the booking start and end time.");
+                dtp_book_totime.Focus();
                 return;
             }
 
@@ -1225,8 +1243,16 @@ namespace FoodandBeverage.Forms
 
         private void SelectBookingDate(DateTime date)
         {
-            dtp_book_fromdate.Value = date.Date;
-            dtp_book_todate.Value = date.Date;
+            // A click on the custom calendar updates only the date field the staff
+            // last focused. From Date and To Date remain independently editable.
+            if (activeBookingDateTarget == BookingDateTarget.To)
+            {
+                dtp_book_todate.Value = date.Date;
+            }
+            else
+            {
+                dtp_book_fromdate.Value = date.Date;
+            }
         }
 
         private void ShowBookingsForDate(DateTime date, IList<PartyBookingEvent> items)
