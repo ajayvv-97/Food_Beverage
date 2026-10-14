@@ -124,7 +124,7 @@ namespace FoodandBeverage.Forms
                     Panel card = new Panel
                     {
                         Width = Math.Max(360, Width - 54),
-                        Height = 120,
+                        Height = 132,
                         Margin = new Padding(2, 3, 2, 6),
                         BackColor = Color.White,
                         Padding = new Padding(10, 5, 8, 5),
@@ -141,7 +141,7 @@ namespace FoodandBeverage.Forms
                     {
                         Dock = DockStyle.Fill,
                         ColumnCount = 2,
-                        RowCount = 4,
+                        RowCount = 5,
                         Margin = Padding.Empty,
                         Padding = new Padding(7, 0, 0, 0),
                         BackColor = Color.Transparent,
@@ -149,8 +149,9 @@ namespace FoodandBeverage.Forms
                     };
                     details.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 63F));
                     details.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 37F));
-                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
                     details.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
+                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
+                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
                     details.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
                     details.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
@@ -167,9 +168,7 @@ namespace FoodandBeverage.Forms
                     Label payment = new Label
                     {
                         Dock = DockStyle.Fill,
-                        Text = string.Format("{0}   |   Paid: {1:0.00} / {2:0.00}   |   Balance: {3:0.00}",
-                            booking.PaymentStatus, booking.PaidAmount, booking.NetAmount,
-                            Math.Max(0, booking.NetAmount - booking.PaidAmount)),
+                        Text = booking.PaymentStatus,
                         ForeColor = Color.White,
                         BackColor = booking.PaymentStatusColor,
                         Font = new Font("Segoe UI", 8F, FontStyle.Bold),
@@ -216,6 +215,21 @@ namespace FoodandBeverage.Forms
                     details.SetColumnSpan(time, 2);
                     details.Controls.Add(payment, 0, 3);
                     details.SetColumnSpan(payment, 2);
+
+                    Label paymentSummary = new Label
+                    {
+                        Dock = DockStyle.Fill,
+                        Text = string.Format("Paid: {0:0.00}   |   Total: {1:0.00}   |   Balance: {2:0.00}",
+                            booking.PaidAmount, booking.NetAmount,
+                            Math.Max(0, booking.NetAmount - booking.PaidAmount)),
+                        ForeColor = Color.FromArgb(64, 52, 119),
+                        Font = new Font("Segoe UI", 8F, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        AutoEllipsis = true,
+                        Cursor = Cursors.Hand
+                    };
+                    details.Controls.Add(paymentSummary, 0, 4);
+                    details.SetColumnSpan(paymentSummary, 2);
                     card.Controls.Add(details);
                     card.Controls.Add(stripe);
                     EventHandler choose = (s, e) =>
@@ -230,6 +244,7 @@ namespace FoodandBeverage.Forms
                     phone.Click += choose;
                     time.Click += choose;
                     payment.Click += choose;
+                    paymentSummary.Click += choose;
                     card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(239, 234, 255);
                     card.MouseLeave += (s, e) => card.BackColor = Color.White;
                     list.Controls.Add(card);
