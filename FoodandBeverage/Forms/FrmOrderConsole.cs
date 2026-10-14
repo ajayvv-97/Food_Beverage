@@ -250,7 +250,7 @@ namespace FoodandBeverage.Forms
         public int Promodetailsid = 0;
         public int Promomasterid = 0;
 
-        private Timer AutoCloseTimer = new Timer();
+        private System.Windows.Forms.Timer AutoCloseTimer = new System.Windows.Forms.Timer();
 
         private bool isCategoryExpanded = false;
         public Color AddonBGcolor = ColorTranslator.FromHtml("#EBFFEB");
