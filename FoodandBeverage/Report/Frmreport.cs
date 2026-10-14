@@ -64,6 +64,8 @@ namespace FoodandBeverage.Report
                 using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
                 {
                     loader.StartPosition = FormStartPosition.CenterScreen;
+                    loader.TitleText = "Loading report";
+                    loader.StatusText = "Fetching records and preparing report…";
                     _loadingAnimationForm = loader;
                     try
                     {
