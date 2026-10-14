@@ -20,6 +20,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Threading;
 using ZXing;
 using ZXing.Common;
 
@@ -45,6 +46,53 @@ namespace FoodandBeverage.SaleBill
         bool GstBillflag = false;
         ReportDocument reportDocument = new ReportDocument();
         ClsGeneral clsgen = new ClsGeneral();
+        private Thread _loadingAnimationThread;
+        private LoadingGIF_Timer _loadingAnimationForm;
+
+        private void StartLoadingAnimation()
+        {
+            if (_loadingAnimationThread != null && _loadingAnimationThread.IsAlive)
+                return;
+
+            _loadingAnimationThread = new Thread(() =>
+            {
+                using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
+                {
+                    loader.StartPosition = FormStartPosition.CenterScreen;
+                    loader.Shown += (sender, args) => { };
+                    _loadingAnimationForm = loader;
+                    try
+                    {
+                        Application.Run(loader);
+                    }
+                    finally
+                    {
+                        _loadingAnimationForm = null;
+                    }
+                }
+            });
+            _loadingAnimationThread.IsBackground = true;
+            _loadingAnimationThread.SetApartmentState(ApartmentState.STA);
+            _loadingAnimationThread.Start();
+            Thread.Sleep(100);
+        }
+
+        private void StopLoadingAnimation()
+        {
+            LoadingGIF_Timer loader = _loadingAnimationForm;
+            if (loader != null && !loader.IsDisposed)
+            {
+                try { loader.BeginInvoke(new Action(() => loader.Close())); }
+                catch { /* The loader may already be closing. */ }
+            }
+
+            if (_loadingAnimationThread != null && _loadingAnimationThread.IsAlive &&
+                Thread.CurrentThread != _loadingAnimationThread)
+                _loadingAnimationThread.Join(500);
+
+            _loadingAnimationThread = null;
+        }
+
         public FrmSaleInvoice(int masterId,int paytype,int paytid,int BillType )
         {
             SalesMasterId = masterId;
@@ -69,23 +117,21 @@ namespace FoodandBeverage.SaleBill
         int Fdefaultwidth = 0;
         int Fdefaultheight = 0;
         #endregion
-        private async void FrmSaleInvoice_Load(object sender, EventArgs e)
+        private void FrmSaleInvoice_Load(object sender, EventArgs e)
         {
             Fdefaultwidth = this.Width;
             Fdefaultheight = this.Height;
 
-            // Let WinForms paint the loading state before Crystal Reports and data
-            // retrieval begin; keep all existing bill-generation logic unchanged.
             UseWaitCursor = true;
-            Enabled = false;
+            StartLoadingAnimation();
             try
             {
-                await Task.Yield();
-                Refresh();
-
                 textb_shape();
                 MessageCheck();
-                if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill) || BillTypeData == Convert.ToInt32(BillType.BillCopy))
+
+                if (BillTypeData == Convert.ToInt32(BillType.NormalBill) ||
+                    BillTypeData == Convert.ToInt32(BillType.PickupBill) ||
+                    BillTypeData == Convert.ToInt32(BillType.BillCopy))
                 {
                     PrintBill();
                 }
@@ -93,14 +139,13 @@ namespace FoodandBeverage.SaleBill
                 {
                     rb_a4.Visible = true;
                     rb_th.Visible = true;
-
                     rb_th.Checked = true;
                     PrintPartyBill();
                 }
             }
             finally
             {
-                Enabled = true;
+                StopLoadingAnimation();
                 UseWaitCursor = false;
             }
         }
