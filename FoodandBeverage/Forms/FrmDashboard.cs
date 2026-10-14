@@ -1433,6 +1433,8 @@ namespace FoodandBeverage.Forms
 
         private void btnmini_Click(object sender, EventArgs e)
         {
+            // This is the explicit minimize button; navigation/open-form handlers
+            // should not call this method or minimize the dashboard implicitly.
             this.WindowState = FormWindowState.Minimized;
         }
 
@@ -4871,7 +4873,6 @@ namespace FoodandBeverage.Forms
 
         private void btn_elogout_Click(object sender, EventArgs e)
         {
-            this.Opacity = 0;
             this.Close();
 
             if (System.Windows.Forms.Application.OpenForms["FrmLogin"] != null)
