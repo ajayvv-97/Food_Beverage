@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
+using FoodandBeverage.Forms.UserControl;
 
 namespace FoodandBeverage.Report
 {
@@ -49,6 +51,52 @@ namespace FoodandBeverage.Report
         bool FlagColor = false;
 
         ClsGeneral clsgen = new ClsGeneral();
+        private Thread _loadingAnimationThread;
+        private LoadingGIF_Timer _loadingAnimationForm;
+
+        private void StartLoadingAnimation()
+        {
+            if (_loadingAnimationThread != null && _loadingAnimationThread.IsAlive)
+                return;
+
+            _loadingAnimationThread = new Thread(() =>
+            {
+                using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
+                {
+                    loader.StartPosition = FormStartPosition.CenterScreen;
+                    _loadingAnimationForm = loader;
+                    try
+                    {
+                        Application.Run(loader);
+                    }
+                    finally
+                    {
+                        _loadingAnimationForm = null;
+                    }
+                }
+            });
+            _loadingAnimationThread.IsBackground = true;
+            _loadingAnimationThread.SetApartmentState(ApartmentState.STA);
+            _loadingAnimationThread.Start();
+            Thread.Sleep(100);
+        }
+
+        private void StopLoadingAnimation()
+        {
+            LoadingGIF_Timer loader = _loadingAnimationForm;
+            if (loader != null && !loader.IsDisposed)
+            {
+                try { loader.BeginInvoke(new Action(() => loader.Close())); }
+                catch { /* The loader may already be closing. */ }
+            }
+
+            if (_loadingAnimationThread != null && _loadingAnimationThread.IsAlive &&
+                Thread.CurrentThread != _loadingAnimationThread)
+                _loadingAnimationThread.Join(500);
+
+            _loadingAnimationThread = null;
+        }
+
         string Taxtypedata = "";
         string ExclusiveTaxTotal = "";
         string InclusivetaxTotal = "";
@@ -61,17 +109,12 @@ namespace FoodandBeverage.Report
 
         #endregion
 
-        private async void Frmreport_Load(object sender, EventArgs e)
+        private void Frmreport_Load(object sender, EventArgs e)
         {
             UseWaitCursor = true;
-            Enabled = false;
+            StartLoadingAnimation();
             try
             {
-                // Yield once so the embedded report form paints before the
-                // synchronous database/Crystal Reports work starts.
-                await Task.Yield();
-                Refresh();
-
                 Fill_combo_finyear();
                 FetchBillDetails();
                 phno.Text = "Enter Phone No.";
@@ -88,7 +131,6 @@ namespace FoodandBeverage.Report
 
                 tabDateTimePanel.Controls.Add(dtpfrom, 2, 0);
                 tabDateTimePanel.Controls.Add(dtpto, 4, 0);
-
                 tabDateTimePanel.Controls.Add(chk_time, 0, 0);
                 tabDateTimePanel.Controls.Add(label6, 1, 0);
                 tabDateTimePanel.Controls.Add(label5, 3, 0);
@@ -98,14 +140,16 @@ namespace FoodandBeverage.Report
             catch (Exception ex)
             {
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Report page  Frmreport_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
+                clsgen.LogException("Report page Frmreport_Load()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
             finally
             {
-                Enabled = true;
+                StopLoadingAnimation();
                 UseWaitCursor = false;
             }
         }
+
         public void FetchBillDetails()
         {
             try
