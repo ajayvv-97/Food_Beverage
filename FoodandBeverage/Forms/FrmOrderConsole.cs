@@ -19,6 +19,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 namespace FoodandBeverage.Forms
 {
     public partial class FrmOrderConsole : Form
@@ -8204,8 +8205,51 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Order page  ResetFlag()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
             }
         }
+        private Thread _orderConsoleLoadingThread;
+        private LoadingGIF_Timer _orderConsoleLoadingForm;
+
+        private void StartOrderConsoleLoadingAnimation()
+        {
+            if (_orderConsoleLoadingThread != null && _orderConsoleLoadingThread.IsAlive)
+                return;
+
+            _orderConsoleLoadingThread = new Thread(() =>
+            {
+                using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
+                {
+                    loader.StartPosition = FormStartPosition.CenterScreen;
+                    loader.TitleText = "Saving order";
+                    loader.StatusText = "Saving items and sending the kitchen order…";
+                    _orderConsoleLoadingForm = loader;
+                    try { Application.Run(loader); }
+                    finally { _orderConsoleLoadingForm = null; }
+                }
+            });
+            _orderConsoleLoadingThread.IsBackground = true;
+            _orderConsoleLoadingThread.SetApartmentState(ApartmentState.STA);
+            _orderConsoleLoadingThread.Start();
+            Thread.Sleep(100);
+        }
+
+        private void StopOrderConsoleLoadingAnimation()
+        {
+            LoadingGIF_Timer loader = _orderConsoleLoadingForm;
+            if (loader != null && !loader.IsDisposed)
+            {
+                try { loader.BeginInvoke(new Action(() => loader.Close())); }
+                catch { /* The animation may already be closing. */ }
+            }
+
+            if (_orderConsoleLoadingThread != null && _orderConsoleLoadingThread.IsAlive &&
+                Thread.CurrentThread != _orderConsoleLoadingThread)
+                _orderConsoleLoadingThread.Join(500);
+
+            _orderConsoleLoadingThread = null;
+        }
+
         private void btn_saveKOT_Click(object sender, EventArgs e)
         {
+            StartOrderConsoleLoadingAnimation();
             try
             {
                 //using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(204, payid, 0, Convert.ToInt32(BillType.NormalBill)))
@@ -8499,6 +8543,10 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 clsgen.LogException("Order page  btn_saveKOT_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+            finally
+            {
+                StopOrderConsoleLoadingAnimation();
             }
         }
 
