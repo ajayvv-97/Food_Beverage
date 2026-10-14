@@ -204,6 +204,7 @@ namespace FoodandBeverage
         private int _calendarBookingId;
         private DateTime? _calendarBookingStart;
         private DateTime? _calendarBookingEnd;
+        private Label lbl_selectdate;
         decimal originalGrandTotal = 0, originalTotalTax = 0;
 
         private int PaymentSettleStatusData = 0;
@@ -326,6 +327,7 @@ namespace FoodandBeverage
             _calendarBookingStart = startDateTime;
             _calendarBookingEnd = endDateTime < startDateTime ? startDateTime : endDateTime;
             ApplyCalendarDateTimeInterval();
+            UpdateSelectedDateLabel();
         }
 
         public void LoadBookingFromCalendar(int bookingId)
@@ -335,6 +337,48 @@ namespace FoodandBeverage
 
             _calendarBookingId = bookingId;
             LoadBookingById(bookingId);
+        }
+
+        private void EnsureSelectedDateLabel()
+        {
+            if (lbl_selectdate != null && !lbl_selectdate.IsDisposed)
+                return;
+
+            lbl_selectdate = new Label
+            {
+                Name = "lbl_selectdate",
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(66, 52, 125),
+                BackColor = Color.Transparent,
+                Height = 35,
+                Width = 560,
+                Padding = new Padding(8, 0, 4, 0),
+                Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top
+            };
+
+            Control parent = btndateslect.Parent;
+            if (parent != null)
+            {
+                parent.Controls.Add(lbl_selectdate);
+                lbl_selectdate.Location = new Point(btndateslect.Right + 10, btndateslect.Top);
+                lbl_selectdate.BringToFront();
+            }
+        }
+
+        private void UpdateSelectedDateLabel()
+        {
+            EnsureSelectedDateLabel();
+
+            DateTime fromDate = dtpEventDate_From.Value.Date;
+            DateTime fromTime = dtpEventTime_From.Value;
+            DateTime toDate = dtpEventDate_To.Value.Date;
+            DateTime toTime = dtpEventTime_To.Value;
+
+            lbl_selectdate.Text =
+                "From: " + fromDate.ToString("dd MMM yyyy") + " " + fromTime.ToString("hh:mm tt") +
+                "    |    To: " + toDate.ToString("dd MMM yyyy") + " " + toTime.ToString("hh:mm tt");
         }
 
         private void ApplyCalendarDateTimeInterval()
@@ -411,6 +455,7 @@ namespace FoodandBeverage
                     btncard.Visible = false;
                 }
                 LoadEventItems();
+                EnsureSelectedDateLabel();
 
                 if (_calendarBookingId > 0)
                 {
@@ -420,6 +465,8 @@ namespace FoodandBeverage
                 {
                     ApplyCalendarDateTimeInterval();
                 }
+
+                UpdateSelectedDateLabel();
             }
             catch (Exception ex)
             {
@@ -5433,6 +5480,7 @@ namespace FoodandBeverage
                         _calendarBookingEnd = result.BookingDateTime;
 
                     ApplyCalendarDateTimeInterval();
+                    UpdateSelectedDateLabel();
                 }
 
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
@@ -9160,8 +9208,17 @@ namespace FoodandBeverage
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowInTaskbar = false;
-                if (frm.ShowDialog(this) == DialogResult.OK && frm.SelectedBookingId > 0)
-                    LoadBookingFromCalendar(frm.SelectedBookingId);
+                if (frm.ShowDialog(this) == DialogResult.OK)
+                {
+                    if (frm.SelectedBookingId > 0)
+                    {
+                        LoadBookingFromCalendar(frm.SelectedBookingId);
+                    }
+                    else
+                    {
+                        UpdateSelectedDateLabel();
+                    }
+                }
             }
         }
 
