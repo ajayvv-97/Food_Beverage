@@ -274,6 +274,8 @@ namespace FoodandBeverage.Forms
                 using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
                 {
                     loader.StartPosition = FormStartPosition.CenterScreen;
+                    loader.TitleText = "Loading dashboard";
+                    loader.StatusText = "Preparing POS workspace…";
                     loadingForm = loader;
                     Application.Run(loader);
                 }
@@ -2779,21 +2781,13 @@ namespace FoodandBeverage.Forms
 
         private void AdjustButtonsToPanel()
         {
-            if (panelDesktop == null || panelDesktop.ClientSize.Width <= 0 || panelDesktop.ClientSize.Height <= 0)
-                return;
-
-            int panelWidth = panelDesktop.ClientSize.Width;
-            int panelHeight = panelDesktop.ClientSize.Height;
-            // The visible desktop area includes a sidebar. Use the actual client width,
-            // not the primary screen width, to choose the menu grid.
-            int columns = panelWidth >= 1050 ? 3 : panelWidth >= 650 ? 2 : 1;
-            int marginX = panelWidth >= 1050 ? 12 : 8;
-            int marginY = panelHeight >= 700 ? 10 : 6;
-            int availableWidth = panelWidth - 12 - (marginX * 2 * columns)
-                - SystemInformation.VerticalScrollBarWidth;
-            int buttonWidth = Math.Max(120, availableWidth / columns);
-            int buttonHeight = Math.Max(58, Math.Min(95, (int)(Menuhome.Height * 0.92)));
-            int fontSize = panelWidth < 650 ? 10 : 12;
+            // Keep menu buttons at a consistent, comfortable size on POS terminals,
+            // laptops and desktops. Do not stretch buttons to fill the entire screen.
+            const int buttonWidth = 210;
+            const int buttonHeight = 62;
+            const int marginX = 8;
+            const int marginY = 8;
+            const int fontSize = 12;
 
             ResizeButtonsInFlow(flp_empbuttons, buttonWidth, buttonHeight, marginX, marginY, fontSize);
             ResizeButtonsInFlow(flp_operabuttons, buttonWidth, buttonHeight, marginX, marginY, fontSize);
@@ -2816,13 +2810,13 @@ namespace FoodandBeverage.Forms
             {
                 if (ctrl is Button btn)
                 {
-                    btn.Width = width;
-                    btn.Height = height;
+                    btn.Size = new Size(width, height);
                     btn.Margin = new Padding(marginX, marginY, marginX, marginY);
                     btn.Font = AppFonts.GetFont(fontSize);
                     btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 }
             }
+
             flow.ResumeLayout(true);
         }
 
