@@ -59,7 +59,8 @@ namespace FoodandBeverage.SaleBill
                 using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
                 {
                     loader.StartPosition = FormStartPosition.CenterScreen;
-                    loader.Shown += (sender, args) => { };
+                    loader.TitleText = "Generating bill";
+                    loader.StatusText = "Preparing invoice and bill details…";
                     _loadingAnimationForm = loader;
                     try
                     {
