@@ -66,7 +66,7 @@ namespace FoodandBeverage.Forms
                 MaximizeBox = false;
                 BackColor = Color.FromArgb(246, 244, 253);
                 Font = new Font("Segoe UI", 9F);
-                Screen ownerScreen = ownerScreen = Screen.FromControl(Owner ?? this);
+                Screen ownerScreen = Screen.FromControl(this);
                 Rectangle workingArea = ownerScreen.WorkingArea;
                 int availableWidth = Math.Max(420, workingArea.Width - 40);
                 int availableHeight = Math.Max(300, workingArea.Height - 40);
@@ -92,12 +92,6 @@ namespace FoodandBeverage.Forms
                 };
                 header.Controls.Add(title);
 
-                Resize += (sender, args) =>
-                {
-                    foreach (Control control in list.Controls)
-                        control.Width = Math.Max(300, list.ClientSize.Width - list.Padding.Horizontal - 8);
-                };
-
                 Label hint = new Label
                 {
                     Dock = DockStyle.Top,
@@ -117,6 +111,12 @@ namespace FoodandBeverage.Forms
                     AutoScroll = true,
                     Padding = new Padding(10, 6, 10, 10),
                     BackColor = Color.FromArgb(246, 244, 253)
+                };
+
+                Resize += (sender, args) =>
+                {
+                    foreach (Control control in list.Controls)
+                        control.Width = Math.Max(300, list.ClientSize.Width - list.Padding.Horizontal - 8);
                 };
 
                 foreach (PartyBookingEvent booking in items.OrderBy(x => x.Start))
