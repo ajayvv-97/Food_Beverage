@@ -20,6 +20,136 @@ namespace FoodandBeverage.Forms
             public string EventName { get; set; }
         }
 
+        private sealed class BookingChoiceDialog : Form
+        {
+            public PartyBookingEvent SelectedBooking { get; private set; }
+
+            public BookingChoiceDialog(DateTime date, IList<PartyBookingEvent> items, Color accentColor)
+            {
+                Text = "Bookings";
+                StartPosition = FormStartPosition.CenterParent;
+                FormBorderStyle = FormBorderStyle.FixedDialog;
+                ShowInTaskbar = false;
+                MinimizeBox = false;
+                MaximizeBox = false;
+                BackColor = Color.FromArgb(246, 244, 253);
+                Font = new Font("Segoe UI", 9F);
+                Width = 420;
+                Height = Math.Min(620, Math.Max(240, 150 + items.Count * 68));
+
+                Panel header = new Panel
+                {
+                    Dock = DockStyle.Top,
+                    Height = 58,
+                    BackColor = accentColor,
+                    Padding = new Padding(18, 0, 12, 0)
+                };
+                Label title = new Label
+                {
+                    Dock = DockStyle.Fill,
+                    Text = "Bookings · " + date.ToString("ddd, dd MMM yyyy"),
+                    ForeColor = Color.White,
+                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
+                header.Controls.Add(title);
+
+                Label hint = new Label
+                {
+                    Dock = DockStyle.Top,
+                    Height = 34,
+                    Text = "Select a booking to use its date and time.",
+                    ForeColor = Color.FromArgb(91, 85, 122),
+                    Font = new Font("Segoe UI", 9F),
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Padding = new Padding(4, 0, 0, 0)
+                };
+
+                FlowLayoutPanel list = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    FlowDirection = FlowDirection.TopDown,
+                    WrapContents = false,
+                    AutoScroll = true,
+                    Padding = new Padding(10, 6, 10, 10),
+                    BackColor = Color.FromArgb(246, 244, 253)
+                };
+
+                foreach (PartyBookingEvent booking in items.OrderBy(x => x.Start))
+                {
+                    Panel card = new Panel
+                    {
+                        Width = 365,
+                        Height = 58,
+                        Margin = new Padding(2, 2, 2, 7),
+                        BackColor = Color.White,
+                        Padding = new Padding(12, 5, 8, 5),
+                        Cursor = Cursors.Hand,
+                        Tag = booking
+                    };
+                    Panel stripe = new Panel
+                    {
+                        Dock = DockStyle.Left,
+                        Width = 5,
+                        BackColor = accentColor
+                    };
+                    Label eventName = new Label
+                    {
+                        Dock = DockStyle.Top,
+                        Height = 24,
+                        Text = booking.EventName,
+                        ForeColor = Color.FromArgb(38, 35, 73),
+                        Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                        AutoEllipsis = true,
+                        Cursor = Cursors.Hand
+                    };
+                    Label time = new Label
+                    {
+                        Dock = DockStyle.Fill,
+                        Text = booking.Start.ToString("hh:mm tt") +
+                               (booking.End > booking.Start ? "  –  " + booking.End.ToString("hh:mm tt") : ""),
+                        ForeColor = Color.FromArgb(99, 92, 130),
+                        Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
+                        Cursor = Cursors.Hand
+                    };
+                    card.Controls.Add(time);
+                    card.Controls.Add(eventName);
+                    card.Controls.Add(stripe);
+                    EventHandler choose = (s, e) =>
+                    {
+                        SelectedBooking = booking;
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    };
+                    card.Click += choose;
+                    eventName.Click += choose;
+                    time.Click += choose;
+                    card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(239, 234, 255);
+                    card.MouseLeave += (s, e) => card.BackColor = Color.White;
+                    list.Controls.Add(card);
+                }
+
+                Button closeButton = new Button
+                {
+                    Dock = DockStyle.Bottom,
+                    Height = 40,
+                    Text = "Close",
+                    BackColor = Color.FromArgb(235, 231, 249),
+                    ForeColor = Color.FromArgb(64, 52, 119),
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                    DialogResult = DialogResult.Cancel
+                };
+                closeButton.FlatAppearance.BorderSize = 0;
+                Controls.Add(list);
+                Controls.Add(closeButton);
+                Controls.Add(hint);
+                Controls.Add(header);
+                AcceptButton = null;
+                CancelButton = closeButton;
+            }
+        }
+
         private readonly Color accent = Color.FromArgb(101, 80, 185);
         private readonly Color border = Color.FromArgb(224, 220, 241);
         private readonly Color textColor = Color.FromArgb(38, 35, 73);
@@ -716,17 +846,22 @@ namespace FoodandBeverage.Forms
 
             if (!expanded && dayBookings.Count > maxVisible)
             {
-                eventList.Controls.Add(new Label
+                Label moreBookings = new Label
                 {
                     Text = "+" + (dayBookings.Count - maxVisible) + " more booking(s)",
                     AutoSize = false,
-                    Height = 18,
+                    Height = 20,
                     Width = Math.Max(60, pnl_calender.ClientSize.Width / 7 - 14),
                     ForeColor = accent,
                     Font = MoreBookingsFont,
                     TextAlign = ContentAlignment.MiddleLeft,
-                    Margin = new Padding(1)
-                });
+                    Margin = new Padding(1),
+                    Cursor = Cursors.Hand
+                };
+                moreBookings.Click += (s, e) => ShowBookingsForDate(date, dayBookings);
+                moreBookings.MouseEnter += (s, e) => moreBookings.ForeColor = Color.FromArgb(132, 76, 220);
+                moreBookings.MouseLeave += (s, e) => moreBookings.ForeColor = accent;
+                eventList.Controls.Add(moreBookings);
             }
 
             cell.Cursor = Cursors.Hand;
@@ -750,11 +885,22 @@ namespace FoodandBeverage.Forms
                 Tag = item
             };
 
+            TableLayoutPanel cardContent = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                Margin = Padding.Empty,
+                Padding = Padding.Empty,
+                BackColor = Color.Transparent
+            };
+            cardContent.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            cardContent.RowStyles.Add(new RowStyle(SizeType.Absolute, expanded ? 21F : 17F));
+            cardContent.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             Label name = new Label
             {
                 Text = item.EventName,
-                Dock = DockStyle.Top,
-                Height = expanded ? 21 : 17,
+                Dock = DockStyle.Fill,
                 AutoEllipsis = true,
                 ForeColor = Color.FromArgb(45, 42, 75),
                 Font = expanded ? EventNameFont : EventNameCompactFont,
@@ -771,8 +917,9 @@ namespace FoodandBeverage.Forms
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = Padding.Empty
             };
-            card.Controls.Add(time);
-            card.Controls.Add(name);
+            cardContent.Controls.Add(name, 0, 0);
+            cardContent.Controls.Add(time, 0, 1);
+            card.Controls.Add(cardContent);
             card.Paint += (s, e) =>
             {
                 using (SolidBrush stripe = new SolidBrush(baseColor))
@@ -790,11 +937,29 @@ namespace FoodandBeverage.Forms
             dtp_book_todate.Value = date.Date;
         }
 
+        private void ShowBookingsForDate(DateTime date, IList<PartyBookingEvent> items)
+        {
+            using (BookingChoiceDialog dialog = new BookingChoiceDialog(date, items, accent))
+            {
+                if (dialog.ShowDialog(this) != DialogResult.OK || dialog.SelectedBooking == null)
+                    return;
+
+                PartyBookingEvent selected = dialog.SelectedBooking;
+                dtp_book_fromdate.Value = selected.Start.Date;
+                dtp_book_fromtime.Value = DateTime.Today.Add(selected.Start.TimeOfDay);
+                dtp_book_todate.Value = selected.End.Date;
+                dtp_book_totime.Value = DateTime.Today.Add(selected.End.TimeOfDay);
+
+                // This popup intentionally selects the booking interval only.
+                // Existing booking detail/edit/cancel workflow can be connected later.
+            }
+        }
+
         private void ShowBookingDetails(PartyBookingEvent item)
         {
-            MessageBox.Show(item.EventName + "\r\nFrom: " + item.Start.ToString("dd/MM/yyyy hh:mm tt") +
-                            "\r\nTo: " + item.End.ToString("dd/MM/yyyy hh:mm tt"),
-                "Party Booking", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowBookingsForDate(item.Start.Date, bookings
+                .Where(b => b.Start.Date == item.Start.Date)
+                .ToList());
         }
 
         private Color GetEventColor(string eventName)
