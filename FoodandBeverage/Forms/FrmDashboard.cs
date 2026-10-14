@@ -254,18 +254,19 @@ namespace FoodandBeverage.Forms
                 Text = "Food & Beverage POS"
             };
 
-            // Subscribe ONCE using alias NS
             NS.OnNotify += ShowDashboardNotification;
-
-
             UIHelper.RoundControl(pbusericon, 20);
-            ProfilPIC_update();
             originalMenuWidth = flp_sidemenu.Width;
-            //lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
-            lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " + Convert.ToString(FrmLogin.Designation)+"    ";
+            lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " +
+                Convert.ToString(FrmLogin.Designation) + "    ";
             AdjustButtonsToPanel();
-            // Keep the dashboard visible while a separate STA UI thread animates
-            // the existing loading form during synchronous startup data/report work.
+
+            // The main form starts at Opacity=0 in the designer. Paint it before
+            // doing any synchronous startup loading so the screen never looks minimized.
+            Opacity = 1.0;
+            WindowState = FormWindowState.Maximized;
+            await Task.Yield();
+
             Thread startupLoaderThread = new Thread(() =>
             {
                 using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
@@ -286,8 +287,7 @@ namespace FoodandBeverage.Forms
             }
             finally
             {
-                // The designer starts this form transparent; always restore it after startup.
-                this.Opacity = 1.0;
+                Opacity = 1.0;
                 if (WindowState == FormWindowState.Minimized)
                     WindowState = FormWindowState.Maximized;
 
@@ -296,12 +296,13 @@ namespace FoodandBeverage.Forms
                     try { loadingForm.BeginInvoke(new Action(() => loadingForm.Close())); }
                     catch { /* Loader may already be closing. */ }
                 }
+
                 if (startupLoaderThread.IsAlive)
                     startupLoaderThread.Join(500);
                 loadingForm = null;
             }
-            StyleReportMenu();
 
+            StyleReportMenu();
             virtualkeyboardCheck();
         }
         private void LoadMainForm()
@@ -2781,12 +2782,13 @@ namespace FoodandBeverage.Forms
 
             int panelWidth = panelDesktop.ClientSize.Width;
             int panelHeight = panelDesktop.ClientSize.Height;
-            int columns = panelWidth >= 1050 ? 3 : (panelWidth >= 650 ? 2 : 1);
+            // The visible desktop area includes a sidebar. Use the actual client width,
+            // not the primary screen width, to choose the menu grid.
+            int columns = panelWidth >= 1050 ? 3 : panelWidth >= 650 ? 2 : 1;
             int marginX = panelWidth >= 1050 ? 12 : 8;
             int marginY = panelHeight >= 700 ? 10 : 6;
-            int horizontalPadding = 8;
-            int availableWidth = panelWidth - horizontalPadding
-                - SystemInformation.VerticalScrollBarWidth - (marginX * 2 * columns);
+            int availableWidth = panelWidth - 12 - (marginX * 2 * columns)
+                - SystemInformation.VerticalScrollBarWidth;
             int buttonWidth = Math.Max(120, availableWidth / columns);
             int buttonHeight = Math.Max(58, Math.Min(95, (int)(Menuhome.Height * 0.92)));
             int fontSize = panelWidth < 650 ? 10 : 12;
