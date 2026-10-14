@@ -286,6 +286,11 @@ namespace FoodandBeverage.Forms
             }
             finally
             {
+                // The designer starts this form transparent; always restore it after startup.
+                this.Opacity = 1.0;
+                if (WindowState == FormWindowState.Minimized)
+                    WindowState = FormWindowState.Maximized;
+
                 if (loadingForm != null && !loadingForm.IsDisposed)
                 {
                     try { loadingForm.BeginInvoke(new Action(() => loadingForm.Close())); }
