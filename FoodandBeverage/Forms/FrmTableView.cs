@@ -53,6 +53,47 @@ namespace FoodandBeverage.Forms
         private bool isRefreshingTableStatus;
         private bool isApplyingTableUI;
         private bool isTableViewClosing;
+        private Thread _loadingAnimationThread;
+        private LoadingGIF_Timer _loadingAnimationForm;
+
+        private void StartLoadingAnimation()
+        {
+            if (_loadingAnimationThread != null && _loadingAnimationThread.IsAlive)
+                return;
+
+            _loadingAnimationThread = new Thread(() =>
+            {
+                using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
+                {
+                    loader.StartPosition = FormStartPosition.CenterScreen;
+                    loader.TitleText = "Opening tables";
+                    loader.StatusText = "Loading table status and orders…";
+                    _loadingAnimationForm = loader;
+                    try { Application.Run(loader); }
+                    finally { _loadingAnimationForm = null; }
+                }
+            });
+            _loadingAnimationThread.IsBackground = true;
+            _loadingAnimationThread.SetApartmentState(ApartmentState.STA);
+            _loadingAnimationThread.Start();
+            Thread.Sleep(100);
+        }
+
+        private void StopLoadingAnimation()
+        {
+            LoadingGIF_Timer loader = _loadingAnimationForm;
+            if (loader != null && !loader.IsDisposed)
+            {
+                try { loader.BeginInvoke(new Action(() => loader.Close())); }
+                catch { /* Loader may already be closing. */ }
+            }
+
+            if (_loadingAnimationThread != null && _loadingAnimationThread.IsAlive &&
+                Thread.CurrentThread != _loadingAnimationThread)
+                _loadingAnimationThread.Join(500);
+
+            _loadingAnimationThread = null;
+        }
 
         #endregion
 
@@ -83,12 +124,20 @@ namespace FoodandBeverage.Forms
 
         private void FrmTableView_Load(object sender, EventArgs e)
         {
-            pageSize = Pagecount;
-            if (FrmDashboard.AutoLogoutWhenIdle)
+            StartLoadingAnimation();
+            try
             {
-                //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+                pageSize = Pagecount;
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    //AppSession.RegisterForm(this, (int)LogoutFormList.Home);
+                }
+                LoadTableStatus(tabletype);
             }
-            LoadTableStatus(tabletype);
+            finally
+            {
+                StopLoadingAnimation();
+            }
         }
 
         #region Modern Table View
