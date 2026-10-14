@@ -69,24 +69,39 @@ namespace FoodandBeverage.SaleBill
         int Fdefaultwidth = 0;
         int Fdefaultheight = 0;
         #endregion
-        private void FrmSaleInvoice_Load(object sender, EventArgs e)
+        private async void FrmSaleInvoice_Load(object sender, EventArgs e)
         {
             Fdefaultwidth = this.Width;
             Fdefaultheight = this.Height;
 
-            textb_shape();
-            MessageCheck();
-            if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill) || BillTypeData == Convert.ToInt32(BillType.BillCopy))//
+            // Let WinForms paint the loading state before Crystal Reports and data
+            // retrieval begin; keep all existing bill-generation logic unchanged.
+            UseWaitCursor = true;
+            Enabled = false;
+            try
             {
-                PrintBill();
-            }
-            else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
-            {
-                rb_a4.Visible = true;
-                rb_th.Visible = true;
+                await Task.Yield();
+                Refresh();
 
-                rb_th.Checked = true;
-                PrintPartyBill();
+                textb_shape();
+                MessageCheck();
+                if (BillTypeData == Convert.ToInt32(BillType.NormalBill) || BillTypeData == Convert.ToInt32(BillType.PickupBill) || BillTypeData == Convert.ToInt32(BillType.BillCopy))
+                {
+                    PrintBill();
+                }
+                else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
+                {
+                    rb_a4.Visible = true;
+                    rb_th.Visible = true;
+
+                    rb_th.Checked = true;
+                    PrintPartyBill();
+                }
+            }
+            finally
+            {
+                Enabled = true;
+                UseWaitCursor = false;
             }
         }
 
