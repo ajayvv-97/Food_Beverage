@@ -65,7 +65,7 @@ namespace FoodandBeverage.Forms
                 BackColor = Color.FromArgb(246, 244, 253);
                 Font = new Font("Segoe UI", 9F);
                 Width = 490;
-                Height = Math.Min(720, Math.Max(270, 155 + items.Count * 104));
+                Height = Math.Min(720, Math.Max(270, 155 + items.Count * 116));
 
                 Panel header = new Panel
                 {
@@ -110,7 +110,7 @@ namespace FoodandBeverage.Forms
                     Panel card = new Panel
                     {
                         Width = 430,
-                        Height = 92,
+                        Height = 104,
                         Margin = new Padding(2, 3, 2, 6),
                         BackColor = Color.White,
                         Padding = new Padding(10, 5, 8, 5),
@@ -127,7 +127,7 @@ namespace FoodandBeverage.Forms
                     {
                         Dock = DockStyle.Fill,
                         ColumnCount = 2,
-                        RowCount = 3,
+                        RowCount = 4,
                         Margin = Padding.Empty,
                         Padding = new Padding(7, 0, 0, 0),
                         BackColor = Color.Transparent,
@@ -135,8 +135,9 @@ namespace FoodandBeverage.Forms
                     };
                     details.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 63F));
                     details.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 37F));
-                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
-                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
+                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
+                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
                     details.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
                     Label eventName = new Label
@@ -155,10 +156,11 @@ namespace FoodandBeverage.Forms
                         Text = booking.PaymentStatus,
                         ForeColor = Color.White,
                         BackColor = booking.PaymentStatusColor,
-                        Font = new Font("Segoe UI", 7.5F, FontStyle.Bold),
-                        TextAlign = ContentAlignment.MiddleCenter,
+                        Font = new Font("Segoe UI", 8F, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleLeft,
                         AutoEllipsis = true,
-                        Margin = new Padding(2, 3, 0, 3),
+                        Padding = new Padding(7, 0, 3, 0),
+                        Margin = new Padding(0, 2, 0, 1),
                         Cursor = Cursors.Hand
                     };
                     Label customer = new Label
@@ -191,11 +193,13 @@ namespace FoodandBeverage.Forms
                         Cursor = Cursors.Hand
                     };
                     details.Controls.Add(eventName, 0, 0);
-                    details.Controls.Add(payment, 1, 0);
+                    details.SetColumnSpan(eventName, 2);
                     details.Controls.Add(customer, 0, 1);
                     details.Controls.Add(phone, 1, 1);
                     details.Controls.Add(time, 0, 2);
                     details.SetColumnSpan(time, 2);
+                    details.Controls.Add(payment, 0, 3);
+                    details.SetColumnSpan(payment, 2);
                     card.Controls.Add(details);
                     card.Controls.Add(stripe);
                     EventHandler choose = (s, e) =>
@@ -601,7 +605,7 @@ namespace FoodandBeverage.Forms
 
             using (FoodandBeverage.FrmPartyBooking bookingForm = new FoodandBeverage.FrmPartyBooking())
             {
-                bookingForm.SetCalendarBookingStart(from);
+                bookingForm.SetCalendarBookingInterval(from, to);
                 bookingForm.ShowDialog(this);
             }
 
