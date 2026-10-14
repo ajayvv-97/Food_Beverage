@@ -47,6 +47,7 @@ namespace FoodandBeverage.Forms
             this.dtp_book_fromdate = new System.Windows.Forms.DateTimePicker();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.dtp_totime = new System.Windows.Forms.DateTimePicker();
@@ -56,35 +57,34 @@ namespace FoodandBeverage.Forms
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.dtp_fromdate = new System.Windows.Forms.DateTimePicker();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_month = new System.Windows.Forms.Button();
-            this.lbl_calenderinfo = new System.Windows.Forms.Label();
-            this.flp_indicators = new System.Windows.Forms.FlowLayoutPanel();
-            this.pnl_calender = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btn_search = new System.Windows.Forms.Button();
             this.btnclear = new System.Windows.Forms.Button();
+            this.dtp_fromdate = new System.Windows.Forms.DateTimePicker();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_prev = new System.Windows.Forms.Button();
+            this.btn_month = new System.Windows.Forms.Button();
             this.btn_week = new System.Windows.Forms.Button();
             this.btn_next = new System.Windows.Forms.Button();
+            this.lbl_calenderinfo = new System.Windows.Forms.Label();
             this.btn_today = new System.Windows.Forms.Button();
             this.btn_day = new System.Windows.Forms.Button();
+            this.flp_indicators = new System.Windows.Forms.FlowLayoutPanel();
+            this.pnl_calender = new System.Windows.Forms.Panel();
             this.tlp_main.SuspendLayout();
             this.tlp_navbar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            this.tableLayoutPanel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tableLayoutPanel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -340,6 +340,17 @@ namespace FoodandBeverage.Forms
             this.label2.Text = "New Party Booking  (select Date && Time)";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_New_Booking;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(29, 11);
+            this.pictureBox1.TabIndex = 15;
+            this.pictureBox1.TabStop = false;
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
@@ -461,6 +472,38 @@ namespace FoodandBeverage.Forms
             this.label7.Text = "Time";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // btn_search
+            // 
+            this.btn_search.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_Apply_Filter;
+            this.btn_search.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_search.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_search.FlatAppearance.BorderSize = 0;
+            this.btn_search.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_search.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_search.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_search.Location = new System.Drawing.Point(356, 3);
+            this.btn_search.Name = "btn_search";
+            this.btn_search.Size = new System.Drawing.Size(85, 26);
+            this.btn_search.TabIndex = 19;
+            this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
+            // 
+            // btnclear
+            // 
+            this.btnclear.BackgroundImage = global::FoodandBeverage.Properties.Resources.party_clear;
+            this.btnclear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnclear.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnclear.FlatAppearance.BorderSize = 0;
+            this.btnclear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnclear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnclear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnclear.Location = new System.Drawing.Point(356, 35);
+            this.btnclear.Name = "btnclear";
+            this.btnclear.Size = new System.Drawing.Size(85, 28);
+            this.btnclear.TabIndex = 20;
+            this.btnclear.UseVisualStyleBackColor = true;
+            this.btnclear.Click += new System.EventHandler(this.btnclear_Click);
+            // 
             // dtp_fromdate
             // 
             this.dtp_fromdate.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -484,6 +527,17 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(444, 16);
             this.tableLayoutPanel5.TabIndex = 1;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_Filter;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(64, 10);
+            this.pictureBox2.TabIndex = 16;
+            this.pictureBox2.TabStop = false;
             // 
             // label1
             // 
@@ -526,6 +580,22 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel8.Size = new System.Drawing.Size(864, 46);
             this.tableLayoutPanel8.TabIndex = 20;
             // 
+            // btn_prev
+            // 
+            this.btn_prev.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_Previous_Month;
+            this.btn_prev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_prev.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_prev.FlatAppearance.BorderSize = 0;
+            this.btn_prev.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_prev.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_prev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_prev.Location = new System.Drawing.Point(3, 3);
+            this.btn_prev.Name = "btn_prev";
+            this.btn_prev.Size = new System.Drawing.Size(47, 40);
+            this.btn_prev.TabIndex = 0;
+            this.btn_prev.UseVisualStyleBackColor = true;
+            this.btn_prev.Click += new System.EventHandler(this.btn_prev_Click);
+            // 
             // btn_month
             // 
             this.btn_month.BackColor = System.Drawing.Color.Transparent;
@@ -542,105 +612,6 @@ namespace FoodandBeverage.Forms
             this.btn_month.TabIndex = 16;
             this.btn_month.UseVisualStyleBackColor = false;
             this.btn_month.Click += new System.EventHandler(this.btn_month_Click);
-            // 
-            // lbl_calenderinfo
-            // 
-            this.lbl_calenderinfo.AutoSize = true;
-            this.lbl_calenderinfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbl_calenderinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_calenderinfo.ForeColor = System.Drawing.Color.Black;
-            this.lbl_calenderinfo.Location = new System.Drawing.Point(56, 0);
-            this.lbl_calenderinfo.Name = "lbl_calenderinfo";
-            this.lbl_calenderinfo.Size = new System.Drawing.Size(65, 46);
-            this.lbl_calenderinfo.TabIndex = 15;
-            this.lbl_calenderinfo.Text = "otc 2020";
-            this.lbl_calenderinfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // flp_indicators
-            // 
-            this.flp_indicators.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flp_indicators.Location = new System.Drawing.Point(638, 3);
-            this.flp_indicators.Name = "flp_indicators";
-            this.flp_indicators.Size = new System.Drawing.Size(223, 40);
-            this.flp_indicators.TabIndex = 21;
-            // 
-            // pnl_calender
-            // 
-            this.pnl_calender.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_calender.Location = new System.Drawing.Point(8, 206);
-            this.pnl_calender.Name = "pnl_calender";
-            this.pnl_calender.Size = new System.Drawing.Size(864, 396);
-            this.pnl_calender.TabIndex = 21;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_New_Booking;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(29, 11);
-            this.pictureBox1.TabIndex = 15;
-            this.pictureBox1.TabStop = false;
-            // 
-            // btn_search
-            // 
-            this.btn_search.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_Apply_Filter;
-            this.btn_search.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_search.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_search.FlatAppearance.BorderSize = 0;
-            this.btn_search.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_search.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_search.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_search.Location = new System.Drawing.Point(356, 3);
-            this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(85, 26);
-            this.btn_search.TabIndex = 19;
-            this.btn_search.UseVisualStyleBackColor = true;
-            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
-            // 
-            // btnclear
-            // 
-            this.btnclear.BackgroundImage = global::FoodandBeverage.Properties.Resources.party_clear;
-            this.btnclear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnclear.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnclear.FlatAppearance.BorderSize = 0;
-            this.btnclear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnclear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnclear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnclear.Location = new System.Drawing.Point(356, 35);
-            this.btnclear.Name = "btnclear";
-            this.btnclear.Size = new System.Drawing.Size(85, 28);
-            this.btnclear.TabIndex = 20;
-            this.btnclear.UseVisualStyleBackColor = true;
-            this.btnclear.Click += new System.EventHandler(this.btnclear_Click);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_Filter;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 10);
-            this.pictureBox2.TabIndex = 16;
-            this.pictureBox2.TabStop = false;
-            // 
-            // btn_prev
-            // 
-            this.btn_prev.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_Previous_Month;
-            this.btn_prev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_prev.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_prev.FlatAppearance.BorderSize = 0;
-            this.btn_prev.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_prev.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_prev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_prev.Location = new System.Drawing.Point(3, 3);
-            this.btn_prev.Name = "btn_prev";
-            this.btn_prev.Size = new System.Drawing.Size(47, 40);
-            this.btn_prev.TabIndex = 0;
-            this.btn_prev.UseVisualStyleBackColor = true;
-            this.btn_prev.Click += new System.EventHandler(this.btn_prev_Click);
             // 
             // btn_week
             // 
@@ -675,6 +646,19 @@ namespace FoodandBeverage.Forms
             this.btn_next.UseVisualStyleBackColor = true;
             this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
             // 
+            // lbl_calenderinfo
+            // 
+            this.lbl_calenderinfo.AutoSize = true;
+            this.lbl_calenderinfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbl_calenderinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_calenderinfo.ForeColor = System.Drawing.Color.Black;
+            this.lbl_calenderinfo.Location = new System.Drawing.Point(56, 0);
+            this.lbl_calenderinfo.Name = "lbl_calenderinfo";
+            this.lbl_calenderinfo.Size = new System.Drawing.Size(65, 46);
+            this.lbl_calenderinfo.TabIndex = 15;
+            this.lbl_calenderinfo.Text = "otc 2020";
+            this.lbl_calenderinfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // btn_today
             // 
             this.btn_today.BackgroundImage = global::FoodandBeverage.Properties.Resources.Party_Today;
@@ -707,6 +691,22 @@ namespace FoodandBeverage.Forms
             this.btn_day.UseVisualStyleBackColor = true;
             this.btn_day.Click += new System.EventHandler(this.btn_day_Click);
             // 
+            // flp_indicators
+            // 
+            this.flp_indicators.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flp_indicators.Location = new System.Drawing.Point(638, 3);
+            this.flp_indicators.Name = "flp_indicators";
+            this.flp_indicators.Size = new System.Drawing.Size(223, 40);
+            this.flp_indicators.TabIndex = 21;
+            // 
+            // pnl_calender
+            // 
+            this.pnl_calender.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnl_calender.Location = new System.Drawing.Point(8, 206);
+            this.pnl_calender.Name = "pnl_calender";
+            this.pnl_calender.Size = new System.Drawing.Size(864, 396);
+            this.pnl_calender.TabIndex = 21;
+            // 
             // FrmPartyBookingCalendar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -727,15 +727,15 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel6.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }

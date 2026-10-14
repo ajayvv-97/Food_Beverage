@@ -314,18 +314,12 @@ namespace FoodandBeverage
             txtitemcode_serach.Leave += PartyMenuSearchTextBox_Leave;
         }
 
-        /// <summary>
-        /// Prefills the event start date and time when this form is opened from the party calendar.
-        /// </summary>
         public void SetCalendarBookingStart(DateTime startDateTime)
         {
             SetCalendarBookingInterval(startDateTime, startDateTime);
         }
 
-        /// <summary>
-        /// Supplies the start/end interval selected in the calendar for a new booking.
-        /// Optional From/To controls are populated when they exist on this form.
-        /// </summary>
+
         public void SetCalendarBookingInterval(DateTime startDateTime, DateTime endDateTime)
         {
             _calendarBookingId = 0;
@@ -334,9 +328,6 @@ namespace FoodandBeverage
             ApplyCalendarDateTimeInterval();
         }
 
-        /// <summary>
-        /// Loads an existing booking selected from the calendar into this form.
-        /// </summary>
         public void LoadBookingFromCalendar(int bookingId)
         {
             if (bookingId <= 0)
@@ -351,8 +342,8 @@ namespace FoodandBeverage
             if (_calendarBookingStart.HasValue)
             {
                 DateTime start = _calendarBookingStart.Value;
-                dtpEventDate.Value = start.Date;
-                dtpEventTime.Value = DateTime.Today.Add(start.TimeOfDay);
+                dtpEventDate_From.Value = start.Date;
+                dtpEventTime_From.Value = DateTime.Today.Add(start.TimeOfDay);
                 SetOptionalDateTimePicker("dtpEventDate_From", start.Date);
                 SetOptionalDateTimePicker("dtpEventTime_From", DateTime.Today.Add(start.TimeOfDay));
             }
@@ -3765,8 +3756,8 @@ namespace FoodandBeverage
                 // ===============================
                 // 🔹 Reset Event Info
                 // ===============================
-                dtpEventDate.Value = DateTime.Now.Date;
-                dtpEventTime.Value = DateTime.Now;
+                dtpEventDate_From.Value = DateTime.Now.Date;
+                dtpEventTime_From.Value = DateTime.Now;
 
                 txteventdesc.Text = "";
                 cmbevent.Text = "";
@@ -4414,13 +4405,13 @@ namespace FoodandBeverage
 
                 DateTime bookingStart = GetOptionalDateTimePickerValue("dtpEventDate_From").HasValue
                     ? GetOptionalDateTimePickerValue("dtpEventDate_From").Value.Date +
-                      (GetOptionalDateTimePickerValue("dtpEventTime_From") ?? dtpEventTime.Value).TimeOfDay
-                    : dtpEventDate.Value.Date + dtpEventTime.Value.TimeOfDay;
+                      (GetOptionalDateTimePickerValue("dtpEventTime_From") ?? dtpEventTime_From.Value).TimeOfDay
+                    : dtpEventDate_From.Value.Date + dtpEventTime_From.Value.TimeOfDay;
 
                 DateTime? bookingEndDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
                 DateTime? bookingEndTime = GetOptionalDateTimePickerValue("dtpEventTime_To");
                 DateTime bookingEnd = bookingEndDate.HasValue
-                    ? bookingEndDate.Value.Date + (bookingEndTime ?? dtpEventTime.Value).TimeOfDay
+                    ? bookingEndDate.Value.Date + (bookingEndTime ?? dtpEventTime_From.Value).TimeOfDay
                     : (_calendarBookingEnd ?? bookingStart);
 
                 booking.BookingDateTime = bookingStart;
@@ -4808,7 +4799,7 @@ namespace FoodandBeverage
                 sale.SalesMasterId = SalesMasterId;
                 setperfixsale();
                 sale.EntryNo = txtinvoiceno.Text;
-                sale.EntryDate = dtpEventDate.Value.Date.Add(dtpEventTime.Value.TimeOfDay);
+                sale.EntryDate = dtpEventDate_From.Value.Date.Add(dtpEventTime_From.Value.TimeOfDay);
                 //sale.CreatedDateTime = dtpEventDate.Value.Date.Add(dtpEventTime.Value.TimeOfDay); 
 
                 #region Customer Info
@@ -5429,8 +5420,8 @@ namespace FoodandBeverage
 
                 if (result.BookingDateTime != DateTime.MinValue)
                 {
-                    dtpEventDate.Value = result.BookingDateTime.Date;
-                    dtpEventTime.Value = DateTime.Today.Add(result.BookingDateTime.TimeOfDay);
+                    dtpEventDate_From.Value = result.BookingDateTime.Date;
+                    dtpEventTime_From.Value = DateTime.Today.Add(result.BookingDateTime.TimeOfDay);
                     _calendarBookingStart = result.BookingDateTime;
 
                     var endProperty = result.GetType().GetProperty("BookingToDateTime");
@@ -6647,7 +6638,7 @@ namespace FoodandBeverage
 
                 // 🔹 BASIC INFO
                 lbl_ps_partyname.Text = lblpackname.Text;
-                lbl_ps_partydatetime.Text = dtpEventDate.Text + " " + dtpEventTime.Text;
+                lbl_ps_partydatetime.Text = dtpEventDate_From.Text + " " + dtpEventTime_From.Text;
                 lbl_ps_phone.Text = txtph.Text;
                 lbl_ps_cusname.Text = txtname.Text;
                 lbl_ps_eventname.Text = cmbevent.Text;
