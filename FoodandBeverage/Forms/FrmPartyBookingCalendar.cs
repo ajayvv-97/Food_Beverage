@@ -817,11 +817,12 @@ namespace FoodandBeverage.Forms
 
                 DmnSearch search = new DmnSearch
                 {
-                    ColumnHeaders = "ID,Customer,Phone,Event,Start,End,NetAmount,PaidAmount",
+                    ColumnHeaders = "ID,Customer,Phone,Event,Start,BookingInfo",
                     Select = "b.PartyBookingId as Id, b.CustomerName as Field1, b.Phone as Field2, " +
                              "ec.ItemName as Field3, b.BookingDateTime as Field4, " +
-                             "ISNULL(b.BookingToDateTime, b.BookingDateTime) as Field5, " +
-                             "ISNULL(b.NetAmount, 0) as Field6, ISNULL(pay.PaidAmount, 0) as Field7",
+                             "CONVERT(varchar(19), ISNULL(b.BookingToDateTime, b.BookingDateTime), 120) + '|' + " +
+                             "CONVERT(varchar(30), ISNULL(b.NetAmount, 0)) + '|' + " +
+                             "CONVERT(varchar(30), ISNULL(pay.PaidAmount, 0)) as Field5",
                     Table = "tblPartyBooking b " +
                             "LEFT JOIN tblEventCommonItems ec ON ec.EventItemId = b.EventType " +
                             "LEFT JOIN (SELECT PartyBookingId, SUM(PaidAmount) AS PaidAmount " +
@@ -846,13 +847,17 @@ namespace FoodandBeverage.Forms
                     if (!DateTime.TryParse(row.Field4, CultureInfo.CurrentCulture, DateTimeStyles.None, out start))
                         continue;
 
+                    string[] bookingInfo = (row.Field5 ?? string.Empty).Split('|');
                     DateTime end;
-                    if (!DateTime.TryParse(row.Field5, CultureInfo.CurrentCulture, DateTimeStyles.None, out end))
+                    if (bookingInfo.Length == 0 ||
+                        !DateTime.TryParse(bookingInfo[0], CultureInfo.InvariantCulture, DateTimeStyles.None, out end))
                         end = start;
 
-                    decimal netAmount, paidAmount;
-                    decimal.TryParse(row.Field6, NumberStyles.Any, CultureInfo.CurrentCulture, out netAmount);
-                    decimal.TryParse(row.Field7, NumberStyles.Any, CultureInfo.CurrentCulture, out paidAmount);
+                    decimal netAmount = 0, paidAmount = 0;
+                    if (bookingInfo.Length > 1)
+                        decimal.TryParse(bookingInfo[1], NumberStyles.Any, CultureInfo.InvariantCulture, out netAmount);
+                    if (bookingInfo.Length > 2)
+                        decimal.TryParse(bookingInfo[2], NumberStyles.Any, CultureInfo.InvariantCulture, out paidAmount);
 
                     bookings.Add(new PartyBookingEvent
                     {
