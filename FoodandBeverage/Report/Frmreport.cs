@@ -61,12 +61,17 @@ namespace FoodandBeverage.Report
 
         #endregion
 
-        private void Frmreport_Load(object sender, EventArgs e)
+        private async void Frmreport_Load(object sender, EventArgs e)
         {
+            UseWaitCursor = true;
+            Enabled = false;
             try
             {
-                //combofill_report();
-                
+                // Yield once so the embedded report form paints before the
+                // synchronous database/Crystal Reports work starts.
+                await Task.Yield();
+                Refresh();
+
                 Fill_combo_finyear();
                 FetchBillDetails();
                 phno.Text = "Enter Phone No.";
@@ -95,7 +100,11 @@ namespace FoodandBeverage.Report
                 CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Report page  Frmreport_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Report));
             }
-              
+            finally
+            {
+                Enabled = true;
+                UseWaitCursor = false;
+            }
         }
         public void FetchBillDetails()
         {
