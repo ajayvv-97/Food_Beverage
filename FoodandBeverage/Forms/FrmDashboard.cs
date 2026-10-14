@@ -264,18 +264,36 @@ namespace FoodandBeverage.Forms
             //lbluser_designation.Text = Convert.ToString(FrmLogin.EmployeName) + "\n" + Convert.ToString(FrmLogin.Designation);
             lbl_empname.Text = Convert.ToString(FrmLogin.EmployeName) + "  " + Convert.ToString(FrmLogin.Designation)+"    ";
             AdjustButtonsToPanel();
-            // Display the loading animation on top of the dashboard on the UI thread.
-            // Keep the main window visible so startup never looks like a minimize action.
-            using (LoadingGIF_Timer startupLoader = new LoadingGIF_Timer())
+            // Keep the dashboard visible while a separate STA UI thread animates
+            // the existing loading form during synchronous startup data/report work.
+            Thread startupLoaderThread = new Thread(() =>
             {
-                startupLoader.StartPosition = FormStartPosition.CenterScreen;
-                startupLoader.Show();
-                startupLoader.Refresh();
-                await Task.Yield();
+                using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
+                {
+                    loader.StartPosition = FormStartPosition.CenterScreen;
+                    loadingForm = loader;
+                    Application.Run(loader);
+                }
+            });
+            startupLoaderThread.IsBackground = true;
+            startupLoaderThread.SetApartmentState(ApartmentState.STA);
+            startupLoaderThread.Start();
+            await Task.Delay(120);
+
+            try
+            {
                 LoadMainForm();
-                await Task.Delay(350);
-                if (!startupLoader.IsDisposed)
-                    startupLoader.Close();
+            }
+            finally
+            {
+                if (loadingForm != null && !loadingForm.IsDisposed)
+                {
+                    try { loadingForm.BeginInvoke(new Action(() => loadingForm.Close())); }
+                    catch { /* Loader may already be closing. */ }
+                }
+                if (startupLoaderThread.IsAlive)
+                    startupLoaderThread.Join(500);
+                loadingForm = null;
             }
             StyleReportMenu();
 
@@ -2761,8 +2779,10 @@ namespace FoodandBeverage.Forms
             int columns = panelWidth >= 1050 ? 3 : (panelWidth >= 650 ? 2 : 1);
             int marginX = panelWidth >= 1050 ? 12 : 8;
             int marginY = panelHeight >= 700 ? 10 : 6;
-            int availableWidth = Math.Max(150, panelWidth - marginX * 2 - SystemInformation.VerticalScrollBarWidth);
-            int buttonWidth = Math.Max(150, availableWidth / columns);
+            int horizontalPadding = 8;
+            int availableWidth = panelWidth - horizontalPadding
+                - SystemInformation.VerticalScrollBarWidth - (marginX * 2 * columns);
+            int buttonWidth = Math.Max(120, availableWidth / columns);
             int buttonHeight = Math.Max(58, Math.Min(95, (int)(Menuhome.Height * 0.92)));
             int fontSize = panelWidth < 650 ? 10 : 12;
 
@@ -2781,14 +2801,13 @@ namespace FoodandBeverage.Forms
             flow.AutoScroll = true;
             flow.FlowDirection = FlowDirection.LeftToRight;
             flow.Dock = DockStyle.Fill;
-            flow.Padding = new Padding(Math.Max(4, marginX / 2));
+            flow.Padding = new Padding(4);
 
-            int safeWidth = Math.Max(120, Math.Min(width, flow.ClientSize.Width - flow.Padding.Horizontal - marginX * 2));
             foreach (Control ctrl in flow.Controls)
             {
                 if (ctrl is Button btn)
                 {
-                    btn.Width = safeWidth;
+                    btn.Width = width;
                     btn.Height = height;
                     btn.Margin = new Padding(marginX, marginY, marginX, marginY);
                     btn.Font = AppFonts.GetFont(fontSize);
