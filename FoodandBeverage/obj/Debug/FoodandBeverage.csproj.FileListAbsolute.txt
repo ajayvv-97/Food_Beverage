@@ -1223,6 +1223,7 @@ D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmOrderDesignCustom.resources
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmOrderView.resources
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.FrmPartyBooking.resources
+D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmPartyBookingCalendar.resources
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmPartyPackSetup.resources
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmPickup.resources
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmProductionMapping.resources
@@ -1262,4 +1263,3 @@ D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.cspro
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.csproj.CopyComplete
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.exe
 D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.pdb
-D:\Developers\Ajay\Food_Beverage\FoodandBeverage\obj\Debug\FoodandBeverage.Forms.FrmPartyBookingCalendar.resources

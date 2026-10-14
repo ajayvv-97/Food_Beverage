@@ -181,6 +181,7 @@ D:\Developers\Ajay\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.WinForms.
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.WinForms.xml
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.Wpf.pdb
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\bin\Debug\LiveCharts.Wpf.xml
+D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.AssemblyReference.cache
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.FormMessageBox.resources
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.Properties.Resources.resources
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.GenerateResource.cache
@@ -188,4 +189,3 @@ D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csp
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.CopyComplete
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.exe
 D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.pdb
-D:\Developers\Ajay\Food_Beverage\CustomMessageBox\obj\Debug\CustomMessageBox.csproj.AssemblyReference.cache
