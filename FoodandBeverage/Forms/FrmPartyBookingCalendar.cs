@@ -803,15 +803,21 @@ namespace FoodandBeverage.Forms
                 return;
             }
 
-            using (FoodandBeverage.FrmPartyBooking bookingForm = new FoodandBeverage.FrmPartyBooking())
+            // Update the already-open FrmPartyBooking form that owns this calendar.
+            FoodandBeverage.FrmPartyBooking bookingForm =
+                this.Owner as FoodandBeverage.FrmPartyBooking;
+
+            if (bookingForm == null)
             {
-                bookingForm.SetCalendarBookingInterval(from, to);
-                bookingForm.ShowDialog(this);
+                CMessageBox.Show("The Party Booking form is not available. Please open the calendar from Party Booking.");
+                return;
             }
 
-            currentDate = from.Date;
-            LoadBookings();
-            RenderCalendar();
+            bookingForm.SetCalendarBookingInterval(from, to);
+
+            // Close only this calendar. Do not create or display another Party Booking form.
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private static DateTime CombineDateAndTime(DateTime date, DateTime time)
