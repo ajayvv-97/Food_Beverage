@@ -15,9 +15,39 @@ namespace FoodandBeverage.Forms
 
         private sealed class PartyBookingEvent
         {
+            public int BookingId { get; set; }
             public DateTime Start { get; set; }
             public DateTime End { get; set; }
             public string EventName { get; set; }
+            public string CustomerName { get; set; }
+            public string Phone { get; set; }
+            public decimal NetAmount { get; set; }
+            public decimal PaidAmount { get; set; }
+
+            public string PaymentStatus
+            {
+                get
+                {
+                    if (NetAmount > 0 && PaidAmount >= NetAmount)
+                        return "PAYMENT COMPLETE";
+                    if (PaidAmount > 0)
+                        return "ADVANCE ₹" + PaidAmount.ToString("0.00") +
+                               "  ·  DUE ₹" + Math.Max(0, NetAmount - PaidAmount).ToString("0.00");
+                    return "PAYMENT PENDING  ·  ₹" + Math.Max(0, NetAmount).ToString("0.00");
+                }
+            }
+
+            public Color PaymentStatusColor
+            {
+                get
+                {
+                    if (NetAmount > 0 && PaidAmount >= NetAmount)
+                        return Color.FromArgb(22, 142, 86);
+                    if (PaidAmount > 0)
+                        return Color.FromArgb(189, 112, 20);
+                    return Color.FromArgb(197, 55, 72);
+                }
+            }
         }
 
         private sealed class BookingChoiceDialog : Form
@@ -34,8 +64,8 @@ namespace FoodandBeverage.Forms
                 MaximizeBox = false;
                 BackColor = Color.FromArgb(246, 244, 253);
                 Font = new Font("Segoe UI", 9F);
-                Width = 420;
-                Height = Math.Min(620, Math.Max(240, 150 + items.Count * 68));
+                Width = 490;
+                Height = Math.Min(720, Math.Max(270, 155 + items.Count * 104));
 
                 Panel header = new Panel
                 {
@@ -79,11 +109,11 @@ namespace FoodandBeverage.Forms
                 {
                     Panel card = new Panel
                     {
-                        Width = 365,
-                        Height = 58,
-                        Margin = new Padding(2, 2, 2, 7),
+                        Width = 430,
+                        Height = 92,
+                        Margin = new Padding(2, 3, 2, 6),
                         BackColor = Color.White,
-                        Padding = new Padding(12, 5, 8, 5),
+                        Padding = new Padding(10, 5, 8, 5),
                         Cursor = Cursors.Hand,
                         Tag = booking
                     };
@@ -93,27 +123,80 @@ namespace FoodandBeverage.Forms
                         Width = 5,
                         BackColor = accentColor
                     };
+                    TableLayoutPanel details = new TableLayoutPanel
+                    {
+                        Dock = DockStyle.Fill,
+                        ColumnCount = 2,
+                        RowCount = 3,
+                        Margin = Padding.Empty,
+                        Padding = new Padding(7, 0, 0, 0),
+                        BackColor = Color.Transparent,
+                        Cursor = Cursors.Hand
+                    };
+                    details.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 63F));
+                    details.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 37F));
+                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+                    details.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
+                    details.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+
                     Label eventName = new Label
                     {
-                        Dock = DockStyle.Top,
-                        Height = 24,
+                        Dock = DockStyle.Fill,
                         Text = booking.EventName,
                         ForeColor = Color.FromArgb(38, 35, 73),
                         Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                         AutoEllipsis = true,
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        Cursor = Cursors.Hand
+                    };
+                    Label payment = new Label
+                    {
+                        Dock = DockStyle.Fill,
+                        Text = booking.PaymentStatus,
+                        ForeColor = Color.White,
+                        BackColor = booking.PaymentStatusColor,
+                        Font = new Font("Segoe UI", 7.5F, FontStyle.Bold),
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        AutoEllipsis = true,
+                        Margin = new Padding(2, 3, 0, 3),
+                        Cursor = Cursors.Hand
+                    };
+                    Label customer = new Label
+                    {
+                        Dock = DockStyle.Fill,
+                        Text = "Customer: " + (string.IsNullOrWhiteSpace(booking.CustomerName) ? "Not provided" : booking.CustomerName),
+                        ForeColor = Color.FromArgb(48, 44, 82),
+                        Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
+                        AutoEllipsis = true,
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        Cursor = Cursors.Hand
+                    };
+                    Label phone = new Label
+                    {
+                        Dock = DockStyle.Fill,
+                        Text = "Phone: " + (string.IsNullOrWhiteSpace(booking.Phone) ? "Not provided" : booking.Phone),
+                        ForeColor = Color.FromArgb(75, 70, 105),
+                        Font = new Font("Segoe UI", 8.5F, FontStyle.Regular),
+                        AutoEllipsis = true,
+                        TextAlign = ContentAlignment.MiddleLeft,
                         Cursor = Cursors.Hand
                     };
                     Label time = new Label
                     {
                         Dock = DockStyle.Fill,
-                        Text = booking.Start.ToString("hh:mm tt") +
-                               (booking.End > booking.Start ? "  –  " + booking.End.ToString("hh:mm tt") : ""),
+                        Text = booking.Start.ToString("dd MMM yyyy  ·  hh:mm tt") +
+                               (booking.End > booking.Start ? "  –  " + booking.End.ToString("dd MMM yyyy  ·  hh:mm tt") : ""),
                         ForeColor = Color.FromArgb(99, 92, 130),
-                        Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
+                        Font = new Font("Segoe UI", 8F, FontStyle.Bold),
                         Cursor = Cursors.Hand
                     };
-                    card.Controls.Add(time);
-                    card.Controls.Add(eventName);
+                    details.Controls.Add(eventName, 0, 0);
+                    details.Controls.Add(payment, 1, 0);
+                    details.Controls.Add(customer, 0, 1);
+                    details.Controls.Add(phone, 1, 1);
+                    details.Controls.Add(time, 0, 2);
+                    details.SetColumnSpan(time, 2);
+                    card.Controls.Add(details);
                     card.Controls.Add(stripe);
                     EventHandler choose = (s, e) =>
                     {
@@ -149,6 +232,8 @@ namespace FoodandBeverage.Forms
                 CancelButton = closeButton;
             }
         }
+
+        public int SelectedBookingId { get; private set; }
 
         private readonly Color accent = Color.FromArgb(101, 80, 185);
         private readonly Color border = Color.FromArgb(224, 220, 241);
@@ -549,9 +634,16 @@ namespace FoodandBeverage.Forms
 
                 DmnSearch search = new DmnSearch
                 {
-                    ColumnHeaders = "Start,End,Event",
-                    Select = "b.BookingDateTime as Field1, b.BookingToDateTime as Field2, ec.ItemName as Field3",
-                    Table = "tblPartyBooking b LEFT JOIN tblEventCommonItems ec ON ec.EventItemId = b.EventType",
+                    ColumnHeaders = "ID,Customer,Phone,Event,Start,End,NetAmount,PaidAmount",
+                    Select = "b.PartyBookingId as Id, b.CustomerName as Field1, b.Phone as Field2, " +
+                             "ec.ItemName as Field3, b.BookingDateTime as Field4, " +
+                             "ISNULL(b.BookingToDateTime, b.BookingDateTime) as Field5, " +
+                             "ISNULL(b.NetAmount, 0) as Field6, ISNULL(pay.PaidAmount, 0) as Field7",
+                    Table = "tblPartyBooking b " +
+                            "LEFT JOIN tblEventCommonItems ec ON ec.EventItemId = b.EventType " +
+                            "LEFT JOIN (SELECT PartyBookingId, SUM(PaidAmount) AS PaidAmount " +
+                            "FROM tblPartyBookingPayment WHERE Status = 1 GROUP BY PartyBookingId) pay " +
+                            "ON pay.PartyBookingId = b.PartyBookingId",
                     WhereNdGroupBy = "WHERE b.Status = 1 AND b.BookingDateTime <= CONVERT(datetime, '" + endText + "', 120) " +
                                      "AND ISNULL(b.BookingToDateTime, b.BookingDateTime) >= CONVERT(datetime, '" + startText + "', 120)",
                     OrderBy = "ORDER BY b.BookingDateTime"
@@ -568,18 +660,27 @@ namespace FoodandBeverage.Forms
                 foreach (DmnGridFields row in result)
                 {
                     DateTime start;
-                    if (!DateTime.TryParse(row.Field1, CultureInfo.CurrentCulture, DateTimeStyles.None, out start))
+                    if (!DateTime.TryParse(row.Field4, CultureInfo.CurrentCulture, DateTimeStyles.None, out start))
                         continue;
 
                     DateTime end;
-                    if (!DateTime.TryParse(row.Field2, CultureInfo.CurrentCulture, DateTimeStyles.None, out end))
+                    if (!DateTime.TryParse(row.Field5, CultureInfo.CurrentCulture, DateTimeStyles.None, out end))
                         end = start;
+
+                    decimal netAmount, paidAmount;
+                    decimal.TryParse(row.Field6, NumberStyles.Any, CultureInfo.CurrentCulture, out netAmount);
+                    decimal.TryParse(row.Field7, NumberStyles.Any, CultureInfo.CurrentCulture, out paidAmount);
 
                     bookings.Add(new PartyBookingEvent
                     {
+                        BookingId = Convert.ToInt32(row.Id),
                         Start = start,
                         End = end < start ? start : end,
-                        EventName = string.IsNullOrWhiteSpace(row.Field3) ? "Booking" : row.Field3.Trim()
+                        EventName = string.IsNullOrWhiteSpace(row.Field3) ? "Booking" : row.Field3.Trim(),
+                        CustomerName = row.Field1,
+                        Phone = row.Field2,
+                        NetAmount = netAmount,
+                        PaidAmount = paidAmount
                     });
                 }
 
@@ -945,13 +1046,16 @@ namespace FoodandBeverage.Forms
                     return;
 
                 PartyBookingEvent selected = dialog.SelectedBooking;
+                SelectedBookingId = selected.BookingId;
                 dtp_book_fromdate.Value = selected.Start.Date;
                 dtp_book_fromtime.Value = DateTime.Today.Add(selected.Start.TimeOfDay);
                 dtp_book_todate.Value = selected.End.Date;
                 dtp_book_totime.Value = DateTime.Today.Add(selected.End.TimeOfDay);
 
-                // This popup intentionally selects the booking interval only.
-                // Existing booking detail/edit/cancel workflow can be connected later.
+                // Returning OK closes the calendar. The parent FrmPartyBooking
+                // then loads the selected booking using its normal data-loading workflow.
+                DialogResult = DialogResult.OK;
+                Close();
             }
         }
 
