@@ -3187,7 +3187,7 @@ namespace FoodandBeverage.Forms
                 btn_cart.BackgroundImage = Properties.Resources.Party_Food_Items_Icon;
                 btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
                 tlp_menu_main.Visible = true;
-                tlp_menu_main.BringToFront();
+                tlp_menu_main.SendToBack();
             }
             catch (Exception ex)
             {
