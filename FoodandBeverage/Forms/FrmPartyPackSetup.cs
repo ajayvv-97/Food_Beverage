@@ -124,6 +124,8 @@ namespace FoodandBeverage.Forms
             // menu-picker interactions here so the designer layout stays unchanged.
             btn_menu_close.Click += (s, e) => ClosePartyPackMenu();
             Dgv_Selected_Item.CellClick += DgvPartyPackMenu_CellClick;
+            Dgv_Selected_Item.CellPainting += DgvPartyPackMenu_CellPainting;
+            ApplyPartyPackMenuVisualStyles();
             txtname_search.Enter += PartyPackMenuSearchTextBox_Enter;
             txtname_search.Leave += PartyPackMenuSearchTextBox_Leave;
             txtitemcode_serach.Enter += PartyPackMenuSearchTextBox_Enter;
@@ -3101,7 +3103,7 @@ namespace FoodandBeverage.Forms
                     Height = tileHeight,
                     Margin = new Padding(gap),
                     BackColor = Color.White,
-                    BorderStyle = BorderStyle.FixedSingle,
+                    BorderStyle = BorderStyle.None,
                     Tag = selection,
                     Cursor = Cursors.Hand
                 };
@@ -3112,14 +3114,15 @@ namespace FoodandBeverage.Forms
                     TextAlign = ContentAlignment.MiddleCenter,
                     Padding = new Padding(6),
                     AutoEllipsis = true,
-                    ForeColor = Color.FromArgb(42, 34, 55),
-                    Font = AppFonts.GetFont(10),
+                    ForeColor = Color.Black,
+                    Font = AppFonts.GetFont(11),
                     BackColor = Color.Transparent,
                     Tag = selection
                 };
                 tile.Controls.Add(productLabel);
                 tile.Click += (s, e) => AddPartyPackMenuProduct(selection);
                 productLabel.Click += (s, e) => AddPartyPackMenuProduct(selection);
+                UIHelper.RoundCorners(tile, 15);
                 flp_productview.Controls.Add(tile);
             }
             flp_productview.ResumeLayout(true);
@@ -3151,6 +3154,7 @@ namespace FoodandBeverage.Forms
                 int quantity = 1;
                 int.TryParse(Convert.ToString(existing.Cells["dataGridViewTextBoxColumn12"].Value), out quantity);
                 existing.Cells["dataGridViewTextBoxColumn12"].Value = quantity + 1;
+                ShowPartyPackMenuCart();
                 return;
             }
 
@@ -3162,12 +3166,100 @@ namespace FoodandBeverage.Forms
             addedRow.Cells["dataGridViewTextBoxColumn8"].Value = rowIndex + 1;
             addedRow.Cells["name"].Value = selection.ProductName;
             addedRow.Cells["dataGridViewTextBoxColumn12"].Value = 1;
+            ShowPartyPackMenuCart();
         
             }
             catch (Exception ex)
             {
                 clsgen.LogException("Partypacksetup page AddPartyPackMenuProduct()", ex, FrmLogin.EmployeName,
                     FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void ShowPartyPackMenuCart()
+        {
+            try
+            {
+                partyPackMenuCategoryPanel?.Hide();
+                flp_productview.Visible = false;
+                Dgv_Selected_Item.Visible = true;
+                Dgv_Selected_Item.BringToFront();
+                btn_cart.BackgroundImage = Properties.Resources.Party_Food_Items_Icon;
+                btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
+                tlp_menu_main.Visible = true;
+                tlp_menu_main.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page ShowPartyPackMenuCart()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void ApplyPartyPackMenuVisualStyles()
+        {
+            try
+            {
+                Color accentPurple = Color.FromArgb(101, 80, 185);
+                Color menuLavender = Color.FromArgb(236, 220, 244);
+                Color softLavender = Color.FromArgb(247, 240, 251);
+                Color borderLavender = Color.FromArgb(226, 214, 239);
+                Color textColor = Color.FromArgb(42, 34, 55);
+                flp_productview.BackColor = softLavender;
+                flp_productview.Padding = new Padding(6);
+                flp_productview.Margin = Padding.Empty;
+                flp_productview.BorderStyle = BorderStyle.None;
+                tlp_menu_main.BackColor = menuLavender;
+                Dgv_Selected_Item.BorderStyle = BorderStyle.None;
+                Dgv_Selected_Item.BackgroundColor = Color.White;
+                Dgv_Selected_Item.GridColor = borderLavender;
+                Dgv_Selected_Item.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                Dgv_Selected_Item.EnableHeadersVisualStyles = false;
+                Dgv_Selected_Item.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                Dgv_Selected_Item.ColumnHeadersHeight = 42;
+                Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.BackColor = accentPurple;
+                Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.Font = new Font(AppFonts.GetFont(10), FontStyle.Bold);
+                Dgv_Selected_Item.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                Dgv_Selected_Item.DefaultCellStyle.BackColor = Color.White;
+                Dgv_Selected_Item.DefaultCellStyle.ForeColor = textColor;
+                Dgv_Selected_Item.DefaultCellStyle.SelectionBackColor = Color.FromArgb(231, 218, 244);
+                Dgv_Selected_Item.DefaultCellStyle.SelectionForeColor = textColor;
+                Dgv_Selected_Item.DefaultCellStyle.Font = AppFonts.GetFont(10);
+                Dgv_Selected_Item.DefaultCellStyle.Padding = new Padding(4, 3, 4, 3);
+                Dgv_Selected_Item.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 246, 253);
+                Dgv_Selected_Item.RowTemplate.Height = 40;
+                Dgv_Selected_Item.RowHeadersVisible = false;
+                Dgv_Selected_Item.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                Dgv_Selected_Item.MultiSelect = false;
+                UIHelper.RoundCorners(pnl_dgv_menu, 25);
+                UIHelper.RoundCorners(tlp_footer, 25);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page ApplyPartyPackMenuVisualStyles()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void DgvPartyPackMenu_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+                    e.CellStyle.ForeColor = Color.Black;
+                if (e.RowIndex == -1)
+                {
+                    e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+                    e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+                    e.AdvancedBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
+                    e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+                    e.PaintBackground(e.CellBounds, true);
+                    e.PaintContent(e.CellBounds);
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page DgvPartyPackMenu_CellPainting()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
@@ -3180,6 +3272,9 @@ namespace FoodandBeverage.Forms
             Dgv_Selected_Item.AutoGenerateColumns = false;
             Dgv_Selected_Item.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             Dgv_Selected_Item.RowHeadersVisible = false;
+            Dgv_Selected_Item.RowTemplate.Height = 40;
+            Dgv_Selected_Item.ColumnHeadersHeight = 42;
+            Dgv_Selected_Item.DefaultCellStyle.Padding = new Padding(4, 3, 4, 3);
 
             foreach (DataGridViewColumn column in Dgv_Selected_Item.Columns)
                 column.Visible = false;
