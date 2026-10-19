@@ -124,11 +124,62 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
         public static int GameBranchId = 0;
         #endregion
 
+        private async void UpdateDatabaseStatusAsync()
+        {
+            if (pb_online_offline == null)
+                return;
+
+            // Default to offline until the configured SQL connection succeeds.
+            pb_online_offline.BackgroundImage = Properties.Resources.sql_offline_icon;
+            pb_online_offline.BackgroundImageLayout = ImageLayout.Stretch;
+            pb_online_offline.AccessibleName = "Database offline";
+            pb_online_offline.AccessibleDescription = "SQL Server connection is unavailable";
+
+            try
+            {
+                bool isOnline = await Task.Run(() =>
+                {
+                    try
+                    {
+                        using (System.Data.IDbConnection connection = DAL.DapperRepository<object>.OpenConnection())
+                        {
+                            return connection.State == ConnectionState.Open;
+                        }
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                });
+
+                if (IsDisposed || pb_online_offline.IsDisposed)
+                    return;
+
+                pb_online_offline.BackgroundImage = isOnline
+                    ? Properties.Resources.sql_online_icon
+                    : Properties.Resources.sql_offline_icon;
+                pb_online_offline.AccessibleName = isOnline ? "Database online" : "Database offline";
+                pb_online_offline.AccessibleDescription = isOnline
+                    ? "SQL Server connection is available"
+                    : "SQL Server connection is unavailable";
+            }
+            catch
+            {
+                if (!IsDisposed && pb_online_offline != null && !pb_online_offline.IsDisposed)
+                {
+                    pb_online_offline.BackgroundImage = Properties.Resources.sql_offline_icon;
+                    pb_online_offline.AccessibleName = "Database offline";
+                    pb_online_offline.AccessibleDescription = "SQL Server connection is unavailable";
+                }
+            }
+        }
+
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             try
             {
-                //pb_online_offline
+                // Show SQL Server availability without blocking the login screen.
+                UpdateDatabaseStatusAsync();
 
                 if (PrintpathValue == 1)
                 {
