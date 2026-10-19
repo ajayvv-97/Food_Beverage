@@ -101,9 +101,37 @@ namespace FoodandBeverage.SaleBill
             paytypeid = paytype;
             BillTypeData = BillType;
             InitializeComponent();
+            this.Resize += FrmSaleInvoice_ApplyRoundedCorners;
+            this.Shown += FrmSaleInvoice_ApplyRoundedCorners;
             httpClient = new HttpClient();
         }
         bool RPTLocalVw = false;
+
+        // Apply rounded corners to the form only; leave all existing controls and layout unchanged.
+        private void FrmSaleInvoice_ApplyRoundedCorners(object sender, EventArgs e)
+        {
+            if (Width <= 0 || Height <= 0)
+                return;
+
+            const int cornerRadius = 24;
+            int diameter = cornerRadius * 2;
+            Rectangle bounds = new Rectangle(0, 0, Width, Height);
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.StartFigure();
+                path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 180, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+                path.AddArc(bounds.Left, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+                path.CloseFigure();
+
+                Region oldRegion = this.Region;
+                this.Region = new Region(path);
+                if (oldRegion != null)
+                    oldRegion.Dispose();
+            }
+        }
 
         #region Printer Default Settings
         [DllImport("winspool.drv", CharSet = CharSet.Unicode, SetLastError = true)]
