@@ -126,60 +126,55 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            if (PrintpathValue == 1)
+            try
             {
-                //    //KitchenBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-                //    //ReportPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Report\";
-                //    //SaleBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                //    //XYZPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                //    //logoPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+                //pb_online_offline
 
-                //KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-                //ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report\";
-                //SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                //XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                //logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+                if (PrintpathValue == 1)
+                {
+                    //    //KitchenBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                    //    //ReportPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\Report\";
+                    //    //SaleBillPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                    //    //XYZPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                    //    //logoPath = @"C:\Users\silpa\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
 
-                KitchenBillPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-                ReportPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\Report\";
-                SaleBillPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\SaleBill\";
-                XYZPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\SaleBill\";
-                logoPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\logoFile\";
+                    //KitchenBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                    //ReportPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\Report\";
+                    //SaleBillPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                    //XYZPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                    //logoPath = @"C:\Users\ajay\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
 
-                //    //KitchenBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
-                //    //ReportPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Report";
-                //    //SaleBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill";
-                //    //XYZPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
-                //    //logoPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+                    KitchenBillPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                    ReportPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\Report\";
+                    SaleBillPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\SaleBill\";
+                    XYZPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\SaleBill\";
+                    logoPath = @"D:\Developers\Ajay\Food_Beverage\FoodandBeverage\logoFile\";
+
+                    //    //KitchenBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Forms\KitchenBill\";
+                    //    //ReportPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\Report";
+                    //    //SaleBillPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill";
+                    //    //XYZPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\SaleBill\";
+                    //    //logoPath = @"C:\Users\Asus\Desktop\Food_Beverage\FoodandBeverage\logoFile\";
+                }
+                else
+                {
+                    KitchenBillPath = Application.StartupPath + @"\KitchenBill\";
+                    ReportPath = Application.StartupPath + @"\Report\";
+                    SaleBillPath = Application.StartupPath + @"\SaleBill\";
+                    XYZPath = Application.StartupPath + @"\SaleBill\";
+                    logoPath = Application.StartupPath + @"\logoFile\";
+                }
+
+                if (FormSize.IsEmpty)
+                    FormSize = this.Size;
+
+                pnlloginbox.BackColor = Color.Transparent;
+                ApplyLoginRoundedCorners();
             }
-            else
+            catch (Exception ex)
             {
-                KitchenBillPath = Application.StartupPath + @"\KitchenBill\";
-                ReportPath = Application.StartupPath + @"\Report\";
-                SaleBillPath = Application.StartupPath + @"\SaleBill\";
-                XYZPath = Application.StartupPath + @"\SaleBill\";
-                logoPath = Application.StartupPath + @"\logoFile\";
+                clsgen.LogException("Login page FrmLogin_Load()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Login));
             }
-
-            //txt_username.TextValue = "User Name .....";
-            //txt_password.TextValue = "Password .....";
-            if (FormSize.IsEmpty)
-                FormSize = this.Size;
-            //virtualkeyboardCheck();
-            // Keep the panel transparent so the PNG artwork is not washed out.
-            pnlloginbox.BackColor = Color.Transparent;
-            ApplyLoginRoundedCorners();
-            //Task.Run(() =>
-            //{
-            //    FrmSplash loadingForm = new FrmSplash();
-            //    loadingForm.StartPosition = FormStartPosition.CenterScreen;
-            //    Application.Run(loadingForm);
-            //});
-            //if (loadingForm != null && !loadingForm.IsDisposed)
-            //{
-            //    loadingForm.Invoke(new Action(() => loadingForm.Close()));
-            //}
-            //textb_shape();            
         }
 
         #region TexBox Round function
@@ -240,7 +235,7 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
             }
             catch (Exception ex)
             {
-                clsgen.LogException("home page virtualkeyboardCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("Login page virtualkeyboardCheck()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Login));
             }
         }
         private void txt_username_Enter(object sender, EventArgs e)

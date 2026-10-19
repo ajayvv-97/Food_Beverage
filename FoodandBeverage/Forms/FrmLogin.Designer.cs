@@ -79,6 +79,7 @@ namespace FoodandBeverage.Forms
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.pb_online_offline = new System.Windows.Forms.PictureBox();
             this.pnlloginbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pblogo)).BeginInit();
             this.Pnl_wifiPopup.SuspendLayout();
@@ -95,6 +96,7 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_online_offline)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -741,6 +743,18 @@ namespace FoodandBeverage.Forms
             this.pictureBox9.TabIndex = 295;
             this.pictureBox9.TabStop = false;
             // 
+            // pb_online_offline
+            // 
+            this.pb_online_offline.BackColor = System.Drawing.Color.Transparent;
+            this.pb_online_offline.BackgroundImage = global::FoodandBeverage.Properties.Resources.sql_online_icon;
+            this.pb_online_offline.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pb_online_offline.Location = new System.Drawing.Point(909, 541);
+            this.pb_online_offline.Margin = new System.Windows.Forms.Padding(2);
+            this.pb_online_offline.Name = "pb_online_offline";
+            this.pb_online_offline.Size = new System.Drawing.Size(32, 31);
+            this.pb_online_offline.TabIndex = 296;
+            this.pb_online_offline.TabStop = false;
+            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -749,6 +763,7 @@ namespace FoodandBeverage.Forms
             this.BackgroundImage = global::FoodandBeverage.Properties.Resources.Loginbg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(959, 580);
+            this.Controls.Add(this.pb_online_offline);
             this.Controls.Add(this.pictureBox9);
             this.Controls.Add(this.pictureBox8);
             this.Controls.Add(this.label3);
@@ -788,6 +803,7 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_online_offline)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -841,5 +857,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBox9;
+        private System.Windows.Forms.PictureBox pb_online_offline;
     }
 }

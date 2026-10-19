@@ -121,7 +121,7 @@ namespace FoodandBeverage.SaleBill
             this.tlp_printbox.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_printbox.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_printbox.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_printbox.Size = new System.Drawing.Size(111, 634);
+            this.tlp_printbox.Size = new System.Drawing.Size(111, 452);
             this.tlp_printbox.TabIndex = 66;
             // 
             // lab_prinnter
@@ -281,7 +281,6 @@ namespace FoodandBeverage.SaleBill
             this.crvSalesBill.ActiveViewIndex = -1;
             this.crvSalesBill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.crvSalesBill.Cursor = System.Windows.Forms.Cursors.Default;
-            this.crvSalesBill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.crvSalesBill.Location = new System.Drawing.Point(120, 3);
             this.crvSalesBill.Name = "crvSalesBill";
             this.crvSalesBill.ShowCloseButton = false;
@@ -292,7 +291,7 @@ namespace FoodandBeverage.SaleBill
             this.crvSalesBill.ShowParameterPanelButton = false;
             this.crvSalesBill.ShowTextSearchButton = false;
             this.crvSalesBill.ShowZoomButton = false;
-            this.crvSalesBill.Size = new System.Drawing.Size(396, 634);
+            this.crvSalesBill.Size = new System.Drawing.Size(181, 373);
             this.crvSalesBill.TabIndex = 67;
             this.crvSalesBill.Tag = "39";
             this.crvSalesBill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
@@ -304,19 +303,18 @@ namespace FoodandBeverage.SaleBill
             this.tlp_main_bill.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_main_bill.Controls.Add(this.tlp_printbox, 0, 0);
             this.tlp_main_bill.Controls.Add(this.crvSalesBill, 1, 0);
-            this.tlp_main_bill.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_main_bill.Location = new System.Drawing.Point(0, 0);
             this.tlp_main_bill.Name = "tlp_main_bill";
             this.tlp_main_bill.RowCount = 1;
             this.tlp_main_bill.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_main_bill.Size = new System.Drawing.Size(519, 640);
+            this.tlp_main_bill.Size = new System.Drawing.Size(306, 458);
             this.tlp_main_bill.TabIndex = 68;
             // 
             // pnl_userreg
             // 
             this.pnl_userreg.AutoSize = true;
             this.pnl_userreg.Controls.Add(this.tlp_userreg);
-            this.pnl_userreg.Location = new System.Drawing.Point(538, 42);
+            this.pnl_userreg.Location = new System.Drawing.Point(693, 42);
             this.pnl_userreg.Name = "pnl_userreg";
             this.pnl_userreg.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.pnl_userreg.Size = new System.Drawing.Size(480, 410);
@@ -726,9 +724,10 @@ namespace FoodandBeverage.SaleBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(519, 640);
+            this.ClientSize = new System.Drawing.Size(683, 591);
             this.Controls.Add(this.pnl_userreg);
             this.Controls.Add(this.tlp_main_bill);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmSaleInvoice";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSaleInvoice_FormClosing);

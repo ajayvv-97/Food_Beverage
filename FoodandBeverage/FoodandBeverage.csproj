@@ -2169,6 +2169,8 @@
     <None Include="Resources\Party_Previous_Month.png" />
     <None Include="Resources\Party_Month.png" />
     <None Include="Resources\Party_Calendar.png" />
+    <None Include="Resources\sql_online_icon.png" />
+    <None Include="Resources\sql_offline_icon.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />
