@@ -64,6 +64,28 @@ namespace FoodandBeverage.Forms
 
         private List<DmnCategory> categoryList = new List<DmnCategory>();
 
+        // Party-pack menu picker state. This picker only selects products; it does not
+        // run sale/balance/tax calculations.
+        private readonly List<DmnGridFields> partyPackMenuAllProducts = new List<DmnGridFields>();
+        private List<DmnGridFields> partyPackMenuFilteredProducts = new List<DmnGridFields>();
+        private List<DmnGridFields> partyPackMenuPageProducts = new List<DmnGridFields>();
+        private FlowLayoutPanel partyPackMenuCategoryPanel;
+        private ToolTip partyPackMenuToolTip;
+        private int partyPackMenuCurrentPage = 1;
+        private int partyPackMenuPageSize = 12;
+        private int partyPackMenuCategoryId;
+        private bool partyPackMenuProductsLoaded;
+
+        private sealed class PartyPackMenuSelection
+        {
+            public int ProductId { get; set; }
+            public int SaleType { get; set; } // 0 = tblProduct, 1 = tblItem
+            public int CategoryId { get; set; }
+            public string ProductName { get; set; }
+            public string ItemCode { get; set; }
+            public decimal Price { get; set; }
+        }
+
         public class SelectedCardItem
         {
             public int ProductId { get; set; }
@@ -97,6 +119,17 @@ namespace FoodandBeverage.Forms
         public FrmPartyPackSetup()
         {
             InitializeComponent();
+
+            // Some of these controls are shared with the package setup UI. Wire the
+            // menu-picker interactions here so the designer layout stays unchanged.
+            btn_menu_close.Click += (s, e) => ClosePartyPackMenu();
+            Dgv_Selected_Item.CellClick += DgvPartyPackMenu_CellClick;
+            txtname_search.Enter += PartyPackMenuSearchTextBox_Enter;
+            txtname_search.Leave += PartyPackMenuSearchTextBox_Leave;
+            txtitemcode_serach.Enter += PartyPackMenuSearchTextBox_Enter;
+            txtitemcode_serach.Leave += PartyPackMenuSearchTextBox_Leave;
+            txtname_search.KeyDown += PartyPackMenuSearchTextBox_KeyDown;
+            txtitemcode_serach.KeyDown += PartyPackMenuSearchTextBox_KeyDown;
         }
         private void FrmPartyPackSetup_Load(object sender, EventArgs e)
         {
@@ -2597,44 +2630,568 @@ namespace FoodandBeverage.Forms
             btndel_cake.Visible = false;
         }
 
+        #region Party Pack Menu Picker
+
         private void btnmenu_Click(object sender, EventArgs e)
         {
+            try
+            {
+                int width = Math.Min((int)(ClientSize.Width * 0.86), ClientSize.Width - 20);
+                int height = Math.Min((int)(ClientSize.Height * 0.86), ClientSize.Height - 20);
 
+                pnl_menu.SuspendLayout();
+                pnl_menu.Width = width;
+                pnl_menu.Height = height;
+                pnl_menu.Left = (ClientSize.Width - width) / 2;
+                pnl_menu.Top = (ClientSize.Height - height) / 2;
+                pnl_menu.Visible = true;
+                pnl_menu.BringToFront();
+
+                tlp_menu_main.Visible = true;
+                tlp_menu_main.BringToFront();
+                flp_productview.Visible = true;
+                Dgv_Selected_Item.Visible = false;
+                btn_cart.BackgroundImage = Properties.Resources.CartButton;
+                btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
+                btn_submit_menu.Visible = true;
+
+                pnl_menu.ResumeLayout(true);
+                pnl_menu.PerformLayout();
+                pnl_dgv_menu.PerformLayout();
+                tlp_menu_main.PerformLayout();
+                flp_productview.PerformLayout();
+
+                EnsurePartyPackMenuCategoryPanel();
+                LoadPartyPackMenuCategories();
+                partyPackMenuCurrentPage = 1;
+                LoadPartyPackMenuProducts(0);
+                SetPartyPackMenuSearchPlaceholders();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page btnmenu_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void btn_menu_cancel_Click(object sender, EventArgs e)
         {
-
+            ClosePartyPackMenu();
+            Dgv_Selected_Item.Rows.Clear();
         }
 
+        // Submit only transfers selected menu items into the package's food-item grid.
+        // Deliberately no balance, tax, price, or total calculations are performed here.
         private void btn_submit_menu_Click(object sender, EventArgs e)
         {
+            try
+            {
+                foreach (DataGridViewRow selectedRow in Dgv_Selected_Item.Rows)
+                {
+                    if (selectedRow.IsNewRow || !(selectedRow.Tag is PartyPackMenuSelection))
+                        continue;
 
+                    PartyPackMenuSelection selection = (PartyPackMenuSelection)selectedRow.Tag;
+                    int quantity = 1;
+                    int.TryParse(Convert.ToString(selectedRow.Cells["dataGridViewTextBoxColumn12"].Value), out quantity);
+                    if (quantity < 1)
+                        quantity = 1;
+
+                    DataGridViewRow existing = dgv_packs_default.Rows
+                        .Cast<DataGridViewRow>()
+                        .FirstOrDefault(row => !row.IsNewRow
+                            && string.Equals(Convert.ToString(row.Cells[Ritemno].Value), selection.ProductName,
+                                StringComparison.CurrentCultureIgnoreCase)
+                            && string.Equals(Convert.ToString(row.Cells[Rcategmenuno].Value), selection.CategoryId.ToString(),
+                                StringComparison.OrdinalIgnoreCase));
+
+                    if (existing != null)
+                    {
+                        int oldQuantity = 0;
+                        int.TryParse(Convert.ToString(existing.Cells[Rqtyno].Value), out oldQuantity);
+                        existing.Cells[Rqtyno].Value = oldQuantity + quantity;
+                    }
+                    else
+                    {
+                        DataGridViewRow targetRow = dgv_packs_default.Rows
+                            .Cast<DataGridViewRow>()
+                            .FirstOrDefault(row => !row.IsNewRow
+                                && string.IsNullOrWhiteSpace(Convert.ToString(row.Cells[Ritemno].Value)));
+
+                        if (targetRow == null)
+                        {
+                            int rowIndex = dgv_packs_default.Rows.Add();
+                            targetRow = dgv_packs_default.Rows[rowIndex];
+                        }
+
+                        targetRow.Cells[Ritemno].Value = selection.ProductName;
+                        targetRow.Cells[Rcategmenuno].Value = selection.CategoryId;
+                        targetRow.Cells[Rqtyno].Value = quantity;
+                        targetRow.Cells[Ractionno].Value = Grid_Remove;
+                        if (targetRow.Cells[Ractionno] is DataGridViewImageCell imageCell)
+                            imageCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    }
+                }
+
+                RefreshSlNo();
+                Dgv_Selected_Item.Rows.Clear();
+                ClosePartyPackMenu();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page btn_submit_menu_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void btnprev_Click(object sender, EventArgs e)
         {
-
+            if (partyPackMenuCurrentPage <= 1)
+                return;
+            partyPackMenuCurrentPage--;
+            ShowPartyPackMenuPage();
         }
 
         private void btnnext_Click(object sender, EventArgs e)
         {
-
+            int totalPages = (int)Math.Ceiling(partyPackMenuFilteredProducts.Count / (double)Math.Max(1, partyPackMenuPageSize));
+            if (partyPackMenuCurrentPage >= totalPages)
+                return;
+            partyPackMenuCurrentPage++;
+            ShowPartyPackMenuPage();
         }
 
         private void btn_showmenu_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (!pnl_menu.Visible)
+                    btnmenu_Click(sender, e);
 
+                EnsurePartyPackMenuCategoryPanel();
+                partyPackMenuCategoryPanel.Visible = !partyPackMenuCategoryPanel.Visible;
+                if (!partyPackMenuCategoryPanel.Visible)
+                    return;
+
+                Point screenPoint = btn_showmenu.PointToScreen(new Point(0, btn_showmenu.Height));
+                Point location = pnl_menu.PointToClient(screenPoint);
+                partyPackMenuCategoryPanel.Width = Math.Min(
+                    Math.Max(btn_showmenu.Width, 180), Math.Max(180, pnl_menu.ClientSize.Width - 16));
+                partyPackMenuCategoryPanel.Height = Math.Max(120,
+                    Math.Min(pnl_menu.ClientSize.Height - location.Y - 16, 360));
+                partyPackMenuCategoryPanel.Left = Math.Max(0,
+                    Math.Min(location.X, pnl_menu.ClientSize.Width - partyPackMenuCategoryPanel.Width));
+                partyPackMenuCategoryPanel.Top = Math.Max(0, location.Y + 3);
+                partyPackMenuCategoryPanel.BringToFront();
+                LoadPartyPackMenuCategories();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page btn_showmenu_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void btn_serach_Click(object sender, EventArgs e)
         {
+            string productName = txtname_search.Text;
+            string itemCode = txtitemcode_serach.Text;
+            if (productName == "Food Name .....")
+                productName = string.Empty;
+            if (itemCode == "Item Code .....")
+                itemCode = string.Empty;
 
+            partyPackMenuCurrentPage = 1;
+            LoadPartyPackMenuProducts(partyPackMenuCategoryId, productName, itemCode);
         }
 
         private void btn_cart_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (!pnl_menu.Visible)
+                    btnmenu_Click(sender, e);
 
+                bool cartVisible = Dgv_Selected_Item.Visible && !flp_productview.Visible;
+                if (cartVisible)
+                {
+                    Dgv_Selected_Item.Visible = false;
+                    flp_productview.Visible = true;
+                    tlp_menu_main.Visible = true;
+                    tlp_menu_main.BringToFront();
+                    btn_cart.BackgroundImage = Properties.Resources.CartButton;
+                }
+                else
+                {
+                    partyPackMenuCategoryPanel?.Hide();
+                    flp_productview.Visible = false;
+                    Dgv_Selected_Item.Visible = true;
+                    Dgv_Selected_Item.BringToFront();
+                    btn_cart.BackgroundImage = Properties.Resources.Party_Food_Items_Icon;
+                }
+                btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page btn_cart_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
+
+        private void EnsurePartyPackMenuCategoryPanel()
+        {
+            if (partyPackMenuCategoryPanel != null && !partyPackMenuCategoryPanel.IsDisposed)
+                return;
+
+            partyPackMenuCategoryPanel = new FlowLayoutPanel
+            {
+                Name = "flp_party_pack_menu_categories",
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                AutoScroll = true,
+                Visible = false,
+                BackColor = Color.White,
+                Padding = new Padding(5),
+                Margin = Padding.Empty,
+                BorderStyle = BorderStyle.FixedSingle
+            };
+            partyPackMenuCategoryPanel.HorizontalScroll.Enabled = false;
+            partyPackMenuCategoryPanel.HorizontalScroll.Visible = false;
+            partyPackMenuCategoryPanel.VerticalScroll.Enabled = true;
+            if (partyPackMenuToolTip == null)
+                partyPackMenuToolTip = new ToolTip();
+            pnl_menu.Controls.Add(partyPackMenuCategoryPanel);
+            partyPackMenuCategoryPanel.BringToFront();
+        }
+
+        private void LoadPartyPackMenuCategories()
+        {
+            try
+            {
+                EnsurePartyPackMenuCategoryPanel();
+                BllSearch<DmnCategory> searcher = new BllSearch<DmnCategory>();
+                DmnSearch search = new DmnSearch
+                {
+                    Select = "DISTINCT c.CategoryName, c.Fcid",
+                    Table = "tblCategory_FTI c",
+                    WhereNdGroupBy = "WHERE c.Status = 1 AND c.CategoryType = "
+                        + Convert.ToInt32(CategoryType.Menu_Category)
+                        + " AND (EXISTS (SELECT 1 FROM tblProduct p WHERE p.Fcid = c.Fcid AND p.Status = 1)"
+                        + " OR EXISTS (SELECT 1 FROM tblItem i WHERE i.Fcid = c.Fcid AND i.Status = 1 AND i.Saletype = 1))",
+                    OrderBy = "ORDER BY c.CategoryName"
+                };
+
+                List<DmnCategory> categories = searcher.GetSearchData("prdSearch", search);
+                partyPackMenuCategoryPanel.SuspendLayout();
+                foreach (Control control in partyPackMenuCategoryPanel.Controls)
+                    control.Dispose();
+                partyPackMenuCategoryPanel.Controls.Clear();
+
+                foreach (DmnCategory category in categories)
+                {
+                    Button categoryButton = new Button
+                    {
+                        Text = category.CategoryName,
+                        Tag = category.Fcid,
+                        Height = Math.Max(36, btn_showmenu.Height - 8),
+                        Width = Math.Max(120, partyPackMenuCategoryPanel.ClientSize.Width - 24),
+                        Margin = new Padding(4),
+                        FlatStyle = FlatStyle.Flat,
+                        BackColor = Color.FromArgb(101, 80, 185),
+                        ForeColor = Color.White,
+                        Font = AppFonts.GetFont(10),
+                        AutoEllipsis = true,
+                        Cursor = Cursors.Hand
+                    };
+                    categoryButton.FlatAppearance.BorderSize = 0;
+                    partyPackMenuToolTip.SetToolTip(categoryButton, category.CategoryName);
+                    categoryButton.Click += (s, e) =>
+                    {
+                        int categoryId;
+                        if (!int.TryParse(Convert.ToString(categoryButton.Tag), out categoryId))
+                            return;
+                        partyPackMenuCategoryId = categoryId;
+                        partyPackMenuCurrentPage = 1;
+                        partyPackMenuCategoryPanel.Hide();
+                        LoadPartyPackMenuProducts(categoryId);
+                    };
+                    partyPackMenuCategoryPanel.Controls.Add(categoryButton);
+                }
+
+                partyPackMenuCategoryPanel.ResumeLayout(true);
+                if (categories.Count == 0)
+                {
+                    partyPackMenuCategoryPanel.Visible = false;
+                    LoadPartyPackMenuProducts(0);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page LoadPartyPackMenuCategories()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void EnsurePartyPackMenuProductsLoaded()
+        {
+            if (partyPackMenuProductsLoaded)
+                return;
+
+            BllSearch<DmnGridFields> searcher = new BllSearch<DmnGridFields>();
+            DmnSearch search = new DmnSearch
+            {
+                Select = "p.Product AS Field1, p.ProductId AS Field2, 0 AS Field3, 0 AS Field4, p.Price AS Field5, p.MRP AS Field6, p.Tax AS Field7, p.TaxType AS Field8, p.Fcid AS Field9, p.TaxSettingsId AS Field10, p.ItemCode AS Field11, 0 AS Field12, ISNULL(p.foodtype,0) AS Field13, p.ForeColor AS Field14, p.BackColor AS Field15",
+                Table = "tblProduct p",
+                WhereNdGroupBy = "WHERE p.Status = 1",
+                OrderBy = "ORDER BY p.Product"
+            };
+            partyPackMenuAllProducts.AddRange(searcher.GetSearchData("prdSearch", search));
+
+            search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, 0 AS Field4, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.Unit,0) AS Field12, 0 AS Field13, '' AS Field14, '' AS Field15";
+            search.Table = "tblItem i";
+            search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1";
+            search.OrderBy = "ORDER BY i.Itemname";
+            partyPackMenuAllProducts.AddRange(searcher.GetSearchData("prdSearch", search));
+            partyPackMenuProductsLoaded = true;
+        }
+
+        private void LoadPartyPackMenuProducts(int categoryId, string productName = "", string itemCode = "")
+        {
+            try
+            {
+                EnsurePartyPackMenuProductsLoaded();
+                partyPackMenuCategoryId = categoryId;
+                IEnumerable<DmnGridFields> filtered = partyPackMenuAllProducts;
+
+                if (categoryId > 0)
+                    filtered = filtered.Where(p => Convert.ToInt32(p.Field9) == categoryId);
+                if (!string.IsNullOrWhiteSpace(productName))
+                    filtered = filtered.Where(p => (Convert.ToString(p.Field1) ?? string.Empty)
+                        .IndexOf(productName.Trim(), StringComparison.CurrentCultureIgnoreCase) >= 0);
+                if (!string.IsNullOrWhiteSpace(itemCode))
+                    filtered = filtered.Where(p => string.Equals(Convert.ToString(p.Field11), itemCode.Trim(),
+                        StringComparison.OrdinalIgnoreCase));
+
+                partyPackMenuFilteredProducts = filtered
+                    .OrderBy(p => Convert.ToString(p.Field1), StringComparer.CurrentCultureIgnoreCase)
+                    .ToList();
+                partyPackMenuCurrentPage = 1;
+                ShowPartyPackMenuPage();
+                tlp_menu_main.Visible = true;
+                tlp_menu_main.BringToFront();
+                flp_productview.Visible = true;
+                Dgv_Selected_Item.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page LoadPartyPackMenuProducts()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void ShowPartyPackMenuPage()
+        {
+            int totalPages = (int)Math.Ceiling(partyPackMenuFilteredProducts.Count / (double)Math.Max(1, partyPackMenuPageSize));
+            if (partyPackMenuCurrentPage < 1)
+                partyPackMenuCurrentPage = 1;
+            if (totalPages > 0 && partyPackMenuCurrentPage > totalPages)
+                partyPackMenuCurrentPage = totalPages;
+
+            partyPackMenuPageProducts = partyPackMenuFilteredProducts
+                .Skip((partyPackMenuCurrentPage - 1) * partyPackMenuPageSize)
+                .Take(partyPackMenuPageSize)
+                .ToList();
+
+            lblpagerinfo.Text = partyPackMenuFilteredProducts.Count == 0
+                ? "No products found"
+                : $"Page {partyPackMenuCurrentPage} of {Math.Max(1, totalPages)} | Total Records: {partyPackMenuFilteredProducts.Count}";
+            btnprev.Enabled = partyPackMenuCurrentPage > 1;
+            btnnext.Enabled = partyPackMenuCurrentPage < totalPages;
+
+            flp_productview.SuspendLayout();
+            foreach (Control control in flp_productview.Controls)
+                control.Dispose();
+            flp_productview.Controls.Clear();
+
+            int gap = 8;
+            int availableWidth = Math.Max(160, flp_productview.ClientSize.Width - flp_productview.Padding.Horizontal);
+            int columns = Math.Max(1, availableWidth / 170);
+            int tileWidth = Math.Max(110, (availableWidth / columns) - (gap * 2));
+            int tileHeight = Math.Max(92, Math.Min(138, (int)(tileWidth * 0.72m)));
+
+            foreach (DmnGridFields product in partyPackMenuPageProducts)
+            {
+                int productId, categoryId, saleType, unitId;
+                int.TryParse(Convert.ToString(product.Field2), out productId);
+                int.TryParse(Convert.ToString(product.Field9), out categoryId);
+                int.TryParse(Convert.ToString(product.Field3), out saleType);
+                int.TryParse(Convert.ToString(product.Field12), out unitId);
+                decimal price;
+                decimal.TryParse(Convert.ToString(product.Field5), out price);
+
+                PartyPackMenuSelection selection = new PartyPackMenuSelection
+                {
+                    ProductId = productId,
+                    SaleType = saleType,
+                    CategoryId = categoryId,
+                    ProductName = Convert.ToString(product.Field1) ?? string.Empty,
+                    ItemCode = Convert.ToString(product.Field11) ?? string.Empty,
+                    Price = price
+                };
+
+                Panel tile = new Panel
+                {
+                    Width = tileWidth,
+                    Height = tileHeight,
+                    Margin = new Padding(gap),
+                    BackColor = Color.White,
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Tag = selection,
+                    Cursor = Cursors.Hand
+                };
+                Label productLabel = new Label
+                {
+                    Text = selection.ProductName,
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Padding = new Padding(6),
+                    AutoEllipsis = true,
+                    ForeColor = Color.FromArgb(42, 34, 55),
+                    Font = AppFonts.GetFont(10),
+                    BackColor = Color.Transparent,
+                    Tag = selection
+                };
+                tile.Controls.Add(productLabel);
+                tile.Click += (s, e) => AddPartyPackMenuProduct(selection);
+                productLabel.Click += (s, e) => AddPartyPackMenuProduct(selection);
+                flp_productview.Controls.Add(tile);
+            }
+            flp_productview.ResumeLayout(true);
+        }
+
+        private void AddPartyPackMenuProduct(PartyPackMenuSelection selection)
+        {
+            if (selection == null || selection.ProductId <= 0 || string.IsNullOrWhiteSpace(selection.ProductName))
+                return;
+
+            DataGridViewRow existing = Dgv_Selected_Item.Rows
+                .Cast<DataGridViewRow>()
+                .FirstOrDefault(row => !row.IsNewRow
+                    && row.Tag is PartyPackMenuSelection
+                    && ((PartyPackMenuSelection)row.Tag).ProductId == selection.ProductId
+                    && ((PartyPackMenuSelection)row.Tag).SaleType == selection.SaleType);
+
+            if (existing != null)
+            {
+                int quantity = 1;
+                int.TryParse(Convert.ToString(existing.Cells["dataGridViewTextBoxColumn12"].Value), out quantity);
+                existing.Cells["dataGridViewTextBoxColumn12"].Value = quantity + 1;
+                return;
+            }
+
+            ConfigurePartyPackMenuCartGrid();
+            int rowIndex = Dgv_Selected_Item.Rows.Add();
+            DataGridViewRow row = Dgv_Selected_Item.Rows[rowIndex];
+            row.Tag = selection;
+            row.Cells["ipaction"].Value = Properties.Resources.Round_Close;
+            row.Cells["dataGridViewTextBoxColumn8"].Value = rowIndex + 1;
+            row.Cells["name"].Value = selection.ProductName;
+            row.Cells["dataGridViewTextBoxColumn12"].Value = 1;
+        }
+
+        private void ConfigurePartyPackMenuCartGrid()
+        {
+            Dgv_Selected_Item.ReadOnly = true;
+            Dgv_Selected_Item.AllowUserToAddRows = false;
+            Dgv_Selected_Item.AutoGenerateColumns = false;
+            Dgv_Selected_Item.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            Dgv_Selected_Item.RowHeadersVisible = false;
+
+            foreach (DataGridViewColumn column in Dgv_Selected_Item.Columns)
+                column.Visible = false;
+
+            Dgv_Selected_Item.Columns["ipaction"].Visible = true;
+            Dgv_Selected_Item.Columns["ipaction"].HeaderText = "";
+            Dgv_Selected_Item.Columns["ipaction"].Width = 42;
+            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].Visible = true;
+            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].HeaderText = "Sl.No";
+            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].Width = 58;
+            Dgv_Selected_Item.Columns["name"].Visible = true;
+            Dgv_Selected_Item.Columns["name"].HeaderText = "Menu Item";
+            Dgv_Selected_Item.Columns["name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].Visible = true;
+            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].HeaderText = "Qty";
+            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].Width = 72;
+            Dgv_Selected_Item.Columns["ipaction"].DisplayIndex = 0;
+            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].DisplayIndex = 1;
+            Dgv_Selected_Item.Columns["name"].DisplayIndex = 2;
+            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].DisplayIndex = 3;
+        }
+
+        private void DgvPartyPackMenu_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 || Dgv_Selected_Item.Columns[e.ColumnIndex].Name != "ipaction")
+                return;
+
+            if (e.RowIndex < Dgv_Selected_Item.Rows.Count)
+                Dgv_Selected_Item.Rows.RemoveAt(e.RowIndex);
+
+            for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
+            {
+                DataGridViewRow row = Dgv_Selected_Item.Rows[i];
+                row.Cells["dataGridViewTextBoxColumn8"].Value = i + 1;
+            }
+        }
+
+        private void PartyPackMenuSearchTextBox_Enter(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null)
+                return;
+            string placeholder = textBox == txtname_search ? "Food Name ....." : "Item Code .....";
+            if (textBox.Text == placeholder)
+                textBox.Clear();
+            textBox.ForeColor = Color.FromArgb(42, 34, 55);
+        }
+
+        private void PartyPackMenuSearchTextBox_Leave(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null || !string.IsNullOrWhiteSpace(textBox.Text))
+                return;
+            SetPartyPackMenuSearchPlaceholders();
+        }
+
+        private void PartyPackMenuSearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btn_serach_Click(sender, e);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void SetPartyPackMenuSearchPlaceholders()
+        {
+            if (string.IsNullOrWhiteSpace(txtname_search.Text))
+            {
+                txtname_search.Text = "Food Name .....";
+                txtname_search.ForeColor = Color.DarkGray;
+            }
+            if (string.IsNullOrWhiteSpace(txtitemcode_serach.Text))
+            {
+                txtitemcode_serach.Text = "Item Code .....";
+                txtitemcode_serach.ForeColor = Color.DarkGray;
+            }
+        }
+
+        private void ClosePartyPackMenu()
+        {
+            pnl_menu.Visible = false;
+            partyPackMenuCategoryPanel?.Hide();
+        }
+
+        #endregion
     }
 }
