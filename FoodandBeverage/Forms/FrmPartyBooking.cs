@@ -7061,6 +7061,7 @@ namespace FoodandBeverage
                             tax_extra += taxAmt;
                             net_extra += netAmt;
                             break;
+                        // Keep legacy FoodItem handling unchanged; Menu is an additional type.
                         case PackItemType.FoodItem:
                         case PackItemType.Menu:
                             preTax_food += baseAmt;
