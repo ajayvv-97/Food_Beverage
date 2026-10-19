@@ -32,15 +32,15 @@ namespace FoodandBeverage.SaleBill
             this.tlp_printbox = new System.Windows.Forms.TableLayoutPanel();
             this.lab_prinnter = new System.Windows.Forms.Label();
             this.txt_gmail_report = new System.Windows.Forms.TextBox();
-            this.btn_gmail = new System.Windows.Forms.Button();
-            this.btn_cancel = new System.Windows.Forms.Button();
             this.txt_ph_report = new System.Windows.Forms.TextBox();
-            this.btn_whatsup = new System.Windows.Forms.Button();
             this.lab_repor_cls = new System.Windows.Forms.Label();
-            this.btn_print = new System.Windows.Forms.Button();
-            this.btngst = new System.Windows.Forms.Button();
             this.rb_a4 = new System.Windows.Forms.RadioButton();
             this.rb_th = new System.Windows.Forms.RadioButton();
+            this.btn_gmail = new System.Windows.Forms.Button();
+            this.btn_cancel = new System.Windows.Forms.Button();
+            this.btn_whatsup = new System.Windows.Forms.Button();
+            this.btn_print = new System.Windows.Forms.Button();
+            this.btngst = new System.Windows.Forms.Button();
             this.pd_POS = new System.Windows.Forms.PrintDialog();
             this.crvSalesBill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.pnl_userreg = new System.Windows.Forms.Panel();
@@ -75,8 +75,8 @@ namespace FoodandBeverage.SaleBill
             this.tlp_outermain = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_bill_design = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tlp_printbox.SuspendLayout();
             this.pnl_userreg.SuspendLayout();
             this.tlp_userreg.SuspendLayout();
@@ -89,8 +89,8 @@ namespace FoodandBeverage.SaleBill
             this.tlp_outermain.SuspendLayout();
             this.tlp_main.SuspendLayout();
             this.tlp_bill_design.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_printbox
@@ -150,6 +150,58 @@ namespace FoodandBeverage.SaleBill
             this.txt_gmail_report.TabIndex = 55;
             this.txt_gmail_report.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_gmail_report_KeyPress);
             // 
+            // txt_ph_report
+            // 
+            this.txt_ph_report.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.txt_ph_report.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_ph_report.Location = new System.Drawing.Point(3, 130);
+            this.txt_ph_report.Multiline = true;
+            this.txt_ph_report.Name = "txt_ph_report";
+            this.txt_ph_report.Size = new System.Drawing.Size(105, 31);
+            this.txt_ph_report.TabIndex = 58;
+            this.txt_ph_report.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_ph_report_KeyPress);
+            // 
+            // lab_repor_cls
+            // 
+            this.lab_repor_cls.AutoSize = true;
+            this.lab_repor_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lab_repor_cls.ForeColor = System.Drawing.Color.Red;
+            this.lab_repor_cls.Location = new System.Drawing.Point(3, 164);
+            this.lab_repor_cls.Name = "lab_repor_cls";
+            this.lab_repor_cls.Size = new System.Drawing.Size(68, 18);
+            this.lab_repor_cls.TabIndex = 61;
+            this.lab_repor_cls.Text = "Press F6";
+            this.lab_repor_cls.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lab_repor_cls.Visible = false;
+            // 
+            // rb_a4
+            // 
+            this.rb_a4.AutoSize = true;
+            this.rb_a4.Checked = true;
+            this.rb_a4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rb_a4.Location = new System.Drawing.Point(3, 49);
+            this.rb_a4.Name = "rb_a4";
+            this.rb_a4.Size = new System.Drawing.Size(44, 20);
+            this.rb_a4.TabIndex = 64;
+            this.rb_a4.TabStop = true;
+            this.rb_a4.Text = "A4";
+            this.rb_a4.UseVisualStyleBackColor = true;
+            this.rb_a4.Visible = false;
+            this.rb_a4.CheckedChanged += new System.EventHandler(this.rb_a4_CheckedChanged);
+            // 
+            // rb_th
+            // 
+            this.rb_th.AutoSize = true;
+            this.rb_th.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rb_th.Location = new System.Drawing.Point(3, 23);
+            this.rb_th.Name = "rb_th";
+            this.rb_th.Size = new System.Drawing.Size(83, 20);
+            this.rb_th.TabIndex = 63;
+            this.rb_th.Text = "Thermal";
+            this.rb_th.UseVisualStyleBackColor = true;
+            this.rb_th.Visible = false;
+            this.rb_th.CheckedChanged += new System.EventHandler(this.rb_th_CheckedChanged);
+            // 
             // btn_gmail
             // 
             this.btn_gmail.BackgroundImage = global::FoodandBeverage.Properties.Resources.Email_Button;
@@ -185,17 +237,6 @@ namespace FoodandBeverage.SaleBill
             this.btn_cancel.MouseLeave += new System.EventHandler(this.btn_cancel_MouseLeave);
             this.btn_cancel.MouseHover += new System.EventHandler(this.btn_cancel_MouseHover);
             // 
-            // txt_ph_report
-            // 
-            this.txt_ph_report.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
-            this.txt_ph_report.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_ph_report.Location = new System.Drawing.Point(3, 130);
-            this.txt_ph_report.Multiline = true;
-            this.txt_ph_report.Name = "txt_ph_report";
-            this.txt_ph_report.Size = new System.Drawing.Size(105, 31);
-            this.txt_ph_report.TabIndex = 58;
-            this.txt_ph_report.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_ph_report_KeyPress);
-            // 
             // btn_whatsup
             // 
             this.btn_whatsup.BackgroundImage = global::FoodandBeverage.Properties.Resources.WhatsApp_Button;
@@ -211,19 +252,6 @@ namespace FoodandBeverage.SaleBill
             this.btn_whatsup.Size = new System.Drawing.Size(108, 54);
             this.btn_whatsup.TabIndex = 57;
             this.btn_whatsup.UseVisualStyleBackColor = true;
-            // 
-            // lab_repor_cls
-            // 
-            this.lab_repor_cls.AutoSize = true;
-            this.lab_repor_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lab_repor_cls.ForeColor = System.Drawing.Color.Red;
-            this.lab_repor_cls.Location = new System.Drawing.Point(3, 164);
-            this.lab_repor_cls.Name = "lab_repor_cls";
-            this.lab_repor_cls.Size = new System.Drawing.Size(68, 18);
-            this.lab_repor_cls.TabIndex = 61;
-            this.lab_repor_cls.Text = "Press F6";
-            this.lab_repor_cls.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lab_repor_cls.Visible = false;
             // 
             // btn_print
             // 
@@ -261,34 +289,6 @@ namespace FoodandBeverage.SaleBill
             this.btngst.UseVisualStyleBackColor = true;
             this.btngst.Click += new System.EventHandler(this.btngst_Click);
             // 
-            // rb_a4
-            // 
-            this.rb_a4.AutoSize = true;
-            this.rb_a4.Checked = true;
-            this.rb_a4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rb_a4.Location = new System.Drawing.Point(3, 49);
-            this.rb_a4.Name = "rb_a4";
-            this.rb_a4.Size = new System.Drawing.Size(44, 20);
-            this.rb_a4.TabIndex = 64;
-            this.rb_a4.TabStop = true;
-            this.rb_a4.Text = "A4";
-            this.rb_a4.UseVisualStyleBackColor = true;
-            this.rb_a4.Visible = false;
-            this.rb_a4.CheckedChanged += new System.EventHandler(this.rb_a4_CheckedChanged);
-            // 
-            // rb_th
-            // 
-            this.rb_th.AutoSize = true;
-            this.rb_th.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rb_th.Location = new System.Drawing.Point(3, 23);
-            this.rb_th.Name = "rb_th";
-            this.rb_th.Size = new System.Drawing.Size(83, 20);
-            this.rb_th.TabIndex = 63;
-            this.rb_th.Text = "Thermal";
-            this.rb_th.UseVisualStyleBackColor = true;
-            this.rb_th.Visible = false;
-            this.rb_th.CheckedChanged += new System.EventHandler(this.rb_th_CheckedChanged);
-            // 
             // pd_POS
             // 
             this.pd_POS.UseEXDialog = true;
@@ -298,7 +298,7 @@ namespace FoodandBeverage.SaleBill
             this.crvSalesBill.ActiveViewIndex = -1;
             this.crvSalesBill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.crvSalesBill.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.crvSalesBill.Location = new System.Drawing.Point(-43, 3);
+            this.crvSalesBill.Location = new System.Drawing.Point(3, 3);
             this.crvSalesBill.Name = "crvSalesBill";
             this.crvSalesBill.ShowCloseButton = false;
             this.crvSalesBill.ShowCopyButton = false;
@@ -308,7 +308,7 @@ namespace FoodandBeverage.SaleBill
             this.crvSalesBill.ShowParameterPanelButton = false;
             this.crvSalesBill.ShowTextSearchButton = false;
             this.crvSalesBill.ShowZoomButton = false;
-            this.crvSalesBill.Size = new System.Drawing.Size(505, 526);
+            this.crvSalesBill.Size = new System.Drawing.Size(459, 471);
             this.crvSalesBill.TabIndex = 67;
             this.crvSalesBill.Tag = "39";
             this.crvSalesBill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
@@ -757,31 +757,20 @@ namespace FoodandBeverage.SaleBill
             // 
             // tlp_bill_design
             // 
-            this.tlp_bill_design.ColumnCount = 2;
+            this.tlp_bill_design.BackColor = System.Drawing.Color.White;
+            this.tlp_bill_design.ColumnCount = 1;
             this.tlp_bill_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_bill_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 511F));
-            this.tlp_bill_design.Controls.Add(this.crvSalesBill, 1, 0);
-            this.tlp_bill_design.Controls.Add(this.pictureBox1, 1, 1);
+            this.tlp_bill_design.Controls.Add(this.pictureBox1, 0, 1);
+            this.tlp_bill_design.Controls.Add(this.crvSalesBill, 0, 0);
             this.tlp_bill_design.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_bill_design.Location = new System.Drawing.Point(175, 3);
             this.tlp_bill_design.Name = "tlp_bill_design";
             this.tlp_bill_design.RowCount = 2;
             this.tlp_bill_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_bill_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_bill_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.tlp_bill_design.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_bill_design.Size = new System.Drawing.Size(465, 552);
             this.tlp_bill_design.TabIndex = 328;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.Salebill_platform_bg;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(-43, 535);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(505, 14);
-            this.pictureBox1.TabIndex = 68;
-            this.pictureBox1.TabStop = false;
             // 
             // tableLayoutPanel1
             // 
@@ -805,6 +794,17 @@ namespace FoodandBeverage.SaleBill
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(808, 60);
             this.tableLayoutPanel1.TabIndex = 328;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.Salebill_platform_bg;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 480);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(459, 69);
+            this.pictureBox1.TabIndex = 68;
+            this.pictureBox1.TabStop = false;
             // 
             // FrmSaleInvoice
             // 
@@ -839,8 +839,8 @@ namespace FoodandBeverage.SaleBill
             this.tlp_outermain.ResumeLayout(false);
             this.tlp_main.ResumeLayout(false);
             this.tlp_bill_design.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -893,7 +893,7 @@ namespace FoodandBeverage.SaleBill
         private System.Windows.Forms.TableLayoutPanel tlp_outermain;
         private System.Windows.Forms.TableLayoutPanel tlp_main;
         private System.Windows.Forms.TableLayoutPanel tlp_bill_design;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
