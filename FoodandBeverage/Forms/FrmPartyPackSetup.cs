@@ -2596,5 +2596,45 @@ namespace FoodandBeverage.Forms
             selectedCakeId = 0;
             btndel_cake.Visible = false;
         }
+
+        private void btnmenu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_menu_cancel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_submit_menu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnprev_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnnext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_showmenu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_serach_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_cart_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

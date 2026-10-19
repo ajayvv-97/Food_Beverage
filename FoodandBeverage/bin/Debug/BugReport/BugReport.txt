@@ -475,3 +475,31 @@ User Name: admin
 Designation: Manager
 FormTypeId: 1
 -------------------------------------------------------------------------
+Date and Time: 10/19/2026 3:00:20 PM
+Page : Addon page PrintBill()
+Exception: Refresh is disabled.(RCIWINFORMVIEWER00000005)
+User Name: admin
+Designation: Manager
+FormTypeId: 45
+-------------------------------------------------------------------------
+Date and Time: 10/19/2026 3:04:33 PM
+Page : Addon page PrintBill()
+Exception: Refresh is disabled.(RCIWINFORMVIEWER00000005)
+User Name: admin
+Designation: Manager
+FormTypeId: 45
+-------------------------------------------------------------------------
+Date and Time: 10/19/2026 3:09:40 PM
+Page : Addon page PrintBill()
+Exception: Refresh is disabled.(RCIWINFORMVIEWER00000005)
+User Name: admin
+Designation: Manager
+FormTypeId: 45
+-------------------------------------------------------------------------
+Date and Time: 10/19/2026 3:35:33 PM
+Page : Addon page PrintBill()
+Exception: Refresh is disabled.(RCIWINFORMVIEWER00000005)
+User Name: admin
+Designation: Manager
+FormTypeId: 45
+-------------------------------------------------------------------------
