@@ -120,6 +120,8 @@ namespace FoodandBeverage.SaleBill
         #endregion
         private void FrmSaleInvoice_Load(object sender, EventArgs e)
         {
+            // Use the available work area for a larger invoice preview.
+            ConfigureBillPreviewLayout();
             Fdefaultwidth = this.Width;
             Fdefaultheight = this.Height;
 
@@ -1126,6 +1128,83 @@ namespace FoodandBeverage.SaleBill
 
             }
         }
+        private void ConfigureBillPreviewLayout()
+        {
+            try
+            {
+                Rectangle workArea = Screen.FromControl(this).WorkingArea;
+                this.StartPosition = FormStartPosition.Manual;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.Bounds = workArea;
+                this.BackColor = Color.FromArgb(72, 35, 145);
+                this.Padding = new Padding(8);
+
+                // Reuse the existing controls; hide the legacy side columns and
+                // expand the Crystal Report viewer over the available space.
+                tlp_outermain.Dock = DockStyle.Fill;
+                tlp_outermain.Padding = new Padding(0);
+                tlp_outermain.RowStyles[0].SizeType = SizeType.Percent;
+                tlp_outermain.RowStyles[0].Height = 90F;
+                tlp_outermain.RowStyles[1].SizeType = SizeType.Absolute;
+                tlp_outermain.RowStyles[1].Height = 66F;
+
+                tlp_main.Dock = DockStyle.Fill;
+                tlp_main.ColumnStyles[0].SizeType = SizeType.Absolute;
+                tlp_main.ColumnStyles[0].Width = 0F;
+                tlp_main.ColumnStyles[1].SizeType = SizeType.Percent;
+                tlp_main.ColumnStyles[1].Width = 100F;
+                tlp_main.ColumnStyles[2].SizeType = SizeType.Absolute;
+                tlp_main.ColumnStyles[2].Width = 0F;
+                tlp_printbox.Visible = false;
+
+                tlp_bill_design.Dock = DockStyle.Fill;
+                tlp_bill_design.ColumnCount = 1;
+                tlp_bill_design.ColumnStyles.Clear();
+                tlp_bill_design.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+                tlp_bill_design.RowStyles[0].SizeType = SizeType.Percent;
+                tlp_bill_design.RowStyles[0].Height = 100F;
+                tlp_bill_design.RowStyles[1].SizeType = SizeType.Absolute;
+                tlp_bill_design.RowStyles[1].Height = 0F;
+                pictureBox1.Visible = false;
+
+                crvSalesBill.Dock = DockStyle.Fill;
+                crvSalesBill.BorderStyle = BorderStyle.None;
+                crvSalesBill.ShowCloseButton = false;
+                crvSalesBill.ShowCopyButton = false;
+                crvSalesBill.ShowGotoPageButton = false;
+                crvSalesBill.ShowGroupTreeButton = false;
+                crvSalesBill.ShowLogo = false;
+                crvSalesBill.ShowParameterPanelButton = false;
+                crvSalesBill.ShowTextSearchButton = false;
+                crvSalesBill.ShowZoomButton = false;
+                crvSalesBill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
+
+                tableLayoutPanel1.Dock = DockStyle.Fill;
+                tableLayoutPanel1.BackColor = Color.FromArgb(43, 18, 102);
+                tableLayoutPanel1.Padding = new Padding(12, 4, 12, 4);
+                foreach (Control control in tableLayoutPanel1.Controls)
+                {
+                    if (control is Button button)
+                    {
+                        button.Dock = DockStyle.Fill;
+                        button.Margin = new Padding(6, 2, 6, 2);
+                        button.FlatStyle = FlatStyle.Flat;
+                        button.FlatAppearance.BorderSize = 0;
+                    }
+                }
+
+                // Preserve the existing bill/report and actions while removing
+                // the stretched legacy background from the form surface.
+                this.BackgroundImage = null;
+                this.BackgroundImageLayout = ImageLayout.None;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("FrmSaleInvoice ConfigureBillPreviewLayout()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
+            }
+        }
+
         private void ApplyFormSize()
         {
             if (rb_a4.Checked)
@@ -1429,8 +1508,12 @@ namespace FoodandBeverage.SaleBill
 
         private void FrmSaleInvoice_FormClosing(object sender, FormClosingEventArgs e)
         {
-            reportDocument.Close();
-            reportDocument.Dispose();
+            if (reportDocument != null)
+            {
+                reportDocument.Close();
+                reportDocument.Dispose();
+                reportDocument = null;
+            }
 
             if (crvSalesBill.ReportSource != null)
             {
