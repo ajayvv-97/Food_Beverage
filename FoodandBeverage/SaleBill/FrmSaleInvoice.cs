@@ -107,6 +107,29 @@ namespace FoodandBeverage.SaleBill
         }
         bool RPTLocalVw = false;
 
+        // Match the Crystal Report viewer's surrounding surface to the existing purple theme.
+        // Crystal Reports uses native child surfaces, so true transparency is not supported.
+        private void ApplyCrystalViewerTheme()
+        {
+            Color viewerBackColor = Color.FromArgb(101, 80, 185);
+            crvSalesBill.BackColor = viewerBackColor;
+
+            foreach (Control child in crvSalesBill.Controls)
+            {
+                child.BackColor = viewerBackColor;
+                ApplyCrystalViewerChildTheme(child, viewerBackColor);
+            }
+        }
+
+        private void ApplyCrystalViewerChildTheme(Control parent, Color backColor)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                child.BackColor = backColor;
+                ApplyCrystalViewerChildTheme(child, backColor);
+            }
+        }
+
         // Apply rounded corners to the form only; leave all existing controls and layout unchanged.
         private void FrmSaleInvoice_ApplyRoundedCorners(object sender, EventArgs e)
         {
@@ -151,6 +174,7 @@ namespace FoodandBeverage.SaleBill
             Fdefaultwidth = this.Width;
             Fdefaultheight = this.Height;
 
+            ApplyCrystalViewerTheme();
             UseWaitCursor = true;
             StartLoadingAnimation();
             try
