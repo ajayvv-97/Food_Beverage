@@ -296,8 +296,11 @@ namespace FoodandBeverage.SaleBill
             // crvSalesBill
             // 
             this.crvSalesBill.ActiveViewIndex = -1;
-            this.crvSalesBill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.crvSalesBill.DisplayBackgroundEdge = false;
+            this.crvSalesBill.DisplayStatusBar = false;
             this.crvSalesBill.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.crvSalesBill.EnableRefresh = false;
+            this.crvSalesBill.EnableToolTips = false;
             this.crvSalesBill.Location = new System.Drawing.Point(3, 3);
             this.crvSalesBill.Name = "crvSalesBill";
             this.crvSalesBill.ShowCloseButton = false;
@@ -757,7 +760,7 @@ namespace FoodandBeverage.SaleBill
             // 
             // tlp_bill_design
             // 
-            this.tlp_bill_design.BackColor = System.Drawing.Color.White;
+            this.tlp_bill_design.BackColor = System.Drawing.Color.Transparent;
             this.tlp_bill_design.ColumnCount = 1;
             this.tlp_bill_design.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_bill_design.Controls.Add(this.pictureBox1, 0, 1);
@@ -797,6 +800,7 @@ namespace FoodandBeverage.SaleBill
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.Salebill_platform_bg;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
