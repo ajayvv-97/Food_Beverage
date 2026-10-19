@@ -503,6 +503,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Cancel_Button {
+            get {
+                object obj = ResourceManager.GetObject("Cancel_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cancel_description {
             get {
                 object obj = ResourceManager.GetObject("cancel_description", resourceCulture);
@@ -1063,6 +1073,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Email_Button {
+            get {
+                object obj = ResourceManager.GetObject("Email_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap emp_cameraicon {
             get {
                 object obj = ResourceManager.GetObject("emp_cameraicon", resourceCulture);
@@ -1426,6 +1446,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap GST {
             get {
                 object obj = ResourceManager.GetObject("GST", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GST_Button {
+            get {
+                object obj = ResourceManager.GetObject("GST_Button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -3072,6 +3102,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Print_Button {
+            get {
+                object obj = ResourceManager.GetObject("Print_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap printer {
             get {
                 object obj = ResourceManager.GetObject("printer", resourceCulture);
@@ -3562,6 +3602,26 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Salebill_bg {
+            get {
+                object obj = ResourceManager.GetObject("Salebill_bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Salebill_platform_bg {
+            get {
+                object obj = ResourceManager.GetObject("Salebill_platform_bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SaveButton {
             get {
                 object obj = ResourceManager.GetObject("SaveButton", resourceCulture);
@@ -3975,6 +4035,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap WhatsApp {
             get {
                 object obj = ResourceManager.GetObject("WhatsApp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WhatsApp_Button {
+            get {
+                object obj = ResourceManager.GetObject("WhatsApp_Button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
