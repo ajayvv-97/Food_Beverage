@@ -1207,23 +1207,17 @@ namespace FoodandBeverage.SaleBill
 
         private void ApplyFormSize()
         {
+            Rectangle workArea = Screen.FromControl(this).WorkingArea;
             if (rb_a4.Checked)
             {
-                int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
-                int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
-
-                this.Width = (int)(screenWidth * 0.8);
-                this.Height = (int)(screenHeight * 0.8);
-            }
-            else if (rb_th.Checked)
-            {
-                this.Width = Fdefaultwidth;
-                this.Height = Fdefaultheight;
+                this.Width = (int)(workArea.Width * 0.92);
+                this.Height = (int)(workArea.Height * 0.92);
             }
             else
             {
-                this.Width = Fdefaultwidth;
-                this.Height = Fdefaultheight;
+                // Thermal preview remains comfortable while using the new layout.
+                this.Width = (int)(workArea.Width * 0.92);
+                this.Height = (int)(workArea.Height * 0.92);
             }
 
             crvSalesBill.Dock = DockStyle.Fill;
