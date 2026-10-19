@@ -2676,8 +2676,17 @@ namespace FoodandBeverage.Forms
 
         private void btn_menu_cancel_Click(object sender, EventArgs e)
         {
+            try
+            {
             ClosePartyPackMenu();
             Dgv_Selected_Item.Rows.Clear();
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page btn_menu_cancel_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         // Submit only transfers selected menu items into the package's food-item grid.
@@ -2746,19 +2755,37 @@ namespace FoodandBeverage.Forms
 
         private void btnprev_Click(object sender, EventArgs e)
         {
+            try
+            {
             if (partyPackMenuCurrentPage <= 1)
                 return;
             partyPackMenuCurrentPage--;
             ShowPartyPackMenuPage();
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page btnprev_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void btnnext_Click(object sender, EventArgs e)
         {
+            try
+            {
             int totalPages = (int)Math.Ceiling(partyPackMenuFilteredProducts.Count / (double)Math.Max(1, partyPackMenuPageSize));
             if (partyPackMenuCurrentPage >= totalPages)
                 return;
             partyPackMenuCurrentPage++;
             ShowPartyPackMenuPage();
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page btnnext_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void btn_showmenu_Click(object sender, EventArgs e)
@@ -2794,6 +2821,8 @@ namespace FoodandBeverage.Forms
 
         private void btn_serach_Click(object sender, EventArgs e)
         {
+            try
+            {
             string productName = txtname_search.Text;
             string itemCode = txtitemcode_serach.Text;
             if (productName == "Food Name .....")
@@ -2803,6 +2832,13 @@ namespace FoodandBeverage.Forms
 
             partyPackMenuCurrentPage = 1;
             LoadPartyPackMenuProducts(partyPackMenuCategoryId, productName, itemCode);
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page btn_serach_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void btn_cart_Click(object sender, EventArgs e)
@@ -2840,6 +2876,8 @@ namespace FoodandBeverage.Forms
 
         private void EnsurePartyPackMenuCategoryPanel()
         {
+            try
+            {
             if (partyPackMenuCategoryPanel != null && !partyPackMenuCategoryPanel.IsDisposed)
                 return;
 
@@ -2862,6 +2900,13 @@ namespace FoodandBeverage.Forms
                 partyPackMenuToolTip = new ToolTip();
             pnl_menu.Controls.Add(partyPackMenuCategoryPanel);
             partyPackMenuCategoryPanel.BringToFront();
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page EnsurePartyPackMenuCategoryPanel()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void LoadPartyPackMenuCategories()
@@ -2934,6 +2979,8 @@ namespace FoodandBeverage.Forms
 
         private void EnsurePartyPackMenuProductsLoaded()
         {
+            try
+            {
             if (partyPackMenuProductsLoaded)
                 return;
 
@@ -2953,6 +3000,13 @@ namespace FoodandBeverage.Forms
             search.OrderBy = "ORDER BY i.Itemname";
             partyPackMenuAllProducts.AddRange(searcher.GetSearchData("prdSearch", search));
             partyPackMenuProductsLoaded = true;
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page EnsurePartyPackMenuProductsLoaded()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void LoadPartyPackMenuProducts(int categoryId, string productName = "", string itemCode = "")
@@ -2991,6 +3045,8 @@ namespace FoodandBeverage.Forms
 
         private void ShowPartyPackMenuPage()
         {
+            try
+            {
             int totalPages = (int)Math.Ceiling(partyPackMenuFilteredProducts.Count / (double)Math.Max(1, partyPackMenuPageSize));
             if (partyPackMenuCurrentPage < 1)
                 partyPackMenuCurrentPage = 1;
@@ -3067,10 +3123,19 @@ namespace FoodandBeverage.Forms
                 flp_productview.Controls.Add(tile);
             }
             flp_productview.ResumeLayout(true);
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page ShowPartyPackMenuPage()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void AddPartyPackMenuProduct(PartyPackMenuSelection selection)
         {
+            try
+            {
             if (selection == null || selection.ProductId <= 0 || string.IsNullOrWhiteSpace(selection.ProductName))
                 return;
 
@@ -3091,16 +3156,25 @@ namespace FoodandBeverage.Forms
 
             ConfigurePartyPackMenuCartGrid();
             int rowIndex = Dgv_Selected_Item.Rows.Add();
-            DataGridViewRow row = Dgv_Selected_Item.Rows[rowIndex];
-            row.Tag = selection;
-            row.Cells["ipaction"].Value = Properties.Resources.Round_Close;
-            row.Cells["dataGridViewTextBoxColumn8"].Value = rowIndex + 1;
-            row.Cells["name"].Value = selection.ProductName;
-            row.Cells["dataGridViewTextBoxColumn12"].Value = 1;
+            DataGridViewRow addedRow = Dgv_Selected_Item.Rows[rowIndex];
+            addedRow.Tag = selection;
+            addedRow.Cells["ipaction"].Value = Properties.Resources.Round_Close;
+            addedRow.Cells["dataGridViewTextBoxColumn8"].Value = rowIndex + 1;
+            addedRow.Cells["name"].Value = selection.ProductName;
+            addedRow.Cells["dataGridViewTextBoxColumn12"].Value = 1;
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page AddPartyPackMenuProduct()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void ConfigurePartyPackMenuCartGrid()
         {
+            try
+            {
             Dgv_Selected_Item.ReadOnly = true;
             Dgv_Selected_Item.AllowUserToAddRows = false;
             Dgv_Selected_Item.AutoGenerateColumns = false;
@@ -3126,10 +3200,19 @@ namespace FoodandBeverage.Forms
             Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].DisplayIndex = 1;
             Dgv_Selected_Item.Columns["name"].DisplayIndex = 2;
             Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].DisplayIndex = 3;
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page ConfigurePartyPackMenuCartGrid()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void DgvPartyPackMenu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            try
+            {
             if (e.RowIndex < 0 || e.ColumnIndex < 0 || Dgv_Selected_Item.Columns[e.ColumnIndex].Name != "ipaction")
                 return;
 
@@ -3141,10 +3224,19 @@ namespace FoodandBeverage.Forms
                 DataGridViewRow row = Dgv_Selected_Item.Rows[i];
                 row.Cells["dataGridViewTextBoxColumn8"].Value = i + 1;
             }
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page DgvPartyPackMenu_CellClick()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void PartyPackMenuSearchTextBox_Enter(object sender, EventArgs e)
         {
+            try
+            {
             TextBox textBox = sender as TextBox;
             if (textBox == null)
                 return;
@@ -3152,28 +3244,55 @@ namespace FoodandBeverage.Forms
             if (textBox.Text == placeholder)
                 textBox.Clear();
             textBox.ForeColor = Color.FromArgb(42, 34, 55);
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page PartyPackMenuSearchTextBox_Enter()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void PartyPackMenuSearchTextBox_Leave(object sender, EventArgs e)
         {
+            try
+            {
             TextBox textBox = sender as TextBox;
             if (textBox == null || !string.IsNullOrWhiteSpace(textBox.Text))
                 return;
             SetPartyPackMenuSearchPlaceholders();
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page PartyPackMenuSearchTextBox_Leave()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void PartyPackMenuSearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
+            try
+            {
             if (e.KeyCode == Keys.Enter)
             {
                 btn_serach_Click(sender, e);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page PartyPackMenuSearchTextBox_KeyDown()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void SetPartyPackMenuSearchPlaceholders()
         {
+            try
+            {
             if (string.IsNullOrWhiteSpace(txtname_search.Text))
             {
                 txtname_search.Text = "Food Name .....";
@@ -3184,12 +3303,28 @@ namespace FoodandBeverage.Forms
                 txtitemcode_serach.Text = "Item Code .....";
                 txtitemcode_serach.ForeColor = Color.DarkGray;
             }
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page SetPartyPackMenuSearchPlaceholders()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void ClosePartyPackMenu()
         {
+            try
+            {
             pnl_menu.Visible = false;
             partyPackMenuCategoryPanel?.Hide();
+        
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page ClosePartyPackMenu()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         #endregion
