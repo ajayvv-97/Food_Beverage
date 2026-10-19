@@ -1396,7 +1396,7 @@ namespace FoodandBeverage
                 search.Select = "PartyPackDetailsId, Item, Quantity, MenuCategoryId";
                 search.Table = "tblPartyPackDetails";
                 search.WhereNdGroupBy = $"WHERE PartyPackId = {Partypackid} AND Status = 1 AND " +
-                    $"(PackItemType = {Convert.ToInt32(PackItemType.Card)} OR PackItemType = {Convert.ToInt32(PackItemType.Gift)})";
+                    $"(PackItemType = {Convert.ToInt32(PackItemType.Card)} OR PackItemType = {Convert.ToInt32(PackItemType.Gift)} OR PackItemType = {Convert.ToInt32(PackItemType.Menu)})";
 
                 var result = bll.GetSearchData("prdSearch", search);
 
@@ -4811,6 +4811,8 @@ namespace FoodandBeverage
                         det.TableType = Convert.ToInt32(FoodandBeverage.Interfaces.ProductType.Card);
                     else if (productType == (int)PackItemType.Gift)
                         det.TableType = Convert.ToInt32(FoodandBeverage.Interfaces.ProductType.RedemptionTicket);
+                    else if (productType == (int)PackItemType.Menu)
+                        det.TableType = Convert.ToInt32(FoodandBeverage.Interfaces.ProductType.FB);
                     else if (productType == (int)PackItemType.Cake)
                         det.TableType = 0;
                     else
@@ -5049,6 +5051,8 @@ namespace FoodandBeverage
                         detSale.PackageType = (int)PackItemType.Card; // Card
                     else if (productType == (int)PackItemType.Gift)
                         detSale.PackageType = (int)PackItemType.Gift; // Gift
+                    else if (productType == (int)PackItemType.Menu)
+                        detSale.PackageType = (int)PackItemType.Menu; // Party menu product
                     else if (productType == (int)PackItemType.ExtraChargeProduct)
                         detSale.PackageType = (int)PackItemType.ExtraChargeProduct;
                     else if (productType == (int)PackItemType.ManualProduct)
@@ -5617,6 +5621,7 @@ namespace FoodandBeverage
                            (item.ProductType == (int)PackItemType.Cake ||
                             item.ProductType == (int)PackItemType.Card ||
                             item.ProductType == (int)PackItemType.Gift ||
+                            item.ProductType == (int)PackItemType.Menu ||
                             item.ProductType == (int)PackItemType.ExtraChargeProduct))
                         {
                             int rowIndex = dgv_product.Rows.Add();
@@ -6959,6 +6964,7 @@ namespace FoodandBeverage
                     //  Card, Gift, Cake,ExtraChargeProduct
                     if (productType != (int)PackItemType.Card &&
                         productType != (int)PackItemType.Gift &&
+                        productType != (int)PackItemType.Menu &&
                         productType != (int)PackItemType.Cake &&
                         productType != (int)PackItemType.ExtraChargeProduct &&
                         productType != (int)PackItemType.FoodItem)
@@ -7056,6 +7062,7 @@ namespace FoodandBeverage
                             net_extra += netAmt;
                             break;
                         case PackItemType.FoodItem:
+                        case PackItemType.Menu:
                             preTax_food += baseAmt;
                             tax_food += taxAmt;
                             net_food += netAmt;
@@ -7220,7 +7227,7 @@ namespace FoodandBeverage
                 decimal.TryParse(txtTotalDiscountAmt.Text, out discounttotal);
                 grandTotal += packTotal;
 
-                decimal cardTotal = 0, giftTotal = 0, cakeTotal = 0, addcharge = 0, Tottax = 0;
+                decimal cardTotal = 0, giftTotal = 0, cakeTotal = 0, menuTotal = 0, addcharge = 0, Tottax = 0;
 
                 foreach (DataGridViewRow row in dgv_product.Rows)
                 {
@@ -7244,13 +7251,17 @@ namespace FoodandBeverage
                             cakeTotal += netAmt;
                             Tottax += taxAmt;
                             break;
+                        case PackItemType.Menu:
+                            menuTotal += netAmt;
+                            Tottax += taxAmt;
+                            break;
                         case PackItemType.ExtraChargeProduct:
                             addcharge += netAmt;
                             Tottax += taxAmt;
                             break;
                     }
                 }
-                grandTotal += cardTotal + giftTotal + cakeTotal + addcharge;
+                grandTotal += cardTotal + giftTotal + cakeTotal + menuTotal + addcharge;
                 if (discounttotal > 0)
                 {
                     originalGrandTotal = grandTotal - discounttotal;
@@ -8860,14 +8871,14 @@ namespace FoodandBeverage
                 .FirstOrDefault(candidate =>
                     !candidate.IsNewRow &&
                     Convert.ToInt32(candidate.Cells[pProductid].Value ?? 0) == item.ProductId &&
-                    Convert.ToInt32(candidate.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.FoodItem);
+                    Convert.ToInt32(candidate.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.Menu);
 
             if (existing != null)
             {
                 decimal existingQuantity = 0m;
                 decimal.TryParse(Convert.ToString(existing.Cells[pqtyno].Value), out existingQuantity);
                 existing.Cells[pqtyno].Value = existingQuantity + quantity;
-                CalculateAndApplyTax(existing.Index, (int)PackItemType.FoodItem, item.ProductId);
+                CalculateAndApplyTax(existing.Index, (int)PackItemType.Menu, item.ProductId);
                 return;
             }
 
@@ -8898,7 +8909,7 @@ namespace FoodandBeverage
             row.Cells[pdisamt].Value = 0m;
             row.Cells[pmessageno].Value = "";
             row.Cells[premarksno].Value = "";
-            row.Cells[PPackProductTypeno].Value = (int)PackItemType.FoodItem;
+            row.Cells[PPackProductTypeno].Value = (int)PackItemType.Menu;
             row.ReadOnly = true;
 
             DataGridViewImageCell actionCell = row.Cells[pactionno] as DataGridViewImageCell;
@@ -8908,7 +8919,7 @@ namespace FoodandBeverage
                 actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
             }
 
-            CalculateAndApplyTax(index, (int)PackItemType.FoodItem, item.ProductId);
+            CalculateAndApplyTax(index, (int)PackItemType.Menu, item.ProductId);
         }
 
         private void btn_menu_submit_Click(object sender, EventArgs e)
