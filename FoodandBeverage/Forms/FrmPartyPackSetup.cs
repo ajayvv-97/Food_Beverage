@@ -125,6 +125,7 @@ namespace FoodandBeverage.Forms
             btn_menu_close.Click += (s, e) => ClosePartyPackMenu();
             Dgv_Selected_Item.CellClick += DgvPartyPackMenu_CellClick;
             Dgv_Selected_Item.CellPainting += DgvPartyPackMenu_CellPainting;
+            pnl_dgv_menu.Resize += (s, e) => ResizePartyPackMenuContent();
             ApplyPartyPackMenuVisualStyles();
             txtname_search.Enter += PartyPackMenuSearchTextBox_Enter;
             txtname_search.Leave += PartyPackMenuSearchTextBox_Leave;
@@ -2642,6 +2643,18 @@ namespace FoodandBeverage.Forms
                 int height = Math.Min((int)(ClientSize.Height * 0.86), ClientSize.Height - 20);
 
                 pnl_menu.SuspendLayout();
+                // Resize the popup and its nested layout container together. The
+                // designer's original width is fixed, so Dock=Fill alone can leave
+                // the product tiles and selected-items grid at the old 787px width.
+                tableLayoutPanel43.Dock = DockStyle.Fill;
+                tableLayoutPanel43.Margin = Padding.Empty;
+                tableLayoutPanel43.Width = width - pnl_menu.Padding.Horizontal;
+                pnl_dgv_menu.Dock = DockStyle.Fill;
+                pnl_dgv_menu.Margin = Padding.Empty;
+                pnl_dgv_menu.Padding = new Padding(3);
+                tlp_menu_main.Dock = DockStyle.Fill;
+                flp_productview.Dock = DockStyle.Fill;
+                Dgv_Selected_Item.Dock = DockStyle.Fill;
                 pnl_menu.Width = width;
                 pnl_menu.Height = height;
                 pnl_menu.Left = (ClientSize.Width - width) / 2;
@@ -2659,9 +2672,15 @@ namespace FoodandBeverage.Forms
 
                 pnl_menu.ResumeLayout(true);
                 pnl_menu.PerformLayout();
+                tableLayoutPanel43.PerformLayout();
                 pnl_dgv_menu.PerformLayout();
                 tlp_menu_main.PerformLayout();
                 flp_productview.PerformLayout();
+                Dgv_Selected_Item.PerformLayout();
+
+                // Recalculate the tile size using the actual resized viewport.
+                partyPackMenuPageSize = CalculatePartyPackMenuPageSize();
+                partyPackMenuCurrentPage = 1;
 
                 EnsurePartyPackMenuCategoryPanel();
                 LoadPartyPackMenuCategories();
@@ -3045,6 +3064,49 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private int CalculatePartyPackMenuPageSize()
+        {
+            try
+            {
+                int availableWidth = Math.Max(220, flp_productview.ClientSize.Width - flp_productview.Padding.Horizontal);
+                int availableHeight = Math.Max(140, flp_productview.ClientSize.Height - flp_productview.Padding.Vertical);
+                const int minimumCardWidth = 150;
+                int gap = 8;
+                int columns = Math.Max(1, availableWidth / (minimumCardWidth + (gap * 2)));
+                int cardWidth = Math.Max(110, (availableWidth / columns) - (gap * 2));
+                int cardHeight = Math.Max(92, Math.Min(138, (int)(cardWidth * 0.72m)));
+                int rows = Math.Max(1, availableHeight / (cardHeight + (gap * 2)));
+                return Math.Max(1, columns * rows);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page CalculatePartyPackMenuPageSize()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                return 12;
+            }
+        }
+
+        private void ResizePartyPackMenuContent()
+        {
+            try
+            {
+                if (pnl_dgv_menu.ClientSize.Width <= 0 || pnl_dgv_menu.ClientSize.Height <= 0)
+                    return;
+                tlp_menu_main.Dock = DockStyle.Fill;
+                flp_productview.Dock = DockStyle.Fill;
+                Dgv_Selected_Item.Dock = DockStyle.Fill;
+                partyPackMenuPageSize = CalculatePartyPackMenuPageSize();
+                if (partyPackMenuProductsLoaded)
+                    ShowPartyPackMenuPage();
+                ApplyPartyPackMenuVisualStyles();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page ResizePartyPackMenuContent()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
         private void ShowPartyPackMenuPage()
         {
             try
@@ -3071,9 +3133,13 @@ namespace FoodandBeverage.Forms
                 control.Dispose();
             flp_productview.Controls.Clear();
 
+            flp_productview.WrapContents = true;
+            flp_productview.FlowDirection = FlowDirection.LeftToRight;
+            flp_productview.AutoScroll = true;
+            flp_productview.Padding = new Padding(6);
             int gap = 8;
-            int availableWidth = Math.Max(160, flp_productview.ClientSize.Width - flp_productview.Padding.Horizontal);
-            int columns = Math.Max(1, availableWidth / 170);
+            int availableWidth = Math.Max(220, flp_productview.ClientSize.Width - flp_productview.Padding.Horizontal);
+            int columns = Math.Max(1, availableWidth / 166);
             int tileWidth = Math.Max(110, (availableWidth / columns) - (gap * 2));
             int tileHeight = Math.Max(92, Math.Min(138, (int)(tileWidth * 0.72m)));
 
