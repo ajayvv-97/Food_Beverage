@@ -178,6 +178,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                // Load the active location/company name shown on the login screen.
+                LoadLocationName();
+
                 // Show SQL Server availability without blocking the login screen.
                 UpdateDatabaseStatusAsync();
 
@@ -259,6 +262,43 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
+
+        /// <summary>
+        /// Loads the active location name from tblHotelRegistration for the login screen.
+        /// </summary>
+        private void LoadLocationName()
+        {
+            try
+            {
+                BllSearch<DmnHRegistration> bllHotelRegistration = new BllSearch<DmnHRegistration>();
+                DmnSearch search = new DmnSearch
+                {
+                    Select = "Name",
+                    Table = "tblHotelRegistration",
+                    WhereNdGroupBy = "WHERE Status = 1",
+                    OrderBy = ""
+                };
+
+                var locations = bllHotelRegistration.GetSearchData("prdSearch", search);
+                if (locations != null && locations.Count > 0)
+                {
+                    string locationName = Convert.ToString(locations[0].Name);
+                    lblcompanyname.Text = string.IsNullOrWhiteSpace(locationName)
+                        ? string.Empty
+                        : locationName.Trim();
+                }
+                else
+                {
+                    lblcompanyname.Text = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Keep login available even if location details cannot be retrieved.
+                clsgen.LogException("Login page LoadLocationName()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Login));
+            }
+        }
 
         public void virtualkeyboardCheck()
         {
