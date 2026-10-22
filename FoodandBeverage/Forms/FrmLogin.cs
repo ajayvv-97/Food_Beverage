@@ -1152,41 +1152,119 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
 
         private Form CreateDatabaseConnectingForm()
         {
+            // Match the login screen's purple/lavender theme with a borderless rounded card.
             Form form = new Form
             {
-                Text = "Database Connection",
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                StartPosition = FormStartPosition.CenterParent,
-                ClientSize = new Size(300, 105),
+                Text = string.Empty,
+                FormBorderStyle = FormBorderStyle.None,
+                StartPosition = FormStartPosition.Manual,
+                ClientSize = new Size(360, 178),
                 ControlBox = false,
                 ShowInTaskbar = false,
-                TopMost = false,
-                BackColor = Color.White,
+                TopMost = true,
+                BackColor = Color.FromArgb(246, 241, 255),
                 MinimizeBox = false,
-                MaximizeBox = false
+                MaximizeBox = false,
+                DoubleBuffered = true
+            };
+
+            Panel card = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.FromArgb(250, 247, 255),
+                Padding = new Padding(18)
+            };
+
+            Panel accent = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 5,
+                BackColor = Color.FromArgb(130, 75, 220)
+            };
+
+            Label title = new Label
+            {
+                Text = "Connecting to Server",
+                Dock = DockStyle.Top,
+                Height = 32,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(76, 43, 145)
             };
 
             Label message = new Label
             {
-                Text = "Connecting to database server...",
+                Text = "Please wait while we check your database connection.",
                 Dock = DockStyle.Top,
-                Height = 42,
+                Height = 38,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 10F, FontStyle.Regular),
-                ForeColor = Color.FromArgb(65, 65, 85)
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                ForeColor = Color.FromArgb(83, 75, 105)
+            };
+
+            Panel track = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 8,
+                BackColor = Color.FromArgb(226, 215, 249),
+                Margin = new Padding(10, 12, 10, 0)
             };
 
             ProgressBar progress = new ProgressBar
             {
                 Style = ProgressBarStyle.Marquee,
-                MarqueeAnimationSpeed = 28,
-                Dock = DockStyle.Top,
-                Height = 18
+                MarqueeAnimationSpeed = 24,
+                Dock = DockStyle.Fill,
+                ForeColor = Color.FromArgb(133, 77, 220),
+                BackColor = Color.FromArgb(226, 215, 249)
+            };
+            track.Controls.Add(progress);
+
+            Label footer = new Label
+            {
+                Text = "MIDAS FUN  •  RESTAURANT MANAGEMENT",
+                Dock = DockStyle.Bottom,
+                Height = 24,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 7.5F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(130, 85, 190)
             };
 
-            form.Controls.Add(progress);
-            form.Controls.Add(message);
+            card.Controls.Add(footer);
+            card.Controls.Add(track);
+            card.Controls.Add(message);
+            card.Controls.Add(title);
+            card.Controls.Add(accent);
+            form.Controls.Add(card);
+
+            // Center over the login form, not the whole desktop.
+            form.Shown += (sender, args) =>
+            {
+                if (Owner != null && !Owner.IsDisposed)
+                    form.Location = new Point(Owner.Left + (Owner.Width - form.Width) / 2,
+                        Owner.Top + (Owner.Height - form.Height) / 2);
+                ApplyConnectingFormRoundedCorners(form, 22);
+            };
+
             return form;
+        }
+
+        private void ApplyConnectingFormRoundedCorners(Form form, int radius)
+        {
+            if (form == null || form.IsDisposed || form.Width <= 0 || form.Height <= 0)
+                return;
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                int diameter = radius * 2;
+                Rectangle bounds = new Rectangle(0, 0, form.Width, form.Height);
+                path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 180, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+                path.AddArc(bounds.Left, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+                path.CloseFigure();
+                form.Region = new Region(path);
+            }
         }
     }
 }
