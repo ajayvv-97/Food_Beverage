@@ -29,6 +29,9 @@ namespace FoodandBeverage.Forms
         public int Rqtyno = 3;
         public int Ractionno = 4;
         public int PartyPackDetailsId = 5;
+        // Existing hidden columns from FrmPartyPackSetup.Designer.cs.
+        public int Rproductid = 6;
+        public int Rproducttype = 7;
 
         public int Cmslno = 0;
         public int Cmitemno = 1;
@@ -117,6 +120,7 @@ namespace FoodandBeverage.Forms
         int currentPackId = 0;
 
         private List<DmnCategory> categoryList = new List<DmnCategory>();
+        private List<DmnComboBox> partyPackMenuCategorySource;
 
         // Party-pack menu picker state. This picker only selects products; it does not
         // run sale/balance/tax calculations.
@@ -138,6 +142,11 @@ namespace FoodandBeverage.Forms
             public string ProductName { get; set; }
             public string ItemCode { get; set; }
             public decimal Price { get; set; }
+            public decimal MRP { get; set; }
+            public int UnitId { get; set; }
+            public int TaxSettingId { get; set; }
+            public string TaxMode { get; set; }
+            public string TaxType { get; set; }
         }
 
         public class SelectedCardItem
@@ -209,6 +218,7 @@ namespace FoodandBeverage.Forms
 
                 LoadMenuCategory();
                 LoadMenuCategory_Cutom();
+                LoadPartyPackMenuCategorySource();
 
                 ClearCake();
 
@@ -358,28 +368,46 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
-                DmnSearch objSearch = new DmnSearch();
+                LoadPartyPackMenuCategorySource();
 
-                objSearch.Select = "Fcid, CategoryName";
-                objSearch.Table = "tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 5";
-                objSearch.OrderBy = "ORDER BY CategoryName";
+                DataGridViewComboBoxColumn cmb = dgv_packs_default.Columns[Rcategmenuno] as DataGridViewComboBoxColumn;
+                if (cmb == null)
+                    return;
 
-                categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
-
-                DataGridViewComboBoxColumn cmb = (DataGridViewComboBoxColumn)dgv_packs_default.Columns[Rcategmenuno];
-
-                cmb.DataSource = categoryList;
-                cmb.DisplayMember = "CategoryName";
-                cmb.ValueMember = "Fcid";
-
+                cmb.DataSource = partyPackMenuCategorySource;
+                cmb.DisplayMember = "Value";
+                cmb.ValueMember = "Id";
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partypacksetup page  LoadMenuCategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                clsgen.LogException("Partypacksetup page  LoadMenuCategory()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+        }
 
+        private void LoadPartyPackMenuCategorySource()
+        {
+            try
+            {
+                if (partyPackMenuCategorySource != null)
+                    return;
+
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "Fcid,CategoryName";
+                objSearch.Table = "tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=4";
+                objSearch.OrderBy = "";
+
+                List<DmnComboBox> loadedCategories = bllSearch.GetSearchData("prdComboFill", objSearch);
+                partyPackMenuCategorySource = loadedCategories ?? new List<DmnComboBox>();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page LoadPartyPackMenuCategorySource()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                partyPackMenuCategorySource = new List<DmnComboBox>();
+            }
         }
         private void LoadMenuCategory_Cutom()
         {
@@ -642,6 +670,12 @@ namespace FoodandBeverage.Forms
                         int menuCategoryId = 0;
                         int.TryParse(row.Cells[Rcategmenuno].Value?.ToString(), out menuCategoryId);
 
+                        int productId = 0;
+                        int productType = 0;
+                        int.TryParse(Convert.ToString(row.Cells[Rproductid].Value), out productId);
+                        int.TryParse(Convert.ToString(row.Cells[Rproducttype].Value), out productType);
+                        bool isMenuProduct = productId > 0;
+
                         DmnPartyPackDetails dmndetail = new DmnPartyPackDetails
                         {
                             PartyPackId = packstatus.PartyPackId,
@@ -653,9 +687,9 @@ namespace FoodandBeverage.Forms
                             Status = 1,
                             MenuCategoryId = menuCategoryId,
 
-                            PackItemType = (int)PackItemType.FoodItem,
-                            Productid = 0,
-                            ProductType = 0
+                            PackItemType = isMenuProduct ? (int)PackItemType.Menu : (int)PackItemType.FoodItem,
+                            Productid = productId,
+                            ProductType = productType
                         };
 
                         var result = bllPack.AddData_packdetails("prdInsert_Upd_PartyPackDetails", dmndetail);
@@ -1217,7 +1251,7 @@ namespace FoodandBeverage.Forms
                 foreach (var item in list)
                 {
                     // ------------------ FOOD ITEMS ------------------
-                    if (item.PackItemType == (int)PackItemType.FoodItem)
+                    if (item.PackItemType == (int)PackItemType.FoodItem || item.PackItemType == (int)PackItemType.Menu)
                     {
                         int rowIndex = dgv_packs_default.Rows.Add();
                         var row = dgv_packs_default.Rows[rowIndex];
@@ -1225,15 +1259,20 @@ namespace FoodandBeverage.Forms
                         row.Cells[PartyPackDetailsId].Value = item.PartyPackDetailsId;
                         row.Cells[Ritemno].Value = item.Item;
                         row.Cells[Rqtyno].Value = item.Quantity;
+                        row.Cells[Rproductid].Value = item.PackItemType == (int)PackItemType.Menu ? item.Productid : 0;
+                        row.Cells[Rproducttype].Value = item.PackItemType == (int)PackItemType.Menu ? item.ProductType : 0;
 
-                        if (item.MenuCategoryId > 0 &&
-                            categoryList != null &&
-                            categoryList.Any(x => x.Fcid == item.MenuCategoryId))
+                        if (item.MenuCategoryId > 0)
                         {
-                            row.Cells[Rcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                            if (item.PackItemType == (int)PackItemType.Menu && partyPackMenuCategorySource != null &&
+                                partyPackMenuCategorySource.Any(x => Convert.ToInt32(x.Id) == item.MenuCategoryId))
+                                row.Cells[Rcategmenuno].Value = item.MenuCategoryId;
+                            else if (item.PackItemType == (int)PackItemType.FoodItem && categoryList != null &&
+                                categoryList.Any(x => x.Fcid == item.MenuCategoryId))
+                                row.Cells[Rcategmenuno].Value = item.MenuCategoryId;
                         }
 
-                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs_default.Rows[rowIndex].Cells[Ractionno];
+                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)row.Cells[Ractionno];
                         cellcolumntype.Value = Grid_Remove;
                         cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
@@ -2771,17 +2810,15 @@ namespace FoodandBeverage.Forms
 
                     PartyPackMenuSelection selection = (PartyPackMenuSelection)selectedRow.Tag;
                     int quantity = 1;
-                    int.TryParse(Convert.ToString(selectedRow.Cells["dataGridViewTextBoxColumn12"].Value), out quantity);
+                    int.TryParse(Convert.ToString(selectedRow.Cells[iqty].Value), out quantity);
                     if (quantity < 1)
                         quantity = 1;
 
                     DataGridViewRow existing = dgv_packs_default.Rows
                         .Cast<DataGridViewRow>()
                         .FirstOrDefault(row => !row.IsNewRow
-                            && string.Equals(Convert.ToString(row.Cells[Ritemno].Value), selection.ProductName,
-                                StringComparison.CurrentCultureIgnoreCase)
-                            && string.Equals(Convert.ToString(row.Cells[Rcategmenuno].Value), selection.CategoryId.ToString(),
-                                StringComparison.OrdinalIgnoreCase));
+                            && string.Equals(Convert.ToString(row.Cells[Rproductid].Value), selection.ProductId.ToString(), StringComparison.Ordinal)
+                            && string.Equals(Convert.ToString(row.Cells[Rproducttype].Value), selection.SaleType.ToString(), StringComparison.Ordinal));
 
                     if (existing != null)
                     {
@@ -2803,9 +2840,14 @@ namespace FoodandBeverage.Forms
                         }
 
                         targetRow.Cells[Ritemno].Value = selection.ProductName;
-                        targetRow.Cells[Rcategmenuno].Value = selection.CategoryId;
+                        targetRow.Cells[Rcategmenuno].Value = partyPackMenuCategorySource != null &&
+                            partyPackMenuCategorySource.Any(x => Convert.ToInt32(x.Id) == selection.CategoryId)
+                            ? (object)selection.CategoryId : null;
                         targetRow.Cells[Rqtyno].Value = quantity;
                         targetRow.Cells[Ractionno].Value = Grid_Remove;
+                        targetRow.Cells[Rproductid].Value = selection.ProductId;
+                        targetRow.Cells[Rproducttype].Value = selection.SaleType;
+                        targetRow.Cells[PartyPackDetailsId].Value = 0;
                         if (targetRow.Cells[Ractionno] is DataGridViewImageCell imageCell)
                             imageCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
@@ -3064,7 +3106,7 @@ namespace FoodandBeverage.Forms
             };
             partyPackMenuAllProducts.AddRange(searcher.GetSearchData("prdSearch", search));
 
-            search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, 0 AS Field4, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.Unit,0) AS Field12, 0 AS Field13, '' AS Field14, '' AS Field15";
+            search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, 0 AS Field4, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.UnitId,0) AS Field12, 0 AS Field13, '' AS Field14, '' AS Field15";
             search.Table = "tblItem i";
             search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1";
             search.OrderBy = "ORDER BY i.Itemname";
@@ -3201,6 +3243,13 @@ namespace FoodandBeverage.Forms
                 decimal price;
                 decimal.TryParse(Convert.ToString(product.Field5), out price);
 
+                decimal mrp;
+                decimal.TryParse(Convert.ToString(product.Field6), out mrp);
+                int menuUnitId;
+                int.TryParse(Convert.ToString(product.Field12), out menuUnitId);
+                int menuTaxSettingId;
+                int.TryParse(Convert.ToString(product.Field10), out menuTaxSettingId);
+
                 PartyPackMenuSelection selection = new PartyPackMenuSelection
                 {
                     ProductId = productId,
@@ -3208,7 +3257,12 @@ namespace FoodandBeverage.Forms
                     CategoryId = categoryId,
                     ProductName = Convert.ToString(product.Field1) ?? string.Empty,
                     ItemCode = Convert.ToString(product.Field11) ?? string.Empty,
-                    Price = price
+                    Price = price,
+                    MRP = mrp > 0m ? mrp : price,
+                    UnitId = menuUnitId,
+                    TaxSettingId = menuTaxSettingId,
+                    TaxMode = Convert.ToString(product.Field7) ?? "Exclusive",
+                    TaxType = Convert.ToString(product.Field8) ?? "GST"
                 };
 
                 Panel tile = new Panel
@@ -3256,6 +3310,8 @@ namespace FoodandBeverage.Forms
             if (selection == null || selection.ProductId <= 0 || string.IsNullOrWhiteSpace(selection.ProductName))
                 return;
 
+            ConfigurePartyPackMenuCartGrid();
+
             DataGridViewRow existing = Dgv_Selected_Item.Rows
                 .Cast<DataGridViewRow>()
                 .FirstOrDefault(row => !row.IsNewRow
@@ -3266,20 +3322,17 @@ namespace FoodandBeverage.Forms
             if (existing != null)
             {
                 int quantity = 1;
-                int.TryParse(Convert.ToString(existing.Cells["dataGridViewTextBoxColumn12"].Value), out quantity);
-                existing.Cells["dataGridViewTextBoxColumn12"].Value = quantity + 1;
+                int.TryParse(Convert.ToString(existing.Cells[iqty].Value), out quantity);
+                existing.Cells[iqty].Value = quantity + 1;
+                UpdatePartyPackMenuCartRow(existing, selection);
                 ShowPartyPackMenuCart();
                 return;
             }
 
-            ConfigurePartyPackMenuCartGrid();
             int rowIndex = Dgv_Selected_Item.Rows.Add();
             DataGridViewRow addedRow = Dgv_Selected_Item.Rows[rowIndex];
             addedRow.Tag = selection;
-            addedRow.Cells["ipaction"].Value = Properties.Resources.Round_Close;
-            addedRow.Cells["dataGridViewTextBoxColumn8"].Value = rowIndex + 1;
-            addedRow.Cells["name"].Value = selection.ProductName;
-            addedRow.Cells["dataGridViewTextBoxColumn12"].Value = 1;
+            UpdatePartyPackMenuCartRow(addedRow, selection);
             ShowPartyPackMenuCart();
         
             }
@@ -3287,6 +3340,64 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException("Partypacksetup page AddPartyPackMenuProduct()", ex, FrmLogin.EmployeName,
                     FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+
+        private void UpdatePartyPackMenuCartRow(DataGridViewRow row, PartyPackMenuSelection selection)
+        {
+            if (row == null || selection == null)
+                return;
+
+            int quantity = 1;
+            int.TryParse(Convert.ToString(row.Cells[iqty].Value), out quantity);
+            if (quantity < 1)
+                quantity = 1;
+
+            decimal amount = Math.Round(selection.Price * quantity, 2, MidpointRounding.AwayFromZero);
+            row.Tag = selection;
+            row.Cells[iaction].Value = Grid_Remove;
+            row.Cells[islno].Value = row.Index + 1;
+            row.Cells[iunit].Value = selection.UnitId > 0 ? selection.UnitId.ToString() : "";
+            row.Cells[ibarcode].Value = selection.ItemCode;
+            row.Cells[iproducttypeno].Value = "Food";
+            row.Cells[iname].Value = selection.ProductName;
+            row.Cells[iunit].Value = selection.UnitId > 0 ? selection.UnitId.ToString() : "";
+            row.Cells[israte].Value = selection.Price;
+            row.Cells[iqty].Value = quantity;
+            row.Cells[iprate].Value = selection.Price;
+            row.Cells[iamount].Value = amount;
+            row.Cells[idisper].Value = 0m;
+            row.Cells[idisamt].Value = 0m;
+            row.Cells[itaxper].Value = 0m;
+            row.Cells[itaxamt].Value = 0m;
+            row.Cells[itotal].Value = amount;
+            row.Cells[iitemid].Value = selection.ProductId;
+            row.Cells[itaxtype].Value = string.IsNullOrWhiteSpace(selection.TaxType) ? "GST" : selection.TaxType;
+            row.Cells[imrp].Value = selection.MRP > 0m ? selection.MRP : selection.Price;
+            row.Cells[itype].Value = selection.SaleType;
+            row.Cells[ibarcode2].Value = selection.ItemCode;
+            row.Cells[itaxsettingid].Value = selection.TaxSettingId;
+            row.Cells[iunitid].Value = selection.UnitId;
+            row.Cells[itax].Value = string.IsNullOrWhiteSpace(selection.TaxMode) ? "Exclusive" : selection.TaxMode;
+            row.Cells[ipretaxamtno].Value = amount;
+            row.Cells[ioriginalprice].Value = selection.Price;
+            row.Cells[istatusno].Value = 1;
+            row.Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
+            row.Cells[isubofferstatus].Value = Convert.ToInt32(SubofferStatus.None);
+            row.Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
+            row.Cells[iorgname].Value = selection.ProductName;
+            row.Cells[istocktrackno].Value = false;
+
+            DataGridViewImageCell actionCell = row.Cells[iaction] as DataGridViewImageCell;
+            if (actionCell != null)
+                actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+            int slno = 1;
+            foreach (DataGridViewRow selected in Dgv_Selected_Item.Rows)
+            {
+                if (!selected.IsNewRow && selected.Tag is PartyPackMenuSelection)
+                    selected.Cells[islno].Value = slno++;
             }
         }
 
@@ -3390,25 +3501,27 @@ namespace FoodandBeverage.Forms
             Dgv_Selected_Item.ColumnHeadersHeight = 42;
             Dgv_Selected_Item.DefaultCellStyle.Padding = new Padding(4, 3, 4, 3);
 
-            foreach (DataGridViewColumn column in Dgv_Selected_Item.Columns)
-                column.Visible = false;
-
-            Dgv_Selected_Item.Columns["ipaction"].Visible = true;
-            Dgv_Selected_Item.Columns["ipaction"].HeaderText = "";
-            Dgv_Selected_Item.Columns["ipaction"].Width = 42;
-            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].Visible = true;
-            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].HeaderText = "Sl.No";
-            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].Width = 58;
-            Dgv_Selected_Item.Columns["name"].Visible = true;
-            Dgv_Selected_Item.Columns["name"].HeaderText = "Menu Item";
-            Dgv_Selected_Item.Columns["name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].Visible = true;
-            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].HeaderText = "Qty";
-            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].Width = 72;
-            Dgv_Selected_Item.Columns["ipaction"].DisplayIndex = 0;
-            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].DisplayIndex = 1;
-            Dgv_Selected_Item.Columns["name"].DisplayIndex = 2;
-            Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].DisplayIndex = 3;
+            // Preserve all designer-defined columns and their current visibility.
+            if (Dgv_Selected_Item.Columns.Contains("ipaction"))
+            {
+                Dgv_Selected_Item.Columns["ipaction"].HeaderText = "";
+                Dgv_Selected_Item.Columns["ipaction"].Width = 42;
+            }
+            if (Dgv_Selected_Item.Columns.Contains("dataGridViewTextBoxColumn8"))
+            {
+                Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].HeaderText = "Sl.No";
+                Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn8"].Width = 58;
+            }
+            if (Dgv_Selected_Item.Columns.Contains("name"))
+            {
+                Dgv_Selected_Item.Columns["name"].HeaderText = "Menu Item";
+                Dgv_Selected_Item.Columns["name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+            if (Dgv_Selected_Item.Columns.Contains("dataGridViewTextBoxColumn12"))
+            {
+                Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].HeaderText = "Qty";
+                Dgv_Selected_Item.Columns["dataGridViewTextBoxColumn12"].Width = 72;
+            }
         
             }
             catch (Exception ex)
