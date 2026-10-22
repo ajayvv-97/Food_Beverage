@@ -1013,7 +1013,6 @@ namespace FoodandBeverage.Forms
             {
                 PrepareForSideMenuNavigation();
 
-                AdjustButtonsToPanel();
                 ButtonID = Convert.ToInt32(Menubutton.Menuoperation);
                 time_syn_lal.Stop();
                 reset_sync.Stop();
@@ -1026,9 +1025,14 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Clear();
                 panelDesktop.Controls.Add(flp_operabuttons);
                 flp_operabuttons.Dock = DockStyle.Fill;
-
                 flp_operabuttons.Visible = true;
                 btn_pickup.Visible = false;
+
+                // Calculate the operation-button layout only after the FlowLayoutPanel
+                // is attached and docked; otherwise the first click uses its old size.
+                panelDesktop.PerformLayout();
+                flp_operabuttons.PerformLayout();
+                AdjustButtonsToPanel();
 
                 if (screenWidth > 1367 && screenHeight > 769)
                 {
