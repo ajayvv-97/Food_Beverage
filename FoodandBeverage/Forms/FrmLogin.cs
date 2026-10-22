@@ -1075,16 +1075,26 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
 
             pb_online_offline.Enabled = false;
             pb_online_offline.AccessibleDescription = "Checking SQL Server connection";
+            bool isConnected = false;
+            bool checkFailed = false;
+            Form connectingForm = null;
 
-            // Show immediate feedback before starting the network operation.
-            using (Form connectingForm = CreateDatabaseConnectingForm())
+            try
             {
+                connectingForm = CreateDatabaseConnectingForm();
+
+                // Explicitly center the animation over this login form before displaying it.
+                connectingForm.StartPosition = FormStartPosition.Manual;
+                connectingForm.Location = new Point(
+                    this.Left + (this.Width - connectingForm.Width) / 2,
+                    this.Top + (this.Height - connectingForm.Height) / 2);
                 connectingForm.Show(this);
                 connectingForm.Refresh();
+                Application.DoEvents();
 
                 try
                 {
-                    bool isConnected = await Task.Run(() =>
+                    isConnected = await Task.Run(() =>
                     {
                         try
                         {
@@ -1096,57 +1106,63 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
                             return false;
                         }
                     });
-
-                    if (IsDisposed || pb_online_offline.IsDisposed)
-                        return;
-
-                    pb_online_offline.BackgroundImage = isConnected
-                        ? Properties.Resources.sql_online_icon
-                        : Properties.Resources.sql_offline_icon;
-                    pb_online_offline.BackgroundImageLayout = ImageLayout.Stretch;
-                    pb_online_offline.AccessibleName = isConnected ? "Database online" : "Database offline";
-                    pb_online_offline.AccessibleDescription = isConnected
-                        ? "SQL Server connection is available"
-                        : "SQL Server connection is unavailable";
-
-                    if (isConnected)
-                    {
-                        CMessageBox.Show(this,
-                            "Database connection successful. The server is online and ready to use.",
-                            "Database Connected",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        CMessageBox.Show(this,
-                            "Database server is not connected. Please check the network or contact your administrator.",
-                            "Database Offline",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-                    }
                 }
                 catch
                 {
-                    if (!IsDisposed && pb_online_offline != null && !pb_online_offline.IsDisposed)
-                    {
-                        pb_online_offline.BackgroundImage = Properties.Resources.sql_offline_icon;
-                        pb_online_offline.AccessibleName = "Database offline";
-                        pb_online_offline.AccessibleDescription = "SQL Server connection is unavailable";
-                    }
-
-                    CMessageBox.Show(this,
-                        "Unable to check the database connection. Please try again or contact your administrator.",
-                        "Database Connection",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    checkFailed = true;
                 }
-                finally
+
+                if (IsDisposed || pb_online_offline.IsDisposed)
+                    return;
+
+                pb_online_offline.BackgroundImage = isConnected
+                    ? Properties.Resources.sql_online_icon
+                    : Properties.Resources.sql_offline_icon;
+                pb_online_offline.BackgroundImageLayout = ImageLayout.Stretch;
+                pb_online_offline.AccessibleName = isConnected ? "Database online" : "Database offline";
+                pb_online_offline.AccessibleDescription = isConnected
+                    ? "SQL Server connection is available"
+                    : "SQL Server connection is unavailable";
+            }
+            finally
+            {
+                // Always remove the animation before showing the result message box.
+                if (connectingForm != null && !connectingForm.IsDisposed)
                 {
                     connectingForm.Close();
-                    if (!IsDisposed && pb_online_offline != null && !pb_online_offline.IsDisposed)
-                        pb_online_offline.Enabled = true;
+                    connectingForm.Dispose();
                 }
+
+                if (!IsDisposed && pb_online_offline != null && !pb_online_offline.IsDisposed)
+                    pb_online_offline.Enabled = true;
+            }
+
+            if (IsDisposed)
+                return;
+
+            if (isConnected)
+            {
+                CMessageBox.Show(this,
+                    "Database connection successful. The server is online and ready to use.",
+                    "Database Connected",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else if (checkFailed)
+            {
+                CMessageBox.Show(this,
+                    "Unable to check the database connection. Please try again or contact your administrator.",
+                    "Database Connection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+            else
+            {
+                CMessageBox.Show(this,
+                    "Database server is not connected. Please check the network or contact your administrator.",
+                    "Database Offline",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
         }
 
@@ -1161,7 +1177,7 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
                 ClientSize = new Size(360, 178),
                 ControlBox = false,
                 ShowInTaskbar = false,
-                TopMost = true,
+                TopMost = false,
                 BackColor = Color.FromArgb(246, 241, 255),
                 MinimizeBox = false,
                 MaximizeBox = false,
@@ -1236,14 +1252,8 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
             card.Controls.Add(accent);
             form.Controls.Add(card);
 
-            // Center over the login form, not the whole desktop.
-            form.Shown += (sender, args) =>
-            {
-                if (Owner != null && !Owner.IsDisposed)
-                    form.Location = new Point(Owner.Left + (Owner.Width - form.Width) / 2,
-                        Owner.Top + (Owner.Height - form.Height) / 2);
-                ApplyConnectingFormRoundedCorners(form, 22);
-            };
+            // The caller positions this popup relative to FrmLogin before Show(this).
+            form.Shown += (sender, args) => ApplyConnectingFormRoundedCorners(form, 22);
 
             return form;
         }
