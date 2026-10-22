@@ -1068,9 +1068,82 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
             pnlDbSettings.Visible = false;
         }
 
-        private void pb_online_offline_Click(object sender, EventArgs e)
+        private async void pb_online_offline_Click(object sender, EventArgs e)
         {
+            if (pb_online_offline == null || pb_online_offline.IsDisposed)
+                return;
 
+            pb_online_offline.Enabled = false;
+            pb_online_offline.AccessibleDescription = "Checking SQL Server connection";
+
+            try
+            {
+                string connectionError = string.Empty;
+                bool isConnected = await Task.Run(() =>
+                {
+                    try
+                    {
+                        using (IDbConnection connection = DAL.DapperRepository<object>.OpenConnection())
+                        {
+                            return connection.State == ConnectionState.Open;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        connectionError = ex.Message;
+                        return false;
+                    }
+                });
+
+                if (IsDisposed || pb_online_offline.IsDisposed)
+                    return;
+
+                pb_online_offline.BackgroundImage = isConnected
+                    ? Properties.Resources.sql_online_icon
+                    : Properties.Resources.sql_offline_icon;
+                pb_online_offline.BackgroundImageLayout = ImageLayout.Stretch;
+                pb_online_offline.AccessibleName = isConnected ? "Database online" : "Database offline";
+                pb_online_offline.AccessibleDescription = isConnected
+                    ? "SQL Server connection is available"
+                    : "SQL Server connection is unavailable";
+
+                if (isConnected)
+                {
+                    CMessageBox.Show(this,
+                        "Database connection successful. SQL Server is online and ready to use.",
+                        "Database Connection",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                else
+                {
+                    string message = "Unable to connect to the database. Please check the SQL Server, network connection, and database settings.";
+                    if (!string.IsNullOrWhiteSpace(connectionError))
+                        message += Environment.NewLine + Environment.NewLine + "Details: " + connectionError;
+
+                    CMessageBox.Show(this, message, "Database Connection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!IsDisposed && pb_online_offline != null && !pb_online_offline.IsDisposed)
+                {
+                    pb_online_offline.BackgroundImage = Properties.Resources.sql_offline_icon;
+                    pb_online_offline.AccessibleName = "Database offline";
+                    pb_online_offline.AccessibleDescription = "SQL Server connection is unavailable";
+                }
+
+                CMessageBox.Show(this,
+                    "An error occurred while checking the database connection." + Environment.NewLine + Environment.NewLine + ex.Message,
+                    "Database Connection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (!IsDisposed && pb_online_offline != null && !pb_online_offline.IsDisposed)
+                    pb_online_offline.Enabled = true;
+            }
         }
     }
 }
