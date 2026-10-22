@@ -3156,13 +3156,31 @@ namespace FoodandBeverage.Forms
                 WhereNdGroupBy = "WHERE p.Status = 1",
                 OrderBy = "ORDER BY p.Product"
             };
-            partyPackMenuAllProducts.AddRange(searcher.GetSearchData("prdSearch", search));
+
+            // Rebuild the cache from scratch so reopening the menu can never append the same rows again.
+            partyPackMenuAllProducts.Clear();
+            var productRows = searcher.GetSearchData("prdSearch", search);
+            if (productRows != null)
+                partyPackMenuAllProducts.AddRange(productRows);
 
             search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, 0 AS Field4, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.UnitId,0) AS Field12, 0 AS Field13, '' AS Field14, '' AS Field15";
             search.Table = "tblItem i";
             search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1";
             search.OrderBy = "ORDER BY i.Itemname";
-            partyPackMenuAllProducts.AddRange(searcher.GetSearchData("prdSearch", search));
+            var itemRows = searcher.GetSearchData("prdSearch", search);
+            if (itemRows != null)
+                partyPackMenuAllProducts.AddRange(itemRows);
+
+            // De-duplicate repeated database results by product ID and sale type while preserving distinct product types.
+            partyPackMenuAllProducts = partyPackMenuAllProducts
+                .GroupBy(p => new
+                {
+                    ProductId = Convert.ToString(p.Field2),
+                    SaleType = Convert.ToString(p.Field3)
+                })
+                .Select(group => group.First())
+                .ToList();
+
             partyPackMenuProductsLoaded = true;
         
             }
