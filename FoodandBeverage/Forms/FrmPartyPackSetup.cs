@@ -227,6 +227,14 @@ namespace FoodandBeverage.Forms
 
                 RefreshSlNo();
 
+                // Do not let the ImageColumn's designer/default image appear in blank rows.
+                // Populated rows explicitly receive Grid_Remove in RefreshSlNo().
+                if (dgv_packs_default.Columns[Ractionno] is DataGridViewImageColumn actionColumn)
+                {
+                    actionColumn.Image = null;
+                    actionColumn.DefaultCellStyle.NullValue = null;
+                }
+
                 dgv_packs_default.DataError -= dgv_packs_default_DataError;
                 dgv_packs_default.DataError += dgv_packs_default_DataError;
                 dgv_packs_default.CurrentCellDirtyStateChanged += (s, ev) =>
@@ -967,9 +975,8 @@ namespace FoodandBeverage.Forms
 
                 dgv_packs_default.Rows.Clear();
                 int rowIndex = dgv_packs_default.Rows.Add();
-                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs_default.Rows[rowIndex].Cells[Ractionno];
-                cellcolumntype.Value = Grid_Remove;
-                cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                dgv_packs_default.Rows[rowIndex].Cells[Ractionno].Value = null;
+                RefreshSlNo();
 
                 dgv_packcustom.Rows.Clear();
                 rowIndex = dgv_packcustom.Rows.Add();
@@ -1049,9 +1056,7 @@ namespace FoodandBeverage.Forms
                         if (isLastRow && !HasEmptyRow())
                         {
                             int rowi = dgv_packs_default.Rows.Add();
-                            DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packs_default.Rows[rowi].Cells[Ractionno];
-                            cellcolumntype.Value = Grid_Remove;
-                            cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                            dgv_packs_default.Rows[rowi].Cells[Ractionno].Value = null;
                         }
                         RefreshSlNo();
                     }
@@ -1566,7 +1571,10 @@ namespace FoodandBeverage.Forms
 
                 // ✅ Always keep one empty row
                 if (dgv_packs_default.Rows.Count == 0)
-                    dgv_packs_default.Rows.Add();
+                {
+                    int emptyRowIndex = dgv_packs_default.Rows.Add();
+                    dgv_packs_default.Rows[emptyRowIndex].Cells[Ractionno].Value = null;
+                }
 
                 RefreshSlNo();
             }
