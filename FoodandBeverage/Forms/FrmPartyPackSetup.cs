@@ -392,7 +392,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName";
                 objSearch.Table = "tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=4";
+                objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=0";
                 objSearch.OrderBy = "";
 
                 List<DmnComboBox> loadedCategories = bllSearch.GetSearchData("prdComboFill", objSearch);
