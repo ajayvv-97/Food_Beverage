@@ -642,7 +642,7 @@ namespace FoodandBeverage.SaleBill
                 }
 
 
-                crvSalesBill.RefreshReport();
+                //crvSalesBill.RefreshReport();
                 crvSalesBill.ReportSource = reportDocument;
 
                 var pdffolderPath = Application.StartupPath + "\\Bill_pdf";
