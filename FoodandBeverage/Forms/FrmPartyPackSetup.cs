@@ -142,6 +142,11 @@ namespace FoodandBeverage.Forms
             public string ProductName { get; set; }
             public string ItemCode { get; set; }
             public decimal Price { get; set; }
+            public decimal MRP { get; set; }
+            public int UnitId { get; set; }
+            public int TaxSettingId { get; set; }
+            public string TaxMode { get; set; }
+            public string TaxType { get; set; }
         }
 
         public class SelectedCardItem
@@ -3238,6 +3243,13 @@ namespace FoodandBeverage.Forms
                 decimal price;
                 decimal.TryParse(Convert.ToString(product.Field5), out price);
 
+                decimal mrp;
+                decimal.TryParse(Convert.ToString(product.Field6), out mrp);
+                int menuUnitId;
+                int.TryParse(Convert.ToString(product.Field12), out menuUnitId);
+                int menuTaxSettingId;
+                int.TryParse(Convert.ToString(product.Field10), out menuTaxSettingId);
+
                 PartyPackMenuSelection selection = new PartyPackMenuSelection
                 {
                     ProductId = productId,
@@ -3245,7 +3257,12 @@ namespace FoodandBeverage.Forms
                     CategoryId = categoryId,
                     ProductName = Convert.ToString(product.Field1) ?? string.Empty,
                     ItemCode = Convert.ToString(product.Field11) ?? string.Empty,
-                    Price = price
+                    Price = price,
+                    MRP = mrp > 0m ? mrp : price,
+                    UnitId = menuUnitId,
+                    TaxSettingId = menuTaxSettingId,
+                    TaxMode = Convert.ToString(product.Field7) ?? "Exclusive",
+                    TaxType = Convert.ToString(product.Field8) ?? "GST"
                 };
 
                 Panel tile = new Panel
@@ -3344,7 +3361,7 @@ namespace FoodandBeverage.Forms
             row.Cells[ibarcode].Value = selection.ItemCode;
             row.Cells[iproducttypeno].Value = "Food";
             row.Cells[iname].Value = selection.ProductName;
-            row.Cells[iunit].Value = "";
+            row.Cells[iunit].Value = selection.UnitId > 0 ? selection.UnitId.ToString() : "";
             row.Cells[israte].Value = selection.Price;
             row.Cells[iqty].Value = quantity;
             row.Cells[iprate].Value = selection.Price;
@@ -3355,12 +3372,13 @@ namespace FoodandBeverage.Forms
             row.Cells[itaxamt].Value = 0m;
             row.Cells[itotal].Value = amount;
             row.Cells[iitemid].Value = selection.ProductId;
-            row.Cells[itaxtype].Value = "GST";
-            row.Cells[imrp].Value = selection.Price;
+            row.Cells[itaxtype].Value = string.IsNullOrWhiteSpace(selection.TaxType) ? "GST" : selection.TaxType;
+            row.Cells[imrp].Value = selection.MRP > 0m ? selection.MRP : selection.Price;
             row.Cells[itype].Value = selection.SaleType;
             row.Cells[ibarcode2].Value = selection.ItemCode;
-            row.Cells[itaxsettingid].Value = 0;
-            row.Cells[iunitid].Value = 0;
+            row.Cells[itaxsettingid].Value = selection.TaxSettingId;
+            row.Cells[iunitid].Value = selection.UnitId;
+            row.Cells[itax].Value = string.IsNullOrWhiteSpace(selection.TaxMode) ? "Exclusive" : selection.TaxMode;
             row.Cells[ipretaxamtno].Value = amount;
             row.Cells[ioriginalprice].Value = selection.Price;
             row.Cells[istatusno].Value = 1;
