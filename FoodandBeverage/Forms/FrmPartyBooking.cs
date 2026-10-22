@@ -369,7 +369,6 @@ namespace FoodandBeverage
                 ? toDate.Value.Date.Add((toTime ?? dtpEventTime_From.Value).TimeOfDay)
                 : fromDateTime;
 
-            // Keep the date summary compact so it never overlaps the calendar button.
             lbl_selectdate.AutoSize = false;
             lbl_selectdate.Dock = DockStyle.Fill;
             lbl_selectdate.AutoEllipsis = true;
@@ -411,7 +410,6 @@ namespace FoodandBeverage
 
                 lblpackname.ForeColor = Color.DimGray;
 
-                // Apply the Party Booking menu's matching lavender theme and modern grid styles.
                 ApplyPartyMenuVisualStyles();
                 SetPartyMenuSearchPlaceholders();
                 
