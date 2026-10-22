@@ -3171,7 +3171,7 @@ namespace FoodandBeverage.Forms
             if (itemRows != null)
                 partyPackMenuAllProducts.AddRange(itemRows);
 
-            partyPackMenuAllProducts = partyPackMenuAllProducts
+            List<DmnGridFields> distinctProducts = partyPackMenuAllProducts
                 .GroupBy(p => new
                 {
                     ProductId = Convert.ToString(p.Field2),
@@ -3179,6 +3179,9 @@ namespace FoodandBeverage.Forms
                 })
                 .Select(group => group.First())
                 .ToList();
+
+            partyPackMenuAllProducts.Clear();
+            partyPackMenuAllProducts.AddRange(distinctProducts);
 
             partyPackMenuProductsLoaded = true;
         
