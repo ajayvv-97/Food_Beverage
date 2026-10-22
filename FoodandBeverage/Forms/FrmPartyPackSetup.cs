@@ -228,6 +228,8 @@ namespace FoodandBeverage.Forms
 
                 RefreshSlNo();
 
+                dgv_packs_default.DataError -= dgv_packs_default_DataError;
+                dgv_packs_default.DataError += dgv_packs_default_DataError;
                 dgv_packs_default.CurrentCellDirtyStateChanged += (s, ev) =>
                 {
                     if (dgv_packs_default.IsCurrentCellDirty)
@@ -2834,9 +2836,7 @@ namespace FoodandBeverage.Forms
                         }
 
                         targetRow.Cells[Ritemno].Value = selection.ProductName;
-                        targetRow.Cells[Rcategmenuno].Value = partyPackMenuCategorySource != null &&
-                            partyPackMenuCategorySource.Any(x => Convert.ToInt32(x.Id) == selection.CategoryId)
-                            ? (object)selection.CategoryId : null;
+                        SetMenuCategoryCellValue(targetRow, selection.CategoryId);
                         targetRow.Cells[Rqtyno].Value = quantity;
                         targetRow.Cells[Ractionno].Value = Grid_Remove;
                         targetRow.Cells[Rproductid].Value = selection.ProductId;
@@ -2856,6 +2856,64 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Partypacksetup page btn_submit_menu_Click()", ex, FrmLogin.EmployeName,
                     FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
+        }
+
+        /// <summary>
+        /// Assign a category only when it exists in the DataGridViewComboBoxColumn's actual value list.
+        /// This prevents DataGridViewComboBoxCell value-not-valid exceptions when menu and grid categories differ.
+        /// </summary>
+        private void SetMenuCategoryCellValue(DataGridViewRow row, int categoryId)
+        {
+            if (row == null || Rcategmenuno < 0 || Rcategmenuno >= row.Cells.Count)
+                return;
+
+            DataGridViewComboBoxCell cell = row.Cells[Rcategmenuno] as DataGridViewComboBoxCell;
+            if (cell == null)
+            {
+                row.Cells[Rcategmenuno].Value = DBNull.Value;
+                return;
+            }
+
+            try
+            {
+                if (cell.DataSource == null)
+                    LoadMenuCategory();
+
+                string valueMember = cell.ValueMember;
+                object validValue = null;
+                bool found = false;
+
+                if (cell.DataSource is System.Collections.IEnumerable source)
+                {
+                    foreach (object item in source)
+                    {
+                        if (item == null) continue;
+                        object candidate = item.GetType().GetProperty(valueMember)?.GetValue(item, null);
+                        int candidateId;
+                        if (candidate != null && int.TryParse(Convert.ToString(candidate), out candidateId) && candidateId == categoryId)
+                        {
+                            validValue = candidate;
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                // A blank value is valid for a menu row whose category is not in this grid's category source.
+                cell.Value = found ? validValue : DBNull.Value;
+            }
+            catch
+            {
+                // Keep the product row even if the category cannot be selected.
+                cell.Value = DBNull.Value;
+            }
+        }
+
+        private void dgv_packs_default_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // Combo-box values may be absent from the current category source; don't show the default error dialog.
+            e.ThrowException = false;
+            e.Cancel = false;
         }
 
         private void btnprev_Click(object sender, EventArgs e)
