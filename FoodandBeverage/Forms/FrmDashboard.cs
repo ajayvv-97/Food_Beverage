@@ -1028,11 +1028,20 @@ namespace FoodandBeverage.Forms
                 flp_operabuttons.Visible = true;
                 btn_pickup.Visible = false;
 
-                // Calculate the operation-button layout only after the FlowLayoutPanel
-                // is attached and docked; otherwise the first click uses its old size.
+                // Resume the parent layout first so Dock=Fill updates the real client size.
+                // The first click previously calculated button widths while panelDesktop
+                // was still suspended, so the old narrow FlowLayoutPanel width was reused.
+                panelDesktop.ResumeLayout(true);
                 panelDesktop.PerformLayout();
                 flp_operabuttons.PerformLayout();
+
                 AdjustButtonsToPanel();
+
+                // Apply the calculated 3-column widths after the FlowLayoutPanel has
+                // received its final bounds, then request one final layout pass.
+                flp_operabuttons.PerformLayout();
+                panelDesktop.PerformLayout();
+                flp_operabuttons.Invalidate();
 
                 if (screenWidth > 1367 && screenHeight > 769)
                 {
@@ -1048,7 +1057,6 @@ namespace FoodandBeverage.Forms
                     HdesiredWidth = 40;
                     HdesiredHeight = 40;
                 }
-                panelDesktop.ResumeLayout();
             }
             catch (Exception ex)
             {
