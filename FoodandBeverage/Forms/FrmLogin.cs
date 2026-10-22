@@ -1165,7 +1165,6 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
                 BackColor = Color.FromArgb(246, 241, 255),
                 MinimizeBox = false,
                 MaximizeBox = false,
-                DoubleBuffered = true
             };
 
             Panel card = new Panel
