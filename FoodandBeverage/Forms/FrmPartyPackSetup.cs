@@ -55,6 +55,60 @@ namespace FoodandBeverage.Forms
         public int GiftProducttype = 5;
         public int GiftPartyPackDetailsId = 6;
 
+
+        // Registration Grid
+        public int iaction = 0;
+        public int islno = 1;
+        public int ibarcode = 2;
+        public int iproducttypeno = 3;
+        public int iname = 4;
+        public int iunit = 5;
+        public int israte = 6;
+        public int iqty = 7;
+        public int iprate = 8;
+        public int iamount = 9;
+        public int idisper = 10;
+        public int idisamt = 11;
+        public int itaxper = 12;
+        public int itaxamt = 13;
+        public int itotal = 14;
+        public int iitemid = 15;
+        public int itax = 16;
+        public int itaxtype = 17;
+        public int imrp = 18;
+        public int itype = 19;
+        public int ibarcode2 = 20;
+        public int itaxsettingid = 21;
+        public int iunitid = 22;
+        public int ipridno = 23;
+        public int iprodesno = 24;
+        public int istatusno = 25;
+        public int iigstamtno = 26;
+        public int ivatamtno = 27;
+        public int iorderdetailsidno = 28;
+        public int isubofferstatus = 29;
+        public int ioriginalprice = 30;
+        public int isubofferid = 31;
+        public int itabletype = 32;
+        public int iorderdescno = 33;
+        public int ioriginalqty = 34;
+        public int iavid = 35;
+        public int ivaraiationstatusno = 36;
+        public int ipavidno = 37;
+        public int iMainProductStatusno = 38;
+        public int iAddoncountno = 39;
+        public int ividno = 40;
+        public int iComboTaxamtno = 41;
+        public int iccodeno = 42;
+        public int iVariatiionNameno = 43;
+        public int iPreparationModeno = 44;
+        public int isaledetailsidno = 45;
+        public int iorgname = 46;
+        public int icombotaxamt = 47;
+        public int istocktrackno = 48;
+        public int ipretaxamtno = 49;
+        public int iSaledisperno = 50;
+        public int isalediamtno = 51;
         #endregion
 
         bool Loaddetailsflag = false;
@@ -2643,9 +2697,6 @@ namespace FoodandBeverage.Forms
                 int height = Math.Min((int)(ClientSize.Height * 0.86), ClientSize.Height - 20);
 
                 pnl_menu.SuspendLayout();
-                // Resize the popup and its nested layout container together. The
-                // designer's original width is fixed, so Dock=Fill alone can leave
-                // the product tiles and selected-items grid at the old 787px width.
                 tableLayoutPanel43.Dock = DockStyle.Fill;
                 tableLayoutPanel43.Margin = Padding.Empty;
                 tableLayoutPanel43.Width = width - pnl_menu.Padding.Horizontal;
@@ -2678,7 +2729,6 @@ namespace FoodandBeverage.Forms
                 flp_productview.PerformLayout();
                 Dgv_Selected_Item.PerformLayout();
 
-                // Recalculate the tile size using the actual resized viewport.
                 partyPackMenuPageSize = CalculatePartyPackMenuPageSize();
                 partyPackMenuCurrentPage = 1;
 
@@ -2710,8 +2760,6 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        // Submit only transfers selected menu items into the package's food-item grid.
-        // Deliberately no balance, tax, price, or total calculations are performed here.
         private void btn_submit_menu_Click(object sender, EventArgs e)
         {
             try
@@ -2969,6 +3017,7 @@ namespace FoodandBeverage.Forms
                         AutoEllipsis = true,
                         Cursor = Cursors.Hand
                     };
+
                     categoryButton.FlatAppearance.BorderSize = 0;
                     partyPackMenuToolTip.SetToolTip(categoryButton, category.CategoryName);
                     categoryButton.Click += (s, e) =>
@@ -2981,6 +3030,7 @@ namespace FoodandBeverage.Forms
                         partyPackMenuCategoryPanel.Hide();
                         LoadPartyPackMenuProducts(categoryId);
                     };
+
                     partyPackMenuCategoryPanel.Controls.Add(categoryButton);
                 }
 
@@ -2993,8 +3043,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partypacksetup page LoadPartyPackMenuCategories()", ex, FrmLogin.EmployeName,
-                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                clsgen.LogException("Partypacksetup page LoadPartyPackMenuCategories()", ex, FrmLogin.EmployeName,FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
@@ -3025,8 +3074,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partypacksetup page EnsurePartyPackMenuProductsLoaded()", ex, FrmLogin.EmployeName,
-                    FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                clsgen.LogException("Partypacksetup page EnsurePartyPackMenuProductsLoaded()", ex, FrmLogin.EmployeName,FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 

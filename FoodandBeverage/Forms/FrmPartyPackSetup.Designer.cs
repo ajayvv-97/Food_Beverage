@@ -92,12 +92,6 @@
             this.btnmenu = new System.Windows.Forms.Button();
             this.pnl_packtype = new System.Windows.Forms.Panel();
             this.dgv_packs_default = new System.Windows.Forms.DataGridView();
-            this.slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.item = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dcategmenu = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.action = new System.Windows.Forms.DataGridViewImageColumn();
-            this.pPartyPackDetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_packcustom = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -298,6 +292,14 @@
             this.lblpagerinfo = new System.Windows.Forms.Label();
             this.btnnext = new System.Windows.Forms.Button();
             this.flp_productview = new System.Windows.Forms.FlowLayoutPanel();
+            this.slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dcategmenu = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.action = new System.Windows.Forms.DataGridViewImageColumn();
+            this.pPartyPackDetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dfProductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dfproducttype = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_main.SuspendLayout();
             this.tlp_registration.SuspendLayout();
             this.tlp_setting.SuspendLayout();
@@ -889,7 +891,9 @@
             this.dcategmenu,
             this.Qty,
             this.action,
-            this.pPartyPackDetailsId});
+            this.pPartyPackDetailsId,
+            this.dfProductid,
+            this.dfproducttype});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -910,59 +914,6 @@
             this.dgv_packs_default.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_packs_CellContentClick);
             this.dgv_packs_default.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_packs_default_CellDoubleClick);
             this.dgv_packs_default.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_packs_CellValueChanged);
-            // 
-            // slno
-            // 
-            this.slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.slno.HeaderText = "Slno";
-            this.slno.MinimumWidth = 6;
-            this.slno.Name = "slno";
-            this.slno.Width = 66;
-            // 
-            // item
-            // 
-            this.item.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.item.HeaderText = "Deafult Product";
-            this.item.MinimumWidth = 6;
-            this.item.Name = "item";
-            this.item.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.item.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dcategmenu
-            // 
-            this.dcategmenu.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dcategmenu.HeaderText = "Menu Category";
-            this.dcategmenu.MinimumWidth = 6;
-            this.dcategmenu.Name = "dcategmenu";
-            this.dcategmenu.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dcategmenu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dcategmenu.Width = 130;
-            // 
-            // Qty
-            // 
-            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Qty.HeaderText = "Quantity";
-            this.Qty.MinimumWidth = 6;
-            this.Qty.Name = "Qty";
-            this.Qty.Width = 93;
-            // 
-            // action
-            // 
-            this.action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.action.HeaderText = "Action";
-            this.action.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.action.MinimumWidth = 2;
-            this.action.Name = "action";
-            this.action.ToolTipText = "delete row";
-            this.action.Width = 60;
-            // 
-            // pPartyPackDetailsId
-            // 
-            this.pPartyPackDetailsId.HeaderText = "PartyPackDetailsId";
-            this.pPartyPackDetailsId.MinimumWidth = 6;
-            this.pPartyPackDetailsId.Name = "pPartyPackDetailsId";
-            this.pPartyPackDetailsId.Visible = false;
-            this.pPartyPackDetailsId.Width = 125;
             // 
             // dgv_packcustom
             // 
@@ -1341,7 +1292,7 @@
             this.pnl_hidecontrl.Controls.Add(this.chb_active);
             this.pnl_hidecontrl.Location = new System.Drawing.Point(11, 6);
             this.pnl_hidecontrl.Name = "pnl_hidecontrl";
-            this.pnl_hidecontrl.Size = new System.Drawing.Size(55, 71);
+            this.pnl_hidecontrl.Size = new System.Drawing.Size(10, 71);
             this.pnl_hidecontrl.TabIndex = 177;
             this.pnl_hidecontrl.Visible = false;
             // 
@@ -2743,7 +2694,7 @@
             this.pnl_menu.Location = new System.Drawing.Point(11, 12);
             this.pnl_menu.Name = "pnl_menu";
             this.pnl_menu.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnl_menu.Size = new System.Drawing.Size(807, 561);
+            this.pnl_menu.Size = new System.Drawing.Size(786, 561);
             this.pnl_menu.TabIndex = 339;
             this.pnl_menu.Visible = false;
             // 
@@ -2764,7 +2715,7 @@
             this.tableLayoutPanel43.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel43.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel43.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel43.Size = new System.Drawing.Size(793, 549);
+            this.tableLayoutPanel43.Size = new System.Drawing.Size(772, 549);
             this.tableLayoutPanel43.TabIndex = 0;
             // 
             // tableLayoutPanel44
@@ -2781,7 +2732,7 @@
             this.tableLayoutPanel44.Name = "tableLayoutPanel44";
             this.tableLayoutPanel44.RowCount = 1;
             this.tableLayoutPanel44.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel44.Size = new System.Drawing.Size(787, 56);
+            this.tableLayoutPanel44.Size = new System.Drawing.Size(766, 56);
             this.tableLayoutPanel44.TabIndex = 36;
             // 
             // btn_submit_menu
@@ -2794,7 +2745,7 @@
             this.btn_submit_menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_submit_menu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_submit_menu.ForeColor = System.Drawing.Color.White;
-            this.btn_submit_menu.Location = new System.Drawing.Point(635, 3);
+            this.btn_submit_menu.Location = new System.Drawing.Point(614, 3);
             this.btn_submit_menu.Name = "btn_submit_menu";
             this.btn_submit_menu.Size = new System.Drawing.Size(129, 50);
             this.btn_submit_menu.TabIndex = 32;
@@ -2813,7 +2764,7 @@
             this.btn_menu_cancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_menu_cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_menu_cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_menu_cancel.Location = new System.Drawing.Point(516, 3);
+            this.btn_menu_cancel.Location = new System.Drawing.Point(495, 3);
             this.btn_menu_cancel.Name = "btn_menu_cancel";
             this.btn_menu_cancel.Size = new System.Drawing.Size(113, 50);
             this.btn_menu_cancel.TabIndex = 272;
@@ -2834,7 +2785,7 @@
             this.tlp_menu_nav.Name = "tlp_menu_nav";
             this.tlp_menu_nav.RowCount = 1;
             this.tlp_menu_nav.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_menu_nav.Size = new System.Drawing.Size(787, 36);
+            this.tlp_menu_nav.Size = new System.Drawing.Size(766, 36);
             this.tlp_menu_nav.TabIndex = 2;
             // 
             // btn_menu_close
@@ -2846,7 +2797,7 @@
             this.btn_menu_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_menu_close.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btn_menu_close.ForeColor = System.Drawing.Color.Red;
-            this.btn_menu_close.Location = new System.Drawing.Point(738, 4);
+            this.btn_menu_close.Location = new System.Drawing.Point(717, 4);
             this.btn_menu_close.Margin = new System.Windows.Forms.Padding(4);
             this.btn_menu_close.Name = "btn_menu_close";
             this.btn_menu_close.Size = new System.Drawing.Size(28, 28);
@@ -2862,7 +2813,7 @@
             this.label50.ForeColor = System.Drawing.Color.White;
             this.label50.Location = new System.Drawing.Point(3, 0);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(728, 36);
+            this.label50.Size = new System.Drawing.Size(707, 36);
             this.label50.TabIndex = 2;
             this.label50.Text = "Menu Items";
             this.label50.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2880,7 +2831,7 @@
             this.tableLayoutPanel45.Name = "tableLayoutPanel45";
             this.tableLayoutPanel45.RowCount = 1;
             this.tableLayoutPanel45.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel45.Size = new System.Drawing.Size(787, 53);
+            this.tableLayoutPanel45.Size = new System.Drawing.Size(766, 53);
             this.tableLayoutPanel45.TabIndex = 34;
             // 
             // tlp_serachbox
@@ -2996,7 +2947,7 @@
             this.pnl_dgv_menu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_dgv_menu.Location = new System.Drawing.Point(3, 104);
             this.pnl_dgv_menu.Name = "pnl_dgv_menu";
-            this.pnl_dgv_menu.Size = new System.Drawing.Size(787, 380);
+            this.pnl_dgv_menu.Size = new System.Drawing.Size(766, 380);
             this.pnl_dgv_menu.TabIndex = 35;
             // 
             // Dgv_Selected_Item
@@ -3086,7 +3037,7 @@
             this.Dgv_Selected_Item.RowsDefaultCellStyle = dataGridViewCellStyle28;
             this.Dgv_Selected_Item.RowTemplate.Height = 24;
             this.Dgv_Selected_Item.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.Dgv_Selected_Item.Size = new System.Drawing.Size(787, 380);
+            this.Dgv_Selected_Item.Size = new System.Drawing.Size(766, 380);
             this.Dgv_Selected_Item.TabIndex = 342;
             // 
             // ipaction
@@ -3644,7 +3595,7 @@
             this.tlp_menu_main.RowCount = 2;
             this.tlp_menu_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_menu_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_menu_main.Size = new System.Drawing.Size(787, 380);
+            this.tlp_menu_main.Size = new System.Drawing.Size(766, 380);
             this.tlp_menu_main.TabIndex = 341;
             // 
             // tlp_footer
@@ -3662,7 +3613,7 @@
             this.tlp_footer.Name = "tlp_footer";
             this.tlp_footer.RowCount = 1;
             this.tlp_footer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_footer.Size = new System.Drawing.Size(781, 50);
+            this.tlp_footer.Size = new System.Drawing.Size(760, 50);
             this.tlp_footer.TabIndex = 341;
             // 
             // btnprev
@@ -3686,7 +3637,7 @@
             this.lblpagerinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblpagerinfo.Location = new System.Drawing.Point(69, 0);
             this.lblpagerinfo.Name = "lblpagerinfo";
-            this.lblpagerinfo.Size = new System.Drawing.Size(643, 50);
+            this.lblpagerinfo.Size = new System.Drawing.Size(622, 50);
             this.lblpagerinfo.TabIndex = 0;
             this.lblpagerinfo.Text = "Midasfun";
             this.lblpagerinfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -3698,7 +3649,7 @@
             this.btnnext.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnnext.FlatAppearance.BorderSize = 0;
             this.btnnext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnnext.Location = new System.Drawing.Point(718, 3);
+            this.btnnext.Location = new System.Drawing.Point(697, 3);
             this.btnnext.Name = "btnnext";
             this.btnnext.Size = new System.Drawing.Size(60, 44);
             this.btnnext.TabIndex = 291;
@@ -3712,9 +3663,74 @@
             this.flp_productview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flp_productview.Location = new System.Drawing.Point(3, 3);
             this.flp_productview.Name = "flp_productview";
-            this.flp_productview.Size = new System.Drawing.Size(781, 318);
+            this.flp_productview.Size = new System.Drawing.Size(760, 318);
             this.flp_productview.TabIndex = 340;
             this.flp_productview.Visible = false;
+            // 
+            // slno
+            // 
+            this.slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.slno.HeaderText = "Slno";
+            this.slno.MinimumWidth = 6;
+            this.slno.Name = "slno";
+            this.slno.Width = 66;
+            // 
+            // item
+            // 
+            this.item.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.item.HeaderText = "Deafult Product";
+            this.item.MinimumWidth = 6;
+            this.item.Name = "item";
+            this.item.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.item.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dcategmenu
+            // 
+            this.dcategmenu.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dcategmenu.HeaderText = "Menu Category";
+            this.dcategmenu.MinimumWidth = 6;
+            this.dcategmenu.Name = "dcategmenu";
+            this.dcategmenu.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dcategmenu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dcategmenu.Width = 142;
+            // 
+            // Qty
+            // 
+            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Qty.HeaderText = "Quantity";
+            this.Qty.MinimumWidth = 6;
+            this.Qty.Name = "Qty";
+            this.Qty.Width = 93;
+            // 
+            // action
+            // 
+            this.action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.action.HeaderText = "Action";
+            this.action.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.action.MinimumWidth = 2;
+            this.action.Name = "action";
+            this.action.ToolTipText = "delete row";
+            this.action.Width = 60;
+            // 
+            // pPartyPackDetailsId
+            // 
+            this.pPartyPackDetailsId.HeaderText = "PartyPackDetailsId";
+            this.pPartyPackDetailsId.MinimumWidth = 6;
+            this.pPartyPackDetailsId.Name = "pPartyPackDetailsId";
+            this.pPartyPackDetailsId.Visible = false;
+            this.pPartyPackDetailsId.Width = 125;
+            // 
+            // dfProductid
+            // 
+            this.dfProductid.HeaderText = "Productid";
+            this.dfProductid.Name = "dfProductid";
+            this.dfProductid.Visible = false;
+            // 
+            // dfproducttype
+            // 
+            this.dfproducttype.HeaderText = "Producttype";
+            this.dfproducttype.Name = "dfproducttype";
+            this.dfproducttype.Visible = false;
             // 
             // FrmPartyPackSetup
             // 
@@ -3951,12 +3967,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn slno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn item;
-        private System.Windows.Forms.DataGridViewComboBoxColumn dcategmenu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
-        private System.Windows.Forms.DataGridViewImageColumn action;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pPartyPackDetailsId;
         private System.Windows.Forms.Button btncakerefresh;
         private System.Windows.Forms.Button btnmenu;
         private System.Windows.Forms.Panel pnl_menu;
@@ -4032,5 +4042,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn opretaxamt;
         private System.Windows.Forms.DataGridViewTextBoxColumn osaledisper;
         private System.Windows.Forms.DataGridViewTextBoxColumn osaledisamt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn slno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn item;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dcategmenu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.DataGridViewImageColumn action;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pPartyPackDetailsId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dfProductid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dfproducttype;
     }
 }
