@@ -37,7 +37,11 @@ namespace FoodandBeverage.Forms
             txt_password.UsePassword = true;
             txt_password.CornerRadius = 11;
             txt_password.Size = new Size(286, 48);
-            Resize += delegate { ApplyLoginRoundedCorners(); };
+            Resize += delegate
+            {
+                ApplyLoginRoundedCorners();
+                PositionCompanyNameLabel();
+            };
             ApplyLoginRoundedCorners();
         }
 
@@ -291,6 +295,8 @@ namespace FoodandBeverage.Forms
                 {
                     lblcompanyname.Text = string.Empty;
                 }
+
+                PositionCompanyNameLabel();
             }
             catch (Exception ex)
             {
@@ -298,6 +304,45 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Login page LoadLocationName()", ex, FrmLogin.EmployeName,
                     FrmLogin.Designation, Convert.ToInt32(FormType.Login));
             }
+        }
+
+        /// <summary>
+        /// Keeps the full location name immediately to the left of the database status icon.
+        /// Recalculate after the label text or login form size changes so the controls never overlap.
+        /// </summary>
+        private void PositionCompanyNameLabel()
+        {
+            if (lblcompanyname == null || pb_online_offline == null ||
+                lblcompanyname.IsDisposed || pb_online_offline.IsDisposed)
+                return;
+
+            lblcompanyname.AutoSize = true;
+            lblcompanyname.TextAlign = ContentAlignment.MiddleRight;
+            lblcompanyname.BringToFront();
+
+            int gap = 6;
+            int x = pb_online_offline.Left - lblcompanyname.Width - gap;
+            int y = pb_online_offline.Top + (pb_online_offline.Height - lblcompanyname.Height) / 2;
+
+            // If the company name is unusually long, reduce its font slightly so it fits
+            // within the login form while keeping it left-aligned to the status icon.
+            float fontSize = 8.25F;
+            int availableWidth = Math.Max(40, pb_online_offline.Left - 12);
+            while (x < 4 && fontSize > 6.0F)
+            {
+                fontSize -= 0.25F;
+                lblcompanyname.Font = new Font("Arial Narrow", fontSize, FontStyle.Bold, GraphicsUnit.Point);
+                x = pb_online_offline.Left - lblcompanyname.Width - gap;
+            }
+
+            if (x < 4)
+            {
+                lblcompanyname.MaximumSize = new Size(availableWidth, 0);
+                lblcompanyname.AutoSize = true;
+                x = Math.Max(4, pb_online_offline.Left - lblcompanyname.Width - gap);
+            }
+
+            lblcompanyname.Location = new Point(x, y);
         }
 
         public void virtualkeyboardCheck()
