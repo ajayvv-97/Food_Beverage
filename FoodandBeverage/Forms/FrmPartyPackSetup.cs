@@ -670,8 +670,8 @@ namespace FoodandBeverage.Forms
                         int productType = 0;
                         int.TryParse(Convert.ToString(row.Cells[Rproductid].Value), out productId);
                         int.TryParse(Convert.ToString(row.Cells[Rproducttype].Value), out productType);
-                        bool isMenuProduct = productId > 0;
-
+                        // Manual food rows have ProductId/ProductType = 0; menu-selected food rows retain both IDs.
+                        // Both are stored as FoodItem so downstream party-pack handling remains consistent.
                         DmnPartyPackDetails dmndetail = new DmnPartyPackDetails
                         {
                             PartyPackId = packstatus.PartyPackId,
@@ -682,8 +682,7 @@ namespace FoodandBeverage.Forms
                             BranchId = FrmDashboard.BranchId,
                             Status = 1,
                             MenuCategoryId = menuCategoryId,
-
-                            PackItemType = isMenuProduct ? (int)PackItemType.Menu : (int)PackItemType.FoodItem,
+                            PackItemType = (int)PackItemType.FoodItem,
                             Productid = productId,
                             ProductType = productType
                         };
@@ -1251,19 +1250,21 @@ namespace FoodandBeverage.Forms
                     {
                         int rowIndex = dgv_packs_default.Rows.Add();
                         var row = dgv_packs_default.Rows[rowIndex];
+                        bool isMenuSelectedProduct = item.Productid > 0;
 
                         row.Cells[PartyPackDetailsId].Value = item.PartyPackDetailsId;
                         row.Cells[Ritemno].Value = item.Item;
                         row.Cells[Rqtyno].Value = item.Quantity;
-                        row.Cells[Rproductid].Value = item.PackItemType == (int)PackItemType.Menu ? item.Productid : 0;
-                        row.Cells[Rproducttype].Value = item.PackItemType == (int)PackItemType.Menu ? item.ProductType : 0;
+                        // Product ID is the marker for a menu-selected food item. Manual entries remain zero.
+                        row.Cells[Rproductid].Value = isMenuSelectedProduct ? item.Productid : 0;
+                        row.Cells[Rproducttype].Value = isMenuSelectedProduct ? item.ProductType : 0;
 
                         if (item.MenuCategoryId > 0)
                         {
-                            if (item.PackItemType == (int)PackItemType.Menu && partyPackMenuCategorySource != null &&
+                            if (isMenuSelectedProduct && partyPackMenuCategorySource != null &&
                                 partyPackMenuCategorySource.Any(x => Convert.ToInt32(x.Id) == item.MenuCategoryId))
                                 row.Cells[Rcategmenuno].Value = item.MenuCategoryId;
-                            else if (item.PackItemType == (int)PackItemType.FoodItem && categoryList != null &&
+                            else if (!isMenuSelectedProduct && categoryList != null &&
                                 categoryList.Any(x => x.Fcid == item.MenuCategoryId))
                                 row.Cells[Rcategmenuno].Value = item.MenuCategoryId;
                         }
