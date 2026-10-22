@@ -3722,15 +3722,17 @@
             // 
             // dfProductid
             // 
+            this.dfProductid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dfProductid.HeaderText = "Productid";
             this.dfProductid.Name = "dfProductid";
-            this.dfProductid.Visible = false;
+            this.dfProductid.Width = 101;
             // 
             // dfproducttype
             // 
+            this.dfproducttype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dfproducttype.HeaderText = "Producttype";
             this.dfproducttype.Name = "dfproducttype";
-            this.dfproducttype.Visible = false;
+            this.dfproducttype.Width = 119;
             // 
             // FrmPartyPackSetup
             // 

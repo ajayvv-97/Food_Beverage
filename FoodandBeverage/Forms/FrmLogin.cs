@@ -31,13 +31,13 @@ namespace FoodandBeverage.Forms
             txt_username.IconText = "\uE77B";
             txt_username.CornerRadius = 11;
             txt_username.Size = new Size(286, 48);
-txt_password.Placeholder = "Password";
+            txt_password.Placeholder = "Password";
             txt_password.ShowIcon = true;
             txt_password.IconText = "\uE72E";
             txt_password.UsePassword = true;
             txt_password.CornerRadius = 11;
             txt_password.Size = new Size(286, 48);
-Resize += delegate { ApplyLoginRoundedCorners(); };
+            Resize += delegate { ApplyLoginRoundedCorners(); };
             ApplyLoginRoundedCorners();
         }
 

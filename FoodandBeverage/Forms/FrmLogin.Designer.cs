@@ -80,6 +80,7 @@ namespace FoodandBeverage.Forms
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.pb_online_offline = new System.Windows.Forms.PictureBox();
+            this.lblcompanyname = new System.Windows.Forms.Label();
             this.pnlloginbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pblogo)).BeginInit();
             this.Pnl_wifiPopup.SuspendLayout();
@@ -756,6 +757,21 @@ namespace FoodandBeverage.Forms
             this.pb_online_offline.TabStop = false;
             this.pb_online_offline.Click += new System.EventHandler(this.pb_online_offline_Click);
             // 
+            // lblcompanyname
+            // 
+            this.lblcompanyname.AutoSize = true;
+            this.lblcompanyname.BackColor = System.Drawing.Color.Transparent;
+            this.lblcompanyname.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblcompanyname.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblcompanyname.ForeColor = System.Drawing.Color.White;
+            this.lblcompanyname.Location = new System.Drawing.Point(859, 554);
+            this.lblcompanyname.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblcompanyname.Name = "lblcompanyname";
+            this.lblcompanyname.Size = new System.Drawing.Size(47, 15);
+            this.lblcompanyname.TabIndex = 297;
+            this.lblcompanyname.Text = "Location";
+            this.lblcompanyname.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -764,6 +780,7 @@ namespace FoodandBeverage.Forms
             this.BackgroundImage = global::FoodandBeverage.Properties.Resources.Loginbg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(959, 580);
+            this.Controls.Add(this.lblcompanyname);
             this.Controls.Add(this.pb_online_offline);
             this.Controls.Add(this.pictureBox9);
             this.Controls.Add(this.pictureBox8);
@@ -806,6 +823,7 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_online_offline)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -859,5 +877,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.PictureBox pb_online_offline;
+        private System.Windows.Forms.Label lblcompanyname;
     }
 }

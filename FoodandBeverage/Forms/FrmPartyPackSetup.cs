@@ -3372,7 +3372,7 @@ namespace FoodandBeverage.Forms
             row.Cells[ibarcode2].Value = selection.ItemCode;
             row.Cells[itaxsettingid].Value = selection.TaxSettingId;
             row.Cells[iunitid].Value = selection.UnitId;
-            row.Cells[itax].Value = string.IsNullOrWhiteSpace(selection.TaxMode) ? "Exclusive" : selection.TaxMode;
+            //row.Cells[itax].Value = string.IsNullOrWhiteSpace(selection.TaxMode) ? "Exclusive" : selection.TaxMode;
             row.Cells[ipretaxamtno].Value = amount;
             row.Cells[ioriginalprice].Value = selection.Price;
             row.Cells[istatusno].Value = 1;
