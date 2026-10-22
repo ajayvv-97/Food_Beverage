@@ -1117,11 +1117,9 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
                 }
                 else
                 {
-                    string message = "Unable to connect to the database. Please check the SQL Server, network connection, and database settings.";
-                    if (!string.IsNullOrWhiteSpace(connectionError))
-                        message += Environment.NewLine + Environment.NewLine + "Details: " + connectionError;
-
-                    CMessageBox.Show(this, message, "Database Connection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // Show a simple status message for staff. Keep technical SQL errors out of the UI.
+                    string message = "Database server is not connected.\n\nPlease check the network or contact your administrator.";
+                    CMessageBox.Show(this, message, "Database Offline", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
@@ -1133,11 +1131,12 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
                     pb_online_offline.AccessibleDescription = "SQL Server connection is unavailable";
                 }
 
+                // Avoid exposing technical exception details to staff.
                 CMessageBox.Show(this,
-                    "An error occurred while checking the database connection." + Environment.NewLine + Environment.NewLine + ex.Message,
+                    "Unable to check the database connection. Please try again or contact your administrator.",
                     "Database Connection",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    MessageBoxIcon.Warning);
             }
             finally
             {
