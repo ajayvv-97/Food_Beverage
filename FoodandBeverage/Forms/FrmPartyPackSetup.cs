@@ -59,6 +59,7 @@ namespace FoodandBeverage.Forms
 
 
         // Registration Grid
+        // Keep this map identical to FrmPartyBooking.Dgv_Selected_Item's designer column order.
         public int iaction = 0;
         public int islno = 1;
         public int ibarcode = 2;
@@ -72,45 +73,43 @@ namespace FoodandBeverage.Forms
         public int idisper = 10;
         public int idisamt = 11;
         public int itaxper = 12;
-        public int itaxamt = 13;
-        public int itotal = 14;
-        public int iitemid = 15;
-        public int itax = 16;
-        public int itaxtype = 17;
-        public int imrp = 18;
-        public int itype = 19;
-        public int ibarcode2 = 20;
-        public int itaxsettingid = 21;
-        public int iunitid = 22;
-        public int ipridno = 23;
-        public int iprodesno = 24;
-        public int istatusno = 25;
-        public int iigstamtno = 26;
-        public int ivatamtno = 27;
-        public int iorderdetailsidno = 28;
-        public int isubofferstatus = 29;
-        public int ioriginalprice = 30;
-        public int isubofferid = 31;
-        public int itabletype = 32;
-        public int iorderdescno = 33;
-        public int ioriginalqty = 34;
-        public int iavid = 35;
-        public int ivaraiationstatusno = 36;
-        public int ipavidno = 37;
-        public int iMainProductStatusno = 38;
-        public int iAddoncountno = 39;
-        public int ividno = 40;
-        public int iComboTaxamtno = 41;
-        public int iccodeno = 42;
-        public int iVariatiionNameno = 43;
-        public int iPreparationModeno = 44;
-        public int isaledetailsidno = 45;
-        public int iorgname = 46;
-        public int icombotaxamt = 47;
-        public int istocktrackno = 48;
-        public int ipretaxamtno = 49;
-        public int iSaledisperno = 50;
-        public int isalediamtno = 51;
+        public int itotal = 13;
+        public int iitemid = 14;
+        public int itaxtype = 15;
+        public int imrp = 16;
+        public int itype = 17;
+        public int ibarcode2 = 18;
+        public int itaxsettingid = 19;
+        public int iunitid = 20;
+        public int ipridno = 21;
+        public int iprodesno = 22;
+        public int istatusno = 23;
+        public int iigstamtno = 24;
+        public int ivatamtno = 25;
+        public int iorderdetailsidno = 26;
+        public int isubofferstatus = 27;
+        public int ioriginalprice = 28;
+        public int isubofferid = 29;
+        public int itabletype = 30;
+        public int iorderdescno = 31;
+        public int ioriginalqty = 32;
+        public int iavid = 33;
+        public int ivaraiationstatusno = 34;
+        public int ipavidno = 35;
+        public int iMainProductStatusno = 36;
+        public int iAddoncountno = 37;
+        public int ividno = 38;
+        public int iComboTaxamtno = 39;
+        public int iccodeno = 40;
+        public int iVariatiionNameno = 41;
+        public int iPreparationModeno = 42;
+        public int isaledetailsidno = 43;
+        public int istocktrackno = 44;
+        public int iorgname = 45;
+        public int icombotaxamt = 46;
+        public int ipretaxamtno = 47;
+        public int iSaledisperno = 48;
+        public int isalediamtno = 49;
         #endregion
 
         bool Loaddetailsflag = false;
@@ -3365,7 +3364,6 @@ namespace FoodandBeverage.Forms
             row.Cells[idisper].Value = 0m;
             row.Cells[idisamt].Value = 0m;
             row.Cells[itaxper].Value = 0m;
-            row.Cells[itaxamt].Value = 0m;
             row.Cells[itotal].Value = amount;
             row.Cells[iitemid].Value = selection.ProductId;
             row.Cells[itaxtype].Value = string.IsNullOrWhiteSpace(selection.TaxType) ? "GST" : selection.TaxType;
@@ -3509,8 +3507,21 @@ namespace FoodandBeverage.Forms
             }
             if (Dgv_Selected_Item.Columns.Contains("name"))
             {
-                Dgv_Selected_Item.Columns["name"].HeaderText = "Menu Item";
+                Dgv_Selected_Item.Columns["name"].Visible = true;
+                Dgv_Selected_Item.Columns["name"].HeaderText = "Name";
                 Dgv_Selected_Item.Columns["name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                Dgv_Selected_Item.Columns["name"].MinimumWidth = 150;
+            }
+            if (Dgv_Selected_Item.Columns.Contains("Unit"))
+                Dgv_Selected_Item.Columns["Unit"].Visible = true;
+            if (Dgv_Selected_Item.Columns.Contains("dgv_sele_igstamt"))
+                Dgv_Selected_Item.Columns["dgv_sele_igstamt"].Visible = true;
+            if (Dgv_Selected_Item.Columns.Contains("dgv_sele_vatamt"))
+                Dgv_Selected_Item.Columns["dgv_sele_vatamt"].Visible = true;
+            if (Dgv_Selected_Item.Columns.Contains("opretaxamt"))
+            {
+                Dgv_Selected_Item.Columns["opretaxamt"].Visible = true;
+                Dgv_Selected_Item.Columns["opretaxamt"].HeaderText = "PretaxAmt";
             }
             if (Dgv_Selected_Item.Columns.Contains("dataGridViewTextBoxColumn12"))
             {
