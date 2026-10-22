@@ -399,8 +399,8 @@ namespace FoodandBeverage.Forms
                 objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=4";
                 objSearch.OrderBy = "";
 
-                partyPackMenuCategorySource = bllSearch.GetSearchData("prdComboFill", objSearch)
-                    ?? new List<DmnComboBox>();
+                List<DmnComboBox> loadedCategories = bllSearch.GetSearchData("prdComboFill", objSearch);
+                partyPackMenuCategorySource = loadedCategories ?? new List<DmnComboBox>();
             }
             catch (Exception ex)
             {
