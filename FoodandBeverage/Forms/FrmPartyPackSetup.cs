@@ -29,7 +29,6 @@ namespace FoodandBeverage.Forms
         public int Rqtyno = 3;
         public int Ractionno = 4;
         public int PartyPackDetailsId = 5;
-        // Existing hidden columns from FrmPartyPackSetup.Designer.cs.
         public int Rproductid = 6;
         public int Rproducttype = 7;
 
@@ -122,8 +121,6 @@ namespace FoodandBeverage.Forms
         private List<DmnCategory> categoryList = new List<DmnCategory>();
         private List<DmnComboBox> partyPackMenuCategorySource;
 
-        // Party-pack menu picker state. This picker only selects products; it does not
-        // run sale/balance/tax calculations.
         private readonly List<DmnGridFields> partyPackMenuAllProducts = new List<DmnGridFields>();
         private List<DmnGridFields> partyPackMenuFilteredProducts = new List<DmnGridFields>();
         private List<DmnGridFields> partyPackMenuPageProducts = new List<DmnGridFields>();
@@ -183,8 +180,6 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
 
-            // Some of these controls are shared with the package setup UI. Wire the
-            // menu-picker interactions here so the designer layout stays unchanged.
             btn_menu_close.Click += (s, e) => ClosePartyPackMenu();
             Dgv_Selected_Item.CellClick += DgvPartyPackMenu_CellClick;
             Dgv_Selected_Item.CellPainting += DgvPartyPackMenu_CellPainting;

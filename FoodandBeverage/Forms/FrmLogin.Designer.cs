@@ -754,6 +754,7 @@ namespace FoodandBeverage.Forms
             this.pb_online_offline.Size = new System.Drawing.Size(32, 31);
             this.pb_online_offline.TabIndex = 296;
             this.pb_online_offline.TabStop = false;
+            this.pb_online_offline.Click += new System.EventHandler(this.pb_online_offline_Click);
             // 
             // FrmLogin
             // 

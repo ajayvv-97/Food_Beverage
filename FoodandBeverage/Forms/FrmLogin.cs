@@ -1067,5 +1067,10 @@ Resize += delegate { ApplyLoginRoundedCorners(); };
         {
             pnlDbSettings.Visible = false;
         }
+
+        private void pb_online_offline_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
