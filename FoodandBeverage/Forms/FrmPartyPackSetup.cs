@@ -392,7 +392,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "Fcid,CategoryName";
                 objSearch.Table = "tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=0";
+                objSearch.WhereNdGroupBy = "where status = 1 and CategoryType=4";
                 objSearch.OrderBy = "";
 
                 List<DmnComboBox> loadedCategories = bllSearch.GetSearchData("prdComboFill", objSearch);
@@ -1261,12 +1261,22 @@ namespace FoodandBeverage.Forms
 
                         if (item.MenuCategoryId > 0)
                         {
-                            if (isMenuSelectedProduct && partyPackMenuCategorySource != null &&
-                                partyPackMenuCategorySource.Any(x => Convert.ToInt32(x.Id) == item.MenuCategoryId))
+                            // ProductId > 0 means this row came from the food menu. ProductType may be 0 or 1;
+                            // both use the menu-category source (tblCategory_FTI, CategoryType = 4).
+                            if (isMenuSelectedProduct)
+                            {
+                                LoadPartyPackMenuCategorySource();
+                                bool menuCategoryExists = partyPackMenuCategorySource != null &&
+                                    partyPackMenuCategorySource.Any(x => Convert.ToInt32(x.Id) == item.MenuCategoryId);
+                                if (menuCategoryExists)
+                                    row.Cells[Rcategmenuno].Value = item.MenuCategoryId;
+                                else
+                                    row.Cells[Rcategmenuno].Value = DBNull.Value;
+                            }
+                            else if (categoryList != null && categoryList.Any(x => x.Fcid == item.MenuCategoryId))
+                            {
                                 row.Cells[Rcategmenuno].Value = item.MenuCategoryId;
-                            else if (!isMenuSelectedProduct && categoryList != null &&
-                                categoryList.Any(x => x.Fcid == item.MenuCategoryId))
-                                row.Cells[Rcategmenuno].Value = item.MenuCategoryId;
+                            }
                         }
 
                         DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)row.Cells[Ractionno];
