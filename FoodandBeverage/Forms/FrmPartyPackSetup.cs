@@ -221,9 +221,8 @@ namespace FoodandBeverage.Forms
                 if (dgv_packs_default.Rows.Count == 0)
                 {
                     int rowIndexDefault = dgv_packs_default.Rows.Add();
-                    DataGridViewImageCell cellDefault = (DataGridViewImageCell)dgv_packs_default.Rows[rowIndexDefault].Cells[Ractionno];
-                    cellDefault.Value = Grid_Remove;
-                    cellDefault.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    // Keep the placeholder row's action cell empty until a product is entered.
+                    dgv_packs_default.Rows[rowIndexDefault].Cells[Ractionno].Value = null;
                 }
 
                 RefreshSlNo();
@@ -1318,7 +1317,11 @@ namespace FoodandBeverage.Forms
                 RefreshSlNo();
 
                 if (!HasEmptyRow())
-                    dgv_packs_default.Rows.Add();
+                {
+                    int emptyRowIndex = dgv_packs_default.Rows.Add();
+                    dgv_packs_default.Rows[emptyRowIndex].Cells[Ractionno].Value = null;
+                }
+                RefreshSlNo();
 
                 LoadCustomMenu();
             }
@@ -1471,14 +1474,22 @@ namespace FoodandBeverage.Forms
                     }
 
                     var val = row.Cells[Ritemno].Value;
+                    bool hasItem = val != null && !string.IsNullOrWhiteSpace(val.ToString());
 
-                    if (val != null && !string.IsNullOrWhiteSpace(val.ToString()))
+                    if (hasItem)
                     {
                         row.Cells[Rslno].Value = sl++;
+                        if (row.Cells[Ractionno] is DataGridViewImageCell actionCell)
+                        {
+                            actionCell.Value = Grid_Remove;
+                            actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        }
                     }
                     else
                     {
                         row.Cells[Rslno].Value = null;
+                        // Empty/placeholder rows must not display a remove icon.
+                        row.Cells[Ractionno].Value = null;
                     }
                 }
             }
