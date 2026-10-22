@@ -3358,6 +3358,7 @@ namespace FoodandBeverage.Forms
             row.Tag = selection;
             row.Cells[iaction].Value = Grid_Remove;
             row.Cells[islno].Value = row.Index + 1;
+            row.Cells[iunit].Value = selection.UnitId > 0 ? selection.UnitId.ToString() : "";
             row.Cells[ibarcode].Value = selection.ItemCode;
             row.Cells[iproducttypeno].Value = "Food";
             row.Cells[iname].Value = selection.ProductName;
