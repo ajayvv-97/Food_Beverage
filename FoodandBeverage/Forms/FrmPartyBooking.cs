@@ -299,6 +299,10 @@ namespace FoodandBeverage
         public FrmPartyBooking()
         {
             InitializeComponent();
+            // A package row can contain a legacy category name while the combo column
+            // is bound to category IDs. Ignore invalid combo values instead of showing
+            // DataGridView's blocking default error dialog when a package is selected.
+            dgv_packenter.DataError += dgv_packenter_DataError;
             btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
             btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
             btnprev.Click += btnprev_Click;
@@ -312,6 +316,14 @@ namespace FoodandBeverage
             txtname_search.Leave += PartyMenuSearchTextBox_Leave;
             txtitemcode_serach.Enter += PartyMenuSearchTextBox_Enter;
             txtitemcode_serach.Leave += PartyMenuSearchTextBox_Leave;
+        }
+
+        private void dgv_packenter_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // Package rows may have no matching category ID in the bound category list.
+            // Suppress the default dialog so selecting a pack does not interrupt booking.
+            e.ThrowException = false;
+            e.Cancel = false;
         }
 
         public void SetCalendarBookingStart(DateTime startDateTime)
