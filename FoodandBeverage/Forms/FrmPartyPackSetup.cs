@@ -195,8 +195,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                textb_shape();
-
+      
                 if (FrmLogin.GameBranchId > 0)
                 {
                     btn_giftpacks.Visible = true;
@@ -221,14 +220,12 @@ namespace FoodandBeverage.Forms
                 if (dgv_packs_default.Rows.Count == 0)
                 {
                     int rowIndexDefault = dgv_packs_default.Rows.Add();
-                    // Keep the placeholder row's action cell empty until a product is entered.
                     dgv_packs_default.Rows[rowIndexDefault].Cells[Ractionno].Value = null;
                 }
 
                 RefreshSlNo();
 
-                // Do not let the ImageColumn's designer/default image appear in blank rows.
-                // Populated rows explicitly receive Grid_Remove in RefreshSlNo().
+
                 if (dgv_packs_default.Columns[Ractionno] is DataGridViewImageColumn actionColumn)
                 {
                     actionColumn.Image = null;
@@ -294,6 +291,7 @@ namespace FoodandBeverage.Forms
                 }
                 cmbtax_cake.SelectedIndex = 0;
 
+                textb_shape();
             }
             catch (Exception ex)
             {
@@ -480,7 +478,7 @@ namespace FoodandBeverage.Forms
 
                     lblcgst.Dock = DockStyle.Fill;
                     lblsgst.Dock = DockStyle.Fill;
-                    // These textboxes are created with zero designer width, so they must fill their table cells.
+
                     txtCgstPrcnt.Dock = DockStyle.Fill;
                     txtSgstPrcnt.Dock = DockStyle.Fill;
 
@@ -497,14 +495,12 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(lblminadvamt, 2, 5);
                     tlp_registration.Controls.Add(txtminadvamt, 2, 6);
 
-                    // Re-apply fill sizing after re-parenting into the table layout.
-                    // The designer initializes these textboxes with Width = 0.
                     foreach (TextBox taxTextBox in new[] { txtCgstPrcnt, txtSgstPrcnt, txtminadvamt })
                     {
                         taxTextBox.Dock = DockStyle.Fill;
                         taxTextBox.Anchor = AnchorStyles.None;
-                        taxTextBox.Margin = new Padding(0, 3, 5, 3);
-                        taxTextBox.MinimumSize = new Size(0, 27);
+                        //taxTextBox.Margin = new Padding(0, 3, 5, 3);
+                        //taxTextBox.MinimumSize = new Size(0, 27);
                     }
                     tlp_registration.PerformLayout();
 
@@ -1030,6 +1026,8 @@ namespace FoodandBeverage.Forms
                 selectedCardItems.Clear();
 
                 ClearCake();
+
+                textb_shape();
 
                 pnl_cakeconfig.Visible = false;
             }
@@ -2581,6 +2579,8 @@ namespace FoodandBeverage.Forms
 
                     tlp_cakereg.Controls.Add(btndel_cake, 3, 3);
                 }
+
+                textb_shape();
             }
             catch (Exception ex)
             {
