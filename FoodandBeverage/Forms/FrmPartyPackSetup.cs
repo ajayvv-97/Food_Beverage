@@ -494,9 +494,19 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(txtCgstPrcnt, 0, 6);
                     tlp_registration.Controls.Add(txtSgstPrcnt, 1, 6);
 
-
                     tlp_registration.Controls.Add(lblminadvamt, 2, 5);
                     tlp_registration.Controls.Add(txtminadvamt, 2, 6);
+
+                    // Re-apply fill sizing after re-parenting into the table layout.
+                    // The designer initializes these textboxes with Width = 0.
+                    foreach (TextBox taxTextBox in new[] { txtCgstPrcnt, txtSgstPrcnt, txtminadvamt })
+                    {
+                        taxTextBox.Dock = DockStyle.Fill;
+                        taxTextBox.Anchor = AnchorStyles.None;
+                        taxTextBox.Margin = new Padding(0, 3, 5, 3);
+                        taxTextBox.MinimumSize = new Size(0, 27);
+                    }
+                    tlp_registration.PerformLayout();
 
                     //row3
                     tlp_registration.Controls.Add(tlp_time_del_contrl, 3, 6);
