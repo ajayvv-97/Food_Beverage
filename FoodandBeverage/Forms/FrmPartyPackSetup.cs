@@ -980,7 +980,7 @@ namespace FoodandBeverage.Forms
 
                 dgv_packcustom.Rows.Clear();
                 rowIndex = dgv_packcustom.Rows.Add();
-                cellcolumntype = (DataGridViewImageCell)dgv_packcustom.Rows[rowIndex].Cells[Cmactionno];
+                DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_packcustom.Rows[rowIndex].Cells[Cmactionno];
                 cellcolumntype.Value = Grid_Remove;
                 cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
 
