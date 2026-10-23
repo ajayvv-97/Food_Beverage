@@ -165,6 +165,10 @@ namespace FoodandBeverage.Forms
             public string Category { get; set; }
         }
 
+        // Keep card quantities across category changes; cleared only by the Refresh/reset action.
+        private readonly Dictionary<string, decimal> cardProductQuantities =
+            new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
+
         List<SelectedCardItem> selectedCardItems = new List<SelectedCardItem>();
 
         public string GameDB = Convert.ToString(ConfigurationManager.AppSettings["GameDB"]);
@@ -1035,6 +1039,7 @@ namespace FoodandBeverage.Forms
 
                 dgv_card.Rows.Clear();
                 dgv_gift.Rows.Clear();
+                cardProductQuantities.Clear();
                 selectedCardItems.Clear();
 
                 ClearCake();
@@ -2068,7 +2073,6 @@ namespace FoodandBeverage.Forms
             {
                 // Preserve edited quantities when switching away from and back to Card Packs.
                 // clearall() clears dgv_card, so the Refresh button still resets quantities to 1.
-                var previousQuantities = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
                 foreach (DataGridViewRow previousRow in dgv_card.Rows)
                 {
                     if (previousRow.IsNewRow)
@@ -2084,7 +2088,7 @@ namespace FoodandBeverage.Forms
                     if (previousProductId > 0)
                     {
                         string key = previousProductType + "_" + previousProductId;
-                        previousQuantities[key] = previousQuantity > 0 ? previousQuantity : 1m;
+                        cardProductQuantities[key] = previousQuantity > 0 ? previousQuantity : 1m;
                     }
                 }
 
@@ -2175,7 +2179,7 @@ namespace FoodandBeverage.Forms
                     dgv_card.Rows[rowIndex].Cells[Carditemno].Value = item.Name;
                     dgv_card.Rows[rowIndex].Cells[Cardcategmenuno].Value = item.Category;
                     string quantityKey = item.Type + "_" + item.Id;
-                    dgv_card.Rows[rowIndex].Cells[Cardqtyno].Value = previousQuantities.TryGetValue(quantityKey, out decimal savedQuantity)
+                    dgv_card.Rows[rowIndex].Cells[Cardqtyno].Value = cardProductQuantities.TryGetValue(quantityKey, out decimal savedQuantity)
                         ? savedQuantity
                         : 1m;
                     dgv_card.Rows[rowIndex].Cells[CardProductid].Value = item.Id;
