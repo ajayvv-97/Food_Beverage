@@ -480,6 +480,9 @@ namespace FoodandBeverage.Forms
 
                     lblcgst.Dock = DockStyle.Fill;
                     lblsgst.Dock = DockStyle.Fill;
+                    // These textboxes are created with zero designer width, so they must fill their table cells.
+                    txtCgstPrcnt.Dock = DockStyle.Fill;
+                    txtSgstPrcnt.Dock = DockStyle.Fill;
 
                     //row1
                     tlp_registration.Controls.Add(lbligst, 3, 3);
