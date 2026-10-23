@@ -1951,9 +1951,9 @@ namespace FoodandBeverage
 
                 BllSearch<DmnGridFields> bllacctype = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = " TOP 8 g.Caption as Field1,g.GTypeSubId as Field2";
+                dmnSearch.Select = " TOP 8 g.Caption as Field1,CAST(g.GTypeSubValue1 AS INT) AS Field2";
                 dmnSearch.Table = " tblGeneralOptions g ";
-                dmnSearch.WhereNdGroupBy = " where g.GTypeId=58 and g.Status=0";// and GTypeSubId in(1,3,5,7)";
+                dmnSearch.WhereNdGroupBy = " where g.GTypeId=58 and g.Status=0 and GTypeSubId in(1,3,5,7)";
                 dmnSearch.OrderBy = "order by GTypeSubId";
                 var gridesource = bllacctype.GetSearchData("prdSearch", dmnSearch);
                 if (gridesource.Count > 0)
@@ -2106,30 +2106,30 @@ namespace FoodandBeverage
                 string productcolumnname = "";
 
                 int locationId = FrmLogin.GameBranchId;
-                switch ((PosSalProduct)tag)
+                switch ((FoodandBeverage.Interfaces.ProductType)tag)
                 {
-                    case PosSalProduct.Card:
+                    case FoodandBeverage.Interfaces.ProductType.Card:
                         table = "tblCardProducts";
                         tabtype = (int)FoodandBeverage.Interfaces.ProductType.Card;
                         heading = "Card Products";
                         productcolumnname = "p.Product_id";
                         break;
 
-                    case PosSalProduct.GateAccess:
+                    case FoodandBeverage.Interfaces.ProductType.GateAccess:
                         table = "tblGatePass";
                         tabtype = (int)FoodandBeverage.Interfaces.ProductType.GateAccess;
                         heading = "Gate Pass";
                         productcolumnname = "p.Productid";
                         break;
 
-                    case PosSalProduct.Trampoline:
+                    case FoodandBeverage.Interfaces.ProductType.Trampoline:
                         table = "tblTrampolining";
                         tabtype = (int)FoodandBeverage.Interfaces.ProductType.Trampoline;
                         heading = "Trampolining";
                         productcolumnname = "p.Productid";
                         break;
 
-                    case PosSalProduct.TimePlay:
+                    case FoodandBeverage.Interfaces.ProductType.TimePlay:
                         table = "tblTimePlayProducts";
                         tabtype = (int)FoodandBeverage.Interfaces.ProductType.TimePlay;
                         heading = "TimePlay Products";
@@ -2140,10 +2140,8 @@ namespace FoodandBeverage
                         throw new ArgumentException("Invalid product tag");
                 }
 
-
                 txtTable.Text = table;
                 lblProductHeading.Text = heading;
-
 
                 dmnSearch.Select = $@"
                                     TOP 50
@@ -2158,7 +2156,7 @@ namespace FoodandBeverage
                                         ON pm.Product = {productcolumnname} AND pm.ProductType = {tabtype}";
 
                 dmnSearch.WhereNdGroupBy = $@"
-                                    WHERE pm.Location = {locationId} 
+                                    WHERE p.BranchId = {locationId} and pm.Location={locationId}
                                     AND pm.Status = 1 and p.Status=1
                                     AND pm.ProductType = {tabtype}";
 
@@ -2671,8 +2669,6 @@ namespace FoodandBeverage
         {
             try
             {
-
-
                 pnl_cardpreview.Visible = true;
                 pnl_cardpreview.BringToFront();
 
@@ -2895,39 +2891,39 @@ namespace FoodandBeverage
 
                 lblProductHeading.Text = "Gift Products";
 
-                dmnSearch.Select = @"r.ProductId as Id, 
-                            UPC As Field1, 
-                            Description As Field2, 
-                            SuggestedPointValue As Field3, 
-                            (Select top(1) Pr.SRate 
-                                from [" + GameDB + @"].dbo.tblProductRate pr 
-                                where pr.ProductId = r.ProductId 
-                                and pr.ProductType = " + (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket +
-                                           " and pr.BranchId=" + FrmLogin.GameBranchId + @" 
-                                order by pr.Id desc) As Field4,
+                dmnSearch.Select = "r.ProductId as Id, " +
+                          "UPC As Field1, " +
+                          "Description As Field2, " +
+                          "SuggestedPointValue As Field3, " +
 
-                            (Select Sum(QOH) 
-                                from [" + GameDB + @"].dbo.tblProductRate pr 
-                                where pr.ProductId = r.ProductId
-                                and pr.ProductType = " + (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket +
-                                           " and pr.BranchId = " + FrmLogin.GameBranchId + @") As Field5, 
+                          "(Select top(1) Pr.SRate " +
+                          " from [" + GameDB + "].dbo.tblProductRate pr " +
+                          " where pr.ProductId = r.ProductId " +
+                          " and pr.ProductType = " + (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket +
+                          " and pr.BranchId = " + FrmLogin.GameBranchId +
+                          " order by pr.Id desc) As Field4, " +
 
-                            0 as Field6, 
-                            0 as Field7";
+                          "(Select Sum(QOH) " +
+                          " from [" + GameDB + "].dbo.tblProductRate pr " +
+                          " where pr.ProductId = r.ProductId " +
+                          " and pr.ProductType = " + (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket +
+                          " and pr.BranchId = " + FrmLogin.GameBranchId +
+                          ") As Field5, " +
 
-                dmnSearch.Table = " [" + GameDB + @"].dbo.tblRedemptionProducts r " +
-                                  " left join [" + GameDB + @"].dbo.tblCardProductLocMapping l " +
-                                  " on l.Product=r.ProductId and l.Location= " + FrmLogin.GameBranchId +
-                                  " and l.Status=1 and l.ProductType = " + (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket;
+                          "0 as Field6, " +
+                          "0 as Field7";
 
-                // 🔍 SEARCH FILTER ADDED HERE
+                dmnSearch.Table = "[" + GameDB + "].dbo.tblRedemptionProducts r " +
+                                  "left join [" + GameDB + "].dbo.tblCardProductLocMapping l " +
+                                  "on l.Product = r.ProductId";
+
                 string searchFilter = "";
                 if (!string.IsNullOrWhiteSpace(searchText))
                 {
                     searchFilter = " AND r.Description LIKE '%" + searchText.Replace("'", "''") + "%'";
                 }
 
-                dmnSearch.WhereNdGroupBy = "Where r.Status=1  and l.Location = " + FrmLogin.GameBranchId +
+                dmnSearch.WhereNdGroupBy = "Where r.Status=1  and l.Location = " + FrmLogin.GameBranchId + " and l.Status=1 "+
                                           " and (Select Sum(QOH) from [" + GameDB + @"].dbo.tblProductRate pr " +
                                           " where pr.ProductId = r.ProductId " +
                                           " and pr.ProductType = " + (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket +
