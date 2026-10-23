@@ -32,9 +32,12 @@ namespace FoodandBeverage
                     if (crystalValue == "0")
                     {
                         FolderPermissionSetter.EnsureAppFolderPermissions();
-                        UpdateAppConfig();
                         FoodandBeverage.Classes.CrystalInstaller.EnsureCrystalInstalled();
                     }
+
+                    // Keep the runtime database name aligned with the configured App.config value.
+                    // UpdateAppConfig only updates the explicitly listed settings below.
+                    UpdateAppConfig();
 
                     // Application.Run(new Forms.FrmOrder(0, Convert.ToInt32(DashboardTableType.PickupOrder), 0, null, Convert.ToInt32(PageType.Billpage), 0, Convert.ToInt32(SourcepageType.Pickuppage)));
                     string tabletmode = ConfigurationManager.AppSettings["TabletModestatus"];
@@ -68,7 +71,8 @@ namespace FoodandBeverage
                 {
                     { "CrystalInstalled", "1" },
                     { "POSpagescount", "15" },
-                    { "PrintpathValue", "2" }
+                    { "PrintpathValue", "2" },
+                    { "GameDB", "Prime_old" }
                 };
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
