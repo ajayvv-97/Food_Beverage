@@ -8256,8 +8256,6 @@ namespace FoodandBeverage
                 if (!pnl_menu.Visible)
                     btn_menu_Click(sender, e);
 
-                // Clicking Menu again must restore the product tiles after a product click
-                // has switched the overlay to the temporary selected-items grid.
                 pnl_menu.Visible = true;
                 pnl_menu.BringToFront();
                 tlp_menu_main.Visible = true;
@@ -8713,7 +8711,9 @@ namespace FoodandBeverage
                 }
                 else
                 {
-                    search.Select = "i.Itemname AS Field1, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field2, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field3, i.Tax AS Field4, i.TaxType AS Field5, i.Fcid AS Field6, i.TaxSettingsId AS Field7, i.ItemCode_UPC AS Field8, ISNULL(i.UnitId,0) AS Field9";
+                    search.Select = "i.Itemname AS Field1, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field2," +
+                        " ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field3, i.Tax AS Field4, i.TaxType AS Field5," +
+                        " i.Fcid AS Field6, i.TaxSettingsId AS Field7, i.ItemCode_UPC AS Field8, ISNULL(i.Unit,0) AS Field9";
                     search.Table = "tblItem i";
                     search.WhereNdGroupBy = "WHERE i.Status=1 AND i.Saletype=1 AND i.ItemId=" + productId;
                 }
@@ -8965,7 +8965,6 @@ namespace FoodandBeverage
 
         private void ShowPartyProductTiles()
         {
-            // Return to the current product/search/category page without clearing cart rows.
             btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
             btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
             tlp_menu_main.Visible = true;
@@ -8978,7 +8977,6 @@ namespace FoodandBeverage
 
         private void ShowPartySelectedItems()
         {
-            // Cart mode: use the food-items icon so the same button returns to products.
             btn_cart.BackgroundImage = Properties.Resources.Party_Food_Items_Icon;
             btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
             tlp_menu_main.Visible = true;
@@ -9067,7 +9065,7 @@ namespace FoodandBeverage
         {
             Color accentPurple = Color.FromArgb(101, 80, 185);
             Color menuLavender = Color.FromArgb(236, 220, 244);
-            Color softLavender = Color.FromArgb(247, 240, 251);
+            Color softLavender = Color.FromArgb(236, 220, 244);
             Color borderLavender = Color.FromArgb(226, 214, 239);
             Color textColor = Color.FromArgb(42, 34, 55);
 

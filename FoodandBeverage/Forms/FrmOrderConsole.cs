@@ -6782,7 +6782,7 @@ namespace FoodandBeverage.Forms
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
                     dmnSearch.WhereNdGroupBy =
-                        " where i.Fcid= " + 2 + " and i.Saletype=1 and i.Status=1  " +
+                        " where  i.Saletype=1 and i.Status=1  " +
                         " and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0 and i.Itemname like '%" + txtname_search.Text.Trim() + "%'";
 
                     queryResult = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -7866,7 +7866,7 @@ namespace FoodandBeverage.Forms
                         " tblItem i " +
                         " LEFT JOIN tblOfferMaster ofm ON  ofm.status=1  AND ofm.OfferType=0 AND  ofm.OfferstartDatetime <= SYSDATETIME() AND ofm.OfferEndDatetime >= SYSDATETIME() and ofm.Status=1 LEFT JOIN tblOfferDetails ofd ON ofd.omid=ofm.omid AND ofd.status=1 ";
                     dmnSearch.WhereNdGroupBy =
-                        " where i.Fcid= " + 2 + " and i.Saletype=1 and i.Status=1  " +
+                        " where  i.Saletype=1 and i.Status=1  " +
                         " and (Select sum(QOH) from tblProductRate where ProductId=i.ItemId) > 0 and i.ItemCode_UPC = '" + txtitemcode_serach.Text.Trim() + "'";
 
                     ProductData = bllSearch.GetSearchData("prdSearch", dmnSearch);

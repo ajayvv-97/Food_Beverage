@@ -3552,10 +3552,11 @@ namespace FoodandBeverage.Forms
             {
                 Color accentPurple = Color.FromArgb(101, 80, 185);
                 Color menuLavender = Color.FromArgb(236, 220, 244);
-                Color softLavender = Color.FromArgb(247, 240, 251);
+                Color softLavender = Color.FromArgb(236, 220, 244);
                 Color borderLavender = Color.FromArgb(226, 214, 239);
                 Color textColor = Color.FromArgb(42, 34, 55);
                 flp_productview.BackColor = softLavender;
+
                 flp_productview.Padding = new Padding(6);
                 flp_productview.Margin = Padding.Empty;
                 flp_productview.BorderStyle = BorderStyle.None;

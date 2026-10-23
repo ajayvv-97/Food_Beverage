@@ -16,8 +16,6 @@ using System.Text.RegularExpressions;
 using FoodandBeverage.Forms.UserAccount;
 using FoodandBeverage.Interfaces;
 using System.Drawing.Drawing2D;
-
-
 using System.Runtime.InteropServices;
 using CustomMessageBox;
 using System.Configuration;
