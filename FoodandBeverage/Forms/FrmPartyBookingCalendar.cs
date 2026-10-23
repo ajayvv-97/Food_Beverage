@@ -1287,8 +1287,9 @@ namespace FoodandBeverage.Forms
 
         private void SelectBookingDate(DateTime date)
         {
-            // A click on the custom calendar updates only the date field the staff
-            // last focused. From Date and To Date remain independently editable.
+            // By default, selecting a calendar date starts a same-day booking.
+            // If the To Date picker was focused, change only To Date so staff can
+            // adjust the booking end date without overwriting the start date.
             if (activeBookingDateTarget == BookingDateTarget.To)
             {
                 dtp_book_todate.Value = date.Date;
@@ -1296,6 +1297,7 @@ namespace FoodandBeverage.Forms
             else
             {
                 dtp_book_fromdate.Value = date.Date;
+                dtp_book_todate.Value = date.Date;
             }
         }
 
