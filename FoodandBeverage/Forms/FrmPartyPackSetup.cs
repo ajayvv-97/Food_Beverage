@@ -495,14 +495,26 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(lblminadvamt, 2, 5);
                     tlp_registration.Controls.Add(txtminadvamt, 2, 6);
 
+                    // Ensure these controls are sized by their TableLayoutPanel cells, not by
+                    // their zero-width Designer sizes or stale Anchor settings.
                     foreach (TextBox taxTextBox in new[] { txtCgstPrcnt, txtSgstPrcnt, txtminadvamt })
                     {
+                        taxTextBox.Visible = true;
+                        taxTextBox.AutoSize = false;
+                        taxTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
                         taxTextBox.Dock = DockStyle.Fill;
-                        taxTextBox.Anchor = AnchorStyles.None;
-                        //taxTextBox.Margin = new Padding(0, 3, 5, 3);
-                        //taxTextBox.MinimumSize = new Size(0, 27);
+                        taxTextBox.Margin = new Padding(0, 3, 5, 3);
+                        taxTextBox.MinimumSize = new Size(0, 27);
                     }
+
+                    // Reapply docking after all controls have been assigned to their cells.
+                    tlp_registration.SetCellPosition(txtCgstPrcnt, new TableLayoutPanelCellPosition(0, 6));
+                    tlp_registration.SetCellPosition(txtSgstPrcnt, new TableLayoutPanelCellPosition(1, 6));
+                    tlp_registration.SetCellPosition(txtminadvamt, new TableLayoutPanelCellPosition(2, 6));
                     tlp_registration.PerformLayout();
+                    tlp_registration.GetControlFromPosition(0, 6)?.PerformLayout();
+                    tlp_registration.GetControlFromPosition(1, 6)?.PerformLayout();
+                    tlp_registration.GetControlFromPosition(2, 6)?.PerformLayout();
 
                     //row3
                     tlp_registration.Controls.Add(tlp_time_del_contrl, 3, 6);
