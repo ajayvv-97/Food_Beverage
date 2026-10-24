@@ -7263,8 +7263,19 @@ namespace FoodandBeverage
                 txtPreTaxAmount.Text = totalPreTax.ToString("N2");
                 txtTotalTaxAmount.Text = finalTax.ToString("N2");
 
-                txtTotalVATAmt.Text = totalVAT.ToString("N2");
-                txtTotalIGSTAmt.Text = totalIGST.ToString("N2");
+                // Keep the VAT/IGST summary boxes in sync with the discounted tax.
+                // These values previously displayed the pre-discount tax totals.
+                decimal finalVAT = Math.Round(
+                    totalVAT - (totalVAT * discountPer / 100m),
+                    2,
+                    MidpointRounding.AwayFromZero);
+                decimal finalIGST = Math.Round(
+                    totalIGST - (totalIGST * discountPer / 100m),
+                    2,
+                    MidpointRounding.AwayFromZero);
+
+                txtTotalVATAmt.Text = finalVAT.ToString("N2");
+                txtTotalIGSTAmt.Text = finalIGST.ToString("N2");
 
                 txtGrandTotal.Text = finalNet.ToString("N2");
                 lblNetAmt.Text = finalNet.ToString("N2");
