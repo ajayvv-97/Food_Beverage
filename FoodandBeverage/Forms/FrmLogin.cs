@@ -182,10 +182,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Load the active location/company name shown on the login screen.
                 LoadLocationName();
-
-                // Show SQL Server availability without blocking the login screen.
                 UpdateDatabaseStatusAsync();
 
                 if (PrintpathValue == 1)
