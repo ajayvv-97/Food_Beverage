@@ -249,6 +249,8 @@ namespace FoodandBeverage.Forms
                     if (dgv_card.IsCurrentCellDirty)
                         dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
                 };
+                dgv_card.CellEndEdit -= dgv_card_CellEndEdit;
+                dgv_card.CellEndEdit += dgv_card_CellEndEdit;
 
                 if (dgv_packcustom.Rows.Count == 0)
                 {
@@ -2190,6 +2192,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                // Commit any in-progress quantity edit before caching and rebuilding the grid.
+                if (dgv_card.IsCurrentCellInEditMode)
+                    dgv_card.EndEdit();
+                if (dgv_card.IsCurrentCellDirty)
+                    dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+
                 // Preserve edited quantities when switching away from and back to Card Packs.
                 // clearall() clears dgv_card, so the Refresh button still resets quantities to 1.
                 foreach (DataGridViewRow previousRow in dgv_card.Rows)
@@ -2310,6 +2318,60 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Partypacksetup page  LoadCardProducts()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
 
+        }
+
+        private void dgv_card_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex != Cardqtyno)
+                    return;
+
+                DataGridViewRow row = dgv_card.Rows[e.RowIndex];
+                if (row.IsNewRow)
+                    return;
+
+                int productId, productType, quantity;
+                if (!int.TryParse(Convert.ToString(row.Cells[CardProductid].Value), out productId) ||
+                    !int.TryParse(Convert.ToString(row.Cells[Cardproducttype].Value), out productType) ||
+                    productId <= 0)
+                    return;
+
+                // Read the committed grid cell value immediately when quantity editing ends.
+                if (!int.TryParse(Convert.ToString(row.Cells[Cardqtyno].Value), out quantity) || quantity <= 0)
+                    quantity = 1;
+
+                string key = productType + "_" + productId;
+                cardProductQuantities[key] = quantity;
+
+                bool isSelected = row.Cells[Cardselectno].Value != null &&
+                                  Convert.ToBoolean(row.Cells[Cardselectno].Value);
+                SelectedCardItem selected = selectedCardItems.FirstOrDefault(
+                    x => x.ProductId == productId && x.ProductType == productType);
+
+                if (isSelected)
+                {
+                    if (selected == null)
+                    {
+                        selectedCardItems.Add(new SelectedCardItem
+                        {
+                            ProductId = productId,
+                            ProductName = Convert.ToString(row.Cells[Carditemno].Value) ?? string.Empty,
+                            Qty = quantity,
+                            ProductType = productType
+                        });
+                    }
+                    else
+                    {
+                        selected.ProductName = Convert.ToString(row.Cells[Carditemno].Value) ?? selected.ProductName;
+                        selected.Qty = quantity;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page dgv_card_CellEndEdit()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
         }
 
         private void dgv_card_CellValueChanged(object sender, DataGridViewCellEventArgs e)
