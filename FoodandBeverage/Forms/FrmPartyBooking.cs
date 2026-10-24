@@ -3843,7 +3843,11 @@ namespace FoodandBeverage
 
                 CalculatePackValues();
 
-                if (Convert.ToDecimal(txtTotalDiscountAmt.Text) > 0)
+                // Percentage discount is the source of truth when a percentage is set.
+                // Recalculate its amount whenever package totals change.
+                if (Convert.ToDecimal(discountper.Text) > 0)
+                    CalculateDiscountAmount();
+                else if (Convert.ToDecimal(txtTotalDiscountAmt.Text) > 0)
                     CalculateDiscountPer();
                 else
                     CalculateDiscountAmount();
@@ -7682,7 +7686,10 @@ namespace FoodandBeverage
                 pnl_extracharge.Visible = false;
                 GetGrandTotal_All();
                 RecalculateAllRowsAndTotals();
-                CalculateDiscountPer();
+                if (Convert.ToDecimal(discountper.Text) > 0)
+                    CalculateDiscountAmount();
+                else
+                    CalculateDiscountPer();
                 CalculateNetAmount();
 
                 ResetExtraChargeFields();
@@ -9013,7 +9020,10 @@ namespace FoodandBeverage
 
                 GetGrandTotal_All();
                 RecalculateAllRowsAndTotals();
-                CalculateDiscountPer();
+                if (Convert.ToDecimal(discountper.Text) > 0)
+                    CalculateDiscountAmount();
+                else
+                    CalculateDiscountPer();
                 CalculateNetAmount();
             }
             catch (Exception ex)
