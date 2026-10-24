@@ -1439,14 +1439,17 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                // Prevent CellValueChanged from replacing the saved quantity with the
+                // grid's default quantity (usually 1) while restoring a selected card.
+                dgv_card.CellValueChanged -= dgv_card_CellValueChanged;
+
                 foreach (DataGridViewRow row in dgv_card.Rows)
                 {
                     if (row.IsNewRow) continue;
 
                     int productId = 0;
-                    int.TryParse(row.Cells[CardProductid].Value?.ToString(), out productId);
-
                     int productType = 0;
+                    int.TryParse(Convert.ToString(row.Cells[CardProductid].Value), out productId);
                     int.TryParse(Convert.ToString(row.Cells[Cardproducttype].Value), out productType);
 
                     var selected = selectedCardItems.FirstOrDefault(
@@ -1454,9 +1457,13 @@ namespace FoodandBeverage.Forms
 
                     if (selected != null)
                     {
-                        row.Cells[Cardselectno].Value = true;
-                        row.Cells[Cardqtyno].Value = selected.Qty;
+                        // Restore quantity and detail ID before setting the checkbox.
+                        row.Cells[Cardqtyno].Value = selected.Qty > 0 ? selected.Qty : 1;
                         row.Cells[CardPartyPackDetailsId].Value = selected.PartyPackDetailsId;
+                        row.Cells[Cardselectno].Value = true;
+
+                        string key = productType + "_" + productId;
+                        cardProductQuantities[key] = selected.Qty > 0 ? selected.Qty : 1;
                     }
                     else
                     {
@@ -1466,7 +1473,12 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partypacksetup page  ApplyCardSelectionToGrid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                clsgen.LogException("Partypacksetup page ApplyCardSelectionToGrid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+            finally
+            {
+                dgv_card.CellValueChanged -= dgv_card_CellValueChanged;
+                dgv_card.CellValueChanged += dgv_card_CellValueChanged;
             }
         }
         private void LoadCustomMenu(int packId = 0)
