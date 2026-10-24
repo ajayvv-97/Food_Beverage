@@ -151,6 +151,7 @@ namespace FoodandBeverage.Forms
             public string ProductName { get; set; }
             public int Qty { get; set; }
             public int ProductType { get; set; }
+            public int PartyPackDetailsId { get; set; }
         }
         public class DmnGiftProducts
         {
@@ -827,7 +828,8 @@ namespace FoodandBeverage.Forms
                                 ProductId = rowProductId,
                                 ProductName = rowName,
                                 Qty = rowQty,
-                                ProductType = rowProductType
+                                ProductType = rowProductType,
+                                PartyPackDetailsId = 0
                             });
                         }
                         else
@@ -858,7 +860,7 @@ namespace FoodandBeverage.Forms
                         DmnPartyPackDetails dmndetail = new DmnPartyPackDetails
                         {
                             PartyPackId = packstatus.PartyPackId,
-                            PartyPackDetailsId = 0,
+                            PartyPackDetailsId = card.PartyPackDetailsId,
                             Item = card.ProductName,
                             Quantity = card.Qty,
                             CreatedBy = FrmDashboard.UserId,
@@ -1320,6 +1322,7 @@ namespace FoodandBeverage.Forms
                 var list = bll.GetSearchData("prdSearch", search);
 
                 selectedCardItems.Clear();
+                cardProductQuantities.Clear();
 
                 foreach (DataGridViewRow gRow in dgv_gift.Rows)
                 {
@@ -1389,13 +1392,20 @@ namespace FoodandBeverage.Forms
                     // ------------------ CARD ITEMS ------------------
                     else if (item.PackItemType == (int)PackItemType.Card)
                     {
-                        selectedCardItems.Add(new SelectedCardItem
+                        if (item.Productid > 0)
                         {
-                            ProductId = item.Productid,
-                            ProductName = item.Item,
-                            Qty = item.Quantity,
-                            ProductType = item.ProductType
-                        });
+                            string cardKey = item.ProductType + "_" + item.Productid;
+                            cardProductQuantities[cardKey] = item.Quantity > 0 ? item.Quantity : 1;
+
+                            selectedCardItems.Add(new SelectedCardItem
+                            {
+                                ProductId = item.Productid,
+                                ProductName = item.Item,
+                                Qty = item.Quantity > 0 ? item.Quantity : 1,
+                                ProductType = item.ProductType,
+                                PartyPackDetailsId = item.PartyPackDetailsId
+                            });
+                        }
                     }
                 }
 
@@ -2289,7 +2299,7 @@ namespace FoodandBeverage.Forms
                 {
                     int rowIndex = dgv_card.Rows.Add();
 
-                    bool isSelected = selectedCardItems.Any(x => x.ProductId == item.Id);
+                    bool isSelected = selectedCardItems.Any(x => x.ProductId == item.Id && x.ProductType == item.Type);
 
                     dgv_card.Rows[rowIndex].Cells[Cardslno].Value = sl++;
 
