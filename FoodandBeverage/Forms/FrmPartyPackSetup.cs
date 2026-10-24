@@ -2329,7 +2329,7 @@ namespace FoodandBeverage.Forms
                     productId <= 0)
                     return;
 
-                // Read the committed grid cell value immediately when quantity editing ends.
+                // Use the exact committed quantity; do not replace a valid typed value with 1.
                 if (!int.TryParse(Convert.ToString(row.Cells[Cardqtyno].Value), out quantity) || quantity <= 0)
                     quantity = 1;
 
