@@ -180,6 +180,14 @@ namespace FoodandBeverage.SaleBill
             try
             {
                 textb_shape();
+
+                // Default to Thermal when the invoice form opens.
+                // Avoid changing the format for non-party bill types.
+                if (BillTypeData == Convert.ToInt32(BillType.Partybill))
+                {
+                    UpdateBillFormatSelection(true);
+                }
+
                 MessageCheck();
 
                 if (BillTypeData == Convert.ToInt32(BillType.NormalBill) ||
@@ -1648,14 +1656,41 @@ namespace FoodandBeverage.SaleBill
             }
         }
 
+        // Highlight the selected bill format and keep its radio button synchronized.
+        private void UpdateBillFormatSelection(bool thermalSelected)
+        {
+            Color selectedBackColor = Color.FromArgb(235, 222, 255); // Light lavender
+            Color normalBackColor = Color.FromArgb(248, 245, 255);   // Very light lavender
+            Color selectedBorderColor = Color.FromArgb(109, 40, 217);
+            Color normalBorderColor = Color.FromArgb(215, 198, 245);
+
+            rb_th.Checked = thermalSelected;
+            rb_a4.Checked = !thermalSelected;
+
+            pb_th.BackColor = thermalSelected ? selectedBackColor : normalBackColor;
+            pb_a4.BackColor = thermalSelected ? normalBackColor : selectedBackColor;
+
+            pb_th.BorderStyle = thermalSelected ? BorderStyle.FixedSingle : BorderStyle.None;
+            pb_a4.BorderStyle = thermalSelected ? BorderStyle.None : BorderStyle.FixedSingle;
+
+            pb_th.Padding = new Padding(thermalSelected ? 3 : 0);
+            pb_a4.Padding = new Padding(thermalSelected ? 0 : 3);
+
+            pb_th.Cursor = Cursors.Hand;
+            pb_a4.Cursor = Cursors.Hand;
+
+            pb_th.Invalidate();
+            pb_a4.Invalidate();
+        }
+
         private void pb_a4_Click(object sender, EventArgs e)
         {
-
+            UpdateBillFormatSelection(false);
         }
 
         private void pb_th_Click(object sender, EventArgs e)
         {
-
+            UpdateBillFormatSelection(true);
         }
     }
 }
