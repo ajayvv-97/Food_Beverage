@@ -2105,6 +2105,17 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                // Commit the quantity currently being edited before LoadCardProducts
+                // clears and rebuilds the grid. Otherwise the last typed value may
+                // still be in the editing control and the cache receives the old value (1).
+                if (dgv_card.IsCurrentCellInEditMode)
+                    dgv_card.EndEdit();
+
+                if (dgv_card.IsCurrentCellDirty)
+                    dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+
+                SaveVisibleCardQuantities();
+
                 string type = cmbsubcategory.Text;
 
                 if (type == "ALL")
@@ -2121,6 +2132,58 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 clsgen.LogException("Partypacksetup page  cmbsubcategory_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void SaveVisibleCardQuantities()
+        {
+            foreach (DataGridViewRow row in dgv_card.Rows)
+            {
+                if (row.IsNewRow)
+                    continue;
+
+                int productId;
+                int productType;
+                if (!int.TryParse(Convert.ToString(row.Cells[CardProductid].Value), out productId) ||
+                    !int.TryParse(Convert.ToString(row.Cells[Cardproducttype].Value), out productType) ||
+                    productId <= 0)
+                    continue;
+
+                decimal quantity;
+                if (!decimal.TryParse(Convert.ToString(row.Cells[Cardqtyno].Value), out quantity) || quantity <= 0)
+                    quantity = 1m;
+
+                string key = productType + "_" + productId;
+                cardProductQuantities[key] = quantity;
+
+                bool isSelected = row.Cells[Cardselectno].Value != null &&
+                                  Convert.ToBoolean(row.Cells[Cardselectno].Value);
+                SelectedCardItem selected = selectedCardItems.FirstOrDefault(
+                    x => x.ProductId == productId && x.ProductType == productType);
+
+                if (isSelected)
+                {
+                    if (selected == null)
+                    {
+                        selectedCardItems.Add(new SelectedCardItem
+                        {
+                            ProductId = productId,
+                            ProductType = productType,
+                            ProductName = Convert.ToString(row.Cells[Carditemno].Value) ?? string.Empty,
+                            Qty = quantity
+                        });
+                    }
+                    else
+                    {
+                        selected.ProductName = Convert.ToString(row.Cells[Carditemno].Value) ?? selected.ProductName;
+                        selected.Qty = quantity;
+                    }
+                }
+                else
+                {
+                    selectedCardItems.RemoveAll(x =>
+                        x.ProductId == productId && x.ProductType == productType);
+                }
             }
         }
         private void LoadCardProducts(string type = "ALL")
