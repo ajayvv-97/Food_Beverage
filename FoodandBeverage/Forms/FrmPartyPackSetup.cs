@@ -778,7 +778,7 @@ namespace FoodandBeverage.Forms
 
                             PackItemType = (int)PackItemType.Gift,
                             Productid = productId,
-                            ProductType = productType
+                            ProductType = (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket
                         };
 
                         var result = bllPack.AddData_packdetails("prdInsert_Upd_PartyPackDetails",dmndetail);
@@ -2225,43 +2225,47 @@ namespace FoodandBeverage.Forms
 
                 BllSearch<DmnCardProducts> bll = new BllSearch<DmnCardProducts>();
                 DmnSearch search = new DmnSearch();
-
                 if (type == "ALL")
                 {
                     search.Select = @"
-                Product_id AS Id, 
-                Product AS Name, 
-                1 AS Type, 
-                'Card' AS Category";
+        Product_id AS Id,
+        Product AS Name,
+        " + (int)FoodandBeverage.Interfaces.ProductType.Card + @" AS Type,
+        'Card' AS Category";
 
-                    search.Table = "[" + GameDB + @"].dbo.tblCardProducts WHERE Status=1
+                    search.Table = @"
+        [" + GameDB + @"].dbo.tblCardProducts
+        WHERE Status = 1
 
-            UNION ALL
+        UNION ALL
 
-            SELECT 
-                ProductId AS Id, 
-                Description AS Name, 
-                2 AS Type, 
-                'Trampoline' AS Category
-            FROM [" + GameDB + @"].dbo.tblTrampolining WHERE Status=1
+        SELECT
+            ProductId AS Id,
+            Description AS Name,
+            " + (int)FoodandBeverage.Interfaces.ProductType.Trampoline + @" AS Type,
+            'Trampoline' AS Category
+        FROM [" + GameDB + @"].dbo.tblTrampolining
+        WHERE Status = 1
 
-            UNION ALL
+        UNION ALL
 
-            SELECT 
-                ProductId AS Id, 
-                Description AS Name, 
-                3 AS Type, 
-                'TimePlay' AS Category
-            FROM [" + GameDB + @"].dbo.tblTimePlayProducts WHERE Status=1
+        SELECT
+            ProductId AS Id,
+            Description AS Name,
+            " + (int)FoodandBeverage.Interfaces.ProductType.TimePlay + @" AS Type,
+            'TimePlay' AS Category
+        FROM [" + GameDB + @"].dbo.tblTimePlayProducts
+        WHERE Status = 1
 
-            UNION ALL
+        UNION ALL
 
-            SELECT 
-                ProductId AS Id, 
-                Description AS Name, 
-                4 AS Type, 
-                'GatePass' AS Category
-            FROM [" + GameDB + @"].dbo.tblGatePass WHERE Status=1";
+        SELECT
+            ProductId AS Id,
+            Description AS Name,
+            " + (int)FoodandBeverage.Interfaces.ProductType.GateAccess + @" AS Type,
+            'GatePass' AS Category
+        FROM [" + GameDB + @"].dbo.tblGatePass
+        WHERE Status = 1";
 
                     search.WhereNdGroupBy = "";
                 }
@@ -2269,22 +2273,42 @@ namespace FoodandBeverage.Forms
                 {
                     if (type == "1")
                     {
-                        search.Select = "Product_id AS Id, Product AS Name, 1 AS Type, 'Card' AS Category";
+                        search.Select = @"
+            Product_id AS Id,
+            Product AS Name,
+            " + (int)FoodandBeverage.Interfaces.ProductType.Card + @" AS Type,
+            'Card' AS Category";
+
                         search.Table = "[" + GameDB + "].dbo.tblCardProducts";
                     }
                     else if (type == "2")
                     {
-                        search.Select = "ProductId AS Id, Description AS Name, 2 AS Type, 'Trampoline' AS Category";
+                        search.Select = @"
+            ProductId AS Id,
+            Description AS Name,
+            " + (int)FoodandBeverage.Interfaces.ProductType.Trampoline + @" AS Type,
+            'Trampoline' AS Category";
+
                         search.Table = "[" + GameDB + "].dbo.tblTrampolining";
                     }
                     else if (type == "3")
                     {
-                        search.Select = "ProductId AS Id, Description AS Name, 3 AS Type, 'TimePlay' AS Category";
+                        search.Select = @"
+            ProductId AS Id,
+            Description AS Name,
+            " + (int)FoodandBeverage.Interfaces.ProductType.TimePlay + @" AS Type,
+            'TimePlay' AS Category";
+
                         search.Table = "[" + GameDB + "].dbo.tblTimePlayProducts";
                     }
                     else if (type == "4")
                     {
-                        search.Select = "ProductId AS Id, Description AS Name, 4 AS Type, 'GatePass' AS Category";
+                        search.Select = @"
+            ProductId AS Id,
+            Description AS Name,
+            " + (int)FoodandBeverage.Interfaces.ProductType.GateAccess + @" AS Type,
+            'GatePass' AS Category";
+
                         search.Table = "[" + GameDB + "].dbo.tblGatePass";
                     }
 
