@@ -2172,13 +2172,13 @@ namespace FoodandBeverage.Forms
                             ProductId = productId,
                             ProductType = productType,
                             ProductName = Convert.ToString(row.Cells[Carditemno].Value) ?? string.Empty,
-                            Qty = quantity
+                            Qty = (int)quantity
                         });
                     }
                     else
                     {
                         selected.ProductName = Convert.ToString(row.Cells[Carditemno].Value) ?? selected.ProductName;
-                        selected.Qty = quantity;
+                        selected.Qty = (int)quantity;
                     }
                 }
                 else
