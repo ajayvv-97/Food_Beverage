@@ -3291,6 +3291,47 @@ namespace FoodandBeverage
             }
         }
 
+        private decimal GetDiscountableBaseAmount()
+        {
+            decimal discountableBase = 0m;
+
+            // Package amount is already maintained as a tax-exclusive base.
+            decimal packBase = 0m;
+            decimal.TryParse(txtPreTaxAmount_pack.Text, out packBase);
+            discountableBase += packBase;
+
+            foreach (DataGridViewRow row in dgv_product.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                int productType = 0;
+                int.TryParse(Convert.ToString(row.Cells[PPackProductTypeno].Value ?? 0), out productType);
+
+                if (productType != (int)PackItemType.Card &&
+                    productType != (int)PackItemType.Gift &&
+                    productType != (int)PackItemType.Menu &&
+                    productType != (int)PackItemType.Cake &&
+                    productType != (int)PackItemType.ExtraChargeProduct &&
+                    productType != (int)PackItemType.FoodItem)
+                {
+                    continue;
+                }
+
+                decimal qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0);
+                decimal price = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0);
+                decimal gross = qty * price;
+                string taxMode = Convert.ToString(row.Cells[ptax].Value ?? "");
+                decimal taxPercent = Convert.ToDecimal(row.Cells[ptaxper].Value ?? 0);
+
+                if (string.Equals(taxMode, "Inclusive", StringComparison.OrdinalIgnoreCase) && taxPercent > 0m)
+                    discountableBase += gross / (1m + taxPercent / 100m);
+                else
+                    discountableBase += gross;
+            }
+
+            return discountableBase;
+        }
+
         public void CalculateDiscountAmount()
         {
             try
@@ -3309,10 +3350,13 @@ namespace FoodandBeverage
                     return;
                 }
 
-                decimal discountAmt = originalGrandTotal * discountPer / 100;
-                discountAmt = Math.Round(discountAmt, 2, MidpointRounding.AwayFromZero);
+                decimal discountableBase = GetDiscountableBaseAmount();
+                decimal discountAmt = Math.Round(
+                    discountableBase * discountPer / 100m,
+                    2,
+                    MidpointRounding.AwayFromZero);
 
-                txtTotalDiscountAmt.Text = discountAmt.ToString();
+                txtTotalDiscountAmt.Text = discountAmt.ToString("0.00");
 
                 CalculateNetAmount();
             }
@@ -3331,7 +3375,8 @@ namespace FoodandBeverage
                 decimal discountAmt = Convert.ToDecimal(txtTotalDiscountAmt.Text);
                 GetGrandTotal_All();
 
-                if (discountAmt > originalGrandTotal)
+                decimal discountableBase = GetDiscountableBaseAmount();
+                if (discountAmt > discountableBase)
                 {
                     CMessageBox.Show("Invalid Discount Amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtTotalDiscountAmt.Text = "0";
@@ -3339,7 +3384,7 @@ namespace FoodandBeverage
                     return;
                 }
 
-                decimal discountPer = originalGrandTotal == 0 ? 0 : (discountAmt / originalGrandTotal * 100);
+                decimal discountPer = discountableBase == 0m ? 0m : (discountAmt / discountableBase * 100m);
                 discountPer = Math.Round(discountPer, 2, MidpointRounding.AwayFromZero);
 
                 discountper.Text = discountPer.ToString("");
