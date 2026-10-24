@@ -793,14 +793,16 @@ namespace FoodandBeverage.Forms
 
                 #region Card
 
-                // Commit the active editor before saving; otherwise the last typed quantity
-                // may still be inside the DataGridView editing control and not in the row.
-                if (dgv_card.IsCurrentCellInEditMode)
-                    dgv_card.EndEdit();
-                dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                // Commit pending edits before reading quantities from the card grid.
+                dgv_card.EndEdit();
+                if (dgv_card.IsCurrentCellDirty)
+                    dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                dgv_card.Validate();
 
-                // Synchronize visible checked card rows into selectedCardItems so the latest
-                // grid quantity is saved even if CellValueChanged has not fired yet.
+                // Synchronize checked rows from the grid into selectedCardItems.
+                // The grid is the source of truth for the latest typed quantity.
+                SaveVisibleCardQuantities();
+
                 foreach (DataGridViewRow cardRow in dgv_card.Rows)
                 {
                     if (cardRow.IsNewRow || cardRow.Cells[CardProductid].Value == null)
@@ -2337,7 +2339,7 @@ namespace FoodandBeverage.Forms
                     productId <= 0)
                     return;
 
-                // Read the committed grid cell value immediately when quantity editing ends.
+                // Use the exact committed quantity; do not replace a valid typed value with 1.
                 if (!int.TryParse(Convert.ToString(row.Cells[Cardqtyno].Value), out quantity) || quantity <= 0)
                     quantity = 1;
 
