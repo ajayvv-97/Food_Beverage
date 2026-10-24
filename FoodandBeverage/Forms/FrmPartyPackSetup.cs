@@ -780,9 +780,7 @@ namespace FoodandBeverage.Forms
                             ProductType = productType
                         };
 
-                        var result = bllPack.AddData_packdetails(
-                            "prdInsert_Upd_PartyPackDetails",
-                            dmndetail);
+                        var result = bllPack.AddData_packdetails("prdInsert_Upd_PartyPackDetails",dmndetail);
 
                         if (result != null && result.PartyPackDetailsId > 0)
                             giftStatusCount++;
@@ -793,14 +791,10 @@ namespace FoodandBeverage.Forms
 
                 #region Card
 
-                // Commit the active editor before saving; otherwise the last typed quantity
-                // may still be inside the DataGridView editing control and not in the row.
                 if (dgv_card.IsCurrentCellInEditMode)
                     dgv_card.EndEdit();
                 dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
 
-                // Synchronize visible checked card rows into selectedCardItems so the latest
-                // grid quantity is saved even if CellValueChanged has not fired yet.
                 foreach (DataGridViewRow cardRow in dgv_card.Rows)
                 {
                     if (cardRow.IsNewRow || cardRow.Cells[CardProductid].Value == null)
@@ -2192,14 +2186,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Commit any in-progress quantity edit before caching and rebuilding the grid.
+
                 if (dgv_card.IsCurrentCellInEditMode)
                     dgv_card.EndEdit();
                 if (dgv_card.IsCurrentCellDirty)
                     dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
 
-                // Preserve edited quantities when switching away from and back to Card Packs.
-                // clearall() clears dgv_card, so the Refresh button still resets quantities to 1.
                 foreach (DataGridViewRow previousRow in dgv_card.Rows)
                 {
                     if (previousRow.IsNewRow)
@@ -2444,7 +2436,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-
                 if (dgv_gift.Rows.Count > 0)
                     return;
 
@@ -2470,6 +2461,7 @@ namespace FoodandBeverage.Forms
                     dgv_gift.Rows[rowIndex].Cells[Giftitemno].Value = item.Description;
                     dgv_gift.Rows[rowIndex].Cells[Giftqtyno].Value = 1;
                     dgv_gift.Rows[rowIndex].Cells[GiftProductid].Value = item.ProductId;
+                    dgv_gift.Rows[rowIndex].Cells[GiftProducttype].Value = Convert.ToInt32(FoodandBeverage.Interfaces.ProductType.RedemptionTicket);
                 }
             }
             catch (Exception ex)
