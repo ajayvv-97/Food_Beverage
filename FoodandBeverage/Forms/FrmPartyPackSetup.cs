@@ -1409,6 +1409,11 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
+                // Refresh the card grid after collecting saved pack items. This ensures
+                // the saved quantity and PartyPackDetailsId are applied to the visible rows,
+                // not just cached in selectedCardItems/cardProductQuantities.
+                ApplyCardSelectionToGrid();
+
                 RefreshSlNo();
 
                 if (!HasEmptyRow())
@@ -1441,13 +1446,17 @@ namespace FoodandBeverage.Forms
                     int productId = 0;
                     int.TryParse(row.Cells[CardProductid].Value?.ToString(), out productId);
 
-                    var selected = selectedCardItems.FirstOrDefault(x => x.ProductId == productId);
+                    int productType = 0;
+                    int.TryParse(Convert.ToString(row.Cells[Cardproducttype].Value), out productType);
+
+                    var selected = selectedCardItems.FirstOrDefault(
+                        x => x.ProductId == productId && x.ProductType == productType);
 
                     if (selected != null)
                     {
                         row.Cells[Cardselectno].Value = true;
                         row.Cells[Cardqtyno].Value = selected.Qty;
-                        row.Cells[CardPartyPackDetailsId].Value = 0;
+                        row.Cells[CardPartyPackDetailsId].Value = selected.PartyPackDetailsId;
                     }
                     else
                     {
