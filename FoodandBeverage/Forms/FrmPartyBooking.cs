@@ -7244,12 +7244,19 @@ namespace FoodandBeverage
 
                 decimal subtotal = packTotal + cakeTotal + cardTotal + giftTotal + extraTotal;
 
-                decimal netAfterDiscount = subtotal - Tdiacounamt;
+                // The discount amount is calculated on the tax-exclusive base.
+                // Also subtract the tax reduction from the gross subtotal so the
+                // payable total agrees with the recalculated tax-inclusive amount.
+                decimal discountTax = Math.Round(
+                    totalTax * discountPer / 100m,
+                    2,
+                    MidpointRounding.AwayFromZero);
+                decimal finalTax = Math.Round(
+                    totalTax - discountTax,
+                    2,
+                    MidpointRounding.AwayFromZero);
 
-                decimal discountTax = Math.Round(totalTax * discountPer / 100, 2, MidpointRounding.AwayFromZero);
-                decimal finalTax = Math.Round(totalTax - discountTax, 2, MidpointRounding.AwayFromZero);
-
-                decimal finalNet = netAfterDiscount;
+                decimal finalNet = subtotal - Tdiacounamt - discountTax;
 
                 txtaddcharge.Text = extraTotal.ToString("N2");
 
