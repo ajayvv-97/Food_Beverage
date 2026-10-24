@@ -6901,22 +6901,25 @@ namespace FoodandBeverage
                     }
                 }
 
-                decimal gross = Math.Round(qty * price, 2, MidpointRounding.AwayFromZero);
-                decimal discountAmt = Math.Round(gross * discountPer / 100, 2, MidpointRounding.AwayFromZero);
-                decimal amountAfterDiscount = gross - discountAmt;
-
-                decimal baseAmt = 0, taxAmt = 0, netAmt = 0;
+                // Keep full decimal precision during calculations. For inclusive tax,
+                // extract tax first, discount the taxable amount, then recalculate tax.
+                decimal gross = qty * price;
+                decimal baseAmt = 0m, taxAmt = 0m, netAmt = 0m;
+                decimal discountAmt = 0m;
 
                 if (taxMode == "Inclusive")
                 {
-                    baseAmt = Math.Round(amountAfterDiscount / (1 + (totalPercent / 100)), 2, MidpointRounding.AwayFromZero);
-                    taxAmt = Math.Round(amountAfterDiscount - baseAmt, 2, MidpointRounding.AwayFromZero);
+                    decimal baseBeforeDiscount = gross / (1m + (totalPercent / 100m));
+                    discountAmt = baseBeforeDiscount * discountPer / 100m;
+                    baseAmt = baseBeforeDiscount - discountAmt;
+                    taxAmt = baseAmt * totalPercent / 100m;
                     netAmt = baseAmt + taxAmt;
                 }
                 else
                 {
-                    baseAmt = amountAfterDiscount;
-                    taxAmt = Math.Round(amountAfterDiscount * totalPercent / 100, 2, MidpointRounding.AwayFromZero);
+                    discountAmt = gross * discountPer / 100m;
+                    baseAmt = gross - discountAmt;
+                    taxAmt = baseAmt * totalPercent / 100m;
                     netAmt = baseAmt + taxAmt;
                 }
 
@@ -7018,22 +7021,25 @@ namespace FoodandBeverage
                         }
                     }
 
-                    decimal gross = Math.Round(qty * price, 2, MidpointRounding.AwayFromZero);
-                    decimal discountAmt = Math.Round(gross * discountPer / 100, 2, MidpointRounding.AwayFromZero);
-                    decimal amountAfterDiscount = gross - discountAmt;
-
-                    decimal baseAmt = 0, taxAmt = 0, netAmt = 0;
+                    // Do not round intermediate values; round only for display/storage.
+                    // Inclusive items are discounted on their tax-exclusive base.
+                    decimal gross = qty * price;
+                    decimal baseAmt = 0m, taxAmt = 0m, netAmt = 0m;
+                    decimal discountAmt = 0m;
 
                     if (taxMode == "Inclusive")
                     {
-                        baseAmt = Math.Round(amountAfterDiscount / (1 + (totalPercent / 100)), 2, MidpointRounding.AwayFromZero);
-                        taxAmt = Math.Round(amountAfterDiscount - baseAmt, 2, MidpointRounding.AwayFromZero);
-                        netAmt = amountAfterDiscount;
+                        decimal baseBeforeDiscount = gross / (1m + (totalPercent / 100m));
+                        discountAmt = baseBeforeDiscount * discountPer / 100m;
+                        baseAmt = baseBeforeDiscount - discountAmt;
+                        taxAmt = baseAmt * totalPercent / 100m;
+                        netAmt = baseAmt + taxAmt;
                     }
                     else
                     {
-                        baseAmt = amountAfterDiscount;
-                        taxAmt = Math.Round(amountAfterDiscount * totalPercent / 100, 2, MidpointRounding.AwayFromZero);
+                        discountAmt = gross * discountPer / 100m;
+                        baseAmt = gross - discountAmt;
+                        taxAmt = baseAmt * totalPercent / 100m;
                         netAmt = baseAmt + taxAmt;
                     }
 
