@@ -2172,12 +2172,15 @@
     <None Include="Resources\sql_online_icon.png" />
     <None Include="Resources\sql_offline_icon.png" />
     <None Include="Resources\Salebill_platform_bg.png" />
-    <None Include="Resources\Salebill_bg.png" />
     <None Include="Resources\Cancel_Button.png" />
     <None Include="Resources\GST_Button.png" />
     <None Include="Resources\Print_Button.png" />
     <None Include="Resources\WhatsApp_Button.png" />
     <None Include="Resources\Email_Button.png" />
+    <None Include="Resources\salebill_buttons_bg.png" />
+    <None Include="Resources\Salebill_bg.png" />
+    <None Include="Resources\salebill_thermal_bill_icon.png" />
+    <None Include="Resources\salebill_a4_bill_icon.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />

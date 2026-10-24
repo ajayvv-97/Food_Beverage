@@ -3602,6 +3602,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap salebill_a4_bill_icon {
+            get {
+                object obj = ResourceManager.GetObject("salebill_a4_bill_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Salebill_bg {
             get {
                 object obj = ResourceManager.GetObject("Salebill_bg", resourceCulture);
@@ -3612,9 +3622,29 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap salebill_buttons_bg {
+            get {
+                object obj = ResourceManager.GetObject("salebill_buttons_bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Salebill_platform_bg {
             get {
                 object obj = ResourceManager.GetObject("Salebill_platform_bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap salebill_thermal_bill_icon {
+            get {
+                object obj = ResourceManager.GetObject("salebill_thermal_bill_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

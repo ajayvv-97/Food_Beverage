@@ -1330,4 +1330,13 @@
   <data name="WhatsApp_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhatsApp_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="salebill_a4_bill_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\salebill_a4_bill_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="salebill_buttons_bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\salebill_buttons_bg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="salebill_thermal_bill_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\salebill_thermal_bill_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

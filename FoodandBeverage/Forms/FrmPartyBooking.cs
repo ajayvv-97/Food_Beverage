@@ -299,9 +299,7 @@ namespace FoodandBeverage
         public FrmPartyBooking()
         {
             InitializeComponent();
-            // A package row can contain a legacy category name while the combo column
-            // is bound to category IDs. Ignore invalid combo values instead of showing
-            // DataGridView's blocking default error dialog when a package is selected.
+
             dgv_packenter.DataError += dgv_packenter_DataError;
             btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
             btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
@@ -320,8 +318,6 @@ namespace FoodandBeverage
 
         private void dgv_packenter_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            // Package rows may have no matching category ID in the bound category list.
-            // Suppress the default dialog so selecting a pack does not interrupt booking.
             e.ThrowException = false;
             e.Cancel = false;
         }
@@ -423,8 +419,7 @@ namespace FoodandBeverage
                 lblpackname.ForeColor = Color.DimGray;
 
                 ApplyPartyMenuVisualStyles();
-                SetPartyMenuSearchPlaceholders();
-                
+                SetPartyMenuSearchPlaceholders();                
 
                 Taxfill();
 
@@ -736,142 +731,140 @@ namespace FoodandBeverage
                 clsgen.LogException("Partybooking page  LoadPartyPacks()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
             }
         }
+
         private void SetupGuestControls()
         {
             try
             {
-                decimal childPrice = 0;
-                decimal adultPrice = 0;
+                decimal childPrice = 0m;
+                decimal adultPrice = 0m;
 
                 decimal.TryParse(txtChildPrice.Text, out childPrice);
                 decimal.TryParse(txtAdultPrice.Text, out adultPrice);
 
-                txtChild.Visible = false;
-                lblnochild.Visible = false;
-                txtAdults.Visible = false;
-                lbladult.Visible = false;
-                lbltotalguest.Visible = false;
-                txttotalguest.Visible = false;
+                bool showChild = childPrice > 0m;
+                bool showAdult = adultPrice > 0m;
 
-                if (childPrice > 0 && adultPrice > 0)
+                // If both prices are zero, show Adult controls only.
+                if (!showChild && !showAdult)
                 {
-                    txtChild.Visible = true;
-                    lblnochild.Visible = true;
-
-                    txtAdults.Visible = true;
-                    lbladult.Visible = true;
-
-                    lbltotalguest.Visible = true;
-                    txttotalguest.Visible = true;
-
-                    tlp_adult_child_text.ColumnStyles[0].SizeType = SizeType.Percent;
-                    tlp_adult_child_text.ColumnStyles[0].Width = 50F;
-
-                    tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.Percent;
-                    tlp_adult_child_text.ColumnStyles[1].Width = 50F;
-
-                    tlp_adult_child_label.ColumnStyles[0].SizeType = SizeType.Percent;
-                    tlp_adult_child_label.ColumnStyles[0].Width = 50F;
-
-                    tlp_adult_child_label.ColumnStyles[1].SizeType = SizeType.Percent;
-                    tlp_adult_child_label.ColumnStyles[1].Width = 50F;
-
-                }
-                else if (childPrice > 0)
-                {
-                    tlp_adult_child_text.ColumnStyles[0].SizeType = SizeType.AutoSize;
-                    tlp_adult_child_label.ColumnStyles[0].SizeType = SizeType.AutoSize;
-
-                    tlp_adult_child_label.ColumnStyles[0].Width = 100F;
-                    tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.AutoSize;
-
-
-                    tlp_adult_child_label.ColumnStyles[1].SizeType = SizeType.Percent;
-                    tlp_adult_child_label.ColumnStyles[1].Width = 50F;
-
-
-                    txtChild.Visible = true;
-                    lblnochild.Visible = true;
-
-                    txtAdults.Visible = false;
-                    lbladult.Visible = false;
-                }
-                else
-                {
-                    tlp_adult_child_text.ColumnStyles[0].SizeType = SizeType.Percent;
-                    tlp_adult_child_text.ColumnStyles[0].Width = 100F;
-                    tlp_adult_child_label.ColumnStyles[0].SizeType = SizeType.Percent;
-                    tlp_adult_child_label.ColumnStyles[0].Width = 100F;
-
-                    tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.AutoSize;
-                    tlp_adult_child_label.ColumnStyles[1].SizeType = SizeType.AutoSize;
-
-                    txtChild.Visible = false;
-                    lblnochild.Visible = false;
-
-                    txtAdults.Visible = true;
-                    lbladult.Visible = true;
+                    showAdult = true;
+                    showChild = false;
                 }
 
-                // Keep guest labels and textboxes aligned in matching two-column tables.
+                // Set visibility of Adult and Child controls.
+                txtChild.Visible = showChild;
+                lblnochild.Visible = showChild;
+
+                txtAdults.Visible = showAdult;
+                lbladult.Visible = showAdult;
+
+                // Keep Total Guest controls visible.
+                lbltotalguest.Visible = true;
+                txttotalguest.Visible = true;
+
+                // Suspend layout while updating column styles.
                 tlp_adult_child_label.SuspendLayout();
                 tlp_adult_child_text.SuspendLayout();
 
-                tlp_adult_child_label.Dock = DockStyle.Fill;
-                tlp_adult_child_text.Dock = DockStyle.Fill;
-                tlp_adult_child_label.ColumnCount = 2;
-                tlp_adult_child_text.ColumnCount = 2;
-
-                if (childPrice > 0 && adultPrice > 0)
+                try
                 {
-                    tlp_adult_child_label.ColumnStyles[0].SizeType = SizeType.Percent;
-                    tlp_adult_child_label.ColumnStyles[0].Width = 50F;
-                    tlp_adult_child_label.ColumnStyles[1].SizeType = SizeType.Percent;
-                    tlp_adult_child_label.ColumnStyles[1].Width = 50F;
+                    tlp_adult_child_label.Dock = DockStyle.Fill;
+                    tlp_adult_child_text.Dock = DockStyle.Fill;
 
-                    tlp_adult_child_text.ColumnStyles[0].SizeType = SizeType.Percent;
-                    tlp_adult_child_text.ColumnStyles[0].Width = 50F;
-                    tlp_adult_child_text.ColumnStyles[1].SizeType = SizeType.Percent;
-                    tlp_adult_child_text.ColumnStyles[1].Width = 50F;
+                    tlp_adult_child_label.ColumnCount = 2;
+                    tlp_adult_child_text.ColumnCount = 2;
+
+                    // Ensure both tables have two column styles.
+                    while (tlp_adult_child_label.ColumnStyles.Count < 2)
+                    {
+                        tlp_adult_child_label.ColumnStyles.Add(
+                            new ColumnStyle(SizeType.Percent, 50F));
+                    }
+
+                    while (tlp_adult_child_text.ColumnStyles.Count < 2)
+                    {
+                        tlp_adult_child_text.ColumnStyles.Add(
+                            new ColumnStyle(SizeType.Percent, 50F));
+                    }
+
+                    if (showAdult && showChild)
+                    {
+                        // Both Adult and Child are visible: 50% each.
+                        for (int i = 0; i < 2; i++)
+                        {
+                            tlp_adult_child_label.ColumnStyles[i].SizeType =
+                                SizeType.Percent;
+                            tlp_adult_child_label.ColumnStyles[i].Width = 50F;
+
+                            tlp_adult_child_text.ColumnStyles[i].SizeType =
+                                SizeType.Percent;
+                            tlp_adult_child_text.ColumnStyles[i].Width = 50F;
+                        }
+                    }
+                    else
+                    {
+                        // Only one guest type is visible: use the full width.
+                        // Adult is in column 0; Child is in column 1.
+                        int visibleColumn = showAdult ? 0 : 1;
+                        int hiddenColumn = visibleColumn == 0 ? 1 : 0;
+
+                        tlp_adult_child_label.ColumnStyles[visibleColumn].SizeType =
+                            SizeType.Percent;
+                        tlp_adult_child_label.ColumnStyles[visibleColumn].Width = 100F;
+
+                        tlp_adult_child_text.ColumnStyles[visibleColumn].SizeType =
+                            SizeType.Percent;
+                        tlp_adult_child_text.ColumnStyles[visibleColumn].Width = 100F;
+
+                        // Collapse the hidden column.
+                        tlp_adult_child_label.ColumnStyles[hiddenColumn].SizeType =
+                            SizeType.Absolute;
+                        tlp_adult_child_label.ColumnStyles[hiddenColumn].Width = 0F;
+
+                        tlp_adult_child_text.ColumnStyles[hiddenColumn].SizeType =
+                            SizeType.Absolute;
+                        tlp_adult_child_text.ColumnStyles[hiddenColumn].Width = 0F;
+                    }
+
+                    // Align labels and textboxes.
+                    lbladult.AutoSize = false;
+                    lblnochild.AutoSize = false;
+
+                    lbladult.TextAlign = ContentAlignment.MiddleLeft;
+                    lblnochild.TextAlign = ContentAlignment.MiddleLeft;
+
+                    lbladult.Dock = DockStyle.Fill;
+                    lblnochild.Dock = DockStyle.Fill;
+
+                    txtAdults.Dock = DockStyle.Fill;
+                    txtChild.Dock = DockStyle.Fill;
+
+                    lbladult.Margin = new Padding(3, 0, 3, 0);
+                    lblnochild.Margin = new Padding(3, 0, 3, 0);
+
+                    txtAdults.Margin = new Padding(3);
+                    txtChild.Margin = new Padding(3);
                 }
-                else
+                finally
                 {
-                    int visibleColumn = adultPrice > 0 ? 0 : 1;
-                    int hiddenColumn = visibleColumn == 0 ? 1 : 0;
-
-                    tlp_adult_child_label.ColumnStyles[visibleColumn].SizeType = SizeType.Percent;
-                    tlp_adult_child_label.ColumnStyles[visibleColumn].Width = 100F;
-                    tlp_adult_child_text.ColumnStyles[visibleColumn].SizeType = SizeType.Percent;
-                    tlp_adult_child_text.ColumnStyles[visibleColumn].Width = 100F;
-
-                    tlp_adult_child_label.ColumnStyles[hiddenColumn].SizeType = SizeType.Absolute;
-                    tlp_adult_child_label.ColumnStyles[hiddenColumn].Width = 0F;
-                    tlp_adult_child_text.ColumnStyles[hiddenColumn].SizeType = SizeType.Absolute;
-                    tlp_adult_child_text.ColumnStyles[hiddenColumn].Width = 0F;
+                    tlp_adult_child_label.ResumeLayout(true);
+                    tlp_adult_child_text.ResumeLayout(true);
                 }
 
-                lbladult.AutoSize = false;
-                lblnochild.AutoSize = false;
-                lbladult.TextAlign = ContentAlignment.MiddleLeft;
-                lblnochild.TextAlign = ContentAlignment.MiddleLeft;
-                lbladult.Dock = DockStyle.Fill;
-                lblnochild.Dock = DockStyle.Fill;
-                txtAdults.Dock = DockStyle.Fill;
-                txtChild.Dock = DockStyle.Fill;
-                lbladult.Margin = new Padding(3, 0, 3, 0);
-                lblnochild.Margin = new Padding(3, 0, 3, 0);
-                txtAdults.Margin = new Padding(3);
-                txtChild.Margin = new Padding(3);
-
-                tlp_adult_child_label.ResumeLayout(true);
-                tlp_adult_child_text.ResumeLayout(true);
                 textb_shape();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partybooking page  SetupGuestControls()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+                clsgen.LogException(
+                    "Partybooking page SetupGuestControls()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
+
         private void LoadPartyPackDetails(int packid)
         {
             try
@@ -2935,7 +2928,7 @@ namespace FoodandBeverage
                     searchFilter = " AND r.Description LIKE '%" + searchText.Replace("'", "''") + "%'";
                 }
 
-                dmnSearch.WhereNdGroupBy = "Where r.Status=1  and l.Location = " + FrmLogin.GameBranchId + " and l.Status=1 "+
+                dmnSearch.WhereNdGroupBy = "Where r.Status=1  and l.Location = " + FrmLogin.GameBranchId + " and l.Status=1 and l.ProductType = " + (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket +
                                           " and (Select Sum(QOH) from [" + GameDB + @"].dbo.tblProductRate pr " +
                                           " where pr.ProductId = r.ProductId " +
                                           " and pr.ProductType = " + (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket +
@@ -4295,13 +4288,9 @@ namespace FoodandBeverage
         {
             try
             {
-
-
                 decimal adultPrice = 0, childPrice = 0;
                 decimal.TryParse(txtAdultPrice.Text, out adultPrice);
                 decimal.TryParse(txtChildPrice.Text, out childPrice);
-
-
 
                 // Check Name
                 if (string.IsNullOrWhiteSpace(txtname.Text))
@@ -4334,20 +4323,23 @@ namespace FoodandBeverage
                     return false;
                 }
 
-                if (adultPrice <= 0 && childPrice <= 0)
+                if(Partypackid==0 )/*if (adultPrice <= 0 && childPrice <= 0)*/ 
                 {
                     CMessageBox.Show("Please select a Party Pack", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
 
-                int adults = GetInt(txtAdults);
-                int children = GetInt(txtChild);
-
-                if (adults == 0 && children == 0)
+                if (adultPrice > 0 || childPrice > 0)
                 {
-                    CMessageBox.Show("Please enter number of attendees (Adults or Children)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtAdults.Focus();
-                    return false;
+                    int adults = GetInt(txtAdults);
+                    int children = GetInt(txtChild);
+
+                    if (adults == 0 && children == 0)
+                    {
+                        CMessageBox.Show("Please enter number of attendees (Adults or Children)", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtAdults.Focus();
+                        return false;
+                    }
                 }
 
                 return true;

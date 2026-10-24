@@ -1647,6 +1647,15 @@ namespace FoodandBeverage.SaleBill
                 PrintPartyBill(); 
             }
         }
-      
+
+        private void pb_a4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pb_th_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
