@@ -985,10 +985,11 @@ namespace FoodandBeverage.SaleBill
 
                 if (BillTypeData == Convert.ToInt32(BillType.Partybill))
                 {
-                    if(rb_th.Checked)
-                        reportDocument.Load(RPTPath + @"\CR_PartyBill_TH.rpt");
+                    string x = RPTPath + @"CR_PartyBill_TH.rpt";
+                    if (rb_th.Checked)
+                        reportDocument.Load(RPTPath + @"CR_PartyBill_TH.rpt");
                     else if(rb_a4.Checked)
-                        reportDocument.Load(RPTPath + @"\CR_PartyBill_A4.rpt");
+                        reportDocument.Load(RPTPath + @"CR_PartyBill_A4.rpt");
                 }
 
                 reportDocument.SetDataSource(dsReport);
@@ -1028,8 +1029,6 @@ namespace FoodandBeverage.SaleBill
                 #region SHOW + EXPORT
 
                 crvSalesBill.ReportSource = reportDocument;
-                crvSalesBill.Refresh();
-
                 string pdfFolder = Application.StartupPath + "\\Bill_pdf";
                 if (!Directory.Exists(pdfFolder))
                     Directory.CreateDirectory(pdfFolder);
