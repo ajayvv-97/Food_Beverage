@@ -7265,14 +7265,9 @@ namespace FoodandBeverage
 
                 // Keep the VAT/IGST summary boxes in sync with the discounted tax.
                 // These values previously displayed the pre-discount tax totals.
-                decimal finalVAT = Math.Round(
-                    totalVAT - (totalVAT * discountPer / 100m),
-                    2,
-                    MidpointRounding.AwayFromZero);
-                decimal finalIGST = Math.Round(
-                    totalIGST - (totalIGST * discountPer / 100m),
-                    2,
-                    MidpointRounding.AwayFromZero);
+                // Preserve full decimal precision; round only when displaying with N2.
+                decimal finalVAT = totalVAT - (totalVAT * discountPer / 100m);
+                decimal finalIGST = totalIGST - (totalIGST * discountPer / 100m);
 
                 txtTotalVATAmt.Text = finalVAT.ToString("N2");
                 txtTotalIGSTAmt.Text = finalIGST.ToString("N2");
