@@ -59,7 +59,6 @@ namespace FoodandBeverage.Forms
 
 
         // Registration Grid
-        // Keep this map identical to FrmPartyBooking.Dgv_Selected_Item's designer column order.
         public int iaction = 0;
         public int islno = 1;
         public int ibarcode = 2;
@@ -166,7 +165,6 @@ namespace FoodandBeverage.Forms
             public string Category { get; set; }
         }
 
-        // Keep card quantities across category changes; cleared only by the Refresh/reset action.
         private readonly Dictionary<string, decimal> cardProductQuantities =
             new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
 
@@ -431,7 +429,7 @@ namespace FoodandBeverage.Forms
 
                 categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
 
-                // ✅ Bind to DataGridView ComboBox column
+
                 DataGridViewComboBoxColumn cmb =
                     (DataGridViewComboBoxColumn)dgv_packcustom.Columns[Ccategmenuno];
 
@@ -502,8 +500,7 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(lblminadvamt, 2, 5);
                     tlp_registration.Controls.Add(txtminadvamt, 2, 6);
 
-                    // Ensure these controls are sized by their TableLayoutPanel cells, not by
-                    // their zero-width Designer sizes or stale Anchor settings.
+
                     foreach (TextBox taxTextBox in new[] { txtCgstPrcnt, txtSgstPrcnt, txtminadvamt })
                     {
                         taxTextBox.Visible = true;
@@ -514,7 +511,7 @@ namespace FoodandBeverage.Forms
                         taxTextBox.MinimumSize = new Size(0, 27);
                     }
 
-                    // Reapply docking after all controls have been assigned to their cells.
+
                     tlp_registration.SetCellPosition(txtCgstPrcnt, new TableLayoutPanelCellPosition(0, 6));
                     tlp_registration.SetCellPosition(txtSgstPrcnt, new TableLayoutPanelCellPosition(1, 6));
                     tlp_registration.SetCellPosition(txtminadvamt, new TableLayoutPanelCellPosition(2, 6));
@@ -705,8 +702,7 @@ namespace FoodandBeverage.Forms
                         int productType = 0;
                         int.TryParse(Convert.ToString(row.Cells[Rproductid].Value), out productId);
                         int.TryParse(Convert.ToString(row.Cells[Rproducttype].Value), out productType);
-                        // Manual food rows have ProductId/ProductType = 0; menu-selected food rows retain both IDs.
-                        // Both are stored as FoodItem so downstream party-pack handling remains consistent.
+
                         DmnPartyPackDetails dmndetail = new DmnPartyPackDetails
                         {
                             PartyPackId = packstatus.PartyPackId,
@@ -1123,7 +1119,7 @@ namespace FoodandBeverage.Forms
 
                     if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
                     {
-                        // ✅ Default Qty
+                        // Default Qty
                         var qtyCell = row.Cells[Rqtyno];
 
                         if (qtyCell.Value == null ||
@@ -1342,14 +1338,12 @@ namespace FoodandBeverage.Forms
                         row.Cells[PartyPackDetailsId].Value = item.PartyPackDetailsId;
                         row.Cells[Ritemno].Value = item.Item;
                         row.Cells[Rqtyno].Value = item.Quantity;
-                        // Product ID is the marker for a menu-selected food item. Manual entries remain zero.
+
                         row.Cells[Rproductid].Value = isMenuSelectedProduct ? item.Productid : 0;
                         row.Cells[Rproducttype].Value = isMenuSelectedProduct ? item.ProductType : 0;
 
                         if (item.MenuCategoryId > 0)
                         {
-                            // ProductId > 0 means this row came from the food menu. ProductType may be 0 or 1;
-                            // both use the menu-category source (tblCategory_FTI, CategoryType = 4).
                             if (isMenuSelectedProduct)
                             {
                                 LoadPartyPackMenuCategorySource();
@@ -1409,9 +1403,6 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                // Refresh the card grid after collecting saved pack items. This ensures
-                // the saved quantity and PartyPackDetailsId are applied to the visible rows,
-                // not just cached in selectedCardItems/cardProductQuantities.
                 ApplyCardSelectionToGrid();
 
                 RefreshSlNo();
@@ -1439,8 +1430,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Prevent CellValueChanged from replacing the saved quantity with the
-                // grid's default quantity (usually 1) while restoring a selected card.
                 dgv_card.CellValueChanged -= dgv_card_CellValueChanged;
 
                 foreach (DataGridViewRow row in dgv_card.Rows)
@@ -1457,7 +1446,6 @@ namespace FoodandBeverage.Forms
 
                     if (selected != null)
                     {
-                        // Restore quantity and detail ID before setting the checkbox.
                         row.Cells[Cardqtyno].Value = selected.Qty > 0 ? selected.Qty : 1;
                         row.Cells[CardPartyPackDetailsId].Value = selected.PartyPackDetailsId;
                         row.Cells[Cardselectno].Value = true;
@@ -1604,7 +1592,6 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         row.Cells[Rslno].Value = null;
-                        // Empty/placeholder rows must not display a remove icon.
                         row.Cells[Ractionno].Value = null;
                     }
                 }
@@ -1658,12 +1645,11 @@ namespace FoodandBeverage.Forms
 
                 if (detailsId == 0)
                 {
-                    // ✅ New row → direct remove
+
                     dgv_packs_default.Rows.RemoveAt(rowIndex);
                 }
                 else
                 {
-                    // ✅ DB soft delete
                     DmnPartyPackDetails dmn = new DmnPartyPackDetails();
                     BllPartyPack bll = new BllPartyPack();
 
@@ -1680,7 +1666,6 @@ namespace FoodandBeverage.Forms
                     dgv_packs_default.Rows.RemoveAt(rowIndex);
                 }
 
-                // ✅ Always keep one empty row
                 if (dgv_packs_default.Rows.Count == 0)
                 {
                     int emptyRowIndex = dgv_packs_default.Rows.Add();
@@ -1741,12 +1726,11 @@ namespace FoodandBeverage.Forms
 
                 if (detailsId == 0)
                 {
-                    // ✅ New row → direct remove
+
                     dgv_packcustom.Rows.RemoveAt(rowIndex);
                 }
                 else
                 {
-                    // ✅ DB delete (hard delete OR soft logic)
                     BllPartyPack bll = new BllPartyPack();
 
                     DmnPartyPackCustom dmn = new DmnPartyPackCustom();
@@ -1758,13 +1742,12 @@ namespace FoodandBeverage.Forms
                     dmn.CreatedBy = FrmDashboard.UserId;
                     dmn.BranchId = FrmDashboard.BranchId;
 
-                    // 👉 You can create separate delete SP OR handle Qty=0 as delete
+
                     bll.AddData_packcustom("prdInsert_Upd_PartyPackCustomMenu", dmn);
 
                     dgv_packcustom.Rows.RemoveAt(rowIndex);
                 }
 
-                // ✅ Keep one empty row
                 if (dgv_packcustom.Rows.Count == 0)
                     dgv_packcustom.Rows.Add();
 
@@ -1795,7 +1778,7 @@ namespace FoodandBeverage.Forms
 
                     if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
                     {
-                        // ✅ Default Qty = 1
+                        //  Default Qty = 1
                         var qtyCell = row.Cells[Cmqtyno];
 
                         if (qtyCell.Value == null ||
@@ -1828,14 +1811,14 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // ✅ Check selected pack
+                //  Check selected pack
                 if (currentPackId == 0)
                 {
                     CMessageBox.Show("Please select a pack to delete");
                     return;
                 }
 
-                // ✅ Confirmation
+                //  Confirmation
                 DialogResult result = CMessageBox.Show(
                     "Are you sure you want to delete this pack?",
                     "Confirm Delete",
@@ -1849,7 +1832,7 @@ namespace FoodandBeverage.Forms
 
                 DmnPartyPack dmn = new DmnPartyPack
                 {
-                    PartyPackId = currentPackId, // important for edit
+                    PartyPackId = currentPackId,  
                     PackName = txtpackname.Text,
                     AdultPrice = Convert.ToDecimal(txtadultprice.Text),
                     ChildPrice = Convert.ToDecimal(txtchildprice.Text),
@@ -1977,17 +1960,16 @@ namespace FoodandBeverage.Forms
                 dmnfood.CategoryType = 5;
                 dmnfood.CreatedBy = FrmDashboard.UserId;
                 dmnfood.BranchId = FrmDashboard.BranchId;
-                dmnfood.Status = 0; // 🔥 Soft delete
+                dmnfood.Status = 0; 
 
                 bllcategory.AddeditData("prdInsert_upd_Category", dmnfood);
 
                 CMessageBox.Show("Category Deleted");
 
-                // Reset
+
                 txtFcid.Text = "0";
                 txtfoodCate.Clear();
 
-                // 🔥 Reload Combo
                 LoadMenuCategory();
 
                 pnl_menucateg.Visible = false;
@@ -2132,9 +2114,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Commit the quantity currently being edited before LoadCardProducts
-                // clears and rebuilds the grid. Otherwise the last typed value may
-                // still be in the editing control and the cache receives the old value (1).
                 if (dgv_card.IsCurrentCellInEditMode)
                     dgv_card.EndEdit();
 
@@ -2360,7 +2339,7 @@ namespace FoodandBeverage.Forms
                         : (cardProductQuantities.TryGetValue(quantityKey, out decimal savedQuantity) ? savedQuantity : 1m);
                     dgv_card.Rows[rowIndex].Cells[CardProductid].Value = item.Id;
                     dgv_card.Rows[rowIndex].Cells[Cardproducttype].Value = item.Type;
-                    // Keep the persisted detail ID visible whenever the card grid is rebuilt.
+
                     dgv_card.Rows[rowIndex].Cells[CardPartyPackDetailsId].Value =
                         selectedCard != null ? selectedCard.PartyPackDetailsId : 0;
                 }
@@ -2389,7 +2368,6 @@ namespace FoodandBeverage.Forms
                     productId <= 0)
                     return;
 
-                // Use the exact committed quantity; do not replace a valid typed value with 1.
                 if (!int.TryParse(Convert.ToString(row.Cells[Cardqtyno].Value), out quantity) || quantity <= 0)
                     quantity = 1;
 
@@ -2451,7 +2429,7 @@ namespace FoodandBeverage.Forms
                 if (!int.TryParse(Convert.ToString(row.Cells[Cardqtyno].Value), out qty) || qty <= 0)
                     qty = 1;
 
-                // Keep the quantity cache and selected list in sync when the quantity cell changes.
+
                 cardProductQuantities[quantityKey] = qty;
 
                 bool isChecked = row.Cells[Cardselectno].Value != null &&
@@ -2615,7 +2593,6 @@ namespace FoodandBeverage.Forms
 
                     var item = list[0];
 
-                    // ✅ IMPORTANT
                     selectedCakeId = item.PartyPackCakeId;
 
                     txtcaketype.Text = item.CakeType;
@@ -3186,10 +3163,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        /// <summary>
-        /// Assign a category only when it exists in the DataGridViewComboBoxColumn's actual value list.
-        /// This prevents DataGridViewComboBoxCell value-not-valid exceptions when menu and grid categories differ.
-        /// </summary>
+
         private void SetMenuCategoryCellValue(DataGridViewRow row, int categoryId)
         {
             if (row == null || Rcategmenuno < 0 || Rcategmenuno >= row.Cells.Count)
@@ -3227,19 +3201,18 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                // A blank value is valid for a menu row whose category is not in this grid's category source.
+
                 cell.Value = found ? validValue : DBNull.Value;
             }
             catch
             {
-                // Keep the product row even if the category cannot be selected.
+
                 cell.Value = DBNull.Value;
             }
         }
 
         private void dgv_packs_default_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            // Combo-box values may be absent from the current category source; don't show the default error dialog.
             e.ThrowException = false;
             e.Cancel = false;
         }
@@ -3485,7 +3458,7 @@ namespace FoodandBeverage.Forms
                 OrderBy = "ORDER BY p.Product"
             };
 
-            // Rebuild the cache from scratch so reopening the menu can never append the same rows again.
+
             partyPackMenuAllProducts.Clear();
             var productRows = searcher.GetSearchData("prdSearch", search);
             if (productRows != null)
@@ -3901,7 +3874,6 @@ namespace FoodandBeverage.Forms
             Dgv_Selected_Item.ColumnHeadersHeight = 42;
             Dgv_Selected_Item.DefaultCellStyle.Padding = new Padding(4, 3, 4, 3);
 
-            // Preserve all designer-defined columns and their current visibility.
             if (Dgv_Selected_Item.Columns.Contains("ipaction"))
             {
                 Dgv_Selected_Item.Columns["ipaction"].HeaderText = "";
