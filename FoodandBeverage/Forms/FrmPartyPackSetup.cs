@@ -2344,7 +2344,9 @@ namespace FoodandBeverage.Forms
                 {
                     int rowIndex = dgv_card.Rows.Add();
 
-                    bool isSelected = selectedCardItems.Any(x => x.ProductId == item.Id && x.ProductType == item.Type);
+                    SelectedCardItem selectedCard = selectedCardItems.FirstOrDefault(
+                        x => x.ProductId == item.Id && x.ProductType == item.Type);
+                    bool isSelected = selectedCard != null;
 
                     dgv_card.Rows[rowIndex].Cells[Cardslno].Value = sl++;
 
@@ -2353,11 +2355,14 @@ namespace FoodandBeverage.Forms
                     dgv_card.Rows[rowIndex].Cells[Carditemno].Value = item.Name;
                     dgv_card.Rows[rowIndex].Cells[Cardcategmenuno].Value = item.Category;
                     string quantityKey = item.Type + "_" + item.Id;
-                    dgv_card.Rows[rowIndex].Cells[Cardqtyno].Value = cardProductQuantities.TryGetValue(quantityKey, out decimal savedQuantity)
-                        ? savedQuantity
-                        : 1m;
+                    dgv_card.Rows[rowIndex].Cells[Cardqtyno].Value = selectedCard != null && selectedCard.Qty > 0
+                        ? selectedCard.Qty
+                        : (cardProductQuantities.TryGetValue(quantityKey, out decimal savedQuantity) ? savedQuantity : 1m);
                     dgv_card.Rows[rowIndex].Cells[CardProductid].Value = item.Id;
                     dgv_card.Rows[rowIndex].Cells[Cardproducttype].Value = item.Type;
+                    // Keep the persisted detail ID visible whenever the card grid is rebuilt.
+                    dgv_card.Rows[rowIndex].Cells[CardPartyPackDetailsId].Value =
+                        selectedCard != null ? selectedCard.PartyPackDetailsId : 0;
                 }
             }
             catch (Exception ex)
