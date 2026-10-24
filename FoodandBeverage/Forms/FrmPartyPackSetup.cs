@@ -791,6 +791,62 @@ namespace FoodandBeverage.Forms
 
                 #region Card
 
+                // Commit the active editor before saving; otherwise the last typed quantity
+                // may still be inside the DataGridView editing control and not in the row.
+                if (dgv_card.IsCurrentCellInEditMode)
+                    dgv_card.EndEdit();
+                dgv_card.CommitEdit(DataGridViewDataErrorContexts.Commit);
+
+                // Synchronize visible checked card rows into selectedCardItems so the latest
+                // grid quantity is saved even if CellValueChanged has not fired yet.
+                foreach (DataGridViewRow cardRow in dgv_card.Rows)
+                {
+                    if (cardRow.IsNewRow || cardRow.Cells[CardProductid].Value == null)
+                        continue;
+
+                    bool rowSelected = cardRow.Cells[Cardselectno].Value != null &&
+                                       Convert.ToBoolean(cardRow.Cells[Cardselectno].Value);
+                    int rowProductId, rowProductType, rowQty;
+                    if (!int.TryParse(Convert.ToString(cardRow.Cells[CardProductid].Value), out rowProductId) ||
+                        !int.TryParse(Convert.ToString(cardRow.Cells[Cardproducttype].Value), out rowProductType) ||
+                        rowProductId <= 0)
+                        continue;
+
+                    if (!int.TryParse(Convert.ToString(cardRow.Cells[Cardqtyno].Value), out rowQty) || rowQty <= 0)
+                        rowQty = 1;
+
+                    string rowName = Convert.ToString(cardRow.Cells[Carditemno].Value) ?? string.Empty;
+                    string rowKey = rowProductType + "_" + rowProductId;
+                    cardProductQuantities[rowKey] = rowQty;
+
+                    SelectedCardItem selectedRow = selectedCardItems.FirstOrDefault(
+                        x => x.ProductId == rowProductId && x.ProductType == rowProductType);
+
+                    if (rowSelected)
+                    {
+                        if (selectedRow == null)
+                        {
+                            selectedCardItems.Add(new SelectedCardItem
+                            {
+                                ProductId = rowProductId,
+                                ProductName = rowName,
+                                Qty = rowQty,
+                                ProductType = rowProductType
+                            });
+                        }
+                        else
+                        {
+                            selectedRow.ProductName = rowName;
+                            selectedRow.Qty = rowQty;
+                        }
+                    }
+                    else
+                    {
+                        selectedCardItems.RemoveAll(x =>
+                            x.ProductId == rowProductId && x.ProductType == rowProductType);
+                    }
+                }
+
                 int cardStatusCount = 0;
                 int cardGridCount = 0;
 
@@ -2197,46 +2253,57 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (e.RowIndex < 0 || e.ColumnIndex != Cardselectno)
+                if (e.RowIndex < 0 ||
+                    (e.ColumnIndex != Cardselectno && e.ColumnIndex != Cardqtyno))
                     return;
 
-                var row = dgv_card.Rows[e.RowIndex];
-
-
-                if (row.Cells[CardProductid].Value == null)
+                DataGridViewRow row = dgv_card.Rows[e.RowIndex];
+                if (row.IsNewRow || row.Cells[CardProductid].Value == null)
                     return;
+
+                int productId;
+                int productType;
+                if (!int.TryParse(Convert.ToString(row.Cells[CardProductid].Value), out productId) ||
+                    !int.TryParse(Convert.ToString(row.Cells[Cardproducttype].Value), out productType) ||
+                    productId <= 0)
+                    return;
+
+                string name = Convert.ToString(row.Cells[Carditemno].Value) ?? string.Empty;
+                string quantityKey = productType + "_" + productId;
+                int qty;
+                if (!int.TryParse(Convert.ToString(row.Cells[Cardqtyno].Value), out qty) || qty <= 0)
+                    qty = 1;
+
+                // Keep the quantity cache and selected list in sync when the quantity cell changes.
+                cardProductQuantities[quantityKey] = qty;
 
                 bool isChecked = row.Cells[Cardselectno].Value != null &&
                                  Convert.ToBoolean(row.Cells[Cardselectno].Value);
-
-                int productId = Convert.ToInt32(row.Cells[CardProductid].Value);
-
-                string name = row.Cells[Carditemno].Value?.ToString() ?? "";
-
-                int qty = 1;
-                if (row.Cells[Cardqtyno].Value != null)
-                    int.TryParse(row.Cells[Cardqtyno].Value.ToString(), out qty);
-
-                int type = 0;
-                if (row.Cells[Cardproducttype].Value != null)
-                    int.TryParse(row.Cells[Cardproducttype].Value.ToString(), out type);
+                SelectedCardItem selected = selectedCardItems.FirstOrDefault(
+                    x => x.ProductId == productId && x.ProductType == productType);
 
                 if (isChecked)
                 {
-                    if (!selectedCardItems.Any(x => x.ProductId == productId))
+                    if (selected == null)
                     {
                         selectedCardItems.Add(new SelectedCardItem
                         {
                             ProductId = productId,
                             ProductName = name,
                             Qty = qty,
-                            ProductType = type
+                            ProductType = productType
                         });
                     }
+                    else
+                    {
+                        selected.ProductName = name;
+                        selected.Qty = qty;
+                    }
                 }
-                else
+                else if (e.ColumnIndex == Cardselectno)
                 {
-                    selectedCardItems.RemoveAll(x => x.ProductId == productId);
+                    selectedCardItems.RemoveAll(x =>
+                        x.ProductId == productId && x.ProductType == productType);
                 }
             }
             catch (Exception ex)
