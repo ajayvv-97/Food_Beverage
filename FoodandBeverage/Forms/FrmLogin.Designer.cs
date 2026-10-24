@@ -268,7 +268,7 @@ namespace FoodandBeverage.Forms
             this.Pnl_wifiPopup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(152)))), ((int)(((byte)(227)))));
             this.Pnl_wifiPopup.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Pnl_wifiPopup.Controls.Add(this.tlp_wifiPopup);
-            this.Pnl_wifiPopup.Location = new System.Drawing.Point(986, 114);
+            this.Pnl_wifiPopup.Location = new System.Drawing.Point(70, 23);
             this.Pnl_wifiPopup.Name = "Pnl_wifiPopup";
             this.Pnl_wifiPopup.Padding = new System.Windows.Forms.Padding(10);
             this.Pnl_wifiPopup.Size = new System.Drawing.Size(358, 304);
@@ -780,6 +780,7 @@ namespace FoodandBeverage.Forms
             this.BackgroundImage = global::FoodandBeverage.Properties.Resources.Loginbg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(959, 580);
+            this.Controls.Add(this.Pnl_wifiPopup);
             this.Controls.Add(this.lblcompanyname);
             this.Controls.Add(this.pb_online_offline);
             this.Controls.Add(this.pictureBox9);
@@ -796,7 +797,6 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.pnlloginbox);
             this.Controls.Add(this.pnlDbSettings);
             this.Controls.Add(this.pnlDBLogin);
-            this.Controls.Add(this.Pnl_wifiPopup);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmLogin";

@@ -940,6 +940,7 @@ namespace FoodandBeverage.Forms
                 Pnl_wifiPopup.Top = (this.ClientSize.Height - Pnl_wifiPopup.Height) / 2;
 
                 Pnl_wifiPopup.Visible = true;
+                Pnl_wifiPopup.BringToFront();
             }
             else
             {
