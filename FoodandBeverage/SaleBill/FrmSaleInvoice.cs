@@ -785,23 +785,97 @@ namespace FoodandBeverage.SaleBill
                 #region SALES DETAILS
 
                 var bllDetails = new BllSearch<DmnSalesInvoiceBillDetails>();
+
+                string detailQuery = @"
+                SELECT
+                    ItemName,
+                    Quantity,
+                    SalesRate,
+                    NetAmount,
+                    DiscountAmount,
+                    Amount,
+                    Taxper,
+                    PartyBookingId,
+                    PackageType,
+                    TaxAmount
+                FROM tblSalesDetails
+                WHERE SalesMasterId = " + SalesMasterId;
+
                 var detailSearch = new DmnSearch
                 {
-                    Select = @"ItemName, Quantity, SalesRate AS SalesRate,
-                       NetAmount, DiscountAmount, Amount, Taxper,PartyBookingId,PackageType,TaxAmount",
-                    Table = "tblSalesDetails",
-                    WhereNdGroupBy = "WHERE SalesMasterId=" + SalesMasterId
+                    Select = "*",
+                    Table = "(" + detailQuery + ") AS SalesDetails",
+                    WhereNdGroupBy = ""
                 };
 
                 var detailData = bllDetails.GetSearchData("prdSearch", detailSearch);
-                if(detailData.Count>0)
+
+                if (detailData.Count > 0)
                 {
                     PartybookingId = detailData[0].PartyBookingId;
                 }
 
-                using (var reader = ObjectReader.Create(detailData,"ItemName", "Quantity", "SalesRate","NetAmount", "DiscountAmount", "Amount", "Taxper", "PackageType", "TaxAmount"))
+                using (var reader = ObjectReader.Create(
+                    detailData,
+                    "ItemName",
+                    "Quantity",
+                    "SalesRate",
+                    "NetAmount",
+                    "DiscountAmount",
+                    "Amount",
+                    "Taxper",
+                    "PartyBookingId",
+                    "PackageType",
+                    "TaxAmount"))
                 {
                     dtSalesDetail.Load(reader);
+                }
+
+                if (rb_a4.Checked && PartybookingId > 0)
+                {
+                    string defaultItemsQuery = @"
+                    SELECT
+                        Product AS ItemName,
+                        Qty AS Quantity,
+                        Price AS SalesRate,
+                        NetAmount,
+                        DiscountAmount,
+                        Amount,
+                        TaxPer AS Taxper,
+                        PartyBookingId,
+                        1 AS PackageType,
+                        TaxAmount
+                    FROM tblPartyBookingDetails
+                    WHERE PartyBookingId = " + PartybookingId + @"
+                      AND DefaultpackItems = 1
+                      AND Status = 1";
+
+                    var defaultItemsSearch = new DmnSearch
+                    {
+                        Select = "*",
+                        Table = "(" + defaultItemsQuery + ") AS DefaultItems",
+                        WhereNdGroupBy = ""
+                    };
+
+                    var defaultItemsData = bllDetails.GetSearchData(
+                        "prdSearch",
+                        defaultItemsSearch);
+
+                    using (var reader = ObjectReader.Create(
+                        defaultItemsData,
+                        "ItemName",
+                        "Quantity",
+                        "SalesRate",
+                        "NetAmount",
+                        "DiscountAmount",
+                        "Amount",
+                        "Taxper",
+                        "PartyBookingId",
+                        "PackageType",
+                        "TaxAmount"))
+                    {
+                        dtSalesDetail.Load(reader);
+                    }
                 }
 
                 #endregion

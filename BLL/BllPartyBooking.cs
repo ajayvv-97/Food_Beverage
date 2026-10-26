@@ -140,6 +140,9 @@ namespace BLL
 
             parms.Add("CategoryName", obj.CategoryName);
 
+            parms.Add("DefaultpackItems", obj.DefaultpackItems);
+            parms.Add("SalesMasterId", obj.SalesMasterId);
+
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }

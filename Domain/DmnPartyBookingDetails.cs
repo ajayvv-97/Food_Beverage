@@ -49,6 +49,8 @@ namespace Domain
         public int SalesDetailsId { get; set; }
 
         public string CategoryName { get; set; }
+        public bool DefaultpackItems { get; set; }
+        
     }
 }
 

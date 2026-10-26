@@ -752,18 +752,18 @@ namespace FoodandBeverage
                     showChild = false;
                 }
 
-                // Set visibility of Adult and Child controls.
+
                 txtChild.Visible = showChild;
                 lblnochild.Visible = showChild;
 
                 txtAdults.Visible = showAdult;
                 lbladult.Visible = showAdult;
 
-                // Keep Total Guest controls visible.
+
                 lbltotalguest.Visible = true;
                 txttotalguest.Visible = true;
 
-                // Suspend layout while updating column styles.
+
                 tlp_adult_child_label.SuspendLayout();
                 tlp_adult_child_text.SuspendLayout();
 
@@ -775,7 +775,7 @@ namespace FoodandBeverage
                     tlp_adult_child_label.ColumnCount = 2;
                     tlp_adult_child_text.ColumnCount = 2;
 
-                    // Ensure both tables have two column styles.
+ 
                     while (tlp_adult_child_label.ColumnStyles.Count < 2)
                     {
                         tlp_adult_child_label.ColumnStyles.Add(
@@ -790,7 +790,7 @@ namespace FoodandBeverage
 
                     if (showAdult && showChild)
                     {
-                        // Both Adult and Child are visible: 50% each.
+
                         for (int i = 0; i < 2; i++)
                         {
                             tlp_adult_child_label.ColumnStyles[i].SizeType =
@@ -804,8 +804,7 @@ namespace FoodandBeverage
                     }
                     else
                     {
-                        // Only one guest type is visible: use the full width.
-                        // Adult is in column 0; Child is in column 1.
+
                         int visibleColumn = showAdult ? 0 : 1;
                         int hiddenColumn = visibleColumn == 0 ? 1 : 0;
 
@@ -817,7 +816,7 @@ namespace FoodandBeverage
                             SizeType.Percent;
                         tlp_adult_child_text.ColumnStyles[visibleColumn].Width = 100F;
 
-                        // Collapse the hidden column.
+
                         tlp_adult_child_label.ColumnStyles[hiddenColumn].SizeType =
                             SizeType.Absolute;
                         tlp_adult_child_label.ColumnStyles[hiddenColumn].Width = 0F;
@@ -827,7 +826,6 @@ namespace FoodandBeverage
                         tlp_adult_child_text.ColumnStyles[hiddenColumn].Width = 0F;
                     }
 
-                    // Align labels and textboxes.
                     lbladult.AutoSize = false;
                     lblnochild.AutoSize = false;
 
@@ -899,7 +897,7 @@ namespace FoodandBeverage
                             row.Cells[selecteditemcategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
 
                         row.Cells[selecteditemqtyno].Value = item.Quantity;
-                        row.Cells[selecteditemppcdiidno].Value = item.PartyPackDetailsId;
+                        row.Cells[selecteditemppcdiidno].Value = 0;
                         row.Cells[selecteditemdeafultno].Value = 1;
                         row.ReadOnly = true;
                     }
@@ -1419,7 +1417,7 @@ namespace FoodandBeverage
                             targetRow.Cells[pcategmenuno].Value = "None";
 
                         targetRow.Cells[pqtyno].Value = item.Quantity;
-                        targetRow.Cells[proPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                        targetRow.Cells[proPartyPackDetailsId].Value = 0;
                         targetRow.Cells[pPartydeafult].Value = 1;
 
                         DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product.Rows[rowIndex].Cells[pactionno];
@@ -1721,7 +1719,7 @@ namespace FoodandBeverage
                     }
 
                     targetRow.Cells[selecteditemqtyno].Value = item.Qty;
-                    targetRow.Cells[selecteditemppcdiidno].Value = item.PartyPackCustomDetailsId;
+                    targetRow.Cells[selecteditemppcdiidno].Value = 0;
                     targetRow.Cells[selecteditemdeafultno].Value = 1;
 
                 }
@@ -3178,6 +3176,7 @@ namespace FoodandBeverage
 
                 decimal grandTotal = (adultPrice * adults) + (childPrice * children);
                 txtGrandTotal_pack.Text = grandTotal.ToString("N2");
+                txt_PackTotalAmt.Text = grandTotal.ToString("N2");
             }
             catch (Exception ex)
             {
@@ -3249,6 +3248,9 @@ namespace FoodandBeverage
                         totalPercent = taxType == "GST" ? igst : vat;
                     }
                 }
+
+                txt_packtaxper.Text = totalPercent.ToString(); 
+                txtTaxtype_pack.Text = taxType;
 
                 decimal discountAmt = 0; // you can calculate later if needed
                 decimal netBeforeTax = grandTotal - discountAmt + otherAdd - otherDeduct;
@@ -3784,7 +3786,7 @@ namespace FoodandBeverage
 
                     row.Cells[PPackProductTypeno].Value = item.PackItemType;
 
-                    row.Cells[proPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                    row.Cells[proPartyPackDetailsId].Value =0;
                     row.Cells[pPartydeafult].Value = 1;
 
                     row.ReadOnly = true;
@@ -3849,15 +3851,11 @@ namespace FoodandBeverage
         {
             try
             {
-
-
                 UpdateTotalGuests();
                 UpdateGrandTotal_Pack();
 
                 CalculatePackValues();
 
-                // Percentage discount is the source of truth when a percentage is set.
-                // Recalculate its amount whenever package totals change.
                 if (Convert.ToDecimal(discountper.Text) > 0)
                     CalculateDiscountAmount();
                 else if (Convert.ToDecimal(txtTotalDiscountAmt.Text) > 0)
@@ -4106,6 +4104,10 @@ namespace FoodandBeverage
                 btnnocharge.Visible = true;
                 btn_other.Visible = true;
                 btncomple.Visible = true;
+
+                txt_packtaxper.Text = "";
+                txtTaxtype_pack.Text = "";
+                txt_PackTotalAmt.Text = "0";
             }
             catch (Exception ex)
             {
@@ -4519,7 +4521,8 @@ namespace FoodandBeverage
                 GetInt(txtpartybookingid);
                 GetInt(txtdeafultpackid);
                 GetDecimal(txtaddcharge);
-
+                GetDecimal(txt_packtaxper);
+                
                 BllPartyBooking bll = new BllPartyBooking();
                 DmnPartyBooking booking = new DmnPartyBooking();
 
@@ -4554,8 +4557,7 @@ namespace FoodandBeverage
                     : (_calendarBookingEnd ?? bookingStart);
 
                 booking.BookingDateTime = bookingStart;
-                // Set through reflection to remain compatible with installations whose
-                // Domain assembly has not yet exposed BookingToDateTime as a property.
+
                 var endProperty = booking.GetType().GetProperty("BookingToDateTime");
                 if (endProperty != null && endProperty.CanWrite)
                 {
@@ -4583,9 +4585,9 @@ namespace FoodandBeverage
                     booking.PackPrice = 0;
 
                 // 🔹 TAX
-                booking.Tax = "";
-                booking.TaxType = "";
-                booking.TaxPer = 0;
+                booking.Tax = txttax.Text;
+                booking.TaxType = txtTaxtype_pack.Text;
+                booking.TaxPer =Convert.ToDecimal(txt_packtaxper.Text);
                 booking.TaxAmount = GetDecimal(txtTotalTaxAmount);
 
                 // 🔹 GST / VAT
@@ -4830,6 +4832,7 @@ namespace FoodandBeverage
                 packDetails.SGSTAmt = igst / 2;
                 packDetails.VATAmt = Convert.ToDecimal(txtVatamt_pack.Text);
 
+                packDetails.Amount = Convert.ToDecimal(txt_PackTotalAmt.Text);
                 packDetails.PostTaxAmount = Convert.ToDecimal(txtTotalTaxAmount_pack.Text);
                 packDetails.PreTaxAmount = Convert.ToDecimal(txtPreTaxAmount_pack.Text);
                 packDetails.NetAmount = Convert.ToDecimal(txtGrandTotal_pack.Text);
@@ -4844,7 +4847,7 @@ namespace FoodandBeverage
 
                 #endregion
 
-                #region CARD GIFT CAKE
+                #region CARD GIFT CAKE Default Products
                 foreach (DataGridViewRow row in dgv_product.Rows)
                 {
                     if (row.IsNewRow) continue;
@@ -4853,19 +4856,26 @@ namespace FoodandBeverage
                     int productId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0);
                     int Defaultproduct = Convert.ToInt32(row.Cells[pPartydeafult].Value ?? 0);
 
-                    if (Defaultproduct == 1)
-                        continue;
+                    //if (Defaultproduct == 1)
+                    //    continue;
 
-                    if (productType <= 0)
-                        continue;
+                    //if (productType <= 0)
+                    //    continue;
 
-                    if (productType != (int)PackItemType.ExtraChargeProduct && productType != (int)PackItemType.ManualProduct && productId <= 0)
-                        continue;
+                    //if (productType != (int)PackItemType.ExtraChargeProduct && productType != (int)PackItemType.ManualProduct && productId <= 0)
+                    //    continue;
 
                     DmnPartyBookingDetails det = new DmnPartyBookingDetails();
 
                     det.PartyBookingDetailsId = Convert.ToInt32(row.Cells[proPartyPackDetailsId].Value ?? 0);
                     det.PartyBookingId = bookingId;
+
+                    if (Defaultproduct == 1)                    
+                        det.DefaultpackItems = true;                    
+                    else                    
+                        det.DefaultpackItems = false;
+
+                    det.SalesMasterId = SalesMasterId;
 
                     // PRODUCT INFO
                     det.Product = Convert.ToString(row.Cells[pitemno].Value ?? "");
@@ -5020,7 +5030,7 @@ namespace FoodandBeverage
                 detPack.SalesRate = booking.PackPrice;
                 detPack.MRP = booking.PackPrice;
 
-                detPack.Amount = booking.PackPreTaxAmount;
+                detPack.Amount = Convert.ToDecimal(txt_PackTotalAmt.Text); 
 
                 detPack.DiscountPer = booking.DiscountPer;
                 detPack.DiscountAmount = booking.DiscountAmount;
@@ -5627,7 +5637,7 @@ namespace FoodandBeverage
                     row.Cells[ppridno].Value = item.Productid;
                     row.Cells[pproducttype].Value = item.ProductType;
 
-                    row.Cells[proPartyPackDetailsId].Value = item.PartyPackDetailsId;
+                    row.Cells[proPartyPackDetailsId].Value = 0;
                     row.Cells[pPartydeafult].Value = 1;
 
                     if (item.MenuCategoryId != null && Convert.ToInt32(item.MenuCategoryId) > 0)
