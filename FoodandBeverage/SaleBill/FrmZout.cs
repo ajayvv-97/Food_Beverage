@@ -19,6 +19,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using Xceed.Document.NET;
 
@@ -53,6 +54,54 @@ namespace FoodandBeverage.SaleBill
         public string invoiceno_api;
         ReportDocument reportDocument = new ReportDocument();
         string DefaultGmail = "";
+        private Thread _loadingAnimationThread;
+        private LoadingGIF_Timer _loadingAnimationForm;
+
+        private void StartLoadingAnimation()
+        {
+            if (_loadingAnimationThread != null && _loadingAnimationThread.IsAlive)
+                return;
+
+            _loadingAnimationThread = new Thread(() =>
+            {
+                using (LoadingGIF_Timer loader = new LoadingGIF_Timer())
+                {
+                    loader.StartPosition = FormStartPosition.CenterScreen;
+                    loader.TitleText = "Generating Z-Out report";
+                    loader.StatusText = "Preparing report and collection details…";
+                    _loadingAnimationForm = loader;
+                    try
+                    {
+                        Application.Run(loader);
+                    }
+                    finally
+                    {
+                        _loadingAnimationForm = null;
+                    }
+                }
+            });
+
+            _loadingAnimationThread.IsBackground = true;
+            _loadingAnimationThread.SetApartmentState(ApartmentState.STA);
+            _loadingAnimationThread.Start();
+            Thread.Sleep(100);
+        }
+
+        private void StopLoadingAnimation()
+        {
+            LoadingGIF_Timer loader = _loadingAnimationForm;
+            if (loader != null && !loader.IsDisposed)
+            {
+                try { loader.BeginInvoke(new Action(() => loader.Close())); }
+                catch { /* The loader may already be closing. */ }
+            }
+
+            if (_loadingAnimationThread != null && _loadingAnimationThread.IsAlive &&
+                Thread.CurrentThread != _loadingAnimationThread)
+                _loadingAnimationThread.Join(500);
+
+            _loadingAnimationThread = null;
+        }
 
         public int PrintBillType;
         public int BillTaxType;
@@ -88,8 +137,36 @@ namespace FoodandBeverage.SaleBill
             UserId = Convert.ToInt32(FrmLogin.EmployeeId); 
             Drstaffid = Drawerstaffid;
             InitializeComponent();
+            this.Resize += FrmZout_ApplyRoundedCorners;
+            this.Shown += FrmZout_ApplyRoundedCorners;
 
         }
+
+        private void FrmZout_ApplyRoundedCorners(object sender, EventArgs e)
+        {
+            if (Width <= 0 || Height <= 0)
+                return;
+
+            const int cornerRadius = 24;
+            int diameter = cornerRadius * 2;
+            Rectangle bounds = new Rectangle(0, 0, Width, Height);
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.StartFigure();
+                path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 180, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+                path.AddArc(bounds.Left, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+                path.CloseFigure();
+
+                Region oldRegion = this.Region;
+                this.Region = new Region(path);
+                if (oldRegion != null)
+                    oldRegion.Dispose();
+            }
+        }
+
         private void InitializeComponent()
         {
             this.crvout = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
@@ -361,24 +438,32 @@ namespace FoodandBeverage.SaleBill
 
         private void FrmZout_Load(object sender, EventArgs e)
         {
-            SetPlaceholder(txt_gmail_report, "Enter Email Address");
-            ApplyRoundedTextBox(txt_gmail_report, 10);
-            txt_gmail_report.Font = new System.Drawing.Font(txt_gmail_report.Font.FontFamily, 12);
-            txt_gmail_report.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            StartLoadingAnimation();
+            try
+            {
+                SetPlaceholder(txt_gmail_report, "Enter Email Address");
+                ApplyRoundedTextBox(txt_gmail_report, 10);
+                txt_gmail_report.Font = new System.Drawing.Font(txt_gmail_report.Font.FontFamily, 12);
+                txt_gmail_report.BorderStyle = System.Windows.Forms.BorderStyle.None;
 
-            folderPath = Path.Combine(Application.StartupPath, "YZOutReport");
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
+                folderPath = Path.Combine(Application.StartupPath, "YZOutReport");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                folderPath = Path.Combine(Application.StartupPath, "SaleBill");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                Generalsettingcheck();
+                if (XYDalvalue && DalDalvalue)
+                    PrintAll();
             }
-            folderPath = Path.Combine(Application.StartupPath, "SaleBill");
-            if (!Directory.Exists(folderPath))
+            finally
             {
-                Directory.CreateDirectory(folderPath);
+                StopLoadingAnimation();
             }
-            Generalsettingcheck();
-            if (XYDalvalue && DalDalvalue)
-                PrintAll();
         }
 
         public void PrintAll()
