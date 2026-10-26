@@ -2670,10 +2670,24 @@ namespace FoodandBeverage
         {
             pnl_cardpreview.Visible = false;
         }
+        public bool checkPartySelet()
+        {
+            if (Partypackid == 0)
+            {
+                CMessageBox.Show("Please select a Party Pack", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
         private void btncard_Click(object sender, EventArgs e)
         {
             try
             {
+                if (!checkPartySelet())
+                    return;
+
                 pnl_cardpreview.Visible = true;
                 pnl_cardpreview.BringToFront();
 
@@ -2868,6 +2882,9 @@ namespace FoodandBeverage
         }
         private void btngift_Click(object sender, EventArgs e)
         {
+            if (!checkPartySelet())
+                return;
+
             pnlgiftpreview.Visible = true;
             pnlgiftpreview.BringToFront();
             pnlgiftpreview.Left = (this.ClientSize.Width - pnlgiftpreview.Width) / 2;
@@ -3599,6 +3616,9 @@ namespace FoodandBeverage
         }
         private void btncake_Click(object sender, EventArgs e)
         {
+            if (!checkPartySelet())
+                return;
+
             pnlcake.Visible = true;
             pnlcake.BringToFront();
             pnlcake.Left = (this.ClientSize.Width - pnlcake.Width) / 2;
@@ -5151,7 +5171,7 @@ namespace FoodandBeverage
                         break;
                 }
 
-                ClearAll();
+                //ClearAll();
 
                 #endregion
 
@@ -7354,6 +7374,9 @@ namespace FoodandBeverage
         #region Extra Charge
         private void btnotherarange_Click(object sender, EventArgs e)
         {
+            if (!checkPartySelet())
+                return;
+
             pnl_extracharge.Left = (this.ClientSize.Width - pnl_extracharge.Width) / 2;
             pnl_extracharge.Top = (this.ClientSize.Height - pnl_extracharge.Height) / 2;
 
@@ -8274,6 +8297,9 @@ namespace FoodandBeverage
         {
             try
             {
+                if (!checkPartySelet())
+                    return;
+
                 int width = Math.Min((int)(ClientSize.Width * 0.86), ClientSize.Width - 20);
                 int height = Math.Min((int)(ClientSize.Height * 0.86), ClientSize.Height - 20);
 

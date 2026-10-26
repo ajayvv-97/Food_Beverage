@@ -46,6 +46,11 @@ namespace FoodandBeverage.SaleBill
             this.crvSalesBill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.pnl_userreg = new System.Windows.Forms.Panel();
             this.tlp_userreg = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_userreg_nav = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_userreg_cls = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtcusid = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tlp_userdetails = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_namesearch = new System.Windows.Forms.TableLayoutPanel();
             this.btncuslist = new System.Windows.Forms.Button();
@@ -67,10 +72,6 @@ namespace FoodandBeverage.SaleBill
             this.label32 = new System.Windows.Forms.Label();
             this.txtaddress = new System.Windows.Forms.TextBox();
             this.txtemailid = new System.Windows.Forms.TextBox();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.tlp_userreg_nav = new System.Windows.Forms.TableLayoutPanel();
-            this.txtcusid = new System.Windows.Forms.TextBox();
-            this.btn_userreg_cls = new System.Windows.Forms.Button();
             this.tlp_userreg_btns = new System.Windows.Forms.TableLayoutPanel();
             this.btn_userreg_submit = new System.Windows.Forms.Button();
             this.tlp_outermain = new System.Windows.Forms.TableLayoutPanel();
@@ -83,11 +84,11 @@ namespace FoodandBeverage.SaleBill
             this.tlp_printbox.SuspendLayout();
             this.pnl_userreg.SuspendLayout();
             this.tlp_userreg.SuspendLayout();
+            this.tlp_userreg_nav.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tlp_userdetails.SuspendLayout();
             this.tlp_namesearch.SuspendLayout();
             this.tlp_gender.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.tlp_userreg_nav.SuspendLayout();
             this.tlp_userreg_btns.SuspendLayout();
             this.tlp_outermain.SuspendLayout();
             this.tlp_main.SuspendLayout();
@@ -326,38 +327,124 @@ namespace FoodandBeverage.SaleBill
             // pnl_userreg
             // 
             this.pnl_userreg.AutoSize = true;
+            this.pnl_userreg.BackColor = System.Drawing.Color.Transparent;
+            this.pnl_userreg.BackgroundImage = global::FoodandBeverage.Properties.Resources.salebill_gstpanel;
+            this.pnl_userreg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnl_userreg.Controls.Add(this.tlp_userreg);
-            this.pnl_userreg.Location = new System.Drawing.Point(698, 47);
+            this.pnl_userreg.Location = new System.Drawing.Point(150, 14);
             this.pnl_userreg.Name = "pnl_userreg";
             this.pnl_userreg.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnl_userreg.Size = new System.Drawing.Size(480, 410);
+            this.pnl_userreg.Size = new System.Drawing.Size(486, 494);
             this.pnl_userreg.TabIndex = 325;
             this.pnl_userreg.Visible = false;
             // 
             // tlp_userreg
             // 
-            this.tlp_userreg.BackColor = System.Drawing.Color.White;
-            this.tlp_userreg.ColumnCount = 1;
+            this.tlp_userreg.BackColor = System.Drawing.Color.Transparent;
+            this.tlp_userreg.ColumnCount = 3;
+            this.tlp_userreg.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
             this.tlp_userreg.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_userreg.Controls.Add(this.tlp_userdetails, 0, 1);
-            this.tlp_userreg.Controls.Add(this.panel4, 0, 0);
-            this.tlp_userreg.Controls.Add(this.tlp_userreg_btns, 0, 2);
+            this.tlp_userreg.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 13F));
+            this.tlp_userreg.Controls.Add(this.tlp_userreg_nav, 1, 1);
+            this.tlp_userreg.Controls.Add(this.tlp_userdetails, 1, 2);
+            this.tlp_userreg.Controls.Add(this.tlp_userreg_btns, 1, 3);
             this.tlp_userreg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_userreg.Location = new System.Drawing.Point(7, 6);
             this.tlp_userreg.Name = "tlp_userreg";
-            this.tlp_userreg.RowCount = 3;
+            this.tlp_userreg.RowCount = 5;
+            this.tlp_userreg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tlp_userreg.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_userreg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_userreg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this.tlp_userreg.Size = new System.Drawing.Size(466, 398);
+            this.tlp_userreg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tlp_userreg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
+            this.tlp_userreg.Size = new System.Drawing.Size(472, 482);
             this.tlp_userreg.TabIndex = 228;
+            // 
+            // tlp_userreg_nav
+            // 
+            this.tlp_userreg_nav.BackColor = System.Drawing.Color.Transparent;
+            this.tlp_userreg_nav.BackgroundImage = global::FoodandBeverage.Properties.Resources.salebill_gstnavbar;
+            this.tlp_userreg_nav.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tlp_userreg_nav.ColumnCount = 6;
+            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tlp_userreg_nav.Controls.Add(this.btn_userreg_cls, 4, 1);
+            this.tlp_userreg_nav.Controls.Add(this.label1, 2, 1);
+            this.tlp_userreg_nav.Controls.Add(this.txtcusid, 0, 1);
+            this.tlp_userreg_nav.Controls.Add(this.pictureBox1, 1, 1);
+            this.tlp_userreg_nav.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_userreg_nav.Location = new System.Drawing.Point(14, 20);
+            this.tlp_userreg_nav.Name = "tlp_userreg_nav";
+            this.tlp_userreg_nav.RowCount = 3;
+            this.tlp_userreg_nav.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
+            this.tlp_userreg_nav.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_userreg_nav.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
+            this.tlp_userreg_nav.Size = new System.Drawing.Size(442, 38);
+            this.tlp_userreg_nav.TabIndex = 16;
+            // 
+            // btn_userreg_cls
+            // 
+            this.btn_userreg_cls.BackColor = System.Drawing.Color.Transparent;
+            this.btn_userreg_cls.BackgroundImage = global::FoodandBeverage.Properties.Resources.cancel_icon_wifi;
+            this.btn_userreg_cls.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_userreg_cls.FlatAppearance.BorderSize = 0;
+            this.btn_userreg_cls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_userreg_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_userreg_cls.ForeColor = System.Drawing.Color.White;
+            this.btn_userreg_cls.Location = new System.Drawing.Point(404, 7);
+            this.btn_userreg_cls.Name = "btn_userreg_cls";
+            this.btn_userreg_cls.Size = new System.Drawing.Size(25, 24);
+            this.btn_userreg_cls.TabIndex = 10;
+            this.btn_userreg_cls.Text = "X";
+            this.btn_userreg_cls.UseVisualStyleBackColor = false;
+            this.btn_userreg_cls.Click += new System.EventHandler(this.btn_userreg_cls_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(57, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(119, 30);
+            this.label1.TabIndex = 328;
+            this.label1.Text = "GST Details";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtcusid
+            // 
+            this.txtcusid.BackColor = System.Drawing.Color.White;
+            this.txtcusid.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
+            this.txtcusid.Location = new System.Drawing.Point(3, 7);
+            this.txtcusid.Multiline = true;
+            this.txtcusid.Name = "txtcusid";
+            this.txtcusid.Size = new System.Drawing.Size(10, 10);
+            this.txtcusid.TabIndex = 326;
+            this.txtcusid.Text = "0";
+            this.txtcusid.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImage = global::FoodandBeverage.Properties.Resources.sale_gsticon;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(19, 7);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(32, 24);
+            this.pictureBox1.TabIndex = 327;
+            this.pictureBox1.TabStop = false;
             // 
             // tlp_userdetails
             // 
-            this.tlp_userdetails.BackColor = System.Drawing.Color.White;
+            this.tlp_userdetails.BackColor = System.Drawing.Color.Transparent;
             this.tlp_userdetails.ColumnCount = 2;
-            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.10661F));
-            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.89339F));
+            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.3913F));
+            this.tlp_userdetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.6087F));
             this.tlp_userdetails.Controls.Add(this.tlp_namesearch, 0, 1);
             this.tlp_userdetails.Controls.Add(this.label31, 0, 4);
             this.tlp_userdetails.Controls.Add(this.label28, 0, 0);
@@ -375,7 +462,7 @@ namespace FoodandBeverage.SaleBill
             this.tlp_userdetails.Controls.Add(this.txtaddress, 0, 7);
             this.tlp_userdetails.Controls.Add(this.txtemailid, 1, 5);
             this.tlp_userdetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_userdetails.Location = new System.Drawing.Point(3, 45);
+            this.tlp_userdetails.Location = new System.Drawing.Point(14, 64);
             this.tlp_userdetails.Name = "tlp_userdetails";
             this.tlp_userdetails.RowCount = 8;
             this.tlp_userdetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.327586F));
@@ -387,37 +474,38 @@ namespace FoodandBeverage.SaleBill
             this.tlp_userdetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.45902F));
             this.tlp_userdetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.21312F));
             this.tlp_userdetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_userdetails.Size = new System.Drawing.Size(460, 305);
+            this.tlp_userdetails.Size = new System.Drawing.Size(442, 350);
             this.tlp_userdetails.TabIndex = 0;
             // 
             // tlp_namesearch
             // 
             this.tlp_namesearch.ColumnCount = 2;
-            this.tlp_namesearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73.80952F));
-            this.tlp_namesearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.19048F));
+            this.tlp_namesearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.65812F));
+            this.tlp_namesearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.34188F));
             this.tlp_namesearch.Controls.Add(this.btncuslist, 1, 0);
             this.tlp_namesearch.Controls.Add(this.txtfristname, 0, 0);
-            this.tlp_namesearch.Location = new System.Drawing.Point(3, 25);
+            this.tlp_namesearch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_namesearch.Location = new System.Drawing.Point(3, 28);
             this.tlp_namesearch.Name = "tlp_namesearch";
             this.tlp_namesearch.RowCount = 1;
             this.tlp_namesearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_namesearch.Size = new System.Drawing.Size(224, 32);
+            this.tlp_namesearch.Size = new System.Drawing.Size(225, 38);
             this.tlp_namesearch.TabIndex = 326;
             // 
             // btncuslist
             // 
-            this.btncuslist.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_orderpage_nokot_printbill;
+            this.btncuslist.BackgroundImage = global::FoodandBeverage.Properties.Resources.salebill_listbutton;
             this.btncuslist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btncuslist.CausesValidation = false;
+            this.btncuslist.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btncuslist.FlatAppearance.BorderSize = 0;
             this.btncuslist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btncuslist.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btncuslist.ForeColor = System.Drawing.Color.White;
-            this.btncuslist.Location = new System.Drawing.Point(168, 3);
+            this.btncuslist.Location = new System.Drawing.Point(159, 3);
             this.btncuslist.Name = "btncuslist";
-            this.btncuslist.Size = new System.Drawing.Size(53, 26);
+            this.btncuslist.Size = new System.Drawing.Size(63, 32);
             this.btncuslist.TabIndex = 13;
-            this.btncuslist.Text = "List";
             this.btncuslist.UseVisualStyleBackColor = true;
             this.btncuslist.Click += new System.EventHandler(this.btncuslist_Click);
             // 
@@ -428,7 +516,7 @@ namespace FoodandBeverage.SaleBill
             this.txtfristname.Location = new System.Drawing.Point(3, 3);
             this.txtfristname.Multiline = true;
             this.txtfristname.Name = "txtfristname";
-            this.txtfristname.Size = new System.Drawing.Size(159, 26);
+            this.txtfristname.Size = new System.Drawing.Size(150, 26);
             this.txtfristname.TabIndex = 1;
             this.txtfristname.Enter += new System.EventHandler(this.txtfristname_Enter);
             // 
@@ -437,9 +525,9 @@ namespace FoodandBeverage.SaleBill
             this.label31.AutoSize = true;
             this.label31.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.label31.Location = new System.Drawing.Point(3, 119);
+            this.label31.Location = new System.Drawing.Point(3, 135);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(224, 27);
+            this.label31.Size = new System.Drawing.Size(225, 31);
             this.label31.TabIndex = 5;
             this.label31.Text = "Ph";
             this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -451,7 +539,7 @@ namespace FoodandBeverage.SaleBill
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
             this.label28.Location = new System.Drawing.Point(3, 0);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(224, 22);
+            this.label28.Size = new System.Drawing.Size(225, 25);
             this.label28.TabIndex = 0;
             this.label28.Text = "Frist Name";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -461,9 +549,9 @@ namespace FoodandBeverage.SaleBill
             this.label11.AutoSize = true;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(233, 0);
+            this.label11.Location = new System.Drawing.Point(234, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(224, 22);
+            this.label11.Size = new System.Drawing.Size(205, 25);
             this.label11.TabIndex = 10;
             this.label11.Text = "Last Name";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -473,10 +561,10 @@ namespace FoodandBeverage.SaleBill
             this.txtsecondname.BackColor = System.Drawing.Color.White;
             this.txtsecondname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtsecondname.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.txtsecondname.Location = new System.Drawing.Point(233, 25);
+            this.txtsecondname.Location = new System.Drawing.Point(234, 28);
             this.txtsecondname.Multiline = true;
             this.txtsecondname.Name = "txtsecondname";
-            this.txtsecondname.Size = new System.Drawing.Size(224, 33);
+            this.txtsecondname.Size = new System.Drawing.Size(205, 38);
             this.txtsecondname.TabIndex = 11;
             this.txtsecondname.Enter += new System.EventHandler(this.txtsecondname_Enter);
             // 
@@ -485,9 +573,9 @@ namespace FoodandBeverage.SaleBill
             this.label21.AutoSize = true;
             this.label21.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.label21.Location = new System.Drawing.Point(233, 61);
+            this.label21.Location = new System.Drawing.Point(234, 69);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(224, 22);
+            this.label21.Size = new System.Drawing.Size(205, 25);
             this.label21.TabIndex = 12;
             this.label21.Text = "Gst No";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -497,9 +585,9 @@ namespace FoodandBeverage.SaleBill
             this.label22.AutoSize = true;
             this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.label22.Location = new System.Drawing.Point(3, 61);
+            this.label22.Location = new System.Drawing.Point(3, 69);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(224, 22);
+            this.label22.Size = new System.Drawing.Size(225, 25);
             this.label22.TabIndex = 13;
             this.label22.Text = "Company Name";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -509,10 +597,10 @@ namespace FoodandBeverage.SaleBill
             this.txtcompanyname.BackColor = System.Drawing.Color.White;
             this.txtcompanyname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtcompanyname.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.txtcompanyname.Location = new System.Drawing.Point(3, 86);
+            this.txtcompanyname.Location = new System.Drawing.Point(3, 97);
             this.txtcompanyname.Multiline = true;
             this.txtcompanyname.Name = "txtcompanyname";
-            this.txtcompanyname.Size = new System.Drawing.Size(224, 30);
+            this.txtcompanyname.Size = new System.Drawing.Size(225, 35);
             this.txtcompanyname.TabIndex = 14;
             this.txtcompanyname.Enter += new System.EventHandler(this.txtcompanyname_Enter);
             // 
@@ -521,10 +609,10 @@ namespace FoodandBeverage.SaleBill
             this.txtgstno.BackColor = System.Drawing.Color.White;
             this.txtgstno.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtgstno.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.txtgstno.Location = new System.Drawing.Point(233, 86);
+            this.txtgstno.Location = new System.Drawing.Point(234, 97);
             this.txtgstno.Multiline = true;
             this.txtgstno.Name = "txtgstno";
-            this.txtgstno.Size = new System.Drawing.Size(224, 30);
+            this.txtgstno.Size = new System.Drawing.Size(205, 35);
             this.txtgstno.TabIndex = 15;
             this.txtgstno.Enter += new System.EventHandler(this.txtgstno_Enter);
             // 
@@ -533,11 +621,11 @@ namespace FoodandBeverage.SaleBill
             this.txtph.BackColor = System.Drawing.Color.White;
             this.txtph.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtph.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.txtph.Location = new System.Drawing.Point(3, 149);
+            this.txtph.Location = new System.Drawing.Point(3, 169);
             this.txtph.MaxLength = 12;
             this.txtph.Multiline = true;
             this.txtph.Name = "txtph";
-            this.txtph.Size = new System.Drawing.Size(224, 30);
+            this.txtph.Size = new System.Drawing.Size(225, 35);
             this.txtph.TabIndex = 7;
             this.txtph.Enter += new System.EventHandler(this.txtph_Enter);
             // 
@@ -546,9 +634,9 @@ namespace FoodandBeverage.SaleBill
             this.label30.AutoSize = true;
             this.label30.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.label30.Location = new System.Drawing.Point(233, 119);
+            this.label30.Location = new System.Drawing.Point(234, 135);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(224, 27);
+            this.label30.Size = new System.Drawing.Size(205, 31);
             this.label30.TabIndex = 4;
             this.label30.Text = "Email Id";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -558,9 +646,9 @@ namespace FoodandBeverage.SaleBill
             this.label29.AutoSize = true;
             this.label29.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.label29.Location = new System.Drawing.Point(3, 182);
+            this.label29.Location = new System.Drawing.Point(3, 207);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(224, 38);
+            this.label29.Size = new System.Drawing.Size(225, 43);
             this.label29.TabIndex = 3;
             this.label29.Text = "Address";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -573,11 +661,11 @@ namespace FoodandBeverage.SaleBill
             this.tlp_gender.Controls.Add(this.rb_female, 1, 0);
             this.tlp_gender.Controls.Add(this.rb_male, 0, 0);
             this.tlp_gender.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlp_gender.Location = new System.Drawing.Point(233, 223);
+            this.tlp_gender.Location = new System.Drawing.Point(234, 253);
             this.tlp_gender.Name = "tlp_gender";
             this.tlp_gender.RowCount = 1;
             this.tlp_gender.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_gender.Size = new System.Drawing.Size(224, 24);
+            this.tlp_gender.Size = new System.Drawing.Size(205, 24);
             this.tlp_gender.TabIndex = 9;
             // 
             // rb_female
@@ -586,9 +674,9 @@ namespace FoodandBeverage.SaleBill
             this.rb_female.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rb_female.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
             this.rb_female.ForeColor = System.Drawing.Color.Black;
-            this.rb_female.Location = new System.Drawing.Point(115, 3);
+            this.rb_female.Location = new System.Drawing.Point(105, 3);
             this.rb_female.Name = "rb_female";
-            this.rb_female.Size = new System.Drawing.Size(106, 18);
+            this.rb_female.Size = new System.Drawing.Size(97, 18);
             this.rb_female.TabIndex = 0;
             this.rb_female.Text = "Female";
             this.rb_female.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -603,7 +691,7 @@ namespace FoodandBeverage.SaleBill
             this.rb_male.ForeColor = System.Drawing.Color.Black;
             this.rb_male.Location = new System.Drawing.Point(3, 3);
             this.rb_male.Name = "rb_male";
-            this.rb_male.Size = new System.Drawing.Size(106, 18);
+            this.rb_male.Size = new System.Drawing.Size(96, 18);
             this.rb_male.TabIndex = 1;
             this.rb_male.TabStop = true;
             this.rb_male.Text = "Male";
@@ -615,9 +703,9 @@ namespace FoodandBeverage.SaleBill
             this.label32.AutoSize = true;
             this.label32.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.label32.Location = new System.Drawing.Point(233, 182);
+            this.label32.Location = new System.Drawing.Point(234, 207);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(224, 38);
+            this.label32.Size = new System.Drawing.Size(205, 43);
             this.label32.TabIndex = 8;
             this.label32.Text = "Gender";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -627,10 +715,10 @@ namespace FoodandBeverage.SaleBill
             this.txtaddress.BackColor = System.Drawing.Color.White;
             this.txtaddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtaddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.txtaddress.Location = new System.Drawing.Point(3, 223);
+            this.txtaddress.Location = new System.Drawing.Point(3, 253);
             this.txtaddress.Multiline = true;
             this.txtaddress.Name = "txtaddress";
-            this.txtaddress.Size = new System.Drawing.Size(224, 79);
+            this.txtaddress.Size = new System.Drawing.Size(225, 94);
             this.txtaddress.TabIndex = 2;
             this.txtaddress.Enter += new System.EventHandler(this.txtaddress_Enter);
             // 
@@ -639,96 +727,43 @@ namespace FoodandBeverage.SaleBill
             this.txtemailid.BackColor = System.Drawing.Color.White;
             this.txtemailid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtemailid.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.txtemailid.Location = new System.Drawing.Point(233, 149);
+            this.txtemailid.Location = new System.Drawing.Point(234, 169);
             this.txtemailid.Multiline = true;
             this.txtemailid.Name = "txtemailid";
-            this.txtemailid.Size = new System.Drawing.Size(224, 30);
+            this.txtemailid.Size = new System.Drawing.Size(205, 35);
             this.txtemailid.TabIndex = 6;
             this.txtemailid.Enter += new System.EventHandler(this.txtemailid_Enter);
             // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.tlp_userreg_nav);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(3, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(460, 36);
-            this.panel4.TabIndex = 0;
-            // 
-            // tlp_userreg_nav
-            // 
-            this.tlp_userreg_nav.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
-            this.tlp_userreg_nav.ColumnCount = 4;
-            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_userreg_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_userreg_nav.Controls.Add(this.txtcusid, 0, 0);
-            this.tlp_userreg_nav.Controls.Add(this.btn_userreg_cls, 2, 0);
-            this.tlp_userreg_nav.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_userreg_nav.Location = new System.Drawing.Point(0, 0);
-            this.tlp_userreg_nav.Name = "tlp_userreg_nav";
-            this.tlp_userreg_nav.RowCount = 1;
-            this.tlp_userreg_nav.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_userreg_nav.Size = new System.Drawing.Size(460, 36);
-            this.tlp_userreg_nav.TabIndex = 16;
-            // 
-            // txtcusid
-            // 
-            this.txtcusid.BackColor = System.Drawing.Color.White;
-            this.txtcusid.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-            this.txtcusid.Location = new System.Drawing.Point(3, 3);
-            this.txtcusid.Multiline = true;
-            this.txtcusid.Name = "txtcusid";
-            this.txtcusid.Size = new System.Drawing.Size(23, 27);
-            this.txtcusid.TabIndex = 326;
-            this.txtcusid.Text = "0";
-            this.txtcusid.Visible = false;
-            // 
-            // btn_userreg_cls
-            // 
-            this.btn_userreg_cls.BackColor = System.Drawing.Color.White;
-            this.btn_userreg_cls.FlatAppearance.BorderSize = 0;
-            this.btn_userreg_cls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_userreg_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_userreg_cls.ForeColor = System.Drawing.Color.Red;
-            this.btn_userreg_cls.Location = new System.Drawing.Point(412, 3);
-            this.btn_userreg_cls.Name = "btn_userreg_cls";
-            this.btn_userreg_cls.Size = new System.Drawing.Size(25, 29);
-            this.btn_userreg_cls.TabIndex = 10;
-            this.btn_userreg_cls.Text = "X";
-            this.btn_userreg_cls.UseVisualStyleBackColor = false;
-            this.btn_userreg_cls.Click += new System.EventHandler(this.btn_userreg_cls_Click);
-            // 
             // tlp_userreg_btns
             // 
-            this.tlp_userreg_btns.ColumnCount = 5;
-            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_userreg_btns.Controls.Add(this.btn_userreg_submit, 3, 0);
+            this.tlp_userreg_btns.ColumnCount = 3;
+            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_userreg_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_userreg_btns.Controls.Add(this.btn_userreg_submit, 1, 0);
             this.tlp_userreg_btns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_userreg_btns.Location = new System.Drawing.Point(3, 356);
+            this.tlp_userreg_btns.Location = new System.Drawing.Point(14, 420);
             this.tlp_userreg_btns.Name = "tlp_userreg_btns";
             this.tlp_userreg_btns.RowCount = 1;
             this.tlp_userreg_btns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_userreg_btns.Size = new System.Drawing.Size(460, 39);
+            this.tlp_userreg_btns.Size = new System.Drawing.Size(442, 42);
             this.tlp_userreg_btns.TabIndex = 1;
             // 
             // btn_userreg_submit
             // 
-            this.btn_userreg_submit.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_SUBMIT;
+            this.btn_userreg_submit.BackgroundImage = global::FoodandBeverage.Properties.Resources.salebill_gstsub;
             this.btn_userreg_submit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_userreg_submit.CausesValidation = false;
+            this.btn_userreg_submit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_userreg_submit.FlatAppearance.BorderSize = 0;
             this.btn_userreg_submit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_userreg_submit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_userreg_submit.ForeColor = System.Drawing.Color.White;
-            this.btn_userreg_submit.Location = new System.Drawing.Point(196, 3);
+            this.btn_userreg_submit.Location = new System.Drawing.Point(150, 3);
             this.btn_userreg_submit.Name = "btn_userreg_submit";
-            this.btn_userreg_submit.Size = new System.Drawing.Size(68, 31);
+            this.btn_userreg_submit.Size = new System.Drawing.Size(141, 36);
             this.btn_userreg_submit.TabIndex = 10;
             this.btn_userreg_submit.UseVisualStyleBackColor = true;
             this.btn_userreg_submit.Click += new System.EventHandler(this.btn_userreg_submit_Click);
@@ -856,8 +891,8 @@ namespace FoodandBeverage.SaleBill
             this.BackgroundImage = global::FoodandBeverage.Properties.Resources.Salebill_bg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(824, 640);
-            this.Controls.Add(this.tlp_outermain);
             this.Controls.Add(this.pnl_userreg);
+            this.Controls.Add(this.tlp_outermain);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmSaleInvoice";
@@ -868,15 +903,15 @@ namespace FoodandBeverage.SaleBill
             this.tlp_printbox.PerformLayout();
             this.pnl_userreg.ResumeLayout(false);
             this.tlp_userreg.ResumeLayout(false);
+            this.tlp_userreg_nav.ResumeLayout(false);
+            this.tlp_userreg_nav.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tlp_userdetails.ResumeLayout(false);
             this.tlp_userdetails.PerformLayout();
             this.tlp_namesearch.ResumeLayout(false);
             this.tlp_namesearch.PerformLayout();
             this.tlp_gender.ResumeLayout(false);
             this.tlp_gender.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.tlp_userreg_nav.ResumeLayout(false);
-            this.tlp_userreg_nav.PerformLayout();
             this.tlp_userreg_btns.ResumeLayout(false);
             this.tlp_outermain.ResumeLayout(false);
             this.tlp_main.ResumeLayout(false);
@@ -922,7 +957,6 @@ namespace FoodandBeverage.SaleBill
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TextBox txtaddress;
         private System.Windows.Forms.TextBox txtemailid;
-        private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TableLayoutPanel tlp_userreg_nav;
         private System.Windows.Forms.Button btn_userreg_cls;
         private System.Windows.Forms.TableLayoutPanel tlp_userreg_btns;
@@ -941,5 +975,7 @@ namespace FoodandBeverage.SaleBill
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.PictureBox pb_th;
         private System.Windows.Forms.PictureBox pb_a4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

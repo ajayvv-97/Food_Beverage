@@ -3602,6 +3602,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap sale_gsticon {
+            get {
+                object obj = ResourceManager.GetObject("sale_gsticon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap salebill_a4_bill_icon {
             get {
                 object obj = ResourceManager.GetObject("salebill_a4_bill_icon", resourceCulture);
@@ -3625,6 +3635,46 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap salebill_buttons_bg {
             get {
                 object obj = ResourceManager.GetObject("salebill_buttons_bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap salebill_gstnavbar {
+            get {
+                object obj = ResourceManager.GetObject("salebill_gstnavbar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap salebill_gstpanel {
+            get {
+                object obj = ResourceManager.GetObject("salebill_gstpanel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap salebill_gstsub {
+            get {
+                object obj = ResourceManager.GetObject("salebill_gstsub", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap salebill_listbutton {
+            get {
+                object obj = ResourceManager.GetObject("salebill_listbutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

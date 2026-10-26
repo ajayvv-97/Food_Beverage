@@ -1339,4 +1339,19 @@
   <data name="salebill_thermal_bill_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\salebill_thermal_bill_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="salebill_gstnavbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\salebill_gstnavbar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="salebill_gstpanel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\salebill_gstpanel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="salebill_gstsub" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\salebill_gstsub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="salebill_listbutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\salebill_listbutton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sale_gsticon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sale_gsticon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
