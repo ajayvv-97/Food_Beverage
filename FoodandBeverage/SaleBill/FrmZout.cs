@@ -37,7 +37,6 @@ namespace FoodandBeverage.SaleBill
         private Button btn_gmail;
         private Button btn_whatsup;
         private Button btn_cancel;
-        private TableLayoutPanel tlp_main;
 
         public List<DmnGridFields> Addressdata;
         bool RPTLocalVw = false;
@@ -72,6 +71,8 @@ namespace FoodandBeverage.SaleBill
         private Button btngmailsend;
         private Button btngmailcancel;
         public String DailyPath = "";
+        private TableLayoutPanel tlp_outermian;
+        private TableLayoutPanel tlp_bill_main;
         string Regaddress = "";
         #endregion
 
@@ -97,16 +98,18 @@ namespace FoodandBeverage.SaleBill
             this.btn_gmail = new System.Windows.Forms.Button();
             this.btn_whatsup = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
-            this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.pnlgmail = new System.Windows.Forms.Panel();
             this.tlp_gmail_btn = new System.Windows.Forms.TableLayoutPanel();
             this.txt_gmail_report = new System.Windows.Forms.TextBox();
             this.btngmailsend = new System.Windows.Forms.Button();
             this.btngmailcancel = new System.Windows.Forms.Button();
+            this.tlp_outermian = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_bill_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_btns.SuspendLayout();
-            this.tlp_main.SuspendLayout();
             this.pnlgmail.SuspendLayout();
             this.tlp_gmail_btn.SuspendLayout();
+            this.tlp_outermian.SuspendLayout();
+            this.tlp_bill_main.SuspendLayout();
             this.SuspendLayout();
             // 
             // crvout
@@ -119,7 +122,7 @@ namespace FoodandBeverage.SaleBill
             this.crvout.DisplayStatusBar = false;
             this.crvout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.crvout.EnableRefresh = false;
-            this.crvout.Location = new System.Drawing.Point(3, 3);
+            this.crvout.Location = new System.Drawing.Point(163, 3);
             this.crvout.Name = "crvout";
             this.crvout.ShowCloseButton = false;
             this.crvout.ShowCopyButton = false;
@@ -130,108 +133,113 @@ namespace FoodandBeverage.SaleBill
             this.crvout.ShowRefreshButton = false;
             this.crvout.ShowTextSearchButton = false;
             this.crvout.ShowZoomButton = false;
-            this.crvout.Size = new System.Drawing.Size(515, 474);
+            this.crvout.Size = new System.Drawing.Size(463, 529);
             this.crvout.TabIndex = 54;
             this.crvout.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             this.crvout.ToolPanelWidth = 10;
             // 
             // tlp_btns
             // 
+            this.tlp_btns.BackgroundImage = global::FoodandBeverage.Properties.Resources.salebill_buttons_bg;
+            this.tlp_btns.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tlp_btns.ColumnCount = 6;
-            this.tlp_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.55102F));
+            this.tlp_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.44898F));
-            this.tlp_btns.Controls.Add(this.btn_print, 1, 0);
-            this.tlp_btns.Controls.Add(this.btn_gmail, 2, 0);
-            this.tlp_btns.Controls.Add(this.btn_whatsup, 3, 0);
-            this.tlp_btns.Controls.Add(this.btn_cancel, 4, 0);
+            this.tlp_btns.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_btns.Controls.Add(this.btn_print, 1, 1);
+            this.tlp_btns.Controls.Add(this.btn_gmail, 2, 1);
+            this.tlp_btns.Controls.Add(this.btn_whatsup, 3, 1);
+            this.tlp_btns.Controls.Add(this.btn_cancel, 4, 1);
             this.tlp_btns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_btns.Location = new System.Drawing.Point(2, 482);
+            this.tlp_btns.Location = new System.Drawing.Point(2, 543);
             this.tlp_btns.Margin = new System.Windows.Forms.Padding(2);
             this.tlp_btns.Name = "tlp_btns";
-            this.tlp_btns.RowCount = 1;
+            this.tlp_btns.RowCount = 3;
+            this.tlp_btns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 11F));
             this.tlp_btns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_btns.Size = new System.Drawing.Size(517, 48);
+            this.tlp_btns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_btns.Size = new System.Drawing.Size(810, 85);
             this.tlp_btns.TabIndex = 500;
             // 
             // btn_print
             // 
-            this.btn_print.BackgroundImage = global::FoodandBeverage.Properties.Resources.printer;
+            this.btn_print.BackgroundImage = global::FoodandBeverage.Properties.Resources.Print_Button;
             this.btn_print.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_print.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_print.FlatAppearance.BorderSize = 0;
+            this.btn_print.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btn_print.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_print.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_print.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_print.Location = new System.Drawing.Point(112, 3);
+            this.btn_print.Location = new System.Drawing.Point(176, 14);
             this.btn_print.Name = "btn_print";
-            this.btn_print.Size = new System.Drawing.Size(71, 41);
+            this.btn_print.Size = new System.Drawing.Size(110, 48);
             this.btn_print.TabIndex = 54;
             this.btn_print.UseVisualStyleBackColor = true;
             this.btn_print.Click += new System.EventHandler(this.btn_print_Click);
             // 
             // btn_gmail
             // 
-            this.btn_gmail.BackgroundImage = global::FoodandBeverage.Properties.Resources.GMAIL;
+            this.btn_gmail.BackgroundImage = global::FoodandBeverage.Properties.Resources.Email_Button;
             this.btn_gmail.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_gmail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_gmail.FlatAppearance.BorderSize = 0;
+            this.btn_gmail.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btn_gmail.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_gmail.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_gmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_gmail.Location = new System.Drawing.Point(189, 3);
+            this.btn_gmail.Location = new System.Drawing.Point(292, 14);
             this.btn_gmail.Name = "btn_gmail";
-            this.btn_gmail.Size = new System.Drawing.Size(71, 41);
+            this.btn_gmail.Size = new System.Drawing.Size(110, 48);
             this.btn_gmail.TabIndex = 56;
             this.btn_gmail.UseVisualStyleBackColor = true;
             this.btn_gmail.Click += new System.EventHandler(this.btn_gmail_Click);
             // 
             // btn_whatsup
             // 
-            this.btn_whatsup.BackgroundImage = global::FoodandBeverage.Properties.Resources.WhatsApp;
+            this.btn_whatsup.BackgroundImage = global::FoodandBeverage.Properties.Resources.WhatsApp_Button;
             this.btn_whatsup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_whatsup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_whatsup.FlatAppearance.BorderSize = 0;
+            this.btn_whatsup.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btn_whatsup.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_whatsup.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_whatsup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_whatsup.Location = new System.Drawing.Point(266, 3);
+            this.btn_whatsup.Location = new System.Drawing.Point(408, 14);
             this.btn_whatsup.Name = "btn_whatsup";
-            this.btn_whatsup.Size = new System.Drawing.Size(71, 41);
+            this.btn_whatsup.Size = new System.Drawing.Size(110, 48);
             this.btn_whatsup.TabIndex = 57;
             this.btn_whatsup.UseVisualStyleBackColor = true;
             this.btn_whatsup.Click += new System.EventHandler(this.btn_whatsup_Click);
             // 
             // btn_cancel
             // 
-            this.btn_cancel.BackgroundImage = global::FoodandBeverage.Properties.Resources.cancel_description;
+            this.btn_cancel.BackgroundImage = global::FoodandBeverage.Properties.Resources.Cancel_Button;
             this.btn_cancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_cancel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_cancel.FlatAppearance.BorderSize = 0;
+            this.btn_cancel.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btn_cancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_cancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cancel.Location = new System.Drawing.Point(343, 3);
+            this.btn_cancel.Location = new System.Drawing.Point(524, 14);
             this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(71, 41);
+            this.btn_cancel.Size = new System.Drawing.Size(110, 48);
             this.btn_cancel.TabIndex = 59;
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
-            // 
-            // tlp_main
-            // 
-            this.tlp_main.ColumnCount = 1;
-            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_main.Controls.Add(this.crvout, 0, 0);
-            this.tlp_main.Controls.Add(this.tlp_btns, 0, 1);
-            this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_main.Location = new System.Drawing.Point(0, 0);
-            this.tlp_main.Name = "tlp_main";
-            this.tlp_main.RowCount = 2;
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90.32882F));
-            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.67118F));
-            this.tlp_main.Size = new System.Drawing.Size(521, 532);
-            this.tlp_main.TabIndex = 501;
             // 
             // pnlgmail
             // 
             this.pnlgmail.BackColor = System.Drawing.Color.WhiteSmoke;
             this.pnlgmail.Controls.Add(this.tlp_gmail_btn);
-            this.pnlgmail.Location = new System.Drawing.Point(11, 229);
+            this.pnlgmail.Location = new System.Drawing.Point(37, 18);
             this.pnlgmail.Name = "pnlgmail";
             this.pnlgmail.Padding = new System.Windows.Forms.Padding(8);
-            this.pnlgmail.Size = new System.Drawing.Size(500, 59);
+            this.pnlgmail.Size = new System.Drawing.Size(429, 59);
             this.pnlgmail.TabIndex = 502;
             this.pnlgmail.Visible = false;
             // 
@@ -249,7 +257,7 @@ namespace FoodandBeverage.SaleBill
             this.tlp_gmail_btn.Name = "tlp_gmail_btn";
             this.tlp_gmail_btn.RowCount = 1;
             this.tlp_gmail_btn.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_gmail_btn.Size = new System.Drawing.Size(484, 43);
+            this.tlp_gmail_btn.Size = new System.Drawing.Size(413, 43);
             this.tlp_gmail_btn.TabIndex = 56;
             // 
             // txt_gmail_report
@@ -259,7 +267,7 @@ namespace FoodandBeverage.SaleBill
             this.txt_gmail_report.Location = new System.Drawing.Point(3, 3);
             this.txt_gmail_report.Multiline = true;
             this.txt_gmail_report.Name = "txt_gmail_report";
-            this.txt_gmail_report.Size = new System.Drawing.Size(382, 37);
+            this.txt_gmail_report.Size = new System.Drawing.Size(318, 37);
             this.txt_gmail_report.TabIndex = 55;
             // 
             // btngmailsend
@@ -269,9 +277,9 @@ namespace FoodandBeverage.SaleBill
             this.btngmailsend.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btngmailsend.FlatAppearance.BorderSize = 0;
             this.btngmailsend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btngmailsend.Location = new System.Drawing.Point(391, 3);
+            this.btngmailsend.Location = new System.Drawing.Point(327, 3);
             this.btngmailsend.Name = "btngmailsend";
-            this.btngmailsend.Size = new System.Drawing.Size(40, 37);
+            this.btngmailsend.Size = new System.Drawing.Size(33, 37);
             this.btngmailsend.TabIndex = 56;
             this.btngmailsend.UseVisualStyleBackColor = true;
             this.btngmailsend.Click += new System.EventHandler(this.btngmailsend_Click);
@@ -283,19 +291,57 @@ namespace FoodandBeverage.SaleBill
             this.btngmailcancel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btngmailcancel.FlatAppearance.BorderSize = 0;
             this.btngmailcancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btngmailcancel.Location = new System.Drawing.Point(437, 3);
+            this.btngmailcancel.Location = new System.Drawing.Point(366, 3);
             this.btngmailcancel.Name = "btngmailcancel";
             this.btngmailcancel.Size = new System.Drawing.Size(44, 37);
             this.btngmailcancel.TabIndex = 57;
             this.btngmailcancel.UseVisualStyleBackColor = true;
             this.btngmailcancel.Click += new System.EventHandler(this.btngmailcancel_Click);
             // 
+            // tlp_outermian
+            // 
+            this.tlp_outermian.BackColor = System.Drawing.Color.Transparent;
+            this.tlp_outermian.ColumnCount = 1;
+            this.tlp_outermian.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_outermian.Controls.Add(this.tlp_btns, 0, 1);
+            this.tlp_outermian.Controls.Add(this.tlp_bill_main, 0, 0);
+            this.tlp_outermian.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_outermian.Location = new System.Drawing.Point(5, 5);
+            this.tlp_outermian.Name = "tlp_outermian";
+            this.tlp_outermian.RowCount = 2;
+            this.tlp_outermian.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39.53489F));
+            this.tlp_outermian.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 89F));
+            this.tlp_outermian.Size = new System.Drawing.Size(814, 630);
+            this.tlp_outermian.TabIndex = 503;
+            // 
+            // tlp_bill_main
+            // 
+            this.tlp_bill_main.BackColor = System.Drawing.Color.Transparent;
+            this.tlp_bill_main.ColumnCount = 3;
+            this.tlp_bill_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_bill_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 469F));
+            this.tlp_bill_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 179F));
+            this.tlp_bill_main.Controls.Add(this.crvout, 1, 0);
+            this.tlp_bill_main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_bill_main.Location = new System.Drawing.Point(3, 3);
+            this.tlp_bill_main.Name = "tlp_bill_main";
+            this.tlp_bill_main.RowCount = 1;
+            this.tlp_bill_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39.53489F));
+            this.tlp_bill_main.Size = new System.Drawing.Size(808, 535);
+            this.tlp_bill_main.TabIndex = 504;
+            // 
             // FrmZout
             // 
-            this.ClientSize = new System.Drawing.Size(521, 532);
+            this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = global::FoodandBeverage.Properties.Resources.Salebill_bg;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(824, 640);
             this.Controls.Add(this.pnlgmail);
-            this.Controls.Add(this.tlp_main);
+            this.Controls.Add(this.tlp_outermian);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmZout";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Tag = "34";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmZout_FormClosing);
@@ -303,10 +349,11 @@ namespace FoodandBeverage.SaleBill
             this.Load += new System.EventHandler(this.FrmZout_Load);
             this.Shown += new System.EventHandler(this.FrmZout_Shown);
             this.tlp_btns.ResumeLayout(false);
-            this.tlp_main.ResumeLayout(false);
             this.pnlgmail.ResumeLayout(false);
             this.tlp_gmail_btn.ResumeLayout(false);
             this.tlp_gmail_btn.PerformLayout();
+            this.tlp_outermian.ResumeLayout(false);
+            this.tlp_bill_main.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

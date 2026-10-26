@@ -127,7 +127,7 @@ namespace FoodandBeverage.SaleBill
             this.tlp_printbox.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_printbox.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_printbox.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            this.tlp_printbox.Size = new System.Drawing.Size(111, 452);
+            this.tlp_printbox.Size = new System.Drawing.Size(111, 109);
             this.tlp_printbox.TabIndex = 66;
             this.tlp_printbox.Visible = false;
             // 
@@ -138,7 +138,7 @@ namespace FoodandBeverage.SaleBill
             this.rb_th.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rb_th.Location = new System.Drawing.Point(3, 156);
             this.rb_th.Name = "rb_th";
-            this.rb_th.Size = new System.Drawing.Size(83, 20);
+            this.rb_th.Size = new System.Drawing.Size(83, 4);
             this.rb_th.TabIndex = 63;
             this.rb_th.TabStop = true;
             this.rb_th.Text = "Thermal";
