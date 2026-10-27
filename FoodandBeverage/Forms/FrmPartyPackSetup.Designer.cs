@@ -93,38 +93,9 @@
             this.btnmenu = new System.Windows.Forms.Button();
             this.pnl_packtype = new System.Windows.Forms.Panel();
             this.dgv_packs_default = new System.Windows.Forms.DataGridView();
-            this.slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.item = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dcategmenu = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.action = new System.Windows.Forms.DataGridViewImageColumn();
-            this.pPartyPackDetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dfProductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dfproducttype = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_packcustom = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmmenucategory = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_card = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cselect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cproductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cproducttype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cardppcid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_gift = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gselectiems = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gProductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gproducttype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gidtppcid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_subcategory = new System.Windows.Forms.TableLayoutPanel();
             this.cmbsubcategory = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -258,6 +229,43 @@
             this.btn_showmenu = new FontAwesome.Sharp.IconButton();
             this.pnl_dgv_menu = new System.Windows.Forms.Panel();
             this.Dgv_Selected_Item = new System.Windows.Forms.DataGridView();
+            this.tlp_menu_main = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_footer = new System.Windows.Forms.TableLayoutPanel();
+            this.btnprev = new System.Windows.Forms.Button();
+            this.lblpagerinfo = new System.Windows.Forms.Label();
+            this.btnnext = new System.Windows.Forms.Button();
+            this.flp_productview = new System.Windows.Forms.FlowLayoutPanel();
+            this.pnl_venue = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_venue = new System.Windows.Forms.TableLayoutPanel();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtvenuecost = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtvenuename = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.txtdescription = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.cmb_tax_venue = new System.Windows.Forms.ComboBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.cmb_taxtype_venue = new System.Windows.Forms.ComboBox();
+            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_cls_venue = new System.Windows.Forms.Button();
+            this.label33 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_refresh_venue = new System.Windows.Forms.Button();
+            this.btn_close_venue = new System.Windows.Forms.Button();
+            this.btnsave_venue = new System.Windows.Forms.Button();
+            this.btnsearch_venue = new System.Windows.Forms.Button();
+            this.txthsn_venue = new System.Windows.Forms.TextBox();
+            this.txthsn_cake = new System.Windows.Forms.TextBox();
+            this.lblhsn_cake = new System.Windows.Forms.Label();
+            this.lblhsn_venue = new System.Windows.Forms.Label();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmmenucategory = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ipaction = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.barcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -308,37 +316,33 @@
             this.opretaxamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.osaledisper = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.osaledisamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tlp_menu_main = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_footer = new System.Windows.Forms.TableLayoutPanel();
-            this.btnprev = new System.Windows.Forms.Button();
-            this.lblpagerinfo = new System.Windows.Forms.Label();
-            this.btnnext = new System.Windows.Forms.Button();
-            this.flp_productview = new System.Windows.Forms.FlowLayoutPanel();
-            this.pnl_venue = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_venue = new System.Windows.Forms.TableLayoutPanel();
-            this.label20 = new System.Windows.Forms.Label();
-            this.txtvenuecost = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.txtvenuename = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.txtdescription = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.cmb_tax_venue = new System.Windows.Forms.ComboBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.cmb_taxtype_venue = new System.Windows.Forms.ComboBox();
-            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_cls_venue = new System.Windows.Forms.Button();
-            this.label33 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_refresh_venue = new System.Windows.Forms.Button();
-            this.btn_close_venue = new System.Windows.Forms.Button();
-            this.btnsave_venue = new System.Windows.Forms.Button();
-            this.btnsearch_venue = new System.Windows.Forms.Button();
-            this.txthsn_venue = new System.Windows.Forms.TextBox();
-            this.txthsn_cake = new System.Windows.Forms.TextBox();
-            this.lblhsn_cake = new System.Windows.Forms.Label();
-            this.lblhsn_venue = new System.Windows.Forms.Label();
+            this.phsncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dcategmenu = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.action = new System.Windows.Forms.DataGridViewImageColumn();
+            this.pPartyPackDetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dfProductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dfproducttype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dhsncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cselect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cproductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cproducttype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cardppcid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cardhsn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gselectiems = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gProductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gproducttype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gidtppcid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ghsn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_main.SuspendLayout();
             this.tlp_registration.SuspendLayout();
             this.tlp_setting.SuspendLayout();
@@ -957,7 +961,8 @@
             this.action,
             this.pPartyPackDetailsId,
             this.dfProductid,
-            this.dfproducttype});
+            this.dfproducttype,
+            this.dhsncode});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -978,72 +983,6 @@
             this.dgv_packs_default.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_packs_CellContentClick);
             this.dgv_packs_default.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_packs_default_CellDoubleClick);
             this.dgv_packs_default.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_packs_CellValueChanged);
-            // 
-            // slno
-            // 
-            this.slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.slno.HeaderText = "Slno";
-            this.slno.MinimumWidth = 6;
-            this.slno.Name = "slno";
-            this.slno.Width = 66;
-            // 
-            // item
-            // 
-            this.item.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.item.HeaderText = "Deafult Product";
-            this.item.MinimumWidth = 6;
-            this.item.Name = "item";
-            this.item.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.item.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dcategmenu
-            // 
-            this.dcategmenu.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dcategmenu.HeaderText = "Menu Category";
-            this.dcategmenu.MinimumWidth = 6;
-            this.dcategmenu.Name = "dcategmenu";
-            this.dcategmenu.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dcategmenu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dcategmenu.Width = 130;
-            // 
-            // Qty
-            // 
-            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Qty.HeaderText = "Quantity";
-            this.Qty.MinimumWidth = 6;
-            this.Qty.Name = "Qty";
-            this.Qty.Width = 93;
-            // 
-            // action
-            // 
-            this.action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.action.HeaderText = "Action";
-            this.action.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.action.MinimumWidth = 2;
-            this.action.Name = "action";
-            this.action.ToolTipText = "delete row";
-            this.action.Width = 60;
-            // 
-            // pPartyPackDetailsId
-            // 
-            this.pPartyPackDetailsId.HeaderText = "PartyPackDetailsId";
-            this.pPartyPackDetailsId.MinimumWidth = 6;
-            this.pPartyPackDetailsId.Name = "pPartyPackDetailsId";
-            this.pPartyPackDetailsId.Width = 125;
-            // 
-            // dfProductid
-            // 
-            this.dfProductid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dfProductid.HeaderText = "Productid";
-            this.dfProductid.Name = "dfProductid";
-            this.dfProductid.Width = 101;
-            // 
-            // dfproducttype
-            // 
-            this.dfproducttype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dfproducttype.HeaderText = "Producttype";
-            this.dfproducttype.Name = "dfproducttype";
-            this.dfproducttype.Width = 119;
             // 
             // dgv_packcustom
             // 
@@ -1085,58 +1024,6 @@
             this.dgv_packcustom.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_packcustom_CellContentClick);
             this.dgv_packcustom.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_packcustom_CellValueChanged);
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Slno";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 66;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Custom Product";
-            this.dataGridViewTextBoxColumn2.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // cmmenucategory
-            // 
-            this.cmmenucategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cmmenucategory.HeaderText = "Menu Category";
-            this.cmmenucategory.MinimumWidth = 6;
-            this.cmmenucategory.Name = "cmmenucategory";
-            this.cmmenucategory.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.cmmenucategory.Width = 111;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Quantity";
-            this.dataGridViewTextBoxColumn3.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Width = 93;
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewImageColumn1.HeaderText = "Action";
-            this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.dataGridViewImageColumn1.MinimumWidth = 2;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.ToolTipText = "delete row";
-            this.dataGridViewImageColumn1.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "PartyPackDetailsId";
-            this.dataGridViewTextBoxColumn4.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.Visible = false;
-            this.dataGridViewTextBoxColumn4.Width = 125;
-            // 
             // dgv_card
             // 
             this.dgv_card.AllowUserToAddRows = false;
@@ -1158,7 +1045,8 @@
             this.dataGridViewTextBoxColumn7,
             this.cproductid,
             this.cproducttype,
-            this.cardppcid});
+            this.cardppcid,
+            this.cardhsn});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1178,77 +1066,6 @@
             this.dgv_card.TabIndex = 30;
             this.dgv_card.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_card_CellValueChanged);
             this.dgv_card.CurrentCellDirtyStateChanged += new System.EventHandler(this.dgv_card_CurrentCellDirtyStateChanged);
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Slno";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 66;
-            // 
-            // cselect
-            // 
-            this.cselect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.cselect.HeaderText = "Select";
-            this.cselect.MinimumWidth = 6;
-            this.cselect.Name = "cselect";
-            this.cselect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.cselect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.cselect.Width = 79;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Product";
-            this.dataGridViewTextBoxColumn6.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewComboBoxColumn1.HeaderText = "Menu Category";
-            this.dataGridViewComboBoxColumn1.MinimumWidth = 6;
-            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            this.dataGridViewComboBoxColumn1.ReadOnly = true;
-            this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewComboBoxColumn1.Width = 111;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn7.HeaderText = "Quantity";
-            this.dataGridViewTextBoxColumn7.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.Width = 93;
-            // 
-            // cproductid
-            // 
-            this.cproductid.HeaderText = "Productid";
-            this.cproductid.MinimumWidth = 6;
-            this.cproductid.Name = "cproductid";
-            this.cproductid.Visible = false;
-            this.cproductid.Width = 125;
-            // 
-            // cproducttype
-            // 
-            this.cproducttype.HeaderText = "Producttype";
-            this.cproducttype.MinimumWidth = 6;
-            this.cproducttype.Name = "cproducttype";
-            this.cproducttype.Visible = false;
-            this.cproducttype.Width = 125;
-            // 
-            // cardppcid
-            // 
-            this.cardppcid.HeaderText = "packdetailsid";
-            this.cardppcid.MinimumWidth = 6;
-            this.cardppcid.Name = "cardppcid";
-            this.cardppcid.Width = 125;
             // 
             // dgv_gift
             // 
@@ -1270,7 +1087,8 @@
             this.dataGridViewTextBoxColumn11,
             this.gProductid,
             this.gproducttype,
-            this.gidtppcid});
+            this.gidtppcid,
+            this.ghsn});
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1288,64 +1106,6 @@
             this.dgv_gift.RowTemplate.Height = 44;
             this.dgv_gift.Size = new System.Drawing.Size(860, 183);
             this.dgv_gift.TabIndex = 31;
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewTextBoxColumn9.HeaderText = "Slno";
-            this.dataGridViewTextBoxColumn9.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.ReadOnly = true;
-            this.dataGridViewTextBoxColumn9.Width = 66;
-            // 
-            // gselectiems
-            // 
-            this.gselectiems.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.gselectiems.HeaderText = "Select";
-            this.gselectiems.MinimumWidth = 6;
-            this.gselectiems.Name = "gselectiems";
-            this.gselectiems.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn10.HeaderText = "Product ";
-            this.dataGridViewTextBoxColumn10.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.ReadOnly = true;
-            this.dataGridViewTextBoxColumn10.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn11.HeaderText = "Quantity";
-            this.dataGridViewTextBoxColumn11.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.Width = 93;
-            // 
-            // gProductid
-            // 
-            this.gProductid.HeaderText = "Productid";
-            this.gProductid.MinimumWidth = 6;
-            this.gProductid.Name = "gProductid";
-            this.gProductid.Visible = false;
-            this.gProductid.Width = 125;
-            // 
-            // gproducttype
-            // 
-            this.gproducttype.HeaderText = "ProductType";
-            this.gproducttype.MinimumWidth = 6;
-            this.gproducttype.Name = "gproducttype";
-            this.gproducttype.Visible = false;
-            this.gproducttype.Width = 125;
-            // 
-            // gidtppcid
-            // 
-            this.gidtppcid.HeaderText = "packdetailsid";
-            this.gidtppcid.MinimumWidth = 6;
-            this.gidtppcid.Name = "gidtppcid";
-            this.gidtppcid.Width = 125;
             // 
             // tlp_subcategory
             // 
@@ -1434,7 +1194,7 @@
             this.pnl_hidecontrl.Controls.Add(this.chb_active);
             this.pnl_hidecontrl.Location = new System.Drawing.Point(11, 6);
             this.pnl_hidecontrl.Name = "pnl_hidecontrl";
-            this.pnl_hidecontrl.Size = new System.Drawing.Size(732, 464);
+            this.pnl_hidecontrl.Size = new System.Drawing.Size(56, 64);
             this.pnl_hidecontrl.TabIndex = 177;
             this.pnl_hidecontrl.Visible = false;
             // 
@@ -1482,13 +1242,13 @@
             this.txtCgstPrcnt_venue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCgstPrcnt_venue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtCgstPrcnt_venue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCgstPrcnt_venue.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCgstPrcnt_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.txtCgstPrcnt_venue.Location = new System.Drawing.Point(581, 219);
             this.txtCgstPrcnt_venue.Multiline = true;
             this.txtCgstPrcnt_venue.Name = "txtCgstPrcnt_venue";
             this.txtCgstPrcnt_venue.ReadOnly = true;
-            this.txtCgstPrcnt_venue.Size = new System.Drawing.Size(693, 27);
+            this.txtCgstPrcnt_venue.Size = new System.Drawing.Size(17, 27);
             this.txtCgstPrcnt_venue.TabIndex = 295;
             // 
             // txtSgstPrcnt_venue
@@ -1496,13 +1256,13 @@
             this.txtSgstPrcnt_venue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSgstPrcnt_venue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtSgstPrcnt_venue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSgstPrcnt_venue.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSgstPrcnt_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.txtSgstPrcnt_venue.Location = new System.Drawing.Point(584, 177);
             this.txtSgstPrcnt_venue.Multiline = true;
             this.txtSgstPrcnt_venue.Name = "txtSgstPrcnt_venue";
             this.txtSgstPrcnt_venue.ReadOnly = true;
-            this.txtSgstPrcnt_venue.Size = new System.Drawing.Size(693, 28);
+            this.txtSgstPrcnt_venue.Size = new System.Drawing.Size(17, 28);
             this.txtSgstPrcnt_venue.TabIndex = 294;
             // 
             // lbligst_venue
@@ -1605,8 +1365,7 @@
             this.txthsncode.Location = new System.Drawing.Point(28, 90);
             this.txthsncode.Multiline = true;
             this.txthsncode.Name = "txthsncode";
-            this.txthsncode.ReadOnly = true;
-            this.txthsncode.Size = new System.Drawing.Size(693, 28);
+            this.txthsncode.Size = new System.Drawing.Size(17, 28);
             this.txthsncode.TabIndex = 274;
             // 
             // tlp_cgst_sgst_text
@@ -1739,7 +1498,7 @@
             this.txtminadvamt.Location = new System.Drawing.Point(252, 336);
             this.txtminadvamt.Multiline = true;
             this.txtminadvamt.Name = "txtminadvamt";
-            this.txtminadvamt.Size = new System.Drawing.Size(693, 27);
+            this.txtminadvamt.Size = new System.Drawing.Size(17, 27);
             this.txtminadvamt.TabIndex = 267;
             this.txtminadvamt.Text = "0.00";
             this.txtminadvamt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AllowDecimalOnly);
@@ -1785,7 +1544,7 @@
             this.cmbVatPrcnt_cake.FormattingEnabled = true;
             this.cmbVatPrcnt_cake.Location = new System.Drawing.Point(252, 119);
             this.cmbVatPrcnt_cake.Name = "cmbVatPrcnt_cake";
-            this.cmbVatPrcnt_cake.Size = new System.Drawing.Size(693, 26);
+            this.cmbVatPrcnt_cake.Size = new System.Drawing.Size(17, 26);
             this.cmbVatPrcnt_cake.TabIndex = 262;
             // 
             // cmbIgstPrcnt_cake
@@ -1799,7 +1558,7 @@
             this.cmbIgstPrcnt_cake.FormattingEnabled = true;
             this.cmbIgstPrcnt_cake.Location = new System.Drawing.Point(252, 180);
             this.cmbIgstPrcnt_cake.Name = "cmbIgstPrcnt_cake";
-            this.cmbIgstPrcnt_cake.Size = new System.Drawing.Size(693, 26);
+            this.cmbIgstPrcnt_cake.Size = new System.Drawing.Size(17, 26);
             this.cmbIgstPrcnt_cake.TabIndex = 261;
             this.cmbIgstPrcnt_cake.SelectedIndexChanged += new System.EventHandler(this.cmbIgstPrcnt_cake_SelectedIndexChanged);
             // 
@@ -1814,7 +1573,7 @@
             this.txtCgstPrcnt_cake.Multiline = true;
             this.txtCgstPrcnt_cake.Name = "txtCgstPrcnt_cake";
             this.txtCgstPrcnt_cake.ReadOnly = true;
-            this.txtCgstPrcnt_cake.Size = new System.Drawing.Size(693, 27);
+            this.txtCgstPrcnt_cake.Size = new System.Drawing.Size(17, 27);
             this.txtCgstPrcnt_cake.TabIndex = 260;
             // 
             // txtSgstPrcnt_cake
@@ -1828,7 +1587,7 @@
             this.txtSgstPrcnt_cake.Multiline = true;
             this.txtSgstPrcnt_cake.Name = "txtSgstPrcnt_cake";
             this.txtSgstPrcnt_cake.ReadOnly = true;
-            this.txtSgstPrcnt_cake.Size = new System.Drawing.Size(693, 28);
+            this.txtSgstPrcnt_cake.Size = new System.Drawing.Size(17, 28);
             this.txtSgstPrcnt_cake.TabIndex = 259;
             // 
             // btndel_cake
@@ -1878,7 +1637,7 @@
             this.cmbVatPrcnt.FormattingEnabled = true;
             this.cmbVatPrcnt.Location = new System.Drawing.Point(252, 212);
             this.cmbVatPrcnt.Name = "cmbVatPrcnt";
-            this.cmbVatPrcnt.Size = new System.Drawing.Size(693, 26);
+            this.cmbVatPrcnt.Size = new System.Drawing.Size(17, 26);
             this.cmbVatPrcnt.TabIndex = 12;
             // 
             // cmbIgstPrcnt
@@ -1892,7 +1651,7 @@
             this.cmbIgstPrcnt.FormattingEnabled = true;
             this.cmbIgstPrcnt.Location = new System.Drawing.Point(252, 142);
             this.cmbIgstPrcnt.Name = "cmbIgstPrcnt";
-            this.cmbIgstPrcnt.Size = new System.Drawing.Size(693, 26);
+            this.cmbIgstPrcnt.Size = new System.Drawing.Size(17, 26);
             this.cmbIgstPrcnt.TabIndex = 13;
             this.cmbIgstPrcnt.SelectedIndexChanged += new System.EventHandler(this.cmbIgstPrcnt_SelectedIndexChanged);
             // 
@@ -2120,7 +1879,7 @@
             // pnl_cakeconfig
             // 
             this.pnl_cakeconfig.Controls.Add(this.tableLayoutPanel2);
-            this.pnl_cakeconfig.Location = new System.Drawing.Point(136, 30);
+            this.pnl_cakeconfig.Location = new System.Drawing.Point(759, 30);
             this.pnl_cakeconfig.Name = "pnl_cakeconfig";
             this.pnl_cakeconfig.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.pnl_cakeconfig.Size = new System.Drawing.Size(614, 381);
@@ -2996,7 +2755,7 @@
             // pnl_menu
             // 
             this.pnl_menu.Controls.Add(this.tableLayoutPanel43);
-            this.pnl_menu.Location = new System.Drawing.Point(857, 12);
+            this.pnl_menu.Location = new System.Drawing.Point(759, 12);
             this.pnl_menu.Name = "pnl_menu";
             this.pnl_menu.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.pnl_menu.Size = new System.Drawing.Size(782, 561);
@@ -3322,7 +3081,8 @@
             this.dgvcombotaxamt,
             this.opretaxamt,
             this.osaledisper,
-            this.osaledisamt});
+            this.osaledisamt,
+            this.phsncode});
             dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3345,10 +3105,530 @@
             this.Dgv_Selected_Item.Size = new System.Drawing.Size(762, 380);
             this.Dgv_Selected_Item.TabIndex = 342;
             // 
+            // tlp_menu_main
+            // 
+            this.tlp_menu_main.ColumnCount = 1;
+            this.tlp_menu_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_menu_main.Controls.Add(this.tlp_footer, 0, 1);
+            this.tlp_menu_main.Controls.Add(this.flp_productview, 0, 0);
+            this.tlp_menu_main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_menu_main.Location = new System.Drawing.Point(0, 0);
+            this.tlp_menu_main.Name = "tlp_menu_main";
+            this.tlp_menu_main.RowCount = 2;
+            this.tlp_menu_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_menu_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_menu_main.Size = new System.Drawing.Size(762, 380);
+            this.tlp_menu_main.TabIndex = 341;
+            // 
+            // tlp_footer
+            // 
+            this.tlp_footer.BackColor = System.Drawing.Color.Transparent;
+            this.tlp_footer.ColumnCount = 3;
+            this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_footer.Controls.Add(this.btnprev, 0, 0);
+            this.tlp_footer.Controls.Add(this.lblpagerinfo, 1, 0);
+            this.tlp_footer.Controls.Add(this.btnnext, 2, 0);
+            this.tlp_footer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_footer.Location = new System.Drawing.Point(3, 327);
+            this.tlp_footer.Name = "tlp_footer";
+            this.tlp_footer.RowCount = 1;
+            this.tlp_footer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_footer.Size = new System.Drawing.Size(756, 50);
+            this.tlp_footer.TabIndex = 341;
+            // 
+            // btnprev
+            // 
+            this.btnprev.BackgroundImage = global::FoodandBeverage.Properties.Resources.categ_back;
+            this.btnprev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnprev.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnprev.FlatAppearance.BorderSize = 0;
+            this.btnprev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnprev.Location = new System.Drawing.Point(3, 3);
+            this.btnprev.Name = "btnprev";
+            this.btnprev.Size = new System.Drawing.Size(60, 44);
+            this.btnprev.TabIndex = 0;
+            this.btnprev.UseVisualStyleBackColor = true;
+            this.btnprev.Click += new System.EventHandler(this.btnprev_Click);
+            // 
+            // lblpagerinfo
+            // 
+            this.lblpagerinfo.AutoSize = true;
+            this.lblpagerinfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblpagerinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblpagerinfo.Location = new System.Drawing.Point(69, 0);
+            this.lblpagerinfo.Name = "lblpagerinfo";
+            this.lblpagerinfo.Size = new System.Drawing.Size(618, 50);
+            this.lblpagerinfo.TabIndex = 0;
+            this.lblpagerinfo.Text = "Midasfun";
+            this.lblpagerinfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnnext
+            // 
+            this.btnnext.BackgroundImage = global::FoodandBeverage.Properties.Resources.categ_next;
+            this.btnnext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnnext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnnext.FlatAppearance.BorderSize = 0;
+            this.btnnext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnnext.Location = new System.Drawing.Point(693, 3);
+            this.btnnext.Name = "btnnext";
+            this.btnnext.Size = new System.Drawing.Size(60, 44);
+            this.btnnext.TabIndex = 291;
+            this.btnnext.UseVisualStyleBackColor = true;
+            this.btnnext.Click += new System.EventHandler(this.btnnext_Click);
+            // 
+            // flp_productview
+            // 
+            this.flp_productview.AutoScroll = true;
+            this.flp_productview.BackColor = System.Drawing.Color.White;
+            this.flp_productview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flp_productview.Location = new System.Drawing.Point(3, 3);
+            this.flp_productview.Name = "flp_productview";
+            this.flp_productview.Size = new System.Drawing.Size(756, 318);
+            this.flp_productview.TabIndex = 340;
+            this.flp_productview.Visible = false;
+            // 
+            // pnl_venue
+            // 
+            this.pnl_venue.BackColor = System.Drawing.SystemColors.Control;
+            this.pnl_venue.Controls.Add(this.tableLayoutPanel6);
+            this.pnl_venue.Location = new System.Drawing.Point(759, 31);
+            this.pnl_venue.Name = "pnl_venue";
+            this.pnl_venue.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.pnl_venue.Size = new System.Drawing.Size(607, 363);
+            this.pnl_venue.TabIndex = 340;
+            this.pnl_venue.Visible = false;
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Controls.Add(this.tlp_venue, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel9, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel10, 0, 2);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(7, 6);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 3;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.41463F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.58537F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(593, 351);
+            this.tableLayoutPanel6.TabIndex = 0;
+            // 
+            // tlp_venue
+            // 
+            this.tlp_venue.BackColor = System.Drawing.SystemColors.Control;
+            this.tlp_venue.ColumnCount = 4;
+            this.tlp_venue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_venue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.47644F));
+            this.tlp_venue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_venue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.52356F));
+            this.tlp_venue.Controls.Add(this.label20, 0, 0);
+            this.tlp_venue.Controls.Add(this.txtvenuecost, 3, 0);
+            this.tlp_venue.Controls.Add(this.label21, 2, 0);
+            this.tlp_venue.Controls.Add(this.txtvenuename, 1, 0);
+            this.tlp_venue.Controls.Add(this.label22, 0, 1);
+            this.tlp_venue.Controls.Add(this.txtdescription, 1, 1);
+            this.tlp_venue.Controls.Add(this.label23, 2, 1);
+            this.tlp_venue.Controls.Add(this.cmb_tax_venue, 3, 1);
+            this.tlp_venue.Controls.Add(this.label24, 0, 2);
+            this.tlp_venue.Controls.Add(this.cmb_taxtype_venue, 1, 2);
+            this.tlp_venue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_venue.Location = new System.Drawing.Point(3, 43);
+            this.tlp_venue.Name = "tlp_venue";
+            this.tlp_venue.RowCount = 6;
+            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlp_venue.Size = new System.Drawing.Size(587, 254);
+            this.tlp_venue.TabIndex = 3;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.BackColor = System.Drawing.Color.Transparent;
+            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.label20.ForeColor = System.Drawing.Color.Black;
+            this.label20.Location = new System.Drawing.Point(3, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(90, 42);
+            this.label20.TabIndex = 231;
+            this.label20.Text = "Venue Name";
+            // 
+            // txtvenuecost
+            // 
+            this.txtvenuecost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtvenuecost.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtvenuecost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtvenuecost.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.txtvenuecost.Location = new System.Drawing.Point(385, 3);
+            this.txtvenuecost.Multiline = true;
+            this.txtvenuecost.Name = "txtvenuecost";
+            this.txtvenuecost.Size = new System.Drawing.Size(199, 36);
+            this.txtvenuecost.TabIndex = 258;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.BackColor = System.Drawing.Color.Transparent;
+            this.label21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.label21.ForeColor = System.Drawing.Color.Black;
+            this.label21.Location = new System.Drawing.Point(298, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(81, 42);
+            this.label21.TabIndex = 254;
+            this.label21.Text = "Venue Cost";
+            // 
+            // txtvenuename
+            // 
+            this.txtvenuename.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtvenuename.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtvenuename.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtvenuename.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.txtvenuename.Location = new System.Drawing.Point(99, 3);
+            this.txtvenuename.Multiline = true;
+            this.txtvenuename.Name = "txtvenuename";
+            this.txtvenuename.Size = new System.Drawing.Size(193, 36);
+            this.txtvenuename.TabIndex = 256;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.BackColor = System.Drawing.Color.Transparent;
+            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.label22.ForeColor = System.Drawing.Color.Black;
+            this.label22.Location = new System.Drawing.Point(3, 42);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(90, 42);
+            this.label22.TabIndex = 255;
+            this.label22.Text = "Description";
+            // 
+            // txtdescription
+            // 
+            this.txtdescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtdescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtdescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtdescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.txtdescription.Location = new System.Drawing.Point(99, 45);
+            this.txtdescription.Multiline = true;
+            this.txtdescription.Name = "txtdescription";
+            this.txtdescription.Size = new System.Drawing.Size(193, 36);
+            this.txtdescription.TabIndex = 257;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.BackColor = System.Drawing.Color.Transparent;
+            this.label23.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.label23.ForeColor = System.Drawing.Color.Black;
+            this.label23.Location = new System.Drawing.Point(298, 42);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(81, 42);
+            this.label23.TabIndex = 262;
+            this.label23.Text = "Tax";
+            // 
+            // cmb_tax_venue
+            // 
+            this.cmb_tax_venue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.cmb_tax_venue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmb_tax_venue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_tax_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmb_tax_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.cmb_tax_venue.FormattingEnabled = true;
+            this.cmb_tax_venue.Items.AddRange(new object[] {
+            "Inclusive",
+            "Exclusive"});
+            this.cmb_tax_venue.Location = new System.Drawing.Point(385, 45);
+            this.cmb_tax_venue.Name = "cmb_tax_venue";
+            this.cmb_tax_venue.Size = new System.Drawing.Size(199, 26);
+            this.cmb_tax_venue.TabIndex = 263;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.BackColor = System.Drawing.Color.Transparent;
+            this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.label24.ForeColor = System.Drawing.Color.Black;
+            this.label24.Location = new System.Drawing.Point(3, 84);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(90, 42);
+            this.label24.TabIndex = 264;
+            this.label24.Text = "Tax Type";
+            // 
+            // cmb_taxtype_venue
+            // 
+            this.cmb_taxtype_venue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.cmb_taxtype_venue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmb_taxtype_venue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_taxtype_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmb_taxtype_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.cmb_taxtype_venue.FormattingEnabled = true;
+            this.cmb_taxtype_venue.Items.AddRange(new object[] {
+            "GST",
+            "VAT"});
+            this.cmb_taxtype_venue.Location = new System.Drawing.Point(99, 87);
+            this.cmb_taxtype_venue.Name = "cmb_taxtype_venue";
+            this.cmb_taxtype_venue.Size = new System.Drawing.Size(193, 26);
+            this.cmb_taxtype_venue.TabIndex = 265;
+            this.cmb_taxtype_venue.SelectedValueChanged += new System.EventHandler(this.cmb_taxtype_venue_SelectedValueChanged);
+            // 
+            // tableLayoutPanel9
+            // 
+            this.tableLayoutPanel9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
+            this.tableLayoutPanel9.ColumnCount = 3;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 17F));
+            this.tableLayoutPanel9.Controls.Add(this.btn_cls_venue, 1, 0);
+            this.tableLayoutPanel9.Controls.Add(this.label33, 0, 0);
+            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
+            this.tableLayoutPanel9.RowCount = 1;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(587, 34);
+            this.tableLayoutPanel9.TabIndex = 2;
+            // 
+            // btn_cls_venue
+            // 
+            this.btn_cls_venue.BackColor = System.Drawing.Color.White;
+            this.btn_cls_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_cls_venue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_cls_venue.FlatAppearance.BorderSize = 0;
+            this.btn_cls_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_cls_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.btn_cls_venue.ForeColor = System.Drawing.Color.Red;
+            this.btn_cls_venue.Location = new System.Drawing.Point(538, 4);
+            this.btn_cls_venue.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_cls_venue.Name = "btn_cls_venue";
+            this.btn_cls_venue.Size = new System.Drawing.Size(28, 26);
+            this.btn_cls_venue.TabIndex = 1;
+            this.btn_cls_venue.Text = "X";
+            this.btn_cls_venue.UseVisualStyleBackColor = false;
+            this.btn_cls_venue.Click += new System.EventHandler(this.btn_cls_venue_Click);
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
+            this.label33.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.ForeColor = System.Drawing.Color.White;
+            this.label33.Location = new System.Drawing.Point(3, 0);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(528, 34);
+            this.label33.TabIndex = 2;
+            this.label33.Text = "Venue Registration";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel10
+            // 
+            this.tableLayoutPanel10.ColumnCount = 7;
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel10.Controls.Add(this.btn_refresh_venue, 5, 0);
+            this.tableLayoutPanel10.Controls.Add(this.btn_close_venue, 6, 0);
+            this.tableLayoutPanel10.Controls.Add(this.btnsave_venue, 1, 0);
+            this.tableLayoutPanel10.Controls.Add(this.btnsearch_venue, 3, 0);
+            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 303);
+            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
+            this.tableLayoutPanel10.RowCount = 1;
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(587, 45);
+            this.tableLayoutPanel10.TabIndex = 253;
+            // 
+            // btn_refresh_venue
+            // 
+            this.btn_refresh_venue.BackColor = System.Drawing.Color.Transparent;
+            this.btn_refresh_venue.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_REFESH;
+            this.btn_refresh_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_refresh_venue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_refresh_venue.FlatAppearance.BorderSize = 0;
+            this.btn_refresh_venue.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_refresh_venue.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_refresh_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_refresh_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_refresh_venue.Location = new System.Drawing.Point(425, 4);
+            this.btn_refresh_venue.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_refresh_venue.Name = "btn_refresh_venue";
+            this.btn_refresh_venue.Size = new System.Drawing.Size(75, 37);
+            this.btn_refresh_venue.TabIndex = 253;
+            this.btn_refresh_venue.UseVisualStyleBackColor = false;
+            this.btn_refresh_venue.Click += new System.EventHandler(this.btn_refresh_venue_Click);
+            // 
+            // btn_close_venue
+            // 
+            this.btn_close_venue.BackColor = System.Drawing.Color.Transparent;
+            this.btn_close_venue.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_CANCEL;
+            this.btn_close_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_close_venue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_close_venue.FlatAppearance.BorderSize = 0;
+            this.btn_close_venue.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_close_venue.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_close_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_close_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_close_venue.Location = new System.Drawing.Point(508, 4);
+            this.btn_close_venue.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_close_venue.Name = "btn_close_venue";
+            this.btn_close_venue.Size = new System.Drawing.Size(75, 37);
+            this.btn_close_venue.TabIndex = 254;
+            this.btn_close_venue.UseVisualStyleBackColor = false;
+            this.btn_close_venue.Click += new System.EventHandler(this.btn_close_venue_Click);
+            // 
+            // btnsave_venue
+            // 
+            this.btnsave_venue.BackColor = System.Drawing.Color.Transparent;
+            this.btnsave_venue.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_SUBMIT;
+            this.btnsave_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnsave_venue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnsave_venue.FlatAppearance.BorderSize = 0;
+            this.btnsave_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnsave_venue.Location = new System.Drawing.Point(260, 3);
+            this.btnsave_venue.Name = "btnsave_venue";
+            this.btnsave_venue.Size = new System.Drawing.Size(75, 39);
+            this.btnsave_venue.TabIndex = 1;
+            this.btnsave_venue.UseVisualStyleBackColor = false;
+            this.btnsave_venue.Click += new System.EventHandler(this.btnsave_venue_Click);
+            // 
+            // btnsearch_venue
+            // 
+            this.btnsearch_venue.BackColor = System.Drawing.Color.Transparent;
+            this.btnsearch_venue.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_searchbutton;
+            this.btnsearch_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnsearch_venue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnsearch_venue.FlatAppearance.BorderSize = 0;
+            this.btnsearch_venue.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnsearch_venue.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnsearch_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnsearch_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnsearch_venue.Location = new System.Drawing.Point(342, 4);
+            this.btnsearch_venue.Margin = new System.Windows.Forms.Padding(4);
+            this.btnsearch_venue.Name = "btnsearch_venue";
+            this.btnsearch_venue.Size = new System.Drawing.Size(75, 37);
+            this.btnsearch_venue.TabIndex = 255;
+            this.btnsearch_venue.UseVisualStyleBackColor = false;
+            this.btnsearch_venue.Click += new System.EventHandler(this.btnsearch_venue_Click);
+            // 
+            // txthsn_venue
+            // 
+            this.txthsn_venue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txthsn_venue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txthsn_venue.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txthsn_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.txthsn_venue.Location = new System.Drawing.Point(395, 410);
+            this.txthsn_venue.Multiline = true;
+            this.txthsn_venue.Name = "txthsn_venue";
+            this.txthsn_venue.Size = new System.Drawing.Size(0, 28);
+            this.txthsn_venue.TabIndex = 299;
+            // 
+            // txthsn_cake
+            // 
+            this.txthsn_cake.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txthsn_cake.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txthsn_cake.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txthsn_cake.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.txthsn_cake.Location = new System.Drawing.Point(395, 373);
+            this.txthsn_cake.Multiline = true;
+            this.txthsn_cake.Name = "txthsn_cake";
+            this.txthsn_cake.Size = new System.Drawing.Size(0, 28);
+            this.txthsn_cake.TabIndex = 300;
+            // 
+            // lblhsn_cake
+            // 
+            this.lblhsn_cake.AutoSize = true;
+            this.lblhsn_cake.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblhsn_cake.Location = new System.Drawing.Point(294, 381);
+            this.lblhsn_cake.Name = "lblhsn_cake";
+            this.lblhsn_cake.Size = new System.Drawing.Size(79, 16);
+            this.lblhsn_cake.TabIndex = 301;
+            this.lblhsn_cake.Text = "HSN code";
+            this.lblhsn_cake.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblhsn_venue
+            // 
+            this.lblhsn_venue.AutoSize = true;
+            this.lblhsn_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblhsn_venue.Location = new System.Drawing.Point(294, 419);
+            this.lblhsn_venue.Name = "lblhsn_venue";
+            this.lblhsn_venue.Size = new System.Drawing.Size(79, 16);
+            this.lblhsn_venue.TabIndex = 302;
+            this.lblhsn_venue.Text = "HSN code";
+            this.lblhsn_venue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Slno";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 66;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Custom Product";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // cmmenucategory
+            // 
+            this.cmmenucategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cmmenucategory.HeaderText = "Category";
+            this.cmmenucategory.MinimumWidth = 6;
+            this.cmmenucategory.Name = "cmmenucategory";
+            this.cmmenucategory.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.cmmenucategory.Width = 79;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Quantity";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 93;
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewImageColumn1.HeaderText = "Action";
+            this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.dataGridViewImageColumn1.MinimumWidth = 2;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ToolTipText = "delete row";
+            this.dataGridViewImageColumn1.Width = 60;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "PartyPackDetailsId";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.Visible = false;
+            this.dataGridViewTextBoxColumn4.Width = 125;
+            // 
             // ipaction
             // 
             this.ipaction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ipaction.Frozen = true;
             this.ipaction.HeaderText = "";
             this.ipaction.Image = global::FoodandBeverage.Properties.Resources.backspace;
             this.ipaction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
@@ -3888,485 +4168,242 @@
             this.osaledisamt.Visible = false;
             this.osaledisamt.Width = 145;
             // 
-            // tlp_menu_main
+            // phsncode
             // 
-            this.tlp_menu_main.ColumnCount = 1;
-            this.tlp_menu_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_menu_main.Controls.Add(this.tlp_footer, 0, 1);
-            this.tlp_menu_main.Controls.Add(this.flp_productview, 0, 0);
-            this.tlp_menu_main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_menu_main.Location = new System.Drawing.Point(0, 0);
-            this.tlp_menu_main.Name = "tlp_menu_main";
-            this.tlp_menu_main.RowCount = 2;
-            this.tlp_menu_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_menu_main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_menu_main.Size = new System.Drawing.Size(762, 380);
-            this.tlp_menu_main.TabIndex = 341;
+            this.phsncode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.phsncode.HeaderText = "HSNcode";
+            this.phsncode.Name = "phsncode";
+            this.phsncode.ReadOnly = true;
             // 
-            // tlp_footer
+            // slno
             // 
-            this.tlp_footer.BackColor = System.Drawing.Color.Transparent;
-            this.tlp_footer.ColumnCount = 3;
-            this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_footer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_footer.Controls.Add(this.btnprev, 0, 0);
-            this.tlp_footer.Controls.Add(this.lblpagerinfo, 1, 0);
-            this.tlp_footer.Controls.Add(this.btnnext, 2, 0);
-            this.tlp_footer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_footer.Location = new System.Drawing.Point(3, 327);
-            this.tlp_footer.Name = "tlp_footer";
-            this.tlp_footer.RowCount = 1;
-            this.tlp_footer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_footer.Size = new System.Drawing.Size(756, 50);
-            this.tlp_footer.TabIndex = 341;
+            this.slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.slno.HeaderText = "Slno";
+            this.slno.MinimumWidth = 6;
+            this.slno.Name = "slno";
+            this.slno.Width = 66;
             // 
-            // btnprev
+            // item
             // 
-            this.btnprev.BackgroundImage = global::FoodandBeverage.Properties.Resources.categ_back;
-            this.btnprev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnprev.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnprev.FlatAppearance.BorderSize = 0;
-            this.btnprev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnprev.Location = new System.Drawing.Point(3, 3);
-            this.btnprev.Name = "btnprev";
-            this.btnprev.Size = new System.Drawing.Size(60, 44);
-            this.btnprev.TabIndex = 0;
-            this.btnprev.UseVisualStyleBackColor = true;
-            this.btnprev.Click += new System.EventHandler(this.btnprev_Click);
+            this.item.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.item.HeaderText = "Deafult Product";
+            this.item.MinimumWidth = 6;
+            this.item.Name = "item";
+            this.item.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.item.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // lblpagerinfo
+            // dcategmenu
             // 
-            this.lblpagerinfo.AutoSize = true;
-            this.lblpagerinfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblpagerinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblpagerinfo.Location = new System.Drawing.Point(69, 0);
-            this.lblpagerinfo.Name = "lblpagerinfo";
-            this.lblpagerinfo.Size = new System.Drawing.Size(618, 50);
-            this.lblpagerinfo.TabIndex = 0;
-            this.lblpagerinfo.Text = "Midasfun";
-            this.lblpagerinfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.dcategmenu.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dcategmenu.HeaderText = "Category";
+            this.dcategmenu.MinimumWidth = 6;
+            this.dcategmenu.Name = "dcategmenu";
+            this.dcategmenu.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dcategmenu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dcategmenu.Width = 98;
             // 
-            // btnnext
+            // Qty
             // 
-            this.btnnext.BackgroundImage = global::FoodandBeverage.Properties.Resources.categ_next;
-            this.btnnext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnnext.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnnext.FlatAppearance.BorderSize = 0;
-            this.btnnext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnnext.Location = new System.Drawing.Point(693, 3);
-            this.btnnext.Name = "btnnext";
-            this.btnnext.Size = new System.Drawing.Size(60, 44);
-            this.btnnext.TabIndex = 291;
-            this.btnnext.UseVisualStyleBackColor = true;
-            this.btnnext.Click += new System.EventHandler(this.btnnext_Click);
+            this.Qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Qty.HeaderText = "Quantity";
+            this.Qty.MinimumWidth = 6;
+            this.Qty.Name = "Qty";
+            this.Qty.Width = 93;
             // 
-            // flp_productview
+            // action
             // 
-            this.flp_productview.AutoScroll = true;
-            this.flp_productview.BackColor = System.Drawing.Color.White;
-            this.flp_productview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flp_productview.Location = new System.Drawing.Point(3, 3);
-            this.flp_productview.Name = "flp_productview";
-            this.flp_productview.Size = new System.Drawing.Size(756, 318);
-            this.flp_productview.TabIndex = 340;
-            this.flp_productview.Visible = false;
+            this.action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.action.HeaderText = "Action";
+            this.action.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.action.MinimumWidth = 2;
+            this.action.Name = "action";
+            this.action.ToolTipText = "delete row";
+            this.action.Width = 60;
             // 
-            // pnl_venue
+            // pPartyPackDetailsId
             // 
-            this.pnl_venue.BackColor = System.Drawing.SystemColors.Control;
-            this.pnl_venue.Controls.Add(this.tableLayoutPanel6);
-            this.pnl_venue.Location = new System.Drawing.Point(136, 116);
-            this.pnl_venue.Name = "pnl_venue";
-            this.pnl_venue.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnl_venue.Size = new System.Drawing.Size(607, 363);
-            this.pnl_venue.TabIndex = 340;
-            this.pnl_venue.Visible = false;
+            this.pPartyPackDetailsId.HeaderText = "PartyPackDetailsId";
+            this.pPartyPackDetailsId.MinimumWidth = 6;
+            this.pPartyPackDetailsId.Name = "pPartyPackDetailsId";
+            this.pPartyPackDetailsId.Visible = false;
+            this.pPartyPackDetailsId.Width = 125;
             // 
-            // tableLayoutPanel6
+            // dfProductid
             // 
-            this.tableLayoutPanel6.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel6.ColumnCount = 1;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Controls.Add(this.tlp_venue, 0, 1);
-            this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel9, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel10, 0, 2);
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(7, 6);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 3;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.41463F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.58537F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(593, 351);
-            this.tableLayoutPanel6.TabIndex = 0;
+            this.dfProductid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dfProductid.HeaderText = "Productid";
+            this.dfProductid.Name = "dfProductid";
+            this.dfProductid.Visible = false;
+            this.dfProductid.Width = 101;
             // 
-            // tlp_venue
+            // dfproducttype
             // 
-            this.tlp_venue.BackColor = System.Drawing.SystemColors.Control;
-            this.tlp_venue.ColumnCount = 4;
-            this.tlp_venue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_venue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.47644F));
-            this.tlp_venue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_venue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.52356F));
-            this.tlp_venue.Controls.Add(this.label20, 0, 0);
-            this.tlp_venue.Controls.Add(this.txtvenuecost, 3, 0);
-            this.tlp_venue.Controls.Add(this.label21, 2, 0);
-            this.tlp_venue.Controls.Add(this.txtvenuename, 1, 0);
-            this.tlp_venue.Controls.Add(this.label22, 0, 1);
-            this.tlp_venue.Controls.Add(this.txtdescription, 1, 1);
-            this.tlp_venue.Controls.Add(this.label23, 2, 1);
-            this.tlp_venue.Controls.Add(this.cmb_tax_venue, 3, 1);
-            this.tlp_venue.Controls.Add(this.label24, 0, 2);
-            this.tlp_venue.Controls.Add(this.cmb_taxtype_venue, 1, 2);
-            this.tlp_venue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_venue.Location = new System.Drawing.Point(3, 43);
-            this.tlp_venue.Name = "tlp_venue";
-            this.tlp_venue.RowCount = 6;
-            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_venue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_venue.Size = new System.Drawing.Size(587, 254);
-            this.tlp_venue.TabIndex = 3;
+            this.dfproducttype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dfproducttype.HeaderText = "Producttype";
+            this.dfproducttype.Name = "dfproducttype";
+            this.dfproducttype.Visible = false;
+            this.dfproducttype.Width = 119;
             // 
-            // label20
+            // dhsncode
             // 
-            this.label20.AutoSize = true;
-            this.label20.BackColor = System.Drawing.Color.Transparent;
-            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label20.ForeColor = System.Drawing.Color.Black;
-            this.label20.Location = new System.Drawing.Point(3, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(90, 42);
-            this.label20.TabIndex = 231;
-            this.label20.Text = "Venue Name";
+            this.dhsncode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dhsncode.HeaderText = "Hsncode";
+            this.dhsncode.Name = "dhsncode";
+            this.dhsncode.Width = 98;
             // 
-            // txtvenuecost
+            // dataGridViewTextBoxColumn5
             // 
-            this.txtvenuecost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtvenuecost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtvenuecost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtvenuecost.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txtvenuecost.Location = new System.Drawing.Point(385, 3);
-            this.txtvenuecost.Multiline = true;
-            this.txtvenuecost.Name = "txtvenuecost";
-            this.txtvenuecost.Size = new System.Drawing.Size(199, 36);
-            this.txtvenuecost.TabIndex = 258;
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Slno";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 66;
             // 
-            // label21
+            // cselect
             // 
-            this.label21.AutoSize = true;
-            this.label21.BackColor = System.Drawing.Color.Transparent;
-            this.label21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label21.ForeColor = System.Drawing.Color.Black;
-            this.label21.Location = new System.Drawing.Point(298, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(81, 42);
-            this.label21.TabIndex = 254;
-            this.label21.Text = "Venue Cost";
+            this.cselect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.cselect.HeaderText = "Select";
+            this.cselect.MinimumWidth = 6;
+            this.cselect.Name = "cselect";
+            this.cselect.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.cselect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.cselect.Width = 79;
             // 
-            // txtvenuename
+            // dataGridViewTextBoxColumn6
             // 
-            this.txtvenuename.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtvenuename.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtvenuename.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtvenuename.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txtvenuename.Location = new System.Drawing.Point(99, 3);
-            this.txtvenuename.Multiline = true;
-            this.txtvenuename.Name = "txtvenuename";
-            this.txtvenuename.Size = new System.Drawing.Size(193, 36);
-            this.txtvenuename.TabIndex = 256;
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Product";
+            this.dataGridViewTextBoxColumn6.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            this.dataGridViewTextBoxColumn6.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // label22
+            // dataGridViewComboBoxColumn1
             // 
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.Color.Transparent;
-            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label22.ForeColor = System.Drawing.Color.Black;
-            this.label22.Location = new System.Drawing.Point(3, 42);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(90, 42);
-            this.label22.TabIndex = 255;
-            this.label22.Text = "Description";
+            this.dataGridViewComboBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewComboBoxColumn1.HeaderText = "Menu Category";
+            this.dataGridViewComboBoxColumn1.MinimumWidth = 6;
+            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            this.dataGridViewComboBoxColumn1.ReadOnly = true;
+            this.dataGridViewComboBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewComboBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewComboBoxColumn1.Width = 123;
             // 
-            // txtdescription
+            // dataGridViewTextBoxColumn7
             // 
-            this.txtdescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtdescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtdescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtdescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txtdescription.Location = new System.Drawing.Point(99, 45);
-            this.txtdescription.Multiline = true;
-            this.txtdescription.Name = "txtdescription";
-            this.txtdescription.Size = new System.Drawing.Size(193, 36);
-            this.txtdescription.TabIndex = 257;
+            this.dataGridViewTextBoxColumn7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn7.HeaderText = "Quantity";
+            this.dataGridViewTextBoxColumn7.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.Width = 93;
             // 
-            // label23
+            // cproductid
             // 
-            this.label23.AutoSize = true;
-            this.label23.BackColor = System.Drawing.Color.Transparent;
-            this.label23.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label23.ForeColor = System.Drawing.Color.Black;
-            this.label23.Location = new System.Drawing.Point(298, 42);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(81, 42);
-            this.label23.TabIndex = 262;
-            this.label23.Text = "Tax";
+            this.cproductid.HeaderText = "Productid";
+            this.cproductid.MinimumWidth = 6;
+            this.cproductid.Name = "cproductid";
+            this.cproductid.Visible = false;
+            this.cproductid.Width = 125;
             // 
-            // cmb_tax_venue
+            // cproducttype
             // 
-            this.cmb_tax_venue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.cmb_tax_venue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmb_tax_venue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_tax_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmb_tax_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.cmb_tax_venue.FormattingEnabled = true;
-            this.cmb_tax_venue.Items.AddRange(new object[] {
-            "Inclusive",
-            "Exclusive"});
-            this.cmb_tax_venue.Location = new System.Drawing.Point(385, 45);
-            this.cmb_tax_venue.Name = "cmb_tax_venue";
-            this.cmb_tax_venue.Size = new System.Drawing.Size(199, 26);
-            this.cmb_tax_venue.TabIndex = 263;
+            this.cproducttype.HeaderText = "Producttype";
+            this.cproducttype.MinimumWidth = 6;
+            this.cproducttype.Name = "cproducttype";
+            this.cproducttype.Visible = false;
+            this.cproducttype.Width = 125;
             // 
-            // label24
+            // cardppcid
             // 
-            this.label24.AutoSize = true;
-            this.label24.BackColor = System.Drawing.Color.Transparent;
-            this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label24.ForeColor = System.Drawing.Color.Black;
-            this.label24.Location = new System.Drawing.Point(3, 84);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(90, 42);
-            this.label24.TabIndex = 264;
-            this.label24.Text = "Tax Type";
+            this.cardppcid.HeaderText = "packdetailsid";
+            this.cardppcid.MinimumWidth = 6;
+            this.cardppcid.Name = "cardppcid";
+            this.cardppcid.Visible = false;
+            this.cardppcid.Width = 125;
             // 
-            // cmb_taxtype_venue
+            // cardhsn
             // 
-            this.cmb_taxtype_venue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.cmb_taxtype_venue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmb_taxtype_venue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_taxtype_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmb_taxtype_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.cmb_taxtype_venue.FormattingEnabled = true;
-            this.cmb_taxtype_venue.Items.AddRange(new object[] {
-            "GST",
-            "VAT"});
-            this.cmb_taxtype_venue.Location = new System.Drawing.Point(99, 87);
-            this.cmb_taxtype_venue.Name = "cmb_taxtype_venue";
-            this.cmb_taxtype_venue.Size = new System.Drawing.Size(193, 26);
-            this.cmb_taxtype_venue.TabIndex = 265;
-            this.cmb_taxtype_venue.SelectedValueChanged += new System.EventHandler(this.cmb_taxtype_venue_SelectedValueChanged);
+            this.cardhsn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cardhsn.HeaderText = "HSN Code";
+            this.cardhsn.Name = "cardhsn";
+            this.cardhsn.Width = 110;
             // 
-            // tableLayoutPanel9
+            // dataGridViewTextBoxColumn9
             // 
-            this.tableLayoutPanel9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
-            this.tableLayoutPanel9.ColumnCount = 3;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 17F));
-            this.tableLayoutPanel9.Controls.Add(this.btn_cls_venue, 1, 0);
-            this.tableLayoutPanel9.Controls.Add(this.label33, 0, 0);
-            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
-            this.tableLayoutPanel9.RowCount = 1;
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(587, 34);
-            this.tableLayoutPanel9.TabIndex = 2;
+            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn9.HeaderText = "Slno";
+            this.dataGridViewTextBoxColumn9.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            this.dataGridViewTextBoxColumn9.Width = 66;
             // 
-            // btn_cls_venue
+            // gselectiems
             // 
-            this.btn_cls_venue.BackColor = System.Drawing.Color.White;
-            this.btn_cls_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_cls_venue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_cls_venue.FlatAppearance.BorderSize = 0;
-            this.btn_cls_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cls_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
-            this.btn_cls_venue.ForeColor = System.Drawing.Color.Red;
-            this.btn_cls_venue.Location = new System.Drawing.Point(538, 4);
-            this.btn_cls_venue.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_cls_venue.Name = "btn_cls_venue";
-            this.btn_cls_venue.Size = new System.Drawing.Size(28, 26);
-            this.btn_cls_venue.TabIndex = 1;
-            this.btn_cls_venue.Text = "X";
-            this.btn_cls_venue.UseVisualStyleBackColor = false;
-            this.btn_cls_venue.Click += new System.EventHandler(this.btn_cls_venue_Click);
+            this.gselectiems.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.gselectiems.HeaderText = "Select";
+            this.gselectiems.MinimumWidth = 6;
+            this.gselectiems.Name = "gselectiems";
+            this.gselectiems.Width = 60;
             // 
-            // label33
+            // dataGridViewTextBoxColumn10
             // 
-            this.label33.AutoSize = true;
-            this.label33.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(80)))), ((int)(((byte)(185)))));
-            this.label33.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.ForeColor = System.Drawing.Color.White;
-            this.label33.Location = new System.Drawing.Point(3, 0);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(528, 34);
-            this.label33.TabIndex = 2;
-            this.label33.Text = "Venue Registration";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn10.HeaderText = "Product ";
+            this.dataGridViewTextBoxColumn10.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            this.dataGridViewTextBoxColumn10.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewTextBoxColumn10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // tableLayoutPanel10
+            // dataGridViewTextBoxColumn11
             // 
-            this.tableLayoutPanel10.ColumnCount = 7;
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel10.Controls.Add(this.btn_refresh_venue, 5, 0);
-            this.tableLayoutPanel10.Controls.Add(this.btn_close_venue, 6, 0);
-            this.tableLayoutPanel10.Controls.Add(this.btnsave_venue, 1, 0);
-            this.tableLayoutPanel10.Controls.Add(this.btnsearch_venue, 3, 0);
-            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 303);
-            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
-            this.tableLayoutPanel10.RowCount = 1;
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(587, 45);
-            this.tableLayoutPanel10.TabIndex = 253;
+            this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn11.HeaderText = "Quantity";
+            this.dataGridViewTextBoxColumn11.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            this.dataGridViewTextBoxColumn11.Width = 93;
             // 
-            // btn_refresh_venue
+            // gProductid
             // 
-            this.btn_refresh_venue.BackColor = System.Drawing.Color.Transparent;
-            this.btn_refresh_venue.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_REFESH;
-            this.btn_refresh_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_refresh_venue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_refresh_venue.FlatAppearance.BorderSize = 0;
-            this.btn_refresh_venue.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_refresh_venue.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_refresh_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_refresh_venue.Location = new System.Drawing.Point(425, 4);
-            this.btn_refresh_venue.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_refresh_venue.Name = "btn_refresh_venue";
-            this.btn_refresh_venue.Size = new System.Drawing.Size(75, 37);
-            this.btn_refresh_venue.TabIndex = 253;
-            this.btn_refresh_venue.UseVisualStyleBackColor = false;
-            this.btn_refresh_venue.Click += new System.EventHandler(this.btn_refresh_venue_Click);
+            this.gProductid.HeaderText = "Productid";
+            this.gProductid.MinimumWidth = 6;
+            this.gProductid.Name = "gProductid";
+            this.gProductid.Visible = false;
+            this.gProductid.Width = 125;
             // 
-            // btn_close_venue
+            // gproducttype
             // 
-            this.btn_close_venue.BackColor = System.Drawing.Color.Transparent;
-            this.btn_close_venue.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_CANCEL;
-            this.btn_close_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_close_venue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_close_venue.FlatAppearance.BorderSize = 0;
-            this.btn_close_venue.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_close_venue.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_close_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_close_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_close_venue.Location = new System.Drawing.Point(508, 4);
-            this.btn_close_venue.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_close_venue.Name = "btn_close_venue";
-            this.btn_close_venue.Size = new System.Drawing.Size(75, 37);
-            this.btn_close_venue.TabIndex = 254;
-            this.btn_close_venue.UseVisualStyleBackColor = false;
-            this.btn_close_venue.Click += new System.EventHandler(this.btn_close_venue_Click);
+            this.gproducttype.HeaderText = "ProductType";
+            this.gproducttype.MinimumWidth = 6;
+            this.gproducttype.Name = "gproducttype";
+            this.gproducttype.Visible = false;
+            this.gproducttype.Width = 125;
             // 
-            // btnsave_venue
+            // gidtppcid
             // 
-            this.btnsave_venue.BackColor = System.Drawing.Color.Transparent;
-            this.btnsave_venue.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_SUBMIT;
-            this.btnsave_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnsave_venue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnsave_venue.FlatAppearance.BorderSize = 0;
-            this.btnsave_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnsave_venue.Location = new System.Drawing.Point(260, 3);
-            this.btnsave_venue.Name = "btnsave_venue";
-            this.btnsave_venue.Size = new System.Drawing.Size(75, 39);
-            this.btnsave_venue.TabIndex = 1;
-            this.btnsave_venue.UseVisualStyleBackColor = false;
-            this.btnsave_venue.Click += new System.EventHandler(this.btnsave_venue_Click);
+            this.gidtppcid.HeaderText = "packdetailsid";
+            this.gidtppcid.MinimumWidth = 6;
+            this.gidtppcid.Name = "gidtppcid";
+            this.gidtppcid.Visible = false;
+            this.gidtppcid.Width = 125;
             // 
-            // btnsearch_venue
+            // ghsn
             // 
-            this.btnsearch_venue.BackColor = System.Drawing.Color.Transparent;
-            this.btnsearch_venue.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_searchbutton;
-            this.btnsearch_venue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnsearch_venue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnsearch_venue.FlatAppearance.BorderSize = 0;
-            this.btnsearch_venue.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnsearch_venue.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnsearch_venue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnsearch_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnsearch_venue.Location = new System.Drawing.Point(342, 4);
-            this.btnsearch_venue.Margin = new System.Windows.Forms.Padding(4);
-            this.btnsearch_venue.Name = "btnsearch_venue";
-            this.btnsearch_venue.Size = new System.Drawing.Size(75, 37);
-            this.btnsearch_venue.TabIndex = 255;
-            this.btnsearch_venue.UseVisualStyleBackColor = false;
-            this.btnsearch_venue.Click += new System.EventHandler(this.btnsearch_venue_Click);
-            // 
-            // txthsn_venue
-            // 
-            this.txthsn_venue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txthsn_venue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txthsn_venue.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txthsn_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txthsn_venue.Location = new System.Drawing.Point(395, 410);
-            this.txthsn_venue.Multiline = true;
-            this.txthsn_venue.Name = "txthsn_venue";
-            this.txthsn_venue.ReadOnly = true;
-            this.txthsn_venue.Size = new System.Drawing.Size(173, 28);
-            this.txthsn_venue.TabIndex = 299;
-            // 
-            // txthsn_cake
-            // 
-            this.txthsn_cake.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txthsn_cake.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txthsn_cake.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txthsn_cake.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txthsn_cake.Location = new System.Drawing.Point(395, 373);
-            this.txthsn_cake.Multiline = true;
-            this.txthsn_cake.Name = "txthsn_cake";
-            this.txthsn_cake.ReadOnly = true;
-            this.txthsn_cake.Size = new System.Drawing.Size(173, 28);
-            this.txthsn_cake.TabIndex = 300;
-            // 
-            // lblhsn_cake
-            // 
-            this.lblhsn_cake.AutoSize = true;
-            this.lblhsn_cake.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblhsn_cake.Location = new System.Drawing.Point(294, 381);
-            this.lblhsn_cake.Name = "lblhsn_cake";
-            this.lblhsn_cake.Size = new System.Drawing.Size(79, 16);
-            this.lblhsn_cake.TabIndex = 301;
-            this.lblhsn_cake.Text = "HSN code";
-            this.lblhsn_cake.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblhsn_venue
-            // 
-            this.lblhsn_venue.AutoSize = true;
-            this.lblhsn_venue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblhsn_venue.Location = new System.Drawing.Point(294, 419);
-            this.lblhsn_venue.Name = "lblhsn_venue";
-            this.lblhsn_venue.Size = new System.Drawing.Size(79, 16);
-            this.lblhsn_venue.TabIndex = 302;
-            this.lblhsn_venue.Text = "HSN code";
-            this.lblhsn_venue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ghsn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ghsn.HeaderText = "HSN code";
+            this.ghsn.Name = "ghsn";
+            this.ghsn.Width = 107;
             // 
             // FrmPartyPackSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(878, 594);
-            this.Controls.Add(this.pnl_hidecontrl);
-            this.Controls.Add(this.pnl_cakeconfig);
             this.Controls.Add(this.pnl_venue);
+            this.Controls.Add(this.pnl_cakeconfig);
+            this.Controls.Add(this.pnl_hidecontrl);
             this.Controls.Add(this.pnl_menu);
             this.Controls.Add(this.pnl_menucateg);
             this.Controls.Add(this.pnl_packtime);
@@ -4585,12 +4622,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.Button btn_submittime;
         private System.Windows.Forms.CheckBox chk_time_atv_all;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewComboBoxColumn cmmenucategory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.Button btncakerefresh;
         private System.Windows.Forms.Button btnmenu;
         private System.Windows.Forms.Panel pnl_menu;
@@ -4616,6 +4647,51 @@
         private System.Windows.Forms.Button btnnext;
         private System.Windows.Forms.FlowLayoutPanel flp_productview;
         private System.Windows.Forms.DataGridView Dgv_Selected_Item;
+        private System.Windows.Forms.TextBox txthsncode;
+        private System.Windows.Forms.TableLayoutPanel tlp_cgst_sgst_text;
+        private System.Windows.Forms.TableLayoutPanel tlp_sgst_cgst_label;
+        private System.Windows.Forms.Label lblhsncode;
+        private System.Windows.Forms.Button btnvenue;
+        private System.Windows.Forms.Panel pnl_venue;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.TableLayoutPanel tlp_venue;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox txtvenuecost;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox txtvenuename;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox txtdescription;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.ComboBox cmb_tax_venue;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.ComboBox cmb_taxtype_venue;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
+        private System.Windows.Forms.Button btn_cls_venue;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
+        private System.Windows.Forms.Button btn_refresh_venue;
+        private System.Windows.Forms.Button btn_close_venue;
+        private System.Windows.Forms.Button btnsave_venue;
+        private System.Windows.Forms.Button btndel_venue;
+        private System.Windows.Forms.ComboBox cmbVatPrcnt_venue;
+        private System.Windows.Forms.ComboBox cmbIgstPrcnt_venue;
+        private System.Windows.Forms.TextBox txtCgstPrcnt_venue;
+        private System.Windows.Forms.TextBox txtSgstPrcnt_venue;
+        private System.Windows.Forms.Label lbligst_venue;
+        private System.Windows.Forms.Label lblvat_venue;
+        private System.Windows.Forms.Label lblcgst_venue;
+        private System.Windows.Forms.Label lblsgst_venue;
+        private System.Windows.Forms.Button btnsearch_venue;
+        private System.Windows.Forms.Label lblhsn_venue;
+        private System.Windows.Forms.Label lblhsn_cake;
+        private System.Windows.Forms.TextBox txthsn_cake;
+        private System.Windows.Forms.TextBox txthsn_venue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewComboBoxColumn cmmenucategory;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewImageColumn ipaction;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn barcode;
@@ -4666,6 +4742,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn opretaxamt;
         private System.Windows.Forms.DataGridViewTextBoxColumn osaledisper;
         private System.Windows.Forms.DataGridViewTextBoxColumn osaledisamt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn phsncode;
         private System.Windows.Forms.DataGridViewTextBoxColumn slno;
         private System.Windows.Forms.DataGridViewTextBoxColumn item;
         private System.Windows.Forms.DataGridViewComboBoxColumn dcategmenu;
@@ -4674,6 +4751,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pPartyPackDetailsId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dfProductid;
         private System.Windows.Forms.DataGridViewTextBoxColumn dfproducttype;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dhsncode;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewCheckBoxColumn cselect;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
@@ -4682,6 +4760,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cproductid;
         private System.Windows.Forms.DataGridViewTextBoxColumn cproducttype;
         private System.Windows.Forms.DataGridViewTextBoxColumn cardppcid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cardhsn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewCheckBoxColumn gselectiems;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
@@ -4689,44 +4768,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn gProductid;
         private System.Windows.Forms.DataGridViewTextBoxColumn gproducttype;
         private System.Windows.Forms.DataGridViewTextBoxColumn gidtppcid;
-        private System.Windows.Forms.TextBox txthsncode;
-        private System.Windows.Forms.TableLayoutPanel tlp_cgst_sgst_text;
-        private System.Windows.Forms.TableLayoutPanel tlp_sgst_cgst_label;
-        private System.Windows.Forms.Label lblhsncode;
-        private System.Windows.Forms.Button btnvenue;
-        private System.Windows.Forms.Panel pnl_venue;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
-        private System.Windows.Forms.TableLayoutPanel tlp_venue;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox txtvenuecost;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox txtvenuename;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox txtdescription;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.ComboBox cmb_tax_venue;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.ComboBox cmb_taxtype_venue;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
-        private System.Windows.Forms.Button btn_cls_venue;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
-        private System.Windows.Forms.Button btn_refresh_venue;
-        private System.Windows.Forms.Button btn_close_venue;
-        private System.Windows.Forms.Button btnsave_venue;
-        private System.Windows.Forms.Button btndel_venue;
-        private System.Windows.Forms.ComboBox cmbVatPrcnt_venue;
-        private System.Windows.Forms.ComboBox cmbIgstPrcnt_venue;
-        private System.Windows.Forms.TextBox txtCgstPrcnt_venue;
-        private System.Windows.Forms.TextBox txtSgstPrcnt_venue;
-        private System.Windows.Forms.Label lbligst_venue;
-        private System.Windows.Forms.Label lblvat_venue;
-        private System.Windows.Forms.Label lblcgst_venue;
-        private System.Windows.Forms.Label lblsgst_venue;
-        private System.Windows.Forms.Button btnsearch_venue;
-        private System.Windows.Forms.Label lblhsn_venue;
-        private System.Windows.Forms.Label lblhsn_cake;
-        private System.Windows.Forms.TextBox txthsn_cake;
-        private System.Windows.Forms.TextBox txthsn_venue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ghsn;
     }
 }

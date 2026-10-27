@@ -25,5 +25,7 @@ namespace Domain
         public int CreatedBy { get; set; }
         public int BranchId { get; set; }
         public int Status { get; set; }
+        public string HSNCode { get; set; }
+        
     }
 }

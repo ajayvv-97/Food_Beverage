@@ -50,8 +50,9 @@ namespace BLL
             parms.Add("Status", obj.Status);
 
             parms.Add("PackItemType", obj.PackItemType); 
-            parms.Add("ProductId", obj.Productid);       
-            parms.Add("ProductType", obj.ProductType);   
+            parms.Add("ProductId", obj.Productid);
+            parms.Add("ProductType", obj.ProductType);
+            parms.Add("HSNCode", obj.HSNCode);
 
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
@@ -99,6 +100,9 @@ namespace BLL
             parms.Add("TaxType", obj.TaxType);
             parms.Add("TaxSettingsId", obj.TaxSettingsId);
             parms.Add("Tax", obj.Tax);
+            parms.Add("HSNCode", obj.HSNCode);
+
+            
 
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
@@ -124,7 +128,8 @@ namespace BLL
             parms.Add("CreatedBy", obj.CreatedBy);
             parms.Add("BranchId", obj.BranchId);
             parms.Add("Status", obj.Status);
-
+            parms.Add("HSNCode", obj.HSNCode);
+            
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }

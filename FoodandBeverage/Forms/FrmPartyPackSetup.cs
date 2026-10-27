@@ -31,6 +31,7 @@ namespace FoodandBeverage.Forms
         public int PartyPackDetailsId = 5;
         public int Rproductid = 6;
         public int Rproducttype = 7;
+        public int Rhsncode = 8;
 
         public int Cmslno = 0;
         public int Cmitemno = 1;
@@ -48,6 +49,7 @@ namespace FoodandBeverage.Forms
         public int CardProductid = 5;
         public int Cardproducttype = 6;
         public int CardPartyPackDetailsId = 7;
+        public int Cardhsncodeno = 8;
 
         public int Giftslno = 0;
         public int Giftselectno = 1;
@@ -56,6 +58,7 @@ namespace FoodandBeverage.Forms
         public int GiftProductid = 4;
         public int GiftProducttype = 5;
         public int GiftPartyPackDetailsId = 6;
+        public int Gifthsncodeno = 7;
 
 
         // Registration Grid
@@ -109,6 +112,7 @@ namespace FoodandBeverage.Forms
         public int ipretaxamtno = 47;
         public int iSaledisperno = 48;
         public int isalediamtno = 49;
+        public int ihsnno = 50;
         #endregion
 
         bool Loaddetailsflag = false;
@@ -142,6 +146,7 @@ namespace FoodandBeverage.Forms
             public int TaxSettingId { get; set; }
             public string TaxMode { get; set; }
             public string TaxType { get; set; }
+            public string HSNcode { get; set; }
         }
 
         public class SelectedCardItem
@@ -151,11 +156,13 @@ namespace FoodandBeverage.Forms
             public int Qty { get; set; }
             public int ProductType { get; set; }
             public int PartyPackDetailsId { get; set; }
+            public string HSNcode { get; set; }
         }
         public class DmnGiftProducts
         {
             public long ProductId { get; set; }
             public string Description { get; set; }
+            public string HSNcode { get; set; }
         }
         public class DmnCardProducts
         {
@@ -760,6 +767,7 @@ namespace FoodandBeverage.Forms
 
                     string itemVal = row.Cells[Giftitemno].Value?.ToString().Trim();
                     string qtyVal = row.Cells[Giftqtyno].Value?.ToString().Trim();
+                    string hsncode_gift = row.Cells[Gifthsncodeno].Value?.ToString().Trim();
 
                     if (!string.IsNullOrEmpty(itemVal) &&
                         int.TryParse(qtyVal, out int qty) && qty > 0)
@@ -775,6 +783,8 @@ namespace FoodandBeverage.Forms
                         int productType = 0;
                         int.TryParse(row.Cells[GiftProducttype].Value?.ToString(), out productType);
 
+       
+
                         DmnPartyPackDetails dmndetail = new DmnPartyPackDetails
                         {
                             PartyPackId = packstatus.PartyPackId,
@@ -788,7 +798,8 @@ namespace FoodandBeverage.Forms
 
                             PackItemType = (int)PackItemType.Gift,
                             Productid = productId,
-                            ProductType = (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket
+                            ProductType = (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket,
+                            HSNCode = hsncode_gift,
                         };
 
                         var result = bllPack.AddData_packdetails("prdInsert_Upd_PartyPackDetails",dmndetail);
@@ -811,8 +822,7 @@ namespace FoodandBeverage.Forms
                     if (cardRow.IsNewRow || cardRow.Cells[CardProductid].Value == null)
                         continue;
 
-                    bool rowSelected = cardRow.Cells[Cardselectno].Value != null &&
-                                       Convert.ToBoolean(cardRow.Cells[Cardselectno].Value);
+                    bool rowSelected = cardRow.Cells[Cardselectno].Value != null && Convert.ToBoolean(cardRow.Cells[Cardselectno].Value);
                     int rowProductId, rowProductType, rowQty;
                     if (!int.TryParse(Convert.ToString(cardRow.Cells[CardProductid].Value), out rowProductId) ||
                         !int.TryParse(Convert.ToString(cardRow.Cells[Cardproducttype].Value), out rowProductType) ||
@@ -823,11 +833,11 @@ namespace FoodandBeverage.Forms
                         rowQty = 1;
 
                     string rowName = Convert.ToString(cardRow.Cells[Carditemno].Value) ?? string.Empty;
+                    string cardhsncode = Convert.ToString(cardRow.Cells[Cardhsncodeno].Value) ?? string.Empty;
                     string rowKey = rowProductType + "_" + rowProductId;
                     cardProductQuantities[rowKey] = rowQty;
 
-                    SelectedCardItem selectedRow = selectedCardItems.FirstOrDefault(
-                        x => x.ProductId == rowProductId && x.ProductType == rowProductType);
+                    SelectedCardItem selectedRow = selectedCardItems.FirstOrDefault(x => x.ProductId == rowProductId && x.ProductType == rowProductType);
 
                     if (rowSelected)
                     {
@@ -839,7 +849,8 @@ namespace FoodandBeverage.Forms
                                 ProductName = rowName,
                                 Qty = rowQty,
                                 ProductType = rowProductType,
-                                PartyPackDetailsId = 0
+                                PartyPackDetailsId = 0,
+                                HSNcode = cardhsncode,
                             });
                         }
                         else
@@ -880,12 +891,11 @@ namespace FoodandBeverage.Forms
 
                             PackItemType = (int)PackItemType.Card,
                             Productid = card.ProductId,
-                            ProductType = card.ProductType
+                            ProductType = card.ProductType,
+                            HSNCode = card.HSNcode,
                         };
 
-                        var result = bllPack.AddData_packdetails(
-                            "prdInsert_Upd_PartyPackDetails",
-                            dmndetail);
+                        var result = bllPack.AddData_packdetails("prdInsert_Upd_PartyPackDetails",dmndetail);
 
                         if (result != null && result.PartyPackDetailsId > 0)
                             cardStatusCount++;
@@ -1412,7 +1422,8 @@ namespace FoodandBeverage.Forms
                                 ProductName = item.Item,
                                 Qty = item.Quantity > 0 ? item.Quantity : 1,
                                 ProductType = item.ProductType,
-                                PartyPackDetailsId = item.PartyPackDetailsId
+                                PartyPackDetailsId = item.PartyPackDetailsId,
+                                HSNcode = item.HSNCode
                             });
                         }
                     }
@@ -1456,8 +1467,7 @@ namespace FoodandBeverage.Forms
                     int.TryParse(Convert.ToString(row.Cells[CardProductid].Value), out productId);
                     int.TryParse(Convert.ToString(row.Cells[Cardproducttype].Value), out productType);
 
-                    var selected = selectedCardItems.FirstOrDefault(
-                        x => x.ProductId == productId && x.ProductType == productType);
+                    var selected = selectedCardItems.FirstOrDefault(x => x.ProductId == productId && x.ProductType == productType);
 
                     if (selected != null)
                     {
@@ -2177,10 +2187,8 @@ namespace FoodandBeverage.Forms
                 string key = productType + "_" + productId;
                 cardProductQuantities[key] = quantity;
 
-                bool isSelected = row.Cells[Cardselectno].Value != null &&
-                                  Convert.ToBoolean(row.Cells[Cardselectno].Value);
-                SelectedCardItem selected = selectedCardItems.FirstOrDefault(
-                    x => x.ProductId == productId && x.ProductType == productType);
+                bool isSelected = row.Cells[Cardselectno].Value != null && Convert.ToBoolean(row.Cells[Cardselectno].Value);
+                SelectedCardItem selected = selectedCardItems.FirstOrDefault(x => x.ProductId == productId && x.ProductType == productType);
 
                 if (isSelected)
                 {
@@ -2191,7 +2199,8 @@ namespace FoodandBeverage.Forms
                             ProductId = productId,
                             ProductType = productType,
                             ProductName = Convert.ToString(row.Cells[Carditemno].Value) ?? string.Empty,
-                            Qty = (int)quantity
+                            Qty = (int)quantity,
+                            HSNcode = Convert.ToString(row.Cells[Cardhsncodeno].Value) ?? string.Empty,
                         });
                     }
                     else
@@ -2355,8 +2364,8 @@ namespace FoodandBeverage.Forms
                     dgv_card.Rows[rowIndex].Cells[CardProductid].Value = item.Id;
                     dgv_card.Rows[rowIndex].Cells[Cardproducttype].Value = item.Type;
 
-                    dgv_card.Rows[rowIndex].Cells[CardPartyPackDetailsId].Value =
-                        selectedCard != null ? selectedCard.PartyPackDetailsId : 0;
+                    dgv_card.Rows[rowIndex].Cells[CardPartyPackDetailsId].Value = selectedCard != null ? selectedCard.PartyPackDetailsId : 0;
+                    dgv_card.Rows[rowIndex].Cells[Cardhsncodeno].Value = selectedCard != null ? selectedCard.HSNcode : "8523"; 
                 }
             }
             catch (Exception ex)
@@ -2403,7 +2412,8 @@ namespace FoodandBeverage.Forms
                             ProductId = productId,
                             ProductName = Convert.ToString(row.Cells[Carditemno].Value) ?? string.Empty,
                             Qty = quantity,
-                            ProductType = productType
+                            ProductType = productType,
+                            HSNcode = Convert.ToString(row.Cells[Cardhsncodeno].Value) ?? string.Empty,
                         });
                     }
                     else
@@ -2439,6 +2449,7 @@ namespace FoodandBeverage.Forms
                     return;
 
                 string name = Convert.ToString(row.Cells[Carditemno].Value) ?? string.Empty;
+                string cardhsncode = Convert.ToString(row.Cells[Cardhsncodeno].Value) ?? string.Empty;
                 string quantityKey = productType + "_" + productId;
                 int qty;
                 if (!int.TryParse(Convert.ToString(row.Cells[Cardqtyno].Value), out qty) || qty <= 0)
@@ -2447,10 +2458,8 @@ namespace FoodandBeverage.Forms
 
                 cardProductQuantities[quantityKey] = qty;
 
-                bool isChecked = row.Cells[Cardselectno].Value != null &&
-                                 Convert.ToBoolean(row.Cells[Cardselectno].Value);
-                SelectedCardItem selected = selectedCardItems.FirstOrDefault(
-                    x => x.ProductId == productId && x.ProductType == productType);
+                bool isChecked = row.Cells[Cardselectno].Value != null && Convert.ToBoolean(row.Cells[Cardselectno].Value);
+                SelectedCardItem selected = selectedCardItems.FirstOrDefault(x => x.ProductId == productId && x.ProductType == productType);
 
                 if (isChecked)
                 {
@@ -2461,7 +2470,8 @@ namespace FoodandBeverage.Forms
                             ProductId = productId,
                             ProductName = name,
                             Qty = qty,
-                            ProductType = productType
+                            ProductType = productType,
+                            HSNcode= cardhsncode
                         });
                     }
                     else
@@ -2497,7 +2507,7 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGiftProducts> bll = new BllSearch<DmnGiftProducts>();
                 DmnSearch search = new DmnSearch();
 
-                search.Select = "ProductId, Description";
+                search.Select = "ProductId, Description,HSNcode";
                 search.Table = "[" + GameDB + "].dbo.tblRedemptionProducts";
                 search.WhereNdGroupBy = "WHERE Status = 1";
 
@@ -2515,6 +2525,7 @@ namespace FoodandBeverage.Forms
                     dgv_gift.Rows[rowIndex].Cells[Giftqtyno].Value = 1;
                     dgv_gift.Rows[rowIndex].Cells[GiftProductid].Value = item.ProductId;
                     dgv_gift.Rows[rowIndex].Cells[GiftProducttype].Value = Convert.ToInt32(FoodandBeverage.Interfaces.ProductType.RedemptionTicket);
+                    dgv_gift.Rows[rowIndex].Cells[Gifthsncodeno].Value = item.HSNcode;
                 }
             }
             catch (Exception ex)
@@ -2636,6 +2647,16 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
+                //  Confirmation
+                DialogResult cresult = CMessageBox.Show(
+                    "Are you sure you want to delete this Cake?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (cresult != DialogResult.Yes)
+                    return;
+
                 BllPartyPack bllPack = new BllPartyPack();
                 DmnPartyPackCake cake = new DmnPartyPackCake();
 
@@ -2698,6 +2719,7 @@ namespace FoodandBeverage.Forms
                 cake.CreatedBy = FrmDashboard.UserId;
                 cake.BranchId = FrmDashboard.BranchId;
                 cake.Status = 1;
+                cake.HSNCode = txthsn_cake.Text;
 
                 var result = bllPack.AddData_Cake("prdInsert_Upd_PartyPackCake", cake);
 
@@ -2832,6 +2854,9 @@ namespace FoodandBeverage.Forms
                     txtCgstPrcnt_cake.Dock = DockStyle.Fill;
                     lblsgst_cake.Dock = DockStyle.Fill;
                     txtSgstPrcnt_cake.Dock = DockStyle.Fill;
+                    lblhsn_cake.Dock = DockStyle.Fill;
+                    txthsn_cake.Dock = DockStyle.Fill;
+
 
                     tlp_cakereg.Controls.Add(lbligst_cake, 0, 3);
                     tlp_cakereg.Controls.Add(cmbIgstPrcnt_cake, 1, 3);
@@ -2842,7 +2867,10 @@ namespace FoodandBeverage.Forms
                     tlp_cakereg.Controls.Add(lblsgst_cake, 0, 4);
                     tlp_cakereg.Controls.Add(txtSgstPrcnt_cake, 1, 4);
 
-                    tlp_cakereg.Controls.Add(btndel_cake, 3, 4);
+                    tlp_cakereg.Controls.Add(lblhsn_cake, 2, 4);
+                    tlp_cakereg.Controls.Add(txthsn_cake, 3, 4);
+
+                    tlp_cakereg.Controls.Add(btndel_cake, 1, 5);
                 }
 
                 // 🔹 VAT Layout
@@ -2850,11 +2878,16 @@ namespace FoodandBeverage.Forms
                 {
                     lblvat_cake.Dock = DockStyle.Fill;
                     cmbVatPrcnt_cake.Dock = DockStyle.Fill;
+                    lblhsn_cake.Dock = DockStyle.Fill;
+                    txthsn_cake.Dock = DockStyle.Fill;
 
                     tlp_cakereg.Controls.Add(lblvat_cake, 0, 3);
                     tlp_cakereg.Controls.Add(cmbVatPrcnt_cake, 1, 3);
 
-                    tlp_cakereg.Controls.Add(btndel_cake, 3, 3);
+                    tlp_cakereg.Controls.Add(lblhsn_cake, 2, 3);
+                    tlp_cakereg.Controls.Add(txthsn_cake, 3, 3);
+
+                    tlp_cakereg.Controls.Add(btndel_cake, 1, 4);
                 }
 
                 textb_shape();
@@ -2938,7 +2971,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txthsncode, txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
+                foreach (TextBox textBox in new TextBox[] { txtCgstPrcnt_venue, txtSgstPrcnt_venue, txtvenuecost, txtvenuename, txthsn_cake, txthsn_venue, txthsncode, txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -3164,6 +3197,8 @@ namespace FoodandBeverage.Forms
                         targetRow.Cells[PartyPackDetailsId].Value = 0;
                         if (targetRow.Cells[Ractionno] is DataGridViewImageCell imageCell)
                             imageCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+                        targetRow.Cells[Rhsncode].Value = selection.HSNcode;
                     }
                 }
 
@@ -3467,7 +3502,9 @@ namespace FoodandBeverage.Forms
             BllSearch<DmnGridFields> searcher = new BllSearch<DmnGridFields>();
             DmnSearch search = new DmnSearch
             {
-                Select = "p.Product AS Field1, p.ProductId AS Field2, 0 AS Field3, 0 AS Field4, p.Price AS Field5, p.MRP AS Field6, p.Tax AS Field7, p.TaxType AS Field8, p.Fcid AS Field9, p.TaxSettingsId AS Field10, p.ItemCode AS Field11, 0 AS Field12, ISNULL(p.foodtype,0) AS Field13, p.ForeColor AS Field14, p.BackColor AS Field15",
+                Select = "p.Product AS Field1, p.ProductId AS Field2, 0 AS Field3, 0 AS Field4, p.Price AS Field5, p.MRP AS Field6, p.Tax AS Field7," +
+                " p.TaxType AS Field8, p.Fcid AS Field9, p.TaxSettingsId AS Field10, p.ItemCode AS Field11, 0 AS Field12, ISNULL(p.foodtype,0) AS Field13," +
+                " p.ForeColor AS Field14, p.BackColor AS Field15,HSNCode Field16",
                 Table = "tblProduct p",
                 WhereNdGroupBy = "WHERE p.Status = 1",
                 OrderBy = "ORDER BY p.Product"
@@ -3479,7 +3516,11 @@ namespace FoodandBeverage.Forms
             if (productRows != null)
                 partyPackMenuAllProducts.AddRange(productRows);
 
-            search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, 0 AS Field4, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5, ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.UnitId,0) AS Field12, 0 AS Field13, '' AS Field14, '' AS Field15";
+            search.Select = "i.Itemname AS Field1, i.ItemId AS Field2, i.Saletype AS Field3, 0 AS Field4," +
+                    " ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field5," +
+                    " ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field6, " +
+                    "i.Tax AS Field7, i.TaxType AS Field8, i.Fcid AS Field9, i.TaxSettingsId AS Field10, i.ItemCode_UPC AS Field11, ISNULL(i.UnitId,0) AS Field12," +
+                    " 0 AS Field13, '' AS Field14, '' AS Field15,HSNCode Field16";
             search.Table = "tblItem i";
             search.WhereNdGroupBy = "WHERE i.Status = 1 AND i.Saletype = 1";
             search.OrderBy = "ORDER BY i.Itemname";
@@ -3650,7 +3691,8 @@ namespace FoodandBeverage.Forms
                     UnitId = menuUnitId,
                     TaxSettingId = menuTaxSettingId,
                     TaxMode = Convert.ToString(product.Field7) ?? "Exclusive",
-                    TaxType = Convert.ToString(product.Field8) ?? "GST"
+                    TaxType = Convert.ToString(product.Field8) ?? "GST",
+                    HSNcode = Convert.ToString(product.Field16) ?? string.Empty,
                 };
 
                 Panel tile = new Panel
@@ -3775,6 +3817,7 @@ namespace FoodandBeverage.Forms
             row.Cells[itabletype].Value = Convert.ToInt32(Tabletype.Product);
             row.Cells[iorgname].Value = selection.ProductName;
             row.Cells[istocktrackno].Value = false;
+            row.Cells[ihsnno].Value = selection.HSNcode;
 
             DataGridViewImageCell actionCell = row.Cells[iaction] as DataGridViewImageCell;
             if (actionCell != null)
@@ -4102,6 +4145,7 @@ namespace FoodandBeverage.Forms
                 venue.CreatedBy = FrmDashboard.UserId;
                 venue.BranchId = FrmDashboard.BranchId;
                 venue.Status = 1;
+                venue.HSNCode = txthsn_venue.Text;
 
                 var result = bllPack.AddData_Venue("prdInsert_Upd_PartyPackVenue", venue);
 
@@ -4181,6 +4225,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                btndel_venue.Visible = false;
                 txtvenuename.Text = "";
                 txtvenuecost.Text = "0";
                 //txtattendees.Text = "0";
@@ -4265,6 +4310,8 @@ namespace FoodandBeverage.Forms
                     txtCgstPrcnt_venue.Dock = DockStyle.Fill;
                     lblsgst_venue.Dock = DockStyle.Fill;
                     txtSgstPrcnt_venue.Dock = DockStyle.Fill;
+                    lblhsn_venue.Dock = DockStyle.Fill;
+                    txthsn_venue.Dock = DockStyle.Fill;
 
                     tlp_venue.Controls.Add(lbligst_venue, 2, 2);
                     tlp_venue.Controls.Add(cmbIgstPrcnt_venue, 3, 2);
@@ -4275,7 +4322,10 @@ namespace FoodandBeverage.Forms
                     tlp_venue.Controls.Add(lblsgst_venue, 2, 3);
                     tlp_venue.Controls.Add(txtSgstPrcnt_venue, 3, 3);
 
-                    tlp_venue.Controls.Add(btndel_venue, 0, 4);
+                    tlp_venue.Controls.Add(lblhsn_venue, 0, 4);
+                    tlp_venue.Controls.Add(txthsn_venue, 1, 4);
+
+                    tlp_venue.Controls.Add(btndel_venue, 2, 4);
 
                     if (Convert.ToInt32(cmbIgstPrcnt_venue.SelectedValue) > 0)
                     {
@@ -4304,9 +4354,13 @@ namespace FoodandBeverage.Forms
                     tlp_venue.Controls.Add(lblvat_venue, 2, 2);
                     tlp_venue.Controls.Add(cmbVatPrcnt_venue, 3, 2);
 
-                    tlp_venue.Controls.Add(btndel_venue, 0, 3);
+                    tlp_venue.Controls.Add(lblhsn_venue, 0, 3);
+                    tlp_venue.Controls.Add(txthsn_venue, 1, 3);
+
+                    tlp_venue.Controls.Add(btndel_venue, 0, 4);
                 }
 
+                textb_shape();
             }
             catch (Exception ex)
             {
@@ -4321,11 +4375,11 @@ namespace FoodandBeverage.Forms
             {
                 if (selectedVenueId <= 0)
                 {
-                    MessageBox.Show("Please select a venue to delete");
+                    CMessageBox.Show("Please select a venue to delete");
                     return;
                 }
 
-                var confirm = MessageBox.Show(
+                var confirm = CMessageBox.Show(
                     "Are you sure you want to delete this venue?",
                     "Confirm Delete",
                     MessageBoxButtons.YesNo,
@@ -4348,7 +4402,7 @@ namespace FoodandBeverage.Forms
 
                 if (result.PartyPackVenueId > 0)
                 {
-                    MessageBox.Show("Deleted Successfully");
+                    CMessageBox.Show("Deleted Successfully");
 
                     ClearVenue();
 
@@ -4487,6 +4541,7 @@ namespace FoodandBeverage.Forms
                         }
 
                         cmb_tax_venue.Text = venue.Tax;
+                        btndel_venue.Visible = true;
 
                         pnl_venue.Visible = true;
                         pnl_venue.BringToFront();

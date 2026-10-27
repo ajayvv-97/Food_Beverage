@@ -40,6 +40,7 @@ namespace Domain
         public int Productid { get; set; }
         public int ProductType{ get; set; }
 
+        public string HSNCode { get; set; }
     }
     
 }
