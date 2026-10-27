@@ -176,6 +176,8 @@ namespace FoodandBeverage.Forms
 
         private readonly Image Grid_Remove = Properties.Resources.Round_Close;
         private readonly Image Blankimage = Properties.Resources.backspace;
+        int selectedVenueId = 0;
+
         #endregion
 
         public FrmPartyPackSetup()
@@ -364,6 +366,14 @@ namespace FoodandBeverage.Forms
                 cmbIgstPrcnt_cake.DataSource = gridSource1;
                 cmbIgstPrcnt_cake.ValueMember = "Id";
                 cmbIgstPrcnt_cake.DisplayMember = "Value";
+
+                cmbVatPrcnt_venue.DataSource = gridSource2;
+                cmbVatPrcnt_venue.ValueMember = "Id";
+                cmbVatPrcnt_venue.DisplayMember = "Value";
+
+                cmbIgstPrcnt_venue.DataSource = gridSource1;
+                cmbIgstPrcnt_venue.ValueMember = "Id";
+                cmbIgstPrcnt_venue.DisplayMember = "Value";
             }
             catch (Exception ex)
             {
@@ -484,41 +494,41 @@ namespace FoodandBeverage.Forms
                     lblcgst.Dock = DockStyle.Fill;
                     lblsgst.Dock = DockStyle.Fill;
 
-                    txtCgstPrcnt.Dock = DockStyle.Fill;
-                    txtSgstPrcnt.Dock = DockStyle.Fill;
+                    tlp_sgst_cgst_label.Dock = DockStyle.Fill;
+                    tlp_cgst_sgst_text.Dock = DockStyle.Fill;
 
                     //row1
                     tlp_registration.Controls.Add(lbligst, 3, 3);
-                    tlp_registration.Controls.Add(lblcgst, 0, 5);
-                    tlp_registration.Controls.Add(lblsgst, 1, 5);
+                    tlp_registration.Controls.Add(tlp_sgst_cgst_label, 0, 5);
+                    tlp_registration.Controls.Add(lblminadvamt, 1, 5);
 
                     //row2
                     tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 4);
-                    tlp_registration.Controls.Add(txtCgstPrcnt, 0, 6);
-                    tlp_registration.Controls.Add(txtSgstPrcnt, 1, 6);
+                    tlp_registration.Controls.Add(tlp_cgst_sgst_text, 0, 6);
+                    tlp_registration.Controls.Add(txtminadvamt, 1, 6);
 
-                    tlp_registration.Controls.Add(lblminadvamt, 2, 5);
-                    tlp_registration.Controls.Add(txtminadvamt, 2, 6);
-
-
-                    foreach (TextBox taxTextBox in new[] { txtCgstPrcnt, txtSgstPrcnt, txtminadvamt })
-                    {
-                        taxTextBox.Visible = true;
-                        taxTextBox.AutoSize = false;
-                        taxTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-                        taxTextBox.Dock = DockStyle.Fill;
-                        taxTextBox.Margin = new Padding(0, 3, 5, 3);
-                        taxTextBox.MinimumSize = new Size(0, 27);
-                    }
+                    tlp_registration.Controls.Add(lblhsncode, 2, 5);
+                    tlp_registration.Controls.Add(txthsncode, 2, 6);
 
 
-                    tlp_registration.SetCellPosition(txtCgstPrcnt, new TableLayoutPanelCellPosition(0, 6));
-                    tlp_registration.SetCellPosition(txtSgstPrcnt, new TableLayoutPanelCellPosition(1, 6));
-                    tlp_registration.SetCellPosition(txtminadvamt, new TableLayoutPanelCellPosition(2, 6));
-                    tlp_registration.PerformLayout();
-                    tlp_registration.GetControlFromPosition(0, 6)?.PerformLayout();
-                    tlp_registration.GetControlFromPosition(1, 6)?.PerformLayout();
-                    tlp_registration.GetControlFromPosition(2, 6)?.PerformLayout();
+                    //foreach (TextBox taxTextBox in new[] { txtCgstPrcnt, txtSgstPrcnt, txtminadvamt })
+                    //{
+                    //    taxTextBox.Visible = true;
+                    //    taxTextBox.AutoSize = false;
+                    //    taxTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+                    //    taxTextBox.Dock = DockStyle.Fill;
+                    //    taxTextBox.Margin = new Padding(0, 3, 5, 3);
+                    //    taxTextBox.MinimumSize = new Size(0, 27);
+                    //}
+
+
+                    //tlp_registration.SetCellPosition(txtCgstPrcnt, new TableLayoutPanelCellPosition(0, 6));
+                    //tlp_registration.SetCellPosition(txtSgstPrcnt, new TableLayoutPanelCellPosition(1, 6));
+                    //tlp_registration.SetCellPosition(txtminadvamt, new TableLayoutPanelCellPosition(2, 6));
+                    //tlp_registration.PerformLayout();
+                    //tlp_registration.GetControlFromPosition(0, 6)?.PerformLayout();
+                    //tlp_registration.GetControlFromPosition(1, 6)?.PerformLayout();
+                    //tlp_registration.GetControlFromPosition(2, 6)?.PerformLayout();
 
                     //row3
                     tlp_registration.Controls.Add(tlp_time_del_contrl, 3, 6);
@@ -539,7 +549,10 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(txtminadvamt, 0, 6);
 
                     //row3
-                    tlp_registration.Controls.Add(tlp_time_del_contrl, 1, 6);
+                    tlp_registration.Controls.Add(lblhsncode, 1, 5);
+                    tlp_registration.Controls.Add(txthsncode, 1, 6);
+
+                    tlp_registration.Controls.Add(tlp_time_del_contrl, 2, 6);
 
                 }
             }
@@ -614,6 +627,7 @@ namespace FoodandBeverage.Forms
                     CreatedBy = FrmDashboard.UserId,
                     BranchId = FrmDashboard.BranchId,
                     Status = 1,
+                    HSNCode=txthsncode.Text,
 
                     MinimumAdvanceAmount = string.IsNullOrWhiteSpace(txtminadvamt.Text) ? 0 : Convert.ToDecimal(txtminadvamt.Text)
                 };
@@ -1225,6 +1239,7 @@ namespace FoodandBeverage.Forms
                     cmbTaxType.Text = data.TaxType;
                     cmbTaxType.Text = data.Tax;
                     txtDiscAmnt.Text = data.MinimumAdvanceAmount.ToString();
+                    txthsncode.Text = data.HSNCode;
 
                     if (data.TaxType == "GST")
                         cmbIgstPrcnt.SelectedValue = Convert.ToInt64(data.TaxSettingsId);
@@ -2923,7 +2938,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
+                foreach (TextBox textBox in new TextBox[] { txthsncode, txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -4035,5 +4050,471 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
+
+
+        #region Venue
+        private void btn_close_venue_Click(object sender, EventArgs e)
+        {
+            pnl_venue.Visible = false;
+        }
+        private void btnvenue_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ClearVenue();
+                pnl_venue.Visible = true;
+                pnl_venue.BringToFront();
+                pnl_venue.Left = (this.ClientSize.Width - pnl_venue.Width) / 2;
+                pnl_venue.Top = (this.ClientSize.Height - pnl_venue.Height) / 2;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("EventRelated page btnvenue_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+
+        private void btnsave_venue_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtvenuename.Text))
+                {
+                    MessageBox.Show("Enter Venue Name");
+                    return;
+                }
+
+                BllPartyPack bllPack = new BllPartyPack();
+                DmnPartyPackVenue venue = new DmnPartyPackVenue();
+
+                venue.PartyPackVenueId = selectedVenueId;
+                venue.PartyPackId = 0;
+
+                venue.VenueName = txtvenuename.Text;
+                venue.VenueCost = Convert.ToDecimal(txtvenuecost.Text);
+                //venue.NoOfAttendees = Convert.ToInt32(txtattendees.Text);
+                venue.Description = txtdescription.Text;
+
+                venue.TaxType = cmb_taxtype_venue.Text;
+                venue.TaxSettingsId = Convert.ToInt32(cmbIgstPrcnt_venue.SelectedValue);
+                venue.Tax = cmb_tax_venue.Text;
+
+                venue.CreatedBy = FrmDashboard.UserId;
+                venue.BranchId = FrmDashboard.BranchId;
+                venue.Status = 1;
+
+                var result = bllPack.AddData_Venue("prdInsert_Upd_PartyPackVenue", venue);
+
+                if (result.PartyPackVenueId > 0)
+                {
+                    CMessageBox.Show(selectedVenueId > 0 ? "Updated Successfully" : "Saved Successfully");
+
+                    ClearVenue();
+
+                    selectedVenueId = 0;
+                    pnl_venue.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("EventRelated btnsave_venue_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        //private void LoadVenueGrid()
+        //{
+        //    try
+        //    {
+        //        dgv_venu.Rows.Clear();
+
+        //        DmnSearch dmnSearch = new DmnSearch();
+        //        BllSearch<DmnPartyPackVenue> bllSearch = new BllSearch<DmnPartyPackVenue>();
+
+        //        dmnSearch.Select = "v.PartyPackVenueId, v.VenueName, v.VenueCost, v.NoOfAttendees, v.Description, v.TaxType, v.TaxSettingsId, v.Tax, v.Status, t.IgstPrcnt, t.VatPrcnt";
+        //        dmnSearch.Table = "tblPartyPackVenue v LEFT JOIN tblTaxSettings t ON t.TaxSettingsId = v.TaxSettingsId AND t.Status = 1";
+        //        dmnSearch.WhereNdGroupBy = " WHERE v.Status = 1 AND v.BranchId = " + BranchId;
+        //        dmnSearch.OrderBy = " ORDER BY v.PartyPackVenueId";
+
+        //        var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+
+        //        if (gridSource != null && gridSource.Count > 0)
+        //        {
+        //            for (int i = 0; i < gridSource.Count; i++)
+        //            {
+        //                int rowIndex = dgv_venu.Rows.Add();
+        //                var row = dgv_venu.Rows[rowIndex];
+
+        //                row.Cells[veslno].Value = i + 1;
+        //                row.Cells[vevenueidno].Value = gridSource[i].PartyPackVenueId;
+        //                row.Cells[vevenuenameno].Value = gridSource[i].VenueName;
+        //                row.Cells[vevenuecostno].Value = gridSource[i].VenueCost;
+        //                row.Cells[veattendeesno].Value = gridSource[i].NoOfAttendees;
+        //                row.Cells[vedecriptionno].Value = gridSource[i].Description;
+
+        //                row.Cells[vetaxtypeno].Value = gridSource[i].TaxType;
+        //                row.Cells[vetaxsettingidno].Value = gridSource[i].TaxSettingsId;
+        //                row.Cells[vetaxno].Value = gridSource[i].Tax;
+
+        //                decimal taxPer = 0;
+        //                if (gridSource[i].TaxType == "GST")
+        //                    taxPer = Convert.ToDecimal(gridSource[i].IgstPrcnt);
+        //                else if (gridSource[i].TaxType == "VAT")
+        //                    taxPer = Convert.ToDecimal(gridSource[i].VatPrcnt);
+
+        //                row.Cells[vetaxperno].Value = taxPer;
+
+        //                row.Cells[vestatusno].Value = gridSource[i].Status;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsgen.LogException("EventRelated LoadVenueGrid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+        //    }
+        //}
+
+        private void btn_refresh_venue_Click(object sender, EventArgs e)
+        {
+            ClearVenue();
+        }
+        private void ClearVenue()
+        {
+            try
+            {
+                txtvenuename.Text = "";
+                txtvenuecost.Text = "0";
+                //txtattendees.Text = "0";
+                txtdescription.Text = "";
+
+                // Default Tax Setup
+                if (!string.IsNullOrEmpty(FrmDashboard.DefaultTaxType))
+                {
+                    cmb_taxtype_venue.Text = FrmDashboard.DefaultTaxType;
+
+                    if (cmb_taxtype_venue.Text == "GST")
+                    {
+                        cmbIgstPrcnt_venue.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                    else if (cmb_taxtype_venue.Text == "VAT")
+                    {
+                        cmbVatPrcnt_venue.SelectedValue = Convert.ToInt64(FrmDashboard.DefaultTaxsettingid);
+                    }
+                }
+
+                cmb_tax_venue.SelectedIndex = 0;
+
+                // Optional reset GST split
+                txtCgstPrcnt_venue.Text = "0";
+                txtSgstPrcnt_venue.Text = "0";
+
+                if (Convert.ToInt32(cmbIgstPrcnt_venue.SelectedValue) > 0)
+                {
+                    BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                    DmnSearch objSearch_tax = new DmnSearch();
+
+                    objSearch_tax.Select = "TaxSettingsId, SgstPrcnt, CgstPrcnt";
+                    objSearch_tax.Table = "tblTaxSettings";
+                    objSearch_tax.WhereNdGroupBy = " WHERE TaxSettingsId = " + Convert.ToInt64(cmbIgstPrcnt_venue.SelectedValue);
+
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch_tax);
+
+                    if (gridSource != null && gridSource.Count > 0)
+                    {
+                        txtSgstPrcnt_venue.Text = Convert.ToString(gridSource[0].SgstPrcnt);
+                        txtCgstPrcnt_venue.Text = Convert.ToString(gridSource[0].CgstPrcnt);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("EventRelated ClearVenue()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void cmb_taxtype_venue_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int startRow = 2;
+                int endRow = 4;
+                int totalColumns = 4;
+
+
+                for (int i = startRow; i <= endRow; i++)
+                {
+                    for (int col = 0; col < totalColumns; col++)
+                    {
+                        if (i == 2 && (col == 0 || col == 1))
+                            continue;
+
+                        Control ctrl = tlp_venue.GetControlFromPosition(col, i);
+                        if (ctrl != null)
+                        {
+                            tlp_venue.Controls.Remove(ctrl);
+                        }
+                    }
+                }
+
+                // 🔹 GST Layout
+                if (cmb_taxtype_venue.Text == "GST")
+                {
+                    lbligst_venue.Dock = DockStyle.Fill;
+                    cmbIgstPrcnt_venue.Dock = DockStyle.Fill;
+                    lblcgst_venue.Dock = DockStyle.Fill;
+                    txtCgstPrcnt_venue.Dock = DockStyle.Fill;
+                    lblsgst_venue.Dock = DockStyle.Fill;
+                    txtSgstPrcnt_venue.Dock = DockStyle.Fill;
+
+                    tlp_venue.Controls.Add(lbligst_venue, 2, 2);
+                    tlp_venue.Controls.Add(cmbIgstPrcnt_venue, 3, 2);
+
+                    tlp_venue.Controls.Add(lblcgst_venue, 0, 3);
+                    tlp_venue.Controls.Add(txtCgstPrcnt_venue, 1, 3);
+
+                    tlp_venue.Controls.Add(lblsgst_venue, 2, 3);
+                    tlp_venue.Controls.Add(txtSgstPrcnt_venue, 3, 3);
+
+                    tlp_venue.Controls.Add(btndel_venue, 0, 4);
+
+                    if (Convert.ToInt32(cmbIgstPrcnt_venue.SelectedValue) > 0)
+                    {
+                        BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                        DmnSearch objSearch_tax = new DmnSearch();
+
+                        objSearch_tax.Select = "TaxSettingsId, SgstPrcnt, CgstPrcnt";
+                        objSearch_tax.Table = "tblTaxSettings";
+                        objSearch_tax.WhereNdGroupBy = " WHERE TaxSettingsId = " + Convert.ToInt64(cmbIgstPrcnt_venue.SelectedValue);
+
+                        var gridSource = bllSearch.GetSearchData("prdSearch", objSearch_tax);
+
+                        if (gridSource != null && gridSource.Count > 0)
+                        {
+                            txtSgstPrcnt_venue.Text = Convert.ToString(gridSource[0].SgstPrcnt);
+                            txtCgstPrcnt_venue.Text = Convert.ToString(gridSource[0].CgstPrcnt);
+                        }
+                    }
+                }
+                // 🔹 VAT Layout
+                else if (cmb_taxtype_venue.Text == "VAT")
+                {
+                    lblvat_venue.Dock = DockStyle.Fill;
+                    cmbVatPrcnt_venue.Dock = DockStyle.Fill;
+
+                    tlp_venue.Controls.Add(lblvat_venue, 2, 2);
+                    tlp_venue.Controls.Add(cmbVatPrcnt_venue, 3, 2);
+
+                    tlp_venue.Controls.Add(btndel_venue, 0, 3);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("EventRelated page  cmb_taxtype_venue_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+
+        private void btndel_venue_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (selectedVenueId <= 0)
+                {
+                    MessageBox.Show("Please select a venue to delete");
+                    return;
+                }
+
+                var confirm = MessageBox.Show(
+                    "Are you sure you want to delete this venue?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (confirm != DialogResult.Yes)
+                    return;
+
+                BllPartyPack bllPack = new BllPartyPack();
+                DmnPartyPackVenue venue = new DmnPartyPackVenue();
+
+                venue.PartyPackVenueId = selectedVenueId;
+                venue.Status = 0;
+
+                venue.CreatedBy = FrmDashboard.UserId;
+                venue.BranchId = FrmDashboard.BranchId;
+
+                var result = bllPack.AddData_Venue("prdInsert_Upd_PartyPackVenue", venue);
+
+                if (result.PartyPackVenueId > 0)
+                {
+                    MessageBox.Show("Deleted Successfully");
+
+                    ClearVenue();
+
+                    pnl_venue.Visible = false;
+                    selectedVenueId = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("EventRelated btndel_venue_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void cmbIgstPrcnt_venue_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbIgstPrcnt_venue.SelectedIndex > 0)
+                {
+                    BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                    DmnSearch objSearch_tax = new DmnSearch();
+
+                    objSearch_tax.Select = "TaxSettingsId, SgstPrcnt, CgstPrcnt";
+                    objSearch_tax.Table = "tblTaxSettings";
+                    objSearch_tax.WhereNdGroupBy = " WHERE TaxSettingsId = " + Convert.ToInt64(cmbIgstPrcnt_venue.SelectedValue);
+
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch_tax);
+
+                    if (gridSource != null && gridSource.Count > 0)
+                    {
+                        txtSgstPrcnt_venue.Text = Convert.ToString(gridSource[0].SgstPrcnt);
+                        txtCgstPrcnt_venue.Text = Convert.ToString(gridSource[0].CgstPrcnt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("cmbIgstPrcnt_venue_SelectedIndexChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+        private void btn_cls_venue_Click(object sender, EventArgs e)
+        {
+            pnl_venue.Visible = false;
+        }
+
+
+        private void btnsearch_venue_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                int returnValue = 0;
+
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+
+                DmnSearch _objSearch = new DmnSearch();
+
+                _objSearch.ColumnHeaders = "ID,Venue Name,Venue Cost,Description";
+                _objSearch.Select = @"PartyPackVenueId AS Id,
+                              VenueName AS Field1,
+                              VenueCost AS Field2,
+                              Description AS Field3";
+                _objSearch.Table = "tblPartyPackVenue";
+                _objSearch.WhereNdGroupBy = "WHERE Status = 1 AND BranchId = " + FrmDashboard.BranchId;
+                _objSearch.OrderBy = " ORDER BY VenueName";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+
+                if (gridSource == null || gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records Found");
+                    return;
+                }
+
+                using (var search = new FrmSearch<DmnGridFields>(
+                    _objSearch,
+                    SearchMode.FirstCharacter,
+                    this.Width - 150,
+                    this.Height - 150,
+                    this.Location.Y + 50,
+                    this.Location.X + 20,
+                    dtColumnAlign))
+                {
+                    var dialogResult = search.ShowDialog();
+
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        returnValue = Convert.ToInt32(search._retValue);
+                    }
+                }
+
+                if (returnValue > 0)
+                {
+                    BllSearch<DmnPartyPackVenue> bllVenue =
+                        new BllSearch<DmnPartyPackVenue>();
+
+                    DmnSearch venueSearch = new DmnSearch();
+
+                    venueSearch.Select = @"PartyPackVenueId,
+                                   PartyPackId,
+                                   VenueName,
+                                   VenueCost,
+                                   Description,
+                                   TaxType,
+                                   TaxSettingsId,
+                                   Tax,
+                                   Status";
+
+                    venueSearch.Table = "tblPartyPackVenue";
+                    venueSearch.WhereNdGroupBy =
+                        "WHERE PartyPackVenueId = " + returnValue +
+                        " AND Status = 1 AND BranchId = " + FrmDashboard.BranchId;
+
+                    var venueData = bllVenue.GetSearchData("prdSearch", venueSearch);
+
+                    if (venueData != null && venueData.Count > 0)
+                    {
+                        var venue = venueData[0];
+
+                        selectedVenueId = venue.PartyPackVenueId;
+
+                        txtvenuename.Text = venue.VenueName;
+                        txtvenuecost.Text = Convert.ToString(venue.VenueCost);
+                        txtdescription.Text = venue.Description;
+
+                        cmb_taxtype_venue.SelectedItem = venue.TaxType;
+
+                        if (venue.TaxType == "GST")
+                        {
+                            cmbIgstPrcnt_venue.SelectedValue =Convert.ToInt64(venue.TaxSettingsId);
+                        }
+                        else if (venue.TaxType == "VAT")
+                        {
+                            cmbVatPrcnt_venue.SelectedValue = Convert.ToInt64(venue.TaxSettingsId);
+                        }
+
+                        cmb_tax_venue.Text = venue.Tax;
+
+                        pnl_venue.Visible = true;
+                        pnl_venue.BringToFront();
+                        pnl_venue.Left = (this.ClientSize.Width - pnl_venue.Width) / 2;
+                        pnl_venue.Top = (this.ClientSize.Height - pnl_venue.Height) / 2;
+                    }
+                    else
+                    {
+                        CMessageBox.Show("Venue details not found.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "EventRelated btnsearch_venue_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partypacksetup));
+
+                CMessageBox.Show("Unable to search venue details.");
+            }
+        }
+
+
+        #endregion
+
+
     }
 }

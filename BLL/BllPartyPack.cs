@@ -27,6 +27,7 @@ namespace BLL
             parms.Add("BranchId", obj.BranchId);
             parms.Add("Status", obj.Status);
             parms.Add("MinimumAdvanceAmount", obj.MinimumAdvanceAmount);
+            parms.Add("HSNCode", obj.HSNCode);
             
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
@@ -98,6 +99,31 @@ namespace BLL
             parms.Add("TaxType", obj.TaxType);
             parms.Add("TaxSettingsId", obj.TaxSettingsId);
             parms.Add("Tax", obj.Tax);
+
+            var data = repo.AddandReturnID(procedureName, parms);
+            return data;
+        }
+        public DmnPartyPackVenue AddData_Venue(string procedureName, DmnPartyPackVenue obj)
+        {
+            DAL.DapperRepository<DmnPartyPackVenue> repo = new DAL.DapperRepository<DmnPartyPackVenue>();
+
+            DynamicParameters parms = new DynamicParameters();
+
+            parms.Add("PartyPackVenueId", obj.PartyPackVenueId);
+            parms.Add("PartyPackId", obj.PartyPackId);
+
+            parms.Add("VenueName", obj.VenueName);
+            parms.Add("VenueCost", obj.VenueCost);
+            parms.Add("NoOfAttendees", obj.NoOfAttendees);
+            parms.Add("Description", obj.Description);
+
+            parms.Add("TaxType", obj.TaxType);
+            parms.Add("TaxSettingsId", obj.TaxSettingsId);
+            parms.Add("Tax", obj.Tax);
+
+            parms.Add("CreatedBy", obj.CreatedBy);
+            parms.Add("BranchId", obj.BranchId);
+            parms.Add("Status", obj.Status);
 
             var data = repo.AddandReturnID(procedureName, parms);
             return data;

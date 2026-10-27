@@ -21,6 +21,8 @@ namespace Domain
         public int DetailsCount { get; set; }
         public string Tax { get; set; }
         public decimal MinimumAdvanceAmount { get; set; }
+        public string HSNCode { get; set; }
+
     }
     public class DmnPartyPackDetails
     {
