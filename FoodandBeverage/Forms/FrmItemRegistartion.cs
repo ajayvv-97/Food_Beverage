@@ -1349,6 +1349,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                // Suspend layout while tax controls are rearranged to prevent flickering.
+                tlp_registration.SuspendLayout();
                 int[] columnsToRemove1 = { 0, 1, 2, 3 };
                 int[] rowsToRemove1 = { 5, 6, 7, 8, 9, 10 };
 
@@ -1559,10 +1561,15 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
+                tlp_registration.ResumeLayout(true);
                 textb_shape();
             }
             catch (Exception ex)
             {
+                // Always resume layout if an exception occurs during the arrangement.
+                if (tlp_registration != null)
+                    tlp_registration.ResumeLayout(true);
+
                 clsgen.LogException("Item page ControlArrangement()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
         }
