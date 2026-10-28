@@ -151,11 +151,13 @@ namespace FoodandBeverage.Forms
                 objSearch.WhereNdGroupBy = "where status=1";
                 objSearch.OrderBy = "";
                 var gridSource1 = bllSearch.GetSearchData("prdComboFill", objSearch);
+                var gridSource2 = bllSearch.GetSearchData("prdComboFill", objSearch);
+
                 cmbunit.DataSource = gridSource1;
                 cmbunit.ValueMember = "Id";
                 cmbunit.DisplayMember = "Value";
 
-                cmbbaseunit.DataSource = gridSource1;
+                cmbbaseunit.DataSource = gridSource2;
                 cmbbaseunit.ValueMember = "Id";
                 cmbbaseunit.DisplayMember = "Value";
 
@@ -1403,7 +1405,6 @@ namespace FoodandBeverage.Forms
             {
                 tlp_registration.SuspendLayout();
 
-
                 int[] columns = { 0, 1, 2, 3 };
                 int[] rows = { 5, 6, 7, 8, 9, 10, 11, 12 };
 
@@ -1451,6 +1452,7 @@ namespace FoodandBeverage.Forms
                 lbldes.Dock = DockStyle.Fill;
                 tlp_des_rem.Dock = DockStyle.Fill;
                 txtdesc.Dock = DockStyle.Fill;
+                cmbMenu_category.Dock = DockStyle.Fill;
 
                 // =========================================================
                 // GST
@@ -1479,7 +1481,6 @@ namespace FoodandBeverage.Forms
                         tlp_registration.Controls.Add(lbltax, 1, 7);
                         tlp_registration.Controls.Add(lbligst, 2, 7);
                         tlp_registration.Controls.Add(tlp_s_c_gst, 3, 7);
-
 
                         // Row 8: Base Unit and Conversion Factor controls.
                         tlp_registration.Controls.Add(txtConversionFactor, 0, 8);
@@ -1655,6 +1656,9 @@ namespace FoodandBeverage.Forms
 
                     cmbVatPrcnt.Focus();
                 }
+
+                tlp_baseunit.Dock = DockStyle.Fill;
+                tlp_pur_unit.Dock = DockStyle.Fill;
 
                 tlp_registration.ResumeLayout(true);
                 textb_shape();
@@ -2448,7 +2452,7 @@ namespace FoodandBeverage.Forms
             for (int i = 0; i < rows.Count; i++)
             {
                 dgv_category.Rows[i].Cells[0].Value = i + 1;
-                dgv_category.Rows[i].Cells[cidno].Value = rows[i].Fcid;
+                dgv_category.Rows[i].Cells[1].Value = rows[i].Fcid;
                 dgv_category.Rows[i].Cells[2].Value = rows[i].CategoryName;
                 dgv_category.Rows[i].Cells[3].Value = rows[i].Description;
                 dgv_category.Rows[i].Cells[4].Value = rows[i].Status;
@@ -2499,6 +2503,10 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException("Item page ClearCategoryFields()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             } 
+        }
+        private void btncls_categ_Click(object sender, EventArgs e)
+        {
+            tlp_category.Visible = false;
         }
         #endregion
 
@@ -2609,7 +2617,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-            tlp_Unit.Visible = false;
+                tlp_Unit.Visible = false;
         
             } catch (Exception ex)
             {
@@ -2706,6 +2714,10 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException("Item page ClearUnitFields()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             } 
+        }
+        private void btncls_unit_Click(object sender, EventArgs e)
+        {
+            tlp_Unit.Visible = false;
         }
         #endregion
 
