@@ -1193,9 +1193,21 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ControlArrangement();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page cmbTaxType_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        public void ControlArrangement()
+        {
+            try
+            {
                 int startRow = 5;
                 int endRow = 8;
-                int totalColumns = 4; 
+                int totalColumns = 4;
 
                 for (int row = startRow; row <= endRow; row++)
                 {
@@ -1228,7 +1240,7 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(lbltax, 0, 5);
                     tlp_registration.Controls.Add(lbltaxtype, 1, 5);
                     tlp_registration.Controls.Add(lbligst, 2, 5);
-                    tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 5); 
+                    tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 5);
 
                     //row2
                     tlp_registration.Controls.Add(cmbtax, 0, 6);
@@ -1287,11 +1299,12 @@ namespace FoodandBeverage.Forms
 
                 tlp_S_C_text.Dock = DockStyle.Fill;
                 tlp_s_c_gst_lbl.Dock = DockStyle.Fill;
+
+                textb_shape();
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Product page cmbTaxType_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Product page ControlArrangement()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
         }
         private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
