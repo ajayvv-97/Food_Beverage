@@ -140,19 +140,25 @@ namespace FoodandBeverage.Forms
                     }
                     dmnproduct.HasVariation = hasVar;
 
-                    if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 0)
-                        dmnproduct.FoodPreparationType = Convert.ToInt32(KOTRouting.kitchen);
-                    else
-                        dmnproduct.FoodPreparationType = Convert.ToInt32(KOTRouting.Counter);
+                    dmnproduct.PreparationMode = cmbpre_type.SelectedIndex == 0
+                        ? Convert.ToInt32(KOTRouting.kitchen)
+                        : Convert.ToInt32(KOTRouting.Counter);
 
-                    if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 0)
-                        dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.MadetoOrder);
-                    else if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 1)
-                        dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.BatchPrepared);
-                    else if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 2)
-                        dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.PartiallyPrepared);
-                    else
-                        dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.NotApplicable);
+                    switch (cmb_FoodPreparationType.SelectedIndex)
+                    {
+                        case 0:
+                            dmnproduct.FoodPreparationType = Convert.ToInt32(FoodPreparationType.MadetoOrder);
+                            break;
+                        case 1:
+                            dmnproduct.FoodPreparationType = Convert.ToInt32(FoodPreparationType.BatchPrepared);
+                            break;
+                        case 2:
+                            dmnproduct.FoodPreparationType = Convert.ToInt32(FoodPreparationType.PartiallyPrepared);
+                            break;
+                        default:
+                            dmnproduct.FoodPreparationType = Convert.ToInt32(FoodPreparationType.NotApplicable);
+                            break;
+                    }
 
                     if (rblimited.Checked)
                         dmnproduct.IsStockTracked = true;
@@ -467,6 +473,7 @@ namespace FoodandBeverage.Forms
                 chk_forecolor.Checked = false;
 
                 cmb_FoodPreparationType.SelectedIndex = 3;
+                UpdatePreparationStageColumnVisibility();
             }
             catch(Exception ex)
             {
@@ -938,14 +945,7 @@ namespace FoodandBeverage.Forms
                     else
                         rb_nonveg.Checked = true;
 
-                    if (Convert.ToInt64(gridSource[0].FoodPreparationType) == Convert.ToInt32(FoodPreparationType.MadetoOrder))
-                        cmb_FoodPreparationType.SelectedIndex = 0;
-                    else if (Convert.ToInt64(gridSource[0].FoodPreparationType) == Convert.ToInt32(FoodPreparationType.BatchPrepared))
-                        cmb_FoodPreparationType.SelectedIndex = 1;
-                    else if (Convert.ToInt64(gridSource[0].FoodPreparationType) == Convert.ToInt32(FoodPreparationType.PartiallyPrepared))
-                        cmb_FoodPreparationType.SelectedIndex = 2;
-                    else if (Convert.ToInt64(gridSource[0].FoodPreparationType) == Convert.ToInt32(FoodPreparationType.NotApplicable))
-                        cmb_FoodPreparationType.SelectedIndex = 3;
+                    SetFoodPreparationTypeSelection(gridSource[0].FoodPreparationType);
 
                     txthsncode.Text = Convert.ToString(gridSource[0].HSNcode);
 
@@ -1026,7 +1026,7 @@ namespace FoodandBeverage.Forms
 
                     //}
 
-                    if (Convert.ToInt32(gridSource[0].PreparationMode)== Convert.ToInt32(KOTRouting.kitchen))
+                    if (Convert.ToInt32(gridSource[0].PreparationMode) == Convert.ToInt32(KOTRouting.kitchen))
                         cmbpre_type.SelectedIndex = 0;
                     else
                         cmbpre_type.SelectedIndex = 1;
@@ -3864,19 +3864,45 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
-        private void cmb_FoodPreparationType_SelectionChangeCommitted(object sender, EventArgs e)
+        private void SetFoodPreparationTypeSelection(int preparationType)
         {
             try
             {
-                DataGridViewComboBoxColumn preparationColumn = dgv_registartion.Columns[RDeductionstageno] as DataGridViewComboBoxColumn;
+                if (preparationType == Convert.ToInt32(FoodPreparationType.MadetoOrder))
+                    cmb_FoodPreparationType.SelectedIndex = 0;
+                else if (preparationType == Convert.ToInt32(FoodPreparationType.BatchPrepared))
+                    cmb_FoodPreparationType.SelectedIndex = 1;
+                else if (preparationType == Convert.ToInt32(FoodPreparationType.PartiallyPrepared))
+                    cmb_FoodPreparationType.SelectedIndex = 2;
+                else
+                    cmb_FoodPreparationType.SelectedIndex = 3;
 
+                UpdatePreparationStageColumnVisibility();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page SetFoodPreparationTypeSelection()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        private void UpdatePreparationStageColumnVisibility()
+        {
+            try
+            {
+                if (dgv_registartion.Columns.Count <= RDeductionstageno)
+                    return;
+
+                DataGridViewComboBoxColumn preparationColumn =
+                    dgv_registartion.Columns[RDeductionstageno] as DataGridViewComboBoxColumn;
                 if (preparationColumn == null)
                     return;
 
+                preparationColumn.DataSource = null;
+                preparationColumn.Items.Clear();
+
                 if (cmb_FoodPreparationType.SelectedIndex == 2)
                 {
-                    preparationColumn.DataSource = null;
-                    preparationColumn.Items.Clear();
                     preparationColumn.Items.Add("Orderpreparation");
                     preparationColumn.Items.Add("Advancepreparation");
                     preparationColumn.Visible = true;
@@ -3888,13 +3914,14 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException(
-                    "Product page cmb_FoodPreparationType_SelectionChangeCommitted()",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Product page UpdatePreparationStageColumnVisibility()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
+        }
+
+        private void cmb_FoodPreparationType_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            UpdatePreparationStageColumnVisibility();
         }
     }
 }
