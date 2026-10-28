@@ -26,23 +26,23 @@ namespace FoodandBeverage.Forms
         }
         #region Declare Grid
         public  int slno = 0;
-        public  int idno = 1;
-        public  int incre_nameno = 2;
-        public  int incre_categno = 3;
-        public  int iunitno = 4;
-        public  int iqtyno = 5;
-        public  int iprateno = 6;
-        public  int israteno = 7;
-        public  int imrpno = 8;
-        public  int itaxno = 9;
-        public  int itaxtypeno = 10;
-        public  int itaxperno = 11;
-        public  int idescno = 12;
-        public  int istatusno = 13;
-        public  int iunitidno = 14;
-        public int incre_categ_idno = 15;
+        public int ihsncodeno = 1;
+        public  int idno = 2;
+        public  int incre_nameno = 3;
+        public  int incre_categno = 4;
+        public  int iunitno = 5;
+        public  int iqtyno = 6;
+        public  int iprateno = 7;
+        public  int israteno = 8;
+        public  int imrpno = 9;
+        public  int itaxno = 10;
+        public  int itaxtypeno = 11;
+        public  int itaxperno = 12;
+        public  int idescno = 13;
+        public  int istatusno = 14;
+        public  int iunitidno = 15;
+        public int incre_categ_idno = 16;
 
-        public int ihsncodeno = 16;
         public int iReorderLevelno = 17;
         public int iIsexpireno = 18;
         public int iLockSaleRateno = 19;
