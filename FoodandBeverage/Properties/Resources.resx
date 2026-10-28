@@ -1354,4 +1354,10 @@
   <data name="sale_gsticon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sale_gsticon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Inv_itemdetails" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_itemdetails.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_itementer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_itementer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -1352,7 +1352,6 @@ namespace FoodandBeverage.Forms
                         }
                     }
 
-
                     tlp_des_rem.Controls.Add(txtdesc, 0, 0);
                     tlp_des_rem.Controls.Add(btn_del_ingre, 1, 0);
                     if (string.IsNullOrWhiteSpace(txtitemid.Text))
@@ -1383,9 +1382,7 @@ namespace FoodandBeverage.Forms
                     lbldisamt.Dock = DockStyle.Fill;
                     lbldisper.Dock = DockStyle.Fill;
 
-                    ControlArrangement();
-
-                    
+                    ControlArrangement();                    
                 }
             }
             catch (Exception ex)
@@ -1470,8 +1467,8 @@ namespace FoodandBeverage.Forms
                         // Row 6: Discount, Unit and Tax controls.
                         tlp_registration.Controls.Add(txtdisper, 0, 6);
                         tlp_registration.Controls.Add(txtdisamt, 1, 6);
-                        tlp_registration.Controls.Add(cmbunit, 2, 6);
-                        tlp_registration.Controls.Add(cmbbaseunit, 3, 6);
+                        tlp_registration.Controls.Add(tlp_pur_unit, 2, 6);
+                        tlp_registration.Controls.Add(tlp_baseunit, 3, 6);
 
                         // Row 7: Base Unit and Conversion Factor labels.
                         tlp_registration.Controls.Add(lblConversionfactor, 0, 7);
@@ -1515,8 +1512,8 @@ namespace FoodandBeverage.Forms
                         tlp_registration.Controls.Add(lbltax, 3, 5);
 
                         // Row 6: Unit, Tax, Tax Type and IGST controls.
-                        tlp_registration.Controls.Add(cmbunit, 0, 6);
-                        tlp_registration.Controls.Add(cmbbaseunit, 1, 6);
+                        tlp_registration.Controls.Add(tlp_pur_unit, 0, 6);
+                        tlp_registration.Controls.Add(tlp_baseunit, 1, 6);
                         tlp_registration.Controls.Add(txtConversionFactor, 2, 6);
                         tlp_registration.Controls.Add(cmbtax, 3, 6);
 
@@ -1576,8 +1573,8 @@ namespace FoodandBeverage.Forms
                         // Row 6: Discount, Unit and Tax controls.
                         tlp_registration.Controls.Add(txtdisper, 0, 6);
                         tlp_registration.Controls.Add(txtdisamt, 1, 6);
-                        tlp_registration.Controls.Add(cmbunit, 2, 6); 
-                        tlp_registration.Controls.Add(cmbbaseunit, 3, 6);
+                        tlp_registration.Controls.Add(tlp_pur_unit, 2, 6); 
+                        tlp_registration.Controls.Add(tlp_baseunit, 3, 6);
 
                         // Row 7: Base Unit and Conversion Factor labels.
                         tlp_registration.Controls.Add(lblConversionfactor, 0, 7);
@@ -1619,8 +1616,8 @@ namespace FoodandBeverage.Forms
                         tlp_registration.Controls.Add(lbltax, 3, 5);
 
                         // Row 6: Unit, Tax, Tax Type and VAT controls.
-                        tlp_registration.Controls.Add(cmbunit, 0, 6);
-                        tlp_registration.Controls.Add(cmbbaseunit, 1, 6);
+                        tlp_registration.Controls.Add(tlp_pur_unit, 0, 6);
+                        tlp_registration.Controls.Add(tlp_baseunit, 1, 6);
                         tlp_registration.Controls.Add(txtConversionFactor, 2, 6);
                         tlp_registration.Controls.Add(cmbtax, 3, 6);
 
@@ -1704,6 +1701,9 @@ namespace FoodandBeverage.Forms
                     lbltaxtype.Dock = DockStyle.Fill;
                     txtdesc.Dock = DockStyle.Fill;
                     cmbunit.Dock = DockStyle.Fill;
+
+                    tlp_baseunit.Dock = DockStyle.Fill;
+                    tlp_pur_unit.Dock = DockStyle.Fill;
 
                     ControlArrangement();
 
@@ -2285,6 +2285,80 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        #region Category Registration
+        private void btnsave_categ_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_refresh_categ_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnserach_categ_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnclose_categ_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_del_cate_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void dgv_category_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void btnaddcategory_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region Unit Registration
+        private void btn_del_unit_Click(object sender, EventArgs e)
+        {
+
+        }
+       
+
+        private void btnsave_unit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnsearch_unit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnrefresh_unit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btncancel_unit_Click(object sender, EventArgs e)
+        {
+
+        }
+       
+
+        private void dgv_unit_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void btn_addunit_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+       
     }
 
 }

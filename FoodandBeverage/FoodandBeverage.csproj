@@ -2186,6 +2186,8 @@
     <None Include="Resources\salebill_gstnavbar.png" />
     <None Include="Resources\salebill_listbutton.png" />
     <None Include="Resources\salebill_gstpanel.png" />
+    <None Include="Resources\Inv_itementer.png" />
+    <None Include="Resources\Inv_itemdetails.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />
