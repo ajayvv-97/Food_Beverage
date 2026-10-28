@@ -841,7 +841,7 @@ namespace FoodandBeverage.Forms
 
 
         }
-                public void filldata(int rowno)
+        public void filldata(int rowno)
         {
             try
             {
@@ -963,7 +963,7 @@ namespace FoodandBeverage.Forms
             int rowno = dgvprDetails.CurrentCell.RowIndex;
             GridkeydownEnter(rowno);
         }
-                public void GridkeydownEnter(int rowno)
+        public void GridkeydownEnter(int rowno)
         {
             try
             {
@@ -1148,7 +1148,7 @@ namespace FoodandBeverage.Forms
                 e.Handled = true; // Suppress the Enter key
         }
 
-                private void btnSearch_Click(object sender, EventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
         {
             try
             {
