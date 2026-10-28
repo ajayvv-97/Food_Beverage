@@ -2344,8 +2344,15 @@ namespace FoodandBeverage.Forms
 
         private void btn_refresh_categ_Click(object sender, EventArgs e)
         {
+            try
+            {
             ClearCategoryFields();
             FillEmbeddedCategories();
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page btn_refresh_categ_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void btnserach_categ_Click(object sender, EventArgs e)
@@ -2365,7 +2372,14 @@ namespace FoodandBeverage.Forms
 
         private void btnclose_categ_Click(object sender, EventArgs e)
         {
+            try
+            {
             tlp_category.Visible = false;
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page btnclose_categ_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void btn_del_cate_Click(object sender, EventArgs e)
@@ -2404,14 +2418,23 @@ namespace FoodandBeverage.Forms
 
         private void btnaddcategory_Click(object sender, EventArgs e)
         {
+            try
+            {
             ShowRegistrationPanel(tlp_category);
             tlp_Unit.Visible = false;
             ClearCategoryFields();
             FillEmbeddedCategories();
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page btnaddcategory_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void FillEmbeddedCategories()
         {
+            try
+            {
             BllSearch<DmnCategory> bll = new BllSearch<DmnCategory>();
             DmnSearch search = new DmnSearch();
             search.Select = "Fcid,CategoryName,Description,Status";
@@ -2430,10 +2453,17 @@ namespace FoodandBeverage.Forms
                 dgv_category.Rows[i].Cells[3].Value = rows[i].Description;
                 dgv_category.Rows[i].Cells[4].Value = rows[i].Status;
             }
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page FillEmbeddedCategories()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void LoadEmbeddedCategory(int categoryId)
         {
+            try
+            {
             BllSearch<DmnCategory> bll = new BllSearch<DmnCategory>();
             DmnSearch search = new DmnSearch();
             search.Select = "*";
@@ -2448,15 +2478,27 @@ namespace FoodandBeverage.Forms
             txtdescr.Text = rows[0].Description;
             chk_active.Checked = rows[0].Status == 1;
             btn_del_cate.Visible = true;
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page LoadEmbeddedCategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void ClearCategoryFields()
         {
+            try
+            {
             txtFcid.Text = "0";
             txtfoodCate.Clear();
             txtdescr.Clear();
             chk_active.Checked = true;
             btn_del_cate.Visible = false;
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page ClearCategoryFields()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
         #endregion
 
@@ -2552,13 +2594,27 @@ namespace FoodandBeverage.Forms
 
         private void btnrefresh_unit_Click(object sender, EventArgs e)
         {
+            try
+            {
             ClearUnitFields();
             FillEmbeddedUnits();
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page btnrefresh_unit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void btncancel_unit_Click(object sender, EventArgs e)
         {
+            try
+            {
             tlp_Unit.Visible = false;
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page btncancel_unit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void dgv_unit_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -2570,14 +2626,23 @@ namespace FoodandBeverage.Forms
 
         private void btn_addunit_Click(object sender, EventArgs e)
         {
+            try
+            {
             ShowRegistrationPanel(tlp_Unit);
             tlp_category.Visible = false;
             ClearUnitFields();
             FillEmbeddedUnits();
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page btn_addunit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void FillEmbeddedUnits()
         {
+            try
+            {
             BllSearch<DmnUnit> bll = new BllSearch<DmnUnit>();
             DmnSearch search = new DmnSearch();
             search.Select = "UId,UnitName,Description,Status";
@@ -2596,10 +2661,17 @@ namespace FoodandBeverage.Forms
                 dgv_unit.Rows[i].Cells[3].Value = rows[i].Description;
                 dgv_unit.Rows[i].Cells[4].Value = rows[i].Status;
             }
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page FillEmbeddedUnits()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void LoadEmbeddedUnit(int unitId)
         {
+            try
+            {
             BllSearch<DmnUnit> bll = new BllSearch<DmnUnit>();
             DmnSearch search = new DmnSearch();
             search.Select = "*";
@@ -2613,26 +2685,45 @@ namespace FoodandBeverage.Forms
             txtdescr.Text = rows[0].Description;
             chk_active.Checked = rows[0].Status == 1;
             btn_del_unit.Visible = true;
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page LoadEmbeddedUnit()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
         private void ClearUnitFields()
         {
+            try
+            {
             txtUid.Text = "0";
             txtunit.Clear();
             txtdescr.Clear();
             chk_active.Checked = true;
             btn_del_unit.Visible = false;
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page ClearUnitFields()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
         #endregion
 
         private void ShowRegistrationPanel(TableLayoutPanel panel)
         {
+            try
+            {
             panel.Visible = true;
             panel.BringToFront();
             panel.Location = new Point(
                 Math.Max(0, (ClientSize.Width - panel.Width) / 2),
                 Math.Max(0, (ClientSize.Height - panel.Height) / 2));
             panel.Anchor = AnchorStyles.None;
+        
+            } catch (Exception ex)
+            {
+                clsgen.LogException("Item page ShowRegistrationPanel()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            } 
         }
 
        
