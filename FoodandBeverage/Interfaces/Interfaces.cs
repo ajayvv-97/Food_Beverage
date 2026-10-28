@@ -702,7 +702,8 @@ namespace FoodandBeverage.Interfaces
     {
         MadetoOrder = 1,
         BatchPrepared = 2,
-        PartiallyPrepared = 3
+        PartiallyPrepared = 3,
+        NotApplicable=4
     }
     
 }

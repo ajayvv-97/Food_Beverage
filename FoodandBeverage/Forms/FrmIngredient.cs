@@ -149,8 +149,10 @@ namespace FoodandBeverage.Forms
                         dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.MadetoOrder);
                     else if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 1)
                         dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.BatchPrepared);
-                    else
+                    else if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 2)
                         dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.PartiallyPrepared);
+                    else
+                        dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.NotApplicable);
 
                     if (rblimited.Checked)
                         dmnproduct.IsStockTracked = true;
@@ -387,7 +389,7 @@ namespace FoodandBeverage.Forms
 
                 //pb_menupic.BackgroundImage = null;
                 //pb_menupic.BackgroundImage = Properties.Resources.FoodPic;
-
+                txthsncode.Text = "";
                 empImgExt = "";
                 txtqty.Text = "";
                 txtitemcode.Text = "";
@@ -463,6 +465,8 @@ namespace FoodandBeverage.Forms
 
                 chk_bgcolor.Checked = false;
                 chk_forecolor.Checked = false;
+
+                cmb_FoodPreparationType.SelectedIndex = 3;
             }
             catch(Exception ex)
             {
@@ -933,6 +937,17 @@ namespace FoodandBeverage.Forms
                         rb_veg.Checked = true;
                     else
                         rb_nonveg.Checked = true;
+
+                    if (Convert.ToInt64(gridSource[0].FoodPreparationType) == Convert.ToInt32(FoodPreparationType.MadetoOrder))
+                        cmb_FoodPreparationType.SelectedIndex = 0;
+                    else if (Convert.ToInt64(gridSource[0].FoodPreparationType) == Convert.ToInt32(FoodPreparationType.BatchPrepared))
+                        cmb_FoodPreparationType.SelectedIndex = 1;
+                    else if (Convert.ToInt64(gridSource[0].FoodPreparationType) == Convert.ToInt32(FoodPreparationType.PartiallyPrepared))
+                        cmb_FoodPreparationType.SelectedIndex = 2;
+                    else if (Convert.ToInt64(gridSource[0].FoodPreparationType) == Convert.ToInt32(FoodPreparationType.NotApplicable))
+                        cmb_FoodPreparationType.SelectedIndex = 3;
+
+                    txthsncode.Text = Convert.ToString(gridSource[0].HSNcode);
 
                     if (gridSource[0].HasVariation)
                     {
