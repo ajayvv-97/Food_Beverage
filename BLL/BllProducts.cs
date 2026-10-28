@@ -33,6 +33,9 @@ namespace BLL
 
 			parms.Add("ForeColor", objTestClass.ForeColor);
 			parms.Add("BackColor", objTestClass.BackColor);
+
+			parms.Add("HSNcode", objTestClass.HSNcode); 
+			parms.Add("FoodPreparationType", objTestClass.FoodPreparationType);
 			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}

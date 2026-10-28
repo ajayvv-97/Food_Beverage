@@ -501,7 +501,7 @@ namespace FoodandBeverage.Interfaces
         ProductNameSerach = 5,
         ProductcodeSerach = 6,
     };
-    public enum PreparationType
+    public enum KOTRouting
     {
         kitchen = 1,
         Counter = 2,
@@ -698,6 +698,13 @@ namespace FoodandBeverage.Interfaces
         Auto,
         Manual
     }
+    public enum FoodPreparationType
+    {
+        MadetoOrder = 1,
+        BatchPrepared = 2,
+        PartiallyPrepared = 3
+    }
+    
 }
 
 

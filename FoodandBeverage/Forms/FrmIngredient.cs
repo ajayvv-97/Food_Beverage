@@ -32,12 +32,13 @@ namespace FoodandBeverage.Forms
 
         #region Grid Declaration
         public int Rslno = 0;
-        public  int Ritemno = 1;
-        public  int Rqtyno = 2;
-        public  int Runitno = 3;
-        public  int Raction = 4;
-        public  int RIng_DetailsIdno = 5;
-        public  int Ritemidno = 6;
+        public int Ritemno = 1;
+        public int Rqtyno = 2;
+        public int Runitno = 3;
+        public int RDeductionstageno = 4;
+        public int Raction = 5;
+        public int RIng_DetailsIdno = 6;
+        public int Ritemidno = 7;
 
         public int Vslno = 0;
         public int Vactionno = 1;
@@ -125,6 +126,8 @@ namespace FoodandBeverage.Forms
                     dmnproduct.UPC = "";
                     dmnproduct.CreatedBy = FrmDashboard.UserId;
                     dmnproduct.BranchId = FrmDashboard.BranchId;
+                    dmnproduct.HSNcode = Convert.ToString(txthsncode.Text);
+                    dmnproduct.Fcid = Convert.ToInt32(CmbCategory.SelectedValue);
 
                     bool hasVar = false;
                     foreach (DataGridViewRow row in dgv_variation.Rows)
@@ -138,9 +141,16 @@ namespace FoodandBeverage.Forms
                     dmnproduct.HasVariation = hasVar;
 
                     if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 0)
-                        dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.kitchen);
+                        dmnproduct.FoodPreparationType = Convert.ToInt32(KOTRouting.kitchen);
                     else
-                        dmnproduct.PreparationMode = Convert.ToInt32(PreparationType.Counter);
+                        dmnproduct.FoodPreparationType = Convert.ToInt32(KOTRouting.Counter);
+
+                    if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 0)
+                        dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.MadetoOrder);
+                    else if (Convert.ToInt32(cmbpre_type.SelectedIndex) == 1)
+                        dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.BatchPrepared);
+                    else
+                        dmnproduct.PreparationMode = Convert.ToInt32(FoodPreparationType.PartiallyPrepared);
 
                     if (rblimited.Checked)
                         dmnproduct.IsStockTracked = true;
@@ -1001,7 +1011,7 @@ namespace FoodandBeverage.Forms
 
                     //}
 
-                    if (Convert.ToInt32(gridSource[0].PreparationMode)== Convert.ToInt32(PreparationType.kitchen))
+                    if (Convert.ToInt32(gridSource[0].PreparationMode)== Convert.ToInt32(KOTRouting.kitchen))
                         cmbpre_type.SelectedIndex = 0;
                     else
                         cmbpre_type.SelectedIndex = 1;
@@ -2269,7 +2279,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txtpid, txtprice, txtproductname, txtSgstPrcnt, txtCgstPrcnt, txtmrp, txtDiscAmnt, txtDisPer, txtdes, txtsearch, txtqty, txtitemcode })
+                foreach (TextBox textBox in new TextBox[] { txthsncode, txtpid, txtprice, txtproductname, txtSgstPrcnt, txtCgstPrcnt, txtmrp, txtDiscAmnt, txtDisPer, txtdes, txtsearch, txtqty, txtitemcode })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -2279,7 +2289,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Product page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
         }
@@ -3836,8 +3845,41 @@ namespace FoodandBeverage.Forms
             }
         }
 
+
+
         #endregion
 
+        private void cmb_FoodPreparationType_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            try
+            {
+                DataGridViewComboBoxColumn preparationColumn = dgv_registartion.Columns[RDeductionstageno] as DataGridViewComboBoxColumn;
 
+                if (preparationColumn == null)
+                    return;
+
+                if (cmb_FoodPreparationType.SelectedIndex == 2)
+                {
+                    preparationColumn.DataSource = null;
+                    preparationColumn.Items.Clear();
+                    preparationColumn.Items.Add("Orderpreparation");
+                    preparationColumn.Items.Add("Advancepreparation");
+                    preparationColumn.Visible = true;
+                }
+                else
+                {
+                    preparationColumn.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Product page cmb_FoodPreparationType_SelectionChangeCommitted()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Product));
+            }
+        }
     }
 }

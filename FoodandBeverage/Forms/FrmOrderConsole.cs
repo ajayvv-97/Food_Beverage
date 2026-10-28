@@ -8480,7 +8480,7 @@ namespace FoodandBeverage.Forms
                                     dmnorderdetail.BranchId = FrmDashboard.BranchId;
                                     dmnorderdetail.CreatedBy = FrmDashboard.UserId;
 
-                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value) == Convert.ToInt32(PreparationType.Counter))
+                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value) == Convert.ToInt32(KOTRouting.Counter))
                                         dmnorderdetail.Status = 3;
                                     else
                                         dmnorderdetail.Status = 1;
@@ -8632,7 +8632,7 @@ namespace FoodandBeverage.Forms
                     DataGridViewRow row = Dgv_Selected_Item.Rows[i];
                     if (row.IsNewRow) continue;
 
-                    if (Convert.ToInt32(row.Cells[iPreparationModeno].Value) == Convert.ToInt32(PreparationType.kitchen)) continue;
+                    if (Convert.ToInt32(row.Cells[iPreparationModeno].Value) == Convert.ToInt32(KOTRouting.kitchen)) continue;
 
                     if (row.Cells[iqty].Value == null) continue;
 
@@ -10103,7 +10103,7 @@ namespace FoodandBeverage.Forms
                                             Dgv_Selected_Item.Rows[i].Cells[iqty].Value.ToString() != "")
                                         {
                                             if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value)
-                                                == Convert.ToInt32(PreparationType.kitchen))
+                                                == Convert.ToInt32(KOTRouting.kitchen))
                                             {
                                                 hasKitchenItem = true;
                                                 break;
@@ -10273,7 +10273,7 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.BranchId = FrmDashboard.BranchId;
                                                     dmnorderdetail.CreatedBy = FrmDashboard.UserId;
 
-                                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value) == Convert.ToInt32(PreparationType.Counter))
+                                                    if (Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value) == Convert.ToInt32(KOTRouting.Counter))
                                                         dmnorderdetail.Status = 3;
                                                     else
                                                         dmnorderdetail.Status = 1;

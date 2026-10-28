@@ -96,10 +96,10 @@ namespace FoodandBeverage.Forms
                         int prepType = itemSource[i].Field5 == null ? 0 : Convert.ToInt32(itemSource[i].Field5);
 
                         dgv_menu.Rows[i].Cells[pkitchenstatusno].Value =
-                            (prepType == Convert.ToInt32(PreparationType.kitchen));
+                            (prepType == Convert.ToInt32(KOTRouting.kitchen));
 
                         dgv_menu.Rows[i].Cells[pcounterstatusno].Value =
-                            (prepType == Convert.ToInt32(PreparationType.Counter));
+                            (prepType == Convert.ToInt32(KOTRouting.Counter));
                     }
                 }
                 else

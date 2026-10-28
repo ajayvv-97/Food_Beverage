@@ -42,5 +42,9 @@ namespace Domain
 		public bool HasVariation { get; set; }
 		public string ForeColor { get; set; }
 		public string BackColor { get; set; }
+
+		public string HSNcode { get; set; }
+		public int FoodPreparationType { get; set; }
+
 	}
 }
