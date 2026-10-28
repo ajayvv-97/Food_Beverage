@@ -2521,7 +2521,7 @@ namespace FoodandBeverage.Forms
                 DmnUnit unit = new DmnUnit();
                 unit.UId = Convert.ToInt32(txtUid.Text);
                 unit.UnitName = txtunit.Text;
-                unit.Description = txtdescr.Text;
+                unit.Description = txtdesc_unit.Text;
                 unit.CreatedBy = FrmDashboard.UserId;
                 unit.BranchId = FrmDashboard.BranchId;
                 unit.Status = 0;
@@ -2563,10 +2563,10 @@ namespace FoodandBeverage.Forms
                 DmnUnit unit = new DmnUnit();
                 unit.UId = string.IsNullOrWhiteSpace(txtUid.Text) ? 0 : Convert.ToInt32(txtUid.Text);
                 unit.UnitName = txtunit.Text.Trim();
-                unit.Description = txtdescr.Text;
+                unit.Description = txtdesc_unit.Text;
                 unit.CreatedBy = FrmDashboard.UserId;
                 unit.BranchId = FrmDashboard.BranchId;
-                unit.Status = chk_active.Checked ? 1 : 0;
+                unit.Status = checkBox1.Checked ? 1 : 0;
 
                 var result = new BllUnit().AddeditData("prdInsert_upd_Unit", unit);
                 if (result.UId > 0)
@@ -2590,7 +2590,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 if (dgv_unit.CurrentRow != null && dgv_unit.CurrentRow.Index >= 0)
-                    LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.CurrentRow.Cells[1].Value));
+                    LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.CurrentRow.Cells[0].Value));
                 else
                     dgv_unit.Focus();
             }
@@ -2628,7 +2628,7 @@ namespace FoodandBeverage.Forms
         private void dgv_unit_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= dgv_unit.Rows.Count) return;
-            try { LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.Rows[e.RowIndex].Cells[1].Value)); }
+            try { LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.Rows[e.RowIndex].Cells[0].Value)); }
             catch (Exception ex) { clsgen.LogException("Item page dgv_unit_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item)); }
         }
 
@@ -2663,11 +2663,10 @@ namespace FoodandBeverage.Forms
             dgv_unit.Rows.Add(rows.Count);
             for (int i = 0; i < rows.Count; i++)
             {
-                dgv_unit.Rows[i].Cells[slno].Value = i + 1;
-                dgv_unit.Rows[i].Cells[idno].Value = rows[i].UId;
-                dgv_unit.Rows[i].Cells[2].Value = rows[i].UnitName;
-                dgv_unit.Rows[i].Cells[3].Value = rows[i].Description;
-                dgv_unit.Rows[i].Cells[4].Value = rows[i].Status;
+                dgv_unit.Rows[i].Cells[0].Value = rows[i].UId;
+                dgv_unit.Rows[i].Cells[1].Value = rows[i].UnitName;
+                dgv_unit.Rows[i].Cells[2].Value = rows[i].Description;
+                dgv_unit.Rows[i].Cells[3].Value = Convert.ToInt32(rows[i].Status) == 1;
             }
         
             } catch (Exception ex)
@@ -2690,8 +2689,8 @@ namespace FoodandBeverage.Forms
             if (rows.Count == 0) return;
             txtUid.Text = Convert.ToString(rows[0].UId);
             txtunit.Text = rows[0].UnitName;
-            txtdescr.Text = rows[0].Description;
-            chk_active.Checked = rows[0].Status == 1;
+            txtdesc_unit.Text = rows[0].Description;
+            checkBox1.Checked = rows[0].Status == 1;
             btn_del_unit.Visible = true;
         
             } catch (Exception ex)
@@ -2706,8 +2705,8 @@ namespace FoodandBeverage.Forms
             {
             txtUid.Text = "0";
             txtunit.Clear();
-            txtdescr.Clear();
-            chk_active.Checked = true;
+            txtdesc_unit.Clear();
+            checkBox1.Checked = true;
             btn_del_unit.Visible = false;
         
             } catch (Exception ex)
