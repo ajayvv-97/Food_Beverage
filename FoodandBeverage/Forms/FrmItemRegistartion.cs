@@ -248,8 +248,6 @@ namespace FoodandBeverage.Forms
 
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch search = new DmnSearch();
-                // The returned model has Id and Value properties, so alias the
-                // database columns explicitly to ensure the ComboBoxes bind.
                 search.Select = "UId AS Id, UnitName AS Value";
                 search.Table = "tblUnit";
                 search.WhereNdGroupBy = "WHERE Status = 1";
@@ -291,8 +289,6 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        // Show all available choices in the dropdown without
-                        // silently selecting a unit for a new item.
                         combo.SelectedIndex = -1;
                     }
                 }
