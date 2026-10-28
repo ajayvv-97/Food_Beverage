@@ -2436,18 +2436,66 @@ namespace FoodandBeverage.Forms
             } 
         }
 
-        private void btnserach_categ_Click(object sender, EventArgs e)
+                private void btnserach_categ_Click(object sender, EventArgs e)
         {
             try
             {
-                if (dgv_category.CurrentRow != null && dgv_category.CurrentRow.Index >= 0)
-                    LoadEmbeddedCategory(Convert.ToInt32(dgv_category.CurrentRow.Cells[1].Value));
-                else
-                    dgv_category.Focus();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+
+                DmnSearch searchCriteria = new DmnSearch();
+                searchCriteria.ColumnHeaders = "ID,Category Name,Description";
+                searchCriteria.Select = "Fcid as Id,CategoryName as Field1,Description as Field2";
+                searchCriteria.Table = "tblCategory_FTI";
+                searchCriteria.WhereNdGroupBy = "WHERE Status = 1";
+                searchCriteria.OrderBy = "ORDER BY CategoryName";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", searchCriteria);
+                if (gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (var search = new FrmSearch<DmnGridFields>(
+                    searchCriteria, SearchMode.FirstCharacter, this.Width - 150,
+                    this.Height - 150, this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    if (search.ShowDialog() == DialogResult.OK)
+                        returnValue = Convert.ToString(search._retValue);
+                }
+
+                if (string.IsNullOrWhiteSpace(returnValue))
+                    return;
+
+                int categoryId;
+                if (!int.TryParse(returnValue, out categoryId) || categoryId <= 0)
+                    return;
+
+                BllSearch<DmnCategory> categorySearch = new BllSearch<DmnCategory>();
+                DmnSearch categoryCriteria = new DmnSearch();
+                categoryCriteria.Select = "Fcid,CategoryName,Description,Status,CategoryType";
+                categoryCriteria.Table = "tblCategory_FTI";
+                categoryCriteria.WhereNdGroupBy = "WHERE Status = 1 AND Fcid = " + categoryId;
+                categoryCriteria.OrderBy = "";
+
+                var itemSource = categorySearch.GetSearchData("prdSearch", categoryCriteria);
+                if (itemSource.Count > 0)
+                {
+                    txtFcid.Text = Convert.ToString(itemSource[0].Fcid);
+                    txtfoodCate.Text = Convert.ToString(itemSource[0].CategoryName);
+                    cmb_cate.SelectedIndex = Convert.ToInt32(itemSource[0].CategoryType);
+                    txtdescr.Text = Convert.ToString(itemSource[0].Description);
+                    chk_active.Checked = Convert.ToInt32(itemSource[0].Status) == 1;
+                    btn_del_cate.Visible = true;
+                }
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Item page btnserach_categ_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                clsgen.LogException("Item page btnserach_categ_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
         }
 
@@ -2662,18 +2710,65 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void btnsearch_unit_Click(object sender, EventArgs e)
+                private void btnsearch_unit_Click(object sender, EventArgs e)
         {
             try
             {
-                if (dgv_unit.CurrentRow != null && dgv_unit.CurrentRow.Index >= 0)
-                    LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.CurrentRow.Cells[0].Value));
-                else
-                    dgv_unit.Focus();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+
+                DmnSearch searchCriteria = new DmnSearch();
+                searchCriteria.ColumnHeaders = "ID,Unit Name,Description";
+                searchCriteria.Select = "UId as Id,UnitName as Field1,Description as Field2";
+                searchCriteria.Table = "tblUnit";
+                searchCriteria.WhereNdGroupBy = "WHERE Status = 1";
+                searchCriteria.OrderBy = "ORDER BY UnitName";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", searchCriteria);
+                if (gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (var search = new FrmSearch<DmnGridFields>(
+                    searchCriteria, SearchMode.FirstCharacter, this.Width - 150,
+                    this.Height - 150, this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    if (search.ShowDialog() == DialogResult.OK)
+                        returnValue = Convert.ToString(search._retValue);
+                }
+
+                if (string.IsNullOrWhiteSpace(returnValue))
+                    return;
+
+                int unitId;
+                if (!int.TryParse(returnValue, out unitId) || unitId <= 0)
+                    return;
+
+                BllSearch<DmnUnit> unitSearch = new BllSearch<DmnUnit>();
+                DmnSearch unitCriteria = new DmnSearch();
+                unitCriteria.Select = "UId,UnitName,Description,Status";
+                unitCriteria.Table = "tblUnit";
+                unitCriteria.WhereNdGroupBy = "WHERE Status = 1 AND UId = " + unitId;
+                unitCriteria.OrderBy = "";
+
+                var itemSource = unitSearch.GetSearchData("prdSearch", unitCriteria);
+                if (itemSource.Count > 0)
+                {
+                    txtUid.Text = Convert.ToString(itemSource[0].UId);
+                    txtunit.Text = Convert.ToString(itemSource[0].UnitName);
+                    txtdesc_unit.Text = Convert.ToString(itemSource[0].Description);
+                    checkBox1.Checked = Convert.ToInt32(itemSource[0].Status) == 1;
+                    btn_del_unit.Visible = true;
+                }
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Item page btnsearch_unit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                clsgen.LogException("Item page btnsearch_unit_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
         }
 
