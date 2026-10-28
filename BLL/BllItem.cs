@@ -32,9 +32,16 @@ namespace BLL
             parms.Add("Saletype", objTestClass.Saletype);
             parms.Add("PrId", objTestClass.PrId);
             parms.Add("DiscountAmt", objTestClass.DiscountAmt);
-            parms.Add("DiscountPer", objTestClass.DiscountPer); 
+            parms.Add("DiscountPer", objTestClass.DiscountPer);
 
-              var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
+            parms.Add("HSNcode", objTestClass.HSNcode);
+            parms.Add("ReorderLevel", objTestClass.ReorderLevel);
+            parms.Add("Isexpire", objTestClass.Isexpire);
+            parms.Add("LockSaleRate", objTestClass.LockSaleRate);
+            parms.Add("Baseunit", objTestClass.Baseunit);
+            parms.Add("Conversionfactor", objTestClass.Conversionfactor);
+
+            var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
     }

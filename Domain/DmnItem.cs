@@ -33,6 +33,15 @@ namespace Domain
         public int PrId { get; set; }
         public decimal DiscountAmt { get; set; }
         public decimal DiscountPer { get; set; }
+
+        public string HSNcode { get; set; }
+        public DateTime ExpiryDate { get; set; }
+        public int ReorderLevel { get; set; }
+        public bool Isexpire { get; set; }
+        public bool LockSaleRate { get; set; }
+        public int Baseunit { get; set; }
+        public decimal Conversionfactor { get; set; }
+
     }
     
 }

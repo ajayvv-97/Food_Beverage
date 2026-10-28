@@ -139,6 +139,10 @@ namespace FoodandBeverage.Forms
                 cmbunit.ValueMember = "Id";
                 cmbunit.DisplayMember = "Value";
 
+                cmbbaseunit.DataSource = gridSource1;
+                cmbbaseunit.ValueMember = "Id";
+                cmbbaseunit.DisplayMember = "Value";
+
             }
             catch (Exception ex)
             {
@@ -234,6 +238,14 @@ namespace FoodandBeverage.Forms
                         dmnitemreg.Status = 1;
                     else
                         dmnitemreg.Status = 0;
+
+                    dmnitemreg.HSNcode = Convert.ToString(txthsncode.Text);
+                    dmnitemreg.ReorderLevel = Convert.ToInt32(txtreorderlevel.Text);
+                    dmnitemreg.Isexpire = Convert.ToBoolean(chk_enableexpire.Checked);
+                    dmnitemreg.LockSaleRate = Convert.ToBoolean(chklocksalerate.Checked);
+                    dmnitemreg.Baseunit = Convert.ToInt32(cmbbaseunit.SelectedValue);
+                    dmnitemreg.Conversionfactor = Convert.ToDecimal(txtConversionFactor.Text);
+
                     var usertype = blltenreg.AddData("prdInsert_upd_ItemReg", dmnitemreg);
 
                     if (usertype.ItemId > 0)
@@ -1349,216 +1361,259 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Suspend layout while tax controls are rearranged to prevent flickering.
                 tlp_registration.SuspendLayout();
-                int[] columnsToRemove1 = { 0, 1, 2, 3 };
-                int[] rowsToRemove1 = { 5, 6, 7, 8, 9, 10 };
 
-                foreach (int column in columnsToRemove1)
+
+                int[] columns = { 0, 1, 2, 3 };
+                int[] rows = { 5, 6, 7, 8, 9, 10, 11, 12 };
+
+                foreach (int column in columns)
                 {
-                    foreach (int row in rowsToRemove1)
+                    foreach (int row in rows)
                     {
-                        Control controlToRemove = tlp_registration.GetControlFromPosition(column, row);
-                        if (controlToRemove != null)
-                        {
-                            tlp_registration.Controls.Remove(controlToRemove);
-                        }
+                        Control control = tlp_registration.GetControlFromPosition(column, row);
+
+                        if (control != null)
+                            tlp_registration.Controls.Remove(control);
                     }
                 }
-                cmbtax.Dock = DockStyle.Fill;
-                cmbTaxType.Dock = DockStyle.Fill;
-                lblunit.Dock = DockStyle.Fill;
-                lbltax.Dock = DockStyle.Fill;
-                lbltaxtype.Dock = DockStyle.Fill;
-                txtdesc.Dock = DockStyle.Fill;
-                txtdisper.Dock = DockStyle.Fill;
-                txtdisamt.Dock = DockStyle.Fill;
-                lbldisamt.Dock = DockStyle.Fill;
-                lbldisper.Dock = DockStyle.Fill;
 
+                // Common docking.
+                lblunit.Dock = DockStyle.Fill;
+                cmbunit.Dock = DockStyle.Fill;
+                lbltax.Dock = DockStyle.Fill;
+                cmbtax.Dock = DockStyle.Fill;
+
+                lblbaseunit.Dock = DockStyle.Fill;
+                cmbbaseunit.Dock = DockStyle.Fill;
+                lblConversionfactor.Dock = DockStyle.Fill;
+                txtConversionFactor.Dock = DockStyle.Fill;
+
+                lbltaxtype.Dock = DockStyle.Fill;
+                cmbTaxType.Dock = DockStyle.Fill;
                 lblhsn.Dock = DockStyle.Fill;
                 txthsncode.Dock = DockStyle.Fill;
 
+                lbldisper.Dock = DockStyle.Fill;
+                txtdisper.Dock = DockStyle.Fill;
+                lbldisamt.Dock = DockStyle.Fill;
+                txtdisamt.Dock = DockStyle.Fill;
+
+                lbligst.Dock = DockStyle.Fill;
+                cmbIgstPrcnt.Dock = DockStyle.Fill;
+                tlp_s_c_gst.Dock = DockStyle.Fill;
+                tlp_S_C_text_.Dock = DockStyle.Fill;
+
+                lblreorderlevel.Dock = DockStyle.Fill;
+                txtreorderlevel.Dock = DockStyle.Fill;
+                chk_enableexpire.Dock = DockStyle.Fill;
+                chklocksalerate.Dock = DockStyle.Fill;
+                lbldes.Dock = DockStyle.Fill;
+                tlp_des_rem.Dock = DockStyle.Fill;
+                txtdesc.Dock = DockStyle.Fill;
+
+                // =========================================================
+                // GST
+                // =========================================================
                 if (cmbTaxType.Text == "GST")
                 {
-                    lbligst.Dock = DockStyle.Fill;
-                    cmbIgstPrcnt.Dock = DockStyle.Fill;
-                    tlp_s_c_gst.Dock = DockStyle.Fill;
-                    tlp_S_C_text_.Dock = DockStyle.Fill;
-                    lbldes.Dock = DockStyle.Fill;
-
-                    lblreorderlevel.Dock = DockStyle.Fill;
-                    chk_enableexpire.Dock = DockStyle.Fill;
-                    chklocksalerate.Dock = DockStyle.Fill;
-
                     txtSgstPrcnt.Dock = DockStyle.Top;
                     txtCgstPrcnt.Dock = DockStyle.Top;
 
-                    tlp_des_rem.Dock = DockStyle.Fill;
                     if (rdb_dsale.Checked)
                     {
-                        //row1
+                        // Row 5: Discount, Unit and Tax labels.
                         tlp_registration.Controls.Add(lbldisper, 0, 5);
                         tlp_registration.Controls.Add(lbldisamt, 1, 5);
                         tlp_registration.Controls.Add(lblunit, 2, 5);
-                        tlp_registration.Controls.Add(lbltax, 3, 5);
+                        tlp_registration.Controls.Add(lblbaseunit, 3, 5);
 
-                        //row2
+                        // Row 6: Discount, Unit and Tax controls.
                         tlp_registration.Controls.Add(txtdisper, 0, 6);
                         tlp_registration.Controls.Add(txtdisamt, 1, 6);
                         tlp_registration.Controls.Add(cmbunit, 2, 6);
+                        tlp_registration.Controls.Add(cmbbaseunit, 3, 6);
+
+                        // Row 7: Base Unit and Conversion Factor labels.
+                        tlp_registration.Controls.Add(lblConversionfactor, 0, 7);
+                        tlp_registration.Controls.Add(lbltax, 1, 7);
+                        tlp_registration.Controls.Add(lbligst, 2, 7);
+                        tlp_registration.Controls.Add(tlp_s_c_gst, 3, 7);
+
+
+                        // Row 8: Base Unit and Conversion Factor controls.
+                        tlp_registration.Controls.Add(txtConversionFactor, 0, 8);
+                        tlp_registration.Controls.Add(cmbTaxType, 1, 8);
+                        tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 8); 
+                        tlp_registration.Controls.Add(tlp_S_C_text_, 3, 8);
+
+                        // Row 9: Tax labels.
+                        tlp_registration.Controls.Add(lblhsn, 0, 9);
+                        tlp_registration.Controls.Add(chk_enableexpire, 1, 9);
+                        tlp_registration.Controls.Add(lblreorderlevel, 2, 9);
+       
+
+                        // Row 10: Tax controls.
+                        tlp_registration.Controls.Add(txthsncode, 0, 10);
+                        tlp_registration.Controls.Add(cmb_exp_dates, 1, 10);
+                        tlp_registration.Controls.Add(txtreorderlevel, 2, 10);
+                        tlp_registration.Controls.Add(chklocksalerate, 3, 10);
+
+                        // Row 11: Expiry, reorder and description labels.
+                        tlp_registration.Controls.Add(lbldes, 0, 11);
+
+                        // Row 12: Expiry, reorder and description controls.
+                        tlp_registration.Controls.Add(txtdesc, 0, 12);
+                        tlp_registration.Controls.Add(btn_del_ingre, 1, 12);
+
+                    }
+                    else
+                    {
+                        // Row 5: Unit, Tax, Tax Type and IGST labels.
+                        tlp_registration.Controls.Add(lblunit, 0, 5);
+                        tlp_registration.Controls.Add(lblbaseunit, 1, 5);
+                        tlp_registration.Controls.Add(lblConversionfactor, 2, 5);
+                        tlp_registration.Controls.Add(lbltax, 3, 5);
+
+                        // Row 6: Unit, Tax, Tax Type and IGST controls.
+                        tlp_registration.Controls.Add(cmbunit, 0, 6);
+                        tlp_registration.Controls.Add(cmbbaseunit, 1, 6);
+                        tlp_registration.Controls.Add(txtConversionFactor, 2, 6);
                         tlp_registration.Controls.Add(cmbtax, 3, 6);
 
-                        //row3
+                        // Row 7: Base Unit and Conversion Factor labels.
                         tlp_registration.Controls.Add(lbltaxtype, 0, 7);
                         tlp_registration.Controls.Add(lbligst, 1, 7);
                         tlp_registration.Controls.Add(tlp_s_c_gst, 2, 7);
                         tlp_registration.Controls.Add(lblhsn, 3, 7);
 
-
-                        //row4
+                        // Row 8: Base Unit and Conversion Factor controls.
                         tlp_registration.Controls.Add(cmbTaxType, 0, 8);
                         tlp_registration.Controls.Add(cmbIgstPrcnt, 1, 8);
                         tlp_registration.Controls.Add(tlp_S_C_text_, 2, 8);
                         tlp_registration.Controls.Add(txthsncode, 3, 8);
 
-
+                        // Row 9: SGST/CGST and HSN labels.
                         tlp_registration.Controls.Add(chk_enableexpire, 0, 9);
-                        tlp_registration.Controls.Add(cmb_exp_dates, 0, 10);
-
                         tlp_registration.Controls.Add(lblreorderlevel, 1, 9);
-                        tlp_registration.Controls.Add(txtreorderlevel, 1, 10);
-
-                        tlp_registration.Controls.Add(chklocksalerate, 2, 10);
-
                         tlp_registration.Controls.Add(lbldes, 3, 9);
-                        tlp_registration.Controls.Add(tlp_des_rem, 3, 10);
 
-                        cmbIgstPrcnt.Focus();
-                    }
-                    else
-                    {
-                        lbligst.Dock = DockStyle.Fill;
-                        cmbIgstPrcnt.Dock = DockStyle.Fill;
-                        tlp_s_c_gst.Dock = DockStyle.Fill;
-                        tlp_S_C_text_.Dock = DockStyle.Fill;
-                        lbldes.Dock = DockStyle.Fill;
-                        txtSgstPrcnt.Dock = DockStyle.Top;
-                        txtCgstPrcnt.Dock = DockStyle.Top;
-                        tlp_des_rem.Dock = DockStyle.Fill;
+                        // Row 10: SGST/CGST and HSN controls.
+                        tlp_registration.Controls.Add(cmb_exp_dates, 0, 10);
+                        tlp_registration.Controls.Add(txtreorderlevel, 1, 10);
+                        tlp_registration.Controls.Add(chklocksalerate, 2, 10);
+                        tlp_registration.Controls.Add(txtdesc, 3, 10);
+
+                        // Row 11: Description label.
 
 
-                        //row1
-                        tlp_registration.Controls.Add(lblunit, 0, 5);
-                        tlp_registration.Controls.Add(lbltax, 1, 5);
-                        tlp_registration.Controls.Add(lbltaxtype, 2, 5);
-                        tlp_registration.Controls.Add(lbligst, 3, 5);
+                        // Row 12: Description controls.
+                        tlp_registration.Controls.Add(btn_del_ingre, 0, 12);
 
-                        //row2
-                        tlp_registration.Controls.Add(cmbunit, 0, 6);
-                        tlp_registration.Controls.Add(cmbtax, 1, 6);
-                        tlp_registration.Controls.Add(cmbTaxType, 2, 6);
-                        tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
-
-                        //row3
-                        tlp_registration.Controls.Add(tlp_s_c_gst, 0, 7);
-                        tlp_registration.Controls.Add(lblhsn, 1, 7);
-                        tlp_registration.Controls.Add(chk_enableexpire, 2, 7);
-                        tlp_registration.Controls.Add(lblreorderlevel, 3, 7);
-                        //row4
-                        tlp_registration.Controls.Add(tlp_S_C_text_, 0, 8);
-                        tlp_registration.Controls.Add(txthsncode, 1, 8);
-                        tlp_registration.Controls.Add(cmb_exp_dates, 2, 8);
-                        tlp_registration.Controls.Add(txtreorderlevel, 3, 8);
-
-                        tlp_registration.Controls.Add(chklocksalerate, 0, 10);
-                        tlp_registration.Controls.Add(lbldes, 1, 9);
-                        tlp_registration.Controls.Add(txtdesc, 1, 10);
-
-                        tlp_registration.Controls.Add(btn_del_ingre, 2, 10);
-
-                        cmbIgstPrcnt.Focus();
+                        //if (txtitemid.Text != "" && Convert.ToInt32(txtitemid.Text) > 0)
+                        //    tlp_registration.Controls.Add(tlp_des_rem, 1, 12);
+                        //else
+                        //    tlp_registration.Controls.Add(txtdesc, 1, 12);
                     }
 
+                    cmbIgstPrcnt.Focus();
                 }
+                // =========================================================
+                // VAT
+                // =========================================================
                 else if (cmbTaxType.Text == "VAT")
                 {
-                    cmbVatPrcnt.Dock = DockStyle.Fill;
                     lblvat.Dock = DockStyle.Fill;
-                    lbldes.Dock = DockStyle.Fill;
-                    tlp_des_rem.Dock = DockStyle.Fill;
+                    cmbVatPrcnt.Dock = DockStyle.Fill;
 
                     if (rdb_dsale.Checked)
                     {
-                        //row1
+                        // Row 5: Discount, Unit and Tax labels.
                         tlp_registration.Controls.Add(lbldisper, 0, 5);
                         tlp_registration.Controls.Add(lbldisamt, 1, 5);
                         tlp_registration.Controls.Add(lblunit, 2, 5);
-                        tlp_registration.Controls.Add(lbltax, 3, 5);
+                        tlp_registration.Controls.Add(lblbaseunit, 3, 5);
 
-                        //row2
+                        // Row 6: Discount, Unit and Tax controls.
                         tlp_registration.Controls.Add(txtdisper, 0, 6);
                         tlp_registration.Controls.Add(txtdisamt, 1, 6);
-                        tlp_registration.Controls.Add(cmbunit, 2, 6);
+                        tlp_registration.Controls.Add(cmbunit, 2, 6); 
+                        tlp_registration.Controls.Add(cmbbaseunit, 3, 6);
+
+                        // Row 7: Base Unit and Conversion Factor labels.
+                        tlp_registration.Controls.Add(lblConversionfactor, 0, 7);
+                        tlp_registration.Controls.Add(lbltax, 1, 7);
+                        tlp_registration.Controls.Add(lbltaxtype, 2, 7);
+                        tlp_registration.Controls.Add(lblvat, 3, 7);
+
+                        // Row 8: Base Unit and Conversion Factor controls.
+                        tlp_registration.Controls.Add(txtConversionFactor, 0, 8);
+                        tlp_registration.Controls.Add(cmbtax, 1, 8);
+                        tlp_registration.Controls.Add(cmbTaxType, 1, 8);
+                        tlp_registration.Controls.Add(cmbVatPrcnt, 1, 8);
+
+                        // Row 9: Tax labels.
+                        tlp_registration.Controls.Add(lblhsn, 0, 9);
+                        tlp_registration.Controls.Add(chk_enableexpire, 1, 9);
+                        tlp_registration.Controls.Add(lblreorderlevel, 2, 9);
+
+
+                        // Row 10: Tax controls.
+                        tlp_registration.Controls.Add(txthsncode, 0, 10);
+                        tlp_registration.Controls.Add(cmb_exp_dates, 1, 10);
+                        tlp_registration.Controls.Add(txtreorderlevel, 2, 10);
+                        tlp_registration.Controls.Add(chklocksalerate, 3, 10);
+
+                        // Row 11: Reorder and description labels.
+                        tlp_registration.Controls.Add(lbldes, 0, 11);
+
+                        // Row 12: Reorder and description controls.
+                        tlp_registration.Controls.Add(txtdesc, 0, 12);
+                        tlp_registration.Controls.Add(btn_del_ingre, 1, 12);
+                    }
+                    else
+                    {
+                        // Row 5: Unit, Tax, Tax Type and VAT labels.
+                        tlp_registration.Controls.Add(lblunit, 0, 5);
+                        tlp_registration.Controls.Add(lblbaseunit, 1, 5);
+                        tlp_registration.Controls.Add(lblConversionfactor, 2, 5);
+                        tlp_registration.Controls.Add(lbltax, 3, 5);
+
+                        // Row 6: Unit, Tax, Tax Type and VAT controls.
+                        tlp_registration.Controls.Add(cmbunit, 0, 6);
+                        tlp_registration.Controls.Add(cmbbaseunit, 1, 6);
+                        tlp_registration.Controls.Add(txtConversionFactor, 2, 6);
                         tlp_registration.Controls.Add(cmbtax, 3, 6);
 
-                        //row3
+                        // Row 7: Base Unit and Conversion Factor labels.
                         tlp_registration.Controls.Add(lbltaxtype, 0, 7);
                         tlp_registration.Controls.Add(lblvat, 1, 7);
                         tlp_registration.Controls.Add(lblhsn, 2, 7);
                         tlp_registration.Controls.Add(chk_enableexpire, 3, 7);
-                        //row4
+
+                        // Row 8: Base Unit and Conversion Factor controls.
                         tlp_registration.Controls.Add(cmbTaxType, 0, 8);
                         tlp_registration.Controls.Add(cmbVatPrcnt, 1, 8);
                         tlp_registration.Controls.Add(txthsncode, 2, 8);
                         tlp_registration.Controls.Add(cmb_exp_dates, 3, 8);
 
+                        // Row 9: HSN and stock labels.
                         tlp_registration.Controls.Add(lblreorderlevel, 0, 9);
+                        tlp_registration.Controls.Add(lbldes, 2, 9);     
+
+                        // Row 10: HSN and stock controls.
                         tlp_registration.Controls.Add(txtreorderlevel, 0, 10);
-
                         tlp_registration.Controls.Add(chklocksalerate, 1, 10);
+                        tlp_registration.Controls.Add(txtdesc, 2, 10);
+                        tlp_registration.Controls.Add(btn_del_ingre, 3, 10);
 
-                        tlp_registration.Controls.Add(lbldes, 2, 9);
-                        tlp_registration.Controls.Add(tlp_des_rem, 2, 10);
+                        // Row 11: Description label.        
 
-                        cmbVatPrcnt.Focus();
+                        // Row 12: Description control.
+
                     }
-                    else
-                    {
-                        cmbVatPrcnt.Dock = DockStyle.Fill;
-                        lblvat.Dock = DockStyle.Fill;
-                        lbldes.Dock = DockStyle.Fill;
-                        //row1
-                        tlp_registration.Controls.Add(lblunit, 0, 5);
-                        tlp_registration.Controls.Add(lbltax, 1, 5);
-                        tlp_registration.Controls.Add(lbltaxtype, 2, 5);
-                        tlp_registration.Controls.Add(lblvat, 3, 5);
 
-                        //row2
-                        tlp_registration.Controls.Add(cmbunit, 0, 6);
-                        tlp_registration.Controls.Add(cmbtax, 1, 6);
-                        tlp_registration.Controls.Add(cmbTaxType, 2, 6);
-                        tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
-
-                        //row3
-                        tlp_registration.Controls.Add(lblhsn, 0, 7);
-                        tlp_registration.Controls.Add(chk_enableexpire, 1, 7);
-                        tlp_registration.Controls.Add(lblreorderlevel, 2, 7);
-
-                        //row4
-                        tlp_registration.Controls.Add(txthsncode, 0, 8);
-                        tlp_registration.Controls.Add(cmb_exp_dates, 1, 8);
-                        tlp_registration.Controls.Add(txtreorderlevel, 2, 8);
-
-                        tlp_registration.Controls.Add(chklocksalerate, 3, 8);
-
-                        tlp_registration.Controls.Add(lbldes, 0, 9);
-                        tlp_registration.Controls.Add(txtdesc, 0, 10);
-
-                        tlp_registration.Controls.Add(btn_del_ingre, 2, 10);
-
-                        cmbVatPrcnt.Focus();
-                    }
+                    cmbVatPrcnt.Focus();
                 }
 
                 tlp_registration.ResumeLayout(true);
@@ -1566,11 +1621,15 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                // Always resume layout if an exception occurs during the arrangement.
                 if (tlp_registration != null)
                     tlp_registration.ResumeLayout(true);
 
-                clsgen.LogException("Item page ControlArrangement()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                clsgen.LogException(
+                    "Item page ControlArrangement()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Item));
             }
         }
 
@@ -2116,6 +2175,59 @@ namespace FoodandBeverage.Forms
                 AppSession.UnregisterForm(this);
             }
         }
+
+        private void chk_enableexpire_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chk_enableexpire.Checked)
+            {
+                cmb_exp_dates.Enabled = true;
+            }
+            else
+            {
+                cmb_exp_dates.Enabled = false;
+            }
+        }
+
+
+        private void txtConversionFactor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow control keys such as Backspace and Delete.
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Allow numbers.
+            if (char.IsDigit(e.KeyChar))
+            {
+                return;
+            }
+
+            // Allow only one decimal point.
+            if (e.KeyChar == '.' && !txtConversionFactor.Text.Contains("."))
+            {
+                return;
+            }
+
+            // Block alphabets and other special characters.
+            e.Handled = true;
+        }
+
+        private void txtreorderlevel_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow control keys such as Backspace and Delete.
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Allow integer digits only.
+            if (!char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
     }
 
 }
