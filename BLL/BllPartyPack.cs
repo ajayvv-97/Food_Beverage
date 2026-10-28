@@ -100,9 +100,7 @@ namespace BLL
             parms.Add("TaxType", obj.TaxType);
             parms.Add("TaxSettingsId", obj.TaxSettingsId);
             parms.Add("Tax", obj.Tax);
-            parms.Add("HSNCode", obj.HSNCode);
-
-            
+            parms.Add("HSNCode", obj.HSNCode);           
 
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
