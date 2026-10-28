@@ -169,6 +169,182 @@ namespace FoodandBeverage.Forms
             }
 
         }
+        private int GetSafeIntValue(object value)
+        {
+            if (value == null || value == DBNull.Value)
+                return 0;
+
+            int parsedValue;
+            return int.TryParse(Convert.ToString(value), out parsedValue) ? parsedValue : 0;
+        }
+
+        private void BindItemCategoryCombo(int saleType)
+        {
+            try
+            {
+                if (gridSource_Foodcate == null || gridSource_itemcate == null)
+                    combofill();
+
+                List<DmnComboBox> categories = saleType == 1
+                    ? gridSource_Foodcate
+                    : gridSource_itemcate;
+
+                cmb_inc_categ.BeginUpdate();
+                try
+                {
+                    cmb_inc_categ.DataSource = null;
+                    cmb_inc_categ.ValueMember = "Id";
+                    cmb_inc_categ.DisplayMember = "Value";
+                    cmb_inc_categ.DataSource = categories;
+                }
+                finally
+                {
+                    cmb_inc_categ.EndUpdate();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page BindItemCategoryCombo()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
+        }
+
+        private void SetComboSelectedValue(ComboBox combo, object value)
+        {
+            try
+            {
+                int selectedId = GetSafeIntValue(value);
+                if (combo == null || combo.DataSource == null || selectedId <= 0)
+                {
+                    if (combo != null)
+                        combo.SelectedIndex = -1;
+                    return;
+                }
+
+                // Use Int32 IDs to match the Id property returned by prdComboFill.
+                combo.SelectedValue = selectedId;
+                if (combo.SelectedIndex >= 0)
+                    return;
+
+                // Fallback for a bound list whose value lookup did not resolve.
+                for (int i = 0; i < combo.Items.Count; i++)
+                {
+                    DmnComboBox option = combo.Items[i] as DmnComboBox;
+                    if (option != null && GetSafeIntValue(option.Id) == selectedId)
+                    {
+                        combo.SelectedIndex = i;
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page SetComboSelectedValue()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
+        }
+
+        private void PopulateItemControls(DmnItem item)
+        {
+            try
+            {
+                if (item == null)
+                    return;
+
+                // Refresh the lookup sources before setting any SelectedValue.
+                combofill();
+                Taxfill();
+
+                int saleType = GetSafeIntValue(item.Saletype);
+                if (saleType == 1)
+                    rdb_dsale.Checked = true;
+                else
+                    rdb_notsale.Checked = true;
+
+                // The category data source changes with Sale Type. Bind it
+                // explicitly before assigning the selected category ID.
+                BindItemCategoryCombo(saleType);
+
+                txtitemid.Text = Convert.ToString(item.ItemId);
+                txtincr_name.Text = Convert.ToString(item.Itemname);
+                txtbarcode.Text = Convert.ToString(item.ItemCode_UPC);
+                txtdesc.Text = Convert.ToString(item.summary);
+
+                txtprate.Text = Convert.ToString(item.Prate);
+                txtsrate.Text = Convert.ToString(item.Srate);
+                txtmrp.Text = Convert.ToString(item.MRP);
+                txtqty.Text = Convert.ToString(item.QOH);
+                txtprid.Text = Convert.ToString(item.PrId);
+
+                txtdisamt.Text = Convert.ToString(item.DiscountAmt);
+                txtdisper.Text = Convert.ToString(item.DiscountPer);
+                txthsncode.Text = Convert.ToString(item.HSNcode);
+                txtreorderlevel.Text = Convert.ToString(item.ReorderLevel);
+                chk_enableexpire.Checked = item.Isexpire;
+                chklocksalerate.Checked = item.LockSaleRate;
+                txtConversionFactor.Text = Convert.ToString(item.Conversionfactor);
+                cmb_exp_dates.Text = item.ExpiryDate > DateTime.MinValue
+                    ? item.ExpiryDate.ToString("yyyy-MM-dd")
+                    : string.Empty;
+
+                SetComboSelectedValue(cmbunit, item.unit);
+                SetComboSelectedValue(cmbbaseunit, item.Baseunit);
+                SetComboSelectedValue(cmb_inc_categ, item.Fcid);
+
+                cmbtax.Text = Convert.ToString(item.Tax);
+                cmbTaxType.Text = Convert.ToString(item.TaxType);
+                if (cmbTaxType.Text == "GST")
+                    SetComboSelectedValue(cmbIgstPrcnt, item.TaxSettingsId);
+                else if (cmbTaxType.Text == "VAT")
+                    SetComboSelectedValue(cmbVatPrcnt, item.TaxSettingsId);
+
+                chb_active.Checked = GetSafeIntValue(item.Status) == 1;
+                rdb_dsale.Enabled = false;
+                rdb_notsale.Enabled = false;
+                btn_del_ingre.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page PopulateItemControls()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
+        }
+
+        private void ShowProductRateChoices(List<DmnItem> itemSource)
+        {
+            try
+            {
+                if (itemSource == null || itemSource.Count == 0)
+                    return;
+
+                pnlPrRates.Visible = true;
+                pnlPrRates.BringToFront();
+                pnlPrRates.Location = new Point(
+                    this.ClientSize.Width / 2 - pnlPrRates.Size.Width / 2,
+                    this.ClientSize.Height / 3 - pnlPrRates.Size.Height / 3);
+
+                dgvprDetails.Rows.Clear();
+                dgvprDetails.Rows.Add(itemSource.Count);
+                for (int i = 0; i < itemSource.Count; i++)
+                {
+                    dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
+                    dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
+                    dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
+                    dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
+                    dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
+                    dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
+                    dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].QOH;
+                    dgvprDetails.Rows[i].Cells[iprPtype].Value = itemSource[i].Fcid;
+                }
+                dgvprDetails.Focus();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page ShowProductRateChoices()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
+        }
+
         public void Taxfill()
         {
             try
@@ -665,81 +841,47 @@ namespace FoodandBeverage.Forms
 
 
         }
-        public void filldata(int rowno)
+                public void filldata(int rowno)
         {
             try
             {
-                int incgreid = Convert.ToInt32(dgv_item.Rows[rowno].Cells[idno].Value);
+                if (rowno < 0 || rowno >= dgv_item.Rows.Count)
+                    return;
+
+                int itemId = GetSafeIntValue(dgv_item.Rows[rowno].Cells[idno].Value);
+                if (itemId <= 0)
+                    return;
+
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "i.*,pr.SRate,pr.PRate,pr.MRP,pr.QOH,pr.Id as PrId";
-                objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
-                objSearch.WhereNdGroupBy = "where i.status = 1 and itemid=" + incgreid;
-                objSearch.OrderBy = "";
+                objSearch.Table = "tblItem i LEFT JOIN tblProductRate pr ON pr.ProductId = i.ItemId";
+                objSearch.WhereNdGroupBy = "WHERE i.Status = 1 AND i.ItemId = " + itemId;
+                objSearch.OrderBy = "ORDER BY pr.Id DESC";
+
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (itemSource.Count == 0)
+                {
+                    CMessageBox.Show("Unable to fetch the selected item's details.", "Item Not Found",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                PopulateItemControls(itemSource[0]);
                 if (itemSource.Count == 1)
                 {
-                    txtitemid.Text = Convert.ToString(incgreid);
-                    txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
-                    txtbarcode.Text = Convert.ToString(itemSource[0].ItemCode_UPC);
-                    txtdesc.Text = Convert.ToString(itemSource[0].summary);
-                    txtprate.Text = Convert.ToString(itemSource[0].Prate);
-                    txtsrate.Text = Convert.ToString(itemSource[0].Srate);
-                    txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                    txtqty.Text = Convert.ToString(itemSource[0].quantity);
-                    cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
-                    txthsncode.Text = Convert.ToString(itemSource[0].HSNcode);
-                    txtreorderlevel.Text = Convert.ToString(itemSource[0].ReorderLevel);
-                    chk_enableexpire.Checked = itemSource[0].Isexpire;
-                    chklocksalerate.Checked = itemSource[0].LockSaleRate;
-                    cmbbaseunit.SelectedValue = Convert.ToInt32(itemSource[0].Baseunit);
-                    txtConversionFactor.Text = Convert.ToString(itemSource[0].Conversionfactor);
-                    cmb_exp_dates.Text = itemSource[0].ExpiryDate > DateTime.MinValue
-                        ? itemSource[0].ExpiryDate.ToString("yyyy-MM-dd")
-                        : string.Empty;
-                    txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                    txtprid.Text = Convert.ToString(itemSource[0].PrId);
-
-                    if (Convert.ToInt32(itemSource[0].Saletype) == 1)
-                        rdb_dsale.Checked = true;
-                    else
-                        rdb_notsale.Checked = true;
-                    cmbtax.Text = Convert.ToString(itemSource[0].Tax);
-                    cmbTaxType.Text = Convert.ToString(itemSource[0].TaxType);
-                    if (cmbTaxType.Text == "GST")
-                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
-                    else
-                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
-                    cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
-                    btn_del_ingre.Visible = true;
+                    pnlPrRates.Visible = false;
                     toggle_grid.PerformClick();
                 }
-                else if (itemSource.Count > 1)
+                else
                 {
-                    pnlPrRates.Visible = true;
-                    pnlPrRates.Location = new Point(this.ClientSize.Width / 2 - pnlPrRates.Size.Width / 2, (this.ClientSize.Height / 3 - pnlPrRates.Size.Height / 3));
-                    dgvprDetails.Rows.Clear();
-                    dgvprDetails.Rows.Add(itemSource.Count);
-
-                    for (int i = 0; i < itemSource.Count; i++)
-                    {
-                        dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
-                        dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
-                        dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
-                        dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
-                        dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
-                        dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
-                        dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].QOH;
-                        dgvprDetails.Rows[i].Cells[iprPtype].Value = itemSource[i].Fcid;
-                    }
-                    dgvprDetails.Focus();
+                    ShowProductRateChoices(itemSource);
                 }
-
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Item page filldata()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                clsgen.LogException("Item page filldata()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
         }
         private void dgv_item_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -821,68 +963,36 @@ namespace FoodandBeverage.Forms
             int rowno = dgvprDetails.CurrentCell.RowIndex;
             GridkeydownEnter(rowno);
         }
-        public void GridkeydownEnter(int rowno)
+                public void GridkeydownEnter(int rowno)
         {
-
             try
             {
+                if (rowno < 0 || rowno >= dgvprDetails.Rows.Count)
+                    return;
+
+                int productRateId = GetSafeIntValue(dgvprDetails.Rows[rowno].Cells[iprId].Value);
+                if (productRateId <= 0)
+                    return;
+
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "i.ItemId,i.Itemname,i.ItemCode_UPC,i.summary,i.unit,i.Saletype,i.Tax,i.TaxType,i.TaxSettingsId,i.Fcid,pr.QOH,pr.Prate,pr.SRate,pr.MRP,pr.Id as PrId,i.DiscountAmt,i.DiscountPer,i.HSNcode,i.ExpiryDate,i.ReorderLevel,i.Isexpire,i.LockSaleRate,i.Baseunit,i.Conversionfactor";
-                objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
-                objSearch.WhereNdGroupBy = "where i.status = 1 and pr.id=" + dgvprDetails.Rows[rowno].Cells[iprId].Value;
+                objSearch.Select = "i.ItemId,i.Itemname,i.ItemCode_UPC,i.summary,i.unit,i.Saletype,i.Tax,i.TaxType,i.TaxSettingsId,i.Fcid,pr.QOH,pr.Prate,pr.SRate,pr.MRP,pr.Id as PrId,i.DiscountAmt,i.DiscountPer,i.HSNcode,i.ExpiryDate,i.ReorderLevel,i.Isexpire,i.LockSaleRate,i.Baseunit,i.Conversionfactor,i.Status";
+                objSearch.Table = "tblItem i LEFT JOIN tblProductRate pr ON pr.ProductId = i.ItemId";
+                objSearch.WhereNdGroupBy = "WHERE i.Status = 1 AND pr.Id = " + productRateId;
                 objSearch.OrderBy = "";
+
                 var itemSource = bllSearch.GetSearchData("prdSearch", objSearch);
                 if (itemSource.Count == 1)
                 {
-                    txtitemid.Text = Convert.ToString(itemSource[0].ItemId);
-                    txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
-                    txtbarcode.Text = Convert.ToString(itemSource[0].ItemCode_UPC);
-                    txtdesc.Text = Convert.ToString(itemSource[0].summary);
-                    txtprate.Text = Convert.ToString(itemSource[0].Prate);
-                    txtsrate.Text = Convert.ToString(itemSource[0].Srate);
-                    txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                    txtqty.Text = Convert.ToString(itemSource[0].QOH);
-                    cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
-                    txthsncode.Text = Convert.ToString(itemSource[0].HSNcode);
-                    txtreorderlevel.Text = Convert.ToString(itemSource[0].ReorderLevel);
-                    chk_enableexpire.Checked = itemSource[0].Isexpire;
-                    chklocksalerate.Checked = itemSource[0].LockSaleRate;
-                    cmbbaseunit.SelectedValue = Convert.ToInt32(itemSource[0].Baseunit);
-                    txtConversionFactor.Text = Convert.ToString(itemSource[0].Conversionfactor);
-                    cmb_exp_dates.Text = itemSource[0].ExpiryDate > DateTime.MinValue
-                        ? itemSource[0].ExpiryDate.ToString("yyyy-MM-dd")
-                        : string.Empty;
-                    txtprid.Text = Convert.ToString(itemSource[0].PrId);
-
-                    txtdisamt.Text = Convert.ToString(itemSource[0].DiscountAmt);
-                    txtdisper.Text = Convert.ToString(itemSource[0].DiscountPer);
-
-                    if (Convert.ToInt32(itemSource[0].Saletype) == 1)
-                        rdb_dsale.Checked = true;
-                    else
-                        rdb_notsale.Checked = true;
-
-                    rdb_dsale.Enabled = false;
-                    rdb_notsale.Enabled = false;
-
-                    cmbtax.Text = Convert.ToString(itemSource[0].Tax);
-                    cmbtax.Text = Convert.ToString(itemSource[0].TaxType);
-                    if (cmbTaxType.Text == "GST")
-                        cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
-                    else
-                        cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
-
-                    cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
+                    PopulateItemControls(itemSource[0]);
                     pnlPrRates.Visible = false;
-                    btn_del_ingre.Visible = true;
                     toggle_grid.PerformClick();
                 }
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Item page GridkeydownEnter()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                clsgen.LogException("Item page GridkeydownEnter()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
         }
 
@@ -1038,7 +1148,7 @@ namespace FoodandBeverage.Forms
                 e.Handled = true; // Suppress the Enter key
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+                private void btnSearch_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1046,116 +1156,70 @@ namespace FoodandBeverage.Forms
                 int returnValue = 0;
                 DataTable dtColumnAlign = new DataTable();
                 dtColumnAlign.Columns.Add();
-                DmnSearch _objSearch = new DmnSearch();
-                _objSearch.ColumnHeaders = "ID,ItemCode_UPC,Itemname";
-                _objSearch.Select = " ItemId as Id,ItemCode_UPC as Field1,Itemname as Field2";
-                _objSearch.Table = "tblItem";
-                _objSearch.WhereNdGroupBy = "where Status = 1";
-                _objSearch.OrderBy = " ORDER BY Itemname";
-                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+
+                DmnSearch searchCriteria = new DmnSearch();
+                searchCriteria.ColumnHeaders = "ID,ItemCode_UPC,Itemname";
+                searchCriteria.Select = "ItemId as Id,ItemCode_UPC as Field1,Itemname as Field2";
+                searchCriteria.Table = "tblItem";
+                searchCriteria.WhereNdGroupBy = "WHERE Status = 1";
+                searchCriteria.OrderBy = "ORDER BY Itemname";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", searchCriteria);
                 if (gridSource.Count == 0)
                 {
                     CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (var search = new FrmSearch<DmnGridFields>(
+                    searchCriteria, SearchMode.FirstCharacter, this.Width - 150,
+                    this.Height - 150, this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                {
+                    if (search.ShowDialog() == DialogResult.OK)
+                        returnValue = GetSafeIntValue(search._retValue);
+                }
+
+                if (returnValue <= 0)
+                    return;
+
+                // Do not filter by QOH here. Item registration must load the item
+                // even when it has no stock or no product-rate row.
+                BllSearch<DmnItem> itemSearch = new BllSearch<DmnItem>();
+                DmnSearch itemCriteria = new DmnSearch();
+                itemCriteria.Select = "i.*,pr.SRate,pr.PRate,pr.QOH,pr.MRP,pr.Id as PrId";
+                itemCriteria.Table = "tblItem i LEFT JOIN tblProductRate pr ON pr.ProductId = i.ItemId";
+                itemCriteria.WhereNdGroupBy = "WHERE i.Status = 1 AND i.ItemId = " + returnValue;
+                itemCriteria.OrderBy = "ORDER BY pr.Id DESC";
+
+                var itemSource = itemSearch.GetSearchData("prdSearch", itemCriteria);
+                if (itemSource.Count == 0)
+                {
+                    CMessageBox.Show("Unable to fetch the selected item's details.", "Item Not Found",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Always populate item-level details first. Multiple product-rate
+                // records should only open the rate picker, not skip the item fields.
+                PopulateItemControls(itemSource[0]);
+
+                if (itemSource.Count == 1)
+                {
+                    pnlPrRates.Visible = false;
+                    tlp_des_rem.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 80);
+                    tlp_des_rem.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 20);
+                    toggle_grid.PerformClick();
                 }
                 else
                 {
-                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
-                    {
-                        var dialogResult = search.ShowDialog();
-                        if (dialogResult == DialogResult.OK)
-                        {
-                            returnValue = Convert.ToInt32(search._retValue);
-                        }
-                    }
-                    if (returnValue > 0)
-                    {
-                        int incgreid = returnValue;
-                        BllSearch<DmnItem> bllSearch1 = new BllSearch<DmnItem>();
-                        DmnSearch objSearch = new DmnSearch();
-                        objSearch.Select = "i.*,pr.SRate,pr.PRate,pr.QOH,pr.MRP,pr.Id as PrId";
-                        objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
-                        objSearch.WhereNdGroupBy = "where i.status = 1 and  pr.QOH>0 and itemid=" + incgreid;
-                        objSearch.OrderBy = "";
-                        var itemSource = bllSearch1.GetSearchData("prdSearch", objSearch);
-                        if (itemSource.Count == 1)
-                        {
-                            txtitemid.Text = Convert.ToString(incgreid);
-                            txtincr_name.Text = Convert.ToString(itemSource[0].Itemname);
-                            txtbarcode.Text = Convert.ToString(itemSource[0].ItemCode_UPC);
-                            txtdesc.Text = Convert.ToString(itemSource[0].summary);
-                            txtprate.Text = Convert.ToString(itemSource[0].Prate);
-                            txtsrate.Text = Convert.ToString(itemSource[0].Srate);
-                            txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                            txtqty.Text = Convert.ToString(itemSource[0].QOH);
-                            cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
-                    txthsncode.Text = Convert.ToString(itemSource[0].HSNcode);
-                    txtreorderlevel.Text = Convert.ToString(itemSource[0].ReorderLevel);
-                    chk_enableexpire.Checked = itemSource[0].Isexpire;
-                    chklocksalerate.Checked = itemSource[0].LockSaleRate;
-                    cmbbaseunit.SelectedValue = Convert.ToInt32(itemSource[0].Baseunit);
-                    txtConversionFactor.Text = Convert.ToString(itemSource[0].Conversionfactor);
-                    cmb_exp_dates.Text = itemSource[0].ExpiryDate > DateTime.MinValue
-                        ? itemSource[0].ExpiryDate.ToString("yyyy-MM-dd")
-                        : string.Empty;
-                            txtmrp.Text = Convert.ToString(itemSource[0].MRP);
-                            txtprid.Text = Convert.ToString(itemSource[0].PrId);
-
-                            txtdisamt.Text = Convert.ToString(itemSource[0].DiscountAmt);
-                            txtdisper.Text = Convert.ToString(itemSource[0].DiscountPer);
-
-                            if (Convert.ToInt32(itemSource[0].Saletype) == 1)
-                                rdb_dsale.Checked = true;
-                            else
-                                rdb_notsale.Checked = true;
-
-                            rdb_dsale.Enabled = false;
-                            rdb_notsale.Enabled = false;
-
-                            cmbtax.Text = Convert.ToString(itemSource[0].Tax);
-                            cmbTaxType.Text = Convert.ToString(itemSource[0].TaxType);
-                            if (cmbTaxType.Text == "GST")
-                                cmbIgstPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
-                            else
-                                cmbVatPrcnt.SelectedValue = Convert.ToInt64(itemSource[0].TaxSettingsId);
-                            cmb_inc_categ.SelectedValue = Convert.ToInt64(itemSource[0].Fcid);
-                            btn_del_ingre.Visible = true;
-
-                            tlp_des_rem.ColumnStyles[0] = new ColumnStyle(SizeType.Percent, 80);
-                            tlp_des_rem.ColumnStyles[1] = new ColumnStyle(SizeType.Percent, 20);
-
-
-                            toggle_grid.PerformClick();
-                        }
-                        else if (itemSource.Count > 1)
-                        {
-                            pnlPrRates.Visible = true;
-                            pnlPrRates.Location = new Point(this.ClientSize.Width / 2 - pnlPrRates.Size.Width / 2, (this.ClientSize.Height / 3 - pnlPrRates.Size.Height / 3));
-                            dgvprDetails.Rows.Clear();
-                            dgvprDetails.Rows.Add(itemSource.Count);
-
-                            for (int i = 0; i < itemSource.Count; i++)
-                            {
-                                dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
-                                dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
-                                dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
-                                dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
-                                dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
-                                dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
-                                dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].QOH;
-                                dgvprDetails.Rows[i].Cells[iprPtype].Value = itemSource[i].Fcid;
-                            }
-                            dgvprDetails.Focus();
-                        }
-                    }
+                    ShowProductRateChoices(itemSource);
                 }
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Item page btnSearch_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                clsgen.LogException("Item page btnSearch_Click()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
-
-
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
