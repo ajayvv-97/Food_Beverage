@@ -23,7 +23,8 @@ namespace Domain
         public int Status { get; set; }
         public int BranchId { get; set; }
         public int ProductId { get; set; }
-    
+
+        public int Deductionstage { get; set; }
 
     }
 }

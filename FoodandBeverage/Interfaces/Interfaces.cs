@@ -703,7 +703,12 @@ namespace FoodandBeverage.Interfaces
         MadetoOrder = 1,
         BatchPrepared = 2,
         PartiallyPrepared = 3,
-        NotApplicable=4
+        NotApplicable = 4
+    }
+    public enum Deductionstage
+    {
+        Orderpreparation = 1,
+        Advancepreparation = 2,
     }
     
 }
