@@ -213,15 +213,28 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                int selectedId = GetSafeIntValue(value);
-                if (combo == null || combo.DataSource == null || selectedId <= 0)
+                if (combo == null || value == null || value == DBNull.Value)
                 {
                     if (combo != null)
                         combo.SelectedIndex = -1;
                     return;
                 }
 
-                // Use Int32 IDs to match the Id property returned by prdComboFill.
+                long selectedId;
+                if (!long.TryParse(Convert.ToString(value), out selectedId) || selectedId <= 0)
+                {
+                    combo.SelectedIndex = -1;
+                    return;
+                }
+
+                if (combo.DataSource == null || combo.Items.Count == 0)
+                {
+                    combo.SelectedIndex = -1;
+                    return;
+                }
+
+                // DmnComboBox.Id is Int64, so assign a long to match the
+                // actual bound value type and avoid int/long SelectedValue mismatches.
                 combo.SelectedValue = selectedId;
                 if (combo.SelectedIndex >= 0)
                     return;
@@ -230,7 +243,7 @@ namespace FoodandBeverage.Forms
                 for (int i = 0; i < combo.Items.Count; i++)
                 {
                     DmnComboBox option = combo.Items[i] as DmnComboBox;
-                    if (option != null && GetSafeIntValue(option.Id) == selectedId)
+                    if (option != null && option.Id == selectedId)
                     {
                         combo.SelectedIndex = i;
                         return;
