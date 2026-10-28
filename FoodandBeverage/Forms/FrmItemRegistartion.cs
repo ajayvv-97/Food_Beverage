@@ -73,7 +73,7 @@ namespace FoodandBeverage.Forms
                     "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
                     "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
                     "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field7," +
-                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
+                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16,i.HSNcode Field17,i.ReorderLevel Field18,i.Isexpire Field19,i.LockSaleRate Field20,i.Baseunit Field21,i.Conversionfactor Field22";
                 dmnSearch.Table = "tblItem i " +
                     " LEFT JOIN tblUnit u on u.UId=i.unit " +
                     " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId" +
@@ -106,6 +106,12 @@ namespace FoodandBeverage.Forms
                         dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Field13);
                         dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].Field14;
                         dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Field15;
+                        dgv_item.Rows[i].Cells[ihsncodeno].Value = itemSource[i].Field17;
+                        dgv_item.Rows[i].Cells[iReorderLevelno].Value = itemSource[i].Field18;
+                        dgv_item.Rows[i].Cells[iIsexpireno].Value = itemSource[i].Field19;
+                        dgv_item.Rows[i].Cells[iLockSaleRateno].Value = itemSource[i].Field20;
+                        dgv_item.Rows[i].Cells[iBaseunitno].Value = itemSource[i].Field21;
+                        dgv_item.Rows[i].Cells[iConversionfactorno].Value = itemSource[i].Field22;
                     }
                 }
             }
@@ -676,6 +682,15 @@ namespace FoodandBeverage.Forms
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                     txtqty.Text = Convert.ToString(itemSource[0].quantity);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
+                    txthsncode.Text = Convert.ToString(itemSource[0].HSNcode);
+                    txtreorderlevel.Text = Convert.ToString(itemSource[0].ReorderLevel);
+                    chk_enableexpire.Checked = itemSource[0].Isexpire;
+                    chklocksalerate.Checked = itemSource[0].LockSaleRate;
+                    cmbbaseunit.SelectedValue = Convert.ToInt32(itemSource[0].Baseunit);
+                    txtConversionFactor.Text = Convert.ToString(itemSource[0].Conversionfactor);
+                    cmb_exp_dates.Text = itemSource[0].ExpiryDate > DateTime.MinValue
+                        ? itemSource[0].ExpiryDate.ToString("yyyy-MM-dd")
+                        : string.Empty;
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                     txtprid.Text = Convert.ToString(itemSource[0].PrId);
 
@@ -807,7 +822,7 @@ namespace FoodandBeverage.Forms
             {
                 BllSearch<DmnItem> bllSearch = new BllSearch<DmnItem>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "i.ItemId,i.Itemname,i.ItemCode_UPC,i.summary,i.unit,i.Saletype,i.Tax,i.TaxType,i.TaxSettingsId,i.Fcid,pr.QOH,pr.Prate,pr.SRate,pr.MRP,pr.Id as PrId,i.DiscountAmt,i.DiscountPer";
+                objSearch.Select = "i.ItemId,i.Itemname,i.ItemCode_UPC,i.summary,i.unit,i.Saletype,i.Tax,i.TaxType,i.TaxSettingsId,i.Fcid,pr.QOH,pr.Prate,pr.SRate,pr.MRP,pr.Id as PrId,i.DiscountAmt,i.DiscountPer,i.HSNcode,i.ExpiryDate,i.ReorderLevel,i.Isexpire,i.LockSaleRate,i.Baseunit,i.Conversionfactor";
                 objSearch.Table = "tblitem i left join tblProductRate pr on pr.ProductId = i.ItemId";
                 objSearch.WhereNdGroupBy = "where i.status = 1 and pr.id=" + dgvprDetails.Rows[rowno].Cells[iprId].Value;
                 objSearch.OrderBy = "";
@@ -823,6 +838,15 @@ namespace FoodandBeverage.Forms
                     txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                     txtqty.Text = Convert.ToString(itemSource[0].QOH);
                     cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
+                    txthsncode.Text = Convert.ToString(itemSource[0].HSNcode);
+                    txtreorderlevel.Text = Convert.ToString(itemSource[0].ReorderLevel);
+                    chk_enableexpire.Checked = itemSource[0].Isexpire;
+                    chklocksalerate.Checked = itemSource[0].LockSaleRate;
+                    cmbbaseunit.SelectedValue = Convert.ToInt32(itemSource[0].Baseunit);
+                    txtConversionFactor.Text = Convert.ToString(itemSource[0].Conversionfactor);
+                    cmb_exp_dates.Text = itemSource[0].ExpiryDate > DateTime.MinValue
+                        ? itemSource[0].ExpiryDate.ToString("yyyy-MM-dd")
+                        : string.Empty;
                     txtprid.Text = Convert.ToString(itemSource[0].PrId);
 
                     txtdisamt.Text = Convert.ToString(itemSource[0].DiscountAmt);
@@ -1058,6 +1082,15 @@ namespace FoodandBeverage.Forms
                             txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                             txtqty.Text = Convert.ToString(itemSource[0].QOH);
                             cmbunit.SelectedValue = Convert.ToInt64(itemSource[0].unit);
+                    txthsncode.Text = Convert.ToString(itemSource[0].HSNcode);
+                    txtreorderlevel.Text = Convert.ToString(itemSource[0].ReorderLevel);
+                    chk_enableexpire.Checked = itemSource[0].Isexpire;
+                    chklocksalerate.Checked = itemSource[0].LockSaleRate;
+                    cmbbaseunit.SelectedValue = Convert.ToInt32(itemSource[0].Baseunit);
+                    txtConversionFactor.Text = Convert.ToString(itemSource[0].Conversionfactor);
+                    cmb_exp_dates.Text = itemSource[0].ExpiryDate > DateTime.MinValue
+                        ? itemSource[0].ExpiryDate.ToString("yyyy-MM-dd")
+                        : string.Empty;
                             txtmrp.Text = Convert.ToString(itemSource[0].MRP);
                             txtprid.Text = Convert.ToString(itemSource[0].PrId);
 
@@ -1928,7 +1961,7 @@ namespace FoodandBeverage.Forms
                     "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
                     "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
                     "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field7," +
-                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
+                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16,i.HSNcode Field17,i.ReorderLevel Field18,i.Isexpire Field19,i.LockSaleRate Field20,i.Baseunit Field21,i.Conversionfactor Field22";
                 dmnSearch.Table = "tblItem i " +
                     " LEFT JOIN tblUnit u on u.UId=i.unit " +
                     " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId" +
@@ -1966,6 +1999,12 @@ namespace FoodandBeverage.Forms
                         dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Field13);
                         dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].Field14;
                         dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Field15;
+                        dgv_item.Rows[i].Cells[ihsncodeno].Value = itemSource[i].Field17;
+                        dgv_item.Rows[i].Cells[iReorderLevelno].Value = itemSource[i].Field18;
+                        dgv_item.Rows[i].Cells[iIsexpireno].Value = itemSource[i].Field19;
+                        dgv_item.Rows[i].Cells[iLockSaleRateno].Value = itemSource[i].Field20;
+                        dgv_item.Rows[i].Cells[iBaseunitno].Value = itemSource[i].Field21;
+                        dgv_item.Rows[i].Cells[iConversionfactorno].Value = itemSource[i].Field22;
                     }
                 }
             }
@@ -2003,7 +2042,7 @@ namespace FoodandBeverage.Forms
                     "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
                     "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
                     "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field7," +
-                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
+                    "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16,i.HSNcode Field17,i.ReorderLevel Field18,i.Isexpire Field19,i.LockSaleRate Field20,i.Baseunit Field21,i.Conversionfactor Field22";
                 dmnSearch.Table = "tblItem i " +
                     " LEFT JOIN tblUnit u on u.UId=i.unit " +
                     " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId" +
@@ -2040,6 +2079,12 @@ namespace FoodandBeverage.Forms
                         dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Field13);
                         dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].Field14;
                         dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Field15;
+                        dgv_item.Rows[i].Cells[ihsncodeno].Value = itemSource[i].Field17;
+                        dgv_item.Rows[i].Cells[iReorderLevelno].Value = itemSource[i].Field18;
+                        dgv_item.Rows[i].Cells[iIsexpireno].Value = itemSource[i].Field19;
+                        dgv_item.Rows[i].Cells[iLockSaleRateno].Value = itemSource[i].Field20;
+                        dgv_item.Rows[i].Cells[iBaseunitno].Value = itemSource[i].Field21;
+                        dgv_item.Rows[i].Cells[iConversionfactorno].Value = itemSource[i].Field22;
                     }
                 }
             }
@@ -2088,7 +2133,7 @@ namespace FoodandBeverage.Forms
                         "(Select Top(1)Prate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field5," +
                         "(Select Top(1)Srate from tblProductRate where ProductId=i.ItemId order by Id desc) as Field6," +
                         "(Select Top(1)MRP from tblProductRate where ProductId=i.ItemId order by Id desc) as Field7," +
-                        "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16";
+                        "i.Tax Field8,ts.TaxType Field9,ts.IgstPrcnt Field10,ts.VatPrcnt Field11,i.summary Field12,i.Status Field13,u.UId Field114,i.Fcid Field15,c.CategoryName Field16,i.HSNcode Field17,i.ReorderLevel Field18,i.Isexpire Field19,i.LockSaleRate Field20,i.Baseunit Field21,i.Conversionfactor Field22";
                     dmnSearch.Table = "tblItem i " +
                         " LEFT JOIN tblUnit u on u.UId=i.unit " +
                         " LEFT JOIN tblTaxSettings ts on ts.TaxSettingsId=i.TaxSettingsId" +
@@ -2126,6 +2171,12 @@ namespace FoodandBeverage.Forms
                             dgv_item.Rows[i].Cells[istatusno].Value = Convert.ToInt32(itemSource[i].Field13);
                             dgv_item.Rows[i].Cells[iunitidno].Value = itemSource[i].Field14;
                             dgv_item.Rows[i].Cells[incre_categ_idno].Value = itemSource[i].Field15;
+                        dgv_item.Rows[i].Cells[ihsncodeno].Value = itemSource[i].Field17;
+                        dgv_item.Rows[i].Cells[iReorderLevelno].Value = itemSource[i].Field18;
+                        dgv_item.Rows[i].Cells[iIsexpireno].Value = itemSource[i].Field19;
+                        dgv_item.Rows[i].Cells[iLockSaleRateno].Value = itemSource[i].Field20;
+                        dgv_item.Rows[i].Cells[iBaseunitno].Value = itemSource[i].Field21;
+                        dgv_item.Rows[i].Cells[iConversionfactorno].Value = itemSource[i].Field22;
                         }
                         dgv_item.Focus();
                     }
