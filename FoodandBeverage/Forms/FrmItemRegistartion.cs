@@ -36,7 +36,14 @@ namespace FoodandBeverage.Forms
         public  int idescno = 12;
         public  int istatusno = 13;
         public  int iunitidno = 14;
-        public  int incre_categ_idno = 15;
+        public int incre_categ_idno = 15;
+
+        public int ihsncodeno = 16;
+        public int iReorderLevelno = 17;
+        public int iIsexpireno = 18;
+        public int iLockSaleRateno = 19;
+        public int iBaseunitno = 20;
+        public int iConversionfactorno = 21;
 
         //Prid
         public  int iprId = 0;
@@ -104,7 +111,6 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 clsgen.LogException("Item page Fillitem()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
 
