@@ -1189,6 +1189,27 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Product page Taxfill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
         }
+        private void PlaceRegistrationControl(Control control, int column, int row)
+        {
+            try
+            {
+                if (control == null)
+                    return;
+
+                TableLayoutPanelCellPosition position = tlp_registration.GetPositionFromControl(control);
+                if (control.Parent == tlp_registration &&
+                    position.Column == column && position.Row == row)
+                    return;
+
+                tlp_registration.Controls.Add(control, column, row);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page PlaceRegistrationControl()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {
             try
@@ -1205,106 +1226,70 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                int startRow = 5;
-                int endRow = 8;
-                int totalColumns = 4;
-
-                for (int row = startRow; row <= endRow; row++)
+                for (int row = 5; row <= 6; row++)
                 {
-                    for (int col = 0; col < totalColumns; col++)
+                    for (int column = 0; column < tlp_registration.ColumnCount; column++)
                     {
-                        if (row == 5 && col == 0)
-                            continue;
-                        if (row == 6 && col == 0)
-                            continue;
-                        Control ctrl = tlp_registration.GetControlFromPosition(col, row);
-                        if (ctrl != null)
-                        {
-                            tlp_registration.Controls.Remove(ctrl);
-                        }
+                        Control control = tlp_registration.GetControlFromPosition(column, row);
+                        if (control != null)
+                            tlp_registration.Controls.Remove(control);
                     }
                 }
 
+                PlaceRegistrationControl(lblfoodtype, 0, 7);
+                PlaceRegistrationControl(lbldes, 1, 7);
+                PlaceRegistrationControl(tlp_foodtype, 0, 8);
+                PlaceRegistrationControl(txtdes, 1, 8);
+                PlaceRegistrationControl(tlp_variation, 2, 8);
+                PlaceRegistrationControl(btn_del_ingre, 3, 8);
+
                 lbltax.Dock = DockStyle.Fill;
                 lbltaxtype.Dock = DockStyle.Fill;
+                cmbtax.Dock = DockStyle.Fill;
+                cmbTaxType.Dock = DockStyle.Fill;
 
-                lblfoodtype.Dock = DockStyle.Fill;
-                tlp_foodtype.Dock = DockStyle.Fill;
+                if (string.Equals(cmbTaxType.Text, "VAT", StringComparison.OrdinalIgnoreCase))
+                {
+                    lblvat.Dock = DockStyle.Fill;
+                    cmbVatPrcnt.Dock = DockStyle.Fill;
 
-                if (cmbTaxType.Text == "GST")
+                    tlp_registration.Controls.Add(lbltax, 0, 5);
+                    tlp_registration.Controls.Add(lbltaxtype, 1, 5);
+                    tlp_registration.Controls.Add(lblvat, 2, 5);
+
+                    tlp_registration.Controls.Add(cmbtax, 0, 6);
+                    tlp_registration.Controls.Add(cmbTaxType, 1, 6);
+                    tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
+                }
+                else
                 {
                     lbligst.Dock = DockStyle.Fill;
                     cmbIgstPrcnt.Dock = DockStyle.Fill;
+                    tlp_s_c_gst_lbl.Dock = DockStyle.Fill;
+                    tlp_S_C_text.Dock = DockStyle.Fill;
 
-                    //row1
                     tlp_registration.Controls.Add(lbltax, 0, 5);
                     tlp_registration.Controls.Add(lbltaxtype, 1, 5);
                     tlp_registration.Controls.Add(lbligst, 2, 5);
                     tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 5);
 
-                    //row2
                     tlp_registration.Controls.Add(cmbtax, 0, 6);
                     tlp_registration.Controls.Add(cmbTaxType, 1, 6);
                     tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 6);
                     tlp_registration.Controls.Add(tlp_S_C_text, 3, 6);
-
-                    //row3
-                    tlp_registration.Controls.Add(lblfoodtype, 0, 7);
-                    tlp_registration.Controls.Add(lbldes, 1, 7);
-
-
-                    ////row4
-                    tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
-                    tlp_registration.Controls.Add(txtdes, 1, 8);
-                    //tlp_registration.Controls.Add(btnvariation, 2, 8);
-                    tlp_registration.Controls.Add(tlp_variation, 2, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 3, 8);
-
-                    //tlp_registration.Controls.Add(btncolor_cutsomize, 3, 8);
-
-                    tlp_variation.Dock = DockStyle.Fill;
-                    txtdes.Dock = DockStyle.Fill;
-                    ApplyRoundedTextBox(txtdes, 10);
-                }
-                else if (cmbTaxType.Text == "VAT")
-                {
-                    cmbVatPrcnt.Dock = DockStyle.Fill;
-                    lblvat.Dock = DockStyle.Fill;
-
-                    //row1
-                    tlp_registration.Controls.Add(lbltax, 0, 5);
-                    tlp_registration.Controls.Add(lbltaxtype, 1, 5);
-                    tlp_registration.Controls.Add(lblvat, 2, 5);
-
-                    //row2
-                    tlp_registration.Controls.Add(cmbtax, 0, 6);
-                    tlp_registration.Controls.Add(cmbTaxType, 1, 6);
-                    tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
-
-                    //row3
-                    tlp_registration.Controls.Add(lblfoodtype, 0, 7);
-                    tlp_registration.Controls.Add(lbldes, 1, 7);
-
-                    //row4
-                    tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
-                    tlp_registration.Controls.Add(txtdes, 1, 8);
-                    tlp_registration.Controls.Add(tlp_variation, 2, 8);
-                    //tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
-                    tlp_registration.Controls.Add(btnvariation, 3, 8);
-
-                    tlp_variation.Dock = DockStyle.Fill;
-                    txtdes.Dock = DockStyle.Fill;
-                    ApplyRoundedTextBox(txtdes, 10);
                 }
 
-                tlp_S_C_text.Dock = DockStyle.Fill;
-                tlp_s_c_gst_lbl.Dock = DockStyle.Fill;
+                tlp_foodtype.Dock = DockStyle.Fill;
+                tlp_variation.Dock = DockStyle.Fill;
+                txtdes.Dock = DockStyle.Fill;
 
+                ApplyRoundedTextBox(txtdes, 10);
                 textb_shape();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Product page ControlArrangement()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("Product page ControlArrangement()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Product));
             }
         }
         private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
