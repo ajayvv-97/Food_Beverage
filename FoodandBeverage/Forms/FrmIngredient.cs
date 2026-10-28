@@ -199,6 +199,9 @@ namespace FoodandBeverage.Forms
                                 dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
                                 dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
                                 dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
+                                dmnincr.Deductionstage = cmb_FoodPreparationType.SelectedIndex == 2
+                                    ? GetDeductionStageId(dgv_registartion.Rows[i].Cells[RDeductionstageno].Value)
+                                    : 0;
                                 // dmnincr.Mid = Convert.ToInt32(cmb_menu.SelectedValue);
                                 dmnincr.CreatedBy = FrmDashboard.UserId;
                                 dmnincr.BranchId = FrmDashboard.BranchId;
@@ -1056,7 +1059,7 @@ namespace FoodandBeverage.Forms
 
                     BllSearch<DmnGridFields> bllSearchdetails = new BllSearch<DmnGridFields>();
                     DmnSearch objSearchDetails = new DmnSearch();
-                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5,id.status Field6 ";
+                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5,id.status Field6,id.Deductionstage Field7 ";
                     objSearchDetails.Table = "tblProduct p LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId left join tblUnit u on u.UId=id.Unit left join tblItem i on i.ItemId=id.ItemId";
                     objSearchDetails.WhereNdGroupBy = "where p.status=1 and  p.ProductId= " + Pid;
                     objSearchDetails.OrderBy = "";
@@ -1073,6 +1076,11 @@ namespace FoodandBeverage.Forms
                             dgv_registartion.Rows[i].Cells[Rqtyno].Value = Convert.ToDecimal(gridSource_pro[i].Field3);
                             dgv_registartion.Rows[i].Cells[Runitno].Value = Convert.ToInt64(gridSource_pro[i].Field4);
                             dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value = Convert.ToInt32(gridSource_pro[i].Field5);
+
+                            int deductionStageId = GetDeductionStageId(gridSource_pro[i].Field7);
+                            if (cmb_FoodPreparationType.SelectedIndex == 2 && deductionStageId > 0)
+                                dgv_registartion.Rows[i].Cells[RDeductionstageno].Value = deductionStageId;
+
                             DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[i].Cells[Raction];
                             cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
                             cell.Value = Properties.Resources.delete;
@@ -3897,6 +3905,28 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private int GetDeductionStageId(object value)
+        {
+            if (value == null || value == DBNull.Value)
+                return 0;
+
+            int stageId;
+            if (int.TryParse(Convert.ToString(value), out stageId))
+                return stageId == 1 || stageId == 2 ? stageId : 0;
+
+            string stageName = new string(Convert.ToString(value)
+                .Where(char.IsLetterOrDigit)
+                .ToArray()).ToLowerInvariant();
+
+            if (stageName == "orderpreparation")
+                return 1;
+
+            if (stageName == "advancepreparation")
+                return 2;
+
+            return 0;
+        }
+
         private void UpdatePreparationStageColumnVisibility()
         {
             try
@@ -3909,19 +3939,23 @@ namespace FoodandBeverage.Forms
                 if (preparationColumn == null)
                     return;
 
-                preparationColumn.DataSource = null;
-                preparationColumn.Items.Clear();
+                if (preparationColumn.DataSource == null)
+                {
+                    preparationColumn.Items.Clear();
 
-                if (cmb_FoodPreparationType.SelectedIndex == 2)
-                {
-                    preparationColumn.Items.Add("Orderpreparation");
-                    preparationColumn.Items.Add("Advancepreparation");
-                    preparationColumn.Visible = true;
+                    DataTable preparationStages = new DataTable();
+                    preparationStages.Columns.Add("Id", typeof(int));
+                    preparationStages.Columns.Add("Name", typeof(string));
+                    preparationStages.Rows.Add(1, "Orderpreparation");
+                    preparationStages.Rows.Add(2, "Advancepreparation");
+
+                    preparationColumn.ValueMember = "Id";
+                    preparationColumn.DisplayMember = "Name";
+                    preparationColumn.ValueType = typeof(int);
+                    preparationColumn.DataSource = preparationStages;
                 }
-                else
-                {
-                    preparationColumn.Visible = false;
-                }
+
+                preparationColumn.Visible = cmb_FoodPreparationType.SelectedIndex == 2;
             }
             catch (Exception ex)
             {
