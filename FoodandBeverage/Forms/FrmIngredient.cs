@@ -945,7 +945,18 @@ namespace FoodandBeverage.Forms
                     else
                         rb_nonveg.Checked = true;
 
-                    SetFoodPreparationTypeSelection(gridSource[0].FoodPreparationType);
+                    int foodPreparationType = Convert.ToInt32(gridSource[0].FoodPreparationType);
+                    if (foodPreparationType < Convert.ToInt32(FoodPreparationType.MadetoOrder) ||
+                        foodPreparationType > Convert.ToInt32(FoodPreparationType.NotApplicable))
+                    {
+                        int previousPreparationValue = Convert.ToInt32(gridSource[0].PreparationMode);
+                        if (previousPreparationValue >= Convert.ToInt32(FoodPreparationType.MadetoOrder) &&
+                            previousPreparationValue <= Convert.ToInt32(FoodPreparationType.NotApplicable))
+                        {
+                            foodPreparationType = previousPreparationValue;
+                        }
+                    }
+                    SetFoodPreparationTypeSelection(foodPreparationType);
 
                     txthsncode.Text = Convert.ToString(gridSource[0].HSNcode);
 
