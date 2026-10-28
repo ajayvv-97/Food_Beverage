@@ -127,48 +127,109 @@ namespace FoodandBeverage.Forms
         }
         public void combofill()
         {
-
             try
             {
+                // Preserve the selections before rebinding the ComboBoxes.
+                // This matters when an item has already been fetched and staff
+                // adds a category/unit without intending to change that item.
+                long? selectedCategoryId = GetSelectedComboId(cmb_inc_categ);
+                long? selectedUnitId = GetSelectedComboId(cmbunit);
+                long? selectedBaseUnitId = GetSelectedComboId(cmbbaseunit);
+
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch objSearch = new DmnSearch();
+
                 objSearch.Select = "Fcid,CategoryName";
-                objSearch.Table = " tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType in(2) ";
-                objSearch.OrderBy = "";
+                objSearch.Table = "tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 2";
+                objSearch.OrderBy = "ORDER BY CategoryName";
                 gridSource_itemcate = bllSearch.GetSearchData("prdComboFill", objSearch);
 
-                cmb_inc_categ.DataSource = gridSource_itemcate;
-                cmb_inc_categ.ValueMember = "Id";
-                cmb_inc_categ.DisplayMember = "Value";
-
-                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType in(0) ";
-                objSearch.OrderBy = "";
+                objSearch.Select = "Fcid,CategoryName";
+                objSearch.Table = "tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 0";
+                objSearch.OrderBy = "ORDER BY CategoryName";
                 gridSource_Foodcate = bllSearch.GetSearchData("prdComboFill", objSearch);
 
-                objSearch.Select = " UId,UnitName";
-                objSearch.Table = " tblUnit";
-                objSearch.WhereNdGroupBy = "where status=1";
-                objSearch.OrderBy = "";
-                var gridSource1 = bllSearch.GetSearchData("prdComboFill", objSearch);
-                var gridSource2 = bllSearch.GetSearchData("prdComboFill", objSearch);
+                objSearch.Select = "UId,UnitName";
+                objSearch.Table = "tblUnit";
+                objSearch.WhereNdGroupBy = "WHERE Status = 1";
+                objSearch.OrderBy = "ORDER BY UnitName";
+                var unitSource = bllSearch.GetSearchData("prdComboFill", objSearch);
 
-                cmbunit.DataSource = gridSource1;
-                cmbunit.ValueMember = "Id";
-                cmbunit.DisplayMember = "Value";
+                // Rebind both unit lists from the refreshed active-unit source.
+                cmbunit.BeginUpdate();
+                cmbbaseunit.BeginUpdate();
+                try
+                {
+                    cmbunit.DataSource = null;
+                    cmbunit.ValueMember = "Id";
+                    cmbunit.DisplayMember = "Value";
+                    cmbunit.DataSource = new List<DmnComboBox>(unitSource);
 
-                cmbbaseunit.DataSource = gridSource2;
-                cmbbaseunit.ValueMember = "Id";
-                cmbbaseunit.DisplayMember = "Value";
+                    cmbbaseunit.DataSource = null;
+                    cmbbaseunit.ValueMember = "Id";
+                    cmbbaseunit.DisplayMember = "Value";
+                    cmbbaseunit.DataSource = new List<DmnComboBox>(unitSource);
+                }
+                finally
+                {
+                    cmbunit.EndUpdate();
+                    cmbbaseunit.EndUpdate();
+                }
 
+                // The category list depends on whether this is a direct-sale item
+                // or a non-sale/menu item. Bind the correct list before restoring
+                // the previously selected category ID.
+                BindItemCategoryCombo(rdb_dsale.Checked ? 1 : 0);
+
+                // Restore the saved/current selections if those IDs still exist.
+                // If an ID is no longer active, leave the refreshed ComboBox's
+                // default selection unchanged rather than selecting the new row.
+                if (selectedUnitId.HasValue)
+                    SetComboSelectedValue(cmbunit, selectedUnitId.Value);
+
+                if (selectedBaseUnitId.HasValue)
+                    SetComboSelectedValue(cmbbaseunit, selectedBaseUnitId.Value);
+
+                if (selectedCategoryId.HasValue)
+                    SetComboSelectedValue(cmb_inc_categ, selectedCategoryId.Value);
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Item page combofill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                clsgen.LogException("Item page combofill()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
-
         }
+        private long? GetSelectedComboId(ComboBox combo)
+        {
+            try
+            {
+                if (combo == null || combo.DataSource == null || combo.SelectedIndex < 0)
+                    return null;
+
+                object selectedValue = combo.SelectedValue;
+                if (selectedValue == null || selectedValue == DBNull.Value)
+                    return null;
+
+                long id;
+                if (long.TryParse(Convert.ToString(selectedValue), out id) && id > 0)
+                    return id;
+
+                DmnComboBox selectedItem = combo.SelectedItem as DmnComboBox;
+                if (selectedItem != null && selectedItem.Id > 0)
+                    return selectedItem.Id;
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page GetSelectedComboId()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                return null;
+            }
+        }
+
         private int GetSafeIntValue(object value)
         {
             if (value == null || value == DBNull.Value)
