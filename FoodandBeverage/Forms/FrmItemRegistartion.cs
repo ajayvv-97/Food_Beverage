@@ -2353,7 +2353,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 if (dgv_category.CurrentRow != null && dgv_category.CurrentRow.Index >= 0)
-                    LoadEmbeddedCategory(Convert.ToInt32(dgv_category.CurrentRow.Cells[cidno].Value));
+                    LoadEmbeddedCategory(Convert.ToInt32(dgv_category.CurrentRow.Cells[1].Value));
                 else
                     dgv_category.Focus();
             }
@@ -2398,7 +2398,7 @@ namespace FoodandBeverage.Forms
         private void dgv_category_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= dgv_category.Rows.Count) return;
-            try { LoadEmbeddedCategory(Convert.ToInt32(dgv_category.Rows[e.RowIndex].Cells[cidno].Value)); }
+            try { LoadEmbeddedCategory(Convert.ToInt32(dgv_category.Rows[e.RowIndex].Cells[1].Value)); }
             catch (Exception ex) { clsgen.LogException("Item page dgv_category_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item)); }
         }
 
@@ -2424,11 +2424,11 @@ namespace FoodandBeverage.Forms
             dgv_category.Rows.Add(rows.Count);
             for (int i = 0; i < rows.Count; i++)
             {
-                dgv_category.Rows[i].Cells[cslno].Value = i + 1;
+                dgv_category.Rows[i].Cells[0].Value = i + 1;
                 dgv_category.Rows[i].Cells[cidno].Value = rows[i].Fcid;
-                dgv_category.Rows[i].Cells[cnameno].Value = rows[i].CategoryName;
-                dgv_category.Rows[i].Cells[cdesno].Value = rows[i].Description;
-                dgv_category.Rows[i].Cells[cstatusno].Value = rows[i].Status;
+                dgv_category.Rows[i].Cells[2].Value = rows[i].CategoryName;
+                dgv_category.Rows[i].Cells[3].Value = rows[i].Description;
+                dgv_category.Rows[i].Cells[4].Value = rows[i].Status;
             }
         }
 
@@ -2540,7 +2540,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 if (dgv_unit.CurrentRow != null && dgv_unit.CurrentRow.Index >= 0)
-                    LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.CurrentRow.Cells[idno].Value));
+                    LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.CurrentRow.Cells[1].Value));
                 else
                     dgv_unit.Focus();
             }
@@ -2564,7 +2564,7 @@ namespace FoodandBeverage.Forms
         private void dgv_unit_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= dgv_unit.Rows.Count) return;
-            try { LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.Rows[e.RowIndex].Cells[idno].Value)); }
+            try { LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.Rows[e.RowIndex].Cells[1].Value)); }
             catch (Exception ex) { clsgen.LogException("Item page dgv_unit_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item)); }
         }
 
@@ -2592,9 +2592,9 @@ namespace FoodandBeverage.Forms
             {
                 dgv_unit.Rows[i].Cells[slno].Value = i + 1;
                 dgv_unit.Rows[i].Cells[idno].Value = rows[i].UId;
-                dgv_unit.Rows[i].Cells[iunitno].Value = rows[i].UnitName;
-                dgv_unit.Rows[i].Cells[idesno].Value = rows[i].Description;
-                dgv_unit.Rows[i].Cells[istatusno].Value = rows[i].Status;
+                dgv_unit.Rows[i].Cells[2].Value = rows[i].UnitName;
+                dgv_unit.Rows[i].Cells[3].Value = rows[i].Description;
+                dgv_unit.Rows[i].Cells[4].Value = rows[i].Status;
             }
         }
 
