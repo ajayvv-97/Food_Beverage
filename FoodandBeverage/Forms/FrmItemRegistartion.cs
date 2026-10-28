@@ -127,35 +127,114 @@ namespace FoodandBeverage.Forms
         }
         public void combofill()
         {
-            // Refresh unit lists separately so a category-query failure cannot
-            // prevent Unit and Base Unit from loading.
             RefreshUnitComboBoxes();
 
             try
             {
-                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                BllSearch<DmnGridFields> searchService = new BllSearch<DmnGridFields>();
                 DmnSearch search = new DmnSearch();
 
-                search.Select = "Fcid AS Id, CategoryName AS Value";
+                search.Select = "Fcid AS Id, CategoryName AS Field1";
                 search.Table = "tblCategory_FTI";
                 search.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 2";
                 search.OrderBy = "ORDER BY CategoryName";
-                gridSource_itemcate = bllSearch.GetSearchData("prdComboFill", search)
-                    ?? new List<DmnComboBox>();
+                var itemCategoryRows = searchService.GetSearchData("prdSearch", search);
+                gridSource_itemcate = MapComboBoxRows(itemCategoryRows);
 
                 search = new DmnSearch();
-                search.Select = "Fcid AS Id, CategoryName AS Value";
+                search.Select = "Fcid AS Id, CategoryName AS Field1";
                 search.Table = "tblCategory_FTI";
                 search.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 0";
                 search.OrderBy = "ORDER BY CategoryName";
-                gridSource_Foodcate = bllSearch.GetSearchData("prdComboFill", search)
-                    ?? new List<DmnComboBox>();
+                var foodCategoryRows = searchService.GetSearchData("prdSearch", search);
+                gridSource_Foodcate = MapComboBoxRows(foodCategoryRows);
 
                 BindItemCategoryCombo(rdb_dsale.Checked ? 1 : 0);
             }
             catch (Exception ex)
             {
                 clsgen.LogException("Item page combofill()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
+        }
+
+        private List<DmnComboBox> MapComboBoxRows(List<DmnGridFields> rows)
+        {
+            List<DmnComboBox> result = new List<DmnComboBox>();
+            if (rows == null)
+                return result;
+
+            foreach (DmnGridFields row in rows)
+            {
+                if (row == null || row.Id <= 0)
+                    continue;
+
+                result.Add(new DmnComboBox
+                {
+                    Id = row.Id,
+                    Value = row.Field1 ?? string.Empty
+                });
+            }
+            return result;
+        }
+
+        private void RefreshUnitComboBoxes()
+        {
+            try
+            {
+                long? selectedUnitId = GetSelectedComboId(cmbunit);
+                long? selectedBaseUnitId = GetSelectedComboId(cmbbaseunit);
+
+                BllSearch<DmnGridFields> searchService = new BllSearch<DmnGridFields>();
+                DmnSearch search = new DmnSearch();
+                search.Select = "UId AS Id, UnitName AS Field1";
+                search.Table = "tblUnit";
+                search.WhereNdGroupBy = "WHERE Status = 1";
+                search.OrderBy = "ORDER BY UnitName";
+
+                List<DmnGridFields> rows = searchService.GetSearchData("prdSearch", search);
+                List<DmnComboBox> unitSource = MapComboBoxRows(rows);
+
+                BindUnitCombo(cmbunit, unitSource, selectedUnitId);
+                BindUnitCombo(cmbbaseunit, unitSource, selectedBaseUnitId);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page RefreshUnitComboBoxes()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
+        }
+
+        private void BindUnitCombo(ComboBox combo, List<DmnComboBox> unitSource, long? selectedId)
+        {
+            try
+            {
+                if (combo == null)
+                    return;
+
+                combo.BeginUpdate();
+                try
+                {
+                    combo.DataSource = null;
+                    combo.ValueMember = "Id";
+                    combo.DisplayMember = "Value";
+                    combo.DataSource = unitSource == null
+                        ? new List<DmnComboBox>()
+                        : new List<DmnComboBox>(unitSource);
+
+                    if (selectedId.HasValue)
+                        SetComboSelectedValue(combo, selectedId.Value);
+                    else
+                        combo.SelectedIndex = -1;
+                }
+                finally
+                {
+                    combo.EndUpdate();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page BindUnitCombo()", ex, FrmLogin.EmployeName,
                     FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
         }
@@ -270,9 +349,6 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (gridSource_Foodcate == null || gridSource_itemcate == null)
-                    combofill();
-
                 List<DmnComboBox> categories = saleType == 1
                     ? gridSource_Foodcate
                     : gridSource_itemcate;
@@ -301,33 +377,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                if (combo == null || value == null || value == DBNull.Value)
-                {
-                    if (combo != null)
-                        combo.SelectedIndex = -1;
+                if (combo == null)
                     return;
-                }
 
                 long selectedId;
-                if (!long.TryParse(Convert.ToString(value), out selectedId) || selectedId <= 0)
+                if (value == null || value == DBNull.Value ||
+                    !long.TryParse(Convert.ToString(value), out selectedId) || selectedId <= 0)
                 {
                     combo.SelectedIndex = -1;
                     return;
                 }
 
-                if (combo.DataSource == null || combo.Items.Count == 0)
-                {
-                    combo.SelectedIndex = -1;
-                    return;
-                }
-
-                // DmnComboBox.Id is Int64, so assign a long to match the
-                // actual bound value type and avoid int/long SelectedValue mismatches.
-                combo.SelectedValue = selectedId;
-                if (combo.SelectedIndex >= 0)
-                    return;
-
-                // Fallback for a bound list whose value lookup did not resolve.
+                combo.SelectedIndex = -1;
                 for (int i = 0; i < combo.Items.Count; i++)
                 {
                     DmnComboBox option = combo.Items[i] as DmnComboBox;
@@ -337,10 +398,6 @@ namespace FoodandBeverage.Forms
                         return;
                     }
                 }
-
-                // If the saved ID is not in the refreshed active list, don't
-                // accidentally leave a different unit selected.
-                combo.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -356,31 +413,25 @@ namespace FoodandBeverage.Forms
                 if (item == null)
                     return;
 
-                // Refresh the lookup sources before setting any SelectedValue.
-                combofill();
-                Taxfill();
-
                 int saleType = GetSafeIntValue(item.Saletype);
                 if (saleType == 1)
                     rdb_dsale.Checked = true;
                 else
                     rdb_notsale.Checked = true;
 
-                // The category data source changes with Sale Type. Bind it
-                // explicitly before assigning the selected category ID.
+                combofill();
+                Taxfill();
                 BindItemCategoryCombo(saleType);
 
                 txtitemid.Text = Convert.ToString(item.ItemId);
                 txtincr_name.Text = Convert.ToString(item.Itemname);
                 txtbarcode.Text = Convert.ToString(item.ItemCode_UPC);
                 txtdesc.Text = Convert.ToString(item.summary);
-
                 txtprate.Text = Convert.ToString(item.Prate);
                 txtsrate.Text = Convert.ToString(item.Srate);
                 txtmrp.Text = Convert.ToString(item.MRP);
                 txtqty.Text = Convert.ToString(item.QOH);
                 txtprid.Text = Convert.ToString(item.PrId);
-
                 txtdisamt.Text = Convert.ToString(item.DiscountAmt);
                 txtdisper.Text = Convert.ToString(item.DiscountPer);
                 txthsncode.Text = Convert.ToString(item.HSNcode);
@@ -1287,8 +1338,6 @@ namespace FoodandBeverage.Forms
                 if (returnValue <= 0)
                     return;
 
-                // Do not filter by QOH here. Item registration must load the item
-                // even when it has no stock or no product-rate row.
                 BllSearch<DmnItem> itemSearch = new BllSearch<DmnItem>();
                 DmnSearch itemCriteria = new DmnSearch();
                 itemCriteria.Select = "i.*,pr.SRate,pr.PRate,pr.QOH,pr.MRP,pr.Id as PrId";
@@ -1304,8 +1353,6 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
-                // Always populate item-level details first. Multiple product-rate
-                // records should only open the rate picker, not skip the item fields.
                 PopulateItemControls(itemSource[0]);
 
                 if (itemSource.Count == 1)
@@ -2110,21 +2157,33 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch objSearch = new DmnSearch();
-                objSearch.Select = "Fcid AS Id, CategoryName AS Value";
-                objSearch.Table = " tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "where Status=1 and CategoryType=" + cattype;
-                objSearch.OrderBy = "";
-                var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                cmbMenu_category.DataSource = gridSource;
-                cmbMenu_category.ValueMember = "Id";
-                cmbMenu_category.DisplayMember = "Value";
+                objSearch.Select = "Fcid AS Id, CategoryName AS Field1";
+                objSearch.Table = "tblCategory_FTI";
+                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = " + cattype;
+                objSearch.OrderBy = "ORDER BY CategoryName";
+
+                List<DmnComboBox> gridSource = MapComboBoxRows(
+                    bllSearch.GetSearchData("prdSearch", objSearch));
+
+                cmbMenu_category.BeginUpdate();
+                try
+                {
+                    cmbMenu_category.DataSource = null;
+                    cmbMenu_category.ValueMember = "Id";
+                    cmbMenu_category.DisplayMember = "Value";
+                    cmbMenu_category.DataSource = gridSource;
+                }
+                finally
+                {
+                    cmbMenu_category.EndUpdate();
+                }
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Item page Fillcombo()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+                clsgen.LogException("Item page Fillcombo()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Item));
             }
         }
         private void cmbMenu_category_SelectionChangeCommitted(object sender, EventArgs e)
