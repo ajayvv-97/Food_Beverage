@@ -19,6 +19,10 @@ namespace FoodandBeverage.Forms
         public FrmItemRegistartion()
         {
             InitializeComponent();
+            tlp_category.Visible = false;
+            tlp_Unit.Visible = false;
+            dgv_category.CellDoubleClick += dgv_category_CellDoubleClick;
+            dgv_unit.CellDoubleClick += dgv_unit_CellDoubleClick;
         }
         #region Declare Grid
         public  int slno = 0;
@@ -2288,75 +2292,348 @@ namespace FoodandBeverage.Forms
         #region Category Registration
         private void btnsave_categ_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtfoodCate.Text))
+                {
+                    CMessageBox.Show("Please enter category name.", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtfoodCate.Focus();
+                    return;
+                }
 
+                BllSearch<DmnCategory> search = new BllSearch<DmnCategory>();
+                DmnSearch query = new DmnSearch();
+                query.Select = "Fcid,CategoryName";
+                query.Table = "tblCategory_FTI";
+                query.WhereNdGroupBy = "WHERE Status=1 AND CategoryType=" + cmb_cate.SelectedIndex +
+                    " AND CategoryName='" + txtfoodCate.Text.Replace("'", "''") + "' AND Fcid<>" +
+                    (string.IsNullOrWhiteSpace(txtFcid.Text) ? "0" : txtFcid.Text);
+                query.OrderBy = "";
+                if (search.GetSearchData("prdSearch", query).Count > 0)
+                {
+                    CMessageBox.Show("This category already exists.", "Duplicate Category", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DmnCategory category = new DmnCategory();
+                category.Fcid = string.IsNullOrWhiteSpace(txtFcid.Text) ? 0 : Convert.ToInt32(txtFcid.Text);
+                category.CategoryName = txtfoodCate.Text.Trim();
+                category.CategoryType = cmb_cate.SelectedIndex;
+                category.Description = txtdescr.Text;
+                category.CreatedBy = FrmDashboard.UserId;
+                category.BranchId = FrmDashboard.BranchId;
+                category.Status = chk_active.Checked ? 1 : 0;
+
+                BllCategory bll = new BllCategory();
+                var result = bll.AddeditData("prdInsert_upd_Category", category);
+                if (result.Fcid > 0)
+                {
+                    CMessageBox.Show(category.Fcid > 0 ? "Category updated successfully." : "Category saved successfully.");
+                    ClearCategoryFields();
+                    FillEmbeddedCategories();
+                    combofill();
+                }
+                else
+                    CMessageBox.Show("Unable to save category.", "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page btnsave_categ_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
         }
 
         private void btn_refresh_categ_Click(object sender, EventArgs e)
         {
-
+            ClearCategoryFields();
+            FillEmbeddedCategories();
         }
 
         private void btnserach_categ_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                if (dgv_category.CurrentRow != null && dgv_category.CurrentRow.Index >= 0)
+                    LoadEmbeddedCategory(Convert.ToInt32(dgv_category.CurrentRow.Cells[cidno].Value));
+                else
+                    dgv_category.Focus();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page btnserach_categ_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
         }
 
         private void btnclose_categ_Click(object sender, EventArgs e)
         {
-
+            tlp_category.Visible = false;
         }
 
         private void btn_del_cate_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtFcid.Text)) return;
+                if (CMessageBox.Show("Do you want to deactivate this category?", "Confirm", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
 
+                DmnCategory category = new DmnCategory();
+                category.Fcid = Convert.ToInt32(txtFcid.Text);
+                category.CategoryName = txtfoodCate.Text;
+                category.CategoryType = cmb_cate.SelectedIndex;
+                category.Description = txtdescr.Text;
+                category.CreatedBy = FrmDashboard.UserId;
+                category.BranchId = FrmDashboard.BranchId;
+                category.Status = 0;
+                new BllCategory().AddeditData("prdInsert_upd_Category", category);
+
+                ClearCategoryFields();
+                FillEmbeddedCategories();
+                combofill();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page btn_del_cate_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
         }
+
         private void dgv_category_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex < 0 || e.RowIndex >= dgv_category.Rows.Count) return;
+            try { LoadEmbeddedCategory(Convert.ToInt32(dgv_category.Rows[e.RowIndex].Cells[cidno].Value)); }
+            catch (Exception ex) { clsgen.LogException("Item page dgv_category_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item)); }
         }
+
         private void btnaddcategory_Click(object sender, EventArgs e)
         {
+            ShowRegistrationPanel(tlp_category);
+            tlp_Unit.Visible = false;
+            ClearCategoryFields();
+            FillEmbeddedCategories();
+        }
 
+        private void FillEmbeddedCategories()
+        {
+            BllSearch<DmnCategory> bll = new BllSearch<DmnCategory>();
+            DmnSearch search = new DmnSearch();
+            search.Select = "Fcid,CategoryName,Description,Status";
+            search.Table = "tblCategory_FTI";
+            search.WhereNdGroupBy = "WHERE Status=1 AND CategoryType=" + Math.Max(0, cmb_cate.SelectedIndex);
+            search.OrderBy = "ORDER BY CategoryName";
+            var rows = bll.GetSearchData("prdSearch", search);
+            dgv_category.Rows.Clear();
+            if (rows.Count == 0) return;
+            dgv_category.Rows.Add(rows.Count);
+            for (int i = 0; i < rows.Count; i++)
+            {
+                dgv_category.Rows[i].Cells[cslno].Value = i + 1;
+                dgv_category.Rows[i].Cells[cidno].Value = rows[i].Fcid;
+                dgv_category.Rows[i].Cells[cnameno].Value = rows[i].CategoryName;
+                dgv_category.Rows[i].Cells[cdesno].Value = rows[i].Description;
+                dgv_category.Rows[i].Cells[cstatusno].Value = rows[i].Status;
+            }
+        }
+
+        private void LoadEmbeddedCategory(int categoryId)
+        {
+            BllSearch<DmnCategory> bll = new BllSearch<DmnCategory>();
+            DmnSearch search = new DmnSearch();
+            search.Select = "*";
+            search.Table = "tblCategory_FTI";
+            search.WhereNdGroupBy = "WHERE Fcid=" + categoryId;
+            search.OrderBy = "";
+            var rows = bll.GetSearchData("prdSearch", search);
+            if (rows.Count == 0) return;
+            txtFcid.Text = Convert.ToString(rows[0].Fcid);
+            txtfoodCate.Text = rows[0].CategoryName;
+            cmb_cate.SelectedIndex = rows[0].CategoryType;
+            txtdescr.Text = rows[0].Description;
+            chk_active.Checked = rows[0].Status == 1;
+            btn_del_cate.Visible = true;
+        }
+
+        private void ClearCategoryFields()
+        {
+            txtFcid.Text = "0";
+            txtfoodCate.Clear();
+            txtdescr.Clear();
+            chk_active.Checked = true;
+            btn_del_cate.Visible = false;
         }
         #endregion
 
         #region Unit Registration
         private void btn_del_unit_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtUid.Text)) return;
+                if (CMessageBox.Show("Do you want to deactivate this unit?", "Confirm", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
 
+                DmnUnit unit = new DmnUnit();
+                unit.UId = Convert.ToInt32(txtUid.Text);
+                unit.UnitName = txtunit.Text;
+                unit.Description = txtdescr.Text;
+                unit.CreatedBy = FrmDashboard.UserId;
+                unit.BranchId = FrmDashboard.BranchId;
+                unit.Status = 0;
+                new BllUnit().AddeditData("prdInsert_upd_Unit", unit);
+                ClearUnitFields();
+                FillEmbeddedUnits();
+                combofill();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page btn_del_unit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
         }
-       
 
         private void btnsave_unit_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtunit.Text))
+                {
+                    CMessageBox.Show("Please enter unit name.", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtunit.Focus();
+                    return;
+                }
 
+                BllSearch<DmnUnit> search = new BllSearch<DmnUnit>();
+                DmnSearch query = new DmnSearch();
+                query.Select = "UId,UnitName";
+                query.Table = "tblUnit";
+                query.WhereNdGroupBy = "WHERE Status=1 AND UnitName='" + txtunit.Text.Replace("'", "''") +
+                    "' AND UId<>" + (string.IsNullOrWhiteSpace(txtUid.Text) ? "0" : txtUid.Text);
+                query.OrderBy = "";
+                if (search.GetSearchData("prdSearch", query).Count > 0)
+                {
+                    CMessageBox.Show("This unit already exists.", "Duplicate Unit", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DmnUnit unit = new DmnUnit();
+                unit.UId = string.IsNullOrWhiteSpace(txtUid.Text) ? 0 : Convert.ToInt32(txtUid.Text);
+                unit.UnitName = txtunit.Text.Trim();
+                unit.Description = txtdescr.Text;
+                unit.CreatedBy = FrmDashboard.UserId;
+                unit.BranchId = FrmDashboard.BranchId;
+                unit.Status = chk_active.Checked ? 1 : 0;
+
+                var result = new BllUnit().AddeditData("prdInsert_upd_Unit", unit);
+                if (result.UId > 0)
+                {
+                    CMessageBox.Show(unit.UId > 0 ? "Unit updated successfully." : "Unit saved successfully.");
+                    ClearUnitFields();
+                    FillEmbeddedUnits();
+                    combofill();
+                }
+                else
+                    CMessageBox.Show("Unable to save unit.", "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page btnsave_unit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
         }
 
         private void btnsearch_unit_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                if (dgv_unit.CurrentRow != null && dgv_unit.CurrentRow.Index >= 0)
+                    LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.CurrentRow.Cells[idno].Value));
+                else
+                    dgv_unit.Focus();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Item page btnsearch_unit_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
         }
 
         private void btnrefresh_unit_Click(object sender, EventArgs e)
         {
-
+            ClearUnitFields();
+            FillEmbeddedUnits();
         }
 
         private void btncancel_unit_Click(object sender, EventArgs e)
         {
-
+            tlp_Unit.Visible = false;
         }
-       
 
         private void dgv_unit_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex < 0 || e.RowIndex >= dgv_unit.Rows.Count) return;
+            try { LoadEmbeddedUnit(Convert.ToInt32(dgv_unit.Rows[e.RowIndex].Cells[idno].Value)); }
+            catch (Exception ex) { clsgen.LogException("Item page dgv_unit_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item)); }
         }
+
         private void btn_addunit_Click(object sender, EventArgs e)
         {
+            ShowRegistrationPanel(tlp_Unit);
+            tlp_category.Visible = false;
+            ClearUnitFields();
+            FillEmbeddedUnits();
+        }
 
+        private void FillEmbeddedUnits()
+        {
+            BllSearch<DmnUnit> bll = new BllSearch<DmnUnit>();
+            DmnSearch search = new DmnSearch();
+            search.Select = "UId,UnitName,Description,Status";
+            search.Table = "tblUnit";
+            search.WhereNdGroupBy = "WHERE Status=1";
+            search.OrderBy = "ORDER BY UnitName";
+            var rows = bll.GetSearchData("prdSearch", search);
+            dgv_unit.Rows.Clear();
+            if (rows.Count == 0) return;
+            dgv_unit.Rows.Add(rows.Count);
+            for (int i = 0; i < rows.Count; i++)
+            {
+                dgv_unit.Rows[i].Cells[slno].Value = i + 1;
+                dgv_unit.Rows[i].Cells[idno].Value = rows[i].UId;
+                dgv_unit.Rows[i].Cells[iunitno].Value = rows[i].UnitName;
+                dgv_unit.Rows[i].Cells[idesno].Value = rows[i].Description;
+                dgv_unit.Rows[i].Cells[istatusno].Value = rows[i].Status;
+            }
+        }
+
+        private void LoadEmbeddedUnit(int unitId)
+        {
+            BllSearch<DmnUnit> bll = new BllSearch<DmnUnit>();
+            DmnSearch search = new DmnSearch();
+            search.Select = "*";
+            search.Table = "tblUnit";
+            search.WhereNdGroupBy = "WHERE UId=" + unitId;
+            search.OrderBy = "";
+            var rows = bll.GetSearchData("prdSearch", search);
+            if (rows.Count == 0) return;
+            txtUid.Text = Convert.ToString(rows[0].UId);
+            txtunit.Text = rows[0].UnitName;
+            txtdescr.Text = rows[0].Description;
+            chk_active.Checked = rows[0].Status == 1;
+            btn_del_unit.Visible = true;
+        }
+
+        private void ClearUnitFields()
+        {
+            txtUid.Text = "0";
+            txtunit.Clear();
+            txtdescr.Clear();
+            chk_active.Checked = true;
+            btn_del_unit.Visible = false;
         }
         #endregion
+
+        private void ShowRegistrationPanel(TableLayoutPanel panel)
+        {
+            panel.Visible = true;
+            panel.BringToFront();
+            panel.Location = new Point(
+                Math.Max(0, (ClientSize.Width - panel.Width) / 2),
+                Math.Max(0, (ClientSize.Height - panel.Height) / 2));
+            panel.Anchor = AnchorStyles.None;
+        }
 
        
     }
