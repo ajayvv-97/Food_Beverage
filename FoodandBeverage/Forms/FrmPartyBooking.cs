@@ -9598,6 +9598,8 @@ namespace FoodandBeverage
             }
         }
 
+        
+
         private void btnvenue_Click(object sender, EventArgs e)
         {
             try
@@ -9639,6 +9641,7 @@ namespace FoodandBeverage
                 CalculatevenueValues();
                 CalculateNetAmount();
                 pnl_moreoptions.Visible = false;
+                pnl_venue.Visible = false;
             }
             catch (Exception ex)
             {
@@ -9815,6 +9818,10 @@ namespace FoodandBeverage
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.Partybooking));
             }
+        }
+        private void btn_venue_close_Click(object sender, EventArgs e)
+        {
+            pnl_venue.Visible = false;
         }
         #endregion
 
