@@ -9665,10 +9665,16 @@ namespace FoodandBeverage
                     table = "tblPartyPackVenue";
                     idColumn = "PartyPackVenueId";
                 }
-                else if (productType == (int)PackItemType.Card ||
-                         productType == (int)PackItemType.Gift)
+                else if (productType == (int)PackItemType.Card)
                 {
-                    table = "[" + GameDB + "].dbo.tblProduct";
+                    // Card rows are sourced from tblCardProducts, not the generic product table.
+                    table = "[" + GameDB + "].dbo.tblCardProducts";
+                    idColumn = "Product_id";
+                }
+                else if (productType == (int)PackItemType.Gift)
+                {
+                    // Redemption rows are sourced from tblRedemptionProducts.
+                    table = "[" + GameDB + "].dbo.tblRedemptionProducts";
                     idColumn = "ProductId";
                 }
                 else
