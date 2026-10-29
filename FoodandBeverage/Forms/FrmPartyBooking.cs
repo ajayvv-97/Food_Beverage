@@ -9450,8 +9450,9 @@ namespace FoodandBeverage
                     }
                     else
                     {
-                        // On compact screens More occupies the next visible button slot.
-                        // It must not remain inside pnl_hidecontrl because that panel is hidden.
+                        // Compact layout: More is in the main row, and Bill View is
+                        // a separate button immediately after More. Only Cake and Other
+                        // belong inside the More popup.
                         if (btn_more.Parent != tlp_partyoptions)
                         {
                             btn_more.Parent?.Controls.Remove(btn_more);
@@ -9462,7 +9463,7 @@ namespace FoodandBeverage
 
                         PlacePartyButtonInMorePanel(btncake);
                         PlacePartyButtonInMorePanel(btnotherarange);
-                        PlacePartyButtonInMorePanel(btn_billpreview);
+                        PlacePartyButtonInRow(btn_billpreview, 6);
 
                         btncake.Visible = true;
                         btnotherarange.Visible = true;
@@ -9563,9 +9564,25 @@ namespace FoodandBeverage
         #region More Option
         private void btn_more_Click(object sender, EventArgs e)
         {
-            pnl_moreoptions.Visible = true;
-            pnl_moreoptions.BringToFront();
-            flp_moreoptions.BringToFront();
+            try
+            {
+                // Center the existing More panel inside the Party Booking form
+                // each time it is opened; retain its designer size and styling.
+                pnl_moreoptions.Left = Math.Max(0, (ClientSize.Width - pnl_moreoptions.Width) / 2);
+                pnl_moreoptions.Top = Math.Max(0, (ClientSize.Height - pnl_moreoptions.Height) / 2);
+                pnl_moreoptions.Visible = true;
+                pnl_moreoptions.BringToFront();
+                flp_moreoptions.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page btn_more_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
 
         private void btn_moreoption_close_Click(object sender, EventArgs e)
