@@ -9406,12 +9406,8 @@ namespace FoodandBeverage
         {
             try
             {
-                // Keep the designer's button dimensions. On compact displays use the
-                // existing More panel for secondary actions instead of shrinking buttons.
-                int width = tlp_partyoptions.ClientSize.Width;
-                int buttonWidth = Math.Max(90, btnfoodpack.Width);
                 int screenWidth = Screen.FromControl(this).WorkingArea.Width;
-                bool compactLayout = screenWidth <= 1376;
+                bool showSecondaryActionsDirectly = screenWidth >= 1376;
 
                 Control[] primary =
                 {
@@ -9423,35 +9419,50 @@ namespace FoodandBeverage
                     btnadd_cus
                 };
 
-                int slots = compactLayout
-                    ? Math.Max(1, Math.Min(primary.Length, width / (buttonWidth + 4)))
-                    : primary.Length;
+                int buttonWidth = Math.Max(90, btnfoodpack.Width);
+                int availableWidth = tlp_partyoptions.ClientSize.Width;
+                int slots = Math.Max(1, Math.Min(primary.Length, availableWidth / (buttonWidth + 4)));
 
                 for (int i = 0; i < primary.Length; i++)
                     primary[i].Visible = i < slots;
 
-                // More is available at 1376px and below, or whenever the row cannot
-                // display every primary action. Keep the original button sizes.
-                btn_more.Visible = compactLayout || slots < primary.Length;
-                btn_more.BringToFront();
-
+                // At 1376px and wider, show Cake, Other and Bill Preview directly.
+                // Below 1376px, keep the row compact and expose More; Bill Preview is
+                // the only secondary action shown directly in that compact layout.
                 foreach (Button button in new[] { btncake, btnotherarange, btn_billpreview })
                 {
-                    if (button.Parent != flp_moreoptions)
+                    if (showSecondaryActionsDirectly)
                     {
-                        button.Parent?.Controls.Remove(button);
-                        flp_moreoptions.Controls.Add(button);
+                        if (button.Parent != tlp_partyoptions)
+                        {
+                            button.Parent?.Controls.Remove(button);
+                            tlp_partyoptions.Controls.Add(button);
+                        }
+                        button.Visible = true;
+                        button.Margin = new Padding(4);
                     }
-
-                    button.Margin = new Padding(4);
+                    else
+                    {
+                        if (button.Parent != flp_moreoptions)
+                        {
+                            button.Parent?.Controls.Remove(button);
+                            flp_moreoptions.Controls.Add(button);
+                        }
+                        button.Visible = button == btn_billpreview
+                            ? BookingId > 0 && SalesMasterId > 0
+                            : false;
+                        button.Margin = new Padding(4);
+                    }
                 }
 
-                btn_billpreview.Visible = BookingId > 0 && SalesMasterId > 0;
-                btncake.Visible = true;
-                btnotherarange.Visible = true;
+                btn_more.Visible = !showSecondaryActionsDirectly || slots < primary.Length;
+                btn_more.BringToFront();
+
+                // Bill Preview is only available when an existing party booking is selected.
+                btn_billpreview.Visible = BookingId > 0 && SalesMasterId > 0 &&
+                    (showSecondaryActionsDirectly || btn_billpreview.Parent == flp_moreoptions);
 
                 pnl_moreoptions.Visible = false;
-                pnl_moreoptions.BringToFront();
             }
             catch (Exception ex)
             {
@@ -9461,50 +9472,6 @@ namespace FoodandBeverage
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.Partybooking));
-            }
-        }
-
-        private string GetPartyItemHsnCode(int productType, int itemId)
-        {
-            try
-            {
-                if (itemId <= 0)
-                    return string.Empty;
-
-                string table = productType == (int)PackItemType.Menu
-                    ? "tblItem"
-                    : (productType == (int)PackItemType.Card || productType == (int)PackItemType.Gift)
-                        ? "[" + GameDB + "].dbo.tblProduct"
-                        : "tblProduct";
-
-                string idColumn = productType == (int)PackItemType.Menu
-                    ? "ItemId"
-                    : "ProductId";
-
-                BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>();
-                DmnSearch s = new DmnSearch
-                {
-                    Select = "ISNULL(HSNcode,'') AS Field1",
-                    Table = table,
-                    WhereNdGroupBy = "WHERE " + idColumn + "=" + itemId
-                };
-
-                var result = b.GetSearchData("prdSearch", s);
-
-                return result != null && result.Count > 0
-                    ? Convert.ToString(result[0].Field1)
-                    : string.Empty;
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException(
-                    "Partybooking page GetPartyItemHsnCode()",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Partybooking));
-
-                return string.Empty;
             }
         }
 
