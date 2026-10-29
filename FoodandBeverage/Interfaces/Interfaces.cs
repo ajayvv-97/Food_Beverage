@@ -594,7 +594,8 @@ namespace FoodandBeverage.Interfaces
         SeletedFoodItem = 6,
         ExtraChargeProduct = 7,
         ManualProduct = 8,
-        Menu=9
+        Menu = 9,
+        Venue = 10
     }
 
     public enum PosSalProduct
