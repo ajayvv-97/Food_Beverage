@@ -3372,9 +3372,13 @@ namespace FoodandBeverage
                 }
                 else if (productType != (int)PackItemType.ExtraChargeProduct && productId > 0)
                 {
-                    string hsnCode = GetPartyItemHsnCode(productType, productId);
-                    if (!string.IsNullOrWhiteSpace(hsnCode))
-                        row.Cells[phsncodeno].Value = hsnCode;
+                    string currentHsnCode = Convert.ToString(row.Cells[phsncodeno].Value ?? string.Empty);
+                    if (productType != (int)PackItemType.Menu || string.IsNullOrWhiteSpace(currentHsnCode))
+                    {
+                        string hsnCode = GetPartyItemHsnCode(productType, productId);
+                        if (!string.IsNullOrWhiteSpace(hsnCode))
+                            row.Cells[phsncodeno].Value = hsnCode;
+                    }
                 }
 
                 decimal qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0);
@@ -8939,6 +8943,7 @@ namespace FoodandBeverage
             public string TaxType { get; set; }
             public decimal Price { get; set; }
             public decimal MRP { get; set; }
+            public string HSNCode { get; set; }
         }
 
         private void AddPartyMenuProduct(int productId, int saleType)
@@ -8953,7 +8958,7 @@ namespace FoodandBeverage
 
                 if (saleType == 0)
                 {
-                    search.Select = "p.Product AS Field1, p.Price AS Field2, p.MRP AS Field3, p.Tax AS Field4, p.TaxType AS Field5, p.Fcid AS Field6, p.TaxSettingsId AS Field7, p.ItemCode AS Field8, 0 AS Field9";
+                    search.Select = "p.Product AS Field1, p.Price AS Field2, p.MRP AS Field3, p.Tax AS Field4, p.TaxType AS Field5, p.Fcid AS Field6, p.TaxSettingsId AS Field7, p.ItemCode AS Field8, 0 AS Field9, ISNULL(p.HSNCode,'') AS Field10";
                     search.Table = "tblProduct p LEFT JOIN tblMenu m ON m.ProductId=p.ProductId AND m.ProductType=0 AND m.Status=1";
                     search.WhereNdGroupBy = "WHERE p.Status=1 AND p.ProductId=" + productId;
                 }
@@ -8961,7 +8966,7 @@ namespace FoodandBeverage
                 {
                     search.Select = "i.Itemname AS Field1, ISNULL((SELECT TOP 1 pr.SRate FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field2," +
                         " ISNULL((SELECT TOP 1 pr.MRP FROM tblProductRate pr WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC),0) AS Field3, i.Tax AS Field4, i.TaxType AS Field5," +
-                        " i.Fcid AS Field6, i.TaxSettingsId AS Field7, i.ItemCode_UPC AS Field8, ISNULL(i.Unit,0) AS Field9";
+                        " i.Fcid AS Field6, i.TaxSettingsId AS Field7, i.ItemCode_UPC AS Field8, ISNULL(i.Unit,0) AS Field9, ISNULL(i.HSNCode,'') AS Field10";
                     search.Table = "tblItem i";
                     search.WhereNdGroupBy = "WHERE i.Status=1 AND i.Saletype=1 AND i.ItemId=" + productId;
                 }
@@ -8980,6 +8985,7 @@ namespace FoodandBeverage
                 int.TryParse(Convert.ToString(result[0].Field7), out taxSettingId);
                 itemCode = Convert.ToString(result[0].Field8);
                 int.TryParse(Convert.ToString(result[0].Field9), out unitId);
+                string hsnCode = Convert.ToString(result[0].Field10);
 
                 if (price < 0m)
                     price = 0m;
@@ -8996,7 +9002,8 @@ namespace FoodandBeverage
                     TaxMode = taxMode,
                     TaxType = taxType,
                     Price = price,
-                    MRP = mrp
+                    MRP = mrp,
+                    HSNCode = hsnCode
                 };
 
                 DataGridViewRow existing = Dgv_Selected_Item.Rows
@@ -9123,6 +9130,8 @@ namespace FoodandBeverage
                 decimal existingQuantity = 0m;
                 decimal.TryParse(Convert.ToString(existing.Cells[pqtyno].Value), out existingQuantity);
                 existing.Cells[pqtyno].Value = existingQuantity + quantity;
+                if (!string.IsNullOrWhiteSpace(item.HSNCode))
+                    existing.Cells[phsncodeno].Value = item.HSNCode;
                 CalculateAndApplyTax(existing.Index, (int)PackItemType.Menu, item.ProductId);
                 return;
             }
@@ -9138,6 +9147,7 @@ namespace FoodandBeverage
             row.Cells[pPrice].Value = item.Price;
             row.Cells[pAmount].Value = gross;
             row.Cells[pProductid].Value = item.ProductId;
+            row.Cells[phsncodeno].Value = item.HSNCode ?? string.Empty;
             row.Cells[pproducttype].Value = (int)FoodandBeverage.Interfaces.ProductType.FB;
             row.Cells[proPartyPackDetailsId].Value = 0;
             row.Cells[pPartydeafult].Value = 2;
@@ -9716,7 +9726,8 @@ namespace FoodandBeverage
                     return hsnCode;
 
                 if (productType == (int)PackItemType.Card ||
-                    productType == (int)PackItemType.Gift)
+                    productType == (int)PackItemType.Gift ||
+                    productType == (int)PackItemType.Menu)
                 {
                     DmnSearch fallbackSearch = new DmnSearch
                     {
