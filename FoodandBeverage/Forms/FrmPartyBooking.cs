@@ -80,6 +80,8 @@ namespace FoodandBeverage
         public int psaledetailidno = 25;
         public int PPackProductTypeno = 26;
         public int ppridno = 27;
+        public int phsncodeno = 28;
+
 
         public int Cancelslno = 0;
         public int Cancelproductno = 1;
@@ -7525,6 +7527,9 @@ namespace FoodandBeverage
                 {
                     for (int col = 0; col < totalColumns; col++)
                     {
+                        if ((row == 2 && col == 0) || (row == 2 && col == 1))
+                            continue;
+
                         Control ctrl = tlp_add_contrl.GetControlFromPosition(col, row);
                         if (ctrl != null)
                         {
@@ -7545,14 +7550,14 @@ namespace FoodandBeverage
                     lblsgst.Dock = DockStyle.Fill;
                     txtSgstPrcnt.Dock = DockStyle.Top;
 
-                    tlp_add_contrl.Controls.Add(lbligst, 0, 2);
-                    tlp_add_contrl.Controls.Add(cmbIgstPrcnt, 1, 2);
+                    tlp_add_contrl.Controls.Add(lbligst, 2, 2);
+                    tlp_add_contrl.Controls.Add(cmbIgstPrcnt, 3, 2);
 
-                    tlp_add_contrl.Controls.Add(lblcgst, 2, 2);
-                    tlp_add_contrl.Controls.Add(txtCgstPrcnt, 3, 2);
+                    tlp_add_contrl.Controls.Add(lblcgst, 0, 3);
+                    tlp_add_contrl.Controls.Add(txtCgstPrcnt, 1, 3);
 
-                    tlp_add_contrl.Controls.Add(lblsgst, 0, 3);
-                    tlp_add_contrl.Controls.Add(txtSgstPrcnt, 1, 3);
+                    tlp_add_contrl.Controls.Add(lblsgst, 2, 3);
+                    tlp_add_contrl.Controls.Add(txtSgstPrcnt, 3, 3);
 
                     foreach (TextBox textBox in new TextBox[] { txtCgstPrcnt, txtSgstPrcnt })
                     {
@@ -7567,8 +7572,8 @@ namespace FoodandBeverage
                     lblvat.Dock = DockStyle.Fill;
                     cmbVatPrcnt.Dock = DockStyle.Fill;
 
-                    tlp_add_contrl.Controls.Add(lblvat, 0, 2);
-                    tlp_add_contrl.Controls.Add(cmbVatPrcnt, 1, 2);
+                    tlp_add_contrl.Controls.Add(lblvat, 2, 2);
+                    tlp_add_contrl.Controls.Add(cmbVatPrcnt, 3, 2);
 
                 }
             }
@@ -7712,6 +7717,7 @@ namespace FoodandBeverage
 
                 row.Cells[pigstamt].Value = 0;
                 row.Cells[pvatamt].Value = 0;
+                row.Cells[phsncodeno].Value = txt_add_charge_hsncode.Text;
 
                 row.ReadOnly = true;
 
@@ -9290,6 +9296,8 @@ namespace FoodandBeverage
             textBox.ForeColor = Color.FromArgb(139, 124, 153);
         }
 
+        
+
         private void btn_serach_Click(object sender, EventArgs e)
         {
             string name = txtname_search.Text;
@@ -9305,6 +9313,7 @@ namespace FoodandBeverage
             }
         }
 
+      
         private void txtname_search_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -9323,7 +9332,8 @@ namespace FoodandBeverage
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-        }
+        }       
+
         private void btn_cart_Click(object sender, EventArgs e)
         {
             try
@@ -9343,6 +9353,8 @@ namespace FoodandBeverage
             }
         }
 
+       
+
         private void btndateslect_Click(object sender, EventArgs e)
         {
             using (FrmPartyBookingCalendar frm = new FrmPartyBookingCalendar())
@@ -9356,6 +9368,42 @@ namespace FoodandBeverage
             }
         }
 
+      
+
+        #endregion
+
+        #region More Option
+        private void btn_more_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btn_moreoption_close_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region customer Bill Preview
+        private void btn_billpreview_Click(object sender, EventArgs e)
+        {
+
+            
+        }
+        #endregion
+
+        #region Venue
+        private void btnvenue_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btnsubmit_venue_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void cmbvenu_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+        }
         #endregion
 
     }

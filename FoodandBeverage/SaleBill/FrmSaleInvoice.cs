@@ -797,7 +797,8 @@ namespace FoodandBeverage.SaleBill
                     Taxper,
                     PartyBookingId,
                     PackageType,
-                    TaxAmount
+                    TaxAmount,
+                    HSNCode
                 FROM tblSalesDetails
                 WHERE SalesMasterId = " + SalesMasterId;
 
@@ -826,7 +827,8 @@ namespace FoodandBeverage.SaleBill
                     "Taxper",
                     "PartyBookingId",
                     "PackageType",
-                    "TaxAmount"))
+                    "TaxAmount",
+                    "HSNCode"))
                 {
                     dtSalesDetail.Load(reader);
                 }

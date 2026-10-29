@@ -32,8 +32,8 @@ namespace Domain
         public string VariatiionName { get; set; }
         public int PartyBookingId { get; set; }
         public int PackageType { get; set; }
-
         public decimal TaxAmount { get; set; }
-        
+        public string HSNCode { get; set; }        
+
     }
 }
