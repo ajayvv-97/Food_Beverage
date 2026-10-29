@@ -241,7 +241,8 @@ namespace BLL
             parms.Add("@CakeMessage", obj.CakeMessage);
             parms.Add("@PackageType", obj.PackageType);
             parms.Add("@PartyBookingId", obj.PartyBookingId);
-
+            parms.Add("@HSNCode", obj.HSNCode);
+            
             var data = dapperRepository.AddandReturnID(procedureName, parms);
 
             return data;

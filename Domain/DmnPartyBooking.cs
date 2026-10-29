@@ -77,6 +77,7 @@ namespace Domain
         public decimal ExtraChargePreTaxAmount { get; set; }
         public decimal ExtraChargeTaxAmount { get; set; }
 
+        public string HSNCode { get; set; }
 
     }
 

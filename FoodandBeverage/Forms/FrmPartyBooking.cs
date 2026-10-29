@@ -4162,6 +4162,7 @@ namespace FoodandBeverage
                 txt_packtaxper.Text = "";
                 txtTaxtype_pack.Text = "";
                 txt_PackTotalAmt.Text = "0";
+                _partyPackHsnCode = "";
             }
             catch (Exception ex)
             {
@@ -5112,6 +5113,7 @@ namespace FoodandBeverage
                 detPack.PartyBookingId = bookingId;
 
                 detPack.PartyBookingDetailsId = PartyBookingDetailsId;
+                detPack.HSNCode = _partyPackHsnCode;
 
                 detPack.CreatedBy = FrmDashboard.UserId;
                 detPack.BranchId = FrmDashboard.BranchId;
@@ -5204,6 +5206,7 @@ namespace FoodandBeverage
                     detSale.CreatedBy = FrmDashboard.UserId;
                     detSale.BranchId = FrmDashboard.BranchId;
                     detSale.Status = 1;
+                    detSale.HSNCode = Convert.ToString(row.Cells[phsncodeno].Value ?? "");
 
                     bllSales.AddEditPartyBookingSaleDetails("prdInsert_Upd_SalesDetails_PartyBooking", detSale);
                 }

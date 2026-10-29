@@ -63,7 +63,7 @@ namespace Domain
         public int PackageType { get; set; }
         public int PartyBookingId { get; set; }
         public int PartyBookingDetailsId { get; set; }
-
+        public string HSNCode { get; set; }
         
     }
     
