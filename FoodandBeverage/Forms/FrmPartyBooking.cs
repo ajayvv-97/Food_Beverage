@@ -9406,8 +9406,12 @@ namespace FoodandBeverage
         {
             try
             {
+                // Keep the designer's button dimensions. On compact displays use the
+                // existing More panel for secondary actions instead of shrinking buttons.
                 int width = tlp_partyoptions.ClientSize.Width;
                 int buttonWidth = Math.Max(90, btnfoodpack.Width);
+                int screenWidth = Screen.FromControl(this).WorkingArea.Width;
+                bool compactLayout = screenWidth <= 1376;
 
                 Control[] primary =
                 {
@@ -9419,14 +9423,16 @@ namespace FoodandBeverage
                     btnadd_cus
                 };
 
-                int slots = Math.Max(1, Math.Min(6, width / (buttonWidth + 4)));
+                int slots = compactLayout
+                    ? Math.Max(1, Math.Min(primary.Length, width / (buttonWidth + 4)))
+                    : primary.Length;
 
                 for (int i = 0; i < primary.Length; i++)
-                {
                     primary[i].Visible = i < slots;
-                }
 
-                btn_more.Visible = true;
+                // More is available at 1376px and below, or whenever the row cannot
+                // display every primary action. Keep the original button sizes.
+                btn_more.Visible = compactLayout || slots < primary.Length;
                 btn_more.BringToFront();
 
                 foreach (Button button in new[] { btncake, btnotherarange, btn_billpreview })
@@ -9437,8 +9443,6 @@ namespace FoodandBeverage
                         flp_moreoptions.Controls.Add(button);
                     }
 
-                    button.Width = Math.Max(120, flp_moreoptions.ClientSize.Width - 18);
-                    button.Height = 40;
                     button.Margin = new Padding(4);
                 }
 
@@ -9596,10 +9600,25 @@ namespace FoodandBeverage
 
         private void btnvenue_Click(object sender, EventArgs e)
         {
-            pnl_moreoptions.Visible = true;
-            pnl_moreoptions.BringToFront();
-            flp_moreoptions.BringToFront();
-            cmbvenu.Focus();
+            try
+            {
+                // Venue has its own existing panel; do not open the More-options panel.
+                pnl_moreoptions.Visible = false;
+                pnl_venue.Left = Math.Max(0, (ClientSize.Width - pnl_venue.Width) / 2);
+                pnl_venue.Top = Math.Max(0, (ClientSize.Height - pnl_venue.Height) / 2);
+                pnl_venue.Visible = true;
+                pnl_venue.BringToFront();
+                cmbvenu.Focus();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page btnvenue_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
 
         private void btnsubmit_venue_Click(object sender, EventArgs e)
