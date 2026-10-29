@@ -317,7 +317,14 @@ namespace FoodandBeverage
             txtname_search.Leave += PartyMenuSearchTextBox_Leave;
             txtitemcode_serach.Enter += PartyMenuSearchTextBox_Enter;
             txtitemcode_serach.Leave += PartyMenuSearchTextBox_Leave;
-            LoadPartyBookingVenueOptions(); ConfigureResponsivePartyButtons(); Resize += (sender, args) => ConfigureResponsivePartyButtons(); pnl_moreoptions.Visible = false; pnl_moreoptions.BringToFront(); btn_billpreview.Visible = false;
+            LoadPartyBookingVenueOptions();
+            ConfigureResponsivePartyButtons();
+
+            Resize += (sender, args) => ConfigureResponsivePartyButtons();
+
+            pnl_moreoptions.Visible = false;
+            pnl_moreoptions.BringToFront();
+            btn_billpreview.Visible = false;
         }
 
         private void dgv_packenter_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -9390,31 +9397,401 @@ namespace FoodandBeverage
 
         #endregion
 
-        private void ConfigureResponsivePartyButtons() { try { int width = tlp_partyoptions.ClientSize.Width, buttonWidth = Math.Max(90, btnfoodpack.Width); Control[] primary = { btnfoodpack, btnvenue, btncard, btngift, btn_menu, btnadd_cus }; int slots = Math.Max(1, Math.Min(6, width / (buttonWidth + 4))); for (int i = 0; i < primary.Length; i++) primary[i].Visible = i < slots; btn_more.Visible = true; btn_more.BringToFront(); foreach (Button button in new[] { btncake, btnotherarange, btn_billpreview }) { if (button.Parent != flp_moreoptions) { button.Parent?.Controls.Remove(button); flp_moreoptions.Controls.Add(button); } button.Width = Math.Max(120, flp_moreoptions.ClientSize.Width - 18); button.Height = 40; button.Margin = new Padding(4); } btn_billpreview.Visible = BookingId > 0 && SalesMasterId > 0; btncake.Visible = true; btnotherarange.Visible = true; pnl_moreoptions.Visible = false; pnl_moreoptions.BringToFront(); } catch (Exception ex) { clsgen.LogException("Partybooking page ConfigureResponsivePartyButtons()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); } }
+        private void ConfigureResponsivePartyButtons()
+        {
+            try
+            {
+                int width = tlp_partyoptions.ClientSize.Width;
+                int buttonWidth = Math.Max(90, btnfoodpack.Width);
 
-        private string GetPartyItemHsnCode(int productType, int itemId) { try { if (itemId <= 0) return string.Empty; string table = productType == (int)PackItemType.Menu ? "tblItem" : (productType == (int)PackItemType.Card || productType == (int)PackItemType.Gift) ? "[" + GameDB + "].dbo.tblProduct" : "tblProduct"; string idColumn = productType == (int)PackItemType.Menu ? "ItemId" : "ProductId"; BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>(); DmnSearch s = new DmnSearch { Select = "ISNULL(HSNcode,'') AS Field1", Table = table, WhereNdGroupBy = "WHERE " + idColumn + "=" + itemId }; var result = b.GetSearchData("prdSearch", s); return result != null && result.Count > 0 ? Convert.ToString(result[0].Field1) : string.Empty; } catch (Exception ex) { clsgen.LogException("Partybooking page GetPartyItemHsnCode()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); return string.Empty; } }
+                Control[] primary =
+                {
+                    btnfoodpack,
+                    btnvenue,
+                    btncard,
+                    btngift,
+                    btn_menu,
+                    btnadd_cus
+                };
+
+                int slots = Math.Max(1, Math.Min(6, width / (buttonWidth + 4)));
+
+                for (int i = 0; i < primary.Length; i++)
+                {
+                    primary[i].Visible = i < slots;
+                }
+
+                btn_more.Visible = true;
+                btn_more.BringToFront();
+
+                foreach (Button button in new[] { btncake, btnotherarange, btn_billpreview })
+                {
+                    if (button.Parent != flp_moreoptions)
+                    {
+                        button.Parent?.Controls.Remove(button);
+                        flp_moreoptions.Controls.Add(button);
+                    }
+
+                    button.Width = Math.Max(120, flp_moreoptions.ClientSize.Width - 18);
+                    button.Height = 40;
+                    button.Margin = new Padding(4);
+                }
+
+                btn_billpreview.Visible = BookingId > 0 && SalesMasterId > 0;
+                btncake.Visible = true;
+                btnotherarange.Visible = true;
+
+                pnl_moreoptions.Visible = false;
+                pnl_moreoptions.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page ConfigureResponsivePartyButtons()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private string GetPartyItemHsnCode(int productType, int itemId)
+        {
+            try
+            {
+                if (itemId <= 0)
+                    return string.Empty;
+
+                string table = productType == (int)PackItemType.Menu
+                    ? "tblItem"
+                    : (productType == (int)PackItemType.Card || productType == (int)PackItemType.Gift)
+                        ? "[" + GameDB + "].dbo.tblProduct"
+                        : "tblProduct";
+
+                string idColumn = productType == (int)PackItemType.Menu
+                    ? "ItemId"
+                    : "ProductId";
+
+                BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>();
+                DmnSearch s = new DmnSearch
+                {
+                    Select = "ISNULL(HSNcode,'') AS Field1",
+                    Table = table,
+                    WhereNdGroupBy = "WHERE " + idColumn + "=" + itemId
+                };
+
+                var result = b.GetSearchData("prdSearch", s);
+
+                return result != null && result.Count > 0
+                    ? Convert.ToString(result[0].Field1)
+                    : string.Empty;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page GetPartyItemHsnCode()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+
+                return string.Empty;
+            }
+        }
 
         #region More Option
-        private void btn_more_Click(object sender, EventArgs e) { pnl_moreoptions.Visible = true; pnl_moreoptions.BringToFront(); flp_moreoptions.BringToFront(); }
-        private void btn_moreoption_close_Click(object sender, EventArgs e) { pnl_moreoptions.Visible = false; }
+        private void btn_more_Click(object sender, EventArgs e)
+        {
+            pnl_moreoptions.Visible = true;
+            pnl_moreoptions.BringToFront();
+            flp_moreoptions.BringToFront();
+        }
+
+        private void btn_moreoption_close_Click(object sender, EventArgs e)
+        {
+            pnl_moreoptions.Visible = false;
+        }
         #endregion
 
         #region customer Bill Preview
         private void btn_billpreview_Click(object sender, EventArgs e)
         {
-            try { if (BookingId <= 0 || SalesMasterId <= 0) { CMessageBox.Show("Select an existing party booking to view its bill.", "Bill Preview", MessageBoxButtons.OK, MessageBoxIcon.Information); return; } using (FoodandBeverage.Forms.FrmCombinedBill billForm = new FoodandBeverage.Forms.FrmCombinedBill()) billForm.printBill(SalesMasterId, Convert.ToInt32(BillType.Partybill)); }
-            catch (Exception ex) { clsgen.LogException("Partybooking page btn_billpreview_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); }
+            try
+            {
+                if (BookingId <= 0 || SalesMasterId <= 0)
+                {
+                    CMessageBox.Show(
+                        "Select an existing party booking to view its bill.",
+                        "Bill Preview",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (FoodandBeverage.Forms.FrmCombinedBill billForm =
+                    new FoodandBeverage.Forms.FrmCombinedBill())
+                {
+                    billForm.printBill(
+                        SalesMasterId,
+                        Convert.ToInt32(BillType.Partybill));
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page btn_billpreview_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
         }
         #endregion
 
         #region Venue
         private int veniueNoOfAttendees = 0;
-        private void LoadPartyBookingVenueOptions() { try { BllSearch<DmnComboBox> b = new BllSearch<DmnComboBox>(); DmnSearch s = new DmnSearch { Select = "PartyPackVenueId as Id, VenueName as Value", Table = "tblPartyPackVenue", WhereNdGroupBy = "WHERE Status=1 AND BranchId=" + FrmDashboard.BranchId, OrderBy = "ORDER BY VenueName" }; var items = b.GetSearchData("prdSearch", s); if (items == null) return; items.Insert(0, new DmnComboBox { Id = -1, Value = "-- Select Venue --" }); cmbvenu.DataSource = items; cmbvenu.DisplayMember = "Value"; cmbvenu.ValueMember = "Id"; cmbvenu.SelectedIndex = 0; } catch (Exception ex) { clsgen.LogException("Partybooking page LoadPartyBookingVenueOptions()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); } }
-        private void btnvenue_Click(object sender, EventArgs e) { pnl_moreoptions.Visible = true; pnl_moreoptions.BringToFront(); flp_moreoptions.BringToFront(); cmbvenu.Focus(); }
-        private void btnsubmit_venue_Click(object sender, EventArgs e) { try { if (cmbvenu.SelectedValue == null || Convert.ToInt32(cmbvenu.SelectedValue) <= 0) { CMessageBox.Show("Please select a venue.", "Venue", MessageBoxButtons.OK, MessageBoxIcon.Information); return; } CalculatevenueValues(); CalculateNetAmount(); pnl_moreoptions.Visible = false; } catch (Exception ex) { clsgen.LogException("Partybooking page btnsubmit_venue_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); } }
-        private void cmbvenu_SelectionChangeCommitted(object sender, EventArgs e) { try { if (cmbvenu.SelectedValue != null && Convert.ToInt32(cmbvenu.SelectedValue) > 0) { txtvenucost.Enabled = true; FillVenuDetails(Convert.ToInt32(cmbvenu.SelectedValue)); CalculatevenueValues(); } else { txtvenucost.Text = "0.00"; txttaxsettingid_venue.Text = "0"; txttaxtype_venue.Clear(); txttax_venue.Clear(); txtVatamt_venue.Text = "0"; txtIGSTAmt_venue.Text = "0"; txtTaxPer_venue.Text = "0"; txtPreTaxAmount_venue.Text = "0"; txtTotalTaxAmount_venue.Text = "0"; txtGrandTotal_venue.Text = "0"; } CalculateNetAmount(); } catch (Exception ex) { clsgen.LogException("Partybooking page cmbvenu_SelectionChangeCommitted()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); } }
-        public void FillVenuDetails(int venueId) { try { BllSearch<DmnPartyPackVenue> b = new BllSearch<DmnPartyPackVenue>(); DmnSearch s = new DmnSearch { Select = "*", Table = "tblPartyPackVenue", WhereNdGroupBy = "WHERE PartyPackVenueId=" + venueId + " AND Status=1 AND BranchId=" + FrmDashboard.BranchId }; var items = b.GetSearchData("prdSearch", s); if (items == null || items.Count == 0) return; var item = items[0]; txtvenucost.Text = Convert.ToDecimal(item.VenueCost).ToString("0.00"); txttaxtype_venue.Text = item.TaxType; txttaxsettingid_venue.Text = Convert.ToString(item.TaxSettingsId); txttax_venue.Text = item.Tax; txtVatamt_venue.Text = Convert.ToString(item.VatPrcnt); txtIGSTAmt_venue.Text = Convert.ToString(item.IgstPrcnt); txtTaxPer_venue.Text = (item.VatPrcnt + item.IgstPrcnt).ToString("0.00"); veniueNoOfAttendees = Convert.ToInt32(item.NoOfAttendees); } catch (Exception ex) { clsgen.LogException("Partybooking page FillVenuDetails()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); } }
-        private void CalculatevenueValues() { try { decimal GetDecimal(TextBox t) { decimal.TryParse(t.Text, out decimal v); return v; } decimal gross = GetDecimal(txtvenucost) + GetDecimal(txtOAAmount) - GetDecimal(txtODAmount), percent = 0, igst = 0, cgst = 0, sgst = 0; string taxType = "", mode = txttax_venue.Text.Trim(); if (int.TryParse(txttaxsettingid_venue.Text, out int taxId) && taxId > 0) { BllSearch<DmnTaxSettings> b = new BllSearch<DmnTaxSettings>(); DmnSearch s = new DmnSearch { Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt", Table = "tblTaxSettings", WhereNdGroupBy = "WHERE Status=1 AND TaxSettingsId=" + taxId }; var taxes = b.GetSearchData("prdSearch", s); if (taxes != null && taxes.Count > 0) { taxType = taxes[0].TaxType; igst = taxes[0].IgstPrcnt; cgst = taxes[0].CgstPrcnt; sgst = taxes[0].SgstPrcnt; percent = string.Equals(taxType, "GST", StringComparison.OrdinalIgnoreCase) ? (igst > 0 ? igst : cgst + sgst) : taxes[0].VatPrcnt; } } decimal baseAmount = gross, taxAmount = 0, net = gross; if (percent > 0 && mode.Equals("INCLUSIVE", StringComparison.OrdinalIgnoreCase)) { baseAmount = gross / (1m + percent / 100m); taxAmount = gross - baseAmount; } else if (percent > 0) { taxAmount = gross * percent / 100m; net = gross + taxAmount; } txttaxtype_venue.Text = taxType; txtTaxPer_venue.Text = percent.ToString("0.00"); txtPreTaxAmount_venue.Text = baseAmount.ToString("0.00"); txtTotalTaxAmount_venue.Text = taxAmount.ToString("0.00"); txtGrandTotal_venue.Text = net.ToString("0.00"); txtIGSTAmt_venue.Text = taxType == "GST" && igst > 0 ? taxAmount.ToString("0.00") : "0.00"; txtVatamt_venue.Text = taxType == "GST" ? "0.00" : taxAmount.ToString("0.00"); } catch (Exception ex) { clsgen.LogException("Partybooking page CalculatevenueValues()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); } }
+        private void LoadPartyBookingVenueOptions()
+        {
+            try
+            {
+                BllSearch<DmnComboBox> b = new BllSearch<DmnComboBox>();
+                DmnSearch s = new DmnSearch
+                {
+                    Select = "PartyPackVenueId as Id, VenueName as Value",
+                    Table = "tblPartyPackVenue",
+                    WhereNdGroupBy = "WHERE Status=1 AND BranchId=" + FrmDashboard.BranchId,
+                    OrderBy = "ORDER BY VenueName"
+                };
+
+                var items = b.GetSearchData("prdSearch", s);
+                if (items == null)
+                    return;
+
+                items.Insert(0, new DmnComboBox
+                {
+                    Id = -1,
+                    Value = "-- Select Venue --"
+                });
+
+                cmbvenu.DataSource = items;
+                cmbvenu.DisplayMember = "Value";
+                cmbvenu.ValueMember = "Id";
+                cmbvenu.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page LoadPartyBookingVenueOptions()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void btnvenue_Click(object sender, EventArgs e)
+        {
+            pnl_moreoptions.Visible = true;
+            pnl_moreoptions.BringToFront();
+            flp_moreoptions.BringToFront();
+            cmbvenu.Focus();
+        }
+
+        private void btnsubmit_venue_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbvenu.SelectedValue == null ||
+                    Convert.ToInt32(cmbvenu.SelectedValue) <= 0)
+                {
+                    CMessageBox.Show(
+                        "Please select a venue.",
+                        "Venue",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                CalculatevenueValues();
+                CalculateNetAmount();
+                pnl_moreoptions.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page btnsubmit_venue_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void cmbvenu_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbvenu.SelectedValue != null &&
+                    Convert.ToInt32(cmbvenu.SelectedValue) > 0)
+                {
+                    txtvenucost.Enabled = true;
+                    FillVenuDetails(Convert.ToInt32(cmbvenu.SelectedValue));
+                    CalculatevenueValues();
+                }
+                else
+                {
+                    txtvenucost.Text = "0.00";
+                    txttaxsettingid_venue.Text = "0";
+                    txttaxtype_venue.Clear();
+                    txttax_venue.Clear();
+                    txtVatamt_venue.Text = "0";
+                    txtIGSTAmt_venue.Text = "0";
+                    txtTaxPer_venue.Text = "0";
+                    txtPreTaxAmount_venue.Text = "0";
+                    txtTotalTaxAmount_venue.Text = "0";
+                    txtGrandTotal_venue.Text = "0";
+                }
+
+                CalculateNetAmount();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page cmbvenu_SelectionChangeCommitted()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        public void FillVenuDetails(int venueId)
+        {
+            try
+            {
+                BllSearch<DmnPartyPackVenue> b = new BllSearch<DmnPartyPackVenue>();
+                DmnSearch s = new DmnSearch
+                {
+                    Select = "*",
+                    Table = "tblPartyPackVenue",
+                    WhereNdGroupBy = "WHERE PartyPackVenueId=" + venueId +
+                                     " AND Status=1 AND BranchId=" + FrmDashboard.BranchId
+                };
+
+                var items = b.GetSearchData("prdSearch", s);
+                if (items == null || items.Count == 0)
+                    return;
+
+                var item = items[0];
+
+                txtvenucost.Text = Convert.ToDecimal(item.VenueCost).ToString("0.00");
+                txttaxtype_venue.Text = item.TaxType;
+                txttaxsettingid_venue.Text = Convert.ToString(item.TaxSettingsId);
+                txttax_venue.Text = item.Tax;
+                txtVatamt_venue.Text = Convert.ToString(item.VatPrcnt);
+                txtIGSTAmt_venue.Text = Convert.ToString(item.IgstPrcnt);
+                txtTaxPer_venue.Text = (item.VatPrcnt + item.IgstPrcnt).ToString("0.00");
+                veniueNoOfAttendees = Convert.ToInt32(item.NoOfAttendees);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page FillVenuDetails()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void CalculatevenueValues()
+        {
+            try
+            {
+                decimal GetDecimal(TextBox textBox)
+                {
+                    decimal.TryParse(textBox.Text, out decimal value);
+                    return value;
+                }
+
+                decimal gross = GetDecimal(txtvenucost) +
+                                GetDecimal(txtOAAmount) -
+                                GetDecimal(txtODAmount);
+
+                decimal percent = 0;
+                decimal igst = 0;
+                decimal cgst = 0;
+                decimal sgst = 0;
+                string taxType = string.Empty;
+                string mode = txttax_venue.Text.Trim();
+
+                if (int.TryParse(txttaxsettingid_venue.Text, out int taxId) && taxId > 0)
+                {
+                    BllSearch<DmnTaxSettings> b = new BllSearch<DmnTaxSettings>();
+                    DmnSearch s = new DmnSearch
+                    {
+                        Select = "TaxType, IgstPrcnt, CgstPrcnt, SgstPrcnt, VatPrcnt",
+                        Table = "tblTaxSettings",
+                        WhereNdGroupBy = "WHERE Status=1 AND TaxSettingsId=" + taxId
+                    };
+
+                    var taxes = b.GetSearchData("prdSearch", s);
+                    if (taxes != null && taxes.Count > 0)
+                    {
+                        taxType = taxes[0].TaxType;
+                        igst = taxes[0].IgstPrcnt;
+                        cgst = taxes[0].CgstPrcnt;
+                        sgst = taxes[0].SgstPrcnt;
+
+                        percent = string.Equals(
+                            taxType,
+                            "GST",
+                            StringComparison.OrdinalIgnoreCase)
+                            ? (igst > 0 ? igst : cgst + sgst)
+                            : taxes[0].VatPrcnt;
+                    }
+                }
+
+                decimal baseAmount = gross;
+                decimal taxAmount = 0;
+                decimal net = gross;
+
+                if (percent > 0 &&
+                    mode.Equals("INCLUSIVE", StringComparison.OrdinalIgnoreCase))
+                {
+                    baseAmount = gross / (1m + percent / 100m);
+                    taxAmount = gross - baseAmount;
+                }
+                else if (percent > 0)
+                {
+                    taxAmount = gross * percent / 100m;
+                    net = gross + taxAmount;
+                }
+
+                txttaxtype_venue.Text = taxType;
+                txtTaxPer_venue.Text = percent.ToString("0.00");
+                txtPreTaxAmount_venue.Text = baseAmount.ToString("0.00");
+                txtTotalTaxAmount_venue.Text = taxAmount.ToString("0.00");
+                txtGrandTotal_venue.Text = net.ToString("0.00");
+
+                txtIGSTAmt_venue.Text = taxType == "GST" && igst > 0
+                    ? taxAmount.ToString("0.00")
+                    : "0.00";
+
+                txtVatamt_venue.Text = taxType == "GST"
+                    ? "0.00"
+                    : taxAmount.ToString("0.00");
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page CalculatevenueValues()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
         #endregion
 
     }
