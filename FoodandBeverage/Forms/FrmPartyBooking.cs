@@ -5366,6 +5366,10 @@ namespace FoodandBeverage
                 textb_shape();
                 RecalculateAllRowsAndTotals();
                 SetupGuestControls();
+
+                // The bill-preview button depends on the booking and sales IDs
+                // populated above, so refresh its visibility after loading a booking.
+                ConfigureResponsivePartyButtons();
             }
             catch (Exception ex)
             {
