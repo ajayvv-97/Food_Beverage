@@ -318,9 +318,10 @@ namespace FoodandBeverage
             txtitemcode_serach.Enter += PartyMenuSearchTextBox_Enter;
             txtitemcode_serach.Leave += PartyMenuSearchTextBox_Leave;
             LoadPartyBookingVenueOptions();
-            ConfigureResponsivePartyButtons();
 
+            // Recalculate once the form is loaded and whenever it is resized.
             Resize += (sender, args) => ConfigureResponsivePartyButtons();
+            Shown += (sender, args) => ConfigureResponsivePartyButtons();
 
             pnl_moreoptions.Visible = false;
             pnl_moreoptions.BringToFront();
@@ -432,7 +433,6 @@ namespace FoodandBeverage
                 ApplyPartyMenuVisualStyles();
                 SetPartyMenuSearchPlaceholders();
                 LoadPartyBookingVenueOptions();
-                ConfigureResponsivePartyButtons();
 
                 Taxfill();
 
@@ -464,6 +464,10 @@ namespace FoodandBeverage
                 }
 
                 UpdateSelectedDateLabel();
+
+                // Apply responsive visibility only after branch settings and any
+                // calendar-selected booking have populated their values.
+                ConfigureResponsivePartyButtons();
             }
             catch (Exception ex)
             {
@@ -9404,65 +9408,68 @@ namespace FoodandBeverage
 
         private void ConfigureResponsivePartyButtons()
         {
+            if (tlp_partyoptions == null || pnl_hidecontrl == null ||
+                pnl_moreoptions == null || flp_moreoptions == null)
+                return;
+
             try
             {
-                int screenWidth = Screen.FromControl(this).WorkingArea.Width;
+                // Use the actual display resolution, not the available work area.
+                int screenWidth = Screen.FromControl(this).Bounds.Width;
                 bool showSecondaryActionsDirectly = screenWidth >= 1376;
+                bool hasSelectedPartyBooking = BookingId > 0 && SalesMasterId > 0;
 
-                Control[] primary =
-                {
-                    btnfoodpack,
-                    btnvenue,
-                    btncard,
-                    btngift,
-                    btn_menu,
-                    btnadd_cus
-                };
+                tlp_partyoptions.SuspendLayout();
+                flp_moreoptions.SuspendLayout();
 
-                int buttonWidth = Math.Max(90, btnfoodpack.Width);
-                int availableWidth = tlp_partyoptions.ClientSize.Width;
-                int slots = Math.Max(1, Math.Min(primary.Length, availableWidth / (buttonWidth + 4)));
-
-                for (int i = 0; i < primary.Length; i++)
-                    primary[i].Visible = i < slots;
-
-                // At 1376px and wider, show Cake, Other and Bill Preview directly.
-                // Below 1376px, keep the row compact and expose More; Bill Preview is
-                // the only secondary action shown directly in that compact layout.
-                foreach (Button button in new[] { btncake, btnotherarange, btn_billpreview })
+                try
                 {
                     if (showSecondaryActionsDirectly)
                     {
-                        if (button.Parent != tlp_partyoptions)
+                        // Keep the button order stable: Cake, Other, Bill Preview.
+                        PlacePartyButtonInRow(btncake, 5);
+                        PlacePartyButtonInRow(btnotherarange, 6);
+                        PlacePartyButtonInRow(btn_billpreview, 7);
+
+                        btncake.Visible = true;
+                        btnotherarange.Visible = true;
+                        btn_billpreview.Visible = hasSelectedPartyBooking;
+
+                        // The hidden control-holder panel must not own the More button
+                        // when the user is supposed to see the direct actions.
+                        if (btn_more.Parent != pnl_hidecontrl)
                         {
-                            button.Parent?.Controls.Remove(button);
-                            tlp_partyoptions.Controls.Add(button);
+                            btn_more.Parent?.Controls.Remove(btn_more);
+                            pnl_hidecontrl.Controls.Add(btn_more);
                         }
-                        button.Visible = true;
-                        button.Margin = new Padding(4);
+                        btn_more.Visible = false;
                     }
                     else
                     {
-                        if (button.Parent != flp_moreoptions)
+                        // On compact screens More occupies the next visible button slot.
+                        // It must not remain inside pnl_hidecontrl because that panel is hidden.
+                        if (btn_more.Parent != tlp_partyoptions)
                         {
-                            button.Parent?.Controls.Remove(button);
-                            flp_moreoptions.Controls.Add(button);
+                            btn_more.Parent?.Controls.Remove(btn_more);
+                            tlp_partyoptions.Controls.Add(btn_more, 5, 0);
                         }
-                        button.Visible = button == btn_billpreview
-                            ? BookingId > 0 && SalesMasterId > 0
-                            : false;
-                        button.Margin = new Padding(4);
+                        tlp_partyoptions.SetCellPosition(btn_more, new TableLayoutPanelCellPosition(5, 0));
+                        btn_more.Visible = true;
+
+                        PlacePartyButtonInMorePanel(btncake);
+                        PlacePartyButtonInMorePanel(btnotherarange);
+                        PlacePartyButtonInMorePanel(btn_billpreview);
+
+                        btncake.Visible = true;
+                        btnotherarange.Visible = true;
+                        btn_billpreview.Visible = hasSelectedPartyBooking;
                     }
                 }
-
-                btn_more.Visible = !showSecondaryActionsDirectly || slots < primary.Length;
-                btn_more.BringToFront();
-
-                // Bill Preview is only available when an existing party booking is selected.
-                btn_billpreview.Visible = BookingId > 0 && SalesMasterId > 0 &&
-                    (showSecondaryActionsDirectly || btn_billpreview.Parent == flp_moreoptions);
-
-                pnl_moreoptions.Visible = false;
+                finally
+                {
+                    flp_moreoptions.ResumeLayout(true);
+                    tlp_partyoptions.ResumeLayout(true);
+                }
             }
             catch (Exception ex)
             {
@@ -9473,6 +9480,36 @@ namespace FoodandBeverage
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.Partybooking));
             }
+        }
+
+        private void PlacePartyButtonInRow(Button button, int column)
+        {
+            if (button == null)
+                return;
+
+            if (button.Parent != tlp_partyoptions)
+            {
+                button.Parent?.Controls.Remove(button);
+                tlp_partyoptions.Controls.Add(button, column, 0);
+            }
+
+            tlp_partyoptions.SetCellPosition(button, new TableLayoutPanelCellPosition(column, 0));
+            button.Margin = new Padding(0);
+        }
+
+        private void PlacePartyButtonInMorePanel(Button button)
+        {
+            if (button == null)
+                return;
+
+            if (button.Parent != flp_moreoptions)
+            {
+                button.Parent?.Controls.Remove(button);
+                flp_moreoptions.Controls.Add(button);
+            }
+
+            // Keep each button's designer dimensions and preserve the More-panel order.
+            button.Margin = new Padding(4);
         }
 
         #region More Option
