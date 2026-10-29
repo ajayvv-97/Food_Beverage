@@ -465,8 +465,6 @@ namespace FoodandBeverage
 
                 UpdateSelectedDateLabel();
 
-                // Apply responsive visibility only after branch settings and any
-                // calendar-selected booking have populated their values.
                 ConfigureResponsivePartyButtons();
             }
             catch (Exception ex)
@@ -9418,9 +9416,9 @@ namespace FoodandBeverage
 
             try
             {
-                // Use the actual display resolution, not the available work area.
+
                 int screenWidth = Screen.FromControl(this).Bounds.Width;
-                bool showSecondaryActionsDirectly = screenWidth >= 1376;
+                bool showSecondaryActionsDirectly = screenWidth >= 1366;
                 bool hasSelectedPartyBooking = BookingId > 0 && SalesMasterId > 0;
 
                 tlp_partyoptions.SuspendLayout();
@@ -9430,7 +9428,7 @@ namespace FoodandBeverage
                 {
                     if (showSecondaryActionsDirectly)
                     {
-                        // Keep the button order stable: Cake, Other, Bill Preview.
+
                         PlacePartyButtonInRow(btncake, 5);
                         PlacePartyButtonInRow(btnotherarange, 6);
                         PlacePartyButtonInRow(btn_billpreview, 7);
@@ -9439,8 +9437,7 @@ namespace FoodandBeverage
                         btnotherarange.Visible = true;
                         btn_billpreview.Visible = hasSelectedPartyBooking;
 
-                        // The hidden control-holder panel must not own the More button
-                        // when the user is supposed to see the direct actions.
+
                         if (btn_more.Parent != pnl_hidecontrl)
                         {
                             btn_more.Parent?.Controls.Remove(btn_more);
@@ -9450,9 +9447,6 @@ namespace FoodandBeverage
                     }
                     else
                     {
-                        // Compact layout: More is in the main row, and Bill View is
-                        // a separate button immediately after More. Only Cake and Other
-                        // belong inside the More popup.
                         if (btn_more.Parent != tlp_partyoptions)
                         {
                             btn_more.Parent?.Controls.Remove(btn_more);
