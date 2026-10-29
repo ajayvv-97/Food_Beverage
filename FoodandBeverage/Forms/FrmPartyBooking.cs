@@ -5139,6 +5139,10 @@ namespace FoodandBeverage
                     detSale.SalesDetailsId = Convert.ToInt32(row.Cells[psaledetailidno].Value ?? 0);
                     detSale.itemid = Convert.ToInt32(row.Cells[pProductid].Value ?? 0);
                     detSale.ItemName = Convert.ToString(row.Cells[pitemno].Value ?? "");
+                    // The sales-detail procedure expects ProductType as a string value.
+                    // Persist the same PackItemType number used by the booking detail,
+                    // including Venue=10.
+                    detSale.ProductType = productType.ToString();
 
                     detSale.Quantity = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0);
                     detSale.SalesRate = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0);
