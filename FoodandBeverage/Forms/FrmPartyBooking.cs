@@ -3148,7 +3148,9 @@ namespace FoodandBeverage
                 row.Cells[pPartydeafult].Value = 2;
                 row.Cells[ptaxsettingid].Value = Convert.ToInt32(item.Field4);
 
-                row.Cells[PPackProductTypeno].Value = Convert.ToInt32(PackItemType.Gift);
+                row.Cells[PPackProductTypeno].Value = (int)PackItemType.Gift;
+                row.Cells[phsncodeno].Value = GetPartyItemHsnCode(
+                    (int)PackItemType.Gift, Convert.ToInt32(item.Id));
 
                 // Action column (Remove button)
                 DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)row.Cells[pactionno];
@@ -3343,7 +3345,8 @@ namespace FoodandBeverage
                     productType != (int)PackItemType.Menu &&
                     productType != (int)PackItemType.Cake &&
                     productType != (int)PackItemType.ExtraChargeProduct &&
-                    productType != (int)PackItemType.FoodItem)
+                    productType != (int)PackItemType.FoodItem &&
+                    productType != (int)PackItemType.Venue)
                 {
                     continue;
                 }
@@ -3351,13 +3354,24 @@ namespace FoodandBeverage
                 if (productType == (int)PackItemType.Cake)
                 {
                     BllSearch<DmnGridFields> cakeHsnSearch = new BllSearch<DmnGridFields>();
-                    DmnSearch cakeHsnQuery = new DmnSearch { Select = "ISNULL(HSNCode,'') AS Field1", Table = "tblPartyPackCake", WhereNdGroupBy = "WHERE PartyPackCakeId=" + productId };
+                    DmnSearch cakeHsnQuery = new DmnSearch
+                    {
+                        Select = "ISNULL(HSNCode,'') AS Field1",
+                        Table = "tblPartyPackCake",
+                        WhereNdGroupBy = "WHERE PartyPackCakeId=" + productId
+                    };
                     var cakeHsn = cakeHsnSearch.GetSearchData("prdSearch", cakeHsnQuery);
-                    row.Cells[phsncodeno].Value = cakeHsn != null && cakeHsn.Count > 0 ? Convert.ToString(cakeHsn[0].Field1) : string.Empty;
+                    string cakeHsnCode = cakeHsn != null && cakeHsn.Count > 0
+                        ? Convert.ToString(cakeHsn[0].Field1)
+                        : string.Empty;
+                    if (!string.IsNullOrWhiteSpace(cakeHsnCode))
+                        row.Cells[phsncodeno].Value = cakeHsnCode;
                 }
-                else
+                else if (productType != (int)PackItemType.ExtraChargeProduct && productId > 0)
                 {
-                    row.Cells[phsncodeno].Value = GetPartyItemHsnCode(productType, productId);
+                    string hsnCode = GetPartyItemHsnCode(productType, productId);
+                    if (!string.IsNullOrWhiteSpace(hsnCode))
+                        row.Cells[phsncodeno].Value = hsnCode;
                 }
 
                 decimal qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0);
@@ -4923,7 +4937,8 @@ namespace FoodandBeverage
                         det.TableType = Convert.ToInt32(FoodandBeverage.Interfaces.ProductType.RedemptionTicket);
                     else if (productType == (int)PackItemType.Menu)
                         det.TableType = Convert.ToInt32(FoodandBeverage.Interfaces.ProductType.FB);
-                    else if (productType == (int)PackItemType.Cake)
+                    else if (productType == (int)PackItemType.Cake ||
+                             productType == (int)PackItemType.Venue)
                         det.TableType = 0;
                     else
                         det.TableType = 0;
@@ -5167,6 +5182,8 @@ namespace FoodandBeverage
                         detSale.PackageType = (int)PackItemType.ExtraChargeProduct;
                     else if (productType == (int)PackItemType.ManualProduct)
                         detSale.PackageType = (int)PackItemType.ManualProduct;
+                    else if (productType == (int)PackItemType.Venue)
+                        detSale.PackageType = (int)PackItemType.Venue;
 
                     detSale.IsPackage = false;
                     detSale.PartyBookingId = bookingId;
@@ -5736,7 +5753,8 @@ namespace FoodandBeverage
                             item.ProductType == (int)PackItemType.Card ||
                             item.ProductType == (int)PackItemType.Gift ||
                             item.ProductType == (int)PackItemType.Menu ||
-                            item.ProductType == (int)PackItemType.ExtraChargeProduct))
+                            item.ProductType == (int)PackItemType.ExtraChargeProduct ||
+                            item.ProductType == (int)PackItemType.Venue))
                         {
                             int rowIndex = dgv_product.Rows.Add();
 
@@ -5781,6 +5799,32 @@ namespace FoodandBeverage
 
                             row.Cells[pPartydeafult].Value = 0;
                             row.Cells[PPackProductTypeno].Value = item.ProductType;
+
+                            // Rehydrate HSN values for item types whose HSN is stored
+                            // with their source product/venue record. Extra Charge keeps
+                            // its entry-time HSN in the grid; its custom HSN is not a
+                            // field in DmnPartyBookingDetails/the current save procedure.
+                            if (item.ProductType == (int)PackItemType.Cake)
+                            {
+                                BllSearch<DmnGridFields> hsnSearch = new BllSearch<DmnGridFields>();
+                                DmnSearch hsnQuery = new DmnSearch
+                                {
+                                    Select = "ISNULL(HSNCode,'') AS Field1",
+                                    Table = "tblPartyPackCake",
+                                    WhereNdGroupBy = "WHERE PartyPackCakeId=" + item.ProductId
+                                };
+                                var hsnResult = hsnSearch.GetSearchData("prdSearch", hsnQuery);
+                                row.Cells[phsncodeno].Value = hsnResult != null && hsnResult.Count > 0
+                                    ? Convert.ToString(hsnResult[0].Field1)
+                                    : string.Empty;
+                            }
+                            else if (item.ProductType != (int)PackItemType.ExtraChargeProduct &&
+                                     item.ProductId > 0)
+                            {
+                                string hsnCode = GetPartyItemHsnCode(item.ProductType, item.ProductId);
+                                if (!string.IsNullOrWhiteSpace(hsnCode))
+                                    row.Cells[phsncodeno].Value = hsnCode;
+                            }
 
                             row.Cells[psaledetailidno].Value = item.SalesDetailsId;
                             row.Cells[psalemasteridno].Value = item.SalesMasterId;
@@ -7072,6 +7116,8 @@ namespace FoodandBeverage
                 decimal preTax_pack = 0, tax_pack = 0, net_pack = 0;
                 decimal preTax_extra = 0, tax_extra = 0, net_extra = 0;
                 decimal preTax_food = 0, tax_food = 0, net_food = 0;
+                decimal preTax_venue = 0, tax_venue = 0, net_venue = 0;
+                bool hasVenueRows = false;
 
                 foreach (DataGridViewRow row in dgv_product.Rows)
                 {
@@ -7084,7 +7130,8 @@ namespace FoodandBeverage
                         productType != (int)PackItemType.Menu &&
                         productType != (int)PackItemType.Cake &&
                         productType != (int)PackItemType.ExtraChargeProduct &&
-                        productType != (int)PackItemType.FoodItem)
+                        productType != (int)PackItemType.FoodItem &&
+                        productType != (int)PackItemType.Venue)
                     {
                         continue;
                     }
@@ -7181,6 +7228,12 @@ namespace FoodandBeverage
                             tax_extra += taxAmt;
                             net_extra += netAmt;
                             break;
+                        case PackItemType.Venue:
+                            preTax_venue += baseAmt;
+                            tax_venue += taxAmt;
+                            net_venue += netAmt;
+                            hasVenueRows = true;
+                            break;
                         // Keep legacy FoodItem handling unchanged; Menu is an additional type.
                         case PackItemType.FoodItem:
                         case PackItemType.Menu:
@@ -7222,6 +7275,15 @@ namespace FoodandBeverage
                 txtVatamt_extracharge.Text = (tax_extra + tax_food).ToString("N2");
                 txtIGSTAmt_extracharge.Text = (tax_extra + tax_food).ToString("N2");
                 txtExtrachargeGrandTotal.Text = (net_extra + net_food).ToString("N2");
+
+                // Do not clear venue panel values until a Venue row has actually been
+                // submitted. Once present, keep the panel totals in sync with the grid row.
+                if (hasVenueRows)
+                {
+                    txtPreTaxAmount_venue.Text = preTax_venue.ToString("N2");
+                    txtTotalTaxAmount_venue.Text = tax_venue.ToString("N2");
+                    txtGrandTotal_venue.Text = net_venue.ToString("N2");
+                }
 
                 CalculateDiscountPer();
                 CalculateNetAmount();
@@ -7301,9 +7363,40 @@ namespace FoodandBeverage
                 decimal totalVAT = packVAT + cakeVAT + cardVAT + giftVAT + extraVAT;
                 decimal totalIGST = packIGST + cakeIGST + cardIGST + giftIGST + extraIGST;
 
-                decimal venuePreTax = GetDecimal(txtPreTaxAmount_venue), venueTax = GetDecimal(txtTotalTaxAmount_venue), venueTotal = GetDecimal(txtGrandTotal_venue);
+                List<DataGridViewRow> venueRows = dgv_product.Rows
+                    .Cast<DataGridViewRow>()
+                    .Where(row => !row.IsNewRow &&
+                                  Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.Venue)
+                    .ToList();
+
+                decimal venuePreTax;
+                decimal venueTax;
+                decimal venueVAT;
+                decimal venueIGST;
+                decimal venueTotal;
+
+                if (venueRows.Count > 0)
+                {
+                    venuePreTax = venueRows.Sum(row => Convert.ToDecimal(row.Cells[ppretaxamt].Value ?? 0));
+                    venueTax = venueRows.Sum(row => Convert.ToDecimal(row.Cells[ptaxamt].Value ?? 0));
+                    venueVAT = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pvatamt].Value ?? 0));
+                    venueIGST = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pigstamt].Value ?? 0));
+                    venueTotal = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pnetamt].Value ?? 0));
+                }
+                else
+                {
+                    venuePreTax = GetDecimal(txtPreTaxAmount_venue);
+                    venueTax = GetDecimal(txtTotalTaxAmount_venue);
+                    venueVAT = GetDecimal(txtVatamt_venue);
+                    venueIGST = GetDecimal(txtIGSTAmt_venue);
+                    venueTotal = GetDecimal(txtGrandTotal_venue);
+                }
+
                 decimal subtotal = packTotal + cakeTotal + cardTotal + giftTotal + extraTotal + venueTotal;
-                totalPreTax += venuePreTax; totalTax += venueTax; totalVAT += GetDecimal(txtVatamt_venue); totalIGST += GetDecimal(txtIGSTAmt_venue);
+                totalPreTax += venuePreTax;
+                totalTax += venueTax;
+                totalVAT += venueVAT;
+                totalIGST += venueIGST;
 
                 // The discount amount is calculated on the tax-exclusive base.
                 // Also subtract the tax reduction from the gross subtotal so the
@@ -7363,7 +7456,8 @@ namespace FoodandBeverage
                 decimal.TryParse(txtTotalDiscountAmt.Text, out discounttotal);
                 grandTotal += packTotal;
 
-                decimal cardTotal = 0, giftTotal = 0, cakeTotal = 0, menuTotal = 0, addcharge = 0, Tottax = 0;
+                decimal cardTotal = 0, giftTotal = 0, cakeTotal = 0, menuTotal = 0, addcharge = 0, venueTotal = 0, Tottax = 0;
+                bool hasVenueRows = false;
 
                 foreach (DataGridViewRow row in dgv_product.Rows)
                 {
@@ -7395,9 +7489,18 @@ namespace FoodandBeverage
                             addcharge += netAmt;
                             Tottax += taxAmt;
                             break;
+                        case PackItemType.Venue:
+                            venueTotal += netAmt;
+                            Tottax += taxAmt;
+                            hasVenueRows = true;
+                            break;
                     }
                 }
-                grandTotal += cardTotal + giftTotal + cakeTotal + menuTotal + addcharge;
+
+                if (!hasVenueRows)
+                    decimal.TryParse(txtGrandTotal_venue.Text, out venueTotal);
+
+                grandTotal += cardTotal + giftTotal + cakeTotal + menuTotal + addcharge + venueTotal;
                 if (discounttotal > 0)
                 {
                     originalGrandTotal = grandTotal - discounttotal;
@@ -9549,15 +9652,30 @@ namespace FoodandBeverage
                 if (itemId <= 0)
                     return string.Empty;
 
-                string table = productType == (int)PackItemType.Menu
-                    ? "tblItem"
-                    : (productType == (int)PackItemType.Card || productType == (int)PackItemType.Gift)
-                        ? "[" + GameDB + "].dbo.tblProduct"
-                        : "tblProduct";
+                string table;
+                string idColumn;
 
-                string idColumn = productType == (int)PackItemType.Menu
-                    ? "ItemId"
-                    : "ProductId";
+                if (productType == (int)PackItemType.Menu)
+                {
+                    table = "tblItem";
+                    idColumn = "ItemId";
+                }
+                else if (productType == (int)PackItemType.Venue)
+                {
+                    table = "tblPartyPackVenue";
+                    idColumn = "PartyPackVenueId";
+                }
+                else if (productType == (int)PackItemType.Card ||
+                         productType == (int)PackItemType.Gift)
+                {
+                    table = "[" + GameDB + "].dbo.tblProduct";
+                    idColumn = "ProductId";
+                }
+                else
+                {
+                    table = "tblProduct";
+                    idColumn = "ProductId";
+                }
 
                 BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>();
                 DmnSearch s = new DmnSearch
@@ -9722,7 +9840,8 @@ namespace FoodandBeverage
             try
             {
                 if (cmbvenu.SelectedValue == null ||
-                    Convert.ToInt32(cmbvenu.SelectedValue) <= 0)
+                    !int.TryParse(Convert.ToString(cmbvenu.SelectedValue), out int venueId) ||
+                    venueId <= 0)
                 {
                     CMessageBox.Show(
                         "Please select a venue.",
@@ -9733,9 +9852,99 @@ namespace FoodandBeverage
                 }
 
                 CalculatevenueValues();
-                CalculateNetAmount();
+
+                decimal venueBaseAmount = 0m;
+                decimal.TryParse(txtvenucost.Text, out venueBaseAmount);
+                decimal otherArrangement = 0m;
+                decimal.TryParse(txtOAAmount.Text, out otherArrangement);
+                decimal otherDeduction = 0m;
+                decimal.TryParse(txtODAmount.Text, out otherDeduction);
+                decimal grossAmount = venueBaseAmount + otherArrangement - otherDeduction;
+                if (grossAmount < 0m)
+                {
+                    CMessageBox.Show(
+                        "Venue amount cannot be negative.",
+                        "Venue",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Update an existing Venue row when editing a booking; otherwise add one.
+                DataGridViewRow row = dgv_product.Rows
+                    .Cast<DataGridViewRow>()
+                    .FirstOrDefault(r => !r.IsNewRow &&
+                        Convert.ToInt32(r.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.Venue);
+
+                int rowIndex;
+                if (row == null)
+                {
+                    rowIndex = dgv_product.Rows.Add();
+                    row = dgv_product.Rows[rowIndex];
+                    row.Cells[pslno].Value = rowIndex + 1;
+                    row.Cells[proPartyPackDetailsId].Value = 0;
+                }
+                else
+                {
+                    rowIndex = row.Index;
+                }
+
+                row.Cells[pitemno].Value = cmbvenu.Text;
+                row.Cells[pcategmenuno].Value = "Venue";
+                row.Cells[pqtyno].Value = 1;
+                row.Cells[pPrice].Value = grossAmount;
+                row.Cells[pAmount].Value = grossAmount;
+                row.Cells[pProductid].Value = venueId;
+                row.Cells[pproducttype].Value = 0;
+                row.Cells[PPackProductTypeno].Value = (int)PackItemType.Venue;
+                row.Cells[pPartydeafult].Value = 2;
+                row.Cells[ppridno].Value = 0;
+                row.Cells[pmessageno].Value = string.Empty;
+                row.Cells[premarksno].Value = string.Empty;
+                row.Cells[pdiscper].Value = 0m;
+                row.Cells[pdisamt].Value = 0m;
+
+                row.Cells[ptax].Value = txttax_venue.Text;
+                row.Cells[ptaxtype].Value = txttaxtype_venue.Text;
+                decimal taxPercent = 0m, taxAmount = 0m, preTaxAmount = 0m, netAmount = 0m;
+                decimal.TryParse(txtTaxPer_venue.Text, out taxPercent);
+                decimal.TryParse(txtTotalTaxAmount_venue.Text, out taxAmount);
+                decimal.TryParse(txtPreTaxAmount_venue.Text, out preTaxAmount);
+                decimal.TryParse(txtGrandTotal_venue.Text, out netAmount);
+                row.Cells[ptaxper].Value = taxPercent;
+                row.Cells[ptaxamt].Value = taxAmount;
+                row.Cells[ptaxsettingid].Value = GetInt(txttaxsettingid_venue);
+                row.Cells[ppretaxamt].Value = preTaxAmount;
+                row.Cells[pnetamt].Value = netAmount;
+
+                decimal igstAmount = 0m, vatAmount = 0m;
+                decimal.TryParse(txtIGSTAmt_venue.Text, out igstAmount);
+                decimal.TryParse(txtVatamt_venue.Text, out vatAmount);
+                row.Cells[pigstamt].Value = igstAmount;
+                row.Cells[pvatamt].Value = vatAmount;
+                row.Cells[phsncodeno].Value = GetPartyItemHsnCode((int)PackItemType.Venue, venueId);
+
+                DataGridViewImageCell actionCell = row.Cells[pactionno] as DataGridViewImageCell;
+                if (actionCell != null)
+                {
+                    actionCell.Value = Grid_Remove;
+                    actionCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                }
+
+                row.ReadOnly = true;
+
+                CalculateAndApplyTax(rowIndex, (int)PackItemType.Venue, venueId);
+
                 pnl_moreoptions.Visible = false;
                 pnl_venue.Visible = false;
+
+                GetGrandTotal_All();
+                RecalculateAllRowsAndTotals();
+                if (Convert.ToDecimal(discountper.Text) > 0)
+                    CalculateDiscountAmount();
+                else
+                    CalculateDiscountPer();
+                CalculateNetAmount();
             }
             catch (Exception ex)
             {
