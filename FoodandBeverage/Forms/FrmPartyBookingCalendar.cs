@@ -1548,7 +1548,10 @@ namespace FoodandBeverage.Forms
                     flp_indicators.Controls.Add(item);
                 }
             }
-            finally { flp_indicators.ResumeLayout(true); }
+            finally
+            {
+                flp_indicators.ResumeLayout(true);
+            }
         }
     }
 }
