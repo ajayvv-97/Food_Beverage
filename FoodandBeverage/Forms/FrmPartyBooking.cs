@@ -3333,6 +3333,18 @@ namespace FoodandBeverage
                     continue;
                 }
 
+                if (productType == (int)PackItemType.Cake)
+                {
+                    BllSearch<DmnGridFields> cakeHsnSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch cakeHsnQuery = new DmnSearch { Select = "ISNULL(HSNCode,'') AS Field1", Table = "tblPartyPackCake", WhereNdGroupBy = "WHERE PartyPackCakeId=" + productId };
+                    var cakeHsn = cakeHsnSearch.GetSearchData("prdSearch", cakeHsnQuery);
+                    row.Cells[phsncodeno].Value = cakeHsn != null && cakeHsn.Count > 0 ? Convert.ToString(cakeHsn[0].Field1) : string.Empty;
+                }
+                else
+                {
+                    row.Cells[phsncodeno].Value = GetPartyItemHsnCode(productType, productId);
+                }
+
                 decimal qty = Convert.ToDecimal(row.Cells[pqtyno].Value ?? 0);
                 decimal price = Convert.ToDecimal(row.Cells[pPrice].Value ?? 0);
                 decimal gross = qty * price;
@@ -9380,7 +9392,7 @@ namespace FoodandBeverage
 
         private void ConfigureResponsivePartyButtons() { try { int width = tlp_partyoptions.ClientSize.Width, buttonWidth = Math.Max(90, btnfoodpack.Width); Control[] primary = { btnfoodpack, btnvenue, btncard, btngift, btn_menu, btnadd_cus }; int slots = Math.Max(1, Math.Min(6, width / (buttonWidth + 4))); for (int i = 0; i < primary.Length; i++) primary[i].Visible = i < slots; btn_more.Visible = true; btn_more.BringToFront(); foreach (Button button in new[] { btncake, btnotherarange, btn_billpreview }) { if (button.Parent != flp_moreoptions) { button.Parent?.Controls.Remove(button); flp_moreoptions.Controls.Add(button); } button.Width = Math.Max(120, flp_moreoptions.ClientSize.Width - 18); button.Height = 40; button.Margin = new Padding(4); } btn_billpreview.Visible = BookingId > 0 && SalesMasterId > 0; btncake.Visible = true; btnotherarange.Visible = true; pnl_moreoptions.Visible = false; pnl_moreoptions.BringToFront(); } catch (Exception ex) { clsgen.LogException("Partybooking page ConfigureResponsivePartyButtons()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); } }
 
-        private string GetPartyItemHsnCode(int productType, int itemId) { try { if (itemId <= 0) return string.Empty; string table = productType == (int)PackItemType.Menu ? "tblItem" : "tblProduct"; string idColumn = productType == (int)PackItemType.Menu ? "ItemId" : "ProductId"; BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>(); DmnSearch s = new DmnSearch { Select = "ISNULL(HSNcode,'') AS Field1", Table = table, WhereNdGroupBy = "WHERE " + idColumn + "=" + itemId }; var result = b.GetSearchData("prdSearch", s); return result != null && result.Count > 0 ? Convert.ToString(result[0].Field1) : string.Empty; } catch (Exception ex) { clsgen.LogException("Partybooking page GetPartyItemHsnCode()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); return string.Empty; } }
+        private string GetPartyItemHsnCode(int productType, int itemId) { try { if (itemId <= 0) return string.Empty; string table = productType == (int)PackItemType.Menu ? "tblItem" : (productType == (int)PackItemType.Card || productType == (int)PackItemType.Gift) ? "[" + GameDB + "].dbo.tblProduct" : "tblProduct"; string idColumn = productType == (int)PackItemType.Menu ? "ItemId" : "ProductId"; BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>(); DmnSearch s = new DmnSearch { Select = "ISNULL(HSNcode,'') AS Field1", Table = table, WhereNdGroupBy = "WHERE " + idColumn + "=" + itemId }; var result = b.GetSearchData("prdSearch", s); return result != null && result.Count > 0 ? Convert.ToString(result[0].Field1) : string.Empty; } catch (Exception ex) { clsgen.LogException("Partybooking page GetPartyItemHsnCode()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking)); return string.Empty; } }
 
         #region More Option
         private void btn_more_Click(object sender, EventArgs e) { pnl_moreoptions.Visible = true; pnl_moreoptions.BringToFront(); flp_moreoptions.BringToFront(); }
