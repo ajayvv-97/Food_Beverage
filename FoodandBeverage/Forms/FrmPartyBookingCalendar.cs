@@ -312,11 +312,14 @@ namespace FoodandBeverage.Forms
 
                 previewButton.Click += (sender, args) =>
                 {
-                    if (SelectedBooking != null)
-                    {
-                        PreviewRequested = true;
-                        DialogResult = DialogResult.Retry;
-                    }
+                    if (SelectedBooking == null)
+                        return;
+
+                    // Explicitly close the modal dialog with a distinct result so the
+                    // owner can run the preview and then return to the same booking list.
+                    PreviewRequested = true;
+                    DialogResult = DialogResult.Retry;
+                    Close();
                 };
 
                 footer.Controls.Add(closeButton);
