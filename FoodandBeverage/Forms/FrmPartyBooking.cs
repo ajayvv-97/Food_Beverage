@@ -432,6 +432,7 @@ namespace FoodandBeverage
 
                 ApplyPartyMenuVisualStyles();
                 SetPartyMenuSearchPlaceholders();
+                ConfigurePartyBookingHsnColumn();
                 LoadPartyBookingVenueOptions();
 
                 Taxfill();
@@ -9407,6 +9408,36 @@ namespace FoodandBeverage
       
 
         #endregion
+
+        private void ConfigurePartyBookingHsnColumn()
+        {
+            try
+            {
+                if (dgv_product == null ||
+                    !dgv_product.Columns.Contains("pahsncode"))
+                    return;
+
+                DataGridViewColumn hsnColumn = dgv_product.Columns["pahsncode"];
+                hsnColumn.Visible = true;
+
+                // HSN was placed after every billing/hidden column in the designer.
+                // Put it beside Product and Category so it is visible without
+                // horizontal scrolling; row.Cells[phsncodeno] still uses its
+                // stable collection index and does not change.
+                int desiredDisplayIndex = Math.Min(4, dgv_product.Columns.Count - 1);
+                if (hsnColumn.DisplayIndex != desiredDisplayIndex)
+                    hsnColumn.DisplayIndex = desiredDisplayIndex;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page ConfigurePartyBookingHsnColumn()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
 
         private void ConfigureResponsivePartyButtons()
         {
