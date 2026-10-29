@@ -7363,34 +7363,20 @@ namespace FoodandBeverage
                 decimal totalVAT = packVAT + cakeVAT + cardVAT + giftVAT + extraVAT;
                 decimal totalIGST = packIGST + cakeIGST + cardIGST + giftIGST + extraIGST;
 
+                // Venue is counted only after Venue Submit creates/updates its grid row.
+                // Do not include values still sitting in the venue editor, or a deleted
+                // Venue row would continue affecting the bill total.
                 List<DataGridViewRow> venueRows = dgv_product.Rows
                     .Cast<DataGridViewRow>()
                     .Where(row => !row.IsNewRow &&
                                   Convert.ToInt32(row.Cells[PPackProductTypeno].Value ?? 0) == (int)PackItemType.Venue)
                     .ToList();
 
-                decimal venuePreTax;
-                decimal venueTax;
-                decimal venueVAT;
-                decimal venueIGST;
-                decimal venueTotal;
-
-                if (venueRows.Count > 0)
-                {
-                    venuePreTax = venueRows.Sum(row => Convert.ToDecimal(row.Cells[ppretaxamt].Value ?? 0));
-                    venueTax = venueRows.Sum(row => Convert.ToDecimal(row.Cells[ptaxamt].Value ?? 0));
-                    venueVAT = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pvatamt].Value ?? 0));
-                    venueIGST = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pigstamt].Value ?? 0));
-                    venueTotal = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pnetamt].Value ?? 0));
-                }
-                else
-                {
-                    venuePreTax = GetDecimal(txtPreTaxAmount_venue);
-                    venueTax = GetDecimal(txtTotalTaxAmount_venue);
-                    venueVAT = GetDecimal(txtVatamt_venue);
-                    venueIGST = GetDecimal(txtIGSTAmt_venue);
-                    venueTotal = GetDecimal(txtGrandTotal_venue);
-                }
+                decimal venuePreTax = venueRows.Sum(row => Convert.ToDecimal(row.Cells[ppretaxamt].Value ?? 0));
+                decimal venueTax = venueRows.Sum(row => Convert.ToDecimal(row.Cells[ptaxamt].Value ?? 0));
+                decimal venueVAT = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pvatamt].Value ?? 0));
+                decimal venueIGST = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pigstamt].Value ?? 0));
+                decimal venueTotal = venueRows.Sum(row => Convert.ToDecimal(row.Cells[pnetamt].Value ?? 0));
 
                 decimal subtotal = packTotal + cakeTotal + cardTotal + giftTotal + extraTotal + venueTotal;
                 totalPreTax += venuePreTax;
@@ -7457,7 +7443,6 @@ namespace FoodandBeverage
                 grandTotal += packTotal;
 
                 decimal cardTotal = 0, giftTotal = 0, cakeTotal = 0, menuTotal = 0, addcharge = 0, venueTotal = 0, Tottax = 0;
-                bool hasVenueRows = false;
 
                 foreach (DataGridViewRow row in dgv_product.Rows)
                 {
@@ -7492,14 +7477,11 @@ namespace FoodandBeverage
                         case PackItemType.Venue:
                             venueTotal += netAmt;
                             Tottax += taxAmt;
-                            hasVenueRows = true;
                             break;
                     }
                 }
 
-                if (!hasVenueRows)
-                    decimal.TryParse(txtGrandTotal_venue.Text, out venueTotal);
-
+                // Venue is included only when Venue Submit has placed it in the grid.
                 grandTotal += cardTotal + giftTotal + cakeTotal + menuTotal + addcharge + venueTotal;
                 if (discounttotal > 0)
                 {
@@ -9889,6 +9871,7 @@ namespace FoodandBeverage
                     return;
                 }
 
+                ResetDiscount();
                 CalculatevenueValues();
 
                 decimal venueBaseAmount = 0m;
