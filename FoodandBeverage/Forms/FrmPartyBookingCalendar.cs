@@ -239,9 +239,9 @@ namespace FoodandBeverage.Forms
 
                         foreach (Control parentControl in Controls)
                         {
-                            if (parentControl is FlowLayoutPanel footer)
+                            if (parentControl is FlowLayoutPanel footerPanel)
                             {
-                                foreach (Control footerControl in footer.Controls)
+                                foreach (Control footerControl in footerPanel.Controls)
                                 {
                                     if (footerControl is Button preview &&
                                         preview.Text == "Bill Preview")
@@ -1393,7 +1393,7 @@ namespace FoodandBeverage.Forms
                 using (FoodandBeverage.Forms.FrmCombinedBill bill =
                     new FoodandBeverage.Forms.FrmCombinedBill())
                 {
-                    bill.printBill(salesId, Convert.ToInt32(BillType.Partybill));
+                    bill.printBill(salesId, Convert.ToInt32(FoodandBeverage.Interfaces.BillType.Partybill));
                 }
             }
             catch (Exception ex)
