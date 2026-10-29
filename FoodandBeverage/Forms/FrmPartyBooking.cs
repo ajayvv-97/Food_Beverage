@@ -429,7 +429,10 @@ namespace FoodandBeverage
 
                 lblpackname.ForeColor = Color.DimGray;
 
-                ApplyPartyMenuVisualStyles(); SetPartyMenuSearchPlaceholders(); LoadPartyBookingVenueOptions(); ConfigureResponsivePartyButtons();                
+                ApplyPartyMenuVisualStyles();
+                SetPartyMenuSearchPlaceholders();
+                LoadPartyBookingVenueOptions();
+                ConfigureResponsivePartyButtons();
 
                 Taxfill();
 
