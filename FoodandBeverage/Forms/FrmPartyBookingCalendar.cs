@@ -233,7 +233,35 @@ namespace FoodandBeverage.Forms
                     details.SetColumnSpan(paymentSummary, 2);
                     card.Controls.Add(details);
                     card.Controls.Add(stripe);
-                    EventHandler choose = (s, e) => { SelectedBooking = booking; foreach (Control parentControl in Controls) if (parentControl is FlowLayoutPanel footer) foreach (Control footerControl in footer.Controls) if (footerControl is Button preview && preview.Text == "Bill Preview") preview.Enabled = true; foreach (Control child in list.Controls) if (child is Panel panel) panel.BackColor = ReferenceEquals(panel.Tag, booking) ? Color.FromArgb(226, 219, 255) : Color.White; };
+                    EventHandler choose = (s, e) =>
+                    {
+                        SelectedBooking = booking;
+
+                        foreach (Control parentControl in Controls)
+                        {
+                            if (parentControl is FlowLayoutPanel footer)
+                            {
+                                foreach (Control footerControl in footer.Controls)
+                                {
+                                    if (footerControl is Button preview &&
+                                        preview.Text == "Bill Preview")
+                                    {
+                                        preview.Enabled = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (Control child in list.Controls)
+                        {
+                            if (child is Panel panel)
+                            {
+                                panel.BackColor = ReferenceEquals(panel.Tag, booking)
+                                    ? Color.FromArgb(226, 219, 255)
+                                    : Color.White;
+                            }
+                        }
+                    };
                     card.Click += choose;
                     eventName.Click += choose;
                     customer.Click += choose;
@@ -246,11 +274,61 @@ namespace FoodandBeverage.Forms
                     list.Controls.Add(card);
                 }
 
-                FlowLayoutPanel footer = new FlowLayoutPanel { Dock = DockStyle.Bottom, Height = 48, FlowDirection = FlowDirection.RightToLeft, WrapContents = false, Padding = new Padding(8, 4, 8, 4), BackColor = Color.FromArgb(246, 244, 253) };
-                Button closeButton = new Button { Width = 100, Height = 36, Text = "Close", BackColor = Color.FromArgb(235, 231, 249), ForeColor = Color.FromArgb(64, 52, 119), FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 9F, FontStyle.Bold), DialogResult = DialogResult.Cancel }; closeButton.FlatAppearance.BorderSize = 0;
-                Button previewButton = new Button { Width = 130, Height = 36, Text = "Bill Preview", Enabled = false, BackColor = accentColor, ForeColor = Color.White, FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 9F, FontStyle.Bold) }; previewButton.FlatAppearance.BorderSize = 0;
-                previewButton.Click += (sender, args) => { if (SelectedBooking != null) { PreviewRequested = true; DialogResult = DialogResult.Retry; } };
-                footer.Controls.Add(closeButton); footer.Controls.Add(previewButton); Controls.Add(list); Controls.Add(footer); Controls.Add(hint); Controls.Add(header); AcceptButton = null; CancelButton = closeButton;
+                FlowLayoutPanel footer = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Bottom,
+                    Height = 48,
+                    FlowDirection = FlowDirection.RightToLeft,
+                    WrapContents = false,
+                    Padding = new Padding(8, 4, 8, 4),
+                    BackColor = Color.FromArgb(246, 244, 253)
+                };
+
+                Button closeButton = new Button
+                {
+                    Width = 100,
+                    Height = 36,
+                    Text = "Close",
+                    BackColor = Color.FromArgb(235, 231, 249),
+                    ForeColor = Color.FromArgb(64, 52, 119),
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                    DialogResult = DialogResult.Cancel
+                };
+                closeButton.FlatAppearance.BorderSize = 0;
+
+                Button previewButton = new Button
+                {
+                    Width = 130,
+                    Height = 36,
+                    Text = "Bill Preview",
+                    Enabled = false,
+                    BackColor = accentColor,
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold)
+                };
+                previewButton.FlatAppearance.BorderSize = 0;
+
+                previewButton.Click += (sender, args) =>
+                {
+                    if (SelectedBooking != null)
+                    {
+                        PreviewRequested = true;
+                        DialogResult = DialogResult.Retry;
+                    }
+                };
+
+                footer.Controls.Add(closeButton);
+                footer.Controls.Add(previewButton);
+
+                Controls.Add(list);
+                Controls.Add(footer);
+                Controls.Add(hint);
+                Controls.Add(header);
+
+                AcceptButton = null;
+                CancelButton = closeButton;
             }
         }
 
@@ -1284,11 +1362,84 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void PreviewPartyBookingBill(int bookingId) { try { BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>(); DmnSearch s = new DmnSearch { Select = "ISNULL(SalesMasterId,0) AS Field1", Table = "tblPartyBooking", WhereNdGroupBy = "WHERE PartyBookingId=" + bookingId + " AND Status=1" }; var result = b.GetSearchData("prdSearch", s); int salesId = result != null && result.Count > 0 ? Convert.ToInt32(result[0].Field1) : 0; if (salesId <= 0) { MessageBox.Show(this, "This booking does not have a bill to preview yet.", "Bill Preview", MessageBoxButtons.OK, MessageBoxIcon.Information); return; } using (FoodandBeverage.Forms.FrmCombinedBill bill = new FoodandBeverage.Forms.FrmCombinedBill()) bill.printBill(salesId, Convert.ToInt32(BillType.Partybill)); } catch (Exception ex) { MessageBox.Show(this, ex.Message, "Bill Preview", MessageBoxButtons.OK, MessageBoxIcon.Error); } }
+        private void PreviewPartyBookingBill(int bookingId)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>();
+                DmnSearch s = new DmnSearch
+                {
+                    Select = "ISNULL(SalesMasterId,0) AS Field1",
+                    Table = "tblPartyBooking",
+                    WhereNdGroupBy = "WHERE PartyBookingId=" + bookingId + " AND Status=1"
+                };
+
+                var result = b.GetSearchData("prdSearch", s);
+                int salesId = result != null && result.Count > 0
+                    ? Convert.ToInt32(result[0].Field1)
+                    : 0;
+
+                if (salesId <= 0)
+                {
+                    MessageBox.Show(
+                        this,
+                        "This booking does not have a bill to preview yet.",
+                        "Bill Preview",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (FoodandBeverage.Forms.FrmCombinedBill bill =
+                    new FoodandBeverage.Forms.FrmCombinedBill())
+                {
+                    bill.printBill(salesId, Convert.ToInt32(BillType.Partybill));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    this,
+                    ex.Message,
+                    "Bill Preview",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
 
         private void ShowBookingsForDate(DateTime date, IList<PartyBookingEvent> items)
         {
-            using (BookingChoiceDialog dialog = new BookingChoiceDialog(date, items, accent)) { while (true) { DialogResult result = dialog.ShowDialog(this); if (result == DialogResult.Retry && dialog.PreviewRequested && dialog.SelectedBooking != null) { PreviewPartyBookingBill(dialog.SelectedBooking.BookingId); continue; } if (result != DialogResult.OK || dialog.SelectedBooking == null) return; PartyBookingEvent selected = dialog.SelectedBooking; SelectedBookingId = selected.BookingId; dtp_book_fromdate.Value = selected.Start.Date; dtp_book_fromtime.Value = DateTime.Today.Add(selected.Start.TimeOfDay); dtp_book_todate.Value = selected.End.Date; dtp_book_totime.Value = DateTime.Today.Add(selected.End.TimeOfDay); DialogResult = DialogResult.OK; Close(); return; } }
+            using (BookingChoiceDialog dialog =
+                new BookingChoiceDialog(date, items, accent))
+            {
+                while (true)
+                {
+                    DialogResult result = dialog.ShowDialog(this);
+
+                    if (result == DialogResult.Retry &&
+                        dialog.PreviewRequested &&
+                        dialog.SelectedBooking != null)
+                    {
+                        PreviewPartyBookingBill(dialog.SelectedBooking.BookingId);
+                        continue;
+                    }
+
+                    if (result != DialogResult.OK || dialog.SelectedBooking == null)
+                        return;
+
+                    PartyBookingEvent selected = dialog.SelectedBooking;
+                    SelectedBookingId = selected.BookingId;
+
+                    dtp_book_fromdate.Value = selected.Start.Date;
+                    dtp_book_fromtime.Value = DateTime.Today.Add(selected.Start.TimeOfDay);
+                    dtp_book_todate.Value = selected.End.Date;
+                    dtp_book_totime.Value = DateTime.Today.Add(selected.End.TimeOfDay);
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                    return;
+                }
+            }
         }
 
         private void ShowBookingDetails(PartyBookingEvent item)
