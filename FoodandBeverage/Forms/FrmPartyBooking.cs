@@ -9516,6 +9516,50 @@ namespace FoodandBeverage
             button.Margin = new Padding(4);
         }
 
+        private string GetPartyItemHsnCode(int productType, int itemId)
+        {
+            try
+            {
+                if (itemId <= 0)
+                    return string.Empty;
+
+                string table = productType == (int)PackItemType.Menu
+                    ? "tblItem"
+                    : (productType == (int)PackItemType.Card || productType == (int)PackItemType.Gift)
+                        ? "[" + GameDB + "].dbo.tblProduct"
+                        : "tblProduct";
+
+                string idColumn = productType == (int)PackItemType.Menu
+                    ? "ItemId"
+                    : "ProductId";
+
+                BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>();
+                DmnSearch s = new DmnSearch
+                {
+                    Select = "ISNULL(HSNcode,'') AS Field1",
+                    Table = table,
+                    WhereNdGroupBy = "WHERE " + idColumn + "=" + itemId
+                };
+
+                var result = b.GetSearchData("prdSearch", s);
+
+                return result != null && result.Count > 0
+                    ? Convert.ToString(result[0].Field1)
+                    : string.Empty;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page GetPartyItemHsnCode()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+
+                return string.Empty;
+            }
+        }
+
         #region More Option
         private void btn_more_Click(object sender, EventArgs e)
         {
