@@ -10,8 +10,8 @@ namespace Domain
         public int PartyBookingId { get; set; }
 
         public int ProductId { get; set; }
-        public int ProductType { get; set; } // Card=1, Gift=2, Cake=3
-        public int TableType { get; set; }   // 1=Card, 2=Gift, 3=Cake
+        public int ProductType { get; set; } // FoodItem=1, Card=2, Gift=3, Cake=4, Pack=5, ExtraCharge=7, Menu=9, Venue=10
+        public int TableType { get; set; }   // Source table type (Card, RedemptionTicket, FB, etc.)
 
         public decimal Qty { get; set; }
         public decimal Price { get; set; }
