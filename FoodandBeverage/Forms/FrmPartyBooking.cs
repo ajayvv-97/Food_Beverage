@@ -182,6 +182,8 @@ namespace FoodandBeverage
         public string GameDB = Convert.ToString(ConfigurationManager.AppSettings["GameDB"]);
 
         int Partypackid = 0;
+        private string _partyPackHsnCode = string.Empty;
+        private const string DefaultCardHsnCode = "8523";
         int PaymentMode = 0;
         bool AdvanceFlag = false;
 
@@ -535,7 +537,7 @@ namespace FoodandBeverage
                             PartyPackId,
                             PackName,
                             AdultPrice,
-                            ChildPrice,Tax,TaxSettingsId,
+                            ChildPrice,Tax,TaxSettingsId,HSNCode,
                             (SELECT COUNT(1) 
                              FROM tblPartyPackDetails d 
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
@@ -550,6 +552,7 @@ namespace FoodandBeverage
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
                     txttax.Text = Convert.ToString(list[0].Tax);
+                    _partyPackHsnCode = Convert.ToString(list[0].HSNCode ?? string.Empty);
                     MinimumAdvance = Convert.ToDecimal(list[0].MinimumAdvanceAmount);
                 }
 
@@ -572,7 +575,7 @@ namespace FoodandBeverage
                             PartyPackId,
                             PackName,
                             AdultPrice,
-                            ChildPrice,Tax,TaxSettingsId,
+                            ChildPrice,Tax,TaxSettingsId,HSNCode,
                             (SELECT COUNT(1) 
                              FROM tblPartyPackDetails d 
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
@@ -5518,7 +5521,7 @@ namespace FoodandBeverage
                 BllSearch<DmnPartyPack> bllMaster = new BllSearch<DmnPartyPack>();
                 DmnSearch searchMaster = new DmnSearch
                 {
-                    Select = "PartyPackId, PackName, AdultPrice, ChildPrice, DiscountPer, DiscountAmt, TaxType, Tax,TaxSettingsId",
+                    Select = "PartyPackId, PackName, AdultPrice, ChildPrice, DiscountPer, DiscountAmt, TaxType, Tax,TaxSettingsId,HSNCode",
                     Table = "tblPartyPackMaster",
                     WhereNdGroupBy = $"WHERE PartyPackId = {Convert.ToInt32(txtpartpackid.Text)} AND Status = 1"
                 };
@@ -5531,6 +5534,7 @@ namespace FoodandBeverage
                     txtAdultPrice.Text = master.AdultPrice != null ? Convert.ToDecimal(master.AdultPrice).ToString("0.00") : "0.00";
                     txtChildPrice.Text = master.ChildPrice != null ? Convert.ToDecimal(master.ChildPrice).ToString("0.00") : "0.00";
                     txtTaxSettingId.Text = Convert.ToString(master.TaxSettingsId);
+                    _partyPackHsnCode = Convert.ToString(master.HSNCode ?? string.Empty);
                 }
 
                 txtname.Text = result.CustomerName;
@@ -5739,6 +5743,11 @@ namespace FoodandBeverage
                         #region INSERT PARTY PACK AS DETAILS
                         if (item.IsPackage)
                         {
+                            // Use the HSN code stored on the package master.
+                            _partyPackHsnCode = GetPartyItemHsnCode(
+                                (int)PackItemType.Pack,
+                                Convert.ToInt32(item.ProductId));
+
                             txttax.Text = item.Tax;
                             txtTaxtype_pack.Text = item.TaxType;
                             txtTaxPer_pack.Text = item.TaxPer.ToString();
@@ -9633,6 +9642,10 @@ namespace FoodandBeverage
 
         private string GetPartyItemHsnCode(int productType, int itemId)
         {
+            // Card products use the standard HSN requested for Party Booking.
+            if (productType == (int)PackItemType.Card)
+                return DefaultCardHsnCode;
+
             if (itemId <= 0)
                 return string.Empty;
 
@@ -9641,7 +9654,12 @@ namespace FoodandBeverage
                 string table;
                 string idColumn;
 
-                if (productType == (int)PackItemType.Menu)
+                if (productType == (int)PackItemType.Pack)
+                {
+                    table = "tblPartyPackMaster";
+                    idColumn = "PartyPackId";
+                }
+                else if (productType == (int)PackItemType.Menu)
                 {
                     table = "tblItem";
                     idColumn = "ItemId";
