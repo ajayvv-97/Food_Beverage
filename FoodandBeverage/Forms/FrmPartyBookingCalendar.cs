@@ -243,10 +243,10 @@ namespace FoodandBeverage.Forms
                             {
                                 foreach (Control footerControl in footerPanel.Controls)
                                 {
-                                    if (footerControl is Button preview &&
-                                        preview.Text == "Bill Preview")
+                                    if (footerControl is Button actionButton &&
+                                        (actionButton.Text == "Bill Preview" || actionButton.Text == "Open"))
                                     {
-                                        preview.Enabled = true;
+                                        actionButton.Enabled = true;
                                     }
                                 }
                             }
@@ -297,6 +297,29 @@ namespace FoodandBeverage.Forms
                 };
                 closeButton.FlatAppearance.BorderSize = 0;
 
+                Button openButton = new Button
+                {
+                    Width = 100,
+                    Height = 36,
+                    Text = "Open",
+                    Enabled = false,
+                    BackColor = accentColor,
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Segoe UI", 9F, FontStyle.Bold)
+                };
+                openButton.FlatAppearance.BorderSize = 0;
+                openButton.Click += (sender, args) =>
+                {
+                    if (SelectedBooking == null)
+                        return;
+
+                    // Return the selected booking to FrmPartyBooking, which loads
+                    // its full saved details using the existing booking ID flow.
+                    DialogResult = DialogResult.OK;
+                    Close();
+                };
+
                 Button previewButton = new Button
                 {
                     Width = 130,
@@ -324,6 +347,7 @@ namespace FoodandBeverage.Forms
 
                 footer.Controls.Add(closeButton);
                 footer.Controls.Add(previewButton);
+                footer.Controls.Add(openButton);
 
                 Controls.Add(list);
                 Controls.Add(footer);
