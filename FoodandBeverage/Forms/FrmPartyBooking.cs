@@ -9647,11 +9647,11 @@ namespace FoodandBeverage
 
         private string GetPartyItemHsnCode(int productType, int itemId)
         {
+            if (itemId <= 0)
+                return string.Empty;
+
             try
             {
-                if (itemId <= 0)
-                    return string.Empty;
-
                 string table;
                 string idColumn;
 
@@ -9667,13 +9667,11 @@ namespace FoodandBeverage
                 }
                 else if (productType == (int)PackItemType.Card)
                 {
-                    // Card rows are sourced from tblCardProducts, not the generic product table.
                     table = "[" + GameDB + "].dbo.tblCardProducts";
                     idColumn = "Product_id";
                 }
                 else if (productType == (int)PackItemType.Gift)
                 {
-                    // Redemption rows are sourced from tblRedemptionProducts.
                     table = "[" + GameDB + "].dbo.tblRedemptionProducts";
                     idColumn = "ProductId";
                 }
@@ -9684,18 +9682,52 @@ namespace FoodandBeverage
                 }
 
                 BllSearch<DmnGridFields> b = new BllSearch<DmnGridFields>();
-                DmnSearch s = new DmnSearch
+                string hsnCode = string.Empty;
+
+                // Try the source table used to create the grid row first.
+                try
                 {
-                    Select = "ISNULL(HSNcode,'') AS Field1",
-                    Table = table,
-                    WhereNdGroupBy = "WHERE " + idColumn + "=" + itemId
-                };
+                    DmnSearch s = new DmnSearch
+                    {
+                        Select = "ISNULL(HSNCode,'') AS Field1",
+                        Table = table,
+                        WhereNdGroupBy = "WHERE " + idColumn + "=" + itemId
+                    };
 
-                var result = b.GetSearchData("prdSearch", s);
+                    var result = b.GetSearchData("prdSearch", s);
+                    hsnCode = result != null && result.Count > 0
+                        ? Convert.ToString(result[0].Field1)
+                        : string.Empty;
+                }
+                catch
+                {
+                    // Some installations keep the HSN on the central product master
+                    // rather than the Card/Redemption source table. Try that fallback.
+                    if (productType != (int)PackItemType.Card &&
+                        productType != (int)PackItemType.Gift)
+                        throw;
+                }
 
-                return result != null && result.Count > 0
-                    ? Convert.ToString(result[0].Field1)
-                    : string.Empty;
+                if (!string.IsNullOrWhiteSpace(hsnCode))
+                    return hsnCode;
+
+                if (productType == (int)PackItemType.Card ||
+                    productType == (int)PackItemType.Gift)
+                {
+                    DmnSearch fallbackSearch = new DmnSearch
+                    {
+                        Select = "ISNULL(HSNCode,'') AS Field1",
+                        Table = "[" + GameDB + "].dbo.tblProduct",
+                        WhereNdGroupBy = "WHERE ProductId=" + itemId
+                    };
+
+                    var fallbackResult = b.GetSearchData("prdSearch", fallbackSearch);
+                    return fallbackResult != null && fallbackResult.Count > 0
+                        ? Convert.ToString(fallbackResult[0].Field1)
+                        : string.Empty;
+                }
+
+                return string.Empty;
             }
             catch (Exception ex)
             {
