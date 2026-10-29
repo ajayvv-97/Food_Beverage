@@ -3332,6 +3332,8 @@ namespace FoodandBeverage
 
                 int productType = 0;
                 int.TryParse(Convert.ToString(row.Cells[PPackProductTypeno].Value ?? 0), out productType);
+                int productId = 0;
+                int.TryParse(Convert.ToString(row.Cells[pProductid].Value ?? 0), out productId);
 
                 if (productType != (int)PackItemType.Card &&
                     productType != (int)PackItemType.Gift &&
