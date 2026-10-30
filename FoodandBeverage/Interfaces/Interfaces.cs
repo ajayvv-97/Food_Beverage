@@ -711,7 +711,17 @@ namespace FoodandBeverage.Interfaces
         Orderpreparation = 1,
         Advancepreparation = 2,
     }
-    
+    public enum ConsumedRawMaterialStatusType
+    {
+        NotConsumed = 0,
+        Consumed = 1
+    }
+
+    public enum KoTPrintStatusType
+    {
+        NotPrinted = 0,
+        Printed = 1
+    }
 }
 
 

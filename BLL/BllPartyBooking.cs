@@ -87,6 +87,10 @@ namespace BLL
             parms.Add("ExtraChargePreTaxAmount", obj.ExtraChargePreTaxAmount);
             parms.Add("ExtraChargeTaxAmount", obj.ExtraChargeTaxAmount);
 
+            parms.Add("KoTPrintStatus", obj.KoTPrintStatus);
+            parms.Add("ConsumedRawMaterialStatus", obj.ConsumedRawMaterialStatus);
+            parms.Add("KOTDatetime", obj.KOTDatetime);
+
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
@@ -156,12 +160,12 @@ namespace BLL
             parms.Add("PartyBookingId", obj.PartyBookingId);
             parms.Add("CreatedBy", obj.CreatedBy);
             parms.Add("BranchId", obj.BranchId);
-            parms.Add("Status", obj.Status);   
+            parms.Add("Status", obj.Status);
 
             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
 
     }
-    
+
 }

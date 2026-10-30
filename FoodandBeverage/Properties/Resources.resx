@@ -1366,4 +1366,31 @@
   <data name="Partybooking_panelbg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Partybooking_panelbg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Package_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Package_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_BillPreview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\party_BillPreview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_Cake_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\party_Cake_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_Card_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\party_Card_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_Gift_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\party_Gift_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_Menu_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\party_Menu_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_More_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\party_More_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_Other_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\party_Other_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Venue_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Venue_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

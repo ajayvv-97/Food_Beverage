@@ -4721,6 +4721,10 @@ namespace FoodandBeverage
                 booking.AdditionalChargeAmt = GetDecimal(txtaddcharge);
                 booking.AdditionalChargeDescription = txtextracharge_des.Text;
 
+                booking.KOTDatetime = dtp_kottime.Value + dtp_kotdate.Value;
+                booking.ConsumedRawMaterialStatus = Convert.ToBoolean(ConsumedRawMaterialStatusType.NotConsumed);
+                booking.KoTPrintStatus = Convert.ToBoolean(KoTPrintStatusType.NotPrinted);
+
                 var result = bll.AddEditData("prdInsert_Upd_PartyBooking", booking);
 
                 if (result.PartyBookingId <= 0)
@@ -7531,6 +7535,8 @@ namespace FoodandBeverage
             if (!checkPartySelet())
                 return;
 
+            ResetExtraChargeFields();
+
             pnl_extracharge.Left = (this.ClientSize.Width - pnl_extracharge.Width) / 2;
             pnl_extracharge.Top = (this.ClientSize.Height - pnl_extracharge.Height) / 2;
 
@@ -7892,8 +7898,7 @@ namespace FoodandBeverage
         {
             try
             {
-
-
+                txt_add_charge_hsncode.Text = "";
                 txtextracharge_amt.Text = "";
                 txtextracharge_des.Text = "";
                 cmbTaxType.SelectedIndex = 0;

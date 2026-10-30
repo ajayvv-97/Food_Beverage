@@ -79,6 +79,11 @@ namespace Domain
 
         public string HSNCode { get; set; }
 
+        public DateTime KOTDatetime { get; set; }
+        public bool KoTPrintStatus { get; set; }
+        public bool ConsumedRawMaterialStatus { get; set; }
+
+          
     }
 
     

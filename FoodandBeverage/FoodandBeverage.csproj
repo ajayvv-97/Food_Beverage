@@ -2190,6 +2190,15 @@
     <None Include="Resources\Inv_itemdetails.png" />
     <None Include="Resources\item_PlusButton.png" />
     <None Include="Resources\Partybooking_panelbg.png" />
+    <None Include="Resources\party_More_Button.png" />
+    <None Include="Resources\party_Other_Button.png" />
+    <None Include="Resources\Venue_Button.png" />
+    <None Include="Resources\Package_Button.png" />
+    <None Include="Resources\party_Cake_Button.png" />
+    <None Include="Resources\party_Card_Button.png" />
+    <None Include="Resources\party_Gift_Button.png" />
+    <None Include="Resources\party_Menu_Button.png" />
+    <None Include="Resources\party_BillPreview.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />
