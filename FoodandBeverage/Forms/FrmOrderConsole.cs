@@ -437,12 +437,21 @@ namespace FoodandBeverage.Forms
                 if (isFirstPopup)
                 {
                     bool wasVisible = popup.Visible;
+                    bool wasOverlayVisible =
+                        _blurPopupPictureBox != null &&
+                        !_blurPopupPictureBox.IsDisposed &&
+                        _blurPopupPictureBox.Visible;
+
                     _isUpdatingBlurPopup = true;
 
                     try
                     {
-                        // Exclude the popup being opened from the background snapshot.
+                        // Exclude the popup being opened and any previous overlay
+                        // from the background snapshot during popup-to-popup transitions.
                         popup.Visible = false;
+
+                        if (wasOverlayVisible)
+                            _blurPopupPictureBox.Visible = false;
 
                         Bitmap nextBlurImage;
                         using (Bitmap originalImage = CaptureOrderConsoleForm())
@@ -467,6 +476,11 @@ namespace FoodandBeverage.Forms
                     {
                         popup.Visible = wasVisible;
                         _isUpdatingBlurPopup = false;
+
+                        if (wasOverlayVisible &&
+                            _blurPopupPictureBox != null &&
+                            !_blurPopupPictureBox.IsDisposed)
+                            _blurPopupPictureBox.Visible = true;
                     }
 
                     EnsureBlurPopupPictureBox();
@@ -12966,6 +12980,7 @@ namespace FoodandBeverage.Forms
 
             pnl_cancelledlist.Visible = false;
             pnl_Refund_paymode.Visible = true;
+            ShowBlurPopup(pnl_Refund_paymode);
             pnl_Refund_paymode.Location = new Point(this.ClientSize.Width / 2 - pnl_Refund_paymode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Refund_paymode.Size.Height / 2));
         }
         private void cashRefund_Click(object sender, EventArgs e)
@@ -13875,6 +13890,7 @@ namespace FoodandBeverage.Forms
         {
             pnlSplit.Visible = false;
             pnlPaymode.Visible = true;
+            ShowBlurPopup(pnlPaymode);
             partPayments.Clear();
             lblpartpayment1.Text = "Payment 1";
             lblpartAmt2.Text = "Payment 2";
