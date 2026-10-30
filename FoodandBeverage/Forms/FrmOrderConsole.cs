@@ -8226,14 +8226,14 @@ namespace FoodandBeverage.Forms
                     Math.Min(4, (availableWidth + horizontalGap) /
                         (minimumButtonWidth + horizontalGap)));
 
-                int buttonWidth = Math.Max(
-                    minimumButtonWidth,
-                    Math.Min(
-                        maximumButtonWidth,
-                        (availableWidth - (columnCount * horizontalGap)) / columnCount));
+                int availableButtonWidth = Math.Max(
+                    1,
+                    (availableWidth - (columnCount * horizontalGap)) / columnCount);
+
+                int buttonWidth = Math.Min(maximumButtonWidth, availableButtonWidth);
 
                 int buttonHeight = Math.Max(
-                    52,
+                    40,
                     Math.Min(84, (int)Math.Round(buttonWidth * 0.69)));
 
                 foreach (Control control in flp_oper_buttons.Controls)
