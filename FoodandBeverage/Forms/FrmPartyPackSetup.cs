@@ -4665,5 +4665,27 @@ namespace FoodandBeverage.Forms
                     tlp_registration.ResumeLayout(true);
             }
         }
+
+        #region  Fixed Price
+        private void btn_packfdprice_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnsubmit_fdprice_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_close_fixedprice_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_adultcount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+        #endregion
     }
 }
