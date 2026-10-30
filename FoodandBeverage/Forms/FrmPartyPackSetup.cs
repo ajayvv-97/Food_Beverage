@@ -651,6 +651,8 @@ namespace FoodandBeverage.Forms
                     FixedPrice = chkfixedprice.Checked && !string.IsNullOrWhiteSpace(txt_fixedprice.Text)
                         ? Convert.ToDecimal(txt_fixedprice.Text) : 0m,
                     FixedPriceStatus = chkfixedprice.Checked,
+                    AdultCount = string.IsNullOrWhiteSpace(txt_adultcount.Text) ? 0 : Convert.ToInt32(txt_adultcount.Text),
+                    ChildCount = string.IsNullOrWhiteSpace(txt_childcount.Text) ? 0 : Convert.ToInt32(txt_childcount.Text),
 
                     MinimumAdvanceAmount = string.IsNullOrWhiteSpace(txtminadvamt.Text) ? 0 : Convert.ToDecimal(txtminadvamt.Text)
                 };
@@ -1287,6 +1289,8 @@ namespace FoodandBeverage.Forms
                     txtadultprice.Text = data.AdultPrice.ToString();
                     txtchildprice.Text = data.ChildPrice.ToString();
                     txt_fixedprice.Text = data.FixedPrice.ToString();
+                    txt_adultcount.Text = data.AdultCount.ToString();
+                    txt_childcount.Text = data.ChildCount.ToString();
                     chkfixedprice.Checked = data.FixedPriceStatus;
                     txtDisPer.Text = data.DiscountPer.ToString();
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
@@ -4654,6 +4658,21 @@ namespace FoodandBeverage.Forms
                 }
 
                 tlp_registration.PerformLayout();
+
+                if (chkfixedprice.Checked)
+                {
+                    txt_adultcount.ReadOnly = false;
+                    txt_childcount.ReadOnly = false;
+                    pnl_fdprice_pack.Left = Math.Max(0, (ClientSize.Width - pnl_fdprice_pack.Width) / 2);
+                    pnl_fdprice_pack.Top = Math.Max(0, (ClientSize.Height - pnl_fdprice_pack.Height) / 2);
+                    pnl_fdprice_pack.Visible = true;
+                    pnl_fdprice_pack.BringToFront();
+                    txt_adultcount.Focus();
+                }
+                else
+                {
+                    pnl_fdprice_pack.Visible = false;
+                }
             }
             catch (Exception ex)
             {
@@ -4669,22 +4688,45 @@ namespace FoodandBeverage.Forms
         #region  Fixed Price
         private void btn_packfdprice_Click(object sender, EventArgs e)
         {
-
+            // Reset the included guest counts.
+            txt_adultcount.Text = "0";
+            txt_childcount.Text = "0";
+            txt_adultcount.Focus();
         }
 
         private void btnsubmit_fdprice_Click(object sender, EventArgs e)
         {
+            int adultCount;
+            int childCount;
 
+            if (!int.TryParse(txt_adultcount.Text, out adultCount) || adultCount < 0)
+            {
+                CMessageBox.Show("Enter a valid adult count.", "Fixed Price", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txt_adultcount.Focus();
+                return;
+            }
+
+            if (!int.TryParse(txt_childcount.Text, out childCount) || childCount < 0)
+            {
+                CMessageBox.Show("Enter a valid child count.", "Fixed Price", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txt_childcount.Focus();
+                return;
+            }
+
+            txt_adultcount.Text = adultCount.ToString();
+            txt_childcount.Text = childCount.ToString();
+            pnl_fdprice_pack.Visible = false;
         }
 
         private void btn_close_fixedprice_Click(object sender, EventArgs e)
         {
-
+            pnl_fdprice_pack.Visible = false;
         }
 
         private void txt_adultcount_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
         }
         #endregion
     }

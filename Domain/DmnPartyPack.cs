@@ -24,6 +24,8 @@ namespace Domain
         public string HSNCode { get; set; }
         public decimal FixedPrice { get; set; }
         public bool FixedPriceStatus { get; set; }
+        public int AdultCount { get; set; }
+        public int ChildCount { get; set; }
 
     }
     public class DmnPartyPackDetails

@@ -185,6 +185,8 @@ namespace FoodandBeverage
 
         int Partypackid = 0;
         private string _partyPackHsnCode = string.Empty;
+        private bool _fixedPriceStatus;
+        private decimal _fixedPackPrice;
         private const string DefaultCardHsnCode = "8523";
         int PaymentMode = 0;
         bool AdvanceFlag = false;
@@ -1102,7 +1104,12 @@ namespace FoodandBeverage
                             PartyPackId,
                             PackName,
                             AdultPrice,
-                            ChildPrice,Tax,TaxSettingsId,HSNCode,
+                            ChildPrice,
+                            FixedPrice,
+                            FixedPriceStatus,
+                            AdultCount,
+                            ChildCount,
+                            Tax,TaxSettingsId,HSNCode,
                             (SELECT COUNT(1) 
                              FROM tblPartyPackDetails d 
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
@@ -1113,8 +1120,12 @@ namespace FoodandBeverage
                 var list = bll.GetSearchData("prdSearch", search);
                 if (list.Count > 0)
                 {
+                    _fixedPriceStatus = list[0].FixedPriceStatus;
+                    _fixedPackPrice = list[0].FixedPrice;
                     txtChildPrice.Text = Convert.ToString(list[0].ChildPrice);
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
+                    txtAdults.Text = Math.Max(0, list[0].AdultCount).ToString();
+                    txtChild.Text = Math.Max(0, list[0].ChildCount).ToString();
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
                     txttax.Text = Convert.ToString(list[0].Tax);
                     _partyPackHsnCode = Convert.ToString(list[0].HSNCode ?? string.Empty);
@@ -1140,7 +1151,12 @@ namespace FoodandBeverage
                             PartyPackId,
                             PackName,
                             AdultPrice,
-                            ChildPrice,Tax,TaxSettingsId,HSNCode,
+                            ChildPrice,
+                            FixedPrice,
+                            FixedPriceStatus,
+                            AdultCount,
+                            ChildCount,
+                            Tax,TaxSettingsId,HSNCode,
                             (SELECT COUNT(1) 
                              FROM tblPartyPackDetails d 
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
@@ -1205,7 +1221,9 @@ namespace FoodandBeverage
                         lblPrice.Width = card.Width - 20;
                         lblPrice.Location = new Point(10, 40);
 
-                        if (item.AdultPrice > 0 && item.ChildPrice > 0)
+                        if (item.FixedPriceStatus)
+                            lblPrice.Text = $"Fixed Package ₹{item.FixedPrice}";
+                        else if (item.AdultPrice > 0 && item.ChildPrice > 0)
                             lblPrice.Text = $"Adult ₹{item.AdultPrice} | Child ₹{item.ChildPrice}";
                         else if (item.AdultPrice > 0)
                             lblPrice.Text = $"₹{item.AdultPrice}";
@@ -1330,6 +1348,12 @@ namespace FoodandBeverage
 
                 bool showChild = childPrice > 0m;
                 bool showAdult = adultPrice > 0m;
+
+                if (_fixedPriceStatus)
+                {
+                    showChild = true;
+                    showAdult = true;
+                }
 
                 // If both prices are zero, show Adult controls only.
                 if (!showChild && !showAdult)
@@ -3781,7 +3805,9 @@ namespace FoodandBeverage
                 int.TryParse(txtAdults.Text, out adults);
                 int.TryParse(txtChild.Text, out children);
 
-                decimal grandTotal = (adultPrice * adults) + (childPrice * children);
+                decimal grandTotal = _fixedPriceStatus
+                    ? _fixedPackPrice
+                    : (adultPrice * adults) + (childPrice * children);
                 txtGrandTotal_pack.Text = grandTotal.ToString("N2");
                 txt_PackTotalAmt.Text = grandTotal.ToString("N2");
             }
@@ -4536,6 +4562,8 @@ namespace FoodandBeverage
         {
             try
             {
+                _fixedPriceStatus = false;
+                _fixedPackPrice = 0m;
                 _isKotDateTimeManuallySet = false;
                 _hasLoadedKotDateTime = false;
                 _loadedKotDateTime = null;

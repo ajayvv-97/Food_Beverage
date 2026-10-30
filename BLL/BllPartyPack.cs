@@ -29,7 +29,9 @@ namespace BLL
             parms.Add("MinimumAdvanceAmount", obj.MinimumAdvanceAmount);
             parms.Add("HSNCode", obj.HSNCode);
             parms.Add("FixedPrice", obj.FixedPrice);
-            parms.Add("FixedPriceStatus", obj.FixedPriceStatus); 
+            parms.Add("FixedPriceStatus", obj.FixedPriceStatus);
+            parms.Add("AdultCount", obj.AdultCount);
+            parms.Add("ChildCount", obj.ChildCount);
 
              var data = repo.AddandReturnID(procedureName, parms);
             return data;
