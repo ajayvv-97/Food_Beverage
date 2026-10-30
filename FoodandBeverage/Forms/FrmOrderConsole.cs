@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
@@ -239,6 +240,17 @@ namespace FoodandBeverage.Forms
 
         bool isOperationShown = false;
 
+        #region Blur Popup Overlay
+        private PictureBox _blurPopupPictureBox;
+        private Bitmap _blurPopupImage;
+        private readonly HashSet<Panel> _activeBlurPopupPanels = new HashSet<Panel>();
+        private bool _isUpdatingBlurPopup;
+        private bool _isBlurPopupReleaseScheduled;
+        private bool _isConfiguringOperationButtons;
+        private const int BlurPreviewScale = 4;
+        private const byte BlurDarkOverlayAlpha = 76;
+        #endregion
+
         private Button previousClickedButton = null;
         public List<Variation_addon_List> Checked_VariationAddon_List = new List<Variation_addon_List>();
         public string addon_Vari_Id = "";
@@ -338,6 +350,8 @@ namespace FoodandBeverage.Forms
             OrderCancelStatus = cdstatus;
 
             InitializeComponent();
+            InitializeBlurPopupSupport();
+            tlp_netalc_buttons.SizeChanged += delegate { ConfigureResponsiveOperationButtons(); };
 
             EnableProductCartDragging();
 
@@ -350,6 +364,390 @@ namespace FoodandBeverage.Forms
             f10Strike = new Font(f10, FontStyle.Strikeout);
             f10Bold = new Font(f10, FontStyle.Bold);
         }
+
+        #region Blur Popup Overlay
+
+        private void InitializeBlurPopupSupport()
+        {
+            // These panels are direct children of FrmOrderConsole and act as popups.
+            // The Crystal Report viewer is intentionally excluded from bitmap capture.
+            Panel[] popupPanels =
+            {
+                pnlPaymode,
+                pnl_complementry_reason,
+                pnl_productCart,
+                pnl_variation,
+                pnl_userreg,
+                pnlSplit,
+                pnl_order_desc,
+                pnl_Guests,
+                pnl_orderprority,
+                pnl_cancelledlist,
+                pnl_multprice,
+                pnl_Refund_paymode,
+                pnlproductviewmore,
+                pnl_gridview,
+                pnl_products_descr,
+                pnl_cardAcoount,
+                Pnl_wifiPopup,
+                pnlOthers,
+                pnl_cancelorder,
+                pnl_partpayment,
+                pnl_variation_addon,
+                pnl_promocode,
+                pnlprice
+            };
+
+            foreach (Panel popup in popupPanels)
+            {
+                if (popup == null)
+                    continue;
+
+                popup.VisibleChanged -= BlurPopupPanel_VisibleChanged;
+                popup.VisibleChanged += BlurPopupPanel_VisibleChanged;
+            }
+
+            FormClosed += FrmOrderConsole_FormClosed;
+        }
+
+        private void BlurPopupPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (_isUpdatingBlurPopup)
+                return;
+
+            Panel popup = sender as Panel;
+            if (popup == null || popup.IsDisposed)
+                return;
+
+            if (popup.Visible)
+                ShowBlurPopup(popup);
+            else
+                HideBlurPopup(popup);
+        }
+
+        private void ShowBlurPopup(Panel popup)
+        {
+            if (popup == null || popup.IsDisposed || popup.Parent != this)
+                return;
+
+            try
+            {
+                bool isFirstPopup = _activeBlurPopupPanels.Count == 0;
+
+                if (isFirstPopup)
+                {
+                    bool wasVisible = popup.Visible;
+                    _isUpdatingBlurPopup = true;
+
+                    try
+                    {
+                        // Exclude the popup being opened from the background snapshot.
+                        popup.Visible = false;
+
+                        Bitmap nextBlurImage;
+                        using (Bitmap originalImage = CaptureOrderConsoleForm())
+                        using (Bitmap smallImage = ResizeBlurPreview(
+                            originalImage,
+                            Math.Max(1, originalImage.Width / BlurPreviewScale),
+                            Math.Max(1, originalImage.Height / BlurPreviewScale)))
+                        {
+                            nextBlurImage = CreateDarkBlurPreview(smallImage);
+                        }
+
+                        EnsureBlurPopupPictureBox();
+
+                        Bitmap previousImage = _blurPopupImage;
+                        _blurPopupImage = nextBlurImage;
+                        _blurPopupPictureBox.Image = _blurPopupImage;
+
+                        if (previousImage != null)
+                            previousImage.Dispose();
+                    }
+                    finally
+                    {
+                        popup.Visible = wasVisible;
+                        _isUpdatingBlurPopup = false;
+                    }
+
+                    EnsureBlurPopupPictureBox();
+                    _blurPopupPictureBox.Image = _blurPopupImage;
+                    _blurPopupPictureBox.Bounds = ClientRectangle;
+                    _blurPopupPictureBox.Visible = true;
+                    _blurPopupPictureBox.BringToFront();
+                }
+
+                _activeBlurPopupPanels.Add(popup);
+                PositionBlurOverlayBehindPopup(popup);
+            }
+            catch (Exception ex)
+            {
+                _isUpdatingBlurPopup = false;
+                clsgen.LogException(
+                    "Order Console ShowBlurPopup()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
+            }
+        }
+
+        private void PositionBlurOverlayBehindPopup(Panel popup)
+        {
+            if (popup == null ||
+                popup.IsDisposed ||
+                popup.Parent != this ||
+                _blurPopupPictureBox == null ||
+                _blurPopupPictureBox.IsDisposed ||
+                !Controls.Contains(_blurPopupPictureBox))
+                return;
+
+            popup.BringToFront();
+
+            int popupIndex = Controls.GetChildIndex(popup);
+            int overlayIndex = Math.Min(popupIndex + 1, Controls.Count - 1);
+            Controls.SetChildIndex(_blurPopupPictureBox, overlayIndex);
+        }
+
+        private void HideBlurPopup(Panel popup)
+        {
+            if (popup == null)
+                return;
+
+            _activeBlurPopupPanels.Remove(popup);
+
+            if (_activeBlurPopupPanels.Count == 0)
+                ScheduleBlurPopupRelease();
+        }
+
+        private void ScheduleBlurPopupRelease()
+        {
+            if (_isBlurPopupReleaseScheduled)
+                return;
+
+            _isBlurPopupReleaseScheduled = true;
+
+            if (!IsHandleCreated || IsDisposed || Disposing)
+            {
+                _isBlurPopupReleaseScheduled = false;
+                ReleaseBlurPopupImage();
+                return;
+            }
+
+            try
+            {
+                BeginInvoke((MethodInvoker)delegate
+                {
+                    _isBlurPopupReleaseScheduled = false;
+
+                    if (IsDisposed || Disposing)
+                        return;
+
+                    if (_activeBlurPopupPanels.Count == 0)
+                        ReleaseBlurPopupImage();
+                });
+            }
+            catch (InvalidOperationException)
+            {
+                _isBlurPopupReleaseScheduled = false;
+                ReleaseBlurPopupImage();
+            }
+        }
+
+        private void EnsureBlurPopupPictureBox()
+        {
+            if (_blurPopupPictureBox != null && !_blurPopupPictureBox.IsDisposed)
+                return;
+
+            _blurPopupPictureBox = new PictureBox
+            {
+                Name = "picOrderConsoleBlurOverlay",
+                Bounds = ClientRectangle,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                BackColor = Color.Black,
+                TabStop = false,
+                Enabled = false,
+                Visible = false
+            };
+
+            Controls.Add(_blurPopupPictureBox);
+        }
+
+        private Bitmap CaptureOrderConsoleForm()
+        {
+            int width = Math.Max(1, ClientSize.Width);
+            int height = Math.Max(1, ClientSize.Height);
+
+            Bitmap captured = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            try
+            {
+                DrawToBitmap(captured, new Rectangle(0, 0, width, height));
+                return captured;
+            }
+            catch
+            {
+                captured.Dispose();
+                throw;
+            }
+        }
+
+        private Bitmap ResizeBlurPreview(Bitmap image, int width, int height)
+        {
+            Bitmap resized = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+            using (Graphics graphics = Graphics.FromImage(resized))
+            {
+                graphics.InterpolationMode = InterpolationMode.Low;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+
+            return resized;
+        }
+
+        private Bitmap CreateDarkBlurPreview(Bitmap image)
+        {
+            Bitmap blurred = BlurImageFast(image);
+
+            try
+            {
+                using (Graphics graphics = Graphics.FromImage(blurred))
+                using (SolidBrush shade = new SolidBrush(Color.FromArgb(BlurDarkOverlayAlpha, 0, 0, 0)))
+                {
+                    graphics.CompositingMode = CompositingMode.SourceOver;
+                    graphics.FillRectangle(shade, 0, 0, blurred.Width, blurred.Height);
+                }
+
+                return blurred;
+            }
+            catch
+            {
+                blurred.Dispose();
+                throw;
+            }
+        }
+
+        private Bitmap BlurImageFast(Bitmap image)
+        {
+            const int bytesPerPixel = 4;
+            int width = image.Width;
+            int height = image.Height;
+            int rowBytes = width * bytesPerPixel;
+
+            Bitmap blurred = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            BitmapData sourceData = null;
+            BitmapData destinationData = null;
+            bool completed = false;
+
+            try
+            {
+                Rectangle bounds = new Rectangle(0, 0, width, height);
+                sourceData = image.LockBits(bounds, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                destinationData = blurred.LockBits(bounds, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+                byte[] sourcePixels = new byte[rowBytes * height];
+                byte[] resultPixels = new byte[sourcePixels.Length];
+
+                for (int y = 0; y < height; y++)
+                {
+                    IntPtr sourceRow = IntPtr.Add(sourceData.Scan0, y * sourceData.Stride);
+                    Marshal.Copy(sourceRow, sourcePixels, y * rowBytes, rowBytes);
+                }
+
+                Buffer.BlockCopy(sourcePixels, 0, resultPixels, 0, sourcePixels.Length);
+
+                // A small 3x3 box blur on a 1/4-size bitmap keeps the UI responsive.
+                for (int y = 1; y < height - 1; y++)
+                {
+                    for (int x = 1; x < width - 1; x++)
+                    {
+                        int blue = 0;
+                        int green = 0;
+                        int red = 0;
+
+                        for (int fy = -1; fy <= 1; fy++)
+                        {
+                            int rowOffset = (y + fy) * rowBytes;
+
+                            for (int fx = -1; fx <= 1; fx++)
+                            {
+                                int offset = rowOffset + ((x + fx) * bytesPerPixel);
+                                blue += sourcePixels[offset];
+                                green += sourcePixels[offset + 1];
+                                red += sourcePixels[offset + 2];
+                            }
+                        }
+
+                        int targetOffset = (y * rowBytes) + (x * bytesPerPixel);
+                        resultPixels[targetOffset] = (byte)(blue / 9);
+                        resultPixels[targetOffset + 1] = (byte)(green / 9);
+                        resultPixels[targetOffset + 2] = (byte)(red / 9);
+                        resultPixels[targetOffset + 3] = sourcePixels[targetOffset + 3];
+                    }
+                }
+
+                for (int y = 0; y < height; y++)
+                {
+                    IntPtr destinationRow = IntPtr.Add(destinationData.Scan0, y * destinationData.Stride);
+                    Marshal.Copy(resultPixels, y * rowBytes, destinationRow, rowBytes);
+                }
+
+                completed = true;
+                return blurred;
+            }
+            finally
+            {
+                try
+                {
+                    if (destinationData != null)
+                        blurred.UnlockBits(destinationData);
+                }
+                finally
+                {
+                    try
+                    {
+                        if (sourceData != null)
+                            image.UnlockBits(sourceData);
+                    }
+                    finally
+                    {
+                        if (!completed)
+                            blurred.Dispose();
+                    }
+                }
+            }
+        }
+
+        private void ReleaseBlurPopupImage()
+        {
+            if (_blurPopupPictureBox != null && !_blurPopupPictureBox.IsDisposed)
+            {
+                _blurPopupPictureBox.Visible = false;
+                _blurPopupPictureBox.Image = null;
+            }
+
+            if (_blurPopupImage != null)
+            {
+                _blurPopupImage.Dispose();
+                _blurPopupImage = null;
+            }
+        }
+
+        private void FrmOrderConsole_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _activeBlurPopupPanels.Clear();
+            ReleaseBlurPopupImage();
+
+            if (_blurPopupPictureBox != null)
+            {
+                Controls.Remove(_blurPopupPictureBox);
+                _blurPopupPictureBox.Dispose();
+                _blurPopupPictureBox = null;
+            }
+        }
+
+        #endregion
 
         #region Deafult Fuction & event 
         private void AutoCloseTimer_Tick(object sender, EventArgs e)
@@ -606,6 +1004,11 @@ namespace FoodandBeverage.Forms
             containerWidth = flp_productview.ClientSize.Width;
             tileW = Convert.ToInt32(Productwidth);//(int)(((containerWidth - ((maxColumns + 1) * spacing)) / maxColumns) * Productwidth);
             tileH = Convert.ToInt32(Productheight);//(int)(tileW * Productheight);
+
+            if (_blurPopupPictureBox != null && !_blurPopupPictureBox.IsDisposed)
+                _blurPopupPictureBox.Bounds = ClientRectangle;
+
+            ConfigureResponsiveOperationButtons();
         }
         #endregion
 
@@ -4909,6 +5312,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 pnl_variation.Visible = true;
+                ShowBlurPopup(pnl_variation);
                 pnl_variation.BringToFront();
 
                 pnl_variation.Left = (this.Width - pnl_variation.Width) / 2;
@@ -5611,6 +6015,7 @@ namespace FoodandBeverage.Forms
                 UIHelper.RoundCorners(tlp_header_vari_addon, 25);
                 UIHelper.RoundCorners(tlp_variation_addon, 25);
                 pnl_variation_addon.Visible = true;
+                ShowBlurPopup(pnl_variation_addon);
 
                 // Query variations and addons
                 dmnSearch.Select = "pavid Field1,Caption Field2,pav.Price Field3,pav.Aid Field4,a.Price Field5,pav.Type Field6,pav.ProductId Field7,pav.CCode Field8";
@@ -7710,7 +8115,7 @@ namespace FoodandBeverage.Forms
                     }
 
                     flp_oper_buttons.AutoSize = false;
-                    flp_oper_buttons.WrapContents = false;
+                    flp_oper_buttons.WrapContents = true;
                     flp_oper_buttons.FlowDirection = FlowDirection.LeftToRight;
 
                     flp_oper_buttons.Dock = DockStyle.Top;
@@ -7731,17 +8136,7 @@ namespace FoodandBeverage.Forms
                     flp_oper_buttons.BringToFront();
 
                     flp_oper_buttons.PerformLayout();
-
-                    int requiredHeight = GetOperationButtonsHeight(flp_oper_buttons);
-
-                    flp_oper_buttons.Height = requiredHeight;
-
-                    if (tlp_netalc_buttons.RowStyles.Count > 0)
-                    {
-                        tlp_netalc_buttons.RowStyles[0].SizeType =  SizeType.Absolute;
-
-                        tlp_netalc_buttons.RowStyles[0].Height =  requiredHeight;
-                    }
+                    ConfigureResponsiveOperationButtons();
 
                     isOperationShown = true;
                 }
@@ -7783,33 +8178,103 @@ namespace FoodandBeverage.Forms
                 this.ResumeLayout(false);
 
                 tlp_netalc_buttons.PerformLayout();
+                ConfigureResponsiveOperationButtons();
                 tlp_netalc_buttons.Invalidate();
             }
         }
 
-        private int GetOperationButtonsHeight(FlowLayoutPanel panel)
+        private void ConfigureResponsiveOperationButtons()
         {
-            int maxButtonHeight = 0;
+            if (_isConfiguringOperationButtons ||
+                flp_oper_buttons == null ||
+                flp_oper_buttons.IsDisposed ||
+                tlp_netalc_buttons == null ||
+                tlp_netalc_buttons.IsDisposed ||
+                !tlp_netalc_buttons.Controls.Contains(flp_oper_buttons) ||
+                !flp_oper_buttons.Visible)
+                return;
 
-            foreach (Control control in panel.Controls)
+            _isConfiguringOperationButtons = true;
+
+            try
             {
-                int controlHeight =
-                    control.Height +
-                    control.Margin.Top +
-                    control.Margin.Bottom;
+                const int minimumButtonWidth = 76;
+                const int maximumButtonWidth = 108;
+                const int horizontalGap = 6;
+                const int buttonMargin = 3;
 
-                if (controlHeight > maxButtonHeight)
+                int availableWidth = Math.Max(
+                    1,
+                    tlp_netalc_buttons.ClientSize.Width - flp_oper_buttons.Margin.Horizontal);
+
+                int columnCount = Math.Max(
+                    1,
+                    Math.Min(4, (availableWidth + horizontalGap) /
+                        (minimumButtonWidth + horizontalGap)));
+
+                int buttonWidth = Math.Max(
+                    minimumButtonWidth,
+                    Math.Min(
+                        maximumButtonWidth,
+                        (availableWidth - (columnCount * horizontalGap)) / columnCount));
+
+                int buttonHeight = Math.Max(
+                    52,
+                    Math.Min(74, (int)Math.Round(buttonWidth * 0.69)));
+
+                foreach (Control control in flp_oper_buttons.Controls)
                 {
-                    maxButtonHeight = controlHeight;
+                    Button operationButton = control as Button;
+                    if (operationButton == null)
+                        continue;
+
+                    operationButton.Size = new Size(buttonWidth, buttonHeight);
+                    operationButton.Margin = new Padding(buttonMargin);
                 }
+
+                flp_oper_buttons.AutoSize = false;
+                flp_oper_buttons.WrapContents = true;
+                flp_oper_buttons.FlowDirection = FlowDirection.LeftToRight;
+                flp_oper_buttons.AutoScroll = false;
+                flp_oper_buttons.Dock = DockStyle.Top;
+                flp_oper_buttons.Anchor =
+                    AnchorStyles.Top |
+                    AnchorStyles.Left |
+                    AnchorStyles.Right;
+
+                flp_oper_buttons.PerformLayout();
+
+                int visibleButtonCount = 0;
+                foreach (Control control in flp_oper_buttons.Controls)
+                {
+                    if (control.Visible)
+                        visibleButtonCount++;
+                }
+
+                int rowCount = Math.Max(
+                    1,
+                    (visibleButtonCount + columnCount - 1) / columnCount);
+
+                int requiredHeight =
+                    (rowCount * (buttonHeight + (buttonMargin * 2))) +
+                    flp_oper_buttons.Padding.Vertical +
+                    4;
+
+                flp_oper_buttons.Height = requiredHeight;
+
+                if (tlp_netalc_buttons.RowStyles.Count > 0)
+                {
+                    tlp_netalc_buttons.RowStyles[0].SizeType = SizeType.Absolute;
+                    tlp_netalc_buttons.RowStyles[0].Height = requiredHeight;
+                }
+
+                tlp_netalc_buttons.PerformLayout();
+                flp_oper_buttons.Invalidate();
             }
-
-            int requiredHeight =
-                maxButtonHeight +
-                panel.Padding.Top +
-                panel.Padding.Bottom;
-
-            return requiredHeight + 6;
+            finally
+            {
+                _isConfiguringOperationButtons = false;
+            }
         }
 
         private void txtitemcode_serach_KeyDown(object sender, KeyEventArgs e)
@@ -8910,6 +9375,7 @@ namespace FoodandBeverage.Forms
                         UIHelper.RoundCorners(tlp_com_reason, 25);
                         pnl_complementry_reason.BringToFront();
                         pnl_complementry_reason.Visible = true;
+                ShowBlurPopup(pnl_complementry_reason);
                         payid = Convert.ToInt32(PaymentType.COMPLEMENTRY);
                         break;
                     case "btnnocharge":
@@ -8920,6 +9386,7 @@ namespace FoodandBeverage.Forms
                         btnPartPaynow.Visible = false;
                         payid = Convert.ToInt32(PaymentType.SPLIT);
                         pnlSplit.Visible = true;
+                ShowBlurPopup(pnlSplit);
                         pnlSplit.BringToFront();
                         pnlSplit.Location = new Point(this.ClientSize.Width / 2 - pnlSplit.Size.Width / 2, (this.ClientSize.Height / 2 - pnlSplit.Size.Height / 2));
                         partPayments.Clear();
@@ -10965,6 +11432,7 @@ namespace FoodandBeverage.Forms
                 {
                     pnl_cancelledlist.Visible = false;
                     pnl_Refund_paymode.Visible = true;
+                ShowBlurPopup(pnl_Refund_paymode);
                     pnl_Refund_paymode.Location = new Point(this.ClientSize.Width / 2 - pnl_Refund_paymode.Size.Width / 2, (this.ClientSize.Height / 2 - pnl_Refund_paymode.Size.Height / 2));
                 }
                 else
@@ -11262,6 +11730,7 @@ namespace FoodandBeverage.Forms
                 Pnl_wifiPopup.Top = (this.ClientSize.Height - Pnl_wifiPopup.Height) / 2;
 
                 Pnl_wifiPopup.Visible = true;
+                ShowBlurPopup(Pnl_wifiPopup);
             }
             else
             {
@@ -13899,6 +14368,7 @@ namespace FoodandBeverage.Forms
                     
                     MoveSelectedGrid(tlp_main_productcart, 0, 1);
                     pnl_productCart.Visible = true;
+                ShowBlurPopup(pnl_productCart);
                     pnl_productCart.BringToFront();
                 }
                 else
