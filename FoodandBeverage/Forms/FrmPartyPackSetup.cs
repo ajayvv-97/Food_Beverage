@@ -465,6 +465,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ControlArrangement();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page cmbTaxType_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        public void ControlArrangement()
+        {
+            try
+            {
                 int startRow = 3;
                 int endRow = 6;
                 int totalColumns = 4;
@@ -562,10 +574,11 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(tlp_time_del_contrl, 2, 6);
 
                 }
+
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partypacksetup page cmbTaxType_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                clsgen.LogException("Partypacksetup page ControlArrangement()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
@@ -4568,8 +4581,12 @@ namespace FoodandBeverage.Forms
         }
 
 
+
         #endregion
 
-
+        private void chkfixedprice_CheckedChanged(object sender, EventArgs e)
+        {
+            //tlp_registration, txt_fixedprice,txtadultprice,lbl_packprice,lbladult_price
+        }
     }
 }
