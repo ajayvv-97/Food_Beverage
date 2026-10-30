@@ -184,6 +184,7 @@ namespace FoodandBeverage.Forms
         private readonly Image Grid_Remove = Properties.Resources.Round_Close;
         private readonly Image Blankimage = Properties.Resources.backspace;
         int selectedVenueId = 0;
+        private bool _suppressFixedPriceValueChanged;
 
         #endregion
 
@@ -202,12 +203,19 @@ namespace FoodandBeverage.Forms
             txtitemcode_serach.Leave += PartyPackMenuSearchTextBox_Leave;
             txtname_search.KeyDown += PartyPackMenuSearchTextBox_KeyDown;
             txtitemcode_serach.KeyDown += PartyPackMenuSearchTextBox_KeyDown;
+
+            txt_adultcount.TextChanged += FixedPriceValue_TextChanged;
+            txt_childcount.TextChanged += FixedPriceValue_TextChanged;
+            txt_fixedprice.TextChanged += FixedPriceValue_TextChanged;
         }
         private void FrmPartyPackSetup_Load(object sender, EventArgs e)
         {
             try
             {
-      
+                _suppressFixedPriceValueChanged = true;
+                chkfixedprice.Checked = false;
+                _suppressFixedPriceValueChanged = false;
+
                 if (FrmLogin.GameBranchId > 0)
                 {
                     btn_giftpacks.Visible = true;
@@ -1099,8 +1107,12 @@ namespace FoodandBeverage.Forms
                 txtpackname.Text = "";
                 txtadultprice.Text = "";
                 txtchildprice.Text = "";
+                _suppressFixedPriceValueChanged = true;
+                txt_adultcount.Text = "";
+                txt_childcount.Text = "";
                 txt_fixedprice.Text = "0";
                 chkfixedprice.Checked = false;
+                _suppressFixedPriceValueChanged = false;
                 txtDiscAmnt.Text = "";
                 txtDisPer.Text = "";
 
@@ -1288,10 +1300,12 @@ namespace FoodandBeverage.Forms
                     txtpackname.Text = data.PackName;
                     txtadultprice.Text = data.AdultPrice.ToString();
                     txtchildprice.Text = data.ChildPrice.ToString();
+                    _suppressFixedPriceValueChanged = true;
                     txt_fixedprice.Text = data.FixedPrice.ToString();
                     txt_adultcount.Text = data.AdultCount.ToString();
                     txt_childcount.Text = data.ChildCount.ToString();
-                    chkfixedprice.Checked = data.FixedPriceStatus;
+                    _suppressFixedPriceValueChanged = false;
+                    UpdateFixedPriceCheckboxFromValues();
                     txtDisPer.Text = data.DiscountPer.ToString();
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
                     cmbTaxType.Text = data.TaxType;
@@ -4617,6 +4631,27 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region  Fixed Price
+        private void FixedPriceValue_TextChanged(object sender, EventArgs e)
+        {
+            if (!_suppressFixedPriceValueChanged)
+                UpdateFixedPriceCheckboxFromValues();
+        }
+
+        private void UpdateFixedPriceCheckboxFromValues()
+        {
+            decimal fixedPrice;
+            int adultCount;
+            int childCount;
+
+            bool hasFixedPrice = decimal.TryParse(txt_fixedprice.Text, out fixedPrice) && fixedPrice > 0m;
+            bool hasAdultCount = int.TryParse(txt_adultcount.Text, out adultCount) && adultCount > 0;
+            bool hasChildCount = int.TryParse(txt_childcount.Text, out childCount) && childCount > 0;
+
+            bool shouldBeChecked = hasFixedPrice || hasAdultCount || hasChildCount;
+            if (chkfixedprice.Checked != shouldBeChecked)
+                chkfixedprice.Checked = shouldBeChecked;
+        }
+
         private void chkfixedprice_CheckedChanged(object sender, EventArgs e)
         {
             try
