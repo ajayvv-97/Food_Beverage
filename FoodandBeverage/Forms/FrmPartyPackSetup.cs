@@ -647,7 +647,10 @@ namespace FoodandBeverage.Forms
                     CreatedBy = FrmDashboard.UserId,
                     BranchId = FrmDashboard.BranchId,
                     Status = 1,
-                    HSNCode=txthsncode.Text,
+                    HSNCode = txthsncode.Text,
+                    FixedPrice = chkfixedprice.Checked && !string.IsNullOrWhiteSpace(txt_fixedprice.Text)
+                        ? Convert.ToDecimal(txt_fixedprice.Text) : 0m,
+                    FixedPriceStatus = chkfixedprice.Checked,
 
                     MinimumAdvanceAmount = string.IsNullOrWhiteSpace(txtminadvamt.Text) ? 0 : Convert.ToDecimal(txtminadvamt.Text)
                 };
@@ -976,8 +979,32 @@ namespace FoodandBeverage.Forms
             try
             {
 
-                if (string.IsNullOrWhiteSpace(txtadultprice.Text))
-                    txtadultprice.Text = "0";
+                if (chkfixedprice.Checked)
+                {
+                    if (string.IsNullOrWhiteSpace(txt_fixedprice.Text))
+                        txt_fixedprice.Text = "0";
+
+                    decimal fixedPrice;
+                    if (!decimal.TryParse(txt_fixedprice.Text, out fixedPrice) || fixedPrice < 0m)
+                    {
+                        CMessageBox.Show("Please enter a valid package price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txt_fixedprice.Focus();
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(txtadultprice.Text))
+                        txtadultprice.Text = "0";
+
+                    decimal adultPrice;
+                    if (!decimal.TryParse(txtadultprice.Text, out adultPrice) || adultPrice < 0m)
+                    {
+                        CMessageBox.Show("Please enter a valid adult price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtadultprice.Focus();
+                        return false;
+                    }
+                }
 
                 if (string.IsNullOrWhiteSpace(txtDisPer.Text))
                     txtDisPer.Text = "0";
@@ -1070,6 +1097,8 @@ namespace FoodandBeverage.Forms
                 txtpackname.Text = "";
                 txtadultprice.Text = "";
                 txtchildprice.Text = "";
+                txt_fixedprice.Text = "0";
+                chkfixedprice.Checked = false;
                 txtDiscAmnt.Text = "";
                 txtDisPer.Text = "";
 
@@ -1257,6 +1286,8 @@ namespace FoodandBeverage.Forms
                     txtpackname.Text = data.PackName;
                     txtadultprice.Text = data.AdultPrice.ToString();
                     txtchildprice.Text = data.ChildPrice.ToString();
+                    txt_fixedprice.Text = data.FixedPrice.ToString();
+                    chkfixedprice.Checked = data.FixedPriceStatus;
                     txtDisPer.Text = data.DiscountPer.ToString();
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
                     cmbTaxType.Text = data.TaxType;
@@ -4586,7 +4617,53 @@ namespace FoodandBeverage.Forms
 
         private void chkfixedprice_CheckedChanged(object sender, EventArgs e)
         {
-            //tlp_registration, txt_fixedprice,txtadultprice,lbl_packprice,lbladult_price
+            try
+            {
+                if (tlp_registration == null || tlp_registration.IsDisposed)
+                    return;
+
+                tlp_registration.SuspendLayout();
+
+                // Remove these controls from their current parents before re-positioning them.
+                tlp_registration.Controls.Remove(lbladult_price);
+                tlp_registration.Controls.Remove(txtadultprice);
+                tlp_registration.Controls.Remove(lbl_packprice);
+                tlp_registration.Controls.Remove(txt_fixedprice);
+
+                if (chkfixedprice.Checked)
+                {
+                    lbl_packprice.Text = "Package Price";
+                    lbl_packprice.Dock = DockStyle.Fill;
+                    txt_fixedprice.Dock = DockStyle.Fill;
+                    txt_fixedprice.Visible = true;
+                    lbl_packprice.Visible = true;
+
+                    // TableLayoutPanel positions are zero-based: column 2, rows 2 and 3.
+                    tlp_registration.Controls.Add(lbl_packprice, 1, 1);
+                    tlp_registration.Controls.Add(txt_fixedprice, 1, 2);
+                }
+                else
+                {
+                    lbladult_price.Dock = DockStyle.Fill;
+                    txtadultprice.Dock = DockStyle.Fill;
+                    lbladult_price.Visible = true;
+                    txtadultprice.Visible = true;
+
+                    tlp_registration.Controls.Add(lbladult_price, 0, 1);
+                    tlp_registration.Controls.Add(txtadultprice, 0, 2);
+                }
+
+                tlp_registration.PerformLayout();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page chkfixedprice_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+            finally
+            {
+                if (tlp_registration != null && !tlp_registration.IsDisposed)
+                    tlp_registration.ResumeLayout(true);
+            }
         }
     }
 }

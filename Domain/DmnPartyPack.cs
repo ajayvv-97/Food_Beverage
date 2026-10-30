@@ -22,6 +22,8 @@ namespace Domain
         public string Tax { get; set; }
         public decimal MinimumAdvanceAmount { get; set; }
         public string HSNCode { get; set; }
+        public decimal FixedPrice { get; set; }
+        public bool FixedPriceStatus { get; set; }
 
     }
     public class DmnPartyPackDetails
