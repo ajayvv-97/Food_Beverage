@@ -434,14 +434,25 @@ namespace FoodandBeverage
                     {
                         popup.Visible = false;
 
+                        Bitmap nextBlurImage;
                         using (Bitmap original = CapturePartyBookingForm())
                         using (Bitmap small = ResizeBlurPreview(
                             original,
                             Math.Max(1, original.Width / BlurPreviewScale),
                             Math.Max(1, original.Height / BlurPreviewScale)))
                         {
-                            _blurPopupImage = CreateDarkBlurPreview(small);
+                            nextBlurImage = CreateDarkBlurPreview(small);
                         }
+
+                        EnsureBlurPopupPictureBox();
+
+                        // Replace any image left from a popup-to-popup transition.
+                        Bitmap previousImage = _blurPopupImage;
+                        _blurPopupImage = nextBlurImage;
+                        _blurPopupPictureBox.Image = _blurPopupImage;
+
+                        if (previousImage != null)
+                            previousImage.Dispose();
                     }
                     finally
                     {
@@ -578,14 +589,22 @@ namespace FoodandBeverage
         {
             Bitmap blurred = BlurImageFast(image);
 
-            using (Graphics graphics = Graphics.FromImage(blurred))
-            using (SolidBrush shade = new SolidBrush(Color.FromArgb(BlurDarkOverlayAlpha, 0, 0, 0)))
+            try
             {
-                graphics.CompositingMode = CompositingMode.SourceOver;
-                graphics.FillRectangle(shade, 0, 0, blurred.Width, blurred.Height);
-            }
+                using (Graphics graphics = Graphics.FromImage(blurred))
+                using (SolidBrush shade = new SolidBrush(Color.FromArgb(BlurDarkOverlayAlpha, 0, 0, 0)))
+                {
+                    graphics.CompositingMode = CompositingMode.SourceOver;
+                    graphics.FillRectangle(shade, 0, 0, blurred.Width, blurred.Height);
+                }
 
-            return blurred;
+                return blurred;
+            }
+            catch
+            {
+                blurred.Dispose();
+                throw;
+            }
         }
 
         private Bitmap BlurImageFast(Bitmap image)
@@ -599,6 +618,7 @@ namespace FoodandBeverage
             BitmapData sourceData = null;
             BitmapData destinationData = null;
 
+            bool completed = false;
             try
             {
                 Rectangle bounds = new Rectangle(0, 0, width, height);
@@ -655,12 +675,8 @@ namespace FoodandBeverage
                     Marshal.Copy(resultPixels, y * rowBytes, destinationRow, rowBytes);
                 }
 
+                completed = true;
                 return blurred;
-            }
-            catch
-            {
-                blurred.Dispose();
-                throw;
             }
             finally
             {
@@ -669,6 +685,9 @@ namespace FoodandBeverage
 
                 if (sourceData != null)
                     image.UnlockBits(sourceData);
+
+                if (!completed)
+                    blurred.Dispose();
             }
         }
 
