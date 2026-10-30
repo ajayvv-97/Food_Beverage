@@ -1019,6 +1019,7 @@ namespace FoodandBeverage.Forms
             tileW = Convert.ToInt32(Productwidth);//(int)(((containerWidth - ((maxColumns + 1) * spacing)) / maxColumns) * Productwidth);
             tileH = Convert.ToInt32(Productheight);//(int)(tileW * Productheight);
 
+            // Keep the blur overlay matched to the client area as the form changes size.
             if (_blurPopupPictureBox != null && !_blurPopupPictureBox.IsDisposed)
                 _blurPopupPictureBox.Bounds = ClientRectangle;
 
@@ -8219,7 +8220,12 @@ namespace FoodandBeverage.Forms
 
                 int availableWidth = Math.Max(
                     1,
-                    tlp_netalc_buttons.ClientSize.Width - flp_oper_buttons.Margin.Horizontal);
+                    tlp_netalc_buttons.ClientSize.Width -
+                    flp_oper_buttons.Margin.Horizontal -
+                    tlp_netalc_buttons.Padding.Horizontal);
+
+                // Keep the operation strip fitted to the live table cell width.
+                flp_oper_buttons.Width = availableWidth;
 
                 int columnCount = Math.Max(
                     1,
@@ -8258,6 +8264,10 @@ namespace FoodandBeverage.Forms
 
                 flp_oper_buttons.PerformLayout();
 
+                // Re-evaluate wrapping after the panel and its buttons have their new widths.
+                flp_oper_buttons.ResumeLayout(true);
+                flp_oper_buttons.SuspendLayout();
+
                 int visibleButtonCount = 0;
                 foreach (Control control in flp_oper_buttons.Controls)
                 {
@@ -8283,6 +8293,8 @@ namespace FoodandBeverage.Forms
                 }
 
                 tlp_netalc_buttons.PerformLayout();
+                flp_oper_buttons.ResumeLayout(true);
+                flp_oper_buttons.PerformLayout();
                 flp_oper_buttons.Invalidate();
             }
             finally

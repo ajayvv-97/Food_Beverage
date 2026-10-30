@@ -7541,7 +7541,12 @@ namespace FoodandBeverage
             if (lblbalapay == null || lblbalapay.IsDisposed)
                 return;
 
-            lblbalapay.Text = balanceAmount < 0m ? "Refund Due" : "Balance Payable";
+            if (balanceAmount < -0.009m)
+                lblbalapay.Text = "Refund Due";
+            else if (balanceAmount > 0.009m)
+                lblbalapay.Text = "Additional Payment Due";
+            else
+                lblbalapay.Text = "Balance";
         }
 
         private void ShowPaymentSettlementPanel(
@@ -7587,11 +7592,14 @@ namespace FoodandBeverage
                 decimal totalPaid = advancePaid + paymentReceived;
                 decimal diff = netAmount - totalPaid;
 
-                // Show refund wording only when the amount paid exceeds the booking total.
+                // Keep the panel title and balance caption aligned with the settlement state.
                 UpdateBalancePayableCaption(diff);
-                lbl_Paymentsettled.Text = diff < 0
-                    ? "Refund Settlement"
-                    : "Payment Settlement";
+                if (diff < -0.009m)
+                    lbl_Paymentsettled.Text = "Refund Settlement";
+                else if (diff > 0.009m)
+                    lbl_Paymentsettled.Text = "Additional Payment";
+                else
+                    lbl_Paymentsettled.Text = "Payment Settled";
 
                 // 🔹 COLOR INDICATOR
                 if (diff < 0)
