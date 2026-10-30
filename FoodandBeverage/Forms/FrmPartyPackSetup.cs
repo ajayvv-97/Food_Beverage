@@ -3019,7 +3019,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txtCgstPrcnt_venue, txtSgstPrcnt_venue, txtvenuecost, txtvenuename, txthsn_cake, txthsn_venue, txthsncode, txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
+                foreach (TextBox textBox in new TextBox[] { txt_childcount, txt_adultcount, txt_fixedprice,txtCgstPrcnt_venue, txtSgstPrcnt_venue, txtvenuecost, txtvenuename, txthsn_cake, txthsn_venue, txthsncode, txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -4614,59 +4614,24 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show("Unable to search venue details.");
             }
         }
-
-
-
         #endregion
 
+        #region  Fixed Price
         private void chkfixedprice_CheckedChanged(object sender, EventArgs e)
         {
             try
             {
-                if (tlp_registration == null || tlp_registration.IsDisposed)
-                    return;
-
-                tlp_registration.SuspendLayout();
-
-                // Remove these controls from their current parents before re-positioning them.
-                tlp_registration.Controls.Remove(lbladult_price);
-                tlp_registration.Controls.Remove(txtadultprice);
-                tlp_registration.Controls.Remove(lbl_packprice);
-                tlp_registration.Controls.Remove(txt_fixedprice);
-
-                if (chkfixedprice.Checked)
-                {
-                    lbl_packprice.Text = "Package Price";
-                    lbl_packprice.Dock = DockStyle.Fill;
-                    txt_fixedprice.Dock = DockStyle.Fill;
-                    txt_fixedprice.Visible = true;
-                    lbl_packprice.Visible = true;
-
-                    // TableLayoutPanel positions are zero-based: column 2, rows 2 and 3.
-                    tlp_registration.Controls.Add(lbl_packprice, 1, 1);
-                    tlp_registration.Controls.Add(txt_fixedprice, 1, 2);
-                }
-                else
-                {
-                    lbladult_price.Dock = DockStyle.Fill;
-                    txtadultprice.Dock = DockStyle.Fill;
-                    lbladult_price.Visible = true;
-                    txtadultprice.Visible = true;
-
-                    tlp_registration.Controls.Add(lbladult_price, 0, 1);
-                    tlp_registration.Controls.Add(txtadultprice, 0, 2);
-                }
-
-                tlp_registration.PerformLayout();
-
                 if (chkfixedprice.Checked)
                 {
                     txt_adultcount.ReadOnly = false;
                     txt_childcount.ReadOnly = false;
+
                     pnl_fdprice_pack.Left = Math.Max(0, (ClientSize.Width - pnl_fdprice_pack.Width) / 2);
                     pnl_fdprice_pack.Top = Math.Max(0, (ClientSize.Height - pnl_fdprice_pack.Height) / 2);
+
                     pnl_fdprice_pack.Visible = true;
                     pnl_fdprice_pack.BringToFront();
+
                     txt_adultcount.Focus();
                 }
                 else
@@ -4676,16 +4641,15 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partypacksetup page chkfixedprice_CheckedChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
-            }
-            finally
-            {
-                if (tlp_registration != null && !tlp_registration.IsDisposed)
-                    tlp_registration.ResumeLayout(true);
+                clsgen.LogException(
+                    "Partypacksetup page chkfixedprice_CheckedChanged()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partypacksetup));
             }
         }
 
-        #region  Fixed Price
         private void btn_packfdprice_Click(object sender, EventArgs e)
         {
             // Reset the included guest counts.
