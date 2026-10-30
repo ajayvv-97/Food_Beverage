@@ -328,6 +328,8 @@ namespace FoodandBeverage
             InitializeComponent();
             InitializeBlurPopupSupport();
             InitializeKotDateTimeControls();
+            lbl_Paymentsettled.Text = "Payment Settlement";
+            lblbalapay.Text = "Balance Payable";
 
             dgv_packenter.DataError += dgv_packenter_DataError;
             btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
@@ -4642,6 +4644,8 @@ namespace FoodandBeverage
                 // ===============================
                 lblNetAmt.Text = "0.00";
                 lblBalAmt.Text = "0.00";
+                lblbalapay.Text = "Balance Payable";
+                lbl_Paymentsettled.Text = "Payment Settlement";
                 lbladvamtdata.Text = "0.00";
                 txtRcvAmt.Text = "0.00";
 
@@ -6254,6 +6258,8 @@ namespace FoodandBeverage
                     dbBalanceAmount = 0;
                 }
 
+                UpdateBalancePayableCaption(dbBalanceAmount);
+
                 dbNetAmount = netAmt;
 
                 if (advAmt > 0)
@@ -7530,6 +7536,14 @@ namespace FoodandBeverage
             }
         }
 
+        private void UpdateBalancePayableCaption(decimal balanceAmount)
+        {
+            if (lblbalapay == null || lblbalapay.IsDisposed)
+                return;
+
+            lblbalapay.Text = balanceAmount < 0m ? "Refund Due" : "Balance Payable";
+        }
+
         private void ShowPaymentSettlementPanel(
             decimal netAmount,
             decimal advancePaid,
@@ -7572,6 +7586,12 @@ namespace FoodandBeverage
 
                 decimal totalPaid = advancePaid + paymentReceived;
                 decimal diff = netAmount - totalPaid;
+
+                // Show refund wording only when the amount paid exceeds the booking total.
+                UpdateBalancePayableCaption(diff);
+                lbl_Paymentsettled.Text = diff < 0
+                    ? "Refund Settlement"
+                    : "Payment Settlement";
 
                 // 🔹 COLOR INDICATOR
                 if (diff < 0)
@@ -8092,7 +8112,9 @@ namespace FoodandBeverage
                 decimal totalAdvance = dbAdvanceAmount;
 
                 lbladvamtdata.Text = totalAdvance.ToString("N2");
-                lblBalAmt.Text = (finalNet - totalAdvance).ToString("N2");
+                decimal balanceAmount = finalNet - totalAdvance;
+                lblBalAmt.Text = balanceAmount.ToString("N2");
+                UpdateBalancePayableCaption(balanceAmount);
             }
             catch (Exception ex)
             {
@@ -9006,7 +9028,9 @@ namespace FoodandBeverage
                     else
                         AdvanceFlag = false;
                     //lbladvamtdata.Text = totalAdvance.ToString("N2");
-                    lblBalAmt.Text = (netAmt - totalAdvance).ToString("N2");
+                    decimal balanceAmount = netAmt - totalAdvance;
+                    lblBalAmt.Text = balanceAmount.ToString("N2");
+                    UpdateBalancePayableCaption(balanceAmount);
                 }
                 else
                 {
@@ -9014,6 +9038,7 @@ namespace FoodandBeverage
                     ToggleFirstRow(0);
                     //lbladvamtdata.Text = netAmt.ToString("N2");
                     lblBalAmt.Text = "0.00";
+                    UpdateBalancePayableCaption(0m);
                 }
 
                 textb_shape();
