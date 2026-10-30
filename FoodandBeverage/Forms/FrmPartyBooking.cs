@@ -1124,8 +1124,13 @@ namespace FoodandBeverage
                     _fixedPackPrice = list[0].FixedPrice;
                     txtChildPrice.Text = Convert.ToString(list[0].ChildPrice);
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
+
+                    // Use the guest counts configured for this package.
                     txtAdults.Text = Math.Max(0, list[0].AdultCount).ToString();
                     txtChild.Text = Math.Max(0, list[0].ChildCount).ToString();
+                    txtAdults.ReadOnly = _fixedPriceStatus;
+                    txtChild.ReadOnly = _fixedPriceStatus;
+
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
                     txttax.Text = Convert.ToString(list[0].Tax);
                     _partyPackHsnCode = Convert.ToString(list[0].HSNCode ?? string.Empty);
