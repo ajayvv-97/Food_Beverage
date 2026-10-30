@@ -206,6 +206,16 @@ namespace FoodandBeverage
         decimal dbBalanceAmount = 0;
 
         private bool isUpdating = false;
+
+        private const int DefaultKotLeadTimeHours = 2;
+        private bool _isProgrammaticallySettingKotDateTime;
+        private bool _isKotDateTimeManuallySet;
+        private bool _hasLoadedKotDateTime;
+        private DateTime? _loadedKotDateTime;
+        private bool _loadedConsumedRawMaterialStatus;
+        private bool _loadedKoTPrintStatus;
+        private bool _isLoadingPartyBooking;
+
         private int _calendarBookingId;
         private DateTime? _calendarBookingStart;
         private DateTime? _calendarBookingEnd;
@@ -304,6 +314,7 @@ namespace FoodandBeverage
         public FrmPartyBooking()
         {
             InitializeComponent();
+            InitializeKotDateTimeControls();
 
             dgv_packenter.DataError += dgv_packenter_DataError;
             btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
@@ -414,6 +425,141 @@ namespace FoodandBeverage
             Control[] matches = Controls.Find(controlName, true);
             DateTimePicker picker = matches.FirstOrDefault() as DateTimePicker;
             return picker == null ? (DateTime?)null : picker.Value;
+        }
+
+        private void InitializeKotDateTimeControls()
+        {
+            // KOT date and time must be editable by the booking staff.
+            dtp_kotdate.Enabled = true;
+            dtp_kottime.Enabled = true;
+
+            dtpEventDate_From.ValueChanged += BookingDateTimePicker_ValueChanged;
+            dtpEventTime_From.ValueChanged += BookingDateTimePicker_ValueChanged;
+            dtp_kotdate.ValueChanged += KotDateTimePicker_ValueChanged;
+            dtp_kottime.ValueChanged += KotDateTimePicker_ValueChanged;
+
+            UpdateDefaultKotDateTime(GetPartyBookingStartDateTime());
+        }
+
+        private DateTime GetPartyBookingStartDateTime()
+        {
+            return dtpEventDate_From.Value.Date.Add(dtpEventTime_From.Value.TimeOfDay);
+        }
+
+        private DateTime GetSelectedKotDateTime()
+        {
+            return dtp_kotdate.Value.Date.Add(dtp_kottime.Value.TimeOfDay);
+        }
+
+        private void BookingDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingPartyBooking ||
+                _isProgrammaticallySettingKotDateTime ||
+                _isKotDateTimeManuallySet ||
+                _hasLoadedKotDateTime)
+                return;
+
+            UpdateDefaultKotDateTime(GetPartyBookingStartDateTime());
+        }
+
+        private void KotDateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingPartyBooking || _isProgrammaticallySettingKotDateTime)
+                return;
+
+            _isKotDateTimeManuallySet = true;
+        }
+
+        private void SetKotDateTimePickerValue(DateTime value)
+        {
+            _isProgrammaticallySettingKotDateTime = true;
+            try
+            {
+                dtp_kotdate.Value = value.Date;
+                dtp_kottime.Value = DateTime.Today.Add(value.TimeOfDay);
+            }
+            finally
+            {
+                _isProgrammaticallySettingKotDateTime = false;
+            }
+        }
+
+        private void UpdateDefaultKotDateTime(DateTime bookingStart)
+        {
+            // A KOT time cannot be generated for a booking that has already passed.
+            if (bookingStart <= DateTime.Now)
+                return;
+
+            DateTime automaticKotTime = bookingStart.AddHours(-DefaultKotLeadTimeHours);
+            DateTime earliestAllowedTime = DateTime.Now.AddMinutes(1);
+
+            // For bookings made less than two hours ahead, use the earliest
+            // practical future time instead of generating a KOT time in the past.
+            if (automaticKotTime < earliestAllowedTime)
+                automaticKotTime = earliestAllowedTime <= bookingStart
+                    ? earliestAllowedTime
+                    : bookingStart;
+
+            SetKotDateTimePickerValue(automaticKotTime);
+        }
+
+        private bool TryGetKotDateTimeForSave(DateTime bookingStart, out DateTime? kotDateTime)
+        {
+            kotDateTime = null;
+
+            // Keep a previously saved KOT time when the staff member has not
+            // changed it. This also allows old bookings with a historical KOT time
+            // to be edited without treating the existing value as a new selection.
+            if (_hasLoadedKotDateTime && !_isKotDateTimeManuallySet && _loadedKotDateTime.HasValue)
+            {
+                if (_loadedKotDateTime.Value > bookingStart)
+                {
+                    CMessageBox.Show("The KOT date and time cannot be later than the party booking time. Please update the KOT time.");
+                    dtp_kotdate.Focus();
+                    return false;
+                }
+
+                kotDateTime = _loadedKotDateTime.Value;
+                return true;
+            }
+
+            // Automatically assign a KOT time two hours before the booking when
+            // staff have not selected one manually.
+            if (!_isKotDateTimeManuallySet && !_hasLoadedKotDateTime)
+            {
+                if (bookingStart <= DateTime.Now)
+                {
+                    // Keep a legacy NULL for an already-past booking. A new booking
+                    // must have a future booking time to generate a valid KOT time.
+                    if (GetInt(txtpartybookingid) > 0)
+                        return true;
+
+                    CMessageBox.Show("The party booking time has already passed. Please select a future booking time so the KOT time can be set automatically.");
+                    dtpEventDate_From.Focus();
+                    return false;
+                }
+
+                UpdateDefaultKotDateTime(bookingStart);
+            }
+
+            DateTime selectedKotDateTime = GetSelectedKotDateTime();
+
+            if (selectedKotDateTime < DateTime.Now)
+            {
+                CMessageBox.Show("KOT date and time cannot be in the past. Please select the current or a future date and time.");
+                dtp_kotdate.Focus();
+                return false;
+            }
+
+            if (selectedKotDateTime > bookingStart)
+            {
+                CMessageBox.Show("KOT date and time cannot be later than the party booking time. Please choose an earlier KOT time.");
+                dtp_kotdate.Focus();
+                return false;
+            }
+
+            kotDateTime = selectedKotDateTime;
+            return true;
         }
 
         private void FrmPartyBooking_Load(object sender, EventArgs e)
@@ -3945,6 +4091,12 @@ namespace FoodandBeverage
         {
             try
             {
+                _isKotDateTimeManuallySet = false;
+                _hasLoadedKotDateTime = false;
+                _loadedKotDateTime = null;
+                _loadedConsumedRawMaterialStatus = false;
+                _loadedKoTPrintStatus = false;
+
                 // ===============================
                 // 🔹 Reset Event Info
                 // ===============================
@@ -4605,6 +4757,10 @@ namespace FoodandBeverage
                       (GetOptionalDateTimePickerValue("dtpEventTime_From") ?? dtpEventTime_From.Value).TimeOfDay
                     : dtpEventDate_From.Value.Date + dtpEventTime_From.Value.TimeOfDay;
 
+                DateTime? kotDateTime;
+                if (!TryGetKotDateTimeForSave(bookingStart, out kotDateTime))
+                    return;
+
                 DateTime? bookingEndDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
                 DateTime? bookingEndTime = GetOptionalDateTimePickerValue("dtpEventTime_To");
                 DateTime bookingEnd = bookingEndDate.HasValue
@@ -4721,9 +4877,9 @@ namespace FoodandBeverage
                 booking.AdditionalChargeAmt = GetDecimal(txtaddcharge);
                 booking.AdditionalChargeDescription = txtextracharge_des.Text;
 
-                booking.KOTDatetime = dtp_kottime.Value + dtp_kotdate.Value;
-                booking.ConsumedRawMaterialStatus = Convert.ToBoolean(ConsumedRawMaterialStatusType.NotConsumed);
-                booking.KoTPrintStatus = Convert.ToBoolean(KoTPrintStatusType.NotPrinted);
+                booking.KOTDatetime = kotDateTime;
+                booking.ConsumedRawMaterialStatus = _loadedConsumedRawMaterialStatus;
+                booking.KoTPrintStatus = _loadedKoTPrintStatus;
 
                 var result = bll.AddEditData("prdInsert_Upd_PartyBooking", booking);
 
@@ -4734,6 +4890,11 @@ namespace FoodandBeverage
                 }
 
                 bookingId = result.PartyBookingId;
+
+                // Retain the saved values for any subsequent save in this form.
+                _loadedKotDateTime = kotDateTime;
+                _hasLoadedKotDateTime = kotDateTime.HasValue;
+                _isKotDateTimeManuallySet = false;
 
                 #endregion
 
@@ -5512,6 +5673,9 @@ namespace FoodandBeverage
         }
         private void LoadBookingMaster(int bookingId, int packid)
         {
+            bool previousLoadingState = _isLoadingPartyBooking;
+            _isLoadingPartyBooking = true;
+
             try
             {
                 LoadEventItems();
@@ -5664,6 +5828,17 @@ namespace FoodandBeverage
 
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
 
+                _loadedConsumedRawMaterialStatus = result.ConsumedRawMaterialStatus;
+                _loadedKoTPrintStatus = result.KoTPrintStatus;
+                _loadedKotDateTime = result.KOTDatetime;
+                _hasLoadedKotDateTime = result.KOTDatetime.HasValue;
+                _isKotDateTimeManuallySet = false;
+
+                if (_loadedKotDateTime.HasValue)
+                    SetKotDateTimePickerValue(_loadedKotDateTime.Value);
+                else if (result.BookingDateTime != DateTime.MinValue)
+                    UpdateDefaultKotDateTime(result.BookingDateTime);
+
                 PriceChangecalculation();
             }
 
@@ -5672,6 +5847,10 @@ namespace FoodandBeverage
                 clsgen.LogException("Partybooking page GettotaladvanceAmount()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation,
                     Convert.ToInt32(FormType.Partybooking));
+            }
+            finally
+            {
+                _isLoadingPartyBooking = previousLoadingState;
             }
         }
 
