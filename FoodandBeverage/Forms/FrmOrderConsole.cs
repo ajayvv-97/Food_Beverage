@@ -8213,7 +8213,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 const int minimumButtonWidth = 76;
-                const int maximumButtonWidth = 108;
+                const int maximumButtonWidth = 120;
                 const int horizontalGap = 6;
                 const int buttonMargin = 3;
 
@@ -8234,7 +8234,7 @@ namespace FoodandBeverage.Forms
 
                 int buttonHeight = Math.Max(
                     52,
-                    Math.Min(74, (int)Math.Round(buttonWidth * 0.69)));
+                    Math.Min(84, (int)Math.Round(buttonWidth * 0.69)));
 
                 foreach (Control control in flp_oper_buttons.Controls)
                 {
