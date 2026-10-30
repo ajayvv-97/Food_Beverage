@@ -680,14 +680,24 @@ namespace FoodandBeverage
             }
             finally
             {
-                if (destinationData != null)
-                    blurred.UnlockBits(destinationData);
-
-                if (sourceData != null)
-                    image.UnlockBits(sourceData);
-
-                if (!completed)
-                    blurred.Dispose();
+                try
+                {
+                    if (destinationData != null)
+                        blurred.UnlockBits(destinationData);
+                }
+                finally
+                {
+                    try
+                    {
+                        if (sourceData != null)
+                            image.UnlockBits(sourceData);
+                    }
+                    finally
+                    {
+                        if (!completed)
+                            blurred.Dispose();
+                    }
+                }
             }
         }
 
