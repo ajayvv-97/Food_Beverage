@@ -12,9 +12,11 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Color = System.Drawing.Color;
 using Control = System.Windows.Forms.Control;
@@ -207,6 +209,16 @@ namespace FoodandBeverage
 
         private bool isUpdating = false;
 
+        #region Blur Popup Overlay
+        private PictureBox _blurPopupPictureBox;
+        private Bitmap _blurPopupImage;
+        private readonly HashSet<Panel> _activeBlurPopupPanels = new HashSet<Panel>();
+        private bool _isUpdatingBlurPopup;
+        private bool _isBlurPopupReleaseScheduled;
+        private const int BlurPreviewScale = 4;
+        private const byte BlurDarkOverlayAlpha = 72;
+        #endregion
+
         private const int DefaultKotLeadTimeHours = 2;
         private bool _isProgrammaticallySettingKotDateTime;
         private bool _isKotDateTimeManuallySet;
@@ -314,6 +326,7 @@ namespace FoodandBeverage
         public FrmPartyBooking()
         {
             InitializeComponent();
+            InitializeBlurPopupSupport();
             InitializeKotDateTimeControls();
 
             dgv_packenter.DataError += dgv_packenter_DataError;
@@ -346,6 +359,349 @@ namespace FoodandBeverage
             e.ThrowException = false;
             e.Cancel = false;
         }
+
+        #region Blur Popup Overlay (low-memory, cached while a popup is open)
+
+        private void InitializeBlurPopupSupport()
+        {
+            // These panels are top-level popup panels in the form's designer.
+            // Tracking VisibleChanged keeps the existing open/close methods intact.
+            Panel[] popupPanels =
+            {
+                pnl_foodpacks,
+                pnl_pak_detailsitems,
+                pnl_eventreg,
+                pnl_enter_paks,
+                pnl_CustomItems_menu,
+                pnl_cardpreview,
+                pnlgiftpreview,
+                pnlcake,
+                pnl_cakeregister,
+                pnl_Paymentsettled,
+                pnlPaymode,
+                pnlSplit,
+                pnl_PaymentOptions,
+                pnl_menu,
+                pnl_bookingcancel,
+                pnl_extracharge,
+                pnl_moreoptions,
+                pnl_venue
+            };
+
+            foreach (Panel popup in popupPanels)
+            {
+                if (popup == null)
+                    continue;
+
+                popup.VisibleChanged -= BlurPopupPanel_VisibleChanged;
+                popup.VisibleChanged += BlurPopupPanel_VisibleChanged;
+            }
+
+            FormClosed += FrmPartyBooking_FormClosed;
+        }
+
+        private void BlurPopupPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (_isUpdatingBlurPopup)
+                return;
+
+            Panel popup = sender as Panel;
+            if (popup == null || popup.IsDisposed)
+                return;
+
+            if (popup.Visible)
+                ShowBlurPopup(popup);
+            else
+                HideBlurPopup(popup);
+        }
+
+        private void ShowBlurPopup(Panel popup)
+        {
+            if (popup == null || popup.IsDisposed)
+                return;
+
+            try
+            {
+                bool isFirstPopup = _activeBlurPopupPanels.Count == 0;
+
+                if (isFirstPopup)
+                {
+                    // Capture the normal form without the popup itself.
+                    bool wasVisible = popup.Visible;
+                    _isUpdatingBlurPopup = true;
+
+                    try
+                    {
+                        popup.Visible = false;
+
+                        using (Bitmap original = CapturePartyBookingForm())
+                        using (Bitmap small = ResizeBlurPreview(
+                            original,
+                            Math.Max(1, original.Width / BlurPreviewScale),
+                            Math.Max(1, original.Height / BlurPreviewScale)))
+                        {
+                            _blurPopupImage = CreateDarkBlurPreview(small);
+                        }
+                    }
+                    finally
+                    {
+                        popup.Visible = wasVisible;
+                        _isUpdatingBlurPopup = false;
+                    }
+
+                    EnsureBlurPopupPictureBox();
+                    _blurPopupPictureBox.Image = _blurPopupImage;
+                    _blurPopupPictureBox.Visible = true;
+                    _blurPopupPictureBox.BringToFront();
+                }
+
+                _activeBlurPopupPanels.Add(popup);
+
+                // All popup panels are direct children of FrmPartyBooking.
+                // Keep their original parent/layout; only adjust the Z-order.
+                popup.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                _isUpdatingBlurPopup = false;
+                clsgen.LogException(
+                    "Partybooking page ShowBlurPopup()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void HideBlurPopup(Panel popup)
+        {
+            if (popup == null)
+                return;
+
+            _activeBlurPopupPanels.Remove(popup);
+
+            if (_activeBlurPopupPanels.Count == 0)
+                ScheduleBlurPopupRelease();
+        }
+
+        private void ScheduleBlurPopupRelease()
+        {
+            if (_isBlurPopupReleaseScheduled)
+                return;
+
+            _isBlurPopupReleaseScheduled = true;
+
+            // Defer disposal until the current UI event completes. This allows
+            // one popup to switch to another without briefly removing/rebuilding
+            // the overlay (for example, More -> Venue or Payment Options -> Paymode).
+            if (!IsHandleCreated || IsDisposed || Disposing)
+            {
+                _isBlurPopupReleaseScheduled = false;
+                ReleaseBlurPopupImage();
+                return;
+            }
+
+            try
+            {
+                BeginInvoke((MethodInvoker)delegate
+                {
+                    _isBlurPopupReleaseScheduled = false;
+
+                    if (IsDisposed || Disposing)
+                        return;
+
+                    if (_activeBlurPopupPanels.Count == 0)
+                        ReleaseBlurPopupImage();
+                });
+            }
+            catch (InvalidOperationException)
+            {
+                _isBlurPopupReleaseScheduled = false;
+                ReleaseBlurPopupImage();
+            }
+        }
+
+        private void EnsureBlurPopupPictureBox()
+        {
+            if (_blurPopupPictureBox != null && !_blurPopupPictureBox.IsDisposed)
+                return;
+
+            _blurPopupPictureBox = new PictureBox
+            {
+                Name = "picPartyBookingBlurOverlay",
+                Dock = DockStyle.Fill,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                BackColor = Color.Black,
+                TabStop = false,
+                Visible = false
+            };
+
+            // Add once and reuse it for the lifetime of the form.
+            Controls.Add(_blurPopupPictureBox);
+            _blurPopupPictureBox.BringToFront();
+        }
+
+        private Bitmap CapturePartyBookingForm()
+        {
+            int width = Math.Max(1, ClientSize.Width);
+            int height = Math.Max(1, ClientSize.Height);
+
+            Bitmap captured = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            try
+            {
+                DrawToBitmap(captured, new Rectangle(0, 0, width, height));
+                return captured;
+            }
+            catch
+            {
+                captured.Dispose();
+                throw;
+            }
+        }
+
+        private Bitmap ResizeBlurPreview(Bitmap image, int width, int height)
+        {
+            Bitmap resized = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+            using (Graphics graphics = Graphics.FromImage(resized))
+            {
+                graphics.InterpolationMode = InterpolationMode.Low;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+
+            return resized;
+        }
+
+        private Bitmap CreateDarkBlurPreview(Bitmap image)
+        {
+            Bitmap blurred = BlurImageFast(image);
+
+            using (Graphics graphics = Graphics.FromImage(blurred))
+            using (SolidBrush shade = new SolidBrush(Color.FromArgb(BlurDarkOverlayAlpha, 0, 0, 0)))
+            {
+                graphics.CompositingMode = CompositingMode.SourceOver;
+                graphics.FillRectangle(shade, 0, 0, blurred.Width, blurred.Height);
+            }
+
+            return blurred;
+        }
+
+        private Bitmap BlurImageFast(Bitmap image)
+        {
+            const int bytesPerPixel = 4;
+            int width = image.Width;
+            int height = image.Height;
+            int rowBytes = width * bytesPerPixel;
+
+            Bitmap blurred = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            BitmapData sourceData = null;
+            BitmapData destinationData = null;
+
+            try
+            {
+                Rectangle bounds = new Rectangle(0, 0, width, height);
+                sourceData = image.LockBits(bounds, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                destinationData = blurred.LockBits(bounds, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+                byte[] sourcePixels = new byte[rowBytes * height];
+                byte[] resultPixels = new byte[sourcePixels.Length];
+
+                // Copy by row so both positive and negative bitmap strides work.
+                for (int y = 0; y < height; y++)
+                {
+                    IntPtr sourceRow = IntPtr.Add(sourceData.Scan0, y * sourceData.Stride);
+                    Marshal.Copy(sourceRow, sourcePixels, y * rowBytes, rowBytes);
+                }
+
+                // Preserve the image edges instead of leaving transparent/black borders.
+                Buffer.BlockCopy(sourcePixels, 0, resultPixels, 0, sourcePixels.Length);
+
+                // Small 3x3 box blur. The image has already been reduced to 1/4 size,
+                // so this work is inexpensive and does not block the UI for long.
+                for (int y = 1; y < height - 1; y++)
+                {
+                    for (int x = 1; x < width - 1; x++)
+                    {
+                        int blue = 0;
+                        int green = 0;
+                        int red = 0;
+
+                        for (int fy = -1; fy <= 1; fy++)
+                        {
+                            int rowOffset = (y + fy) * rowBytes;
+
+                            for (int fx = -1; fx <= 1; fx++)
+                            {
+                                int offset = rowOffset + ((x + fx) * bytesPerPixel);
+                                blue += sourcePixels[offset];
+                                green += sourcePixels[offset + 1];
+                                red += sourcePixels[offset + 2];
+                            }
+                        }
+
+                        int targetOffset = (y * rowBytes) + (x * bytesPerPixel);
+                        resultPixels[targetOffset] = (byte)(blue / 9);
+                        resultPixels[targetOffset + 1] = (byte)(green / 9);
+                        resultPixels[targetOffset + 2] = (byte)(red / 9);
+                        resultPixels[targetOffset + 3] = sourcePixels[targetOffset + 3];
+                    }
+                }
+
+                for (int y = 0; y < height; y++)
+                {
+                    IntPtr destinationRow = IntPtr.Add(destinationData.Scan0, y * destinationData.Stride);
+                    Marshal.Copy(resultPixels, y * rowBytes, destinationRow, rowBytes);
+                }
+
+                return blurred;
+            }
+            catch
+            {
+                blurred.Dispose();
+                throw;
+            }
+            finally
+            {
+                if (destinationData != null)
+                    blurred.UnlockBits(destinationData);
+
+                if (sourceData != null)
+                    image.UnlockBits(sourceData);
+            }
+        }
+
+        private void ReleaseBlurPopupImage()
+        {
+            if (_blurPopupPictureBox != null && !_blurPopupPictureBox.IsDisposed)
+            {
+                _blurPopupPictureBox.Visible = false;
+                _blurPopupPictureBox.Image = null;
+            }
+
+            if (_blurPopupImage != null)
+            {
+                _blurPopupImage.Dispose();
+                _blurPopupImage = null;
+            }
+        }
+
+        private void FrmPartyBooking_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _activeBlurPopupPanels.Clear();
+            ReleaseBlurPopupImage();
+
+            if (_blurPopupPictureBox != null)
+            {
+                Controls.Remove(_blurPopupPictureBox);
+                _blurPopupPictureBox.Dispose();
+                _blurPopupPictureBox = null;
+            }
+        }
+
+        #endregion
+
 
         public void SetCalendarBookingStart(DateTime startDateTime)
         {
