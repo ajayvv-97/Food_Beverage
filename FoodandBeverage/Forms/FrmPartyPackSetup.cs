@@ -1015,6 +1015,8 @@ namespace FoodandBeverage.Forms
                         return false;
                     }
                 }
+                if (string.IsNullOrWhiteSpace(txtadultprice.Text))
+                    txtadultprice.Text = "0";
 
                 if (string.IsNullOrWhiteSpace(txtDisPer.Text))
                     txtDisPer.Text = "0";
@@ -1029,7 +1031,7 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
 
-                if (Convert.ToDecimal(txtadultprice.Text) < 0)
+                if (Convert.ToDecimal(txtadultprice.Text) < 0 && !chkfixedprice.Checked)
                 {
                     CMessageBox.Show("Please Enter Valid Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtadultprice.Focus();
