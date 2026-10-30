@@ -4656,6 +4656,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                // Lock the adult and child price fields whenever fixed price is enabled.
+                txtadultprice.ReadOnly = chkfixedprice.Checked;
+                txtchildprice.ReadOnly = chkfixedprice.Checked;
+
                 if (chkfixedprice.Checked)
                 {
                     txt_adultcount.ReadOnly = false;
