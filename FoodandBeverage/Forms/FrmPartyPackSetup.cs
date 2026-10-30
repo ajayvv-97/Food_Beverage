@@ -4714,11 +4714,16 @@ namespace FoodandBeverage.Forms
 
             txt_adultcount.Text = adultCount.ToString();
             txt_childcount.Text = childCount.ToString();
+
+            // Check fixed price when any fixed-price textbox contains a value greater than zero.
+            UpdateFixedPriceCheckboxFromValues();
             pnl_fdprice_pack.Visible = false;
         }
 
         private void btn_close_fixedprice_Click(object sender, EventArgs e)
         {
+            // Keep the checkbox in sync with the current fixed-price values.
+            UpdateFixedPriceCheckboxFromValues();
             pnl_fdprice_pack.Visible = false;
         }
 
