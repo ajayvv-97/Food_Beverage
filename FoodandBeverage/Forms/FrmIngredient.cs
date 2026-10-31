@@ -206,7 +206,7 @@ namespace FoodandBeverage.Forms
                                 dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
                                 dmnincr.ProductType = chk_PackagingRequired.Checked
                                     ? GetInventoryItemCategoryId(dgv_registartion.Rows[i].Cells[RCategorytypeno].Value)
-                                    : Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                                    : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
                                 dmnincr.Deductionstage = cmb_FoodPreparationType.SelectedIndex == 2
                                     ? GetDeductionStageId(dgv_registartion.Rows[i].Cells[RDeductionstageno].Value)
                                     : 0;
@@ -1091,7 +1091,7 @@ namespace FoodandBeverage.Forms
                             dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value = Convert.ToInt32(gridSource_pro[i].Field5);
                             dgv_registartion.Rows[i].Cells[RCategorytypeno].Value = chk_PackagingRequired.Checked
                                 ? GetInventoryItemCategoryId(gridSource_pro[i].Field8)
-                                : Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                                : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
 
                             int deductionStageId = GetDeductionStageId(gridSource_pro[i].Field7);
                             if (cmb_FoodPreparationType.SelectedIndex == 2 && deductionStageId > 0)
@@ -3914,14 +3914,14 @@ namespace FoodandBeverage.Forms
                 DataTable categories = new DataTable();
                 categories.Columns.Add("Id", typeof(int));
                 categories.Columns.Add("Name", typeof(string));
-                categories.Rows.Add(Convert.ToInt32(InventoryItemCategory.RawMaterial), "Raw Material");
-                categories.Rows.Add(Convert.ToInt32(InventoryItemCategory.PackagingMaterial), "Packaging Material");
+                categories.Rows.Add(Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial), "Raw Material");
+                categories.Rows.Add(Convert.ToInt32(Interfaces.InventoryItemCategory.PackagingMaterial), "Packaging Material");
 
                 categoryColumn.ValueMember = "Id";
                 categoryColumn.DisplayMember = "Name";
                 categoryColumn.ValueType = typeof(int);
                 categoryColumn.DataSource = categories;
-                categoryColumn.DefaultCellStyle.NullValue = Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                categoryColumn.DefaultCellStyle.NullValue = Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
                 categoryColumn.Visible = chk_PackagingRequired.Checked;
             }
             catch (Exception ex)
@@ -3937,13 +3937,13 @@ namespace FoodandBeverage.Forms
             if (value == null || value == DBNull.Value ||
                 !int.TryParse(Convert.ToString(value), out categoryId))
             {
-                return Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                return Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
             }
 
-            if (categoryId != Convert.ToInt32(InventoryItemCategory.RawMaterial) &&
-                categoryId != Convert.ToInt32(InventoryItemCategory.PackagingMaterial))
+            if (categoryId != Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial) &&
+                categoryId != Convert.ToInt32(Interfaces.InventoryItemCategory.PackagingMaterial))
             {
-                return Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                return Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
             }
 
             return categoryId;
@@ -3969,7 +3969,7 @@ namespace FoodandBeverage.Forms
                         continue;
 
                     if (!chk_PackagingRequired.Checked || row.Cells[RCategorytypeno].Value == null)
-                        row.Cells[RCategorytypeno].Value = Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                        row.Cells[RCategorytypeno].Value = Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
                     else
                         row.Cells[RCategorytypeno].Value = GetInventoryItemCategoryId(row.Cells[RCategorytypeno].Value);
                 }
@@ -3995,7 +3995,7 @@ namespace FoodandBeverage.Forms
                     DataGridViewRow row = dgv_registartion.Rows[i];
                     if (!row.IsNewRow && row.Cells[RCategorytypeno].Value == null)
                     {
-                        row.Cells[RCategorytypeno].Value = Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                        row.Cells[RCategorytypeno].Value = Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
                     }
                 }
             }
