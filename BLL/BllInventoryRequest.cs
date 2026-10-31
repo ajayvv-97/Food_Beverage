@@ -9,58 +9,6 @@ namespace BLL
 {
     public class BllInventoryRequest
     {
-        public List<DmnInventoryRequestItem> SearchProducts(string search)
-        {
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
-                return connection.Query<DmnInventoryRequestItem>(
-                    @"SELECT p.ProductId AS ItemId, p.Product AS ItemName,
-                             CAST(0 AS DECIMAL(18,2)) AS CurrentStock, CAST(1 AS INT) AS ProductType
-                      FROM dbo.tblProduct p
-                      WHERE ISNULL(p.Status,1) <> 0 AND (@Search = '' OR p.Product LIKE '%' + @Search + '%')
-                      ORDER BY p.Product",
-                    new { Search = search ?? string.Empty }).ToList();
-        }
-
-        public List<DmnInventoryRequestItem> SearchRawMaterials(string search)
-        {
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
-                return connection.Query<DmnInventoryRequestItem>(
-                    @"SELECT CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName,
-                             ISNULL(pr.QOH,0) AS CurrentStock, i.unit AS UnitId, CAST(2 AS INT) AS ProductType
-                      FROM dbo.tblItem i
-                      OUTER APPLY
-                      (
-                          SELECT TOP (1) r.QOH FROM dbo.tblProductRate r
-                          WHERE r.ProductId = i.ItemId AND ISNULL(r.ProductType,0) = 0 ORDER BY r.Id DESC
-                      ) pr
-                      WHERE ISNULL(i.Saletype,0) = 0 AND ISNULL(i.Status,1) <> 0
-                        AND (@Search = '' OR i.Itemname LIKE '%' + @Search + '%')
-                      ORDER BY i.Itemname",
-                    new { Search = search ?? string.Empty }).ToList();
-        }
-
-        public List<DmnInventoryRequestIngredient> GetProductIngredients(int productId, decimal plannedQty)
-        {
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestIngredient>.OpenConnection())
-                return connection.Query<DmnInventoryRequestIngredient>(
-                    @"SELECT d.Ing_DetailsId AS IngredientDetailId, d.ItemId, i.Itemname AS IngredientName,
-                             ISNULL(d.quantity,0) AS PerPortionQty,
-                             ISNULL(d.quantity,0) * @PlannedQty AS TotalRequiredQty, d.Unit AS UnitId,
-                             ISNULL(pr.QOH,0) AS CurrentStock,
-                             ISNULL(pr.QOH,0) - ISNULL(d.quantity,0) * @PlannedQty AS ProjectedBalance,
-                             d.ProductId
-                      FROM dbo.tblIngredientDetails d
-                      LEFT JOIN dbo.tblItem i ON i.ItemId = d.ItemId
-                      OUTER APPLY
-                      (
-                          SELECT TOP (1) r.QOH FROM dbo.tblProductRate r
-                          WHERE r.ProductId = d.ItemId AND ISNULL(r.ProductType,0) = 0 ORDER BY r.Id DESC
-                      ) pr
-                      WHERE d.ProductId = @ProductId AND ISNULL(d.Status,1) <> 0
-                      ORDER BY d.Ing_DetailsId",
-                    new { ProductId = productId, PlannedQty = plannedQty }).ToList();
-        }
-
         public DmnInventoryRequestMaster AddMasterData(string procedureName, DmnInventoryRequestMaster objMaster)
         {
             if (objMaster == null)
