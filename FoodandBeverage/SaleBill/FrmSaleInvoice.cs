@@ -1063,11 +1063,17 @@ namespace FoodandBeverage.SaleBill
 
                 if (BillTypeData == Convert.ToInt32(BillType.Partybill))
                 {
-                    string x = RPTPath + @"CR_PartyBill_TH.rpt";
-                    if (rb_th.Checked)
-                        nextReportDocument.Load(RPTPath + @"CR_PartyBill_TH.rpt");
-                    else if(rb_a4.Checked)
-                        nextReportDocument.Load(RPTPath + @"CR_PartyBill_A4.rpt");
+                    string reportFileName = rb_th.Checked
+                        ? "CR_PartyBill_TH.rpt"
+                        : "CR_PartyBill_A4.rpt";
+                    string partyReportPath = Path.Combine(RPTPath ?? string.Empty, reportFileName);
+
+                    // Fail clearly when the selected layout is not deployed instead of
+                    // silently leaving the previous thermal receipt on screen.
+                    if (!File.Exists(partyReportPath))
+                        throw new FileNotFoundException("The selected party bill report was not found: " + partyReportPath, partyReportPath);
+
+                    nextReportDocument.Load(partyReportPath);
                 }
 
                 nextReportDocument.SetDataSource(dsReport);
@@ -1114,6 +1120,11 @@ namespace FoodandBeverage.SaleBill
                     crvSalesBill.ReportSource = reportDocument;
                     crvSalesBill.RefreshReport();
                     nextReportDocument = null;
+                    _loadedThermalFormat = rb_th.Checked;
+
+                    // Resize only after the new report is loaded and assigned, so a failed
+                    // A4 load cannot leave the invoice form in the wrong layout size.
+                    ApplyBillFormatFormSize(_loadedThermalFormat);
                 }
                 finally
                 {
@@ -1144,6 +1155,11 @@ namespace FoodandBeverage.SaleBill
                 }
 
                 clsgen.LogException("Addon page PrintPartyBill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
+
+                // Restore the format selector to the report that is still displayed.
+                UpdateBillFormatSelection(_loadedThermalFormat);
+                ApplyBillFormatFormSize(_loadedThermalFormat);
+                CMessageBox.Show("Unable to load the selected party bill format. " + ex.Message);
                 // Keep the previously displayed report visible if rebuilding the selected format fails.
             }
         }
@@ -1753,6 +1769,49 @@ namespace FoodandBeverage.SaleBill
         }
 
         private bool _isSwitchingBillFormat;
+        private bool _loadedThermalFormat = true;
+
+        private void ApplyBillFormatFormSize(bool thermalSelected)
+        {
+            if (Fdefaultwidth <= 0 || Fdefaultheight <= 0)
+                return;
+
+            Rectangle workArea = Screen.FromControl(this).WorkingArea;
+            int targetWidth = Fdefaultwidth;
+            int targetHeight = Fdefaultheight;
+
+            if (!thermalSelected)
+            {
+                // A4 preview needs a larger viewing area, but must remain inside the
+                // current monitor's usable bounds (including 1024x768 POS screens).
+                targetWidth = Math.Min(workArea.Width - 24,
+                    Math.Max(Fdefaultwidth, (int)(workArea.Width * 0.82)));
+                targetHeight = Math.Min(workArea.Height - 24,
+                    Math.Max(Fdefaultheight, (int)(workArea.Height * 0.90)));
+            }
+
+            targetWidth = Math.Max(640, targetWidth);
+            targetHeight = Math.Max(480, targetHeight);
+            if (targetWidth == Width && targetHeight == Height)
+                return;
+
+            SuspendLayout();
+            try
+            {
+                SetBounds(
+                    workArea.Left + (workArea.Width - targetWidth) / 2,
+                    workArea.Top + (workArea.Height - targetHeight) / 2,
+                    targetWidth,
+                    targetHeight,
+                    BoundsSpecified.Location | BoundsSpecified.Size);
+            }
+            finally
+            {
+                ResumeLayout(true);
+            }
+
+            Invalidate(true);
+        }
 
         private void ApplyUserBillFormatSelection(bool thermalSelected)
         {
@@ -1768,8 +1827,8 @@ namespace FoodandBeverage.SaleBill
             _isSwitchingBillFormat = true;
             try
             {
-                // Keep the form and Crystal viewer bounds unchanged to avoid native-window
-                // resize flicker and layout jumps during A4 <-> thermal switching.
+                // Rebuild the selected report first; the form size changes only after
+                // Crystal has accepted the replacement report.
                 PrintPartyBill();
             }
             finally
