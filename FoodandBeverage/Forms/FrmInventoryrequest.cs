@@ -95,8 +95,28 @@ namespace FoodandBeverage.Forms
         }
 
         #region Tab
-        private void btn_batch_tab_Click(object sender, EventArgs e) { ShowRequestTab(1); }
-        private void btn_raw_tab_Click(object sender, EventArgs e) { ShowRequestTab(2); }
+        private void btn_batch_tab_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ShowRequestTab(1);
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_batch_tab_Click", ex);
+            }
+        }
+        private void btn_raw_tab_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ShowRequestTab(2);
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_raw_tab_Click", ex);
+            }
+        }
 
         private void ShowRequestTab(int requestType)
         {
@@ -166,7 +186,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Bitemidno].Value = selected.ItemId;
                 LoadIngredientsForRow(row);
             }
-            catch (Exception ex) { ShowError("Unable to load batch products. " + ex.Message); }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest SelectAndAddBatchProduct", ex); ShowError("Unable to load batch products. " + ex.Message); }
         }
 
         private void LoadIngredientsForCurrentBatchRow()
@@ -261,7 +281,7 @@ namespace FoodandBeverage.Forms
                     "Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ResetRequest();
             }
-            catch (Exception ex) { ShowError("Unable to save inventory request. " + ex.Message); }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_saverequest_Click", ex); ShowError("Unable to save inventory request. " + ex.Message); }
         }
 
         private List<DmnInventoryRequestItem> BuildRequestDetails()
@@ -337,7 +357,7 @@ namespace FoodandBeverage.Forms
                         txt_reqno.Text = Convert.ToString(grid.CurrentRow.Cells["RequestNo"].Value);
                 }
             }
-            catch (Exception ex) { ShowError("Unable to search requests. " + ex.Message); }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest btnSearchrequest_Click", ex); ShowError("Unable to search requests. " + ex.Message); }
         }
 
         private void btnrefresh_Click(object sender, EventArgs e) { ResetRequest(); }
@@ -402,7 +422,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Ritemidno].Value = selected.ItemId;
                 row.Cells[Rproducttypeno].Value = 2;
             }
-            catch (Exception ex) { ShowError("Unable to load raw materials. " + ex.Message); }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest SelectAndAddRawMaterial", ex); ShowError("Unable to load raw materials. " + ex.Message); }
         }
 
         private void dgv_raw_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -489,6 +509,19 @@ namespace FoodandBeverage.Forms
         private static void RenumberRows(DataGridView grid, int slnoColumn)
         {
             for (int i = 0; i < grid.Rows.Count; i++) grid.Rows[i].Cells[slnoColumn].Value = i + 1;
+        }
+
+        private static void LogInventoryException(string eventName, Exception ex)
+        {
+            try
+            {
+                clsgen.LogException("Product page " + eventName, ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+            catch
+            {
+                // Logging must not interrupt the inventory request workflow.
+            }
         }
 
         private static void ShowError(string message)
