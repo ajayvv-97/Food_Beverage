@@ -250,7 +250,7 @@ namespace FoodandBeverage.Forms
                     DepartmentId = GetComboId(cmb_req_department),
                     EmployeeId = GetComboId(cmb_req_employee),
                     Remarks = txtremarks.Text.Trim(),
-                    RequestType = dgv_batch.Rows.Count > 0 && dgv_raw.Rows.Count > 0 ? 3 : (_activeRequestType),
+                    RequestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2) ? 3 : details[0].RequestType,
                     CreatedBy = GetComboId(cmb_req_employee) ?? 0,
                     BranchId = 0,
                     Status = 1
