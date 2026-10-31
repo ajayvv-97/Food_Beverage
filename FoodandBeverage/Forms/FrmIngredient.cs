@@ -27,6 +27,7 @@ namespace FoodandBeverage.Forms
         {
             InitializeComponent();
             ConfigureInventoryItemCategoryColumn();
+            ConfigureIngredientUnitColumn();
             chk_PackagingRequired.CheckedChanged += chk_PackagingRequired_CheckedChanged;
             dgv_registartion.RowsAdded += dgv_registartion_RowsAdded;
             dgv_registartion.CellClick += dgv_registartion_ItemCellClick;
@@ -2249,6 +2250,11 @@ namespace FoodandBeverage.Forms
                                 dgv_registartion.Rows[rowno].Cells[Rslno].Value = rowno + 1;
                                 dgv_registartion.Rows[rowno].Cells[Ritemno].Value = gridSource1[0].Itemname;
                                 dgv_registartion.Rows[rowno].Cells[Ritemidno].Value = gridSource1[0].ItemId;
+
+                                // Always use tblItem.Baseunit for raw materials; do not let staff select
+                                // a different unit. This keeps recipe quantities consistent with conversion.
+                                dgv_registartion.Rows[rowno].Cells[Runitno].Value = gridSource1[0].Baseunit;
+                                dgv_registartion.Rows[rowno].Cells[Runitno].ReadOnly = true;
                                 dgv_registartion.Rows[rowno].Cells[Ritemno].Style.ForeColor = Color.Black;
                             }
                         }
@@ -4030,6 +4036,31 @@ namespace FoodandBeverage.Forms
 
 
         #endregion
+
+        /// <summary>
+        /// Ingredient units are derived from the selected raw material's Baseunit.
+        /// Staff must not manually change the unit because quantities are stored in this unit.
+        /// </summary>
+        private void ConfigureIngredientUnitColumn()
+        {
+            try
+            {
+                if (dgv_registartion.Columns.Count <= Runitno)
+                    return;
+
+                DataGridViewColumn unitColumn = dgv_registartion.Columns[Runitno];
+                unitColumn.ReadOnly = true;
+                unitColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+                unitColumn.DefaultCellStyle.BackColor = SystemColors.Control;
+                unitColumn.DefaultCellStyle.ForeColor = SystemColors.ControlText;
+                unitColumn.ToolTipText = "Unit is automatically taken from the selected raw material's Base Unit.";
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page ConfigureIngredientUnitColumn()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
 
         private void ConfigureInventoryItemCategoryColumn()
         {
