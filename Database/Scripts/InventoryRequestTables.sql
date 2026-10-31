@@ -11,7 +11,7 @@ BEGIN
         DepartmentId INT NULL,
         EmployeeId INT NULL,
         Remarks VARCHAR(MAX) NULL,
-        RequestType INT NOT NULL, -- 1 = Batch preparation, 2 = Raw material
+        RequestType INT NOT NULL, -- 1 = Batch, 2 = Raw material, 3 = mixed request
         CreatedBy INT NULL,
         CreatedOn DATETIME NULL,
         ModifiedBy INT NULL,
