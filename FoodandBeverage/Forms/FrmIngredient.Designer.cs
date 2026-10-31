@@ -2450,7 +2450,7 @@ namespace FoodandBeverage.Forms
             // cmb_unit
             // 
             this.cmb_unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cmb_unit.HeaderText = "cmb_unit";
+            this.cmb_unit.HeaderText = "Unit";
             this.cmb_unit.MinimumWidth = 6;
             this.cmb_unit.Name = "cmb_unit";
             this.cmb_unit.Width = 80;

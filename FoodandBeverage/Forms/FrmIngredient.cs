@@ -698,7 +698,7 @@ namespace FoodandBeverage.Forms
                 cmbSearchlist.ValueMember = "Id";
                 cmbSearchlist.DisplayMember = "Value";
 
-                objSearch.Select = " UId,UnitName";
+                objSearch.Select = "UId AS Id, UnitName AS Value";
                 objSearch.Table = " tblUnit";
                 objSearch.WhereNdGroupBy = "where status=1";
                 objSearch.OrderBy = "";
@@ -706,6 +706,7 @@ namespace FoodandBeverage.Forms
                 cmb_unit.DataSource = gridSource1;
                 cmb_unit.ValueMember = "Id";
                 cmb_unit.DisplayMember = "Value";
+                cmb_unit.ValueType = typeof(long);
 
                 objSearch.Select = "fcid id ,CategoryName Value";
                 objSearch.Table = " tblCategory_FTI";
@@ -1188,8 +1189,8 @@ namespace FoodandBeverage.Forms
                             ? (object)null
                             : Convert.ToString(ingredient.Field3);
 
-                        int unitId;
-                        if (int.TryParse(Convert.ToString(ingredient.Field4), out unitId) && unitId > 0)
+                        long unitId;
+                        if (long.TryParse(Convert.ToString(ingredient.Field4), out unitId) && unitId > 0)
                             row.Cells[Runitno].Value = unitId;
 
                         int detailId;
