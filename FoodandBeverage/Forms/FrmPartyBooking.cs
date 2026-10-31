@@ -8771,6 +8771,9 @@ namespace FoodandBeverage
 
         private void txtAdults_Click(object sender, EventArgs e)
         {
+            if (_fixedPriceStatus || !txtAdults.Enabled)
+                return;
+
             decimal kdata = 0;
             using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
             {
@@ -8789,6 +8792,9 @@ namespace FoodandBeverage
 
         private void txtChild_Click(object sender, EventArgs e)
         {
+            if (_fixedPriceStatus || !txtChild.Enabled)
+                return;
+
             decimal kdata = 0;
             using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
             {
