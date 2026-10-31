@@ -680,6 +680,7 @@ namespace FoodandBeverage.SaleBill
 
         public void PrintPartyBill()
         {
+            ReportDocument nextReportDocument = null;
             try
             {
                 #region INITIAL SETUP
@@ -691,17 +692,9 @@ namespace FoodandBeverage.SaleBill
 
                 var invpayment = new List<DmnGridFields>();
 
-                if (crvSalesBill.ReportSource != null)
-                    crvSalesBill.ReportSource = null;
-
-                if (reportDocument != null)
-                {
-                    reportDocument.Close();
-                    reportDocument.Dispose();
-                    reportDocument = null;
-                }
-
-                reportDocument = new ReportDocument();
+                // Build the replacement report separately. Keep the currently displayed
+                // report alive until the new report is fully loaded and exported.
+                nextReportDocument = new ReportDocument();
 
                 DataSet dsReport = new DataSet();
 
@@ -1072,40 +1065,40 @@ namespace FoodandBeverage.SaleBill
                 {
                     string x = RPTPath + @"CR_PartyBill_TH.rpt";
                     if (rb_th.Checked)
-                        reportDocument.Load(RPTPath + @"CR_PartyBill_TH.rpt");
+                        nextReportDocument.Load(RPTPath + @"CR_PartyBill_TH.rpt");
                     else if(rb_a4.Checked)
-                        reportDocument.Load(RPTPath + @"CR_PartyBill_A4.rpt");
+                        nextReportDocument.Load(RPTPath + @"CR_PartyBill_A4.rpt");
                 }
 
-                reportDocument.SetDataSource(dsReport);
+                nextReportDocument.SetDataSource(dsReport);
 
                 if (GstBillflag)
-                    reportDocument.SetParameterValue("Gstbill", 1);
+                    nextReportDocument.SetParameterValue("Gstbill", 1);
                 else
-                    reportDocument.SetParameterValue("Gstbill", 0);
+                    nextReportDocument.SetParameterValue("Gstbill", 0);
 
                 if (rb_th.Checked)
                 {
-                    reportDocument.SetParameterValue("payname", payname);
-                    reportDocument.SetParameterValue("cashamount", cashamount);
-                    reportDocument.SetParameterValue("otheramount", otheramount);
+                    nextReportDocument.SetParameterValue("payname", payname);
+                    nextReportDocument.SetParameterValue("cashamount", cashamount);
+                    nextReportDocument.SetParameterValue("otheramount", otheramount);
 
-                    reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
-                    reportDocument.SetParameterValue("footermsg", FooterMsg);
+                    nextReportDocument.SetParameterValue("SPLIT_TYPE", splittype);
+                    nextReportDocument.SetParameterValue("footermsg", FooterMsg);
 
-                    reportDocument.SetParameterValue("smid", SalesMasterId);
+                    nextReportDocument.SetParameterValue("smid", SalesMasterId);
 
-                    reportDocument.SetParameterValue("RecvAmt", lastReceivedAmount);
-                    reportDocument.SetParameterValue("BalAmt", totalAdvanceAmount);
+                    nextReportDocument.SetParameterValue("RecvAmt", lastReceivedAmount);
+                    nextReportDocument.SetParameterValue("BalAmt", totalAdvanceAmount);
 
                     string imgpath = FrmLogin.logoPath + @"sblogo.png";
                     if (File.Exists(imgpath))
                     {
-                        reportDocument.SetParameterValue("Logopath", imgpath);
+                        nextReportDocument.SetParameterValue("Logopath", imgpath);
                     }
                     else
                     {
-                        reportDocument.SetParameterValue("Logopath", string.Empty);
+                        nextReportDocument.SetParameterValue("Logopath", string.Empty);
                     }
 
                 }
@@ -1113,20 +1106,45 @@ namespace FoodandBeverage.SaleBill
 
                 #region SHOW + EXPORT
 
-                crvSalesBill.ReportSource = reportDocument;
+                ReportDocument previousReport = reportDocument;
+                crvSalesBill.SuspendLayout();
+                try
+                {
+                    reportDocument = nextReportDocument;
+                    crvSalesBill.ReportSource = reportDocument;
+                    crvSalesBill.RefreshReport();
+                    nextReportDocument = null;
+                }
+                finally
+                {
+                    crvSalesBill.ResumeLayout(true);
+                }
+
+                if (previousReport != null && !ReferenceEquals(previousReport, reportDocument))
+                {
+                    try { previousReport.Close(); } catch { }
+                    try { previousReport.Dispose(); } catch { }
+                }
+
                 string pdfFolder = Application.StartupPath + "\\Bill_pdf";
                 if (!Directory.Exists(pdfFolder))
                     Directory.CreateDirectory(pdfFolder);
 
                 pdfPath = Path.Combine(pdfFolder, "Bill.pdf");
-                reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, pdfPath);
+                nextReportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, pdfPath);
 
                 #endregion
             }
             catch (Exception ex)
             {
+                if (nextReportDocument != null)
+                {
+                    try { nextReportDocument.Close(); } catch { }
+                    try { nextReportDocument.Dispose(); } catch { }
+                }
+
                 clsgen.LogException("Addon page PrintPartyBill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Keep the previously displayed report visible if rebuilding the selected format fails.
             }
         }
         #endregion
@@ -1251,7 +1269,6 @@ namespace FoodandBeverage.SaleBill
                 }
                 else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
                 {
-                    ApplyFormSize();
                     ReportDocument reportDocument = crvSalesBill.ReportSource as ReportDocument;
                     reportDocument.PrintToPrinter(1, false, 0, 0);
                 }
@@ -1735,11 +1752,30 @@ namespace FoodandBeverage.SaleBill
                 ApplyUserBillFormatSelection(false);
         }
 
+        private bool _isSwitchingBillFormat;
+
         private void ApplyUserBillFormatSelection(bool thermalSelected)
         {
+            if (_isSwitchingBillFormat)
+                return;
+
+            bool formatChanged = rb_th.Checked != thermalSelected;
             UpdateBillFormatSelection(thermalSelected);
-            ApplyFormSize();
-            PrintPartyBill();
+
+            if (!formatChanged)
+                return;
+
+            _isSwitchingBillFormat = true;
+            try
+            {
+                // Keep the form and Crystal viewer bounds unchanged to avoid native-window
+                // resize flicker and layout jumps during A4 <-> thermal switching.
+                PrintPartyBill();
+            }
+            finally
+            {
+                _isSwitchingBillFormat = false;
+            }
         }
 
         private void UpdateBillFormatSelection(bool thermalSelected)
