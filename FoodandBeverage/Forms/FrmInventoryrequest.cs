@@ -21,6 +21,69 @@ namespace FoodandBeverage.Forms
 
         ClsGeneral clsgen = new ClsGeneral();
 
+        #region Database Search Helpers
+        private List<DmnInventoryRequestItem> SearchBatchProducts(string search)
+        {
+            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
+            {
+                return connection.Query<DmnInventoryRequestItem>(
+                    @"SELECT p.ProductId AS ItemId, p.Product AS ItemName,
+                             CAST(0 AS DECIMAL(18,2)) AS CurrentStock, CAST(1 AS INT) AS ProductType
+                      FROM dbo.tblProduct p
+                      WHERE ISNULL(p.Status,1) <> 0
+                        AND (@Search = '' OR p.Product LIKE '%' + @Search + '%')
+                      ORDER BY p.Product",
+                    new { Search = search ?? string.Empty }).ToList();
+            }
+        }
+
+        private List<DmnInventoryRequestItem> SearchRawMaterialItems(string search)
+        {
+            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
+            {
+                return connection.Query<DmnInventoryRequestItem>(
+                    @"SELECT CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName,
+                             ISNULL(pr.QOH,0) AS CurrentStock, i.unit AS UnitId, CAST(2 AS INT) AS ProductType
+                      FROM dbo.tblItem i
+                      OUTER APPLY
+                      (
+                          SELECT TOP (1) r.QOH FROM dbo.tblProductRate r
+                          WHERE r.ProductId = i.ItemId AND ISNULL(r.ProductType,0) = 0
+                          ORDER BY r.Id DESC
+                      ) pr
+                      WHERE ISNULL(i.Saletype,0) = 0 AND ISNULL(i.Status,1) <> 0
+                        AND (@Search = '' OR i.Itemname LIKE '%' + @Search + '%')
+                      ORDER BY i.Itemname",
+                    new { Search = search ?? string.Empty }).ToList();
+            }
+        }
+
+        private List<DmnInventoryRequestIngredient> LoadProductIngredients(int productId, decimal plannedQty)
+        {
+            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestIngredient>.OpenConnection())
+            {
+                return connection.Query<DmnInventoryRequestIngredient>(
+                    @"SELECT d.Ing_DetailsId AS IngredientDetailId, d.ItemId, i.Itemname AS IngredientName,
+                             ISNULL(d.quantity,0) AS PerPortionQty,
+                             ISNULL(d.quantity,0) * @PlannedQty AS TotalRequiredQty, d.Unit AS UnitId,
+                             ISNULL(pr.QOH,0) AS CurrentStock,
+                             ISNULL(pr.QOH,0) - ISNULL(d.quantity,0) * @PlannedQty AS ProjectedBalance,
+                             d.ProductId
+                      FROM dbo.tblIngredientDetails d
+                      LEFT JOIN dbo.tblItem i ON i.ItemId = d.ItemId
+                      OUTER APPLY
+                      (
+                          SELECT TOP (1) r.QOH FROM dbo.tblProductRate r
+                          WHERE r.ProductId = d.ItemId AND ISNULL(r.ProductType,0) = 0
+                          ORDER BY r.Id DESC
+                      ) pr
+                      WHERE d.ProductId = @ProductId AND ISNULL(d.Status,1) <> 0
+                      ORDER BY d.Ing_DetailsId",
+                    new { ProductId = productId, PlannedQty = plannedQty }).ToList();
+            }
+        }
+        #endregion
+
         #region Grid Declaration
         // Batch product grid
         public int Bslno = 0;
@@ -207,7 +270,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                List<DmnInventoryRequestItem> products = _inventoryBll.SearchProducts(txtsearch_batch.Text.Trim());
+                List<DmnInventoryRequestItem> products = SearchBatchProducts(txtsearch_batch.Text.Trim());
                 DmnInventoryRequestItem selected = ShowItemPicker("Select batch preparation product", products);
                 if (selected == null) return;
 
@@ -256,7 +319,7 @@ namespace FoodandBeverage.Forms
             if (productRow == null || productRow.IsNewRow) return;
             int productId = Convert.ToInt32(productRow.Cells[Bitemidno].Value);
             decimal plannedQty = Math.Max(0m, ToDecimal(productRow.Cells[Bplannedqtyno].Value));
-            List<DmnInventoryRequestIngredient> ingredients = _inventoryBll.GetProductIngredients(productId, plannedQty);
+            List<DmnInventoryRequestIngredient> ingredients = LoadProductIngredients(productId, plannedQty);
 
             _loadingGrid = true;
             try
@@ -530,7 +593,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                List<DmnInventoryRequestItem> items = _inventoryBll.SearchRawMaterials(txtsearch_raw.Text.Trim());
+                List<DmnInventoryRequestItem> items = SearchRawMaterialItems(txtsearch_raw.Text.Trim());
                 DmnInventoryRequestItem selected = ShowItemPicker("Select raw material", items);
                 if (selected == null) return;
                 foreach (DataGridViewRow existing in dgv_raw.Rows)
