@@ -194,19 +194,92 @@ namespace BLL
             }
         }
 
-        public List<DmnInventoryRequestMaster> SearchRequests(string search)
+        public int Update(DmnInventoryRequestMaster master, IList<DmnInventoryRequestItem> details)
         {
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+            if (master == null)
             {
-                return connection.Query<DmnInventoryRequestMaster>(
-                    @"SELECT InventoryRequestId AS RequestId, RequestNo, RequestDate, RequiredDate,
-                             DepartmentId, EmployeeId, Remarks, RequestType, CreatedBy, CreatedOn,
-                             ModifiedBy, ModifiedOn, BranchId, Status
-                      FROM dbo.tblInventoryRequestMaster
-                      WHERE (@Search = '' OR RequestNo LIKE '%' + @Search + '%')
-                      ORDER BY InventoryRequestId DESC",
-                    new { Search = search ?? string.Empty }).ToList();
+                throw new ArgumentNullException(nameof(master));
+            }
+
+            if (master.RequestId <= 0)
+            {
+                throw new ArgumentException("A valid request ID is required to update an inventory request.", nameof(master));
+            }
+
+            if (details == null || details.Count == 0)
+            {
+                throw new InvalidOperationException("Add at least one batch product or raw material before updating the request.");
+            }
+
+            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+            using (IDbTransaction transaction = connection.BeginTransaction())
+            {
+                try
+                {
+                    connection.Execute(
+                        @"UPDATE dbo.tblInventoryRequestMaster
+                          SET RequestNo = @RequestNo,
+                              RequestDate = @RequestDate,
+                              RequiredDate = @RequiredDate,
+                              DepartmentId = @DepartmentId,
+                              EmployeeId = @EmployeeId,
+                              Remarks = @Remarks,
+                              RequestType = @RequestType,
+                              ModifiedBy = @ModifiedBy,
+                              ModifiedOn = GETDATE(),
+                              BranchId = @BranchId,
+                              Status = @Status
+                          WHERE InventoryRequestId = @RequestId",
+                        master, transaction);
+
+                    connection.Execute(
+                        "DELETE FROM dbo.tblInventoryRequestDetails WHERE InventoryRequestId = @RequestId",
+                        new { master.RequestId }, transaction);
+
+                    foreach (DmnInventoryRequestItem detail in details)
+                    {
+                        connection.Execute(
+                            @"INSERT INTO dbo.tblInventoryRequestDetails
+                              (InventoryRequestId, RequestType, SlNo, ProductId, PlannedQty, RecipeItemId,
+                               PerPortionQty, TotalRequiredQty, ItemId, ProductType, CurrentStock, IssuedQty,
+                               ProjectedBalance, Unit, PurposeRemarks, CreatedBy, CreatedOn, BranchId, Status)
+                              VALUES
+                              (@InventoryRequestId, @RequestType, @SlNo, @ProductId, @PlannedQty, @RecipeItemId,
+                               @PerPortionQty, @TotalRequiredQty, @ItemId, @ProductType, @CurrentStock, @IssuedQty,
+                               @ProjectedBalance, @Unit, @PurposeRemarks, @CreatedBy, GETDATE(), @BranchId, @Status)",
+                            new
+                            {
+                                InventoryRequestId = master.RequestId,
+                                detail.RequestType,
+                                SlNo = detail.RequestDetailId,
+                                ProductId = detail.RequestType == 1 ? (int?)detail.ItemId : null,
+                                detail.PlannedQty,
+                                RecipeItemId = detail.RequestType == 1 ? (long?)detail.ItemId : null,
+                                PerPortionQty = (decimal?)null,
+                                TotalRequiredQty = detail.RequestType == 1 ? (decimal?)detail.PlannedQty : null,
+                                ItemId = detail.RequestType == 2 ? (long?)detail.ItemId : null,
+                                detail.ProductType,
+                                detail.CurrentStock,
+                                detail.IssuedQty,
+                                ProjectedBalance = detail.ProjectBalance,
+                                Unit = detail.UnitId,
+                                PurposeRemarks = detail.Purpose,
+                                detail.CreatedBy,
+                                detail.BranchId,
+                                detail.Status
+                            }, transaction);
+                    }
+
+                    transaction.Commit();
+                    return master.RequestId;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
         }
+
     }
 }
