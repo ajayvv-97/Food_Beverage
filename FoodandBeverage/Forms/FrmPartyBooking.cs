@@ -1128,8 +1128,14 @@ namespace FoodandBeverage
                     // Use the guest counts configured for this package.
                     txtAdults.Text = Math.Max(0, list[0].AdultCount).ToString();
                     txtChild.Text = Math.Max(0, list[0].ChildCount).ToString();
+                    // Fixed-price packages use the configured guest counts only for display.
+                    // The guest controls must not accept edits or open the numeric keypad.
+                    txtAdults.Enabled = !_fixedPriceStatus;
+                    txtChild.Enabled = !_fixedPriceStatus;
                     txtAdults.ReadOnly = _fixedPriceStatus;
                     txtChild.ReadOnly = _fixedPriceStatus;
+                    txtAdults.TabStop = !_fixedPriceStatus;
+                    txtChild.TabStop = !_fixedPriceStatus;
 
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
                     txttax.Text = Convert.ToString(list[0].Tax);
@@ -4530,7 +4536,11 @@ namespace FoodandBeverage
                 UpdateTotalGuests();
                 UpdateGrandTotal_Pack();
 
-                CalculatePackValues();
+                // A fixed-price package is charged at FixedPrice regardless of the
+                // configured adult/child counts. Do not run the per-guest pack pricing
+                // calculation for it; add-on rows still use the normal tax/price flow.
+                if (!_fixedPriceStatus)
+                    CalculatePackValues();
 
                 if (Convert.ToDecimal(discountper.Text) > 0)
                     CalculateDiscountAmount();
@@ -4569,6 +4579,12 @@ namespace FoodandBeverage
             {
                 _fixedPriceStatus = false;
                 _fixedPackPrice = 0m;
+                txtAdults.Enabled = true;
+                txtChild.Enabled = true;
+                txtAdults.ReadOnly = false;
+                txtChild.ReadOnly = false;
+                txtAdults.TabStop = true;
+                txtChild.TabStop = true;
                 _isKotDateTimeManuallySet = false;
                 _hasLoadedKotDateTime = false;
                 _loadedKotDateTime = null;
@@ -7448,6 +7464,12 @@ namespace FoodandBeverage
                 }
                 else if (e.ColumnIndex == pqtyno)
                 {
+                    // Package-default rows are fixed by the package setup. Clicking
+                    // their quantity must not open the keypad or alter their product type.
+                    int defaultType = Convert.ToInt32(row.Cells[pPartydeafult].Value ?? 0);
+                    if (defaultType == 1)
+                        return;
+
                     decimal kdata = 0;
                     using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
                     {
