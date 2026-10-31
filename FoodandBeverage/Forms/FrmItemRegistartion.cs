@@ -21,6 +21,8 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
             tlp_category.Visible = false;
             tlp_Unit.Visible = false;
+            tlp_category.VisibleChanged += RegistrationPanel_VisibleChanged;
+            tlp_Unit.VisibleChanged += RegistrationPanel_VisibleChanged;
             dgv_category.CellDoubleClick += dgv_category_CellDoubleClick;
             dgv_unit.CellDoubleClick += dgv_unit_CellDoubleClick;
         }
@@ -3071,6 +3073,12 @@ namespace FoodandBeverage.Forms
 
             if (_registrationBlurOverlay != null && !_registrationBlurOverlay.IsDisposed)
                 _registrationBlurOverlay.Image = null;
+        }
+
+        private void RegistrationPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!tlp_category.Visible && !tlp_Unit.Visible)
+                HideRegistrationBlurOverlay();
         }
         #endregion
 
