@@ -26,6 +26,9 @@ namespace FoodandBeverage.Forms
         public FrmIngredient()
         {
             InitializeComponent();
+            ConfigureInventoryItemCategoryColumn();
+            chk_PackagingRequired.CheckedChanged += chk_PackagingRequired_CheckedChanged;
+            dgv_registartion.RowsAdded += dgv_registartion_RowsAdded;
         }
 
         #region Decalartion
@@ -129,6 +132,7 @@ namespace FoodandBeverage.Forms
                     dmnproduct.BranchId = FrmDashboard.BranchId;
                     dmnproduct.HSNcode = Convert.ToString(txthsncode.Text);
                     dmnproduct.Fcid = Convert.ToInt32(CmbCategory.SelectedValue);
+                    dmnproduct.PackagingRequired = chk_PackagingRequired.Checked;
 
                     bool hasVar = false;
                     foreach (DataGridViewRow row in dgv_variation.Rows)
@@ -200,6 +204,9 @@ namespace FoodandBeverage.Forms
                                 dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
                                 dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
                                 dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
+                                dmnincr.ProductType = chk_PackagingRequired.Checked
+                                    ? GetInventoryItemCategoryId(dgv_registartion.Rows[i].Cells[RCategorytypeno].Value)
+                                    : Convert.ToInt32(InventoryItemCategory.RawMaterial);
                                 dmnincr.Deductionstage = cmb_FoodPreparationType.SelectedIndex == 2
                                     ? GetDeductionStageId(dgv_registartion.Rows[i].Cells[RDeductionstageno].Value)
                                     : 0;
@@ -404,6 +411,7 @@ namespace FoodandBeverage.Forms
                 txtqty.Text = "";
                 txtitemcode.Text = "";
                 txtpid.Text = "0";
+                chk_PackagingRequired.Checked = false;
                 txtproductname.Text = "";
                 txtprice.Text = "";
                 txtDiscAmnt.Text = "";
@@ -476,6 +484,8 @@ namespace FoodandBeverage.Forms
                 chk_bgcolor.Checked = false;
                 chk_forecolor.Checked = false;
 
+                chk_PackagingRequired.Checked = false;
+                UpdateInventoryItemCategoryColumnVisibility();
                 cmb_FoodPreparationType.SelectedIndex = 3;
                 UpdatePreparationStageColumnVisibility();
             }
@@ -936,6 +946,8 @@ namespace FoodandBeverage.Forms
                     cmbTaxType.Text = Convert.ToString(gridSource[0].TaxType);
                     txtdes.Text = Convert.ToString(gridSource[0].Description);
                     txtitemcode.Text = Convert.ToString(gridSource[0].ItemCode);
+                    chk_PackagingRequired.Checked = gridSource[0].PackagingRequired;
+                    UpdateInventoryItemCategoryColumnVisibility();
 
                     txtPpid.Text = Convert.ToString(gridSource[0].Ppid);
 
@@ -1060,7 +1072,7 @@ namespace FoodandBeverage.Forms
 
                     BllSearch<DmnGridFields> bllSearchdetails = new BllSearch<DmnGridFields>();
                     DmnSearch objSearchDetails = new DmnSearch();
-                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5,id.status Field6,id.Deductionstage Field7 ";
+                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5,id.status Field6,id.Deductionstage Field7,id.ProductType Field8 ";
                     objSearchDetails.Table = "tblProduct p LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId left join tblUnit u on u.UId=id.Unit left join tblItem i on i.ItemId=id.ItemId";
                     objSearchDetails.WhereNdGroupBy = "where p.status=1 and  p.ProductId= " + Pid;
                     objSearchDetails.OrderBy = "";
@@ -1077,6 +1089,9 @@ namespace FoodandBeverage.Forms
                             dgv_registartion.Rows[i].Cells[Rqtyno].Value = Convert.ToDecimal(gridSource_pro[i].Field3);
                             dgv_registartion.Rows[i].Cells[Runitno].Value = Convert.ToInt64(gridSource_pro[i].Field4);
                             dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value = Convert.ToInt32(gridSource_pro[i].Field5);
+                            dgv_registartion.Rows[i].Cells[RCategorytypeno].Value = chk_PackagingRequired.Checked
+                                ? GetInventoryItemCategoryId(gridSource_pro[i].Field8)
+                                : Convert.ToInt32(InventoryItemCategory.RawMaterial);
 
                             int deductionStageId = GetDeductionStageId(gridSource_pro[i].Field7);
                             if (cmb_FoodPreparationType.SelectedIndex == 2 && deductionStageId > 0)
@@ -3883,6 +3898,113 @@ namespace FoodandBeverage.Forms
 
 
         #endregion
+
+        private void ConfigureInventoryItemCategoryColumn()
+        {
+            try
+            {
+                if (dgv_registartion.Columns.Count <= RCategorytypeno)
+                    return;
+
+                DataGridViewComboBoxColumn categoryColumn =
+                    dgv_registartion.Columns[RCategorytypeno] as DataGridViewComboBoxColumn;
+                if (categoryColumn == null)
+                    return;
+
+                DataTable categories = new DataTable();
+                categories.Columns.Add("Id", typeof(int));
+                categories.Columns.Add("Name", typeof(string));
+                categories.Rows.Add(Convert.ToInt32(InventoryItemCategory.RawMaterial), "Raw Material");
+                categories.Rows.Add(Convert.ToInt32(InventoryItemCategory.PackagingMaterial), "Packaging Material");
+
+                categoryColumn.ValueMember = "Id";
+                categoryColumn.DisplayMember = "Name";
+                categoryColumn.ValueType = typeof(int);
+                categoryColumn.DataSource = categories;
+                categoryColumn.DefaultCellStyle.NullValue = Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                categoryColumn.Visible = chk_PackagingRequired.Checked;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page ConfigureInventoryItemCategoryColumn()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        private int GetInventoryItemCategoryId(object value)
+        {
+            int categoryId;
+            if (value == null || value == DBNull.Value ||
+                !int.TryParse(Convert.ToString(value), out categoryId))
+            {
+                return Convert.ToInt32(InventoryItemCategory.RawMaterial);
+            }
+
+            if (categoryId != Convert.ToInt32(InventoryItemCategory.RawMaterial) &&
+                categoryId != Convert.ToInt32(InventoryItemCategory.PackagingMaterial))
+            {
+                return Convert.ToInt32(InventoryItemCategory.RawMaterial);
+            }
+
+            return categoryId;
+        }
+
+        private void UpdateInventoryItemCategoryColumnVisibility()
+        {
+            try
+            {
+                if (dgv_registartion.Columns.Count <= RCategorytypeno)
+                    return;
+
+                DataGridViewComboBoxColumn categoryColumn =
+                    dgv_registartion.Columns[RCategorytypeno] as DataGridViewComboBoxColumn;
+                if (categoryColumn == null)
+                    return;
+
+                categoryColumn.Visible = chk_PackagingRequired.Checked;
+
+                foreach (DataGridViewRow row in dgv_registartion.Rows)
+                {
+                    if (row.IsNewRow)
+                        continue;
+
+                    if (!chk_PackagingRequired.Checked || row.Cells[RCategorytypeno].Value == null)
+                        row.Cells[RCategorytypeno].Value = Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                    else
+                        row.Cells[RCategorytypeno].Value = GetInventoryItemCategoryId(row.Cells[RCategorytypeno].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page UpdateInventoryItemCategoryColumnVisibility()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        private void chk_PackagingRequired_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateInventoryItemCategoryColumnVisibility();
+        }
+
+        private void dgv_registartion_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            try
+            {
+                for (int i = e.RowIndex; i < e.RowIndex + e.RowCount && i < dgv_registartion.Rows.Count; i++)
+                {
+                    DataGridViewRow row = dgv_registartion.Rows[i];
+                    if (!row.IsNewRow && row.Cells[RCategorytypeno].Value == null)
+                    {
+                        row.Cells[RCategorytypeno].Value = Convert.ToInt32(InventoryItemCategory.RawMaterial);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page dgv_registartion_RowsAdded()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
 
         private void SetFoodPreparationTypeSelection(int preparationType)
         {

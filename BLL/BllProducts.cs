@@ -36,6 +36,7 @@ namespace BLL
 
 			parms.Add("HSNcode", objTestClass.HSNcode); 
 			parms.Add("FoodPreparationType", objTestClass.FoodPreparationType);
+			parms.Add("PackagingRequired", objTestClass.PackagingRequired);
 			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
 			return lstData;
 		}

@@ -4,6 +4,12 @@ using System.Text;
 
 namespace Domain
 {
+    public enum InventoryItemCategory
+    {
+        RawMaterial = 1,
+        PackagingMaterial = 2
+    }
+
     public class Dmnincrediant
     {
         

@@ -45,6 +45,7 @@ namespace Domain
 
 		public string HSNcode { get; set; }
 		public int FoodPreparationType { get; set; }
+		public bool PackagingRequired { get; set; }
 
 	}
 }
