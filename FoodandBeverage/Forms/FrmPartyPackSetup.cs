@@ -188,9 +188,18 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
+        private BlurPopupOverlay _blurPopupOverlay;
+
         public FrmPartyPackSetup()
         {
             InitializeComponent();
+            _blurPopupOverlay = new BlurPopupOverlay(this,
+                pnl_menucateg,
+                pnl_cakeconfig,
+                pnl_packtime,
+                pnl_menu,
+                pnl_venue,
+                pnl_fdprice_pack);
 
             btn_menu_close.Click += (s, e) => ClosePartyPackMenu();
             Dgv_Selected_Item.CellClick += DgvPartyPackMenu_CellClick;

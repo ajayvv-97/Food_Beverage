@@ -305,6 +305,7 @@
     <Compile Include="Classes\AppFonts.cs" />
     <Compile Include="Classes\AppSession.cs" />
     <Compile Include="Classes\AutoLogoutManager.cs" />
+    <Compile Include="Classes\BlurPopupOverlay.cs" />
     <Compile Include="Classes\ClsDocument.cs" />
     <Compile Include="Classes\clsGeneral.cs" />
     <Compile Include="Classes\ClsImgComprossor.cs" />

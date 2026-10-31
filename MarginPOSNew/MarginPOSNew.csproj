@@ -100,6 +100,9 @@
     <Compile Include="Classes\ClsAccount.cs" />
     <Compile Include="Classes\ClsDocument.cs" />
     <Compile Include="Classes\ClsGeneral.cs" />
+    <Compile Include="..\FoodandBeverage\Classes\BlurPopupOverlay.cs">
+      <Link>Classes\BlurPopupOverlay.cs</Link>
+    </Compile>
     <Compile Include="Dataset\dsSales.cs">
       <DependentUpon>dsSales.xsd</DependentUpon>
     </Compile>
