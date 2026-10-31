@@ -1,4 +1,5 @@
 using BLL;
+using Dapper;
 using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
@@ -417,7 +418,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                List<DmnInventoryRequestMaster> requests = _inventoryBll.SearchRequests(txt_reqno.Text.Trim());
+                List<DmnInventoryRequestMaster> requests;
+                using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+                {
+                    requests = connection.Query<DmnInventoryRequestMaster>(
+                        @"SELECT InventoryRequestId AS RequestId, RequestNo, RequestDate, RequiredDate,
+                                 DepartmentId, EmployeeId, Remarks, RequestType, CreatedBy, CreatedOn,
+                                 ModifiedBy, ModifiedOn, BranchId, Status
+                          FROM dbo.tblInventoryRequestMaster
+                          WHERE (@Search = '' OR RequestNo LIKE '%' + @Search + '%')
+                          ORDER BY InventoryRequestId DESC",
+                        new { Search = txt_reqno.Text.Trim() }).ToList();
+                }
                 using (Form picker = new Form())
                 using (DataGridView grid = new DataGridView())
                 {
