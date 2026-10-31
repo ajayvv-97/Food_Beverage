@@ -413,6 +413,12 @@
     <Compile Include="Forms\FrmIngredient.Designer.cs">
       <DependentUpon>FrmIngredient.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmInventoryrequest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmInventoryrequest.Designer.cs">
+      <DependentUpon>FrmInventoryrequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmItemRegistartion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -988,6 +994,9 @@
     <EmbeddedResource Include="Forms\FrmIngredient.resx">
       <DependentUpon>FrmIngredient.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmInventoryrequest.resx">
+      <DependentUpon>FrmInventoryrequest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmItemRegistartion.resx">
       <DependentUpon>FrmItemRegistartion.cs</DependentUpon>

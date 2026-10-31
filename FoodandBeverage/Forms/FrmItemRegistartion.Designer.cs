@@ -29,18 +29,18 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmItemRegistartion));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lbldes = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -87,6 +87,28 @@ namespace FoodandBeverage.Forms
             this.txtCgstPrcnt = new System.Windows.Forms.TextBox();
             this.txtSgstPrcnt = new System.Windows.Forms.TextBox();
             this.dgv_item = new System.Windows.Forms.DataGridView();
+            this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ithsncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.iid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.incrediantname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Incrediantcateg = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Prate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Srate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taxtype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dTaxtype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taxper = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.incre_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.unitid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itReorderLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itIsexpire = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.it = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itBaseunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itConversionfactor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_registartion_toggle = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_outer_design = new System.Windows.Forms.TableLayoutPanel();
             this.txtprid = new System.Windows.Forms.TextBox();
@@ -194,28 +216,6 @@ namespace FoodandBeverage.Forms
             this.btnsearch_unit = new System.Windows.Forms.Button();
             this.btncancel_unit = new System.Windows.Forms.Button();
             this.btnrefresh_unit = new System.Windows.Forms.Button();
-            this.no = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ithsncode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.iid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.incrediantname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Incrediantcateg = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Prate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Srate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mrp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.taxtype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dTaxtype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.taxper = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.incre_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unitid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itReorderLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itIsexpire = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.it = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itBaseunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itConversionfactor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_button.SuspendLayout();
             this.tlp_registration.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -270,9 +270,9 @@ namespace FoodandBeverage.Forms
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label6.Location = new System.Drawing.Point(4, 74);
+            this.label6.Location = new System.Drawing.Point(3, 74);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(177, 31);
+            this.label6.Size = new System.Drawing.Size(178, 33);
             this.label6.TabIndex = 12;
             this.label6.Text = "Prate ";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -282,9 +282,9 @@ namespace FoodandBeverage.Forms
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label1.Location = new System.Drawing.Point(4, 10);
+            this.label1.Location = new System.Drawing.Point(3, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(177, 30);
+            this.label1.Size = new System.Drawing.Size(178, 32);
             this.label1.TabIndex = 5;
             this.label1.Text = "Item Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -305,9 +305,9 @@ namespace FoodandBeverage.Forms
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label7.Location = new System.Drawing.Point(556, 74);
+            this.label7.Location = new System.Drawing.Point(555, 74);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(179, 31);
+            this.label7.Size = new System.Drawing.Size(181, 33);
             this.label7.TabIndex = 11;
             this.label7.Text = "Quantity";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -318,10 +318,10 @@ namespace FoodandBeverage.Forms
             this.txtincr_name.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtincr_name.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtincr_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtincr_name.Location = new System.Drawing.Point(4, 44);
+            this.txtincr_name.Location = new System.Drawing.Point(3, 43);
             this.txtincr_name.Multiline = true;
             this.txtincr_name.Name = "txtincr_name";
-            this.txtincr_name.Size = new System.Drawing.Size(177, 26);
+            this.txtincr_name.Size = new System.Drawing.Size(178, 28);
             this.txtincr_name.TabIndex = 0;
             this.txtincr_name.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtincr_name_KeyPress);
             this.txtincr_name.Leave += new System.EventHandler(this.txtincr_name_Leave);
@@ -331,9 +331,9 @@ namespace FoodandBeverage.Forms
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label3.Location = new System.Drawing.Point(556, 10);
+            this.label3.Location = new System.Drawing.Point(555, 8);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(179, 30);
+            this.label3.Size = new System.Drawing.Size(181, 32);
             this.label3.TabIndex = 7;
             this.label3.Text = "Item Category";
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -382,11 +382,11 @@ namespace FoodandBeverage.Forms
             this.txtprate.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtprate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtprate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtprate.Location = new System.Drawing.Point(4, 109);
+            this.txtprate.Location = new System.Drawing.Point(3, 110);
             this.txtprate.MaxLength = 7;
             this.txtprate.Multiline = true;
             this.txtprate.Name = "txtprate";
-            this.txtprate.Size = new System.Drawing.Size(177, 25);
+            this.txtprate.Size = new System.Drawing.Size(178, 27);
             this.txtprate.TabIndex = 4;
             this.txtprate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtbarcode_KeyPress);
             // 
@@ -396,11 +396,11 @@ namespace FoodandBeverage.Forms
             this.txtqty.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtqty.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtqty.Location = new System.Drawing.Point(556, 109);
+            this.txtqty.Location = new System.Drawing.Point(555, 110);
             this.txtqty.MaxLength = 7;
             this.txtqty.Multiline = true;
             this.txtqty.Name = "txtqty";
-            this.txtqty.Size = new System.Drawing.Size(179, 25);
+            this.txtqty.Size = new System.Drawing.Size(181, 27);
             this.txtqty.TabIndex = 7;
             this.txtqty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtqty_KeyPress);
             // 
@@ -499,7 +499,6 @@ namespace FoodandBeverage.Forms
             // tlp_registration
             // 
             this.tlp_registration.BackColor = System.Drawing.Color.White;
-            this.tlp_registration.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tlp_registration.ColumnCount = 4;
             this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlp_registration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -552,12 +551,12 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel4.Controls.Add(this.cmb_inc_categ, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.btnaddcategory, 1, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(553, 41);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(552, 40);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(185, 32);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(187, 34);
             this.tableLayoutPanel4.TabIndex = 283;
             // 
             // cmb_inc_categ
@@ -575,7 +574,7 @@ namespace FoodandBeverage.Forms
             "Item Category"});
             this.cmb_inc_categ.Location = new System.Drawing.Point(3, 3);
             this.cmb_inc_categ.Name = "cmb_inc_categ";
-            this.cmb_inc_categ.Size = new System.Drawing.Size(136, 28);
+            this.cmb_inc_categ.Size = new System.Drawing.Size(138, 28);
             this.cmb_inc_categ.TabIndex = 2;
             // 
             // btnaddcategory
@@ -587,9 +586,9 @@ namespace FoodandBeverage.Forms
             this.btnaddcategory.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnaddcategory.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnaddcategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnaddcategory.Location = new System.Drawing.Point(145, 3);
+            this.btnaddcategory.Location = new System.Drawing.Point(147, 3);
             this.btnaddcategory.Name = "btnaddcategory";
-            this.btnaddcategory.Size = new System.Drawing.Size(37, 26);
+            this.btnaddcategory.Size = new System.Drawing.Size(37, 28);
             this.btnaddcategory.TabIndex = 3;
             this.btnaddcategory.UseVisualStyleBackColor = true;
             this.btnaddcategory.Click += new System.EventHandler(this.btnaddcategory_Click);
@@ -600,10 +599,10 @@ namespace FoodandBeverage.Forms
             this.txtbarcode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtbarcode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtbarcode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtbarcode.Location = new System.Drawing.Point(188, 44);
+            this.txtbarcode.Location = new System.Drawing.Point(187, 43);
             this.txtbarcode.Multiline = true;
             this.txtbarcode.Name = "txtbarcode";
-            this.txtbarcode.Size = new System.Drawing.Size(177, 26);
+            this.txtbarcode.Size = new System.Drawing.Size(178, 28);
             this.txtbarcode.TabIndex = 1;
             // 
             // label4
@@ -611,9 +610,9 @@ namespace FoodandBeverage.Forms
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label4.Location = new System.Drawing.Point(188, 10);
+            this.label4.Location = new System.Drawing.Point(187, 8);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(177, 30);
+            this.label4.Size = new System.Drawing.Size(178, 32);
             this.label4.TabIndex = 262;
             this.label4.Text = "Item Barcode/Code";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -623,9 +622,9 @@ namespace FoodandBeverage.Forms
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label5.Location = new System.Drawing.Point(372, 74);
+            this.label5.Location = new System.Drawing.Point(371, 74);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(177, 31);
+            this.label5.Size = new System.Drawing.Size(178, 33);
             this.label5.TabIndex = 263;
             this.label5.Text = "MRP";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -636,11 +635,11 @@ namespace FoodandBeverage.Forms
             this.txtmrp.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtmrp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtmrp.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtmrp.Location = new System.Drawing.Point(372, 109);
+            this.txtmrp.Location = new System.Drawing.Point(371, 110);
             this.txtmrp.MaxLength = 7;
             this.txtmrp.Multiline = true;
             this.txtmrp.Name = "txtmrp";
-            this.txtmrp.Size = new System.Drawing.Size(177, 25);
+            this.txtmrp.Size = new System.Drawing.Size(178, 27);
             this.txtmrp.TabIndex = 6;
             this.txtmrp.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtbarcode_KeyPress);
             this.txtmrp.Leave += new System.EventHandler(this.txtmrp_Leave);
@@ -650,9 +649,9 @@ namespace FoodandBeverage.Forms
             this.label9.AutoSize = true;
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label9.Location = new System.Drawing.Point(188, 74);
+            this.label9.Location = new System.Drawing.Point(187, 74);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(177, 31);
+            this.label9.Size = new System.Drawing.Size(178, 33);
             this.label9.TabIndex = 267;
             this.label9.Text = "Srate";
             this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -663,11 +662,11 @@ namespace FoodandBeverage.Forms
             this.txtsrate.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtsrate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtsrate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtsrate.Location = new System.Drawing.Point(188, 109);
+            this.txtsrate.Location = new System.Drawing.Point(187, 110);
             this.txtsrate.MaxLength = 7;
             this.txtsrate.Multiline = true;
             this.txtsrate.Name = "txtsrate";
-            this.txtsrate.Size = new System.Drawing.Size(177, 25);
+            this.txtsrate.Size = new System.Drawing.Size(178, 27);
             this.txtsrate.TabIndex = 5;
             this.txtsrate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtbarcode_KeyPress);
             // 
@@ -676,9 +675,9 @@ namespace FoodandBeverage.Forms
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.label8.Location = new System.Drawing.Point(372, 10);
+            this.label8.Location = new System.Drawing.Point(371, 8);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(177, 30);
+            this.label8.Size = new System.Drawing.Size(178, 32);
             this.label8.TabIndex = 265;
             this.label8.Text = "Sale Category";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -691,12 +690,12 @@ namespace FoodandBeverage.Forms
             this.tlp_salecategory.Controls.Add(this.rdb_notsale, 1, 0);
             this.tlp_salecategory.Controls.Add(this.rdb_dsale, 0, 0);
             this.tlp_salecategory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_salecategory.Location = new System.Drawing.Point(369, 41);
+            this.tlp_salecategory.Location = new System.Drawing.Point(368, 40);
             this.tlp_salecategory.Margin = new System.Windows.Forms.Padding(0);
             this.tlp_salecategory.Name = "tlp_salecategory";
             this.tlp_salecategory.RowCount = 1;
             this.tlp_salecategory.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_salecategory.Size = new System.Drawing.Size(183, 32);
+            this.tlp_salecategory.Size = new System.Drawing.Size(184, 34);
             this.tlp_salecategory.TabIndex = 3;
             // 
             // rdb_notsale
@@ -705,9 +704,9 @@ namespace FoodandBeverage.Forms
             this.rdb_notsale.Checked = true;
             this.rdb_notsale.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rdb_notsale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.rdb_notsale.Location = new System.Drawing.Point(94, 3);
+            this.rdb_notsale.Location = new System.Drawing.Point(95, 3);
             this.rdb_notsale.Name = "rdb_notsale";
-            this.rdb_notsale.Size = new System.Drawing.Size(86, 26);
+            this.rdb_notsale.Size = new System.Drawing.Size(86, 28);
             this.rdb_notsale.TabIndex = 1;
             this.rdb_notsale.TabStop = true;
             this.rdb_notsale.Text = "Not";
@@ -721,7 +720,7 @@ namespace FoodandBeverage.Forms
             this.rdb_dsale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.rdb_dsale.Location = new System.Drawing.Point(3, 3);
             this.rdb_dsale.Name = "rdb_dsale";
-            this.rdb_dsale.Size = new System.Drawing.Size(85, 26);
+            this.rdb_dsale.Size = new System.Drawing.Size(86, 28);
             this.rdb_dsale.TabIndex = 0;
             this.rdb_dsale.Text = "Direct";
             this.rdb_dsale.UseVisualStyleBackColor = true;
@@ -915,14 +914,14 @@ namespace FoodandBeverage.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_item.BackgroundColor = System.Drawing.Color.White;
             this.dgv_item.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_item.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_item.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dgv_item.ColumnHeadersHeight = 46;
             this.dgv_item.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_item.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -953,13 +952,205 @@ namespace FoodandBeverage.Forms
             this.dgv_item.ReadOnly = true;
             this.dgv_item.RowHeadersVisible = false;
             this.dgv_item.RowHeadersWidth = 51;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_item.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_item.RowsDefaultCellStyle = dataGridViewCellStyle13;
             this.dgv_item.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_item.RowTemplate.Height = 30;
             this.dgv_item.Size = new System.Drawing.Size(643, 252);
             this.dgv_item.TabIndex = 14;
             this.dgv_item.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_item_CellDoubleClick);
+            // 
+            // no
+            // 
+            this.no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.no.HeaderText = "Slno";
+            this.no.MinimumWidth = 6;
+            this.no.Name = "no";
+            this.no.ReadOnly = true;
+            this.no.Width = 66;
+            // 
+            // ithsncode
+            // 
+            this.ithsncode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ithsncode.HeaderText = "HSN code";
+            this.ithsncode.Name = "ithsncode";
+            this.ithsncode.ReadOnly = true;
+            this.ithsncode.Width = 98;
+            // 
+            // iid
+            // 
+            this.iid.HeaderText = "iid";
+            this.iid.MinimumWidth = 6;
+            this.iid.Name = "iid";
+            this.iid.ReadOnly = true;
+            this.iid.Visible = false;
+            this.iid.Width = 125;
+            // 
+            // incrediantname
+            // 
+            this.incrediantname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.incrediantname.HeaderText = "Product  Name";
+            this.incrediantname.MinimumWidth = 6;
+            this.incrediantname.Name = "incrediantname";
+            this.incrediantname.ReadOnly = true;
+            this.incrediantname.Width = 89;
+            // 
+            // Incrediantcateg
+            // 
+            this.Incrediantcateg.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Incrediantcateg.HeaderText = "Category";
+            this.Incrediantcateg.MinimumWidth = 6;
+            this.Incrediantcateg.Name = "Incrediantcateg";
+            this.Incrediantcateg.ReadOnly = true;
+            this.Incrediantcateg.Width = 98;
+            // 
+            // unit
+            // 
+            this.unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.unit.HeaderText = "Unit";
+            this.unit.MinimumWidth = 6;
+            this.unit.Name = "unit";
+            this.unit.ReadOnly = true;
+            this.unit.Width = 63;
+            // 
+            // Quantity
+            // 
+            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Quantity.HeaderText = "Qty";
+            this.Quantity.MinimumWidth = 6;
+            this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
+            this.Quantity.Width = 58;
+            // 
+            // Prate
+            // 
+            this.Prate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Prate.HeaderText = "Prate";
+            this.Prate.MinimumWidth = 6;
+            this.Prate.Name = "Prate";
+            this.Prate.ReadOnly = true;
+            this.Prate.Width = 72;
+            // 
+            // Srate
+            // 
+            this.Srate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            this.Srate.HeaderText = "Srate";
+            this.Srate.MinimumWidth = 6;
+            this.Srate.Name = "Srate";
+            this.Srate.ReadOnly = true;
+            this.Srate.Width = 6;
+            // 
+            // mrp
+            // 
+            this.mrp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.mrp.HeaderText = "MRP";
+            this.mrp.MinimumWidth = 6;
+            this.mrp.Name = "mrp";
+            this.mrp.ReadOnly = true;
+            this.mrp.Width = 69;
+            // 
+            // taxtype
+            // 
+            this.taxtype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.taxtype.HeaderText = "Tax";
+            this.taxtype.MinimumWidth = 6;
+            this.taxtype.Name = "taxtype";
+            this.taxtype.ReadOnly = true;
+            this.taxtype.Width = 59;
+            // 
+            // dTaxtype
+            // 
+            this.dTaxtype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dTaxtype.HeaderText = "TaxType";
+            this.dTaxtype.MinimumWidth = 6;
+            this.dTaxtype.Name = "dTaxtype";
+            this.dTaxtype.ReadOnly = true;
+            this.dTaxtype.Width = 93;
+            // 
+            // taxper
+            // 
+            this.taxper.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.taxper.HeaderText = "Tax%";
+            this.taxper.MinimumWidth = 6;
+            this.taxper.Name = "taxper";
+            this.taxper.ReadOnly = true;
+            this.taxper.Width = 73;
+            // 
+            // Description
+            // 
+            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Description.HeaderText = "Description";
+            this.Description.MinimumWidth = 6;
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
+            this.Description.Width = 114;
+            // 
+            // status
+            // 
+            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.status.HeaderText = "Status";
+            this.status.MinimumWidth = 6;
+            this.status.Name = "status";
+            this.status.ReadOnly = true;
+            this.status.Visible = false;
+            // 
+            // incre_id
+            // 
+            this.incre_id.HeaderText = "incre_id";
+            this.incre_id.MinimumWidth = 6;
+            this.incre_id.Name = "incre_id";
+            this.incre_id.ReadOnly = true;
+            this.incre_id.Visible = false;
+            this.incre_id.Width = 125;
+            // 
+            // unitid
+            // 
+            this.unitid.HeaderText = "Unitid";
+            this.unitid.MinimumWidth = 6;
+            this.unitid.Name = "unitid";
+            this.unitid.ReadOnly = true;
+            this.unitid.Visible = false;
+            this.unitid.Width = 125;
+            // 
+            // itReorderLevel
+            // 
+            this.itReorderLevel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.itReorderLevel.HeaderText = "Reorder Level";
+            this.itReorderLevel.Name = "itReorderLevel";
+            this.itReorderLevel.ReadOnly = true;
+            this.itReorderLevel.Width = 122;
+            // 
+            // itIsexpire
+            // 
+            this.itIsexpire.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.itIsexpire.HeaderText = "Isexpire";
+            this.itIsexpire.Name = "itIsexpire";
+            this.itIsexpire.ReadOnly = true;
+            this.itIsexpire.Width = 89;
+            // 
+            // it
+            // 
+            this.it.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.it.HeaderText = "Lock Sale Rate";
+            this.it.Name = "it";
+            this.it.ReadOnly = true;
+            this.it.Width = 131;
+            // 
+            // itBaseunit
+            // 
+            this.itBaseunit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.itBaseunit.HeaderText = "Base Unit";
+            this.itBaseunit.Name = "itBaseunit";
+            this.itBaseunit.ReadOnly = true;
+            this.itBaseunit.Width = 96;
+            // 
+            // itConversionfactor
+            // 
+            this.itConversionfactor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.itConversionfactor.HeaderText = "Conversion Factor";
+            this.itConversionfactor.Name = "itConversionfactor";
+            this.itConversionfactor.ReadOnly = true;
+            this.itConversionfactor.Width = 149;
             // 
             // tlp_registartion_toggle
             // 
@@ -1174,18 +1365,18 @@ namespace FoodandBeverage.Forms
             // 
             this.dgvprDetails.AllowUserToAddRows = false;
             this.dgvprDetails.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.dgvprDetails.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
+            this.dgvprDetails.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvprDetails.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvprDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvprDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.dgvprDetails.ColumnHeadersHeight = 35;
             this.dgvprDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.prId,
@@ -1196,14 +1387,14 @@ namespace FoodandBeverage.Forms
             this.prMRP,
             this.QOH,
             this.PType});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvprDetails.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvprDetails.DefaultCellStyle = dataGridViewCellStyle16;
             this.dgvprDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvprDetails.Location = new System.Drawing.Point(3, 45);
             this.dgvprDetails.Name = "dgvprDetails";
@@ -1846,7 +2037,7 @@ namespace FoodandBeverage.Forms
             this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.48837F));
             this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.51163F));
             this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 213F));
-            this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            this.tlp_registartion.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 129F));
             this.tlp_registartion.Controls.Add(this.label29, 1, 0);
             this.tlp_registartion.Controls.Add(this.chk_active, 0, 0);
             this.tlp_registartion.Controls.Add(this.txtFcid, 4, 0);
@@ -1896,7 +2087,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtFcid
             // 
-            this.txtFcid.Location = new System.Drawing.Point(518, 3);
+            this.txtFcid.Location = new System.Drawing.Point(517, 3);
             this.txtFcid.Name = "txtFcid";
             this.txtFcid.Size = new System.Drawing.Size(28, 20);
             this.txtFcid.TabIndex = 251;
@@ -1922,7 +2113,7 @@ namespace FoodandBeverage.Forms
             this.label27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
             this.label27.ForeColor = System.Drawing.Color.Black;
-            this.label27.Location = new System.Drawing.Point(305, 0);
+            this.label27.Location = new System.Drawing.Point(304, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(207, 28);
             this.label27.TabIndex = 221;
@@ -1938,7 +2129,7 @@ namespace FoodandBeverage.Forms
             this.label10.ForeColor = System.Drawing.Color.Black;
             this.label10.Location = new System.Drawing.Point(177, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(122, 28);
+            this.label10.Size = new System.Drawing.Size(121, 28);
             this.label10.TabIndex = 252;
             this.label10.Text = "Category Type";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1950,7 +2141,7 @@ namespace FoodandBeverage.Forms
             this.txtdescr.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtdescr.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtdescr.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.txtdescr.Location = new System.Drawing.Point(305, 31);
+            this.txtdescr.Location = new System.Drawing.Point(304, 31);
             this.txtdescr.Multiline = true;
             this.txtdescr.Name = "txtdescr";
             this.txtdescr.Size = new System.Drawing.Size(207, 43);
@@ -1971,7 +2162,7 @@ namespace FoodandBeverage.Forms
             "Expence Reasons"});
             this.cmb_cate.Location = new System.Drawing.Point(177, 31);
             this.cmb_cate.Name = "cmb_cate";
-            this.cmb_cate.Size = new System.Drawing.Size(122, 28);
+            this.cmb_cate.Size = new System.Drawing.Size(121, 28);
             this.cmb_cate.TabIndex = 1;
             // 
             // btn_del_cate
@@ -1980,7 +2171,7 @@ namespace FoodandBeverage.Forms
             this.btn_del_cate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_del_cate.FlatAppearance.BorderSize = 0;
             this.btn_del_cate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_del_cate.Location = new System.Drawing.Point(541, 31);
+            this.btn_del_cate.Location = new System.Drawing.Point(540, 31);
             this.btn_del_cate.Margin = new System.Windows.Forms.Padding(26, 3, 3, 3);
             this.btn_del_cate.Name = "btn_del_cate";
             this.btn_del_cate.Size = new System.Drawing.Size(48, 43);
@@ -2038,14 +2229,14 @@ namespace FoodandBeverage.Forms
             this.dgv_category.AllowUserToAddRows = false;
             this.dgv_category.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_category.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_category.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_category.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
             this.dgv_category.ColumnHeadersHeight = 46;
             this.dgv_category.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -2059,8 +2250,8 @@ namespace FoodandBeverage.Forms
             this.dgv_category.Name = "dgv_category";
             this.dgv_category.RowHeadersVisible = false;
             this.dgv_category.RowHeadersWidth = 51;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgv_category.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgv_category.RowsDefaultCellStyle = dataGridViewCellStyle19;
             this.dgv_category.RowTemplate.Height = 30;
             this.dgv_category.Size = new System.Drawing.Size(650, 254);
             this.dgv_category.TabIndex = 1;
@@ -2068,9 +2259,9 @@ namespace FoodandBeverage.Forms
             // 
             // Id
             // 
-            dataGridViewCellStyle7.Format = "N0";
-            dataGridViewCellStyle7.NullValue = "0";
-            this.Id.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle18.Format = "N0";
+            dataGridViewCellStyle18.NullValue = "0";
+            this.Id.DefaultCellStyle = dataGridViewCellStyle18;
             this.Id.HeaderText = "Id";
             this.Id.MinimumWidth = 6;
             this.Id.Name = "Id";
@@ -2397,14 +2588,14 @@ namespace FoodandBeverage.Forms
             this.dgv_unit.AllowUserToDeleteRows = false;
             this.dgv_unit.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_unit.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_unit.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_unit.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle20;
             this.dgv_unit.ColumnHeadersHeight = 46;
             this.dgv_unit.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2,
@@ -2418,8 +2609,8 @@ namespace FoodandBeverage.Forms
             this.dgv_unit.ReadOnly = true;
             this.dgv_unit.RowHeadersVisible = false;
             this.dgv_unit.RowHeadersWidth = 51;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dgv_unit.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.dgv_unit.RowsDefaultCellStyle = dataGridViewCellStyle22;
             this.dgv_unit.RowTemplate.Height = 30;
             this.dgv_unit.Size = new System.Drawing.Size(536, 223);
             this.dgv_unit.TabIndex = 1;
@@ -2427,9 +2618,9 @@ namespace FoodandBeverage.Forms
             // 
             // dataGridViewTextBoxColumn2
             // 
-            dataGridViewCellStyle10.Format = "N0";
-            dataGridViewCellStyle10.NullValue = "0";
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle21.Format = "N0";
+            dataGridViewCellStyle21.NullValue = "0";
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle21;
             this.dataGridViewTextBoxColumn2.HeaderText = "Id";
             this.dataGridViewTextBoxColumn2.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
@@ -2549,198 +2740,6 @@ namespace FoodandBeverage.Forms
             this.btnrefresh_unit.TabIndex = 2;
             this.btnrefresh_unit.UseVisualStyleBackColor = false;
             this.btnrefresh_unit.Click += new System.EventHandler(this.btnrefresh_unit_Click);
-            // 
-            // no
-            // 
-            this.no.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.no.HeaderText = "Slno";
-            this.no.MinimumWidth = 6;
-            this.no.Name = "no";
-            this.no.ReadOnly = true;
-            this.no.Width = 66;
-            // 
-            // ithsncode
-            // 
-            this.ithsncode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ithsncode.HeaderText = "HSN code";
-            this.ithsncode.Name = "ithsncode";
-            this.ithsncode.ReadOnly = true;
-            this.ithsncode.Width = 98;
-            // 
-            // iid
-            // 
-            this.iid.HeaderText = "iid";
-            this.iid.MinimumWidth = 6;
-            this.iid.Name = "iid";
-            this.iid.ReadOnly = true;
-            this.iid.Visible = false;
-            this.iid.Width = 125;
-            // 
-            // incrediantname
-            // 
-            this.incrediantname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.incrediantname.HeaderText = "Product  Name";
-            this.incrediantname.MinimumWidth = 6;
-            this.incrediantname.Name = "incrediantname";
-            this.incrediantname.ReadOnly = true;
-            this.incrediantname.Width = 89;
-            // 
-            // Incrediantcateg
-            // 
-            this.Incrediantcateg.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Incrediantcateg.HeaderText = "Category";
-            this.Incrediantcateg.MinimumWidth = 6;
-            this.Incrediantcateg.Name = "Incrediantcateg";
-            this.Incrediantcateg.ReadOnly = true;
-            this.Incrediantcateg.Width = 98;
-            // 
-            // unit
-            // 
-            this.unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.unit.HeaderText = "Unit";
-            this.unit.MinimumWidth = 6;
-            this.unit.Name = "unit";
-            this.unit.ReadOnly = true;
-            this.unit.Width = 63;
-            // 
-            // Quantity
-            // 
-            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Quantity.HeaderText = "Qty";
-            this.Quantity.MinimumWidth = 6;
-            this.Quantity.Name = "Quantity";
-            this.Quantity.ReadOnly = true;
-            this.Quantity.Width = 58;
-            // 
-            // Prate
-            // 
-            this.Prate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Prate.HeaderText = "Prate";
-            this.Prate.MinimumWidth = 6;
-            this.Prate.Name = "Prate";
-            this.Prate.ReadOnly = true;
-            this.Prate.Width = 72;
-            // 
-            // Srate
-            // 
-            this.Srate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            this.Srate.HeaderText = "Srate";
-            this.Srate.MinimumWidth = 6;
-            this.Srate.Name = "Srate";
-            this.Srate.ReadOnly = true;
-            this.Srate.Width = 6;
-            // 
-            // mrp
-            // 
-            this.mrp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.mrp.HeaderText = "MRP";
-            this.mrp.MinimumWidth = 6;
-            this.mrp.Name = "mrp";
-            this.mrp.ReadOnly = true;
-            this.mrp.Width = 69;
-            // 
-            // taxtype
-            // 
-            this.taxtype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.taxtype.HeaderText = "Tax";
-            this.taxtype.MinimumWidth = 6;
-            this.taxtype.Name = "taxtype";
-            this.taxtype.ReadOnly = true;
-            this.taxtype.Width = 59;
-            // 
-            // dTaxtype
-            // 
-            this.dTaxtype.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dTaxtype.HeaderText = "TaxType";
-            this.dTaxtype.MinimumWidth = 6;
-            this.dTaxtype.Name = "dTaxtype";
-            this.dTaxtype.ReadOnly = true;
-            this.dTaxtype.Width = 93;
-            // 
-            // taxper
-            // 
-            this.taxper.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.taxper.HeaderText = "Tax%";
-            this.taxper.MinimumWidth = 6;
-            this.taxper.Name = "taxper";
-            this.taxper.ReadOnly = true;
-            this.taxper.Width = 73;
-            // 
-            // Description
-            // 
-            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Description.HeaderText = "Description";
-            this.Description.MinimumWidth = 6;
-            this.Description.Name = "Description";
-            this.Description.ReadOnly = true;
-            this.Description.Width = 114;
-            // 
-            // status
-            // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.status.HeaderText = "Status";
-            this.status.MinimumWidth = 6;
-            this.status.Name = "status";
-            this.status.ReadOnly = true;
-            this.status.Visible = false;
-            // 
-            // incre_id
-            // 
-            this.incre_id.HeaderText = "incre_id";
-            this.incre_id.MinimumWidth = 6;
-            this.incre_id.Name = "incre_id";
-            this.incre_id.ReadOnly = true;
-            this.incre_id.Visible = false;
-            this.incre_id.Width = 125;
-            // 
-            // unitid
-            // 
-            this.unitid.HeaderText = "Unitid";
-            this.unitid.MinimumWidth = 6;
-            this.unitid.Name = "unitid";
-            this.unitid.ReadOnly = true;
-            this.unitid.Visible = false;
-            this.unitid.Width = 125;
-            // 
-            // itReorderLevel
-            // 
-            this.itReorderLevel.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.itReorderLevel.HeaderText = "Reorder Level";
-            this.itReorderLevel.Name = "itReorderLevel";
-            this.itReorderLevel.ReadOnly = true;
-            this.itReorderLevel.Width = 122;
-            // 
-            // itIsexpire
-            // 
-            this.itIsexpire.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.itIsexpire.HeaderText = "Isexpire";
-            this.itIsexpire.Name = "itIsexpire";
-            this.itIsexpire.ReadOnly = true;
-            this.itIsexpire.Width = 89;
-            // 
-            // it
-            // 
-            this.it.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.it.HeaderText = "Lock Sale Rate";
-            this.it.Name = "it";
-            this.it.ReadOnly = true;
-            this.it.Width = 131;
-            // 
-            // itBaseunit
-            // 
-            this.itBaseunit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.itBaseunit.HeaderText = "Base Unit";
-            this.itBaseunit.Name = "itBaseunit";
-            this.itBaseunit.ReadOnly = true;
-            this.itBaseunit.Width = 96;
-            // 
-            // itConversionfactor
-            // 
-            this.itConversionfactor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.itConversionfactor.HeaderText = "Conversion Factor";
-            this.itConversionfactor.Name = "itConversionfactor";
-            this.itConversionfactor.ReadOnly = true;
-            this.itConversionfactor.Width = 149;
             // 
             // FrmItemRegistartion
             // 
