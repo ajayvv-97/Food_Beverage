@@ -4046,14 +4046,37 @@ namespace FoodandBeverage.Forms
             try
             {
                 if (dgv_registartion.Columns.Count <= Runitno)
+                {
                     return;
+                }
 
-                DataGridViewColumn unitColumn = dgv_registartion.Columns[Runitno];
-                unitColumn.ReadOnly = true;
-                unitColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
-                unitColumn.DefaultCellStyle.BackColor = SystemColors.Control;
-                unitColumn.DefaultCellStyle.ForeColor = SystemColors.ControlText;
-                unitColumn.ToolTipText = "Unit is automatically taken from the selected raw material's Base Unit.";
+                // Bind the grid's Unit combo to unit names. The cell value remains UId,
+                // so saving the ingredient still stores the unit ID, not its display text.
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch unitSearch = new DmnSearch();
+                unitSearch.ColumnHeaders = "ID,Unit";
+                unitSearch.Select = "UId AS Id, UnitName AS Value";
+                unitSearch.Table = "tblUnit";
+                unitSearch.WhereNdGroupBy = "WHERE Status = 1";
+                unitSearch.OrderBy = "ORDER BY UnitName";
+
+                var units = bllSearch.GetSearchData("prdComboFill", unitSearch);
+                DataGridViewComboBoxColumn unitColumn =
+                    dgv_registartion.Columns[Runitno] as DataGridViewComboBoxColumn;
+
+                if (unitColumn != null)
+                {
+                    unitColumn.DataSource = units;
+                    unitColumn.ValueMember = "Id";
+                    unitColumn.DisplayMember = "Value";
+                    unitColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+                    unitColumn.FlatStyle = FlatStyle.Flat;
+                    unitColumn.ReadOnly = true;
+                    unitColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+                    unitColumn.DefaultCellStyle.BackColor = SystemColors.Control;
+                    unitColumn.DefaultCellStyle.ForeColor = SystemColors.ControlText;
+                    unitColumn.ToolTipText = "Unit is automatically taken from the selected raw material's Base Unit.";
+                }
             }
             catch (Exception ex)
             {
