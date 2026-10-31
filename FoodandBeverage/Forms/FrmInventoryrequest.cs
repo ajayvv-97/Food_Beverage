@@ -156,7 +156,18 @@ namespace FoodandBeverage.Forms
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_clearall_batch_Click", ex); }
         }
 
-        private void btn_importbatch_Click(object sender, EventArgs e) { SelectAndAddBatchProduct(); }
+        private void btn_importbatch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectAndAddBatchProduct();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_importbatch_Click", ex);
+                ShowError("Unable to import batch products. " + ex.Message);
+            }
+        }
         private void btn_editingrediant_batch_Click(object sender, EventArgs e)
         {
             try
@@ -166,8 +177,30 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_editingrediant_batch_Click", ex); }
         }
-        private void btn_advsearch_batch_Click(object sender, EventArgs e) { SelectAndAddBatchProduct(); }
-        private void btn_addtolist_batch_Click(object sender, EventArgs e) { SelectAndAddBatchProduct(); }
+        private void btn_advsearch_batch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectAndAddBatchProduct();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_advsearch_batch_Click", ex);
+                ShowError("Unable to search batch products. " + ex.Message);
+            }
+        }
+        private void btn_addtolist_batch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectAndAddBatchProduct();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_addtolist_batch_Click", ex);
+                ShowError("Unable to add the selected batch product. " + ex.Message);
+            }
+        }
 
         private void SelectAndAddBatchProduct()
         {
@@ -247,7 +280,17 @@ namespace FoodandBeverage.Forms
             LoadIngredientsForRow(dgv_batch.Rows[e.RowIndex]);
         }
 
-        private void dgv_batch_ingrediant_CellClick(object sender, DataGridViewCellEventArgs e) { }
+        private void dgv_batch_ingrediant_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                // Ingredient rows are display-only.
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest dgv_batch_ingrediant_CellClick", ex);
+            }
+        }
 
         private void dgv_batch_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -413,9 +456,42 @@ namespace FoodandBeverage.Forms
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest dgv_raw_CellClick", ex); }
         }
 
-        private void btn_addtolist_raw_Click(object sender, EventArgs e) { SelectAndAddRawMaterial(); }
-        private void btn_advsearch_raw_Click(object sender, EventArgs e) { SelectAndAddRawMaterial(); }
-        private void btn_import_raw_Click(object sender, EventArgs e) { SelectAndAddRawMaterial(); }
+        private void btn_addtolist_raw_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectAndAddRawMaterial();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_addtolist_raw_Click", ex);
+                ShowError("Unable to add the selected raw material. " + ex.Message);
+            }
+        }
+        private void btn_advsearch_raw_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectAndAddRawMaterial();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_advsearch_raw_Click", ex);
+                ShowError("Unable to search raw materials. " + ex.Message);
+            }
+        }
+        private void btn_import_raw_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectAndAddRawMaterial();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_import_raw_Click", ex);
+                ShowError("Unable to import raw materials. " + ex.Message);
+            }
+        }
 
         private void SelectAndAddRawMaterial()
         {
@@ -540,11 +616,16 @@ namespace FoodandBeverage.Forms
             for (int i = 0; i < grid.Rows.Count; i++) grid.Rows[i].Cells[slnoColumn].Value = i + 1;
         }
 
-        private static void LogInventoryException(string eventName, Exception ex)
+        private void LogInventoryException(string eventName, Exception ex)
         {
             try
             {
-                clsgen.LogException("InventoryManagement page " + eventName, ex,FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.InventoryManagement));
+                clsgen.LogException(
+                    "InventoryManagement page " + eventName,
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.InventoryManagement));
             }
             catch
             {
@@ -559,12 +640,34 @@ namespace FoodandBeverage.Forms
 
         private void txtsearch_batch_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; SelectAndAddBatchProduct(); }
+            try
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
+                    SelectAndAddBatchProduct();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest txtsearch_batch_KeyDown", ex);
+            }
         }
 
         private void txtsearch_raw_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; SelectAndAddRawMaterial(); }
+            try
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
+                    SelectAndAddRawMaterial();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest txtsearch_raw_KeyDown", ex);
+            }
         }
         #endregion
     }
