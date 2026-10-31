@@ -250,7 +250,7 @@ namespace FoodandBeverage.Forms
                     DepartmentId = GetComboId(cmb_req_department),
                     EmployeeId = GetComboId(cmb_req_employee),
                     Remarks = txtremarks.Text.Trim(),
-                    RequestType = _activeRequestType,
+                    RequestType = dgv_batch.Rows.Count > 0 && dgv_raw.Rows.Count > 0 ? 3 : (_activeRequestType),
                     CreatedBy = GetComboId(cmb_req_employee) ?? 0,
                     BranchId = 0,
                     Status = 1
@@ -266,55 +266,54 @@ namespace FoodandBeverage.Forms
 
         private List<DmnInventoryRequestItem> BuildRequestDetails()
         {
+            // A request header can contain both preparation products and direct raw materials.
+            // RequestType on each detail row identifies which grid the item came from.
             List<DmnInventoryRequestItem> details = new List<DmnInventoryRequestItem>();
-            if (_activeRequestType == 1)
+
+            foreach (DataGridViewRow row in dgv_batch.Rows)
             {
-                foreach (DataGridViewRow row in dgv_batch.Rows)
+                if (row.IsNewRow || row.Cells[Bitemidno].Value == null) continue;
+                details.Add(new DmnInventoryRequestItem
                 {
-                    if (row.IsNewRow || row.Cells[Bitemidno].Value == null) continue;
-                    details.Add(new DmnInventoryRequestItem
-                    {
-                        RequestType = 1,
-                        ItemId = Convert.ToInt32(row.Cells[Bitemidno].Value),
-                        ItemName = Convert.ToString(row.Cells[Bmenuitemno].Value),
-                        PlannedQty = ToDecimal(row.Cells[Bplannedqtyno].Value),
-                        CurrentStock = 0,
-                        IssuedQty = 0,
-                        UnitId = null,
-                        ProjectBalance = 0,
-                        Purpose = txtremarks.Text.Trim(),
-                        ProductType = 1,
-                        CreatedBy = GetComboId(cmb_req_employee) ?? 0,
-                        BranchId = 0,
-                        Status = 1
-                    });
-                }
+                    RequestType = 1,
+                    ItemId = Convert.ToInt32(row.Cells[Bitemidno].Value),
+                    ItemName = Convert.ToString(row.Cells[Bmenuitemno].Value),
+                    PlannedQty = ToDecimal(row.Cells[Bplannedqtyno].Value),
+                    CurrentStock = 0,
+                    IssuedQty = 0,
+                    UnitId = null,
+                    ProjectBalance = 0,
+                    Purpose = txtremarks.Text.Trim(),
+                    ProductType = 1,
+                    CreatedBy = GetComboId(cmb_req_employee) ?? 0,
+                    BranchId = 0,
+                    Status = 1
+                });
             }
-            else
+
+            foreach (DataGridViewRow row in dgv_raw.Rows)
             {
-                foreach (DataGridViewRow row in dgv_raw.Rows)
+                if (row.IsNewRow || row.Cells[Ritemidno].Value == null) continue;
+                decimal stock = ToDecimal(row.Cells[Rcurrentstockno].Value);
+                decimal issued = ToDecimal(row.Cells[Rissuedqtyno].Value);
+                details.Add(new DmnInventoryRequestItem
                 {
-                    if (row.IsNewRow || row.Cells[Ritemidno].Value == null) continue;
-                    decimal stock = ToDecimal(row.Cells[Rcurrentstockno].Value);
-                    decimal issued = ToDecimal(row.Cells[Rissuedqtyno].Value);
-                    details.Add(new DmnInventoryRequestItem
-                    {
-                        RequestType = 2,
-                        ItemId = Convert.ToInt32(row.Cells[Ritemidno].Value),
-                        ItemName = Convert.ToString(row.Cells[Rrawmaterialno].Value),
-                        PlannedQty = issued,
-                        CurrentStock = stock,
-                        IssuedQty = issued,
-                        UnitId = null,
-                        ProjectBalance = stock - issued,
-                        Purpose = Convert.ToString(row.Cells[RpurposeRemarksno].Value),
-                        ProductType = 2,
-                        CreatedBy = GetComboId(cmb_req_employee) ?? 0,
-                        BranchId = 0,
-                        Status = 1
-                    });
-                }
+                    RequestType = 2,
+                    ItemId = Convert.ToInt32(row.Cells[Ritemidno].Value),
+                    ItemName = Convert.ToString(row.Cells[Rrawmaterialno].Value),
+                    PlannedQty = issued,
+                    CurrentStock = stock,
+                    IssuedQty = issued,
+                    UnitId = null,
+                    ProjectBalance = stock - issued,
+                    Purpose = Convert.ToString(row.Cells[RpurposeRemarksno].Value),
+                    ProductType = 2,
+                    CreatedBy = GetComboId(cmb_req_employee) ?? 0,
+                    BranchId = 0,
+                    Status = 1
+                });
             }
+
             return details;
         }
 
