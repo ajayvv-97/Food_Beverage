@@ -236,7 +236,18 @@ namespace FoodandBeverage.Forms
 
         private void LoadIngredientsForCurrentBatchRow()
         {
-            if (dgv_batch.CurrentRow != null) LoadIngredientsForRow(dgv_batch.CurrentRow);
+            try
+            {
+                if (dgv_batch.CurrentRow != null)
+                {
+                    LoadIngredientsForRow(dgv_batch.CurrentRow);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest LoadIngredientsForCurrentBatchRow", ex);
+                throw;
+            }
         }
 
         private void LoadIngredientsForRow(DataGridViewRow productRow)
@@ -301,7 +312,17 @@ namespace FoodandBeverage.Forms
 
         private void dgv_batch_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (dgv_batch.IsCurrentCellDirty) dgv_batch.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            try
+            {
+                if (dgv_batch.IsCurrentCellDirty)
+                {
+                    dgv_batch.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest dgv_batch_CurrentCellDirtyStateChanged", ex);
+            }
         }
         #endregion
 
@@ -611,9 +632,20 @@ namespace FoodandBeverage.Forms
             return decimal.TryParse(Convert.ToString(value), out result) ? result : 0m;
         }
 
-        private static void RenumberRows(DataGridView grid, int slnoColumn)
+        private void RenumberRows(DataGridView grid, int slnoColumn)
         {
-            for (int i = 0; i < grid.Rows.Count; i++) grid.Rows[i].Cells[slnoColumn].Value = i + 1;
+            try
+            {
+                for (int i = 0; i < grid.Rows.Count; i++)
+                {
+                    grid.Rows[i].Cells[slnoColumn].Value = i + 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest RenumberRows", ex);
+                throw;
+            }
         }
 
         private void LogInventoryException(string eventName, Exception ex)
