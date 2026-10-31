@@ -143,16 +143,24 @@ namespace FoodandBeverage.Forms
         #region Batch Preparation
         private void btn_clearall_batch_Click(object sender, EventArgs e)
         {
-            dgv_batch.Rows.Clear();
-            dgv_batch_ingrediant.Rows.Clear();
-            txtsearch_batch.Clear();
+            try
+            {
+                dgv_batch.Rows.Clear();
+                dgv_batch_ingrediant.Rows.Clear();
+                txtsearch_batch.Clear();
+            }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_clearall_batch_Click", ex); }
         }
 
         private void btn_importbatch_Click(object sender, EventArgs e) { SelectAndAddBatchProduct(); }
         private void btn_editingrediant_batch_Click(object sender, EventArgs e)
         {
-            if (dgv_batch.CurrentRow == null) return;
-            LoadIngredientsForCurrentBatchRow();
+            try
+            {
+                if (dgv_batch.CurrentRow == null) return;
+                LoadIngredientsForCurrentBatchRow();
+            }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_editingrediant_batch_Click", ex); }
         }
         private void btn_advsearch_batch_Click(object sender, EventArgs e) { SelectAndAddBatchProduct(); }
         private void btn_addtolist_batch_Click(object sender, EventArgs e) { SelectAndAddBatchProduct(); }
@@ -360,8 +368,17 @@ namespace FoodandBeverage.Forms
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest btnSearchrequest_Click", ex); ShowError("Unable to search requests. " + ex.Message); }
         }
 
-        private void btnrefresh_Click(object sender, EventArgs e) { ResetRequest(); }
-        private void btnclose_Click(object sender, EventArgs e) { Close(); }
+        private void btnrefresh_Click(object sender, EventArgs e)
+        {
+            try { ResetRequest(); }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest btnrefresh_Click", ex); }
+        }
+
+        private void btnclose_Click(object sender, EventArgs e)
+        {
+            try { Close(); }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest btnclose_Click", ex); }
+        }
 
         private void ResetRequest()
         {
@@ -380,12 +397,16 @@ namespace FoodandBeverage.Forms
         #region Raw
         private void dgv_raw_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-            if (e.ColumnIndex == Ractionno)
+            try
             {
-                dgv_raw.Rows.RemoveAt(e.RowIndex);
-                RenumberRows(dgv_raw, Rslno);
+                if (e.RowIndex < 0) return;
+                if (e.ColumnIndex == Ractionno)
+                {
+                    dgv_raw.Rows.RemoveAt(e.RowIndex);
+                    RenumberRows(dgv_raw, Rslno);
+                }
             }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest dgv_raw_CellClick", ex); }
         }
 
         private void btn_addtolist_raw_Click(object sender, EventArgs e) { SelectAndAddRawMaterial(); }
@@ -427,8 +448,12 @@ namespace FoodandBeverage.Forms
 
         private void dgv_raw_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (_loadingGrid || e.RowIndex < 0 || e.ColumnIndex != Rissuedqtyno) return;
-            UpdateRawBalance(dgv_raw.Rows[e.RowIndex]);
+            try
+            {
+                if (_loadingGrid || e.RowIndex < 0 || e.ColumnIndex != Rissuedqtyno) return;
+                UpdateRawBalance(dgv_raw.Rows[e.RowIndex]);
+            }
+            catch (Exception ex) { LogInventoryException("FrmInventoryrequest dgv_raw_CellValueChanged", ex); }
         }
 
         private void UpdateRawBalance(DataGridViewRow row)
