@@ -294,7 +294,8 @@ namespace FoodandBeverage.Interfaces
         Partybooking=43,
         OrderconsoleCustomdesign=44,
         SalesBill =45,
-        Reason=46
+        Reason=46,
+        InventoryManagement = 47
 
     };
     public enum Menubutton

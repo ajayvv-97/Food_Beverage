@@ -1,6 +1,8 @@
 using BLL;
 using CustomMessageBox;
 using Domain;
+using FoodandBeverage.Classes;
+using FoodandBeverage.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +17,8 @@ namespace FoodandBeverage.Forms
         private readonly BllInventoryRequest _inventoryBll = new BllInventoryRequest();
         private bool _loadingGrid;
         private int _activeRequestType = 1; // 1 = batch preparation, 2 = raw material
+
+        ClsGeneral clsgen = new ClsGeneral();
 
         #region Grid Declaration
         // Batch product grid
@@ -540,8 +544,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                clsgen.LogException("Product page " + eventName, ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                clsgen.LogException("InventoryManagement page " + eventName, ex,FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.InventoryManagement));
             }
             catch
             {
