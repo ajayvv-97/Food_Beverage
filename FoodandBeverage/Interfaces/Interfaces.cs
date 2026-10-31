@@ -708,6 +708,7 @@ namespace FoodandBeverage.Interfaces
     }
     public enum Deductionstage
     {
+        Any = 0,
         Orderpreparation = 1,
         Advancepreparation = 2,
     }
