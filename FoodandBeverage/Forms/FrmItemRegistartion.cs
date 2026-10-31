@@ -2971,6 +2971,106 @@ namespace FoodandBeverage.Forms
         private void btncls_unit_Click(object sender, EventArgs e)
         {
             tlp_Unit.Visible = false;
+            HideRegistrationBlurOverlay();
+        }
+        #endregion
+
+        #region Registration Panel Blur Overlay
+        private PictureBox _registrationBlurOverlay;
+        private Bitmap _registrationBlurImage;
+        private const int RegistrationBlurScale = 4;
+        private const byte RegistrationBlurShadeAlpha = 76;
+
+        private void ShowRegistrationBlurOverlay(TableLayoutPanel panel)
+        {
+            if (panel == null || panel.IsDisposed || panel.Parent != this)
+                return;
+
+            try
+            {
+                // Hide the popup while capturing so it is not included in its own background.
+                bool wasVisible = panel.Visible;
+                panel.Visible = false;
+
+                Bitmap nextImage;
+                using (Bitmap original = new Bitmap(
+                    Math.Max(1, ClientSize.Width),
+                    Math.Max(1, ClientSize.Height)))
+                {
+                    DrawToBitmap(original, new Rectangle(Point.Empty, original.Size));
+
+                    int previewWidth = Math.Max(1, original.Width / RegistrationBlurScale);
+                    int previewHeight = Math.Max(1, original.Height / RegistrationBlurScale);
+
+                    using (Bitmap preview = new Bitmap(previewWidth, previewHeight))
+                    using (Graphics previewGraphics = Graphics.FromImage(preview))
+                    {
+                        previewGraphics.InterpolationMode = InterpolationMode.Low;
+                        previewGraphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                        previewGraphics.DrawImage(original, new Rectangle(0, 0, previewWidth, previewHeight));
+
+                        nextImage = new Bitmap(original.Width, original.Height);
+                        using (Graphics blurGraphics = Graphics.FromImage(nextImage))
+                        using (SolidBrush shade = new SolidBrush(Color.FromArgb(RegistrationBlurShadeAlpha, 0, 0, 0)))
+                        {
+                            blurGraphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                            blurGraphics.DrawImage(preview, new Rectangle(0, 0, original.Width, original.Height));
+                            blurGraphics.FillRectangle(shade, 0, 0, original.Width, original.Height);
+                        }
+                    }
+                }
+
+                if (_registrationBlurOverlay == null || _registrationBlurOverlay.IsDisposed)
+                {
+                    _registrationBlurOverlay = new PictureBox
+                    {
+                        Name = "picRegistrationBlurOverlay",
+                        Bounds = ClientRectangle,
+                        Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+                        SizeMode = PictureBoxSizeMode.StretchImage,
+                        BackColor = Color.Black,
+                        TabStop = false,
+                        Enabled = false,
+                        Visible = false
+                    };
+                    Controls.Add(_registrationBlurOverlay);
+                }
+
+                Bitmap previousImage = _registrationBlurImage;
+                _registrationBlurImage = nextImage;
+                _registrationBlurOverlay.Image = _registrationBlurImage;
+                if (previousImage != null)
+                    previousImage.Dispose();
+
+                _registrationBlurOverlay.Bounds = ClientRectangle;
+                _registrationBlurOverlay.Visible = true;
+                _registrationBlurOverlay.BringToFront();
+
+                panel.Visible = wasVisible;
+                panel.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                if (panel != null && !panel.IsDisposed)
+                    panel.Visible = true;
+
+                clsgen.LogException("Item page ShowRegistrationBlurOverlay()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
+            }
+        }
+
+        private void HideRegistrationBlurOverlay()
+        {
+            if (_registrationBlurOverlay != null && !_registrationBlurOverlay.IsDisposed)
+                _registrationBlurOverlay.Visible = false;
+
+            if (_registrationBlurImage != null)
+            {
+                _registrationBlurImage.Dispose();
+                _registrationBlurImage = null;
+            }
+
+            if (_registrationBlurOverlay != null && !_registrationBlurOverlay.IsDisposed)
+                _registrationBlurOverlay.Image = null;
         }
         #endregion
 
@@ -2978,17 +3078,21 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-            panel.Visible = true;
-            panel.BringToFront();
-            panel.Location = new Point(
-                Math.Max(0, (ClientSize.Width - panel.Width) / 2),
-                Math.Max(0, (ClientSize.Height - panel.Height) / 2));
-            panel.Anchor = AnchorStyles.None;
-        
-            } catch (Exception ex)
+                if (panel == null || panel.IsDisposed)
+                    return;
+
+                ShowRegistrationBlurOverlay(panel);
+                panel.Visible = true;
+                panel.Location = new Point(
+                    Math.Max(0, (ClientSize.Width - panel.Width) / 2),
+                    Math.Max(0, (ClientSize.Height - panel.Height) / 2));
+                panel.Anchor = AnchorStyles.None;
+                panel.BringToFront();
+            }
+            catch (Exception ex)
             {
                 clsgen.LogException("Item page ShowRegistrationPanel()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Item));
-            } 
+            }
         }
 
        
