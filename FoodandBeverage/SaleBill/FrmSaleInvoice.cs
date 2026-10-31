@@ -1120,10 +1120,11 @@ namespace FoodandBeverage.SaleBill
                     crvSalesBill.ReportSource = reportDocument;
                     crvSalesBill.RefreshReport();
                     nextReportDocument = null;
+                    _loadedThermalFormat = rb_th.Checked;
 
                     // Resize only after the new report is loaded and assigned, so a failed
                     // A4 load cannot leave the invoice form in the wrong layout size.
-                    ApplyBillFormatFormSize(rb_th.Checked);
+                    ApplyBillFormatFormSize(_loadedThermalFormat);
                 }
                 finally
                 {
@@ -1154,6 +1155,11 @@ namespace FoodandBeverage.SaleBill
                 }
 
                 clsgen.LogException("Addon page PrintPartyBill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
+
+                // Restore the format selector to the report that is still displayed.
+                UpdateBillFormatSelection(_loadedThermalFormat);
+                ApplyBillFormatFormSize(_loadedThermalFormat);
+                CMessageBox.Show("Unable to load the selected party bill format. " + ex.Message);
                 // Keep the previously displayed report visible if rebuilding the selected format fails.
             }
         }
@@ -1763,6 +1769,7 @@ namespace FoodandBeverage.SaleBill
         }
 
         private bool _isSwitchingBillFormat;
+        private bool _loadedThermalFormat = true;
 
         private void ApplyBillFormatFormSize(bool thermalSelected)
         {
