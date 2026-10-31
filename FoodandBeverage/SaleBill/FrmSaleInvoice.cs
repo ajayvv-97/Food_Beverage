@@ -1131,7 +1131,7 @@ namespace FoodandBeverage.SaleBill
                     Directory.CreateDirectory(pdfFolder);
 
                 pdfPath = Path.Combine(pdfFolder, "Bill.pdf");
-                nextReportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, pdfPath);
+                reportDocument.ExportToDisk(ExportFormatType.PortableDocFormat, pdfPath);
 
                 #endregion
             }
