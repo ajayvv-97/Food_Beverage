@@ -29,6 +29,7 @@ namespace FoodandBeverage.Forms
             ConfigureInventoryItemCategoryColumn();
             chk_PackagingRequired.CheckedChanged += chk_PackagingRequired_CheckedChanged;
             dgv_registartion.RowsAdded += dgv_registartion_RowsAdded;
+            dgv_registartion.CellClick += dgv_registartion_ItemCellClick;
         }
 
         #region Decalartion
@@ -2148,6 +2149,24 @@ namespace FoodandBeverage.Forms
 
         }
 
+
+        private void dgv_registartion_ItemCellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex != Ritemno ||
+                    e.RowIndex >= dgv_registartion.Rows.Count ||
+                    dgv_registartion.Rows[e.RowIndex].IsNewRow)
+                    return;
+
+                ItemFillGrid(e.RowIndex);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page dgv_registartion_ItemCellClick()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
 
         private void dgv_registartion_CellEnter(object sender, DataGridViewCellEventArgs e)
         {

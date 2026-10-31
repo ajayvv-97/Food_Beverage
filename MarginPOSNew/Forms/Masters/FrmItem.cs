@@ -1,4 +1,5 @@
 ﻿using MarginPOSNew.Classes;
+using FoodandBeverage.Classes;
 using MetroFramework;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,9 @@ namespace MarginPOSNew.Forms.Masters
 {
     public partial class FrmItem : MetroFramework.Forms.MetroForm
     {
+        private Form _blurOwner;
+        private BlurPopupOverlay _ownerBlurOverlay;
+
         #region Declaration
         public string _retValue { get; set; }
         ClsGeneral objGeneral = new ClsGeneral();
@@ -49,13 +53,51 @@ namespace MarginPOSNew.Forms.Masters
 
         public FrmItem()
         {
+            _blurOwner = Form.ActiveForm;
             InitializeComponent();
+            RegisterOwnerBlurEvents();
             RefreshForm();
         }
         public FrmItem(long ItemId)
         {
+            _blurOwner = Form.ActiveForm;
             InitializeComponent();
+            RegisterOwnerBlurEvents();
             LoadFromList(ItemId);
+        }
+
+        private void RegisterOwnerBlurEvents()
+        {
+            if (_blurOwner == this || (_blurOwner != null && _blurOwner.IsDisposed))
+                _blurOwner = null;
+            Shown += FrmItem_Shown;
+            FormClosed += FrmItem_FormClosedForBlur;
+        }
+
+        private void FrmItem_Shown(object sender, EventArgs e)
+        {
+            try
+            {
+                Form blurOwner = Owner ?? _blurOwner;
+                if (blurOwner == null || blurOwner == this || blurOwner.IsDisposed || blurOwner.Disposing)
+                    return;
+                _ownerBlurOverlay = new BlurPopupOverlay(blurOwner);
+                _ownerBlurOverlay.ShowOwnerBlur();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("FrmItem owner blur: " + ex);
+            }
+        }
+
+        private void FrmItem_FormClosedForBlur(object sender, FormClosedEventArgs e)
+        {
+            if (_ownerBlurOverlay != null)
+            {
+                _ownerBlurOverlay.HideOwnerBlur();
+                _ownerBlurOverlay.Dispose();
+                _ownerBlurOverlay = null;
+            }
         }
         public void LoadFromList(long ItemId)
         {

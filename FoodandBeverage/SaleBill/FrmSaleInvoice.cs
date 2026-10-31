@@ -106,6 +106,7 @@ namespace FoodandBeverage.SaleBill
             httpClient = new HttpClient();
         }
         bool RPTLocalVw = false;
+        private bool _isUpdatingBillFormatSelection;
 
         // Match the Crystal Report viewer's surrounding surface to the existing purple theme.
         // Crystal Reports uses native child surfaces, so true transparency is not supported.
@@ -1263,28 +1264,36 @@ namespace FoodandBeverage.SaleBill
         }
         private void ApplyFormSize()
         {
+            Rectangle workingArea = Screen.FromControl(this).WorkingArea;
+            int targetWidth;
+            int targetHeight;
+
             if (rb_a4.Checked)
             {
-                int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
-                int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
-
-                this.Width = (int)(screenWidth * 0.8);
-                this.Height = (int)(screenHeight * 0.8);
-            }
-            else if (rb_th.Checked)
-            {
-                this.Width = Fdefaultwidth;
-                this.Height = Fdefaultheight;
+                targetWidth = (int)(workingArea.Width * 0.8);
+                targetHeight = (int)(workingArea.Height * 0.8);
             }
             else
             {
-                this.Width = Fdefaultwidth;
-                this.Height = Fdefaultheight;
+                targetWidth = Fdefaultwidth;
+                targetHeight = Fdefaultheight;
             }
 
-            crvSalesBill.Dock = DockStyle.Fill;
+            int targetX = workingArea.Left + (workingArea.Width - targetWidth) / 2;
+            int targetY = workingArea.Top + (workingArea.Height - targetHeight) / 2;
 
-            CenterForm(); 
+            SuspendLayout();
+            crvSalesBill.SuspendLayout();
+            try
+            {
+                crvSalesBill.Dock = DockStyle.Fill;
+                SetBounds(targetX, targetY, targetWidth, targetHeight, BoundsSpecified.All);
+            }
+            finally
+            {
+                crvSalesBill.ResumeLayout(false);
+                ResumeLayout(true);
+            }
         }
         private void CenterForm()
         {
@@ -1716,44 +1725,58 @@ namespace FoodandBeverage.SaleBill
 
         private void rb_th_CheckedChanged(object sender, EventArgs e)
         {
-            if (rb_th.Checked)
-            {
-                ApplyFormSize();
-                PrintPartyBill(); 
-            }
+            if (!_isUpdatingBillFormatSelection && rb_th.Checked)
+                ApplyUserBillFormatSelection(true);
         }
 
         private void rb_a4_CheckedChanged(object sender, EventArgs e)
         {
-            if (rb_a4.Checked)
-            {
-                ApplyFormSize();
-                PrintPartyBill(); 
-            }
+            if (!_isUpdatingBillFormatSelection && rb_a4.Checked)
+                ApplyUserBillFormatSelection(false);
         }
 
-        // Highlight the selected bill format and keep its radio button synchronized.
+        private void ApplyUserBillFormatSelection(bool thermalSelected)
+        {
+            UpdateBillFormatSelection(thermalSelected);
+            ApplyFormSize();
+            PrintPartyBill();
+        }
+
         private void UpdateBillFormatSelection(bool thermalSelected)
         {
-            Color selectedBackColor = Color.FromArgb(235, 222, 255); // Light lavender
-            Color normalBackColor = Color.FromArgb(248, 245, 255);   // Very light lavender
-            Color selectedBorderColor = Color.FromArgb(109, 40, 217);
-            Color normalBorderColor = Color.FromArgb(215, 198, 245);
+            Color selectedBackColor = Color.FromArgb(235, 222, 255);
+            Color normalBackColor = Color.FromArgb(248, 245, 255);
 
-            rb_th.Checked = thermalSelected;
-            rb_a4.Checked = !thermalSelected;
+            bool previousUpdateState = _isUpdatingBillFormatSelection;
+            _isUpdatingBillFormatSelection = true;
 
-            pb_th.BackColor = thermalSelected ? selectedBackColor : normalBackColor;
-            pb_a4.BackColor = thermalSelected ? normalBackColor : selectedBackColor;
+            SuspendLayout();
+            pb_th.SuspendLayout();
+            pb_a4.SuspendLayout();
+            try
+            {
+                rb_th.Checked = thermalSelected;
+                rb_a4.Checked = !thermalSelected;
 
-            pb_th.BorderStyle = thermalSelected ? BorderStyle.FixedSingle : BorderStyle.None;
-            pb_a4.BorderStyle = thermalSelected ? BorderStyle.None : BorderStyle.FixedSingle;
+                pb_th.BackColor = thermalSelected ? selectedBackColor : normalBackColor;
+                pb_a4.BackColor = thermalSelected ? normalBackColor : selectedBackColor;
 
-            pb_th.Padding = new Padding(thermalSelected ? 3 : 0);
-            pb_a4.Padding = new Padding(thermalSelected ? 0 : 3);
+                pb_th.BorderStyle = thermalSelected ? BorderStyle.FixedSingle : BorderStyle.None;
+                pb_a4.BorderStyle = thermalSelected ? BorderStyle.None : BorderStyle.FixedSingle;
 
-            pb_th.Cursor = Cursors.Hand;
-            pb_a4.Cursor = Cursors.Hand;
+                pb_th.Padding = new Padding(thermalSelected ? 3 : 0);
+                pb_a4.Padding = new Padding(thermalSelected ? 0 : 3);
+
+                pb_th.Cursor = Cursors.Hand;
+                pb_a4.Cursor = Cursors.Hand;
+            }
+            finally
+            {
+                pb_a4.ResumeLayout(false);
+                pb_th.ResumeLayout(false);
+                ResumeLayout(true);
+                _isUpdatingBillFormatSelection = previousUpdateState;
+            }
 
             pb_th.Invalidate();
             pb_a4.Invalidate();
@@ -1761,12 +1784,12 @@ namespace FoodandBeverage.SaleBill
 
         private void pb_a4_Click(object sender, EventArgs e)
         {
-            UpdateBillFormatSelection(false);
+            ApplyUserBillFormatSelection(false);
         }
 
         private void pb_th_Click(object sender, EventArgs e)
         {
-            UpdateBillFormatSelection(true);
+            ApplyUserBillFormatSelection(true);
         }
     }
 }
