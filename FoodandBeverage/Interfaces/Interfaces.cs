@@ -722,6 +722,13 @@ namespace FoodandBeverage.Interfaces
         NotPrinted = 0,
         Printed = 1
     }
+    
+
+    public enum InventoryItemCategory
+    {
+        RawMaterial = 1,
+        PackagingMaterial = 2
+    }
 }
 
 
