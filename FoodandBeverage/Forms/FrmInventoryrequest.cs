@@ -52,7 +52,7 @@ namespace FoodandBeverage.Forms
             {
                 return connection.Query<DmnInventoryRequestItem>(
                     @"SELECT CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName,
-                             ISNULL(pr.QOH,0) AS CurrentStock, i.unit AS UnitId, CAST(2 AS INT) AS ProductType
+                             ISNULL(pr.QOH,0) AS CurrentStock, i.Baseunit AS UnitId, CAST(2 AS INT) AS ProductType
                       FROM dbo.tblItem i
                       OUTER APPLY
                       (
@@ -855,7 +855,7 @@ namespace FoodandBeverage.Forms
                     @"SELECT CAST(i.ItemId AS INT) AS ItemId,
                              i.Itemname AS ItemName,
                              ISNULL(pr.QOH,0) AS CurrentStock,
-                             i.Unit AS UnitId,
+                             i.Baseunit AS UnitId,
                              CAST(2 AS INT) AS ProductType
                       FROM dbo.tblItem i
                       LEFT JOIN dbo.tblCategory_FTI c ON c.Fcid = i.Fcid
