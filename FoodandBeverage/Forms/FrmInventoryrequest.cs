@@ -987,7 +987,8 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.ColumnHeaders = "ID,Request No,Request Date,Required Date,Request Type";
                 objSearch.Select =
-                    "InventoryRequestId as Id,RequestNo as Field1,RequestDate as Field2,RequiredDate as Field3," +
+                    "InventoryRequestId as Id,RequestNo as Field1,CAST(RequestDate AS varchar(30)) as Field2," +
+                    "CAST(RequiredDate AS varchar(30)) as Field3,"
                     "CASE RequestType WHEN 1 THEN 'Batch Preparation' WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END as Field4";
                 objSearch.Table = "tblInventoryRequestMaster";
                 objSearch.WhereNdGroupBy =
