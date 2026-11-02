@@ -398,7 +398,9 @@ namespace FoodandBeverage.Forms
                 dgv_batch.Rows.Clear();
                 dgv_batch_ingrediant.Rows.Clear();
                 _originalIngredientQuantities.Clear();
+                _visibleIngredientProductId = 0;
                 txtsearch_batch.Clear();
+                UpdateRequestTotals();
             }
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_clearall_batch_Click", ex); }
         }
@@ -761,6 +763,8 @@ namespace FoodandBeverage.Forms
                 RenumberRows(dgv_batch, Bslno);
                 dgv_batch_ingrediant.Rows.Clear();
                 _originalIngredientQuantities.Clear();
+                _visibleIngredientProductId = 0;
+                UpdateRequestTotals();
                 return;
             }
             LoadIngredientsForRow(dgv_batch.Rows[e.RowIndex]);
@@ -797,6 +801,8 @@ namespace FoodandBeverage.Forms
                 decimal plannedQty = ToDecimal(
                     dgv_batch.Rows[e.RowIndex].Cells[Bplannedqtyno].Value);
                 RecalculateBatchIngredientTotals(plannedQty);
+                CacheVisibleIngredientRows();
+                UpdateRequestTotals();
             }
             catch (Exception ex)
             {
@@ -878,6 +884,9 @@ namespace FoodandBeverage.Forms
             {
                 _loadingGrid = false;
             }
+
+            CacheVisibleIngredientRows();
+            UpdateRequestTotals();
         }
         #endregion
 
@@ -1037,6 +1046,13 @@ namespace FoodandBeverage.Forms
             dtp_reqdate.Value = DateTime.Today;
             dtp_required_date.Value = DateTime.Today;
             txt_reqno.Text = "IR-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
+            _currentRequestId = null;
+            _currentDraftId = null;
+            _loadedRequestDetails = null;
+            _visibleIngredientProductId = 0;
+            txt_requ_by.Clear();
+            UpdateRequesterName();
+            UpdateRequestTotals();
         }
         #endregion
 
@@ -1050,6 +1066,7 @@ namespace FoodandBeverage.Forms
                 {
                     dgv_raw.Rows.RemoveAt(e.RowIndex);
                     RenumberRows(dgv_raw, Rslno);
+                    UpdateRequestTotals();
                 }
             }
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest dgv_raw_CellClick", ex); }
@@ -1065,6 +1082,7 @@ namespace FoodandBeverage.Forms
                 dgv_raw.ClearSelection();
 
                 txtsearch_raw.Clear();
+                UpdateRequestTotals();
                 txtsearch_raw.Focus();
 
                 if (_itemSearchTextBox == txtsearch_raw)
@@ -1217,6 +1235,7 @@ namespace FoodandBeverage.Forms
             {
                 if (_loadingGrid || e.RowIndex < 0 || e.ColumnIndex != Rissuedqtyno) return;
                 UpdateRawBalance(dgv_raw.Rows[e.RowIndex]);
+                UpdateRequestTotals();
             }
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest dgv_raw_CellValueChanged", ex); }
         }
@@ -1227,6 +1246,7 @@ namespace FoodandBeverage.Forms
             decimal stock = ToDecimal(row.Cells[Rcurrentstockno].Value);
             decimal issued = ToDecimal(row.Cells[Rissuedqtyno].Value);
             row.Cells[Rprojectbalanceno].Value = stock - issued;
+            UpdateRequestTotals();
         }
         #endregion
 
@@ -2034,17 +2054,25 @@ namespace FoodandBeverage.Forms
 
         private void btn_opendraft_Click(object sender, EventArgs e)
         {
-
+            OpenDraftWorkflow();
         }
 
         private void btnsave_draft_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                SaveDraftWorkflow();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btnsave_draft_Click", ex);
+                ShowError("Unable to save the draft. " + ex.Message);
+            }
         }
 
         private void btn_deletesaved_draft_Click(object sender, EventArgs e)
         {
-
+            DeleteSavedDraftWorkflow();
         }
     }
 }
