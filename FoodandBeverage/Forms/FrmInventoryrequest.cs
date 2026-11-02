@@ -218,6 +218,12 @@ namespace FoodandBeverage.Forms
             grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             grid.EnableHeadersVisualStyles = false;
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            foreach (DataGridViewColumn column in grid.Columns)
+            {
+                // Explicit designer sizing modes (AllCells/ColumnHeader) override the grid default.
+                // Set every visible column to Fill so item-name columns can use the free width.
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
             grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             grid.ColumnHeadersHeight = 34;
             grid.RowTemplate.Height = 36;
