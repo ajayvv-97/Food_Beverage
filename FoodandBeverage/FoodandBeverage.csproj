@@ -2223,6 +2223,12 @@
     <None Include="Resources\Inv_BatchPreparation_Inactive.png" />
     <None Include="Resources\Inv_ClearAll.png" />
     <None Include="Resources\Inv_Edit.png" />
+    <None Include="Resources\Inv_TotalIssueQuantity_Icon.png" />
+    <None Include="Resources\Inv_TotalMaterials_Icon.png" />
+    <None Include="Resources\Inv_DeleteDraft_Button.png" />
+    <None Include="Resources\Inv_OpenDraft_Button.png" />
+    <None Include="Resources\Inv_RequestedBy_Icon.png" />
+    <None Include="Resources\Inv_SaveDraft_Button.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />

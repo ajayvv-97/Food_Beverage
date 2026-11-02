@@ -689,87 +689,86 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                List<DmnInventoryRequestItem> details = BuildRequestDetails();
+                DmnInventoryRequestMaster dmnproductinv = new DmnInventoryRequestMaster();
+                DmnInventoryRequestMaster dmnproductdetailsinv = new DmnInventoryRequestMaster();
+                BllInventoryRequest bllmasterinv = new BllInventoryRequest();
+                List<DmnInventoryRequestItem> details = new List<DmnInventoryRequestItem>();
+                foreach (DataGridViewRow row in dgv_batch.Rows)
+                {
+                    if (row.IsNewRow || row.Cells[Bitemidno].Value == null) continue;
+                    details.Add(new DmnInventoryRequestItem
+                    {
+                        RequestType = 1,
+                        ItemId = Convert.ToInt32(row.Cells[Bitemidno].Value),
+                        ItemName = Convert.ToString(row.Cells[Bmenuitemno].Value),
+                        PlannedQty = ToDecimal(row.Cells[Bplannedqtyno].Value),
+                        CurrentStock = 0,
+                        IssuedQty = 0,
+                        UnitId = null,
+                        ProjectBalance = 0,
+                        Purpose = txtremarks.Text.Trim(),
+                        ProductType = 1,
+                        CreatedBy = GetComboId(cmb_req_employee) ?? 0,
+                        BranchId = FrmDashboard.BranchId,
+                        Status = 1
+                    });
+                }
+
+                foreach (DataGridViewRow row in dgv_raw.Rows)
+                {
+                    if (row.IsNewRow || row.Cells[Ritemidno].Value == null) continue;
+                    decimal stock = ToDecimal(row.Cells[Rcurrentstockno].Value);
+                    decimal issued = ToDecimal(row.Cells[Rissuedqtyno].Value);
+                    details.Add(new DmnInventoryRequestItem
+                    {
+                        RequestType = 2,
+                        ItemId = Convert.ToInt32(row.Cells[Ritemidno].Value),
+                        ItemName = Convert.ToString(row.Cells[Rrawmaterialno].Value),
+                        PlannedQty = issued,
+                        CurrentStock = stock,
+                        IssuedQty = issued,
+                        UnitId = null,
+                        ProjectBalance = stock - issued,
+                        Purpose = Convert.ToString(row.Cells[RpurposeRemarksno].Value),
+                        ProductType = 2,
+                        CreatedBy = GetComboId(cmb_req_employee) ?? FrmLogin.UserId,
+                        BranchId = FrmDashboard.BranchId,
+                        Status = 1
+                    });
+                }
                 if (details.Count == 0)
                 {
                     ShowError("Add at least one product before saving the request.");
                     return;
                 }
 
-                DmnInventoryRequestMaster master = new DmnInventoryRequestMaster
+                dmnproductinv.RequestNo = txt_reqno.Text.Trim();
+                dmnproductinv.RequestDate = dtp_reqdate.Value;
+                dmnproductinv.RequiredDate = dtp_required_date.Value;
+                dmnproductinv.DepartmentId = GetComboId(cmb_req_department);
+                dmnproductinv.EmployeeId = GetComboId(cmb_req_employee);
+                dmnproductinv.Remarks = txtremarks.Text.Trim();
+                dmnproductinv.RequestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2) ? 3 : details[0].RequestType;
+                dmnproductinv.CreatedBy = GetComboId(cmb_req_employee) ?? 0;
+                dmnproductinv.BranchId = 0;
+                dmnproductinv.Status = 1;
+                int requestId = 0;
+                var prostatusinv = bllmasterinv.AddMasterData("prdInsert_Upd_Product", dmnproductinv);
+                if (prostatusinv.RequestId > 0)
                 {
-                    RequestNo = txt_reqno.Text.Trim(),
-                    RequestDate = dtp_reqdate.Value,
-                    RequiredDate = dtp_required_date.Value,
-                    DepartmentId = GetComboId(cmb_req_department),
-                    EmployeeId = GetComboId(cmb_req_employee),
-                    Remarks = txtremarks.Text.Trim(),
-                    RequestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2) ? 3 : details[0].RequestType,
-                    CreatedBy = GetComboId(cmb_req_employee) ?? 0,
-                    BranchId = 0,
-                    Status = 1
-                };
-
-                int requestId = _inventoryBll.Save(master, details);
-                MessageBox.Show("Inventory request saved successfully. Request ID: " + requestId,
-                    "Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    requestId=prostatusinv.RequestId;
+                    //details
+                }
+                MessageBox.Show("Inventory request saved successfully. Request ID: " + requestId,"Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ResetRequest();
             }
-            catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_saverequest_Click", ex); ShowError("Unable to save inventory request. " + ex.Message); }
+            catch (Exception ex)
+            { 
+                LogInventoryException("FrmInventoryrequest btn_saverequest_Click", ex); ShowError("Unable to save inventory request. " + ex.Message);
+            }
         }
 
-        private List<DmnInventoryRequestItem> BuildRequestDetails()
-        {
-            // A request header can contain both preparation products and direct raw materials.
-            // RequestType on each detail row identifies which grid the item came from.
-            List<DmnInventoryRequestItem> details = new List<DmnInventoryRequestItem>();
 
-            foreach (DataGridViewRow row in dgv_batch.Rows)
-            {
-                if (row.IsNewRow || row.Cells[Bitemidno].Value == null) continue;
-                details.Add(new DmnInventoryRequestItem
-                {
-                    RequestType = 1,
-                    ItemId = Convert.ToInt32(row.Cells[Bitemidno].Value),
-                    ItemName = Convert.ToString(row.Cells[Bmenuitemno].Value),
-                    PlannedQty = ToDecimal(row.Cells[Bplannedqtyno].Value),
-                    CurrentStock = 0,
-                    IssuedQty = 0,
-                    UnitId = null,
-                    ProjectBalance = 0,
-                    Purpose = txtremarks.Text.Trim(),
-                    ProductType = 1,
-                    CreatedBy = GetComboId(cmb_req_employee) ?? 0,
-                    BranchId = 0,
-                    Status = 1
-                });
-            }
-
-            foreach (DataGridViewRow row in dgv_raw.Rows)
-            {
-                if (row.IsNewRow || row.Cells[Ritemidno].Value == null) continue;
-                decimal stock = ToDecimal(row.Cells[Rcurrentstockno].Value);
-                decimal issued = ToDecimal(row.Cells[Rissuedqtyno].Value);
-                details.Add(new DmnInventoryRequestItem
-                {
-                    RequestType = 2,
-                    ItemId = Convert.ToInt32(row.Cells[Ritemidno].Value),
-                    ItemName = Convert.ToString(row.Cells[Rrawmaterialno].Value),
-                    PlannedQty = issued,
-                    CurrentStock = stock,
-                    IssuedQty = issued,
-                    UnitId = null,
-                    ProjectBalance = stock - issued,
-                    Purpose = Convert.ToString(row.Cells[RpurposeRemarksno].Value),
-                    ProductType = 2,
-                    CreatedBy = GetComboId(cmb_req_employee) ?? 0,
-                    BranchId = 0,
-                    Status = 1
-                });
-            }
-
-            return details;
-        }
 
         private void btnSearchrequest_Click(object sender, EventArgs e)
         {
@@ -1821,6 +1820,21 @@ namespace FoodandBeverage.Forms
                 LogInventoryException("FrmInventoryrequest btn_save_ingrediant_Click", ex);
                 ShowError("Unable to save ingredient details. " + ex.Message);
             }
+        }
+
+        private void btn_opendraft_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnsave_draft_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_deletesaved_draft_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

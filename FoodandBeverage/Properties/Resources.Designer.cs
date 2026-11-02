@@ -1673,6 +1673,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Inv_DeleteDraft_Button {
+            get {
+                object obj = ResourceManager.GetObject("Inv_DeleteDraft_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Inv_Edit {
             get {
                 object obj = ResourceManager.GetObject("Inv_Edit", resourceCulture);
@@ -1733,6 +1743,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Inv_OpenDraft_Button {
+            get {
+                object obj = ResourceManager.GetObject("Inv_OpenDraft_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Inv_RawMaterialIssue_Active {
             get {
                 object obj = ResourceManager.GetObject("Inv_RawMaterialIssue_Active", resourceCulture);
@@ -1746,6 +1766,46 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap Inv_RawMaterialIssue_Inactive {
             get {
                 object obj = ResourceManager.GetObject("Inv_RawMaterialIssue_Inactive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_RequestedBy_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Inv_RequestedBy_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_SaveDraft_Button {
+            get {
+                object obj = ResourceManager.GetObject("Inv_SaveDraft_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_TotalIssueQuantity_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Inv_TotalIssueQuantity_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_TotalMaterials_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Inv_TotalMaterials_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
