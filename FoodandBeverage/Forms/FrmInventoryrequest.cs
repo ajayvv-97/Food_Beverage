@@ -139,6 +139,7 @@ namespace FoodandBeverage.Forms
         public FrmInventoryrequest()
         {
             InitializeComponent();
+            btn_deletesaved_draft.Visible = false;
             InitializeItemSearchPopup();
             ConfigureRequestGrids();
             InitializeRequestHeader();
@@ -1047,6 +1048,7 @@ namespace FoodandBeverage.Forms
             txt_reqno.Text = "IR-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
             _currentRequestId = null;
             _currentDraftId = null;
+            btn_deletesaved_draft.Visible = false;
             _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
             _visibleIngredientProductId = 0;
             txt_requ_by.Clear();
