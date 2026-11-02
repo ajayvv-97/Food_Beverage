@@ -104,7 +104,8 @@ namespace FoodandBeverage.Forms
         public int BIcurrentstockno = 5;
         public int BIprojectedbalanceno = 6;
         public int BIproductidno = 7;
-
+        public int BIing_DetailsIdno = 8;
+        
         // Raw material grid
         public int Rslno = 0;
         public int Rrawmaterialno = 1;
@@ -855,6 +856,11 @@ namespace FoodandBeverage.Forms
         }
 
         private void txtsearch_batch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void btn_save_ingrediant_Click(object sender, EventArgs e)
         {
 
         }

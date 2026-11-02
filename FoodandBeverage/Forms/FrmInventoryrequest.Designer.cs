@@ -29,12 +29,12 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_inner_main = new System.Windows.Forms.TableLayoutPanel();
             this.pnl_view = new System.Windows.Forms.Panel();
@@ -76,14 +76,6 @@ namespace FoodandBeverage.Forms
             this.dbitemid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_ingrediant = new System.Windows.Forms.TableLayoutPanel();
             this.dgv_batch_ingrediant = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbiingrdiant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbiPerPortionQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbiotalrequiredqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.biunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbicurrentstock = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.biprojectbalance = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbiproductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_IngrediantHeader = new System.Windows.Forms.Label();
             this.btn_editingrediant_batch = new System.Windows.Forms.Button();
@@ -114,6 +106,16 @@ namespace FoodandBeverage.Forms
             this.tlp_maintab = new System.Windows.Forms.TableLayoutPanel();
             this.btn_raw_tab = new System.Windows.Forms.Button();
             this.btn_batch_tab = new System.Windows.Forms.Button();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbiingrdiant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbiPerPortionQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbiotalrequiredqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.biunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbicurrentstock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.biprojectbalance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbiproductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.biIng_DetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_save_ingrediant = new System.Windows.Forms.Button();
             this.tlp_main.SuspendLayout();
             this.tlp_inner_main.SuspendLayout();
             this.pnl_view.SuspendLayout();
@@ -232,14 +234,14 @@ namespace FoodandBeverage.Forms
             this.dgv_raw.AllowUserToAddRows = false;
             this.dgv_raw.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.dgv_raw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_raw.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_raw.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_raw.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_raw.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn10,
@@ -252,14 +254,14 @@ namespace FoodandBeverage.Forms
             this.rawaction,
             this.rwaitemid,
             this.rawproductype});
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_raw.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_raw.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_raw.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_raw.Location = new System.Drawing.Point(8, 59);
             this.dgv_raw.Name = "dgv_raw";
@@ -608,14 +610,14 @@ namespace FoodandBeverage.Forms
             this.dgv_batch.AllowUserToAddRows = false;
             this.dgv_batch.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.dgv_batch.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_batch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_batch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_batch.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_batch.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.slno,
@@ -625,14 +627,14 @@ namespace FoodandBeverage.Forms
             this.brecipengrediant,
             this.dbaction,
             this.dbitemid});
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_batch.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_batch.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_batch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_batch.Location = new System.Drawing.Point(8, 59);
             this.dgv_batch.Name = "dgv_batch";
@@ -716,14 +718,14 @@ namespace FoodandBeverage.Forms
             this.dgv_batch_ingrediant.AllowUserToAddRows = false;
             this.dgv_batch_ingrediant.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.dgv_batch_ingrediant.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_batch_ingrediant.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_batch_ingrediant.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_batch_ingrediant.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_batch_ingrediant.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -733,15 +735,16 @@ namespace FoodandBeverage.Forms
             this.biunit,
             this.dbicurrentstock,
             this.biprojectbalance,
-            this.dbiproductid});
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_batch_ingrediant.DefaultCellStyle = dataGridViewCellStyle18;
+            this.dbiproductid,
+            this.biIng_DetailsId});
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_batch_ingrediant.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_batch_ingrediant.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_batch_ingrediant.Location = new System.Drawing.Point(8, 44);
             this.dgv_batch_ingrediant.Name = "dgv_batch_ingrediant";
@@ -753,71 +756,16 @@ namespace FoodandBeverage.Forms
             this.dgv_batch_ingrediant.TabIndex = 29;
             this.dgv_batch_ingrediant.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_batch_ingrediant_CellClick);
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Slno";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 66;
-            // 
-            // dbiingrdiant
-            // 
-            this.dbiingrdiant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbiingrdiant.HeaderText = "Ingrdiant";
-            this.dbiingrdiant.Name = "dbiingrdiant";
-            this.dbiingrdiant.Width = 97;
-            // 
-            // dbiPerPortionQty
-            // 
-            this.dbiPerPortionQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbiPerPortionQty.HeaderText = "Per Portion Qty";
-            this.dbiPerPortionQty.Name = "dbiPerPortionQty";
-            this.dbiPerPortionQty.Width = 128;
-            // 
-            // dbiotalrequiredqty
-            // 
-            this.dbiotalrequiredqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbiotalrequiredqty.HeaderText = "Total Required Qty";
-            this.dbiotalrequiredqty.Name = "dbiotalrequiredqty";
-            this.dbiotalrequiredqty.Width = 130;
-            // 
-            // biunit
-            // 
-            this.biunit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.biunit.HeaderText = "Unit";
-            this.biunit.Name = "biunit";
-            this.biunit.Width = 63;
-            // 
-            // dbicurrentstock
-            // 
-            this.dbicurrentstock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbicurrentstock.HeaderText = "Current stock";
-            this.dbicurrentstock.Name = "dbicurrentstock";
-            this.dbicurrentstock.Width = 118;
-            // 
-            // biprojectbalance
-            // 
-            this.biprojectbalance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.biprojectbalance.HeaderText = "Projected Balance";
-            this.biprojectbalance.Name = "biprojectbalance";
-            this.biprojectbalance.Width = 149;
-            // 
-            // dbiproductid
-            // 
-            this.dbiproductid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbiproductid.HeaderText = "Product ID";
-            this.dbiproductid.Name = "dbiproductid";
-            this.dbiproductid.Width = 101;
-            // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnCount = 4;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
             this.tableLayoutPanel2.Controls.Add(this.lbl_IngrediantHeader, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btn_editingrediant_batch, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btn_save_ingrediant, 3, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(8, 8);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -850,7 +798,7 @@ namespace FoodandBeverage.Forms
             this.btn_editingrediant_batch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_editingrediant_batch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_editingrediant_batch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_editingrediant_batch.Location = new System.Drawing.Point(544, 4);
+            this.btn_editingrediant_batch.Location = new System.Drawing.Point(457, 4);
             this.btn_editingrediant_batch.Margin = new System.Windows.Forms.Padding(4);
             this.btn_editingrediant_batch.Name = "btn_editingrediant_batch";
             this.btn_editingrediant_batch.Size = new System.Drawing.Size(90, 22);
@@ -1284,6 +1232,90 @@ namespace FoodandBeverage.Forms
             this.btn_batch_tab.UseVisualStyleBackColor = false;
             this.btn_batch_tab.Click += new System.EventHandler(this.btn_batch_tab_Click);
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Slno";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 66;
+            // 
+            // dbiingrdiant
+            // 
+            this.dbiingrdiant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbiingrdiant.HeaderText = "Ingrdiant";
+            this.dbiingrdiant.Name = "dbiingrdiant";
+            this.dbiingrdiant.Width = 97;
+            // 
+            // dbiPerPortionQty
+            // 
+            this.dbiPerPortionQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbiPerPortionQty.HeaderText = "Per Portion Qty";
+            this.dbiPerPortionQty.Name = "dbiPerPortionQty";
+            this.dbiPerPortionQty.Width = 140;
+            // 
+            // dbiotalrequiredqty
+            // 
+            this.dbiotalrequiredqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbiotalrequiredqty.HeaderText = "Total Required Qty";
+            this.dbiotalrequiredqty.Name = "dbiotalrequiredqty";
+            this.dbiotalrequiredqty.Width = 130;
+            // 
+            // biunit
+            // 
+            this.biunit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.biunit.HeaderText = "Unit";
+            this.biunit.Name = "biunit";
+            this.biunit.Width = 63;
+            // 
+            // dbicurrentstock
+            // 
+            this.dbicurrentstock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbicurrentstock.HeaderText = "Current stock";
+            this.dbicurrentstock.Name = "dbicurrentstock";
+            this.dbicurrentstock.Width = 118;
+            // 
+            // biprojectbalance
+            // 
+            this.biprojectbalance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.biprojectbalance.HeaderText = "Projected Balance";
+            this.biprojectbalance.Name = "biprojectbalance";
+            this.biprojectbalance.Width = 149;
+            // 
+            // dbiproductid
+            // 
+            this.dbiproductid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbiproductid.HeaderText = "Product ID";
+            this.dbiproductid.Name = "dbiproductid";
+            this.dbiproductid.Width = 101;
+            // 
+            // biIng_DetailsId
+            // 
+            this.biIng_DetailsId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.biIng_DetailsId.HeaderText = "Ing_DetailsId";
+            this.biIng_DetailsId.Name = "biIng_DetailsId";
+            this.biIng_DetailsId.Visible = false;
+            this.biIng_DetailsId.Width = 129;
+            // 
+            // btn_save_ingrediant
+            // 
+            this.btn_save_ingrediant.BackColor = System.Drawing.Color.Transparent;
+            this.btn_save_ingrediant.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_Edit;
+            this.btn_save_ingrediant.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_save_ingrediant.FlatAppearance.BorderSize = 0;
+            this.btn_save_ingrediant.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btn_save_ingrediant.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_save_ingrediant.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_save_ingrediant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_save_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_save_ingrediant.Location = new System.Drawing.Point(555, 4);
+            this.btn_save_ingrediant.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_save_ingrediant.Name = "btn_save_ingrediant";
+            this.btn_save_ingrediant.Size = new System.Drawing.Size(79, 22);
+            this.btn_save_ingrediant.TabIndex = 5;
+            this.btn_save_ingrediant.UseVisualStyleBackColor = false;
+            this.btn_save_ingrediant.Click += new System.EventHandler(this.btn_save_ingrediant_Click);
+            // 
             // FrmInventoryrequest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1377,14 +1409,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_import_raw;
         private System.Windows.Forms.Button btn_advsearch_raw;
         private System.Windows.Forms.Label lbl_hint_raw;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dbiingrdiant;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dbiPerPortionQty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dbiotalrequiredqty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn biunit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dbicurrentstock;
-        private System.Windows.Forms.DataGridViewTextBoxColumn biprojectbalance;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dbiproductid;
         private System.Windows.Forms.DataGridViewTextBoxColumn slno;
         private System.Windows.Forms.DataGridViewTextBoxColumn dbmenuite;
         private System.Windows.Forms.DataGridViewTextBoxColumn dbplannedqty;
@@ -1406,5 +1430,15 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tlp_ingrediant;
         private System.Windows.Forms.TableLayoutPanel tlp_info;
         private System.Windows.Forms.TableLayoutPanel tlp_raw_control;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dbiingrdiant;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dbiPerPortionQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dbiotalrequiredqty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn biunit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dbicurrentstock;
+        private System.Windows.Forms.DataGridViewTextBoxColumn biprojectbalance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dbiproductid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn biIng_DetailsId;
+        private System.Windows.Forms.Button btn_save_ingrediant;
     }
 }
