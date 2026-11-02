@@ -1079,7 +1079,7 @@ namespace FoodandBeverage.Forms
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(177, 23);
             this.label9.TabIndex = 3;
-            this.label9.Text = "Total ";
+            this.label9.Text = "Total Food & Raw Qty";
             // 
             // txt_totalrawmaterialqty
             // 
