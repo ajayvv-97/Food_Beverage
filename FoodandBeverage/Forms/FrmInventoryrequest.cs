@@ -26,6 +26,7 @@ namespace FoodandBeverage.Forms
         private DataGridView _itemSearchGrid;
         private int _itemSearchRequestType;
         private TextBox _itemSearchTextBox;
+        private bool _searchUpdatePending;
 
         ClsGeneral clsgen = new ClsGeneral();
 
@@ -262,8 +263,10 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                HideItemSearchPopup();
                 dgv_batch.Rows.Clear();
                 dgv_batch_ingrediant.Rows.Clear();
+                _originalIngredientQuantities.Clear();
                 txtsearch_batch.Clear();
             }
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_clearall_batch_Click", ex); }
@@ -478,9 +481,57 @@ namespace FoodandBeverage.Forms
 
         private void dgv_batch_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (_loadingGrid || e.RowIndex < 0 || e.ColumnIndex != Bplannedqtyno) return;
-            if (dgv_batch.Rows[e.RowIndex].Cells[Bitemidno].Value == null) return;
-            LoadIngredientsForRow(dgv_batch.Rows[e.RowIndex]);
+            try
+            {
+                if (_loadingGrid || e.RowIndex < 0 ||
+                    e.ColumnIndex != Bplannedqtyno)
+                {
+                    return;
+                }
+
+                if (dgv_batch.Rows[e.RowIndex].Cells[Bitemidno].Value == null)
+                {
+                    return;
+                }
+
+                // Preserve unsaved ingredient edits when the planned product quantity changes.
+                decimal plannedQty = ToDecimal(
+                    dgv_batch.Rows[e.RowIndex].Cells[Bplannedqtyno].Value);
+                RecalculateBatchIngredientTotals(plannedQty);
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest dgv_batch_CellValueChanged", ex);
+            }
+        }
+
+        private void RecalculateBatchIngredientTotals(decimal plannedQty)
+        {
+            _loadingGrid = true;
+            try
+            {
+                foreach (DataGridViewRow ingredientRow in dgv_batch_ingrediant.Rows)
+                {
+                    if (ingredientRow.IsNewRow)
+                    {
+                        continue;
+                    }
+
+                    decimal perPortionQty =
+                        ToDecimal(ingredientRow.Cells[Biperportionqtyno].Value);
+                    decimal totalRequiredQty = perPortionQty * plannedQty;
+                    decimal currentStock =
+                        ToDecimal(ingredientRow.Cells[BIcurrentstockno].Value);
+
+                    ingredientRow.Cells[BItotalrequiredqtyno].Value = totalRequiredQty;
+                    ingredientRow.Cells[BIprojectedbalanceno].Value =
+                        currentStock - totalRequiredQty;
+                }
+            }
+            finally
+            {
+                _loadingGrid = false;
+            }
         }
 
         private void dgv_batch_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -500,14 +551,14 @@ namespace FoodandBeverage.Forms
 
         private void dgv_batch_ingrediant_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if (_loadingGrid || e.RowIndex < 0 ||
+                e.ColumnIndex != Biperportionqtyno)
+            {
+                return;
+            }
+
             try
             {
-                if (_loadingGrid || e.RowIndex < 0 ||
-                    e.ColumnIndex != Biperportionqtyno)
-                {
-                    return;
-                }
-
                 DataGridViewRow row = dgv_batch_ingrediant.Rows[e.RowIndex];
                 decimal perPortionQty = ToDecimal(row.Cells[Biperportionqtyno].Value);
                 decimal plannedQty = dgv_batch.CurrentRow == null
@@ -1024,9 +1075,22 @@ namespace FoodandBeverage.Forms
 
             try
             {
+                if (_searchUpdatePending)
+                {
+                    return;
+                }
+
+                _searchUpdatePending = true;
                 BeginInvoke(new MethodInvoker(delegate
                 {
-                    ShowItemSearchPopup(searchTextBox, requestType);
+                    try
+                    {
+                        ShowItemSearchPopup(searchTextBox, requestType);
+                    }
+                    finally
+                    {
+                        _searchUpdatePending = false;
+                    }
                 }));
             }
             catch (InvalidOperationException)
