@@ -889,12 +889,6 @@ namespace FoodandBeverage.Forms
             this.cmb_req_department.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmb_req_department.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.cmb_req_department.FormattingEnabled = true;
-            this.cmb_req_department.Items.AddRange(new object[] {
-            "ALL",
-            "CardProducts",
-            "Trampolining",
-            "TimePlayProducts",
-            "GatePass"});
             this.cmb_req_department.Location = new System.Drawing.Point(123, 109);
             this.cmb_req_department.Name = "cmb_req_department";
             this.cmb_req_department.Size = new System.Drawing.Size(169, 26);
@@ -908,12 +902,6 @@ namespace FoodandBeverage.Forms
             this.cmb_req_employee.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmb_req_employee.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.cmb_req_employee.FormattingEnabled = true;
-            this.cmb_req_employee.Items.AddRange(new object[] {
-            "ALL",
-            "CardProducts",
-            "Trampolining",
-            "TimePlayProducts",
-            "GatePass"});
             this.cmb_req_employee.Location = new System.Drawing.Point(123, 76);
             this.cmb_req_employee.Name = "cmb_req_employee";
             this.cmb_req_employee.Size = new System.Drawing.Size(169, 26);
