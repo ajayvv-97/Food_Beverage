@@ -107,13 +107,14 @@ namespace BLL
         }
 
 
-        public int SaveInventoryRequest(
+        public int AddData(
             string procedureName,
             DmnInventoryRequestMaster master,
             IEnumerable<DmnInventoryRequestDetail> details,
             int? sourceDraftId)
         {
-            if (master == null) throw new ArgumentNullException(nameof(master));
+            if (master == null)
+                throw new ArgumentNullException(nameof(master));
 
             using (IDbConnection connection =
                 DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
