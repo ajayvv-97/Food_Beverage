@@ -165,10 +165,14 @@ namespace FoodandBeverage.Forms
         private void FrmInventoryrequest_Load(object sender, EventArgs e)
         {
             textb_shape();
+
             UIHelper.RoundCorners(tlp_ingrediant, 25);
             UIHelper.RoundCorners(tlp_batch, 25);
             UIHelper.RoundCorners(tlp_info, 25);
-            UIHelper.RoundCorners(tlp_req_from, 25);
+            UIHelper.RoundCorners(tlp_req_from, 25); 
+
+            UIHelper.RoundCorners(tlp_raw_control, 25);
+            
         }
 
         #region Tab
@@ -848,6 +852,11 @@ namespace FoodandBeverage.Forms
         private void FrmInventoryrequest_Resize(object sender, EventArgs e)
         {
             textb_shape();
+        }
+
+        private void txtsearch_batch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
         }
     }
 }
