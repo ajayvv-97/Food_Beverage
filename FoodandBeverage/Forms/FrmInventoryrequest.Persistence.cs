@@ -14,6 +14,70 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmInventoryrequest
     {
+
+        private sealed class InventoryRequestComboItem
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        private void LoadRequestComboData()
+        {
+            try
+            {
+                List<InventoryRequestComboItem> departments;
+                List<InventoryRequestComboItem> employees;
+
+                using (IDbConnection connection =
+                    DAL.DapperRepository<InventoryRequestComboItem>.OpenConnection())
+                {
+                    departments = connection.Query<InventoryRequestComboItem>(
+                        @"SELECT DepartmentId AS Id, DepartmentName AS Name
+                          FROM dbo.tblDepartment
+                          WHERE Status = 1
+                          ORDER BY DepartmentName").ToList();
+
+                    employees = connection.Query<InventoryRequestComboItem>(
+                        @"SELECT EmployeeId AS Id, EmployeeName AS Name
+                          FROM dbo.tblEmployee
+                          WHERE Status = 1
+                          ORDER BY EmployeeName").ToList();
+                }
+
+                cmb_req_department.DataSource = null;
+                cmb_req_department.DisplayMember = "Name";
+                cmb_req_department.ValueMember = "Id";
+                cmb_req_department.DataSource = departments;
+                cmb_req_department.SelectedIndex = -1;
+
+                cmb_req_employee.DataSource = null;
+                cmb_req_employee.DisplayMember = "Name";
+                cmb_req_employee.ValueMember = "Id";
+                cmb_req_employee.DataSource = employees;
+                cmb_req_employee.SelectedIndex = -1;
+
+                // Restore the currently logged-in employee and department.
+                if (FrmLogin.EmployeeId > 0 &&
+                    employees.Any(x => x.Id == FrmLogin.EmployeeId))
+                {
+                    cmb_req_employee.SelectedValue = FrmLogin.EmployeeId;
+                }
+
+                if (FrmLogin.DepartmentId > 0 &&
+                    departments.Any(x => x.Id == FrmLogin.DepartmentId))
+                {
+                    cmb_req_department.SelectedValue = FrmLogin.DepartmentId;
+                }
+
+                UpdateRequesterName();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest LoadRequestComboData", ex);
+                ShowError("Unable to load department and employee details. " + ex.Message);
+            }
+        }
+
         private void cmb_req_employee_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateRequesterName();
