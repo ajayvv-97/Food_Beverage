@@ -760,7 +760,16 @@ namespace FoodandBeverage.Forms
             if (e.RowIndex < 0) return;
             if (e.ColumnIndex == Bactionno)
             {
+                DataGridViewRow row = dgv_batch.Rows[e.RowIndex];
+                int productId = Convert.ToInt32(row.Cells[Bitemidno].Value);
+
+                if (!DeleteInventoryRowFromDatabase(1, productId, null))
+                    return;
+
                 dgv_batch.Rows.RemoveAt(e.RowIndex);
+                if (_loadedRequestDetails != null)
+                    _loadedRequestDetails.RemoveAll(x => x.RequestType == 1 && x.ProductId == productId);
+
                 RenumberRows(dgv_batch, Bslno);
                 dgv_batch_ingrediant.Rows.Clear();
                 _originalIngredientQuantities.Clear();
@@ -907,6 +916,17 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
+                DialogResult confirmation = CMessageBox.Show(
+                    "Are you sure you want to submit this inventory request?",
+                    "Confirm Inventory Request",
+                    MessageBoxButtons.YesNo);
+
+                if (confirmation != DialogResult.Yes)
+                    return;
+
+                int requestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2)
+                    ? 3 : details[0].RequestType;
+
                 DmnInventoryRequestMaster master = new DmnInventoryRequestMaster
                 {
                     RequestId = _currentRequestId ?? 0,
@@ -916,8 +936,7 @@ namespace FoodandBeverage.Forms
                     DepartmentId = GetComboId(cmb_req_department),
                     EmployeeId = GetComboId(cmb_req_employee),
                     Remarks = txtremarks.Text.Trim(),
-                    RequestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2)
-                        ? 3 : details[0].RequestType,
+                    RequestType = requestType,
                     CreatedBy = FrmLogin.UserId,
                     CreatedOn = DateTime.Now,
                     ModifiedBy = _currentRequestId.HasValue ? (int?)FrmLogin.UserId : null,
@@ -926,47 +945,18 @@ namespace FoodandBeverage.Forms
                     Status = 1
                 };
 
-                BllInventoryRequest bllmasterinv = new BllInventoryRequest();
-                DmnInventoryRequestMaster masterResult =
-                    bllmasterinv.AddMasterData("prdInsert_Upd_Product", master);
-                int requestId = masterResult == null ? master.RequestId : masterResult.RequestId;
+                int requestId = _inventoryBll.SaveInventoryRequest(
+                    "prdSave_InventoryRequest", master, details, _currentDraftId);
 
                 if (requestId <= 0)
-                    throw new InvalidOperationException("The request master was not saved. Check prdInsert_Upd_Product output.");
+                    throw new InvalidOperationException("The inventory request procedure did not return a valid request ID.");
 
-                if (_currentRequestId.HasValue)
-                {
-                    using (IDbConnection connection =
-                        DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
-                    {
-                        connection.Execute(
-                            @"UPDATE dbo.tblInventoryRequestDetails
-                              SET Status = 0, ModifiedBy = @ModifiedBy, ModifiedOn = GETDATE()
-                              WHERE InventoryRequestId = @RequestId AND ISNULL(Status,1) = 1",
-                            new { RequestId = requestId, ModifiedBy = FrmLogin.UserId });
-                    }
-                }
+                MessageBox.Show(
+                    "Inventory request saved successfully. Request No: " + master.RequestNo,
+                    "Inventory Request",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
-                foreach (DmnInventoryRequestDetail dmnproductdetailsinv in details)
-                {
-                    dmnproductdetailsinv.InventoryRequestId = requestId;
-                    dmnproductdetailsinv.CreatedBy = FrmLogin.UserId;
-                    dmnproductdetailsinv.CreatedOn = DateTime.Now;
-                    dmnproductdetailsinv.BranchId = FrmDashboard.BranchId;
-                    dmnproductdetailsinv.Status = 1;
-
-                    var prostatusinv = bllmasterinv.AddDetailsData(
-                        "prdInsert_Upd_Product_details", dmnproductdetailsinv);
-
-                    if (prostatusinv == null)
-                        throw new InvalidOperationException("The detail stored procedure did not return a saved detail row.");
-                }
-
-                if (_currentDraftId.HasValue)
-                    SoftDeleteDraft(_currentDraftId.Value);
-
-                MessageBox.Show("Inventory request saved successfully. Request No: " + master.RequestNo,
-                    "Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ResetRequest();
             }
             catch (Exception ex)
@@ -1065,7 +1055,16 @@ namespace FoodandBeverage.Forms
                 if (e.RowIndex < 0) return;
                 if (e.ColumnIndex == Ractionno)
                 {
+                    DataGridViewRow row = dgv_raw.Rows[e.RowIndex];
+                    long itemId = Convert.ToInt64(row.Cells[Ritemidno].Value);
+
+                    if (!DeleteInventoryRowFromDatabase(2, null, itemId))
+                        return;
+
                     dgv_raw.Rows.RemoveAt(e.RowIndex);
+                    if (_loadedRequestDetails != null)
+                        _loadedRequestDetails.RemoveAll(x => x.RequestType == 2 && x.ItemId == itemId);
+
                     RenumberRows(dgv_raw, Rslno);
                     UpdateRequestTotals();
                 }
@@ -1709,15 +1708,40 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private static int? GetComboId(ComboBox combo)
+        private bool DeleteInventoryRowFromDatabase(int requestType, int? productId, long? itemId)
         {
-            if (combo == null || combo.SelectedValue == null || combo.SelectedValue == DBNull.Value) return null;
-            int value;
-            if (int.TryParse(Convert.ToString(combo.SelectedValue), out value)) return value;
-            return null;
+            bool isDraft = _currentDraftId.HasValue;
+
+            if (isDraft)
+            {
+                DialogResult confirmation = CMessageBox.Show(
+                    "Remove this item from the saved draft?",
+                    "Confirm Draft Item Delete",
+                    MessageBoxButtons.YesNo);
+
+                if (confirmation != DialogResult.Yes)
+                    return false;
+            }
+
+            // New, unsaved requests only need an in-memory grid removal.
+            if (!isDraft && !_currentRequestId.HasValue)
+                return true;
+
+            _inventoryBll.DeleteInventoryRequestRow(
+                "prdDelete_InventoryRequestRow",
+                isDraft,
+                _currentDraftId,
+                _currentRequestId,
+                requestType,
+                productId,
+                itemId,
+                FrmLogin.UserId,
+                FrmDashboard.BranchId);
+
+            return true;
         }
 
-        private static decimal ToDecimal(object value)
+        private static int? GetComboId(ComboBox combo)        private static decimal ToDecimal(object value)
         {
             decimal result;
             return decimal.TryParse(Convert.ToString(value), out result) ? result : 0m;
@@ -2062,7 +2086,54 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                SaveDraftWorkflow();
+                dgv_batch.EndEdit();
+                dgv_batch_ingrediant.EndEdit();
+                dgv_raw.EndEdit();
+
+                List<DmnInventoryRequestDetail> details = BuildRequestDetails();
+                if (details.Count == 0)
+                {
+                    ShowError("Add at least one batch product or raw material before saving a draft.");
+                    return;
+                }
+
+                int requestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2)
+                    ? 3 : details[0].RequestType;
+
+                DmnInventoryRequestMaster draftMaster = new DmnInventoryRequestMaster
+                {
+                    RequestId = _currentDraftId ?? 0,
+                    RequestNo = txt_reqno.Text.Trim(),
+                    RequestDate = dtp_reqdate.Value,
+                    RequiredDate = dtp_required_date.Value,
+                    DepartmentId = GetComboId(cmb_req_department),
+                    EmployeeId = GetComboId(cmb_req_employee),
+                    Remarks = txtremarks.Text.Trim(),
+                    RequestType = requestType,
+                    CreatedBy = FrmLogin.UserId,
+                    CreatedOn = DateTime.Now,
+                    ModifiedBy = _currentDraftId.HasValue ? (int?)FrmLogin.UserId : null,
+                    ModifiedOn = _currentDraftId.HasValue ? (DateTime?)DateTime.Now : null,
+                    BranchId = FrmDashboard.BranchId,
+                    Status = 1
+                };
+
+                int draftId = _inventoryBll.SaveInventoryRequestDraft(
+                    "prdSave_InventoryRequestDraft",
+                    _currentDraftId ?? 0,
+                    "DR-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff"),
+                    draftMaster,
+                    details);
+
+                if (draftId <= 0)
+                    throw new InvalidOperationException("The draft procedure did not return a valid draft ID.");
+
+                _currentDraftId = draftId;
+                _currentRequestId = null;
+                btn_deletesaved_draft.Visible = true;
+
+                MessageBox.Show("Draft saved successfully.", "Inventory Request",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -2073,7 +2144,37 @@ namespace FoodandBeverage.Forms
 
         private void btn_deletesaved_draft_Click(object sender, EventArgs e)
         {
-            DeleteSavedDraftWorkflow();
+            try
+            {
+                if (!_currentDraftId.HasValue)
+                    return;
+
+                DialogResult confirmation = CMessageBox.Show(
+                    "Delete this saved draft? It will be marked inactive and will not be removed permanently.",
+                    "Confirm Delete Draft",
+                    MessageBoxButtons.YesNo);
+
+                if (confirmation != DialogResult.Yes)
+                    return;
+
+                _inventoryBll.DeleteInventoryRequestDraft(
+                    "prdDelete_InventoryRequestDraft",
+                    _currentDraftId.Value,
+                    FrmLogin.UserId,
+                    FrmDashboard.BranchId);
+
+                MessageBox.Show("Draft deleted successfully.", "Inventory Request",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ResetRequest();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_deletesaved_draft_Click", ex);
+                ShowError("Unable to delete the saved draft. " + ex.Message);
+            }
         }
+    }
+}
     }
 }
