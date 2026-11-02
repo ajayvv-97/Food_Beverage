@@ -143,6 +143,7 @@ namespace FoodandBeverage.Forms
 
             _currentRequestId = requestId;
             _currentDraftId = null;
+            btn_deletesaved_draft.Visible = false;
             PopulateRequestForm(master, details);
         }
 
@@ -188,6 +189,7 @@ namespace FoodandBeverage.Forms
             _currentDraftId = draftId;
             _currentRequestId = null;
             PopulateRequestForm(master, details);
+            btn_deletesaved_draft.Visible = true;
         }
 
         private void PopulateRequestForm(DmnInventoryRequestMaster master, List<DmnInventoryRequestDetail> details)
@@ -447,8 +449,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                int draftId = _currentDraftId ?? SelectDraftId();
-                if (draftId <= 0) return;
+                // Deletion is permitted only for the draft currently opened in this form.
+                if (!_currentDraftId.HasValue) return;
+                int draftId = _currentDraftId.Value;
 
                 DialogResult confirmation = CMessageBox.Show(
                     "Delete this saved draft? It will be marked inactive and will not be removed permanently.",
