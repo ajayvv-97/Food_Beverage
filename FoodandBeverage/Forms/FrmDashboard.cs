@@ -2979,6 +2979,11 @@ namespace FoodandBeverage.Forms
                             ib_complemetryreason.Visible = true;
                             Menuoperation.Visible = true;
                         }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.InventoryManagement) && gridesource[i].Write == 1)
+                        {
+                            ib_InventoryManagement.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
                         #endregion
 
                         #region Employee Buttons
@@ -6508,7 +6513,49 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void ib_InventoryManagement_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
 
+                if (Application.OpenForms["FrmInventoryrequest"] != null)
+                {
+                    FrmInventoryrequest _instanceFrmInventoryrequest =
+                        Application.OpenForms["FrmInventoryrequest"] as FrmInventoryrequest;
+
+                    if (_instanceFrmInventoryrequest.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmInventoryrequest.WindowState =
+                            FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmInventoryrequest.Dock = DockStyle.None;
+
+                        ResizeForm(_instanceFrmInventoryrequest);
+
+                        panelDesktop.Controls.Add(_instanceFrmInventoryrequest);
+
+                        _instanceFrmInventoryrequest.Show();
+                        _instanceFrmInventoryrequest.BringToFront();
+                    }
+                }
+                else
+                {
+                    UIHelper.OpenDialog(this, new FrmInventoryrequest());
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ib_InventoryManagement_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
         private bool ValidateComplimentaryDate()
         {
             try

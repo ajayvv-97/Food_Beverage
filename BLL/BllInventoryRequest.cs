@@ -16,8 +16,7 @@ namespace BLL
                 throw new ArgumentNullException(nameof(objMaster));
             }
 
-            DAL.DapperRepository<DmnInventoryRequestMaster> repository =
-                new DAL.DapperRepository<DmnInventoryRequestMaster>();
+            DAL.DapperRepository<DmnInventoryRequestMaster> repository =  new DAL.DapperRepository<DmnInventoryRequestMaster>();
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("InventoryRequestId", objMaster.RequestId);
@@ -34,7 +33,6 @@ namespace BLL
             parameters.Add("ModifiedOn", objMaster.ModifiedOn);
             parameters.Add("BranchId", objMaster.BranchId);
             parameters.Add("Status", objMaster.Status);
-
             return repository.AddandReturnID(procedureName, parameters);
         }
 

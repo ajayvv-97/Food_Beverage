@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace FoodandBeverage.Forms
 {
@@ -160,6 +161,14 @@ namespace FoodandBeverage.Forms
             dtp_required_date.Value = DateTime.Today;
             txt_reqno.Text = "IR-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
             txt_reqno.ReadOnly = true;
+        }
+        private void FrmInventoryrequest_Load(object sender, EventArgs e)
+        {
+            textb_shape();
+            UIHelper.RoundCorners(tlp_ingrediant, 25);
+            UIHelper.RoundCorners(tlp_batch, 25);
+            UIHelper.RoundCorners(tlp_info, 25);
+            UIHelper.RoundCorners(tlp_req_from, 25);
         }
 
         #region Tab
@@ -642,6 +651,49 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #region Helpers
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {//
+                foreach (TextBox textBox in new TextBox[] { txtsearch_batch, txtremarks, txt_reqno, txtsearch_raw })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("InventoryManagement page textb_shape()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.InventoryManagement));
+            }
+        }
+
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsgen.LogException("InventoryManagement page ApplyRoundedTextBox()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.InventoryManagement));
+            }
+        }
+
+        #endregion
         private DmnInventoryRequestItem ShowItemPicker(string title, List<DmnInventoryRequestItem> items)
         {
             if (items == null || items.Count == 0)
@@ -776,6 +828,12 @@ namespace FoodandBeverage.Forms
                 LogInventoryException("FrmInventoryrequest txtsearch_raw_KeyDown", ex);
             }
         }
+
         #endregion
+
+        private void FrmInventoryrequest_Resize(object sender, EventArgs e)
+        {
+            textb_shape();
+        }
     }
 }

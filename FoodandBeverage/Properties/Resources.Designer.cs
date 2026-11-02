@@ -1613,6 +1613,106 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Inv_AddToList {
+            get {
+                object obj = ResourceManager.GetObject("Inv_AddToList", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_AdvancedSearch {
+            get {
+                object obj = ResourceManager.GetObject("Inv_AdvancedSearch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_AdvancedSearch_Compact {
+            get {
+                object obj = ResourceManager.GetObject("Inv_AdvancedSearch_Compact", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_BatchPreparation_Active {
+            get {
+                object obj = ResourceManager.GetObject("Inv_BatchPreparation_Active", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_BatchPreparation_Inactive {
+            get {
+                object obj = ResourceManager.GetObject("Inv_BatchPreparation_Inactive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_ClearAll {
+            get {
+                object obj = ResourceManager.GetObject("Inv_ClearAll", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_Edit {
+            get {
+                object obj = ResourceManager.GetObject("Inv_Edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_ImportRecipePreparation {
+            get {
+                object obj = ResourceManager.GetObject("Inv_ImportRecipePreparation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_ImportRecipePreparation_Compact {
+            get {
+                object obj = ResourceManager.GetObject("Inv_ImportRecipePreparation_Compact", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_IngredientEdit {
+            get {
+                object obj = ResourceManager.GetObject("Inv_IngredientEdit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Inv_itemdetails {
             get {
                 object obj = ResourceManager.GetObject("Inv_itemdetails", resourceCulture);
@@ -1626,6 +1726,26 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap Inv_itementer {
             get {
                 object obj = ResourceManager.GetObject("Inv_itementer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_RawMaterialIssue_Active {
+            get {
+                object obj = ResourceManager.GetObject("Inv_RawMaterialIssue_Active", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_RawMaterialIssue_Inactive {
+            get {
+                object obj = ResourceManager.GetObject("Inv_RawMaterialIssue_Inactive", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1393,4 +1393,40 @@
   <data name="Venue_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Venue_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Inv_BatchPreparation_Active" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_BatchPreparation_Active.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_BatchPreparation_Inactive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_BatchPreparation_Inactive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_RawMaterialIssue_Active" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_RawMaterialIssue_Active.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_RawMaterialIssue_Inactive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_RawMaterialIssue_Inactive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_AddToList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_AddToList.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_AdvancedSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_AdvancedSearch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_AdvancedSearch_Compact" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_AdvancedSearch_Compact.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_ClearAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_ClearAll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_ImportRecipePreparation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_ImportRecipePreparation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_ImportRecipePreparation_Compact" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_ImportRecipePreparation_Compact.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_IngredientEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_IngredientEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

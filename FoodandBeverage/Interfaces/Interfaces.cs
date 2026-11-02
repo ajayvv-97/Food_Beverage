@@ -124,7 +124,8 @@ namespace FoodandBeverage.Interfaces
         VoidSale = 36,
         RemoveComplimentary = 37,
         Complementaryreason = 38,
-        Keypad = 39
+        Keypad = 39,
+        InventoryManagement=40
     };
     public enum DashboardTableType
     {
