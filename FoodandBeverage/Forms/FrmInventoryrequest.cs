@@ -766,6 +766,7 @@ namespace FoodandBeverage.Forms
                 if (!DeleteInventoryRowFromDatabase(1, productId, null))
                     return;
 
+                CacheVisibleIngredientRows();
                 dgv_batch.Rows.RemoveAt(e.RowIndex);
                 if (_loadedRequestDetails != null)
                     _loadedRequestDetails.RemoveAll(x => x.RequestType == 1 && x.ProductId == productId);
