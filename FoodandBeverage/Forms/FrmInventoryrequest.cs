@@ -462,6 +462,7 @@ namespace FoodandBeverage.Forms
                 dgv_batch.Rows.RemoveAt(e.RowIndex);
                 RenumberRows(dgv_batch, Bslno);
                 dgv_batch_ingrediant.Rows.Clear();
+                _originalIngredientQuantities.Clear();
                 return;
             }
             LoadIngredientsForRow(dgv_batch.Rows[e.RowIndex]);
@@ -1095,6 +1096,7 @@ namespace FoodandBeverage.Forms
             }
             catch (InvalidOperationException)
             {
+                _searchUpdatePending = false;
                 // The form can close while a pending key event is being processed.
             }
         }
@@ -1134,7 +1136,9 @@ namespace FoodandBeverage.Forms
                 int popupWidth = Math.Min(
                     Math.Max(searchTextBox.Width, 390),
                     Math.Max(300, ClientSize.Width - 16));
-                int popupHeight = Math.Min(230, Math.Max(120, ClientSize.Height - 16));
+                int popupHeight = Math.Min(
+                    Math.Min(230, Math.Max(90, ClientSize.Height - 16)),
+                    42 + results.Count * 42);
 
                 Point belowSearch = PointToClient(
                     searchTextBox.PointToScreen(new Point(0, searchTextBox.Height)));
@@ -1398,6 +1402,7 @@ namespace FoodandBeverage.Forms
 
         private void FrmInventoryrequest_Resize(object sender, EventArgs e)
         {
+            HideItemSearchPopup();
             textb_shape();
         }
 
