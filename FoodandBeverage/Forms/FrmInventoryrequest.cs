@@ -19,6 +19,13 @@ namespace FoodandBeverage.Forms
         private readonly BllInventoryRequest _inventoryBll = new BllInventoryRequest();
         private bool _loadingGrid;
         private int _activeRequestType = 1; // 1 = batch preparation, 2 = raw material
+        private readonly Dictionary<int, decimal> _originalIngredientQuantities =
+            new Dictionary<int, decimal>();
+
+        private Panel _itemSearchPopup;
+        private DataGridView _itemSearchGrid;
+        private int _itemSearchRequestType;
+        private TextBox _itemSearchTextBox;
 
         ClsGeneral clsgen = new ClsGeneral();
 
@@ -67,11 +74,13 @@ namespace FoodandBeverage.Forms
                     @"SELECT d.Ing_DetailsId AS IngredientDetailId, d.ItemId, i.Itemname AS IngredientName,
                              ISNULL(d.quantity,0) AS PerPortionQty,
                              ISNULL(d.quantity,0) * @PlannedQty AS TotalRequiredQty, d.Unit AS UnitId,
+                             u.UnitName AS UnitName,
                              ISNULL(pr.QOH,0) AS CurrentStock,
                              ISNULL(pr.QOH,0) - ISNULL(d.quantity,0) * @PlannedQty AS ProjectedBalance,
                              d.ProductId
                       FROM dbo.tblIngredientDetails d
                       LEFT JOIN dbo.tblItem i ON i.ItemId = d.ItemId
+                      LEFT JOIN dbo.tblUnit u ON u.UId = d.Unit
                       OUTER APPLY
                       (
                           SELECT TOP (1) r.QOH FROM dbo.tblProductRate r
@@ -122,14 +131,17 @@ namespace FoodandBeverage.Forms
         public FrmInventoryrequest()
         {
             InitializeComponent();
+            InitializeItemSearchPopup();
             ConfigureRequestGrids();
             InitializeRequestHeader();
             ShowRequestTab(1);
             dgv_batch.CellValueChanged += dgv_batch_CellValueChanged;
             dgv_batch.CurrentCellDirtyStateChanged += dgv_batch_CurrentCellDirtyStateChanged;
+            dgv_batch_ingrediant.CellValueChanged += dgv_batch_ingrediant_CellValueChanged;
             dgv_raw.CellValueChanged += dgv_raw_CellValueChanged;
             txtsearch_batch.KeyDown += txtsearch_batch_KeyDown;
             txtsearch_raw.KeyDown += txtsearch_raw_KeyDown;
+            txtsearch_raw.KeyPress += txtsearch_raw_KeyPress;
         }
 
         private void ConfigureRequestGrids()
@@ -142,10 +154,18 @@ namespace FoodandBeverage.Forms
             dgv_batch.Columns[Brecipeingredientsno].ReadOnly = true;
 
             dgv_batch_ingrediant.AllowUserToAddRows = false;
-            dgv_batch_ingrediant.ReadOnly = true;
+            dgv_batch_ingrediant.ReadOnly = false;
             dgv_batch_ingrediant.MultiSelect = false;
             dgv_batch_ingrediant.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_batch_ingrediant.Columns[BIingredientno].ReadOnly = true;
+            dgv_batch_ingrediant.Columns[Biperportionqtyno].ReadOnly = false;
+            dgv_batch_ingrediant.Columns[BItotalrequiredqtyno].ReadOnly = true;
+            dgv_batch_ingrediant.Columns[BIunitno].ReadOnly = true;
+            dgv_batch_ingrediant.Columns[BIcurrentstockno].ReadOnly = true;
+            dgv_batch_ingrediant.Columns[BIprojectedbalanceno].ReadOnly = true;
             dgv_batch_ingrediant.Columns[BIproductidno].Visible = false;
+            dgv_batch_ingrediant.Columns[BIing_DetailsIdno].Visible = false;
+            dgv_batch_ingrediant.Columns[Biperportionqtyno].DefaultCellStyle.Format = "0.####";
 
             dgv_raw.AllowUserToAddRows = false;
             dgv_raw.MultiSelect = false;
@@ -204,6 +224,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                HideItemSearchPopup();
                 bool isBatchPreparation = requestType == 1;
                 _activeRequestType = isBatchPreparation ? 1 : 2;
 
@@ -298,16 +319,41 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                List<DmnInventoryRequestItem> products = SearchBatchProducts(txtsearch_batch.Text.Trim());
-                DmnInventoryRequestItem selected = ShowItemPicker("Select batch preparation product", products);
-                if (selected == null) return;
+                HideItemSearchPopup();
+                int productId = ShowAdvancedItemSearch(1, txtsearch_batch.Text.Trim());
+                if (productId > 0)
+                {
+                    AddBatchProductById(productId);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest SelectAndAddBatchProduct", ex);
+                ShowError("Unable to load batch products. " + ex.Message);
+            }
+        }
+
+        private void AddBatchProductById(int productId)
+        {
+            try
+            {
+                DmnInventoryRequestItem selected = LoadBatchProductById(productId);
+                if (selected == null)
+                {
+                    ShowError("The selected product is no longer active.");
+                    return;
+                }
 
                 foreach (DataGridViewRow existing in dgv_batch.Rows)
                 {
-                    if (Convert.ToInt32(existing.Cells[Bitemidno].Value) == selected.ItemId)
+                    int existingId;
+                    if (int.TryParse(Convert.ToString(existing.Cells[Bitemidno].Value), out existingId) &&
+                        existingId == selected.ItemId)
                     {
-                        existing.Cells[Bplannedqtyno].Value = Math.Max(1m, ToDecimal(existing.Cells[Bplannedqtyno].Value) + 1m);
+                        existing.Cells[Bplannedqtyno].Value =
+                            Math.Max(1m, ToDecimal(existing.Cells[Bplannedqtyno].Value) + 1m);
                         LoadIngredientsForRow(existing);
+                        dgv_batch.CurrentCell = existing.Cells[Bmenuitemno];
                         return;
                     }
                 }
@@ -321,9 +367,32 @@ namespace FoodandBeverage.Forms
                 row.Cells[Brecipeingredientsno].Value = "View ingredients";
                 row.Cells[Bactionno].Value = "Remove";
                 row.Cells[Bitemidno].Value = selected.ItemId;
+                dgv_batch.CurrentCell = row.Cells[Bmenuitemno];
                 LoadIngredientsForRow(row);
             }
-            catch (Exception ex) { LogInventoryException("FrmInventoryrequest SelectAndAddBatchProduct", ex); ShowError("Unable to load batch products. " + ex.Message); }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest AddBatchProductById", ex);
+                ShowError("Unable to load the selected product. " + ex.Message);
+            }
+        }
+
+        private DmnInventoryRequestItem LoadBatchProductById(int productId)
+        {
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
+            {
+                return connection.QueryFirstOrDefault<DmnInventoryRequestItem>(
+                    @"SELECT p.ProductId AS ItemId, p.Product AS ItemName,
+                             CAST(0 AS DECIMAL(18,2)) AS CurrentStock,
+                             CAST(1 AS INT) AS ProductType
+                      FROM dbo.tblProduct p
+                      LEFT JOIN dbo.tblCategory_FTI c ON c.Fcid = p.Fcid
+                      WHERE p.ProductId = @ProductId
+                        AND p.Status = 1
+                        AND c.Status = 1",
+                    new { ProductId = productId });
+            }
         }
 
         private void LoadIngredientsForCurrentBatchRow()
@@ -353,6 +422,8 @@ namespace FoodandBeverage.Forms
             try
             {
                 dgv_batch_ingrediant.Rows.Clear();
+                _originalIngredientQuantities.Clear();
+
                 foreach (DmnInventoryRequestIngredient ingredient in ingredients)
                 {
                     int index = dgv_batch_ingrediant.Rows.Add();
@@ -361,13 +432,23 @@ namespace FoodandBeverage.Forms
                     row.Cells[BIingredientno].Value = ingredient.IngredientName;
                     row.Cells[Biperportionqtyno].Value = ingredient.PerPortionQty;
                     row.Cells[BItotalrequiredqtyno].Value = ingredient.TotalRequiredQty;
-                    row.Cells[BIunitno].Value = ingredient.UnitId;
+                    row.Cells[BIunitno].Value = string.IsNullOrWhiteSpace(ingredient.UnitName)
+                        ? Convert.ToString(ingredient.UnitId)
+                        : ingredient.UnitName;
                     row.Cells[BIcurrentstockno].Value = ingredient.CurrentStock;
                     row.Cells[BIprojectedbalanceno].Value = ingredient.ProjectedBalance;
                     row.Cells[BIproductidno].Value = ingredient.ProductId;
+
+                    // Hidden column 8 stores tblIngredientDetails.Ing_DetailsId for updates.
+                    row.Cells[BIing_DetailsIdno].Value = ingredient.IngredientDetailId;
+                    _originalIngredientQuantities[ingredient.IngredientDetailId] =
+                        ingredient.PerPortionQty;
                 }
             }
-            finally { _loadingGrid = false; }
+            finally
+            {
+                _loadingGrid = false;
+            }
         }
 
         private void dgv_batch_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -414,6 +495,38 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 LogInventoryException("FrmInventoryrequest dgv_batch_CurrentCellDirtyStateChanged", ex);
+            }
+        }
+
+        private void dgv_batch_ingrediant_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (_loadingGrid || e.RowIndex < 0 ||
+                    e.ColumnIndex != Biperportionqtyno)
+                {
+                    return;
+                }
+
+                DataGridViewRow row = dgv_batch_ingrediant.Rows[e.RowIndex];
+                decimal perPortionQty = ToDecimal(row.Cells[Biperportionqtyno].Value);
+                decimal plannedQty = dgv_batch.CurrentRow == null
+                    ? 0m
+                    : ToDecimal(dgv_batch.CurrentRow.Cells[Bplannedqtyno].Value);
+                decimal totalRequiredQty = perPortionQty * plannedQty;
+                decimal currentStock = ToDecimal(row.Cells[BIcurrentstockno].Value);
+
+                _loadingGrid = true;
+                row.Cells[BItotalrequiredqtyno].Value = totalRequiredQty;
+                row.Cells[BIprojectedbalanceno].Value = currentStock - totalRequiredQty;
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest dgv_batch_ingrediant_CellValueChanged", ex);
+            }
+            finally
+            {
+                _loadingGrid = false;
             }
         }
         #endregion
@@ -621,15 +734,41 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                List<DmnInventoryRequestItem> items = SearchRawMaterialItems(txtsearch_raw.Text.Trim());
-                DmnInventoryRequestItem selected = ShowItemPicker("Select raw material", items);
-                if (selected == null) return;
+                HideItemSearchPopup();
+                int itemId = ShowAdvancedItemSearch(2, txtsearch_raw.Text.Trim());
+                if (itemId > 0)
+                {
+                    AddRawMaterialById(itemId);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest SelectAndAddRawMaterial", ex);
+                ShowError("Unable to load raw materials. " + ex.Message);
+            }
+        }
+
+        private void AddRawMaterialById(int itemId)
+        {
+            try
+            {
+                DmnInventoryRequestItem selected = LoadRawMaterialById(itemId);
+                if (selected == null)
+                {
+                    ShowError("The selected raw material is no longer active.");
+                    return;
+                }
+
                 foreach (DataGridViewRow existing in dgv_raw.Rows)
                 {
-                    if (Convert.ToInt32(existing.Cells[Ritemidno].Value) == selected.ItemId)
+                    int existingId;
+                    if (int.TryParse(Convert.ToString(existing.Cells[Ritemidno].Value), out existingId) &&
+                        existingId == selected.ItemId)
                     {
-                        existing.Cells[Rissuedqtyno].Value = ToDecimal(existing.Cells[Rissuedqtyno].Value) + 1m;
+                        existing.Cells[Rissuedqtyno].Value =
+                            ToDecimal(existing.Cells[Rissuedqtyno].Value) + 1m;
                         UpdateRawBalance(existing);
+                        dgv_raw.CurrentCell = existing.Cells[Rrawmaterialno];
                         return;
                     }
                 }
@@ -646,8 +785,42 @@ namespace FoodandBeverage.Forms
                 row.Cells[Ractionno].Value = "Remove";
                 row.Cells[Ritemidno].Value = selected.ItemId;
                 row.Cells[Rproducttypeno].Value = 2;
+                dgv_raw.CurrentCell = row.Cells[Rrawmaterialno];
             }
-            catch (Exception ex) { LogInventoryException("FrmInventoryrequest SelectAndAddRawMaterial", ex); ShowError("Unable to load raw materials. " + ex.Message); }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest AddRawMaterialById", ex);
+                ShowError("Unable to load the selected raw material. " + ex.Message);
+            }
+        }
+
+        private DmnInventoryRequestItem LoadRawMaterialById(int itemId)
+        {
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
+            {
+                return connection.QueryFirstOrDefault<DmnInventoryRequestItem>(
+                    @"SELECT CAST(i.ItemId AS INT) AS ItemId,
+                             i.Itemname AS ItemName,
+                             ISNULL(pr.QOH,0) AS CurrentStock,
+                             i.Unit AS UnitId,
+                             CAST(2 AS INT) AS ProductType
+                      FROM dbo.tblItem i
+                      LEFT JOIN dbo.tblCategory_FTI c ON c.Fcid = i.Fcid
+                      OUTER APPLY
+                      (
+                          SELECT TOP (1) r.QOH
+                          FROM dbo.tblProductRate r
+                          WHERE r.ProductId = i.ItemId
+                            AND ISNULL(r.ProductType,0) = 0
+                          ORDER BY r.Id DESC
+                      ) pr
+                      WHERE i.ItemId = @ItemId
+                        AND i.Status = 1
+                        AND i.Saletype = 0
+                        AND c.Status = 1",
+                    new { ItemId = itemId });
+            }
         }
 
         private void dgv_raw_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -713,6 +886,285 @@ namespace FoodandBeverage.Forms
         }
 
         #endregion
+        private void InitializeItemSearchPopup()
+        {
+            _itemSearchPopup = new Panel();
+            _itemSearchPopup.Visible = false;
+            _itemSearchPopup.BorderStyle = BorderStyle.FixedSingle;
+            _itemSearchPopup.BackColor = Color.White;
+            _itemSearchPopup.Size = new Size(430, 220);
+            _itemSearchPopup.Padding = new Padding(2);
+
+            _itemSearchGrid = new DataGridView();
+            _itemSearchGrid.Dock = DockStyle.Fill;
+            _itemSearchGrid.ReadOnly = true;
+            _itemSearchGrid.AllowUserToAddRows = false;
+            _itemSearchGrid.AllowUserToDeleteRows = false;
+            _itemSearchGrid.AllowUserToResizeRows = false;
+            _itemSearchGrid.MultiSelect = false;
+            _itemSearchGrid.RowHeadersVisible = false;
+            _itemSearchGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            _itemSearchGrid.AutoGenerateColumns = false;
+            _itemSearchGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            _itemSearchGrid.ColumnHeadersHeight = 34;
+            _itemSearchGrid.RowTemplate.Height = 42;
+            _itemSearchGrid.DefaultCellStyle.Font = new Font("Segoe UI", 10.5f);
+            _itemSearchGrid.DefaultCellStyle.Padding = new Padding(4);
+            _itemSearchGrid.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "searchField1",
+                HeaderText = "Product / Code",
+                DataPropertyName = "Field1",
+                FillWeight = 40
+            });
+            _itemSearchGrid.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "searchField2",
+                HeaderText = "Name / Category",
+                DataPropertyName = "Field2",
+                FillWeight = 40
+            });
+            _itemSearchGrid.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "searchField3",
+                HeaderText = "Category",
+                DataPropertyName = "Field3",
+                FillWeight = 30
+            });
+            _itemSearchGrid.CellClick += ItemSearchGrid_CellClick;
+
+            _itemSearchPopup.Controls.Add(_itemSearchGrid);
+            Controls.Add(_itemSearchPopup);
+            _itemSearchPopup.BringToFront();
+        }
+
+        private DmnSearch CreateItemSearchCriteria(int requestType, string searchText)
+        {
+            string escapedSearch = (searchText ?? string.Empty).Replace("'", "''");
+            DmnSearch searchCriteria = new DmnSearch();
+
+            if (requestType == 1)
+            {
+                searchCriteria.ColumnHeaders = "ID,Product,Category";
+                searchCriteria.Select = "p.ProductId as Id,p.Product as Field1,c.CategoryName as Field2";
+                searchCriteria.Table = "tblProduct p left join tblCategory_FTI c on p.Fcid=c.Fcid";
+                searchCriteria.WhereNdGroupBy = "WHERE p.Status = 1 AND c.Status = 1";
+                if (!string.IsNullOrWhiteSpace(escapedSearch))
+                {
+                    searchCriteria.WhereNdGroupBy +=
+                        " AND p.Product LIKE '%" + escapedSearch + "%'";
+                }
+                searchCriteria.OrderBy = "ORDER BY p.Product";
+            }
+            else
+            {
+                searchCriteria.ColumnHeaders = "ID,ItemCode_UPC,Itemname,CategoryName";
+                searchCriteria.Select =
+                    "i.ItemId as Id,i.ItemCode_UPC as Field1,i.Itemname as Field2,c.CategoryName as Field3";
+                searchCriteria.Table =
+                    "tblItem i left join tblCategory_FTI c on c.Fcid=i.Fcid";
+                searchCriteria.WhereNdGroupBy =
+                    "WHERE i.Status = 1 AND i.Saletype = 0 AND c.Status = 1";
+                if (!string.IsNullOrWhiteSpace(escapedSearch))
+                {
+                    searchCriteria.WhereNdGroupBy +=
+                        " AND i.Itemname LIKE '%" + escapedSearch + "%'";
+                }
+                searchCriteria.OrderBy = "ORDER BY i.Itemname";
+            }
+
+            return searchCriteria;
+        }
+
+        private List<DmnGridFields> SearchItemGridRows(int requestType, string searchText)
+        {
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            DmnSearch searchCriteria = CreateItemSearchCriteria(requestType, searchText);
+            return bllSearch.GetSearchData("prdSearch", searchCriteria);
+        }
+
+        private int ShowAdvancedItemSearch(int requestType, string searchText)
+        {
+            int returnValue = 0;
+            DataTable dtColumnAlign = new DataTable();
+            dtColumnAlign.Columns.Add();
+
+            DmnSearch searchCriteria = CreateItemSearchCriteria(requestType, searchText);
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            List<DmnGridFields> gridSource =
+                bllSearch.GetSearchData("prdSearch", searchCriteria);
+
+            if (gridSource == null || gridSource.Count == 0)
+            {
+                CMessageBox.Show("No Records", "Empty",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return 0;
+            }
+
+            using (var search = new FrmSearch<DmnGridFields>(
+                searchCriteria, SearchMode.FirstCharacter, this.Width - 150,
+                this.Height - 150, this.Location.Y + 50, this.Location.X + 20,
+                dtColumnAlign))
+            {
+                if (search.ShowDialog() == DialogResult.OK)
+                {
+                    int.TryParse(Convert.ToString(search._retValue), out returnValue);
+                }
+            }
+
+            return returnValue;
+        }
+
+        private void QueueItemSearchPopup(TextBox searchTextBox, int requestType)
+        {
+            if (searchTextBox == null || IsDisposed || !IsHandleCreated)
+            {
+                return;
+            }
+
+            try
+            {
+                BeginInvoke(new MethodInvoker(delegate
+                {
+                    ShowItemSearchPopup(searchTextBox, requestType);
+                }));
+            }
+            catch (InvalidOperationException)
+            {
+                // The form can close while a pending key event is being processed.
+            }
+        }
+
+        private void ShowItemSearchPopup(TextBox searchTextBox, int requestType)
+        {
+            try
+            {
+                string searchText = searchTextBox.Text.Trim();
+                _itemSearchTextBox = searchTextBox;
+                _itemSearchRequestType = requestType;
+
+                if (searchText.Length == 0)
+                {
+                    HideItemSearchPopup();
+                    return;
+                }
+
+                List<DmnGridFields> results =
+                    SearchItemGridRows(requestType, searchText);
+
+                if (results == null || results.Count == 0)
+                {
+                    HideItemSearchPopup();
+                    return;
+                }
+
+                _itemSearchGrid.DataSource = null;
+                _itemSearchGrid.Columns["searchField1"].HeaderText =
+                    requestType == 1 ? "Product" : "Item Code";
+                _itemSearchGrid.Columns["searchField2"].HeaderText =
+                    requestType == 1 ? "Category" : "Item Name";
+                _itemSearchGrid.Columns["searchField3"].Visible = requestType != 1;
+                _itemSearchGrid.Columns["searchField2"].Visible = true;
+                _itemSearchGrid.DataSource = results;
+
+                int popupWidth = Math.Min(
+                    Math.Max(searchTextBox.Width, 390),
+                    Math.Max(300, ClientSize.Width - 16));
+                int popupHeight = Math.Min(230, Math.Max(120, ClientSize.Height - 16));
+
+                Point belowSearch = PointToClient(
+                    searchTextBox.PointToScreen(new Point(0, searchTextBox.Height)));
+                Point aboveSearch = PointToClient(
+                    searchTextBox.PointToScreen(Point.Empty));
+
+                int x = Math.Max(8, Math.Min(belowSearch.X,
+                    ClientSize.Width - popupWidth - 8));
+                int y = belowSearch.Y;
+                if (y + popupHeight > ClientSize.Height)
+                {
+                    y = Math.Max(8, aboveSearch.Y - popupHeight);
+                }
+
+                _itemSearchPopup.Location = new Point(x, y);
+                _itemSearchPopup.Size = new Size(popupWidth, popupHeight);
+                _itemSearchPopup.Visible = true;
+                _itemSearchPopup.BringToFront();
+
+                if (_itemSearchGrid.Rows.Count > 0)
+                {
+                    _itemSearchGrid.ClearSelection();
+                    _itemSearchGrid.Rows[0].Selected = true;
+                    _itemSearchGrid.CurrentCell =
+                        _itemSearchGrid.Rows[0].Cells[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                HideItemSearchPopup();
+                LogInventoryException("FrmInventoryrequest ShowItemSearchPopup", ex);
+            }
+        }
+
+        private void HideItemSearchPopup()
+        {
+            if (_itemSearchPopup != null)
+            {
+                _itemSearchPopup.Visible = false;
+            }
+        }
+
+        private void ItemSearchGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    SelectItemSearchGridRow(e.RowIndex);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest ItemSearchGrid_CellClick", ex);
+            }
+        }
+
+        private void SelectItemSearchGridRow(int rowIndex)
+        {
+            if (_itemSearchGrid == null || rowIndex < 0 ||
+                rowIndex >= _itemSearchGrid.Rows.Count)
+            {
+                return;
+            }
+
+            DmnGridFields selected =
+                _itemSearchGrid.Rows[rowIndex].DataBoundItem as DmnGridFields;
+            if (selected == null || selected.Id <= 0)
+            {
+                return;
+            }
+
+            int selectedId = Convert.ToInt32(selected.Id);
+            int requestType = _itemSearchRequestType;
+            TextBox searchTextBox = _itemSearchTextBox;
+
+            HideItemSearchPopup();
+
+            if (requestType == 1)
+            {
+                AddBatchProductById(selectedId);
+            }
+            else
+            {
+                AddRawMaterialById(selectedId);
+            }
+
+            if (searchTextBox != null)
+            {
+                searchTextBox.Clear();
+                searchTextBox.Focus();
+            }
+        }
+
         private DmnInventoryRequestItem ShowItemPicker(string title, List<DmnInventoryRequestItem> items)
         {
             if (items == null || items.Count == 0)
@@ -823,7 +1275,22 @@ namespace FoodandBeverage.Forms
                 if (e.KeyCode == Keys.Enter)
                 {
                     e.SuppressKeyPress = true;
-                    SelectAndAddBatchProduct();
+                    if (_itemSearchPopup.Visible && _itemSearchRequestType == 1 &&
+                        _itemSearchGrid.Rows.Count > 0)
+                    {
+                        int rowIndex = _itemSearchGrid.CurrentRow == null
+                            ? 0
+                            : _itemSearchGrid.CurrentRow.Index;
+                        SelectItemSearchGridRow(rowIndex);
+                    }
+                    else
+                    {
+                        SelectAndAddBatchProduct();
+                    }
+                }
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    HideItemSearchPopup();
                 }
             }
             catch (Exception ex)
@@ -839,7 +1306,22 @@ namespace FoodandBeverage.Forms
                 if (e.KeyCode == Keys.Enter)
                 {
                     e.SuppressKeyPress = true;
-                    SelectAndAddRawMaterial();
+                    if (_itemSearchPopup.Visible && _itemSearchRequestType == 2 &&
+                        _itemSearchGrid.Rows.Count > 0)
+                    {
+                        int rowIndex = _itemSearchGrid.CurrentRow == null
+                            ? 0
+                            : _itemSearchGrid.CurrentRow.Index;
+                        SelectItemSearchGridRow(rowIndex);
+                    }
+                    else
+                    {
+                        SelectAndAddRawMaterial();
+                    }
+                }
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    HideItemSearchPopup();
                 }
             }
             catch (Exception ex)
@@ -857,12 +1339,179 @@ namespace FoodandBeverage.Forms
 
         private void txtsearch_batch_KeyPress(object sender, KeyPressEventArgs e)
         {
+            try
+            {
+                if (e.KeyChar == '\r' || e.KeyChar == '\n')
+                {
+                    return;
+                }
 
+                if (!char.IsControl(e.KeyChar) || e.KeyChar == '\b')
+                {
+                    QueueItemSearchPopup(txtsearch_batch, 1);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest txtsearch_batch_KeyPress", ex);
+            }
+        }
+
+        private void txtsearch_raw_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                if (e.KeyChar == '\r' || e.KeyChar == '\n')
+                {
+                    return;
+                }
+
+                if (!char.IsControl(e.KeyChar) || e.KeyChar == '\b')
+                {
+                    QueueItemSearchPopup(txtsearch_raw, 2);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest txtsearch_raw_KeyPress", ex);
+            }
         }
 
         private void btn_save_ingrediant_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (dgv_batch.CurrentRow == null ||
+                    dgv_batch.CurrentRow.Cells[Bitemidno].Value == null)
+                {
+                    ShowError("Select a batch product before saving ingredient details.");
+                    return;
+                }
 
+                dgv_batch_ingrediant.EndEdit();
+                int productId = Convert.ToInt32(
+                    dgv_batch.CurrentRow.Cells[Bitemidno].Value);
+
+                List<DmnInventoryRequestIngredient> changedIngredients =
+                    new List<DmnInventoryRequestIngredient>();
+
+                foreach (DataGridViewRow row in dgv_batch_ingrediant.Rows)
+                {
+                    if (row.IsNewRow)
+                    {
+                        continue;
+                    }
+
+                    int detailId;
+                    if (!int.TryParse(
+                        Convert.ToString(row.Cells[BIing_DetailsIdno].Value),
+                        out detailId) || detailId <= 0)
+                    {
+                        continue;
+                    }
+
+                    int rowProductId;
+                    if (!int.TryParse(
+                        Convert.ToString(row.Cells[BIproductidno].Value),
+                        out rowProductId) || rowProductId != productId)
+                    {
+                        ShowError("The ingredient rows do not belong to the selected product. Reload the product and try again.");
+                        return;
+                    }
+
+                    decimal quantity;
+                    if (!decimal.TryParse(
+                        Convert.ToString(row.Cells[Biperportionqtyno].Value),
+                        out quantity) || quantity <= 0m)
+                    {
+                        ShowError("Enter a per-portion ingredient quantity greater than zero.");
+                        dgv_batch_ingrediant.CurrentCell =
+                            row.Cells[Biperportionqtyno];
+                        dgv_batch_ingrediant.BeginEdit(true);
+                        return;
+                    }
+
+                    decimal originalQuantity;
+                    if (_originalIngredientQuantities.TryGetValue(
+                        detailId, out originalQuantity) &&
+                        originalQuantity != quantity)
+                    {
+                        changedIngredients.Add(new DmnInventoryRequestIngredient
+                        {
+                            IngredientDetailId = detailId,
+                            ProductId = productId,
+                            PerPortionQty = quantity
+                        });
+                    }
+                }
+
+                if (changedIngredients.Count == 0)
+                {
+                    MessageBox.Show("There are no ingredient quantity changes to save.",
+                        "Ingredient Details", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                DialogResult confirmation = CMessageBox.Show(
+                    "Save the updated ingredient details for this product?",
+                    "Confirm Ingredient Update",
+                    MessageBoxButtons.YesNo);
+
+                if (confirmation != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                using (IDbConnection connection =
+                    DAL.DapperRepository<DmnInventoryRequestIngredient>.OpenConnection())
+                using (IDbTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (DmnInventoryRequestIngredient ingredient in changedIngredients)
+                        {
+                            int affectedRows = connection.Execute(
+                                @"UPDATE dbo.tblIngredientDetails
+                                  SET quantity = @PerPortionQty
+                                  WHERE Ing_DetailsId = @IngredientDetailId
+                                    AND ProductId = @ProductId
+                                    AND ISNULL(Status,1) <> 0",
+                                new
+                                {
+                                    ingredient.PerPortionQty,
+                                    ingredient.IngredientDetailId,
+                                    ingredient.ProductId
+                                },
+                                transaction);
+
+                            if (affectedRows != 1)
+                            {
+                                throw new InvalidOperationException(
+                                    "An ingredient detail could not be updated. Reload the product and try again.");
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+
+                LoadIngredientsForRow(dgv_batch.CurrentRow);
+
+                MessageBox.Show("Ingredient details updated successfully.",
+                    "Ingredient Details", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_save_ingrediant_Click", ex);
+                ShowError("Unable to save ingredient details. " + ex.Message);
+            }
         }
     }
 }
