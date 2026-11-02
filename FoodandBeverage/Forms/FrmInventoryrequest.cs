@@ -409,43 +409,13 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                AddFromItemSearchPopup(txtsearch_batch, 1);
+                HideItemSearchPopup();
+                SelectAndAddBatchProduct();
             }
             catch (Exception ex)
             {
                 LogInventoryException("FrmInventoryrequest btn_addtolist_batch_Click", ex);
                 ShowError("Unable to add the selected batch product. " + ex.Message);
-            }
-        }
-
-        private void AddFromItemSearchPopup(TextBox searchTextBox, int requestType)
-        {
-            try
-            {
-                if (_itemSearchPopup.Visible &&
-                    _itemSearchRequestType == requestType &&
-                    _itemSearchGrid.Rows.Count > 0)
-                {
-                    int selectedRow = _itemSearchGrid.CurrentRow == null
-                        ? 0
-                        : _itemSearchGrid.CurrentRow.Index;
-
-                    SelectItemSearchGridRow(selectedRow);
-                    return;
-                }
-
-                // Show matching items (all active items when the search box is empty).
-                ShowItemSearchPopup(searchTextBox, requestType, true);
-
-                if (_itemSearchPopup.Visible && _itemSearchGrid.Rows.Count == 1)
-                {
-                    SelectItemSearchGridRow(0);
-                }
-            }
-            catch (Exception ex)
-            {
-                LogInventoryException("FrmInventoryrequest AddFromItemSearchPopup", ex);
-                ShowError("Unable to display matching items. " + ex.Message);
             }
         }
 
@@ -880,7 +850,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                AddFromItemSearchPopup(txtsearch_raw, 2);
+                HideItemSearchPopup();
+                SelectAndAddRawMaterial();
             }
             catch (Exception ex)
             {
@@ -1186,7 +1157,7 @@ namespace FoodandBeverage.Forms
             {
                 searchCriteria.ColumnHeaders = "ID,Product,Price";
                 searchCriteria.Select =
-                    "p.ProductId as Id,p.Product as Field1,CONVERT(VARCHAR(30), CONVERT(DECIMAL(18,2), ISNULL(p.Price,0))) as Field2";
+                    "p.ProductId as Id,p.Product as Field1,CAST(p.Price AS VARCHAR(30)) as Field2";
                 searchCriteria.Table = "tblProduct p left join tblCategory_FTI c on p.Fcid=c.Fcid";
                 searchCriteria.WhereNdGroupBy = "WHERE p.Status = 1 AND c.Status = 1";
                 if (!string.IsNullOrWhiteSpace(escapedSearch))
@@ -1242,11 +1213,10 @@ namespace FoodandBeverage.Forms
             }
 
             using (var search = new FrmSearch<DmnGridFields>(
-                searchCriteria, SearchMode.FirstCharacter, this.Width - 150,
-                this.Height - 150, this.Location.Y + 50, this.Location.X + 20,
+                searchCriteria, SearchMode.FirstCharacter, 0, 0, 0, 0,
                 dtColumnAlign))
             {
-                if (search.ShowDialog() == DialogResult.OK)
+                if (search.ShowDialog(this) == DialogResult.OK)
                 {
                     int.TryParse(Convert.ToString(search._retValue), out returnValue);
                 }
