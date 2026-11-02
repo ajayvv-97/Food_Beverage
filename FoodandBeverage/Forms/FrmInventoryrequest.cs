@@ -947,7 +947,7 @@ namespace FoodandBeverage.Forms
                     Status = 1
                 };
 
-                int requestId = _inventoryBll.SaveInventoryRequest(
+                int requestId = _inventoryBll.AddData(
                     "prdSave_InventoryRequest", master, details, _currentDraftId);
 
                 if (requestId <= 0)
