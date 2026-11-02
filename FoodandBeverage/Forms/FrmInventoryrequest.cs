@@ -537,10 +537,40 @@ namespace FoodandBeverage.Forms
 
         private void LoadIngredientsForRow(DataGridViewRow productRow)
         {
-            if (productRow == null || productRow.IsNewRow) return;
+            if (productRow == null || productRow.IsNewRow || productRow.Cells[Bitemidno].Value == null)
+                return;
+
+            CacheVisibleIngredientRows();
             int productId = Convert.ToInt32(productRow.Cells[Bitemidno].Value);
             decimal plannedQty = Math.Max(0m, ToDecimal(productRow.Cells[Bplannedqtyno].Value));
-            List<DmnInventoryRequestIngredient> ingredients = LoadProductIngredients(productId, plannedQty);
+            List<DmnInventoryRequestIngredient> ingredients;
+
+            bool hasSavedRows = _loadedRequestDetails != null &&
+                _loadedRequestDetails.Any(x => x.RequestType == 1 && x.ProductId == productId);
+
+            if (hasSavedRows)
+            {
+                ingredients = _loadedRequestDetails
+                    .Where(x => x.RequestType == 1 && x.ProductId == productId && x.ItemId.HasValue)
+                    .OrderBy(x => x.SlNo)
+                    .Select(x => new DmnInventoryRequestIngredient
+                    {
+                        IngredientDetailId = (int)(x.RecipeItemId ?? 0),
+                        ItemId = Convert.ToInt32(x.ItemId.Value),
+                        IngredientName = x.ItemName,
+                        PerPortionQty = x.PerPortionQty ?? 0m,
+                        TotalRequiredQty = (x.PerPortionQty ?? 0m) * plannedQty,
+                        UnitId = x.Unit,
+                        UnitName = x.UnitName,
+                        CurrentStock = x.CurrentStock ?? 0m,
+                        ProjectedBalance = (x.CurrentStock ?? 0m) - ((x.PerPortionQty ?? 0m) * plannedQty),
+                        ProductId = productId
+                    }).ToList();
+            }
+            else
+            {
+                ingredients = LoadProductIngredients(productId, plannedQty);
+            }
 
             _loadingGrid = true;
             try
@@ -557,22 +587,169 @@ namespace FoodandBeverage.Forms
                     row.Cells[Biperportionqtyno].Value = ingredient.PerPortionQty;
                     row.Cells[BItotalrequiredqtyno].Value = ingredient.TotalRequiredQty;
                     row.Cells[BIunitno].Value = string.IsNullOrWhiteSpace(ingredient.UnitName)
-                        ? Convert.ToString(ingredient.UnitId)
-                        : ingredient.UnitName;
+                        ? Convert.ToString(ingredient.UnitId) : ingredient.UnitName;
                     row.Cells[BIcurrentstockno].Value = ingredient.CurrentStock;
                     row.Cells[BIprojectedbalanceno].Value = ingredient.ProjectedBalance;
                     row.Cells[BIproductidno].Value = ingredient.ProductId;
-
-                    // Hidden column 8 stores tblIngredientDetails.Ing_DetailsId for updates.
                     row.Cells[BIing_DetailsIdno].Value = ingredient.IngredientDetailId;
-                    _originalIngredientQuantities[ingredient.IngredientDetailId] =
-                        ingredient.PerPortionQty;
+                    row.Cells[BIitemidno].Value = ingredient.ItemId;
+                    row.Cells[BIunitidno].Value = ingredient.UnitId;
+                    _originalIngredientQuantities[ingredient.IngredientDetailId] = ingredient.PerPortionQty;
                 }
+                _visibleIngredientProductId = productId;
             }
             finally
             {
                 _loadingGrid = false;
             }
+
+            UpdateRequestTotals();
+        }
+
+        private void CacheVisibleIngredientRows()
+        {
+            if (_loadedRequestDetails == null || _visibleIngredientProductId <= 0)
+                return;
+
+            foreach (DataGridViewRow row in dgv_batch_ingrediant.Rows)
+            {
+                if (row.IsNewRow || row.Cells[BIitemidno].Value == null) continue;
+
+                long itemId;
+                long recipeItemId;
+                if (!long.TryParse(Convert.ToString(row.Cells[BIitemidno].Value), out itemId)) continue;
+                long.TryParse(Convert.ToString(row.Cells[BIing_DetailsIdno].Value), out recipeItemId);
+
+                DmnInventoryRequestDetail saved = _loadedRequestDetails.FirstOrDefault(x =>
+                    x.RequestType == 1 && x.ProductId == _visibleIngredientProductId &&
+                    x.ItemId == itemId && x.RecipeItemId == recipeItemId);
+
+                if (saved == null)
+                {
+                    saved = new DmnInventoryRequestDetail
+                    {
+                        RequestType = 1, ProductId = _visibleIngredientProductId,
+                        ItemId = itemId, RecipeItemId = recipeItemId, ProductType = 1, Status = 1
+                    };
+                    _loadedRequestDetails.Add(saved);
+                }
+
+                saved.PerPortionQty = ToDecimal(row.Cells[Biperportionqtyno].Value);
+                saved.TotalRequiredQty = ToDecimal(row.Cells[BItotalrequiredqtyno].Value);
+                saved.CurrentStock = ToDecimal(row.Cells[BIcurrentstockno].Value);
+                saved.ProjectedBalance = ToDecimal(row.Cells[BIprojectedbalanceno].Value);
+                saved.Unit = ToNullableInt(row.Cells[BIunitidno].Value);
+                saved.UnitName = Convert.ToString(row.Cells[BIunitno].Value);
+                saved.ItemName = Convert.ToString(row.Cells[BIingredientno].Value);
+            }
+        }
+
+        private List<DmnInventoryRequestDetail> BuildRequestDetails()
+        {
+            CacheVisibleIngredientRows();
+            List<DmnInventoryRequestDetail> details = new List<DmnInventoryRequestDetail>();
+            int slNo = 1;
+
+            foreach (DataGridViewRow productRow in dgv_batch.Rows)
+            {
+                if (productRow.IsNewRow || productRow.Cells[Bitemidno].Value == null) continue;
+                int productId = Convert.ToInt32(productRow.Cells[Bitemidno].Value);
+                decimal plannedQty = ToDecimal(productRow.Cells[Bplannedqtyno].Value);
+                List<DmnInventoryRequestIngredient> ingredients = new List<DmnInventoryRequestIngredient>();
+
+                if (productId == _visibleIngredientProductId)
+                {
+                    foreach (DataGridViewRow ingredientRow in dgv_batch_ingrediant.Rows)
+                    {
+                        if (ingredientRow.IsNewRow || ingredientRow.Cells[BIitemidno].Value == null) continue;
+                        ingredients.Add(new DmnInventoryRequestIngredient
+                        {
+                            IngredientDetailId = (int)ToDecimal(ingredientRow.Cells[BIing_DetailsIdno].Value),
+                            ItemId = Convert.ToInt32(ingredientRow.Cells[BIitemidno].Value),
+                            IngredientName = Convert.ToString(ingredientRow.Cells[BIingredientno].Value),
+                            PerPortionQty = ToDecimal(ingredientRow.Cells[Biperportionqtyno].Value),
+                            TotalRequiredQty = ToDecimal(ingredientRow.Cells[BItotalrequiredqtyno].Value),
+                            UnitId = ToNullableInt(ingredientRow.Cells[BIunitidno].Value),
+                            UnitName = Convert.ToString(ingredientRow.Cells[BIunitno].Value),
+                            CurrentStock = ToDecimal(ingredientRow.Cells[BIcurrentstockno].Value),
+                            ProjectedBalance = ToDecimal(ingredientRow.Cells[BIprojectedbalanceno].Value),
+                            ProductId = productId
+                        });
+                    }
+                }
+                else if (_loadedRequestDetails != null &&
+                    _loadedRequestDetails.Any(x => x.RequestType == 1 && x.ProductId == productId))
+                {
+                    ingredients = _loadedRequestDetails
+                        .Where(x => x.RequestType == 1 && x.ProductId == productId && x.ItemId.HasValue)
+                        .OrderBy(x => x.SlNo)
+                        .Select(x => new DmnInventoryRequestIngredient
+                        {
+                            IngredientDetailId = (int)(x.RecipeItemId ?? 0),
+                            ItemId = Convert.ToInt32(x.ItemId.Value),
+                            IngredientName = x.ItemName,
+                            PerPortionQty = x.PerPortionQty ?? 0m,
+                            TotalRequiredQty = (x.PerPortionQty ?? 0m) * plannedQty,
+                            UnitId = x.Unit,
+                            UnitName = x.UnitName,
+                            CurrentStock = x.CurrentStock ?? 0m,
+                            ProjectedBalance = (x.CurrentStock ?? 0m) - ((x.PerPortionQty ?? 0m) * plannedQty),
+                            ProductId = productId
+                        }).ToList();
+                }
+                else
+                {
+                    ingredients = LoadProductIngredients(productId, plannedQty);
+                }
+
+                if (ingredients.Count == 0)
+                {
+                    details.Add(new DmnInventoryRequestDetail
+                    {
+                        RequestType = 1, SlNo = slNo++, ProductId = productId,
+                        PlannedQty = plannedQty, ProductType = 1, CreatedBy = FrmLogin.UserId,
+                        CreatedOn = DateTime.Now, BranchId = FrmDashboard.BranchId, Status = 1
+                    });
+                    continue;
+                }
+
+                foreach (DmnInventoryRequestIngredient ingredient in ingredients)
+                {
+                    details.Add(new DmnInventoryRequestDetail
+                    {
+                        RequestType = 1, SlNo = slNo++, ProductId = productId,
+                        PlannedQty = plannedQty, RecipeItemId = ingredient.IngredientDetailId,
+                        PerPortionQty = ingredient.PerPortionQty,
+                        TotalRequiredQty = ingredient.PerPortionQty * plannedQty,
+                        ItemId = ingredient.ItemId, ProductType = 1,
+                        CurrentStock = ingredient.CurrentStock,
+                        ProjectedBalance = ingredient.CurrentStock - (ingredient.PerPortionQty * plannedQty),
+                        Unit = ingredient.UnitId, CreatedBy = FrmLogin.UserId,
+                        CreatedOn = DateTime.Now, BranchId = FrmDashboard.BranchId, Status = 1
+                    });
+                }
+            }
+
+            foreach (DataGridViewRow rawRow in dgv_raw.Rows)
+            {
+                if (rawRow.IsNewRow || rawRow.Cells[Ritemidno].Value == null) continue;
+                decimal stock = ToDecimal(rawRow.Cells[Rcurrentstockno].Value);
+                decimal issuedQty = ToDecimal(rawRow.Cells[Rissuedqtyno].Value);
+
+                details.Add(new DmnInventoryRequestDetail
+                {
+                    RequestType = 2, SlNo = slNo++,
+                    ItemId = Convert.ToInt64(rawRow.Cells[Ritemidno].Value),
+                    ProductType = 2, CurrentStock = stock, IssuedQty = issuedQty,
+                    ProjectedBalance = stock - issuedQty,
+                    Unit = ToNullableInt(rawRow.Cells[Runitno].Value),
+                    PurposeRemarks = Convert.ToString(rawRow.Cells[RpurposeRemarksno].Value),
+                    CreatedBy = FrmLogin.UserId, CreatedOn = DateTime.Now,
+                    BranchId = FrmDashboard.BranchId, Status = 1
+                });
+            }
+
+            return details;
         }
 
         private void dgv_batch_CellClick(object sender, DataGridViewCellEventArgs e)
