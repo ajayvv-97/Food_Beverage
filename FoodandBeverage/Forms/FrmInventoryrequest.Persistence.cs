@@ -265,7 +265,8 @@ namespace FoodandBeverage.Forms
             DmnSearch searchCriteria = new DmnSearch();
             searchCriteria.ColumnHeaders = "ID,Draft No,Request No,Request Date,Required Date";
             searchCriteria.Select =
-                "DraftId as Id,DraftNo as Field1,RequestNo as Field2,RequestDate as Field3,RequiredDate as Field4";
+                "DraftId as Id,DraftNo as Field1,RequestNo as Field2," +
+                "CAST(RequestDate AS varchar(30)) as Field3,CAST(RequiredDate AS varchar(30)) as Field4";
             searchCriteria.Table = "tblInventoryRequestDraftMaster";
             searchCriteria.WhereNdGroupBy =
                 "where Status = 1 AND BranchId = " + Convert.ToString(FrmDashboard.BranchId);
