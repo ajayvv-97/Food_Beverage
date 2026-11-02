@@ -31,7 +31,7 @@ namespace FoodandBeverage.Forms
         private int? _currentRequestId;
         private int? _currentDraftId;
         private int _visibleIngredientProductId;
-        private List<DmnInventoryRequestDetail> _loadedRequestDetails;
+        private List<DmnInventoryRequestDetail> _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
 
         ClsGeneral clsgen = new ClsGeneral();
 
@@ -1048,7 +1048,7 @@ namespace FoodandBeverage.Forms
             txt_reqno.Text = "IR-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
             _currentRequestId = null;
             _currentDraftId = null;
-            _loadedRequestDetails = null;
+            _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
             _visibleIngredientProductId = 0;
             txt_requ_by.Clear();
             UpdateRequesterName();
@@ -1192,6 +1192,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Ritemidno].Value = selected.ItemId;
                 row.Cells[Rproducttypeno].Value = 2;
                 dgv_raw.CurrentCell = row.Cells[Rrawmaterialno];
+                UpdateRequestTotals();
             }
             catch (Exception ex)
             {
@@ -1235,7 +1236,6 @@ namespace FoodandBeverage.Forms
             {
                 if (_loadingGrid || e.RowIndex < 0 || e.ColumnIndex != Rissuedqtyno) return;
                 UpdateRawBalance(dgv_raw.Rows[e.RowIndex]);
-                UpdateRequestTotals();
             }
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest dgv_raw_CellValueChanged", ex); }
         }
