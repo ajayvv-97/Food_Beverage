@@ -29,15 +29,43 @@ namespace FoodandBeverage.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_inner_main = new System.Windows.Forms.TableLayoutPanel();
             this.pnl_view = new System.Windows.Forms.Panel();
+            this.tlp_Batchpreparation = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_batch = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_batch_serach_nav = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_addtolist_batch = new System.Windows.Forms.Button();
+            this.txtsearch_batch = new System.Windows.Forms.TextBox();
+            this.btn_clearall_batch = new System.Windows.Forms.Button();
+            this.btn_importbatch = new System.Windows.Forms.Button();
+            this.dgv_batch = new System.Windows.Forms.DataGridView();
+            this.slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbmenuite = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbplannedqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.brecipengrediant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbaction = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dbitemid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tlp_ingrediant = new System.Windows.Forms.TableLayoutPanel();
+            this.dgv_batch_ingrediant = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbiingrdiant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbiPerPortionQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbiotalrequiredqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.biunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbicurrentstock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.biprojectbalance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dbiproductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.biIng_DetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.lbl_IngrediantHeader = new System.Windows.Forms.Label();
             this.tlp_raw = new System.Windows.Forms.TableLayoutPanel();
             this.lbl_hint_raw = new System.Windows.Forms.Label();
             this.tlp_raw_control = new System.Windows.Forms.TableLayoutPanel();
@@ -57,28 +85,6 @@ namespace FoodandBeverage.Forms
             this.txtsearch_raw = new System.Windows.Forms.TextBox();
             this.btn_clearall_raw = new System.Windows.Forms.Button();
             this.btn_import_raw = new System.Windows.Forms.Button();
-            this.btn_advsearch_raw = new System.Windows.Forms.Button();
-            this.tlp_Batchpreparation = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_batch = new System.Windows.Forms.TableLayoutPanel();
-            this.tlp_batch_serach_nav = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_addtolist_batch = new System.Windows.Forms.Button();
-            this.txtsearch_batch = new System.Windows.Forms.TextBox();
-            this.btn_clearall_batch = new System.Windows.Forms.Button();
-            this.btn_importbatch = new System.Windows.Forms.Button();
-            this.btn_advsearch_batch = new System.Windows.Forms.Button();
-            this.dgv_batch = new System.Windows.Forms.DataGridView();
-            this.slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbmenuite = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbplannedqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.brecipengrediant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbaction = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.dbitemid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tlp_ingrediant = new System.Windows.Forms.TableLayoutPanel();
-            this.dgv_batch_ingrediant = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.lbl_IngrediantHeader = new System.Windows.Forms.Label();
-            this.btn_editingrediant_batch = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_req_from = new System.Windows.Forms.TableLayoutPanel();
             this.cmb_req_department = new System.Windows.Forms.ComboBox();
@@ -106,23 +112,9 @@ namespace FoodandBeverage.Forms
             this.tlp_maintab = new System.Windows.Forms.TableLayoutPanel();
             this.btn_raw_tab = new System.Windows.Forms.Button();
             this.btn_batch_tab = new System.Windows.Forms.Button();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbiingrdiant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbiPerPortionQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbiotalrequiredqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.biunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbicurrentstock = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.biprojectbalance = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dbiproductid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.biIng_DetailsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_save_ingrediant = new System.Windows.Forms.Button();
             this.tlp_main.SuspendLayout();
             this.tlp_inner_main.SuspendLayout();
             this.pnl_view.SuspendLayout();
-            this.tlp_raw.SuspendLayout();
-            this.tlp_raw_control.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_raw)).BeginInit();
-            this.tableLayoutPanel5.SuspendLayout();
             this.tlp_Batchpreparation.SuspendLayout();
             this.tlp_batch.SuspendLayout();
             this.tlp_batch_serach_nav.SuspendLayout();
@@ -130,6 +122,10 @@ namespace FoodandBeverage.Forms
             this.tlp_ingrediant.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_batch_ingrediant)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tlp_raw.SuspendLayout();
+            this.tlp_raw_control.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_raw)).BeginInit();
+            this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tlp_req_from.SuspendLayout();
             this.tlp_button.SuspendLayout();
@@ -175,13 +171,384 @@ namespace FoodandBeverage.Forms
             // 
             // pnl_view
             // 
-            this.pnl_view.Controls.Add(this.tlp_Batchpreparation);
             this.pnl_view.Controls.Add(this.tlp_raw);
+            this.pnl_view.Controls.Add(this.tlp_Batchpreparation);
             this.pnl_view.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_view.Location = new System.Drawing.Point(315, 3);
             this.pnl_view.Name = "pnl_view";
             this.pnl_view.Size = new System.Drawing.Size(660, 391);
             this.pnl_view.TabIndex = 18;
+            // 
+            // tlp_Batchpreparation
+            // 
+            this.tlp_Batchpreparation.BackColor = System.Drawing.Color.Transparent;
+            this.tlp_Batchpreparation.ColumnCount = 1;
+            this.tlp_Batchpreparation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_Batchpreparation.Controls.Add(this.tlp_batch, 0, 0);
+            this.tlp_Batchpreparation.Controls.Add(this.tlp_ingrediant, 0, 2);
+            this.tlp_Batchpreparation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_Batchpreparation.Location = new System.Drawing.Point(0, 0);
+            this.tlp_Batchpreparation.Name = "tlp_Batchpreparation";
+            this.tlp_Batchpreparation.RowCount = 3;
+            this.tlp_Batchpreparation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 64.2487F));
+            this.tlp_Batchpreparation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tlp_Batchpreparation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35.7513F));
+            this.tlp_Batchpreparation.Size = new System.Drawing.Size(660, 391);
+            this.tlp_Batchpreparation.TabIndex = 0;
+            // 
+            // tlp_batch
+            // 
+            this.tlp_batch.BackColor = System.Drawing.Color.White;
+            this.tlp_batch.ColumnCount = 1;
+            this.tlp_batch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_batch.Controls.Add(this.tlp_batch_serach_nav, 0, 0);
+            this.tlp_batch.Controls.Add(this.dgv_batch, 0, 1);
+            this.tlp_batch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_batch.Location = new System.Drawing.Point(3, 3);
+            this.tlp_batch.Name = "tlp_batch";
+            this.tlp_batch.Padding = new System.Windows.Forms.Padding(5);
+            this.tlp_batch.RowCount = 2;
+            this.tlp_batch.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_batch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_batch.Size = new System.Drawing.Size(654, 241);
+            this.tlp_batch.TabIndex = 20;
+            // 
+            // tlp_batch_serach_nav
+            // 
+            this.tlp_batch_serach_nav.ColumnCount = 6;
+            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
+            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlp_batch_serach_nav.Controls.Add(this.btn_addtolist_batch, 0, 0);
+            this.tlp_batch_serach_nav.Controls.Add(this.txtsearch_batch, 0, 0);
+            this.tlp_batch_serach_nav.Controls.Add(this.btn_clearall_batch, 4, 0);
+            this.tlp_batch_serach_nav.Controls.Add(this.btn_importbatch, 3, 0);
+            this.tlp_batch_serach_nav.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_batch_serach_nav.Location = new System.Drawing.Point(8, 8);
+            this.tlp_batch_serach_nav.Name = "tlp_batch_serach_nav";
+            this.tlp_batch_serach_nav.RowCount = 1;
+            this.tlp_batch_serach_nav.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_batch_serach_nav.Size = new System.Drawing.Size(638, 45);
+            this.tlp_batch_serach_nav.TabIndex = 0;
+            // 
+            // btn_addtolist_batch
+            // 
+            this.btn_addtolist_batch.BackColor = System.Drawing.Color.Transparent;
+            this.btn_addtolist_batch.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_AddToList;
+            this.btn_addtolist_batch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_addtolist_batch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_addtolist_batch.FlatAppearance.BorderSize = 0;
+            this.btn_addtolist_batch.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btn_addtolist_batch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_addtolist_batch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_addtolist_batch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_addtolist_batch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_addtolist_batch.Location = new System.Drawing.Point(162, 4);
+            this.btn_addtolist_batch.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_addtolist_batch.Name = "btn_addtolist_batch";
+            this.btn_addtolist_batch.Size = new System.Drawing.Size(109, 37);
+            this.btn_addtolist_batch.TabIndex = 6;
+            this.btn_addtolist_batch.UseVisualStyleBackColor = false;
+            this.btn_addtolist_batch.Click += new System.EventHandler(this.btn_addtolist_batch_Click);
+            // 
+            // txtsearch_batch
+            // 
+            this.txtsearch_batch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.txtsearch_batch.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtsearch_batch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtsearch_batch.Location = new System.Drawing.Point(3, 3);
+            this.txtsearch_batch.Multiline = true;
+            this.txtsearch_batch.Name = "txtsearch_batch";
+            this.txtsearch_batch.Size = new System.Drawing.Size(152, 39);
+            this.txtsearch_batch.TabIndex = 1;
+            this.txtsearch_batch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtsearch_batch_KeyPress);
+            // 
+            // btn_clearall_batch
+            // 
+            this.btn_clearall_batch.BackColor = System.Drawing.Color.Transparent;
+            this.btn_clearall_batch.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_ClearAll;
+            this.btn_clearall_batch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_clearall_batch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_clearall_batch.FlatAppearance.BorderSize = 0;
+            this.btn_clearall_batch.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btn_clearall_batch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_clearall_batch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_clearall_batch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_clearall_batch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_clearall_batch.Location = new System.Drawing.Point(541, 4);
+            this.btn_clearall_batch.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_clearall_batch.Name = "btn_clearall_batch";
+            this.btn_clearall_batch.Size = new System.Drawing.Size(82, 37);
+            this.btn_clearall_batch.TabIndex = 4;
+            this.btn_clearall_batch.UseVisualStyleBackColor = false;
+            this.btn_clearall_batch.Click += new System.EventHandler(this.btn_clearall_batch_Click);
+            // 
+            // btn_importbatch
+            // 
+            this.btn_importbatch.BackColor = System.Drawing.Color.Transparent;
+            this.btn_importbatch.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_ImportRecipePreparation_Compact;
+            this.btn_importbatch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_importbatch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_importbatch.FlatAppearance.BorderSize = 0;
+            this.btn_importbatch.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.btn_importbatch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_importbatch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_importbatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_importbatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_importbatch.Location = new System.Drawing.Point(418, 4);
+            this.btn_importbatch.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_importbatch.Name = "btn_importbatch";
+            this.btn_importbatch.Size = new System.Drawing.Size(115, 37);
+            this.btn_importbatch.TabIndex = 2;
+            this.btn_importbatch.UseVisualStyleBackColor = false;
+            this.btn_importbatch.Click += new System.EventHandler(this.btn_importbatch_Click);
+            // 
+            // dgv_batch
+            // 
+            this.dgv_batch.AllowUserToAddRows = false;
+            this.dgv_batch.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
+            this.dgv_batch.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_batch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgv_batch.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_batch.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.slno,
+            this.dbmenuite,
+            this.dbplannedqty,
+            this.dbunit,
+            this.brecipengrediant,
+            this.dbaction,
+            this.dbitemid});
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_batch.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgv_batch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_batch.Location = new System.Drawing.Point(8, 59);
+            this.dgv_batch.Name = "dgv_batch";
+            this.dgv_batch.RowHeadersVisible = false;
+            this.dgv_batch.RowHeadersWidth = 51;
+            this.dgv_batch.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_batch.RowTemplate.Height = 44;
+            this.dgv_batch.Size = new System.Drawing.Size(638, 174);
+            this.dgv_batch.TabIndex = 29;
+            this.dgv_batch.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_batch_CellClick);
+            // 
+            // slno
+            // 
+            this.slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.slno.HeaderText = "Slno";
+            this.slno.MinimumWidth = 6;
+            this.slno.Name = "slno";
+            this.slno.Width = 66;
+            // 
+            // dbmenuite
+            // 
+            this.dbmenuite.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbmenuite.HeaderText = "Menu Item";
+            this.dbmenuite.Name = "dbmenuite";
+            this.dbmenuite.Width = 101;
+            // 
+            // dbplannedqty
+            // 
+            this.dbplannedqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbplannedqty.HeaderText = "Planned Qty";
+            this.dbplannedqty.Name = "dbplannedqty";
+            this.dbplannedqty.Width = 110;
+            // 
+            // dbunit
+            // 
+            this.dbunit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbunit.HeaderText = "Unit";
+            this.dbunit.Name = "dbunit";
+            this.dbunit.Width = 63;
+            // 
+            // brecipengrediant
+            // 
+            this.brecipengrediant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.brecipengrediant.HeaderText = "Recipe Ingrediants";
+            this.brecipengrediant.Name = "brecipengrediant";
+            this.brecipengrediant.Width = 153;
+            // 
+            // dbaction
+            // 
+            this.dbaction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbaction.HeaderText = "Action";
+            this.dbaction.Name = "dbaction";
+            this.dbaction.Width = 60;
+            // 
+            // dbitemid
+            // 
+            this.dbitemid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbitemid.HeaderText = "Itemid";
+            this.dbitemid.Name = "dbitemid";
+            this.dbitemid.Width = 78;
+            // 
+            // tlp_ingrediant
+            // 
+            this.tlp_ingrediant.BackColor = System.Drawing.Color.White;
+            this.tlp_ingrediant.ColumnCount = 1;
+            this.tlp_ingrediant.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_ingrediant.Controls.Add(this.dgv_batch_ingrediant, 0, 1);
+            this.tlp_ingrediant.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tlp_ingrediant.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_ingrediant.Location = new System.Drawing.Point(3, 255);
+            this.tlp_ingrediant.Name = "tlp_ingrediant";
+            this.tlp_ingrediant.Padding = new System.Windows.Forms.Padding(5);
+            this.tlp_ingrediant.RowCount = 2;
+            this.tlp_ingrediant.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlp_ingrediant.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_ingrediant.Size = new System.Drawing.Size(654, 133);
+            this.tlp_ingrediant.TabIndex = 30;
+            // 
+            // dgv_batch_ingrediant
+            // 
+            this.dgv_batch_ingrediant.AllowUserToAddRows = false;
+            this.dgv_batch_ingrediant.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
+            this.dgv_batch_ingrediant.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_batch_ingrediant.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgv_batch_ingrediant.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_batch_ingrediant.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dbiingrdiant,
+            this.dbiPerPortionQty,
+            this.dbiotalrequiredqty,
+            this.biunit,
+            this.dbicurrentstock,
+            this.biprojectbalance,
+            this.dbiproductid,
+            this.biIng_DetailsId});
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_batch_ingrediant.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgv_batch_ingrediant.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_batch_ingrediant.Location = new System.Drawing.Point(8, 44);
+            this.dgv_batch_ingrediant.Name = "dgv_batch_ingrediant";
+            this.dgv_batch_ingrediant.RowHeadersVisible = false;
+            this.dgv_batch_ingrediant.RowHeadersWidth = 51;
+            this.dgv_batch_ingrediant.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgv_batch_ingrediant.RowTemplate.Height = 44;
+            this.dgv_batch_ingrediant.Size = new System.Drawing.Size(638, 81);
+            this.dgv_batch_ingrediant.TabIndex = 29;
+            this.dgv_batch_ingrediant.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_batch_ingrediant_CellClick);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Slno";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 66;
+            // 
+            // dbiingrdiant
+            // 
+            this.dbiingrdiant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbiingrdiant.HeaderText = "Ingrdiant";
+            this.dbiingrdiant.Name = "dbiingrdiant";
+            this.dbiingrdiant.Width = 97;
+            // 
+            // dbiPerPortionQty
+            // 
+            this.dbiPerPortionQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbiPerPortionQty.HeaderText = "Per Portion Qty";
+            this.dbiPerPortionQty.Name = "dbiPerPortionQty";
+            this.dbiPerPortionQty.Width = 128;
+            // 
+            // dbiotalrequiredqty
+            // 
+            this.dbiotalrequiredqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbiotalrequiredqty.HeaderText = "Total Required Qty";
+            this.dbiotalrequiredqty.Name = "dbiotalrequiredqty";
+            this.dbiotalrequiredqty.Width = 130;
+            // 
+            // biunit
+            // 
+            this.biunit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.biunit.HeaderText = "Unit";
+            this.biunit.Name = "biunit";
+            this.biunit.Width = 63;
+            // 
+            // dbicurrentstock
+            // 
+            this.dbicurrentstock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbicurrentstock.HeaderText = "Current stock";
+            this.dbicurrentstock.Name = "dbicurrentstock";
+            this.dbicurrentstock.Width = 118;
+            // 
+            // biprojectbalance
+            // 
+            this.biprojectbalance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.biprojectbalance.HeaderText = "Projected Balance";
+            this.biprojectbalance.Name = "biprojectbalance";
+            this.biprojectbalance.Width = 149;
+            // 
+            // dbiproductid
+            // 
+            this.dbiproductid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dbiproductid.HeaderText = "Product ID";
+            this.dbiproductid.Name = "dbiproductid";
+            this.dbiproductid.Width = 101;
+            // 
+            // biIng_DetailsId
+            // 
+            this.biIng_DetailsId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.biIng_DetailsId.HeaderText = "Ing_DetailsId";
+            this.biIng_DetailsId.Name = "biIng_DetailsId";
+            this.biIng_DetailsId.Visible = false;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Controls.Add(this.lbl_IngrediantHeader, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(8, 8);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(638, 30);
+            this.tableLayoutPanel2.TabIndex = 2;
+            // 
+            // lbl_IngrediantHeader
+            // 
+            this.lbl_IngrediantHeader.AutoSize = true;
+            this.lbl_IngrediantHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbl_IngrediantHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.lbl_IngrediantHeader.Location = new System.Drawing.Point(3, 0);
+            this.lbl_IngrediantHeader.Name = "lbl_IngrediantHeader";
+            this.lbl_IngrediantHeader.Size = new System.Drawing.Size(632, 30);
+            this.lbl_IngrediantHeader.TabIndex = 3;
+            this.lbl_IngrediantHeader.Text = "Ingrediants for :-";
+            this.lbl_IngrediantHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tlp_raw
             // 
@@ -234,14 +601,14 @@ namespace FoodandBeverage.Forms
             this.dgv_raw.AllowUserToAddRows = false;
             this.dgv_raw.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
             this.dgv_raw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_raw.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_raw.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_raw.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_raw.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn10,
@@ -254,14 +621,14 @@ namespace FoodandBeverage.Forms
             this.rawaction,
             this.rwaitemid,
             this.rawproductype});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_raw.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_raw.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_raw.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_raw.Location = new System.Drawing.Point(8, 59);
             this.dgv_raw.Name = "dgv_raw";
@@ -346,19 +713,18 @@ namespace FoodandBeverage.Forms
             // 
             // tableLayoutPanel5
             // 
-            this.tableLayoutPanel5.ColumnCount = 7;
+            this.tableLayoutPanel5.ColumnCount = 6;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 21F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel5.Controls.Add(this.btn_addtolist_raw, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.txtsearch_raw, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.btn_clearall_raw, 5, 0);
-            this.tableLayoutPanel5.Controls.Add(this.btn_import_raw, 4, 0);
-            this.tableLayoutPanel5.Controls.Add(this.btn_advsearch_raw, 2, 0);
+            this.tableLayoutPanel5.Controls.Add(this.btn_clearall_raw, 4, 0);
+            this.tableLayoutPanel5.Controls.Add(this.btn_import_raw, 3, 0);
             this.tableLayoutPanel5.Location = new System.Drawing.Point(8, 8);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
@@ -381,7 +747,7 @@ namespace FoodandBeverage.Forms
             this.btn_addtolist_raw.Location = new System.Drawing.Point(213, 4);
             this.btn_addtolist_raw.Margin = new System.Windows.Forms.Padding(4);
             this.btn_addtolist_raw.Name = "btn_addtolist_raw";
-            this.btn_addtolist_raw.Size = new System.Drawing.Size(88, 37);
+            this.btn_addtolist_raw.Size = new System.Drawing.Size(126, 37);
             this.btn_addtolist_raw.TabIndex = 6;
             this.btn_addtolist_raw.UseVisualStyleBackColor = false;
             this.btn_addtolist_raw.Click += new System.EventHandler(this.btn_addtolist_raw_Click);
@@ -409,10 +775,10 @@ namespace FoodandBeverage.Forms
             this.btn_clearall_raw.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_clearall_raw.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_clearall_raw.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_clearall_raw.Location = new System.Drawing.Point(531, 4);
+            this.btn_clearall_raw.Location = new System.Drawing.Point(503, 4);
             this.btn_clearall_raw.Margin = new System.Windows.Forms.Padding(4);
             this.btn_clearall_raw.Name = "btn_clearall_raw";
-            this.btn_clearall_raw.Size = new System.Drawing.Size(82, 37);
+            this.btn_clearall_raw.Size = new System.Drawing.Size(113, 37);
             this.btn_clearall_raw.TabIndex = 4;
             this.btn_clearall_raw.UseVisualStyleBackColor = false;
             // 
@@ -428,383 +794,13 @@ namespace FoodandBeverage.Forms
             this.btn_import_raw.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_import_raw.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_import_raw.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_import_raw.Location = new System.Drawing.Point(441, 4);
+            this.btn_import_raw.Location = new System.Drawing.Point(378, 4);
             this.btn_import_raw.Margin = new System.Windows.Forms.Padding(4);
             this.btn_import_raw.Name = "btn_import_raw";
-            this.btn_import_raw.Size = new System.Drawing.Size(82, 37);
+            this.btn_import_raw.Size = new System.Drawing.Size(117, 37);
             this.btn_import_raw.TabIndex = 2;
             this.btn_import_raw.UseVisualStyleBackColor = false;
             this.btn_import_raw.Click += new System.EventHandler(this.btn_import_raw_Click);
-            // 
-            // btn_advsearch_raw
-            // 
-            this.btn_advsearch_raw.BackColor = System.Drawing.Color.Transparent;
-            this.btn_advsearch_raw.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_AdvancedSearch;
-            this.btn_advsearch_raw.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_advsearch_raw.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_advsearch_raw.FlatAppearance.BorderSize = 0;
-            this.btn_advsearch_raw.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.btn_advsearch_raw.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_advsearch_raw.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_advsearch_raw.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_advsearch_raw.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_advsearch_raw.Location = new System.Drawing.Point(309, 4);
-            this.btn_advsearch_raw.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_advsearch_raw.Name = "btn_advsearch_raw";
-            this.btn_advsearch_raw.Size = new System.Drawing.Size(88, 37);
-            this.btn_advsearch_raw.TabIndex = 5;
-            this.btn_advsearch_raw.UseVisualStyleBackColor = false;
-            this.btn_advsearch_raw.Click += new System.EventHandler(this.btn_advsearch_raw_Click);
-            // 
-            // tlp_Batchpreparation
-            // 
-            this.tlp_Batchpreparation.BackColor = System.Drawing.Color.Transparent;
-            this.tlp_Batchpreparation.ColumnCount = 1;
-            this.tlp_Batchpreparation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_Batchpreparation.Controls.Add(this.tlp_batch, 0, 0);
-            this.tlp_Batchpreparation.Controls.Add(this.tlp_ingrediant, 0, 2);
-            this.tlp_Batchpreparation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_Batchpreparation.Location = new System.Drawing.Point(0, 0);
-            this.tlp_Batchpreparation.Name = "tlp_Batchpreparation";
-            this.tlp_Batchpreparation.RowCount = 3;
-            this.tlp_Batchpreparation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 64.2487F));
-            this.tlp_Batchpreparation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tlp_Batchpreparation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35.7513F));
-            this.tlp_Batchpreparation.Size = new System.Drawing.Size(660, 391);
-            this.tlp_Batchpreparation.TabIndex = 0;
-            // 
-            // tlp_batch
-            // 
-            this.tlp_batch.BackColor = System.Drawing.Color.White;
-            this.tlp_batch.ColumnCount = 1;
-            this.tlp_batch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_batch.Controls.Add(this.tlp_batch_serach_nav, 0, 0);
-            this.tlp_batch.Controls.Add(this.dgv_batch, 0, 1);
-            this.tlp_batch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_batch.Location = new System.Drawing.Point(3, 3);
-            this.tlp_batch.Name = "tlp_batch";
-            this.tlp_batch.Padding = new System.Windows.Forms.Padding(5);
-            this.tlp_batch.RowCount = 2;
-            this.tlp_batch.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_batch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_batch.Size = new System.Drawing.Size(654, 241);
-            this.tlp_batch.TabIndex = 20;
-            // 
-            // tlp_batch_serach_nav
-            // 
-            this.tlp_batch_serach_nav.ColumnCount = 7;
-            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
-            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlp_batch_serach_nav.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
-            this.tlp_batch_serach_nav.Controls.Add(this.btn_addtolist_batch, 0, 0);
-            this.tlp_batch_serach_nav.Controls.Add(this.txtsearch_batch, 0, 0);
-            this.tlp_batch_serach_nav.Controls.Add(this.btn_clearall_batch, 5, 0);
-            this.tlp_batch_serach_nav.Controls.Add(this.btn_importbatch, 4, 0);
-            this.tlp_batch_serach_nav.Controls.Add(this.btn_advsearch_batch, 2, 0);
-            this.tlp_batch_serach_nav.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_batch_serach_nav.Location = new System.Drawing.Point(8, 8);
-            this.tlp_batch_serach_nav.Name = "tlp_batch_serach_nav";
-            this.tlp_batch_serach_nav.RowCount = 1;
-            this.tlp_batch_serach_nav.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_batch_serach_nav.Size = new System.Drawing.Size(638, 45);
-            this.tlp_batch_serach_nav.TabIndex = 0;
-            // 
-            // btn_addtolist_batch
-            // 
-            this.btn_addtolist_batch.BackColor = System.Drawing.Color.Transparent;
-            this.btn_addtolist_batch.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_AddToList;
-            this.btn_addtolist_batch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_addtolist_batch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_addtolist_batch.FlatAppearance.BorderSize = 0;
-            this.btn_addtolist_batch.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.btn_addtolist_batch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_addtolist_batch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_addtolist_batch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_addtolist_batch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_addtolist_batch.Location = new System.Drawing.Point(162, 4);
-            this.btn_addtolist_batch.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_addtolist_batch.Name = "btn_addtolist_batch";
-            this.btn_addtolist_batch.Size = new System.Drawing.Size(109, 37);
-            this.btn_addtolist_batch.TabIndex = 6;
-            this.btn_addtolist_batch.UseVisualStyleBackColor = false;
-            this.btn_addtolist_batch.Click += new System.EventHandler(this.btn_addtolist_batch_Click);
-            // 
-            // txtsearch_batch
-            // 
-            this.txtsearch_batch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.txtsearch_batch.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtsearch_batch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtsearch_batch.Location = new System.Drawing.Point(3, 3);
-            this.txtsearch_batch.Multiline = true;
-            this.txtsearch_batch.Name = "txtsearch_batch";
-            this.txtsearch_batch.Size = new System.Drawing.Size(152, 39);
-            this.txtsearch_batch.TabIndex = 1;
-            this.txtsearch_batch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtsearch_batch_KeyPress);
-            // 
-            // btn_clearall_batch
-            // 
-            this.btn_clearall_batch.BackColor = System.Drawing.Color.Transparent;
-            this.btn_clearall_batch.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_ClearAll;
-            this.btn_clearall_batch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_clearall_batch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_clearall_batch.FlatAppearance.BorderSize = 0;
-            this.btn_clearall_batch.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.btn_clearall_batch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_clearall_batch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_clearall_batch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_clearall_batch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_clearall_batch.Location = new System.Drawing.Point(541, 4);
-            this.btn_clearall_batch.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_clearall_batch.Name = "btn_clearall_batch";
-            this.btn_clearall_batch.Size = new System.Drawing.Size(82, 37);
-            this.btn_clearall_batch.TabIndex = 4;
-            this.btn_clearall_batch.UseVisualStyleBackColor = false;
-            this.btn_clearall_batch.Click += new System.EventHandler(this.btn_clearall_batch_Click);
-            // 
-            // btn_importbatch
-            // 
-            this.btn_importbatch.BackColor = System.Drawing.Color.Transparent;
-            this.btn_importbatch.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_ImportRecipePreparation_Compact;
-            this.btn_importbatch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_importbatch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_importbatch.FlatAppearance.BorderSize = 0;
-            this.btn_importbatch.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.btn_importbatch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_importbatch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_importbatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_importbatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_importbatch.Location = new System.Drawing.Point(418, 4);
-            this.btn_importbatch.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_importbatch.Name = "btn_importbatch";
-            this.btn_importbatch.Size = new System.Drawing.Size(115, 37);
-            this.btn_importbatch.TabIndex = 2;
-            this.btn_importbatch.UseVisualStyleBackColor = false;
-            this.btn_importbatch.Click += new System.EventHandler(this.btn_importbatch_Click);
-            // 
-            // btn_advsearch_batch
-            // 
-            this.btn_advsearch_batch.BackColor = System.Drawing.Color.Transparent;
-            this.btn_advsearch_batch.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_AdvancedSearch;
-            this.btn_advsearch_batch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_advsearch_batch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_advsearch_batch.FlatAppearance.BorderSize = 0;
-            this.btn_advsearch_batch.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.btn_advsearch_batch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_advsearch_batch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_advsearch_batch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_advsearch_batch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_advsearch_batch.Location = new System.Drawing.Point(279, 4);
-            this.btn_advsearch_batch.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_advsearch_batch.Name = "btn_advsearch_batch";
-            this.btn_advsearch_batch.Size = new System.Drawing.Size(124, 37);
-            this.btn_advsearch_batch.TabIndex = 5;
-            this.btn_advsearch_batch.UseVisualStyleBackColor = false;
-            this.btn_advsearch_batch.Click += new System.EventHandler(this.btn_advsearch_batch_Click);
-            // 
-            // dgv_batch
-            // 
-            this.dgv_batch.AllowUserToAddRows = false;
-            this.dgv_batch.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.dgv_batch.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_batch.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgv_batch.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_batch.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.slno,
-            this.dbmenuite,
-            this.dbplannedqty,
-            this.dbunit,
-            this.brecipengrediant,
-            this.dbaction,
-            this.dbitemid});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_batch.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv_batch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_batch.Location = new System.Drawing.Point(8, 59);
-            this.dgv_batch.Name = "dgv_batch";
-            this.dgv_batch.RowHeadersVisible = false;
-            this.dgv_batch.RowHeadersWidth = 51;
-            this.dgv_batch.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_batch.RowTemplate.Height = 44;
-            this.dgv_batch.Size = new System.Drawing.Size(638, 174);
-            this.dgv_batch.TabIndex = 29;
-            this.dgv_batch.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_batch_CellClick);
-            // 
-            // slno
-            // 
-            this.slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.slno.HeaderText = "Slno";
-            this.slno.MinimumWidth = 6;
-            this.slno.Name = "slno";
-            this.slno.Width = 66;
-            // 
-            // dbmenuite
-            // 
-            this.dbmenuite.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbmenuite.HeaderText = "Menu Item";
-            this.dbmenuite.Name = "dbmenuite";
-            this.dbmenuite.Width = 101;
-            // 
-            // dbplannedqty
-            // 
-            this.dbplannedqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbplannedqty.HeaderText = "Planned Qty";
-            this.dbplannedqty.Name = "dbplannedqty";
-            this.dbplannedqty.Width = 110;
-            // 
-            // dbunit
-            // 
-            this.dbunit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbunit.HeaderText = "Unit";
-            this.dbunit.Name = "dbunit";
-            this.dbunit.Width = 63;
-            // 
-            // brecipengrediant
-            // 
-            this.brecipengrediant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.brecipengrediant.HeaderText = "Recipe Ingrediants";
-            this.brecipengrediant.Name = "brecipengrediant";
-            this.brecipengrediant.Width = 153;
-            // 
-            // dbaction
-            // 
-            this.dbaction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbaction.HeaderText = "Action";
-            this.dbaction.Name = "dbaction";
-            this.dbaction.Width = 60;
-            // 
-            // dbitemid
-            // 
-            this.dbitemid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbitemid.HeaderText = "Itemid";
-            this.dbitemid.Name = "dbitemid";
-            this.dbitemid.Width = 78;
-            // 
-            // tlp_ingrediant
-            // 
-            this.tlp_ingrediant.BackColor = System.Drawing.Color.White;
-            this.tlp_ingrediant.ColumnCount = 1;
-            this.tlp_ingrediant.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_ingrediant.Controls.Add(this.dgv_batch_ingrediant, 0, 1);
-            this.tlp_ingrediant.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tlp_ingrediant.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_ingrediant.Location = new System.Drawing.Point(3, 255);
-            this.tlp_ingrediant.Name = "tlp_ingrediant";
-            this.tlp_ingrediant.Padding = new System.Windows.Forms.Padding(5);
-            this.tlp_ingrediant.RowCount = 2;
-            this.tlp_ingrediant.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_ingrediant.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_ingrediant.Size = new System.Drawing.Size(654, 133);
-            this.tlp_ingrediant.TabIndex = 30;
-            // 
-            // dgv_batch_ingrediant
-            // 
-            this.dgv_batch_ingrediant.AllowUserToAddRows = false;
-            this.dgv_batch_ingrediant.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
-            this.dgv_batch_ingrediant.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_batch_ingrediant.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgv_batch_ingrediant.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_batch_ingrediant.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dbiingrdiant,
-            this.dbiPerPortionQty,
-            this.dbiotalrequiredqty,
-            this.biunit,
-            this.dbicurrentstock,
-            this.biprojectbalance,
-            this.dbiproductid,
-            this.biIng_DetailsId});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_batch_ingrediant.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dgv_batch_ingrediant.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_batch_ingrediant.Location = new System.Drawing.Point(8, 44);
-            this.dgv_batch_ingrediant.Name = "dgv_batch_ingrediant";
-            this.dgv_batch_ingrediant.RowHeadersVisible = false;
-            this.dgv_batch_ingrediant.RowHeadersWidth = 51;
-            this.dgv_batch_ingrediant.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgv_batch_ingrediant.RowTemplate.Height = 44;
-            this.dgv_batch_ingrediant.Size = new System.Drawing.Size(638, 81);
-            this.dgv_batch_ingrediant.TabIndex = 29;
-            this.dgv_batch_ingrediant.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_batch_ingrediant_CellClick);
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
-            this.tableLayoutPanel2.Controls.Add(this.lbl_IngrediantHeader, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btn_editingrediant_batch, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btn_save_ingrediant, 3, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(8, 8);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(638, 30);
-            this.tableLayoutPanel2.TabIndex = 2;
-            // 
-            // lbl_IngrediantHeader
-            // 
-            this.lbl_IngrediantHeader.AutoSize = true;
-            this.lbl_IngrediantHeader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbl_IngrediantHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.lbl_IngrediantHeader.Location = new System.Drawing.Point(3, 0);
-            this.lbl_IngrediantHeader.Name = "lbl_IngrediantHeader";
-            this.lbl_IngrediantHeader.Size = new System.Drawing.Size(120, 30);
-            this.lbl_IngrediantHeader.TabIndex = 3;
-            this.lbl_IngrediantHeader.Text = "Ingrediants for :-";
-            this.lbl_IngrediantHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btn_editingrediant_batch
-            // 
-            this.btn_editingrediant_batch.BackColor = System.Drawing.Color.Transparent;
-            this.btn_editingrediant_batch.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_Edit;
-            this.btn_editingrediant_batch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_editingrediant_batch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_editingrediant_batch.FlatAppearance.BorderSize = 0;
-            this.btn_editingrediant_batch.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.btn_editingrediant_batch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_editingrediant_batch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_editingrediant_batch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_editingrediant_batch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_editingrediant_batch.Location = new System.Drawing.Point(457, 4);
-            this.btn_editingrediant_batch.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_editingrediant_batch.Name = "btn_editingrediant_batch";
-            this.btn_editingrediant_batch.Size = new System.Drawing.Size(90, 22);
-            this.btn_editingrediant_batch.TabIndex = 4;
-            this.btn_editingrediant_batch.UseVisualStyleBackColor = false;
-            this.btn_editingrediant_batch.Click += new System.EventHandler(this.btn_editingrediant_batch_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -1232,90 +1228,6 @@ namespace FoodandBeverage.Forms
             this.btn_batch_tab.UseVisualStyleBackColor = false;
             this.btn_batch_tab.Click += new System.EventHandler(this.btn_batch_tab_Click);
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Slno";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 66;
-            // 
-            // dbiingrdiant
-            // 
-            this.dbiingrdiant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbiingrdiant.HeaderText = "Ingrdiant";
-            this.dbiingrdiant.Name = "dbiingrdiant";
-            this.dbiingrdiant.Width = 97;
-            // 
-            // dbiPerPortionQty
-            // 
-            this.dbiPerPortionQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbiPerPortionQty.HeaderText = "Per Portion Qty";
-            this.dbiPerPortionQty.Name = "dbiPerPortionQty";
-            this.dbiPerPortionQty.Width = 140;
-            // 
-            // dbiotalrequiredqty
-            // 
-            this.dbiotalrequiredqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbiotalrequiredqty.HeaderText = "Total Required Qty";
-            this.dbiotalrequiredqty.Name = "dbiotalrequiredqty";
-            this.dbiotalrequiredqty.Width = 130;
-            // 
-            // biunit
-            // 
-            this.biunit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.biunit.HeaderText = "Unit";
-            this.biunit.Name = "biunit";
-            this.biunit.Width = 63;
-            // 
-            // dbicurrentstock
-            // 
-            this.dbicurrentstock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbicurrentstock.HeaderText = "Current stock";
-            this.dbicurrentstock.Name = "dbicurrentstock";
-            this.dbicurrentstock.Width = 118;
-            // 
-            // biprojectbalance
-            // 
-            this.biprojectbalance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.biprojectbalance.HeaderText = "Projected Balance";
-            this.biprojectbalance.Name = "biprojectbalance";
-            this.biprojectbalance.Width = 149;
-            // 
-            // dbiproductid
-            // 
-            this.dbiproductid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dbiproductid.HeaderText = "Product ID";
-            this.dbiproductid.Name = "dbiproductid";
-            this.dbiproductid.Width = 101;
-            // 
-            // biIng_DetailsId
-            // 
-            this.biIng_DetailsId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.biIng_DetailsId.HeaderText = "Ing_DetailsId";
-            this.biIng_DetailsId.Name = "biIng_DetailsId";
-            this.biIng_DetailsId.Visible = false;
-            this.biIng_DetailsId.Width = 129;
-            // 
-            // btn_save_ingrediant
-            // 
-            this.btn_save_ingrediant.BackColor = System.Drawing.Color.Transparent;
-            this.btn_save_ingrediant.BackgroundImage = global::FoodandBeverage.Properties.Resources.Inv_Edit;
-            this.btn_save_ingrediant.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_save_ingrediant.FlatAppearance.BorderSize = 0;
-            this.btn_save_ingrediant.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.btn_save_ingrediant.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_save_ingrediant.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_save_ingrediant.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_save_ingrediant.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_save_ingrediant.Location = new System.Drawing.Point(555, 4);
-            this.btn_save_ingrediant.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_save_ingrediant.Name = "btn_save_ingrediant";
-            this.btn_save_ingrediant.Size = new System.Drawing.Size(79, 22);
-            this.btn_save_ingrediant.TabIndex = 5;
-            this.btn_save_ingrediant.UseVisualStyleBackColor = false;
-            this.btn_save_ingrediant.Click += new System.EventHandler(this.btn_save_ingrediant_Click);
-            // 
             // FrmInventoryrequest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1331,12 +1243,6 @@ namespace FoodandBeverage.Forms
             this.tlp_main.ResumeLayout(false);
             this.tlp_inner_main.ResumeLayout(false);
             this.pnl_view.ResumeLayout(false);
-            this.tlp_raw.ResumeLayout(false);
-            this.tlp_raw.PerformLayout();
-            this.tlp_raw_control.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_raw)).EndInit();
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel5.PerformLayout();
             this.tlp_Batchpreparation.ResumeLayout(false);
             this.tlp_batch.ResumeLayout(false);
             this.tlp_batch_serach_nav.ResumeLayout(false);
@@ -1346,6 +1252,12 @@ namespace FoodandBeverage.Forms
             ((System.ComponentModel.ISupportInitialize)(this.dgv_batch_ingrediant)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.tlp_raw.ResumeLayout(false);
+            this.tlp_raw.PerformLayout();
+            this.tlp_raw_control.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_raw)).EndInit();
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tlp_req_from.ResumeLayout(false);
             this.tlp_req_from.PerformLayout();
@@ -1381,7 +1293,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Button btn_importbatch;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label lbl_IngrediantHeader;
-        private System.Windows.Forms.Button btn_editingrediant_batch;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tlp_req_from;
         private System.Windows.Forms.TextBox txtremarks;
@@ -1396,7 +1307,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmb_req_department;
         private System.Windows.Forms.ComboBox cmb_req_employee;
-        private System.Windows.Forms.Button btn_advsearch_batch;
         private System.Windows.Forms.Button btn_addtolist_batch;
         private System.Windows.Forms.DataGridView dgv_batch_ingrediant;
         private System.Windows.Forms.DataGridView dgv_batch;
@@ -1407,7 +1317,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TextBox txtsearch_raw;
         private System.Windows.Forms.Button btn_clearall_raw;
         private System.Windows.Forms.Button btn_import_raw;
-        private System.Windows.Forms.Button btn_advsearch_raw;
         private System.Windows.Forms.Label lbl_hint_raw;
         private System.Windows.Forms.DataGridViewTextBoxColumn slno;
         private System.Windows.Forms.DataGridViewTextBoxColumn dbmenuite;
@@ -1439,6 +1348,5 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn biprojectbalance;
         private System.Windows.Forms.DataGridViewTextBoxColumn dbiproductid;
         private System.Windows.Forms.DataGridViewTextBoxColumn biIng_DetailsId;
-        private System.Windows.Forms.Button btn_save_ingrediant;
     }
 }

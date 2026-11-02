@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using FoodandBeverage.Forms.UserControls;
 
 namespace FoodandBeverage.Forms
 {
@@ -276,7 +277,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                SelectAndAddBatchProduct();
+                
             }
             catch (Exception ex)
             {
@@ -293,18 +294,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest btn_editingrediant_batch_Click", ex); }
         }
-        private void btn_advsearch_batch_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SelectAndAddBatchProduct();
-            }
-            catch (Exception ex)
-            {
-                LogInventoryException("FrmInventoryrequest btn_advsearch_batch_Click", ex);
-                ShowError("Unable to search batch products. " + ex.Message);
-            }
-        }
+
         private void btn_addtolist_batch_Click(object sender, EventArgs e)
         {
             try
