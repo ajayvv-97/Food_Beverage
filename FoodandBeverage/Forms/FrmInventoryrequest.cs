@@ -197,22 +197,36 @@ namespace FoodandBeverage.Forms
 
         private void ShowRequestTab(int requestType)
         {
-            _activeRequestType = requestType;
-            if (requestType == 1)
+            try
             {
-                tlp_Batchpreparation.BringToFront();
-                btn_batch_tab.BackColor = Color.FromArgb(116, 68, 173);
-                btn_batch_tab.ForeColor = Color.White;
-                btn_raw_tab.BackColor = SystemColors.Control;
-                btn_raw_tab.ForeColor = Color.Black;
+                bool isBatchPreparation = requestType == 1;
+                _activeRequestType = isBatchPreparation ? 1 : 2;
+
+                if (isBatchPreparation)
+                {
+                    tlp_Batchpreparation.BringToFront();
+                }
+                else
+                {
+                    tlp_raw.BringToFront();
+                }
+
+                // Apply the matching active/inactive resource images to the navigation tabs.
+                btn_batch_tab.BackgroundImage = isBatchPreparation
+                    ? Properties.Resources.Inv_BatchPreparation_Active
+                    : Properties.Resources.Inv_BatchPreparation_Inactive;
+
+                btn_raw_tab.BackgroundImage = isBatchPreparation
+                    ? Properties.Resources.Inv_RawMaterialIssue_Inactive
+                    : Properties.Resources.Inv_RawMaterialIssue_Active;
+
+                btn_batch_tab.BackgroundImageLayout = ImageLayout.Stretch;
+                btn_raw_tab.BackgroundImageLayout = ImageLayout.Stretch;
             }
-            else
+            catch (Exception ex)
             {
-                tlp_raw.BringToFront();
-                btn_raw_tab.BackColor = Color.FromArgb(116, 68, 173);
-                btn_raw_tab.ForeColor = Color.White;
-                btn_batch_tab.BackColor = SystemColors.Control;
-                btn_batch_tab.ForeColor = Color.Black;
+                LogInventoryException("FrmInventoryrequest ShowRequestTab", ex);
+                throw;
             }
         }
         #endregion
