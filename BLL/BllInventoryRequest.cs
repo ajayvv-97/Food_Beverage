@@ -67,5 +67,44 @@ namespace BLL
             return repository.AddandReturnID(procedureName, parameters);
         }
 
+
+        public DmnInventoryRequestDetail AddDetailsData(
+            string procedureName, DmnInventoryRequestDetail objDetails)
+        {
+            if (objDetails == null)
+            {
+                throw new ArgumentNullException(nameof(objDetails));
+            }
+
+            DAL.DapperRepository<DmnInventoryRequestDetail> repository =
+                new DAL.DapperRepository<DmnInventoryRequestDetail>();
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("InventoryRequestDetailId", objDetails.InventoryRequestDetailId);
+            parameters.Add("InventoryRequestId", objDetails.InventoryRequestId);
+            parameters.Add("RequestType", objDetails.RequestType);
+            parameters.Add("SlNo", objDetails.SlNo);
+            parameters.Add("ProductId", objDetails.ProductId);
+            parameters.Add("PlannedQty", objDetails.PlannedQty);
+            parameters.Add("RecipeItemId", objDetails.RecipeItemId);
+            parameters.Add("PerPortionQty", objDetails.PerPortionQty);
+            parameters.Add("TotalRequiredQty", objDetails.TotalRequiredQty);
+            parameters.Add("ItemId", objDetails.ItemId);
+            parameters.Add("ProductType", objDetails.ProductType);
+            parameters.Add("CurrentStock", objDetails.CurrentStock);
+            parameters.Add("IssuedQty", objDetails.IssuedQty);
+            parameters.Add("ProjectedBalance", objDetails.ProjectedBalance);
+            parameters.Add("Unit", objDetails.Unit);
+            parameters.Add("PurposeRemarks", objDetails.PurposeRemarks);
+            parameters.Add("CreatedBy", objDetails.CreatedBy);
+            parameters.Add("CreatedOn", objDetails.CreatedOn);
+            parameters.Add("ModifiedBy", objDetails.ModifiedBy);
+            parameters.Add("ModifiedOn", objDetails.ModifiedOn);
+            parameters.Add("BranchId", objDetails.BranchId);
+            parameters.Add("Status", objDetails.Status);
+
+            return repository.AddandReturnID(procedureName, parameters);
+        }
+
     }
 }
