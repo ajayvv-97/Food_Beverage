@@ -225,7 +225,7 @@ namespace FoodandBeverage.Forms
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            grid.ColumnHeadersHeight = 34;
+            grid.ColumnHeadersHeight = 56;
             grid.RowTemplate.Height = 36;
             grid.BackgroundColor = Color.FromArgb(236, 220, 244);
             grid.GridColor = Color.FromArgb(236, 220, 244);
@@ -409,12 +409,43 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                SelectAndAddBatchProduct();
+                AddFromItemSearchPopup(txtsearch_batch, 1);
             }
             catch (Exception ex)
             {
                 LogInventoryException("FrmInventoryrequest btn_addtolist_batch_Click", ex);
                 ShowError("Unable to add the selected batch product. " + ex.Message);
+            }
+        }
+
+        private void AddFromItemSearchPopup(TextBox searchTextBox, int requestType)
+        {
+            try
+            {
+                if (_itemSearchPopup.Visible &&
+                    _itemSearchRequestType == requestType &&
+                    _itemSearchGrid.Rows.Count > 0)
+                {
+                    int selectedRow = _itemSearchGrid.CurrentRow == null
+                        ? 0
+                        : _itemSearchGrid.CurrentRow.Index;
+
+                    SelectItemSearchGridRow(selectedRow);
+                    return;
+                }
+
+                // Show matching items (all active items when the search box is empty).
+                ShowItemSearchPopup(searchTextBox, requestType, true);
+
+                if (_itemSearchPopup.Visible && _itemSearchGrid.Rows.Count == 1)
+                {
+                    SelectItemSearchGridRow(0);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest AddFromItemSearchPopup", ex);
+                ShowError("Unable to display matching items. " + ex.Message);
             }
         }
 
@@ -849,7 +880,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                SelectAndAddRawMaterial();
+                AddFromItemSearchPopup(txtsearch_raw, 2);
             }
             catch (Exception ex)
             {
@@ -1043,7 +1074,7 @@ namespace FoodandBeverage.Forms
             _itemSearchPopup = new Panel();
             _itemSearchPopup.Visible = false;
             _itemSearchPopup.BorderStyle = BorderStyle.None;
-            _itemSearchPopup.BackColor = Color.White;
+            _itemSearchPopup.BackColor = Color.FromArgb(236, 220, 244);
             _itemSearchPopup.Size = new Size(430, 220);
             _itemSearchPopup.Padding = new Padding(5);
 
@@ -1067,12 +1098,11 @@ namespace FoodandBeverage.Forms
                 DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             _itemSearchGrid.ColumnHeadersHeight = 32;
             _itemSearchGrid.RowTemplate.Height = 36;
-            _itemSearchGrid.BackgroundColor = Color.White;
-            _itemSearchGrid.GridColor = Color.White;
+            _itemSearchGrid.BackgroundColor = Color.FromArgb(236, 220, 244);
+            _itemSearchGrid.GridColor = Color.FromArgb(236, 220, 244);
             _itemSearchGrid.ColumnHeadersDefaultCellStyle.BackColor =
-                Color.FromArgb(242, 240, 250);
-            _itemSearchGrid.ColumnHeadersDefaultCellStyle.ForeColor =
-                Color.FromArgb(75, 65, 125);
+                Color.FromArgb(101, 80, 185);
+            _itemSearchGrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             _itemSearchGrid.ColumnHeadersDefaultCellStyle.Font =
                 new Font("Segoe UI", 9f, FontStyle.Bold);
             _itemSearchGrid.ColumnHeadersDefaultCellStyle.Padding = new Padding(9, 2, 9, 2);
@@ -1082,11 +1112,14 @@ namespace FoodandBeverage.Forms
                 new Font("Segoe UI", 9.25f, FontStyle.Regular);
             _itemSearchGrid.DefaultCellStyle.ForeColor = Color.FromArgb(45, 42, 60);
             _itemSearchGrid.DefaultCellStyle.SelectionBackColor =
-                Color.FromArgb(55, 65, 210);
+                Color.FromArgb(72, 61, 190);
             _itemSearchGrid.DefaultCellStyle.SelectionForeColor = Color.White;
             _itemSearchGrid.DefaultCellStyle.Padding = new Padding(9, 2, 9, 2);
             _itemSearchGrid.AlternatingRowsDefaultCellStyle.BackColor =
-                Color.FromArgb(248, 246, 252);
+                Color.FromArgb(246, 241, 250);
+            _itemSearchGrid.AlternatingRowsDefaultCellStyle.SelectionBackColor =
+                Color.FromArgb(72, 61, 190);
+            _itemSearchGrid.AlternatingRowsDefaultCellStyle.SelectionForeColor = Color.White;
 
             _itemSearchGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -1258,13 +1291,19 @@ namespace FoodandBeverage.Forms
 
         private void ShowItemSearchPopup(TextBox searchTextBox, int requestType)
         {
+            ShowItemSearchPopup(searchTextBox, requestType, false);
+        }
+
+        private void ShowItemSearchPopup(
+            TextBox searchTextBox, int requestType, bool showAllWhenEmpty)
+        {
             try
             {
                 string searchText = searchTextBox.Text.Trim();
                 _itemSearchTextBox = searchTextBox;
                 _itemSearchRequestType = requestType;
 
-                if (searchText.Length == 0)
+                if (searchText.Length == 0 && !showAllWhenEmpty)
                 {
                     HideItemSearchPopup();
                     return;
@@ -1497,10 +1536,50 @@ namespace FoodandBeverage.Forms
             MessageBox.Show(message, "Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
+        private bool HandleItemSearchNavigation(KeyEventArgs e, int requestType)
+        {
+            if (_itemSearchPopup == null || !_itemSearchPopup.Visible ||
+                _itemSearchRequestType != requestType ||
+                _itemSearchGrid == null || _itemSearchGrid.Rows.Count == 0)
+            {
+                return false;
+            }
+
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                int currentIndex = _itemSearchGrid.CurrentRow == null
+                    ? 0
+                    : _itemSearchGrid.CurrentRow.Index;
+
+                int nextIndex = e.KeyCode == Keys.Down
+                    ? Math.Min(_itemSearchGrid.Rows.Count - 1, currentIndex + 1)
+                    : Math.Max(0, currentIndex - 1);
+
+                _itemSearchGrid.ClearSelection();
+                _itemSearchGrid.Rows[nextIndex].Selected = true;
+                _itemSearchGrid.CurrentCell =
+                    _itemSearchGrid.Rows[nextIndex].Cells[0];
+                _itemSearchGrid.FirstDisplayedScrollingRowIndex =
+                    Math.Max(0, Math.Min(nextIndex,
+                        _itemSearchGrid.Rows.Count - 1));
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return true;
+            }
+
+            return false;
+        }
+
         private void txtsearch_batch_KeyDown(object sender, KeyEventArgs e)
         {
             try
             {
+                if (HandleItemSearchNavigation(e, 1))
+                {
+                    return;
+                }
+
                 if (e.KeyCode == Keys.Enter)
                 {
                     e.SuppressKeyPress = true;
@@ -1532,6 +1611,11 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (HandleItemSearchNavigation(e, 2))
+                {
+                    return;
+                }
+
                 if (e.KeyCode == Keys.Enter)
                 {
                     e.SuppressKeyPress = true;
