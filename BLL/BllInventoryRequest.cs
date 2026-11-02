@@ -123,15 +123,15 @@ namespace BLL
                 parameters.Add("RequestNo", master.RequestNo);
                 parameters.Add("RequestDate", master.RequestDate);
                 parameters.Add("RequiredDate", master.RequiredDate);
-                parameters.Add("DepartmentId", master.DepartmentId);
-                parameters.Add("EmployeeId", master.EmployeeId);
+                parameters.Add("DepartmentId", master.DepartmentId, DbType.Int32);
+                parameters.Add("EmployeeId", master.EmployeeId, DbType.Int32);
                 parameters.Add("Remarks", master.Remarks);
                 parameters.Add("RequestType", master.RequestType);
                 parameters.Add("CreatedBy", master.CreatedBy);
-                parameters.Add("ModifiedBy", master.ModifiedBy);
+                parameters.Add("ModifiedBy", master.ModifiedBy, DbType.Int32);
                 parameters.Add("BranchId", master.BranchId);
                 parameters.Add("Status", master.Status);
-                parameters.Add("DraftId", sourceDraftId);
+                parameters.Add("DraftId", sourceDraftId, DbType.Int32);
                 parameters.Add("Details", BuildDetailsTable(details)
                     .AsTableValuedParameter("dbo.TVP_InventoryRequestDetail"));
 
