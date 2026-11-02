@@ -148,34 +148,138 @@ namespace FoodandBeverage.Forms
 
         private void ConfigureRequestGrids()
         {
-            dgv_batch.AllowUserToAddRows = false;
-            dgv_batch.MultiSelect = false;
-            dgv_batch.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            ReplaceActionColumnWithIcon(dgv_batch, Bactionno, "Remove product");
+            ReplaceActionColumnWithIcon(dgv_raw, Ractionno, "Remove raw material");
+
+            ApplyInventoryGridStyle(dgv_batch);
+            ApplyInventoryGridStyle(dgv_batch_ingrediant);
+            ApplyInventoryGridStyle(dgv_raw);
+
+            // Fill mode uses all available width at every screen resolution.
+            // The item/ingredient name column receives the largest share.
+            dgv_batch.Columns[Bslno].FillWeight = 8;
+            dgv_batch.Columns[Bmenuitemno].FillWeight = 42;
+            dgv_batch.Columns[Bplannedqtyno].FillWeight = 13;
+            dgv_batch.Columns[Bunitno].FillWeight = 9;
+            dgv_batch.Columns[Brecipeingredientsno].FillWeight = 21;
+            dgv_batch.Columns[Bactionno].FillWeight = 7;
             dgv_batch.Columns[Bitemidno].Visible = false;
+
+            dgv_batch_ingrediant.Columns[BIslno].FillWeight = 7;
+            dgv_batch_ingrediant.Columns[BIingredientno].FillWeight = 31;
+            dgv_batch_ingrediant.Columns[Biperportionqtyno].FillWeight = 13;
+            dgv_batch_ingrediant.Columns[BItotalrequiredqtyno].FillWeight = 15;
+            dgv_batch_ingrediant.Columns[BIunitno].FillWeight = 9;
+            dgv_batch_ingrediant.Columns[BIcurrentstockno].FillWeight = 12;
+            dgv_batch_ingrediant.Columns[BIprojectedbalanceno].FillWeight = 13;
+            dgv_batch_ingrediant.Columns[BIproductidno].Visible = false;
+            dgv_batch_ingrediant.Columns[BIing_DetailsIdno].Visible = false;
+
+            dgv_raw.Columns[Rslno].FillWeight = 7;
+            dgv_raw.Columns[Rrawmaterialno].FillWeight = 34;
+            dgv_raw.Columns[Rcurrentstockno].FillWeight = 11;
+            dgv_raw.Columns[Rissuedqtyno].FillWeight = 11;
+            dgv_raw.Columns[Runitno].FillWeight = 9;
+            dgv_raw.Columns[Rprojectbalanceno].FillWeight = 12;
+            dgv_raw.Columns[RpurposeRemarksno].FillWeight = 15;
+            dgv_raw.Columns[Ractionno].FillWeight = 7;
+            dgv_raw.Columns[Ritemidno].Visible = false;
+            dgv_raw.Columns[Rproducttypeno].Visible = false;
+
             dgv_batch.Columns[Bactionno].ReadOnly = true;
             dgv_batch.Columns[Brecipeingredientsno].ReadOnly = true;
 
-            dgv_batch_ingrediant.AllowUserToAddRows = false;
-            dgv_batch_ingrediant.ReadOnly = false;
-            dgv_batch_ingrediant.MultiSelect = false;
-            dgv_batch_ingrediant.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv_batch_ingrediant.Columns[BIingredientno].ReadOnly = true;
             dgv_batch_ingrediant.Columns[Biperportionqtyno].ReadOnly = false;
             dgv_batch_ingrediant.Columns[BItotalrequiredqtyno].ReadOnly = true;
             dgv_batch_ingrediant.Columns[BIunitno].ReadOnly = true;
             dgv_batch_ingrediant.Columns[BIcurrentstockno].ReadOnly = true;
             dgv_batch_ingrediant.Columns[BIprojectedbalanceno].ReadOnly = true;
-            dgv_batch_ingrediant.Columns[BIproductidno].Visible = false;
-            dgv_batch_ingrediant.Columns[BIing_DetailsIdno].Visible = false;
             dgv_batch_ingrediant.Columns[Biperportionqtyno].DefaultCellStyle.Format = "0.####";
 
-            dgv_raw.AllowUserToAddRows = false;
-            dgv_raw.MultiSelect = false;
-            dgv_raw.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_raw.Columns[Ritemidno].Visible = false;
-            dgv_raw.Columns[Rproducttypeno].Visible = false;
             dgv_raw.Columns[Rcurrentstockno].ReadOnly = true;
             dgv_raw.Columns[Rprojectbalanceno].ReadOnly = true;
+            dgv_batch.Resize += InventoryGrid_Resize;
+            dgv_batch_ingrediant.Resize += InventoryGrid_Resize;
+            dgv_raw.Resize += InventoryGrid_Resize;
+        }
+
+        private void ApplyInventoryGridStyle(DataGridView grid)
+        {
+            grid.AllowUserToAddRows = false;
+            grid.AllowUserToDeleteRows = false;
+            grid.AllowUserToResizeRows = false;
+            grid.MultiSelect = false;
+            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grid.RowHeadersVisible = false;
+            grid.BorderStyle = BorderStyle.None;
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            grid.EnableHeadersVisualStyles = false;
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            grid.ColumnHeadersHeight = 34;
+            grid.RowTemplate.Height = 36;
+            grid.BackgroundColor = Color.FromArgb(236, 220, 244);
+            grid.GridColor = Color.FromArgb(236, 220, 244);
+
+            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(101, 80, 185);
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.5f, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.ColumnHeadersDefaultCellStyle.Padding = new Padding(7, 2, 7, 2);
+            grid.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            grid.DefaultCellStyle.BackColor = Color.White;
+            grid.DefaultCellStyle.ForeColor = Color.FromArgb(45, 42, 60);
+            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(229, 226, 250);
+            grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(45, 42, 60);
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9.5f, FontStyle.Regular);
+            grid.DefaultCellStyle.Padding = new Padding(7, 2, 7, 2);
+            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 246, 252);
+            grid.AlternatingRowsDefaultCellStyle.SelectionBackColor = Color.FromArgb(229, 226, 250);
+            grid.AlternatingRowsDefaultCellStyle.SelectionForeColor = Color.FromArgb(45, 42, 60);
+        }
+
+        private void ReplaceActionColumnWithIcon(DataGridView grid, int columnIndex, string toolTip)
+        {
+            if (grid == null || columnIndex < 0 || columnIndex >= grid.Columns.Count)
+            {
+                return;
+            }
+
+            DataGridViewColumn oldColumn = grid.Columns[columnIndex];
+            DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
+            imageColumn.Name = oldColumn.Name;
+            imageColumn.HeaderText = string.Empty;
+            imageColumn.Image = Properties.Resources.food_cancel_icon;
+            imageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imageColumn.ToolTipText = toolTip;
+            imageColumn.ReadOnly = true;
+            imageColumn.Resizable = DataGridViewTriState.False;
+            imageColumn.MinimumWidth = 34;
+            imageColumn.FillWeight = 7;
+            imageColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            imageColumn.DefaultCellStyle.NullValue = Properties.Resources.food_cancel_icon;
+
+            grid.Columns.RemoveAt(columnIndex);
+            grid.Columns.Insert(columnIndex, imageColumn);
+        }
+
+        private void InventoryGrid_Resize(object sender, EventArgs e)
+        {
+            DataGridView grid = sender as DataGridView;
+            if (grid == null)
+            {
+                return;
+            }
+
+            // Reapply Fill mode after the parent layout recalculates its client width.
+            if (grid.AutoSizeColumnsMode != DataGridViewAutoSizeColumnsMode.Fill)
+            {
+                grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
         }
 
         private void InitializeRequestHeader()
@@ -358,7 +462,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Bplannedqtyno].Value = 1m;
                 row.Cells[Bunitno].Value = string.Empty;
                 row.Cells[Brecipeingredientsno].Value = "View ingredients";
-                row.Cells[Bactionno].Value = "Remove";
+                row.Cells[Bactionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Bitemidno].Value = selected.ItemId;
                 dgv_batch.CurrentCell = row.Cells[Bmenuitemno];
                 LoadIngredientsForRow(row);
@@ -824,7 +928,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Runitno].Value = selected.UnitId;
                 row.Cells[Rprojectbalanceno].Value = selected.CurrentStock - 1m;
                 row.Cells[RpurposeRemarksno].Value = string.Empty;
-                row.Cells[Ractionno].Value = "Remove";
+                row.Cells[Ractionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Ritemidno].Value = selected.ItemId;
                 row.Cells[Rproducttypeno].Value = 2;
                 dgv_raw.CurrentCell = row.Cells[Rrawmaterialno];
@@ -932,10 +1036,10 @@ namespace FoodandBeverage.Forms
         {
             _itemSearchPopup = new Panel();
             _itemSearchPopup.Visible = false;
-            _itemSearchPopup.BorderStyle = BorderStyle.FixedSingle;
+            _itemSearchPopup.BorderStyle = BorderStyle.None;
             _itemSearchPopup.BackColor = Color.White;
             _itemSearchPopup.Size = new Size(430, 220);
-            _itemSearchPopup.Padding = new Padding(2);
+            _itemSearchPopup.Padding = new Padding(5);
 
             _itemSearchGrid = new DataGridView();
             _itemSearchGrid.Dock = DockStyle.Fill;
@@ -948,36 +1052,90 @@ namespace FoodandBeverage.Forms
             _itemSearchGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             _itemSearchGrid.AutoGenerateColumns = false;
             _itemSearchGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            _itemSearchGrid.ColumnHeadersHeight = 34;
-            _itemSearchGrid.RowTemplate.Height = 42;
-            _itemSearchGrid.DefaultCellStyle.Font = new Font("Segoe UI", 10.5f);
-            _itemSearchGrid.DefaultCellStyle.Padding = new Padding(4);
+            _itemSearchGrid.BorderStyle = BorderStyle.None;
+            _itemSearchGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            _itemSearchGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            _itemSearchGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            _itemSearchGrid.EnableHeadersVisualStyles = false;
+            _itemSearchGrid.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            _itemSearchGrid.ColumnHeadersHeight = 32;
+            _itemSearchGrid.RowTemplate.Height = 36;
+            _itemSearchGrid.BackgroundColor = Color.White;
+            _itemSearchGrid.GridColor = Color.White;
+            _itemSearchGrid.ColumnHeadersDefaultCellStyle.BackColor =
+                Color.FromArgb(242, 240, 250);
+            _itemSearchGrid.ColumnHeadersDefaultCellStyle.ForeColor =
+                Color.FromArgb(75, 65, 125);
+            _itemSearchGrid.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 9f, FontStyle.Bold);
+            _itemSearchGrid.ColumnHeadersDefaultCellStyle.Padding = new Padding(9, 2, 9, 2);
+            _itemSearchGrid.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleLeft;
+            _itemSearchGrid.DefaultCellStyle.Font =
+                new Font("Segoe UI", 9.25f, FontStyle.Regular);
+            _itemSearchGrid.DefaultCellStyle.ForeColor = Color.FromArgb(45, 42, 60);
+            _itemSearchGrid.DefaultCellStyle.SelectionBackColor =
+                Color.FromArgb(55, 65, 210);
+            _itemSearchGrid.DefaultCellStyle.SelectionForeColor = Color.White;
+            _itemSearchGrid.DefaultCellStyle.Padding = new Padding(9, 2, 9, 2);
+            _itemSearchGrid.AlternatingRowsDefaultCellStyle.BackColor =
+                Color.FromArgb(248, 246, 252);
+
             _itemSearchGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "searchField1",
-                HeaderText = "Product / Code",
+                HeaderText = "Product",
                 DataPropertyName = "Field1",
-                FillWeight = 40
+                FillWeight = 72,
+                MinimumWidth = 120
             });
             _itemSearchGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "searchField2",
-                HeaderText = "Name / Category",
-                DataPropertyName = "Field2",
-                FillWeight = 40
-            });
-            _itemSearchGrid.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "searchField3",
                 HeaderText = "Category",
-                DataPropertyName = "Field3",
-                FillWeight = 30
+                DataPropertyName = "Field2",
+                FillWeight = 28,
+                MinimumWidth = 85
             });
             _itemSearchGrid.CellClick += ItemSearchGrid_CellClick;
 
             _itemSearchPopup.Controls.Add(_itemSearchGrid);
             Controls.Add(_itemSearchPopup);
             _itemSearchPopup.BringToFront();
+        }
+
+        private void ApplyRoundedItemSearchPopup()
+        {
+            if (_itemSearchPopup == null ||
+                _itemSearchPopup.Width <= 0 || _itemSearchPopup.Height <= 0)
+            {
+                return;
+            }
+
+            int radius = 14;
+            int diameter = radius * 2;
+            Rectangle bounds = new Rectangle(0, 0,
+                _itemSearchPopup.Width - 1, _itemSearchPopup.Height - 1);
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.StartFigure();
+                path.AddArc(bounds.X, bounds.Y, diameter, diameter, 180, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Y, diameter, diameter, 270, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter,
+                    diameter, diameter, 0, 90);
+                path.AddArc(bounds.X, bounds.Bottom - diameter,
+                    diameter, diameter, 90, 90);
+                path.CloseFigure();
+
+                Region previousRegion = _itemSearchPopup.Region;
+                _itemSearchPopup.Region = new Region(path);
+                if (previousRegion != null)
+                {
+                    previousRegion.Dispose();
+                }
+            }
         }
 
         private DmnSearch CreateItemSearchCriteria(int requestType, string searchText)
@@ -987,8 +1145,9 @@ namespace FoodandBeverage.Forms
 
             if (requestType == 1)
             {
-                searchCriteria.ColumnHeaders = "ID,Product,Category";
-                searchCriteria.Select = "p.ProductId as Id,p.Product as Field1,c.CategoryName as Field2";
+                searchCriteria.ColumnHeaders = "ID,Product,Price";
+                searchCriteria.Select =
+                    "p.ProductId as Id,p.Product as Field1,CONVERT(VARCHAR(30), CONVERT(DECIMAL(18,2), ISNULL(p.Price,0))) as Field2";
                 searchCriteria.Table = "tblProduct p left join tblCategory_FTI c on p.Fcid=c.Fcid";
                 searchCriteria.WhereNdGroupBy = "WHERE p.Status = 1 AND c.Status = 1";
                 if (!string.IsNullOrWhiteSpace(escapedSearch))
@@ -1000,9 +1159,9 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                searchCriteria.ColumnHeaders = "ID,ItemCode_UPC,Itemname,CategoryName";
+                searchCriteria.ColumnHeaders = "ID,Product,Category";
                 searchCriteria.Select =
-                    "i.ItemId as Id,i.ItemCode_UPC as Field1,i.Itemname as Field2,c.CategoryName as Field3";
+                    "i.ItemId as Id,i.Itemname as Field1,c.CategoryName as Field2";
                 searchCriteria.Table =
                     "tblItem i left join tblCategory_FTI c on c.Fcid=i.Fcid";
                 searchCriteria.WhereNdGroupBy =
@@ -1115,12 +1274,17 @@ namespace FoodandBeverage.Forms
                 }
 
                 _itemSearchGrid.DataSource = null;
-                _itemSearchGrid.Columns["searchField1"].HeaderText =
-                    requestType == 1 ? "Product" : "Item Code";
+                _itemSearchGrid.Columns["searchField1"].HeaderText = "Product";
                 _itemSearchGrid.Columns["searchField2"].HeaderText =
-                    requestType == 1 ? "Category" : "Item Name";
-                _itemSearchGrid.Columns["searchField3"].Visible = requestType != 1;
-                _itemSearchGrid.Columns["searchField2"].Visible = true;
+                    requestType == 1 ? "Price" : "Category";
+                _itemSearchGrid.Columns["searchField2"].FillWeight =
+                    requestType == 1 ? 25 : 34;
+                _itemSearchGrid.Columns["searchField1"].FillWeight =
+                    requestType == 1 ? 75 : 66;
+                _itemSearchGrid.Columns["searchField2"].DefaultCellStyle.Alignment =
+                    requestType == 1
+                        ? DataGridViewContentAlignment.MiddleRight
+                        : DataGridViewContentAlignment.MiddleLeft;
                 _itemSearchGrid.DataSource = results;
 
                 int popupWidth = Math.Min(
@@ -1145,6 +1309,7 @@ namespace FoodandBeverage.Forms
 
                 _itemSearchPopup.Location = new Point(x, y);
                 _itemSearchPopup.Size = new Size(popupWidth, popupHeight);
+                ApplyRoundedItemSearchPopup();
                 _itemSearchPopup.Visible = true;
                 _itemSearchPopup.BringToFront();
 
