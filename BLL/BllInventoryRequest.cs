@@ -106,5 +106,156 @@ namespace BLL
             return repository.AddandReturnID(procedureName, parameters);
         }
 
+
+        public int SaveInventoryRequest(
+            string procedureName,
+            DmnInventoryRequestMaster master,
+            IEnumerable<DmnInventoryRequestDetail> details,
+            int? sourceDraftId)
+        {
+            if (master == null) throw new ArgumentNullException(nameof(master));
+
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("InventoryRequestId", master.RequestId);
+                parameters.Add("RequestNo", master.RequestNo);
+                parameters.Add("RequestDate", master.RequestDate);
+                parameters.Add("RequiredDate", master.RequiredDate);
+                parameters.Add("DepartmentId", master.DepartmentId);
+                parameters.Add("EmployeeId", master.EmployeeId);
+                parameters.Add("Remarks", master.Remarks);
+                parameters.Add("RequestType", master.RequestType);
+                parameters.Add("CreatedBy", master.CreatedBy);
+                parameters.Add("ModifiedBy", master.ModifiedBy);
+                parameters.Add("BranchId", master.BranchId);
+                parameters.Add("Status", master.Status);
+                parameters.Add("DraftId", sourceDraftId);
+                parameters.Add("Details", BuildDetailsTable(details)
+                    .AsTableValuedParameter("dbo.TVP_InventoryRequestDetail"));
+
+                return connection.QuerySingle<int>(
+                    procedureName, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public int SaveInventoryRequestDraft(
+            string procedureName,
+            int draftId,
+            string draftNo,
+            DmnInventoryRequestMaster master,
+            IEnumerable<DmnInventoryRequestDetail> details)
+        {
+            if (master == null) throw new ArgumentNullException(nameof(master));
+
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("DraftId", draftId);
+                parameters.Add("DraftNo", draftNo);
+                parameters.Add("RequestNo", master.RequestNo);
+                parameters.Add("RequestDate", master.RequestDate);
+                parameters.Add("RequiredDate", master.RequiredDate);
+                parameters.Add("DepartmentId", master.DepartmentId);
+                parameters.Add("EmployeeId", master.EmployeeId);
+                parameters.Add("Remarks", master.Remarks);
+                parameters.Add("RequestType", master.RequestType);
+                parameters.Add("CreatedBy", master.CreatedBy);
+                parameters.Add("BranchId", master.BranchId);
+                parameters.Add("Status", master.Status);
+                parameters.Add("Details", BuildDetailsTable(details)
+                    .AsTableValuedParameter("dbo.TVP_InventoryRequestDetail"));
+
+                return connection.QuerySingle<int>(
+                    procedureName, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public void DeleteInventoryRequestDraft(
+            string procedureName, int draftId, int employeeId, int branchId)
+        {
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                connection.Execute(
+                    procedureName,
+                    new { DraftId = draftId, EmployeeId = employeeId, BranchId = branchId },
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public void DeleteInventoryRequestRow(
+            string procedureName,
+            bool isDraft,
+            int? draftId,
+            int? requestId,
+            int requestType,
+            int? productId,
+            long? itemId,
+            int employeeId,
+            int branchId)
+        {
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                connection.Execute(
+                    procedureName,
+                    new
+                    {
+                        IsDraft = isDraft,
+                        DraftId = draftId,
+                        InventoryRequestId = requestId,
+                        RequestType = requestType,
+                        ProductId = productId,
+                        ItemId = itemId,
+                        EmployeeId = employeeId,
+                        BranchId = branchId
+                    },
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        private static DataTable BuildDetailsTable(IEnumerable<DmnInventoryRequestDetail> details)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("RequestType", typeof(int));
+            table.Columns.Add("SlNo", typeof(int));
+            table.Columns.Add("ProductId", typeof(int));
+            table.Columns.Add("PlannedQty", typeof(decimal));
+            table.Columns.Add("RecipeItemId", typeof(long));
+            table.Columns.Add("PerPortionQty", typeof(decimal));
+            table.Columns.Add("TotalRequiredQty", typeof(decimal));
+            table.Columns.Add("ItemId", typeof(long));
+            table.Columns.Add("ProductType", typeof(int));
+            table.Columns.Add("CurrentStock", typeof(decimal));
+            table.Columns.Add("IssuedQty", typeof(decimal));
+            table.Columns.Add("ProjectedBalance", typeof(decimal));
+            table.Columns.Add("Unit", typeof(int));
+            table.Columns.Add("PurposeRemarks", typeof(string));
+
+            foreach (DmnInventoryRequestDetail detail in details ?? Enumerable.Empty<DmnInventoryRequestDetail>())
+            {
+                table.Rows.Add(
+                    detail.RequestType,
+                    (object)detail.SlNo ?? DBNull.Value,
+                    (object)detail.ProductId ?? DBNull.Value,
+                    (object)detail.PlannedQty ?? DBNull.Value,
+                    (object)detail.RecipeItemId ?? DBNull.Value,
+                    (object)detail.PerPortionQty ?? DBNull.Value,
+                    (object)detail.TotalRequiredQty ?? DBNull.Value,
+                    (object)detail.ItemId ?? DBNull.Value,
+                    (object)detail.ProductType ?? DBNull.Value,
+                    (object)detail.CurrentStock ?? DBNull.Value,
+                    (object)detail.IssuedQty ?? DBNull.Value,
+                    (object)detail.ProjectedBalance ?? DBNull.Value,
+                    (object)detail.Unit ?? DBNull.Value,
+                    (object)detail.PurposeRemarks ?? DBNull.Value);
+            }
+
+            return table;
+        }
+
     }
 }
