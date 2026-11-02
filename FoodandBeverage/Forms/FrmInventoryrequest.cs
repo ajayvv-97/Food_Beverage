@@ -846,6 +846,31 @@ namespace FoodandBeverage.Forms
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest dgv_raw_CellClick", ex); }
         }
 
+        private void btn_clearall_raw_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                HideItemSearchPopup();
+
+                dgv_raw.Rows.Clear();
+                dgv_raw.ClearSelection();
+
+                txtsearch_raw.Clear();
+                txtsearch_raw.Focus();
+
+                if (_itemSearchTextBox == txtsearch_raw)
+                {
+                    _itemSearchTextBox = null;
+                    _itemSearchRequestType = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_clearall_raw_Click", ex);
+                ShowError("Unable to clear the raw material list. " + ex.Message);
+            }
+        }
+
         private void btn_addtolist_raw_Click(object sender, EventArgs e)
         {
             try
