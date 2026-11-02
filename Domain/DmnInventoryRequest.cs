@@ -51,6 +51,7 @@ namespace Domain
         public decimal PerPortionQty { get; set; }
         public decimal TotalRequiredQty { get; set; }
         public int? UnitId { get; set; }
+        public string UnitName { get; set; }
         public decimal CurrentStock { get; set; }
         public decimal ProjectedBalance { get; set; }
         public int ProductId { get; set; }
