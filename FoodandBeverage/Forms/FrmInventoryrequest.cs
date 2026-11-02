@@ -28,6 +28,10 @@ namespace FoodandBeverage.Forms
         private int _itemSearchRequestType;
         private TextBox _itemSearchTextBox;
         private bool _searchUpdatePending;
+        private int? _currentRequestId;
+        private int? _currentDraftId;
+        private int _visibleIngredientProductId;
+        private List<DmnInventoryRequestDetail> _loadedRequestDetails;
 
         ClsGeneral clsgen = new ClsGeneral();
 
@@ -116,6 +120,8 @@ namespace FoodandBeverage.Forms
         public int BIprojectedbalanceno = 6;
         public int BIproductidno = 7;
         public int BIing_DetailsIdno = 8;
+        public int BIitemidno = 9;
+        public int BIunitidno = 10;
         
         // Raw material grid
         public int Rslno = 0;
@@ -144,6 +150,14 @@ namespace FoodandBeverage.Forms
             txtsearch_batch.KeyDown += txtsearch_batch_KeyDown;
             txtsearch_raw.KeyDown += txtsearch_raw_KeyDown;
             txtsearch_raw.KeyPress += txtsearch_raw_KeyPress;
+            cmb_req_employee.SelectedIndexChanged += cmb_req_employee_SelectedIndexChanged;
+            txt_requ_by.ReadOnly = true;
+            txt_batchfoodqty.ReadOnly = true;
+            txt_totalrawmaterialqty.ReadOnly = true;
+            total_food_raw_qty.ReadOnly = true;
+            lbl_hint_raw.Text = "Stock balance is indicative. It will be updated only after the request is approved by authorized staff.";
+            UpdateRequesterName();
+            UpdateRequestTotals();
         }
 
         private void ConfigureRequestGrids()
@@ -174,6 +188,12 @@ namespace FoodandBeverage.Forms
             dgv_batch_ingrediant.Columns[BIprojectedbalanceno].FillWeight = 13;
             dgv_batch_ingrediant.Columns[BIproductidno].Visible = false;
             dgv_batch_ingrediant.Columns[BIing_DetailsIdno].Visible = false;
+            if (!dgv_batch_ingrediant.Columns.Contains("biItemId"))
+                dgv_batch_ingrediant.Columns.Add(new DataGridViewTextBoxColumn { Name = "biItemId", Visible = false });
+            if (!dgv_batch_ingrediant.Columns.Contains("biUnitId"))
+                dgv_batch_ingrediant.Columns.Add(new DataGridViewTextBoxColumn { Name = "biUnitId", Visible = false });
+            BIitemidno = dgv_batch_ingrediant.Columns["biItemId"].Index;
+            BIunitidno = dgv_batch_ingrediant.Columns["biUnitId"].Index;
 
             dgv_raw.Columns[Rslno].FillWeight = 7;
             dgv_raw.Columns[Rrawmaterialno].FillWeight = 34;
