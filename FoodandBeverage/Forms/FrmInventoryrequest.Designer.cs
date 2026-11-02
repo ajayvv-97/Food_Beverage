@@ -781,6 +781,7 @@ namespace FoodandBeverage.Forms
             this.btn_clearall_raw.Size = new System.Drawing.Size(113, 37);
             this.btn_clearall_raw.TabIndex = 4;
             this.btn_clearall_raw.UseVisualStyleBackColor = false;
+            this.btn_clearall_raw.Click += new System.EventHandler(this.btn_clearall_raw_Click);
             // 
             // btn_import_raw
             // 
