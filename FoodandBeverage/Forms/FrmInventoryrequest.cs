@@ -318,6 +318,7 @@ namespace FoodandBeverage.Forms
         }
         private void FrmInventoryrequest_Load(object sender, EventArgs e)
         {
+            LoadRequestComboData();
             textb_shape();
 
             UIHelper.RoundCorners(tlp_ingrediant, 25);
