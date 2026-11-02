@@ -886,119 +886,132 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                DmnInventoryRequestMaster dmnproductinv = new DmnInventoryRequestMaster();
-                DmnInventoryRequestMaster dmnproductdetailsinv = new DmnInventoryRequestMaster();
-                BllInventoryRequest bllmasterinv = new BllInventoryRequest();
-                List<DmnInventoryRequestItem> details = new List<DmnInventoryRequestItem>();
-                foreach (DataGridViewRow row in dgv_batch.Rows)
-                {
-                    if (row.IsNewRow || row.Cells[Bitemidno].Value == null) continue;
-                    details.Add(new DmnInventoryRequestItem
-                    {
-                        RequestType = 1,
-                        ItemId = Convert.ToInt32(row.Cells[Bitemidno].Value),
-                        ItemName = Convert.ToString(row.Cells[Bmenuitemno].Value),
-                        PlannedQty = ToDecimal(row.Cells[Bplannedqtyno].Value),
-                        CurrentStock = 0,
-                        IssuedQty = 0,
-                        UnitId = null,
-                        ProjectBalance = 0,
-                        Purpose = txtremarks.Text.Trim(),
-                        ProductType = 1,
-                        CreatedBy = GetComboId(cmb_req_employee) ?? 0,
-                        BranchId = FrmDashboard.BranchId,
-                        Status = 1
-                    });
-                }
+                dgv_batch.EndEdit();
+                dgv_batch_ingrediant.EndEdit();
+                dgv_raw.EndEdit();
 
-                foreach (DataGridViewRow row in dgv_raw.Rows)
-                {
-                    if (row.IsNewRow || row.Cells[Ritemidno].Value == null) continue;
-                    decimal stock = ToDecimal(row.Cells[Rcurrentstockno].Value);
-                    decimal issued = ToDecimal(row.Cells[Rissuedqtyno].Value);
-                    details.Add(new DmnInventoryRequestItem
-                    {
-                        RequestType = 2,
-                        ItemId = Convert.ToInt32(row.Cells[Ritemidno].Value),
-                        ItemName = Convert.ToString(row.Cells[Rrawmaterialno].Value),
-                        PlannedQty = issued,
-                        CurrentStock = stock,
-                        IssuedQty = issued,
-                        UnitId = null,
-                        ProjectBalance = stock - issued,
-                        Purpose = Convert.ToString(row.Cells[RpurposeRemarksno].Value),
-                        ProductType = 2,
-                        CreatedBy = GetComboId(cmb_req_employee) ?? FrmLogin.UserId,
-                        BranchId = FrmDashboard.BranchId,
-                        Status = 1
-                    });
-                }
+                List<DmnInventoryRequestDetail> details = BuildRequestDetails();
                 if (details.Count == 0)
                 {
-                    ShowError("Add at least one product before saving the request.");
+                    ShowError("Add at least one batch product or raw material before saving the request.");
                     return;
                 }
 
-                dmnproductinv.RequestNo = txt_reqno.Text.Trim();
-                dmnproductinv.RequestDate = dtp_reqdate.Value;
-                dmnproductinv.RequiredDate = dtp_required_date.Value;
-                dmnproductinv.DepartmentId = GetComboId(cmb_req_department);
-                dmnproductinv.EmployeeId = GetComboId(cmb_req_employee);
-                dmnproductinv.Remarks = txtremarks.Text.Trim();
-                dmnproductinv.RequestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2) ? 3 : details[0].RequestType;
-                dmnproductinv.CreatedBy = GetComboId(cmb_req_employee) ?? 0;
-                dmnproductinv.BranchId = 0;
-                dmnproductinv.Status = 1;
-                int requestId = 0;
-                var prostatusinv = bllmasterinv.AddMasterData("prdInsert_Upd_Product", dmnproductinv);
-                if (prostatusinv.RequestId > 0)
+                DmnInventoryRequestMaster master = new DmnInventoryRequestMaster
                 {
-                    requestId=prostatusinv.RequestId;
-                    //details
+                    RequestId = _currentRequestId ?? 0,
+                    RequestNo = txt_reqno.Text.Trim(),
+                    RequestDate = dtp_reqdate.Value,
+                    RequiredDate = dtp_required_date.Value,
+                    DepartmentId = GetComboId(cmb_req_department),
+                    EmployeeId = GetComboId(cmb_req_employee),
+                    Remarks = txtremarks.Text.Trim(),
+                    RequestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2)
+                        ? 3 : details[0].RequestType,
+                    CreatedBy = FrmLogin.UserId,
+                    CreatedOn = DateTime.Now,
+                    ModifiedBy = _currentRequestId.HasValue ? (int?)FrmLogin.UserId : null,
+                    ModifiedOn = _currentRequestId.HasValue ? (DateTime?)DateTime.Now : null,
+                    BranchId = FrmDashboard.BranchId,
+                    Status = 1
+                };
+
+                BllInventoryRequest bllmasterinv = new BllInventoryRequest();
+                DmnInventoryRequestMaster masterResult =
+                    bllmasterinv.AddMasterData("prdInsert_Upd_Product", master);
+                int requestId = masterResult == null ? master.RequestId : masterResult.RequestId;
+
+                if (requestId <= 0)
+                    throw new InvalidOperationException("The request master was not saved. Check prdInsert_Upd_Product output.");
+
+                if (_currentRequestId.HasValue)
+                {
+                    using (IDbConnection connection =
+                        DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+                    {
+                        connection.Execute(
+                            @"UPDATE dbo.tblInventoryRequestDetails
+                              SET Status = 0, ModifiedBy = @ModifiedBy, ModifiedOn = GETDATE()
+                              WHERE InventoryRequestId = @RequestId AND ISNULL(Status,1) = 1",
+                            new { RequestId = requestId, ModifiedBy = FrmLogin.UserId });
+                    }
                 }
-                MessageBox.Show("Inventory request saved successfully. Request ID: " + requestId,"Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                foreach (DmnInventoryRequestDetail dmnproductdetailsinv in details)
+                {
+                    dmnproductdetailsinv.InventoryRequestId = requestId;
+                    dmnproductdetailsinv.CreatedBy = FrmLogin.UserId;
+                    dmnproductdetailsinv.CreatedOn = DateTime.Now;
+                    dmnproductdetailsinv.BranchId = FrmDashboard.BranchId;
+                    dmnproductdetailsinv.Status = 1;
+
+                    var prostatusinv = bllmasterinv.AddDetailsData(
+                        "prdInsert_Upd_Product_details", dmnproductdetailsinv);
+
+                    if (prostatusinv == null)
+                        throw new InvalidOperationException("The detail stored procedure did not return a saved detail row.");
+                }
+
+                if (_currentDraftId.HasValue)
+                    SoftDeleteDraft(_currentDraftId.Value);
+
+                MessageBox.Show("Inventory request saved successfully. Request No: " + master.RequestNo,
+                    "Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ResetRequest();
             }
             catch (Exception ex)
-            { 
-                LogInventoryException("FrmInventoryrequest btn_saverequest_Click", ex); ShowError("Unable to save inventory request. " + ex.Message);
+            {
+                LogInventoryException("FrmInventoryrequest btn_saverequest_Click", ex);
+                ShowError("Unable to save inventory request. " + ex.Message);
             }
         }
-
-
 
         private void btnSearchrequest_Click(object sender, EventArgs e)
         {
             try
             {
-                List<DmnInventoryRequestMaster> requests;
-                using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                int returnValue = 0;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.ColumnHeaders = "ID,Request No,Request Date,Required Date,Request Type";
+                objSearch.Select =
+                    "InventoryRequestId as Id,RequestNo as Field1," +
+                    "CONVERT(varchar(10),RequestDate,103) as Field2," +
+                    "CONVERT(varchar(10),RequiredDate,103) as Field3," +
+                    "CASE RequestType WHEN 1 THEN 'Batch Preparation' WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END as Field4";
+                objSearch.Table = "tblInventoryRequestMaster";
+                objSearch.WhereNdGroupBy =
+                    "where Status = 1 AND BranchId = " + Convert.ToString(FrmDashboard.BranchId);
+                objSearch.OrderBy = " ORDER BY InventoryRequestId DESC";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", objSearch);
+                if (gridSource == null || gridSource.Count == 0)
                 {
-                    requests = connection.Query<DmnInventoryRequestMaster>(
-                        @"SELECT InventoryRequestId AS RequestId, RequestNo, RequestDate, RequiredDate,
-                                 DepartmentId, EmployeeId, Remarks, RequestType, CreatedBy, CreatedOn,
-                                 ModifiedBy, ModifiedOn, BranchId, Status
-                          FROM dbo.tblInventoryRequestMaster
-                          WHERE (@Search = '' OR RequestNo LIKE '%' + @Search + '%')
-                          ORDER BY InventoryRequestId DESC",
-                        new { Search = txt_reqno.Text.Trim() }).ToList();
+                    CMessageBox.Show("No Records", "Empty",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
-                using (Form picker = new Form())
-                using (DataGridView grid = new DataGridView())
+
+                using (var search = new FrmSearch<DmnGridFields>(
+                    objSearch, SearchMode.FirstCharacter,
+                    this.Width - 150, this.Height - 150,
+                    this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
                 {
-                    picker.Text = "Inventory Requests";
-                    picker.StartPosition = FormStartPosition.CenterParent;
-                    picker.Size = new Size(760, 420);
-                    grid.Dock = DockStyle.Fill;
-                    grid.ReadOnly = true;
-                    grid.AutoGenerateColumns = true;
-                    grid.DataSource = requests;
-                    picker.Controls.Add(grid);
-                    if (picker.ShowDialog(this) == DialogResult.OK && grid.CurrentRow != null)
-                        txt_reqno.Text = Convert.ToString(grid.CurrentRow.Cells["RequestNo"].Value);
+                    if (search.ShowDialog() == DialogResult.OK)
+                        returnValue = Convert.ToInt32(search._retValue);
                 }
+
+                if (returnValue > 0)
+                    FillData(returnValue);
             }
-            catch (Exception ex) { LogInventoryException("FrmInventoryrequest btnSearchrequest_Click", ex); ShowError("Unable to search requests. " + ex.Message); }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btnSearchrequest_Click", ex);
+                ShowError("Unable to search inventory requests. " + ex.Message);
+            }
         }
 
         private void btnrefresh_Click(object sender, EventArgs e)
