@@ -1741,7 +1741,18 @@ namespace FoodandBeverage.Forms
             return true;
         }
 
-        private static int? GetComboId(ComboBox combo)        private static decimal ToDecimal(object value)
+        private static int? GetComboId(ComboBox combo)
+        {
+            if (combo == null || combo.SelectedValue == null || combo.SelectedValue == DBNull.Value)
+                return null;
+
+            int value;
+            return int.TryParse(Convert.ToString(combo.SelectedValue), out value)
+                ? (int?)value
+                : null;
+        }
+
+        private static decimal ToDecimal(object value)
         {
             decimal result;
             return decimal.TryParse(Convert.ToString(value), out result) ? result : 0m;
@@ -2174,7 +2185,5 @@ namespace FoodandBeverage.Forms
                 ShowError("Unable to delete the saved draft. " + ex.Message);
             }
         }
-    }
-}
     }
 }
