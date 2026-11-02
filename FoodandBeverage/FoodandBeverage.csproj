@@ -416,6 +416,7 @@
     <Compile Include="Forms\FrmInventoryrequest.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\FrmInventoryrequest.Persistence.cs" />
     <Compile Include="Forms\FrmInventoryrequest.Designer.cs">
       <DependentUpon>FrmInventoryrequest.cs</DependentUpon>
     </Compile>
