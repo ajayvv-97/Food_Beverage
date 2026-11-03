@@ -311,6 +311,7 @@ namespace FoodandBeverage.Forms
         public bool DiscountApplied = false;
         public bool DiscountAmountApplied = false;
         public bool CompBillPreview = false;
+        private bool EnableCompReasonPrompt = false;
 
         RoundOffMode currentRoundMode = RoundOffMode.None;
         decimal originalRoundValue = 0;
@@ -1046,6 +1047,7 @@ namespace FoodandBeverage.Forms
                 {
                     var settings = gridesource[0];
                     CompBillPreview = settings.EnableCompbillPrompt;
+                    EnableCompReasonPrompt = settings.EnableCompReasonPrompt;
                     FrmDashboard.UserSavePrompt= settings.EnableUserPrompt;
                     Pagecount = settings.ProductpageperCount;
 
@@ -9395,14 +9397,23 @@ namespace FoodandBeverage.Forms
                         payid = Convert.ToInt32(PaymentType.CREDITCARD);
                         break;
                     case "btncomple":
-                        UIHelper.CenterAndResize(pnl_complementry_reason, 35, 50);
-                        UIHelper.RoundCorners(pnl_complementry_reason, 25);
-                        UIHelper.RoundCorners(tlp_comp_rea_nav, 25);
-                        UIHelper.RoundCorners(tlp_com_reason, 25);
-                        pnl_complementry_reason.BringToFront();
-                        pnl_complementry_reason.Visible = true;
-                ShowBlurPopup(pnl_complementry_reason);
                         payid = Convert.ToInt32(PaymentType.COMPLEMENTRY);
+
+                        if (EnableCompReasonPrompt)
+                        {
+                            UIHelper.CenterAndResize(pnl_complementry_reason, 35, 50);
+                            UIHelper.RoundCorners(pnl_complementry_reason, 25);
+                            UIHelper.RoundCorners(tlp_comp_rea_nav, 25);
+                            UIHelper.RoundCorners(tlp_com_reason, 25);
+                            pnl_complementry_reason.BringToFront();
+                            pnl_complementry_reason.Visible = true;
+                            ShowBlurPopup(pnl_complementry_reason);
+                        }
+                        else
+                        {
+                            // Reason prompt is disabled in General Settings; process the bill directly.
+                            paybillcal(payid);
+                        }
                         break;
                     case "btnnocharge":
                         payid = Convert.ToInt32(PaymentType.Nocharge);
