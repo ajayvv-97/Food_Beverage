@@ -1046,8 +1046,8 @@ namespace FoodandBeverage.Forms
             // 
             this.tableLayoutPanel7.ColumnCount = 3;
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.93676F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.06324F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.63636F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.36364F));
             this.tableLayoutPanel7.Controls.Add(this.txt_requ_by, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.lblreq_by, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.pictureBox4, 0, 0);
@@ -1065,10 +1065,10 @@ namespace FoodandBeverage.Forms
             this.txt_requ_by.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_requ_by.Dock = System.Windows.Forms.DockStyle.Top;
             this.txt_requ_by.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txt_requ_by.Location = new System.Drawing.Point(216, 3);
+            this.txt_requ_by.Location = new System.Drawing.Point(195, 3);
             this.txt_requ_by.Multiline = true;
             this.txt_requ_by.Name = "txt_requ_by";
-            this.txt_requ_by.Size = new System.Drawing.Size(65, 17);
+            this.txt_requ_by.Size = new System.Drawing.Size(86, 17);
             this.txt_requ_by.TabIndex = 4;
             // 
             // lblreq_by
@@ -1078,9 +1078,10 @@ namespace FoodandBeverage.Forms
             this.lblreq_by.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblreq_by.Location = new System.Drawing.Point(34, 0);
             this.lblreq_by.Name = "lblreq_by";
-            this.lblreq_by.Size = new System.Drawing.Size(176, 25);
+            this.lblreq_by.Size = new System.Drawing.Size(155, 25);
             this.lblreq_by.TabIndex = 3;
             this.lblreq_by.Text = "Request By";
+            this.lblreq_by.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pictureBox4
             // 
@@ -1097,8 +1098,8 @@ namespace FoodandBeverage.Forms
             // 
             this.tableLayoutPanel6.ColumnCount = 3;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.72727F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.27273F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.03162F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.96838F));
             this.tableLayoutPanel6.Controls.Add(this.total_food_raw_qty, 2, 0);
             this.tableLayoutPanel6.Controls.Add(this.label9, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.pictureBox3, 0, 0);
@@ -1114,12 +1115,12 @@ namespace FoodandBeverage.Forms
             // 
             this.total_food_raw_qty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.total_food_raw_qty.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.total_food_raw_qty.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.total_food_raw_qty.Dock = System.Windows.Forms.DockStyle.Top;
             this.total_food_raw_qty.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.total_food_raw_qty.Location = new System.Drawing.Point(217, 3);
+            this.total_food_raw_qty.Location = new System.Drawing.Point(196, 3);
             this.total_food_raw_qty.Multiline = true;
             this.total_food_raw_qty.Name = "total_food_raw_qty";
-            this.total_food_raw_qty.Size = new System.Drawing.Size(64, 17);
+            this.total_food_raw_qty.Size = new System.Drawing.Size(85, 17);
             this.total_food_raw_qty.TabIndex = 4;
             // 
             // label9
@@ -1129,9 +1130,10 @@ namespace FoodandBeverage.Forms
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(34, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(177, 23);
+            this.label9.Size = new System.Drawing.Size(156, 23);
             this.label9.TabIndex = 3;
             this.label9.Text = "Total Food & Raw Qty";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pictureBox3
             // 
@@ -1148,8 +1150,8 @@ namespace FoodandBeverage.Forms
             // 
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.72727F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.27273F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.82214F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.17786F));
             this.tableLayoutPanel4.Controls.Add(this.txt_batchfoodqty, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.label10, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.pictureBox2, 0, 0);
@@ -1167,10 +1169,10 @@ namespace FoodandBeverage.Forms
             this.txt_batchfoodqty.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_batchfoodqty.Dock = System.Windows.Forms.DockStyle.Top;
             this.txt_batchfoodqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txt_batchfoodqty.Location = new System.Drawing.Point(217, 3);
+            this.txt_batchfoodqty.Location = new System.Drawing.Point(198, 3);
             this.txt_batchfoodqty.Multiline = true;
             this.txt_batchfoodqty.Name = "txt_batchfoodqty";
-            this.txt_batchfoodqty.Size = new System.Drawing.Size(64, 17);
+            this.txt_batchfoodqty.Size = new System.Drawing.Size(83, 17);
             this.txt_batchfoodqty.TabIndex = 4;
             // 
             // label10
@@ -1180,9 +1182,10 @@ namespace FoodandBeverage.Forms
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(34, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(177, 23);
+            this.label10.Size = new System.Drawing.Size(158, 23);
             this.label10.TabIndex = 3;
             this.label10.Text = "Total Food Qty issued";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pictureBox2
             // 
@@ -1213,8 +1216,8 @@ namespace FoodandBeverage.Forms
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73.51778F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.48221F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.42688F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.57312F));
             this.tableLayoutPanel1.Controls.Add(this.txt_totalrawmaterialqty, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.label11, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
@@ -1230,12 +1233,12 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_totalrawmaterialqty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txt_totalrawmaterialqty.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_totalrawmaterialqty.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txt_totalrawmaterialqty.Dock = System.Windows.Forms.DockStyle.Top;
             this.txt_totalrawmaterialqty.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.txt_totalrawmaterialqty.Location = new System.Drawing.Point(220, 3);
+            this.txt_totalrawmaterialqty.Location = new System.Drawing.Point(197, 3);
             this.txt_totalrawmaterialqty.Multiline = true;
             this.txt_totalrawmaterialqty.Name = "txt_totalrawmaterialqty";
-            this.txt_totalrawmaterialqty.Size = new System.Drawing.Size(61, 17);
+            this.txt_totalrawmaterialqty.Size = new System.Drawing.Size(84, 17);
             this.txt_totalrawmaterialqty.TabIndex = 4;
             // 
             // label11
@@ -1245,9 +1248,10 @@ namespace FoodandBeverage.Forms
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(34, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(180, 23);
+            this.label11.Size = new System.Drawing.Size(157, 23);
             this.label11.TabIndex = 3;
             this.label11.Text = "Total Raw Qty issued";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pictureBox1
             // 

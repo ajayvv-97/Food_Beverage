@@ -948,8 +948,7 @@ namespace FoodandBeverage.Forms
                     Status = 1
                 };
 
-                DmnInventoryRequestMaster savedMaster = _inventoryBll.AddMasterData(
-                    "prdInsert_Upd_InventoryRequestMaster", master);
+                DmnInventoryRequestMaster savedMaster = _inventoryBll.AddMasterData( "prdInsert_Upd_InventoryRequestMaster", master);
 
                 if (savedMaster == null ||
                     (savedMaster.InventoryRequestId <= 0 && savedMaster.RequestId <= 0))
@@ -967,9 +966,7 @@ namespace FoodandBeverage.Forms
                     detail.CreatedOn = DateTime.Now;
                     detail.BranchId = FrmDashboard.BranchId;
                     detail.Status = 1;
-
-                    DmnInventoryRequestDetail savedDetail = _inventoryBll.AddDetailsData(
-                        "prdInsert_Upd_InventoryRequestDetails", detail);
+                    DmnInventoryRequestDetail savedDetail = _inventoryBll.AddDetailsData( "prdInsert_Upd_InventoryRequestDetails", detail);
 
                     if (savedDetail == null)
                         throw new InvalidOperationException("Unable to save inventory request detail row " + detail.SlNo + ".");
@@ -990,7 +987,7 @@ namespace FoodandBeverage.Forms
                         FrmDashboard.BranchId);
                 }
 
-                MessageBox.Show(
+                CMessageBox.Show(
                     "Inventory request saved successfully. Request No: " + master.RequestNo,
                     "Inventory Request",
                     MessageBoxButtons.OK,
@@ -2174,7 +2171,6 @@ namespace FoodandBeverage.Forms
                     Status = 1
                 };
 
-                // Save draft master. All values are passed through the domain object.
                 DmnInventoryRequestMaster savedDraftMaster =
                     _inventoryBll.AddDraftMasterData(
                         "prdInsert_Upd_InventoryRequestDraftMaster",
@@ -2225,7 +2221,7 @@ namespace FoodandBeverage.Forms
                 _currentRequestId = null;
                 btn_deletesaved_draft.Visible = true;
 
-                MessageBox.Show(
+                CMessageBox.Show(
                     "Draft saved successfully.",
                     "Inventory Request",
                     MessageBoxButtons.OK,
