@@ -2230,6 +2230,12 @@
     <None Include="Resources\Inv_OpenDraft_Button.png" />
     <None Include="Resources\Inv_RequestedBy_Icon.png" />
     <None Include="Resources\Inv_SaveDraft_Button.png" />
+    <None Include="Resources\Inv_Rejected.png" />
+    <None Include="Resources\Inv_Approved.png" />
+    <None Include="Resources\Inv_Clipboard.png" />
+    <None Include="Resources\Inv_Filter.png" />
+    <None Include="Resources\Inv_Hourglass.png" />
+    <None Include="Resources\Inv_Layers.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />

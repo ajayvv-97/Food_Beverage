@@ -2268,11 +2268,94 @@ namespace FoodandBeverage.Forms
                 ShowError("Unable to delete the saved draft. " + ex.Message);
             }
         }
+
         #region Show approval Pending request
         private void btn_openrequest_Click(object sender, EventArgs e)
         {
 
         }
+       
+
+        private void btnclose_reqapp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_all_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Pending_req_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_approvalreq_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_rejectreq_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_movefrist_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_previous_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_page1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_page2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_page3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_page4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_page5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_next_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_movelast_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void dgv_req_app_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+ private void btn_adv_search_reqapp_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
+
+        
     }
 }

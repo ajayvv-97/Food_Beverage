@@ -1643,6 +1643,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Inv_Approved {
+            get {
+                object obj = ResourceManager.GetObject("Inv_Approved", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Inv_BatchPreparation_Active {
             get {
                 object obj = ResourceManager.GetObject("Inv_BatchPreparation_Active", resourceCulture);
@@ -1673,6 +1683,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Inv_Clipboard {
+            get {
+                object obj = ResourceManager.GetObject("Inv_Clipboard", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Inv_DeleteDraft_Button {
             get {
                 object obj = ResourceManager.GetObject("Inv_DeleteDraft_Button", resourceCulture);
@@ -1686,6 +1706,26 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap Inv_Edit {
             get {
                 object obj = ResourceManager.GetObject("Inv_Edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_Filter {
+            get {
+                object obj = ResourceManager.GetObject("Inv_Filter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_Hourglass {
+            get {
+                object obj = ResourceManager.GetObject("Inv_Hourglass", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1743,6 +1783,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Inv_Layers {
+            get {
+                object obj = ResourceManager.GetObject("Inv_Layers", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Inv_OpenDraft_Button {
             get {
                 object obj = ResourceManager.GetObject("Inv_OpenDraft_Button", resourceCulture);
@@ -1766,6 +1816,16 @@ namespace FoodandBeverage.Properties {
         internal static System.Drawing.Bitmap Inv_RawMaterialIssue_Inactive {
             get {
                 object obj = ResourceManager.GetObject("Inv_RawMaterialIssue_Inactive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Inv_Rejected {
+            get {
+                object obj = ResourceManager.GetObject("Inv_Rejected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
