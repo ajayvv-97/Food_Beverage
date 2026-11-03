@@ -218,6 +218,15 @@ namespace FoodandBeverage.Forms
             dgv_raw.Columns[Ritemidno].Visible = false;
             dgv_raw.Columns[Rproducttypeno].Visible = false;
 
+            // Keep the numeric base-unit ID hidden; show UnitName in the visible Unit column.
+            if (!dgv_raw.Columns.Contains("rawUnitId"))
+                dgv_raw.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "rawUnitId",
+                    HeaderText = "UnitId",
+                    Visible = false
+                });
+
             dgv_batch.Columns[Bactionno].ReadOnly = true;
             dgv_batch.Columns[Brecipeingredientsno].ReadOnly = true;
 
@@ -758,7 +767,7 @@ namespace FoodandBeverage.Forms
                     ItemId = Convert.ToInt64(rawRow.Cells[Ritemidno].Value),
                     ProductType = 2, CurrentStock = stock, IssuedQty = issuedQty,
                     ProjectedBalance = stock - issuedQty,
-                    Unit = ToNullableInt(rawRow.Cells[Runitno].Value),
+                    Unit = ToNullableInt(rawRow.Cells["rawUnitId"].Value),
                     PurposeRemarks = Convert.ToString(rawRow.Cells[RpurposeRemarksno].Value),
                     CreatedBy = FrmLogin.UserId, CreatedOn = DateTime.Now,
                     BranchId = FrmDashboard.BranchId, Status = 1
@@ -1250,6 +1259,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Rcurrentstockno].Value = selected.CurrentStock;
                 row.Cells[Rissuedqtyno].Value = 1m;
                 row.Cells[Runitno].Value = selected.UnitName;
+                row.Cells["rawUnitId"].Value = selected.UnitId;
                 row.Cells[Rprojectbalanceno].Value = selected.CurrentStock - 1m;
                 row.Cells[RpurposeRemarksno].Value = string.Empty;
                 row.Cells[Ractionno].Value = Properties.Resources.food_cancel_icon;
@@ -1275,8 +1285,10 @@ namespace FoodandBeverage.Forms
                              i.Itemname AS ItemName,
                              ISNULL(pr.QOH,0) AS CurrentStock,
                              i.Baseunit AS UnitId,
+                             u.UnitName AS UnitName,
                              CAST(2 AS INT) AS ProductType
                       FROM dbo.tblItem i
+                      LEFT JOIN dbo.tblUnit u ON u.UId = i.Baseunit
                       LEFT JOIN dbo.tblCategory_FTI c ON c.Fcid = i.Fcid
                       OUTER APPLY
                       (
