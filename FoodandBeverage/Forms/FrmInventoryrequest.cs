@@ -947,10 +947,34 @@ namespace FoodandBeverage.Forms
                     Status = 1
                 };
 
-                int requestId = _inventoryBll.AddData("prdSave_InventoryRequest", master, details, _currentDraftId);
+                DmnInventoryRequestMaster savedMaster = _inventoryBll.AddMasterData(
+                    "prdInsert_Upd_InventoryRequestMaster", master);
 
-                if (requestId <= 0)
-                    throw new InvalidOperationException("The inventory request procedure did not return a valid request ID.");
+                if (savedMaster == null || savedMaster.RequestId <= 0)
+                    throw new InvalidOperationException("The inventory request master procedure did not return a valid request ID.");
+
+                int requestId = savedMaster.RequestId;
+                int savedDetailCount = 0;
+
+                foreach (DmnInventoryRequestDetail detail in details)
+                {
+                    detail.InventoryRequestId = requestId;
+                    detail.CreatedBy = FrmLogin.UserId;
+                    detail.CreatedOn = DateTime.Now;
+                    detail.BranchId = FrmDashboard.BranchId;
+                    detail.Status = 1;
+
+                    DmnInventoryRequestDetail savedDetail = _inventoryBll.AddDetailsData(
+                        "prdInsert_Upd_InventoryRequestDetails", detail);
+
+                    if (savedDetail == null)
+                        throw new InvalidOperationException("Unable to save inventory request detail row " + detail.SlNo + ".");
+
+                    savedDetailCount++;
+                }
+
+                if (savedDetailCount != details.Count)
+                    throw new InvalidOperationException("Some inventory request details were not saved.");
 
                 MessageBox.Show(
                     "Inventory request saved successfully. Request No: " + master.RequestNo,
@@ -2130,15 +2154,39 @@ namespace FoodandBeverage.Forms
                     Status = 1
                 };
 
-                int draftId = _inventoryBll.SaveInventoryRequestDraft(
-                    "prdSave_InventoryRequestDraft",
+                string draftNo = "DR-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff");
+                DmnInventoryRequestMaster savedDraftMaster = _inventoryBll.AddDraftMasterData(
+                    "prdInsert_Upd_InventoryRequestDraftMaster",
+                    draftNo,
                     _currentDraftId ?? 0,
-                    "DR-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff"),
-                    draftMaster,
-                    details);
+                    draftMaster);
 
-                if (draftId <= 0)
-                    throw new InvalidOperationException("The draft procedure did not return a valid draft ID.");
+                if (savedDraftMaster == null || savedDraftMaster.DraftId <= 0)
+                    throw new InvalidOperationException("The draft master procedure did not return a valid draft ID.");
+
+                int draftId = savedDraftMaster.DraftId;
+                int savedDetailCount = 0;
+
+                foreach (DmnInventoryRequestDetail detail in details)
+                {
+                    detail.CreatedBy = FrmLogin.UserId;
+                    detail.CreatedOn = DateTime.Now;
+                    detail.BranchId = FrmDashboard.BranchId;
+                    detail.Status = 1;
+
+                    DmnInventoryRequestDetail savedDetail = _inventoryBll.AddDraftDetailsData(
+                        "prdInsert_Upd_InventoryRequestDraftDetails",
+                        draftId,
+                        detail);
+
+                    if (savedDetail == null)
+                        throw new InvalidOperationException("Unable to save draft detail row " + detail.SlNo + ".");
+
+                    savedDetailCount++;
+                }
+
+                if (savedDetailCount != details.Count)
+                    throw new InvalidOperationException("Some draft detail rows were not saved.");
 
                 _currentDraftId = draftId;
                 _currentRequestId = null;
