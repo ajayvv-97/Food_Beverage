@@ -2652,15 +2652,6 @@ namespace FoodandBeverage.Forms
                 caption.BackColor = Color.Transparent;
                 icon.BackColor = Color.Transparent;
 
-                // Keep the existing tab buttons synchronized for keyboard/accessibility use.
-                Button button = status == "All" ? btn_all :
-                                status == "Pending" ? btn_Pending_req :
-                                status == "Approved" ? btn_approvalreq : btn_rejectreq;
-                button.Text = labels[i] + " (" + counts[i] + ")";
-                button.BackColor = selected ? GetApprovalTabSelectedColor(status) : GetApprovalTabBaseColor(status);
-                button.ForeColor = selected ? Color.White : Color.FromArgb(35, 35, 65);
-                button.FlatStyle = FlatStyle.Flat;
-                button.FlatAppearance.BorderSize = 1;
             }
         }
 
