@@ -2338,9 +2338,109 @@ namespace FoodandBeverage.Forms
             if (!_requestApprovalEventsWired)
             {
                 txt_search_reqapp.TextChanged += txt_search_reqapp_TextChanged;
+
+                // Each status tab is a three-control group: TableLayoutPanel + Label + PictureBox.
+                WireApprovalTab(tlp_all, lbl_all, pb_all, "All");
+                WireApprovalTab(tlp_pending, lbl_pending, pb_pending, "Pending");
+                WireApprovalTab(tlp_approved, lbl_approved, pb_approved, "Approved");
+                WireApprovalTab(tlp_rejected, lbl_rejected, pb_rejected, "Rejected");
+
                 _requestApprovalEventsWired = true;
             }
             UpdateApprovalTabAppearance();
+        }
+
+        private void WireApprovalTab(TableLayoutPanel tab, Label caption, PictureBox icon, string status)
+        {
+            tab.Tag = status;
+            caption.Tag = status;
+            icon.Tag = status;
+
+            tab.Cursor = Cursors.Hand;
+            caption.Cursor = Cursors.Hand;
+            icon.Cursor = Cursors.Hand;
+
+            tab.Click += ApprovalTab_Click;
+            caption.Click += ApprovalTab_Click;
+            icon.Click += ApprovalTab_Click;
+
+            tab.MouseEnter += ApprovalTab_MouseEnter;
+            caption.MouseEnter += ApprovalTab_MouseEnter;
+            icon.MouseEnter += ApprovalTab_MouseEnter;
+
+            tab.MouseLeave += ApprovalTab_MouseLeave;
+            caption.MouseLeave += ApprovalTab_MouseLeave;
+            icon.MouseLeave += ApprovalTab_MouseLeave;
+        }
+
+        private void ApprovalTab_Click(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            if (control == null) return;
+            SetApprovalStatusFilter(Convert.ToString(control.Tag));
+        }
+
+        private void ApprovalTab_MouseEnter(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            if (control == null) return;
+            string status = Convert.ToString(control.Tag);
+            TableLayoutPanel tab = GetApprovalTab(status);
+            if (tab != null && status != _requestApprovalStatus)
+                tab.BackColor = GetApprovalTabHoverColor(status);
+        }
+
+        private void ApprovalTab_MouseLeave(object sender, EventArgs e)
+        {
+            UpdateApprovalTabAppearance();
+        }
+
+        private TableLayoutPanel GetApprovalTab(string status)
+        {
+            switch (status)
+            {
+                case "All": return tlp_all;
+                case "Pending": return tlp_pending;
+                case "Approved": return tlp_approved;
+                case "Rejected": return tlp_rejected;
+                default: return null;
+            }
+        }
+
+        private Color GetApprovalTabBaseColor(string status)
+        {
+            switch (status)
+            {
+                case "All": return Color.FromArgb(238, 233, 255);
+                case "Pending": return Color.FromArgb(255, 242, 218);
+                case "Approved": return Color.FromArgb(226, 247, 226);
+                case "Rejected": return Color.FromArgb(255, 230, 230);
+                default: return Color.White;
+            }
+        }
+
+        private Color GetApprovalTabSelectedColor(string status)
+        {
+            switch (status)
+            {
+                case "All": return Color.FromArgb(76, 55, 220);
+                case "Pending": return Color.FromArgb(239, 145, 28);
+                case "Approved": return Color.FromArgb(35, 166, 75);
+                case "Rejected": return Color.FromArgb(218, 63, 63);
+                default: return Color.FromArgb(99, 76, 184);
+            }
+        }
+
+        private Color GetApprovalTabHoverColor(string status)
+        {
+            switch (status)
+            {
+                case "All": return Color.FromArgb(220, 211, 255);
+                case "Pending": return Color.FromArgb(255, 228, 185);
+                case "Approved": return Color.FromArgb(204, 239, 207);
+                case "Rejected": return Color.FromArgb(255, 207, 207);
+                default: return Color.LightGray;
+            }
         }
 
         private void AddApprovalGridColumn(string name, string header, float weight)
@@ -2517,22 +2617,50 @@ namespace FoodandBeverage.Forms
 
         private void UpdateApprovalTabAppearance()
         {
-            Button[] buttons = { btn_all, btn_Pending_req, btn_approvalreq, btn_rejectreq };
             string[] labels = { "All", "Pending", "Approved", "Rejected" };
-            int allCount = _requestApprovalData == null ? 0 : _requestApprovalData.Rows.Count;
-            int pendingCount = CountApprovalStatus("Pending");
-            int approvedCount = CountApprovalStatus("Approved");
-            int rejectedCount = CountApprovalStatus("Rejected");
-            int[] counts = { allCount, pendingCount, approvedCount, rejectedCount };
-            for (int i = 0; i < buttons.Length; i++)
+            int[] counts =
             {
-                buttons[i].Text = labels[i] + " (" + counts[i] + ")";
-                buttons[i].FlatStyle = FlatStyle.Flat;
-                buttons[i].FlatAppearance.BorderSize = 1;
-                bool selected = labels[i] == _requestApprovalStatus;
-                buttons[i].BackColor = selected ? Color.FromArgb(70, 48, 220) : Color.FromArgb(246, 243, 253);
-                buttons[i].ForeColor = selected ? Color.White : Color.FromArgb(35, 35, 65);
-                buttons[i].Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+                _requestApprovalData == null ? 0 : _requestApprovalData.Rows.Count,
+                CountApprovalStatus("Pending"),
+                CountApprovalStatus("Approved"),
+                CountApprovalStatus("Rejected")
+            };
+
+            for (int i = 0; i < labels.Length; i++)
+            {
+                string status = labels[i];
+                TableLayoutPanel tab = GetApprovalTab(status);
+                bool selected = status == _requestApprovalStatus;
+                Color baseColor = selected ? GetApprovalTabSelectedColor(status) : GetApprovalTabBaseColor(status);
+
+                if (tab != null)
+                {
+                    tab.BackColor = baseColor;
+                    tab.BorderStyle = BorderStyle.FixedSingle;
+                }
+
+                Label caption = status == "All" ? lbl_all :
+                                status == "Pending" ? lbl_pending :
+                                status == "Approved" ? lbl_approved : lbl_rejected;
+                PictureBox icon = status == "All" ? pb_all :
+                                  status == "Pending" ? pb_pending :
+                                  status == "Approved" ? pb_approved : pb_rejected;
+
+                caption.Text = labels[i] + " (" + counts[i] + ")";
+                caption.ForeColor = selected ? Color.White : Color.FromArgb(35, 35, 65);
+                caption.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+                caption.BackColor = Color.Transparent;
+                icon.BackColor = Color.Transparent;
+
+                // Keep the existing tab buttons synchronized for keyboard/accessibility use.
+                Button button = status == "All" ? btn_all :
+                                status == "Pending" ? btn_Pending_req :
+                                status == "Approved" ? btn_approvalreq : btn_rejectreq;
+                button.Text = labels[i] + " (" + counts[i] + ")";
+                button.BackColor = selected ? GetApprovalTabSelectedColor(status) : GetApprovalTabBaseColor(status);
+                button.ForeColor = selected ? Color.White : Color.FromArgb(35, 35, 65);
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderSize = 1;
             }
         }
 
