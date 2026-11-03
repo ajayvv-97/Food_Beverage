@@ -7,6 +7,8 @@ using System.Linq;
 
 namespace BLL
 {
+    public class BllInventoryRequest
+    {
     #region Inventory Request Master
 
     public DmnInventoryRequestMaster AddMasterData(
@@ -183,4 +185,61 @@ namespace BLL
     }
 
     #endregion
+
+        #region Delete Inventory Request
+
+        public void DeleteInventoryRequestDraft(
+            string procedureName,
+            int draftId,
+            int employeeId,
+            int branchId)
+        {
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+            {
+                connection.Execute(
+                    procedureName,
+                    new
+                    {
+                        DraftId = draftId,
+                        EmployeeId = employeeId,
+                        BranchId = branchId
+                    },
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public void DeleteInventoryRequestRow(
+            string procedureName,
+            bool isDraft,
+            int? draftId,
+            int? requestId,
+            int requestType,
+            int? productId,
+            long? itemId,
+            int employeeId,
+            int branchId)
+        {
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                connection.Execute(
+                    procedureName,
+                    new
+                    {
+                        IsDraft = isDraft,
+                        DraftId = draftId,
+                        InventoryRequestId = requestId,
+                        RequestType = requestType,
+                        ProductId = productId,
+                        ItemId = itemId,
+                        EmployeeId = employeeId,
+                        BranchId = branchId
+                    },
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        #endregion
+    }
 }
