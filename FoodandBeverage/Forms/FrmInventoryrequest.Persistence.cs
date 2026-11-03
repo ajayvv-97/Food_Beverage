@@ -349,7 +349,10 @@ namespace FoodandBeverage.Forms
                 row.Cells[Rrawmaterialno].Value = detail.ItemName ?? ("Raw Material " + detail.ItemId.Value);
                 row.Cells[Rcurrentstockno].Value = detail.CurrentStock ?? 0m;
                 row.Cells[Rissuedqtyno].Value = detail.IssuedQty ?? 0m;
-                row.Cells[Runitno].Value = detail.Unit.HasValue ? detail.Unit.Value : (object)DBNull.Value;
+                row.Cells[Runitno].Value = detail.UnitName ?? string.Empty;
+                row.Cells["rawUnitId"].Value = detail.Unit.HasValue
+                    ? (object)detail.Unit.Value
+                    : DBNull.Value;
                 row.Cells[Rprojectbalanceno].Value = detail.ProjectedBalance ?? 0m;
                 row.Cells[RpurposeRemarksno].Value = detail.PurposeRemarks ?? string.Empty;
                 row.Cells[Ractionno].Value = Properties.Resources.food_cancel_icon;
