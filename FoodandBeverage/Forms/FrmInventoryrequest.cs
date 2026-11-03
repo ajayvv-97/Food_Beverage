@@ -976,6 +976,16 @@ namespace FoodandBeverage.Forms
                 if (savedDetailCount != details.Count)
                     throw new InvalidOperationException("Some inventory request details were not saved.");
 
+                // The request and all its detail rows are saved; now close the source draft.
+                if (_currentDraftId.HasValue && _currentDraftId.Value > 0)
+                {
+                    _inventoryBll.DeleteInventoryRequestDraft(
+                        "prdDelete_InventoryRequestDraft",
+                        _currentDraftId.Value,
+                        FrmLogin.UserId,
+                        FrmDashboard.BranchId);
+                }
+
                 MessageBox.Show(
                     "Inventory request saved successfully. Request No: " + master.RequestNo,
                     "Inventory Request",
