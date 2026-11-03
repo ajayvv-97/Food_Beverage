@@ -2529,83 +2529,134 @@ namespace FoodandBeverage.Forms
 
         private void LoadRequestApprovalData()
         {
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+            // Detect approval fields through the same BllSearch/prdSearch data-access pattern.
+            BllSearch<DmnGridFields> bllSchemaSearch = new BllSearch<DmnGridFields>();
+            DmnSearch approvalColumnSearch = new DmnSearch
             {
-                // Approval column names are detected so this screen remains compatible
-                // with installations where the approval workflow column has a different name.
-                string approvalColumn = connection.Query<string>(
-                    @"SELECT TOP (1) c.name
-                      FROM sys.columns c
-                      WHERE c.object_id = OBJECT_ID('dbo.tblInventoryRequestMaster')
-                        AND c.name IN ('ApprovalStatus','ApprovalStatusName','RequestStatus','ApprovalState','IsApproved','IsRejected')
-                      ORDER BY CASE c.name
-                        WHEN 'ApprovalStatus' THEN 1 WHEN 'ApprovalStatusName' THEN 2
-                        WHEN 'RequestStatus' THEN 3 WHEN 'ApprovalState' THEN 4
-                        WHEN 'IsApproved' THEN 5 ELSE 6 END").FirstOrDefault();
+                Select = "c.name AS Field1",
+                Table = "sys.columns c",
+                WhereNdGroupBy = "where c.object_id = OBJECT_ID('dbo.tblInventoryRequestMaster') " +
+                                 "AND c.name IN ('ApprovalStatus','ApprovalStatusName','RequestStatus'," +
+                                 "'ApprovalState','IsApproved','IsRejected')",
+                OrderBy = "ORDER BY CASE c.name WHEN 'ApprovalStatus' THEN 1 " +
+                          "WHEN 'ApprovalStatusName' THEN 2 WHEN 'RequestStatus' THEN 3 " +
+                          "WHEN 'ApprovalState' THEN 4 WHEN 'IsApproved' THEN 5 ELSE 6 END"
+            };
 
-                string statusExpression = "CAST('Pending' AS NVARCHAR(30))";
-                if (!string.IsNullOrWhiteSpace(approvalColumn))
-                {
-                    string col = "[m].[" + approvalColumn.Replace("]", "]]") + "]";
-                    statusExpression = approvalColumn == "IsRejected"
-                        ? "CASE WHEN CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Rejected' ELSE 'Pending' END"
-                        : "CASE " +
-                          "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%reject%' OR CONVERT(NVARCHAR(30)," + col + ")='2' THEN 'Rejected' " +
-                          "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%approv%' OR CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Approved' " +
-                          "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%pend%' OR CONVERT(NVARCHAR(30)," + col + ")='0' THEN 'Pending' " +
-                          "ELSE CONVERT(NVARCHAR(30)," + col + ") END";
-                }
+            List<DmnGridFields> approvalColumns =
+                bllSchemaSearch.GetSearchData("prdSearch", approvalColumnSearch);
+            string approvalColumn = approvalColumns != null && approvalColumns.Count > 0
+                ? approvalColumns[0].Field1
+                : null;
 
-                // Resolve optional approval audit columns by schema so the popup works
-                // with databases that use slightly different approval field names.
-                HashSet<string> masterColumns = new HashSet<string>(connection.Query<string>(
-                    @"SELECT c.name FROM sys.columns c
-                      WHERE c.object_id = OBJECT_ID('dbo.tblInventoryRequestMaster')"),
-                    StringComparer.OrdinalIgnoreCase);
-
-                string approvedByColumn = new[] { "ApprovedBy", "ApprovedByEmployeeId", "ApprovedById", "ApprovalBy" }
-                    .FirstOrDefault(masterColumns.Contains);
-                string approvedOnColumn = new[] { "ApprovedOn", "ApprovedDate", "ApprovalDate", "ApprovalOn" }
-                    .FirstOrDefault(masterColumns.Contains);
-                string approvalRemarksColumn = new[] { "ApprovalRemarks", "ApprovalRemark", "ApprovalComments", "ApprovalComment" }
-                    .FirstOrDefault(masterColumns.Contains);
-
-                string approvedBySelect = approvedByColumn == null
-                    ? "CAST('-' AS NVARCHAR(200))"
-                    : "ISNULL(approver.EmployeeName, CONVERT(NVARCHAR(200),m.[" + approvedByColumn + "]))";
-                string approvedOnSelect = approvedOnColumn == null
-                    ? "CAST(NULL AS DATETIME)"
-                    : "TRY_CONVERT(DATETIME,m.[" + approvedOnColumn + "])";
-                string remarksSelect = approvalRemarksColumn == null
-                    ? "ISNULL(m.Remarks,'-')"
-                    : "ISNULL(NULLIF(CONVERT(NVARCHAR(MAX),m.[" + approvalRemarksColumn + "]),''),ISNULL(m.Remarks,'-'))";
-                string approverJoin = approvedByColumn == null
-                    ? ""
-                    : " LEFT JOIN dbo.tblEmployee approver ON approver.EmployeeId = TRY_CONVERT(INT,m.[" + approvedByColumn + "]) ";
-
-                string sql = @"
-                    SELECT m.InventoryRequestId, m.RequestNo,
-                           m.RequestDate, m.RequiredDate,
-                           ISNULL(d.DepartmentName,'-') AS DepartmentName,
-                           ISNULL(e.EmployeeName,'-') AS EmployeeName,
-                           CASE m.RequestType WHEN 1 THEN 'Batch Preparation'
-                                WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END AS RequestTypeName,
-                           " + statusExpression + @" AS ApprovalStatusText,
-                           " + approvedBySelect + @" AS ApprovedByName,
-                           " + approvedOnSelect + @" AS ApprovedOn,
-                           " + remarksSelect + @" AS ApprovalRemarks
-                    FROM dbo.tblInventoryRequestMaster m
-                    LEFT JOIN dbo.tblDepartment d ON d.DepartmentId = m.DepartmentId
-                    LEFT JOIN dbo.tblEmployee e ON e.EmployeeId = m.EmployeeId
-                    " + approverJoin + @"
-                    WHERE ISNULL(m.Status,1) = 1
-                      AND m.BranchId = @BranchId
-                    ORDER BY m.InventoryRequestId DESC";
-
-                _requestApprovalData = new DataTable();
-                using (IDataReader reader = connection.ExecuteReader(sql, new { BranchId = FrmDashboard.BranchId }))
-                    _requestApprovalData.Load(reader);
+            string statusExpression = "CAST('Pending' AS NVARCHAR(30))";
+            if (!string.IsNullOrWhiteSpace(approvalColumn))
+            {
+                string col = "[m].[" + approvalColumn.Replace("]", "]]") + "]";
+                statusExpression = approvalColumn == "IsRejected"
+                    ? "CASE WHEN CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Rejected' ELSE 'Pending' END"
+                    : "CASE " +
+                      "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%reject%' OR CONVERT(NVARCHAR(30)," + col + ")='2' THEN 'Rejected' " +
+                      "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%approv%' OR CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Approved' " +
+                      "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%pend%' OR CONVERT(NVARCHAR(30)," + col + ")='0' THEN 'Pending' " +
+                      "ELSE CONVERT(NVARCHAR(30)," + col + ") END";
             }
+
+            // Resolve optional audit columns without direct Dapper queries.
+            DmnSearch masterSchemaSearch = new DmnSearch
+            {
+                Select = "c.name AS Field1",
+                Table = "sys.columns c",
+                WhereNdGroupBy = "where c.object_id = OBJECT_ID('dbo.tblInventoryRequestMaster')",
+                OrderBy = ""
+            };
+
+            List<DmnGridFields> schemaRows =
+                bllSchemaSearch.GetSearchData("prdSearch", masterSchemaSearch);
+            HashSet<string> masterColumns = new HashSet<string>(
+                (schemaRows ?? new List<DmnGridFields>())
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Field1))
+                    .Select(x => x.Field1),
+                StringComparer.OrdinalIgnoreCase);
+
+            string approvedByColumn = new[] { "ApprovedBy", "ApprovedByEmployeeId", "ApprovedById", "ApprovalBy" }
+                .FirstOrDefault(masterColumns.Contains);
+            string approvedOnColumn = new[] { "ApprovedOn", "ApprovedDate", "ApprovalDate", "ApprovalOn" }
+                .FirstOrDefault(masterColumns.Contains);
+            string approvalRemarksColumn = new[] { "ApprovalRemarks", "ApprovalRemark", "ApprovalComments", "ApprovalComment" }
+                .FirstOrDefault(masterColumns.Contains);
+
+            string approvedBySelect = approvedByColumn == null
+                ? "CAST('-' AS NVARCHAR(200))"
+                : "ISNULL(approver.EmployeeName, CONVERT(NVARCHAR(200),m.[" + approvedByColumn + "]))";
+            string approvedOnSelect = approvedOnColumn == null
+                ? "CAST(NULL AS NVARCHAR(30))"
+                : "CONVERT(NVARCHAR(30),TRY_CONVERT(DATETIME,m.[" + approvedOnColumn + "]),121)";
+            string remarksSelect = approvalRemarksColumn == null
+                ? "ISNULL(m.Remarks,'-')"
+                : "ISNULL(NULLIF(CONVERT(NVARCHAR(MAX),m.[" + approvalRemarksColumn + "]),''),ISNULL(m.Remarks,'-'))";
+            string approverJoin = approvedByColumn == null
+                ? ""
+                : " LEFT JOIN tblEmployee approver ON approver.EmployeeId = TRY_CONVERT(INT,m.[" + approvedByColumn + "]) ";
+
+            DmnSearch requestSearch = new DmnSearch
+            {
+                Select = "m.InventoryRequestId AS Id, m.RequestNo AS Field1, " +
+                         "CONVERT(NVARCHAR(30),m.RequestDate,121) AS Field2, " +
+                         "CONVERT(NVARCHAR(30),m.RequiredDate,121) AS Field3, " +
+                         "ISNULL(d.DepartmentName,'-') AS Field4, " +
+                         "ISNULL(e.EmployeeName,'-') AS Field5, " +
+                         "CASE m.RequestType WHEN 1 THEN 'Batch Preparation' " +
+                         "WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END AS Field6, " +
+                         statusExpression + " AS Field7, " +
+                         approvedBySelect + " AS Field8, " +
+                         approvedOnSelect + " AS Field9, " +
+                         remarksSelect + " AS Field10",
+                Table = "tblInventoryRequestMaster m " +
+                        "LEFT JOIN tblDepartment d ON d.DepartmentId = m.DepartmentId " +
+                        "LEFT JOIN tblEmployee e ON e.EmployeeId = m.EmployeeId " +
+                        approverJoin,
+                WhereNdGroupBy = "WHERE ISNULL(m.Status,1) = 1 AND m.BranchId = " +
+                                 Convert.ToString(FrmDashboard.BranchId),
+                OrderBy = "ORDER BY m.InventoryRequestId DESC"
+            };
+
+            BllSearch<DmnGridFields> bllRequestSearch = new BllSearch<DmnGridFields>();
+            List<DmnGridFields> requestRows =
+                bllRequestSearch.GetSearchData("prdSearch", requestSearch);
+
+            _requestApprovalData = new DataTable();
+            _requestApprovalData.Columns.Add("InventoryRequestId", typeof(long));
+            _requestApprovalData.Columns.Add("RequestNo", typeof(string));
+            _requestApprovalData.Columns.Add("RequestDate", typeof(DateTime));
+            _requestApprovalData.Columns.Add("RequiredDate", typeof(DateTime));
+            _requestApprovalData.Columns.Add("DepartmentName", typeof(string));
+            _requestApprovalData.Columns.Add("EmployeeName", typeof(string));
+            _requestApprovalData.Columns.Add("RequestTypeName", typeof(string));
+            _requestApprovalData.Columns.Add("ApprovalStatusText", typeof(string));
+            _requestApprovalData.Columns.Add("ApprovedByName", typeof(string));
+            _requestApprovalData.Columns.Add("ApprovedOn", typeof(DateTime));
+            _requestApprovalData.Columns.Add("ApprovalRemarks", typeof(string));
+
+            foreach (DmnGridFields source in requestRows ?? new List<DmnGridFields>())
+            {
+                DateTime parsedRequestDate;
+                DateTime parsedRequiredDate;
+                DateTime parsedApprovedOn;
+                object requestDate = DateTime.TryParse(source.Field2, CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out parsedRequestDate) ? (object)parsedRequestDate : DBNull.Value;
+                object requiredDate = DateTime.TryParse(source.Field3, CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out parsedRequiredDate) ? (object)parsedRequiredDate : DBNull.Value;
+                object approvedOn = DateTime.TryParse(source.Field9, CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out parsedApprovedOn) ? (object)parsedApprovedOn : DBNull.Value;
+
+                _requestApprovalData.Rows.Add(
+                    source.Id, source.Field1 ?? string.Empty, requestDate, requiredDate,
+                    source.Field4 ?? "-", source.Field5 ?? "-", source.Field6 ?? "Mixed",
+                    source.Field7 ?? "Pending", source.Field8 ?? "-", approvedOn,
+                    source.Field10 ?? "-");
+            }
+
             ApplyApprovalFilterAndPaging();
         }
 
