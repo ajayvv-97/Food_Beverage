@@ -5,6 +5,8 @@ namespace Domain
     public class DmnInventoryRequestMaster
     {
         public int RequestId { get; set; }
+        public int DraftId { get; set; }
+        public string DraftNo { get; set; }
         public string RequestNo { get; set; }
         public DateTime RequestDate { get; set; }
         public DateTime RequiredDate { get; set; }
@@ -63,6 +65,7 @@ namespace Domain
     public class DmnInventoryRequestDetail
     {
         public int InventoryRequestDetailId { get; set; }
+        public int DraftDetailId { get; set; }
         public int InventoryRequestId { get; set; }
         public int RequestType { get; set; }
         public int? SlNo { get; set; }
