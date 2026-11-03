@@ -228,7 +228,11 @@ namespace FoodandBeverage.Forms
                 });
 
             dgv_batch.Columns[Bactionno].ReadOnly = true;
+            dgv_batch.Columns[Bmenuitemno].ReadOnly = true;
             dgv_batch.Columns[Brecipeingredientsno].ReadOnly = true;
+
+            // Product names are display-only; quantities remain editable.
+            dgv_raw.Columns[Rrawmaterialno].ReadOnly = true;
 
             dgv_batch_ingrediant.Columns[BIingredientno].ReadOnly = true;
             dgv_batch_ingrediant.Columns[Biperportionqtyno].ReadOnly = false;
