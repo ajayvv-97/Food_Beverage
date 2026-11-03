@@ -1450,6 +1450,9 @@
   <data name="Inv_Approved" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Inv_Approved.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Inv_Cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Cancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Inv_Clipboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Inv_Clipboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1459,13 +1462,34 @@
   <data name="Inv_Hourglass" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Inv_Hourglass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Inv_Import" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Import.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Inv_Layers" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Inv_Layers.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_OpenDraft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_OpenDraft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_OpenRequestApproval" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_OpenRequestApproval.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Inv_Open_Request___Approval_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Inv_Open Request &amp; Approval Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Inv_Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Inv_Rejected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Inv_Rejected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_SaveDraft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_SaveDraft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -124,7 +124,7 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
-        #endregion
+
 
         #region Grid Declaration
         // Batch product grid
@@ -1892,7 +1892,7 @@ namespace FoodandBeverage.Forms
 
         private static void ShowError(string message)
         {
-            MessageBox.Show(message, "Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            CMessageBox.Show(message, "Inventory Request", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private bool HandleItemSearchNavigation(KeyEventArgs e, int requestType)
