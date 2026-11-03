@@ -1793,6 +1793,16 @@ namespace FoodandBeverage.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Inv_Open_Request___Approval_Button {
+            get {
+                object obj = ResourceManager.GetObject("Inv_Open_Request___Approval_Button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Inv_OpenDraft_Button {
             get {
                 object obj = ResourceManager.GetObject("Inv_OpenDraft_Button", resourceCulture);
