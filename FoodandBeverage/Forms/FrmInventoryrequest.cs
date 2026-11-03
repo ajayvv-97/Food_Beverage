@@ -813,7 +813,7 @@ namespace FoodandBeverage.Forms
                 DataGridViewRow row = dgv_batch.Rows[e.RowIndex];
                 int productId = Convert.ToInt32(row.Cells[Bitemidno].Value);
 
-                if (!DeleteInventoryRowFromDatabase(1, productId, null))
+                if (!ConfirmInventoryRowRemoval())
                     return;
 
                 CacheVisibleIngredientRows();
@@ -1159,7 +1159,7 @@ namespace FoodandBeverage.Forms
                     DataGridViewRow row = dgv_raw.Rows[e.RowIndex];
                     long itemId = Convert.ToInt64(row.Cells[Ritemidno].Value);
 
-                    if (!DeleteInventoryRowFromDatabase(2, null, itemId))
+                    if (!ConfirmInventoryRowRemoval())
                         return;
 
                     dgv_raw.Rows.RemoveAt(e.RowIndex);
@@ -1807,37 +1807,21 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private bool DeleteInventoryRowFromDatabase(int requestType, int? productId, long? itemId)
+        private bool ConfirmInventoryRowRemoval()
         {
-            bool isDraft = _currentDraftId.HasValue;
-
-            if (isDraft)
-            {
-                DialogResult confirmation = CMessageBox.Show(
-                    "Remove this item from the saved draft?",
-                    "Confirm Draft Item Delete",
-                    MessageBoxButtons.YesNo);
-
-                if (confirmation != DialogResult.Yes)
-                    return false;
-            }
-
-            // New, unsaved requests only need an in-memory grid removal.
-            if (!isDraft && !_currentRequestId.HasValue)
+            // Removing a row is an in-memory operation only.
+            // The database detail snapshot is updated when Save Request / Save Draft runs:
+            // previous active details are marked Status = 0 by the master update procedure,
+            // and the remaining grid rows are saved with Status = 1.
+            if (!_currentDraftId.HasValue)
                 return true;
 
-            _inventoryBll.DeleteInventoryRequestRow(
-                "prdDelete_InventoryRequestRow",
-                isDraft,
-                _currentDraftId,
-                _currentRequestId,
-                requestType,
-                productId,
-                itemId,
-                FrmLogin.UserId,
-                FrmDashboard.BranchId);
+            DialogResult confirmation = CMessageBox.Show(
+                "Remove this item from the saved draft? The change will be stored when you save the draft.",
+                "Confirm Draft Item Removal",
+                MessageBoxButtons.YesNo);
 
-            return true;
+            return confirmation == DialogResult.Yes;
         }
 
         private static int? GetComboId(ComboBox combo)
