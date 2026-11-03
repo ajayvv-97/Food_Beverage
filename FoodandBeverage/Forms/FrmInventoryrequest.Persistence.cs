@@ -25,24 +25,31 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                List<InventoryRequestComboItem> departments;
-                List<InventoryRequestComboItem> employees;
+                BllSearch<InventoryRequestComboItem> bllSearch =
+                    new BllSearch<InventoryRequestComboItem>();
 
-                using (IDbConnection connection =
-                    DAL.DapperRepository<InventoryRequestComboItem>.OpenConnection())
+                DmnSearch departmentSearch = new DmnSearch
                 {
-                    departments = connection.Query<InventoryRequestComboItem>(
-                        @"SELECT DepartmentId AS Id, DepartmentName AS Name
-                          FROM dbo.tblDepartment
-                          WHERE Status = 1
-                          ORDER BY DepartmentName").ToList();
+                    Select = "DepartmentId AS Id, DepartmentName AS Name",
+                    Table = "tblDepartment",
+                    WhereNdGroupBy = "where Status = 1",
+                    OrderBy = "ORDER BY DepartmentName"
+                };
 
-                    employees = connection.Query<InventoryRequestComboItem>(
-                        @"SELECT EmployeeId AS Id, EmployeeName AS Name
-                          FROM dbo.tblEmployee
-                          WHERE Status = 1
-                          ORDER BY EmployeeName").ToList();
-                }
+                DmnSearch employeeSearch = new DmnSearch
+                {
+                    Select = "EmployeeId AS Id, EmployeeName AS Name",
+                    Table = "tblEmployee",
+                    WhereNdGroupBy = "where Status = 1",
+                    OrderBy = "ORDER BY EmployeeName"
+                };
+
+                List<InventoryRequestComboItem> departments =
+                    bllSearch.GetSearchData("prdSearch", departmentSearch) ??
+                    new List<InventoryRequestComboItem>();
+                List<InventoryRequestComboItem> employees =
+                    bllSearch.GetSearchData("prdSearch", employeeSearch) ??
+                    new List<InventoryRequestComboItem>();
 
                 cmb_req_department.DataSource = null;
                 cmb_req_department.DisplayMember = "Name";
@@ -56,7 +63,6 @@ namespace FoodandBeverage.Forms
                 cmb_req_employee.DataSource = employees;
                 cmb_req_employee.SelectedIndex = -1;
 
-                // Restore the currently logged-in employee and department.
                 if (FrmLogin.EmployeeId > 0 &&
                     employees.Any(x => x.Id == FrmLogin.EmployeeId))
                 {
@@ -169,7 +175,6 @@ namespace FoodandBeverage.Forms
 
         private void FillData(int requestId)
         {
-            // Load the request master through the common prdSearch repository pattern.
             BllSearch<DmnInventoryRequestMaster> bllSearchMaster =
                 new BllSearch<DmnInventoryRequestMaster>();
             DmnSearch masterSearch = new DmnSearch
@@ -186,7 +191,6 @@ namespace FoodandBeverage.Forms
 
             List<DmnInventoryRequestMaster> masterRows =
                 bllSearchMaster.GetSearchData("prdSearch", masterSearch);
-
             DmnInventoryRequestMaster master =
                 masterRows != null && masterRows.Count > 0 ? masterRows[0] : null;
 
@@ -196,7 +200,6 @@ namespace FoodandBeverage.Forms
                 return;
             }
 
-            // Load request details using the same BllSearch/prdSearch pattern.
             BllSearch<DmnInventoryRequestDetail> bllSearchDetails =
                 new BllSearch<DmnInventoryRequestDetail>();
             DmnSearch detailSearch = new DmnSearch
@@ -212,27 +215,37 @@ namespace FoodandBeverage.Forms
                         "LEFT JOIN tblUnit u ON u.UId = d.Unit",
                 WhereNdGroupBy = "where d.InventoryRequestId = " + requestId +
                                  " AND ISNULL(d.Status,1) = 1",
-                OrderBy = " ORDER BY d.RequestType, d.SlNo, d.InventoryRequestDetailId"
+                OrderBy = "ORDER BY d.RequestType, d.SlNo, d.InventoryRequestDetailId"
             };
 
             List<DmnInventoryRequestDetail> details =
-                bllSearchDetails.GetSearchData("prdSearch", detailSearch);
+                bllSearchDetails.GetSearchData("prdSearch", detailSearch) ??
+                new List<DmnInventoryRequestDetail>();
 
-            if (details == null)
-                details = new List<DmnInventoryRequestDetail>();
+            LoadBatchProductNames(details);
 
-            // Resolve product names separately through DmnProducts as requested.
-            // Product records are looked up once per distinct batch product ID.
-            BllSearch<DmnProducts> bllSearchproduct = new BllSearch<DmnProducts>();
+            _currentRequestId = requestId;
+            _currentDraftId = null;
+            btn_deletesaved_draft.Visible = false;
+            PopulateRequestForm(master, details);
+        }
+
+        private void LoadBatchProductNames(List<DmnInventoryRequestDetail> details)
+        {
+            if (details == null || details.Count == 0)
+                return;
+
+            BllSearch<DmnProducts> bllSearchproduct =
+                new BllSearch<DmnProducts>();
+
             List<int> productIds = details
                 .Where(x => x.RequestType == 1 && x.ProductId.HasValue)
                 .Select(x => x.ProductId.Value)
                 .Distinct()
                 .ToList();
 
-            foreach (int productId in productIds)
+            foreach (int Pid in productIds)
             {
-                int Pid = productId;
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.Select = "*";
                 objSearch.Table = "tblProduct";
@@ -250,51 +263,59 @@ namespace FoodandBeverage.Forms
                     }
                 }
             }
-
-            _currentRequestId = requestId;
-            _currentDraftId = null;
-            btn_deletesaved_draft.Visible = false;
-            PopulateRequestForm(master, details);
         }
 
         private void FillDraftData(int draftId)
         {
-            DmnInventoryRequestMaster master;
-            List<DmnInventoryRequestDetail> details;
-
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+            BllSearch<DmnInventoryRequestMaster> bllSearchMaster =
+                new BllSearch<DmnInventoryRequestMaster>();
+            DmnSearch masterSearch = new DmnSearch
             {
-                master = connection.QueryFirstOrDefault<DmnInventoryRequestMaster>(
-                    @"SELECT DraftId AS RequestId, RequestNo, RequestDate, RequiredDate,
-                             DepartmentId, EmployeeId, Remarks, RequestType, CreatedBy, CreatedOn,
-                             ModifiedBy, ModifiedOn, BranchId, Status
-                      FROM dbo.tblInventoryRequestDraftMaster
-                      WHERE DraftId = @DraftId AND ISNULL(Status,1) = 1
-                        AND BranchId = @BranchId",
-                    new { DraftId = draftId, BranchId = FrmDashboard.BranchId });
+                Select = "DraftId AS RequestId, RequestNo, RequestDate, RequiredDate, " +
+                         "DepartmentId, EmployeeId, Remarks, RequestType, CreatedBy, CreatedOn, " +
+                         "ModifiedBy, ModifiedOn, BranchId, Status",
+                Table = "tblInventoryRequestDraftMaster",
+                WhereNdGroupBy = "where DraftId = " + draftId +
+                                 " AND ISNULL(Status,1) = 1 AND BranchId = " +
+                                 Convert.ToString(FrmDashboard.BranchId),
+                OrderBy = ""
+            };
 
-                details = connection.Query<DmnInventoryRequestDetail>(
-                    @"SELECT d.DraftDetailId AS InventoryRequestDetailId,
-                             d.DraftId AS InventoryRequestId, d.RequestType, d.SlNo,
-                             d.ProductId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty,
-                             d.TotalRequiredQty, d.ItemId, d.ProductType, d.CurrentStock,
-                             d.IssuedQty, d.ProjectedBalance, d.Unit, d.PurposeRemarks,
-                             d.CreatedBy, d.CreatedOn, d.ModifiedBy, d.ModifiedOn, d.BranchId, d.Status,
-                             p.Product AS ProductName, i.Itemname AS ItemName, u.UnitName
-                      FROM dbo.tblInventoryRequestDraftDetails d
-                      LEFT JOIN dbo.tblProduct p ON p.ProductId = d.ProductId
-                      LEFT JOIN dbo.tblItem i ON i.ItemId = d.ItemId
-                      LEFT JOIN dbo.tblUnit u ON u.UId = d.Unit
-                      WHERE d.DraftId = @DraftId AND ISNULL(d.Status,1) = 1
-                      ORDER BY d.RequestType, d.SlNo, d.DraftDetailId",
-                    new { DraftId = draftId }).ToList();
-            }
+            List<DmnInventoryRequestMaster> masterRows =
+                bllSearchMaster.GetSearchData("prdSearch", masterSearch);
+            DmnInventoryRequestMaster master =
+                masterRows != null && masterRows.Count > 0 ? masterRows[0] : null;
 
             if (master == null)
             {
                 ShowError("The selected draft was not found or is inactive.");
                 return;
             }
+
+            BllSearch<DmnInventoryRequestDetail> bllSearchDetails =
+                new BllSearch<DmnInventoryRequestDetail>();
+            DmnSearch detailSearch = new DmnSearch
+            {
+                Select = "d.DraftDetailId AS InventoryRequestDetailId, " +
+                         "d.DraftId AS InventoryRequestId, d.RequestType, d.SlNo, " +
+                         "d.ProductId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty, " +
+                         "d.TotalRequiredQty, d.ItemId, d.ProductType, d.CurrentStock, " +
+                         "d.IssuedQty, d.ProjectedBalance, d.Unit, d.PurposeRemarks, " +
+                         "d.CreatedBy, d.CreatedOn, d.ModifiedBy, d.ModifiedOn, d.BranchId, d.Status, " +
+                         "i.Itemname AS ItemName, u.UnitName AS UnitName",
+                Table = "tblInventoryRequestDraftDetails d " +
+                        "LEFT JOIN tblItem i ON i.ItemId = d.ItemId " +
+                        "LEFT JOIN tblUnit u ON u.UId = d.Unit",
+                WhereNdGroupBy = "where d.DraftId = " + draftId +
+                                 " AND ISNULL(d.Status,1) = 1",
+                OrderBy = "ORDER BY d.RequestType, d.SlNo, d.DraftDetailId"
+            };
+
+            List<DmnInventoryRequestDetail> details =
+                bllSearchDetails.GetSearchData("prdSearch", detailSearch) ??
+                new List<DmnInventoryRequestDetail>();
+
+            LoadBatchProductNames(details);
 
             _currentDraftId = draftId;
             _currentRequestId = null;
