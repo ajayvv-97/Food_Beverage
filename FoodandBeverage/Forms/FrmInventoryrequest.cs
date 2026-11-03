@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Globalization;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using FoodandBeverage.Forms.UserControls;
@@ -38,70 +39,91 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
 
         #region Database Search Helpers
+        private static string EscapeSearchText(string value)
+        {
+            return (value ?? string.Empty).Replace("'", "''");
+        }
+
         private List<DmnInventoryRequestItem> SearchBatchProducts(string search)
         {
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
+            string escapedSearch = EscapeSearchText(search);
+            DmnSearch criteria = new DmnSearch
             {
-                return connection.Query<DmnInventoryRequestItem>(
-                    @"SELECT p.ProductId AS ItemId, p.Product AS ItemName,
-                             CAST(0 AS DECIMAL(18,2)) AS CurrentStock, CAST(1 AS INT) AS ProductType
-                      FROM dbo.tblProduct p
-                      WHERE ISNULL(p.Status,1) <> 0
-                        AND (@Search = '' OR p.Product LIKE '%' + @Search + '%')
-                      ORDER BY p.Product",
-                    new { Search = search ?? string.Empty }).ToList();
-            }
+                Select = "p.ProductId AS ItemId, p.Product AS ItemName, " +
+                         "CAST(0 AS DECIMAL(18,2)) AS CurrentStock, CAST(1 AS INT) AS ProductType",
+                Table = "tblProduct p",
+                WhereNdGroupBy = "WHERE ISNULL(p.Status,1) <> 0 AND " +
+                    "(N'" + escapedSearch + "' = N'' OR p.Product LIKE N'%' + N'" +
+                    escapedSearch + "' + N'%')",
+                OrderBy = "ORDER BY p.Product"
+            };
+
+            BllSearch<DmnInventoryRequestItem> bllSearch =
+                new BllSearch<DmnInventoryRequestItem>();
+            List<DmnInventoryRequestItem> results =
+                bllSearch.GetSearchData("prdSearch", criteria);
+
+            return results ?? new List<DmnInventoryRequestItem>();
         }
 
         private List<DmnInventoryRequestItem> SearchRawMaterialItems(string search)
         {
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
+            string escapedSearch = EscapeSearchText(search);
+            DmnSearch criteria = new DmnSearch
             {
-                return connection.Query<DmnInventoryRequestItem>(
-                    @"SELECT CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName,
-                             ISNULL(pr.QOH,0) AS CurrentStock, i.Baseunit AS UnitId,
-                             u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType
-                      FROM dbo.tblItem i
-                      LEFT JOIN dbo.tblUnit u ON u.UId = i.Baseunit
-                      OUTER APPLY
-                      (
-                          SELECT TOP (1) r.QOH FROM dbo.tblProductRate r
-                          WHERE r.ProductId = i.ItemId AND ISNULL(r.ProductType,0) = 0
-                          ORDER BY r.Id DESC
-                      ) pr
-                      WHERE ISNULL(i.Saletype,0) = 0 AND ISNULL(i.Status,1) <> 0
-                        AND (@Search = '' OR i.Itemname LIKE '%' + @Search + '%')
-                      ORDER BY i.Itemname",
-                    new { Search = search ?? string.Empty }).ToList();
-            }
+                Select = "CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName, " +
+                         "ISNULL(pr.QOH,0) AS CurrentStock, i.Baseunit AS UnitId, " +
+                         "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
+                Table = "tblItem i " +
+                        "LEFT JOIN tblUnit u ON u.UId = i.Baseunit " +
+                        "OUTER APPLY (SELECT TOP (1) r.QOH FROM tblProductRate r " +
+                        "WHERE r.ProductId = i.ItemId AND ISNULL(r.ProductType,0) = 0 " +
+                        "ORDER BY r.Id DESC) pr",
+                WhereNdGroupBy = "WHERE ISNULL(i.Saletype,0) = 0 AND ISNULL(i.Status,1) <> 0 " +
+                    "AND (N'" + escapedSearch + "' = N'' OR i.Itemname LIKE N'%' + N'" +
+                    escapedSearch + "' + N'%')",
+                OrderBy = "ORDER BY i.Itemname"
+            };
+
+            BllSearch<DmnInventoryRequestItem> bllSearch =
+                new BllSearch<DmnInventoryRequestItem>();
+            List<DmnInventoryRequestItem> results =
+                bllSearch.GetSearchData("prdSearch", criteria);
+
+            return results ?? new List<DmnInventoryRequestItem>();
         }
 
         private List<DmnInventoryRequestIngredient> LoadProductIngredients(int productId, decimal plannedQty)
         {
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestIngredient>.OpenConnection())
+            string plannedQuantity = plannedQty.ToString(CultureInfo.InvariantCulture);
+            DmnSearch criteria = new DmnSearch
             {
-                return connection.Query<DmnInventoryRequestIngredient>(
-                    @"SELECT d.Ing_DetailsId AS IngredientDetailId, d.ItemId, i.Itemname AS IngredientName,
-                             ISNULL(d.quantity,0) AS PerPortionQty,
-                             ISNULL(d.quantity,0) * @PlannedQty AS TotalRequiredQty, d.Unit AS UnitId,
-                             u.UnitName AS UnitName,
-                             ISNULL(pr.QOH,0) AS CurrentStock,
-                             ISNULL(pr.QOH,0) - ISNULL(d.quantity,0) * @PlannedQty AS ProjectedBalance,
-                             d.ProductId
-                      FROM dbo.tblIngredientDetails d
-                      LEFT JOIN dbo.tblItem i ON i.ItemId = d.ItemId
-                      LEFT JOIN dbo.tblUnit u ON u.UId = d.Unit
-                      OUTER APPLY
-                      (
-                          SELECT TOP (1) r.QOH FROM dbo.tblProductRate r
-                          WHERE r.ProductId = d.ItemId AND ISNULL(r.ProductType,0) = 0
-                          ORDER BY r.Id DESC
-                      ) pr
-                      WHERE d.ProductId = @ProductId AND ISNULL(d.Status,1) <> 0
-                      ORDER BY d.Ing_DetailsId",
-                    new { ProductId = productId, PlannedQty = plannedQty }).ToList();
-            }
+                Select = "d.Ing_DetailsId AS IngredientDetailId, d.ItemId, " +
+                         "i.Itemname AS IngredientName, ISNULL(d.quantity,0) AS PerPortionQty, " +
+                         "(ISNULL(d.quantity,0) * " + plannedQuantity + ") AS TotalRequiredQty, " +
+                         "d.Unit AS UnitId, u.UnitName AS UnitName, ISNULL(pr.QOH,0) AS CurrentStock, " +
+                         "(ISNULL(pr.QOH,0) - ISNULL(d.quantity,0) * " + plannedQuantity + ") AS ProjectedBalance, " +
+                         "d.ProductId",
+                Table = "tblIngredientDetails d " +
+                        "LEFT JOIN tblItem i ON i.ItemId = d.ItemId " +
+                        "LEFT JOIN tblUnit u ON u.UId = d.Unit " +
+                        "OUTER APPLY (SELECT TOP (1) r.QOH FROM tblProductRate r " +
+                        "WHERE r.ProductId = d.ItemId AND ISNULL(r.ProductType,0) = 0 " +
+                        "ORDER BY r.Id DESC) pr",
+                WhereNdGroupBy = "WHERE d.ProductId = " + productId +
+                                 " AND ISNULL(d.Status,1) <> 0",
+                OrderBy = "ORDER BY d.Ing_DetailsId"
+            };
+
+            BllSearch<DmnInventoryRequestIngredient> bllSearch =
+                new BllSearch<DmnInventoryRequestIngredient>();
+            List<DmnInventoryRequestIngredient> results =
+                bllSearch.GetSearchData("prdSearch", criteria);
+
+            return results ?? new List<DmnInventoryRequestIngredient>();
         }
+        #endregion
+
         #endregion
 
         #region Grid Declaration
@@ -532,20 +554,22 @@ namespace FoodandBeverage.Forms
 
         private DmnInventoryRequestItem LoadBatchProductById(int productId)
         {
-            using (IDbConnection connection =
-                DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
+            DmnSearch criteria = new DmnSearch
             {
-                return connection.QueryFirstOrDefault<DmnInventoryRequestItem>(
-                    @"SELECT p.ProductId AS ItemId, p.Product AS ItemName,
-                             CAST(0 AS DECIMAL(18,2)) AS CurrentStock,
-                             CAST(1 AS INT) AS ProductType
-                      FROM dbo.tblProduct p
-                      LEFT JOIN dbo.tblCategory_FTI c ON c.Fcid = p.Fcid
-                      WHERE p.ProductId = @ProductId
-                        AND p.Status = 1
-                        AND c.Status = 1",
-                    new { ProductId = productId });
-            }
+                Select = "p.ProductId AS ItemId, p.Product AS ItemName, " +
+                         "CAST(0 AS DECIMAL(18,2)) AS CurrentStock, CAST(1 AS INT) AS ProductType",
+                Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON c.Fcid = p.Fcid",
+                WhereNdGroupBy = "WHERE p.ProductId = " + productId +
+                                 " AND p.Status = 1 AND c.Status = 1",
+                OrderBy = ""
+            };
+
+            BllSearch<DmnInventoryRequestItem> bllSearch =
+                new BllSearch<DmnInventoryRequestItem>();
+            List<DmnInventoryRequestItem> results =
+                bllSearch.GetSearchData("prdSearch", criteria);
+
+            return results != null && results.Count > 0 ? results[0] : null;
         }
 
         private void LoadIngredientsForCurrentBatchRow()
@@ -1281,33 +1305,28 @@ namespace FoodandBeverage.Forms
 
         private DmnInventoryRequestItem LoadRawMaterialById(int itemId)
         {
-            using (IDbConnection connection =
-                DAL.DapperRepository<DmnInventoryRequestItem>.OpenConnection())
+            DmnSearch criteria = new DmnSearch
             {
-                return connection.QueryFirstOrDefault<DmnInventoryRequestItem>(
-                    @"SELECT CAST(i.ItemId AS INT) AS ItemId,
-                             i.Itemname AS ItemName,
-                             ISNULL(pr.QOH,0) AS CurrentStock,
-                             i.Baseunit AS UnitId,
-                             u.UnitName AS UnitName,
-                             CAST(2 AS INT) AS ProductType
-                      FROM dbo.tblItem i
-                      LEFT JOIN dbo.tblUnit u ON u.UId = i.Baseunit
-                      LEFT JOIN dbo.tblCategory_FTI c ON c.Fcid = i.Fcid
-                      OUTER APPLY
-                      (
-                          SELECT TOP (1) r.QOH
-                          FROM dbo.tblProductRate r
-                          WHERE r.ProductId = i.ItemId
-                            AND ISNULL(r.ProductType,0) = 0
-                          ORDER BY r.Id DESC
-                      ) pr
-                      WHERE i.ItemId = @ItemId
-                        AND i.Status = 1
-                        AND i.Saletype = 0
-                        AND c.Status = 1",
-                    new { ItemId = itemId });
-            }
+                Select = "CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName, " +
+                         "ISNULL(pr.QOH,0) AS CurrentStock, i.Baseunit AS UnitId, " +
+                         "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
+                Table = "tblItem i " +
+                        "LEFT JOIN tblUnit u ON u.UId = i.Baseunit " +
+                        "LEFT JOIN tblCategory_FTI c ON c.Fcid = i.Fcid " +
+                        "OUTER APPLY (SELECT TOP (1) r.QOH FROM tblProductRate r " +
+                        "WHERE r.ProductId = i.ItemId AND ISNULL(r.ProductType,0) = 0 " +
+                        "ORDER BY r.Id DESC) pr",
+                WhereNdGroupBy = "WHERE i.ItemId = " + itemId +
+                                 " AND i.Status = 1 AND i.Saletype = 0 AND c.Status = 1",
+                OrderBy = ""
+            };
+
+            BllSearch<DmnInventoryRequestItem> bllSearch =
+                new BllSearch<DmnInventoryRequestItem>();
+            List<DmnInventoryRequestItem> results =
+                bllSearch.GetSearchData("prdSearch", criteria);
+
+            return results != null && results.Count > 0 ? results[0] : null;
         }
 
         private void dgv_raw_CellValueChanged(object sender, DataGridViewCellEventArgs e)
