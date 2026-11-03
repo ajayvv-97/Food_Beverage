@@ -106,38 +106,11 @@ namespace FoodandBeverage.Forms
                 .Where(x => !x.IsNewRow)
                 .Sum(x => ToDecimal(x.Cells[Bplannedqtyno].Value));
 
-            decimal directRawQty = dgv_raw.Rows.Cast<DataGridViewRow>()
-                .Where(x => !x.IsNewRow)
+            // Raw material total is based only on manually added rows in dgv_raw.
+            // Batch product recipe ingredients are not included in this total.
+            decimal rawQty = dgv_raw.Rows.Cast<DataGridViewRow>()
+                .Where(x => !x.IsNewRow && x.Cells[Ritemidno].Value != null)
                 .Sum(x => ToDecimal(x.Cells[Rissuedqtyno].Value));
-
-            decimal recipeRawQty = 0m;
-            foreach (DataGridViewRow productRow in dgv_batch.Rows)
-            {
-                if (productRow.IsNewRow || productRow.Cells[Bitemidno].Value == null) continue;
-                int productId = Convert.ToInt32(productRow.Cells[Bitemidno].Value);
-                decimal plannedQty = ToDecimal(productRow.Cells[Bplannedqtyno].Value);
-
-                if (productId == _visibleIngredientProductId)
-                {
-                    recipeRawQty += dgv_batch_ingrediant.Rows.Cast<DataGridViewRow>()
-                        .Where(x => !x.IsNewRow)
-                        .Sum(x => ToDecimal(x.Cells[BItotalrequiredqtyno].Value));
-                }
-                else if (_loadedRequestDetails != null &&
-                    _loadedRequestDetails.Any(x => x.RequestType == 1 && x.ProductId == productId))
-                {
-                    recipeRawQty += _loadedRequestDetails
-                        .Where(x => x.RequestType == 1 && x.ProductId == productId && x.ItemId.HasValue)
-                        .Sum(x => (x.PerPortionQty ?? 0m) * plannedQty);
-                }
-                else
-                {
-                    recipeRawQty += LoadProductIngredients(productId, plannedQty)
-                        .Sum(x => x.TotalRequiredQty);
-                }
-            }
-
-            decimal rawQty = directRawQty + recipeRawQty;
             txt_batchfoodqty.Text = foodQty.ToString("0.####");
             txt_totalrawmaterialqty.Text = rawQty.ToString("0.####");
             total_food_raw_qty.Text = (foodQty + rawQty).ToString("0.####");
