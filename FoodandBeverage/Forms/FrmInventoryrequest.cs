@@ -30,6 +30,7 @@ namespace FoodandBeverage.Forms
         private bool _searchUpdatePending;
         private int? _currentRequestId;
         private int? _currentDraftId;
+        private string _currentDraftNo;
         private int _visibleIngredientProductId;
         private List<DmnInventoryRequestDetail> _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
 
@@ -1076,6 +1077,7 @@ namespace FoodandBeverage.Forms
             txt_reqno.Text = "IR-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
             _currentRequestId = null;
             _currentDraftId = null;
+            _currentDraftNo = null;
             btn_deletesaved_draft.Visible = false;
             _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
             _visibleIngredientProductId = 0;
@@ -2146,12 +2148,17 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
-                int requestType = details.Any(x => x.RequestType == 1) && details.Any(x => x.RequestType == 2)
-                    ? 3 : details[0].RequestType;
+                int requestType = details.Any(x => x.RequestType == 1) &&
+                                  details.Any(x => x.RequestType == 2)
+                    ? 3
+                    : details[0].RequestType;
 
                 DmnInventoryRequestMaster draftMaster = new DmnInventoryRequestMaster
                 {
-                    RequestId = _currentDraftId ?? 0,
+                    DraftId = _currentDraftId ?? 0,
+                    DraftNo = string.IsNullOrWhiteSpace(_currentDraftNo)
+                        ? "DR-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff")
+                        : _currentDraftNo,
                     RequestNo = txt_reqno.Text.Trim(),
                     RequestDate = dtp_reqdate.Value,
                     RequiredDate = dtp_required_date.Value,
@@ -2167,39 +2174,62 @@ namespace FoodandBeverage.Forms
                     Status = 1
                 };
 
-                string draftNo = "DR-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff");
-                DmnInventoryRequestMaster savedDraftMaster = _inventoryBll.AddDraftMasterData("prdInsert_Upd_InventoryRequestDraftMaster",draftNo,_currentDraftId ?? 0,draftMaster);
+                // Save draft master. All values are passed through the domain object.
+                DmnInventoryRequestMaster savedDraftMaster =
+                    _inventoryBll.AddDraftMasterData(
+                        "prdInsert_Upd_InventoryRequestDraftMaster",
+                        draftMaster);
 
                 if (savedDraftMaster == null || savedDraftMaster.DraftId <= 0)
-                    throw new InvalidOperationException("The draft master procedure did not return a valid draft ID.");
+                {
+                    throw new InvalidOperationException(
+                        "The draft master procedure did not return a valid draft ID.");
+                }
 
                 int draftId = savedDraftMaster.DraftId;
+                _currentDraftNo = string.IsNullOrWhiteSpace(savedDraftMaster.DraftNo)
+                    ? draftMaster.DraftNo
+                    : savedDraftMaster.DraftNo;
+
                 int savedDetailCount = 0;
 
                 foreach (DmnInventoryRequestDetail detail in details)
                 {
+                    detail.DraftId = draftId;
                     detail.CreatedBy = FrmLogin.UserId;
                     detail.CreatedOn = DateTime.Now;
                     detail.BranchId = FrmDashboard.BranchId;
                     detail.Status = 1;
 
-                    DmnInventoryRequestDetail savedDetail = _inventoryBll.AddDraftDetailsData( "prdInsert_Upd_InventoryRequestDraftDetails",draftId,detail);
+                    DmnInventoryRequestDetail savedDetail =
+                        _inventoryBll.AddDraftDetailsData(
+                            "prdInsert_Upd_InventoryRequestDraftDetails",
+                            detail);
 
                     if (savedDetail == null)
-                        throw new InvalidOperationException("Unable to save draft detail row " + detail.SlNo + ".");
+                    {
+                        throw new InvalidOperationException(
+                            "Unable to save draft detail row " + detail.SlNo + ".");
+                    }
 
                     savedDetailCount++;
                 }
 
                 if (savedDetailCount != details.Count)
-                    throw new InvalidOperationException("Some draft detail rows were not saved.");
+                {
+                    throw new InvalidOperationException(
+                        "Some draft detail rows were not saved.");
+                }
 
                 _currentDraftId = draftId;
                 _currentRequestId = null;
                 btn_deletesaved_draft.Visible = true;
 
-                MessageBox.Show("Draft saved successfully.", "Inventory Request",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Draft saved successfully.",
+                    "Inventory Request",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
