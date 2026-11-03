@@ -2311,6 +2311,12 @@ namespace FoodandBeverage.Forms
             dgv_req_app.RowTemplate.Height = 38;
             dgv_req_app.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            dgv_req_app.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "InventoryRequestId",
+                DataPropertyName = "InventoryRequestId",
+                Visible = false
+            });
             AddApprovalGridColumn("SlNo", "Sl No", 5);
             AddApprovalGridColumn("RequestNo", "Request No", 19);
             AddApprovalGridColumn("RequestDate", "Request Date", 11);
@@ -2380,11 +2386,13 @@ namespace FoodandBeverage.Forms
                 if (!string.IsNullOrWhiteSpace(approvalColumn))
                 {
                     string col = "[m].[" + approvalColumn.Replace("]", "]]") + "]";
-                    statusExpression = "CASE " +
-                        "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%reject%' OR CONVERT(NVARCHAR(30)," + col + ")='2' THEN 'Rejected' " +
-                        "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%approv%' OR CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Approved' " +
-                        "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%pend%' OR CONVERT(NVARCHAR(30)," + col + ")='0' THEN 'Pending' " +
-                        "ELSE CONVERT(NVARCHAR(30)," + col + ") END";
+                    statusExpression = approvalColumn == "IsRejected"
+                        ? "CASE WHEN CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Rejected' ELSE 'Pending' END"
+                        : "CASE " +
+                          "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%reject%' OR CONVERT(NVARCHAR(30)," + col + ")='2' THEN 'Rejected' " +
+                          "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%approv%' OR CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Approved' " +
+                          "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%pend%' OR CONVERT(NVARCHAR(30)," + col + ")='0' THEN 'Pending' " +
+                          "ELSE CONVERT(NVARCHAR(30)," + col + ") END";
                 }
 
                 string sql = @"
