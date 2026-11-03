@@ -2346,6 +2346,11 @@ namespace FoodandBeverage.Forms
             dgv_req_app.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             dgv_req_app.ColumnHeadersHeight = 42;
             dgv_req_app.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            // Override the 12 pt bold font assigned to RowTemplate in the Designer.
+            // That larger font was forcing Request No and Type text to be clipped.
+            dgv_req_app.RowTemplate.DefaultCellStyle.Font =
+                new Font("Segoe UI", 9F, FontStyle.Regular);
+            dgv_req_app.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
             dgv_req_app.DefaultCellStyle.ForeColor = Color.FromArgb(35, 35, 65);
             dgv_req_app.DefaultCellStyle.SelectionBackColor = Color.FromArgb(224, 216, 250);
             dgv_req_app.DefaultCellStyle.SelectionForeColor = Color.FromArgb(35, 35, 65);
@@ -2367,12 +2372,12 @@ namespace FoodandBeverage.Forms
                 Visible = false
             });
             AddApprovalGridColumn("SlNo", "Sl No", 55);
-            AddApprovalGridColumn("RequestNo", "Request No", 160);
+            AddApprovalGridColumn("RequestNo", "Request No", 230);
             AddApprovalGridColumn("RequestDate", "Request Date", 120);
             AddApprovalGridColumn("RequiredDate", "Required Date", 120);
             AddApprovalGridColumn("DepartmentName", "Department", 135);
             AddApprovalGridColumn("EmployeeName", "Requested By", 130);
-            AddApprovalGridColumn("RequestTypeName", "Type", 145);
+            AddApprovalGridColumn("RequestTypeName", "Type", 200);
             AddApprovalGridColumn("ApprovalStatusText", "Status", 105);
             AddApprovalGridColumn("ApprovedByName", "Approved By", 135);
             AddApprovalGridColumn("ApprovedOnText", "Approved On", 140);
@@ -2507,6 +2512,11 @@ namespace FoodandBeverage.Forms
                 Width = width,
                 MinimumWidth = width,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                    WrapMode = DataGridViewTriState.False
+                },
                 SortMode = DataGridViewColumnSortMode.NotSortable
             });
         }
