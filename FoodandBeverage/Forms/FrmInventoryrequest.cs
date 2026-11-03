@@ -18,6 +18,7 @@ namespace FoodandBeverage.Forms
     public partial class FrmInventoryrequest : Form
     {
         private readonly BllInventoryRequest _inventoryBll = new BllInventoryRequest();
+        private BlurPopupOverlay _blurPopupOverlay;
         private bool _loadingGrid;
         private int _activeRequestType = 1; // 1 = batch preparation, 2 = raw material
         private readonly Dictionary<int, decimal> _originalIngredientQuantities =
@@ -142,6 +143,12 @@ namespace FoodandBeverage.Forms
         public FrmInventoryrequest()
         {
             InitializeComponent();
+
+            // Reuse the same low-memory blurred/dimmed popup backdrop as FrmOrderConsole.
+            // BlurPopupOverlay listens to pnl_reqapproval.VisibleChanged and manages
+            // showing, hiding, resizing and releasing the captured image automatically.
+            _blurPopupOverlay = new BlurPopupOverlay(this, pnl_reqapproval);
+
             btn_deletesaved_draft.Visible = false;
             InitializeItemSearchPopup();
             ConfigureRequestGrids();
