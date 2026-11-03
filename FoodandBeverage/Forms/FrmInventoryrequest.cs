@@ -58,8 +58,10 @@ namespace FoodandBeverage.Forms
             {
                 return connection.Query<DmnInventoryRequestItem>(
                     @"SELECT CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName,
-                             ISNULL(pr.QOH,0) AS CurrentStock, i.Baseunit AS UnitId, CAST(2 AS INT) AS ProductType
+                             ISNULL(pr.QOH,0) AS CurrentStock, i.Baseunit AS UnitId,
+                             u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType
                       FROM dbo.tblItem i
+                      LEFT JOIN dbo.tblUnit u ON u.UId = i.Baseunit
                       OUTER APPLY
                       (
                           SELECT TOP (1) r.QOH FROM dbo.tblProductRate r
@@ -1222,7 +1224,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Rrawmaterialno].Value = selected.ItemName;
                 row.Cells[Rcurrentstockno].Value = selected.CurrentStock;
                 row.Cells[Rissuedqtyno].Value = 1m;
-                row.Cells[Runitno].Value = selected.UnitId;
+                row.Cells[Runitno].Value = selected.UnitName;
                 row.Cells[Rprojectbalanceno].Value = selected.CurrentStock - 1m;
                 row.Cells[RpurposeRemarksno].Value = string.Empty;
                 row.Cells[Ractionno].Value = Properties.Resources.food_cancel_icon;
