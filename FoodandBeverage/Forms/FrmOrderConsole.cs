@@ -9411,7 +9411,6 @@ namespace FoodandBeverage.Forms
                         }
                         else
                         {
-                            // Reason prompt is disabled in General Settings; process the bill directly.
                             paybillcal(payid);
                         }
                         break;
@@ -9423,7 +9422,7 @@ namespace FoodandBeverage.Forms
                         btnPartPaynow.Visible = false;
                         payid = Convert.ToInt32(PaymentType.SPLIT);
                         pnlSplit.Visible = true;
-                ShowBlurPopup(pnlSplit);
+                        ShowBlurPopup(pnlSplit);
                         pnlSplit.BringToFront();
                         pnlSplit.Location = new Point(this.ClientSize.Width / 2 - pnlSplit.Size.Width / 2, (this.ClientSize.Height / 2 - pnlSplit.Size.Height / 2));
                         partPayments.Clear();
@@ -9955,7 +9954,11 @@ namespace FoodandBeverage.Forms
                         if (payid == Convert.ToInt32(PaymentType.COMPLEMENTRY))
                         {
                             dmnsalemaster.ReasonId = Convert.ToInt32(cmb_com_reason.SelectedValue);
-                            dmnsalemaster.ReasonText = txtcom_reason.Text; 
+
+                            if (txtcom_reason.Text.Trim() == reasonPlaceholder)
+                                dmnsalemaster.ReasonText = "";
+                            else
+                                dmnsalemaster.ReasonText = txtcom_reason.Text;
                         }
 
                         var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
@@ -10298,7 +10301,11 @@ namespace FoodandBeverage.Forms
                             if (payid == Convert.ToInt32(PaymentType.COMPLEMENTRY))
                             {
                                 dmnsalemaster.ReasonId = Convert.ToInt32(cmb_com_reason.SelectedValue);
-                                dmnsalemaster.ReasonText = txtcom_reason.Text;
+
+                                if (txtcom_reason.Text.Trim() == reasonPlaceholder)
+                                    dmnsalemaster.ReasonText = "";
+                                else
+                                    dmnsalemaster.ReasonText = txtcom_reason.Text;
                             }
                             var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);
                             #endregion
@@ -10995,7 +11002,12 @@ namespace FoodandBeverage.Forms
                             if (payid == Convert.ToInt32(PaymentType.COMPLEMENTRY))
                             {
                                 dmnsalemaster.ReasonId = Convert.ToInt32(cmb_com_reason.SelectedValue);
-                                dmnsalemaster.ReasonText = txtcom_reason.Text;
+
+                                if(txtcom_reason.Text.Trim() == reasonPlaceholder)
+                                    dmnsalemaster.ReasonText = "";
+                                else
+                                    dmnsalemaster.ReasonText = txtcom_reason.Text;
+
                             }
 
                             var InsertStatusP = bllSales.AddEditData("prdInsert_Upd_SalesMaster", dmnsalemaster);

@@ -947,8 +947,7 @@ namespace FoodandBeverage.Forms
                     Status = 1
                 };
 
-                int requestId = _inventoryBll.AddData(
-                    "prdSave_InventoryRequest", master, details, _currentDraftId);
+                int requestId = _inventoryBll.AddData("prdSave_InventoryRequest", master, details, _currentDraftId);
 
                 if (requestId <= 0)
                     throw new InvalidOperationException("The inventory request procedure did not return a valid request ID.");
