@@ -67,6 +67,7 @@ namespace Domain
     {
         public int InventoryRequestDetailId { get; set; }
         public int DraftDetailId { get; set; }
+        public int DraftId { get; set; }
         public int InventoryRequestId { get; set; }
         public int RequestType { get; set; }
         public int? SlNo { get; set; }
