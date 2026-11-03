@@ -34,6 +34,7 @@ namespace Domain
         public decimal CurrentStock { get; set; }
         public decimal IssuedQty { get; set; }
         public int? UnitId { get; set; }
+        public string UnitName { get; set; }
         public decimal ProjectBalance { get; set; }
         public string Purpose { get; set; }
         public int ProductType { get; set; }
