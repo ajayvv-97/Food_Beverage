@@ -1051,7 +1051,10 @@ namespace FoodandBeverage.Forms
                 }
 
                 if (returnValue > 0)
+                {
                     FillData(returnValue);
+                    SetRequestViewMode(true);
+                }
             }
             catch (Exception ex)
             {
@@ -1062,8 +1065,21 @@ namespace FoodandBeverage.Forms
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
-            try { ResetRequest(); }
+            try
+            {
+                ResetRequest();
+                SetRequestViewMode(false);
+            }
             catch (Exception ex) { LogInventoryException("FrmInventoryrequest btnrefresh_Click", ex); }
+        }
+
+        private void SetRequestViewMode(bool viewingExistingRequest)
+        {
+            // Existing requests are view-only here. Refresh returns the form to entry mode.
+            btnsave_draft.Visible = !viewingExistingRequest;
+            btn_saverequest.Visible = !viewingExistingRequest;
+            btnrefresh.Visible = true;
+            btn_deletesaved_draft.Visible = !viewingExistingRequest && _currentDraftId.HasValue;
         }
 
         private void btnclose_Click(object sender, EventArgs e)
@@ -2330,8 +2346,11 @@ namespace FoodandBeverage.Forms
             AddApprovalGridColumn("RequiredDate", "Required Date", 11);
             AddApprovalGridColumn("DepartmentName", "Department", 13);
             AddApprovalGridColumn("EmployeeName", "Requested By", 13);
-            AddApprovalGridColumn("RequestTypeName", "Type", 13);
-            AddApprovalGridColumn("ApprovalStatusText", "Status", 11);
+            AddApprovalGridColumn("RequestTypeName", "Type", 10);
+            AddApprovalGridColumn("ApprovalStatusText", "Status", 9);
+            AddApprovalGridColumn("ApprovedByName", "Approved By", 12);
+            AddApprovalGridColumn("ApprovedOnText", "Approved On", 12);
+            AddApprovalGridColumn("ApprovalRemarks", "Remarks", 18);
             dgv_req_app.Columns.Add(new DataGridViewButtonColumn
             {
                 Name = "ViewRequest",
@@ -2502,6 +2521,33 @@ namespace FoodandBeverage.Forms
                           "ELSE CONVERT(NVARCHAR(30)," + col + ") END";
                 }
 
+                // Resolve optional approval audit columns by schema so the popup works
+                // with databases that use slightly different approval field names.
+                HashSet<string> masterColumns = new HashSet<string>(connection.Query<string>(
+                    @"SELECT c.name FROM sys.columns c
+                      WHERE c.object_id = OBJECT_ID('dbo.tblInventoryRequestMaster')"),
+                    StringComparer.OrdinalIgnoreCase);
+
+                string approvedByColumn = new[] { "ApprovedBy", "ApprovedByEmployeeId", "ApprovedById", "ApprovalBy" }
+                    .FirstOrDefault(masterColumns.Contains);
+                string approvedOnColumn = new[] { "ApprovedOn", "ApprovedDate", "ApprovalDate", "ApprovalOn" }
+                    .FirstOrDefault(masterColumns.Contains);
+                string approvalRemarksColumn = new[] { "ApprovalRemarks", "ApprovalRemark", "ApprovalComments", "ApprovalComment" }
+                    .FirstOrDefault(masterColumns.Contains);
+
+                string approvedBySelect = approvedByColumn == null
+                    ? "CAST('-' AS NVARCHAR(200))"
+                    : "ISNULL(approver.EmployeeName, CONVERT(NVARCHAR(200),m.[" + approvedByColumn + "]))";
+                string approvedOnSelect = approvedOnColumn == null
+                    ? "CAST(NULL AS DATETIME)"
+                    : "TRY_CONVERT(DATETIME,m.[" + approvedOnColumn + "])";
+                string remarksSelect = approvalRemarksColumn == null
+                    ? "ISNULL(m.Remarks,'-')"
+                    : "ISNULL(NULLIF(CONVERT(NVARCHAR(MAX),m.[" + approvalRemarksColumn + "]),''),ISNULL(m.Remarks,'-'))";
+                string approverJoin = approvedByColumn == null
+                    ? ""
+                    : " LEFT JOIN dbo.tblEmployee approver ON approver.EmployeeId = TRY_CONVERT(INT,m.[" + approvedByColumn + "]) ";
+
                 string sql = @"
                     SELECT m.InventoryRequestId, m.RequestNo,
                            m.RequestDate, m.RequiredDate,
@@ -2509,10 +2555,14 @@ namespace FoodandBeverage.Forms
                            ISNULL(e.EmployeeName,'-') AS EmployeeName,
                            CASE m.RequestType WHEN 1 THEN 'Batch Preparation'
                                 WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END AS RequestTypeName,
-                           " + statusExpression + @" AS ApprovalStatusText
+                           " + statusExpression + @" AS ApprovalStatusText,
+                           " + approvedBySelect + @" AS ApprovedByName,
+                           " + approvedOnSelect + @" AS ApprovedOn,
+                           " + remarksSelect + @" AS ApprovalRemarks
                     FROM dbo.tblInventoryRequestMaster m
                     LEFT JOIN dbo.tblDepartment d ON d.DepartmentId = m.DepartmentId
                     LEFT JOIN dbo.tblEmployee e ON e.EmployeeId = m.EmployeeId
+                    " + approverJoin + @"
                     WHERE ISNULL(m.Status,1) = 1
                       AND m.BranchId = @BranchId
                     ORDER BY m.InventoryRequestId DESC";
@@ -2579,6 +2629,15 @@ namespace FoodandBeverage.Forms
                 page.Columns.Add("SlNo", typeof(int));
             for (int i = 0; i < page.Rows.Count; i++)
                 page.Rows[i]["SlNo"] = start + i + 1;
+
+            if (!page.Columns.Contains("ApprovedOnText"))
+                page.Columns.Add("ApprovedOnText", typeof(string));
+            foreach (DataRow approvalRow in page.Rows)
+            {
+                approvalRow["ApprovedOnText"] = approvalRow["ApprovedOn"] == DBNull.Value
+                    ? "-"
+                    : Convert.ToDateTime(approvalRow["ApprovedOn"]).ToString("dd MMM yyyy hh:mm tt");
+            }
 
             dgv_req_app.DataSource = page;
             if (dgv_req_app.Columns.Contains("InventoryRequestId"))
@@ -2655,9 +2714,15 @@ namespace FoodandBeverage.Forms
 
                 caption.Text = labels[i] + " (" + counts[i] + ")";
                 caption.ForeColor = selected ? Color.White : Color.FromArgb(35, 35, 65);
-                caption.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+                caption.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
                 caption.BackColor = Color.Transparent;
+                caption.AutoSize = false;
+                caption.Dock = DockStyle.Fill;
+                caption.TextAlign = ContentAlignment.MiddleCenter;
+                caption.AutoEllipsis = false;
+                caption.Margin = new Padding(0);
                 icon.BackColor = Color.Transparent;
+                icon.SizeMode = PictureBoxSizeMode.Zoom;
 
             }
         }
@@ -2723,8 +2788,19 @@ namespace FoodandBeverage.Forms
 
             object id = dgv_req_app.Rows[e.RowIndex].Cells["InventoryRequestId"].Value;
             if (id == null || id == DBNull.Value) return;
-            // Select the request row for the existing request-detail workflow.
-            dgv_req_app.Rows[e.RowIndex].Selected = true;
+
+            try
+            {
+                int requestId = Convert.ToInt32(id);
+                pnl_reqapproval.Visible = false;
+                FillData(requestId); // Same master/detail loading path used by request search.
+                SetRequestViewMode(true);
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest dgv_req_app_CellClick", ex);
+                ShowError("Unable to open the selected inventory request. " + ex.Message);
+            }
         }
 
         private void btn_adv_search_reqapp_Click(object sender, EventArgs e)
