@@ -36,6 +36,71 @@ namespace BLL
             return repository.AddandReturnID(procedureName, parameters);
         }
 
+        public DmnInventoryRequestMaster AddDraftMasterData(
+            string procedureName, string draftNo, int draftId, DmnInventoryRequestMaster objMaster)
+        {
+            if (objMaster == null)
+                throw new ArgumentNullException(nameof(objMaster));
+
+            DAL.DapperRepository<DmnInventoryRequestMaster> repository =
+                new DAL.DapperRepository<DmnInventoryRequestMaster>();
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("DraftId", draftId);
+            parameters.Add("DraftNo", draftNo);
+            parameters.Add("RequestNo", objMaster.RequestNo);
+            parameters.Add("RequestDate", objMaster.RequestDate);
+            parameters.Add("RequiredDate", objMaster.RequiredDate);
+            parameters.Add("DepartmentId", objMaster.DepartmentId);
+            parameters.Add("EmployeeId", objMaster.EmployeeId);
+            parameters.Add("Remarks", objMaster.Remarks);
+            parameters.Add("RequestType", objMaster.RequestType);
+            parameters.Add("CreatedBy", objMaster.CreatedBy);
+            parameters.Add("CreatedOn", objMaster.CreatedOn);
+            parameters.Add("ModifiedBy", objMaster.ModifiedBy);
+            parameters.Add("ModifiedOn", objMaster.ModifiedOn);
+            parameters.Add("BranchId", objMaster.BranchId);
+            parameters.Add("Status", objMaster.Status);
+
+            return repository.AddandReturnID(procedureName, parameters);
+        }
+
+        public DmnInventoryRequestDetail AddDraftDetailsData(
+            string procedureName, int draftId, DmnInventoryRequestDetail objDetails)
+        {
+            if (objDetails == null)
+                throw new ArgumentNullException(nameof(objDetails));
+
+            DAL.DapperRepository<DmnInventoryRequestDetail> repository =
+                new DAL.DapperRepository<DmnInventoryRequestDetail>();
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("DraftDetailId", objDetails.DraftDetailId);
+            parameters.Add("DraftId", draftId);
+            parameters.Add("RequestType", objDetails.RequestType);
+            parameters.Add("SlNo", objDetails.SlNo);
+            parameters.Add("ProductId", objDetails.ProductId);
+            parameters.Add("PlannedQty", objDetails.PlannedQty);
+            parameters.Add("RecipeItemId", objDetails.RecipeItemId);
+            parameters.Add("PerPortionQty", objDetails.PerPortionQty);
+            parameters.Add("TotalRequiredQty", objDetails.TotalRequiredQty);
+            parameters.Add("ItemId", objDetails.ItemId);
+            parameters.Add("ProductType", objDetails.ProductType);
+            parameters.Add("CurrentStock", objDetails.CurrentStock);
+            parameters.Add("IssuedQty", objDetails.IssuedQty);
+            parameters.Add("ProjectedBalance", objDetails.ProjectedBalance);
+            parameters.Add("Unit", objDetails.Unit);
+            parameters.Add("PurposeRemarks", objDetails.PurposeRemarks);
+            parameters.Add("CreatedBy", objDetails.CreatedBy);
+            parameters.Add("CreatedOn", objDetails.CreatedOn);
+            parameters.Add("ModifiedBy", objDetails.ModifiedBy);
+            parameters.Add("ModifiedOn", objDetails.ModifiedOn);
+            parameters.Add("BranchId", objDetails.BranchId);
+            parameters.Add("Status", objDetails.Status);
+
+            return repository.AddandReturnID(procedureName, parameters);
+        }
+
         public DmnInventoryRequestItem AddDetailsData(string procedureName, DmnInventoryRequestItem objDetails)
         {
             if (objDetails == null)
