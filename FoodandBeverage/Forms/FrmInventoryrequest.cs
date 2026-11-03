@@ -2268,5 +2268,11 @@ namespace FoodandBeverage.Forms
                 ShowError("Unable to delete the saved draft. " + ex.Message);
             }
         }
+        #region Show approval Pending request
+        private void btn_openrequest_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }
