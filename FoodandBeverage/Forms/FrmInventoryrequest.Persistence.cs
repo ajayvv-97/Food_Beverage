@@ -169,40 +169,86 @@ namespace FoodandBeverage.Forms
 
         private void FillData(int requestId)
         {
-            DmnInventoryRequestMaster master;
-            List<DmnInventoryRequestDetail> details;
-
-            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+            // Load the request master through the common prdSearch repository pattern.
+            BllSearch<DmnInventoryRequestMaster> bllSearchMaster =
+                new BllSearch<DmnInventoryRequestMaster>();
+            DmnSearch masterSearch = new DmnSearch
             {
-                master = connection.QueryFirstOrDefault<DmnInventoryRequestMaster>(
-                    @"SELECT InventoryRequestId AS RequestId, RequestNo, RequestDate, RequiredDate,
-                             DepartmentId, EmployeeId, Remarks, RequestType, CreatedBy, CreatedOn,
-                             ModifiedBy, ModifiedOn, BranchId, Status
-                      FROM dbo.tblInventoryRequestMaster
-                      WHERE InventoryRequestId = @RequestId AND ISNULL(Status,1) = 1
-                        AND BranchId = @BranchId",
-                    new { RequestId = requestId, BranchId = FrmDashboard.BranchId });
+                Select = "InventoryRequestId AS RequestId, RequestNo, RequestDate, RequiredDate, " +
+                         "DepartmentId, EmployeeId, Remarks, RequestType, CreatedBy, CreatedOn, " +
+                         "ModifiedBy, ModifiedOn, BranchId, Status",
+                Table = "tblInventoryRequestMaster",
+                WhereNdGroupBy = "where InventoryRequestId = " + requestId +
+                                 " AND ISNULL(Status,1) = 1 AND BranchId = " +
+                                 Convert.ToString(FrmDashboard.BranchId),
+                OrderBy = ""
+            };
 
-                details = connection.Query<DmnInventoryRequestDetail>(
-                    @"SELECT d.InventoryRequestDetailId, d.InventoryRequestId, d.RequestType, d.SlNo,
-                             d.ProductId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty,
-                             d.TotalRequiredQty, d.ItemId, d.ProductType, d.CurrentStock,
-                             d.IssuedQty, d.ProjectedBalance, d.Unit, d.PurposeRemarks,
-                             d.CreatedBy, d.CreatedOn, d.ModifiedBy, d.ModifiedOn, d.BranchId, d.Status,
-                             p.Product AS ProductName, i.Itemname AS ItemName, u.UnitName
-                      FROM dbo.tblInventoryRequestDetails d
-                      LEFT JOIN dbo.tblProduct p ON p.ProductId = d.ProductId
-                      LEFT JOIN dbo.tblItem i ON i.ItemId = d.ItemId
-                      LEFT JOIN dbo.tblUnit u ON u.UId = d.Unit
-                      WHERE d.InventoryRequestId = @RequestId AND ISNULL(d.Status,1) = 1
-                      ORDER BY d.RequestType, d.SlNo, d.InventoryRequestDetailId",
-                    new { RequestId = requestId }).ToList();
-            }
+            List<DmnInventoryRequestMaster> masterRows =
+                bllSearchMaster.GetSearchData("prdSearch", masterSearch);
+
+            DmnInventoryRequestMaster master =
+                masterRows != null && masterRows.Count > 0 ? masterRows[0] : null;
 
             if (master == null)
             {
                 ShowError("The selected inventory request was not found or is inactive.");
                 return;
+            }
+
+            // Load request details using the same BllSearch/prdSearch pattern.
+            BllSearch<DmnInventoryRequestDetail> bllSearchDetails =
+                new BllSearch<DmnInventoryRequestDetail>();
+            DmnSearch detailSearch = new DmnSearch
+            {
+                Select = "d.InventoryRequestDetailId, d.InventoryRequestId, d.RequestType, d.SlNo, " +
+                         "d.ProductId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty, " +
+                         "d.TotalRequiredQty, d.ItemId, d.ProductType, d.CurrentStock, " +
+                         "d.IssuedQty, d.ProjectedBalance, d.Unit, d.PurposeRemarks, " +
+                         "d.CreatedBy, d.CreatedOn, d.ModifiedBy, d.ModifiedOn, d.BranchId, d.Status, " +
+                         "i.Itemname AS ItemName, u.UnitName AS UnitName",
+                Table = "tblInventoryRequestDetails d " +
+                        "LEFT JOIN tblItem i ON i.ItemId = d.ItemId " +
+                        "LEFT JOIN tblUnit u ON u.UId = d.Unit",
+                WhereNdGroupBy = "where d.InventoryRequestId = " + requestId +
+                                 " AND ISNULL(d.Status,1) = 1",
+                OrderBy = " ORDER BY d.RequestType, d.SlNo, d.InventoryRequestDetailId"
+            };
+
+            List<DmnInventoryRequestDetail> details =
+                bllSearchDetails.GetSearchData("prdSearch", detailSearch);
+
+            if (details == null)
+                details = new List<DmnInventoryRequestDetail>();
+
+            // Resolve product names separately through DmnProducts as requested.
+            // Product records are looked up once per distinct batch product ID.
+            BllSearch<DmnProducts> bllSearchproduct = new BllSearch<DmnProducts>();
+            List<int> productIds = details
+                .Where(x => x.RequestType == 1 && x.ProductId.HasValue)
+                .Select(x => x.ProductId.Value)
+                .Distinct()
+                .ToList();
+
+            foreach (int productId in productIds)
+            {
+                int Pid = productId;
+                DmnSearch objSearch = new DmnSearch();
+                objSearch.Select = "*";
+                objSearch.Table = "tblProduct";
+                objSearch.WhereNdGroupBy = "where status=1 and ProductId = " + Pid;
+                objSearch.OrderBy = "";
+
+                var gridSource = bllSearchproduct.GetSearchData("prdSearch", objSearch);
+                if (gridSource != null && gridSource.Count > 0)
+                {
+                    string productName = gridSource[0].Product;
+                    foreach (DmnInventoryRequestDetail detail in details.Where(
+                        x => x.RequestType == 1 && x.ProductId == Pid))
+                    {
+                        detail.ProductName = productName;
+                    }
+                }
             }
 
             _currentRequestId = requestId;
