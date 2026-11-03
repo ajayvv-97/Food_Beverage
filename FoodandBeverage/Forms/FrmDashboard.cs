@@ -3892,7 +3892,7 @@ namespace FoodandBeverage.Forms
                 dmngen.EnableUserPrompt = rtb_userpmpt.Checked;
                 dmngen.EnableCompbillPrompt = rtb_compbillpmpt.Checked;
                 dmngen.ProductpageperCount = Convert.ToInt32(txtorderpagecount.Text);
-
+                dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;  
                 dmngen.Status = 1;
                 if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
                 {
@@ -4053,6 +4053,7 @@ namespace FoodandBeverage.Forms
                     rtb_userpmpt.Checked = settings.EnableUserPrompt;
                     rtb_compbillpmpt.Checked = settings.EnableCompbillPrompt;
                     txtorderpagecount.Text=Convert.ToString(settings.ProductpageperCount);
+                    chk_comprompt.Checked = settings.EnableCompReasonPrompt;
                 }
             }
             catch (Exception ex)
