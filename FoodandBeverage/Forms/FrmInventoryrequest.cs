@@ -2351,7 +2351,14 @@ namespace FoodandBeverage.Forms
             dgv_req_app.DefaultCellStyle.SelectionForeColor = Color.FromArgb(35, 35, 65);
             dgv_req_app.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(239, 235, 250);
             dgv_req_app.RowTemplate.Height = 38;
-            dgv_req_app.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Keep approval columns at readable widths and allow horizontal navigation.
+            // The total column width intentionally exceeds the popup grid viewport.
+            dgv_req_app.ScrollBars = ScrollBars.Both;
+            dgv_req_app.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dgv_req_app.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgv_req_app.ColumnHeadersHeightSizeMode =
+                DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
             dgv_req_app.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -2359,24 +2366,26 @@ namespace FoodandBeverage.Forms
                 DataPropertyName = "InventoryRequestId",
                 Visible = false
             });
-            AddApprovalGridColumn("SlNo", "Sl No", 5);
-            AddApprovalGridColumn("RequestNo", "Request No", 19);
-            AddApprovalGridColumn("RequestDate", "Request Date", 11);
-            AddApprovalGridColumn("RequiredDate", "Required Date", 11);
-            AddApprovalGridColumn("DepartmentName", "Department", 13);
-            AddApprovalGridColumn("EmployeeName", "Requested By", 13);
-            AddApprovalGridColumn("RequestTypeName", "Type", 10);
-            AddApprovalGridColumn("ApprovalStatusText", "Status", 9);
-            AddApprovalGridColumn("ApprovedByName", "Approved By", 12);
-            AddApprovalGridColumn("ApprovedOnText", "Approved On", 12);
-            AddApprovalGridColumn("ApprovalRemarks", "Remarks", 18);
+            AddApprovalGridColumn("SlNo", "Sl No", 55);
+            AddApprovalGridColumn("RequestNo", "Request No", 160);
+            AddApprovalGridColumn("RequestDate", "Request Date", 120);
+            AddApprovalGridColumn("RequiredDate", "Required Date", 120);
+            AddApprovalGridColumn("DepartmentName", "Department", 135);
+            AddApprovalGridColumn("EmployeeName", "Requested By", 130);
+            AddApprovalGridColumn("RequestTypeName", "Type", 145);
+            AddApprovalGridColumn("ApprovalStatusText", "Status", 105);
+            AddApprovalGridColumn("ApprovedByName", "Approved By", 135);
+            AddApprovalGridColumn("ApprovedOnText", "Approved On", 140);
+            AddApprovalGridColumn("ApprovalRemarks", "Remarks", 220);
             dgv_req_app.Columns.Add(new DataGridViewButtonColumn
             {
                 Name = "ViewRequest",
                 HeaderText = "",
                 Text = "View",
                 UseColumnTextForButtonValue = true,
-                FillWeight = 7,
+                Width = 75,
+                MinimumWidth = 75,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
                 FlatStyle = FlatStyle.Flat
             });
 
@@ -2488,14 +2497,16 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void AddApprovalGridColumn(string name, string header, float weight)
+        private void AddApprovalGridColumn(string name, string header, int width)
         {
             dgv_req_app.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = name,
                 HeaderText = header,
                 DataPropertyName = name,
-                FillWeight = weight,
+                Width = width,
+                MinimumWidth = width,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
                 SortMode = DataGridViewColumnSortMode.NotSortable
             });
         }
