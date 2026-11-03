@@ -145,6 +145,7 @@ namespace FoodandBeverage.Forms
             btn_deletesaved_draft.Visible = false;
             InitializeItemSearchPopup();
             ConfigureRequestGrids();
+            InitializeRequestApprovalPopup();
             InitializeRequestHeader();
             ShowRequestTab(1);
             dgv_batch.CellValueChanged += dgv_batch_CellValueChanged;
@@ -321,6 +322,7 @@ namespace FoodandBeverage.Forms
         }
         private void FrmInventoryrequest_Load(object sender, EventArgs e)
         {
+            CenterApprovalPopup();
             LoadRequestComboData();
             textb_shape();
 
@@ -2269,89 +2271,334 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        #region Request Approval Popup State
+        private DataTable _requestApprovalData;
+        private DataTable _requestApprovalView;
+        private int _requestApprovalPage = 1;
+        private const int RequestApprovalPageSize = 8;
+        private string _requestApprovalStatus = "All";
+        private bool _requestApprovalEventsWired;
+
+        private void InitializeRequestApprovalPopup()
+        {
+            pnl_reqapproval.Visible = false;
+            pnl_reqapproval.BringToFront();
+            pnl_reqapproval.BackColor = Color.White;
+            pnl_reqapproval.BorderStyle = BorderStyle.FixedSingle;
+            pnl_reqapproval.Anchor = AnchorStyles.None;
+
+            dgv_req_app.AutoGenerateColumns = false;
+            dgv_req_app.Columns.Clear();
+            dgv_req_app.AllowUserToAddRows = false;
+            dgv_req_app.AllowUserToDeleteRows = false;
+            dgv_req_app.AllowUserToResizeRows = false;
+            dgv_req_app.ReadOnly = true;
+            dgv_req_app.MultiSelect = false;
+            dgv_req_app.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_req_app.RowHeadersVisible = false;
+            dgv_req_app.BorderStyle = BorderStyle.None;
+            dgv_req_app.BackgroundColor = Color.FromArgb(245, 241, 252);
+            dgv_req_app.EnableHeadersVisualStyles = false;
+            dgv_req_app.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(99, 76, 184);
+            dgv_req_app.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv_req_app.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgv_req_app.ColumnHeadersHeight = 42;
+            dgv_req_app.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            dgv_req_app.DefaultCellStyle.ForeColor = Color.FromArgb(35, 35, 65);
+            dgv_req_app.DefaultCellStyle.SelectionBackColor = Color.FromArgb(224, 216, 250);
+            dgv_req_app.DefaultCellStyle.SelectionForeColor = Color.FromArgb(35, 35, 65);
+            dgv_req_app.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(239, 235, 250);
+            dgv_req_app.RowTemplate.Height = 38;
+            dgv_req_app.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            AddApprovalGridColumn("SlNo", "Sl No", 5);
+            AddApprovalGridColumn("RequestNo", "Request No", 19);
+            AddApprovalGridColumn("RequestDate", "Request Date", 11);
+            AddApprovalGridColumn("RequiredDate", "Required Date", 11);
+            AddApprovalGridColumn("DepartmentName", "Department", 13);
+            AddApprovalGridColumn("EmployeeName", "Requested By", 13);
+            AddApprovalGridColumn("RequestTypeName", "Type", 13);
+            AddApprovalGridColumn("ApprovalStatusText", "Status", 11);
+            dgv_req_app.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = "ViewRequest",
+                HeaderText = "",
+                Text = "View",
+                UseColumnTextForButtonValue = true,
+                FillWeight = 7,
+                FlatStyle = FlatStyle.Flat
+            });
+
+            if (!_requestApprovalEventsWired)
+            {
+                txt_search_reqapp.TextChanged += txt_search_reqapp_TextChanged;
+                btnclose_reqapp.Click += btnclose_reqapp_Click;
+                btn_all.Click += btn_all_Click;
+                btn_Pending_req.Click += btn_Pending_req_Click;
+                btn_approvalreq.Click += btn_approvalreq_Click;
+                btn_rejectreq.Click += btn_rejectreq_Click;
+                btn_movefrist.Click += btn_movefrist_Click;
+                btn_previous.Click += btn_previous_Click;
+                btn_page1.Click += btn_page1_Click;
+                btn_page2.Click += btn_page2_Click;
+                btn_page3.Click += btn_page3_Click;
+                btn_page4.Click += btn_page4_Click;
+                btn_page5.Click += btn_page5_Click;
+                btn_next.Click += btn_next_Click;
+                btn_movelast.Click += btn_movelast_Click;
+                btn_adv_search_reqapp.Click += btn_adv_search_reqapp_Click;
+                _requestApprovalEventsWired = true;
+            }
+            UpdateApprovalTabAppearance();
+        }
+
+        private void AddApprovalGridColumn(string name, string header, float weight)
+        {
+            dgv_req_app.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = name,
+                HeaderText = header,
+                DataPropertyName = name,
+                FillWeight = weight,
+                SortMode = DataGridViewColumnSortMode.NotSortable
+            });
+        }
+
+        private void CenterApprovalPopup()
+        {
+            int width = Math.Min(1250, Math.Max(760, ClientSize.Width - 40));
+            int height = Math.Min(690, Math.Max(430, ClientSize.Height - 40));
+            pnl_reqapproval.Size = new Size(width, height);
+            pnl_reqapproval.Location = new Point(
+                Math.Max(0, (ClientSize.Width - width) / 2),
+                Math.Max(0, (ClientSize.Height - height) / 2));
+            pnl_reqapproval.BringToFront();
+        }
+
+        private void LoadRequestApprovalData()
+        {
+            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+            {
+                // Approval column names are detected so this screen remains compatible
+                // with installations where the approval workflow column has a different name.
+                string approvalColumn = connection.Query<string>(
+                    @"SELECT TOP (1) c.name
+                      FROM sys.columns c
+                      WHERE c.object_id = OBJECT_ID('dbo.tblInventoryRequestMaster')
+                        AND c.name IN ('ApprovalStatus','ApprovalStatusName','RequestStatus','ApprovalState','IsApproved','IsRejected')
+                      ORDER BY CASE c.name
+                        WHEN 'ApprovalStatus' THEN 1 WHEN 'ApprovalStatusName' THEN 2
+                        WHEN 'RequestStatus' THEN 3 WHEN 'ApprovalState' THEN 4
+                        WHEN 'IsApproved' THEN 5 ELSE 6 END").FirstOrDefault();
+
+                string statusExpression = "CAST('Pending' AS NVARCHAR(30))";
+                if (!string.IsNullOrWhiteSpace(approvalColumn))
+                {
+                    string col = "[m].[" + approvalColumn.Replace("]", "]]") + "]";
+                    statusExpression = "CASE " +
+                        "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%reject%' OR CONVERT(NVARCHAR(30)," + col + ")='2' THEN 'Rejected' " +
+                        "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%approv%' OR CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Approved' " +
+                        "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%pend%' OR CONVERT(NVARCHAR(30)," + col + ")='0' THEN 'Pending' " +
+                        "ELSE CONVERT(NVARCHAR(30)," + col + ") END";
+                }
+
+                string sql = @"
+                    SELECT m.InventoryRequestId, m.RequestNo,
+                           m.RequestDate, m.RequiredDate,
+                           ISNULL(d.DepartmentName,'-') AS DepartmentName,
+                           ISNULL(e.EmployeeName,'-') AS EmployeeName,
+                           CASE m.RequestType WHEN 1 THEN 'Batch Preparation'
+                                WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END AS RequestTypeName,
+                           " + statusExpression + @" AS ApprovalStatusText
+                    FROM dbo.tblInventoryRequestMaster m
+                    LEFT JOIN dbo.tblDepartment d ON d.DepartmentId = m.DepartmentId
+                    LEFT JOIN dbo.tblEmployee e ON e.EmployeeId = m.EmployeeId
+                    WHERE ISNULL(m.Status,1) = 1
+                      AND m.BranchId = @BranchId
+                    ORDER BY m.InventoryRequestId DESC";
+
+                _requestApprovalData = new DataTable();
+                using (IDataReader reader = connection.ExecuteReader(sql, new { BranchId = FrmDashboard.BranchId }))
+                    _requestApprovalData.Load(reader);
+            }
+            ApplyApprovalFilterAndPaging();
+        }
+
+        private void ApplyApprovalFilterAndPaging()
+        {
+            if (_requestApprovalData == null)
+                _requestApprovalData = new DataTable();
+
+            string search = txt_search_reqapp.Text.Trim();
+            IEnumerable<DataRow> rows = _requestApprovalData.AsEnumerable();
+
+            if (_requestApprovalStatus != "All")
+                rows = rows.Where(r => string.Equals(Convert.ToString(r["ApprovalStatusText"]),
+                    _requestApprovalStatus, StringComparison.OrdinalIgnoreCase));
+
+            if (!string.IsNullOrWhiteSpace(search))
+                rows = rows.Where(r =>
+                    Convert.ToString(r["RequestNo"]).IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    Convert.ToString(r["EmployeeName"]).IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    Convert.ToString(r["DepartmentName"]).IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0);
+
+            _requestApprovalView = _requestApprovalData.Clone();
+            foreach (DataRow row in rows.OrderByDescending(r => Convert.ToInt32(r["InventoryRequestId"])))
+                _requestApprovalView.ImportRow(row);
+
+            _requestApprovalPage = Math.Max(1, Math.Min(_requestApprovalPage, TotalApprovalPages));
+            BindApprovalPage();
+            UpdateApprovalTabAppearance();
+        }
+
+        private int TotalApprovalPages
+        {
+            get
+            {
+                int count = _requestApprovalView == null ? 0 : _requestApprovalView.Rows.Count;
+                return Math.Max(1, (int)Math.Ceiling(count / (double)RequestApprovalPageSize));
+            }
+        }
+
+        private void BindApprovalPage()
+        {
+            DataTable page = _requestApprovalView == null ? new DataTable() : _requestApprovalView.Clone();
+            int total = _requestApprovalView == null ? 0 : _requestApprovalView.Rows.Count;
+            int start = (_requestApprovalPage - 1) * RequestApprovalPageSize;
+            if (_requestApprovalView != null)
+            {
+                for (int i = start; i < Math.Min(start + RequestApprovalPageSize, total); i++)
+                {
+                    DataRow row = page.NewRow();
+                    row.ItemArray = _requestApprovalView.Rows[i].ItemArray;
+                    page.Rows.Add(row);
+                }
+            }
+
+            if (!page.Columns.Contains("SlNo"))
+                page.Columns.Add("SlNo", typeof(int));
+            for (int i = 0; i < page.Rows.Count; i++)
+                page.Rows[i]["SlNo"] = start + i + 1;
+
+            dgv_req_app.DataSource = page;
+            if (dgv_req_app.Columns.Contains("InventoryRequestId"))
+                dgv_req_app.Columns["InventoryRequestId"].Visible = false;
+            if (dgv_req_app.Columns.Contains("ViewRequest"))
+                dgv_req_app.Columns["ViewRequest"].DisplayIndex = dgv_req_app.Columns.Count - 1;
+
+            int first = total == 0 ? 0 : start + 1;
+            int last = Math.Min(start + RequestApprovalPageSize, total);
+            lblpagenodescrption.Text = "Showing " + first + " to " + last + " of " + total + " requests";
+
+            Button[] pageButtons = { btn_page1, btn_page2, btn_page3, btn_page4, btn_page5 };
+            int firstPage = Math.Max(1, Math.Min(_requestApprovalPage - 2, Math.Max(1, TotalApprovalPages - 4)));
+            for (int i = 0; i < pageButtons.Length; i++)
+            {
+                int pageNo = firstPage + i;
+                pageButtons[i].Text = pageNo.ToString();
+                pageButtons[i].Visible = pageNo <= TotalApprovalPages;
+                pageButtons[i].BackColor = pageNo == _requestApprovalPage
+                    ? Color.FromArgb(99, 76, 184) : Color.FromArgb(239, 235, 250);
+                pageButtons[i].ForeColor = pageNo == _requestApprovalPage ? Color.White : Color.FromArgb(35, 35, 65);
+                pageButtons[i].Tag = pageNo;
+            }
+
+            btn_movefrist.Enabled = btn_previous.Enabled = _requestApprovalPage > 1;
+            btn_next.Enabled = btn_movelast.Enabled = _requestApprovalPage < TotalApprovalPages;
+        }
+
+        private void SetApprovalStatusFilter(string status)
+        {
+            _requestApprovalStatus = status;
+            _requestApprovalPage = 1;
+            ApplyApprovalFilterAndPaging();
+        }
+
+        private void UpdateApprovalTabAppearance()
+        {
+            Button[] buttons = { btn_all, btn_Pending_req, btn_approvalreq, btn_rejectreq };
+            string[] labels = { "All", "Pending", "Approved", "Rejected" };
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].Text = labels[i];
+                buttons[i].FlatStyle = FlatStyle.Flat;
+                buttons[i].FlatAppearance.BorderSize = 1;
+                bool selected = labels[i] == _requestApprovalStatus;
+                buttons[i].BackColor = selected ? Color.FromArgb(70, 48, 220) : Color.FromArgb(246, 243, 253);
+                buttons[i].ForeColor = selected ? Color.White : Color.FromArgb(35, 35, 65);
+                buttons[i].Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            }
+        }
+
+        private void txt_search_reqapp_TextChanged(object sender, EventArgs e)
+        {
+            _requestApprovalPage = 1;
+            ApplyApprovalFilterAndPaging();
+        }
+
+        private void GoToApprovalPage(int page)
+        {
+            _requestApprovalPage = Math.Max(1, Math.Min(page, TotalApprovalPages));
+            BindApprovalPage();
+        }
+        #endregion
+
         #region Show approval Pending request
         private void btn_openrequest_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                InitializeRequestApprovalPopup();
+                CenterApprovalPopup();
+                pnl_reqapproval.Visible = true;
+                pnl_reqapproval.BringToFront();
+                txt_search_reqapp.Clear();
+                _requestApprovalStatus = "All";
+                _requestApprovalPage = 1;
+                LoadRequestApprovalData();
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_openrequest_Click", ex);
+                ShowError("Unable to load inventory requests. " + ex.Message);
+            }
         }
-       
 
         private void btnclose_reqapp_Click(object sender, EventArgs e)
         {
-
+            pnl_reqapproval.Visible = false;
         }
 
-        private void btn_all_Click(object sender, EventArgs e)
-        {
+        private void btn_all_Click(object sender, EventArgs e) { SetApprovalStatusFilter("All"); }
+        private void btn_Pending_req_Click(object sender, EventArgs e) { SetApprovalStatusFilter("Pending"); }
+        private void btn_approvalreq_Click(object sender, EventArgs e) { SetApprovalStatusFilter("Approved"); }
+        private void btn_rejectreq_Click(object sender, EventArgs e) { SetApprovalStatusFilter("Rejected"); }
+        private void btn_movefrist_Click(object sender, EventArgs e) { GoToApprovalPage(1); }
+        private void btn_previous_Click(object sender, EventArgs e) { GoToApprovalPage(_requestApprovalPage - 1); }
+        private void btn_page1_Click(object sender, EventArgs e) { GoToApprovalPage(Convert.ToInt32(btn_page1.Tag ?? btn_page1.Text)); }
+        private void btn_page2_Click(object sender, EventArgs e) { GoToApprovalPage(Convert.ToInt32(btn_page2.Tag ?? btn_page2.Text)); }
+        private void btn_page3_Click(object sender, EventArgs e) { GoToApprovalPage(Convert.ToInt32(btn_page3.Tag ?? btn_page3.Text)); }
+        private void btn_page4_Click(object sender, EventArgs e) { GoToApprovalPage(Convert.ToInt32(btn_page4.Tag ?? btn_page4.Text)); }
+        private void btn_page5_Click(object sender, EventArgs e) { GoToApprovalPage(Convert.ToInt32(btn_page5.Tag ?? btn_page5.Text)); }
+        private void btn_next_Click(object sender, EventArgs e) { GoToApprovalPage(_requestApprovalPage + 1); }
+        private void btn_movelast_Click(object sender, EventArgs e) { GoToApprovalPage(TotalApprovalPages); }
 
-        }
-
-        private void btn_Pending_req_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_approvalreq_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_rejectreq_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_movefrist_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_previous_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_page1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_page2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_page3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_page4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_page5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_next_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_movelast_Click(object sender, EventArgs e)
-        {
-
-        }
         private void dgv_req_app_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 ||
+                dgv_req_app.Columns[e.ColumnIndex].Name != "ViewRequest")
+                return;
 
+            object id = dgv_req_app.Rows[e.RowIndex].Cells["InventoryRequestId"].Value;
+            if (id == null || id == DBNull.Value) return;
+            // Select the request row for the existing request-detail workflow.
+            dgv_req_app.Rows[e.RowIndex].Selected = true;
         }
- private void btn_adv_search_reqapp_Click(object sender, EventArgs e)
-        {
 
+        private void btn_adv_search_reqapp_Click(object sender, EventArgs e)
+        {
+            txt_search_reqapp.Focus();
+            txt_search_reqapp.SelectAll();
         }
 
         #endregion
