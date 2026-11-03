@@ -2168,11 +2168,7 @@ namespace FoodandBeverage.Forms
                 };
 
                 string draftNo = "DR-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff");
-                DmnInventoryRequestMaster savedDraftMaster = _inventoryBll.AddDraftMasterData(
-                    "prdInsert_Upd_InventoryRequestDraftMaster",
-                    draftNo,
-                    _currentDraftId ?? 0,
-                    draftMaster);
+                DmnInventoryRequestMaster savedDraftMaster = _inventoryBll.AddDraftMasterData("prdInsert_Upd_InventoryRequestDraftMaster",draftNo,_currentDraftId ?? 0,draftMaster);
 
                 if (savedDraftMaster == null || savedDraftMaster.DraftId <= 0)
                     throw new InvalidOperationException("The draft master procedure did not return a valid draft ID.");
@@ -2187,10 +2183,7 @@ namespace FoodandBeverage.Forms
                     detail.BranchId = FrmDashboard.BranchId;
                     detail.Status = 1;
 
-                    DmnInventoryRequestDetail savedDetail = _inventoryBll.AddDraftDetailsData(
-                        "prdInsert_Upd_InventoryRequestDraftDetails",
-                        draftId,
-                        detail);
+                    DmnInventoryRequestDetail savedDetail = _inventoryBll.AddDraftDetailsData( "prdInsert_Upd_InventoryRequestDraftDetails",draftId,detail);
 
                     if (savedDetail == null)
                         throw new InvalidOperationException("Unable to save draft detail row " + detail.SlNo + ".");
