@@ -2332,21 +2332,6 @@ namespace FoodandBeverage.Forms
             if (!_requestApprovalEventsWired)
             {
                 txt_search_reqapp.TextChanged += txt_search_reqapp_TextChanged;
-                btnclose_reqapp.Click += btnclose_reqapp_Click;
-                btn_all.Click += btn_all_Click;
-                btn_Pending_req.Click += btn_Pending_req_Click;
-                btn_approvalreq.Click += btn_approvalreq_Click;
-                btn_rejectreq.Click += btn_rejectreq_Click;
-                btn_movefrist.Click += btn_movefrist_Click;
-                btn_previous.Click += btn_previous_Click;
-                btn_page1.Click += btn_page1_Click;
-                btn_page2.Click += btn_page2_Click;
-                btn_page3.Click += btn_page3_Click;
-                btn_page4.Click += btn_page4_Click;
-                btn_page5.Click += btn_page5_Click;
-                btn_next.Click += btn_next_Click;
-                btn_movelast.Click += btn_movelast_Click;
-                btn_adv_search_reqapp.Click += btn_adv_search_reqapp_Click;
                 _requestApprovalEventsWired = true;
             }
             UpdateApprovalTabAppearance();
@@ -2514,13 +2499,26 @@ namespace FoodandBeverage.Forms
             ApplyApprovalFilterAndPaging();
         }
 
+        private int CountApprovalStatus(string status)
+        {
+            if (_requestApprovalData == null || !_requestApprovalData.Columns.Contains("ApprovalStatusText"))
+                return 0;
+            return _requestApprovalData.AsEnumerable().Count(r =>
+                string.Equals(Convert.ToString(r["ApprovalStatusText"]), status, StringComparison.OrdinalIgnoreCase));
+        }
+
         private void UpdateApprovalTabAppearance()
         {
             Button[] buttons = { btn_all, btn_Pending_req, btn_approvalreq, btn_rejectreq };
             string[] labels = { "All", "Pending", "Approved", "Rejected" };
+            int allCount = _requestApprovalData == null ? 0 : _requestApprovalData.Rows.Count;
+            int pendingCount = CountApprovalStatus("Pending");
+            int approvedCount = CountApprovalStatus("Approved");
+            int rejectedCount = CountApprovalStatus("Rejected");
+            int[] counts = { allCount, pendingCount, approvedCount, rejectedCount };
             for (int i = 0; i < buttons.Length; i++)
             {
-                buttons[i].Text = labels[i];
+                buttons[i].Text = labels[i] + " (" + counts[i] + ")";
                 buttons[i].FlatStyle = FlatStyle.Flat;
                 buttons[i].FlatAppearance.BorderSize = 1;
                 bool selected = labels[i] == _requestApprovalStatus;
@@ -2597,8 +2595,50 @@ namespace FoodandBeverage.Forms
 
         private void btn_adv_search_reqapp_Click(object sender, EventArgs e)
         {
-            txt_search_reqapp.Focus();
-            txt_search_reqapp.SelectAll();
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch search = new DmnSearch
+                {
+                    ColumnHeaders = "ID,Request No,Request Date,Required Date,Department,Requested By",
+                    Select = "m.InventoryRequestId as Id,m.RequestNo as Field1," +
+                             "CAST(m.RequestDate AS varchar(30)) as Field2," +
+                             "CAST(m.RequiredDate AS varchar(30)) as Field3," +
+                             "ISNULL(d.DepartmentName,'-') as Field4,ISNULL(e.EmployeeName,'-') as Field5",
+                    Table = "tblInventoryRequestMaster m LEFT JOIN tblDepartment d ON d.DepartmentId=m.DepartmentId " +
+                            "LEFT JOIN tblEmployee e ON e.EmployeeId=m.EmployeeId",
+                    WhereNdGroupBy = "WHERE ISNULL(m.Status,1)=1 AND m.BranchId=" + Convert.ToString(FrmDashboard.BranchId),
+                    OrderBy = " ORDER BY m.InventoryRequestId DESC"
+                };
+                DataTable alignment = new DataTable();
+                alignment.Columns.Add();
+                int selectedId = 0;
+                using (var popup = new FrmSearch<DmnGridFields>(
+                    search, SearchMode.FirstCharacter,
+                    this.Width - 150, this.Height - 150,
+                    this.Location.Y + 50, this.Location.X + 20, alignment))
+                {
+                    if (popup.ShowDialog() == DialogResult.OK)
+                        selectedId = Convert.ToInt32(popup._retValue);
+                }
+
+                if (selectedId > 0 && _requestApprovalData != null)
+                {
+                    DataRow selected = _requestApprovalData.AsEnumerable()
+                        .FirstOrDefault(r => Convert.ToInt32(r["InventoryRequestId"]) == selectedId);
+                    if (selected != null)
+                    {
+                        txt_search_reqapp.Text = Convert.ToString(selected["RequestNo"]);
+                        _requestApprovalPage = 1;
+                        ApplyApprovalFilterAndPaging();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("FrmInventoryrequest btn_adv_search_reqapp_Click", ex);
+                ShowError("Unable to open advanced request search. " + ex.Message);
+            }
         }
 
         #endregion
