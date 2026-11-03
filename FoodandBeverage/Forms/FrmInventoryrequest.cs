@@ -950,10 +950,13 @@ namespace FoodandBeverage.Forms
                 DmnInventoryRequestMaster savedMaster = _inventoryBll.AddMasterData(
                     "prdInsert_Upd_InventoryRequestMaster", master);
 
-                if (savedMaster == null || savedMaster.RequestId <= 0)
+                if (savedMaster == null ||
+                    (savedMaster.InventoryRequestId <= 0 && savedMaster.RequestId <= 0))
                     throw new InvalidOperationException("The inventory request master procedure did not return a valid request ID.");
 
-                int requestId = savedMaster.RequestId;
+                int requestId = savedMaster.InventoryRequestId > 0
+                    ? savedMaster.InventoryRequestId
+                    : savedMaster.RequestId;
                 int savedDetailCount = 0;
 
                 foreach (DmnInventoryRequestDetail detail in details)
