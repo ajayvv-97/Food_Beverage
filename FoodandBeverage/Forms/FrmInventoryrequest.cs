@@ -185,10 +185,10 @@ namespace FoodandBeverage.Forms
             txtsearch_raw.KeyDown += txtsearch_raw_KeyDown;
             txtsearch_raw.KeyPress += txtsearch_raw_KeyPress;
             cmb_req_employee.SelectedIndexChanged += cmb_req_employee_SelectedIndexChanged;
-            txt_requ_by.ReadOnly = true;
-            txt_batchfoodqty.ReadOnly = true;
-            txt_totalrawmaterialqty.ReadOnly = true;
-            total_food_raw_qty.ReadOnly = true;
+            txt_requ_by.Enabled = true;
+            txt_batchfoodqty.Enabled = true;
+            txt_totalrawmaterialqty.Enabled = true;
+            total_food_raw_qty.Enabled = true;
             lbl_hint_raw.Text = "Stock balance is indicative. It will be updated only after the request is approved by authorized staff.";
             UpdateRequesterName();
             UpdateRequestTotals();
@@ -1142,7 +1142,7 @@ namespace FoodandBeverage.Forms
             btn_deletesaved_draft.Visible = false;
             _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
             _visibleIngredientProductId = 0;
-            txt_requ_by.Clear();
+            txt_requ_by.Text = "";
             UpdateRequesterName();
             UpdateRequestTotals();
         }
