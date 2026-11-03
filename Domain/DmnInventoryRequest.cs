@@ -5,6 +5,7 @@ namespace Domain
     public class DmnInventoryRequestMaster
     {
         public int RequestId { get; set; }
+        public int InventoryRequestId { get; set; }
         public int DraftId { get; set; }
         public string DraftNo { get; set; }
         public string RequestNo { get; set; }
