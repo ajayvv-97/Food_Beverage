@@ -110,7 +110,64 @@ namespace FoodandBeverage.Forms
                 dgv_raw.Columns["rwaitemid"].Visible = false;
             if (dgv_raw.Columns.Contains("rawproductype"))
                 dgv_raw.Columns["rawproductype"].Visible = false;
+
+            // Match FrmInventoryrequest: visible columns fill the complete grid width,
+            // with the product/material name receiving the largest share.
+            ApplyApprovalGridFillLayout(dgv_batch);
+            ApplyApprovalGridFillLayout(dgv_raw);
+
+            SetApprovalGridFillWeight(dgv_batch, "slno", 8F);
+            SetApprovalGridFillWeight(dgv_batch, "dbmenuite", 42F);
+            SetApprovalGridFillWeight(dgv_batch, "dbplannedqty", 13F);
+            SetApprovalGridFillWeight(dgv_batch, "dbunit", 9F);
+            SetApprovalGridFillWeight(dgv_batch, "brecipengrediant", 21F);
+
+            SetApprovalGridFillWeight(dgv_raw, "dataGridViewTextBoxColumn10", 7F);
+            SetApprovalGridFillWeight(dgv_raw, "dataGridViewTextBoxColumn11", 34F);
+            SetApprovalGridFillWeight(dgv_raw, "dataGridViewTextBoxColumn12", 11F);
+            SetApprovalGridFillWeight(dgv_raw, "rawissuedqty", 11F);
+            SetApprovalGridFillWeight(dgv_raw, "dataGridViewTextBoxColumn13", 9F);
+            SetApprovalGridFillWeight(dgv_raw, "rawprojectedbalance", 12F);
+            SetApprovalGridFillWeight(dgv_raw, "rawpurpoe", 15F);
+
+            dgv_batch.Resize += ApprovalGrid_Resize;
+            dgv_raw.Resize += ApprovalGrid_Resize;
         }
+
+        private static void ApplyApprovalGridFillLayout(DataGridView grid)
+        {
+            if (grid == null)
+                return;
+
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            foreach (DataGridViewColumn column in grid.Columns)
+            {
+                if (column.Visible)
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+        }
+
+        private static void SetApprovalGridFillWeight(
+            DataGridView grid, string columnName, float fillWeight)
+        {
+            if (grid == null || !grid.Columns.Contains(columnName))
+                return;
+
+            DataGridViewColumn column = grid.Columns[columnName];
+            if (column.Visible)
+                column.FillWeight = fillWeight;
+        }
+
+        private void ApprovalGrid_Resize(object sender, EventArgs e)
+        {
+            DataGridView grid = sender as DataGridView;
+            if (grid == null)
+                return;
+
+            ApplyApprovalGridFillLayout(grid);
+        }
+
         #region TexBox Round function
         public void textb_shape()
         {
@@ -163,7 +220,7 @@ namespace FoodandBeverage.Forms
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grid.RowHeadersVisible = false;
             grid.ScrollBars = ScrollBars.Both;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             grid.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
             grid.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             grid.RowTemplate.Height = 36;
