@@ -811,6 +811,9 @@ namespace FoodandBeverage.Forms
             if (e.RowIndex < 0) return;
             if (e.ColumnIndex == Bactionno)
             {
+                if (_currentRequestId.HasValue && _currentApprovalStatus != 3)
+                    return;
+
                 DataGridViewRow row = dgv_batch.Rows[e.RowIndex];
                 int productId = Convert.ToInt32(row.Cells[Bitemidno].Value);
 
@@ -957,6 +960,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (_currentRequestId.HasValue && _currentApprovalStatus != 3)
+                {
+                    ShowError("Only a Sent Back request can be edited and resubmitted.");
+                    return;
+                }
+
                 dgv_batch.EndEdit();
                 dgv_batch_ingrediant.EndEdit();
                 dgv_raw.EndEdit();
@@ -1208,6 +1217,9 @@ namespace FoodandBeverage.Forms
                 if (e.RowIndex < 0) return;
                 if (e.ColumnIndex == Ractionno)
                 {
+                    if (_currentRequestId.HasValue && _currentApprovalStatus != 3)
+                        return;
+
                     DataGridViewRow row = dgv_raw.Rows[e.RowIndex];
                     long itemId = Convert.ToInt64(row.Cells[Ritemidno].Value);
 
