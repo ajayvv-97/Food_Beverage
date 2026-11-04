@@ -811,6 +811,7 @@ namespace FoodandBeverage.Forms
             if (e.RowIndex < 0) return;
             if (e.ColumnIndex == Bactionno)
             {
+                // Existing submitted rows can be removed only while correcting a Sent Back request.
                 if (_currentRequestId.HasValue && _currentApprovalStatus != 3)
                     return;
 
@@ -1150,6 +1151,7 @@ namespace FoodandBeverage.Forms
             btnrefresh.Visible = true;
             btn_deletesaved_draft.Visible = !viewingExistingRequest && _currentDraftId.HasValue;
 
+            txt_reqno.ReadOnly = viewingExistingRequest;
             dtp_reqdate.Enabled = !readOnly;
             dtp_required_date.Enabled = !readOnly;
             cmb_req_department.Enabled = !readOnly;
