@@ -1070,6 +1070,7 @@ namespace FoodandBeverage.Forms
                     MessageBoxIcon.Information);
 
                 ResetRequest();
+                SetRequestViewMode(false);
             }
             catch (Exception ex)
             {
