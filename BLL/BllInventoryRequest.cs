@@ -249,5 +249,32 @@ namespace BLL
         }
 
         #endregion
+
+
+        public void UpdateInventoryRequestApproval(
+            string procedureName,
+            int requestId,
+            int approvalStatus,
+            int employeeId,
+            string approvalRemarks,
+            int branchId)
+        {
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestMaster>.OpenConnection())
+            {
+                connection.Execute(
+                    procedureName,
+                    new
+                    {
+                        InventoryRequestId = requestId,
+                        ApprovalStatus = approvalStatus,
+                        EmployeeId = employeeId,
+                        ApprovalRemarks = approvalRemarks,
+                        BranchId = branchId
+                    },
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
     }
 }
