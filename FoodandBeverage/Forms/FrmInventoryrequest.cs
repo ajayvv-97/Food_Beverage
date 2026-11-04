@@ -1388,9 +1388,9 @@ namespace FoodandBeverage.Forms
                 Table = "tblItem i " +
                         "LEFT JOIN tblUnit u ON u.UId = i.Baseunit " +
                         "LEFT JOIN tblCategory_FTI c ON c.Fcid = i.Fcid " +
-                        "OUTER APPLY (SELECT TOP (1) r.QOH FROM tblProductRate r " +
-                        "WHERE r.ProductId = i.ItemId AND ISNULL(r.ProductType,0) = 0 " +
-                        "ORDER BY r.Id DESC) pr",
+                        "LEFT JOIN (SELECT ProductId, SUM(ISNULL(QOH,0)) AS QOH " +
+                        "FROM tblProductRate WHERE Status = 1 GROUP BY ProductId) pr " +
+                        "ON pr.ProductId = i.ItemId",
                 WhereNdGroupBy = "WHERE i.ItemId = " + itemId +
                                  " AND i.Status = 1 AND i.Saletype = 0 AND c.Status = 1",
                 OrderBy = ""
