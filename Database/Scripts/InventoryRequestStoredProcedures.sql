@@ -411,7 +411,7 @@ BEGIN
     (
         ItemId BIGINT NOT NULL PRIMARY KEY,
         RequiredQty DECIMAL(18,4) NOT NULL,
-        ProductRateId INT NULL,
+        ActiveRateCount INT NULL,
         AvailableQty DECIMAL(18,4) NULL
     );
 
@@ -624,34 +624,33 @@ BEGIN
                 ) > 0;
 
                 /*
-                    Match the existing stock lookup:
-                    ProductRate.ProductId = ItemId,
-                    ProductType = 0, latest rate row by Id.
+                    QOH is the sum of every active price/rate row for the item.
+                    This matches the inventory request search and supports items
+                    that have multiple purchase prices/rate records.
                 */
                 UPDATE stock
                 SET
-                    ProductRateId = rate.Id,
-                    AvailableQty = CONVERT(DECIMAL(18,4), ISNULL(rate.QOH, 0))
+                    ActiveRateCount = rate.RateCount,
+                    AvailableQty = CONVERT(DECIMAL(18,4), ISNULL(rate.AvailableQty, 0))
                 FROM @StockToDeduct AS stock
                 OUTER APPLY
                 (
-                    SELECT TOP (1)
-                        pr.Id,
-                        pr.QOH
+                    SELECT
+                        COUNT(*) AS RateCount,
+                        SUM(CONVERT(DECIMAL(18,4), ISNULL(pr.QOH, 0))) AS AvailableQty
                     FROM dbo.tblProductRate AS pr WITH (UPDLOCK, HOLDLOCK)
                     WHERE pr.ProductId = stock.ItemId
-                      AND ISNULL(pr.ProductType, 0) = 0
-                    ORDER BY pr.Id DESC
+                      AND pr.Status = 1
                 ) AS rate;
 
                 IF EXISTS
                 (
                     SELECT 1
                     FROM @StockToDeduct
-                    WHERE ProductRateId IS NULL
+                    WHERE ISNULL(ActiveRateCount, 0) = 0
                 )
                 BEGIN
-                    THROW 50209, 'A stock record was not found in tblProductRate for one or more raw materials. Approval was cancelled.', 1;
+                    THROW 50209, 'No active stock records were found in tblProductRate for one or more raw materials. Approval was cancelled.', 1;
                 END;
 
                 IF EXISTS
@@ -661,15 +660,75 @@ BEGIN
                     WHERE ISNULL(AvailableQty, 0) < RequiredQty
                 )
                 BEGIN
-                    THROW 50210, 'Insufficient QOH in tblProductRate for one or more raw materials after unit conversion. Approval was cancelled.', 1;
+                    THROW 50210, 'Insufficient total QOH across active tblProductRate rows for one or more raw materials after unit conversion. Approval was cancelled.', 1;
                 END;
 
-                /* Deduct the converted Baseunit quantity once per item. */
+                /*
+                    Deduct from active rate rows in FIFO order (oldest rate row
+                    first). If one row does not contain enough quantity, the
+                    remaining issue quantity continues into the next row.
+                    All affected rows remain inside this approval transaction.
+                */
+                ;WITH RateRows AS
+                (
+                    SELECT
+                        pr.Id,
+                        CAST
+                        (
+                            CASE
+                                WHEN ISNULL(pr.QOH, 0) > 0
+                                    THEN ISNULL(pr.QOH, 0)
+                                ELSE 0
+                            END
+                            AS DECIMAL(18,4)
+                        ) AS RowQty,
+                        stock.RequiredQty,
+                        ISNULL
+                        (
+                            SUM
+                            (
+                                CAST
+                                (
+                                    CASE
+                                        WHEN ISNULL(pr.QOH, 0) > 0
+                                            THEN ISNULL(pr.QOH, 0)
+                                        ELSE 0
+                                    END
+                                    AS DECIMAL(18,4)
+                                )
+                            ) OVER
+                            (
+                                PARTITION BY pr.ProductId
+                                ORDER BY pr.Id
+                                ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
+                            ),
+                            0
+                        ) AS QtyBefore
+                    FROM dbo.tblProductRate AS pr WITH (UPDLOCK, HOLDLOCK)
+                    INNER JOIN @StockToDeduct AS stock
+                        ON stock.ItemId = pr.ProductId
+                    WHERE pr.Status = 1
+                ),
+                RateDeductions AS
+                (
+                    SELECT
+                        Id,
+                        CASE
+                            WHEN RowQty <= 0 OR QtyBefore >= RequiredQty
+                                THEN CONVERT(DECIMAL(18,4), 0)
+                            WHEN QtyBefore + RowQty <= RequiredQty
+                                THEN RowQty
+                            ELSE RequiredQty - QtyBefore
+                        END AS DeductQty
+                    FROM RateRows
+                )
                 UPDATE pr
-                SET pr.QOH = CONVERT(DECIMAL(18,4), ISNULL(pr.QOH, 0)) - stock.RequiredQty
+                SET pr.QOH =
+                    CONVERT(DECIMAL(18,4), ISNULL(pr.QOH, 0)) - deduction.DeductQty
                 FROM dbo.tblProductRate AS pr
-                INNER JOIN @StockToDeduct AS stock
-                    ON stock.ProductRateId = pr.Id;
+                INNER JOIN RateDeductions AS deduction
+                    ON deduction.Id = pr.Id
+                WHERE deduction.DeductQty > 0;
             END;
 
             /*
