@@ -269,7 +269,7 @@ namespace BLL
                         InventoryRequestId = requestId,
                         ApprovalStatus = approvalStatus,
                         EmployeeId = employeeId,
-                        ApprovalRemarks = approvalRemarks,
+                        ApprovalRemarks = approvalRemarks ?? string.Empty,
                         BranchId = branchId
                     },
                     commandType: CommandType.StoredProcedure);
