@@ -3296,7 +3296,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("Purchase page  btn_auto_roundoff_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(formsenum.Purchase));
             }
         }
-
         private void btnOpenDraft_Click(object sender, EventArgs e)
         {
             try
@@ -3371,8 +3370,8 @@ namespace FoodandBeverage.Forms
 
                             BllSearch<DmnPurchaseDraftDetails> bllSearch2 = new BllSearch<DmnPurchaseDraftDetails>();
                             objSearch = new DmnSearch();
-                            objSearch.Select = "*,m.NetAmount NetAmount,m.TaxAmount TaxAmount,m.TaxPer TaxPer,m.DiscountAmount DiscountAmt,m.DiscountPer DiscountPer,m.Amount Amount, m.PurchaseRate PurchaseRate,m.ItemCode as ItemCode,m.Srate Srate, m.MRP MRP,m.TaxType TaxType,m.DiscountAmount DiscountAmt,s.LockSaleRate";
-                            objSearch.Table = " tblPurchaseDetails_Temp m left join tblProductBatch pb ON  m.PurchaseDetailId=pb.PDetailId  LEFT JOIN tblServiceProduct s ON m.ItemId= s.Id";
+                            objSearch.Select = "*,m.Quantity Quantity,m.NetAmount NetAmount,m.TaxAmount TaxAmount,m.TaxPer TaxPer,m.DiscountAmount DiscountAmt,m.DiscountPer DiscountPer,m.Amount Amount, m.PurchaseRate PurchaseRate,m.ItemCode as ItemCode,m.Srate Srate, m.MRP MRP,m.TaxType TaxType,m.DiscountAmount DiscountAmt,s.LockSaleRate";
+                            objSearch.Table = " tblPurchaseDetails_Temp m left join tblProductBatch pb ON  m.PurchaseDetailId=pb.PDetailId  LEFT JOIN tblItem s ON m.ItemId= s.ItemId";
                             objSearch.WhereNdGroupBy = "Where m.PurchaseMasterId = " + gridSource1[0].PurchaseMasterId;
                             objSearch.OrderBy = " ";
                             var gridSource2 = bllSearch2.GetSearchData("prdSearch", objSearch);
