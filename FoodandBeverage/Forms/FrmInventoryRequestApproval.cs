@@ -75,7 +75,6 @@ namespace FoodandBeverage.Forms
             BuildRequestApprovalPopup();
 
             _blurPopupOverlay = new BlurPopupOverlay(this, pnl_reqapproval);
-            _approvalToolTip = new ToolTip();
 
             btn_openrequest.Click += btn_reqpage_Click;
             btn_saverequest.Click += btn_approve_Click;
