@@ -471,11 +471,10 @@ namespace FoodandBeverage.Forms
 
         private void CenterRequestApprovalPopup()
         {
-            int width = Math.Min(pnl_reqapproval.Width, Math.Max(500, ClientSize.Width - 24));
-            int height = Math.Min(pnl_reqapproval.Height, Math.Max(320, ClientSize.Height - 24));
-
-            width = Math.Min(width, Math.Max(1, ClientSize.Width - 12));
-            height = Math.Min(height, Math.Max(1, ClientSize.Height - 12));
+            // Keep the approval popup at 80% of the form's available screen area.
+            // ClientSize is used so the panel remains inside the form's client area.
+            int width = Math.Max(1, (int)Math.Round(ClientSize.Width * 0.80));
+            int height = Math.Max(1, (int)Math.Round(ClientSize.Height * 0.80));
 
             pnl_reqapproval.Size = new Size(width, height);
             pnl_reqapproval.Location = new Point(
