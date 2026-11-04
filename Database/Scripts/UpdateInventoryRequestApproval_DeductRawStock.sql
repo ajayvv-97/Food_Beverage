@@ -25,9 +25,9 @@ GO
       RequestType = 1: batch recipe ingredients -> TotalRequiredQty
       RequestType = 2: direct raw materials -> IssuedQty
 
-    Both types are grouped by ItemId. Stock is reduced from the latest
-    tblProductRate row with ProductType = 0, matching FrmInventoryrequest's
-    current raw-material QOH lookup.
+    Both types are grouped by ItemId. Available QOH is the sum of every active
+    tblProductRate row (Status = 1), including items with multiple price records.
+    Stock deduction is allocated FIFO by ProductRate.Id (oldest row first).
 */
 CREATE OR ALTER PROCEDURE dbo.prdUpdate_InventoryRequestApproval
     @InventoryRequestId INT,
