@@ -1,6 +1,28 @@
 USE [FoodBeverage];
 GO
 
+/* Ensure approval audit columns exist on databases created from earlier request scripts. */
+IF OBJECT_ID(N'dbo.tblInventoryRequestMaster', N'U') IS NULL
+    THROW 50200, 'tblInventoryRequestMaster must be created before installing the approval workflow.', 1;
+GO
+
+IF COL_LENGTH(N'dbo.tblInventoryRequestMaster', N'ApprovalStatus') IS NULL
+BEGIN
+    ALTER TABLE dbo.tblInventoryRequestMaster
+        ADD ApprovalStatus INT NOT NULL
+            CONSTRAINT DF_tblInventoryRequestMaster_ApprovalStatus DEFAULT (0) WITH VALUES;
+END;
+GO
+IF COL_LENGTH(N'dbo.tblInventoryRequestMaster', N'ApprovedBy') IS NULL
+    ALTER TABLE dbo.tblInventoryRequestMaster ADD ApprovedBy INT NULL;
+GO
+IF COL_LENGTH(N'dbo.tblInventoryRequestMaster', N'ApprovedOn') IS NULL
+    ALTER TABLE dbo.tblInventoryRequestMaster ADD ApprovedOn DATETIME NULL;
+GO
+IF COL_LENGTH(N'dbo.tblInventoryRequestMaster', N'ApprovalRemarks') IS NULL
+    ALTER TABLE dbo.tblInventoryRequestMaster ADD ApprovalRemarks VARCHAR(MAX) NULL;
+GO
+
 /* One shared table-valued parameter for main requests and saved drafts. */
 IF TYPE_ID(N'dbo.TVP_InventoryRequestDetail') IS NULL
 BEGIN
