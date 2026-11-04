@@ -20,6 +20,9 @@ namespace FoodandBeverage.Forms
         private const int ApprovalRejected = 2;
         private const int ApprovalSentBack = 3;
         private const int ApprovalPageSize = 8;
+        private const string ApprovalRemarksPlaceholder = "Enter remarks";
+
+        private bool _remarksPlaceholderVisible;
 
         private readonly BllInventoryRequest _inventoryBll = new BllInventoryRequest();
         private readonly ClsGeneral clsgen = new ClsGeneral();
@@ -74,6 +77,9 @@ namespace FoodandBeverage.Forms
             txtremarks.ScrollBars = ScrollBars.Vertical;
             txtremarks.MaxLength = 2000;
             txtremarks.ReadOnly = true;
+            txtremarks.Enter += txtremarks_Enter;
+            txtremarks.Leave += txtremarks_Leave;
+            ShowRemarksPlaceholder();
 
             lbl_requesttype.Text = "-";
             lbl_deoartment.Text = "-";
@@ -92,6 +98,50 @@ namespace FoodandBeverage.Forms
             textBox.BackColor = Color.FromArgb(206, 209, 234);
             textBox.ForeColor = Color.FromArgb(25, 25, 50);
             textBox.Font = new Font("Microsoft Sans Serif", 10.5F, FontStyle.Regular);
+        }
+
+        private void ShowRemarksPlaceholder()
+        {
+            _remarksPlaceholderVisible = true;
+            txtremarks.Text = ApprovalRemarksPlaceholder;
+            txtremarks.ForeColor = Color.Gray;
+        }
+
+        private void SetRemarksText(string remarks)
+        {
+            if (string.IsNullOrWhiteSpace(remarks))
+            {
+                ShowRemarksPlaceholder();
+                return;
+            }
+
+            _remarksPlaceholderVisible = false;
+            txtremarks.ForeColor = Color.FromArgb(45, 42, 60);
+            txtremarks.Text = remarks;
+        }
+
+        private void txtremarks_Enter(object sender, EventArgs e)
+        {
+            if (!_remarksPlaceholderVisible)
+                return;
+
+            txtremarks.Clear();
+            _remarksPlaceholderVisible = false;
+            txtremarks.ForeColor = Color.FromArgb(45, 42, 60);
+        }
+
+        private void txtremarks_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtremarks.Text))
+                ShowRemarksPlaceholder();
+        }
+
+        private string GetApprovalRemarksValue()
+        {
+            if (_remarksPlaceholderVisible)
+                return string.Empty;
+
+            return (txtremarks.Text ?? string.Empty).Trim();
         }
 
         private void ConfigureApprovalGrids()
@@ -786,9 +836,9 @@ namespace FoodandBeverage.Forms
 
             // A Pending request starts with a clean decision field. Completed decisions
             // retain the approval/rejection/send-back feedback for read-only viewing.
-            txtremarks.Text = _currentApprovalStatus == ApprovalPending
+            SetRemarksText(_currentApprovalStatus == ApprovalPending
                 ? string.Empty
-                : (master.Field6 ?? string.Empty);
+                : (master.Field6 ?? string.Empty));
 
             lbl_requesttype.Text = txt_reqtype.Text;
             lbl_deoartment.Text = txt_department.Text;
@@ -973,7 +1023,7 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
-                string remarks = (txtremarks.Text ?? string.Empty).Trim();
+                string remarks = GetApprovalRemarksValue();
                 if ((decision == ApprovalRejected || decision == ApprovalSentBack) &&
                     string.IsNullOrWhiteSpace(remarks))
                 {
@@ -1044,7 +1094,7 @@ namespace FoodandBeverage.Forms
             txt_reqtype.Clear();
             txt_department.Clear();
             txt_reqby.Clear();
-            txtremarks.Clear();
+            ShowRemarksPlaceholder();
 
             lbl_requesttype.Text = "-";
             lbl_deoartment.Text = "-";
