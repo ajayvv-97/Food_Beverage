@@ -2253,7 +2253,7 @@ namespace FoodandBeverage.Forms
 
                                 // Always use tblItem.Baseunit for raw materials; do not let staff select
                                 // a different unit. This keeps recipe quantities consistent with conversion.
-                                dgv_registartion.Rows[rowno].Cells[Runitno].Value = gridSource1[0].Baseunit;
+                                dgv_registartion.Rows[rowno].Cells[Runitno].Value = Convert.ToInt64(gridSource1[0].Baseunit);
                                 dgv_registartion.Rows[rowno].Cells[Runitno].ReadOnly = true;
                                 dgv_registartion.Rows[rowno].Cells[Ritemno].Style.ForeColor = Color.Black;
                             }
@@ -4052,23 +4052,27 @@ namespace FoodandBeverage.Forms
 
                 // Bind the grid's Unit combo to unit names. The cell value remains UId,
                 // so saving the ingredient still stores the unit ID, not its display text.
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                // DmnComboBox exposes the exact Id and Value properties used by
+                // DataGridViewComboBoxColumn.ValueMember and DisplayMember.
+                BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
                 DmnSearch unitSearch = new DmnSearch();
-                unitSearch.ColumnHeaders = "ID,Unit";
                 unitSearch.Select = "UId AS Id, UnitName AS Value";
                 unitSearch.Table = "tblUnit";
                 unitSearch.WhereNdGroupBy = "WHERE Status = 1";
                 unitSearch.OrderBy = "ORDER BY UnitName";
 
-                var units = bllSearch.GetSearchData("prdComboFill", unitSearch);
+                List<DmnComboBox> units =
+                    bllSearch.GetSearchData("prdComboFill", unitSearch);
+
                 DataGridViewComboBoxColumn unitColumn =
                     dgv_registartion.Columns[Runitno] as DataGridViewComboBoxColumn;
 
                 if (unitColumn != null)
                 {
-                    unitColumn.DataSource = units;
+                    unitColumn.DataSource = units ?? new List<DmnComboBox>();
                     unitColumn.ValueMember = "Id";
                     unitColumn.DisplayMember = "Value";
+                    unitColumn.ValueType = typeof(long);
                     unitColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
                     unitColumn.FlatStyle = FlatStyle.Flat;
                     unitColumn.ReadOnly = true;
