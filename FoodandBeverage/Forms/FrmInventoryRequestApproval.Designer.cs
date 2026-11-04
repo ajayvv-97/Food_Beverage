@@ -394,6 +394,7 @@ namespace FoodandBeverage.Forms
             this.txt_requireddate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txt_requireddate.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_requireddate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txt_requireddate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_requireddate.Location = new System.Drawing.Point(236, 19);
             this.txt_requireddate.Multiline = true;
             this.txt_requireddate.Name = "txt_requireddate";
@@ -405,6 +406,7 @@ namespace FoodandBeverage.Forms
             this.txt_reqdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txt_reqdate.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_reqdate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txt_reqdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_reqdate.Location = new System.Drawing.Point(119, 19);
             this.txt_reqdate.Multiline = true;
             this.txt_reqdate.Name = "txt_reqdate";
@@ -416,6 +418,7 @@ namespace FoodandBeverage.Forms
             this.txt_reqno.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txt_reqno.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_reqno.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txt_reqno.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_reqno.Location = new System.Drawing.Point(3, 19);
             this.txt_reqno.Multiline = true;
             this.txt_reqno.Name = "txt_reqno";
@@ -427,6 +430,7 @@ namespace FoodandBeverage.Forms
             this.txt_department.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txt_department.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_department.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txt_department.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_department.Location = new System.Drawing.Point(470, 19);
             this.txt_department.Multiline = true;
             this.txt_department.Name = "txt_department";
@@ -438,6 +442,7 @@ namespace FoodandBeverage.Forms
             this.txt_reqby.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txt_reqby.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_reqby.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txt_reqby.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_reqby.Location = new System.Drawing.Point(353, 19);
             this.txt_reqby.Multiline = true;
             this.txt_reqby.Name = "txt_reqby";
@@ -482,6 +487,7 @@ namespace FoodandBeverage.Forms
             this.txt_reqtype.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txt_reqtype.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_reqtype.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txt_reqtype.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_reqtype.Location = new System.Drawing.Point(587, 19);
             this.txt_reqtype.Multiline = true;
             this.txt_reqtype.Name = "txt_reqtype";
@@ -599,6 +605,7 @@ namespace FoodandBeverage.Forms
             this.txtremarks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txtremarks.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtremarks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtremarks.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtremarks.Location = new System.Drawing.Point(8, 28);
             this.txtremarks.Multiline = true;
             this.txtremarks.Name = "txtremarks";
