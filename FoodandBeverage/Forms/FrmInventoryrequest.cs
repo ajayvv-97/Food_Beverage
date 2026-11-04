@@ -73,7 +73,10 @@ namespace FoodandBeverage.Forms
             DmnSearch criteria = new DmnSearch
             {
                 Select = "CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName, " +
-                         "ISNULL(pr.QOH,0) AS CurrentStock, i.Baseunit AS UnitId, " +
+                         "ISNULL(pr.QOH,0) * CASE
+                             WHEN ISNULL(i.Baseunit,i.unit) = i.unit THEN 1
+                             ELSE ISNULL(i.Conversionfactor,0)
+                         END AS CurrentStock, i.Baseunit AS UnitId, " +
                          "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
                 Table = "tblItem i " +
                         "LEFT JOIN tblUnit u ON u.UId = i.Baseunit " +
@@ -103,14 +106,16 @@ namespace FoodandBeverage.Forms
                          "i.Itemname AS IngredientName, ISNULL(d.quantity,0) AS PerPortionQty, " +
                          "(ISNULL(d.quantity,0) * " + plannedQuantity + ") AS TotalRequiredQty, " +
                          "d.Unit AS UnitId, u.UnitName AS UnitName, " +
-                         "CASE WHEN d.Unit = i.unit AND ISNULL(i.Baseunit,i.unit) <> i.unit " +
-                         "AND ISNULL(i.Conversionfactor,0) > 0 " +
-                         "THEN ISNULL(pr.QOH,0) / NULLIF(i.Conversionfactor,0) " +
-                         "ELSE ISNULL(pr.QOH,0) END AS CurrentStock, " +
-                         "(CASE WHEN d.Unit = i.unit AND ISNULL(i.Baseunit,i.unit) <> i.unit " +
-                         "AND ISNULL(i.Conversionfactor,0) > 0 " +
-                         "THEN ISNULL(pr.QOH,0) / NULLIF(i.Conversionfactor,0) " +
-                         "ELSE ISNULL(pr.QOH,0) END - ISNULL(d.quantity,0) * " +
+                         "CASE WHEN d.Unit = i.unit " +
+                         "THEN ISNULL(pr.QOH,0) " +
+                         "ELSE ISNULL(pr.QOH,0) * CASE " +
+                         "WHEN ISNULL(i.Baseunit,i.unit) = i.unit THEN 1 " +
+                         "ELSE ISNULL(i.Conversionfactor,0) END END AS CurrentStock, " +
+                         "(CASE WHEN d.Unit = i.unit " +
+                         "THEN ISNULL(pr.QOH,0) " +
+                         "ELSE ISNULL(pr.QOH,0) * CASE " +
+                         "WHEN ISNULL(i.Baseunit,i.unit) = i.unit THEN 1 " +
+                         "ELSE ISNULL(i.Conversionfactor,0) END END - ISNULL(d.quantity,0) * " +
                          plannedQuantity + ") AS ProjectedBalance, d.ProductId",
                 Table = "tblIngredientDetails d " +
                         "LEFT JOIN tblItem i ON i.ItemId = d.ItemId " +
@@ -1428,7 +1433,10 @@ namespace FoodandBeverage.Forms
             DmnSearch criteria = new DmnSearch
             {
                 Select = "CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName, " +
-                         "ISNULL(pr.QOH,0) AS CurrentStock, i.Baseunit AS UnitId, " +
+                         "ISNULL(pr.QOH,0) * CASE
+                             WHEN ISNULL(i.Baseunit,i.unit) = i.unit THEN 1
+                             ELSE ISNULL(i.Conversionfactor,0)
+                         END AS CurrentStock, i.Baseunit AS UnitId, " +
                          "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
                 Table = "tblItem i " +
                         "LEFT JOIN tblUnit u ON u.UId = i.Baseunit " +
