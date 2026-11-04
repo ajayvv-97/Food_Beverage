@@ -486,6 +486,8 @@ namespace FoodandBeverage.Forms
                         txtdisper.Text = "0";
                     if (string.IsNullOrWhiteSpace(txtdisamt.Text))
                         txtdisamt.Text = "0";
+                    if (string.IsNullOrWhiteSpace(txtreorderlevel.Text))
+                        txtreorderlevel.Text = "0";
 
                     dmnitemreg.ItemId = Convert.ToInt32(txtitemid.Text);
                     dmnitemreg.Itemname = txtincr_name.Text;

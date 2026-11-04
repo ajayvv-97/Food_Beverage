@@ -318,6 +318,7 @@ namespace FoodandBeverage.Forms
             this.btncolse.TabIndex = 10;
             this.btncolse.Text = "X";
             this.btncolse.UseVisualStyleBackColor = false;
+            this.btncolse.Click += new System.EventHandler(this.btncancel_Click);
             // 
             // tlp_header
             // 
@@ -1327,10 +1328,10 @@ namespace FoodandBeverage.Forms
             // pnl_reqapproval
             // 
             this.pnl_reqapproval.Controls.Add(this.tlp_com_reason);
-            this.pnl_reqapproval.Location = new System.Drawing.Point(1000, 185);
+            this.pnl_reqapproval.Location = new System.Drawing.Point(310, 86);
             this.pnl_reqapproval.Name = "pnl_reqapproval";
             this.pnl_reqapproval.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.pnl_reqapproval.Size = new System.Drawing.Size(234, 445);
+            this.pnl_reqapproval.Size = new System.Drawing.Size(560, 544);
             this.pnl_reqapproval.TabIndex = 337;
             this.pnl_reqapproval.Visible = false;
             // 
@@ -1352,7 +1353,7 @@ namespace FoodandBeverage.Forms
             this.tlp_com_reason.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_com_reason.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_com_reason.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlp_com_reason.Size = new System.Drawing.Size(220, 433);
+            this.tlp_com_reason.Size = new System.Drawing.Size(546, 532);
             this.tlp_com_reason.TabIndex = 0;
             // 
             // tableLayoutPanel10
@@ -1376,7 +1377,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 1;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(214, 40);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(540, 40);
             this.tableLayoutPanel10.TabIndex = 278;
             // 
             // tlp_approved
@@ -1504,7 +1505,7 @@ namespace FoodandBeverage.Forms
             this.txt_search_reqapp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
             this.txt_search_reqapp.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_search_reqapp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txt_search_reqapp.Location = new System.Drawing.Point(-137, 3);
+            this.txt_search_reqapp.Location = new System.Drawing.Point(189, 3);
             this.txt_search_reqapp.Multiline = true;
             this.txt_search_reqapp.Name = "txt_search_reqapp";
             this.txt_search_reqapp.Size = new System.Drawing.Size(304, 34);
@@ -1520,7 +1521,7 @@ namespace FoodandBeverage.Forms
             this.btn_adv_search_reqapp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btn_adv_search_reqapp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_adv_search_reqapp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_adv_search_reqapp.Location = new System.Drawing.Point(173, 3);
+            this.btn_adv_search_reqapp.Location = new System.Drawing.Point(499, 3);
             this.btn_adv_search_reqapp.Name = "btn_adv_search_reqapp";
             this.btn_adv_search_reqapp.Size = new System.Drawing.Size(38, 34);
             this.btn_adv_search_reqapp.TabIndex = 281;
@@ -1596,7 +1597,7 @@ namespace FoodandBeverage.Forms
             this.dgv_req_app.RowHeadersWidth = 51;
             this.dgv_req_app.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv_req_app.RowTemplate.Height = 44;
-            this.dgv_req_app.Size = new System.Drawing.Size(214, 287);
+            this.dgv_req_app.Size = new System.Drawing.Size(540, 386);
             this.dgv_req_app.TabIndex = 30;
             this.dgv_req_app.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_req_app_CellClick);
             // 
@@ -1614,7 +1615,7 @@ namespace FoodandBeverage.Forms
             this.tlp_comp_rea_nav.Name = "tlp_comp_rea_nav";
             this.tlp_comp_rea_nav.RowCount = 1;
             this.tlp_comp_rea_nav.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_comp_rea_nav.Size = new System.Drawing.Size(214, 36);
+            this.tlp_comp_rea_nav.Size = new System.Drawing.Size(540, 36);
             this.tlp_comp_rea_nav.TabIndex = 2;
             // 
             // btn_reqapp_cls
@@ -1626,7 +1627,7 @@ namespace FoodandBeverage.Forms
             this.btn_reqapp_cls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_reqapp_cls.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.btn_reqapp_cls.ForeColor = System.Drawing.Color.Red;
-            this.btn_reqapp_cls.Location = new System.Drawing.Point(165, 4);
+            this.btn_reqapp_cls.Location = new System.Drawing.Point(491, 4);
             this.btn_reqapp_cls.Margin = new System.Windows.Forms.Padding(4);
             this.btn_reqapp_cls.Name = "btn_reqapp_cls";
             this.btn_reqapp_cls.Size = new System.Drawing.Size(28, 28);
@@ -1643,7 +1644,7 @@ namespace FoodandBeverage.Forms
             this.label14.ForeColor = System.Drawing.Color.White;
             this.label14.Location = new System.Drawing.Point(3, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(155, 36);
+            this.label14.Size = new System.Drawing.Size(481, 36);
             this.label14.TabIndex = 2;
             this.label14.Text = "Inventroy Request";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1676,11 +1677,11 @@ namespace FoodandBeverage.Forms
             this.tlp_pagination.Controls.Add(this.btn_previous, 3, 0);
             this.tlp_pagination.Controls.Add(this.btnclose_reqapp, 12, 0);
             this.tlp_pagination.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_pagination.Location = new System.Drawing.Point(3, 389);
+            this.tlp_pagination.Location = new System.Drawing.Point(3, 488);
             this.tlp_pagination.Name = "tlp_pagination";
             this.tlp_pagination.RowCount = 1;
             this.tlp_pagination.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_pagination.Size = new System.Drawing.Size(214, 41);
+            this.tlp_pagination.Size = new System.Drawing.Size(540, 41);
             this.tlp_pagination.TabIndex = 279;
             // 
             // btn_movelast
@@ -1692,7 +1693,7 @@ namespace FoodandBeverage.Forms
             this.btn_movelast.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_movelast.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_movelast.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_movelast.Location = new System.Drawing.Point(236, 3);
+            this.btn_movelast.Location = new System.Drawing.Point(399, 3);
             this.btn_movelast.Name = "btn_movelast";
             this.btn_movelast.Size = new System.Drawing.Size(45, 35);
             this.btn_movelast.TabIndex = 13;
@@ -1709,7 +1710,7 @@ namespace FoodandBeverage.Forms
             this.btn_next.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_next.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_next.Location = new System.Drawing.Point(185, 3);
+            this.btn_next.Location = new System.Drawing.Point(348, 3);
             this.btn_next.Name = "btn_next";
             this.btn_next.Size = new System.Drawing.Size(45, 35);
             this.btn_next.TabIndex = 12;
@@ -1726,7 +1727,7 @@ namespace FoodandBeverage.Forms
             this.btn_page5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_page5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_page5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_page5.Location = new System.Drawing.Point(148, 3);
+            this.btn_page5.Location = new System.Drawing.Point(311, 3);
             this.btn_page5.Name = "btn_page5";
             this.btn_page5.Size = new System.Drawing.Size(31, 35);
             this.btn_page5.TabIndex = 11;
@@ -1743,7 +1744,7 @@ namespace FoodandBeverage.Forms
             this.btn_page4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_page4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_page4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_page4.Location = new System.Drawing.Point(111, 3);
+            this.btn_page4.Location = new System.Drawing.Point(274, 3);
             this.btn_page4.Name = "btn_page4";
             this.btn_page4.Size = new System.Drawing.Size(31, 35);
             this.btn_page4.TabIndex = 10;
@@ -1760,7 +1761,7 @@ namespace FoodandBeverage.Forms
             this.btn_page3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_page3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_page3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_page3.Location = new System.Drawing.Point(74, 3);
+            this.btn_page3.Location = new System.Drawing.Point(237, 3);
             this.btn_page3.Name = "btn_page3";
             this.btn_page3.Size = new System.Drawing.Size(31, 35);
             this.btn_page3.TabIndex = 9;
@@ -1777,7 +1778,7 @@ namespace FoodandBeverage.Forms
             this.btn_page2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_page2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_page2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_page2.Location = new System.Drawing.Point(37, 3);
+            this.btn_page2.Location = new System.Drawing.Point(200, 3);
             this.btn_page2.Name = "btn_page2";
             this.btn_page2.Size = new System.Drawing.Size(31, 35);
             this.btn_page2.TabIndex = 8;
@@ -1794,7 +1795,7 @@ namespace FoodandBeverage.Forms
             this.btn_page1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_page1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_page1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_page1.Location = new System.Drawing.Point(0, 3);
+            this.btn_page1.Location = new System.Drawing.Point(163, 3);
             this.btn_page1.Name = "btn_page1";
             this.btn_page1.Size = new System.Drawing.Size(31, 35);
             this.btn_page1.TabIndex = 7;
@@ -1825,7 +1826,7 @@ namespace FoodandBeverage.Forms
             this.btn_movefrist.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_movefrist.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_movefrist.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_movefrist.Location = new System.Drawing.Point(-102, 3);
+            this.btn_movefrist.Location = new System.Drawing.Point(61, 3);
             this.btn_movefrist.Name = "btn_movefrist";
             this.btn_movefrist.Size = new System.Drawing.Size(45, 35);
             this.btn_movefrist.TabIndex = 4;
@@ -1842,7 +1843,7 @@ namespace FoodandBeverage.Forms
             this.btn_previous.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_previous.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_previous.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_previous.Location = new System.Drawing.Point(-51, 3);
+            this.btn_previous.Location = new System.Drawing.Point(112, 3);
             this.btn_previous.Name = "btn_previous";
             this.btn_previous.Size = new System.Drawing.Size(45, 35);
             this.btn_previous.TabIndex = 5;
@@ -1858,7 +1859,7 @@ namespace FoodandBeverage.Forms
             this.btnclose_reqapp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnclose_reqapp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnclose_reqapp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnclose_reqapp.Location = new System.Drawing.Point(118, 3);
+            this.btnclose_reqapp.Location = new System.Drawing.Point(444, 3);
             this.btnclose_reqapp.Name = "btnclose_reqapp";
             this.btnclose_reqapp.Size = new System.Drawing.Size(94, 35);
             this.btnclose_reqapp.TabIndex = 6;

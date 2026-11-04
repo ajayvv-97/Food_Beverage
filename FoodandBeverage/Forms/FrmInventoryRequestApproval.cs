@@ -1297,11 +1297,11 @@ namespace FoodandBeverage.Forms
 
         private void ShowApprovalError(string message)
         {
-            CMessageBox.Show(
-                message,
-                "Inventory Request Approval",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            //CMessageBox.Show(
+            //    message,
+            //    "Inventory Request Approval",
+            //    MessageBoxButtons.OK,
+            //    MessageBoxIcon.Warning);
         }
 
         private void LogInventoryException(string eventName, Exception ex)
