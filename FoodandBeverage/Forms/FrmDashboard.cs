@@ -2984,6 +2984,11 @@ namespace FoodandBeverage.Forms
                             ib_InventoryManagement.Visible = true;
                             Menuoperation.Visible = true;
                         }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.InventoryApprovals) && gridesource[i].Write == 1)
+                        {
+                            ibrequestapproval.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
                         #endregion
 
                         #region Employee Buttons
@@ -6557,6 +6562,51 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(FormType.homepage));
             }
         }
+
+        private void ibrequestapproval_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                if (Application.OpenForms["FrmInventoryRequestApproval"] != null)
+                {
+                    FrmInventoryRequestApproval _instanceFrmInventoryRequestApproval =
+                        Application.OpenForms["FrmInventoryRequestApproval"] as FrmInventoryRequestApproval;
+
+                    if (_instanceFrmInventoryRequestApproval.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmInventoryRequestApproval.WindowState =
+                            FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmInventoryRequestApproval.Dock = DockStyle.None;
+
+                        ResizeForm(_instanceFrmInventoryRequestApproval);
+
+                        panelDesktop.Controls.Add(_instanceFrmInventoryRequestApproval);
+
+                        _instanceFrmInventoryRequestApproval.Show();
+                        _instanceFrmInventoryRequestApproval.BringToFront();
+                    }
+                }
+                else
+                {
+                    UIHelper.OpenDialog(this, new FrmInventoryRequestApproval());
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ibrequestapproval_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
         private bool ValidateComplimentaryDate()
         {
             try
