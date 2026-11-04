@@ -2,7 +2,7 @@ USE [FoodBeverage];
 GO
 
 /*
-    QOH remains in Purchase Units. The approval procedure converts QOH to
+    QOH is stored in Purchase Units. The approval procedure converts QOH to
     Base Units for consumption calculations, then saves the remainder back
     in Purchase Units. QOH must support fractional purchase quantities.
 */
