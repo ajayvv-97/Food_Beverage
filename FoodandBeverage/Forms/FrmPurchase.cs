@@ -1887,8 +1887,8 @@ namespace FoodandBeverage.Forms
                         {
                             dgvProduct.Rows[r1].Cells[israte].Value = gridSourceitem[0].Field5;
                             dgvProduct.Rows[r1].Cells[imrp].Value = gridSourceitem[0].Field6;
-                            dgvProduct.Rows[r1].Cells[israte].ReadOnly = true;
-                            dgvProduct.Rows[r1].Cells[imrp].ReadOnly = true;
+                            dgvProduct.Rows[r1].Cells[israte].ReadOnly = false;
+                            dgvProduct.Rows[r1].Cells[imrp].ReadOnly = false;
                         }
                         else
                         {
