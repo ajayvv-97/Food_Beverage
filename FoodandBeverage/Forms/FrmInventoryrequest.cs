@@ -77,9 +77,9 @@ namespace FoodandBeverage.Forms
                          "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
                 Table = "tblItem i " +
                         "LEFT JOIN tblUnit u ON u.UId = i.Baseunit " +
-                        "OUTER APPLY (SELECT TOP (1) r.QOH FROM tblProductRate r " +
-                        "WHERE r.ProductId = i.ItemId AND ISNULL(r.ProductType,0) = 0 " +
-                        "ORDER BY r.Id DESC) pr",
+                        "LEFT JOIN (SELECT ProductId, SUM(ISNULL(QOH,0)) AS QOH " +
+                        "FROM tblProductRate WHERE Status = 1 GROUP BY ProductId) pr " +
+                        "ON pr.ProductId = i.ItemId",
                 WhereNdGroupBy = "WHERE ISNULL(i.Saletype,0) = 0 AND ISNULL(i.Status,1) <> 0 " +
                     "AND (N'" + escapedSearch + "' = N'' OR i.Itemname LIKE N'%' + N'" +
                     escapedSearch + "' + N'%')",
@@ -102,15 +102,22 @@ namespace FoodandBeverage.Forms
                 Select = "d.Ing_DetailsId AS IngredientDetailId, d.ItemId, " +
                          "i.Itemname AS IngredientName, ISNULL(d.quantity,0) AS PerPortionQty, " +
                          "(ISNULL(d.quantity,0) * " + plannedQuantity + ") AS TotalRequiredQty, " +
-                         "d.Unit AS UnitId, u.UnitName AS UnitName, ISNULL(pr.QOH,0) AS CurrentStock, " +
-                         "(ISNULL(pr.QOH,0) - ISNULL(d.quantity,0) * " + plannedQuantity + ") AS ProjectedBalance, " +
-                         "d.ProductId",
+                         "d.Unit AS UnitId, u.UnitName AS UnitName, " +
+                         "CASE WHEN d.Unit = i.unit AND ISNULL(i.Baseunit,i.unit) <> i.unit " +
+                         "AND ISNULL(i.Conversionfactor,0) > 0 " +
+                         "THEN ISNULL(pr.QOH,0) / NULLIF(i.Conversionfactor,0) " +
+                         "ELSE ISNULL(pr.QOH,0) END AS CurrentStock, " +
+                         "(CASE WHEN d.Unit = i.unit AND ISNULL(i.Baseunit,i.unit) <> i.unit " +
+                         "AND ISNULL(i.Conversionfactor,0) > 0 " +
+                         "THEN ISNULL(pr.QOH,0) / NULLIF(i.Conversionfactor,0) " +
+                         "ELSE ISNULL(pr.QOH,0) END - ISNULL(d.quantity,0) * " +
+                         plannedQuantity + ") AS ProjectedBalance, d.ProductId",
                 Table = "tblIngredientDetails d " +
                         "LEFT JOIN tblItem i ON i.ItemId = d.ItemId " +
                         "LEFT JOIN tblUnit u ON u.UId = d.Unit " +
-                        "OUTER APPLY (SELECT TOP (1) r.QOH FROM tblProductRate r " +
-                        "WHERE r.ProductId = d.ItemId AND ISNULL(r.ProductType,0) = 0 " +
-                        "ORDER BY r.Id DESC) pr",
+                        "LEFT JOIN (SELECT ProductId, SUM(ISNULL(QOH,0)) AS QOH " +
+                        "FROM tblProductRate WHERE Status = 1 GROUP BY ProductId) pr " +
+                        "ON pr.ProductId = d.ItemId",
                 WhereNdGroupBy = "WHERE d.ProductId = " + productId +
                                  " AND ISNULL(d.Status,1) <> 0",
                 OrderBy = "ORDER BY d.Ing_DetailsId"
@@ -234,7 +241,8 @@ namespace FoodandBeverage.Forms
             dgv_raw.Columns[Rrawmaterialno].FillWeight = 34;
             dgv_raw.Columns[Rcurrentstockno].FillWeight = 11;
             dgv_raw.Columns[Rissuedqtyno].FillWeight = 11;
-            dgv_raw.Columns[Runitno].FillWeight = 9;
+            dgv_raw.Columns[Runitno].FillWeight = 14;
+            dgv_raw.Columns[Runitno].MinimumWidth = 105;
             dgv_raw.Columns[Rprojectbalanceno].FillWeight = 12;
             dgv_raw.Columns[RpurposeRemarksno].FillWeight = 15;
             dgv_raw.Columns[Ractionno].FillWeight = 7;
