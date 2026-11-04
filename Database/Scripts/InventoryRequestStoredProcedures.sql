@@ -1,6 +1,28 @@
 USE [FoodBeverage];
 GO
 
+/* Ensure approval audit columns exist on databases created from earlier request scripts. */
+IF OBJECT_ID(N'dbo.tblInventoryRequestMaster', N'U') IS NULL
+    THROW 50200, 'tblInventoryRequestMaster must be created before installing the approval workflow.', 1;
+GO
+
+IF COL_LENGTH(N'dbo.tblInventoryRequestMaster', N'ApprovalStatus') IS NULL
+BEGIN
+    ALTER TABLE dbo.tblInventoryRequestMaster
+        ADD ApprovalStatus INT NOT NULL
+            CONSTRAINT DF_tblInventoryRequestMaster_ApprovalStatus DEFAULT (0) WITH VALUES;
+END;
+GO
+IF COL_LENGTH(N'dbo.tblInventoryRequestMaster', N'ApprovedBy') IS NULL
+    ALTER TABLE dbo.tblInventoryRequestMaster ADD ApprovedBy INT NULL;
+GO
+IF COL_LENGTH(N'dbo.tblInventoryRequestMaster', N'ApprovedOn') IS NULL
+    ALTER TABLE dbo.tblInventoryRequestMaster ADD ApprovedOn DATETIME NULL;
+GO
+IF COL_LENGTH(N'dbo.tblInventoryRequestMaster', N'ApprovalRemarks') IS NULL
+    ALTER TABLE dbo.tblInventoryRequestMaster ADD ApprovalRemarks VARCHAR(MAX) NULL;
+GO
+
 /* One shared table-valued parameter for main requests and saved drafts. */
 IF TYPE_ID(N'dbo.TVP_InventoryRequestDetail') IS NULL
 BEGIN
@@ -357,6 +379,80 @@ BEGIN
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
+END;
+GO
+
+/*
+    Inventory request approval workflow:
+      0 = Pending
+      1 = Approved
+      2 = Rejected
+      3 = Sent Back
+
+    Only Pending requests can receive a manager decision.
+    Only Sent Back requests can be resubmitted by the requesting employee.
+*/
+CREATE OR ALTER PROCEDURE dbo.prdUpdate_InventoryRequestApproval
+    @InventoryRequestId INT,
+    @ApprovalStatus INT,
+    @EmployeeId INT,
+    @ApprovalRemarks VARCHAR(MAX) = NULL,
+    @BranchId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        IF @ApprovalStatus = 0
+        BEGIN
+            UPDATE dbo.tblInventoryRequestMaster
+            SET ApprovalStatus = 0,
+                ApprovedBy = NULL,
+                ApprovedOn = NULL,
+                ModifiedBy = @EmployeeId,
+                ModifiedOn = GETDATE()
+            WHERE InventoryRequestId = @InventoryRequestId
+              AND BranchId = @BranchId
+              AND ISNULL(Status, 1) = 1
+              AND ApprovalStatus IN (0, 3);
+
+            IF @@ROWCOUNT = 0
+                THROW 50201, 'Only an active Sent Back request can be resubmitted.', 1;
+            -- Keep the Send Back remarks so the requester can still see the reason
+            -- in the Inventory Request list after resubmission.
+        END
+        ELSE IF @ApprovalStatus IN (1, 2, 3)
+        BEGIN
+            UPDATE dbo.tblInventoryRequestMaster
+            SET ApprovalStatus = @ApprovalStatus,
+                ApprovedBy = @EmployeeId,
+                ApprovedOn = GETDATE(),
+                ApprovalRemarks = NULLIF(LTRIM(RTRIM(@ApprovalRemarks)), ''),
+                ModifiedBy = @EmployeeId,
+                ModifiedOn = GETDATE()
+            WHERE InventoryRequestId = @InventoryRequestId
+              AND BranchId = @BranchId
+              AND ISNULL(Status, 1) = 1
+              AND ApprovalStatus = 0;
+
+            IF @@ROWCOUNT = 0
+                THROW 50202, 'Only an active Pending request can be approved, rejected, or sent back.', 1;
+        END
+        ELSE
+        BEGIN
+            THROW 50203, 'Invalid inventory request approval status.', 1;
+        END;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
         THROW;
     END CATCH
 END;

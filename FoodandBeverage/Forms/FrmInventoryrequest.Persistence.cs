@@ -154,7 +154,7 @@ namespace FoodandBeverage.Forms
             {
                 Select = "InventoryRequestId AS RequestId, RequestNo, RequestDate, RequiredDate, " +
                          "DepartmentId, EmployeeId, Remarks, RequestType, CreatedBy, CreatedOn, " +
-                         "ModifiedBy, ModifiedOn, BranchId, Status",
+                         "ModifiedBy, ModifiedOn, BranchId, Status, ISNULL(ApprovalStatus,0) AS ApprovalStatus, ApprovedBy, ApprovedOn, ApprovalRemarks",
                 Table = "tblInventoryRequestMaster",
                 WhereNdGroupBy = "where InventoryRequestId = " + requestId +
                                  " AND ISNULL(Status,1) = 1 AND BranchId = " +
@@ -199,6 +199,7 @@ namespace FoodandBeverage.Forms
 
             _currentRequestId = requestId;
             _currentDraftId = null;
+            _currentApprovalStatus = master.ApprovalStatus;
             btn_deletesaved_draft.Visible = false;
             PopulateRequestForm(master, details);
         }
@@ -292,6 +293,7 @@ namespace FoodandBeverage.Forms
 
             _currentDraftId = draftId;
             _currentRequestId = null;
+            _currentApprovalStatus = 0;
             PopulateRequestForm(master, details);
             btn_deletesaved_draft.Visible = true;
         }

@@ -21,6 +21,10 @@ namespace Domain
         public DateTime? ModifiedOn { get; set; }
         public int? BranchId { get; set; }
         public int Status { get; set; }
+        public int ApprovalStatus { get; set; }
+        public int? ApprovedBy { get; set; }
+        public DateTime? ApprovedOn { get; set; }
+        public string ApprovalRemarks { get; set; }
     }
 
     public class DmnInventoryRequestItem

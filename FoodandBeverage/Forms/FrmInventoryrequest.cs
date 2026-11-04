@@ -32,6 +32,7 @@ namespace FoodandBeverage.Forms
         private bool _searchUpdatePending;
         private int? _currentRequestId;
         private int? _currentDraftId;
+        private int _currentApprovalStatus; // 0 Pending, 1 Approved, 2 Rejected, 3 Sent Back
         private string _currentDraftNo;
         private int _visibleIngredientProductId;
         private List<DmnInventoryRequestDetail> _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
@@ -810,6 +811,10 @@ namespace FoodandBeverage.Forms
             if (e.RowIndex < 0) return;
             if (e.ColumnIndex == Bactionno)
             {
+                // Existing submitted rows can be removed only while correcting a Sent Back request.
+                if (_currentRequestId.HasValue && _currentApprovalStatus != 3)
+                    return;
+
                 DataGridViewRow row = dgv_batch.Rows[e.RowIndex];
                 int productId = Convert.ToInt32(row.Cells[Bitemidno].Value);
 
@@ -956,6 +961,12 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (_currentRequestId.HasValue && _currentApprovalStatus != 3)
+                {
+                    ShowError("Only a Sent Back request can be edited and resubmitted.");
+                    return;
+                }
+
                 dgv_batch.EndEdit();
                 dgv_batch_ingrediant.EndEdit();
                 dgv_raw.EndEdit();
@@ -1025,6 +1036,23 @@ namespace FoodandBeverage.Forms
                 if (savedDetailCount != details.Count)
                     throw new InvalidOperationException("Some inventory request details were not saved.");
 
+                // After correcting a Sent Back request, return it to Pending for review.
+                // The stored procedure preserves the Send Back remarks for the request list.
+                if (_currentRequestId.HasValue && _currentApprovalStatus == 3)
+                {
+                    int employeeId = FrmLogin.EmployeeId > 0
+                        ? FrmLogin.EmployeeId
+                        : FrmLogin.UserId;
+
+                    _inventoryBll.UpdateInventoryRequestApproval(
+                        "dbo.prdUpdate_InventoryRequestApproval",
+                        requestId,
+                        0,
+                        employeeId,
+                        null,
+                        FrmDashboard.BranchId);
+                }
+
                 // The request and all its detail rows are saved; now close the source draft.
                 if (_currentDraftId.HasValue && _currentDraftId.Value > 0)
                 {
@@ -1042,6 +1070,7 @@ namespace FoodandBeverage.Forms
                     MessageBoxIcon.Information);
 
                 ResetRequest();
+                SetRequestViewMode(false);
             }
             catch (Exception ex)
             {
@@ -1112,11 +1141,45 @@ namespace FoodandBeverage.Forms
 
         private void SetRequestViewMode(bool viewingExistingRequest)
         {
-            // Existing requests are view-only here. Refresh returns the form to entry mode.
+            // Submitted requests are locked except when a manager has sent them back.
+            bool canEditSentBack = viewingExistingRequest &&
+                                   _currentRequestId.HasValue &&
+                                   _currentApprovalStatus == 3;
+            bool readOnly = viewingExistingRequest && !canEditSentBack;
+
             btnsave_draft.Visible = !viewingExistingRequest;
-            btn_saverequest.Visible = !viewingExistingRequest;
+            btn_saverequest.Visible = !viewingExistingRequest || canEditSentBack;
             btnrefresh.Visible = true;
             btn_deletesaved_draft.Visible = !viewingExistingRequest && _currentDraftId.HasValue;
+
+            txt_reqno.ReadOnly = viewingExistingRequest;
+            dtp_reqdate.Enabled = !readOnly;
+            dtp_required_date.Enabled = !readOnly;
+            cmb_req_department.Enabled = !readOnly;
+            cmb_req_employee.Enabled = !readOnly;
+            txtremarks.ReadOnly = readOnly;
+
+            dgv_batch.ReadOnly = readOnly;
+            dgv_raw.ReadOnly = readOnly;
+            dgv_batch_ingrediant.ReadOnly = readOnly;
+
+            btn_addtolist_batch.Enabled = !readOnly;
+            btn_addtolist_raw.Enabled = !readOnly;
+            btn_clearall_batch.Enabled = !readOnly;
+            btn_clearall_raw.Enabled = !readOnly;
+            btn_importbatch.Enabled = !readOnly;
+            btn_import_raw.Enabled = !readOnly;
+            txtsearch_batch.Enabled = !readOnly;
+            txtsearch_raw.Enabled = !readOnly;
+
+            if (canEditSentBack)
+            {
+                CMessageBox.Show(
+                    "This request was sent back for correction. Update the details and click Save Request to resubmit it for approval.",
+                    "Request Sent Back",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
         }
 
         private void btnclose_Click(object sender, EventArgs e)
@@ -1139,6 +1202,7 @@ namespace FoodandBeverage.Forms
             _currentRequestId = null;
             _currentDraftId = null;
             _currentDraftNo = null;
+            _currentApprovalStatus = 0;
             btn_deletesaved_draft.Visible = false;
             _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
             _visibleIngredientProductId = 0;
@@ -1156,6 +1220,9 @@ namespace FoodandBeverage.Forms
                 if (e.RowIndex < 0) return;
                 if (e.ColumnIndex == Ractionno)
                 {
+                    if (_currentRequestId.HasValue && _currentApprovalStatus != 3)
+                        return;
+
                     DataGridViewRow row = dgv_raw.Rows[e.RowIndex];
                     long itemId = Convert.ToInt64(row.Cells[Ritemidno].Value);
 
@@ -2561,6 +2628,7 @@ namespace FoodandBeverage.Forms
                 statusExpression = approvalColumn == "IsRejected"
                     ? "CASE WHEN CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Rejected' ELSE 'Pending' END"
                     : "CASE " +
+                      "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%send back%' OR CONVERT(NVARCHAR(30)," + col + ")='3' THEN 'Sent Back' " +
                       "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%reject%' OR CONVERT(NVARCHAR(30)," + col + ")='2' THEN 'Rejected' " +
                       "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%approv%' OR CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Approved' " +
                       "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%pend%' OR CONVERT(NVARCHAR(30)," + col + ")='0' THEN 'Pending' " +
