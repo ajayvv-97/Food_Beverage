@@ -628,7 +628,11 @@ namespace FoodandBeverage.Forms
             txt_reqby.Text = master.Field9 ?? "-";
             txt_reqtype.Text = GetRequestTypeName(ToInt(master.Field4, 0));
             txt_requ_by.Text = txt_reqby.Text;
-            txtremarks.Clear();
+            // Show the last manager feedback for completed / sent-back requests.
+            // A Pending request gets a clean field for the next decision.
+            txtremarks.Text = _currentApprovalStatus == ApprovalPending
+                ? string.Empty
+                : (master.Field6 ?? string.Empty);
 
             // Show the request type and department in the summary captions as well.
             lbl_requesttype.Text = "Request Type";
@@ -841,9 +845,11 @@ namespace FoodandBeverage.Forms
             btn_saverequest.Enabled = enabled;
             btnsave_draft.Enabled = enabled;
             btn_deletesaved_draft.Enabled = enabled;
-            if (!enabled)
-                txtremarks.Text = string.Empty;
-            txtremarks.Enabled = enabled;
+
+            // Keep historical approval remarks visible when the request is no longer
+            // Pending; they remain selectable/copyable but cannot be changed.
+            txtremarks.Enabled = true;
+            txtremarks.ReadOnly = !enabled;
         }
 
         private void btn_approve_Click(object sender, EventArgs e)
