@@ -2,11 +2,29 @@ USE [FoodBeverage];
 GO
 
 /*
-    QOH must support decimal quantities because inventory request detail
-    quantities are DECIMAL(18,4). Existing integer QOH values convert exactly.
+    QOH remains in Purchase Units. The approval procedure converts QOH to
+    Base Units for consumption calculations, then saves the remainder back
+    in Purchase Units. QOH must support fractional purchase quantities.
 */
-ALTER TABLE dbo.tblProductRate
-    ALTER COLUMN QOH DECIMAL(18,4) NULL;
+IF OBJECT_ID(N'dbo.tblProductRate', N'U') IS NOT NULL
+   AND COL_LENGTH(N'dbo.tblProductRate', N'QOH') IS NOT NULL
+   AND EXISTS
+   (
+       SELECT 1
+       FROM sys.columns
+       WHERE object_id = OBJECT_ID(N'dbo.tblProductRate')
+         AND name = N'QOH'
+         AND
+         (
+             system_type_id NOT IN (106, 108)
+             OR precision <> 18
+             OR scale <> 4
+         )
+   )
+BEGIN
+    ALTER TABLE dbo.tblProductRate
+        ALTER COLUMN QOH DECIMAL(18,4) NULL;
+END;
 GO
 
 SET ANSI_NULLS ON;
@@ -42,12 +60,17 @@ BEGIN
 
     DECLARE @CurrentApprovalStatus INT = NULL;
 
+    /*
+        RequiredQty and AvailableBaseQty are calculated in Base Units.
+        ConversionFactor converts each rate row's Purchase Unit QOH to Base Units.
+    */
     DECLARE @StockToDeduct TABLE
     (
         ItemId BIGINT NOT NULL PRIMARY KEY,
         RequiredQty DECIMAL(18,4) NOT NULL,
+        ConversionFactor DECIMAL(18,4) NOT NULL,
         ActiveRateCount INT NULL,
-        AvailableQty DECIMAL(18,4) NULL
+        AvailableBaseQty DECIMAL(18,4) NULL
     );
 
     BEGIN TRY
@@ -210,7 +233,12 @@ BEGIN
                     This also combines an item if it is used by both a batch
                     product recipe and the direct raw-material section.
                 */
-                INSERT INTO @StockToDeduct (ItemId, RequiredQty)
+                INSERT INTO @StockToDeduct
+                (
+                    ItemId,
+                    RequiredQty,
+                    ConversionFactor
+                )
                 SELECT
                     d.ItemId,
                     SUM
@@ -223,8 +251,7 @@ BEGIN
                                     ISNULL(d.TotalRequiredQty, 0) *
                                     CASE
                                         WHEN d.Unit = i.unit
-                                         AND i.Baseunit IS NOT NULL
-                                         AND i.Baseunit <> i.unit
+                                         AND ISNULL(i.Baseunit,i.unit) <> i.unit
                                             THEN i.Conversionfactor
                                         ELSE 1
                                     END
@@ -232,15 +259,21 @@ BEGIN
                                     ISNULL(d.IssuedQty, 0) *
                                     CASE
                                         WHEN d.Unit = i.unit
-                                         AND i.Baseunit IS NOT NULL
-                                         AND i.Baseunit <> i.unit
+                                         AND ISNULL(i.Baseunit,i.unit) <> i.unit
                                             THEN i.Conversionfactor
                                         ELSE 1
                                     END
                                 ELSE 0
                             END
                         )
-                    ) AS RequiredQty
+                    ) AS RequiredQty,
+                    MAX
+                    (
+                        CASE
+                            WHEN ISNULL(i.Baseunit,i.unit) = i.unit THEN 1
+                            ELSE i.Conversionfactor
+                        END
+                    ) AS ConversionFactor
                 FROM dbo.tblInventoryRequestDetails AS d WITH (UPDLOCK, HOLDLOCK)
                 INNER JOIN dbo.tblItem AS i
                     ON i.ItemId = d.ItemId
@@ -259,20 +292,30 @@ BEGIN
                 ) > 0;
 
                 /*
-                    QOH is the sum of every active price/rate row for the item.
-                    This matches the inventory request search and supports items
-                    that have multiple purchase prices/rate records.
+                    QOH is stored in Purchase Units. Convert every active rate row
+                    to Base Units before checking total available stock.
                 */
                 UPDATE stock
                 SET
                     ActiveRateCount = rate.RateCount,
-                    AvailableQty = CONVERT(DECIMAL(18,4), ISNULL(rate.AvailableQty, 0))
+                    AvailableBaseQty = CONVERT(DECIMAL(18,4), ISNULL(rate.AvailableBaseQty, 0))
                 FROM @StockToDeduct AS stock
                 OUTER APPLY
                 (
                     SELECT
                         COUNT(*) AS RateCount,
-                        SUM(CONVERT(DECIMAL(18,4), ISNULL(pr.QOH, 0))) AS AvailableQty
+                        SUM
+                        (
+                            CONVERT
+                            (
+                                DECIMAL(18,4),
+                                CASE
+                                    WHEN ISNULL(pr.QOH, 0) > 0
+                                        THEN ISNULL(pr.QOH, 0) * stock.ConversionFactor
+                                    ELSE 0
+                                END
+                            )
+                        ) AS AvailableBaseQty
                     FROM dbo.tblProductRate AS pr WITH (UPDLOCK, HOLDLOCK)
                     WHERE pr.ProductId = stock.ItemId
                       AND pr.Status = 1
@@ -292,44 +335,44 @@ BEGIN
                 (
                     SELECT 1
                     FROM @StockToDeduct
-                    WHERE ISNULL(AvailableQty, 0) < RequiredQty
+                    WHERE ISNULL(AvailableBaseQty, 0) < RequiredQty
                 )
                 BEGIN
-                    THROW 50210, 'Insufficient total QOH across active tblProductRate rows for one or more raw materials after unit conversion. Approval was cancelled.', 1;
+                    THROW 50210, 'Insufficient total stock across active tblProductRate rows after unit conversion. Approval was cancelled.', 1;
                 END;
 
                 /*
-                    Deduct from active rate rows in FIFO order (oldest rate row
-                    first). If one row does not contain enough quantity, the
-                    remaining issue quantity continues into the next row.
-                    All affected rows remain inside this approval transaction.
+                    Allocate the requested Base Units across active price rows
+                    in FIFO order (oldest Id first). Convert each row's remaining
+                    Base Units back to Purchase Units before saving QOH.
                 */
                 ;WITH RateRows AS
                 (
                     SELECT
                         pr.Id,
-                        CAST
+                        stock.ConversionFactor,
+                        CONVERT
                         (
+                            DECIMAL(18,4),
                             CASE
                                 WHEN ISNULL(pr.QOH, 0) > 0
-                                    THEN ISNULL(pr.QOH, 0)
+                                    THEN ISNULL(pr.QOH, 0) * stock.ConversionFactor
                                 ELSE 0
                             END
-                            AS DECIMAL(18,4)
-                        ) AS RowQty,
+                        ) AS RowQtyBase,
                         stock.RequiredQty,
                         ISNULL
                         (
                             SUM
                             (
-                                CAST
+                                CONVERT
                                 (
+                                    DECIMAL(18,4),
                                     CASE
                                         WHEN ISNULL(pr.QOH, 0) > 0
-                                            THEN ISNULL(pr.QOH, 0)
+                                            THEN ISNULL(pr.QOH, 0) * stock.ConversionFactor
                                         ELSE 0
                                     END
-                                    AS DECIMAL(18,4)
                                 )
                             ) OVER
                             (
@@ -338,7 +381,7 @@ BEGIN
                                 ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
                             ),
                             0
-                        ) AS QtyBefore
+                        ) AS QtyBeforeBase
                     FROM dbo.tblProductRate AS pr WITH (UPDLOCK, HOLDLOCK)
                     INNER JOIN @StockToDeduct AS stock
                         ON stock.ItemId = pr.ProductId
@@ -348,22 +391,31 @@ BEGIN
                 (
                     SELECT
                         Id,
+                        ConversionFactor,
                         CASE
-                            WHEN RowQty <= 0 OR QtyBefore >= RequiredQty
+                            WHEN RowQtyBase <= 0 OR QtyBeforeBase >= RequiredQty
                                 THEN CONVERT(DECIMAL(18,4), 0)
-                            WHEN QtyBefore + RowQty <= RequiredQty
-                                THEN RowQty
-                            ELSE RequiredQty - QtyBefore
-                        END AS DeductQty
+                            WHEN QtyBeforeBase + RowQtyBase <= RequiredQty
+                                THEN RowQtyBase
+                            ELSE RequiredQty - QtyBeforeBase
+                        END AS DeductQtyBase
                     FROM RateRows
                 )
                 UPDATE pr
                 SET pr.QOH =
-                    CONVERT(DECIMAL(18,4), ISNULL(pr.QOH, 0)) - deduction.DeductQty
+                    CONVERT
+                    (
+                        DECIMAL(18,4),
+                        (
+                            (CONVERT(DECIMAL(18,8), ISNULL(pr.QOH, 0)) *
+                             deduction.ConversionFactor) -
+                            deduction.DeductQtyBase
+                        ) / NULLIF(deduction.ConversionFactor, 0)
+                    )
                 FROM dbo.tblProductRate AS pr
                 INNER JOIN RateDeductions AS deduction
                     ON deduction.Id = pr.Id
-                WHERE deduction.DeductQty > 0;
+                WHERE deduction.DeductQtyBase > 0;
             END;
 
             /*
