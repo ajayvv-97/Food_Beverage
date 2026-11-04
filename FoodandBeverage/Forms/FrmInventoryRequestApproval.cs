@@ -310,7 +310,7 @@ namespace FoodandBeverage.Forms
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.White,
                 ForeColor = Color.Red,
-                Font = new Font("Segoe UI", 12F, FontStyle.Bold
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold)
             };
             close.FlatAppearance.BorderSize = 0;
             close.Click += delegate { pnl_reqapproval.Visible = false; };
@@ -355,7 +355,6 @@ namespace FoodandBeverage.Forms
                 Font = new Font("Segoe UI", 9F),
                 Margin = new Padding(20, 2, 3, 2)
             };
-            txt_search_reqapp.PlaceholderText = "Search request no, employee or department";
             filters.Controls.Add(statusCaption);
             filters.Controls.Add(cmb_reqapp_status);
             filters.Controls.Add(txt_search_reqapp);
@@ -975,7 +974,7 @@ namespace FoodandBeverage.Forms
                     ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
-                    Convert.ToInt32(FormType.InventoryRequest));
+                    Convert.ToInt32(FormType.Partybooking));
             }
             catch
             {
