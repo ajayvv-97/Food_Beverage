@@ -5399,8 +5399,7 @@ namespace FoodandBeverage
                 decimal adultPrice = GetDecimal(txtAdultPrice);
                 decimal childPrice = GetDecimal(txtChildPrice);
 
-                if (booking.NoOfAdults > 0 && booking.NoOfChildren > 0)
-                    booking.PackPrice = _fixedPriceStatus
+                booking.PackPrice = _fixedPriceStatus
                     ? _fixedPackPrice
                     : (booking.NoOfAdults > 0 && booking.NoOfChildren > 0
                         ? adultPrice + childPrice
