@@ -73,8 +73,8 @@ namespace FoodandBeverage.Forms
             DmnSearch criteria = new DmnSearch
             {
                 Select = "CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName, " +
-                         "ISNULL(pr.QOH,0) * CASE WHEN ISNULL(i.Baseunit,i.unit) = i.unit " +
-                         "THEN 1 ELSE ISNULL(i.Conversionfactor,0) END AS CurrentStock, i.Baseunit AS UnitId, " +
+                         "ISNULL(pr.QOH,0) * CASE WHEN ISNULL(i.Conversionfactor,0) > 0 " +
+                         "THEN i.Conversionfactor ELSE 1 END AS CurrentStock, i.Baseunit AS UnitId, " +
                          "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
                 Table = "tblItem i " +
                         "LEFT JOIN tblUnit u ON u.UId = i.Baseunit " +
@@ -1431,8 +1431,8 @@ namespace FoodandBeverage.Forms
             DmnSearch criteria = new DmnSearch
             {
                 Select = "CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName, " +
-                         "ISNULL(pr.QOH,0) * CASE WHEN ISNULL(i.Baseunit,i.unit) = i.unit " +
-                         "THEN 1 ELSE ISNULL(i.Conversionfactor,0) END AS CurrentStock, i.Baseunit AS UnitId, " +
+                         "ISNULL(pr.QOH,0) * CASE WHEN ISNULL(i.Conversionfactor,0) > 0 " +
+                         "THEN i.Conversionfactor ELSE 1 END AS CurrentStock, i.Baseunit AS UnitId, " +
                          "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
                 Table = "tblItem i " +
                         "LEFT JOIN tblUnit u ON u.UId = i.Baseunit " +
