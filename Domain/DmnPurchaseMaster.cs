@@ -114,7 +114,15 @@ namespace Domain
         public string Description { get; set; }
         public string PurchasePrefix { get; set; }
         public string PurchaseSrlNo { get; set; }
-        public DateTime Expiredate { get; set; }
-        
+        public int Isexpire { get; set; }
+        public decimal PreTaxamt { get; set; }
+        public decimal TotalPreTaxamt { get; set; }
+        public decimal TotalVat { get; set; }
+        public decimal VATAmount { get; set; }
+        public decimal IGSTAmount { get; set; }
+        public int BatchId { get; set; }
+        public decimal Roundoff { get; set; }
+        public DateTime? Expirydate { get; set; }
+
     }
 }

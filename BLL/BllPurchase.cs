@@ -46,6 +46,13 @@ namespace BLL
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("Status", objTestClass.Status);
+
+            parms.Add("TotalPreTaxamt", objTestClass.TotalPreTaxamt);
+            parms.Add("VATAmount", objTestClass.VATAmount);
+            parms.Add("IGSTAmount", objTestClass.IGSTAmount);
+            parms.Add("TaxAmount", objTestClass.TaxAmount);
+
+            parms.Add("Roundoff", objTestClass.Roundoff);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
@@ -78,7 +85,9 @@ namespace BLL
             parms.Add("PurchaseMasterId", objTestClass.PurchaseMasterId);
             parms.Add("PurchaseDetailId", objTestClass.PurchaseDetailId);
             parms.Add("PrId", objTestClass.PrId);
-           // parms.Add("Expiredate", objTestClass.Expiredate);
+            parms.Add("Isexpire", objTestClass.Isexpire);
+            parms.Add("Expirydate", objTestClass.Expirydate);
+            parms.Add("PreTaxamt", objTestClass.PreTaxamt);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
@@ -96,6 +105,15 @@ namespace BLL
             parms.Add("ModifiedBy", objTestClass.ModifiedBy);
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("Status", objTestClass.Status);
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+        public DmnPurchaseMaster AddDeleteData(string procedureName, DmnPurchaseMaster objTestClass)
+        {
+            DAL.DapperRepository<DmnPurchaseMaster> dapperRepository = new DAL.DapperRepository<DmnPurchaseMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("PurchaseMasterId", objTestClass.PurchaseMasterId);
+
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
