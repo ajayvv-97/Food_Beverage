@@ -3,6 +3,7 @@ using CustomMessageBox;
 using Domain;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Interfaces;
+using FoodandBeverage.Forms.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1129,7 +1130,73 @@ namespace FoodandBeverage.Forms
 
         private void btn_adv_search_reqapp_Click(object sender, EventArgs e)
         {
-            txt_search_reqapp.Focus();
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+
+                DmnSearch search = new DmnSearch
+                {
+                    ColumnHeaders = "ID,Request No,Request Date,Required Date,Department,Requested By",
+                    Select = "m.InventoryRequestId AS Id,m.RequestNo AS Field1," +
+                             "CONVERT(VARCHAR(30),m.RequestDate,106) AS Field2," +
+                             "CONVERT(VARCHAR(30),m.RequiredDate,106) AS Field3," +
+                             "ISNULL(d.DepartmentName,'-') AS Field4," +
+                             "ISNULL(e.EmployeeName,'-') AS Field5",
+                    Table = "tblInventoryRequestMaster m " +
+                            "LEFT JOIN tblDepartment d ON d.DepartmentId = m.DepartmentId " +
+                            "LEFT JOIN tblEmployee e ON e.EmployeeId = m.EmployeeId",
+                    WhereNdGroupBy = "WHERE ISNULL(m.Status,1) = 1 AND m.BranchId = " +
+                                     Convert.ToString(FrmDashboard.BranchId),
+                    OrderBy = "ORDER BY m.InventoryRequestId DESC"
+                };
+
+                // Check for available records before opening the search popup.
+                List<DmnGridFields> requestRows =
+                    bllSearch.GetSearchData("prdSearch", search);
+
+                if (requestRows == null || requestRows.Count == 0)
+                {
+                    CMessageBox.Show(
+                        "No inventory requests found.",
+                        "Empty",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                DataTable alignment = new DataTable();
+                alignment.Columns.Add();
+
+                int selectedId = 0;
+
+                using (FrmSearch<DmnGridFields> popup = new FrmSearch<DmnGridFields>(
+                    search,
+                    SearchMode.FirstCharacter,
+                    Width - 150,
+                    Height - 150,
+                    Location.Y + 50,
+                    Location.X + 20,
+                    alignment))
+                {
+                    if (popup.ShowDialog(this) == DialogResult.OK)
+                        int.TryParse(Convert.ToString(popup._retValue), out selectedId);
+                }
+
+                if (selectedId <= 0)
+                    return;
+
+                // Load the selected record into the approval form using the same
+                // master/detail loading method as the approval request list.
+                LoadApprovalRequest(selectedId);
+
+                // Close the request-list popup after loading the selected request.
+                pnl_reqapproval.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                LogInventoryException("btn_adv_search_reqapp_Click", ex);
+                ShowApprovalError("Unable to open advanced request search. " + ex.Message);
+            }
         }
 
         private void btn_reqapp_cls_Click(object sender, EventArgs e)
