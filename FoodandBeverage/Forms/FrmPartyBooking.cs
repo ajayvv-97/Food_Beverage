@@ -862,11 +862,6 @@ namespace FoodandBeverage
             UpdateDefaultKotDateTime(GetPartyBookingStartDateTime());
         }
 
-        private DateTime GetPartyBookingStartDateTime()
-        {
-            return dtpEventDate_From.Value.Date.Add(dtpEventTime_From.Value.TimeOfDay);
-        }
-
         private DateTime GetSelectedKotDateTime()
         {
             return dtp_kotdate.Value.Date.Add(dtp_kottime.Value.TimeOfDay);
