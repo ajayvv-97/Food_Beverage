@@ -334,6 +334,7 @@ namespace FoodandBeverage
             lblbalapay.Text = "Balance Payable";
 
             dgv_packenter.DataError += dgv_packenter_DataError;
+            dgv_packs_items.DataError += dgv_packs_items_DataError;
             btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
             btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
             btnprev.Click += btnprev_Click;
@@ -1558,29 +1559,79 @@ namespace FoodandBeverage
                 return "";
             }
         }
-        private void LoadMenuCategory()
+        private void LoadMenuCategory(IEnumerable<DmnPartyPackDetails> packItems = null)
         {
             try
             {
+                // Keep all categories currently referenced by this saved package in the
+                // ComboBox list, even if a category was later disabled or reclassified.
+                List<long> usedCategoryIds = (packItems ?? Enumerable.Empty<DmnPartyPackDetails>())
+                    .Where(x => x.MenuCategoryId > 0)
+                    .Select(x => Convert.ToInt64(x.MenuCategoryId))
+                    .Distinct()
+                    .ToList();
+
+                string whereClause = "WHERE (ISNULL(Status, 1) = 1 AND CategoryType = 5)";
+                if (usedCategoryIds.Count > 0)
+                {
+                    whereClause += " OR Fcid IN (" +
+                        string.Join(",", usedCategoryIds) + ")";
+                }
+
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
-                DmnSearch objSearch = new DmnSearch();
+                DmnSearch objSearch = new DmnSearch
+                {
+                    Select = "Fcid, CategoryName",
+                    Table = "tblCategory_FTI",
+                    WhereNdGroupBy = whereClause,
+                    OrderBy = "ORDER BY CategoryName"
+                };
 
-                objSearch.Select = "Fcid, CategoryName";
-                objSearch.Table = "tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 5";
-                objSearch.OrderBy = "ORDER BY CategoryName";
+                categoryList = bllSearch.GetSearchData("prdSearch", objSearch) ??
+                    new List<DmnCategory>();
 
-                categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
+                // Preserve legacy IDs if a referenced category record no longer exists.
+                HashSet<long> loadedIds = new HashSet<long>(
+                    categoryList.Select(x => x.Fcid));
+                foreach (long categoryId in usedCategoryIds)
+                {
+                    if (!loadedIds.Contains(categoryId))
+                    {
+                        categoryList.Add(new DmnCategory
+                        {
+                            Fcid = categoryId,
+                            CategoryName = "Unavailable category (" + categoryId + ")"
+                        });
+                    }
+                }
 
-                DataGridViewComboBoxColumn cmb = (DataGridViewComboBoxColumn)dgv_packs_items.Columns[showonlycategmenuno];
+                DataGridViewComboBoxColumn cmb =
+                    (DataGridViewComboBoxColumn)dgv_packs_items.Columns[showonlycategmenuno];
 
-                cmb.DataSource = categoryList;
+                cmb.DataSource = null;
                 cmb.DisplayMember = "CategoryName";
                 cmb.ValueMember = "Fcid";
+                cmb.DataSource = categoryList;
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partybooking page  LoadMenuCategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+                clsgen.LogException("Partybooking page LoadMenuCategory()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void dgv_packs_items_DataError(
+            object sender,
+            DataGridViewDataErrorEventArgs e)
+        {
+            // A stale or blank category must never stop the View Details popup.
+            e.ThrowException = false;
+            if (e.Exception != null)
+            {
+                clsgen.LogException("Partybooking page dgv_packs_items_DataError()",
+                    e.Exception, FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void LoadMenuCategory_cutom()
@@ -1622,8 +1673,10 @@ namespace FoodandBeverage
                 search.Table = "tblPartyPackDetails";
                 search.WhereNdGroupBy = "WHERE PartyPackId = " + packId + " AND Status = 1 and PackItemType =" + Convert.ToInt32(PackItemType.FoodItem);
 
-                LoadMenuCategory();
-                packDetailsList = bll.GetSearchData("prdSearch", search);
+                packDetailsList = bll.GetSearchData("prdSearch", search) ??
+                    new List<DmnPartyPackDetails>();
+                LoadMenuCategory(packDetailsList);
+
                 int sl = 1;
                 foreach (var item in packDetailsList)
                 {
@@ -1633,13 +1686,15 @@ namespace FoodandBeverage
                     row.Cells[showonlyslno].Value = sl++;
                     row.Cells[showonlyitemno].Value = item.Item;
 
-                    if (item.MenuCategoryId != null && item.MenuCategoryId > 0)
+                    if (item.MenuCategoryId > 0)
                     {
-                        row.Cells[showonlycategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                        row.Cells[showonlycategmenuno].Value =
+                            Convert.ToInt64(item.MenuCategoryId);
                     }
                     else
                     {
-                        row.Cells[showonlycategmenuno].Value = DBNull.Value;
+                        // A null value is the valid blank selection for a ComboBox cell.
+                        row.Cells[showonlycategmenuno].Value = null;
                     }
                     row.Cells[showonlyqtyno].Value = item.Quantity;
                 }
@@ -1655,24 +1710,19 @@ namespace FoodandBeverage
         {
             try
             {
-                var usedCategoryIds = packDetailsList
-                    .Select(x => x.MenuCategoryId)
+                flp_pakdet_item_menu.Controls.Clear();
+
+                var usedCategoryIds = (packDetailsList ?? new List<DmnPartyPackDetails>())
+                    .Where(x => x.MenuCategoryId > 0)
+                    .Select(x => Convert.ToInt64(x.MenuCategoryId))
                     .Distinct()
                     .ToList();
 
-                BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
-                DmnSearch objSearch = new DmnSearch();
-
-                objSearch.Select = "Fcid, CategoryName";
-                objSearch.Table = "tblCategory_FTI";
-                objSearch.WhereNdGroupBy =
-                    "WHERE Status = 1 AND Fcid IN (" + string.Join(",", usedCategoryIds) + ")";
-                objSearch.OrderBy = "ORDER BY CategoryName";
-
-                var categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
-
-                foreach (var cat in categoryList)
+                foreach (long categoryId in usedCategoryIds)
                 {
+                    DmnCategory cat = categoryList.FirstOrDefault(x => x.Fcid == categoryId);
+                    if (cat == null) continue;
+
                     Button btn = new Button();
                     btn.Text = cat.CategoryName;
                     btn.Width = 120;
@@ -1708,7 +1758,7 @@ namespace FoodandBeverage
 
                 int sl = 1;
 
-                LoadMenuCategory();
+                LoadMenuCategory(packDetailsList);
 
                 foreach (var item in filtered)
                 {
@@ -1717,7 +1767,9 @@ namespace FoodandBeverage
 
                     row.Cells[showonlyslno].Value = sl++;
                     row.Cells[showonlyitemno].Value = item.Item;
-                    row.Cells[showonlycategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                    row.Cells[showonlycategmenuno].Value = item.MenuCategoryId > 0
+                        ? (object)Convert.ToInt64(item.MenuCategoryId)
+                        : null;
                     row.Cells[showonlyqtyno].Value = item.Quantity;
                 }
             }
