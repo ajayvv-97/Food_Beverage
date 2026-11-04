@@ -234,7 +234,7 @@ namespace FoodandBeverage.Forms
 
             catch (Exception ex)
             {
-
+                LogInventoryException("textb_shape", ex);
             }
         }
         private void ApplyRoundedTextBox(TextBox textBox, int radius)
@@ -255,7 +255,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-
+                LogInventoryException("ApplyRoundedTextBox", ex);
             }
         }
 
@@ -743,7 +743,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                LogApprovalException("btn_reqpage_Click", ex);
+                LogInventoryException("btn_reqpage_Click", ex);
                 ShowApprovalError("Unable to open approval requests. " + ex.Message);
             }
         }
@@ -764,7 +764,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                LogApprovalException("dgv_req_app_CellClick", ex);
+                LogInventoryException("dgv_req_app_CellClick", ex);
                 ShowApprovalError("Unable to load the selected request. " + ex.Message);
             }
         }
@@ -1077,7 +1077,7 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                LogApprovalException("SaveApprovalDecision", ex);
+                LogInventoryException("SaveApprovalDecision", ex);
                 ShowApprovalError("Unable to save the approval decision. " + ex.Message);
             }
         }
@@ -1244,20 +1244,20 @@ namespace FoodandBeverage.Forms
                 MessageBoxIcon.Warning);
         }
 
-        private void LogApprovalException(string method, Exception ex)
+        private void LogInventoryException(string eventName, Exception ex)
         {
             try
             {
                 clsgen.LogException(
-                    "FrmInventoryRequestApproval " + method,
+                    "InventoryManagement page " + eventName,
                     ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Partybooking));
+                    Convert.ToInt32(FormType.InventoryManagement));
             }
             catch
             {
-                // Keep a logging failure from interrupting the approval workflow.
+                // Logging must not interrupt the inventory approval workflow.
             }
         }
 
