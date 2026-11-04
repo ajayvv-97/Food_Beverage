@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -55,7 +56,7 @@ namespace FoodandBeverage.Forms
             UpdateDecisionButtons(false);
             ClearSelectedRequest();
         }
-
+       
         private void ConfigureReadOnlyHeader()
         {
             Text = "Inventory Request Approval";
@@ -110,7 +111,48 @@ namespace FoodandBeverage.Forms
             if (dgv_raw.Columns.Contains("rawproductype"))
                 dgv_raw.Columns["rawproductype"].Visible = false;
         }
+        #region TexBox Round function
+        public void textb_shape()
+        {
+            try
+            {
+                foreach (TextBox textBox in new TextBox[] { txtremarks, txt_reqtype, txt_department, txt_reqby, txt_requireddate, txt_reqdate, txt_reqno })
+                {
+                    ApplyRoundedTextBox(textBox, 10);
+                    //textBox.Font = new Font(textBox.Font.FontFamily, 12);
+                    textBox.BorderStyle = BorderStyle.None;
+                }
 
+            }
+
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void ApplyRoundedTextBox(TextBox textBox, int radius)
+        {
+            try
+            {
+                // Create a new GraphicsPath object
+                GraphicsPath path = new GraphicsPath();
+                // Define the shape of the path using a rounded rectangle
+                Rectangle rect = new Rectangle(0, 0, textBox.Width, textBox.Height);
+                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+                path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+                path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+                path.CloseAllFigures();
+                // Set the Region property of the textbox to the new path
+                textBox.Region = new Region(path);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        #endregion
         private static void ConfigureReadOnlyGrid(DataGridView grid)
         {
             grid.AllowUserToAddRows = false;
@@ -1069,12 +1111,20 @@ namespace FoodandBeverage.Forms
 
         private void FrmInventoryRequestApproval_Load(object sender, EventArgs e)
         {
+            textb_shape();
+
+            UIHelper.RoundCorners(tlp_batch_raw, 25);
+            UIHelper.RoundCorners(tlp_decision, 25);
+            UIHelper.RoundCorners(tlp_info, 25);
+            UIHelper.RoundCorners(tlp_header, 25);
+
             CenterRequestApprovalPopup();
             UpdateStatusIndicator(ApprovalPending);
         }
 
         private void FrmInventoryRequestApproval_Resize(object sender, EventArgs e)
         {
+            textb_shape();
             if (pnl_reqapproval != null)
                 CenterRequestApprovalPopup();
         }
