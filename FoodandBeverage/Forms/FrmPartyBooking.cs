@@ -226,6 +226,8 @@ namespace FoodandBeverage
         private bool _isKotDateTimeManuallySet;
         private bool _hasLoadedKotDateTime;
         private DateTime? _loadedKotDateTime;
+        private bool _hasValidatedKotDateTimeForPayment;
+        private DateTime? _validatedKotDateTimeForPayment;
         private bool _loadedConsumedRawMaterialStatus;
         private bool _loadedKoTPrintStatus;
         private bool _isLoadingPartyBooking;
@@ -919,6 +921,17 @@ namespace FoodandBeverage
                     : bookingStart;
 
             SetKotDateTimePickerValue(automaticKotTime);
+        }
+
+        private DateTime GetPartyBookingStartDateTime()
+        {
+            DateTime? bookingDate = GetOptionalDateTimePickerValue("dtpEventDate_From");
+            DateTime? bookingTime = GetOptionalDateTimePickerValue("dtpEventTime_From");
+
+            DateTime date = bookingDate ?? dtpEventDate_From.Value;
+            DateTime time = bookingTime ?? dtpEventTime_From.Value;
+
+            return date.Date + time.TimeOfDay;
         }
 
         private bool TryGetKotDateTimeForSave(DateTime bookingStart, out DateTime? kotDateTime)
@@ -3901,6 +3914,17 @@ namespace FoodandBeverage
         {
             try
             {
+                // Initialize hidden save fields before reading tax settings.
+                // This prevents null/empty values from reaching the booking save.
+                txtPreTaxAmount_pack.Text = "0.00";
+                txtTotalTaxAmount_pack.Text = "0.00";
+                txtGrandTotal_pack.Text = "0.00";
+                txtIGSTAmt_pack.Text = "0.00";
+                txtVatamt_pack.Text = "0.00";
+                txt_packtaxper.Text = "0";
+                txtTaxPer_pack.Text = "0";
+                txtTaxtype_pack.Text = string.Empty;
+
                 decimal GetDecimal(TextBox txt)
                 {
                     decimal.TryParse(txt.Text, out decimal val);
@@ -3945,7 +3969,8 @@ namespace FoodandBeverage
                     }
                 }
 
-                txt_packtaxper.Text = totalPercent.ToString(); 
+                txt_packtaxper.Text = totalPercent.ToString("0.##");
+                txtTaxPer_pack.Text = totalPercent.ToString("0.##");
                 txtTaxtype_pack.Text = taxType;
 
                 decimal discountAmt = 0; // you can calculate later if needed
@@ -4588,11 +4613,10 @@ namespace FoodandBeverage
                 UpdateTotalGuests();
                 UpdateGrandTotal_Pack();
 
-                // A fixed-price package is charged at FixedPrice regardless of the
-                // configured adult/child counts. Do not run the per-guest pack pricing
-                // calculation for it; add-on rows still use the normal tax/price flow.
-                if (!_fixedPriceStatus)
-                    CalculatePackValues();
+                // UpdateGrandTotal_Pack uses FixedPrice for fixed-price packages and
+                // adult/child pricing for normal packages. Both must pass through the
+                // same tax calculation so pack tax fields are always populated.
+                CalculatePackValues();
 
                 if (Convert.ToDecimal(discountper.Text) > 0)
                     CalculateDiscountAmount();
@@ -5000,8 +5024,25 @@ namespace FoodandBeverage
         {
             try
             {
+                // Recalculate now before opening payment options. Fixed-price packs
+                // use their configured FixedPrice, but still run the normal tax and
+                // discount calculations.
+                PriceChangecalculation();
+
                 if (!Mandatorycheck())
                     return;
+
+                _hasValidatedKotDateTimeForPayment = false;
+                DateTime? validatedKotDateTime;
+                if (!TryGetKotDateTimeForSave(
+                    GetPartyBookingStartDateTime(),
+                    out validatedKotDateTime))
+                {
+                    return;
+                }
+
+                _validatedKotDateTimeForPayment = validatedKotDateTime;
+                _hasValidatedKotDateTimeForPayment = true;
 
                 btnnocharge.Visible = true;
                 btn_other.Visible = true;
@@ -5118,7 +5159,7 @@ namespace FoodandBeverage
                     return false;
                 }
 
-                if (adultPrice > 0 || childPrice > 0)
+                if (!_fixedPriceStatus && (adultPrice > 0 || childPrice > 0))
                 {
                     int adults = GetInt(txtAdults);
                     int children = GetInt(txtChild);
@@ -5313,14 +5354,16 @@ namespace FoodandBeverage
 
                 // 🔹 DATEtime
 
-                DateTime bookingStart = GetOptionalDateTimePickerValue("dtpEventDate_From").HasValue
-                    ? GetOptionalDateTimePickerValue("dtpEventDate_From").Value.Date +
-                      (GetOptionalDateTimePickerValue("dtpEventTime_From") ?? dtpEventTime_From.Value).TimeOfDay
-                    : dtpEventDate_From.Value.Date + dtpEventTime_From.Value.TimeOfDay;
+                if (!_hasValidatedKotDateTimeForPayment)
+                {
+                    // All payment routes must originate from btn_paynow_Click,
+                    // where booking/KOT date validation is displayed to staff.
+                    throw new InvalidOperationException(
+                        "Booking time validation has not been completed. Click Pay Now before selecting a payment method.");
+                }
 
-                DateTime? kotDateTime;
-                if (!TryGetKotDateTimeForSave(bookingStart, out kotDateTime))
-                    return;
+                DateTime bookingStart = GetPartyBookingStartDateTime();
+                DateTime? kotDateTime = _validatedKotDateTimeForPayment;
 
                 DateTime? bookingEndDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
                 DateTime? bookingEndTime = GetOptionalDateTimePickerValue("dtpEventTime_To");
@@ -5606,17 +5649,17 @@ namespace FoodandBeverage
                 packDetails.TaxType = txtTaxtype_pack.Text ?? "";
                 packDetails.TaxPer = GetDecimal(txtTaxPer_pack);
 
-                packDetails.TaxAmount = Convert.ToDecimal(txtTotalTaxAmount_pack.Text);
-                igst = Convert.ToDecimal(txtIGSTAmt_pack.Text);
+                packDetails.TaxAmount = GetDecimal(txtTotalTaxAmount_pack);
+                igst = GetDecimal(txtIGSTAmt_pack);
                 packDetails.IGSTAmt = igst;
                 packDetails.CGSTAmt = igst / 2;
                 packDetails.SGSTAmt = igst / 2;
-                packDetails.VATAmt = Convert.ToDecimal(txtVatamt_pack.Text);
+                packDetails.VATAmt = GetDecimal(txtVatamt_pack);
 
-                packDetails.Amount = Convert.ToDecimal(txt_PackTotalAmt.Text);
-                packDetails.PostTaxAmount = Convert.ToDecimal(txtTotalTaxAmount_pack.Text);
-                packDetails.PreTaxAmount = Convert.ToDecimal(txtPreTaxAmount_pack.Text);
-                packDetails.NetAmount = Convert.ToDecimal(txtGrandTotal_pack.Text);
+                packDetails.Amount = GetDecimal(txt_PackTotalAmt);
+                packDetails.PostTaxAmount = GetDecimal(txtTotalTaxAmount_pack);
+                packDetails.PreTaxAmount = GetDecimal(txtPreTaxAmount_pack);
+                packDetails.NetAmount = GetDecimal(txtGrandTotal_pack);
 
                 packDetails.CreatedBy = FrmDashboard.UserId;
                 packDetails.BranchId = FrmDashboard.BranchId;
@@ -5970,6 +6013,9 @@ namespace FoodandBeverage
                         CMessageBox.Show("Party Booking Saved Successfully.");
                         break;
                 }
+
+                _hasValidatedKotDateTimeForPayment = false;
+                _validatedKotDateTimeForPayment = null;
 
                 //ClearAll();
 
