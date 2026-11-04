@@ -1,6 +1,31 @@
 USE [FoodBeverage];
 GO
 
+/*
+    QOH stores stock in Baseunit and must support fractional quantities.
+    Convert older INT/other numeric definitions to DECIMAL(18,4).
+*/
+IF OBJECT_ID(N'dbo.tblProductRate', N'U') IS NOT NULL
+   AND COL_LENGTH(N'dbo.tblProductRate', N'QOH') IS NOT NULL
+   AND EXISTS
+   (
+       SELECT 1
+       FROM sys.columns
+       WHERE object_id = OBJECT_ID(N'dbo.tblProductRate')
+         AND name = N'QOH'
+         AND
+         (
+             system_type_id NOT IN (106, 108)
+             OR precision <> 18
+             OR scale <> 4
+         )
+   )
+BEGIN
+    ALTER TABLE dbo.tblProductRate
+        ALTER COLUMN QOH DECIMAL(18,4) NULL;
+END;
+GO
+
 /* Ensure approval audit columns exist on databases created from earlier request scripts. */
 IF OBJECT_ID(N'dbo.tblInventoryRequestMaster', N'U') IS NULL
     THROW 50200, 'tblInventoryRequestMaster must be created before installing the approval workflow.', 1;
