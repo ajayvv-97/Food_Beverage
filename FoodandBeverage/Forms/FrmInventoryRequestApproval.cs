@@ -43,6 +43,7 @@ namespace FoodandBeverage.Forms
         private TextBox txt_reqtype;
         private Label lbl_requesttype;
         private Label lbl_department;
+        private Label lbl_deoartment;
         private PictureBox pb_status;
         private Label lbl_status_text;
         private ToolTip _approvalToolTip;
@@ -137,6 +138,9 @@ namespace FoodandBeverage.Forms
             label5.Text = "Approval Remarks";
             label8.Text = "Department";
             lbl_department = label8;
+            lbl_deoartment = label8;
+            label2.Text = "Inventory Request Approval";
+            Text = "Inventory Request Approval";
 
             tlp_req_from.RowStyles[0] = new RowStyle(SizeType.Absolute, 24F);
             tlp_req_from.RowCount = 8;
