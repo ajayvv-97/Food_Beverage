@@ -237,15 +237,7 @@ namespace FoodandBeverage.Forms
             BIitemidno = dgv_batch_ingrediant.Columns["biItemId"].Index;
             BIunitidno = dgv_batch_ingrediant.Columns["biUnitId"].Index;
 
-            dgv_raw.Columns[Rslno].FillWeight = 7;
-            dgv_raw.Columns[Rrawmaterialno].FillWeight = 34;
-            dgv_raw.Columns[Rcurrentstockno].FillWeight = 11;
-            dgv_raw.Columns[Rissuedqtyno].FillWeight = 11;
-            dgv_raw.Columns[Runitno].FillWeight = 14;
-            dgv_raw.Columns[Runitno].MinimumWidth = 105;
-            dgv_raw.Columns[Rprojectbalanceno].FillWeight = 12;
-            dgv_raw.Columns[RpurposeRemarksno].FillWeight = 15;
-            dgv_raw.Columns[Ractionno].FillWeight = 7;
+            ApplyRawMaterialGridLayout();
             dgv_raw.Columns[Ritemidno].Visible = false;
             dgv_raw.Columns[Rproducttypeno].Visible = false;
 
@@ -349,19 +341,72 @@ namespace FoodandBeverage.Forms
             grid.Columns.Insert(columnIndex, imageColumn);
         }
 
+        private void ApplyRawMaterialGridLayout()
+        {
+            if (dgv_raw == null || dgv_raw.Columns.Count <= Ractionno)
+                return;
+
+            // Keep the raw-material grid readable at different screen resolutions.
+            // Extra width is shared by the item name and purpose/remarks columns.
+            dgv_raw.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            foreach (DataGridViewColumn column in dgv_raw.Columns)
+            {
+                if (column.Visible)
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            dgv_raw.Columns[Rslno].FillWeight = 6F;
+            dgv_raw.Columns[Rslno].MinimumWidth = 45;
+
+            dgv_raw.Columns[Rrawmaterialno].FillWeight = 22F;
+            dgv_raw.Columns[Rrawmaterialno].MinimumWidth = 130;
+
+            dgv_raw.Columns[Rcurrentstockno].FillWeight = 14F;
+            dgv_raw.Columns[Rcurrentstockno].MinimumWidth = 110;
+
+            dgv_raw.Columns[Rissuedqtyno].FillWeight = 10F;
+            dgv_raw.Columns[Rissuedqtyno].MinimumWidth = 85;
+
+            dgv_raw.Columns[Runitno].FillWeight = 10F;
+            dgv_raw.Columns[Runitno].MinimumWidth = 85;
+
+            dgv_raw.Columns[Rprojectbalanceno].FillWeight = 15F;
+            dgv_raw.Columns[Rprojectbalanceno].MinimumWidth = 115;
+
+            dgv_raw.Columns[RpurposeRemarksno].FillWeight = 18F;
+            dgv_raw.Columns[RpurposeRemarksno].MinimumWidth = 145;
+
+            dgv_raw.Columns[Ractionno].FillWeight = 5F;
+            dgv_raw.Columns[Ractionno].MinimumWidth = 38;
+
+            // Wrap long values and headers instead of displaying ellipses.
+            dgv_raw.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv_raw.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv_raw.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv_raw.RowTemplate.Height = 36;
+
+            dgv_raw.Columns[Rrawmaterialno].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv_raw.Columns[Runitno].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv_raw.Columns[Rprojectbalanceno].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv_raw.Columns[RpurposeRemarksno].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+        }
+
         private void InventoryGrid_Resize(object sender, EventArgs e)
         {
             DataGridView grid = sender as DataGridView;
             if (grid == null)
+                return;
+
+            if (grid == dgv_raw)
             {
+                ApplyRawMaterialGridLayout();
                 return;
             }
 
             // Reapply Fill mode after the parent layout recalculates its client width.
             if (grid.AutoSizeColumnsMode != DataGridViewAutoSizeColumnsMode.Fill)
-            {
                 grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            }
         }
 
         private void InitializeRequestHeader()
