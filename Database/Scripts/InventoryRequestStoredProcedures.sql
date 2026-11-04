@@ -361,3 +361,77 @@ BEGIN
     END CATCH
 END;
 GO
+
+/*
+    Inventory request approval workflow:
+      0 = Pending
+      1 = Approved
+      2 = Rejected
+      3 = Sent Back
+
+    Only Pending requests can receive a manager decision.
+    Only Sent Back requests can be resubmitted by the requesting employee.
+*/
+CREATE OR ALTER PROCEDURE dbo.prdUpdate_InventoryRequestApproval
+    @InventoryRequestId INT,
+    @ApprovalStatus INT,
+    @EmployeeId INT,
+    @ApprovalRemarks VARCHAR(MAX) = NULL,
+    @BranchId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        IF @ApprovalStatus = 0
+        BEGIN
+            UPDATE dbo.tblInventoryRequestMaster
+            SET ApprovalStatus = 0,
+                ApprovedBy = NULL,
+                ApprovedOn = NULL,
+                ModifiedBy = @EmployeeId,
+                ModifiedOn = GETDATE()
+            WHERE InventoryRequestId = @InventoryRequestId
+              AND BranchId = @BranchId
+              AND ISNULL(Status, 1) = 1
+              AND ApprovalStatus = 3;
+
+            IF @@ROWCOUNT = 0
+                THROW 50201, 'Only an active Sent Back request can be resubmitted.', 1;
+            -- Keep the Send Back remarks so the requester can still see the reason
+            -- in the Inventory Request list after resubmission.
+        END
+        ELSE IF @ApprovalStatus IN (1, 2, 3)
+        BEGIN
+            UPDATE dbo.tblInventoryRequestMaster
+            SET ApprovalStatus = @ApprovalStatus,
+                ApprovedBy = @EmployeeId,
+                ApprovedOn = GETDATE(),
+                ApprovalRemarks = NULLIF(LTRIM(RTRIM(@ApprovalRemarks)), ''),
+                ModifiedBy = @EmployeeId,
+                ModifiedOn = GETDATE()
+            WHERE InventoryRequestId = @InventoryRequestId
+              AND BranchId = @BranchId
+              AND ISNULL(Status, 1) = 1
+              AND ApprovalStatus = 0;
+
+            IF @@ROWCOUNT = 0
+                THROW 50202, 'Only an active Pending request can be approved, rejected, or sent back.', 1;
+        END
+        ELSE
+        BEGIN
+            THROW 50203, 'Invalid inventory request approval status.', 1;
+        END;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
+END;
+GO
