@@ -224,13 +224,7 @@ namespace FoodandBeverage.Forms
             dgv_batch.Columns[Bactionno].FillWeight = 7;
             dgv_batch.Columns[Bitemidno].Visible = false;
 
-            dgv_batch_ingrediant.Columns[BIslno].FillWeight = 7;
-            dgv_batch_ingrediant.Columns[BIingredientno].FillWeight = 31;
-            dgv_batch_ingrediant.Columns[Biperportionqtyno].FillWeight = 13;
-            dgv_batch_ingrediant.Columns[BItotalrequiredqtyno].FillWeight = 15;
-            dgv_batch_ingrediant.Columns[BIunitno].FillWeight = 9;
-            dgv_batch_ingrediant.Columns[BIcurrentstockno].FillWeight = 12;
-            dgv_batch_ingrediant.Columns[BIprojectedbalanceno].FillWeight = 13;
+
             dgv_batch_ingrediant.Columns[BIproductidno].Visible = false;
             dgv_batch_ingrediant.Columns[BIing_DetailsIdno].Visible = false;
             if (!dgv_batch_ingrediant.Columns.Contains("biItemId"))
@@ -239,6 +233,8 @@ namespace FoodandBeverage.Forms
                 dgv_batch_ingrediant.Columns.Add(new DataGridViewTextBoxColumn { Name = "biUnitId", Visible = false });
             BIitemidno = dgv_batch_ingrediant.Columns["biItemId"].Index;
             BIunitidno = dgv_batch_ingrediant.Columns["biUnitId"].Index;
+
+            ApplyBatchIngredientGridLayout();
 
             ApplyRawMaterialGridLayout();
             dgv_raw.Columns[Ritemidno].Visible = false;
@@ -344,6 +340,81 @@ namespace FoodandBeverage.Forms
             grid.Columns.Insert(columnIndex, imageColumn);
         }
 
+        private void ApplyBatchIngredientGridLayout()
+        {
+            DataGridView grid = dgv_batch_ingrediant;
+            if (grid == null || grid.Columns.Count <= BIprojectedbalanceno)
+                return;
+
+            // Keep every ingredient column visible in the available client width.
+            // The horizontal scrollbar previously appeared because designer AllCells
+            // sizing and the original minimum widths competed with the Fill layout.
+            grid.ScrollBars = ScrollBars.Vertical;
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            grid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            grid.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            grid.RowTemplate.Height = 36;
+
+            foreach (DataGridViewColumn column in grid.Columns)
+            {
+                if (!column.Visible)
+                    continue;
+
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                column.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
+
+            ApplyResponsiveFillColumnLayout(
+                grid,
+                new[] { BIslno, BIingredientno, Biperportionqtyno, BItotalrequiredqtyno,
+                        BIunitno, BIcurrentstockno, BIprojectedbalanceno },
+                new[] { 6F, 25F, 12F, 14F, 8F, 16F, 19F },
+                new[] { 38, 105, 75, 82, 55, 86, 92 });
+        }
+
+        private static void ApplyResponsiveFillColumnLayout(
+            DataGridView grid,
+            int[] columnIndexes,
+            float[] fillWeights,
+            int[] preferredMinimumWidths)
+        {
+            if (grid == null || columnIndexes == null || fillWeights == null ||
+                preferredMinimumWidths == null ||
+                columnIndexes.Length != fillWeights.Length ||
+                columnIndexes.Length != preferredMinimumWidths.Length)
+            {
+                return;
+            }
+
+            int availableWidth = Math.Max(
+                1,
+                grid.ClientSize.Width - SystemInformation.VerticalScrollBarWidth - 8);
+
+            int totalPreferredWidth = preferredMinimumWidths.Sum();
+            double widthScale = totalPreferredWidth > availableWidth && totalPreferredWidth > 0
+                ? (double)availableWidth / totalPreferredWidth
+                : 1D;
+
+            for (int i = 0; i < columnIndexes.Length; i++)
+            {
+                int columnIndex = columnIndexes[i];
+                if (columnIndex < 0 || columnIndex >= grid.Columns.Count)
+                    continue;
+
+                DataGridViewColumn column = grid.Columns[columnIndex];
+                if (!column.Visible)
+                    continue;
+
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                column.FillWeight = fillWeights[i];
+                column.MinimumWidth = Math.Max(
+                    28,
+                    (int)Math.Floor(preferredMinimumWidths[i] * widthScale));
+            }
+        }
+
         private void ApplyRawMaterialGridLayout()
         {
             if (dgv_raw == null || dgv_raw.Columns.Count <= Ractionno)
@@ -404,6 +475,12 @@ namespace FoodandBeverage.Forms
             if (grid == dgv_raw)
             {
                 ApplyRawMaterialGridLayout();
+                return;
+            }
+
+            if (grid == dgv_batch_ingrediant)
+            {
+                ApplyBatchIngredientGridLayout();
                 return;
             }
 
