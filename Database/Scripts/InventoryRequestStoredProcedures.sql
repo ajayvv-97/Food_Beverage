@@ -419,7 +419,7 @@ BEGIN
             WHERE InventoryRequestId = @InventoryRequestId
               AND BranchId = @BranchId
               AND ISNULL(Status, 1) = 1
-              AND ApprovalStatus = 3;
+              AND ApprovalStatus IN (0, 3);
 
             IF @@ROWCOUNT = 0
                 THROW 50201, 'Only an active Sent Back request can be resubmitted.', 1;
