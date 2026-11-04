@@ -49,13 +49,6 @@ namespace FoodandBeverage.Forms
 
             _blurPopupOverlay = new BlurPopupOverlay(this, pnl_reqapproval);
 
-            // The Designer already wires the request-list, reject, send-back,
-            // close, search, and paging events. Only wire controls that are
-            // intentionally handled in code here.
-            btn_approval.Click += btn_approve_Click;
-            btnmini.Click += btnmini_Click;
-            btncolse.Click += btnclose_Click;
-
             UpdateDecisionButtons(false);
             ClearSelectedRequest();
         }
@@ -997,7 +990,7 @@ namespace FoodandBeverage.Forms
             txtremarks.ReadOnly = !enabled;
         }
 
-        private void btn_approve_Click(object sender, EventArgs e)
+        private void btn_approval_Click(object sender, EventArgs e)
         {
             SaveApprovalDecision(ApprovalApproved);
         }
@@ -1271,5 +1264,7 @@ namespace FoodandBeverage.Forms
 
             base.OnFormClosed(e);
         }
+
+        
     }
 }
