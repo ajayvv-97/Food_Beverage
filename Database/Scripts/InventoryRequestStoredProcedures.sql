@@ -432,7 +432,7 @@ BEGIN
             SET ApprovalStatus = @ApprovalStatus,
                 ApprovedBy = @EmployeeId,
                 ApprovedOn = GETDATE(),
-                ApprovalRemarks = NULLIF(LTRIM(RTRIM(@ApprovalRemarks)), ''),
+                ApprovalRemarks = ISNULL(NULLIF(LTRIM(RTRIM(@ApprovalRemarks)), ''), ''),
                 ModifiedBy = @EmployeeId,
                 ModifiedOn = GETDATE()
             WHERE InventoryRequestId = @InventoryRequestId
