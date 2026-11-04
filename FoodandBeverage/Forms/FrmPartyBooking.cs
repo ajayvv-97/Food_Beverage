@@ -228,6 +228,7 @@ namespace FoodandBeverage
         private DateTime? _loadedKotDateTime;
         private bool _hasValidatedKotDateTimeForPayment;
         private DateTime? _validatedKotDateTimeForPayment;
+        private DateTime? _validatedBookingStartForPayment;
         private bool _loadedConsumedRawMaterialStatus;
         private bool _loadedKoTPrintStatus;
         private bool _isLoadingPartyBooking;
@@ -5024,6 +5025,10 @@ namespace FoodandBeverage
         {
             try
             {
+                _hasValidatedKotDateTimeForPayment = false;
+                _validatedKotDateTimeForPayment = null;
+                _validatedBookingStartForPayment = null;
+
                 // Recalculate now before opening payment options. Fixed-price packs
                 // use their configured FixedPrice, but still run the normal tax and
                 // discount calculations.
@@ -5032,16 +5037,17 @@ namespace FoodandBeverage
                 if (!Mandatorycheck())
                     return;
 
-                _hasValidatedKotDateTimeForPayment = false;
+                DateTime bookingStartForPayment = GetPartyBookingStartDateTime();
                 DateTime? validatedKotDateTime;
                 if (!TryGetKotDateTimeForSave(
-                    GetPartyBookingStartDateTime(),
+                    bookingStartForPayment,
                     out validatedKotDateTime))
                 {
                     return;
                 }
 
                 _validatedKotDateTimeForPayment = validatedKotDateTime;
+                _validatedBookingStartForPayment = bookingStartForPayment;
                 _hasValidatedKotDateTimeForPayment = true;
 
                 btnnocharge.Visible = true;
@@ -5354,7 +5360,8 @@ namespace FoodandBeverage
 
                 // 🔹 DATEtime
 
-                if (!_hasValidatedKotDateTimeForPayment)
+                if (!_hasValidatedKotDateTimeForPayment ||
+                    !_validatedBookingStartForPayment.HasValue)
                 {
                     // All payment routes must originate from btn_paynow_Click,
                     // where booking/KOT date validation is displayed to staff.
@@ -5362,7 +5369,9 @@ namespace FoodandBeverage
                         "Booking time validation has not been completed. Click Pay Now before selecting a payment method.");
                 }
 
-                DateTime bookingStart = GetPartyBookingStartDateTime();
+                // Use the exact date/time that was validated before payment options
+                // were opened, so the saved booking cannot drift from its KOT check.
+                DateTime bookingStart = _validatedBookingStartForPayment.Value;
                 DateTime? kotDateTime = _validatedKotDateTimeForPayment;
 
                 DateTime? bookingEndDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
@@ -5391,13 +5400,15 @@ namespace FoodandBeverage
                 decimal childPrice = GetDecimal(txtChildPrice);
 
                 if (booking.NoOfAdults > 0 && booking.NoOfChildren > 0)
-                    booking.PackPrice = adultPrice + childPrice;
-                else if (booking.NoOfAdults > 0)
-                    booking.PackPrice = adultPrice;
-                else if (booking.NoOfChildren > 0)
-                    booking.PackPrice = childPrice;
-                else
-                    booking.PackPrice = 0;
+                    booking.PackPrice = _fixedPriceStatus
+                    ? _fixedPackPrice
+                    : (booking.NoOfAdults > 0 && booking.NoOfChildren > 0
+                        ? adultPrice + childPrice
+                        : booking.NoOfAdults > 0
+                            ? adultPrice
+                            : booking.NoOfChildren > 0
+                                ? childPrice
+                                : 0m);
 
                 // 🔹 TAX
                 booking.Tax = txttax.Text;
@@ -6016,6 +6027,7 @@ namespace FoodandBeverage
 
                 _hasValidatedKotDateTimeForPayment = false;
                 _validatedKotDateTimeForPayment = null;
+                _validatedBookingStartForPayment = null;
 
                 //ClearAll();
 
