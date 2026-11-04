@@ -26,6 +26,11 @@ namespace FoodandBeverage.Forms
         public FrmIngredient()
         {
             InitializeComponent();
+            ConfigureInventoryItemCategoryColumn();
+            ConfigureIngredientUnitColumn();
+            chk_PackagingRequired.CheckedChanged += chk_PackagingRequired_CheckedChanged;
+            dgv_registartion.RowsAdded += dgv_registartion_RowsAdded;
+            dgv_registartion.CellClick += dgv_registartion_ItemCellClick;
         }
 
         #region Decalartion
@@ -36,9 +41,10 @@ namespace FoodandBeverage.Forms
         public int Rqtyno = 2;
         public int Runitno = 3;
         public int RDeductionstageno = 4;
-        public int Raction = 5;
-        public int RIng_DetailsIdno = 6;
-        public int Ritemidno = 7;
+        public int RCategorytypeno = 5;
+        public int Raction = 6;
+        public int RIng_DetailsIdno = 7;
+        public int Ritemidno = 8;
 
         public int Vslno = 0;
         public int Vactionno = 1;
@@ -94,7 +100,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {        
-                if (MandatoryCheck() && MandatoryCheck_variation())
+                dgv_registartion.EndEdit();
+                if (MandatoryCheck() && ValidateIngredientGrid() && MandatoryCheck_variation())
                 {
                     Dmnincrediant status = new Dmnincrediant();
                     DmnProducts prostatus = new DmnProducts();
@@ -128,6 +135,7 @@ namespace FoodandBeverage.Forms
                     dmnproduct.BranchId = FrmDashboard.BranchId;
                     dmnproduct.HSNcode = Convert.ToString(txthsncode.Text);
                     dmnproduct.Fcid = Convert.ToInt32(CmbCategory.SelectedValue);
+                    dmnproduct.PackagingRequired = chk_PackagingRequired.Checked;
 
                     bool hasVar = false;
                     foreach (DataGridViewRow row in dgv_variation.Rows)
@@ -199,6 +207,9 @@ namespace FoodandBeverage.Forms
                                 dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
                                 dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
                                 dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
+                                dmnincr.ProductType = chk_PackagingRequired.Checked
+                                    ? GetInventoryItemCategoryId(dgv_registartion.Rows[i].Cells[RCategorytypeno].Value)
+                                    : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
                                 dmnincr.Deductionstage = cmb_FoodPreparationType.SelectedIndex == 2
                                     ? GetDeductionStageId(dgv_registartion.Rows[i].Cells[RDeductionstageno].Value)
                                     : 0;
@@ -403,6 +414,7 @@ namespace FoodandBeverage.Forms
                 txtqty.Text = "";
                 txtitemcode.Text = "";
                 txtpid.Text = "0";
+                chk_PackagingRequired.Checked = false;
                 txtproductname.Text = "";
                 txtprice.Text = "";
                 txtDiscAmnt.Text = "";
@@ -475,6 +487,8 @@ namespace FoodandBeverage.Forms
                 chk_bgcolor.Checked = false;
                 chk_forecolor.Checked = false;
 
+                chk_PackagingRequired.Checked = false;
+                UpdateInventoryItemCategoryColumnVisibility();
                 cmb_FoodPreparationType.SelectedIndex = 3;
                 UpdatePreparationStageColumnVisibility();
             }
@@ -686,7 +700,7 @@ namespace FoodandBeverage.Forms
                 cmbSearchlist.ValueMember = "Id";
                 cmbSearchlist.DisplayMember = "Value";
 
-                objSearch.Select = " UId,UnitName";
+                objSearch.Select = "UId AS Id, UnitName AS Value";
                 objSearch.Table = " tblUnit";
                 objSearch.WhereNdGroupBy = "where status=1";
                 objSearch.OrderBy = "";
@@ -694,6 +708,7 @@ namespace FoodandBeverage.Forms
                 cmb_unit.DataSource = gridSource1;
                 cmb_unit.ValueMember = "Id";
                 cmb_unit.DisplayMember = "Value";
+                cmb_unit.ValueType = typeof(long);
 
                 objSearch.Select = "fcid id ,CategoryName Value";
                 objSearch.Table = " tblCategory_FTI";
@@ -851,46 +866,133 @@ namespace FoodandBeverage.Forms
         }
         private bool IsValidData(int rowno)
         {
+            return ValidateIngredientRow(rowno, false);
+        }
+
+        private bool ValidateIngredientGrid()
+        {
             try
             {
-                DataGridViewTextBoxCell cell = dgv_registartion.Rows[rowno].Cells[Ritemno] as DataGridViewTextBoxCell;
-                string selectedValue = cell?.EditedFormattedValue?.ToString();
-                if (string.IsNullOrWhiteSpace(selectedValue) || selectedValue == ".")
+                if (dgv_registartion.IsCurrentCellInEditMode)
+                    dgv_registartion.EndEdit();
+
+                for (int i = 0; i < dgv_registartion.Rows.Count; i++)
                 {
-                    CMessageBox.Show("Please Select the item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dgv_registartion.CurrentCell = dgv_registartion.Rows[rowno].Cells[Ritemno];
-                    dgv_registartion.BeginEdit(false);
-                    return false; // Changed from true to false based on expected behavior
-                }
-                DataGridViewTextBoxCell cell1 = dgv_registartion[Rqtyno, rowno] as DataGridViewTextBoxCell;
-                string quantityValue = cell1?.EditedFormattedValue?.ToString();
-                if (string.IsNullOrWhiteSpace(quantityValue) || quantityValue == "." || quantityValue == string.Empty)
-                {
-                    CMessageBox.Show("Please Enter the Quantity", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dgv_registartion.CurrentCell = dgv_registartion.Rows[rowno].Cells[Rqtyno];
-                    dgv_registartion.BeginEdit(false);
-                    return false; // Changed from true to false based on expected behavior
+                    if (dgv_registartion.Rows[i].IsNewRow)
+                        continue;
+
+                    if (!ValidateIngredientRow(i, true))
+                        return false;
                 }
 
-                DataGridViewComboBoxCell cell2 = dgv_registartion.Rows[rowno].Cells[Runitno] as DataGridViewComboBoxCell;
-                string selectedValue2 = cell2?.EditedFormattedValue?.ToString();
-                if (string.IsNullOrWhiteSpace(selectedValue2) || selectedValue2 == ".")
-                {
-                    CMessageBox.Show("Please Select the Unit Type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dgv_registartion.CurrentCell = dgv_registartion.Rows[rowno].Cells[Runitno];
-                    dgv_registartion.BeginEdit(false);
-                    return false; // Changed from true to false based on expected behavior
-                }
-
-                return true; // All data is valid
+                return true;
             }
             catch (Exception ex)
             {
-                // Handle the exception gracefully
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Product IsValidData", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
-                return false; 
+                clsgen.LogException("Product page ValidateIngredientGrid()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                CMessageBox.Show("Unable to validate ingredient details. Please review the ingredient rows and try again.",
+                    "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
             }
+        }
+
+        private bool ValidateIngredientRow(int rowIndex, bool allowCompletelyEmptyRow)
+        {
+            try
+            {
+                if (rowIndex < 0 || rowIndex >= dgv_registartion.Rows.Count)
+                    return false;
+
+                DataGridViewRow row = dgv_registartion.Rows[rowIndex];
+                if (row.IsNewRow)
+                    return true;
+
+                int itemId = 0;
+                int.TryParse(Convert.ToString(row.Cells[Ritemidno].Value), out itemId);
+
+                decimal quantity = 0;
+                bool hasQuantity = decimal.TryParse(
+                    Convert.ToString(row.Cells[Rqtyno].Value), out quantity);
+
+                int unitId = 0;
+                bool hasUnit = int.TryParse(
+                    Convert.ToString(row.Cells[Runitno].Value), out unitId) && unitId > 0;
+
+                bool quantityEntered = !string.IsNullOrWhiteSpace(Convert.ToString(row.Cells[Rqtyno].Value));
+                bool unitEntered = !string.IsNullOrWhiteSpace(Convert.ToString(row.Cells[Runitno].Value));
+
+                // Ignore the unused trailing row, but do not ignore partially completed rows.
+                if (itemId <= 0 && !quantityEntered && !unitEntered && allowCompletelyEmptyRow)
+                    return true;
+
+                string itemName = Convert.ToString(row.Cells[Ritemno].Value);
+                if (string.IsNullOrWhiteSpace(itemName) || itemName == "F8 for Products")
+                    itemName = "Ingredient";
+
+                if (itemId <= 0)
+                    return ShowIngredientValidationError(rowIndex, Ritemno,
+                        "Please select an ingredient in row " + (rowIndex + 1) + ".");
+
+                if (!hasQuantity || quantity <= 0)
+                    return ShowIngredientValidationError(rowIndex, Rqtyno,
+                        "Enter a quantity greater than zero for '" + itemName + "' (row " + (rowIndex + 1) + ").");
+
+                if (!hasUnit)
+                    return ShowIngredientValidationError(rowIndex, Runitno,
+                        "Please select a unit for '" + itemName + "' (row " + (rowIndex + 1) + ").");
+
+                if (cmb_FoodPreparationType.SelectedIndex == 2)
+                {
+                    int deductionStageId;
+                    bool validStage = int.TryParse(
+                        Convert.ToString(row.Cells[RDeductionstageno].Value), out deductionStageId)
+                        && deductionStageId >= 0 && deductionStageId <= 2;
+
+                    if (!validStage)
+                        return ShowIngredientValidationError(rowIndex, RDeductionstageno,
+                            "Please select a deduction stage for '" + itemName +
+                            "'. Choose Any, Order Preparation, or Advance Preparation.");
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page ValidateIngredientRow()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                CMessageBox.Show("Unable to validate ingredient row " + (rowIndex + 1) + ". Please check the item, quantity, and unit.",
+                    "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+        }
+
+        private bool ShowIngredientValidationError(int rowIndex, int columnIndex, string message)
+        {
+            CMessageBox.Show(message, "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            if (rowIndex >= 0 && rowIndex < dgv_registartion.Rows.Count &&
+                columnIndex >= 0 && columnIndex < dgv_registartion.Columns.Count)
+            {
+                dgv_registartion.CurrentCell = dgv_registartion.Rows[rowIndex].Cells[columnIndex];
+                dgv_registartion.Focus();
+                dgv_registartion.BeginEdit(true);
+            }
+
+            return false;
+        }
+
+        private bool IsActiveIngredientStatus(object value)
+        {
+            if (value == null || value == DBNull.Value)
+                return false;
+
+            int status;
+            if (int.TryParse(Convert.ToString(value), out status))
+                return status == 1;
+
+            bool boolStatus;
+            return bool.TryParse(Convert.ToString(value), out boolStatus) && boolStatus;
         }
 
         private void btnclose_Click(object sender, EventArgs e)
@@ -935,6 +1037,8 @@ namespace FoodandBeverage.Forms
                     cmbTaxType.Text = Convert.ToString(gridSource[0].TaxType);
                     txtdes.Text = Convert.ToString(gridSource[0].Description);
                     txtitemcode.Text = Convert.ToString(gridSource[0].ItemCode);
+                    chk_PackagingRequired.Checked = gridSource[0].PackagingRequired;
+                    UpdateInventoryItemCategoryColumnVisibility();
 
                     txtPpid.Text = Convert.ToString(gridSource[0].Ppid);
 
@@ -1059,59 +1163,71 @@ namespace FoodandBeverage.Forms
 
                     BllSearch<DmnGridFields> bllSearchdetails = new BllSearch<DmnGridFields>();
                     DmnSearch objSearchDetails = new DmnSearch();
-                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5,id.status Field6,id.Deductionstage Field7 ";
+                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5,id.status Field6,id.Deductionstage Field7,id.ProductType Field8 ";
                     objSearchDetails.Table = "tblProduct p LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId left join tblUnit u on u.UId=id.Unit left join tblItem i on i.ItemId=id.ItemId";
                     objSearchDetails.WhereNdGroupBy = "where p.status=1 and  p.ProductId= " + Pid;
                     objSearchDetails.OrderBy = "";
                     var gridSource_pro = bllSearchdetails.GetSearchData("prdSearch", objSearchDetails);
                     dgv_registartion.Rows.Clear();
-                    int cnt = 0;
+
+                    // Use the actual grid row returned by Rows.Add(). The source list can contain
+                    // inactive detail rows, so its index is not the same as the visible grid index.
                     for (int i = 0; i < gridSource_pro.Count; i++)
                     {
-                        if(Convert.ToInt32(gridSource_pro[i].Field6)==1)
+                        var ingredient = gridSource_pro[i];
+                        if (!IsActiveIngredientStatus(ingredient.Field6))
+                            continue;
+
+                        int itemId;
+                        if (!int.TryParse(Convert.ToString(ingredient.Field1), out itemId) || itemId <= 0)
+                            continue;
+
+                        int rowIndex = dgv_registartion.Rows.Add();
+                        DataGridViewRow row = dgv_registartion.Rows[rowIndex];
+
+                        row.Cells[Ritemidno].Value = itemId;
+                        row.Cells[Ritemno].Value = Convert.ToString(ingredient.Field2);
+                        row.Cells[Rqtyno].Value = ingredient.Field3 == null
+                            ? (object)null
+                            : Convert.ToString(ingredient.Field3);
+
+                        long unitId;
+                        if (long.TryParse(Convert.ToString(ingredient.Field4), out unitId) && unitId > 0)
+                            row.Cells[Runitno].Value = unitId;
+
+                        int detailId;
+                        if (int.TryParse(Convert.ToString(ingredient.Field5), out detailId))
+                            row.Cells[RIng_DetailsIdno].Value = detailId;
+
+                        row.Cells[RCategorytypeno].Value = chk_PackagingRequired.Checked
+                            ? GetInventoryItemCategoryId(ingredient.Field8)
+                            : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
+
+                        int deductionStageId = GetDeductionStageId(ingredient.Field7);
+                        if (cmb_FoodPreparationType.SelectedIndex == 2)
+                            row.Cells[RDeductionstageno].Value = deductionStageId;
+
+                        DataGridViewImageCell deleteCell = row.Cells[Raction] as DataGridViewImageCell;
+                        if (deleteCell != null)
                         {
-                            dgv_registartion.Rows.Add();
-                            dgv_registartion.Rows[i].Cells[Ritemidno].Value = Convert.ToInt32(gridSource_pro[i].Field1);
-                            dgv_registartion.Rows[i].Cells[Ritemno].Value = Convert.ToString(gridSource_pro[i].Field2);
-                            dgv_registartion.Rows[i].Cells[Rqtyno].Value = Convert.ToDecimal(gridSource_pro[i].Field3);
-                            dgv_registartion.Rows[i].Cells[Runitno].Value = Convert.ToInt64(gridSource_pro[i].Field4);
-                            dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value = Convert.ToInt32(gridSource_pro[i].Field5);
-
-                            int deductionStageId = GetDeductionStageId(gridSource_pro[i].Field7);
-                            if (cmb_FoodPreparationType.SelectedIndex == 2 && deductionStageId > 0)
-                                dgv_registartion.Rows[i].Cells[RDeductionstageno].Value = deductionStageId;
-
-                            DataGridViewImageCell cell = (DataGridViewImageCell)dgv_registartion.Rows[i].Cells[Raction];
-                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                            cell.Value = Properties.Resources.delete;
-                            cnt = cnt + 1;
+                            deleteCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                            deleteCell.Value = Properties.Resources.delete;
                         }
                     }
 
-                    if(dgv_registartion.RowCount==0)
-                        dgv_registartion.Rows.Add();
+                    // Keep one empty row at the end for adding the next ingredient.
+                    int addRowIndex = dgv_registartion.Rows.Add();
+                    dgv_registartion.Rows[addRowIndex].Cells[Rslno].Value = addRowIndex + 1;
 
-                    int x = dgv_registartion.RowCount;
                     rearrange_slno();
 
-                    if (dgv_registartion.RowCount > 0)
+                    DataGridViewImageCell addCell =
+                        dgv_registartion.Rows[addRowIndex].Cells[Raction] as DataGridViewImageCell;
+                    if (addCell != null)
                     {
-                        var lastRow = dgv_registartion.Rows[dgv_registartion.RowCount - 1];
-                        bool isLastRowEmpty = lastRow.Cells[Ritemidno].Value == null || string.IsNullOrWhiteSpace(lastRow.Cells[Ritemidno].Value.ToString());
-                        if (!isLastRowEmpty)
-                        {
-                            int newIndex = dgv_registartion.Rows.Add();
-                            dgv_registartion.Rows[newIndex].Cells[Rslno].Value = dgv_registartion.RowCount; 
-                        }
+                        addCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        addCell.Value = Properties.Resources.add_row;
                     }
-                    else
-                    {
-                        int newIndex = dgv_registartion.Rows.Add();
-                        dgv_registartion.Rows[newIndex].Cells[Rslno].Value = 1;
-                    }
-                    DataGridViewImageCell cell1 = (DataGridViewImageCell)dgv_registartion.Rows[cnt].Cells[Raction];
-                    cell1.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    cell1.Value = Properties.Resources.add_row;
 
                     #region Fill variation Data
 
@@ -1280,13 +1396,6 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                PlaceRegistrationControl(lblfoodtype, 0, 7);
-                PlaceRegistrationControl(lbldes, 1, 7);
-                PlaceRegistrationControl(tlp_foodtype, 0, 8);
-                PlaceRegistrationControl(txtdes, 1, 8);
-                PlaceRegistrationControl(tlp_variation, 2, 8);
-                PlaceRegistrationControl(btn_del_ingre, 3, 8);
-
                 lbltax.Dock = DockStyle.Fill;
                 lbltaxtype.Dock = DockStyle.Fill;
                 cmbtax.Dock = DockStyle.Fill;
@@ -1300,10 +1409,22 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(lbltax, 0, 5);
                     tlp_registration.Controls.Add(lbltaxtype, 1, 5);
                     tlp_registration.Controls.Add(lblvat, 2, 5);
+                    tlp_registration.Controls.Add(lblfoodtype, 3, 5);
 
                     tlp_registration.Controls.Add(cmbtax, 0, 6);
                     tlp_registration.Controls.Add(cmbTaxType, 1, 6);
                     tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
+                    tlp_registration.Controls.Add(tlp_foodtype, 3, 6);
+
+                    //tlp_registration.Controls.Add(, 0, 7);
+                    tlp_registration.Controls.Add(lbldes, 1, 7);
+                    //tlp_registration.Controls.Add(, 2, 7);
+                    //tlp_registration.Controls.Add(, 3, 7);
+
+                    tlp_registration.Controls.Add(chk_PackagingRequired, 0, 8);
+                    tlp_registration.Controls.Add(txtdes, 1, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
+                    //tlp_registration.Controls.Add(, 3, 8);
                 }
                 else
                 {
@@ -1321,6 +1442,16 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(cmbTaxType, 1, 6);
                     tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 6);
                     tlp_registration.Controls.Add(tlp_S_C_text, 3, 6);
+
+                    tlp_registration.Controls.Add(lblfoodtype, 0, 7);
+                    //tlp_registration.Controls.Add(, 1, 7);
+                    tlp_registration.Controls.Add(lbldes, 2, 7);
+                    //tlp_registration.Controls.Add(, 3, 7);
+
+                    tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
+                    tlp_registration.Controls.Add(chk_PackagingRequired, 1, 8);
+                    tlp_registration.Controls.Add(txtdes, 2, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 3, 8);
                 }
 
                 tlp_foodtype.Dock = DockStyle.Fill;
@@ -2020,6 +2151,24 @@ namespace FoodandBeverage.Forms
         }
 
 
+        private void dgv_registartion_ItemCellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex != Ritemno ||
+                    e.RowIndex >= dgv_registartion.Rows.Count ||
+                    dgv_registartion.Rows[e.RowIndex].IsNewRow)
+                    return;
+
+                ItemFillGrid(e.RowIndex);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page dgv_registartion_ItemCellClick()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
         private void dgv_registartion_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == Ritemno)
@@ -2101,6 +2250,11 @@ namespace FoodandBeverage.Forms
                                 dgv_registartion.Rows[rowno].Cells[Rslno].Value = rowno + 1;
                                 dgv_registartion.Rows[rowno].Cells[Ritemno].Value = gridSource1[0].Itemname;
                                 dgv_registartion.Rows[rowno].Cells[Ritemidno].Value = gridSource1[0].ItemId;
+
+                                // Always use tblItem.Baseunit for raw materials; do not let staff select
+                                // a different unit. This keeps recipe quantities consistent with conversion.
+                                dgv_registartion.Rows[rowno].Cells[Runitno].Value = gridSource1[0].Baseunit;
+                                dgv_registartion.Rows[rowno].Cells[Runitno].ReadOnly = true;
                                 dgv_registartion.Rows[rowno].Cells[Ritemno].Style.ForeColor = Color.Black;
                             }
                         }
@@ -3883,6 +4037,168 @@ namespace FoodandBeverage.Forms
 
         #endregion
 
+        /// <summary>
+        /// Ingredient units are derived from the selected raw material's Baseunit.
+        /// Staff must not manually change the unit because quantities are stored in this unit.
+        /// </summary>
+        private void ConfigureIngredientUnitColumn()
+        {
+            try
+            {
+                if (dgv_registartion.Columns.Count <= Runitno)
+                {
+                    return;
+                }
+
+                // Bind the grid's Unit combo to unit names. The cell value remains UId,
+                // so saving the ingredient still stores the unit ID, not its display text.
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch unitSearch = new DmnSearch();
+                unitSearch.ColumnHeaders = "ID,Unit";
+                unitSearch.Select = "UId AS Id, UnitName AS Value";
+                unitSearch.Table = "tblUnit";
+                unitSearch.WhereNdGroupBy = "WHERE Status = 1";
+                unitSearch.OrderBy = "ORDER BY UnitName";
+
+                var units = bllSearch.GetSearchData("prdComboFill", unitSearch);
+                DataGridViewComboBoxColumn unitColumn =
+                    dgv_registartion.Columns[Runitno] as DataGridViewComboBoxColumn;
+
+                if (unitColumn != null)
+                {
+                    unitColumn.DataSource = units;
+                    unitColumn.ValueMember = "Id";
+                    unitColumn.DisplayMember = "Value";
+                    unitColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+                    unitColumn.FlatStyle = FlatStyle.Flat;
+                    unitColumn.ReadOnly = true;
+                    unitColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+                    unitColumn.DefaultCellStyle.BackColor = SystemColors.Control;
+                    unitColumn.DefaultCellStyle.ForeColor = SystemColors.ControlText;
+                    unitColumn.ToolTipText = "Unit is automatically taken from the selected raw material's Base Unit.";
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page ConfigureIngredientUnitColumn()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        private void ConfigureInventoryItemCategoryColumn()
+        {
+            try
+            {
+                if (dgv_registartion.Columns.Count <= RCategorytypeno)
+                    return;
+
+                DataGridViewComboBoxColumn categoryColumn =
+                    dgv_registartion.Columns[RCategorytypeno] as DataGridViewComboBoxColumn;
+                if (categoryColumn == null)
+                    return;
+
+                DataTable categories = new DataTable();
+                categories.Columns.Add("Id", typeof(int));
+                categories.Columns.Add("Name", typeof(string));
+                categories.Rows.Add(Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial), "Raw Material");
+                categories.Rows.Add(Convert.ToInt32(Interfaces.InventoryItemCategory.PackagingMaterial), "Packaging Material");
+
+                categoryColumn.ValueMember = "Id";
+                categoryColumn.DisplayMember = "Name";
+                categoryColumn.ValueType = typeof(int);
+                categoryColumn.DataSource = categories;
+                categoryColumn.DefaultCellStyle.NullValue = Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
+                categoryColumn.Visible = chk_PackagingRequired.Checked;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page ConfigureInventoryItemCategoryColumn()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        private int GetInventoryItemCategoryId(object value)
+        {
+            int categoryId;
+            if (value == null || value == DBNull.Value ||
+                !int.TryParse(Convert.ToString(value), out categoryId))
+            {
+                return Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
+            }
+
+            if (categoryId != Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial) &&
+                categoryId != Convert.ToInt32(Interfaces.InventoryItemCategory.PackagingMaterial))
+            {
+                return Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
+            }
+
+            return categoryId;
+        }
+
+        private void UpdateInventoryItemCategoryColumnVisibility()
+        {
+            try
+            {
+                if (dgv_registartion.Columns.Count <= RCategorytypeno)
+                    return;
+
+                DataGridViewComboBoxColumn categoryColumn =
+                    dgv_registartion.Columns[RCategorytypeno] as DataGridViewComboBoxColumn;
+                if (categoryColumn == null)
+                    return;
+
+                categoryColumn.Visible = chk_PackagingRequired.Checked;
+
+                foreach (DataGridViewRow row in dgv_registartion.Rows)
+                {
+                    if (row.IsNewRow)
+                        continue;
+
+                    if (!chk_PackagingRequired.Checked || row.Cells[RCategorytypeno].Value == null)
+                        row.Cells[RCategorytypeno].Value = Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
+                    else
+                        row.Cells[RCategorytypeno].Value = GetInventoryItemCategoryId(row.Cells[RCategorytypeno].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page UpdateInventoryItemCategoryColumnVisibility()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        private void chk_PackagingRequired_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateInventoryItemCategoryColumnVisibility();
+        }
+
+        private void dgv_registartion_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            try
+            {
+                for (int i = e.RowIndex; i < e.RowIndex + e.RowCount && i < dgv_registartion.Rows.Count; i++)
+                {
+                    DataGridViewRow row = dgv_registartion.Rows[i];
+                    if (!row.IsNewRow && row.Cells[RCategorytypeno].Value == null)
+                    {
+                        row.Cells[RCategorytypeno].Value = Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
+                    }
+
+                    if (!row.IsNewRow && cmb_FoodPreparationType.SelectedIndex == 2 &&
+                        dgv_registartion.Columns.Count > RDeductionstageno &&
+                        row.Cells[RDeductionstageno].Value == null)
+                    {
+                        row.Cells[RDeductionstageno].Value = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page dgv_registartion_RowsAdded()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
         private void SetFoodPreparationTypeSelection(int preparationType)
         {
             try
@@ -3946,8 +4262,9 @@ namespace FoodandBeverage.Forms
                     DataTable preparationStages = new DataTable();
                     preparationStages.Columns.Add("Id", typeof(int));
                     preparationStages.Columns.Add("Name", typeof(string));
-                    preparationStages.Rows.Add(1, "Orderpreparation");
-                    preparationStages.Rows.Add(2, "Advancepreparation");
+                    preparationStages.Rows.Add(0, "Any (Default)");
+                    preparationStages.Rows.Add(1, "Order Preparation");
+                    preparationStages.Rows.Add(2, "Advance Preparation");
 
                     preparationColumn.ValueMember = "Id";
                     preparationColumn.DisplayMember = "Name";
@@ -3955,7 +4272,19 @@ namespace FoodandBeverage.Forms
                     preparationColumn.DataSource = preparationStages;
                 }
 
-                preparationColumn.Visible = cmb_FoodPreparationType.SelectedIndex == 2;
+                bool isPartiallyPrepared = cmb_FoodPreparationType.SelectedIndex == 2;
+                preparationColumn.Visible = isPartiallyPrepared;
+                preparationColumn.DefaultCellStyle.NullValue = 0;
+
+                // An explicit Any choice keeps the deduction-stage field valid by default.
+                if (isPartiallyPrepared)
+                {
+                    foreach (DataGridViewRow row in dgv_registartion.Rows)
+                    {
+                        if (!row.IsNewRow && row.Cells[RDeductionstageno].Value == null)
+                            row.Cells[RDeductionstageno].Value = 0;
+                    }
+                }
             }
             catch (Exception ex)
             {

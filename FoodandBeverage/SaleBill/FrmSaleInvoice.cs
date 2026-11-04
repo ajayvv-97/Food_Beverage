@@ -106,6 +106,7 @@ namespace FoodandBeverage.SaleBill
             httpClient = new HttpClient();
         }
         bool RPTLocalVw = false;
+        private bool _isUpdatingBillFormatSelection;
 
         // Match the Crystal Report viewer's surrounding surface to the existing purple theme.
         // Crystal Reports uses native child surfaces, so true transparency is not supported.
@@ -679,6 +680,7 @@ namespace FoodandBeverage.SaleBill
 
         public void PrintPartyBill()
         {
+            ReportDocument nextReportDocument = null;
             try
             {
                 #region INITIAL SETUP
@@ -690,17 +692,9 @@ namespace FoodandBeverage.SaleBill
 
                 var invpayment = new List<DmnGridFields>();
 
-                if (crvSalesBill.ReportSource != null)
-                    crvSalesBill.ReportSource = null;
-
-                if (reportDocument != null)
-                {
-                    reportDocument.Close();
-                    reportDocument.Dispose();
-                    reportDocument = null;
-                }
-
-                reportDocument = new ReportDocument();
+                // Build the replacement report separately. Keep the currently displayed
+                // report alive until the new report is fully loaded and exported.
+                nextReportDocument = new ReportDocument();
 
                 DataSet dsReport = new DataSet();
 
@@ -1069,42 +1063,48 @@ namespace FoodandBeverage.SaleBill
 
                 if (BillTypeData == Convert.ToInt32(BillType.Partybill))
                 {
-                    string x = RPTPath + @"CR_PartyBill_TH.rpt";
-                    if (rb_th.Checked)
-                        reportDocument.Load(RPTPath + @"CR_PartyBill_TH.rpt");
-                    else if(rb_a4.Checked)
-                        reportDocument.Load(RPTPath + @"CR_PartyBill_A4.rpt");
+                    string reportFileName = rb_th.Checked
+                        ? "CR_PartyBill_TH.rpt"
+                        : "CR_PartyBill_A4.rpt";
+                    string partyReportPath = Path.Combine(RPTPath ?? string.Empty, reportFileName);
+
+                    // Fail clearly when the selected layout is not deployed instead of
+                    // silently leaving the previous thermal receipt on screen.
+                    if (!File.Exists(partyReportPath))
+                        throw new FileNotFoundException("The selected party bill report was not found: " + partyReportPath, partyReportPath);
+
+                    nextReportDocument.Load(partyReportPath);
                 }
 
-                reportDocument.SetDataSource(dsReport);
+                nextReportDocument.SetDataSource(dsReport);
 
                 if (GstBillflag)
-                    reportDocument.SetParameterValue("Gstbill", 1);
+                    nextReportDocument.SetParameterValue("Gstbill", 1);
                 else
-                    reportDocument.SetParameterValue("Gstbill", 0);
+                    nextReportDocument.SetParameterValue("Gstbill", 0);
 
                 if (rb_th.Checked)
                 {
-                    reportDocument.SetParameterValue("payname", payname);
-                    reportDocument.SetParameterValue("cashamount", cashamount);
-                    reportDocument.SetParameterValue("otheramount", otheramount);
+                    nextReportDocument.SetParameterValue("payname", payname);
+                    nextReportDocument.SetParameterValue("cashamount", cashamount);
+                    nextReportDocument.SetParameterValue("otheramount", otheramount);
 
-                    reportDocument.SetParameterValue("SPLIT_TYPE", splittype);
-                    reportDocument.SetParameterValue("footermsg", FooterMsg);
+                    nextReportDocument.SetParameterValue("SPLIT_TYPE", splittype);
+                    nextReportDocument.SetParameterValue("footermsg", FooterMsg);
 
-                    reportDocument.SetParameterValue("smid", SalesMasterId);
+                    nextReportDocument.SetParameterValue("smid", SalesMasterId);
 
-                    reportDocument.SetParameterValue("RecvAmt", lastReceivedAmount);
-                    reportDocument.SetParameterValue("BalAmt", totalAdvanceAmount);
+                    nextReportDocument.SetParameterValue("RecvAmt", lastReceivedAmount);
+                    nextReportDocument.SetParameterValue("BalAmt", totalAdvanceAmount);
 
                     string imgpath = FrmLogin.logoPath + @"sblogo.png";
                     if (File.Exists(imgpath))
                     {
-                        reportDocument.SetParameterValue("Logopath", imgpath);
+                        nextReportDocument.SetParameterValue("Logopath", imgpath);
                     }
                     else
                     {
-                        reportDocument.SetParameterValue("Logopath", string.Empty);
+                        nextReportDocument.SetParameterValue("Logopath", string.Empty);
                     }
 
                 }
@@ -1112,7 +1112,31 @@ namespace FoodandBeverage.SaleBill
 
                 #region SHOW + EXPORT
 
-                crvSalesBill.ReportSource = reportDocument;
+                ReportDocument previousReport = reportDocument;
+                crvSalesBill.SuspendLayout();
+                try
+                {
+                    reportDocument = nextReportDocument;
+                    crvSalesBill.ReportSource = reportDocument;
+                    crvSalesBill.RefreshReport();
+                    nextReportDocument = null;
+                    _loadedThermalFormat = rb_th.Checked;
+
+                    // Resize only after the new report is loaded and assigned, so a failed
+                    // A4 load cannot leave the invoice form in the wrong layout size.
+                    ApplyBillFormatFormSize(_loadedThermalFormat);
+                }
+                finally
+                {
+                    crvSalesBill.ResumeLayout(true);
+                }
+
+                if (previousReport != null && !ReferenceEquals(previousReport, reportDocument))
+                {
+                    try { previousReport.Close(); } catch { }
+                    try { previousReport.Dispose(); } catch { }
+                }
+
                 string pdfFolder = Application.StartupPath + "\\Bill_pdf";
                 if (!Directory.Exists(pdfFolder))
                     Directory.CreateDirectory(pdfFolder);
@@ -1124,8 +1148,19 @@ namespace FoodandBeverage.SaleBill
             }
             catch (Exception ex)
             {
+                if (nextReportDocument != null)
+                {
+                    try { nextReportDocument.Close(); } catch { }
+                    try { nextReportDocument.Dispose(); } catch { }
+                }
+
                 clsgen.LogException("Addon page PrintPartyBill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.SalesBill));
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                // Restore the format selector to the report that is still displayed.
+                UpdateBillFormatSelection(_loadedThermalFormat);
+                ApplyBillFormatFormSize(_loadedThermalFormat);
+                CMessageBox.Show("Unable to load the selected party bill format. " + ex.Message);
+                // Keep the previously displayed report visible if rebuilding the selected format fails.
             }
         }
         #endregion
@@ -1250,7 +1285,6 @@ namespace FoodandBeverage.SaleBill
                 }
                 else if (BillTypeData == Convert.ToInt32(BillType.Partybill))
                 {
-                    ApplyFormSize();
                     ReportDocument reportDocument = crvSalesBill.ReportSource as ReportDocument;
                     reportDocument.PrintToPrinter(1, false, 0, 0);
                 }
@@ -1263,28 +1297,36 @@ namespace FoodandBeverage.SaleBill
         }
         private void ApplyFormSize()
         {
+            Rectangle workingArea = Screen.FromControl(this).WorkingArea;
+            int targetWidth;
+            int targetHeight;
+
             if (rb_a4.Checked)
             {
-                int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
-                int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
-
-                this.Width = (int)(screenWidth * 0.8);
-                this.Height = (int)(screenHeight * 0.8);
-            }
-            else if (rb_th.Checked)
-            {
-                this.Width = Fdefaultwidth;
-                this.Height = Fdefaultheight;
+                targetWidth = (int)(workingArea.Width * 0.8);
+                targetHeight = (int)(workingArea.Height * 0.8);
             }
             else
             {
-                this.Width = Fdefaultwidth;
-                this.Height = Fdefaultheight;
+                targetWidth = Fdefaultwidth;
+                targetHeight = Fdefaultheight;
             }
 
-            crvSalesBill.Dock = DockStyle.Fill;
+            int targetX = workingArea.Left + (workingArea.Width - targetWidth) / 2;
+            int targetY = workingArea.Top + (workingArea.Height - targetHeight) / 2;
 
-            CenterForm(); 
+            SuspendLayout();
+            crvSalesBill.SuspendLayout();
+            try
+            {
+                crvSalesBill.Dock = DockStyle.Fill;
+                SetBounds(targetX, targetY, targetWidth, targetHeight, BoundsSpecified.All);
+            }
+            finally
+            {
+                crvSalesBill.ResumeLayout(false);
+                ResumeLayout(true);
+            }
         }
         private void CenterForm()
         {
@@ -1716,44 +1758,120 @@ namespace FoodandBeverage.SaleBill
 
         private void rb_th_CheckedChanged(object sender, EventArgs e)
         {
-            if (rb_th.Checked)
-            {
-                ApplyFormSize();
-                PrintPartyBill(); 
-            }
+            if (!_isUpdatingBillFormatSelection && rb_th.Checked)
+                ApplyUserBillFormatSelection(true);
         }
 
         private void rb_a4_CheckedChanged(object sender, EventArgs e)
         {
-            if (rb_a4.Checked)
+            if (!_isUpdatingBillFormatSelection && rb_a4.Checked)
+                ApplyUserBillFormatSelection(false);
+        }
+
+        private bool _isSwitchingBillFormat;
+        private bool _loadedThermalFormat = true;
+
+        private void ApplyBillFormatFormSize(bool thermalSelected)
+        {
+            if (Fdefaultwidth <= 0 || Fdefaultheight <= 0)
+                return;
+
+            Rectangle workArea = Screen.FromControl(this).WorkingArea;
+            int targetWidth = Fdefaultwidth;
+            int targetHeight = Fdefaultheight;
+
+            if (!thermalSelected)
             {
-                ApplyFormSize();
-                PrintPartyBill(); 
+                // A4 preview needs a larger viewing area, but must remain inside the
+                // current monitor's usable bounds (including 1024x768 POS screens).
+                targetWidth = Math.Min(workArea.Width - 24,
+                    Math.Max(Fdefaultwidth, (int)(workArea.Width * 0.82)));
+                targetHeight = Math.Min(workArea.Height - 24,
+                    Math.Max(Fdefaultheight, (int)(workArea.Height * 0.90)));
+            }
+
+            targetWidth = Math.Max(640, targetWidth);
+            targetHeight = Math.Max(480, targetHeight);
+            if (targetWidth == Width && targetHeight == Height)
+                return;
+
+            SuspendLayout();
+            try
+            {
+                SetBounds(
+                    workArea.Left + (workArea.Width - targetWidth) / 2,
+                    workArea.Top + (workArea.Height - targetHeight) / 2,
+                    targetWidth,
+                    targetHeight,
+                    BoundsSpecified.Location | BoundsSpecified.Size);
+            }
+            finally
+            {
+                ResumeLayout(true);
+            }
+
+            Invalidate(true);
+        }
+
+        private void ApplyUserBillFormatSelection(bool thermalSelected)
+        {
+            if (_isSwitchingBillFormat)
+                return;
+
+            bool formatChanged = rb_th.Checked != thermalSelected;
+            UpdateBillFormatSelection(thermalSelected);
+
+            if (!formatChanged)
+                return;
+
+            _isSwitchingBillFormat = true;
+            try
+            {
+                // Rebuild the selected report first; the form size changes only after
+                // Crystal has accepted the replacement report.
+                PrintPartyBill();
+            }
+            finally
+            {
+                _isSwitchingBillFormat = false;
             }
         }
 
-        // Highlight the selected bill format and keep its radio button synchronized.
         private void UpdateBillFormatSelection(bool thermalSelected)
         {
-            Color selectedBackColor = Color.FromArgb(235, 222, 255); // Light lavender
-            Color normalBackColor = Color.FromArgb(248, 245, 255);   // Very light lavender
-            Color selectedBorderColor = Color.FromArgb(109, 40, 217);
-            Color normalBorderColor = Color.FromArgb(215, 198, 245);
+            Color selectedBackColor = Color.FromArgb(235, 222, 255);
+            Color normalBackColor = Color.FromArgb(248, 245, 255);
 
-            rb_th.Checked = thermalSelected;
-            rb_a4.Checked = !thermalSelected;
+            bool previousUpdateState = _isUpdatingBillFormatSelection;
+            _isUpdatingBillFormatSelection = true;
 
-            pb_th.BackColor = thermalSelected ? selectedBackColor : normalBackColor;
-            pb_a4.BackColor = thermalSelected ? normalBackColor : selectedBackColor;
+            SuspendLayout();
+            pb_th.SuspendLayout();
+            pb_a4.SuspendLayout();
+            try
+            {
+                rb_th.Checked = thermalSelected;
+                rb_a4.Checked = !thermalSelected;
 
-            pb_th.BorderStyle = thermalSelected ? BorderStyle.FixedSingle : BorderStyle.None;
-            pb_a4.BorderStyle = thermalSelected ? BorderStyle.None : BorderStyle.FixedSingle;
+                pb_th.BackColor = thermalSelected ? selectedBackColor : normalBackColor;
+                pb_a4.BackColor = thermalSelected ? normalBackColor : selectedBackColor;
 
-            pb_th.Padding = new Padding(thermalSelected ? 3 : 0);
-            pb_a4.Padding = new Padding(thermalSelected ? 0 : 3);
+                pb_th.BorderStyle = thermalSelected ? BorderStyle.FixedSingle : BorderStyle.None;
+                pb_a4.BorderStyle = thermalSelected ? BorderStyle.None : BorderStyle.FixedSingle;
 
-            pb_th.Cursor = Cursors.Hand;
-            pb_a4.Cursor = Cursors.Hand;
+                pb_th.Padding = new Padding(thermalSelected ? 3 : 0);
+                pb_a4.Padding = new Padding(thermalSelected ? 0 : 3);
+
+                pb_th.Cursor = Cursors.Hand;
+                pb_a4.Cursor = Cursors.Hand;
+            }
+            finally
+            {
+                pb_a4.ResumeLayout(false);
+                pb_th.ResumeLayout(false);
+                ResumeLayout(true);
+                _isUpdatingBillFormatSelection = previousUpdateState;
+            }
 
             pb_th.Invalidate();
             pb_a4.Invalidate();
@@ -1761,12 +1879,12 @@ namespace FoodandBeverage.SaleBill
 
         private void pb_a4_Click(object sender, EventArgs e)
         {
-            UpdateBillFormatSelection(false);
+            ApplyUserBillFormatSelection(false);
         }
 
         private void pb_th_Click(object sender, EventArgs e)
         {
-            UpdateBillFormatSelection(true);
+            ApplyUserBillFormatSelection(true);
         }
     }
 }

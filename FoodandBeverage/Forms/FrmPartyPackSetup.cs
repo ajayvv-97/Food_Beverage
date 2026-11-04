@@ -184,12 +184,22 @@ namespace FoodandBeverage.Forms
         private readonly Image Grid_Remove = Properties.Resources.Round_Close;
         private readonly Image Blankimage = Properties.Resources.backspace;
         int selectedVenueId = 0;
+        private bool _suppressFixedPriceValueChanged;
 
         #endregion
+
+        private BlurPopupOverlay _blurPopupOverlay;
 
         public FrmPartyPackSetup()
         {
             InitializeComponent();
+            _blurPopupOverlay = new BlurPopupOverlay(this,
+                pnl_menucateg,
+                pnl_cakeconfig,
+                pnl_packtime,
+                pnl_menu,
+                pnl_venue,
+                pnl_fdprice_pack);
 
             btn_menu_close.Click += (s, e) => ClosePartyPackMenu();
             Dgv_Selected_Item.CellClick += DgvPartyPackMenu_CellClick;
@@ -202,12 +212,19 @@ namespace FoodandBeverage.Forms
             txtitemcode_serach.Leave += PartyPackMenuSearchTextBox_Leave;
             txtname_search.KeyDown += PartyPackMenuSearchTextBox_KeyDown;
             txtitemcode_serach.KeyDown += PartyPackMenuSearchTextBox_KeyDown;
+
+            txt_adultcount.TextChanged += FixedPriceValue_TextChanged;
+            txt_childcount.TextChanged += FixedPriceValue_TextChanged;
+            txt_fixedprice.TextChanged += FixedPriceValue_TextChanged;
         }
         private void FrmPartyPackSetup_Load(object sender, EventArgs e)
         {
             try
             {
-      
+                _suppressFixedPriceValueChanged = true;
+                chkfixedprice.Checked = false;
+                _suppressFixedPriceValueChanged = false;
+
                 if (FrmLogin.GameBranchId > 0)
                 {
                     btn_giftpacks.Visible = true;
@@ -465,6 +482,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                ControlArrangement();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Partypacksetup page cmbTaxType_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        public void ControlArrangement()
+        {
+            try
+            {
                 int startRow = 3;
                 int endRow = 6;
                 int totalColumns = 4;
@@ -562,10 +591,11 @@ namespace FoodandBeverage.Forms
                     tlp_registration.Controls.Add(tlp_time_del_contrl, 2, 6);
 
                 }
+
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partypacksetup page cmbTaxType_SelectedValueChanged()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
+                clsgen.LogException("Partypacksetup page ControlArrangement()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partypacksetup));
             }
         }
         private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
@@ -634,7 +664,12 @@ namespace FoodandBeverage.Forms
                     CreatedBy = FrmDashboard.UserId,
                     BranchId = FrmDashboard.BranchId,
                     Status = 1,
-                    HSNCode=txthsncode.Text,
+                    HSNCode = txthsncode.Text,
+                    FixedPrice = chkfixedprice.Checked && !string.IsNullOrWhiteSpace(txt_fixedprice.Text)
+                        ? Convert.ToDecimal(txt_fixedprice.Text) : 0m,
+                    FixedPriceStatus = chkfixedprice.Checked,
+                    AdultCount = string.IsNullOrWhiteSpace(txt_adultcount.Text) ? 0 : Convert.ToInt32(txt_adultcount.Text),
+                    ChildCount = string.IsNullOrWhiteSpace(txt_childcount.Text) ? 0 : Convert.ToInt32(txt_childcount.Text),
 
                     MinimumAdvanceAmount = string.IsNullOrWhiteSpace(txtminadvamt.Text) ? 0 : Convert.ToDecimal(txtminadvamt.Text)
                 };
@@ -963,6 +998,32 @@ namespace FoodandBeverage.Forms
             try
             {
 
+                if (chkfixedprice.Checked)
+                {
+                    if (string.IsNullOrWhiteSpace(txt_fixedprice.Text))
+                        txt_fixedprice.Text = "0";
+
+                    decimal fixedPrice;
+                    if (!decimal.TryParse(txt_fixedprice.Text, out fixedPrice) || fixedPrice < 0m)
+                    {
+                        CMessageBox.Show("Please enter a valid package price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txt_fixedprice.Focus();
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(txtadultprice.Text))
+                        txtadultprice.Text = "0";
+
+                    decimal adultPrice;
+                    if (!decimal.TryParse(txtadultprice.Text, out adultPrice) || adultPrice < 0m)
+                    {
+                        CMessageBox.Show("Please enter a valid adult price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtadultprice.Focus();
+                        return false;
+                    }
+                }
                 if (string.IsNullOrWhiteSpace(txtadultprice.Text))
                     txtadultprice.Text = "0";
 
@@ -979,7 +1040,7 @@ namespace FoodandBeverage.Forms
                     return false;
                 }
 
-                if (Convert.ToDecimal(txtadultprice.Text) < 0)
+                if (Convert.ToDecimal(txtadultprice.Text) < 0 && !chkfixedprice.Checked)
                 {
                     CMessageBox.Show("Please Enter Valid Price", "Mandatory", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtadultprice.Focus();
@@ -1057,6 +1118,12 @@ namespace FoodandBeverage.Forms
                 txtpackname.Text = "";
                 txtadultprice.Text = "";
                 txtchildprice.Text = "";
+                _suppressFixedPriceValueChanged = true;
+                txt_adultcount.Text = "";
+                txt_childcount.Text = "";
+                txt_fixedprice.Text = "0";
+                chkfixedprice.Checked = false;
+                _suppressFixedPriceValueChanged = false;
                 txtDiscAmnt.Text = "";
                 txtDisPer.Text = "";
 
@@ -1244,6 +1311,12 @@ namespace FoodandBeverage.Forms
                     txtpackname.Text = data.PackName;
                     txtadultprice.Text = data.AdultPrice.ToString();
                     txtchildprice.Text = data.ChildPrice.ToString();
+                    _suppressFixedPriceValueChanged = true;
+                    txt_fixedprice.Text = data.FixedPrice.ToString();
+                    txt_adultcount.Text = data.AdultCount.ToString();
+                    txt_childcount.Text = data.ChildCount.ToString();
+                    _suppressFixedPriceValueChanged = false;
+                    UpdateFixedPriceCheckboxFromValues();
                     txtDisPer.Text = data.DiscountPer.ToString();
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
                     cmbTaxType.Text = data.TaxType;
@@ -2971,7 +3044,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txtCgstPrcnt_venue, txtSgstPrcnt_venue, txtvenuecost, txtvenuename, txthsn_cake, txthsn_venue, txthsncode, txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
+                foreach (TextBox textBox in new TextBox[] { txt_childcount, txt_adultcount, txt_fixedprice,txtCgstPrcnt_venue, txtSgstPrcnt_venue, txtvenuecost, txtvenuename, txthsn_cake, txthsn_venue, txthsncode, txtminadvamt, txtCgstPrcnt_cake, txtSgstPrcnt_cake, txtCgstPrcnt, txtSgstPrcnt, txtDiscAmnt, txtDisPer, txtchildprice, txtadultprice, txtpackname, txtminadvamt, txtCgstPrcnt_cake, txtcakeshape, txtcakeprice, txtcakesize, txtcaketype })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -4566,10 +4639,114 @@ namespace FoodandBeverage.Forms
                 CMessageBox.Show("Unable to search venue details.");
             }
         }
-
-
         #endregion
 
+        #region  Fixed Price
+        private void FixedPriceValue_TextChanged(object sender, EventArgs e)
+        {
+            if (!_suppressFixedPriceValueChanged)
+                UpdateFixedPriceCheckboxFromValues();
+        }
 
+        private void UpdateFixedPriceCheckboxFromValues()
+        {
+            decimal fixedPrice;
+            int adultCount;
+            int childCount;
+
+            bool hasFixedPrice = decimal.TryParse(txt_fixedprice.Text, out fixedPrice) && fixedPrice > 0m;
+            bool hasAdultCount = int.TryParse(txt_adultcount.Text, out adultCount) && adultCount > 0;
+            bool hasChildCount = int.TryParse(txt_childcount.Text, out childCount) && childCount > 0;
+
+            bool shouldBeChecked = hasFixedPrice || hasAdultCount || hasChildCount;
+            if (chkfixedprice.Checked != shouldBeChecked)
+                chkfixedprice.Checked = shouldBeChecked;
+        }
+
+        private void chkfixedprice_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Lock the adult and child price fields whenever fixed price is enabled.
+                txtadultprice.ReadOnly = chkfixedprice.Checked;
+                txtchildprice.ReadOnly = chkfixedprice.Checked;
+
+                if (chkfixedprice.Checked)
+                {
+                    txt_adultcount.ReadOnly = false;
+                    txt_childcount.ReadOnly = false;
+
+                    pnl_fdprice_pack.Left = Math.Max(0, (ClientSize.Width - pnl_fdprice_pack.Width) / 2);
+                    pnl_fdprice_pack.Top = Math.Max(0, (ClientSize.Height - pnl_fdprice_pack.Height) / 2);
+
+                    pnl_fdprice_pack.Visible = true;
+                    pnl_fdprice_pack.BringToFront();
+
+                    txt_adultcount.Focus();
+                }
+                else
+                {
+                    pnl_fdprice_pack.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partypacksetup page chkfixedprice_CheckedChanged()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void btn_packfdprice_Click(object sender, EventArgs e)
+        {
+            // Reset the included guest counts.
+            txt_adultcount.Text = "0";
+            txt_childcount.Text = "0";
+            txt_adultcount.Focus();
+        }
+
+        private void btnsubmit_fdprice_Click(object sender, EventArgs e)
+        {
+            int adultCount;
+            int childCount;
+
+            if (!int.TryParse(txt_adultcount.Text, out adultCount) || adultCount < 0)
+            {
+                CMessageBox.Show("Enter a valid adult count.", "Fixed Price", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txt_adultcount.Focus();
+                return;
+            }
+
+            if (!int.TryParse(txt_childcount.Text, out childCount) || childCount < 0)
+            {
+                CMessageBox.Show("Enter a valid child count.", "Fixed Price", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txt_childcount.Focus();
+                return;
+            }
+
+            txt_adultcount.Text = adultCount.ToString();
+            txt_childcount.Text = childCount.ToString();
+
+            // Check fixed price when any fixed-price textbox contains a value greater than zero.
+            UpdateFixedPriceCheckboxFromValues();
+            pnl_fdprice_pack.Visible = false;
+        }
+
+        private void btn_close_fixedprice_Click(object sender, EventArgs e)
+        {
+            // Keep the checkbox in sync with the current fixed-price values.
+            UpdateFixedPriceCheckboxFromValues();
+            pnl_fdprice_pack.Visible = false;
+        }
+
+        private void txt_adultcount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+        #endregion
     }
 }

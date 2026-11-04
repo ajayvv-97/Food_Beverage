@@ -1393,4 +1393,154 @@
   <data name="Venue_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Venue_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Inv_BatchPreparation_Active" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_BatchPreparation_Active.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_BatchPreparation_Inactive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_BatchPreparation_Inactive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_RawMaterialIssue_Active" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_RawMaterialIssue_Active.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_RawMaterialIssue_Inactive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_RawMaterialIssue_Inactive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_AddToList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_AddToList.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_AdvancedSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_AdvancedSearch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_AdvancedSearch_Compact" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_AdvancedSearch_Compact.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_ClearAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_ClearAll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_DeleteDraft_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_DeleteDraft_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_ImportRecipePreparation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_ImportRecipePreparation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_ImportRecipePreparation_Compact" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_ImportRecipePreparation_Compact.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_IngredientEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_IngredientEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_OpenDraft_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_OpenDraft_Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_RequestedBy_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_RequestedBy_Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_TotalIssueQuantity_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_TotalIssueQuantity_Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_TotalMaterials_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_TotalMaterials_Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Approved" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Approved.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Cancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Clipboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Clipboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Filter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Filter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Hourglass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Hourglass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Import" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Import.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Layers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Layers.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_OpenDraft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_OpenDraft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_OpenRequestApproval" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_OpenRequestApproval.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Open_Request___Approval_Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Open Request &amp; Approval Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Rejected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Rejected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_SaveDraft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_SaveDraft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Inv_Search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Inv_Search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_ApprovalDecision" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_ApprovalDecision.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_Approve" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_Approve.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_Cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_Cancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_ChefHat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_ChefHat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_Department" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_Department.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_HorizontalLine_Black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_HorizontalLine_Black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_Info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_Info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_OpenRequest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_OpenRequest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_RawMaterialCube" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_RawMaterialCube.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_Reject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_Reject.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_RequestedBy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_RequestedBy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_RequestNumber" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_RequestNumber.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_RequestType" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_RequestType.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_SendBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_SendBack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_Status_Approved" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_Status_Approved.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_Status_Rejected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_Status_Rejected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_Status_SendBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_Status_SendBack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Invapp_SummaryChart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Invapp_SummaryChart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -65,9 +65,12 @@ namespace FoodandBeverage.Forms
         public DateTime startTime = DateTime.Now;
         int tablecodeid = 0, orderid = 0;
 
+        private BlurPopupOverlay _blurPopupOverlay;
+
         public FrmOrderView()
         {
             InitializeComponent();
+            _blurPopupOverlay = new BlurPopupOverlay(this, pnl_products_rem_descr);
         }
 
         private void btnmini_Click(object sender, EventArgs e)

@@ -55,113 +55,28 @@ namespace FoodandBeverage.Forms.UserControls
         #region Events
         public void FrmSelect_Load(object sender, EventArgs e)
         {
-            btnclose.Location = new Point(
-        this.ClientSize.Width - btnclose.Width - 5,
-        5
-    );
-
-            _frmGridSearch =new FrmDataGridView<T>();
-            
             try
             {
-                
-                this.Top = _formTop;
-                this.Left = _formLeft;
-                mpSearch.Top = 25;
-                mpSearch.Left = 5;
-                mpGeneralGrid.Top =  70;
-                mpGeneralGrid.Left = 20;
-                dgvGeneral.Top = 7;
-                dgvGeneral.Left = 8;
+                _frmGridSearch = new FrmDataGridView<T>();
                 lblRecordCount.Text = string.Empty;
 
-                //this.Width = _formWidth;
-                //this.Height = _formHeight;
-                //mpGeneralGrid.Width = _formWidth;
-                //mpGeneralGrid.Height = _formHeight+150;
-                //dgvGeneral.Width = _formWidth - 15;
-                //dgvGeneral.Height = _formHeight + 148;
-                //mpSearch.Width = _formWidth;
-
-
-
-                this.Width = _formWidth;
-                this.Height = _formHeight;
-                mpGeneralGrid.Width = _formWidth;
-                mpGeneralGrid.Height = _formHeight - 5;
-                dgvGeneral.Width = _formWidth - 15;
-                dgvGeneral.Height = _formHeight - 20;
-                mpSearch.Width = _formWidth;
-
-    //            if(_dmnSearch.Select.Contains("FromOfferForm"))
-				//{
-    //                _dmnSearch.ColumnHeaders.Replace(",Offer", ",");
-    //                _dmnSearch.Select.Replace(",'FromOfferForm' as Field4", ",");
-    //                dgvGeneral.MultiSelect = true;
-    //            }
-                _lstHeaders = _dmnSearch.ColumnHeaders.Split(',').ToList();
-                _lstFields = _dmnSearch.Select.Split(',').ToList();
-                var gridSource = _frmGridSearch.GetSearchGrid(_dmnSearch);
-                foreach(DataGridViewColumn col in gridSource.Columns)
+                if (_dmnSearch == null)
                 {
-                    dgvGeneral.Columns.Add(col.Clone() as DataGridViewColumn);
+                    throw new InvalidOperationException("Search criteria were not supplied.");
                 }
-                dgvGeneral.DataSource = gridSource.DataSource;
-                lblRecordCount.Text = "Count : " + Convert.ToString(dgvGeneral.RowCount);
-                if (dgvGeneral.Rows.Count > 0)
+
+                _lstHeaders = (_dmnSearch.ColumnHeaders ?? string.Empty).Split(',').ToList();
+                _lstFields = (_dmnSearch.Select ?? string.Empty).Split(',').ToList();
+
+                ApplyResponsiveScreenSize();
+                ConfigureFilterTextBoxes();
+                FilterGrid();
+
+                MetroTextBox firstFilter = GetFilterTextBox(1);
+                if (firstFilter != null)
                 {
-                    if (_dtColumnAlign != null)
-                    {
-                        if (_dtColumnAlign.Rows.Count > 0)
-                        {
-                            foreach (DataGridViewColumn col in dgvGeneral.Columns)
-                            {
-                                foreach (DataRow row in _dtColumnAlign.Rows)
-                                {
-                                    if (col.Index == Convert.ToInt32(row[colIndex].ToString()))
-                                    {
-                                        if (row[colAlign].ToString().ToUpper() == "M")
-                                        {
-                                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                                        }
-                                        else if (row[colAlign].ToString().ToUpper() == "R")
-                                        {
-                                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                                        }
-                                        else
-                                        {
-                                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                                        }
-                                        if (row[colAlign].ToString().ToUpper() == "N2")
-                                        {
-                                            int colin = col.Index;
-                                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                                            dgvGeneral.Columns[col.Index].DefaultCellStyle.Format = "N2";
-                                        }
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                    dgvGeneral.Rows[0].Selected = false;
-                    dgvGeneral.Columns[1].MinimumWidth = 320;
+                    firstFilter.Focus();
                 }
-                int mtxbxWidth = 0;
-                mtxbxWidth = mpSearch.Width / _lstHeaders.Count;
-
-
-                for (int index = 1; index < _lstFields.Count; ++index)
-                {
-                    Control[] ctrl  = this.Controls.Find("metroTextBox"+index.ToString(), true);
-                    MetroTextBox textBox = (MetroTextBox)ctrl[0];
-                    textBox.Tag = ((_lstFields[index].Replace("as",string.Empty)).Replace("Field"+index.ToString(),string.Empty)).Trim();
-                    textBox.Visible = true;
-                    textBox.WaterMark = _lstHeaders[index];
-                    textBox.Width = mtxbxWidth;
-                    
-                }
-                metroTextBox1.Focus();
             }
             catch (Exception ex)
             {
@@ -169,7 +84,90 @@ namespace FoodandBeverage.Forms.UserControls
             }
         }
 
-        private void FrmSearch_KeyUp(object sender, KeyEventArgs e)
+        private void ApplyResponsiveScreenSize()
+        {
+            Screen currentScreen = Owner != null
+                ? Screen.FromControl(Owner)
+                : Screen.FromPoint(Cursor.Position);
+
+            Rectangle workingArea = currentScreen.WorkingArea;
+            int targetWidth = Math.Min(workingArea.Width,
+                Math.Max(600, (int)(workingArea.Width * 0.80)));
+            int targetHeight = Math.Min(workingArea.Height,
+                Math.Max(450, (int)(workingArea.Height * 0.80)));
+
+            int left = workingArea.Left + (workingArea.Width - targetWidth) / 2;
+            int top = workingArea.Top + (workingArea.Height - targetHeight) / 2;
+
+            AutoSize = false;
+            StartPosition = FormStartPosition.Manual;
+            WindowState = FormWindowState.Normal;
+            Bounds = new Rectangle(left, top, targetWidth, targetHeight);
+
+            // Keep the existing layout containers responsive to the new client size.
+            mpSearch.Dock = DockStyle.Top;
+            mpSearch.Height = 58;
+            mpGeneralGrid.Dock = DockStyle.Fill;
+            dgvGeneral.Dock = DockStyle.Fill;
+            dgvGeneral.AutoGenerateColumns = false;
+
+            btnclose.Location = new Point(ClientSize.Width - btnclose.Width - 5, 5);
+            btnclose.BringToFront();
+        }
+
+        private MetroTextBox GetFilterTextBox(int index)
+        {
+            Control[] controls = Controls.Find("metroTextBox" + index.ToString(), true);
+            if (controls == null || controls.Length == 0)
+            {
+                return null;
+            }
+
+            return controls[0] as MetroTextBox;
+        }
+
+        private void ConfigureFilterTextBoxes()
+        {
+            int filterCount = Math.Min(
+                Math.Min(_lstHeaders.Count, _lstFields.Count) - 1, 10);
+
+            int availableWidth = Math.Max(100, mpSearch.ClientSize.Width - 20);
+            int filterWidth = filterCount > 0
+                ? Math.Max(100, availableWidth / filterCount)
+                : availableWidth;
+
+            for (int index = 1; index <= 10; index++)
+            {
+                MetroTextBox textBox = GetFilterTextBox(index);
+                if (textBox == null)
+                {
+                    continue;
+                }
+
+                bool isActiveFilter = index <= filterCount;
+                textBox.Visible = isActiveFilter;
+
+                if (!isActiveFilter)
+                {
+                    textBox.Text = string.Empty;
+                    continue;
+                }
+
+                string fieldExpression = _lstFields[index].Trim();
+                int aliasIndex = fieldExpression.LastIndexOf(" as ",
+                    StringComparison.OrdinalIgnoreCase);
+                if (aliasIndex >= 0)
+                {
+                    fieldExpression = fieldExpression.Substring(0, aliasIndex).Trim();
+                }
+
+                textBox.Tag = fieldExpression;
+                textBox.WaterMark = _lstHeaders[index];
+                textBox.Width = filterWidth;
+            }
+        }
+
+                private void FrmSearch_KeyUp(object sender, KeyEventArgs e)
         {
             try
             {
@@ -222,10 +220,7 @@ namespace FoodandBeverage.Forms.UserControls
 
         private void FrmSearch_Resize(object sender, EventArgs e)
         {
-            btnclose.Location = new Point(
-        this.ClientSize.Width - btnclose.Width - 5,
-        5
-    );
+            btnclose.Location = new Point(ClientSize.Width - btnclose.Width - 5, 5);
         }
 
         private void DgvGeneral_KeyDown(object sender, KeyEventArgs e)
@@ -273,92 +268,113 @@ namespace FoodandBeverage.Forms.UserControls
 
         private void FilterGrid()
         {
-            _frmGridSearch = new FrmDataGridView<T>();
             try
             {
+                if (_dmnSearch == null || _lstFields == null || _lstHeaders == null)
+                {
+                    return;
+                }
+
+                _frmGridSearch = new FrmDataGridView<T>();
+                _dmnSearch.WhereNdGroupBy = _defaultWhere;
+
+                int filterCount = Math.Min(_lstFields.Count, _lstHeaders.Count) - 1;
+                for (int index = 1; index <= filterCount && index <= 10; index++)
+                {
+                    MetroTextBox textBox = GetFilterTextBox(index);
+                    if (textBox == null || string.IsNullOrWhiteSpace(textBox.Text))
+                    {
+                        continue;
+                    }
+
+                    string fieldExpression = Convert.ToString(textBox.Tag);
+                    if (string.IsNullOrWhiteSpace(fieldExpression))
+                    {
+                        continue;
+                    }
+
+                    string filterValue = textBox.Text.Trim().Replace("'", "''");
+                    _dmnSearch.WhereNdGroupBy +=
+                        " AND " + fieldExpression + " LIKE '%" + filterValue + "%'";
+                }
+
+                var gridSource = _frmGridSearch.GetSearchGrid(_dmnSearch);
+
                 dgvGeneral.DataSource = null;
                 dgvGeneral.Rows.Clear();
-                bllSearch = new BllSearch<T>();
-               _dmnSearch.WhereNdGroupBy = _defaultWhere;
-               
-                    for (int index = 1; index < _lstFields.Count; ++index)
-                    {
-                        Control[] ctrl = this.Controls.Find("metroTextBox" + index.ToString(), true);
-                        MetroTextBox textBox = (MetroTextBox)ctrl[0];
-                    ////////////if (!string.IsNullOrWhiteSpace(textBox.Text))
-                    {
-                        string str1 = textBox.Tag.ToString();
-                        str1 = str1.Replace("As", "");
-                        if ((textBox.Text.Length)>0)
-                            {
-                            if (_searchType == SearchMode.AllCharacters)
-                            //if (_searchType == SearchMode.FirstCharacter)
-                            {
-                                _dmnSearch.WhereNdGroupBy += " and " + str1 + " like '%" + textBox.Text + "%'";
-                            }
-                            else
-                            {
-                                _dmnSearch.WhereNdGroupBy += " and " + str1 + " like '%" + textBox.Text + "%'";
-                            }
-                        }
-                    }
-                        
-                    }
-                
-                var gridSource = _frmGridSearch.GetSearchGrid(_dmnSearch);
-                foreach (DataGridViewColumn col in gridSource.Columns)
+                dgvGeneral.Columns.Clear();
+                dgvGeneral.AutoGenerateColumns = false;
+
+                if (gridSource != null)
                 {
-                    dgvGeneral.Columns.Add(col.Clone() as DataGridViewColumn);
+                    foreach (DataGridViewColumn column in gridSource.Columns)
+                    {
+                        dgvGeneral.Columns.Add(column.Clone() as DataGridViewColumn);
+                    }
+
+                    dgvGeneral.DataSource = gridSource.DataSource;
                 }
-                dgvGeneral.DataSource = gridSource.DataSource;
-                if (dgvGeneral.Rows.Count > 0)
+
+                if (dgvGeneral.Columns.Count > 0)
                 {
-                    if (_dtColumnAlign != null)
+                    dgvGeneral.Columns[0].Visible = false;
+
+                    if (dgvGeneral.Columns.Count > 1)
                     {
-                        if (_dtColumnAlign.Rows.Count > 0)
+                        dgvGeneral.Columns[1].MinimumWidth =
+                            Math.Min(320, Math.Max(120, dgvGeneral.ClientSize.Width / 3));
+                    }
+
+                    if (dgvGeneral.Rows.Count > 0)
+                    {
+                        if (_dtColumnAlign != null &&
+                            _dtColumnAlign.Columns.Count > colAlign &&
+                            _dtColumnAlign.Rows.Count > 0)
                         {
-                            foreach (DataGridViewColumn col in dgvGeneral.Columns)
+                            foreach (DataGridViewColumn column in dgvGeneral.Columns)
                             {
-                                foreach (DataRow row in _dtColumnAlign.Rows)
+                                foreach (DataRow alignment in _dtColumnAlign.Rows)
                                 {
-                                    if (col.Index == Convert.ToInt32(row[colIndex].ToString()))
+                                    int alignmentIndex;
+                                    if (!int.TryParse(Convert.ToString(alignment[colIndex]),
+                                        out alignmentIndex) || column.Index != alignmentIndex)
                                     {
-                                        if (row[colAlign].ToString().ToUpper() == "M")
-                                        {
-                                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                                        }
-                                        else if (row[colAlign].ToString().ToUpper() == "R")
-                                        {
-                                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                                        }
-                                        else
-                                        {
-                                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                                        }
-                                        if (row[colAlign].ToString().ToUpper() == "N2")
-                                        {
-                                            int colin = col.Index;
-                                            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                                            dgvGeneral.Columns[col.Index].DefaultCellStyle.Format = "N2";
-                                        }
+                                        continue;
+                                    }
+
+                                    string alignmentValue = Convert.ToString(alignment[colAlign]).ToUpperInvariant();
+                                    if (alignmentValue == "M")
+                                    {
+                                        column.DefaultCellStyle.Alignment =
+                                            DataGridViewContentAlignment.MiddleCenter;
+                                    }
+                                    else if (alignmentValue == "R" || alignmentValue == "N2")
+                                    {
+                                        column.DefaultCellStyle.Alignment =
+                                            DataGridViewContentAlignment.MiddleRight;
+                                    }
+
+                                    if (alignmentValue == "N2")
+                                    {
+                                        column.DefaultCellStyle.Format = "N2";
                                     }
                                 }
-
                             }
                         }
+
+                        dgvGeneral.ClearSelection();
+                        dgvGeneral.Rows[0].Selected = false;
                     }
-                    dgvGeneral.Rows[0].Selected = false;
                 }
+
                 lblRecordCount.Text = "Count : " + Convert.ToString(dgvGeneral.RowCount);
-                dgvGeneral.Columns[0].Visible = false;
-                dgvGeneral.Columns[1].MinimumWidth = 320;
             }
             catch (Exception ex)
             {
                 MetroMessageBox.Show(this, ex.Message, "Error");
             }
-
         }
+
         #endregion
 
     }

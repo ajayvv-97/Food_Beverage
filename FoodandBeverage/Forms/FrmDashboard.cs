@@ -2979,6 +2979,16 @@ namespace FoodandBeverage.Forms
                             ib_complemetryreason.Visible = true;
                             Menuoperation.Visible = true;
                         }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.InventoryManagement) && gridesource[i].Write == 1)
+                        {
+                            ib_InventoryManagement.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.InventoryApprovals) && gridesource[i].Write == 1)
+                        {
+                            ibrequestapproval.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
                         #endregion
 
                         #region Employee Buttons
@@ -3887,7 +3897,7 @@ namespace FoodandBeverage.Forms
                 dmngen.EnableUserPrompt = rtb_userpmpt.Checked;
                 dmngen.EnableCompbillPrompt = rtb_compbillpmpt.Checked;
                 dmngen.ProductpageperCount = Convert.ToInt32(txtorderpagecount.Text);
-
+                dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;  
                 dmngen.Status = 1;
                 if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
                 {
@@ -4048,6 +4058,7 @@ namespace FoodandBeverage.Forms
                     rtb_userpmpt.Checked = settings.EnableUserPrompt;
                     rtb_compbillpmpt.Checked = settings.EnableCompbillPrompt;
                     txtorderpagecount.Text=Convert.ToString(settings.ProductpageperCount);
+                    chk_comprompt.Checked = settings.EnableCompReasonPrompt;
                 }
             }
             catch (Exception ex)
@@ -6508,6 +6519,93 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void ib_InventoryManagement_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                if (Application.OpenForms["FrmInventoryrequest"] != null)
+                {
+                    FrmInventoryrequest _instanceFrmInventoryrequest =
+                        Application.OpenForms["FrmInventoryrequest"] as FrmInventoryrequest;
+
+                    if (_instanceFrmInventoryrequest.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmInventoryrequest.WindowState =
+                            FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmInventoryrequest.Dock = DockStyle.None;
+
+                        ResizeForm(_instanceFrmInventoryrequest);
+
+                        panelDesktop.Controls.Add(_instanceFrmInventoryrequest);
+
+                        _instanceFrmInventoryrequest.Show();
+                        _instanceFrmInventoryrequest.BringToFront();
+                    }
+                }
+                else
+                {
+                    UIHelper.OpenDialog(this, new FrmInventoryrequest());
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ib_InventoryManagement_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ibrequestapproval_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                if (Application.OpenForms["FrmInventoryRequestApproval"] != null)
+                {
+                    FrmInventoryRequestApproval _instanceFrmInventoryRequestApproval =
+                        Application.OpenForms["FrmInventoryRequestApproval"] as FrmInventoryRequestApproval;
+
+                    if (_instanceFrmInventoryRequestApproval.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmInventoryRequestApproval.WindowState =
+                            FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmInventoryRequestApproval.Dock = DockStyle.None;
+
+                        ResizeForm(_instanceFrmInventoryRequestApproval);
+
+                        panelDesktop.Controls.Add(_instanceFrmInventoryRequestApproval);
+
+                        _instanceFrmInventoryRequestApproval.Show();
+                        _instanceFrmInventoryRequestApproval.BringToFront();
+                    }
+                }
+                else
+                {
+                    UIHelper.OpenDialog(this, new FrmInventoryRequestApproval());
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ibrequestapproval_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
 
         private bool ValidateComplimentaryDate()
         {

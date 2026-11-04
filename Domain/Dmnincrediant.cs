@@ -4,6 +4,12 @@ using System.Text;
 
 namespace Domain
 {
+    public enum InventoryItemCategory
+    {
+        RawMaterial = 1,
+        PackagingMaterial = 2
+    }
+
     public class Dmnincrediant
     {
         
@@ -23,8 +29,9 @@ namespace Domain
         public int Status { get; set; }
         public int BranchId { get; set; }
         public int ProductId { get; set; }
-
         public int Deductionstage { get; set; }
+        public int ProductType { get; set; }
+        
 
     }
 }

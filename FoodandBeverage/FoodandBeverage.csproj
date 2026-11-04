@@ -305,6 +305,7 @@
     <Compile Include="Classes\AppFonts.cs" />
     <Compile Include="Classes\AppSession.cs" />
     <Compile Include="Classes\AutoLogoutManager.cs" />
+    <Compile Include="Classes\BlurPopupOverlay.cs" />
     <Compile Include="Classes\ClsDocument.cs" />
     <Compile Include="Classes\clsGeneral.cs" />
     <Compile Include="Classes\ClsImgComprossor.cs" />
@@ -411,6 +412,19 @@
     </Compile>
     <Compile Include="Forms\FrmIngredient.Designer.cs">
       <DependentUpon>FrmIngredient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmInventoryrequest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmInventoryrequest.Persistence.cs" />
+    <Compile Include="Forms\FrmInventoryrequest.Designer.cs">
+      <DependentUpon>FrmInventoryrequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmInventoryRequestApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmInventoryRequestApproval.Designer.cs">
+      <DependentUpon>FrmInventoryRequestApproval.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmItemRegistartion.cs">
       <SubType>Form</SubType>
@@ -987,6 +1001,12 @@
     <EmbeddedResource Include="Forms\FrmIngredient.resx">
       <DependentUpon>FrmIngredient.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmInventoryrequest.resx">
+      <DependentUpon>FrmInventoryrequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmInventoryRequestApproval.resx">
+      <DependentUpon>FrmInventoryRequestApproval.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmItemRegistartion.resx">
       <DependentUpon>FrmItemRegistartion.cs</DependentUpon>
@@ -2199,6 +2219,59 @@
     <None Include="Resources\party_Gift_Button.png" />
     <None Include="Resources\party_Menu_Button.png" />
     <None Include="Resources\party_BillPreview.png" />
+    <None Include="Resources\Inv_AddToList_Button.png" />
+    <None Include="Resources\Inv_ClearAll_Button.png" />
+    <None Include="Resources\Inv_IngredientEdit.png" />
+    <None Include="Resources\Inv_ImportRecipePreparation.png" />
+    <None Include="Resources\Inv_ImportRecipePreparation_Compact.png" />
+    <None Include="Resources\Inv_RawMaterialIssue_Active.png" />
+    <None Include="Resources\Inv_RawMaterialIssue_Inactive.png" />
+    <None Include="Resources\Inv_AdvancedSearch.png" />
+    <None Include="Resources\Inv_AdvancedSearch_Compact.png" />
+    <None Include="Resources\Inv_BatchPreparation_Active.png" />
+    <None Include="Resources\Inv_BatchPreparation_Inactive.png" />
+    <None Include="Resources\Inv_Edit.png" />
+    <None Include="Resources\Inv_TotalIssueQuantity_Icon.png" />
+    <None Include="Resources\Inv_TotalMaterials_Icon.png" />
+    <None Include="Resources\Inv_OpenDraft_Button.png" />
+    <None Include="Resources\Inv_RequestedBy_Icon.png" />
+    <None Include="Resources\Inv_SaveDraft_Button.png" />
+    <None Include="Resources\Inv_Rejected.png" />
+    <None Include="Resources\Inv_Approved.png" />
+    <None Include="Resources\Inv_Clipboard.png" />
+    <None Include="Resources\Inv_Filter.png" />
+    <None Include="Resources\Inv_Hourglass.png" />
+    <None Include="Resources\Inv_Layers.png" />
+    <None Include="Resources\Inv_Open Request &amp; Approval Button.png" />
+    <None Include="Resources\Inv_Refresh.png" />
+    <None Include="Resources\Inv_Save.png" />
+    <None Include="Resources\Inv_SaveDraft.png" />
+    <None Include="Resources\Inv_Search.png" />
+    <None Include="Resources\Inv_AddToList.png" />
+    <None Include="Resources\Inv_Cancel.png" />
+    <None Include="Resources\Inv_Import.png" />
+    <None Include="Resources\Inv_OpenDraft.png" />
+    <None Include="Resources\Inv_OpenRequestApproval.png" />
+    <None Include="Resources\Inv_ClearAll.png" />
+    <None Include="Resources\Inv_DeleteDraft_Button.png" />
+    <None Include="Resources\Invapp_RequestedBy.png" />
+    <None Include="Resources\Invapp_RequestNumber.png" />
+    <None Include="Resources\Invapp_RequestType.png" />
+    <None Include="Resources\Invapp_SummaryChart.png" />
+    <None Include="Resources\Invapp_ApprovalDecision.png" />
+    <None Include="Resources\Invapp_ChefHat.png" />
+    <None Include="Resources\Invapp_Department.png" />
+    <None Include="Resources\Invapp_RawMaterialCube.png" />
+    <None Include="Resources\Invapp_Info.png" />
+    <None Include="Resources\Invapp_SendBack.png" />
+    <None Include="Resources\Invapp_Approve.png" />
+    <None Include="Resources\Invapp_Cancel.png" />
+    <None Include="Resources\Invapp_Reject.png" />
+    <None Include="Resources\Invapp_HorizontalLine_Black.png" />
+    <None Include="Resources\Invapp_Status_SendBack.png" />
+    <None Include="Resources\Invapp_OpenRequest.png" />
+    <None Include="Resources\Invapp_Status_Approved.png" />
+    <None Include="Resources\Invapp_Status_Rejected.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />

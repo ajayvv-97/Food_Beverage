@@ -28,8 +28,12 @@ namespace BLL
             parms.Add("Status", obj.Status);
             parms.Add("MinimumAdvanceAmount", obj.MinimumAdvanceAmount);
             parms.Add("HSNCode", obj.HSNCode);
-            
-            var data = repo.AddandReturnID(procedureName, parms);
+            parms.Add("FixedPrice", obj.FixedPrice);
+            parms.Add("FixedPriceStatus", obj.FixedPriceStatus);
+            parms.Add("AdultCount", obj.AdultCount);
+            parms.Add("ChildCount", obj.ChildCount);
+
+             var data = repo.AddandReturnID(procedureName, parms);
             return data;
         }
 

@@ -185,6 +185,8 @@ namespace FoodandBeverage
 
         int Partypackid = 0;
         private string _partyPackHsnCode = string.Empty;
+        private bool _fixedPriceStatus;
+        private decimal _fixedPackPrice;
         private const string DefaultCardHsnCode = "8523";
         int PaymentMode = 0;
         bool AdvanceFlag = false;
@@ -224,6 +226,9 @@ namespace FoodandBeverage
         private bool _isKotDateTimeManuallySet;
         private bool _hasLoadedKotDateTime;
         private DateTime? _loadedKotDateTime;
+        private bool _hasValidatedKotDateTimeForPayment;
+        private DateTime? _validatedKotDateTimeForPayment;
+        private DateTime? _validatedBookingStartForPayment;
         private bool _loadedConsumedRawMaterialStatus;
         private bool _loadedKoTPrintStatus;
         private bool _isLoadingPartyBooking;
@@ -328,8 +333,11 @@ namespace FoodandBeverage
             InitializeComponent();
             InitializeBlurPopupSupport();
             InitializeKotDateTimeControls();
+            lbl_Paymentsettled.Text = "Payment Settlement";
+            lblbalapay.Text = "Balance Payable";
 
             dgv_packenter.DataError += dgv_packenter_DataError;
+            dgv_packs_items.DataError += dgv_packs_items_DataError;
             btn_cart.BackgroundImage = Properties.Resources.Party_Cart_Icon;
             btn_cart.BackgroundImageLayout = ImageLayout.Stretch;
             btnprev.Click += btnprev_Click;
@@ -350,6 +358,7 @@ namespace FoodandBeverage
             Shown += (sender, args) => ConfigureResponsivePartyButtons();
 
             pnl_moreoptions.Visible = false;
+            HideBlurPopup(pnl_moreoptions);
             pnl_moreoptions.BringToFront();
             btn_billpreview.Visible = false;
         }
@@ -398,6 +407,13 @@ namespace FoodandBeverage
             }
 
             FormClosed += FrmPartyBooking_FormClosed;
+            Resize += FrmPartyBooking_BlurOverlayResize;
+        }
+
+        private void FrmPartyBooking_BlurOverlayResize(object sender, EventArgs e)
+        {
+            if (_blurPopupPictureBox != null && !_blurPopupPictureBox.IsDisposed)
+                _blurPopupPictureBox.Bounds = ClientRectangle;
         }
 
         private void BlurPopupPanel_VisibleChanged(object sender, EventArgs e)
@@ -471,6 +487,7 @@ namespace FoodandBeverage
                 // All popup panels are direct children of FrmPartyBooking.
                 // Keep their original parent/layout; only adjust the Z-order.
                 popup.BringToFront();
+                PositionBlurOverlayBehindPopup(popup);
             }
             catch (Exception ex)
             {
@@ -482,6 +499,25 @@ namespace FoodandBeverage
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.Partybooking));
             }
+        }
+
+
+        private void PositionBlurOverlayBehindPopup(Panel popup)
+        {
+            if (popup == null ||
+                popup.IsDisposed ||
+                popup.Parent != this ||
+                _blurPopupPictureBox == null ||
+                _blurPopupPictureBox.IsDisposed)
+                return;
+
+            // Z-order index 0 is frontmost. Keep the blur image directly behind
+            // the active popup so it cannot be hidden by tlp_main or other panels.
+            popup.BringToFront();
+
+            int popupIndex = Controls.GetChildIndex(popup);
+            int overlayIndex = Math.Min(popupIndex + 1, Controls.Count - 1);
+            Controls.SetChildIndex(_blurPopupPictureBox, overlayIndex);
         }
 
         private void HideBlurPopup(Panel popup)
@@ -540,7 +576,8 @@ namespace FoodandBeverage
             _blurPopupPictureBox = new PictureBox
             {
                 Name = "picPartyBookingBlurOverlay",
-                Dock = DockStyle.Fill,
+                Bounds = ClientRectangle,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 BackColor = Color.Black,
                 TabStop = false,
@@ -549,7 +586,6 @@ namespace FoodandBeverage
 
             // Add once and reuse it for the lifetime of the form.
             Controls.Add(_blurPopupPictureBox);
-            _blurPopupPictureBox.BringToFront();
         }
 
         private Bitmap CapturePartyBookingForm()
@@ -826,11 +862,6 @@ namespace FoodandBeverage
             UpdateDefaultKotDateTime(GetPartyBookingStartDateTime());
         }
 
-        private DateTime GetPartyBookingStartDateTime()
-        {
-            return dtpEventDate_From.Value.Date.Add(dtpEventTime_From.Value.TimeOfDay);
-        }
-
         private DateTime GetSelectedKotDateTime()
         {
             return dtp_kotdate.Value.Date.Add(dtp_kottime.Value.TimeOfDay);
@@ -886,6 +917,17 @@ namespace FoodandBeverage
                     : bookingStart;
 
             SetKotDateTimePickerValue(automaticKotTime);
+        }
+
+        private DateTime GetPartyBookingStartDateTime()
+        {
+            DateTime? bookingDate = GetOptionalDateTimePickerValue("dtpEventDate_From");
+            DateTime? bookingTime = GetOptionalDateTimePickerValue("dtpEventTime_From");
+
+            DateTime date = bookingDate ?? dtpEventDate_From.Value;
+            DateTime time = bookingTime ?? dtpEventTime_From.Value;
+
+            return date.Date + time.TimeOfDay;
         }
 
         private bool TryGetKotDateTimeForSave(DateTime bookingStart, out DateTime? kotDateTime)
@@ -1026,6 +1068,7 @@ namespace FoodandBeverage
                 if (pnl_foodpacks.Visible)
                 {
                     pnl_foodpacks.Visible = false;
+                    HideBlurPopup(pnl_foodpacks);
                     return;
                 }
                 pnl_foodpacks.Width = (int)(this.ClientSize.Width * 0.7);
@@ -1035,6 +1078,7 @@ namespace FoodandBeverage
                 pnl_foodpacks.Top = (this.ClientSize.Height - pnl_foodpacks.Height) / 2;
 
                 pnl_foodpacks.Visible = true;
+                pnl_foodpacks.Visible = true;ShowBlurPopup(pnl_foodpacks);
                 pnl_foodpacks.BringToFront();
 
                 LoadPartyPacks();
@@ -1052,10 +1096,12 @@ namespace FoodandBeverage
         private void btn_pack_close_Click(object sender, EventArgs e)
         {
             pnl_foodpacks.Visible = false;
+            HideBlurPopup(pnl_foodpacks);
         }
         private void btn_orderdesc_submit_Click(object sender, EventArgs e)
         {
             pnl_foodpacks.Visible = false;
+            HideBlurPopup(pnl_foodpacks);
         }
         public void Loadprice(int pkid)
         {
@@ -1068,7 +1114,12 @@ namespace FoodandBeverage
                             PartyPackId,
                             PackName,
                             AdultPrice,
-                            ChildPrice,Tax,TaxSettingsId,HSNCode,
+                            ChildPrice,
+                            FixedPrice,
+                            FixedPriceStatus,
+                            AdultCount,
+                            ChildCount,
+                            Tax,TaxSettingsId,HSNCode,
                             (SELECT COUNT(1) 
                              FROM tblPartyPackDetails d 
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
@@ -1079,8 +1130,23 @@ namespace FoodandBeverage
                 var list = bll.GetSearchData("prdSearch", search);
                 if (list.Count > 0)
                 {
+                    _fixedPriceStatus = list[0].FixedPriceStatus;
+                    _fixedPackPrice = list[0].FixedPrice;
                     txtChildPrice.Text = Convert.ToString(list[0].ChildPrice);
                     txtAdultPrice.Text = Convert.ToString(list[0].AdultPrice);
+
+                    // Use the guest counts configured for this package.
+                    txtAdults.Text = Math.Max(0, list[0].AdultCount).ToString();
+                    txtChild.Text = Math.Max(0, list[0].ChildCount).ToString();
+                    // Fixed-price packages use the configured guest counts only for display.
+                    // The guest controls must not accept edits or open the numeric keypad.
+                    txtAdults.Enabled = !_fixedPriceStatus;
+                    txtChild.Enabled = !_fixedPriceStatus;
+                    txtAdults.ReadOnly = _fixedPriceStatus;
+                    txtChild.ReadOnly = _fixedPriceStatus;
+                    txtAdults.TabStop = !_fixedPriceStatus;
+                    txtChild.TabStop = !_fixedPriceStatus;
+
                     txtTaxSettingId.Text = Convert.ToString(list[0].TaxSettingsId);
                     txttax.Text = Convert.ToString(list[0].Tax);
                     _partyPackHsnCode = Convert.ToString(list[0].HSNCode ?? string.Empty);
@@ -1106,7 +1172,12 @@ namespace FoodandBeverage
                             PartyPackId,
                             PackName,
                             AdultPrice,
-                            ChildPrice,Tax,TaxSettingsId,HSNCode,
+                            ChildPrice,
+                            FixedPrice,
+                            FixedPriceStatus,
+                            AdultCount,
+                            ChildCount,
+                            Tax,TaxSettingsId,HSNCode,
                             (SELECT COUNT(1) 
                              FROM tblPartyPackDetails d 
                              WHERE d.PartyPackId = tblPartyPackMaster.PartyPackId 
@@ -1171,7 +1242,9 @@ namespace FoodandBeverage
                         lblPrice.Width = card.Width - 20;
                         lblPrice.Location = new Point(10, 40);
 
-                        if (item.AdultPrice > 0 && item.ChildPrice > 0)
+                        if (item.FixedPriceStatus)
+                            lblPrice.Text = $"Fixed Package ₹{item.FixedPrice}";
+                        else if (item.AdultPrice > 0 && item.ChildPrice > 0)
                             lblPrice.Text = $"Adult ₹{item.AdultPrice} | Child ₹{item.ChildPrice}";
                         else if (item.AdultPrice > 0)
                             lblPrice.Text = $"₹{item.AdultPrice}";
@@ -1195,6 +1268,7 @@ namespace FoodandBeverage
                             //ClearAll();
 
                             pnl_foodpacks.Visible = false;
+                            HideBlurPopup(pnl_foodpacks);
 
                             lbltotalguest.Visible = true;
                             txttotalguest.Visible = true;
@@ -1245,6 +1319,7 @@ namespace FoodandBeverage
                                 int packId = Convert.ToInt32(((Label)s).Tag);
 
                                 pnl_pak_detailsitems.Visible = true;
+                                pnl_pak_detailsitems.Visible = true;ShowBlurPopup(pnl_pak_detailsitems);
                                 pnl_pak_detailsitems.BringToFront();
 
                                 pnl_pak_detailsitems.Width = (int)(this.Width * 0.5);
@@ -1294,6 +1369,12 @@ namespace FoodandBeverage
 
                 bool showChild = childPrice > 0m;
                 bool showAdult = adultPrice > 0m;
+
+                if (_fixedPriceStatus)
+                {
+                    showChild = true;
+                    showAdult = true;
+                }
 
                 // If both prices are zero, show Adult controls only.
                 if (!showChild && !showAdult)
@@ -1487,29 +1568,79 @@ namespace FoodandBeverage
                 return "";
             }
         }
-        private void LoadMenuCategory()
+        private void LoadMenuCategory(IEnumerable<DmnPartyPackDetails> packItems = null)
         {
             try
             {
+                // Keep all categories currently referenced by this saved package in the
+                // ComboBox list, even if a category was later disabled or reclassified.
+                List<long> usedCategoryIds = (packItems ?? Enumerable.Empty<DmnPartyPackDetails>())
+                    .Where(x => x.MenuCategoryId > 0)
+                    .Select(x => Convert.ToInt64(x.MenuCategoryId))
+                    .Distinct()
+                    .ToList();
+
+                string whereClause = "WHERE (ISNULL(Status, 1) = 1 AND CategoryType = 5)";
+                if (usedCategoryIds.Count > 0)
+                {
+                    whereClause += " OR Fcid IN (" +
+                        string.Join(",", usedCategoryIds) + ")";
+                }
+
                 BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
-                DmnSearch objSearch = new DmnSearch();
+                DmnSearch objSearch = new DmnSearch
+                {
+                    Select = "Fcid, CategoryName",
+                    Table = "tblCategory_FTI",
+                    WhereNdGroupBy = whereClause,
+                    OrderBy = "ORDER BY CategoryName"
+                };
 
-                objSearch.Select = "Fcid, CategoryName";
-                objSearch.Table = "tblCategory_FTI";
-                objSearch.WhereNdGroupBy = "WHERE Status = 1 AND CategoryType = 5";
-                objSearch.OrderBy = "ORDER BY CategoryName";
+                categoryList = bllSearch.GetSearchData("prdSearch", objSearch) ??
+                    new List<DmnCategory>();
 
-                categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
+                // Preserve legacy IDs if a referenced category record no longer exists.
+                HashSet<long> loadedIds = new HashSet<long>(
+                    categoryList.Select(x => x.Fcid));
+                foreach (long categoryId in usedCategoryIds)
+                {
+                    if (!loadedIds.Contains(categoryId))
+                    {
+                        categoryList.Add(new DmnCategory
+                        {
+                            Fcid = categoryId,
+                            CategoryName = "Unavailable category (" + categoryId + ")"
+                        });
+                    }
+                }
 
-                DataGridViewComboBoxColumn cmb = (DataGridViewComboBoxColumn)dgv_packs_items.Columns[showonlycategmenuno];
+                DataGridViewComboBoxColumn cmb =
+                    (DataGridViewComboBoxColumn)dgv_packs_items.Columns[showonlycategmenuno];
 
-                cmb.DataSource = categoryList;
+                cmb.DataSource = null;
                 cmb.DisplayMember = "CategoryName";
                 cmb.ValueMember = "Fcid";
+                cmb.DataSource = categoryList;
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partybooking page  LoadMenuCategory()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Partybooking));
+                clsgen.LogException("Partybooking page LoadMenuCategory()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void dgv_packs_items_DataError(
+            object sender,
+            DataGridViewDataErrorEventArgs e)
+        {
+            // A stale or blank category must never stop the View Details popup.
+            e.ThrowException = false;
+            if (e.Exception != null)
+            {
+                clsgen.LogException("Partybooking page dgv_packs_items_DataError()",
+                    e.Exception, FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
             }
         }
         private void LoadMenuCategory_cutom()
@@ -1551,8 +1682,10 @@ namespace FoodandBeverage
                 search.Table = "tblPartyPackDetails";
                 search.WhereNdGroupBy = "WHERE PartyPackId = " + packId + " AND Status = 1 and PackItemType =" + Convert.ToInt32(PackItemType.FoodItem);
 
-                LoadMenuCategory();
-                packDetailsList = bll.GetSearchData("prdSearch", search);
+                packDetailsList = bll.GetSearchData("prdSearch", search) ??
+                    new List<DmnPartyPackDetails>();
+                LoadMenuCategory(packDetailsList);
+
                 int sl = 1;
                 foreach (var item in packDetailsList)
                 {
@@ -1562,13 +1695,15 @@ namespace FoodandBeverage
                     row.Cells[showonlyslno].Value = sl++;
                     row.Cells[showonlyitemno].Value = item.Item;
 
-                    if (item.MenuCategoryId != null && item.MenuCategoryId > 0)
+                    if (item.MenuCategoryId > 0)
                     {
-                        row.Cells[showonlycategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                        row.Cells[showonlycategmenuno].Value =
+                            Convert.ToInt64(item.MenuCategoryId);
                     }
                     else
                     {
-                        row.Cells[showonlycategmenuno].Value = DBNull.Value;
+                        // A null value is the valid blank selection for a ComboBox cell.
+                        row.Cells[showonlycategmenuno].Value = null;
                     }
                     row.Cells[showonlyqtyno].Value = item.Quantity;
                 }
@@ -1584,24 +1719,19 @@ namespace FoodandBeverage
         {
             try
             {
-                var usedCategoryIds = packDetailsList
-                    .Select(x => x.MenuCategoryId)
+                flp_pakdet_item_menu.Controls.Clear();
+
+                var usedCategoryIds = (packDetailsList ?? new List<DmnPartyPackDetails>())
+                    .Where(x => x.MenuCategoryId > 0)
+                    .Select(x => Convert.ToInt64(x.MenuCategoryId))
                     .Distinct()
                     .ToList();
 
-                BllSearch<DmnCategory> bllSearch = new BllSearch<DmnCategory>();
-                DmnSearch objSearch = new DmnSearch();
-
-                objSearch.Select = "Fcid, CategoryName";
-                objSearch.Table = "tblCategory_FTI";
-                objSearch.WhereNdGroupBy =
-                    "WHERE Status = 1 AND Fcid IN (" + string.Join(",", usedCategoryIds) + ")";
-                objSearch.OrderBy = "ORDER BY CategoryName";
-
-                var categoryList = bllSearch.GetSearchData("prdSearch", objSearch);
-
-                foreach (var cat in categoryList)
+                foreach (long categoryId in usedCategoryIds)
                 {
+                    DmnCategory cat = categoryList.FirstOrDefault(x => x.Fcid == categoryId);
+                    if (cat == null) continue;
+
                     Button btn = new Button();
                     btn.Text = cat.CategoryName;
                     btn.Width = 120;
@@ -1637,7 +1767,7 @@ namespace FoodandBeverage
 
                 int sl = 1;
 
-                LoadMenuCategory();
+                LoadMenuCategory(packDetailsList);
 
                 foreach (var item in filtered)
                 {
@@ -1646,7 +1776,9 @@ namespace FoodandBeverage
 
                     row.Cells[showonlyslno].Value = sl++;
                     row.Cells[showonlyitemno].Value = item.Item;
-                    row.Cells[showonlycategmenuno].Value = Convert.ToInt64(item.MenuCategoryId);
+                    row.Cells[showonlycategmenuno].Value = item.MenuCategoryId > 0
+                        ? (object)Convert.ToInt64(item.MenuCategoryId)
+                        : null;
                     row.Cells[showonlyqtyno].Value = item.Quantity;
                 }
             }
@@ -1721,6 +1853,7 @@ namespace FoodandBeverage
         private void btncls_eventreg_Click(object sender, EventArgs e)
         {
             pnl_eventreg.Visible = false;
+            HideBlurPopup(pnl_eventreg);
         }
         private void btnevnetype_refresh_Click(object sender, EventArgs e)
         {
@@ -1739,6 +1872,7 @@ namespace FoodandBeverage
                 pnl_eventreg.Top = (this.Height - pnl_eventreg.Height) / 2;
 
                 pnl_eventreg.Visible = true;
+                pnl_eventreg.Visible = true;ShowBlurPopup(pnl_eventreg);
                 pnl_eventreg.BringToFront();
             }
             catch (Exception ex)
@@ -1884,10 +2018,12 @@ namespace FoodandBeverage
         private void btn_pak_details_cls_Click(object sender, EventArgs e)
         {
             pnl_pak_detailsitems.Visible = false;
+            HideBlurPopup(pnl_pak_detailsitems);
         }
         private void btn_enter_paks_cls_Click(object sender, EventArgs e)
         {
             pnl_enter_paks.Visible = false;
+            HideBlurPopup(pnl_enter_paks);
         }
         private void btnaddpack_main_Click(object sender, EventArgs e)
         {
@@ -1983,8 +2119,11 @@ namespace FoodandBeverage
 
 
                 pnl_foodpacks.Visible = false;
+                HideBlurPopup(pnl_foodpacks);
                 pnl_enter_paks.Visible = false;
+                HideBlurPopup(pnl_enter_paks);
                 pnl_CustomItems_menu.Visible = false;
+                HideBlurPopup(pnl_CustomItems_menu);
 
                 dgv_packenter.Rows.Clear();
                 selectedCustomItems.Clear();
@@ -2070,6 +2209,7 @@ namespace FoodandBeverage
             try
             {
                 pnl_enter_paks.Visible = true;
+                pnl_enter_paks.Visible = true;ShowBlurPopup(pnl_enter_paks);
                 pnl_enter_paks.BringToFront();
 
                 pnl_enter_paks.Width = (int)(this.Width * 0.6);
@@ -2162,6 +2302,7 @@ namespace FoodandBeverage
                 txtDescription.Clear();
 
                 pnl_eventreg.Visible = false;
+                HideBlurPopup(pnl_eventreg);
             }
             catch (Exception ex)
             {
@@ -2177,6 +2318,7 @@ namespace FoodandBeverage
             {
                 selectedCustomItems.Clear();
                 pnl_CustomItems_menu.Visible = true;
+                pnl_CustomItems_menu.Visible = true;ShowBlurPopup(pnl_CustomItems_menu);
                 pnl_CustomItems_menu.BringToFront();
 
                 pnl_CustomItems_menu.Width = (int)(this.Width * 0.6);
@@ -2196,6 +2338,7 @@ namespace FoodandBeverage
         private void btn_cus_menu_cls_Click(object sender, EventArgs e)
         {
             pnl_CustomItems_menu.Visible = false;
+            HideBlurPopup(pnl_CustomItems_menu);
         }
 
         private void btn_cus_menu_submit_Click(object sender, EventArgs e)
@@ -2203,6 +2346,7 @@ namespace FoodandBeverage
             try
             {
                 pnl_CustomItems_menu.Visible = false;
+                HideBlurPopup(pnl_CustomItems_menu);
                 int sl = dgv_packenter.Rows.Count;
 
                 foreach (var item in selectedCustomItems)
@@ -3179,6 +3323,7 @@ namespace FoodandBeverage
                 }
 
                 pnl_cardpreview.Visible = false;
+                HideBlurPopup(pnl_cardpreview);
             }
             catch (Exception ex)
             {
@@ -3218,6 +3363,7 @@ namespace FoodandBeverage
         private void btncards_cls_Click(object sender, EventArgs e)
         {
             pnl_cardpreview.Visible = false;
+            HideBlurPopup(pnl_cardpreview);
         }
         public bool checkPartySelet()
         {
@@ -3238,6 +3384,7 @@ namespace FoodandBeverage
                     return;
 
                 pnl_cardpreview.Visible = true;
+                pnl_cardpreview.Visible = true;ShowBlurPopup(pnl_cardpreview);
                 pnl_cardpreview.BringToFront();
 
                 int widthPercent = 80;
@@ -3428,6 +3575,7 @@ namespace FoodandBeverage
         private void btngiftprevcls_Click(object sender, EventArgs e)
         {
             pnlgiftpreview.Visible = false;
+            HideBlurPopup(pnlgiftpreview);
         }
         private void btngift_Click(object sender, EventArgs e)
         {
@@ -3435,6 +3583,7 @@ namespace FoodandBeverage
                 return;
 
             pnlgiftpreview.Visible = true;
+            pnlgiftpreview.Visible = true;ShowBlurPopup(pnlgiftpreview);
             pnlgiftpreview.BringToFront();
             pnlgiftpreview.Left = (this.ClientSize.Width - pnlgiftpreview.Width) / 2;
             pnlgiftpreview.Top = (this.ClientSize.Height - pnlgiftpreview.Height) / 2;
@@ -3628,6 +3777,7 @@ namespace FoodandBeverage
                         AddGiftRow(item, (int)FoodandBeverage.Interfaces.ProductType.RedemptionTicket);
                     }
                     pnlgiftpreview.Visible = false;
+                    HideBlurPopup(pnlgiftpreview);
                 }
             }
             catch (Exception ex)
@@ -3727,7 +3877,9 @@ namespace FoodandBeverage
                 int.TryParse(txtAdults.Text, out adults);
                 int.TryParse(txtChild.Text, out children);
 
-                decimal grandTotal = (adultPrice * adults) + (childPrice * children);
+                decimal grandTotal = _fixedPriceStatus
+                    ? _fixedPackPrice
+                    : (adultPrice * adults) + (childPrice * children);
                 txtGrandTotal_pack.Text = grandTotal.ToString("N2");
                 txt_PackTotalAmt.Text = grandTotal.ToString("N2");
             }
@@ -3758,6 +3910,17 @@ namespace FoodandBeverage
         {
             try
             {
+                // Initialize hidden save fields before reading tax settings.
+                // This prevents null/empty values from reaching the booking save.
+                txtPreTaxAmount_pack.Text = "0.00";
+                txtTotalTaxAmount_pack.Text = "0.00";
+                txtGrandTotal_pack.Text = "0.00";
+                txtIGSTAmt_pack.Text = "0.00";
+                txtVatamt_pack.Text = "0.00";
+                txt_packtaxper.Text = "0";
+                txtTaxPer_pack.Text = "0";
+                txtTaxtype_pack.Text = string.Empty;
+
                 decimal GetDecimal(TextBox txt)
                 {
                     decimal.TryParse(txt.Text, out decimal val);
@@ -3802,7 +3965,8 @@ namespace FoodandBeverage
                     }
                 }
 
-                txt_packtaxper.Text = totalPercent.ToString(); 
+                txt_packtaxper.Text = totalPercent.ToString("0.##");
+                txtTaxPer_pack.Text = totalPercent.ToString("0.##");
                 txtTaxtype_pack.Text = taxType;
 
                 decimal discountAmt = 0; // you can calculate later if needed
@@ -4008,6 +4172,7 @@ namespace FoodandBeverage
         private void btncakeclose_Click(object sender, EventArgs e)
         {
             pnlcake.Visible = false;
+            HideBlurPopup(pnlcake);
         }
         private void ResetCakeFields()
         {
@@ -4078,6 +4243,7 @@ namespace FoodandBeverage
                 LoadAllcakeTotal();
 
                 pnl_cakeregister.Visible = false;
+                HideBlurPopup(pnl_cakeregister);
 
                 ResetDiscount();
             }
@@ -4135,6 +4301,7 @@ namespace FoodandBeverage
 
                             // Show panel centered
                             pnl_cakeregister.Visible = true;
+                            pnl_cakeregister.Visible = true;ShowBlurPopup(pnl_cakeregister);
                             pnl_cakeregister.BringToFront();
                             pnl_cakeregister.Left = (this.ClientSize.Width - pnl_cakeregister.Width) / 2;
                             pnl_cakeregister.Top = (this.ClientSize.Height - pnl_cakeregister.Height) / 2;
@@ -4207,6 +4374,7 @@ namespace FoodandBeverage
                 return;
 
             pnlcake.Visible = true;
+            pnlcake.Visible = true;ShowBlurPopup(pnlcake);
             pnlcake.BringToFront();
             pnlcake.Left = (this.ClientSize.Width - pnlcake.Width) / 2;
             pnlcake.Top = (this.ClientSize.Height - pnlcake.Height) / 2;
@@ -4217,6 +4385,7 @@ namespace FoodandBeverage
         private void btncakesubmit_Click(object sender, EventArgs e)
         {
             pnlcake.Visible = false;
+            HideBlurPopup(pnlcake);
         }
         public void LoadAllcakeTotal()
         {
@@ -4243,6 +4412,7 @@ namespace FoodandBeverage
                 CalculateNetAmount();
 
                 pnlcake.Visible = false;
+                HideBlurPopup(pnlcake);
                 ResetCakeFields();
             }
             catch (Exception ex)
@@ -4439,6 +4609,9 @@ namespace FoodandBeverage
                 UpdateTotalGuests();
                 UpdateGrandTotal_Pack();
 
+                // UpdateGrandTotal_Pack uses FixedPrice for fixed-price packages and
+                // adult/child pricing for normal packages. Both must pass through the
+                // same tax calculation so pack tax fields are always populated.
                 CalculatePackValues();
 
                 if (Convert.ToDecimal(discountper.Text) > 0)
@@ -4476,6 +4649,14 @@ namespace FoodandBeverage
         {
             try
             {
+                _fixedPriceStatus = false;
+                _fixedPackPrice = 0m;
+                txtAdults.Enabled = true;
+                txtChild.Enabled = true;
+                txtAdults.ReadOnly = false;
+                txtChild.ReadOnly = false;
+                txtAdults.TabStop = true;
+                txtChild.TabStop = true;
                 _isKotDateTimeManuallySet = false;
                 _hasLoadedKotDateTime = false;
                 _loadedKotDateTime = null;
@@ -4584,6 +4765,8 @@ namespace FoodandBeverage
                 // ===============================
                 lblNetAmt.Text = "0.00";
                 lblBalAmt.Text = "0.00";
+                lblbalapay.Text = "Balance Payable";
+                lbl_Paymentsettled.Text = "Payment Settlement";
                 lbladvamtdata.Text = "0.00";
                 txtRcvAmt.Text = "0.00";
 
@@ -4651,14 +4834,23 @@ namespace FoodandBeverage
                 // 🔹 Reset Panels Visibility
                 // ===============================
                 pnlcake.Visible = false;
+                HideBlurPopup(pnlcake);
                 pnlgiftpreview.Visible = false;
+                HideBlurPopup(pnlgiftpreview);
                 pnlSplit.Visible = false;
+                HideBlurPopup(pnlSplit);
                 pnl_CustomItems_menu.Visible = false;
+                HideBlurPopup(pnl_CustomItems_menu);
                 pnl_enter_paks.Visible = false;
+                HideBlurPopup(pnl_enter_paks);
                 pnl_foodpacks.Visible = false;
+                HideBlurPopup(pnl_foodpacks);
                 pnl_pak_detailsitems.Visible = false;
+                HideBlurPopup(pnl_pak_detailsitems);
                 pnlPaymode.Visible = false;
+                HideBlurPopup(pnlPaymode);
                 pnl_Paymentsettled.Visible = false;
+                HideBlurPopup(pnl_Paymentsettled);
 
                 lblpackname.Visible = false;
                 lblpacklabel.Visible = false;
@@ -4691,6 +4883,7 @@ namespace FoodandBeverage
                 Advanceflag = false;
 
                 pnl_PaymentOptions.Visible = false;
+                HideBlurPopup(pnl_PaymentOptions);
 
                 btnnocharge.Visible = true;
                 btn_other.Visible = true;
@@ -4827,8 +5020,30 @@ namespace FoodandBeverage
         {
             try
             {
+                _hasValidatedKotDateTimeForPayment = false;
+                _validatedKotDateTimeForPayment = null;
+                _validatedBookingStartForPayment = null;
+
+                // Recalculate now before opening payment options. Fixed-price packs
+                // use their configured FixedPrice, but still run the normal tax and
+                // discount calculations.
+                PriceChangecalculation();
+
                 if (!Mandatorycheck())
                     return;
+
+                DateTime bookingStartForPayment = GetPartyBookingStartDateTime();
+                DateTime? validatedKotDateTime;
+                if (!TryGetKotDateTimeForSave(
+                    bookingStartForPayment,
+                    out validatedKotDateTime))
+                {
+                    return;
+                }
+
+                _validatedKotDateTimeForPayment = validatedKotDateTime;
+                _validatedBookingStartForPayment = bookingStartForPayment;
+                _hasValidatedKotDateTimeForPayment = true;
 
                 btnnocharge.Visible = true;
                 btn_other.Visible = true;
@@ -4878,6 +5093,7 @@ namespace FoodandBeverage
                     if (paymentPending)
                     {
                         pnl_PaymentOptions.Visible = true;
+                        pnl_PaymentOptions.Visible = true;ShowBlurPopup(pnl_PaymentOptions);
                         pnl_PaymentOptions.BringToFront();
                         pnl_PaymentOptions.Left = (this.ClientSize.Width - pnl_PaymentOptions.Width) / 2;
                         pnl_PaymentOptions.Top = (this.ClientSize.Height - pnl_PaymentOptions.Height) / 2;
@@ -4886,6 +5102,7 @@ namespace FoodandBeverage
                 }
 
                 pnl_PaymentOptions.Visible = true;
+                pnl_PaymentOptions.Visible = true;ShowBlurPopup(pnl_PaymentOptions);
                 pnl_PaymentOptions.BringToFront();
                 pnl_PaymentOptions.Left = (this.ClientSize.Width - pnl_PaymentOptions.Width) / 2;
                 pnl_PaymentOptions.Top = (this.ClientSize.Height - pnl_PaymentOptions.Height) / 2;
@@ -4943,7 +5160,7 @@ namespace FoodandBeverage
                     return false;
                 }
 
-                if (adultPrice > 0 || childPrice > 0)
+                if (!_fixedPriceStatus && (adultPrice > 0 || childPrice > 0))
                 {
                     int adults = GetInt(txtAdults);
                     int children = GetInt(txtChild);
@@ -5006,6 +5223,7 @@ namespace FoodandBeverage
                 // NORMAL PAYMENT MODE PANEL
 
                 pnlPaymode.Visible = true;
+                pnlPaymode.Visible = true;ShowBlurPopup(pnlPaymode);
                 pnlPaymode.BringToFront();
 
                 pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
@@ -5137,14 +5355,19 @@ namespace FoodandBeverage
 
                 // 🔹 DATEtime
 
-                DateTime bookingStart = GetOptionalDateTimePickerValue("dtpEventDate_From").HasValue
-                    ? GetOptionalDateTimePickerValue("dtpEventDate_From").Value.Date +
-                      (GetOptionalDateTimePickerValue("dtpEventTime_From") ?? dtpEventTime_From.Value).TimeOfDay
-                    : dtpEventDate_From.Value.Date + dtpEventTime_From.Value.TimeOfDay;
+                if (!_hasValidatedKotDateTimeForPayment ||
+                    !_validatedBookingStartForPayment.HasValue)
+                {
+                    // All payment routes must originate from btn_paynow_Click,
+                    // where booking/KOT date validation is displayed to staff.
+                    throw new InvalidOperationException(
+                        "Booking time validation has not been completed. Click Pay Now before selecting a payment method.");
+                }
 
-                DateTime? kotDateTime;
-                if (!TryGetKotDateTimeForSave(bookingStart, out kotDateTime))
-                    return;
+                // Use the exact date/time that was validated before payment options
+                // were opened, so the saved booking cannot drift from its KOT check.
+                DateTime bookingStart = _validatedBookingStartForPayment.Value;
+                DateTime? kotDateTime = _validatedKotDateTimeForPayment;
 
                 DateTime? bookingEndDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
                 DateTime? bookingEndTime = GetOptionalDateTimePickerValue("dtpEventTime_To");
@@ -5171,14 +5394,15 @@ namespace FoodandBeverage
                 decimal adultPrice = GetDecimal(txtAdultPrice);
                 decimal childPrice = GetDecimal(txtChildPrice);
 
-                if (booking.NoOfAdults > 0 && booking.NoOfChildren > 0)
-                    booking.PackPrice = adultPrice + childPrice;
-                else if (booking.NoOfAdults > 0)
-                    booking.PackPrice = adultPrice;
-                else if (booking.NoOfChildren > 0)
-                    booking.PackPrice = childPrice;
-                else
-                    booking.PackPrice = 0;
+                booking.PackPrice = _fixedPriceStatus
+                    ? _fixedPackPrice
+                    : (booking.NoOfAdults > 0 && booking.NoOfChildren > 0
+                        ? adultPrice + childPrice
+                        : booking.NoOfAdults > 0
+                            ? adultPrice
+                            : booking.NoOfChildren > 0
+                                ? childPrice
+                                : 0m);
 
                 // 🔹 TAX
                 booking.Tax = txttax.Text;
@@ -5430,17 +5654,17 @@ namespace FoodandBeverage
                 packDetails.TaxType = txtTaxtype_pack.Text ?? "";
                 packDetails.TaxPer = GetDecimal(txtTaxPer_pack);
 
-                packDetails.TaxAmount = Convert.ToDecimal(txtTotalTaxAmount_pack.Text);
-                igst = Convert.ToDecimal(txtIGSTAmt_pack.Text);
+                packDetails.TaxAmount = GetDecimal(txtTotalTaxAmount_pack);
+                igst = GetDecimal(txtIGSTAmt_pack);
                 packDetails.IGSTAmt = igst;
                 packDetails.CGSTAmt = igst / 2;
                 packDetails.SGSTAmt = igst / 2;
-                packDetails.VATAmt = Convert.ToDecimal(txtVatamt_pack.Text);
+                packDetails.VATAmt = GetDecimal(txtVatamt_pack);
 
-                packDetails.Amount = Convert.ToDecimal(txt_PackTotalAmt.Text);
-                packDetails.PostTaxAmount = Convert.ToDecimal(txtTotalTaxAmount_pack.Text);
-                packDetails.PreTaxAmount = Convert.ToDecimal(txtPreTaxAmount_pack.Text);
-                packDetails.NetAmount = Convert.ToDecimal(txtGrandTotal_pack.Text);
+                packDetails.Amount = GetDecimal(txt_PackTotalAmt);
+                packDetails.PostTaxAmount = GetDecimal(txtTotalTaxAmount_pack);
+                packDetails.PreTaxAmount = GetDecimal(txtPreTaxAmount_pack);
+                packDetails.NetAmount = GetDecimal(txtGrandTotal_pack);
 
                 packDetails.CreatedBy = FrmDashboard.UserId;
                 packDetails.BranchId = FrmDashboard.BranchId;
@@ -5795,6 +6019,10 @@ namespace FoodandBeverage
                         break;
                 }
 
+                _hasValidatedKotDateTimeForPayment = false;
+                _validatedKotDateTimeForPayment = null;
+                _validatedBookingStartForPayment = null;
+
                 //ClearAll();
 
                 #endregion
@@ -5820,8 +6048,10 @@ namespace FoodandBeverage
             {
                 PaymentMode = Convert.ToInt32(PaymentType.SPLIT);
                 pnlPaymode.Visible = false;
+                HideBlurPopup(pnlPaymode);
                 btnPartPaynow.Visible = false;
                 pnlSplit.Visible = true;
+                pnlSplit.Visible = true;ShowBlurPopup(pnlSplit);
                 pnlSplit.BringToFront();
                 pnlSplit.Location = new Point(this.ClientSize.Width / 2 - pnlSplit.Size.Width / 2, (this.ClientSize.Height / 2 - pnlSplit.Size.Height / 2));
                 partPayments.Clear();
@@ -5872,6 +6102,7 @@ namespace FoodandBeverage
         private void btnclos_payment_Click(object sender, EventArgs e)
         {
             pnlPaymode.Visible = false;
+            HideBlurPopup(pnlPaymode);
         }
 
         #endregion
@@ -6179,6 +6410,8 @@ namespace FoodandBeverage
                     lblBalAmt.Text = "0.00";
                     dbBalanceAmount = 0;
                 }
+
+                UpdateBalancePayableCaption(dbBalanceAmount);
 
                 dbNetAmount = netAmt;
 
@@ -6522,6 +6755,7 @@ namespace FoodandBeverage
         private void btnPartClose_Click(object sender, EventArgs e)
         {
             pnlSplit.Visible = false;
+            HideBlurPopup(pnlSplit);
         }
         private void cash_part_Click(object sender, EventArgs e)
         {
@@ -7015,6 +7249,7 @@ namespace FoodandBeverage
                 decimal totalPaid = GetTotalPaidAmount(BookingId);
                 lbltotalcancelamt.Text = totalPaid.ToString("N2");
                 pnl_bookingcancel.Visible = true;
+                pnl_bookingcancel.Visible = true;ShowBlurPopup(pnl_bookingcancel);
                 pnl_bookingcancel.BringToFront();
                 pnl_bookingcancel.Left = (this.ClientSize.Width - pnl_bookingcancel.Width) / 2;
                 pnl_bookingcancel.Top = (this.ClientSize.Height - pnl_bookingcancel.Height) / 2;
@@ -7026,6 +7261,7 @@ namespace FoodandBeverage
         private void btncls_bookingcancel_Click(object sender, EventArgs e)
         {
             pnl_bookingcancel.Visible = false;
+            HideBlurPopup(pnl_bookingcancel);
         }
 
         private void btnrefundfull_Click(object sender, EventArgs e)
@@ -7088,6 +7324,7 @@ namespace FoodandBeverage
                 if (data.Id > 0)
                 {
                     pnl_bookingcancel.Visible = false;
+                    HideBlurPopup(pnl_bookingcancel);
 
                     if (PaymentSettleStatusData != Convert.ToInt32(PaymentSettlementStatus.RefundDue))
                     {
@@ -7132,6 +7369,7 @@ namespace FoodandBeverage
         private void btncakereg_cls_Click(object sender, EventArgs e)
         {
             pnl_cakeregister.Visible = false;
+            HideBlurPopup(pnl_cakeregister);
         }
 
         private void btn_bookingvoid_Click(object sender, EventArgs e)
@@ -7151,6 +7389,7 @@ namespace FoodandBeverage
                 if (result.PartyBookingId > 0)
                 {
                     pnl_bookingcancel.Visible = false;
+                    HideBlurPopup(pnl_bookingcancel);
                     CMessageBox.Show("Booking Voided Successfully");
                     ClearAll();
                 }
@@ -7329,6 +7568,12 @@ namespace FoodandBeverage
                 }
                 else if (e.ColumnIndex == pqtyno)
                 {
+                    // Package-default rows are fixed by the package setup. Clicking
+                    // their quantity must not open the keypad or alter their product type.
+                    int defaultType = Convert.ToInt32(row.Cells[pPartydeafult].Value ?? 0);
+                    if (defaultType == 1)
+                        return;
+
                     decimal kdata = 0;
                     using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
                     {
@@ -7374,10 +7619,12 @@ namespace FoodandBeverage
             try
             {
                 pnl_Paymentsettled.Visible = false;
+                HideBlurPopup(pnl_Paymentsettled);
 
                 if (PaymentSettleStatusData != Convert.ToInt32(PaymentSettlementStatus.Settled))
                 {
                     pnlPaymode.Visible = true;
+                    pnlPaymode.Visible = true;ShowBlurPopup(pnlPaymode);
                     pnlPaymode.BringToFront();
                     pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
                     pnlPaymode.Top = (this.ClientSize.Height - pnlPaymode.Height) / 2;
@@ -7399,11 +7646,13 @@ namespace FoodandBeverage
         private void btn_Paymentsettled_cls_Click(object sender, EventArgs e)
         {
             pnl_Paymentsettled.Visible = false;
+            HideBlurPopup(pnl_Paymentsettled);
         }
 
         private void btn_ref_add_cancel_Click(object sender, EventArgs e)
         {
             pnl_Paymentsettled.Visible = false;
+            HideBlurPopup(pnl_Paymentsettled);
         }
         private decimal GetAdjustmentTotal()
         {
@@ -7446,6 +7695,19 @@ namespace FoodandBeverage
             }
         }
 
+        private void UpdateBalancePayableCaption(decimal balanceAmount)
+        {
+            if (lblbalapay == null || lblbalapay.IsDisposed)
+                return;
+
+            if (balanceAmount < -0.009m)
+                lblbalapay.Text = "Refund Due";
+            else if (balanceAmount > 0.009m)
+                lblbalapay.Text = "Additional Payment Due";
+            else
+                lblbalapay.Text = "Balance";
+        }
+
         private void ShowPaymentSettlementPanel(
             decimal netAmount,
             decimal advancePaid,
@@ -7456,6 +7718,7 @@ namespace FoodandBeverage
             {
                 // 🔹 PANEL UI
                 pnl_Paymentsettled.Visible = true;
+                pnl_Paymentsettled.Visible = true;ShowBlurPopup(pnl_Paymentsettled);
                 pnl_Paymentsettled.BringToFront();
                 pnl_Paymentsettled.Left = (this.ClientSize.Width - pnl_Paymentsettled.Width) / 2;
                 pnl_Paymentsettled.Top = (this.ClientSize.Height - pnl_Paymentsettled.Height) / 2;
@@ -7487,6 +7750,15 @@ namespace FoodandBeverage
 
                 decimal totalPaid = advancePaid + paymentReceived;
                 decimal diff = netAmount - totalPaid;
+
+                // Keep the panel title and balance caption aligned with the settlement state.
+                UpdateBalancePayableCaption(diff);
+                if (diff < -0.009m)
+                    lbl_Paymentsettled.Text = "Refund Settlement";
+                else if (diff > 0.009m)
+                    lbl_Paymentsettled.Text = "Additional Payment";
+                else
+                    lbl_Paymentsettled.Text = "Payment Settled";
 
                 // 🔹 COLOR INDICATOR
                 if (diff < 0)
@@ -8007,7 +8279,9 @@ namespace FoodandBeverage
                 decimal totalAdvance = dbAdvanceAmount;
 
                 lbladvamtdata.Text = totalAdvance.ToString("N2");
-                lblBalAmt.Text = (finalNet - totalAdvance).ToString("N2");
+                decimal balanceAmount = finalNet - totalAdvance;
+                lblBalAmt.Text = balanceAmount.ToString("N2");
+                UpdateBalancePayableCaption(balanceAmount);
             }
             catch (Exception ex)
             {
@@ -8105,6 +8379,7 @@ namespace FoodandBeverage
             pnl_extracharge.Top = (this.ClientSize.Height - pnl_extracharge.Height) / 2;
 
             pnl_extracharge.Visible = true;
+            pnl_extracharge.Visible = true;ShowBlurPopup(pnl_extracharge);
             pnl_extracharge.BringToFront();
             txtextracharge_amt.Focus();
 
@@ -8160,6 +8435,7 @@ namespace FoodandBeverage
         private void btn_ecclose_Click(object sender, EventArgs e)
         {
             pnl_extracharge.Visible = false;
+            HideBlurPopup(pnl_extracharge);
         }
         public void Taxfill()
         {
@@ -8440,6 +8716,7 @@ namespace FoodandBeverage
                 CalculateAndApplyTax(rowIndex, (int)PackItemType.ExtraChargeProduct, 0);
 
                 pnl_extracharge.Visible = false;
+                HideBlurPopup(pnl_extracharge);
                 GetGrandTotal_All();
                 RecalculateAllRowsAndTotals();
                 if (Convert.ToDecimal(discountper.Text) > 0)
@@ -8553,6 +8830,7 @@ namespace FoodandBeverage
         private void btn_ec_cancel_Click(object sender, EventArgs e)
         {
             pnl_extracharge.Visible = false;
+            HideBlurPopup(pnl_extracharge);
         }
 
         private void txtname_TextChanged(object sender, EventArgs e)
@@ -8597,6 +8875,9 @@ namespace FoodandBeverage
 
         private void txtAdults_Click(object sender, EventArgs e)
         {
+            if (_fixedPriceStatus || !txtAdults.Enabled)
+                return;
+
             decimal kdata = 0;
             using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
             {
@@ -8615,6 +8896,9 @@ namespace FoodandBeverage
 
         private void txtChild_Click(object sender, EventArgs e)
         {
+            if (_fixedPriceStatus || !txtChild.Enabled)
+                return;
+
             decimal kdata = 0;
             using (Frmnumdiskeypad frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.NoPercentageReasonNoDecimal)))
             {
@@ -8808,6 +9092,7 @@ namespace FoodandBeverage
         private void btn_poption_cls_Click(object sender, EventArgs e)
         {
             pnl_PaymentOptions.Visible = false;
+            HideBlurPopup(pnl_PaymentOptions);
         }
 
         private void btn_fullpayment_Click(object sender, EventArgs e)
@@ -8817,6 +9102,7 @@ namespace FoodandBeverage
 
 
                 pnl_PaymentOptions.Visible = false;
+                HideBlurPopup(pnl_PaymentOptions);
 
                 decimal rcvAmt = 0;
                 decimal.TryParse(txtRcvAmt.Text, out rcvAmt);
@@ -8842,8 +9128,10 @@ namespace FoodandBeverage
 
                 Fullpaymentflag = true;
                 pnl_PaymentOptions.Visible = false;
+                HideBlurPopup(pnl_PaymentOptions);
 
                 pnlPaymode.Visible = true;
+                pnlPaymode.Visible = true;ShowBlurPopup(pnlPaymode);
                 pnlPaymode.BringToFront();
 
                 pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
@@ -8864,6 +9152,7 @@ namespace FoodandBeverage
             try
             {
                 pnl_PaymentOptions.Visible = false;
+                HideBlurPopup(pnl_PaymentOptions);
                 decimal typedAmount = 0;
                 decimal rcvAmt = 0;
 
@@ -8912,7 +9201,9 @@ namespace FoodandBeverage
                     else
                         AdvanceFlag = false;
                     //lbladvamtdata.Text = totalAdvance.ToString("N2");
-                    lblBalAmt.Text = (netAmt - totalAdvance).ToString("N2");
+                    decimal balanceAmount = netAmt - totalAdvance;
+                    lblBalAmt.Text = balanceAmount.ToString("N2");
+                    UpdateBalancePayableCaption(balanceAmount);
                 }
                 else
                 {
@@ -8920,11 +9211,13 @@ namespace FoodandBeverage
                     ToggleFirstRow(0);
                     //lbladvamtdata.Text = netAmt.ToString("N2");
                     lblBalAmt.Text = "0.00";
+                    UpdateBalancePayableCaption(0m);
                 }
 
                 textb_shape();
 
                 pnlPaymode.Visible = true;
+                pnlPaymode.Visible = true;ShowBlurPopup(pnlPaymode);
                 pnlPaymode.BringToFront();
 
                 pnlPaymode.Left = (this.ClientSize.Width - pnlPaymode.Width) / 2;
@@ -9036,6 +9329,7 @@ namespace FoodandBeverage
                 pnl_menu.Left = (ClientSize.Width - width) / 2;
                 pnl_menu.Top = (ClientSize.Height - height) / 2;
                 pnl_menu.Visible = true;
+                pnl_menu.Visible = true;ShowBlurPopup(pnl_menu);
                 pnl_menu.BringToFront();
 
                 tlp_menu_main.Visible = true;
@@ -9070,6 +9364,7 @@ namespace FoodandBeverage
         private void btn_menu_close_Click(object sender, EventArgs e)
         {
             pnl_menu.Visible = false;
+            HideBlurPopup(pnl_menu);
             flp_sidemenu.Visible = false;
         }
 
@@ -9081,6 +9376,7 @@ namespace FoodandBeverage
                     btn_menu_Click(sender, e);
 
                 pnl_menu.Visible = true;
+                pnl_menu.Visible = true;ShowBlurPopup(pnl_menu);
                 pnl_menu.BringToFront();
                 tlp_menu_main.Visible = true;
                 tlp_menu_main.BringToFront();
@@ -9780,6 +10076,7 @@ namespace FoodandBeverage
                 Dgv_Selected_Item.Rows.Clear();
                 GridSlno_Refresh();
                 pnl_menu.Visible = false;
+                HideBlurPopup(pnl_menu);
                 flp_sidemenu.Visible = false;
 
                 GetGrandTotal_All();
@@ -10339,6 +10636,7 @@ namespace FoodandBeverage
                 pnl_moreoptions.Left = Math.Max(0, (ClientSize.Width - pnl_moreoptions.Width) / 2);
                 pnl_moreoptions.Top = Math.Max(0, (ClientSize.Height - pnl_moreoptions.Height) / 2);
                 pnl_moreoptions.Visible = true;
+                pnl_moreoptions.Visible = true;ShowBlurPopup(pnl_moreoptions);
                 pnl_moreoptions.BringToFront();
                 flp_moreoptions.BringToFront();
             }
@@ -10356,6 +10654,7 @@ namespace FoodandBeverage
         private void btn_moreoption_close_Click(object sender, EventArgs e)
         {
             pnl_moreoptions.Visible = false;
+            HideBlurPopup(pnl_moreoptions);
         }
         #endregion
 
@@ -10443,9 +10742,11 @@ namespace FoodandBeverage
             {
                 // Venue has its own existing panel; do not open the More-options panel.
                 pnl_moreoptions.Visible = false;
+                HideBlurPopup(pnl_moreoptions);
                 pnl_venue.Left = Math.Max(0, (ClientSize.Width - pnl_venue.Width) / 2);
                 pnl_venue.Top = Math.Max(0, (ClientSize.Height - pnl_venue.Height) / 2);
                 pnl_venue.Visible = true;
+                pnl_venue.Visible = true;ShowBlurPopup(pnl_venue);
                 pnl_venue.BringToFront();
                 cmbvenu.Focus();
             }
@@ -10459,6 +10760,8 @@ namespace FoodandBeverage
                     Convert.ToInt32(FormType.Partybooking));
             }
         }
+
+
 
         private void btnsubmit_venue_Click(object sender, EventArgs e)
         {
@@ -10562,7 +10865,9 @@ namespace FoodandBeverage
                 CalculateAndApplyTax(rowIndex, (int)PackItemType.Venue, venueId);
 
                 pnl_moreoptions.Visible = false;
+                HideBlurPopup(pnl_moreoptions);
                 pnl_venue.Visible = false;
+                HideBlurPopup(pnl_venue);
 
                 GetGrandTotal_All();
                 RecalculateAllRowsAndTotals();
@@ -10751,6 +11056,7 @@ namespace FoodandBeverage
         private void btn_venue_close_Click(object sender, EventArgs e)
         {
             pnl_venue.Visible = false;
+            HideBlurPopup(pnl_venue);
         }
         #endregion
 

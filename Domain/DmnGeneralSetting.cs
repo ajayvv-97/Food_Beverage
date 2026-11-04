@@ -58,6 +58,8 @@ namespace Domain
         public bool EnableUserPrompt { get; set; }
         public bool EnableCompbillPrompt { get; set; }
         public int ProductpageperCount { get; set; }
+        public bool EnableCompReasonPrompt { get; set; }
+        
     }
 
 }

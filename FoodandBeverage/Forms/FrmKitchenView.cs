@@ -26,9 +26,15 @@ namespace FoodandBeverage.Forms
     {
         private SoundPlayer soundPlayer;
         ReportDocument reportDocument = new ReportDocument();
+        private BlurPopupOverlay _blurPopupOverlay;
+
         public FrmKitchenView()
         {
             InitializeComponent();
+            _blurPopupOverlay = new BlurPopupOverlay(this,
+                pnl_products_rem_descr,
+                pnlproductviewmore,
+                pnl_kitchenorderBill);
             soundPlayer = new SoundPlayer(FoodandBeverage.Properties.Resources.kitchen_order_sound);
             soundPlayer.Load();
         }

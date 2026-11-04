@@ -124,7 +124,9 @@ namespace FoodandBeverage.Interfaces
         VoidSale = 36,
         RemoveComplimentary = 37,
         Complementaryreason = 38,
-        Keypad = 39
+        Keypad = 39,
+        InventoryManagement=40,
+        InventoryApprovals=41
     };
     public enum DashboardTableType
     {
@@ -294,7 +296,8 @@ namespace FoodandBeverage.Interfaces
         Partybooking=43,
         OrderconsoleCustomdesign=44,
         SalesBill =45,
-        Reason=46
+        Reason=46,
+        InventoryManagement = 47
 
     };
     public enum Menubutton
@@ -708,6 +711,7 @@ namespace FoodandBeverage.Interfaces
     }
     public enum Deductionstage
     {
+        Any = 0,
         Orderpreparation = 1,
         Advancepreparation = 2,
     }
@@ -721,6 +725,13 @@ namespace FoodandBeverage.Interfaces
     {
         NotPrinted = 0,
         Printed = 1
+    }
+    
+
+    public enum InventoryItemCategory
+    {
+        RawMaterial = 1,
+        PackagingMaterial = 2
     }
 }
 
