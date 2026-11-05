@@ -3580,6 +3580,43 @@ namespace FoodandBeverage.Forms
             return _packingTaxConfigured;
         }
 
+        private decimal GetPackingTaxAmount(out bool isGst)
+        {
+            isGst = false;
+
+            decimal packingCharge = GetDecimalValue(txtpkchrge_amt);
+            if (packingCharge <= 0m)
+                return 0m;
+
+            string taxMode;
+            string taxType;
+            decimal taxPercentage;
+
+            if (!TryGetPackingTaxConfiguration(out taxMode, out taxType, out taxPercentage))
+                return 0m;
+
+            decimal taxableAmount;
+            decimal taxAmount;
+
+            if (string.Equals(taxMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
+            {
+                taxableAmount = taxPercentage > 0m
+                    ? packingCharge * 100m / (100m + taxPercentage)
+                    : packingCharge;
+
+                taxAmount = packingCharge - taxableAmount;
+            }
+            else
+            {
+                taxableAmount = packingCharge;
+                taxAmount = taxableAmount * taxPercentage / 100m;
+            }
+
+            isGst = string.Equals(taxType, "GST", StringComparison.OrdinalIgnoreCase);
+
+            return Math.Round(taxAmount, 2, MidpointRounding.AwayFromZero);
+        }
+
         public void CalculateNetamount_ALl()
         {
             try
@@ -7641,15 +7678,31 @@ namespace FoodandBeverage.Forms
                 if (!decimal.TryParse(lblNetAmnt.Text, out netAmount))
                     netAmount = 0;
 
-                decimal discountedTax = TotalTax - (TotalTax * discountPerc / 100m);
-                discountedTax = Math.Round(discountedTax, 2, MidpointRounding.AwayFromZero);
+                // Packing tax is added after the product discount, matching the
+                // order total calculation. Apply the discount only to product tax.
+                bool packingTaxIsGst;
+                decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
 
-                TotalIGST = discountedTax;
-                TotalTax = discountedTax;
-                TotalCGST = Math.Round(discountedTax / 2m, 2, MidpointRounding.AwayFromZero);
-                TotalSGST = Math.Round(discountedTax / 2m, 2, MidpointRounding.AwayFromZero);
+                decimal productIgst = Math.Max(0m, TotalIGST - (packingTaxIsGst ? packingTaxAmount : 0m));
+                decimal productVat = Math.Max(0m, TotalVAT - (!packingTaxIsGst ? packingTaxAmount : 0m));
 
-                TotalPreTaxAmt = Math.Round(netAmount - discountedTax, 2, MidpointRounding.AwayFromZero);
+                productIgst = Math.Round(
+                    productIgst * (1m - discountPerc / 100m),
+                    2,
+                    MidpointRounding.AwayFromZero);
+
+                productVat = Math.Round(
+                    productVat * (1m - discountPerc / 100m),
+                    2,
+                    MidpointRounding.AwayFromZero);
+
+                TotalIGST = productIgst + (packingTaxIsGst ? packingTaxAmount : 0m);
+                TotalVAT = productVat + (!packingTaxIsGst ? packingTaxAmount : 0m);
+                TotalCGST = Math.Round(TotalIGST / 2m, 2, MidpointRounding.AwayFromZero);
+                TotalSGST = Math.Round(TotalIGST / 2m, 2, MidpointRounding.AwayFromZero);
+                TotalTax = TotalIGST + TotalVAT;
+
+                TotalPreTaxAmt = Math.Round(netAmount - TotalTax, 2, MidpointRounding.AwayFromZero);
 
             }
             catch (Exception ex)
@@ -9911,6 +9964,20 @@ namespace FoodandBeverage.Forms
                         }
                     }
 
+                    bool packingTaxIsGst;
+                    decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
+
+                    if (packingTaxIsGst)
+                    {
+                        TotalIGST += packingTaxAmount;
+                        TotalCGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                        TotalSGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                    }
+                    else
+                    {
+                        TotalVAT += packingTaxAmount;
+                    }
+
                     TotalTax = TotalIGST + TotalVAT;
                 }
                 else
@@ -9932,6 +9999,20 @@ namespace FoodandBeverage.Forms
                         TotalVAT += vatAmt;
                         TotalPreTaxAmt += preAmt;
                     }
+                    bool packingTaxIsGst;
+                    decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
+
+                    if (packingTaxIsGst)
+                    {
+                        TotalIGST += packingTaxAmount;
+                        TotalCGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                        TotalSGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                    }
+                    else
+                    {
+                        TotalVAT += packingTaxAmount;
+                    }
+
                     TotalTax = TotalIGST + TotalVAT;
 
                 }
@@ -10426,6 +10507,20 @@ namespace FoodandBeverage.Forms
                                     //Totaldis = Totaldis + Convert.ToDecimal(dgv_exitsting_product.Rows[i].Cells[pDisAmnt].Value);
                                 }
                             }
+                            bool packingTaxIsGst;
+                            decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
+
+                            if (packingTaxIsGst)
+                            {
+                                TotalIGST += packingTaxAmount;
+                                TotalCGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                                TotalSGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                            }
+                            else
+                            {
+                                TotalVAT += packingTaxAmount;
+                            }
+
                             TotalTax = TotalIGST + TotalVAT;
 
                             //dmnsalemaster.TotalDiscount = Convert.ToDecimal(txtDiscAmnt.Text);
