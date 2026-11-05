@@ -1127,18 +1127,18 @@ namespace FoodandBeverage.Forms
                 dtColumnAlign.Columns.Add();
 
                 DmnSearch _objSearch = new DmnSearch();
-                _objSearch.ColumnHeaders = "ID,DateTime,Invoice No,Table Code,PickUp No,NetAmount";
+                _objSearch.ColumnHeaders = "ID,DateTime,InvoiceNo,TableCode,PickUpNo,NetAmount";//,
                 _objSearch.Select =
                     "sm.SalesMasterId as Id, " +
                     "sm.CreatedDateTime as Field1, " +
                     "sm.EntryNo as Field2, " +
-                    "CASE " +
+                    "ti.TableCode as Field3, " +
+                    "sm.PkId as Field4, " +
+                    "sm.NetAmount as Field5";/*"CASE " +
                     " WHEN COALESCE(sm.Partybookingid,0) > 0 THEN 'Party Booking' " +
                     " WHEN COALESCE(sm.PkId,0) > 0 THEN 'PKID ' + CAST(sm.PkId AS VARCHAR(20)) " +
                     " WHEN COALESCE(sm.Tid,0) > 0 THEN COALESCE(ti.TableCode,'') " +
-                    " ELSE 'Multiple Tables' END as Field3, " +
-                    "sm.PkId as Field4, " +
-                    "sm.NetAmount as Field5";
+                    " ELSE 'Multiple Tables' END as Field3, " +*/
                 _objSearch.Table =
                     "tblSalesMaster sm " +
                     "LEFT JOIN tblTable_info ti ON ti.tid = sm.Tid " +
