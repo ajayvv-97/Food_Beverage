@@ -6891,6 +6891,9 @@ namespace FoodandBeverage.Forms
             {
                 LoadPackingTaxSettingsFromDatabase();
 
+                // Temporarily hide General Settings while the Packing Tax panel is open.
+                pnlgenralsetting.Visible = false;
+
                 pnl_PackingTax.Left = Math.Max(0, (ClientSize.Width - pnl_PackingTax.Width) / 2);
                 pnl_PackingTax.Top = Math.Max(0, (ClientSize.Height - pnl_PackingTax.Height) / 2);
                 pnl_PackingTax.Visible = true;
@@ -7080,12 +7083,24 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void ReturnToGeneralSettingsAfterPackingTax()
+        {
+            // Close the child panel first; the overlay checks all registered
+            // popup panels before deciding whether the dashboard can be restored.
+            pnl_PackingTax.Visible = false;
+
+            pnlgenralsetting.Left = Math.Max(0, (ClientSize.Width - pnlgenralsetting.Width) / 2);
+            pnlgenralsetting.Top = Math.Max(0, (ClientSize.Height - pnlgenralsetting.Height) / 2);
+            pnlgenralsetting.Visible = true;
+            pnlgenralsetting.BringToFront();
+        }
+
         private void btn_ptax_cancel_Click(object sender, EventArgs e)
         {
             try
             {
                 LoadPackingTaxSettingsFromDatabase();
-                pnl_PackingTax.Visible = false;
+                ReturnToGeneralSettingsAfterPackingTax();
             }
             catch (Exception ex)
             {
@@ -7109,7 +7124,7 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
-                pnl_PackingTax.Visible = false;
+                ReturnToGeneralSettingsAfterPackingTax();
             }
             catch (Exception ex)
             {
