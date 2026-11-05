@@ -14541,6 +14541,28 @@ namespace FoodandBeverage.Forms
                 (IntPtr)HTCAPTION,
                 IntPtr.Zero);
         }
+
+        private void txtpkchrge_amt_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                decimal kdata = 0;
+
+                using (var frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.Roundoff)))
+                {
+                    frm.ShowDialog();
+                    decimal.TryParse(frm.txtkeypadvalue.Text, out kdata);
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page txtpkchrge_amt_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+        }
+
         private void EnableProductCartDragging()
         {
             // Drag using the Product Cart header or its title.
