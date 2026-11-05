@@ -14446,32 +14446,20 @@ namespace FoodandBeverage.Forms
             try
             {
                 currentRoundMode = RoundOffMode.Auto;
-
                 originalRoundValue = 0;
                 isRoundValueCaptured = false;
 
-                decimal subTotal = GetDecimalValue(lblsubtotal);   // BASE
-                decimal taxAmt = GetDecimalValue(lblTotTaxAmnt);   // TAX
-                decimal discAmt = GetDecimalValue(txtdis_amt);
-
-                decimal receivedAmt = GetDecimalValue(txtRcvdAmnt);
-
-                // ✅ CORRECT FLOW
-                decimal taxableAmount = subTotal - discAmt;
-                decimal netAmount = taxableAmount + taxAmt;
-
-                // ✅ ROUNDING
-                decimal roundedAmount = Math.Round(netAmount, 0, MidpointRounding.AwayFromZero);
-                decimal roundOffValue = roundedAmount - netAmount;
-
-                txtroundoff.Text = roundOffValue.ToString("N2");
-                lblNetAmnt.Text = roundedAmount.ToString("N2");
-
-                lblBalcAmnt.Text = (roundedAmount - receivedAmt).ToString("N2");
+                // Use the common calculation so packing charges and their tax
+                // are included in the automatic rounded total.
+                CalculateNetamount_ALl();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page AutoRoundOff()",ex,FrmLogin.EmployeName,FrmLogin.Designation,Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page AutoRoundOff()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
             }
         }
         private void txtroundoff_Click(object sender, EventArgs e)
@@ -14495,13 +14483,28 @@ namespace FoodandBeverage.Forms
 
                 originalRoundValue = kdata;
 
-                decimal subTotal = GetDecimalValue(lblsubtotal);
-                decimal taxAmt = GetDecimalValue(lblTotTaxAmnt);
-                decimal discAmt = GetDecimalValue(txtdis_amt);
                 decimal receivedAmt = GetDecimalValue(txtRcvdAmnt);
 
-                decimal taxableAmount = subTotal - discAmt;
-                decimal netAmount = taxableAmount + taxAmt;
+                // lbltaxableamt already includes discounted food taxable value and,
+                // when configured, the packing taxable base. Keep an unconfigured
+                // packing charge outside the tax total.
+                decimal packingAddOn = Math.Max(0m, GetDecimalValue(txtpkchrge_amt));
+                string configuredPackingMode;
+                string configuredPackingType;
+                decimal configuredPackingRate;
+
+                if (TryGetPackingTaxConfiguration(
+                    out configuredPackingMode,
+                    out configuredPackingType,
+                    out configuredPackingRate))
+                {
+                    packingAddOn = 0m;
+                }
+
+                decimal netAmount =
+                    GetDecimalValue(lbltaxableamt) +
+                    GetDecimalValue(lblTotTaxAmnt) +
+                    packingAddOn;
 
                 decimal finalAmount = netAmount;
                 decimal roundOffValue = 0;
