@@ -9963,59 +9963,82 @@ namespace FoodandBeverage.Forms
                             TotalPreTaxAmt += Convert.ToDecimal(gridSourcemaster[i].PreTaxAmt);
                         }
                     }
-
-                    bool packingTaxIsGst;
-                    decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
-
-                    if (packingTaxIsGst)
-                    {
-                        TotalIGST += packingTaxAmount;
-                        TotalCGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
-                        TotalSGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
-                    }
-                    else
-                    {
-                        TotalVAT += packingTaxAmount;
-                    }
-
-                    TotalTax = TotalIGST + TotalVAT;
                 }
                 else
                 {
-                    TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0; TotalPreTaxAmt = 0;
+                    TotalTax = 0;
+                    TotalIGST = 0;
+                    TotalCGST = 0;
+                    TotalSGST = 0;
+                    TotalVAT = 0;
+                    Totaldis = 0;
+                    TotalPreTaxAmt = 0;
+
                     for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                     {
                         decimal igstAmt = 0;
                         decimal vatAmt = 0;
                         decimal preAmt = 0;
 
-                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value), out igstAmt);
-                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value), out vatAmt);
-                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value), out preAmt);
+                        decimal.TryParse(
+                            Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value),
+                            out igstAmt);
+
+                        decimal.TryParse(
+                            Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value),
+                            out vatAmt);
+
+                        decimal.TryParse(
+                            Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value),
+                            out preAmt);
 
                         TotalIGST += igstAmt;
-                        TotalCGST += igstAmt / 2;
-                        TotalSGST += igstAmt / 2;
+
+                        TotalCGST += Math.Round(
+                            igstAmt / 2m, 2, MidpointRounding.AwayFromZero);
+
+                        TotalSGST += igstAmt - Math.Round(
+                            igstAmt / 2m, 2, MidpointRounding.AwayFromZero);
+
                         TotalVAT += vatAmt;
                         TotalPreTaxAmt += preAmt;
                     }
-                    bool packingTaxIsGst;
-                    decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
+                }
 
+                // ==========================================
+                // ADD PACKING TAX
+                // ==========================================
+
+                bool packingTaxIsGst;
+                decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
+
+                if (packingTaxAmount > 0)
+                {
                     if (packingTaxIsGst)
                     {
                         TotalIGST += packingTaxAmount;
-                        TotalCGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
-                        TotalSGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+
+                        decimal packingCGST = Math.Round(
+                            packingTaxAmount / 2m,
+                            2,
+                            MidpointRounding.AwayFromZero);
+
+                        decimal packingSGST = packingTaxAmount - packingCGST;
+
+                        TotalCGST += packingCGST;
+                        TotalSGST += packingSGST;
                     }
                     else
                     {
                         TotalVAT += packingTaxAmount;
                     }
-
-                    TotalTax = TotalIGST + TotalVAT;
-
                 }
+
+                // ==========================================
+                // FINAL TOTAL TAX
+                // ==========================================
+
+                TotalTax = TotalIGST + TotalVAT;
             }
             catch (Exception ex)
             {
