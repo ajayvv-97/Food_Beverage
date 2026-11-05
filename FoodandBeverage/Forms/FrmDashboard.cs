@@ -55,6 +55,7 @@ namespace FoodandBeverage.Forms
         public FrmDashboard()
         {
             InitializeComponent();
+            _packingTaxBlurOverlay = new BlurPopupOverlay(this, pnl_PackingTax);
 
             this.AutoScaleMode = AutoScaleMode.Dpi;
             this.AutoScaleDimensions = new SizeF(96F, 96F);
@@ -95,6 +96,8 @@ namespace FoodandBeverage.Forms
         private LoadingGIF_Timer loadingForm;
         public DateTime startTime = DateTime.Now;
         ClsGeneral clsgen = new ClsGeneral();
+        private BlurPopupOverlay _packingTaxBlurOverlay;
+        private bool _loadingPackingTaxControls;
 
         /*permission checking for manager and supervisor*/
         public static bool AllowCashDrawer = false;
@@ -3898,8 +3901,29 @@ namespace FoodandBeverage.Forms
                 dmngen.EnableUserPrompt = rtb_userpmpt.Checked;
                 dmngen.EnableCompbillPrompt = rtb_compbillpmpt.Checked;
                 dmngen.ProductpageperCount = Convert.ToInt32(txtorderpagecount.Text);
-                dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;  
+                dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;
+                dmngen.Tax = string.IsNullOrWhiteSpace(cmbtax.Text) ? null : cmbtax.Text.Trim();
+                dmngen.TaxType = string.IsNullOrWhiteSpace(cmbTaxType.Text) ? null : cmbTaxType.Text.Trim();
+                dmngen.TaxSettingId = GetSelectedPackingTaxSettingId();
+                dmngen.ModifiedBy = FrmDashboard.UserId;
                 dmngen.Status = 1;
+
+                if (!string.IsNullOrWhiteSpace(dmngen.TaxType) &&
+                    (!string.Equals(dmngen.Tax, "Inclusive", StringComparison.OrdinalIgnoreCase) &&
+                     !string.Equals(dmngen.Tax, "Exclusive", StringComparison.OrdinalIgnoreCase)))
+                {
+                    CMessageBox.Show("Please select Inclusive or Exclusive packing tax mode.",
+                        "Packing Tax", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!string.IsNullOrWhiteSpace(dmngen.TaxType) &&
+                    (!dmngen.TaxSettingId.HasValue || dmngen.TaxSettingId.Value <= 0))
+                {
+                    CMessageBox.Show("Please select a packing tax percentage.",
+                        "Packing Tax", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
                 {
                     CMessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -3913,11 +3937,22 @@ namespace FoodandBeverage.Forms
                     var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen); 
                     if (InsertStatus.Gid > 0)
                     {
+                        dmngen.Gid = InsertStatus.Gid;
+                        var packingTaxUpdate = bllgen.UpdatePackingTaxSettings(
+                            "prdUpdateGeneralSettingPackingTax", dmngen);
+
+                        if (packingTaxUpdate == null || packingTaxUpdate.Gid <= 0)
+                        {
+                            CMessageBox.Show(
+                                "General settings were saved, but packing tax settings could not be updated. Run the GeneralSettingPackingTax.sql script and try again.",
+                                "Packing Tax Update", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
                         CMessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Generalsettingcheck();
                         txtgenid.Text = Convert.ToString(InsertStatus.Gid);
                         FrmLogin.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
-
                     }
                     else
                     {
@@ -3991,6 +4026,7 @@ namespace FoodandBeverage.Forms
                 if (gridesource.Count > 0)
                 {
                     var settings = gridesource[0];
+                    LoadPackingTaxControls(settings);
 
                     rtb_gen.Checked = settings.printdal;
                     rtb_zyout.Checked = settings.xyprintdal;
@@ -6851,28 +6887,145 @@ namespace FoodandBeverage.Forms
         #region Packing Tax configuration
         private void btn_packingtax_Click(object sender, EventArgs e)
         {
+            try
+            {
+                LoadPackingTaxSettingsFromDatabase();
 
+                pnl_PackingTax.Left = Math.Max(0, (ClientSize.Width - pnl_PackingTax.Width) / 2);
+                pnl_PackingTax.Top = Math.Max(0, (ClientSize.Height - pnl_PackingTax.Height) / 2);
+                pnl_PackingTax.Visible = true;
+                pnl_PackingTax.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage btn_packingtax_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void LoadPackingTaxSettingsFromDatabase()
+        {
+            try
+            {
+                BllSearch<DmnGeneralSetting> bllSearch = new BllSearch<DmnGeneralSetting>();
+                DmnSearch search = new DmnSearch
+                {
+                    Select = "Gid, BranchId, Tax, TaxType, TaxSettingId",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = "WHERE BranchId = " + BranchId + " AND Status = 1",
+                    OrderBy = "ORDER BY Gid DESC"
+                };
+
+                List<DmnGeneralSetting> settings = bllSearch.GetSearchData("prdSearch", search);
+                LoadPackingTaxControls(settings != null && settings.Count > 0 ? settings[0] : null);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage LoadPackingTaxSettingsFromDatabase()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void LoadPackingTaxControls(DmnGeneralSetting settings)
+        {
+            _loadingPackingTaxControls = true;
+            try
+            {
+                Taxfill();
+
+                cmbtax.SelectedIndex = -1;
+                cmbTaxType.SelectedIndex = -1;
+                cmbIgstPrcnt.SelectedIndex = -1;
+                cmbVatPrcnt.SelectedIndex = -1;
+                txtCgstPrcnt.Clear();
+                txtSgstPrcnt.Clear();
+
+                if (settings != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(settings.Tax))
+                        cmbtax.SelectedItem = settings.Tax;
+
+                    if (!string.IsNullOrWhiteSpace(settings.TaxType))
+                        cmbTaxType.SelectedItem = settings.TaxType;
+
+                    if (settings.TaxSettingId.HasValue && settings.TaxSettingId.Value > 0)
+                    {
+                        if (string.Equals(settings.TaxType, "GST", StringComparison.OrdinalIgnoreCase))
+                            cmbIgstPrcnt.SelectedValue = settings.TaxSettingId.Value;
+                        else if (string.Equals(settings.TaxType, "VAT", StringComparison.OrdinalIgnoreCase))
+                            cmbVatPrcnt.SelectedValue = settings.TaxSettingId.Value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage LoadPackingTaxControls()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+            finally
+            {
+                _loadingPackingTaxControls = false;
+            }
+
+            cmbTaxType_SelectedValueChanged(cmbTaxType, EventArgs.Empty);
+            if (cmbIgstPrcnt.SelectedIndex >= 0)
+                cmbIgstPrcnt_SelectedIndexChanged(cmbIgstPrcnt, EventArgs.Empty);
+        }
+
+        private int? GetSelectedPackingTaxSettingId()
+        {
+            object selectedValue = null;
+
+            if (string.Equals(cmbTaxType.Text, "GST", StringComparison.OrdinalIgnoreCase))
+                selectedValue = cmbIgstPrcnt.SelectedValue;
+            else if (string.Equals(cmbTaxType.Text, "VAT", StringComparison.OrdinalIgnoreCase))
+                selectedValue = cmbVatPrcnt.SelectedValue;
+
+            int settingId;
+            return selectedValue != null &&
+                   selectedValue != DBNull.Value &&
+                   int.TryParse(Convert.ToString(selectedValue), out settingId) &&
+                   settingId > 0
+                ? (int?)settingId
+                : null;
         }
 
         private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                if (cmbIgstPrcnt.SelectedIndex > 0)
+                if (_loadingPackingTaxControls ||
+                    cmbIgstPrcnt.SelectedIndex < 0 ||
+                    cmbIgstPrcnt.SelectedValue == null ||
+                    cmbIgstPrcnt.SelectedValue == DBNull.Value)
                 {
-                    BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
-                    DmnSearch objSearch_tax = new DmnSearch();
-                    objSearch_tax = new DmnSearch();
-                    objSearch_tax.Select = "TaxSettingsId, SgstPrcnt, CgstPrcnt";
-                    objSearch_tax.Table = "tblTaxSettings";
-                    objSearch_tax.WhereNdGroupBy = "Where TaxSettingsId = " + cmbIgstPrcnt.SelectedValue;
-                    objSearch_tax.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch_tax);
-                    if (gridSource.Count > 0)
-                    {
-                        txtSgstPrcnt.Text = gridSource[0].SgstPrcnt.ToString();
-                        txtCgstPrcnt.Text = gridSource[0].CgstPrcnt.ToString();
-                    }
+                    return;
+                }
+
+                int taxSettingId;
+                if (!int.TryParse(Convert.ToString(cmbIgstPrcnt.SelectedValue), out taxSettingId) ||
+                    taxSettingId <= 0)
+                {
+                    return;
+                }
+
+                BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                DmnSearch objSearchTax = new DmnSearch
+                {
+                    Select = "TaxSettingsId, SgstPrcnt, CgstPrcnt",
+                    Table = "tblTaxSettings",
+                    WhereNdGroupBy = "WHERE TaxSettingsId = " + taxSettingId + " AND Status = 1",
+                    OrderBy = ""
+                };
+
+                List<DmnTaxSettings> gridSource = bllSearch.GetSearchData("prdSearch", objSearchTax);
+                if (gridSource != null && gridSource.Count > 0)
+                {
+                    txtSgstPrcnt.Text = gridSource[0].SgstPrcnt.ToString("0.##");
+                    txtCgstPrcnt.Text = gridSource[0].CgstPrcnt.ToString("0.##");
                 }
             }
             catch (Exception ex)
@@ -6887,29 +7040,32 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                BllSearch<DmnComboBox> fiilgst = new BllSearch<DmnComboBox>();
-                BllSearch<DmnComboBox> fiilvat = new BllSearch<DmnComboBox>();
-                DmnSearch objSearch1 = new DmnSearch();
-                DmnSearch objSearch2 = new DmnSearch();
+                BllSearch<DmnComboBox> fillGst = new BllSearch<DmnComboBox>();
+                BllSearch<DmnComboBox> fillVat = new BllSearch<DmnComboBox>();
+                DmnSearch gstSearch = new DmnSearch
+                {
+                    Select = "TaxSettingsId as Id, IgstPrcnt as Value",
+                    Table = "tblTaxSettings",
+                    WhereNdGroupBy = "WHERE Status = 1 AND TaxType = 'GST'",
+                    OrderBy = "ORDER BY IgstPrcnt"
+                };
 
-                objSearch1.Select = "TaxSettingsId as Id, IgstPrcnt as Value";
-                objSearch1.Table = "tblTaxSettings";
-                objSearch1.WhereNdGroupBy = "where status=1 and TaxType='GST'";
-                objSearch1.OrderBy = "order by value";
+                DmnSearch vatSearch = new DmnSearch
+                {
+                    Select = "TaxSettingsId as Id, VatPrcnt as Value",
+                    Table = "tblTaxSettings",
+                    WhereNdGroupBy = "WHERE ISNULL(Status,0) = 1 AND TaxType = 'VAT'",
+                    OrderBy = "ORDER BY VatPrcnt"
+                };
 
-                objSearch2.Select = "TaxSettingsId as Id, VatPrcnt as Value";
-                objSearch2.Table = "tblTaxSettings";
-                objSearch2.WhereNdGroupBy = "where isnull(status,0)=1 and TaxType='VAT'";
-                objSearch2.OrderBy = "order by value";
+                List<DmnComboBox> gstRates = fillGst.GetSearchData("prdComboFill", gstSearch);
+                List<DmnComboBox> vatRates = fillVat.GetSearchData("prdComboFill", vatSearch);
 
-                var gridSource1 = fiilgst.GetSearchData("prdComboFill", objSearch1);
-                var gridSource2 = fiilvat.GetSearchData("prdComboFill", objSearch2);
-
-                cmbVatPrcnt.DataSource = gridSource2;
+                cmbVatPrcnt.DataSource = vatRates ?? new List<DmnComboBox>();
                 cmbVatPrcnt.ValueMember = "Id";
                 cmbVatPrcnt.DisplayMember = "Value";
 
-                cmbIgstPrcnt.DataSource = gridSource1;
+                cmbIgstPrcnt.DataSource = gstRates ?? new List<DmnComboBox>();
                 cmbIgstPrcnt.ValueMember = "Id";
                 cmbIgstPrcnt.DisplayMember = "Value";
             }
@@ -6920,21 +7076,54 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(FormType.homepage));
             }
         }
+
         private void btn_ptax_cancel_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                LoadPackingTaxSettingsFromDatabase();
+                pnl_PackingTax.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage btn_ptax_cancel_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
         }
 
         private void btn_ptax_submit_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(cmbTaxType.Text) &&
+                    (string.IsNullOrWhiteSpace(cmbtax.Text) ||
+                     !GetSelectedPackingTaxSettingId().HasValue))
+                {
+                    CMessageBox.Show(
+                        "Select the packing tax mode and tax percentage. Save General Settings to apply these values.",
+                        "Packing Tax", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
+                // Submit only stages the selected values. btnsavegen_Click persists them.
+                pnl_PackingTax.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage btn_ptax_submit_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
         }
-
 
         private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
         {
             try
             {
+                if (_loadingPackingTaxControls)
+                    return;
+
                 int startRow = 1;
                 int endRow = 2;
                 int totalColumns = 4;
@@ -6948,19 +7137,14 @@ namespace FoodandBeverage.Forms
 
                         Control ctrl = tlp_add_contrl.GetControlFromPosition(col, row);
                         if (ctrl != null)
-                        {
                             tlp_add_contrl.Controls.Remove(ctrl);
-                        }
                     }
                 }
 
-                // 🔹 GST Layout
-                if (cmbTaxType.Text == "GST")
+                if (string.Equals(cmbTaxType.Text, "GST", StringComparison.OrdinalIgnoreCase))
                 {
-
                     lbligst.Dock = DockStyle.Fill;
                     cmbIgstPrcnt.Dock = DockStyle.Fill;
-
                     lblcgst.Dock = DockStyle.Fill;
                     txtCgstPrcnt.Dock = DockStyle.Top;
                     lblsgst.Dock = DockStyle.Fill;
@@ -6968,10 +7152,8 @@ namespace FoodandBeverage.Forms
 
                     tlp_add_contrl.Controls.Add(lbligst, 2, 1);
                     tlp_add_contrl.Controls.Add(cmbIgstPrcnt, 3, 1);
-
                     tlp_add_contrl.Controls.Add(lblcgst, 0, 2);
                     tlp_add_contrl.Controls.Add(txtCgstPrcnt, 1, 2);
-
                     tlp_add_contrl.Controls.Add(lblsgst, 2, 2);
                     tlp_add_contrl.Controls.Add(txtSgstPrcnt, 3, 2);
 
@@ -6981,16 +7163,12 @@ namespace FoodandBeverage.Forms
                         textBox.BorderStyle = BorderStyle.None;
                     }
                 }
-
-                // 🔹 VAT Layout
-                else if (cmbTaxType.Text == "VAT")
+                else if (string.Equals(cmbTaxType.Text, "VAT", StringComparison.OrdinalIgnoreCase))
                 {
                     lblvat.Dock = DockStyle.Fill;
                     cmbVatPrcnt.Dock = DockStyle.Fill;
-
                     tlp_add_contrl.Controls.Add(lblvat, 2, 1);
                     tlp_add_contrl.Controls.Add(cmbVatPrcnt, 3, 1);
-
                 }
             }
             catch (Exception ex)
