@@ -3262,7 +3262,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txtRcvdAmnt, txtadvance, txtpkchrge_amt })
+                foreach (TextBox textBox in new TextBox[] { txtRcvdAmnt, txtadvance })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -9993,6 +9993,7 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                         dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
                         dmnsalemaster.Roundoff = Convert.ToDecimal(txtroundoff.Text);
+
                         #region Customer Registartion
                         dmnsalemaster.cusid = Convert.ToInt32(txtcusid.Text);
                         dmnsalemaster.FirstName = Convert.ToString(txtfristname.Text).Trim();
@@ -14738,7 +14739,7 @@ namespace FoodandBeverage.Forms
                 }
 
                 txtpkchrge_amt.Text = packingCharge.ToString("0.00");
-                // txtpkchrge_amt_TextChanged calls netAmount() and recalculates GST.
+                netAmount();
             }
             catch (Exception ex)
             {
@@ -14749,6 +14750,8 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(FormType.Order));
             }
         }
+
+
 
         private void EnableProductCartDragging()
         {

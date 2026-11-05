@@ -76,6 +76,8 @@ namespace FoodandBeverage.Forms
         public  int statusno = 10;
         public int Salemasteridno = 11;
         public int partybookingidno = 12;
+        public int tableidno = 13;
+        public int pickupidno = 14;
 
         public  int sslno = 0;
         public  int spaymentamtno = 1;
@@ -1184,7 +1186,9 @@ namespace FoodandBeverage.Forms
                 #region Fill complete or cancelled order in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "Top 30 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5,sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11,sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15";
+                dmnSearch.Select = "Top 30 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5," +
+                    "sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11," +
+                    "sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15,sm.tid Field16,sm.Pkid Field17";
                 dmnSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid";
                 dmnSearch.WhereNdGroupBy = "where sm.status=1";
                 dmnSearch.OrderBy = "order by sm.SalesMasterId DESC";
@@ -1238,6 +1242,8 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[recamountno].Value = gridSource[i].Field8;
                         dgvorderview.Rows[rowIndex].Cells[balamountno].Value = gridSource[i].Field9;
                         dgvorderview.Rows[rowIndex].Cells[partybookingidno].Value = gridSource[i].Field15;
+                        dgvorderview.Rows[rowIndex].Cells[tableidno].Value = gridSource[i].Field16;
+                        dgvorderview.Rows[rowIndex].Cells[pickupidno].Value = gridSource[i].Field17;
 
                         switch (Convert.ToInt32(gridSource[i].Field10))
                         {
@@ -1305,10 +1311,15 @@ namespace FoodandBeverage.Forms
                 {
                     int sid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[Salemasteridno].Value);
                     int pbkid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[partybookingidno].Value);
-                    if(pbkid>0)
+                    int tidno = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tablecodeno].Value);
+                    int pickupid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[pickupidno].Value);
+                    if (pbkid>0)
                         printBill(sid, Convert.ToInt32(BillType.Partybill));
-                    else
+                    else if (tidno > 0)
                         printBill(sid, Convert.ToInt32(BillType.NormalBill));
+                    else if (pickupid > 0)
+                        printBill(sid, Convert.ToInt32(BillType.PickupBill));
+
 
                 }
                 else if (e.ColumnIndex == paytypename)

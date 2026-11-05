@@ -3471,7 +3471,7 @@ namespace FoodandBeverage.Forms
             this.ib_Category.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.ib_Category.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.ib_Category.IconChar = FontAwesome.Sharp.IconChar.None;
-            this.ib_Category.IconColor = System.Drawing.Color.Black;
+            this.ib_Category.IconColor = System.Drawing.Color.Transparent;
             this.ib_Category.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ib_Category.Location = new System.Drawing.Point(229, 238);
             this.ib_Category.Margin = new System.Windows.Forms.Padding(30, 10, 30, 10);
@@ -6675,10 +6675,10 @@ namespace FoodandBeverage.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(994, 640);
+            this.Controls.Add(this.flp_operabuttons);
             this.Controls.Add(this.pnl_controls);
             this.Controls.Add(this.pnl_PackingTax);
             this.Controls.Add(this.pnlgenralsetting);
-            this.Controls.Add(this.flp_operabuttons);
             this.Controls.Add(this.flp_settingbtn);
             this.Controls.Add(this.pnl_comple_remove);
             this.Controls.Add(this.pnl_virtualkeyboard);

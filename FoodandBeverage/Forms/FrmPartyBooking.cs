@@ -352,8 +352,6 @@ namespace FoodandBeverage
             txtitemcode_serach.Enter += PartyMenuSearchTextBox_Enter;
             txtitemcode_serach.Leave += PartyMenuSearchTextBox_Leave;
             LoadPartyBookingVenueOptions();
-
-            // Recalculate once the form is loaded and whenever it is resized.
             Resize += (sender, args) => ConfigureResponsivePartyButtons();
             Shown += (sender, args) => ConfigureResponsivePartyButtons();
 
@@ -767,12 +765,10 @@ namespace FoodandBeverage
 
         #endregion
 
-
         public void SetCalendarBookingStart(DateTime startDateTime)
         {
             SetCalendarBookingInterval(startDateTime, startDateTime);
         }
-
 
         public void SetCalendarBookingInterval(DateTime startDateTime, DateTime endDateTime)
         {
@@ -782,7 +778,6 @@ namespace FoodandBeverage
             ApplyCalendarDateTimeInterval();
             UpdateSelectedDateLabel();
         }
-
         public void LoadBookingFromCalendar(int bookingId)
         {
             if (bookingId <= 0)
@@ -850,7 +845,6 @@ namespace FoodandBeverage
 
         private void InitializeKotDateTimeControls()
         {
-            // KOT date and time must be editable by the booking staff.
             dtp_kotdate.Enabled = true;
             dtp_kottime.Enabled = true;
 
@@ -902,15 +896,13 @@ namespace FoodandBeverage
 
         private void UpdateDefaultKotDateTime(DateTime bookingStart)
         {
-            // A KOT time cannot be generated for a booking that has already passed.
+
             if (bookingStart <= DateTime.Now)
                 return;
 
             DateTime automaticKotTime = bookingStart.AddHours(-DefaultKotLeadTimeHours);
             DateTime earliestAllowedTime = DateTime.Now.AddMinutes(1);
 
-            // For bookings made less than two hours ahead, use the earliest
-            // practical future time instead of generating a KOT time in the past.
             if (automaticKotTime < earliestAllowedTime)
                 automaticKotTime = earliestAllowedTime <= bookingStart
                     ? earliestAllowedTime
@@ -6023,7 +6015,7 @@ namespace FoodandBeverage
                 _validatedKotDateTimeForPayment = null;
                 _validatedBookingStartForPayment = null;
 
-                //ClearAll();
+                ClearAll();
 
                 #endregion
 
