@@ -51,6 +51,23 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+        public DmnGeneralSetting UpdatePackingTaxSettings(
+            string procedureName, DmnGeneralSetting objTestClass)
+        {
+            DAL.DapperRepository<DmnGeneralSetting> dapperRepository =
+                new DAL.DapperRepository<DmnGeneralSetting>();
+
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("Gid", objTestClass.Gid);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("Tax", objTestClass.Tax);
+            parms.Add("TaxType", objTestClass.TaxType);
+            parms.Add("TaxSettingId", objTestClass.TaxSettingId);
+            parms.Add("ModifiedBy", objTestClass.ModifiedBy);
+
+            return dapperRepository.AddandReturnID(procedureName, parms);
+        }
+
         public DmnGeneralSetting AddEditDataGenConf(string procedureName, DmnGeneralSetting objTestClass)
         {
             DAL.DapperRepository<DmnGeneralSetting> dapperRepository = new DAL.DapperRepository<DmnGeneralSetting>();
