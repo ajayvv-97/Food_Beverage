@@ -1125,42 +1125,62 @@ namespace FoodandBeverage.Forms
                 string returnValue = string.Empty;
                 DataTable dtColumnAlign = new DataTable();
                 dtColumnAlign.Columns.Add();
-                DmnSearch _objSearch = new DmnSearch();
-                //_objSearch.ColumnHeaders = "ID,DateTime,Invoice No,Table Code,TotalQuantity,NetAmount,RcvAmnt,BalAmnt,PaymentMode
-                _objSearch.ColumnHeaders = "ID,DateTime,Invoice No,Table Code,PickUp No,NetAmount";
-                //_objSearch.Select = "sm.SalesMasterId ID,sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.NetAmount Field5,sm.RcvAmnt Field6,sm.BalAmnt Field7,g.Caption Field8";
-                _objSearch.Select = "sm.SalesMasterId ID,sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.PkId Field4,sm.NetAmount Field5";
-                _objSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid LEFT JOIN tblGeneralOptions g ON g.GTypeSubId=sm.PaymentMode";
-                _objSearch.WhereNdGroupBy = "where sm.status=1 and  g.GTypeId=2";
-                _objSearch.OrderBy = "order by sm.SalesMasterId DESC";
-                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
-                if (gridSource.Count == 0)
+
+                DmnSearch search = new DmnSearch
                 {
-                   CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
+                    ColumnHeaders = "ID,DateTime,Invoice No,Table Code,PickUp No,NetAmount",
+                    Select =
+                        "sm.SalesMasterId ID, " +
+                        "sm.CreatedDateTime Field1, " +
+                        "sm.EntryNo Field2, " +
+                        "CASE " +
+                        " WHEN ISNULL(sm.Partybookingid,0) > 0 THEN 'Party Booking' " +
+                        " WHEN ISNULL(sm.PkId,0) > 0 THEN 'PKID ' + CONVERT(VARCHAR(20),sm.PkId) " +
+                        " WHEN ISNULL(sm.Tid,0) > 0 THEN ISNULL(ti.TableCode,'') " +
+                        " ELSE 'Multiple Tables' END Field3, " +
+                        "sm.PkId Field4, sm.NetAmount Field5",
+                    Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti ON ti.tid = sm.Tid " +
+                            "LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode",
+                    WhereNdGroupBy = "WHERE sm.Status = 1 AND g.GTypeId = 2",
+                    OrderBy = "ORDER BY sm.SalesMasterId DESC"
+                };
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", search);
+                if (gridSource == null || gridSource.Count == 0)
                 {
-                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
-                    {
-                        var dialogResult = search.ShowDialog();
-                        if (dialogResult == DialogResult.OK)
-                        {
-                            returnValue = Convert.ToString(search._retValue);
-                        }
-                    }
-                    if (returnValue != "")
-                    {
-                        int oid = Convert.ToInt32(returnValue);
-                        printBill(oid, Convert.ToInt32(BillType.NormalBill));
-                    }
+                    CMessageBox.Show("No Records", "Empty",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
+
+                using (var searchForm = new FrmSearch<DmnGridFields>(
+                    search,
+                    SearchMode.FirstCharacter,
+                    this.Width - 150,
+                    this.Height - 150,
+                    this.Location.Y + 50,
+                    this.Location.X + 20,
+                    dtColumnAlign))
+                {
+                    if (searchForm.ShowDialog() == DialogResult.OK)
+                        returnValue = Convert.ToString(searchForm._retValue);
+                }
+
+                int saleMasterId;
+                if (int.TryParse(returnValue, out saleMasterId) && saleMasterId > 0)
+                    PrintBillForSaleMaster(saleMasterId);
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("CombinedBill Page btn_serach_prev_bill_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+                clsgen.LogException(
+                    "CombinedBill Page btn_serach_prev_bill_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
+
         private void btn_prevbill_Click(object sender, EventArgs e)
         {
             try
@@ -1206,34 +1226,31 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field1;
                         dgvorderview.Rows[rowIndex].Cells[entryno].Value = gridSource[i].Field2;
 
-                        dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field3;
+                        int partyBookingId = Convert.ToInt32(gridSource[i].Field15);
+                        int tableId = Convert.ToInt32(gridSource[i].Field16);
+                        int pickupId = Convert.ToInt32(gridSource[i].Field17);
+                        int orderType = Convert.ToInt32(gridSource[i].Field14);
 
-                        #region multiple table code case reservation 
-                        if (Convert.ToInt32(gridSource[i].Field11) == 0)
+                        if (partyBookingId > 0)
                         {
-                            FillTablecode_Comb(rowIndex, Convert.ToInt32(gridSource[i].Field6), Convert.ToInt32(gridSource[i].Field13), Convert.ToInt32(gridSource[i].Field12));
+                            SetTableCodeDisplay(rowIndex, "Party Booking", 0, true);
+                        }
+                        else if (pickupId > 0 || orderType == Convert.ToInt32(OrderType.PickupOrder))
+                        {
+                            SetTableCodeDisplay(rowIndex, "PKID " + pickupId, 0, true);
+                        }
+                        else if (tableId <= 0)
+                        {
+                            FillTablecode_Comb(
+                                rowIndex,
+                                Convert.ToInt32(gridSource[i].Field6),
+                                Convert.ToInt32(gridSource[i].Field13),
+                                Convert.ToInt32(gridSource[i].Field12));
                         }
                         else
                         {
-                            DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
-                            List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
-                            ComboBoxItem comboBoxItem;
-                            if (Convert.ToInt32(gridSource[i].Field14) == Convert.ToInt32(OrderType.PickupOrder))
-                            {
-                                comboBoxItem = new ComboBoxItem(0, "PICKUP ORDER");
-                            }
-                            else
-                            {
-                                comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field11), gridSource[i].Field3);
-                            }
-                            comboBoxItems.Add(comboBoxItem);
-                            dropDown.DataSource = comboBoxItems;
-                            dropDown.ValueMember = "Id";
-                            dropDown.DisplayMember = "Value";
-                            dropDown.Value = comboBoxItems[0].Id;
-                            dropDown.ReadOnly = true;
+                            SetTableCodeDisplay(rowIndex, Convert.ToString(gridSource[i].Field3), tableId, true);
                         }
-                        #endregion
 
 
                         dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field4;
@@ -1303,24 +1320,77 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("CombinedBill Page btn_prevbill_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
+        private void SetTableCodeDisplay(int rowIndex, string displayText, int tableId, bool readOnly)
+        {
+            DataGridViewComboBoxCell cell =
+                (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
+
+            List<ComboBoxItem> items = new List<ComboBoxItem>
+            {
+                new ComboBoxItem(tableId, displayText ?? string.Empty)
+            };
+
+            cell.DataSource = items;
+            cell.ValueMember = "Id";
+            cell.DisplayMember = "Value";
+            cell.Value = tableId;
+            cell.ReadOnly = readOnly;
+            dgvorderview.Rows[rowIndex].Cells[tablecodeno].ReadOnly = readOnly;
+        }
+
+        private void PrintBillBySaleType(int saleMasterId, int partyBookingId, int tableId, int pickupId)
+        {
+            if (saleMasterId <= 0)
+                return;
+
+            if (partyBookingId > 0)
+                printBill(saleMasterId, Convert.ToInt32(BillType.Partybill));
+            else if (pickupId > 0)
+                printBill(saleMasterId, Convert.ToInt32(BillType.PickupBill));
+            else
+                printBill(saleMasterId, Convert.ToInt32(BillType.NormalBill));
+        }
+
+        private void PrintBillForSaleMaster(int saleMasterId)
+        {
+            if (saleMasterId <= 0)
+                return;
+
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            DmnSearch search = new DmnSearch
+            {
+                Select = "ISNULL(Partybookingid,0) Field1, ISNULL(Tid,0) Field2, ISNULL(PkId,0) Field3",
+                Table = "tblSalesMaster",
+                WhereNdGroupBy = "WHERE Status = 1 AND SalesMasterId = " + saleMasterId,
+                OrderBy = ""
+            };
+
+            List<DmnGridFields> result = bllSearch.GetSearchData("prdSearch", search);
+            if (result != null && result.Count > 0)
+            {
+                PrintBillBySaleType(
+                    saleMasterId,
+                    Convert.ToInt32(result[0].Field1),
+                    Convert.ToInt32(result[0].Field2),
+                    Convert.ToInt32(result[0].Field3));
+            }
+        }
+
         private void dgvorderview_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
+                if (e.RowIndex < 0 || e.RowIndex >= dgvorderview.Rows.Count)
+                    return;
+
                 if (e.ColumnIndex == actionno)
                 {
                     int sid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[Salemasteridno].Value);
                     int pbkid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[partybookingidno].Value);
-                    int tidno = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tablecodeno].Value);
+                    int tidno = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tableidno].Value);
                     int pickupid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[pickupidno].Value);
-                    if (pbkid>0)
-                        printBill(sid, Convert.ToInt32(BillType.Partybill));
-                    else if (tidno > 0)
-                        printBill(sid, Convert.ToInt32(BillType.NormalBill));
-                    else if (pickupid > 0)
-                        printBill(sid, Convert.ToInt32(BillType.PickupBill));
 
-
+                    PrintBillBySaleType(sid, pbkid, tidno, pickupid);
                 }
                 else if (e.ColumnIndex == paytypename)
                 {
@@ -1419,50 +1489,70 @@ namespace FoodandBeverage.Forms
             try
             {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
-                DmnSearch objSearch = new DmnSearch();
-                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowindex].Cells[tablecodeno];
+                DmnSearch search = new DmnSearch();
+
                 if (ordertype == 0)
                 {
-                    objSearch.Select = "bd.MTID id,bd.Name value";
-                    objSearch.Table = "tblOrderMaster om " +
-                        "left join tblbookMaster bm on om.BookmasterId=bm.BookmasterId " +
-                        "left join tblBookDetails bd on bd.BookmasterId=bm.BookmasterId and bd.Rid=0 ";
-                    objSearch.WhereNdGroupBy = "where om.OrderMasterId=" + ordermasterid;
-                    objSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                    gridSource[0].Id = 0;
-                    gridSource[0].Value = "Show Table";
-                    dropDown.DataSource = gridSource;
-                    dropDown.ValueMember = "Id";
-                    dropDown.DisplayMember = "Value";
-
-                    dropDown.Value = gridSource[0].Id;
-                    dropDown.ReadOnly = false;
-                    dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = false;
+                    search.Select = "bd.MTID id, bd.Name value";
+                    search.Table = "tblOrderMaster om " +
+                                   "LEFT JOIN tblbookMaster bm ON om.BookmasterId = bm.BookmasterId " +
+                                   "LEFT JOIN tblBookDetails bd ON bd.BookmasterId = bm.BookmasterId AND bd.Rid = 0";
+                    search.WhereNdGroupBy = "WHERE om.OrderMasterId = " + ordermasterid;
                 }
                 else
                 {
-                    objSearch.Select = "com.tid id,case when PickupOrderFlag=1 then 'PICK NO '+ CONVERT(varchar, PkId) else ti.TableCode end value";
-                    objSearch.Table = "tblCombinedOrderBill com left join tblTable_info ti on ti.tid=com.Tid";
-                    objSearch.WhereNdGroupBy = "where SalesMasterId =" + salemasterid;
-                    objSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                    gridSource[0].Id = 0;
-                    gridSource[0].Value = "Show Table";
-                    dropDown.DataSource = gridSource;
-                    dropDown.ValueMember = "Id";
-                    dropDown.DisplayMember = "Value";
-
-                    dropDown.Value = gridSource[0].Id;
-                    dropDown.ReadOnly = false;
-                    dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = false;
+                    search.Select =
+                        "com.tid id, " +
+                        "CASE WHEN ISNULL(com.PickupOrderFlag,0) = 1 " +
+                        "THEN 'PKID ' + CONVERT(VARCHAR(20),com.PkId) " +
+                        "ELSE ISNULL(ti.TableCode,'') END value";
+                    search.Table = "tblCombinedOrderBill com " +
+                                   "LEFT JOIN tblTable_info ti ON ti.tid = com.Tid";
+                    search.WhereNdGroupBy = "WHERE com.SalesMasterId = " + salemasterid;
                 }
 
+                search.OrderBy = "";
+                List<DmnComboBox> source = bllSearch.GetSearchData("prdComboFill", search)
+                    ?? new List<DmnComboBox>();
+
+                DataGridViewComboBoxCell cell =
+                    (DataGridViewComboBoxCell)dgvorderview.Rows[rowindex].Cells[tablecodeno];
+
+                List<ComboBoxItem> items = new List<ComboBoxItem>();
+
+                if (source.Count == 0)
+                {
+                    items.Add(new ComboBoxItem(0, "N/A"));
+                    cell.ReadOnly = true;
+                }
+                else if (source.Count == 1)
+                {
+                    items.Add(new ComboBoxItem(source[0].Id, source[0].Value));
+                    cell.ReadOnly = true;
+                }
+                else
+                {
+                    items.Add(new ComboBoxItem(0, "Multiple Tables (" + source.Count + ")"));
+                    foreach (DmnComboBox item in source)
+                        items.Add(new ComboBoxItem(item.Id, item.Value));
+
+                    cell.ReadOnly = false;
+                }
+
+                cell.DataSource = items;
+                cell.ValueMember = "Id";
+                cell.DisplayMember = "Value";
+                cell.Value = items[0].Id;
+                dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = cell.ReadOnly;
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("CombinedBill Page FillTablecode_Comb()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+                clsgen.LogException(
+                    "CombinedBill Page FillTablecode_Comb()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
         public class ComboBoxItem

@@ -542,7 +542,7 @@ namespace FoodandBeverage.Forms
                             {
                                 opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
                                 pbopbuttoncoloepicker.BackColor = opbuttoncolor;
-                                ib_Category.BackColor = opbuttoncolor;
+                                ib_Category.BackColor = Color.Transparent;
 
                                 //ib_Item.BackColor = opbuttoncolor;
                                 //ib_ingrediant.BackColor = opbuttoncolor;
@@ -615,7 +615,7 @@ namespace FoodandBeverage.Forms
                                 txtoperbuttoncolorname.Text = Convert.ToString(gridSource[0].OperationButtonColor);
                                 txtsid.Text = Convert.ToString(gridSource[0].SId);
 
-                                ib_Category.BackColor = opbuttoncolor;
+                                ib_Category.BackColor = Color.Transparent;
 
                                 //ib_Item.BackColor = opbuttoncolor;
                                 //ib_ingrediant.BackColor = opbuttoncolor;
