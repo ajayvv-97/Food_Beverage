@@ -1134,9 +1134,9 @@ namespace FoodandBeverage.Forms
                         "sm.CreatedDateTime Field1, " +
                         "sm.EntryNo Field2, " +
                         "CASE " +
-                        " WHEN ISNULL(sm.Partybookingid,0) > 0 THEN 'Party Booking' " +
-                        " WHEN ISNULL(sm.PkId,0) > 0 THEN 'PKID ' + CONVERT(VARCHAR(20),sm.PkId) " +
-                        " WHEN ISNULL(sm.Tid,0) > 0 THEN ISNULL(ti.TableCode,'') " +
+                        " WHEN COALESCE(sm.Partybookingid,0) > 0 THEN 'Party Booking' " +
+                        " WHEN COALESCE(sm.PkId,0) > 0 THEN 'PKID ' + CAST(sm.PkId AS VARCHAR(20)) " +
+                        " WHEN COALESCE(sm.Tid,0) > 0 THEN COALESCE(ti.TableCode,'') " +
                         " ELSE 'Multiple Tables' END Field3, " +
                         "sm.PkId Field4, sm.NetAmount Field5",
                     Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti ON ti.tid = sm.Tid " +

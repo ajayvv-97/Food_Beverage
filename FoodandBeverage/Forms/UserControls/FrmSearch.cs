@@ -52,6 +52,58 @@ namespace FoodandBeverage.Forms.UserControls
         }
         #endregion
 
+        private static List<string> SplitSelectFields(string selectClause)
+        {
+            var fields = new List<string>();
+            if (string.IsNullOrWhiteSpace(selectClause))
+                return fields;
+
+            var current = new StringBuilder();
+            int parenthesesDepth = 0;
+            bool insideString = false;
+
+            for (int i = 0; i < selectClause.Length; i++)
+            {
+                char ch = selectClause[i];
+
+                if (ch == '\'')
+                {
+                    current.Append(ch);
+
+                    // SQL escapes a single quote inside a string by doubling it.
+                    if (insideString && i + 1 < selectClause.Length && selectClause[i + 1] == '\'')
+                    {
+                        current.Append(selectClause[++i]);
+                        continue;
+                    }
+
+                    insideString = !insideString;
+                    continue;
+                }
+
+                if (!insideString)
+                {
+                    if (ch == '(')
+                        parenthesesDepth++;
+                    else if (ch == ')' && parenthesesDepth > 0)
+                        parenthesesDepth--;
+                    else if (ch == ',' && parenthesesDepth == 0)
+                    {
+                        fields.Add(current.ToString().Trim());
+                        current.Clear();
+                        continue;
+                    }
+                }
+
+                current.Append(ch);
+            }
+
+            if (current.Length > 0)
+                fields.Add(current.ToString().Trim());
+
+            return fields;
+        }
+
         #region Events
         public void FrmSelect_Load(object sender, EventArgs e)
         {
@@ -66,7 +118,7 @@ namespace FoodandBeverage.Forms.UserControls
                 }
 
                 _lstHeaders = (_dmnSearch.ColumnHeaders ?? string.Empty).Split(',').ToList();
-                _lstFields = (_dmnSearch.Select ?? string.Empty).Split(',').ToList();
+                _lstFields = SplitSelectFields(_dmnSearch.Select);
 
                 ApplyResponsiveScreenSize();
                 ConfigureFilterTextBoxes();
