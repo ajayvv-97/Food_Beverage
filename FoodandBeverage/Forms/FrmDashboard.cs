@@ -3902,18 +3902,17 @@ namespace FoodandBeverage.Forms
                 dmngen.EnableCompbillPrompt = rtb_compbillpmpt.Checked;
                 dmngen.ProductpageperCount = Convert.ToInt32(txtorderpagecount.Text);
                 dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;
+                dmngen.Status = 1;
+
+                dmngen.PackigHsncode = string.IsNullOrWhiteSpace(txt_ptax_hsncode.Text) ? null : txt_ptax_hsncode.Text.Trim(); 
                 dmngen.Tax = string.IsNullOrWhiteSpace(cmbtax.Text) ? null : cmbtax.Text.Trim();
                 dmngen.TaxType = string.IsNullOrWhiteSpace(cmbTaxType.Text) ? null : cmbTaxType.Text.Trim();
                 dmngen.TaxSettingId = GetSelectedPackingTaxSettingId();
-                dmngen.ModifiedBy = FrmDashboard.UserId;
-                dmngen.Status = 1;
-
                 if (!string.IsNullOrWhiteSpace(dmngen.TaxType) &&
                     (!string.Equals(dmngen.Tax, "Inclusive", StringComparison.OrdinalIgnoreCase) &&
                      !string.Equals(dmngen.Tax, "Exclusive", StringComparison.OrdinalIgnoreCase)))
                 {
-                    CMessageBox.Show("Please select Inclusive or Exclusive packing tax mode.",
-                        "Packing Tax", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CMessageBox.Show("Please select Inclusive or Exclusive packing tax mode.", "Packing Tax", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -3937,18 +3936,6 @@ namespace FoodandBeverage.Forms
                     var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen); 
                     if (InsertStatus.Gid > 0)
                     {
-                        dmngen.Gid = InsertStatus.Gid;
-                        var packingTaxUpdate = bllgen.UpdatePackingTaxSettings(
-                            "prdUpdateGeneralSettingPackingTax", dmngen);
-
-                        if (packingTaxUpdate == null || packingTaxUpdate.Gid <= 0)
-                        {
-                            CMessageBox.Show(
-                                "General settings were saved, but packing tax settings could not be updated. Run the GeneralSettingPackingTax.sql script and try again.",
-                                "Packing Tax Update", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
                         CMessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Generalsettingcheck();
                         txtgenid.Text = Convert.ToString(InsertStatus.Gid);
@@ -6951,6 +6938,9 @@ namespace FoodandBeverage.Forms
                     if (!string.IsNullOrWhiteSpace(settings.Tax))
                         cmbtax.SelectedItem = settings.Tax;
 
+                    if (!string.IsNullOrWhiteSpace(settings.PackigHsncode))
+                        txt_ptax_hsncode.Text = settings.PackigHsncode;
+
                     if (!string.IsNullOrWhiteSpace(settings.TaxType))
                         cmbTaxType.SelectedItem = settings.TaxType;
 
@@ -7110,7 +7100,6 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
-                // Submit only stages the selected values. btnsavegen_Click persists them.
                 pnl_PackingTax.Visible = false;
             }
             catch (Exception ex)

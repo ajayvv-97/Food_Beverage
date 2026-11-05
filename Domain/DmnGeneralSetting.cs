@@ -62,7 +62,7 @@ namespace Domain
         public string Tax { get; set; }
         public string TaxType { get; set; }
         public int? TaxSettingId { get; set; }
-        
+        public string PackigHsncode { get; set; }
     }
 
 }
