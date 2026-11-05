@@ -6947,9 +6947,9 @@ namespace FoodandBeverage.Forms
                     if (settings.TaxSettingId.HasValue && settings.TaxSettingId.Value > 0)
                     {
                         if (string.Equals(settings.TaxType, "GST", StringComparison.OrdinalIgnoreCase))
-                            cmbIgstPrcnt.SelectedValue = settings.TaxSettingId.Value;
+                            cmbIgstPrcnt.SelectedValue =Convert.ToInt64(settings.TaxSettingId.Value);
                         else if (string.Equals(settings.TaxType, "VAT", StringComparison.OrdinalIgnoreCase))
-                            cmbVatPrcnt.SelectedValue = settings.TaxSettingId.Value;
+                            cmbVatPrcnt.SelectedValue = Convert.ToInt64(settings.TaxSettingId.Value);
                     }
                 }
             }
