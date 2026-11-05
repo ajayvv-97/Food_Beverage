@@ -59,6 +59,7 @@ namespace FoodandBeverage.Forms
                 pnlappcolor,
                 panl_msgsettings,
                 pnl_billsetting,
+                pnlgenralsetting,
                 pnl_virtualkeyboard,
                 pnl_datasync,
                 pnl_comple_remove,
@@ -4803,43 +4804,44 @@ namespace FoodandBeverage.Forms
 
         private void ib_drawer_Click(object sender, EventArgs e)
         {
+            _dashboardBlurOverlay.ShowOwnerBlur();
             try
             {
                 AssignDrawerCheck();
                 if (FrmDrawer.DrawerID == 0)
-                {
                     return;
+
+                if (System.Windows.Forms.Application.OpenForms["FrmDrawer"] != null)
+                {
+                    FrmDrawer _instanceFrmDrawer = Application.OpenForms["FrmDrawer"] as FrmDrawer;
+                    if (_instanceFrmDrawer.WindowState == FormWindowState.Minimized)
+                        _instanceFrmDrawer.WindowState = FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmDrawer.Visible = true;
+                        _instanceFrmDrawer.Dock = DockStyle.Fill;
+                        ResizeForm(_instanceFrmDrawer);
+                        _instanceFrmDrawer.ShowDialog(this);
+                        _instanceFrmDrawer.BringToFront();
+                    }
                 }
                 else
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmDrawer"] != null)
+                    using (FrmDrawer _instanceFrmDrawer = new FrmDrawer())
                     {
-                        FrmDrawer _instanceFrmDrawer = Application.OpenForms["FrmDrawer"] as FrmDrawer;
-                        if (_instanceFrmDrawer.WindowState == FormWindowState.Minimized)
-                            _instanceFrmDrawer.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                        else
-                        {
-                            _instanceFrmDrawer.Visible = true;
-                            _instanceFrmDrawer.Dock = DockStyle.Fill;
-                            ResizeForm(_instanceFrmDrawer);
-                            _instanceFrmDrawer.ShowDialog();
-                            _instanceFrmDrawer.BringToFront();
-                        }
-                    }
-                    else
-                    {
-                        using (FrmDrawer _instanceFrmDrawer = new FrmDrawer())
-                        {
-                            ResizeForm(_instanceFrmDrawer);
-                            _instanceFrmDrawer.BringToFront();
-                            _instanceFrmDrawer.ShowDialog();
-                        }
+                        ResizeForm(_instanceFrmDrawer);
+                        _instanceFrmDrawer.BringToFront();
+                        _instanceFrmDrawer.ShowDialog(this);
                     }
                 }
             }
             catch (Exception ex)
             {
                 clsgen.LogException("homepage page ib_drawer_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+            finally
+            {
+                _dashboardBlurOverlay.HideOwnerBlur();
             }
         }
 
