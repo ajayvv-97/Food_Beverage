@@ -7041,7 +7041,7 @@ namespace FoodandBeverage.Forms
                     Select = "TaxSettingsId as Id, IgstPrcnt as Value",
                     Table = "tblTaxSettings",
                     WhereNdGroupBy = "WHERE Status = 1 AND TaxType = 'GST'",
-                    OrderBy = "ORDER BY IgstPrcnt"
+                    OrderBy = ""
                 };
 
                 DmnSearch vatSearch = new DmnSearch
@@ -7049,7 +7049,7 @@ namespace FoodandBeverage.Forms
                     Select = "TaxSettingsId as Id, VatPrcnt as Value",
                     Table = "tblTaxSettings",
                     WhereNdGroupBy = "WHERE ISNULL(Status,0) = 1 AND TaxType = 'VAT'",
-                    OrderBy = "ORDER BY VatPrcnt"
+                    OrderBy = ""
                 };
 
                 List<DmnComboBox> gstRates = fillGst.GetSearchData("prdComboFill", gstSearch);
@@ -7125,7 +7125,7 @@ namespace FoodandBeverage.Forms
                 {
                     for (int col = 0; col < totalColumns; col++)
                     {
-                        if ((row == 2 && col == 0) || (row == 2 && col == 1))
+                        if ((row == 1 && col == 0) || (row == 1 && col == 1))
                             continue;
 
                         Control ctrl = tlp_add_contrl.GetControlFromPosition(col, row);
