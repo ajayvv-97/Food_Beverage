@@ -1320,7 +1320,7 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("CombinedBill Page btn_prevbill_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
-        private void SetTableCodeDisplay(int rowIndex, string displayText, int tableId, bool readOnly)
+        private void SetTableCodeDisplay(int rowIndex, string displayText, long tableId, bool readOnly)
         {
             DataGridViewComboBoxCell cell =
                 (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
@@ -1557,10 +1557,10 @@ namespace FoodandBeverage.Forms
         }
         public class ComboBoxItem
         {
-            public int Id { get; set; }
+            public long Id { get; set; }
             public string Value { get; set; }
 
-            public ComboBoxItem(int id, string value)
+            public ComboBoxItem(long id, string value)
             {
                 Id = id;
                 Value = value;
