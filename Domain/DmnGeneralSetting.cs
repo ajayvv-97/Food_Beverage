@@ -59,6 +59,9 @@ namespace Domain
         public bool EnableCompbillPrompt { get; set; }
         public int ProductpageperCount { get; set; }
         public bool EnableCompReasonPrompt { get; set; }
+        public string Tax { get; set; }
+        public string TaxType { get; set; }
+        public int? TaxSettingId { get; set; }
         
     }
 
