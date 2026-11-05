@@ -1126,26 +1126,27 @@ namespace FoodandBeverage.Forms
                 DataTable dtColumnAlign = new DataTable();
                 dtColumnAlign.Columns.Add();
 
-                DmnSearch search = new DmnSearch
-                {
-                    ColumnHeaders = "ID,DateTime,Invoice No,Table Code,PickUp No,NetAmount",
-                    Select =
-                        "sm.SalesMasterId ID, " +
-                        "sm.CreatedDateTime Field1, " +
-                        "sm.EntryNo Field2, " +
-                        "CASE " +
-                        " WHEN COALESCE(sm.Partybookingid,0) > 0 THEN 'Party Booking' " +
-                        " WHEN COALESCE(sm.PkId,0) > 0 THEN 'PKID ' + CAST(sm.PkId AS VARCHAR(20)) " +
-                        " WHEN COALESCE(sm.Tid,0) > 0 THEN COALESCE(ti.TableCode,'') " +
-                        " ELSE 'Multiple Tables' END Field3, " +
-                        "sm.PkId Field4, sm.NetAmount Field5",
-                    Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti ON ti.tid = sm.Tid " +
-                            "LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode",
-                    WhereNdGroupBy = "WHERE sm.Status = 1 AND g.GTypeId = 2",
-                    OrderBy = "ORDER BY sm.SalesMasterId DESC"
-                };
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "ID,DateTime,Invoice No,Table Code,PickUp No,NetAmount";
+                _objSearch.Select =
+                    "sm.SalesMasterId as Id, " +
+                    "sm.CreatedDateTime as Field1, " +
+                    "sm.EntryNo as Field2, " +
+                    "CASE " +
+                    " WHEN COALESCE(sm.Partybookingid,0) > 0 THEN 'Party Booking' " +
+                    " WHEN COALESCE(sm.PkId,0) > 0 THEN 'PKID ' + CAST(sm.PkId AS VARCHAR(20)) " +
+                    " WHEN COALESCE(sm.Tid,0) > 0 THEN COALESCE(ti.TableCode,'') " +
+                    " ELSE 'Multiple Tables' END as Field3, " +
+                    "sm.PkId as Field4, " +
+                    "sm.NetAmount as Field5";
+                _objSearch.Table =
+                    "tblSalesMaster sm " +
+                    "LEFT JOIN tblTable_info ti ON ti.tid = sm.Tid " +
+                    "LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode";
+                _objSearch.WhereNdGroupBy = "WHERE sm.Status = 1 AND g.GTypeId = 2";
+                _objSearch.OrderBy = "ORDER BY sm.SalesMasterId DESC";
 
-                var gridSource = bllSearch.GetSearchData("prdSearch", search);
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
                 if (gridSource == null || gridSource.Count == 0)
                 {
                     CMessageBox.Show("No Records", "Empty",
@@ -1153,8 +1154,8 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
-                using (var searchForm = new FrmSearch<DmnGridFields>(
-                    search,
+                using (var search = new FrmSearch<DmnGridFields>(
+                    _objSearch,
                     SearchMode.FirstCharacter,
                     this.Width - 150,
                     this.Height - 150,
@@ -1162,13 +1163,18 @@ namespace FoodandBeverage.Forms
                     this.Location.X + 20,
                     dtColumnAlign))
                 {
-                    if (searchForm.ShowDialog() == DialogResult.OK)
-                        returnValue = Convert.ToString(searchForm._retValue);
+                    if (search.ShowDialog() == DialogResult.OK)
+                        returnValue = Convert.ToString(search._retValue);
                 }
 
-                int saleMasterId;
-                if (int.TryParse(returnValue, out saleMasterId) && saleMasterId > 0)
-                    PrintBillForSaleMaster(saleMasterId);
+                if (!string.IsNullOrWhiteSpace(returnValue))
+                {
+                    int saleMasterId;
+                    if (int.TryParse(returnValue, out saleMasterId) && saleMasterId > 0)
+                    {
+                        PrintBillForSaleMaster(saleMasterId);
+                    }
+                }
             }
             catch (Exception ex)
             {
