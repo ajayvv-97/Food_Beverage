@@ -81,6 +81,12 @@ namespace FoodandBeverage.Forms
         private readonly BllSearch<DmnGridFields> _search = new BllSearch<DmnGridFields>();
         private readonly DmnSearch _query = new DmnSearch();
 
+        private bool _packingTaxConfigurationLoaded;
+        private bool _packingTaxConfigured;
+        private string _packingTaxMode;
+        private string _packingTaxType;
+        private decimal _packingTaxPercentage;
+
         #region main product variable
         public int Global_ProductId = 0;
         List<DmnOrderMaster> gridSourcemaster = new List<DmnOrderMaster>();
@@ -3464,6 +3470,116 @@ namespace FoodandBeverage.Forms
             return Math.Round(subTotal,2,MidpointRounding.AwayFromZero);
         }
 
+        private bool TryGetPackingTaxConfiguration(
+            out string taxMode, out string taxType, out decimal taxPercentage)
+        {
+            taxMode = string.Empty;
+            taxType = string.Empty;
+            taxPercentage = 0m;
+
+            if (!_packingTaxConfigurationLoaded)
+            {
+                _packingTaxConfigurationLoaded = true;
+                _packingTaxConfigured = false;
+
+                try
+                {
+                    BllSearch<DmnGeneralSetting> generalSearch =
+                        new BllSearch<DmnGeneralSetting>();
+
+                    DmnSearch generalQuery = new DmnSearch
+                    {
+                        Select = "Gid, Tax, TaxType, TaxSettingId",
+                        Table = "tblGeneralSetting",
+                        WhereNdGroupBy = "WHERE BranchId = " + FrmDashboard.BranchId +
+                                         " AND Status = 1",
+                        OrderBy = "ORDER BY Gid DESC"
+                    };
+
+                    List<DmnGeneralSetting> generalSettings =
+                        generalSearch.GetSearchData("prdSearch", generalQuery);
+
+                    if (generalSettings == null || generalSettings.Count == 0)
+                        return false;
+
+                    DmnGeneralSetting setting = generalSettings[0];
+
+                    int taxSettingId = setting.TaxSettingId.GetValueOrDefault();
+                    if (taxSettingId <= 0 ||
+                        string.IsNullOrWhiteSpace(setting.TaxType) ||
+                        string.IsNullOrWhiteSpace(setting.Tax))
+                    {
+                        return false;
+                    }
+
+                    BllSearch<DmnTaxSettings> taxSearch =
+                        new BllSearch<DmnTaxSettings>();
+
+                    DmnSearch taxQuery = new DmnSearch
+                    {
+                        Select = "TaxSettingsId, TaxType, IgstPrcnt, VatPrcnt",
+                        Table = "tblTaxSettings",
+                        WhereNdGroupBy = "WHERE TaxSettingsId = " + taxSettingId +
+                                         " AND Status = 1",
+                        OrderBy = ""
+                    };
+
+                    List<DmnTaxSettings> taxSettings =
+                        taxSearch.GetSearchData("prdSearch", taxQuery);
+
+                    if (taxSettings == null || taxSettings.Count == 0)
+                        return false;
+
+                    DmnTaxSettings selectedTax = taxSettings[0];
+
+                    if (!string.Equals(selectedTax.TaxType, setting.TaxType,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        return false;
+                    }
+
+                    _packingTaxMode = setting.Tax.Trim();
+                    _packingTaxType = setting.TaxType.Trim();
+
+                    if (string.Equals(_packingTaxType, "GST",
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        _packingTaxPercentage = selectedTax.IgstPrcnt;
+                    }
+                    else if (string.Equals(_packingTaxType, "VAT",
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        _packingTaxPercentage = selectedTax.VatPrcnt;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    _packingTaxConfigured = _packingTaxPercentage >= 0m &&
+                        (string.Equals(_packingTaxMode, "Inclusive",
+                            StringComparison.OrdinalIgnoreCase) ||
+                         string.Equals(_packingTaxMode, "Exclusive",
+                            StringComparison.OrdinalIgnoreCase));
+                }
+                catch (Exception ex)
+                {
+                    _packingTaxConfigured = false;
+                    clsgen.LogException(
+                        "Order page TryGetPackingTaxConfiguration()",
+                        ex,
+                        FrmLogin.EmployeName,
+                        FrmLogin.Designation,
+                        Convert.ToInt32(FormType.Order));
+                }
+            }
+
+            taxMode = _packingTaxMode ?? string.Empty;
+            taxType = _packingTaxType ?? string.Empty;
+            taxPercentage = _packingTaxPercentage;
+            return _packingTaxConfigured;
+        }
+
         public void CalculateNetamount_ALl()
         {
             try
@@ -3526,8 +3642,54 @@ namespace FoodandBeverage.Forms
                 if (rawTaxable < 0m)
                     rawTaxable = 0m;
 
-                //decimal totalTaxable = Math.Round(rawTaxable, 2, MidpointRounding.AwayFromZero);
-                decimal totalTaxable = rawTaxable;
+                // Packing charges are not discounted. If a packing tax is configured,
+                // include its taxable base here; inclusive charges are split into base
+                // and tax, while exclusive charges use the entered amount as the base.
+                decimal packingCharge = GetDecimalValue(txtpkchrge_amt);
+                if (packingCharge < 0m)
+                    packingCharge = 0m;
+
+                decimal packingTaxableAmount = 0m;
+                decimal packingTaxAmount = 0m;
+                decimal packingNonTaxableAmount = packingCharge;
+
+                string packingTaxMode;
+                string packingTaxType;
+                decimal packingTaxPercentage;
+
+                if (packingCharge > 0m &&
+                    TryGetPackingTaxConfiguration(
+                        out packingTaxMode,
+                        out packingTaxType,
+                        out packingTaxPercentage))
+                {
+                    if (string.Equals(packingTaxMode, "Inclusive",
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        packingTaxableAmount = packingTaxPercentage > 0m
+                            ? packingCharge * 100m / (100m + packingTaxPercentage)
+                            : packingCharge;
+
+                        packingTaxAmount = packingCharge - packingTaxableAmount;
+                    }
+                    else
+                    {
+                        packingTaxableAmount = packingCharge;
+                        packingTaxAmount =
+                            packingTaxableAmount * packingTaxPercentage / 100m;
+                    }
+
+                    packingTaxableAmount = Math.Round(
+                        packingTaxableAmount, 2, MidpointRounding.AwayFromZero);
+                    packingTaxAmount = Math.Round(
+                        packingTaxAmount, 2, MidpointRounding.AwayFromZero);
+
+                    // The entered packing amount is already inclusive or exclusive
+                    // according to the saved setting, so it is no longer an untaxed add-on.
+                    packingNonTaxableAmount = 0m;
+                }
+
+                decimal totalTaxable = rawTaxable + packingTaxableAmount;
 
                 decimal discountRatio = subTotal > 0m
                     ? discount / subTotal
@@ -3574,9 +3736,12 @@ namespace FoodandBeverage.Forms
                 }
 
     
-                decimal rawTotalTax = productTax ;
+                decimal rawTotalTax = productTax + packingTaxAmount;
 
-                decimal rawNetAmount = rawTaxable + rawTotalTax;
+                // When no packing tax is configured, retain the packing charge as a
+                // separate amount after tax rather than silently applying a default rate.
+                decimal rawNetAmount =
+                    totalTaxable + rawTotalTax + packingNonTaxableAmount;
 
                 decimal netAmount = Math.Round(rawNetAmount, 2, MidpointRounding.AwayFromZero);
 
@@ -14546,20 +14711,36 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                decimal packingCharge = 0m;
 
-                decimal kdata = 0;
-
-                using (var frm = new Frmnumdiskeypad(Convert.ToInt32(KeypadType.Roundoff)))
+                using (var frm = new Frmnumdiskeypad(
+                    Convert.ToInt32(KeypadType.Roundoff)))
                 {
                     frm.ShowDialog();
-                    decimal.TryParse(frm.txtkeypadvalue.Text, out kdata);
+                    if (!decimal.TryParse(frm.txtkeypadvalue.Text, out packingCharge))
+                        return;
                 }
 
-                
+                if (packingCharge < 0m)
+                {
+                    CMessageBox.Show(
+                        "Packing charge cannot be negative.",
+                        "Invalid Packing Charge",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                txtpkchrge_amt.Text = packingCharge.ToString("0.00");
+                // txtpkchrge_amt_TextChanged calls netAmount() and recalculates GST.
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page txtpkchrge_amt_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page txtpkchrge_amt_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
             }
         }
 
