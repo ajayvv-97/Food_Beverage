@@ -55,7 +55,14 @@ namespace FoodandBeverage.Forms
         public FrmDashboard()
         {
             InitializeComponent();
-            _packingTaxBlurOverlay = new BlurPopupOverlay(this, pnl_PackingTax);
+            _dashboardBlurOverlay = new BlurPopupOverlay(this,
+                pnlappcolor,
+                panl_msgsettings,
+                pnl_billsetting,
+                pnl_virtualkeyboard,
+                pnl_datasync,
+                pnl_comple_remove,
+                pnl_PackingTax);
 
             this.AutoScaleMode = AutoScaleMode.Dpi;
             this.AutoScaleDimensions = new SizeF(96F, 96F);
@@ -96,7 +103,7 @@ namespace FoodandBeverage.Forms
         private LoadingGIF_Timer loadingForm;
         public DateTime startTime = DateTime.Now;
         ClsGeneral clsgen = new ClsGeneral();
-        private BlurPopupOverlay _packingTaxBlurOverlay;
+        private BlurPopupOverlay _dashboardBlurOverlay;
         private bool _loadingPackingTaxControls;
 
         /*permission checking for manager and supervisor*/
