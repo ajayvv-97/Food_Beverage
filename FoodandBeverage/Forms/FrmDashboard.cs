@@ -308,6 +308,7 @@ namespace FoodandBeverage.Forms
 
             StyleReportMenu();
             virtualkeyboardCheck();
+            Taxfill();
         }
         private void LoadMainForm()
         {
@@ -6607,6 +6608,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
+    
         private bool ValidateComplimentaryDate()
         {
             try
@@ -6641,6 +6643,9 @@ namespace FoodandBeverage.Forms
                 return false;
             }
         }
+
+
+        
 
         private void LoadComplimentarySales()
         {
@@ -6841,6 +6846,160 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        #endregion
+
+        #region Packing Tax configuration
+        private void btn_packingtax_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbIgstPrcnt.SelectedIndex > 0)
+                {
+                    BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                    DmnSearch objSearch_tax = new DmnSearch();
+                    objSearch_tax = new DmnSearch();
+                    objSearch_tax.Select = "TaxSettingsId, SgstPrcnt, CgstPrcnt";
+                    objSearch_tax.Table = "tblTaxSettings";
+                    objSearch_tax.WhereNdGroupBy = "Where TaxSettingsId = " + cmbIgstPrcnt.SelectedValue;
+                    objSearch_tax.OrderBy = "";
+                    var gridSource = bllSearch.GetSearchData("prdSearch", objSearch_tax);
+                    if (gridSource.Count > 0)
+                    {
+                        txtSgstPrcnt.Text = gridSource[0].SgstPrcnt.ToString();
+                        txtCgstPrcnt.Text = gridSource[0].CgstPrcnt.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page cmbIgstPrcnt_SelectedIndexChanged()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        public void Taxfill()
+        {
+            try
+            {
+                BllSearch<DmnComboBox> fiilgst = new BllSearch<DmnComboBox>();
+                BllSearch<DmnComboBox> fiilvat = new BllSearch<DmnComboBox>();
+                DmnSearch objSearch1 = new DmnSearch();
+                DmnSearch objSearch2 = new DmnSearch();
+
+                objSearch1.Select = "TaxSettingsId as Id, IgstPrcnt as Value";
+                objSearch1.Table = "tblTaxSettings";
+                objSearch1.WhereNdGroupBy = "where status=1 and TaxType='GST'";
+                objSearch1.OrderBy = "order by value";
+
+                objSearch2.Select = "TaxSettingsId as Id, VatPrcnt as Value";
+                objSearch2.Table = "tblTaxSettings";
+                objSearch2.WhereNdGroupBy = "where isnull(status,0)=1 and TaxType='VAT'";
+                objSearch2.OrderBy = "order by value";
+
+                var gridSource1 = fiilgst.GetSearchData("prdComboFill", objSearch1);
+                var gridSource2 = fiilvat.GetSearchData("prdComboFill", objSearch2);
+
+                cmbVatPrcnt.DataSource = gridSource2;
+                cmbVatPrcnt.ValueMember = "Id";
+                cmbVatPrcnt.DisplayMember = "Value";
+
+                cmbIgstPrcnt.DataSource = gridSource1;
+                cmbIgstPrcnt.ValueMember = "Id";
+                cmbIgstPrcnt.DisplayMember = "Value";
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page Taxfill()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+        private void btn_ptax_cancel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_ptax_submit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int startRow = 1;
+                int endRow = 2;
+                int totalColumns = 4;
+
+                for (int row = startRow; row <= endRow; row++)
+                {
+                    for (int col = 0; col < totalColumns; col++)
+                    {
+                        if ((row == 2 && col == 0) || (row == 2 && col == 1))
+                            continue;
+
+                        Control ctrl = tlp_add_contrl.GetControlFromPosition(col, row);
+                        if (ctrl != null)
+                        {
+                            tlp_add_contrl.Controls.Remove(ctrl);
+                        }
+                    }
+                }
+
+                // 🔹 GST Layout
+                if (cmbTaxType.Text == "GST")
+                {
+
+                    lbligst.Dock = DockStyle.Fill;
+                    cmbIgstPrcnt.Dock = DockStyle.Fill;
+
+                    lblcgst.Dock = DockStyle.Fill;
+                    txtCgstPrcnt.Dock = DockStyle.Top;
+                    lblsgst.Dock = DockStyle.Fill;
+                    txtSgstPrcnt.Dock = DockStyle.Top;
+
+                    tlp_add_contrl.Controls.Add(lbligst, 2, 1);
+                    tlp_add_contrl.Controls.Add(cmbIgstPrcnt, 3, 1);
+
+                    tlp_add_contrl.Controls.Add(lblcgst, 0, 2);
+                    tlp_add_contrl.Controls.Add(txtCgstPrcnt, 1, 2);
+
+                    tlp_add_contrl.Controls.Add(lblsgst, 2, 2);
+                    tlp_add_contrl.Controls.Add(txtSgstPrcnt, 3, 2);
+
+                    foreach (TextBox textBox in new TextBox[] { txtCgstPrcnt, txtSgstPrcnt })
+                    {
+                        ApplyRoundedTextBox(textBox, 10);
+                        textBox.BorderStyle = BorderStyle.None;
+                    }
+                }
+
+                // 🔹 VAT Layout
+                else if (cmbTaxType.Text == "VAT")
+                {
+                    lblvat.Dock = DockStyle.Fill;
+                    cmbVatPrcnt.Dock = DockStyle.Fill;
+
+                    tlp_add_contrl.Controls.Add(lblvat, 2, 1);
+                    tlp_add_contrl.Controls.Add(cmbVatPrcnt, 3, 1);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page cmbTaxType_SelectedValueChanged()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
         #endregion
 
     }
