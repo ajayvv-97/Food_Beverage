@@ -3745,7 +3745,10 @@ namespace FoodandBeverage.Forms
 
                 decimal netAmount = Math.Round(rawNetAmount, 2, MidpointRounding.AwayFromZero);
 
-                decimal totalTax = Math.Round(netAmount - totalTaxable, 2, MidpointRounding.AwayFromZero);
+                decimal totalTax = Math.Round(
+                    netAmount - totalTaxable - packingNonTaxableAmount,
+                    2,
+                    MidpointRounding.AwayFromZero);
 
                 lblTotTaxAmnt.Text = totalTax.ToString("N2");
 
