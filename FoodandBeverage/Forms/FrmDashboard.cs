@@ -4023,7 +4023,7 @@ namespace FoodandBeverage.Forms
                     OrderBy = ""
                 };
                 var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckgen);
-                if (gridesource.Count > 0)
+                if (gridesource != null && gridesource.Count > 0)
                 {
                     var settings = gridesource[0];
                     LoadPackingTaxControls(settings);
@@ -4096,6 +4096,10 @@ namespace FoodandBeverage.Forms
                     rtb_compbillpmpt.Checked = settings.EnableCompbillPrompt;
                     txtorderpagecount.Text=Convert.ToString(settings.ProductpageperCount);
                     chk_comprompt.Checked = settings.EnableCompReasonPrompt;
+                }
+                else
+                {
+                    LoadPackingTaxControls(null);
                 }
             }
             catch (Exception ex)
