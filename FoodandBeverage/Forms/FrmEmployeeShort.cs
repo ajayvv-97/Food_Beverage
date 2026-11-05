@@ -22,6 +22,7 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmEmployeeShort : Form
     {
+        private BlurPopupOverlay _employeeBlurOverlay;
         ClsDocument clsDocument = new ClsDocument();
         FilterInfoCollection FilterInfoCollection;
         VideoCaptureDevice VideoCaptureDevice;
@@ -51,6 +52,9 @@ namespace FoodandBeverage.Forms
         public FrmEmployeeShort()
         {
             InitializeComponent();
+
+            // Blur and dim the employee form whenever the User Type popup is opened.
+            _employeeBlurOverlay = new BlurPopupOverlay(this, pnlusertype);
         }
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn(
