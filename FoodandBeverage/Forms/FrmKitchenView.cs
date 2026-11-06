@@ -120,7 +120,7 @@ namespace FoodandBeverage.Forms
                 }
                 else if (stype == 2)
                 {
-                    txtsearchData.Text = "Enter Pickup No...";
+                    txtsearchData.Text = "Enter Daily Token No...";
                 }
 
                 if (FrmDashboard.AutoLogoutWhenIdle)
@@ -2812,7 +2812,7 @@ namespace FoodandBeverage.Forms
                 case 1:
                     return "Enter Table Code...";
                 case 2:
-                    return "Enter Pickup No...";
+                    return "Enter Daily Token No...";
                 default:
                     return "Enter Value...";
             }
@@ -2837,15 +2837,15 @@ namespace FoodandBeverage.Forms
         }
         private void txtorderid_search_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') // Check for Enter key
+            if (e.KeyChar == '\r')
             {
-                e.Handled = true; // Suppress the Enter key
-            }
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                // If the pressed key is not a digit and not a control key (like backspace), suppress it
                 e.Handled = true;
+                return;
             }
+
+            // Daily tokens include a prefix (P005 / T005), and table codes can be alphanumeric.
+            if (!char.IsControl(e.KeyChar) && !char.IsLetterOrDigit(e.KeyChar))
+                e.Handled = true;
         }
         private void txtorderid_search_KeyDown(object sender, KeyEventArgs e)
         {
@@ -3221,7 +3221,8 @@ namespace FoodandBeverage.Forms
         private void btnsearch_Click(object sender, EventArgs e)
         {
             // Mandatory textbox check
-            if (string.IsNullOrWhiteSpace(txtsearchData.Text))
+            if (string.IsNullOrWhiteSpace(txtsearchData.Text) ||
+                string.Equals(txtsearchData.Text.Trim(), GetPlaceholder(), StringComparison.OrdinalIgnoreCase))
             {
                 CMessageBox.Show("Please enter search text.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtsearchData.Focus();
@@ -3243,7 +3244,7 @@ namespace FoodandBeverage.Forms
             else if (stype == 1)
                 SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByTableCode));
             else if (stype == 2)
-                SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByPkId));
+                SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByDailyToken));
 
         }
         public void SerachTable_Pickup(string sdata,int serachtype)
