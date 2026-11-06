@@ -1177,24 +1177,69 @@ namespace FoodandBeverage.Forms
                     ? savedMaster.InventoryRequestId
                     : savedMaster.RequestId;
                 int savedDetailCount = 0;
+                List<int> retainedDetailIds = new List<int>();
 
                 foreach (DmnInventoryRequestDetail detail in details)
                 {
                     detail.InventoryRequestId = requestId;
-                    detail.CreatedBy = FrmLogin.UserId;
-                    detail.CreatedOn = DateTime.Now;
                     detail.BranchId = FrmDashboard.BranchId;
                     detail.Status = 1;
-                    DmnInventoryRequestDetail savedDetail = _inventoryBll.AddDetailsData( "prdInsert_Upd_InventoryRequestDetails", detail);
+
+                    if (detail.InventoryRequestDetailId > 0)
+                    {
+                        // Existing Sent Back detail: update this row and preserve Created audit fields.
+                        detail.ModifiedBy = FrmLogin.UserId;
+                        detail.ModifiedOn = DateTime.Now;
+                    }
+                    else
+                    {
+                        // New detail: the existing stored procedure inserts the row and returns its ID.
+                        detail.CreatedBy = FrmLogin.UserId;
+                        detail.CreatedOn = DateTime.Now;
+                    }
+
+                    DmnInventoryRequestDetail savedDetail =
+                        _inventoryBll.AddDetailsData(
+                            "prdInsert_Upd_InventoryRequestDetails",
+                            detail);
 
                     if (savedDetail == null)
-                        throw new InvalidOperationException("Unable to save inventory request detail row " + detail.SlNo + ".");
+                        throw new InvalidOperationException(
+                            "Unable to save inventory request detail row " + detail.SlNo + ".");
 
+                    int savedDetailId = savedDetail.InventoryRequestDetailId > 0
+                        ? savedDetail.InventoryRequestDetailId
+                        : detail.InventoryRequestDetailId;
+
+                    if (savedDetailId <= 0)
+                    {
+                        savedDetailId = _inventoryBll.FindInventoryRequestDetailId(
+                            requestId,
+                            FrmDashboard.BranchId,
+                            detail);
+                    }
+
+                    if (savedDetailId <= 0)
+                    {
+                        throw new InvalidOperationException(
+                            "The detail procedure did not return InventoryRequestDetailId for row " +
+                            detail.SlNo + ". The request was not resubmitted.");
+                    }
+
+                    detail.InventoryRequestDetailId = savedDetailId;
+                    retainedDetailIds.Add(savedDetailId);
                     savedDetailCount++;
                 }
 
                 if (savedDetailCount != details.Count)
                     throw new InvalidOperationException("Some inventory request details were not saved.");
+
+                // Mark removed/duplicate active rows inactive in the existing detail table.
+                _inventoryBll.DeactivateInventoryRequestDetailsNotInIds(
+                    requestId,
+                    FrmDashboard.BranchId,
+                    FrmLogin.UserId,
+                    retainedDetailIds);
 
                 // After correcting a Sent Back request, return it to Pending for review.
                 // The stored procedure preserves the Send Back remarks for the request list.
