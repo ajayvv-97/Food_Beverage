@@ -3256,6 +3256,14 @@ namespace FoodandBeverage.Forms
                         _instanceFrmTableView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                         _instanceFrmTableView.BringToFront();
 
+                        // Keep the table actions toolbar above the embedded table view.
+                        // The table view is added dynamically to panelDesktop and can
+                        // otherwise cover the Pick Up / Takeaway actions.
+                        btn_pickup.Visible = true;
+                        btn_takeaway.Visible = true;
+                        tlp_tablestatus.PerformLayout();
+                        tlp_tablestatus.BringToFront();
+
                    // }
                 //}
                 //else
