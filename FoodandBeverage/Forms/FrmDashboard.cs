@@ -879,6 +879,7 @@ namespace FoodandBeverage.Forms
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 panelDesktop.Controls.Clear();
                 btn_pickup.Visible = false;
+                btn_takeaway.Visible = false;
                 if (ChkWritePermission(Convert.ToInt32(formsenum.DashboardCharts)))
                 {
                     if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
@@ -1039,6 +1040,7 @@ namespace FoodandBeverage.Forms
                 flp_operabuttons.Dock = DockStyle.Fill;
                 flp_operabuttons.Visible = true;
                 btn_pickup.Visible = false;
+                btn_takeaway.Visible = false;
 
                 // Resume the parent layout first so Dock=Fill updates the real client size.
                 // The first click previously calculated button widths while panelDesktop
@@ -1090,6 +1092,7 @@ namespace FoodandBeverage.Forms
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
+                btn_takeaway.Visible = false;
                
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -1181,6 +1184,7 @@ namespace FoodandBeverage.Forms
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
+                btn_takeaway.Visible = false;
 
                 panelDesktop.SuspendLayout();
 
@@ -1277,6 +1281,7 @@ namespace FoodandBeverage.Forms
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
                     btn_pickup.Visible = false;
+                    btn_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                 }
                 if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
@@ -1313,6 +1318,7 @@ namespace FoodandBeverage.Forms
                 reset_sync.Stop();
                 lblsync.Visible = false;
                 btn_pickup.Visible = false;
+                btn_takeaway.Visible = false;
                 panelDesktop.Controls.Clear();
                 if (menutable_click)
                 {
@@ -2544,6 +2550,7 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(flp_empbuttons);
                 flp_empbuttons.Visible = true;
                 btn_pickup.Visible = false;
+                btn_takeaway.Visible = false;
 
                 //if (screenWidth > 1367 && screenHeight > 769)
                 //{
@@ -3198,6 +3205,8 @@ namespace FoodandBeverage.Forms
 
                 btn_pickup.Visible = true;
 
+                btn_takeaway.Visible = true;
+
                 //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 //DmnSearch objSearch = new DmnSearch();
                 //objSearch.Select = "COUNT(*) OVER() AS Field1";
@@ -3527,6 +3536,7 @@ namespace FoodandBeverage.Forms
                             btn_avial.Visible = true;
                             btntrefresh.Visible = true;
                             btn_pickup.Visible = true;
+                            btn_takeaway.Visible = true;
                             tlp_tablestatus.ResumeLayout();
 
                             _instanceFrmTableView.Visible = true;
@@ -3546,6 +3556,7 @@ namespace FoodandBeverage.Forms
                         btn_avial.Visible = true;
                         btntrefresh.Visible = true;
                         btn_pickup.Visible = true;
+                        btn_takeaway.Visible = true;
                         tlp_tablestatus.ResumeLayout();
 
                         FrmTableView _instanceFrmTableView = new FrmTableView(Convert.ToInt32(ButtonType.refresh));
@@ -3641,6 +3652,7 @@ namespace FoodandBeverage.Forms
                         btn_avial.Visible = false;
                         btntrefresh.Visible = false;
                         btn_pickup.Visible = false;
+                        btn_takeaway.Visible = false;
                         tlp_tablestatus.ResumeLayout();
 
                         _instanceFrmPickup.Visible = true;
@@ -3661,6 +3673,7 @@ namespace FoodandBeverage.Forms
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
                     btn_pickup.Visible = false;
+                    btn_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                     using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
                     {
@@ -3679,6 +3692,64 @@ namespace FoodandBeverage.Forms
             catch (Exception ex)
             {
                 clsgen.LogException("homepage btn_pickup_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btn_takeaway_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AssignDrawerCheck();
+                if (FrmDrawer.DrawerID == 0)
+                    return;
+
+                if (menutable_click)
+                    CloseTableViewPage();
+
+                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                {
+                    FrmDashboardReport report =
+                        Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+                    if (report != null)
+                        report.Visible = false;
+                }
+
+                time_syn_lal.Stop();
+                reset_sync.Stop();
+                lblsync.Visible = false;
+
+                tlp_tablestatus.SuspendLayout();
+                btn_rev.Visible = false;
+                btn_running.Visible = false;
+                btn_avial.Visible = false;
+                btntrefresh.Visible = false;
+                btn_pickup.Visible = false;
+                btn_takeaway.Visible = false;
+                tlp_tablestatus.ResumeLayout();
+
+                using (FrmOrderConsole takeaway = new FrmOrderConsole(
+                    0,
+                    FrmOrderConsole.TakeawayBookingType,
+                    0,
+                    CheckedtableNames,
+                    Convert.ToInt32(PageType.Billpage),
+                    0,
+                    Convert.ToInt32(SourcepageType.Pickuppage),
+                    0,
+                    2))
+                {
+                    takeaway.ShowDialog();
+                }
+
+                clsgen.Memoryrelease();
+                menutable_click = true;
+                panelDesktop.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage btn_takeaway_Click", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
             }
         }
 
@@ -3724,6 +3795,7 @@ namespace FoodandBeverage.Forms
                         btn_avial.Visible = false;
                         btntrefresh.Visible = false;
                         btn_pickup.Visible = false;
+                        btn_takeaway.Visible = false;
                         tlp_tablestatus.ResumeLayout();
 
                         _instanceFrmPickup.Visible = true;
@@ -3744,6 +3816,7 @@ namespace FoodandBeverage.Forms
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
                     btn_pickup.Visible = false;
+                    btn_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                     using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
                     {
@@ -5634,6 +5707,7 @@ namespace FoodandBeverage.Forms
                         btn_avial.Visible = false;
                         btntrefresh.Visible = false;
                         btn_pickup.Visible = false;
+                        btn_takeaway.Visible = false;
                         tlp_tablestatus.ResumeLayout();
 
                         _instanceFrmPickup.Visible = true;
@@ -5654,6 +5728,7 @@ namespace FoodandBeverage.Forms
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
                     btn_pickup.Visible = false;
+                    btn_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                     using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
                     {

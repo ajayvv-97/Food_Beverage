@@ -30,6 +30,8 @@ namespace FoodandBeverage.Forms
         public int tableId = 0;
         public int Bookingmasterid = 0;
         public int BookingType = 0;
+        public int OrderTypeId = 0;
+        public const int TakeawayBookingType = 1001;
         public int PageType = 0;
         public int OmId = 0;
         public int sourcepage = 0;
@@ -345,12 +347,17 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #endregion
-        public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype, int cdstatus)
+        public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype, int cdstatus, int orderTypeId = 0)
         {
             tableId = tid;
             sourcepage = sourcepagetype;
             Bookingmasterid = bmasterid;
             BookingType = booktype;
+            OrderTypeId = orderTypeId > 0
+                ? orderTypeId
+                : booktype == Convert.ToInt32(DashboardTableType.PickupOrder)
+                    ? 1
+                    : booktype == TakeawayBookingType ? 2 : 0;
             PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
             OmId = Ordermasterid;
@@ -942,6 +949,19 @@ namespace FoodandBeverage.Forms
                         UIHelper.RoundCorners(tlp_cancelled_list_nav, 25);
                     }
 
+                }
+                else if (BookingType == TakeawayBookingType)
+                {
+                    // Takeaway uses the normal order-detail and billing pipeline, but
+                    // must not load a table order or create a tblPickup row.
+                    Pickup_Status = false;
+                    combined_Pickup_Status = false;
+                    lbltablecode_header.Text = "TAKEAWAY";
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.save));
+                    lblorderid.Visible = false;
+                    label10.Visible = false;
+                    cmb_tblcode.Visible = false;
+                    lbltablecode.Visible = false;
                 }
 
                 #endregion
@@ -9054,6 +9074,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.OtherGuestCount = Convert.ToInt32(txtother.Text);
                     dmnordermaster.TotalGuestCount = Convert.ToInt32(totguests.Text);
 
+                    dmnordermaster.OrderTypeId = OrderTypeId;
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                     if (InsertStatusP.OrderMasterId > 0)
                     {
@@ -9232,6 +9253,15 @@ namespace FoodandBeverage.Forms
                                     }
                                 }
                             }
+                        }
+
+                        if (!flage && OrderTypeId > 0 && InsertStatusP != null &&
+                            InsertStatusP.OrderMasterId > 0)
+                        {
+                            bll_order.RefreshOrderTokenStatus(
+                                "prdOrderToken_RefreshStatus",
+                                InsertStatusP.OrderMasterId,
+                                FrmDashboard.UserId);
                         }
 
                         PrintOrderNokot(Convert.ToInt32(KOTbilltype.Tableorder));
@@ -10927,6 +10957,7 @@ namespace FoodandBeverage.Forms
                                     else
                                         dmnordermaster.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
 
+                                    dmnordermaster.OrderTypeId = OrderTypeId;
                                     var InsertStatusor = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                                     #endregion
 
@@ -11125,6 +11156,14 @@ namespace FoodandBeverage.Forms
                                 }
                             }
                             #endregion
+
+                            if (KOT_saleprint_status && !flage && OrderTypeId > 0 && GBL_omid > 0)
+                            {
+                                bll_order.RefreshOrderTokenStatus(
+                                    "prdOrderToken_RefreshStatus",
+                                    GBL_omid,
+                                    FrmDashboard.UserId);
+                            }
 
                             #region Sale master
                             finaltotalqty();

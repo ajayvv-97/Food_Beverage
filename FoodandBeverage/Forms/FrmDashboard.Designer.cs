@@ -221,6 +221,7 @@ namespace FoodandBeverage.Forms
             this.btn_running = new System.Windows.Forms.Button();
             this.lblsync = new System.Windows.Forms.Label();
             this.btn_pickup = new System.Windows.Forms.Button();
+            this.btn_takeaway = new System.Windows.Forms.Button();
             this.lbl_time = new System.Windows.Forms.Label();
             this.lbl_drawer = new System.Windows.Forms.Label();
             this.lbl_empname = new System.Windows.Forms.Label();
@@ -3043,7 +3044,8 @@ namespace FoodandBeverage.Forms
             // 
             this.tlp_tablestatus.BackColor = System.Drawing.Color.Transparent;
             this.tlp_tablestatus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tlp_tablestatus.ColumnCount = 6;
+            this.tlp_tablestatus.ColumnCount = 7;
+            this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlp_tablestatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -3054,8 +3056,9 @@ namespace FoodandBeverage.Forms
             this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_running, 2, 0);
-            this.tlp_tablestatus.Controls.Add(this.lblsync, 5, 0);
             this.tlp_tablestatus.Controls.Add(this.btn_pickup, 4, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_takeaway, 5, 0);
+            this.tlp_tablestatus.Controls.Add(this.lblsync, 6, 0);
             this.tlp_tablestatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_tablestatus.Location = new System.Drawing.Point(0, 0);
             this.tlp_tablestatus.Margin = new System.Windows.Forms.Padding(0);
@@ -3148,7 +3151,7 @@ namespace FoodandBeverage.Forms
             this.lblsync.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblsync.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblsync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lblsync.Location = new System.Drawing.Point(526, 8);
+            this.lblsync.Location = new System.Drawing.Point(524, 8);
             this.lblsync.Name = "lblsync";
             this.lblsync.Size = new System.Drawing.Size(71, 36);
             this.lblsync.TabIndex = 7;
@@ -3175,6 +3178,25 @@ namespace FoodandBeverage.Forms
             this.btn_pickup.UseVisualStyleBackColor = true;
             this.btn_pickup.Visible = false;
             this.btn_pickup.Click += new System.EventHandler(this.btn_pickup_Click);
+            //
+            // btn_takeaway
+            //
+            this.btn_takeaway.BackgroundImage = global::FoodandBeverage.Properties.Resources.N_dashboard_pickupmain;
+            this.btn_takeaway.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_takeaway.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_takeaway.FlatAppearance.BorderSize = 0;
+            this.btn_takeaway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_takeaway.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_takeaway.ForeColor = System.Drawing.Color.White;
+            this.btn_takeaway.Location = new System.Drawing.Point(438, 8);
+            this.btn_takeaway.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_takeaway.Name = "btn_takeaway";
+            this.btn_takeaway.Size = new System.Drawing.Size(86, 36);
+            this.btn_takeaway.TabIndex = 9;
+            this.btn_takeaway.Text = "Takeaway";
+            this.btn_takeaway.UseVisualStyleBackColor = true;
+            this.btn_takeaway.Visible = false;
+            this.btn_takeaway.Click += new System.EventHandler(this.btn_takeaway_Click);
             // 
             // lbl_time
             // 
@@ -7173,6 +7195,7 @@ namespace FoodandBeverage.Forms
         public FontAwesome.Sharp.IconButton Menubilling;
         public FontAwesome.Sharp.IconButton Menuhome;
         public System.Windows.Forms.Button btn_pickup;
+        public System.Windows.Forms.Button btn_takeaway;
         private System.Windows.Forms.Panel pnl_datasync;
         private System.Windows.Forms.ProgressBar pbsync;
         private System.Windows.Forms.Label lblsynctext;
