@@ -26,7 +26,8 @@ namespace BLL
             parms.Add("PickupOrderFlag", objTestClass.PickupOrderFlag);
             parms.Add("PkId", objTestClass.PkId);
             parms.Add("Kitchennumber", objTestClass.Kitchennumber);
-            parms.Add("OrderTypeId", objTestClass.OrderTypeId);
+            if (string.Equals(procedureName, "prdInsert_Upd_OrderMaster", StringComparison.OrdinalIgnoreCase))
+                parms.Add("OrderTypeId", objTestClass.OrderTypeId);
 
             // ---------------------------
             // NEW CUSTOMER DETAILS (ADDED)

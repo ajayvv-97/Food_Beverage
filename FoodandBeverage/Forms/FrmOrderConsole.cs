@@ -9600,6 +9600,18 @@ namespace FoodandBeverage.Forms
 
                     Dgv_Selected_Item.Rows.Add();
                 }
+                else if (OrderTypeId == 2)
+                {
+                    // Keep the Takeaway console in its own mode after refresh.
+                    ClearAll();
+                    checksave_refresh();
+                    lbltablecode_header.Text = "TAKEAWAY";
+                    lblorderid.Visible = false;
+                    label10.Visible = false;
+                    cmb_tblcode.Visible = false;
+                    lbltablecode.Visible = false;
+                    btn_cancle_pickup.Visible = false;
+                }
                 else
                 {
                     ClearAll();
