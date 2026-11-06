@@ -522,10 +522,11 @@ namespace FoodandBeverage.Interfaces
     }
     public enum KitchenSearchType
     {
-        AllOrders = 0,          // status in (1,2) and addon
-        ByTableCode = 1,        // search by table code
-        ByPkId = 2,             // search by PkId
-        ByKitchenNumber = 3     // search by KitchenNumber
+        AllOrders = 0,             // All active kitchen orders
+        ByTableCode = 1,           // Search by table code
+        ByDailyToken = 2,          // Search today's Pickup / Takeaway token (P005 / T005)
+        ByPkId = 2,                // Legacy alias; retained for compatibility
+        ByKitchenNumber = 3        // Search by kitchen serial number
     }
 
     public enum ReserveQtyTabletype
