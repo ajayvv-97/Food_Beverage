@@ -136,6 +136,9 @@ namespace FoodandBeverage.Forms
                 return;
             }
 
+            // Replace the displayed snapshot rather than only appending.
+            // This removes reminders whose KOT time has passed or was changed.
+            _bookings.Clear();
             if (bookings != null)
             {
                 foreach (PartyBookingReminder booking in bookings)
