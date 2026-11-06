@@ -276,5 +276,44 @@ namespace BLL
             }
         }
 
+        public int FindInventoryRequestDetailId(
+            int requestId,
+            int branchId,
+            DmnInventoryRequestDetail detail)
+        {
+            if (detail == null)
+                return 0;
+
+            const string sql = @"
+SELECT TOP (1) InventoryRequestDetailId
+FROM dbo.tblInventoryRequestDetails
+WHERE InventoryRequestId = @InventoryRequestId
+  AND BranchId = @BranchId
+  AND ISNULL(Status, 1) = 1
+  AND RequestType = @RequestType
+  AND ISNULL(ProductId, 0) = ISNULL(@ProductId, 0)
+  AND ISNULL(RecipeItemId, 0) = ISNULL(@RecipeItemId, 0)
+  AND ISNULL(ItemId, 0) = ISNULL(@ItemId, 0)
+  AND ISNULL(Unit, 0) = ISNULL(@Unit, 0)
+ORDER BY InventoryRequestDetailId DESC;";
+
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                return connection.Query<int>(
+                    sql,
+                    new
+                    {
+                        InventoryRequestId = requestId,
+                        BranchId = branchId,
+                        detail.RequestType,
+                        detail.ProductId,
+                        detail.RecipeItemId,
+                        detail.ItemId,
+                        detail.Unit
+                    }).FirstOrDefault();
+            }
+        }
+
     }
 }
