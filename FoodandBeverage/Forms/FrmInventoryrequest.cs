@@ -122,7 +122,7 @@ namespace FoodandBeverage.Forms
                         "FROM tblProductRate WHERE Status = 1 GROUP BY ProductId) pr " +
                         "ON pr.ProductId = d.ItemId",
                 WhereNdGroupBy = "WHERE d.ProductId = " + productId +
-                                 " AND ISNULL(d.Status,1) <> 0",
+                                 " AND ISNULL(d.Status,1) <> 0 AND d.ProductType = 1",
                 OrderBy = "ORDER BY d.Ing_DetailsId"
             };
 
