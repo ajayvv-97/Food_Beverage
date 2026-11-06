@@ -299,6 +299,31 @@ namespace FoodandBeverage.Forms
             btn_deletesaved_draft.Visible = true;
         }
 
+        private List<DmnInventoryRequestDetail> NormalizeLoadedRequestDetails(
+            IEnumerable<DmnInventoryRequestDetail> source)
+        {
+            if (source == null)
+                return new List<DmnInventoryRequestDetail>();
+
+            // Keep the newest persisted row for each logical batch ingredient/raw row.
+            return source
+                .Where(x => x != null)
+                .GroupBy(x => x.RequestType == 1
+                    ? "B|" + Convert.ToString(x.ProductId ?? 0) + "|" +
+                      Convert.ToString(x.RecipeItemId ?? 0) + "|" + Convert.ToString(x.ItemId ?? 0)
+                    : x.RequestType == 2
+                        ? "R|" + Convert.ToString(x.ItemId ?? 0) + "|" + Convert.ToString(x.Unit ?? 0)
+                        : "D|" + Convert.ToString(x.InventoryRequestDetailId))
+                .Select(group => group
+                    .OrderByDescending(x => x.InventoryRequestDetailId)
+                    .ThenByDescending(x => x.ModifiedOn ?? x.CreatedOn ?? DateTime.MinValue)
+                    .First())
+                .OrderBy(x => x.RequestType)
+                .ThenBy(x => x.SlNo ?? int.MaxValue)
+                .ThenBy(x => x.InventoryRequestDetailId)
+                .ToList();
+        }
+
         private void PopulateRequestForm(DmnInventoryRequestMaster master, List<DmnInventoryRequestDetail> details)
         {
             dgv_batch.Rows.Clear();
