@@ -1187,7 +1187,17 @@ namespace FoodandBeverage.Forms
 
                     if (detail.InventoryRequestDetailId > 0)
                     {
-                        // Existing Sent Back detail: update this row and preserve Created audit fields.
+                        // Retain the original creator/date when updating this Sent Back detail.
+                        DmnInventoryRequestDetail originalDetail = _loadedRequestDetails
+                            .FirstOrDefault(x =>
+                                x.InventoryRequestDetailId == detail.InventoryRequestDetailId);
+
+                        if (originalDetail != null)
+                        {
+                            detail.CreatedBy = originalDetail.CreatedBy;
+                            detail.CreatedOn = originalDetail.CreatedOn;
+                        }
+
                         detail.ModifiedBy = FrmLogin.UserId;
                         detail.ModifiedOn = DateTime.Now;
                     }
