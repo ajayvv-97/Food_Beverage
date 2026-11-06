@@ -122,6 +122,7 @@ namespace FoodandBeverage.Forms
                         "FROM tblProductRate WHERE Status = 1 GROUP BY ProductId) pr " +
                         "ON pr.ProductId = d.ItemId",
                 WhereNdGroupBy = "WHERE d.ProductId = " + productId +
+                                 " AND ISNULL(d.ProductType,1) = 1 " +
                                  " AND ISNULL(d.Status,1) <> 0",
                 OrderBy = "ORDER BY d.Ing_DetailsId"
             };
@@ -158,7 +159,8 @@ namespace FoodandBeverage.Forms
         public int BIing_DetailsIdno = 8;
         public int BIitemidno = 9;
         public int BIunitidno = 10;
-        
+        public int BIInventoryRequestDetailIdno = 11;
+
         // Raw material grid
         public int Rslno = 0;
         public int Rrawmaterialno = 1;
@@ -223,7 +225,7 @@ namespace FoodandBeverage.Forms
             dgv_batch.Columns[Brecipeingredientsno].FillWeight = 21;
             dgv_batch.Columns[Bactionno].FillWeight = 7;
             dgv_batch.Columns[Bitemidno].Visible = false;
-
+            dgv_batch.Columns[BInventoryRequestDetailIdno].Visible = false;
 
             dgv_batch_ingrediant.Columns[BIproductidno].Visible = false;
             dgv_batch_ingrediant.Columns[BIing_DetailsIdno].Visible = false;
@@ -231,14 +233,25 @@ namespace FoodandBeverage.Forms
                 dgv_batch_ingrediant.Columns.Add(new DataGridViewTextBoxColumn { Name = "biItemId", Visible = false });
             if (!dgv_batch_ingrediant.Columns.Contains("biUnitId"))
                 dgv_batch_ingrediant.Columns.Add(new DataGridViewTextBoxColumn { Name = "biUnitId", Visible = false });
+            if (!dgv_batch_ingrediant.Columns.Contains("biInventoryRequestDetailId"))
+            {
+                dgv_batch_ingrediant.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "biInventoryRequestDetailId",
+                    HeaderText = "InventoryRequestDetailId",
+                    Visible = false
+                });
+            }
             BIitemidno = dgv_batch_ingrediant.Columns["biItemId"].Index;
             BIunitidno = dgv_batch_ingrediant.Columns["biUnitId"].Index;
+            BIInventoryRequestDetailIdno = dgv_batch_ingrediant.Columns["biInventoryRequestDetailId"].Index;
 
             ApplyBatchIngredientGridLayout();
 
             ApplyRawMaterialGridLayout();
             dgv_raw.Columns[Ritemidno].Visible = false;
             dgv_raw.Columns[Rproducttypeno].Visible = false;
+            dgv_raw.Columns[RInventoryRequestDetailIdno].Visible = false;
 
             // Keep the numeric base-unit ID hidden; show UnitName in the visible Unit column.
             if (!dgv_raw.Columns.Contains("rawUnitId"))
@@ -676,6 +689,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Brecipeingredientsno].Value = "View ingredients";
                 row.Cells[Bactionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Bitemidno].Value = selected.ItemId;
+                row.Cells[BInventoryRequestDetailIdno].Value = 0;
                 dgv_batch.CurrentCell = row.Cells[Bmenuitemno];
                 LoadIngredientsForRow(row);
             }
@@ -743,6 +757,7 @@ namespace FoodandBeverage.Forms
                     .Select(x => new DmnInventoryRequestIngredient
                     {
                         IngredientDetailId = (int)(x.RecipeItemId ?? 0),
+                        InventoryRequestDetailId = x.InventoryRequestDetailId,
                         ItemId = Convert.ToInt32(x.ItemId.Value),
                         IngredientName = x.ItemName,
                         PerPortionQty = x.PerPortionQty ?? 0m,
@@ -779,6 +794,7 @@ namespace FoodandBeverage.Forms
                     row.Cells[BIprojectedbalanceno].Value = ingredient.ProjectedBalance;
                     row.Cells[BIproductidno].Value = ingredient.ProductId;
                     row.Cells[BIing_DetailsIdno].Value = ingredient.IngredientDetailId;
+                    row.Cells[BIInventoryRequestDetailIdno].Value = ingredient.InventoryRequestDetailId;
                     row.Cells[BIitemidno].Value = ingredient.ItemId;
                     row.Cells[BIunitidno].Value = ingredient.UnitId;
                     _originalIngredientQuantities[ingredient.IngredientDetailId] = ingredient.PerPortionQty;
@@ -804,23 +820,29 @@ namespace FoodandBeverage.Forms
 
                 long itemId;
                 long recipeItemId;
+                int inventoryRequestDetailId;
                 if (!long.TryParse(Convert.ToString(row.Cells[BIitemidno].Value), out itemId)) continue;
                 long.TryParse(Convert.ToString(row.Cells[BIing_DetailsIdno].Value), out recipeItemId);
+                int.TryParse(Convert.ToString(row.Cells[BIInventoryRequestDetailIdno].Value), out inventoryRequestDetailId);
 
-                DmnInventoryRequestDetail saved = _loadedRequestDetails.FirstOrDefault(x =>
-                    x.RequestType == 1 && x.ProductId == _visibleIngredientProductId &&
-                    x.ItemId == itemId && x.RecipeItemId == recipeItemId);
+                DmnInventoryRequestDetail saved = inventoryRequestDetailId > 0
+                    ? _loadedRequestDetails.FirstOrDefault(x => x.InventoryRequestDetailId == inventoryRequestDetailId)
+                    : _loadedRequestDetails.FirstOrDefault(x =>
+                        x.RequestType == 1 && x.ProductId == _visibleIngredientProductId &&
+                        x.ItemId == itemId && x.RecipeItemId == recipeItemId);
 
                 if (saved == null)
                 {
                     saved = new DmnInventoryRequestDetail
                     {
+                        InventoryRequestDetailId = inventoryRequestDetailId,
                         RequestType = 1, ProductId = _visibleIngredientProductId,
                         ItemId = itemId, RecipeItemId = recipeItemId, ProductType = 1, Status = 1
                     };
                     _loadedRequestDetails.Add(saved);
                 }
 
+                saved.InventoryRequestDetailId = inventoryRequestDetailId;
                 saved.PerPortionQty = ToDecimal(row.Cells[Biperportionqtyno].Value);
                 saved.TotalRequiredQty = ToDecimal(row.Cells[BItotalrequiredqtyno].Value);
                 saved.CurrentStock = ToDecimal(row.Cells[BIcurrentstockno].Value);
@@ -852,6 +874,7 @@ namespace FoodandBeverage.Forms
                         ingredients.Add(new DmnInventoryRequestIngredient
                         {
                             IngredientDetailId = (int)ToDecimal(ingredientRow.Cells[BIing_DetailsIdno].Value),
+                            InventoryRequestDetailId = (int)ToDecimal(ingredientRow.Cells[BIInventoryRequestDetailIdno].Value),
                             ItemId = Convert.ToInt32(ingredientRow.Cells[BIitemidno].Value),
                             IngredientName = Convert.ToString(ingredientRow.Cells[BIingredientno].Value),
                             PerPortionQty = ToDecimal(ingredientRow.Cells[Biperportionqtyno].Value),
@@ -873,6 +896,7 @@ namespace FoodandBeverage.Forms
                         .Select(x => new DmnInventoryRequestIngredient
                         {
                             IngredientDetailId = (int)(x.RecipeItemId ?? 0),
+                            InventoryRequestDetailId = x.InventoryRequestDetailId,
                             ItemId = Convert.ToInt32(x.ItemId.Value),
                             IngredientName = x.ItemName,
                             PerPortionQty = x.PerPortionQty ?? 0m,
@@ -893,6 +917,7 @@ namespace FoodandBeverage.Forms
                 {
                     details.Add(new DmnInventoryRequestDetail
                     {
+                        InventoryRequestDetailId = (int)ToDecimal(productRow.Cells[BInventoryRequestDetailIdno].Value),
                         RequestType = 1, SlNo = slNo++, ProductId = productId,
                         PlannedQty = plannedQty, ProductType = 1, CreatedBy = FrmLogin.UserId,
                         CreatedOn = DateTime.Now, BranchId = FrmDashboard.BranchId, Status = 1
@@ -904,6 +929,7 @@ namespace FoodandBeverage.Forms
                 {
                     details.Add(new DmnInventoryRequestDetail
                     {
+                        InventoryRequestDetailId = ingredient.InventoryRequestDetailId,
                         RequestType = 1, SlNo = slNo++, ProductId = productId,
                         PlannedQty = plannedQty, RecipeItemId = ingredient.IngredientDetailId,
                         PerPortionQty = ingredient.PerPortionQty,
@@ -925,6 +951,7 @@ namespace FoodandBeverage.Forms
 
                 details.Add(new DmnInventoryRequestDetail
                 {
+                    InventoryRequestDetailId = (int)ToDecimal(rawRow.Cells[RInventoryRequestDetailIdno].Value),
                     RequestType = 2, SlNo = slNo++,
                     ItemId = Convert.ToInt64(rawRow.Cells[Ritemidno].Value),
                     ProductType = 2, CurrentStock = stock, IssuedQty = issuedQty,
@@ -1493,6 +1520,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Ractionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Ritemidno].Value = selected.ItemId;
                 row.Cells[Rproducttypeno].Value = 2;
+                row.Cells[RInventoryRequestDetailIdno].Value = 0;
                 dgv_raw.CurrentCell = row.Cells[Rrawmaterialno];
                 UpdateRequestTotals();
             }
