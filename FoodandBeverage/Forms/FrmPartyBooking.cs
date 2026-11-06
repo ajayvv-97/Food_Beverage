@@ -217,7 +217,7 @@ namespace FoodandBeverage
         private readonly HashSet<Panel> _activeBlurPopupPanels = new HashSet<Panel>();
         private bool _isUpdatingBlurPopup;
         private bool _isBlurPopupReleaseScheduled;
-        private bool _isCalendarDialogBlurVisible;
+        private bool _isModalDialogBlurVisible;
         private const int BlurPreviewScale = 4;
         private const byte BlurDarkOverlayAlpha = 72;
         #endregion
@@ -502,12 +502,12 @@ namespace FoodandBeverage
 
 
         /// <summary>
-        /// Shows the existing blurred form snapshot behind a modal calendar form.
+        /// Shows the existing blurred form snapshot behind a modal child form.
         /// The same PictureBox and cached blur pipeline used by popup panels are reused.
         /// </summary>
-        private void ShowBlurForCalendarDialog()
+        private void ShowBlurForModalDialog()
         {
-            if (_isCalendarDialogBlurVisible)
+            if (_isModalDialogBlurVisible)
                 return;
 
             try
@@ -540,14 +540,14 @@ namespace FoodandBeverage
                         previousImage.Dispose();
                 }
 
-                _isCalendarDialogBlurVisible = true;
+                _isModalDialogBlurVisible = true;
             }
             catch (Exception ex)
             {
-                _isCalendarDialogBlurVisible = false;
+                _isModalDialogBlurVisible = false;
 
                 clsgen.LogException(
-                    "Partybooking page ShowBlurForCalendarDialog()",
+                    "Partybooking page ShowBlurForModalDialog()",
                     ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
@@ -558,11 +558,11 @@ namespace FoodandBeverage
         }
 
         /// <summary>
-        /// Removes the modal calendar blur when the dialog and its result handling finish.
+        /// Removes the modal-dialog blur after the child form and result handling finish.
         /// </summary>
-        private void HideBlurForCalendarDialog()
+        private void HideBlurForModalDialog()
         {
-            _isCalendarDialogBlurVisible = false;
+            _isModalDialogBlurVisible = false;
 
             if (_activeBlurPopupPanels.Count == 0)
                 ReleaseBlurPopupImage();
@@ -593,7 +593,7 @@ namespace FoodandBeverage
 
             _activeBlurPopupPanels.Remove(popup);
 
-            if (_activeBlurPopupPanels.Count == 0 && !_isCalendarDialogBlurVisible)
+            if (_activeBlurPopupPanels.Count == 0 && !_isModalDialogBlurVisible)
                 ScheduleBlurPopupRelease();
         }
 
@@ -610,7 +610,7 @@ namespace FoodandBeverage
             if (!IsHandleCreated || IsDisposed || Disposing)
             {
                 _isBlurPopupReleaseScheduled = false;
-                if (!_isCalendarDialogBlurVisible)
+                if (!_isModalDialogBlurVisible)
                     ReleaseBlurPopupImage();
                 return;
             }
@@ -624,14 +624,14 @@ namespace FoodandBeverage
                     if (IsDisposed || Disposing)
                         return;
 
-                    if (_activeBlurPopupPanels.Count == 0 && !_isCalendarDialogBlurVisible)
+                    if (_activeBlurPopupPanels.Count == 0 && !_isModalDialogBlurVisible)
                         ReleaseBlurPopupImage();
                 });
             }
             catch (InvalidOperationException)
             {
                 _isBlurPopupReleaseScheduled = false;
-                if (!_isCalendarDialogBlurVisible)
+                if (!_isModalDialogBlurVisible)
                     ReleaseBlurPopupImage();
             }
         }
@@ -822,7 +822,7 @@ namespace FoodandBeverage
 
         private void FrmPartyBooking_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _isCalendarDialogBlurVisible = false;
+            _isModalDialogBlurVisible = false;
             _activeBlurPopupPanels.Clear();
             ReleaseBlurPopupImage();
 
@@ -6059,8 +6059,17 @@ namespace FoodandBeverage
                 {
                     using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(SalesMasterId, PaymentMode, 0, Convert.ToInt32(BillType.Partybill)))
                     {
-                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                        frmSalesInvoice.ShowDialog();
+                        frmSalesInvoice.StartPosition = FormStartPosition.CenterParent;
+
+                        ShowBlurForModalDialog();
+                        try
+                        {
+                            frmSalesInvoice.ShowDialog(this);
+                        }
+                        finally
+                        {
+                            HideBlurForModalDialog();
+                        }
                     }
                 }
                 switch ((PaymentSettlementStatus)PaymentSettleStatusData)
@@ -10439,7 +10448,7 @@ namespace FoodandBeverage
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowInTaskbar = false;
 
-                ShowBlurForCalendarDialog();
+                ShowBlurForModalDialog();
 
                 try
                 {
@@ -10450,7 +10459,7 @@ namespace FoodandBeverage
                 }
                 finally
                 {
-                    HideBlurForCalendarDialog();
+                    HideBlurForModalDialog();
                 }
             }
         }

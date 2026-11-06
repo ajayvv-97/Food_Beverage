@@ -11,8 +11,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Windows.Forms;
@@ -24,6 +26,8 @@ namespace FoodandBeverage.Forms
         public FrmCombinedBill()
         {
             InitializeComponent();
+            Resize += FrmCombinedBill_BlurOverlayResize;
+            FormClosed += FrmCombinedBill_BlurOverlayFormClosed;
         }
 
         #region Declaration
@@ -33,6 +37,14 @@ namespace FoodandBeverage.Forms
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
         ClsGeneral clsgen = new ClsGeneral();
+
+        #region Modal Dialog Blur Overlay
+        private PictureBox _modalBlurOverlay;
+        private Bitmap _modalBlurImage;
+        private bool _isModalBlurVisible;
+        private const int ModalBlurPreviewScale = 4;
+        private const byte ModalBlurDarkOverlayAlpha = 72;
+        #endregion
 
         bool flagDrawerF = false, flagDrawer = false;
 
@@ -1379,6 +1391,279 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        #region Modal Dialog Blur Overlay
+
+        /// <summary>
+        /// Opens a child dialog with the current Combined Bill screen blurred behind it.
+        /// </summary>
+        private DialogResult ShowDialogWithBlur(Form dialog)
+        {
+            if (dialog == null || dialog.IsDisposed)
+                return DialogResult.Cancel;
+
+            ShowModalBlurOverlay();
+
+            try
+            {
+                return dialog.ShowDialog(this);
+            }
+            finally
+            {
+                HideModalBlurOverlay();
+            }
+        }
+
+        private void ShowModalBlurOverlay()
+        {
+            if (_isModalBlurVisible)
+                return;
+
+            Bitmap nextBlurImage = null;
+
+            try
+            {
+                using (Bitmap original = CaptureCombinedBillForm())
+                using (Bitmap small = ResizeModalBlurPreview(
+                    original,
+                    Math.Max(1, original.Width / ModalBlurPreviewScale),
+                    Math.Max(1, original.Height / ModalBlurPreviewScale)))
+                {
+                    nextBlurImage = CreateModalDarkBlurPreview(small);
+                }
+
+                EnsureModalBlurPictureBox();
+
+                Bitmap previousImage = _modalBlurImage;
+                _modalBlurImage = nextBlurImage;
+                nextBlurImage = null;
+
+                _modalBlurOverlay.Image = _modalBlurImage;
+                _modalBlurOverlay.Bounds = ClientRectangle;
+                _modalBlurOverlay.Visible = true;
+                _modalBlurOverlay.BringToFront();
+                _isModalBlurVisible = true;
+
+                if (previousImage != null)
+                    previousImage.Dispose();
+            }
+            catch (Exception ex)
+            {
+                if (nextBlurImage != null)
+                    nextBlurImage.Dispose();
+
+                _isModalBlurVisible = false;
+
+                clsgen.LogException(
+                    "CombinedBill ShowModalBlurOverlay()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
+        private void HideModalBlurOverlay()
+        {
+            _isModalBlurVisible = false;
+
+            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+            {
+                _modalBlurOverlay.Visible = false;
+                _modalBlurOverlay.Image = null;
+            }
+
+            if (_modalBlurImage != null)
+            {
+                _modalBlurImage.Dispose();
+                _modalBlurImage = null;
+            }
+        }
+
+        private void EnsureModalBlurPictureBox()
+        {
+            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+                return;
+
+            _modalBlurOverlay = new PictureBox
+            {
+                Name = "picCombinedBillModalBlur",
+                Bounds = ClientRectangle,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                BackColor = Color.Black,
+                TabStop = false,
+                Visible = false
+            };
+
+            Controls.Add(_modalBlurOverlay);
+        }
+
+        private Bitmap CaptureCombinedBillForm()
+        {
+            int width = Math.Max(1, ClientSize.Width);
+            int height = Math.Max(1, ClientSize.Height);
+            Bitmap captured = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+            try
+            {
+                DrawToBitmap(captured, new Rectangle(0, 0, width, height));
+                return captured;
+            }
+            catch
+            {
+                captured.Dispose();
+                throw;
+            }
+        }
+
+        private Bitmap ResizeModalBlurPreview(Bitmap image, int width, int height)
+        {
+            Bitmap resized = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+            using (Graphics graphics = Graphics.FromImage(resized))
+            {
+                graphics.InterpolationMode = InterpolationMode.Low;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+
+            return resized;
+        }
+
+        private Bitmap CreateModalDarkBlurPreview(Bitmap image)
+        {
+            Bitmap blurred = BlurModalImageFast(image);
+
+            try
+            {
+                using (Graphics graphics = Graphics.FromImage(blurred))
+                using (SolidBrush shade = new SolidBrush(
+                    Color.FromArgb(ModalBlurDarkOverlayAlpha, 0, 0, 0)))
+                {
+                    graphics.CompositingMode = CompositingMode.SourceOver;
+                    graphics.FillRectangle(shade, 0, 0, blurred.Width, blurred.Height);
+                }
+
+                return blurred;
+            }
+            catch
+            {
+                blurred.Dispose();
+                throw;
+            }
+        }
+
+        private Bitmap BlurModalImageFast(Bitmap image)
+        {
+            const int bytesPerPixel = 4;
+            int width = image.Width;
+            int height = image.Height;
+            int rowBytes = width * bytesPerPixel;
+
+            Bitmap blurred = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            BitmapData sourceData = null;
+            BitmapData destinationData = null;
+            bool completed = false;
+
+            try
+            {
+                Rectangle bounds = new Rectangle(0, 0, width, height);
+                sourceData = image.LockBits(bounds, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                destinationData = blurred.LockBits(bounds, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+                byte[] sourcePixels = new byte[rowBytes * height];
+                byte[] resultPixels = new byte[sourcePixels.Length];
+
+                for (int y = 0; y < height; y++)
+                {
+                    IntPtr sourceRow = IntPtr.Add(sourceData.Scan0, y * sourceData.Stride);
+                    Marshal.Copy(sourceRow, sourcePixels, y * rowBytes, rowBytes);
+                }
+
+                Buffer.BlockCopy(sourcePixels, 0, resultPixels, 0, sourcePixels.Length);
+
+                for (int y = 1; y < height - 1; y++)
+                {
+                    for (int x = 1; x < width - 1; x++)
+                    {
+                        int blue = 0;
+                        int green = 0;
+                        int red = 0;
+
+                        for (int fy = -1; fy <= 1; fy++)
+                        {
+                            int rowOffset = (y + fy) * rowBytes;
+
+                            for (int fx = -1; fx <= 1; fx++)
+                            {
+                                int offset = rowOffset + ((x + fx) * bytesPerPixel);
+                                blue += sourcePixels[offset];
+                                green += sourcePixels[offset + 1];
+                                red += sourcePixels[offset + 2];
+                            }
+                        }
+
+                        int targetOffset = (y * rowBytes) + (x * bytesPerPixel);
+                        resultPixels[targetOffset] = (byte)(blue / 9);
+                        resultPixels[targetOffset + 1] = (byte)(green / 9);
+                        resultPixels[targetOffset + 2] = (byte)(red / 9);
+                        resultPixels[targetOffset + 3] = sourcePixels[targetOffset + 3];
+                    }
+                }
+
+                for (int y = 0; y < height; y++)
+                {
+                    IntPtr destinationRow = IntPtr.Add(destinationData.Scan0, y * destinationData.Stride);
+                    Marshal.Copy(resultPixels, y * rowBytes, destinationRow, rowBytes);
+                }
+
+                completed = true;
+                return blurred;
+            }
+            finally
+            {
+                try
+                {
+                    if (destinationData != null)
+                        blurred.UnlockBits(destinationData);
+                }
+                finally
+                {
+                    try
+                    {
+                        if (sourceData != null)
+                            image.UnlockBits(sourceData);
+                    }
+                    finally
+                    {
+                        if (!completed)
+                            blurred.Dispose();
+                    }
+                }
+            }
+        }
+
+        private void FrmCombinedBill_BlurOverlayResize(object sender, EventArgs e)
+        {
+            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+                _modalBlurOverlay.Bounds = ClientRectangle;
+        }
+
+        private void FrmCombinedBill_BlurOverlayFormClosed(object sender, FormClosedEventArgs e)
+        {
+            HideModalBlurOverlay();
+
+            if (_modalBlurOverlay != null)
+            {
+                Controls.Remove(_modalBlurOverlay);
+                _modalBlurOverlay.Dispose();
+                _modalBlurOverlay = null;
+            }
+        }
+
+        #endregion
+
         private void dgvorderview_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -1450,7 +1735,7 @@ namespace FoodandBeverage.Forms
                         using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(oid, Convert.ToInt32(result[0].Field1), 0, btype))
                         {
                             frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                            frmSalesInvoice.ShowDialog();
+                            ShowDialogWithBlur(frmSalesInvoice);
                         }
                     //}
                     //else
@@ -1605,7 +1890,7 @@ namespace FoodandBeverage.Forms
                         using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
                         {
                             if (FrmDashboard.XYDalvalue)
-                                frmzout.ShowDialog();
+                                ShowDialogWithBlur(frmzout);
                             else
                                 frmzout.PrintAll();
                         }
@@ -1618,7 +1903,7 @@ namespace FoodandBeverage.Forms
                     using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
                     {
                         if (FrmDashboard.XYDalvalue)
-                            frmzout.ShowDialog();
+                            ShowDialogWithBlur(frmzout);
                         else
                             frmzout.PrintAll();
                     }
@@ -1957,7 +2242,7 @@ namespace FoodandBeverage.Forms
                     {
                         clsgen.TrackZoutLog("POSDashboard", "ZOUT_SHOW_DIALOG_START", "Opening FrmZout.ShowDialog()");
 
-                        frmzout.ShowDialog();
+                        ShowDialogWithBlur(frmzout);
 
                         clsgen.TrackZoutLog("POSDashboard", "ZOUT_SHOW_DIALOG_RETURN", "FrmZout.ShowDialog() returned");
                     }
