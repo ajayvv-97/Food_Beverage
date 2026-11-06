@@ -3986,9 +3986,11 @@ namespace FoodandBeverage.Forms
                         btn_print_bill.Visible = false;
                         btn_promo_code.Visible = false;
                         btn_PrintCopy.Visible = false;
-                        if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                        if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage) ||
+                            sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
                         {
-                            //btndirectpaybill.Visible = true;
+                            // Pickup and Takeaway use the same KOT print action.
+                            // Do not show the separate Save KOT button on either page.
                             btn_savekot_print.Visible = true;
                             btn_saveKOT.Visible = false;
                             btn_promo_code.Visible = true;
