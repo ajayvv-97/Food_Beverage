@@ -336,6 +336,7 @@ namespace FoodandBeverage.Forms
 
                 _partyBookingKotService = new PartyBookingKotSchedulerService(BranchId, UserId);
                 _partyBookingKotService.UpcomingBookingsFound += ShowUpcomingPartyBookings;
+                _partyBookingKotService.UpcomingBookingsUpdated += UpdateUpcomingPartyBookings;
                 _partyBookingKotService.ProcessingFailed += PartyBookingKotProcessingFailed;
                 _partyBookingKotService.Start();
             }
@@ -368,8 +369,37 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                openPopup.UpdateBookings(bookings);
+                // The update event supplies the full current list immediately
+                // after this notification. Do not replace existing rows with
+                // only the newly discovered booking subset here.
                 openPopup.BringToFront();
+            }
+        }
+
+        private void UpdateUpcomingPartyBookings(IList<PartyBookingReminder> bookings)
+        {
+            if (IsDisposed)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<IList<PartyBookingReminder>>(UpdateUpcomingPartyBookings), bookings);
+                return;
+            }
+
+            FrmUpcomingPartyBookings openPopup =
+                Application.OpenForms["FrmUpcomingPartyBookings"] as FrmUpcomingPartyBookings;
+
+            if (openPopup == null || openPopup.IsDisposed)
+                return;
+
+            openPopup.UpdateBookings(bookings);
+
+            if (bookings == null || bookings.Count == 0)
+            {
+                openPopup.Close();
+                if (ReferenceEquals(_upcomingPartyBookingsPopup, openPopup))
+                    _upcomingPartyBookingsPopup = null;
             }
         }
 
