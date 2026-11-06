@@ -1380,6 +1380,15 @@ namespace FoodandBeverage.Forms
 
                 foreach (var orders in distinctOrders)
                 {
+                    // Use the same daily Pickup / Takeaway token lookup as the kitchen order card.
+                    Tuple<int, string> dailyOrderToken =
+                        GetDailyOrderToken(Convert.ToInt32(orders.Field1));
+
+                    string dailyTokenDisplay =
+                        dailyOrderToken != null && !string.IsNullOrWhiteSpace(dailyOrderToken.Item2)
+                            ? dailyOrderToken.Item2.Trim()
+                            : string.Empty;
+
                     #region Crystal Report Declaration
                     DataSet dsReport = new DataSet();
                     DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
@@ -1450,7 +1459,12 @@ namespace FoodandBeverage.Forms
                         GuestDetails = item.GuestDetails,
                         Orderno= orders.Field2,
                         PriorityType= item.PriorityType,
-                        TokenNo= item.TokenNo
+                        TokenNo = !string.IsNullOrWhiteSpace(dailyTokenDisplay)
+                            ? dailyTokenDisplay
+                            : (!string.IsNullOrWhiteSpace(item.TokenNo) &&
+                               item.TokenNo.Trim() != "0"
+                                ? item.TokenNo.Trim()
+                                : string.Empty)
                     }).ToList();
 
                     //if (item.VariatiionNam != null && item.VariatiionNam != "")
