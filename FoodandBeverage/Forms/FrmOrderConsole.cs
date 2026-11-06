@@ -9417,6 +9417,7 @@ namespace FoodandBeverage.Forms
                         PriorityType = 1,
                         CounterKotNo = CounterKotNo,
                         Billtype = btype,
+                        TokenNo='0',
                     });
                 }
 
@@ -9441,7 +9442,7 @@ namespace FoodandBeverage.Forms
                         "TableType", "AddonStatus", "MainCategoryCount",
                         "offeritemname", "offerqty", "Kitchennumber",
                         "TotalQTY", "Pkid", "EmployeeName", "Station",
-                        "GuestDetails", "Orderno", "PriorityType", "CounterKotNo", "Billtype"))
+                        "GuestDetails", "Orderno", "PriorityType", "CounterKotNo", "Billtype", "TokenNo"))
                     {
                         dtSalesDetail.Load(reader);
                     }
@@ -9501,7 +9502,7 @@ namespace FoodandBeverage.Forms
             public int PriorityType { get; set; }
             public int CounterKotNo { get; set; }
             public int Billtype { get; set; }
-
+            public string TokenNo { get; set; }
 
         }
         private void btn_refresh_Click(object sender, EventArgs e)

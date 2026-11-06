@@ -1111,11 +1111,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page btn_backCompleorder_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
-
-
         }
         private void btn_serach_prev_bill_Click(object sender, EventArgs e)
         {

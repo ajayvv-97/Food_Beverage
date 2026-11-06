@@ -1169,6 +1169,7 @@ namespace FoodandBeverage.Forms
                     else
                         btnsave.Enabled = false;
                 }
+
                 txtdocno.Focus();
                 ClearAll();
                 FillCombobox();
