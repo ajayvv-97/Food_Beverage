@@ -1853,7 +1853,8 @@ namespace FoodandBeverage.Forms
                     cmb_tblcode.Visible = false;
                     lbltablecode.Visible = true;
 
-                    lbltablecode.Text = Convert.ToString(gridSourcemaster[0].Kitchennumber);
+                    // Show the daily Pickup token (for example P005), not the kitchen serial number.
+                    lbltablecode.Text = GetOrderTokenDisplay(Convert.ToInt32(gridSourcemaster[0].OrderMasterId));
                     lbltablecode_header.Text = "PICK UP TOCKEN NO ";
 
                     lblorderid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
