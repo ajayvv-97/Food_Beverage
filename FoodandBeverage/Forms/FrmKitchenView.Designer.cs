@@ -272,7 +272,7 @@ namespace FoodandBeverage.Forms
             this.cmbserachtype.Items.AddRange(new object[] {
             "Kitchen Number",
             "Table Code",
-            "Pickup No"});
+            "Daily Token No"});
             this.cmbserachtype.Location = new System.Drawing.Point(2, 2);
             this.cmbserachtype.Margin = new System.Windows.Forms.Padding(2);
             this.cmbserachtype.Name = "cmbserachtype";
