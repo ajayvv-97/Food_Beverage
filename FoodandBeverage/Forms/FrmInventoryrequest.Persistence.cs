@@ -331,7 +331,8 @@ namespace FoodandBeverage.Forms
             dgv_raw.Rows.Clear();
             _originalIngredientQuantities.Clear();
             _visibleIngredientProductId = 0;
-            _loadedRequestDetails = details ?? new List<DmnInventoryRequestDetail>();
+            _loadedRequestDetails = NormalizeLoadedRequestDetails(
+                details ?? new List<DmnInventoryRequestDetail>());
 
             txt_reqno.Text = master.RequestNo ?? string.Empty;
             dtp_reqdate.Value = master.RequestDate == DateTime.MinValue ? DateTime.Today : master.RequestDate;
@@ -360,6 +361,10 @@ namespace FoodandBeverage.Forms
                 row.Cells[Brecipeingredientsno].Value = "View ingredients";
                 row.Cells[Bactionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Bitemidno].Value = product.Key;
+                row.Cells[BInventoryRequestDetailIdno].Value = product
+                    .OrderBy(x => x.SlNo ?? int.MaxValue)
+                    .Select(x => x.InventoryRequestDetailId)
+                    .FirstOrDefault();
             }
 
             foreach (DmnInventoryRequestDetail detail in _loadedRequestDetails
@@ -380,6 +385,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Ractionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Ritemidno].Value = detail.ItemId.Value;
                 row.Cells[Rproducttypeno].Value = detail.ProductType ?? 2;
+                row.Cells[RInventoryRequestDetailIdno].Value = detail.InventoryRequestDetailId;
             }
 
             if (dgv_batch.Rows.Count > 0)
