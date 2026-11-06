@@ -335,7 +335,7 @@ namespace FoodandBeverage.Forms
                 card.AccessibleDescription = Convert.ToString(item.Field1);
                 card.AccessibleName = cancelledByKitchen ? "1" : "0";
                 card.SetPickupData(
-                    Convert.ToString(item.Field5),
+                    Convert.ToString(item.Field6),
                     orderStatus,
                     cancelCount,
                     cancelledByKitchen);
@@ -1249,46 +1249,63 @@ namespace FoodandBeverage.Forms
         {
             textb_shape();
         }  
-        private void btnsearch_Click(object sender, EventArgs e)
+        private void SearchPickupByToken()
         {
             try
             {
-                if( txtPkid_search.Text!= "Token No ....")
+                string tokenNumber = (txtPkid_search.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(tokenNumber) || tokenNumber == "Token No ....")
                 {
-                    AutoTimer.Stop();
-                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                    DmnSearch dmnSearch = new DmnSearch();
-                    dmnSearch.Select = "PkId Field1,PickupOrderFlag Field2,OrderMasterId Field3,NetAmount Field4,KitchenNumber Field5,pkid Field6";
-                    dmnSearch.Table = "tblOrderMaster";
-                    dmnSearch.WhereNdGroupBy = "WHERE Status in(1,2) and  Pkid = " + txtPkid_search.Text;
-                    dmnSearch.OrderBy = "";
-                    TableData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    if (TableData.Count > 0)
-                    {
-                        lblpagerinfo.Text = $"Page {currentPage} of {totalPages} | Total Records: {TableData.Count}";
-                        if (TableData.Count == 0)
-                            return;
+                    CMessageBox.Show("Please Enter A Token Number.", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtPkid_search.Focus();
+                    return;
+                }
 
-                                DisplayPickupSearchResults(TableData);
-                    }
-                    else
-                    {
-                        CMessageBox.Show("Please Enter Valid Tocken Number", "Infromation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
+                AutoTimer.Stop();
+
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch
+                {
+                    Select =
+                        "om.PkId AS Field1, om.PickupOrderFlag AS Field2, " +
+                        "om.OrderMasterId AS Field3, om.NetAmount AS Field4, " +
+                        "om.KitchenNumber AS Field5, " +
+                        "ISNULL(NULLIF(LTRIM(RTRIM(ot.TokenDisplay)), ''), '') AS Field6, " +
+                        "om.IsCustomerInformedCancel AS Field7",
+                    Table =
+                        "dbo.tblOrderMaster om INNER JOIN dbo.tblOrderToken ot " +
+                        "ON ot.OrderMasterId = om.OrderMasterId AND ot.OrderTypeId = 1",
+                    WhereNdGroupBy =
+                        "WHERE om.Status IN (1,2) AND om.PickupOrderFlag = 1 " +
+                        "AND ot.TokenDisplay = '" + tokenNumber.Replace("'", "''") + "'",
+                    OrderBy = ""
+                };
+
+                TableData = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (TableData != null && TableData.Count > 0)
+                {
+                    lblpagerinfo.Text =
+                        $"Page {currentPage} of {totalPages} | Total Records: {TableData.Count}";
+                    DisplayPickupSearchResults(TableData);
                 }
                 else
                 {
-                    CMessageBox.Show("Please Enter A Token Number.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    txtPkid_search.Focus();
+                    CMessageBox.Show("Please Enter A Valid Token Number.", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    AutoTimer.Start();
                 }
-
-
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Pickuppage page  LoadPickupView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                clsgen.LogException("Pickuppage SearchPickupByToken()", ex, FrmLogin.EmployeName,
+                    FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
             }
+        }
+
+        private void btnsearch_Click(object sender, EventArgs e)
+        {
+            SearchPickupByToken();
         }
         private void txtPkid_search_Leave(object sender, EventArgs e)
         {
@@ -1308,37 +1325,9 @@ namespace FoodandBeverage.Forms
         }
         private void txtPkid_search_KeyDown(object sender, KeyEventArgs e)
         {
-            try
+            if (e.KeyCode == Keys.Enter)
             {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    AutoTimer.Stop();
-                    BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                    DmnSearch dmnSearch = new DmnSearch();
-                    dmnSearch.Select = "PkId Field1,PickupOrderFlag Field2,OrderMasterId Field3,NetAmount Field4,KitchenNumber Field5,pkid Field6";
-                    dmnSearch.Table = "tblOrderMaster";
-                    dmnSearch.WhereNdGroupBy = "WHERE Status in(1,2) and  Pkid = " + txtPkid_search.Text;
-                    dmnSearch.OrderBy = "";
-                    TableData = bllSearch.GetSearchData("prdSearch", dmnSearch);
-                    if (TableData.Count > 0)
-                    {
-                        lblpagerinfo.Text = $"Page {currentPage} of {totalPages} | Total Records: {TableData.Count}";
-                        if (TableData.Count == 0)
-                            return;
-
-                                DisplayPickupSearchResults(TableData);
-                    }
-                    else
-                    {
-                        CMessageBox.Show("Please Enter Valid Tocken Number", "Infromation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Pickuppage page  LoadPickupView()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Pickuppage));
+                SearchPickupByToken();
             }
         }
         private void txtPkid_search_KeyPress(object sender, KeyPressEventArgs e)
