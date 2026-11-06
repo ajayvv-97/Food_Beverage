@@ -59,6 +59,7 @@ namespace FoodandBeverage.Services
         private bool _disposed;
 
         public event Action<IList<PartyBookingReminder>> UpcomingBookingsFound;
+        public event Action<IList<PartyBookingReminder>> UpcomingBookingsUpdated;
         public event Action<int, Exception> ProcessingFailed;
 
         public PartyBookingKotSchedulerService(int branchId, int employeeId)
@@ -98,15 +99,25 @@ namespace FoodandBeverage.Services
                 IList<PartyBookingReminder> upcoming =
                     await Task.Run(() => LoadUpcomingBookings());
 
+                // Keep the reminder cache limited to bookings which are still
+                // in the upcoming window. A booking can then be removed from the
+                // popup as soon as its KOT time arrives or it is rescheduled.
+                HashSet<int> currentUpcomingIds = new HashSet<int>(
+                    upcoming.Select(x => x.PartyBookingId));
+                _remindedBookingIds.RemoveWhere(id => !currentUpcomingIds.Contains(id));
+
                 List<PartyBookingReminder> newReminders = upcoming
-                    .Where(x => !_remindedBookingIds.Contains(x.PartyBookingId))
+                    .Where(x => _remindedBookingIds.Add(x.PartyBookingId))
                     .ToList();
 
-                foreach (PartyBookingReminder reminder in newReminders)
-                    _remindedBookingIds.Add(reminder.PartyBookingId);
-
+                // Notify only once when a new booking enters the reminder window.
                 if (newReminders.Count > 0 && UpcomingBookingsFound != null)
                     UpcomingBookingsFound(newReminders);
+
+                // Also refresh an already-open popup with the complete current list.
+                Action<IList<PartyBookingReminder>> updatedHandler = UpcomingBookingsUpdated;
+                if (updatedHandler != null)
+                    updatedHandler(upcoming);
 
                 List<int> dueBookingIds = await Task.Run(() => LoadDueBookingIds());
                 foreach (int bookingId in dueBookingIds)
