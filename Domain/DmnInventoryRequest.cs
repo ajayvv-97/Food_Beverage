@@ -54,6 +54,7 @@ namespace Domain
     public class DmnInventoryRequestIngredient
     {
         public int IngredientDetailId { get; set; }
+        public int InventoryRequestDetailId { get; set; }
         public int ItemId { get; set; }
         public string IngredientName { get; set; }
         public decimal PerPortionQty { get; set; }
