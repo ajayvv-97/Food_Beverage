@@ -63,6 +63,11 @@ namespace Domain
         public string TaxType { get; set; }
         public int? TaxSettingId { get; set; }
         public string PackigHsncode { get; set; }
+
+        // 1 = all order types share one daily token sequence
+        // 2 = Pickup, Takeaway and Delivery use separate sequences
+        // 3 = Pickup + Takeaway share; Delivery is separate
+        public int DailyTokenMode { get; set; } = 2;
     }
 
 }
