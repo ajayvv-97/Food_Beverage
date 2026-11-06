@@ -364,6 +364,10 @@ namespace FoodandBeverage.Forms
             OrderCancelStatus = cdstatus;
 
             InitializeComponent();
+
+            // Resolve the daily token group before any order-save procedure is called.
+            ApplyDailyTokenGroupingMode();
+
             InitializeBlurPopupSupport();
             tlp_netalc_buttons.SizeChanged += delegate { ConfigureResponsiveOperationButtons(); };
 
@@ -378,6 +382,108 @@ namespace FoodandBeverage.Forms
             f10Strike = new Font(f10, FontStyle.Strikeout);
             f10Bold = new Font(f10, FontStyle.Bold);
         }
+
+        #region Daily Token Grouping
+
+        private int GetConfiguredDailyTokenMode()
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch search = new DmnSearch
+                {
+                    Select = "ISNULL(DailyTokenMode, 2) AS Field1",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = "WHERE BranchId = " + FrmDashboard.BranchId + " AND Status = 1",
+                    OrderBy = "ORDER BY Gid DESC"
+                };
+
+                List<DmnGridFields> rows = bllSearch.GetSearchData("prdSearch", search);
+                int mode;
+                if (rows != null && rows.Count > 0 &&
+                    int.TryParse(Convert.ToString(rows[0].Field1), out mode) &&
+                    Enum.IsDefined(typeof(DailyTokenGroupingMode), mode))
+                {
+                    return mode;
+                }
+            }
+            catch (Exception ex)
+            {
+                // If the database column has not been added yet, keep the legacy
+                // behavior (separate Pickup / Takeaway token sequences).
+                clsgen.LogException("Order Console GetConfiguredDailyTokenMode()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+            return Convert.ToInt32(DailyTokenGroupingMode.SeparateByOrderType);
+        }
+
+        private int GetExistingDailyTokenType(int orderMasterId)
+        {
+            if (orderMasterId <= 0)
+                return 0;
+
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch search = new DmnSearch
+                {
+                    Select = "OrderTypeId AS Field1",
+                    Table = "tblOrderToken",
+                    WhereNdGroupBy = "WHERE OrderMasterId = " + orderMasterId,
+                    OrderBy = "ORDER BY OrderTokenId DESC"
+                };
+
+                List<DmnGridFields> rows = bllSearch.GetSearchData("prdSearch", search);
+                int existingType;
+                if (rows != null && rows.Count > 0 &&
+                    int.TryParse(Convert.ToString(rows[0].Field1), out existingType))
+                {
+                    return existingType;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order Console GetExistingDailyTokenType()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+            return 0;
+        }
+
+        private void ApplyDailyTokenGroupingMode()
+        {
+            if (OrderTypeId <= 0)
+                return;
+
+            // Existing orders keep the token sequence they were originally assigned.
+            int existingTokenType = GetExistingDailyTokenType(OmId);
+            if (existingTokenType > 0)
+            {
+                OrderTypeId = existingTokenType;
+                return;
+            }
+
+            int mode = GetConfiguredDailyTokenMode();
+
+            if (mode == Convert.ToInt32(DailyTokenGroupingMode.AllOrderTypesCombined))
+            {
+                // Pickup, Takeaway and Delivery all use the shared Pickup sequence key.
+                OrderTypeId = Convert.ToInt32(DailyOrderTokenType.Pickup);
+            }
+            else if (mode == Convert.ToInt32(DailyTokenGroupingMode.PickupTakeawayCombined_DeliverySeparate))
+            {
+                // Pickup and Takeaway share; Delivery keeps its own token sequence.
+                if (OrderTypeId == Convert.ToInt32(DailyOrderTokenType.Pickup) ||
+                    OrderTypeId == Convert.ToInt32(DailyOrderTokenType.Takeaway))
+                {
+                    OrderTypeId = Convert.ToInt32(DailyOrderTokenType.Pickup);
+                }
+            }
+            // SeparateByOrderType: preserve Pickup=1, Takeaway=2, Delivery=3.
+        }
+
+        #endregion
 
         #region Blur Popup Overlay
 
