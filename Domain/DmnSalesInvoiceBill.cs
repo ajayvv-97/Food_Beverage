@@ -47,7 +47,8 @@ namespace Domain
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public Decimal Roundoff { get; set; }
-        
+        public string TokenNo { get; set; }
     }
+    
 
 }
