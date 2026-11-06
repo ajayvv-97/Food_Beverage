@@ -352,11 +352,36 @@ namespace FoodandBeverage.SaleBill
                    " S.OaAmount, S.OdAmount, S.Remarks, S.PaymentMode, " +
                    " S.PromoDId, S.PromoAmount, S.AdvanceAmount, " +
                    " S.ReservationTotal, S.PkChargeAmount, " +
-                   " S.Rev_Status, S.OrderType, S.PkId ,s.Cusid,s.Gender,s.FirstName,s.SecondName,s.Roundoff";
+                   " S.Rev_Status, S.OrderType, S.PkId ,s.Cusid,s.Gender,s.FirstName,s.SecondName,s.Roundoff, S.OrderMasterId";
 
                 dmnSearchInvoiceBill.Table = " tblSalesMaster AS S";
                 dmnSearchInvoiceBill.WhereNdGroupBy = " WHERE S.SalesMasterId = " + SalesMasterId;
                 var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
+
+                // Resolve the daily Pickup / Takeaway token from the linked order.
+                // The OrderMasterId is taken from tblSalesMaster above.
+                invoiceBillMasters[0].TokenNo = string.Empty;
+                int orderMasterIdForToken = invoiceBillMasters[0].OrderMasterId;
+                if (orderMasterIdForToken > 0)
+                {
+                    BllSearch<DmnGridFields> bllTokenSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnTokenSearch = new DmnSearch
+                    {
+                        Select = "TokenDisplay AS Field1",
+                        Table = "tblOrderToken",
+                        WhereNdGroupBy = "WHERE OrderMasterId = " + orderMasterIdForToken,
+                        OrderBy = ""
+                    };
+
+                    var tokenRows = bllTokenSearch.GetSearchData("prdSearch", dmnTokenSearch);
+                    if (tokenRows != null && tokenRows.Count > 0)
+                    {
+                        string tokenDisplay = Convert.ToString(tokenRows[0].Field1);
+                        if (!string.IsNullOrWhiteSpace(tokenDisplay) && tokenDisplay.Trim() != "0")
+                            invoiceBillMasters[0].TokenNo = tokenDisplay.Trim();
+                    }
+                }
+
                 netamount_api = invoiceBillMasters[0].NetAmount;
                 invoiceno_api = invoiceBillMasters[0].EntryNo;
                 cusname_api = invoiceBillMasters[0].CusName;
