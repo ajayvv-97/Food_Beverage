@@ -246,7 +246,7 @@ namespace FoodandBeverage.Forms
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 138F));
+            this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
             this.tlp_search.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tlp_search.Controls.Add(this.cmbserachtype, 0, 0);
             this.tlp_search.Controls.Add(this.btnsearch, 1, 0);
@@ -286,7 +286,7 @@ namespace FoodandBeverage.Forms
             this.btnsearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnsearch.FlatAppearance.BorderSize = 0;
             this.btnsearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnsearch.Location = new System.Drawing.Point(324, 3);
+            this.btnsearch.Location = new System.Drawing.Point(323, 3);
             this.btnsearch.Name = "btnsearch";
             this.btnsearch.Size = new System.Drawing.Size(37, 36);
             this.btnsearch.TabIndex = 8;
@@ -300,7 +300,7 @@ namespace FoodandBeverage.Forms
             this.btn_cancelprintcount.FlatAppearance.BorderSize = 0;
             this.btn_cancelprintcount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cancelprintcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_cancelprintcount.Location = new System.Drawing.Point(688, 3);
+            this.btn_cancelprintcount.Location = new System.Drawing.Point(687, 3);
             this.btn_cancelprintcount.Name = "btn_cancelprintcount";
             this.btn_cancelprintcount.Size = new System.Drawing.Size(58, 36);
             this.btn_cancelprintcount.TabIndex = 7;
@@ -316,7 +316,7 @@ namespace FoodandBeverage.Forms
             this.txtsearchData.Location = new System.Drawing.Point(148, 3);
             this.txtsearchData.Multiline = true;
             this.txtsearchData.Name = "txtsearchData";
-            this.txtsearchData.Size = new System.Drawing.Size(170, 36);
+            this.txtsearchData.Size = new System.Drawing.Size(169, 36);
             this.txtsearchData.TabIndex = 1;
             this.txtsearchData.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtsearchData.Enter += new System.EventHandler(this.txtorderid_search_Enter);
@@ -330,7 +330,7 @@ namespace FoodandBeverage.Forms
             this.btn_refresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_refresh.FlatAppearance.BorderSize = 0;
             this.btn_refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_refresh.Location = new System.Drawing.Point(367, 3);
+            this.btn_refresh.Location = new System.Drawing.Point(366, 3);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(42, 36);
             this.btn_refresh.TabIndex = 3;
@@ -344,7 +344,7 @@ namespace FoodandBeverage.Forms
             this.btnprintcount.FlatAppearance.BorderSize = 0;
             this.btnprintcount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnprintcount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnprintcount.Location = new System.Drawing.Point(557, 3);
+            this.btnprintcount.Location = new System.Drawing.Point(556, 3);
             this.btnprintcount.Name = "btnprintcount";
             this.btnprintcount.Size = new System.Drawing.Size(53, 36);
             this.btnprintcount.TabIndex = 5;
@@ -359,7 +359,7 @@ namespace FoodandBeverage.Forms
             this.btntotalorders.FlatAppearance.BorderSize = 0;
             this.btntotalorders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btntotalorders.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btntotalorders.Location = new System.Drawing.Point(622, 3);
+            this.btntotalorders.Location = new System.Drawing.Point(621, 3);
             this.btntotalorders.Name = "btntotalorders";
             this.btntotalorders.Size = new System.Drawing.Size(58, 36);
             this.btntotalorders.TabIndex = 6;
@@ -372,7 +372,7 @@ namespace FoodandBeverage.Forms
             this.lblprintloading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblprintloading.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblprintloading.ForeColor = System.Drawing.Color.Red;
-            this.lblprintloading.Location = new System.Drawing.Point(415, 0);
+            this.lblprintloading.Location = new System.Drawing.Point(414, 0);
             this.lblprintloading.Name = "lblprintloading";
             this.lblprintloading.Size = new System.Drawing.Size(136, 42);
             this.lblprintloading.TabIndex = 7;

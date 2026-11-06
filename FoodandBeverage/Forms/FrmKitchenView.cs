@@ -22,7 +22,7 @@ using Microsoft.AspNet.SignalR.Client;
 
 namespace FoodandBeverage.Forms
 {
-    public partial class FrmKitchenView : Form
+    public partial class FrmKitchenView  : Form
     {
         private SoundPlayer soundPlayer;
         ReportDocument reportDocument = new ReportDocument();
@@ -1450,6 +1450,7 @@ namespace FoodandBeverage.Forms
                         GuestDetails = item.GuestDetails,
                         Orderno= orders.Field2,
                         PriorityType= item.PriorityType,
+                        TokenNo= item.TokenNo
                     }).ToList();
 
                     //if (item.VariatiionNam != null && item.VariatiionNam != "")
@@ -1492,13 +1493,16 @@ namespace FoodandBeverage.Forms
                                   processedItem.GuestDetails,
                                   processedItem.Orderno,
                                   processedItem.PriorityType,
+                                  processedItem.TokenNo,
 
                               })
                         .ToList();
 
                     if (mergedData != null && mergedData.Count > 0)
                     {
-                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType"))
+                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId",
+                            "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY",
+                            "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType", "TokenNo"))
                         {
                             dtSalesDetail.Load(reader);
                         }
