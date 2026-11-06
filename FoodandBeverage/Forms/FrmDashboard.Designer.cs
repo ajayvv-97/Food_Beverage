@@ -3190,6 +3190,16 @@ namespace FoodandBeverage.Forms
             this.btn_takeaway.UseVisualStyleBackColor = true;
             this.btn_takeaway.Visible = false;
             this.btn_takeaway.Click += new System.EventHandler(this.btn_takeaway_Click);
+            //
+            // Add the table status toolbar controls to their intended cells.
+            //
+            this.tlp_tablestatus.Controls.Add(this.btntrefresh, 0, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_avial, 1, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_running, 2, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_rev, 3, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_pickup, 4, 0);
+            this.tlp_tablestatus.Controls.Add(this.btn_takeaway, 5, 0);
+            this.tlp_tablestatus.Controls.Add(this.lblsync, 6, 0);
             // 
             // lbl_time
             // 
