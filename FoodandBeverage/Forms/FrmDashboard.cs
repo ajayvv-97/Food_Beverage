@@ -3734,7 +3734,7 @@ namespace FoodandBeverage.Forms
                     CheckedtableNames,
                     Convert.ToInt32(PageType.Billpage),
                     0,
-                    Convert.ToInt32(SourcepageType.Pickuppage),
+                    Convert.ToInt32(SourcepageType.Takeawaypage),
                     0,
                     2))
                 {

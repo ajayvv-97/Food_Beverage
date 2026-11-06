@@ -338,7 +338,8 @@ namespace FoodandBeverage.Interfaces
     {
         Tableviewpage = 1,
         Billingpage = 2,
-        Pickuppage = 3
+        Pickuppage = 3,
+        Takeawaypage = 4
     }
     public enum CombinedBillType
     {
