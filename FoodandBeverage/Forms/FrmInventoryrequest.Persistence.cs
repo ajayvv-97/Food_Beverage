@@ -270,7 +270,8 @@ namespace FoodandBeverage.Forms
                 new BllSearch<DmnInventoryRequestDetail>();
             DmnSearch detailSearch = new DmnSearch
             {
-                Select = "d.DraftDetailId AS InventoryRequestDetailId, " +
+                Select = "CAST(0 AS INT) AS InventoryRequestDetailId, " +
+                         "d.DraftDetailId AS DraftDetailId, " +
                          "d.DraftId AS InventoryRequestId, d.RequestType, d.SlNo, " +
                          "d.ProductId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty, " +
                          "d.TotalRequiredQty, d.ItemId, d.ProductType, d.CurrentStock, " +
