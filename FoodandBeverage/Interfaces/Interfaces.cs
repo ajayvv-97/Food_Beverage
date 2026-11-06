@@ -356,6 +356,22 @@ namespace FoodandBeverage.Interfaces
         Combined_pick_normal_Order=2,
         Pickup_DirectSale = 3,
     }
+
+    // Daily token grouping configuration stored in tblGeneralSetting.DailyTokenMode.
+    public enum DailyTokenGroupingMode
+    {
+        AllOrderTypesCombined = 1,
+        SeparateByOrderType = 2,
+        PickupTakeawayCombined_DeliverySeparate = 3
+    }
+
+    // Stable OrderTypeId values used by tblOrderToken.
+    public enum DailyOrderTokenType
+    {
+        Pickup = 1,
+        Takeaway = 2,
+        Delivery = 3
+    }
     public enum ButtonType
     {
         refresh = 0,
