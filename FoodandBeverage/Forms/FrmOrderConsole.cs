@@ -9264,7 +9264,7 @@ namespace FoodandBeverage.Forms
                                 FrmDashboard.UserId);
                         }
 
-                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Tableorder));
+                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Tableorder), InsertStatusP != null ? InsertStatusP.OrderMasterId : 0);
                     }
                     if (flage == false)
                     {
@@ -9346,8 +9346,35 @@ namespace FoodandBeverage.Forms
 
             }
         }
-        private void PrintOrderNokot(int btype)
+        private string GetOrderTokenDisplay(int orderMasterId)
         {
+            if (orderMasterId <= 0)
+                return string.Empty;
+
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "TokenDisplay AS Field1";
+                dmnSearch.Table = "tblOrderToken";
+                dmnSearch.WhereNdGroupBy = "WHERE OrderMasterId = " + orderMasterId;
+                dmnSearch.OrderBy = "";
+
+                var tokenRows = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (tokenRows != null && tokenRows.Count > 0)
+                    return Convert.ToString(tokenRows[0].Field1).Trim();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page GetOrderTokenDisplay()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+            return string.Empty;
+        }
+
+        private void PrintOrderNokot(int btype, int orderMasterId = 0)
+        {
+            string tokenDisplay = GetOrderTokenDisplay(orderMasterId);
             ReportDocument reportDocument = new ReportDocument();
 
             try
@@ -9417,7 +9444,7 @@ namespace FoodandBeverage.Forms
                         PriorityType = 1,
                         CounterKotNo = CounterKotNo,
                         Billtype = btype,
-                        TokenNo='0',
+                        TokenNo = tokenDisplay,
                     });
                 }
 
@@ -10482,7 +10509,9 @@ namespace FoodandBeverage.Forms
                         }
                         #endregion
 
-                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder));
+                        int tokenOrderMasterIdForPickup = 0;
+                        int.TryParse(lblorderid.Text, out tokenOrderMasterIdForPickup);
+                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder), tokenOrderMasterIdForPickup);
                     }
                     #endregion
 
@@ -11566,7 +11595,7 @@ namespace FoodandBeverage.Forms
                                 #endregion
 
                                 CounterKotNo = dmnsalemaster.PkId;
-                                PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder));
+                                PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder), GBL_omid);
 
                             }
                             else
