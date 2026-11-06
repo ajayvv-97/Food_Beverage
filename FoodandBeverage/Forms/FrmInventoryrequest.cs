@@ -144,6 +144,7 @@ namespace FoodandBeverage.Forms
         public int Brecipeingredientsno = 4;
         public int Bactionno = 5;
         public int Bitemidno = 6;
+        public int BInventoryRequestDetailIdno = 7;
 
         // Batch ingredient grid
         public int BIslno = 0;
@@ -169,9 +170,10 @@ namespace FoodandBeverage.Forms
         public int Ractionno = 7;
         public int Ritemidno = 8;
         public int Rproducttypeno = 9;
+        public int RInventoryRequestDetailIdno = 10; 
         #endregion
 
-        public FrmInventoryrequest()
+        public FrmInventoryrequest() 
         {
             InitializeComponent();
 
