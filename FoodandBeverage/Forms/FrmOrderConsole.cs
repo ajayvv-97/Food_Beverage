@@ -10840,17 +10840,18 @@ namespace FoodandBeverage.Forms
                             if (Convert.ToInt32(txtsalemasterid.Text) > 0)
                                 reorderpickupflag = true;
                             int GBL_pkid = 0, GBL_omid = 0;
+                            bool flage = false;
+                            BllOrder bll_order = new BllOrder();
+
                             if (KOT_saleprint_status)
                             {
                                 if (MandatoryCheck_KOT())
                                 {
                                     #region Order Master
                                     setKitchenperfix();
-                                    bool flage = false;
 
                                     DmnOrderMaster dmnordermaster = new DmnOrderMaster();
                                     DmnOrderDetails dmnorderdetail = new DmnOrderDetails();
-                                    BllOrder bll_order = new BllOrder();
                                     dmnordermaster.BookmasterId = Bookingmasterid;
                                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                                     dmnordermaster.EntryNo = "";
