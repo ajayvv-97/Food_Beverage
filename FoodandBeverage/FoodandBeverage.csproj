@@ -485,6 +485,7 @@
     <Compile Include="Forms\FrmOrderView.Designer.cs">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmUpcomingPartyBookings.cs" />
     <Compile Include="Forms\FrmPartyBooking.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -971,6 +972,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\PartyBookingKotSchedulerService.cs" />
     <EmbeddedResource Include="Forms\FrmAddon.resx">
       <DependentUpon>FrmAddon.cs</DependentUpon>
     </EmbeddedResource>
@@ -2473,6 +2475,7 @@
     <None Include="Resources\reg_certificate icon.png" />
     <None Include="Resources\reg_view icon.png" />
     <None Include="Resources\reg_download icon.png" />
+    <None Include="Database\PartyBookingKOT_Scheduler.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

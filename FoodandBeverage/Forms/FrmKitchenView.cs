@@ -18,6 +18,7 @@ using FastMember;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Controls;
 using FoodandBeverage.Interfaces;
+using FoodandBeverage.Services;
 using Microsoft.AspNet.SignalR.Client;
 
 namespace FoodandBeverage.Forms
@@ -3049,6 +3050,13 @@ namespace FoodandBeverage.Forms
             refreshtimer.Stop();
             try
             {
+                // Party booking Kitchen KOTs are pulled by the Kitchen PC and
+                // printed on this workstation's default kitchen printer.
+                PartyBookingKOTQueuePrinter.ProcessPendingAsync(
+                    FrmDashboard.BranchId,
+                    Convert.ToInt32(KOTRouting.kitchen),
+                    FrmDashboard.UserId);
+
                 FillOrders();
                 PrintOrderAsync();
                 PrintcancelOrder();

@@ -106,6 +106,9 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
         private BlurPopupOverlay _dashboardBlurOverlay;
         private bool _loadingPackingTaxControls;
+        private PartyBookingKotSchedulerService _partyBookingKotService;
+        private FrmUpcomingPartyBookings _upcomingPartyBookingsPopup;
+        private readonly HashSet<int> _reportedPartyBookingKOTFailures = new HashSet<int>();
 
         /*permission checking for manager and supervisor*/
         public static bool AllowCashDrawer = false;
@@ -319,8 +322,74 @@ namespace FoodandBeverage.Forms
 
             StyleReportMenu();
             virtualkeyboardCheck();
+
             Taxfill();
+            StartPartyBookingKotScheduler();
         }
+
+        private void StartPartyBookingKotScheduler()
+        {
+            try
+            {
+                if (_partyBookingKotService != null)
+                    _partyBookingKotService.Dispose();
+
+                _partyBookingKotService = new PartyBookingKotSchedulerService(BranchId, UserId);
+                _partyBookingKotService.UpcomingBookingsFound += ShowUpcomingPartyBookings;
+                _partyBookingKotService.ProcessingFailed += PartyBookingKotProcessingFailed;
+                _partyBookingKotService.Start();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Dashboard StartPartyBookingKotScheduler()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ShowUpcomingPartyBookings(IList<PartyBookingReminder> bookings)
+        {
+            if (IsDisposed || bookings == null || bookings.Count == 0)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<IList<PartyBookingReminder>>(ShowUpcomingPartyBookings), bookings);
+                return;
+            }
+
+            FrmUpcomingPartyBookings openPopup =
+                Application.OpenForms["FrmUpcomingPartyBookings"] as FrmUpcomingPartyBookings;
+
+            if (openPopup == null || openPopup.IsDisposed)
+            {
+                _upcomingPartyBookingsPopup = new FrmUpcomingPartyBookings(bookings);
+                _upcomingPartyBookingsPopup.Show(this);
+            }
+            else
+            {
+                openPopup.UpdateBookings(bookings);
+                openPopup.BringToFront();
+            }
+        }
+
+        private void PartyBookingKotProcessingFailed(int bookingId, Exception exception)
+        {
+            try
+            {
+                if (!_reportedPartyBookingKOTFailures.Add(bookingId))
+                    return;
+
+                string bookingText = bookingId > 0 ? "Party booking #" + bookingId : "Party booking KOT service";
+                NS.Raise(bookingText + " could not complete scheduled KOT processing: " + exception.Message,
+                    bookingId, 0, Color.OrangeRed);
+                clsgen.LogException("Dashboard PartyBookingKotProcessingFailed()", exception,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+            catch { }
+        }
+
         private void LoadMainForm()
         {
             try
@@ -4993,6 +5062,12 @@ namespace FoodandBeverage.Forms
 
             FoodandBeverage.Services.NotificationService.OnNotify
                  -= ShowDashboardNotification;
+
+            if (_partyBookingKotService != null)
+            {
+                _partyBookingKotService.Dispose();
+                _partyBookingKotService = null;
+            }
 
             _notifyIcon?.Dispose();
 
