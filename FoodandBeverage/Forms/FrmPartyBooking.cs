@@ -217,6 +217,7 @@ namespace FoodandBeverage
         private readonly HashSet<Panel> _activeBlurPopupPanels = new HashSet<Panel>();
         private bool _isUpdatingBlurPopup;
         private bool _isBlurPopupReleaseScheduled;
+        private bool _isCalendarDialogBlurVisible;
         private const int BlurPreviewScale = 4;
         private const byte BlurDarkOverlayAlpha = 72;
         #endregion
@@ -500,6 +501,73 @@ namespace FoodandBeverage
         }
 
 
+        /// <summary>
+        /// Shows the existing blurred form snapshot behind a modal calendar form.
+        /// The same PictureBox and cached blur pipeline used by popup panels are reused.
+        /// </summary>
+        private void ShowBlurForCalendarDialog()
+        {
+            if (_isCalendarDialogBlurVisible)
+                return;
+
+            try
+            {
+                // If another in-form popup already owns the blur overlay, keep that
+                // snapshot instead of capturing the already-blurred screen again.
+                if (_activeBlurPopupPanels.Count == 0)
+                {
+                    Bitmap nextBlurImage;
+
+                    using (Bitmap original = CapturePartyBookingForm())
+                    using (Bitmap small = ResizeBlurPreview(
+                        original,
+                        Math.Max(1, original.Width / BlurPreviewScale),
+                        Math.Max(1, original.Height / BlurPreviewScale)))
+                    {
+                        nextBlurImage = CreateDarkBlurPreview(small);
+                    }
+
+                    EnsureBlurPopupPictureBox();
+
+                    Bitmap previousImage = _blurPopupImage;
+                    _blurPopupImage = nextBlurImage;
+                    _blurPopupPictureBox.Image = _blurPopupImage;
+                    _blurPopupPictureBox.Bounds = ClientRectangle;
+                    _blurPopupPictureBox.Visible = true;
+                    _blurPopupPictureBox.BringToFront();
+
+                    if (previousImage != null)
+                        previousImage.Dispose();
+                }
+
+                _isCalendarDialogBlurVisible = true;
+            }
+            catch (Exception ex)
+            {
+                _isCalendarDialogBlurVisible = false;
+
+                clsgen.LogException(
+                    "Partybooking page ShowBlurForCalendarDialog()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+
+                // Do not prevent the calendar from opening if the blur snapshot fails.
+            }
+        }
+
+        /// <summary>
+        /// Removes the modal calendar blur when the dialog and its result handling finish.
+        /// </summary>
+        private void HideBlurForCalendarDialog()
+        {
+            _isCalendarDialogBlurVisible = false;
+
+            if (_activeBlurPopupPanels.Count == 0)
+                ReleaseBlurPopupImage();
+        }
+
         private void PositionBlurOverlayBehindPopup(Panel popup)
         {
             if (popup == null ||
@@ -525,7 +593,7 @@ namespace FoodandBeverage
 
             _activeBlurPopupPanels.Remove(popup);
 
-            if (_activeBlurPopupPanels.Count == 0)
+            if (_activeBlurPopupPanels.Count == 0 && !_isCalendarDialogBlurVisible)
                 ScheduleBlurPopupRelease();
         }
 
@@ -542,7 +610,8 @@ namespace FoodandBeverage
             if (!IsHandleCreated || IsDisposed || Disposing)
             {
                 _isBlurPopupReleaseScheduled = false;
-                ReleaseBlurPopupImage();
+                if (!_isCalendarDialogBlurVisible)
+                    ReleaseBlurPopupImage();
                 return;
             }
 
@@ -555,14 +624,15 @@ namespace FoodandBeverage
                     if (IsDisposed || Disposing)
                         return;
 
-                    if (_activeBlurPopupPanels.Count == 0)
+                    if (_activeBlurPopupPanels.Count == 0 && !_isCalendarDialogBlurVisible)
                         ReleaseBlurPopupImage();
                 });
             }
             catch (InvalidOperationException)
             {
                 _isBlurPopupReleaseScheduled = false;
-                ReleaseBlurPopupImage();
+                if (!_isCalendarDialogBlurVisible)
+                    ReleaseBlurPopupImage();
             }
         }
 
@@ -752,6 +822,7 @@ namespace FoodandBeverage
 
         private void FrmPartyBooking_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _isCalendarDialogBlurVisible = false;
             _activeBlurPopupPanels.Clear();
             ReleaseBlurPopupImage();
 
@@ -10367,10 +10438,20 @@ namespace FoodandBeverage
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowInTaskbar = false;
-                if (frm.ShowDialog(this) == DialogResult.OK && frm.SelectedBookingId > 0)
-                    LoadBookingFromCalendar(frm.SelectedBookingId);
-                else
-                    UpdateSelectedDateLabel();
+
+                ShowBlurForCalendarDialog();
+
+                try
+                {
+                    if (frm.ShowDialog(this) == DialogResult.OK && frm.SelectedBookingId > 0)
+                        LoadBookingFromCalendar(frm.SelectedBookingId);
+                    else
+                        UpdateSelectedDateLabel();
+                }
+                finally
+                {
+                    HideBlurForCalendarDialog();
+                }
             }
         }
 
