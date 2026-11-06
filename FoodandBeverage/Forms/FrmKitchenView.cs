@@ -208,6 +208,7 @@ namespace FoodandBeverage.Forms
             public Label TimeLabel;
             public Label StatusLabel;
             public Label TableCodeLabel;
+            public Label TokenLabel;
             public TextBox Description;
             public PictureBox BtnStart;
             public PictureBox BtnReady;
@@ -366,6 +367,38 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private Tuple<int, string> GetDailyOrderToken(int orderMasterId)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
+                DmnSearch query = new DmnSearch
+                {
+                    Select = "OrderTypeId Field1, TokenDisplay Field2",
+                    Table = "tblOrderToken",
+                    WhereNdGroupBy = "WHERE OrderMasterId = " + orderMasterId,
+                    OrderBy = ""
+                };
+
+                List<DmnGridFields> rows = search.GetSearchData("prdSearch", query);
+                if (rows != null && rows.Count > 0 &&
+                    !string.IsNullOrWhiteSpace(Convert.ToString(rows[0].Field2)))
+                {
+                    return Tuple.Create(
+                        Convert.ToInt32(rows[0].Field1),
+                        Convert.ToString(rows[0].Field2));
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("FrmKitchenView GetDailyOrderToken()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Create a full card (Layout A) for an order and return cache object.
         /// </summary>
@@ -390,7 +423,11 @@ namespace FoodandBeverage.Forms
                 int controlWidth = Math.Max(300, (availableWidth - (columns - 1) * 20) / columns);
                 int controlHeight = Math.Max(230,
                     Math.Min(280, Math.Max(230, flp_order_view.ClientSize.Height - 24) / 2));
-                bool isPickupOrder = Convert.ToInt32(details[0].Field25) > 0;
+                Tuple<int, string> dailyToken = GetDailyOrderToken(Convert.ToInt32(orderId));
+                int dailyOrderTypeId = dailyToken == null ? 0 : dailyToken.Item1;
+                string dailyTokenDisplay = dailyToken == null ? string.Empty : dailyToken.Item2;
+                bool isPickupOrder = Convert.ToInt32(details[0].Field25) > 0 ||
+                    dailyOrderTypeId == 1 || dailyOrderTypeId == 2;
                 int headerHeight = 36;
                 int buttonHeight = 42;
 
@@ -447,10 +484,14 @@ namespace FoodandBeverage.Forms
                 Label token = new Label
                 {
                     Name = "lbl_tokkenno_k_" + orderId + suffix,
-                    // Pickup cards show only the pickup number; regular kitchen cards show their token.
-                    Text = isPickupOrder
-                        ? "PICKUP NO: " + Convert.ToString(details[0].Field25)
-                        : "TOKEN " + Convert.ToString(details[0].Field22),
+                    // The daily token is separate from the legacy tblPickup.PkId.
+                    Text = dailyOrderTypeId == 2
+                        ? "TAKEAWAY: " + dailyTokenDisplay
+                        : dailyOrderTypeId == 1
+                            ? "PICKUP: " + dailyTokenDisplay
+                            : isPickupOrder
+                                ? "PICKUP NO: " + Convert.ToString(details[0].Field25)
+                                : "TOKEN " + Convert.ToString(details[0].Field22),
                     Dock = DockStyle.Fill,
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleCenter,
@@ -468,7 +509,7 @@ namespace FoodandBeverage.Forms
                     Margin = new Padding(4, 5, 4, 5),
                     Font = ModernKitchenOrderCard.StatusFont,
                     ForeColor = Color.FromArgb(44, 96, 163),
-                    Text = isPickupOrder ? "PICKUP" : "NEW",
+                    Text = dailyOrderTypeId == 2 ? "TAKEAWAY" : isPickupOrder ? "PICKUP" : "NEW",
                     Visible = true
                 };
 
@@ -577,6 +618,7 @@ namespace FoodandBeverage.Forms
                 cache.TimeLabel = time;
                 cache.StatusLabel = statusLabel;
                 cache.TableCodeLabel = tableCode;
+                cache.TokenLabel = token;
                 cache.Description = description;
                 cache.DescriptionPanel = description;
                 cache.BtnStart = startButton;
