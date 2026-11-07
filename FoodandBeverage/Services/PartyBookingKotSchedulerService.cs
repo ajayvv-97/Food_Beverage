@@ -300,6 +300,7 @@ ORDER BY KOTDatetime, PartyBookingId;";
                             rows[0].PartyBookingId,
                             rows[0].BranchId,
                             preparationMode,
+                            Environment.MachineName,
                             ex.Message);
 
                         Trace.TraceError(
@@ -453,7 +454,8 @@ ORDER BY KOTDatetime, PartyBookingId;";
         }
 
         private static void MarkTicketFailed(
-            int partyBookingId, int branchId, int preparationMode, string error)
+            int partyBookingId, int branchId, int preparationMode,
+            string machineName, string error)
         {
             using (IDbConnection connection =
                 DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
@@ -465,6 +467,7 @@ ORDER BY KOTDatetime, PartyBookingId;";
                         PartyBookingId = partyBookingId,
                         BranchId = branchId,
                         PreparationMode = preparationMode,
+                        MachineName = machineName,
                         ErrorMessage = (error ?? string.Empty).Length > 1900
                             ? error.Substring(0, 1900)
                             : error

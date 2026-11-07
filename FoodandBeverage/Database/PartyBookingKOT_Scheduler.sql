@@ -807,6 +807,7 @@ CREATE OR ALTER PROCEDURE dbo.prdPartyBookingKOT_MarkFailed
     @PartyBookingId INT,
     @BranchId INT,
     @PreparationMode INT,
+    @MachineName NVARCHAR(128),
     @ErrorMessage NVARCHAR(2000)
 AS
 BEGIN
@@ -819,7 +820,8 @@ BEGIN
     WHERE PartyBookingId = @PartyBookingId
       AND BranchId = @BranchId
       AND PreparationMode = @PreparationMode
-      AND Status = 1;
+      AND Status = 1
+      AND PrintMachine = @MachineName;
 
     IF @PreparationMode = 1
     BEGIN
