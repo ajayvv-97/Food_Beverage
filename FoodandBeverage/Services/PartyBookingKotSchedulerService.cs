@@ -162,17 +162,17 @@ namespace FoodandBeverage.Services
         private IList<PartyBookingReminder> LoadUpcomingBookings()
         {
             const string sql = @"
-SELECT PartyBookingId, CustomerName, Phone, EventDescription, BookingDateTime,
-       KOTDatetime, ISNULL(NoOfAdults, 0) AS NoOfAdults,
-       ISNULL(NoOfChildren, 0) AS NoOfChildren
-FROM dbo.tblPartyBooking
-WHERE BranchId = @BranchId
-  AND Status = 1
-  AND KOTDatetime IS NOT NULL
-  AND KOTDatetime >= GETDATE()
-  AND KOTDatetime < DATEADD(MINUTE, 45, GETDATE())
-  AND ISNULL(KoTPrintStatus, 0) = 0
-ORDER BY KOTDatetime;";
+            SELECT PartyBookingId, CustomerName, Phone, EventDescription, BookingDateTime,
+                   KOTDatetime, ISNULL(NoOfAdults, 0) AS NoOfAdults,
+                   ISNULL(NoOfChildren, 0) AS NoOfChildren
+            FROM dbo.tblPartyBooking
+            WHERE BranchId = @BranchId
+              AND Status = 1
+              AND KOTDatetime IS NOT NULL
+              AND KOTDatetime >= GETDATE()
+              AND KOTDatetime < DATEADD(MINUTE, 45, GETDATE())
+              AND ISNULL(KoTPrintStatus, 0) = 0
+            ORDER BY KOTDatetime;";
 
             using (IDbConnection connection = DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
             {
@@ -184,15 +184,15 @@ ORDER BY KOTDatetime;";
         private List<int> LoadDueBookingIds()
         {
             const string sql = @"
-SELECT PartyBookingId
-FROM dbo.tblPartyBooking
-WHERE BranchId = @BranchId
-  AND Status = 1
-  AND KOTDatetime IS NOT NULL
-  AND KOTDatetime <= GETDATE()
-  AND (ISNULL(ConsumedRawMaterialStatus, 0) = 0
-       OR ISNULL(KoTPrintStatus, 0) = 0)
-ORDER BY KOTDatetime, PartyBookingId;";
+            SELECT PartyBookingId
+            FROM dbo.tblPartyBooking
+            WHERE BranchId = @BranchId
+              AND Status = 1
+              AND KOTDatetime IS NOT NULL
+              AND KOTDatetime <= GETDATE()
+              AND (ISNULL(ConsumedRawMaterialStatus, 0) = 0
+                   OR ISNULL(KoTPrintStatus, 0) = 0)
+            ORDER BY KOTDatetime, PartyBookingId;";
 
             using (IDbConnection connection = DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
             {
@@ -254,38 +254,45 @@ ORDER BY KOTDatetime, PartyBookingId;";
 
         public static void ProcessPending(int branchId, int preparationMode, int employeeId)
         {
-            if (branchId <= 0)
-                return;
-
-            List<PartyBookingKOTQueueItem> claimed;
-            using (IDbConnection connection = DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
+            try
             {
-                claimed = connection.Query<PartyBookingKOTQueueItem>(
-                    "dbo.prdPartyBookingKOT_ClaimPending",
-                    new
+                if (branchId <= 0)
+                    return;
+
+                List<PartyBookingKOTQueueItem> claimed;
+                using (IDbConnection connection = DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
+                {
+                    claimed = connection.Query<PartyBookingKOTQueueItem>(
+                        "dbo.prdPartyBookingKOT_ClaimPending",
+                        new
+                        {
+                            BranchId = branchId,
+                            PreparationMode = preparationMode,
+                            MachineName = Environment.MachineName
+                        },
+                        commandType: CommandType.StoredProcedure).ToList();
+                }
+
+                foreach (IGrouping<int, PartyBookingKOTQueueItem> ticket in claimed.GroupBy(x => x.PartyBookingId))
+                {
+                    List<PartyBookingKOTQueueItem> rows = ticket.ToList();
+                    try
                     {
-                        BranchId = branchId,
-                        PreparationMode = preparationMode,
-                        MachineName = Environment.MachineName
-                    },
-                    commandType: CommandType.StoredProcedure).ToList();
+                        PrintTicket(rows, preparationMode);
+
+                        foreach (PartyBookingKOTQueueItem row in rows)
+                            MarkPrinted(row.PartyBookingKOTQueueId, employeeId);
+                    }
+                    catch (Exception ex)
+                    {
+                        foreach (PartyBookingKOTQueueItem row in rows)
+                            MarkFailed(row.PartyBookingKOTQueueId, ex.Message);
+                    }
+                }
             }
-
-            foreach (IGrouping<int, PartyBookingKOTQueueItem> ticket in claimed.GroupBy(x => x.PartyBookingId))
+            catch(Exception ex)
             {
-                List<PartyBookingKOTQueueItem> rows = ticket.ToList();
-                try
-                {
-                    PrintTicket(rows, preparationMode);
 
-                    foreach (PartyBookingKOTQueueItem row in rows)
-                        MarkPrinted(row.PartyBookingKOTQueueId, employeeId);
-                }
-                catch (Exception ex)
-                {
-                    foreach (PartyBookingKOTQueueItem row in rows)
-                        MarkFailed(row.PartyBookingKOTQueueId, ex.Message);
-                }
             }
         }
 
@@ -294,14 +301,9 @@ ORDER BY KOTDatetime, PartyBookingId;";
             if (rows == null || rows.Count == 0)
                 return;
 
-            string reportFile = preparationMode ==
-                Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.kitchen)
-                    ? "crkitchenbill.rpt"
-                    : "CRkitchenbillnokot.rpt";
+            string reportFile = "CRKitchenBill_Party.rpt";
 
-            string reportPath = Path.Combine(
-                Convert.ToString(FoodandBeverage.Forms.FrmLogin.KitchenBillPath ?? string.Empty),
-                reportFile);
+            string reportPath = Path.Combine(Convert.ToString(FoodandBeverage.Forms.FrmLogin.KitchenBillPath ?? string.Empty),reportFile);
 
             if (!File.Exists(reportPath))
                 throw new FileNotFoundException("Party KOT report file was not found.", reportPath);

@@ -231,7 +231,8 @@ namespace FoodandBeverage
         private DateTime? _validatedKotDateTimeForPayment;
         private DateTime? _validatedBookingStartForPayment;
         private bool _loadedConsumedRawMaterialStatus;
-        private bool _loadedKoTPrintStatus;
+        private bool _loadedKoTPrintStatus_counter;
+        private bool _loadedKoTPrintStatus_kitchen;
         private bool _isLoadingPartyBooking;
 
         private int _calendarBookingId;
@@ -4726,7 +4727,8 @@ namespace FoodandBeverage
                 _hasLoadedKotDateTime = false;
                 _loadedKotDateTime = null;
                 _loadedConsumedRawMaterialStatus = false;
-                _loadedKoTPrintStatus = false;
+                _loadedKoTPrintStatus_counter = false;
+                _loadedKoTPrintStatus_kitchen = false;
 
                 // ===============================
                 // 🔹 Reset Event Info
@@ -5553,7 +5555,8 @@ namespace FoodandBeverage
 
                 booking.KOTDatetime = kotDateTime;
                 booking.ConsumedRawMaterialStatus = _loadedConsumedRawMaterialStatus;
-                booking.KoTPrintStatus = _loadedKoTPrintStatus;
+                booking.KoTPrintStatus_Kitchen = _loadedKoTPrintStatus_kitchen;
+                booking.KoTPrintStatus_counter = _loadedKoTPrintStatus_counter;
 
                 var result = bll.AddEditData("prdInsert_Upd_PartyBooking", booking);
 
@@ -6521,7 +6524,8 @@ namespace FoodandBeverage
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
 
                 _loadedConsumedRawMaterialStatus = result.ConsumedRawMaterialStatus;
-                _loadedKoTPrintStatus = result.KoTPrintStatus;
+                _loadedKoTPrintStatus_counter = result.KoTPrintStatus_counter;
+                _loadedKoTPrintStatus_kitchen = result.KoTPrintStatus_Kitchen;
                 _loadedKotDateTime = result.KOTDatetime;
                 _hasLoadedKotDateTime = result.KOTDatetime.HasValue;
                 _isKotDateTimeManuallySet = false;

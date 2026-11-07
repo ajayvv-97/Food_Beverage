@@ -87,7 +87,8 @@ namespace BLL
             parms.Add("ExtraChargePreTaxAmount", obj.ExtraChargePreTaxAmount);
             parms.Add("ExtraChargeTaxAmount", obj.ExtraChargeTaxAmount);
 
-            parms.Add("KoTPrintStatus", obj.KoTPrintStatus);
+            parms.Add("KoTPrintStatus_counter", obj.KoTPrintStatus_counter);
+            parms.Add("KoTPrintStatus_Kitchen", obj.KoTPrintStatus_Kitchen);
             parms.Add("ConsumedRawMaterialStatus", obj.ConsumedRawMaterialStatus);
             parms.Add("KOTDatetime", obj.KOTDatetime);
 
