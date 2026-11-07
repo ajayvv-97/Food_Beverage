@@ -34,6 +34,7 @@ namespace FoodandBeverage.Controls
         private PickupVisualStatus visualStatus = PickupVisualStatus.OrderSent;
         private string tokenNumber = string.Empty;
         private int cancelledItemCount;
+        private string orderTypeLabel = "PICKUP";
         private bool isHovered;
         private bool isPressed;
 
@@ -57,22 +58,32 @@ namespace FoodandBeverage.Controls
             AccessibleRole = AccessibleRole.PushButton;
         }
 
-        public void SetPickupData(string token, int orderStatus, int cancelCount, bool cancelledByKitchen)
+        public void SetPickupData(
+            string token,
+            int orderStatus,
+            int cancelCount,
+            bool cancelledByKitchen,
+            string orderType = "PICKUP")
         {
             PickupVisualStatus nextStatus = cancelledByKitchen
                 ? PickupVisualStatus.CancelledByKitchen
                 : (orderStatus == 1 ? PickupVisualStatus.CookingStarted : PickupVisualStatus.OrderSent);
 
             string nextToken = string.IsNullOrWhiteSpace(token) ? "—" : token.Trim();
+            string nextOrderType = string.IsNullOrWhiteSpace(orderType)
+                ? "PICKUP"
+                : orderType.Trim().ToUpperInvariant();
             int nextCancelCount = Math.Max(0, cancelCount);
 
             if (visualStatus == nextStatus &&
                 string.Equals(tokenNumber, nextToken, StringComparison.Ordinal) &&
+                string.Equals(orderTypeLabel, nextOrderType, StringComparison.Ordinal) &&
                 cancelledItemCount == nextCancelCount)
                 return;
 
             visualStatus = nextStatus;
             tokenNumber = nextToken;
+            orderTypeLabel = nextOrderType;
             cancelledItemCount = nextCancelCount;
             Invalidate();
         }
@@ -121,11 +132,11 @@ namespace FoodandBeverage.Controls
 
             RectangleF header = new RectangleF(card.Left + 29F, card.Top + 12F, card.Width - 40F, 20F);
             using (SolidBrush headerBrush = new SolidBrush(palette.MutedText))
-                g.DrawString("PICKUP ORDER", HeaderFont, headerBrush, header, CenterFormat);
+                g.DrawString(orderTypeLabel + " ORDER", HeaderFont, headerBrush, header, CenterFormat);
 
             RectangleF token = new RectangleF(card.Left + 8F, card.Top + 30F, card.Width - 16F, 27F);
             using (SolidBrush tokenBrush = new SolidBrush(palette.TokenText))
-                g.DrawString("PICKUP  " + tokenNumber, TokenFont, tokenBrush, token, CenterFormat);
+                g.DrawString(orderTypeLabel + "  " + tokenNumber, TokenFont, tokenBrush, token, CenterFormat);
 
             string statusLabel = GetStatusLabel(visualStatus, cancelledItemCount);
             RectangleF statusPill = new RectangleF(card.Left + 8F, card.Bottom - 27F, card.Width - 16F, 18F);
