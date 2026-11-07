@@ -3822,16 +3822,22 @@ namespace FoodandBeverage.Forms
             try
             {
                 AssignDrawerCheck();
+
                 if (FrmDrawer.DrawerID == 0)
                     return;
 
                 if (menutable_click)
+                {
                     CloseTableViewPage();
+                }
 
-                if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
+                ButtonID = Convert.ToInt32(Menubutton.Takeaway);
+
+                if (Application.OpenForms["FrmDashboardReport"] != null)
                 {
                     FrmDashboardReport report =
                         Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+
                     if (report != null)
                         report.Visible = false;
                 }
@@ -3840,37 +3846,75 @@ namespace FoodandBeverage.Forms
                 reset_sync.Stop();
                 lblsync.Visible = false;
 
-                tlp_tablestatus.SuspendLayout();
-                btn_rev.Visible = false;
-                btn_running.Visible = false;
-                btn_avial.Visible = false;
-                btntrefresh.Visible = false;
-               ib_pickup.Visible = false;
-                ib_takeaway.Visible = false;
-                tlp_tablestatus.ResumeLayout();
+                panelDesktop.SuspendLayout();
 
-                using (FrmOrderConsole takeaway = new FrmOrderConsole(
-                    0,
-                    FrmOrderConsole.TakeawayBookingType,
-                    0,
-                    CheckedtableNames,
-                    Convert.ToInt32(PageType.Billpage),
-                    0,
-                    Convert.ToInt32(SourcepageType.Takeawaypage),
-                    0,
-                    2))
+                if (flp_operabuttons.Visible)
+                    flp_operabuttons.Visible = false;
+
+                if (Application.OpenForms["FrmTakeaway"] != null)
                 {
-                    takeaway.ShowDialog();
+                    FrmTakeaway instanceFrmTakeaway =
+                        Application.OpenForms["FrmTakeaway"] as FrmTakeaway;
+
+                    if (instanceFrmTakeaway != null)
+                    {
+                        if (instanceFrmTakeaway.WindowState == FormWindowState.Minimized)
+                        {
+                            instanceFrmTakeaway.WindowState =FormWindowState.Maximized;
+                        }
+                        else
+                        {
+                            tlp_tablestatus.SuspendLayout();
+
+                            btn_rev.Visible = false;
+                            btn_running.Visible = false;
+                            btn_avial.Visible = false;
+                            btntrefresh.Visible = false;
+                            ib_pickup.Visible = false;
+                            ib_takeaway.Visible = false;
+
+                            tlp_tablestatus.ResumeLayout();
+
+                            instanceFrmTakeaway.Visible = true;
+                            instanceFrmTakeaway.WindowState = FormWindowState.Maximized;
+
+                            instanceFrmTakeaway.AutoTimer.Start();
+                            instanceFrmTakeaway.BringToFront();
+                        }
+                    }
+                }
+                else
+                {
+                    tlp_tablestatus.SuspendLayout();
+
+                    btn_rev.Visible = false;
+                    btn_running.Visible = false;
+                    btn_avial.Visible = false;
+                    btntrefresh.Visible = false;
+                    ib_pickup.Visible = false;
+                    ib_takeaway.Visible = false;
+
+                    tlp_tablestatus.ResumeLayout();
+
+                    using (FrmTakeaway takeaway = new FrmTakeaway())
+                    {
+                        takeaway.ShowDialog();
+                        takeaway.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
                 }
 
                 clsgen.Memoryrelease();
+
                 menutable_click = true;
                 panelDesktop.ResumeLayout();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("homepage ib_takeaway_Click", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
+                clsgen.LogException(
+                    "homepage btn_takeaway_Click",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
                     Convert.ToInt32(FormType.homepage));
             }
         }

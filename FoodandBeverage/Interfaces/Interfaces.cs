@@ -310,7 +310,8 @@ namespace FoodandBeverage.Interfaces
         Menureport = 6,
         Menusetting = 7,
         Menulogout = 8,
-        Pickup=9
+        Pickup=9,
+        Takeaway=10
     }
     public enum BillType
     {
