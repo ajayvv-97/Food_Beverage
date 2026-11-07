@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -326,13 +325,6 @@ ORDER BY KOTDatetime, PartyBookingId;";
                 return;
 
             string station = preparationMode == 1 ? "KITCHEN" : "COUNTER";
-            string reportPath = Path.Combine(
-                Convert.ToString(FoodandBeverage.Forms.FrmLogin.KitchenBillPath ?? string.Empty),
-                "CRKitchenBill_Party.rpt");
-
-            if (!File.Exists(reportPath))
-                throw new FileNotFoundException(
-                    "Party booking KOT report file was not found.", reportPath);
 
             DataTable table = CreatePartyKitchenBillTable();
             decimal totalQuantity = rows.Sum(x => x.Quantity);
@@ -376,12 +368,12 @@ ORDER BY KOTDatetime, PartyBookingId;";
             Exception printException = null;
             Thread printThread = new Thread(() =>
             {
-                ReportDocument report = new ReportDocument();
+                ReportDocument report =
+                    new FoodandBeverage.Forms.KitchenBill.CRKitchenBill_Party();
                 try
                 {
                     DataSet dataSet = new DataSet();
                     dataSet.Tables.Add(table.Copy());
-                    report.Load(reportPath);
                     report.SetDataSource(dataSet);
                     report.PrintToPrinter(1, false, 0, 0);
                 }
