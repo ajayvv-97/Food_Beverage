@@ -3,11 +3,11 @@ using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FoodandBeverage.Services
 {
@@ -45,9 +45,10 @@ namespace FoodandBeverage.Services
     }
 
     /// <summary>
-    /// Runs from the logged-in POS dashboard. The database procedure protects
-    /// stock deduction with a booking-row lock and the ConsumedRawMaterialStatus
-    /// flag, so repeated timer ticks cannot deduct the same booking twice.
+    /// Scheduler runs on the POS dashboard. It processes the booking once at its
+    /// scheduled KOT time: raw-material deduction and creation of route-specific
+    /// Kitchen/Counter tickets happen in one SQL transaction. Printing is handled
+    /// only by a workstation registered for the corresponding station role.
     /// </summary>
     public sealed class PartyBookingKotSchedulerService : IDisposable
     {
@@ -99,9 +100,6 @@ namespace FoodandBeverage.Services
                 IList<PartyBookingReminder> upcoming =
                     await Task.Run(() => LoadUpcomingBookings());
 
-                // Keep the reminder cache limited to bookings which are still
-                // in the upcoming window. A booking can then be removed from the
-                // popup as soon as its KOT time arrives or it is rescheduled.
                 HashSet<int> currentUpcomingIds = new HashSet<int>(
                     upcoming.Select(x => x.PartyBookingId));
                 _remindedBookingIds.RemoveWhere(id => !currentUpcomingIds.Contains(id));
@@ -110,11 +108,9 @@ namespace FoodandBeverage.Services
                     .Where(x => _remindedBookingIds.Add(x.PartyBookingId))
                     .ToList();
 
-                // Notify only once when a new booking enters the reminder window.
                 if (newReminders.Count > 0 && UpcomingBookingsFound != null)
                     UpcomingBookingsFound(newReminders);
 
-                // Also refresh an already-open popup with the complete current list.
                 Action<IList<PartyBookingReminder>> updatedHandler = UpcomingBookingsUpdated;
                 if (updatedHandler != null)
                     updatedHandler(upcoming);
@@ -124,7 +120,8 @@ namespace FoodandBeverage.Services
                 {
                     try
                     {
-                        using (IDbConnection connection = DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
+                        using (IDbConnection connection =
+                            DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
                         {
                             connection.Execute(
                                 "dbo.prdPartyBooking_ProcessScheduledKOT",
@@ -143,11 +140,12 @@ namespace FoodandBeverage.Services
                     }
                 }
 
-                // Counter-routed items are printed by the POS workstation.
-                await Task.Run(() => PartyBookingKOTQueuePrinter.ProcessPending(
+                // Any dashboard may run the scheduler, but only the registered
+                // Counter workstation can claim Counter tickets in SQL.
+                PartyBookingKOTQueuePrinter.ProcessPendingAsync(
                     _branchId,
                     Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.Counter),
-                    _employeeId));
+                    _employeeId);
             }
             catch (Exception ex)
             {
@@ -162,19 +160,24 @@ namespace FoodandBeverage.Services
         private IList<PartyBookingReminder> LoadUpcomingBookings()
         {
             const string sql = @"
-            SELECT PartyBookingId, CustomerName, Phone, EventDescription, BookingDateTime,
-                   KOTDatetime, ISNULL(NoOfAdults, 0) AS NoOfAdults,
-                   ISNULL(NoOfChildren, 0) AS NoOfChildren
-            FROM dbo.tblPartyBooking
-            WHERE BranchId = @BranchId
-              AND Status = 1
-              AND KOTDatetime IS NOT NULL
-              AND KOTDatetime >= GETDATE()
-              AND KOTDatetime < DATEADD(MINUTE, 45, GETDATE())
-              AND ISNULL(KoTPrintStatus, 0) = 0
-            ORDER BY KOTDatetime;";
+SELECT PartyBookingId, CustomerName, Phone, EventDescription, BookingDateTime,
+       KOTDatetime, ISNULL(NoOfAdults, 0) AS NoOfAdults,
+       ISNULL(NoOfChildren, 0) AS NoOfChildren
+FROM dbo.tblPartyBooking
+WHERE BranchId = @BranchId
+  AND Status = 1
+  AND KOTDatetime IS NOT NULL
+  AND KOTDatetime >= GETDATE()
+  AND KOTDatetime < DATEADD(MINUTE, 45, GETDATE())
+  AND
+  (
+      ISNULL(KoTPrintStatus_Kitchen, 0) = 0
+      OR ISNULL(KoTPrintStatus_counter, 0) = 0
+  )
+ORDER BY KOTDatetime;";
 
-            using (IDbConnection connection = DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
+            using (IDbConnection connection =
+                DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
             {
                 return connection.Query<PartyBookingReminder>(
                     sql, new { BranchId = _branchId }).ToList();
@@ -184,17 +187,22 @@ namespace FoodandBeverage.Services
         private List<int> LoadDueBookingIds()
         {
             const string sql = @"
-            SELECT PartyBookingId
-            FROM dbo.tblPartyBooking
-            WHERE BranchId = @BranchId
-              AND Status = 1
-              AND KOTDatetime IS NOT NULL
-              AND KOTDatetime <= GETDATE()
-              AND (ISNULL(ConsumedRawMaterialStatus, 0) = 0
-                   OR ISNULL(KoTPrintStatus, 0) = 0)
-            ORDER BY KOTDatetime, PartyBookingId;";
+SELECT PartyBookingId
+FROM dbo.tblPartyBooking
+WHERE BranchId = @BranchId
+  AND Status = 1
+  AND KOTDatetime IS NOT NULL
+  AND KOTDatetime <= GETDATE()
+  AND
+  (
+      ISNULL(ConsumedRawMaterialStatus, 0) = 0
+      OR ISNULL(KoTPrintStatus_Kitchen, 0) = 0
+      OR ISNULL(KoTPrintStatus_counter, 0) = 0
+  )
+ORDER BY KOTDatetime, PartyBookingId;";
 
-            using (IDbConnection connection = DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
+            using (IDbConnection connection =
+                DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
             {
                 return connection.Query<int>(sql, new { BranchId = _branchId }).ToList();
             }
@@ -220,9 +228,10 @@ namespace FoodandBeverage.Services
     }
 
     /// <summary>
-    /// Shared print agent. The POS calls it for Counter items; Kitchen View calls
-    /// it for Kitchen items. Each workstation prints on its own Windows default
-    /// printer, which keeps the two physical printer routes independent.
+    /// Route-specific printer worker. Kitchen View requests PreparationMode=1;
+    /// POS dashboard requests PreparationMode=2. SQL verifies that the calling
+    /// machine is registered for that exact station before any queue row is
+    /// claimed. The local Windows default printer is used on that workstation.
     /// </summary>
     public static class PartyBookingKOTQueuePrinter
     {
@@ -231,11 +240,10 @@ namespace FoodandBeverage.Services
 
         public static void ProcessPendingAsync(int branchId, int preparationMode, int employeeId)
         {
-            SemaphoreSlim gate = preparationMode ==
-                Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.kitchen)
-                    ? KitchenGate
-                    : CounterGate;
+            if (preparationMode != 1 && preparationMode != 2)
+                return;
 
+            SemaphoreSlim gate = preparationMode == 1 ? KitchenGate : CounterGate;
             if (!gate.Wait(0))
                 return;
 
@@ -254,13 +262,14 @@ namespace FoodandBeverage.Services
 
         public static void ProcessPending(int branchId, int preparationMode, int employeeId)
         {
+            if (branchId <= 0 || (preparationMode != 1 && preparationMode != 2))
+                return;
+
             try
             {
-                if (branchId <= 0)
-                    return;
-
                 List<PartyBookingKOTQueueItem> claimed;
-                using (IDbConnection connection = DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
+                using (IDbConnection connection =
+                    DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
                 {
                     claimed = connection.Query<PartyBookingKOTQueueItem>(
                         "dbo.prdPartyBookingKOT_ClaimPending",
@@ -273,26 +282,41 @@ namespace FoodandBeverage.Services
                         commandType: CommandType.StoredProcedure).ToList();
                 }
 
-                foreach (IGrouping<int, PartyBookingKOTQueueItem> ticket in claimed.GroupBy(x => x.PartyBookingId))
+                foreach (IGrouping<int, PartyBookingKOTQueueItem> ticket in
+                    claimed.GroupBy(x => x.PartyBookingId))
                 {
                     List<PartyBookingKOTQueueItem> rows = ticket.ToList();
                     try
                     {
                         PrintTicket(rows, preparationMode);
-
-                        foreach (PartyBookingKOTQueueItem row in rows)
-                            MarkPrinted(row.PartyBookingKOTQueueId, employeeId);
+                        MarkTicketPrinted(
+                            rows[0].PartyBookingId,
+                            rows[0].BranchId,
+                            preparationMode,
+                            employeeId);
                     }
                     catch (Exception ex)
                     {
-                        foreach (PartyBookingKOTQueueItem row in rows)
-                            MarkFailed(row.PartyBookingKOTQueueId, ex.Message);
+                        MarkTicketFailed(
+                            rows[0].PartyBookingId,
+                            rows[0].BranchId,
+                            preparationMode,
+                            ex.Message);
+
+                        Trace.TraceError(
+                            "Party booking KOT print failed. Booking={0}, Station={1}, Machine={2}. {3}",
+                            rows[0].PartyBookingId,
+                            preparationMode == 1 ? "KITCHEN" : "COUNTER",
+                            Environment.MachineName,
+                            ex);
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                Trace.TraceError(
+                    "Party booking KOT worker failed. Branch={0}, PreparationMode={1}, Machine={2}. {3}",
+                    branchId, preparationMode, Environment.MachineName, ex);
             }
         }
 
@@ -301,19 +325,17 @@ namespace FoodandBeverage.Services
             if (rows == null || rows.Count == 0)
                 return;
 
-            string reportFile = "CRKitchenBill_Party.rpt";
-
-            string reportPath = Path.Combine(Convert.ToString(FoodandBeverage.Forms.FrmLogin.KitchenBillPath ?? string.Empty),reportFile);
+            string station = preparationMode == 1 ? "KITCHEN" : "COUNTER";
+            string reportPath = Path.Combine(
+                Convert.ToString(FoodandBeverage.Forms.FrmLogin.KitchenBillPath ?? string.Empty),
+                "CRKitchenBill_Party.rpt");
 
             if (!File.Exists(reportPath))
-                throw new FileNotFoundException("Party KOT report file was not found.", reportPath);
+                throw new FileNotFoundException(
+                    "Party booking KOT report file was not found.", reportPath);
 
-            DataTable table = CreateKitchenBillTable();
+            DataTable table = CreatePartyKitchenBillTable();
             decimal totalQuantity = rows.Sum(x => x.Quantity);
-            string station = preparationMode ==
-                Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.kitchen)
-                    ? "KITCHEN"
-                    : "COUNTER";
 
             foreach (PartyBookingKOTQueueItem row in rows)
             {
@@ -327,7 +349,8 @@ namespace FoodandBeverage.Services
                 data["AddonStatus"] = 0;
                 data["AV_id"] = string.Empty;
                 data["MainCategory"] = Convert.ToString(row.ProductId);
-                data["MainCategoryCount"] = rows.Count(x => x.ProductId == row.ProductId);
+                data["MainCategoryCount"] =
+                    rows.Count(x => x.ProductId == row.ProductId);
                 data["offeritemname"] = string.Empty;
                 data["offerqty"] = 0;
                 data["TableType"] = row.TableType;
@@ -368,7 +391,7 @@ namespace FoodandBeverage.Services
                 }
                 finally
                 {
-                    report.Close();
+                    try { report.Close(); } catch { }
                     report.Dispose();
                 }
             });
@@ -378,10 +401,14 @@ namespace FoodandBeverage.Services
             printThread.Join();
 
             if (printException != null)
-                throw new InvalidOperationException("Unable to print party KOT on the " + station + " printer.", printException);
+            {
+                throw new InvalidOperationException(
+                    "Unable to print party booking KOT on the " + station +
+                    " workstation default printer.", printException);
+            }
         }
 
-        private static DataTable CreateKitchenBillTable()
+        private static DataTable CreatePartyKitchenBillTable()
         {
             DataTable table = new DataTable("DT_kitchenbill");
             table.Columns.Add("ItemName", typeof(string));
@@ -413,39 +440,44 @@ namespace FoodandBeverage.Services
             return table;
         }
 
-        private static void MarkPrinted(long queueId, int employeeId)
+        private static void MarkTicketPrinted(
+            int partyBookingId, int branchId, int preparationMode, int employeeId)
         {
-            using (IDbConnection connection = DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
+            using (IDbConnection connection =
+                DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
             {
                 connection.Execute(
                     "dbo.prdPartyBookingKOT_MarkPrinted",
-                    new { PartyBookingKOTQueueId = queueId, EmployeeId = employeeId },
+                    new
+                    {
+                        PartyBookingId = partyBookingId,
+                        BranchId = branchId,
+                        PreparationMode = preparationMode,
+                        EmployeeId = employeeId,
+                        MachineName = Environment.MachineName
+                    },
                     commandType: CommandType.StoredProcedure);
             }
         }
 
-        private static void MarkFailed(long queueId, string error)
+        private static void MarkTicketFailed(
+            int partyBookingId, int branchId, int preparationMode, string error)
         {
-            try
+            using (IDbConnection connection =
+                DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
             {
-                using (IDbConnection connection = DAL.DapperRepository<PartyBookingKOTQueueItem>.OpenConnection())
-                {
-                    connection.Execute(
-                        "dbo.prdPartyBookingKOT_MarkFailed",
-                        new
-                        {
-                            PartyBookingKOTQueueId = queueId,
-                            ErrorMessage = (error ?? string.Empty).Length > 1900
-                                ? error.Substring(0, 1900)
-                                : error
-                        },
-                        commandType: CommandType.StoredProcedure);
-                }
-            }
-            catch
-            {
-                // Leave the queue row claimed; the SQL claim procedure reclaims
-                // stale claims after its lease expires.
+                connection.Execute(
+                    "dbo.prdPartyBookingKOT_MarkFailed",
+                    new
+                    {
+                        PartyBookingId = partyBookingId,
+                        BranchId = branchId,
+                        PreparationMode = preparationMode,
+                        ErrorMessage = (error ?? string.Empty).Length > 1900
+                            ? error.Substring(0, 1900)
+                            : error
+                    },
+                    commandType: CommandType.StoredProcedure);
             }
         }
     }

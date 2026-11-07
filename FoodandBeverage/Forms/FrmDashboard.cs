@@ -331,6 +331,11 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                // A first-time PC registration defaults to Office (no KOT printing).
+                // The SQL claim procedure independently enforces this role on every print request.
+                FoodandBeverage.Services.KOTWorkstationRegistration.EnsureRegistered(
+                    BranchId, UserId, this);
+
                 if (_partyBookingKotService != null)
                     _partyBookingKotService.Dispose();
 

@@ -979,6 +979,7 @@
     </Compile>
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\PartyBookingKotSchedulerService.cs" />
+    <Compile Include="Services\KOTWorkstationRegistration.cs" />
     <EmbeddedResource Include="Forms\FrmAddon.resx">
       <DependentUpon>FrmAddon.cs</DependentUpon>
     </EmbeddedResource>
