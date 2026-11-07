@@ -38,18 +38,6 @@ BEGIN
 END;
 GO
 
-/* Migrate bookings already completed by the previous combined KOT status. */
-UPDATE dbo.tblPartyBooking
-SET KoTPrintStatus_Kitchen = 1,
-    KoTPrintStatus_counter = 1
-WHERE ISNULL(KoTPrintStatus, 0) = 1
-  AND
-  (
-      ISNULL(KoTPrintStatus_Kitchen, 0) = 0
-      OR ISNULL(KoTPrintStatus_counter, 0) = 0
-  );
-GO
-
 IF OBJECT_ID('dbo.tblKOTWorkstation', 'U') IS NULL
 BEGIN
     CREATE TABLE dbo.tblKOTWorkstation
@@ -639,17 +627,6 @@ BEGIN
         WHERE b.PartyBookingId = @PartyBookingId
           AND b.BranchId = @BranchId;
 
-        UPDATE dbo.tblPartyBooking
-        SET KoTPrintStatus =
-            CASE
-                WHEN ISNULL(KoTPrintStatus_Kitchen, 0) = 1
-                 AND ISNULL(KoTPrintStatus_counter, 0) = 1
-                    THEN 1
-                ELSE 0
-            END
-        WHERE PartyBookingId = @PartyBookingId
-          AND BranchId = @BranchId;
-
         COMMIT TRANSACTION;
 
         SELECT
@@ -657,7 +634,6 @@ BEGIN
             ConsumedRawMaterialStatus,
             KoTPrintStatus_Kitchen,
             KoTPrintStatus_counter,
-            KoTPrintStatus,
             KOTDatetime
         FROM dbo.tblPartyBooking
         WHERE PartyBookingId = @PartyBookingId
@@ -782,17 +758,6 @@ BEGIN
         ELSE
             THROW 51111, 'Invalid KOT station route.', 1;
 
-        UPDATE dbo.tblPartyBooking
-        SET KoTPrintStatus =
-            CASE
-                WHEN ISNULL(KoTPrintStatus_Kitchen, 0) = 1
-                 AND ISNULL(KoTPrintStatus_counter, 0) = 1
-                    THEN 1
-                ELSE 0
-            END
-        WHERE PartyBookingId = @PartyBookingId
-          AND BranchId = @BranchId;
-
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
@@ -826,16 +791,14 @@ BEGIN
     IF @PreparationMode = 1
     BEGIN
         UPDATE dbo.tblPartyBooking
-        SET KoTPrintStatus_Kitchen = 0,
-            KoTPrintStatus = 0
+        SET KoTPrintStatus_Kitchen = 0
         WHERE PartyBookingId = @PartyBookingId
           AND BranchId = @BranchId;
     END
     ELSE IF @PreparationMode = 2
     BEGIN
         UPDATE dbo.tblPartyBooking
-        SET KoTPrintStatus_counter = 0,
-            KoTPrintStatus = 0
+        SET KoTPrintStatus_counter = 0
         WHERE PartyBookingId = @PartyBookingId
           AND BranchId = @BranchId;
     END;
