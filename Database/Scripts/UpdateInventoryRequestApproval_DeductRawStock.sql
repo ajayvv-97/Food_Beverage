@@ -316,7 +316,7 @@ BEGIN
                         CONVERT
                         (
                             DECIMAL(18,4),
-                            p.PlannedQty * ing.Quantity *
+                            requested.PlannedQty * ing.Quantity *
                             CASE
                                 WHEN ing.Unit = i.unit
                                  AND ISNULL(i.Baseunit, i.unit) <> i.unit
