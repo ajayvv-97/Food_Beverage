@@ -39,13 +39,27 @@ GO
       2 = Rejected
       3 = Sent Back
 
-    Stock deduction when approving:
-      RequestType = 1: batch recipe ingredients -> TotalRequiredQty
-      RequestType = 2: direct raw materials -> IssuedQty
+    RequestType = 1 (Batch Preparation):
+      - FoodPreparationType = 1 (MadeToOrder): do not deduct at batch approval.
+        Its raw materials are deducted by the order-time sales procedure.
+      - FoodPreparationType = 2 (BatchPrepared): deduct ProductType=1 recipe rows.
+      - FoodPreparationType = 3 (PartiallyPrepared): deduct ProductType=1 rows
+        where Deductionstage is 0 (Any/Default) or 2 (Advance Preparation).
+        Deductionstage=1 is reserved for order-time deduction.
+      - FoodPreparationType = 4 (NotApplicable): do not deduct.
+      - Ingredient ProductType=2 (Packing) is NEVER deducted by this procedure.
 
-    Both types are grouped by ItemId. Available QOH is the sum of every active
-    tblProductRate row (Status = 1), including items with multiple price records.
-    Stock deduction is allocated FIFO by ProductRate.Id (oldest row first).
+    RequestType = 2 (Direct Raw Material Issue):
+      - Deduct IssuedQty after the request is approved, independently of the
+        product FoodPreparationType.
+
+    QOH is stored in purchase units. Recipe/direct quantities are normalized
+    to Baseunit before validation and FIFO allocation. The remaining QOH is
+    saved back in purchase units. Multiple active tblProductRate rows are
+    combined by ItemId, and the oldest rate row is consumed first.
+
+    Approval status and stock deduction are atomic. A second approval attempt
+    is rejected because only a Pending request can be approved.
 */
 CREATE OR ALTER PROCEDURE dbo.prdUpdate_InventoryRequestApproval
     @InventoryRequestId INT,
@@ -130,7 +144,11 @@ BEGIN
                 )
                     THROW 50208, 'A product request contains an invalid product or negative planned quantity.', 1;
 
-                /* Each requested product must have an active raw-material recipe. */
+                /*
+                   FoodPreparationType must be configured before a product
+                   request is approved. Unknown values must not silently skip
+                   stock deduction.
+                */
                 IF EXISTS
                 (
                     SELECT 1
@@ -142,19 +160,22 @@ BEGIN
                           AND ISNULL(Status, 1) = 1
                           AND RequestType = 1
                           AND ISNULL(PlannedQty, 0) > 0
-                    ) p
-                    WHERE NOT EXISTS
-                    (
-                        SELECT 1
-                        FROM dbo.tblIngredientDetails ing
-                        WHERE ing.ProductId = p.ProductId
-                          AND ing.ProductType = 1
-                          AND ISNULL(ing.Status, 1) = 1
-                    )
+                    ) requested
+                    LEFT JOIN dbo.tblProduct p
+                        ON p.ProductId = requested.ProductId
+                    WHERE p.ProductId IS NULL
+                       OR ISNULL(p.FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
                 )
-                    THROW 50214, 'A requested product has no active raw-material ingredients. Approval was cancelled.', 1;
+                    THROW 50219, 'A requested product has an invalid or missing FoodPreparationType (1-4). Approval was cancelled.', 1;
 
-                /* Recipe quantities and ingredient item references must be valid. */
+                /*
+                   Validate only recipe ingredients that are deducted at
+                   batch approval:
+                     - BatchPrepared (2): all raw-material rows.
+                     - PartiallyPrepared (3): stage 0 or 2 rows.
+                   MadeToOrder (1), NotApplicable (4), and Packing (2)
+                   ingredients are intentionally excluded.
+                */
                 IF EXISTS
                 (
                     SELECT 1
@@ -166,11 +187,22 @@ BEGIN
                           AND ISNULL(Status, 1) = 1
                           AND RequestType = 1
                           AND ISNULL(PlannedQty, 0) > 0
-                    ) p
+                    ) requested
+                    INNER JOIN dbo.tblProduct p
+                        ON p.ProductId = requested.ProductId
                     INNER JOIN dbo.tblIngredientDetails ing
-                        ON ing.ProductId = p.ProductId
-                       AND ing.ProductType = 1
+                        ON ing.ProductId = requested.ProductId
+                       AND ISNULL(ing.ProductType, 1) = 1
                        AND ISNULL(ing.Status, 1) = 1
+                       AND
+                       (
+                           p.FoodPreparationType = 2
+                           OR
+                           (
+                               p.FoodPreparationType = 3
+                               AND ISNULL(ing.Deductionstage, 0) IN (0, 2)
+                           )
+                       )
                     LEFT JOIN dbo.tblItem i
                         ON i.ItemId = ing.ItemId
                     WHERE ISNULL(ing.Quantity, 0) <= 0
@@ -178,7 +210,31 @@ BEGIN
                        OR i.Baseunit IS NULL
                        OR ISNULL(i.Baseunit, '') = ''
                 )
-                    THROW 50215, 'A raw-material recipe has an invalid ingredient quantity, ItemId, or Baseunit.', 1;
+                    THROW 50215, 'A batch-deduction recipe ingredient has an invalid quantity, ItemId, or Baseunit.', 1;
+
+                /* PartiallyPrepared ingredients must use a known deduction stage. */
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM
+                    (
+                        SELECT DISTINCT ProductId
+                        FROM dbo.tblInventoryRequestDetails
+                        WHERE InventoryRequestId = @InventoryRequestId
+                          AND ISNULL(Status, 1) = 1
+                          AND RequestType = 1
+                          AND ISNULL(PlannedQty, 0) > 0
+                    ) requested
+                    INNER JOIN dbo.tblProduct p
+                        ON p.ProductId = requested.ProductId
+                       AND p.FoodPreparationType = 3
+                    INNER JOIN dbo.tblIngredientDetails ing
+                        ON ing.ProductId = requested.ProductId
+                       AND ISNULL(ing.ProductType, 1) = 1
+                       AND ISNULL(ing.Status, 1) = 1
+                    WHERE ISNULL(ing.Deductionstage, 0) NOT IN (0, 1, 2)
+                )
+                    THROW 50220, 'A PartiallyPrepared raw-material ingredient has an invalid Deductionstage. Use 0, 1, or 2.', 1;
 
                 /* Validate direct raw-material request quantities and units. */
                 IF EXISTS
@@ -232,12 +288,15 @@ BEGIN
                     THROW 50212, 'A direct raw material has an invalid Conversionfactor.', 1;
 
                 /*
-                   IMPORTANT:
-                   The form stores one RequestType=1 row per recipe ingredient,
-                   repeating ProductId and PlannedQty on each row. Therefore,
-                   deduplicate the product request before joining the recipe.
-                   ProductType=1 means raw material; ProductType=2 packing is
-                   intentionally excluded from stock deduction.
+                   The form stores a RequestType=1 detail row for every recipe
+                   ingredient, repeating ProductId and PlannedQty. Deduplicate
+                   ProductId + PlannedQty before expanding the ingredient list.
+
+                   Batch deduction matrix:
+                     FoodPreparationType 2: all ProductType=1 ingredients.
+                     FoodPreparationType 3: ProductType=1, Deductionstage 0 or 2.
+                     FoodPreparationType 1 or 4: none at batch approval.
+                     ProductType=2 (Packing): always excluded.
                 */
                 ;WITH ProductRequests AS
                 (
@@ -251,7 +310,7 @@ BEGIN
                 ),
                 RequiredRawMaterials AS
                 (
-                    /* Batch preparation: expand each distinct product once. */
+                    /* Batch request: include only ingredients due at batch stage. */
                     SELECT
                         ing.ItemId,
                         CONVERT
@@ -265,17 +324,26 @@ BEGIN
                                 ELSE 1
                             END
                         ) AS RequiredBaseQty
-                    FROM ProductRequests p
+                    FROM ProductRequests requested
+                    INNER JOIN dbo.tblProduct product
+                        ON product.ProductId = requested.ProductId
                     INNER JOIN dbo.tblIngredientDetails ing
-                        ON ing.ProductId = p.ProductId
-                       AND ing.ProductType = 1
+                        ON ing.ProductId = requested.ProductId
+                       AND ISNULL(ing.ProductType, 1) = 1
                        AND ISNULL(ing.Status, 1) = 1
                     INNER JOIN dbo.tblItem i
                         ON i.ItemId = ing.ItemId
+                    WHERE
+                        product.FoodPreparationType = 2
+                        OR
+                        (
+                            product.FoodPreparationType = 3
+                            AND ISNULL(ing.Deductionstage, 0) IN (0, 2)
+                        )
 
                     UNION ALL
 
-                    /* Direct raw-material issue. */
+                    /* Direct raw-material issue: always deduct on approval. */
                     SELECT
                         d.ItemId,
                         CONVERT
