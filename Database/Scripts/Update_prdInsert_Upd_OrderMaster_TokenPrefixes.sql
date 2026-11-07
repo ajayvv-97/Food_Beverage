@@ -30,16 +30,19 @@ IF NOT EXISTS (SELECT 1 FROM dbo.tblOrderType WHERE OrderTypeId = 1 AND Status =
 IF NOT EXISTS (SELECT 1 FROM dbo.tblOrderType WHERE OrderTypeId = 2 AND Status = 1)
     THROW 51011, 'Active Takeaway order type (OrderTypeId=2) is missing.', 1;
 
-IF NOT EXISTS (SELECT 1 FROM dbo.tblOrderType WHERE OrderTypeId = 3 AND Status = 1)
-    THROW 51012, 'Active Delivery order type (OrderTypeId=3) is missing.', 1;
-
+/*
+    Delivery is optional in installations that do not use Delivery.
+    If OrderTypeId=3 is configured and active, its prefix is set to D.
+    The procedure below still supports Delivery once that master row exists.
+*/
 UPDATE dbo.tblOrderType
 SET TokenPrefix = CASE OrderTypeId
     WHEN 1 THEN 'P'
     WHEN 2 THEN 'T'
     WHEN 3 THEN 'D'
 END
-WHERE OrderTypeId IN (1, 2, 3);
+WHERE OrderTypeId IN (1, 2, 3)
+  AND Status = 1;
 GO
 
 ALTER PROCEDURE [dbo].[prdInsert_Upd_OrderMaster]
