@@ -1386,10 +1386,16 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                for (int row = 5; row <= 6; row++)
+                tlp_registration.SuspendLayout();
+                for (int row = 5; row <= 9; row++)
                 {
                     for (int column = 0; column < tlp_registration.ColumnCount; column++)
                     {
+                        if ((row == 5 && column == 0) || (row == 5 && column == 1) || (row == 5 && column == 2))
+                            continue;
+                        if ((row == 6 && column == 0) || (row == 6 && column == 1) || (row == 6 && column == 2))
+                            continue;
+
                         Control control = tlp_registration.GetControlFromPosition(column, row);
                         if (control != null)
                             tlp_registration.Controls.Remove(control);
@@ -1406,24 +1412,23 @@ namespace FoodandBeverage.Forms
                     lblvat.Dock = DockStyle.Fill;
                     cmbVatPrcnt.Dock = DockStyle.Fill;
 
-                    tlp_registration.Controls.Add(lbltax, 0, 5);
-                    tlp_registration.Controls.Add(lbltaxtype, 1, 5);
-                    tlp_registration.Controls.Add(lblvat, 2, 5);
-                    tlp_registration.Controls.Add(lblfoodtype, 3, 5);
+                    tlp_registration.Controls.Add(lblvat, 3, 5);
 
-                    tlp_registration.Controls.Add(cmbtax, 0, 6);
-                    tlp_registration.Controls.Add(cmbTaxType, 1, 6);
-                    tlp_registration.Controls.Add(cmbVatPrcnt, 2, 6);
-                    tlp_registration.Controls.Add(tlp_foodtype, 3, 6);
+                    tlp_registration.Controls.Add(cmbVatPrcnt, 3, 6);
 
-                    //tlp_registration.Controls.Add(, 0, 7);
-                    tlp_registration.Controls.Add(lbldes, 1, 7);
-                    //tlp_registration.Controls.Add(, 2, 7);
-                    //tlp_registration.Controls.Add(, 3, 7);
+                    tlp_registration.Controls.Add(lblfoodtype, 0, 7);
+                    //tlp_registration.Controls.Add(, 1, 7);
+                    //tlp_registration.Controls.Add(, 2, 6);
+                    //tlp_registration.Controls.Add(, 3, 6);
 
-                    tlp_registration.Controls.Add(chk_PackagingRequired, 0, 8);
-                    tlp_registration.Controls.Add(txtdes, 1, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 2, 8);
+                    tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
+                    tlp_registration.Controls.Add(chk_PackagingRequired, 1, 8);
+                    tlp_registration.Controls.Add(btnvariation, 2, 8);
+                    tlp_registration.Controls.Add(btn_del_ingre, 3, 8);
+
+                    //tlp_registration.Controls.Add(, 0, 9);
+                    //tlp_registration.Controls.Add(, 1, 8);
+                    //tlp_registration.Controls.Add(, 2, 8);
                     //tlp_registration.Controls.Add(, 3, 8);
                 }
                 else
@@ -1433,25 +1438,26 @@ namespace FoodandBeverage.Forms
                     tlp_s_c_gst_lbl.Dock = DockStyle.Fill;
                     tlp_S_C_text.Dock = DockStyle.Fill;
 
-                    tlp_registration.Controls.Add(lbltax, 0, 5);
-                    tlp_registration.Controls.Add(lbltaxtype, 1, 5);
-                    tlp_registration.Controls.Add(lbligst, 2, 5);
-                    tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 3, 5);
+                    tlp_registration.Controls.Add(lbligst, 3, 5);
 
-                    tlp_registration.Controls.Add(cmbtax, 0, 6);
-                    tlp_registration.Controls.Add(cmbTaxType, 1, 6);
-                    tlp_registration.Controls.Add(cmbIgstPrcnt, 2, 6);
-                    tlp_registration.Controls.Add(tlp_S_C_text, 3, 6);
+                    tlp_registration.Controls.Add(cmbIgstPrcnt, 3, 6);
 
-                    tlp_registration.Controls.Add(lblfoodtype, 0, 7);
-                    //tlp_registration.Controls.Add(, 1, 7);
-                    tlp_registration.Controls.Add(lbldes, 2, 7);
-                    //tlp_registration.Controls.Add(, 3, 7);
+                    tlp_registration.Controls.Add(tlp_s_c_gst_lbl, 0, 7);
+                    tlp_registration.Controls.Add(lblfoodtype, 1, 7);
+                    //tlp_registration.Controls.Add(, 2, 6);
+                    //tlp_registration.Controls.Add(, 3, 6);
 
-                    tlp_registration.Controls.Add(tlp_foodtype, 0, 8);
-                    tlp_registration.Controls.Add(chk_PackagingRequired, 1, 8);
-                    tlp_registration.Controls.Add(txtdes, 2, 8);
-                    tlp_registration.Controls.Add(btn_del_ingre, 3, 8);
+                    tlp_registration.Controls.Add(tlp_S_C_text, 0, 8);
+                    tlp_registration.Controls.Add(tlp_foodtype, 1, 8);
+                    tlp_registration.Controls.Add(chk_PackagingRequired, 2, 8);
+                    tlp_registration.Controls.Add(btnvariation, 3, 8);
+
+                    tlp_registration.Controls.Add(btn_del_ingre, 0, 9);
+                    //tlp_registration.Controls.Add(, 1, 8);
+                    //tlp_registration.Controls.Add(, 2, 8);
+                    //tlp_registration.Controls.Add(, 3, 8);
+
+                    // lbldes txtdes
                 }
 
                 tlp_foodtype.Dock = DockStyle.Fill;
@@ -1460,6 +1466,7 @@ namespace FoodandBeverage.Forms
 
                 ApplyRoundedTextBox(txtdes, 10);
                 textb_shape();
+                tlp_registration.ResumeLayout();
             }
             catch (Exception ex)
             {
