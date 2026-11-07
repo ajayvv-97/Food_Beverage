@@ -2227,6 +2227,24 @@ namespace FoodandBeverage.Forms
         {
             switch (keyData)
             {
+                case Keys.Control | Keys.Shift | Keys.K:
+                    try
+                    {
+                        // Reconfigure the Kitchen / Counter / Office role for this PC.
+                        FoodandBeverage.Services.KOTWorkstationRegistration.ConfigureCurrentMachine(
+                            BranchId, UserId, this);
+                    }
+                    catch (Exception ex)
+                    {
+                        clsgen.LogException(
+                            "Dashboard Configure KOT Workstation",
+                            ex,
+                            FrmLogin.EmployeName,
+                            FrmLogin.Designation,
+                            Convert.ToInt32(FormType.homepage));
+                    }
+                    return true;
+
                 case Keys.Escape:
 
                     if (pnlappcolor.Visible)
