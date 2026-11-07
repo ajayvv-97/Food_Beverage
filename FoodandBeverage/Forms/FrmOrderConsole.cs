@@ -31,6 +31,7 @@ namespace FoodandBeverage.Forms
         public int Bookingmasterid = 0;
         public int BookingType = 0;
         public int OrderTypeId = 0;
+        public int StockDeductionOrderTypeId = 0;
         public const int TakeawayBookingType = 1001;
         public int PageType = 0;
         public int OmId = 0;
@@ -358,6 +359,7 @@ namespace FoodandBeverage.Forms
                 : booktype == Convert.ToInt32(DashboardTableType.PickupOrder)
                     ? 1
                     : booktype == TakeawayBookingType ? 2 : 0;
+            StockDeductionOrderTypeId = OrderTypeId;
             PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
             OmId = Ordermasterid;
@@ -10538,7 +10540,8 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                     dmnsaledetails.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                     dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
-                                    dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                    dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                    dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
 
                                     dmnsaledetails.OrderDetailsId = "0";
                                     dmnsaledetails.SalesDetailsId = 0;
@@ -10926,7 +10929,8 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.AV_id = Convert.ToString(dgv_combined.Rows[i].Cells[CAV_id].Value);
                                             dmnsaledetails.Addoncount = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddoncount].Value);
                                             dmnsaledetails.VariatiionName = Convert.ToString(dgv_combined.Rows[i].Cells[CVariatiionNameno].Value);
-                                            dmnsaledetails.IsStockTracked = Convert.ToBoolean(dgv_combined.Rows[i].Cells[istocktrackno].Value);
+                                            dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                            dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(dgv_combined.Rows[i].Cells[Cpretaxamtno].Value);
 
                                             var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
@@ -11617,7 +11621,8 @@ namespace FoodandBeverage.Forms
 
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                             dmnsaledetails.SalesDetailsId = 0;
-                                            dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                            dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                            dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
 
                                             if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
@@ -11838,7 +11843,8 @@ namespace FoodandBeverage.Forms
                                                 else
                                                     dmnsaledetails.Cmid = "0";
 
-                                                dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                                dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                                dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
                                                 dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i + 1].Cells[ipretaxamtno].Value);
 
                                                 var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
