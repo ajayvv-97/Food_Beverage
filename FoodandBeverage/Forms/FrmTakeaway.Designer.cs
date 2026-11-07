@@ -111,6 +111,7 @@ namespace FoodandBeverage.Forms
             this.btnaddnew.Size = new System.Drawing.Size(56, 43);
             this.btnaddnew.TabIndex = 1;
             this.btnaddnew.UseVisualStyleBackColor = false;
+            this.btnaddnew.Click += new System.EventHandler(this.btnaddnew_Click);
             // 
             // txtPkid_search
             // 
@@ -124,6 +125,10 @@ namespace FoodandBeverage.Forms
             this.txtPkid_search.Size = new System.Drawing.Size(337, 43);
             this.txtPkid_search.TabIndex = 0;
             this.txtPkid_search.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPkid_search.Enter += new System.EventHandler(this.txtPkid_search_Enter);
+            this.txtPkid_search.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPkid_search_KeyDown);
+            this.txtPkid_search.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPkid_search_KeyPress);
+            this.txtPkid_search.Leave += new System.EventHandler(this.txtPkid_search_Leave);
             // 
             // btnsearch
             // 
@@ -136,6 +141,7 @@ namespace FoodandBeverage.Forms
             this.btnsearch.Size = new System.Drawing.Size(50, 42);
             this.btnsearch.TabIndex = 1;
             this.btnsearch.UseVisualStyleBackColor = true;
+            this.btnsearch.Click += new System.EventHandler(this.btnsearch_Click);
             // 
             // btn_cancle_pickup
             // 
@@ -152,6 +158,7 @@ namespace FoodandBeverage.Forms
             this.btn_cancle_pickup.TabIndex = 292;
             this.btn_cancle_pickup.UseVisualStyleBackColor = true;
             this.btn_cancle_pickup.Visible = false;
+            this.btn_cancle_pickup.Click += new System.EventHandler(this.btn_cancle_pickup_Click);
             // 
             // btn_refresh
             // 
@@ -164,6 +171,7 @@ namespace FoodandBeverage.Forms
             this.btn_refresh.Size = new System.Drawing.Size(50, 42);
             this.btn_refresh.TabIndex = 2;
             this.btn_refresh.UseVisualStyleBackColor = true;
+            this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
             // lblcanpickupcount
             // 
@@ -193,6 +201,7 @@ namespace FoodandBeverage.Forms
             this.btn_backCompleorder.TabIndex = 4;
             this.btn_backCompleorder.Text = "Bill Page";
             this.btn_backCompleorder.UseVisualStyleBackColor = true;
+            this.btn_backCompleorder.Click += new System.EventHandler(this.btn_backCompleorder_Click);
             // 
             // btnclose
             // 
@@ -209,6 +218,7 @@ namespace FoodandBeverage.Forms
             this.btnclose.TabIndex = 293;
             this.btnclose.Text = "Close";
             this.btnclose.UseVisualStyleBackColor = true;
+            this.btnclose.Click += new System.EventHandler(this.btnclose_Click);
             // 
             // btnnext
             // 
@@ -222,6 +232,7 @@ namespace FoodandBeverage.Forms
             this.btnnext.Size = new System.Drawing.Size(60, 37);
             this.btnnext.TabIndex = 291;
             this.btnnext.UseVisualStyleBackColor = true;
+            this.btnnext.Click += new System.EventHandler(this.btnnext_Click);
             // 
             // lblmemory
             // 
@@ -247,6 +258,7 @@ namespace FoodandBeverage.Forms
             this.btnprev.Size = new System.Drawing.Size(60, 37);
             this.btnprev.TabIndex = 0;
             this.btnprev.UseVisualStyleBackColor = true;
+            this.btnprev.Click += new System.EventHandler(this.btnprev_Click);
             // 
             // tlp_footer
             // 
@@ -318,6 +330,9 @@ namespace FoodandBeverage.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmTakeaway";
             this.Text = "FrmTakeaway";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmTakeaway_FormClosing);
+            this.Load += new System.EventHandler(this.FrmTakeaway_Load);
+            this.Resize += new System.EventHandler(this.FrmTakeaway_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pbempty)).EndInit();
             this.tlp_search.ResumeLayout(false);
             this.tlp_search.PerformLayout();
