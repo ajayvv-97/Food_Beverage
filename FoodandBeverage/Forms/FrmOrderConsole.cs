@@ -382,13 +382,11 @@ namespace FoodandBeverage.Forms
             f10Bold = new Font(f10, FontStyle.Bold);
         }
 
-        #region Daily Token Grouping
+        #region Blur Popup Overlay
 
-        private int GetConfiguredDailyTokenMode()
+        private void InitializeBlurPopupSupport()
         {
-            try
-            {
-    rect children of FrmOrderConsole and act as popups.
+            // These panels are direct children of FrmOrderConsole and act as popups.
             // The Crystal Report viewer is intentionally excluded from bitmap capture.
             Panel[] popupPanels =
             {
