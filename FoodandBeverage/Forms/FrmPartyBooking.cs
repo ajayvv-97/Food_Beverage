@@ -1141,7 +1141,8 @@ namespace FoodandBeverage
                 pnl_foodpacks.Top = (this.ClientSize.Height - pnl_foodpacks.Height) / 2;
 
                 pnl_foodpacks.Visible = true;
-                pnl_foodpacks.Visible = true;ShowBlurPopup(pnl_foodpacks);
+                pnl_foodpacks.Visible = true;
+                ShowBlurPopup(pnl_foodpacks);
                 pnl_foodpacks.BringToFront();
 
                 LoadPartyPacks();
@@ -2082,6 +2083,7 @@ namespace FoodandBeverage
         {
             pnl_pak_detailsitems.Visible = false;
             HideBlurPopup(pnl_pak_detailsitems);
+            ShowBlurPopup(pnl_foodpacks);
         }
         private void btn_enter_paks_cls_Click(object sender, EventArgs e)
         {
@@ -7448,6 +7450,17 @@ namespace FoodandBeverage
         {
             try
             {
+                DialogResult confirm = CMessageBox.Show(
+                    "Are you sure you want to void this party booking?\n\n" +
+                    "Once voided, this booking will be marked as cancelled.",
+                    "Confirm Booking Void",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (confirm != DialogResult.Yes)
+                    return;
+
                 BllPartyBooking bll = new BllPartyBooking();
                 DmnPartyBooking booking = new DmnPartyBooking();
 
@@ -7458,25 +7471,32 @@ namespace FoodandBeverage
 
                 var result = bll.VoidData("prdVoid_PartyBooking", booking);
 
-                if (result.PartyBookingId > 0)
+                if (result != null && result.PartyBookingId > 0)
                 {
                     pnl_bookingcancel.Visible = false;
                     HideBlurPopup(pnl_bookingcancel);
-                    CMessageBox.Show("Booking Voided Successfully");
+
+                    CMessageBox.Show("Party booking has been voided successfully.");
+
                     ClearAll();
                 }
                 else
                 {
-                    CMessageBox.Show("Void Failed");
+                    CMessageBox.Show("Unable to void the party booking. Please try again.");
                 }
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partybooking page btn_bookingvoid_Click()", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Partybooking));
+                clsgen.LogException(
+                    "Partybooking page btn_bookingvoid_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking)
+                );
             }
         }
+
         #endregion
 
         #region Main Datagridview 
