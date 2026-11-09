@@ -434,6 +434,7 @@
             this.btninterbanking_refund = new System.Windows.Forms.Button();
             this.btndebit_refund = new System.Windows.Forms.Button();
             this.tlp_refund_cnl_rfbtn = new System.Windows.Forms.TableLayoutPanel();
+            this.lblbookingvoid_information = new System.Windows.Forms.Label();
             this.btn_bookingvoid = new System.Windows.Forms.Button();
             this.tableLayoutPanel28 = new System.Windows.Forms.TableLayoutPanel();
             this.txtRenote = new System.Windows.Forms.TextBox();
@@ -621,7 +622,8 @@
             this.btn_moreoption_close = new System.Windows.Forms.Button();
             this.flp_moreoptions = new System.Windows.Forms.FlowLayoutPanel();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.lblbookingvoid_information = new System.Windows.Forms.Label();
+            this.tlp_customer = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_customerfetch = new System.Windows.Forms.Button();
             this.tlp_main.SuspendLayout();
             this.tlp_registartion_main.SuspendLayout();
             this.tlp_paymentsection.SuspendLayout();
@@ -752,6 +754,7 @@
             this.tableLayoutPanel50.SuspendLayout();
             this.pnl_moreoptions.SuspendLayout();
             this.tableLayoutPanel47.SuspendLayout();
+            this.tlp_customer.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp_main
@@ -831,7 +834,7 @@
             this.tlp_dis_remarks.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_dis_remarks.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlp_dis_remarks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_dis_remarks.Size = new System.Drawing.Size(274, 139);
+            this.tlp_dis_remarks.Size = new System.Drawing.Size(273, 139);
             this.tlp_dis_remarks.TabIndex = 222;
             // 
             // txtTotalDiscountAmt
@@ -844,7 +847,7 @@
             this.txtTotalDiscountAmt.Multiline = true;
             this.txtTotalDiscountAmt.Name = "txtTotalDiscountAmt";
             this.txtTotalDiscountAmt.ReadOnly = true;
-            this.txtTotalDiscountAmt.Size = new System.Drawing.Size(148, 24);
+            this.txtTotalDiscountAmt.Size = new System.Drawing.Size(147, 24);
             this.txtTotalDiscountAmt.TabIndex = 1;
             this.txtTotalDiscountAmt.Text = "0.00";
             this.txtTotalDiscountAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -884,7 +887,7 @@
             this.txtTotalTaxAmount.Multiline = true;
             this.txtTotalTaxAmount.Name = "txtTotalTaxAmount";
             this.txtTotalTaxAmount.ReadOnly = true;
-            this.txtTotalTaxAmount.Size = new System.Drawing.Size(148, 24);
+            this.txtTotalTaxAmount.Size = new System.Drawing.Size(147, 24);
             this.txtTotalTaxAmount.TabIndex = 213;
             this.txtTotalTaxAmount.Text = "0.00";
             this.txtTotalTaxAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -920,7 +923,7 @@
             this.txtdiscountreason.Location = new System.Drawing.Point(115, 101);
             this.txtdiscountreason.Multiline = true;
             this.txtdiscountreason.Name = "txtdiscountreason";
-            this.txtdiscountreason.Size = new System.Drawing.Size(148, 27);
+            this.txtdiscountreason.Size = new System.Drawing.Size(147, 27);
             this.txtdiscountreason.TabIndex = 227;
             this.txtdiscountreason.Click += new System.EventHandler(this.txtdiscountreason_Click);
             // 
@@ -934,7 +937,7 @@
             this.txtaddcharge.Multiline = true;
             this.txtaddcharge.Name = "txtaddcharge";
             this.txtaddcharge.ReadOnly = true;
-            this.txtaddcharge.Size = new System.Drawing.Size(148, 24);
+            this.txtaddcharge.Size = new System.Drawing.Size(147, 24);
             this.txtaddcharge.TabIndex = 232;
             this.txtaddcharge.Text = "0.00";
             this.txtaddcharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -947,13 +950,13 @@
             this.tlp_function_btn.Controls.Add(this.tableLayoutPanel18, 0, 0);
             this.tlp_function_btn.Controls.Add(this.tlp_pay_cancel, 0, 1);
             this.tlp_function_btn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_function_btn.Location = new System.Drawing.Point(655, 3);
+            this.tlp_function_btn.Location = new System.Drawing.Point(654, 3);
             this.tlp_function_btn.Name = "tlp_function_btn";
             this.tlp_function_btn.Padding = new System.Windows.Forms.Padding(3);
             this.tlp_function_btn.RowCount = 2;
             this.tlp_function_btn.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.99291F));
             this.tlp_function_btn.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39.00709F));
-            this.tlp_function_btn.Size = new System.Drawing.Size(396, 139);
+            this.tlp_function_btn.Size = new System.Drawing.Size(397, 139);
             this.tlp_function_btn.TabIndex = 219;
             // 
             // tableLayoutPanel18
@@ -973,7 +976,7 @@
             this.tableLayoutPanel18.RowCount = 2;
             this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel18.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel18.Size = new System.Drawing.Size(384, 75);
+            this.tableLayoutPanel18.Size = new System.Drawing.Size(385, 75);
             this.tableLayoutPanel18.TabIndex = 222;
             // 
             // btndispanel
@@ -988,7 +991,7 @@
             this.btndispanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btndispanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btndispanel.ForeColor = System.Drawing.Color.White;
-            this.btndispanel.Location = new System.Drawing.Point(57, 3);
+            this.btndispanel.Location = new System.Drawing.Point(58, 3);
             this.btndispanel.Name = "btndispanel";
             this.btndispanel.Size = new System.Drawing.Size(131, 31);
             this.btndispanel.TabIndex = 4;
@@ -1007,7 +1010,7 @@
             this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(195, 4);
+            this.btnSearch.Location = new System.Drawing.Point(196, 4);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(130, 29);
@@ -1026,7 +1029,7 @@
             this.btnclose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnclose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnclose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnclose.Location = new System.Drawing.Point(57, 40);
+            this.btnclose.Location = new System.Drawing.Point(58, 40);
             this.btnclose.Name = "btnclose";
             this.btnclose.Size = new System.Drawing.Size(131, 32);
             this.btnclose.TabIndex = 3;
@@ -1044,7 +1047,7 @@
             this.btnrefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnrefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnrefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnrefresh.Location = new System.Drawing.Point(194, 40);
+            this.btnrefresh.Location = new System.Drawing.Point(195, 40);
             this.btnrefresh.Name = "btnrefresh";
             this.btnrefresh.Size = new System.Drawing.Size(132, 32);
             this.btnrefresh.TabIndex = 2;
@@ -1065,7 +1068,7 @@
             this.tlp_pay_cancel.Name = "tlp_pay_cancel";
             this.tlp_pay_cancel.RowCount = 1;
             this.tlp_pay_cancel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_pay_cancel.Size = new System.Drawing.Size(384, 46);
+            this.tlp_pay_cancel.Size = new System.Drawing.Size(385, 46);
             this.tlp_pay_cancel.TabIndex = 223;
             // 
             // btn_paynow
@@ -1122,7 +1125,7 @@
             this.tlp_textboxes.Controls.Add(this.lbladvamt, 0, 0);
             this.tlp_textboxes.Controls.Add(this.lbladvamtdata, 1, 0);
             this.tlp_textboxes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_textboxes.Location = new System.Drawing.Point(283, 3);
+            this.tlp_textboxes.Location = new System.Drawing.Point(282, 3);
             this.tlp_textboxes.Name = "tlp_textboxes";
             this.tlp_textboxes.Padding = new System.Windows.Forms.Padding(8);
             this.tlp_textboxes.RowCount = 4;
@@ -1534,7 +1537,6 @@
             this.tlp_reg_contrl.Controls.Add(this.label31, 0, 2);
             this.tlp_reg_contrl.Controls.Add(this.label1, 1, 0);
             this.tlp_reg_contrl.Controls.Add(this.label2, 2, 0);
-            this.tlp_reg_contrl.Controls.Add(this.txtname, 0, 1);
             this.tlp_reg_contrl.Controls.Add(this.txtph, 1, 1);
             this.tlp_reg_contrl.Controls.Add(this.txtemail, 2, 1);
             this.tlp_reg_contrl.Controls.Add(this.label8, 0, 0);
@@ -1546,6 +1548,7 @@
             this.tlp_reg_contrl.Controls.Add(this.tlp_event, 2, 3);
             this.tlp_reg_contrl.Controls.Add(this.label5, 2, 2);
             this.tlp_reg_contrl.Controls.Add(this.tableLayoutPanel2, 0, 3);
+            this.tlp_reg_contrl.Controls.Add(this.tlp_customer, 0, 1);
             this.tlp_reg_contrl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_reg_contrl.Location = new System.Drawing.Point(6, 6);
             this.tlp_reg_contrl.Name = "tlp_reg_contrl";
@@ -1693,10 +1696,10 @@
             this.txtname.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtname.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.txtname.Location = new System.Drawing.Point(3, 21);
+            this.txtname.Location = new System.Drawing.Point(3, 3);
             this.txtname.Multiline = true;
             this.txtname.Name = "txtname";
-            this.txtname.Size = new System.Drawing.Size(244, 35);
+            this.txtname.Size = new System.Drawing.Size(207, 29);
             this.txtname.TabIndex = 0;
             this.txtname.Click += new System.EventHandler(this.txtname_Click);
             this.txtname.TextChanged += new System.EventHandler(this.txtname_TextChanged);
@@ -3234,7 +3237,7 @@
             // pnl_CustomItems_menu
             // 
             this.pnl_CustomItems_menu.Controls.Add(this.tableLayoutPanel11);
-            this.pnl_CustomItems_menu.Location = new System.Drawing.Point(1130, 0);
+            this.pnl_CustomItems_menu.Location = new System.Drawing.Point(56, 0);
             this.pnl_CustomItems_menu.Name = "pnl_CustomItems_menu";
             this.pnl_CustomItems_menu.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.pnl_CustomItems_menu.Size = new System.Drawing.Size(842, 554);
@@ -5391,7 +5394,7 @@
             this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.74605F));
             this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.10884F));
             this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.14511F));
-            this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 285F));
+            this.tlp_partpayment_cal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 286F));
             this.tlp_partpayment_cal.Controls.Add(this.label38, 0, 0);
             this.tlp_partpayment_cal.Controls.Add(this.lblPartNetAmt, 0, 1);
             this.tlp_partpayment_cal.Controls.Add(this.lblPartBalAmt, 1, 1);
@@ -5417,7 +5420,7 @@
             this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label38.Location = new System.Drawing.Point(8, 5);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(86, 65);
+            this.label38.Size = new System.Drawing.Size(85, 65);
             this.label38.TabIndex = 68;
             this.label38.Text = "Net Amount";
             this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -5430,7 +5433,7 @@
             this.lblPartNetAmt.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblPartNetAmt.Location = new System.Drawing.Point(8, 70);
             this.lblPartNetAmt.Name = "lblPartNetAmt";
-            this.lblPartNetAmt.Size = new System.Drawing.Size(86, 66);
+            this.lblPartNetAmt.Size = new System.Drawing.Size(85, 66);
             this.lblPartNetAmt.TabIndex = 70;
             this.lblPartNetAmt.Text = "0.00";
             this.lblPartNetAmt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -5441,7 +5444,7 @@
             this.lblPartBalAmt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblPartBalAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPartBalAmt.ForeColor = System.Drawing.Color.Red;
-            this.lblPartBalAmt.Location = new System.Drawing.Point(100, 70);
+            this.lblPartBalAmt.Location = new System.Drawing.Point(99, 70);
             this.lblPartBalAmt.Name = "lblPartBalAmt";
             this.lblPartBalAmt.Size = new System.Drawing.Size(92, 66);
             this.lblPartBalAmt.TabIndex = 71;
@@ -5453,7 +5456,7 @@
             this.label39.AutoSize = true;
             this.label39.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label39.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label39.Location = new System.Drawing.Point(100, 5);
+            this.label39.Location = new System.Drawing.Point(99, 5);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(92, 65);
             this.label39.TabIndex = 69;
@@ -5468,7 +5471,7 @@
             this.btnPartRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnPartRefresh.FlatAppearance.BorderSize = 0;
             this.btnPartRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPartRefresh.Location = new System.Drawing.Point(288, 73);
+            this.btnPartRefresh.Location = new System.Drawing.Point(287, 73);
             this.btnPartRefresh.Name = "btnPartRefresh";
             this.btnPartRefresh.Size = new System.Drawing.Size(133, 60);
             this.btnPartRefresh.TabIndex = 74;
@@ -5485,7 +5488,7 @@
             this.btnPartClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPartClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPartClose.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnPartClose.Location = new System.Drawing.Point(198, 73);
+            this.btnPartClose.Location = new System.Drawing.Point(197, 73);
             this.btnPartClose.Name = "btnPartClose";
             this.btnPartClose.Size = new System.Drawing.Size(84, 60);
             this.btnPartClose.TabIndex = 72;
@@ -5501,7 +5504,7 @@
             this.btnPartPaynow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPartPaynow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPartPaynow.ForeColor = System.Drawing.Color.White;
-            this.btnPartPaynow.Location = new System.Drawing.Point(198, 8);
+            this.btnPartPaynow.Location = new System.Drawing.Point(197, 8);
             this.btnPartPaynow.Name = "btnPartPaynow";
             this.btnPartPaynow.Size = new System.Drawing.Size(84, 59);
             this.btnPartPaynow.TabIndex = 73;
@@ -5590,7 +5593,7 @@
             // 
             this.pnl_bookingcancel.BackColor = System.Drawing.SystemColors.Control;
             this.pnl_bookingcancel.Controls.Add(this.tableLayoutPanel3);
-            this.pnl_bookingcancel.Location = new System.Drawing.Point(0, 0);
+            this.pnl_bookingcancel.Location = new System.Drawing.Point(1130, 35);
             this.pnl_bookingcancel.Name = "pnl_bookingcancel";
             this.pnl_bookingcancel.Padding = new System.Windows.Forms.Padding(8);
             this.pnl_bookingcancel.Size = new System.Drawing.Size(612, 595);
@@ -5712,7 +5715,7 @@
             this.tableLayoutPanel19.ColumnCount = 3;
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.08602F));
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.91398F));
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 187F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 188F));
             this.tableLayoutPanel19.Controls.Add(this.txtrefundamt, 1, 0);
             this.tableLayoutPanel19.Controls.Add(this.label42, 0, 0);
             this.tableLayoutPanel19.Controls.Add(this.btnrefundfull, 2, 0);
@@ -5730,7 +5733,7 @@
             this.txtrefundamt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtrefundamt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtrefundamt.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
-            this.txtrefundamt.Location = new System.Drawing.Point(261, 3);
+            this.txtrefundamt.Location = new System.Drawing.Point(260, 3);
             this.txtrefundamt.Multiline = true;
             this.txtrefundamt.Name = "txtrefundamt";
             this.txtrefundamt.ReadOnly = true;
@@ -5747,7 +5750,7 @@
             this.label42.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label42.Location = new System.Drawing.Point(3, 0);
             this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(252, 39);
+            this.label42.Size = new System.Drawing.Size(251, 39);
             this.label42.TabIndex = 220;
             this.label42.Text = "Refund Amount";
             this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -5764,9 +5767,9 @@
             this.btnrefundfull.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnrefundfull.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnrefundfull.ForeColor = System.Drawing.Color.White;
-            this.btnrefundfull.Location = new System.Drawing.Point(405, 3);
+            this.btnrefundfull.Location = new System.Drawing.Point(404, 3);
             this.btnrefundfull.Name = "btnrefundfull";
-            this.btnrefundfull.Size = new System.Drawing.Size(182, 33);
+            this.btnrefundfull.Size = new System.Drawing.Size(183, 33);
             this.btnrefundfull.TabIndex = 222;
             this.btnrefundfull.Text = "FULL";
             this.btnrefundfull.UseVisualStyleBackColor = false;
@@ -5897,6 +5900,20 @@
             this.tlp_refund_cnl_rfbtn.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_refund_cnl_rfbtn.Size = new System.Drawing.Size(590, 60);
             this.tlp_refund_cnl_rfbtn.TabIndex = 275;
+            // 
+            // lblbookingvoid_information
+            // 
+            this.lblbookingvoid_information.AutoSize = true;
+            this.lblbookingvoid_information.BackColor = System.Drawing.Color.Transparent;
+            this.lblbookingvoid_information.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblbookingvoid_information.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblbookingvoid_information.ForeColor = System.Drawing.Color.Red;
+            this.lblbookingvoid_information.Location = new System.Drawing.Point(3, 0);
+            this.lblbookingvoid_information.Name = "lblbookingvoid_information";
+            this.lblbookingvoid_information.Size = new System.Drawing.Size(429, 60);
+            this.lblbookingvoid_information.TabIndex = 221;
+            this.lblbookingvoid_information.Text = "Warning: \'Booking Void\' Voiding this booking will cancel the party booking. This " +
+    "action cannot be undone. Please verify the booking details before proceeding.";
             // 
             // btn_bookingvoid
             // 
@@ -8609,25 +8626,44 @@
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             this.dataGridViewImageColumn2.Width = 125;
             // 
-            // lblbookingvoid_information
+            // tlp_customer
             // 
-            this.lblbookingvoid_information.AutoSize = true;
-            this.lblbookingvoid_information.BackColor = System.Drawing.Color.Transparent;
-            this.lblbookingvoid_information.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblbookingvoid_information.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblbookingvoid_information.ForeColor = System.Drawing.Color.Red;
-            this.lblbookingvoid_information.Location = new System.Drawing.Point(3, 0);
-            this.lblbookingvoid_information.Name = "lblbookingvoid_information";
-            this.lblbookingvoid_information.Size = new System.Drawing.Size(429, 60);
-            this.lblbookingvoid_information.TabIndex = 221;
-            this.lblbookingvoid_information.Text = "Warning: \'Booking Void\' Voiding this booking will cancel the party booking. This " +
-    "action cannot be undone. Please verify the booking details before proceeding.";
+            this.tlp_customer.ColumnCount = 2;
+            this.tlp_customer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_customer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlp_customer.Controls.Add(this.btn_customerfetch, 1, 0);
+            this.tlp_customer.Controls.Add(this.txtname, 0, 0);
+            this.tlp_customer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_customer.Location = new System.Drawing.Point(3, 21);
+            this.tlp_customer.Name = "tlp_customer";
+            this.tlp_customer.RowCount = 1;
+            this.tlp_customer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_customer.Size = new System.Drawing.Size(244, 35);
+            this.tlp_customer.TabIndex = 354;
+            // 
+            // btn_customerfetch
+            // 
+            this.btn_customerfetch.BackColor = System.Drawing.Color.Transparent;
+            this.btn_customerfetch.BackgroundImage = global::FoodandBeverage.Properties.Resources.add_vendor;
+            this.btn_customerfetch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_customerfetch.FlatAppearance.BorderSize = 0;
+            this.btn_customerfetch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_customerfetch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_customerfetch.ForeColor = System.Drawing.Color.Red;
+            this.btn_customerfetch.Location = new System.Drawing.Point(216, 3);
+            this.btn_customerfetch.Name = "btn_customerfetch";
+            this.btn_customerfetch.Size = new System.Drawing.Size(25, 29);
+            this.btn_customerfetch.TabIndex = 14;
+            this.btn_customerfetch.UseVisualStyleBackColor = false;
+            this.btn_customerfetch.Visible = false;
+            this.btn_customerfetch.Click += new System.EventHandler(this.btn_customerfetch_Click);
             // 
             // FrmPartyBooking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1098, 640);
+            this.Controls.Add(this.pnl_CustomItems_menu);
             this.Controls.Add(this.pnl_bookingcancel);
             this.Controls.Add(this.pnl_pak_detailsitems);
             this.Controls.Add(this.pnl_foodpacks);
@@ -8642,7 +8678,6 @@
             this.Controls.Add(this.flp_sidemenu);
             this.Controls.Add(this.pnlgiftpreview);
             this.Controls.Add(this.pnl_cardpreview);
-            this.Controls.Add(this.pnl_CustomItems_menu);
             this.Controls.Add(this.pnl_PaymentOptions);
             this.Controls.Add(this.pnlSplit);
             this.Controls.Add(this.pnlcake);
@@ -8841,6 +8876,8 @@
             this.tableLayoutPanel50.ResumeLayout(false);
             this.pnl_moreoptions.ResumeLayout(false);
             this.tableLayoutPanel47.ResumeLayout(false);
+            this.tlp_customer.ResumeLayout(false);
+            this.tlp_customer.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -9401,5 +9438,7 @@
         private System.Windows.Forms.DateTimePicker dtp_kotdate;
         private System.Windows.Forms.DateTimePicker dtp_kottime;
         private System.Windows.Forms.Label lblbookingvoid_information;
+        private System.Windows.Forms.TableLayoutPanel tlp_customer;
+        private System.Windows.Forms.Button btn_customerfetch;
     }
 }

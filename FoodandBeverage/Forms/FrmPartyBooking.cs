@@ -2411,6 +2411,7 @@ namespace FoodandBeverage
         {
             try
             {
+                HideBlurPopup(pnl_enter_paks);
                 pnl_CustomItems_menu.Visible = false;
                 HideBlurPopup(pnl_CustomItems_menu);
                 int sl = dgv_packenter.Rows.Count;
@@ -10867,8 +10868,7 @@ namespace FoodandBeverage
             }
         }
 
-
-
+    
         private void btnsubmit_venue_Click(object sender, EventArgs e)
         {
             try
@@ -11163,6 +11163,13 @@ namespace FoodandBeverage
         {
             pnl_venue.Visible = false;
             HideBlurPopup(pnl_venue);
+        }
+        #endregion
+
+        #region Customer fetch
+        private void btn_customerfetch_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
 
