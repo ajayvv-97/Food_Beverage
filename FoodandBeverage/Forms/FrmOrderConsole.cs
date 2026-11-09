@@ -170,9 +170,9 @@ namespace FoodandBeverage.Forms
         public int iVariatiionNameno = 43;
         public int iPreparationModeno = 44;
         public int isaledetailsidno = 45;
-        public int iorgname = 46;
-        public int icombotaxamt = 47;
-        public int istocktrackno = 48;
+        public int istocktrackno = 46;
+        public int iorgname = 47;
+        public int icombotaxamt = 48;
         public int ipretaxamtno = 49;
         public int iSaledisperno = 50;
         public int isalediamtno = 51;
@@ -210,6 +210,7 @@ namespace FoodandBeverage.Forms
         public int COrderDetailsIdno = 28;
         public int Cofferstatusno = 29;
         public int Coriginalprice = 30;
+        public int cmarketprice = 30;
         public int Csubofferidno = 31;
         public int Ctabletype = 32;
         public int Corderdescriptionno = 33;
