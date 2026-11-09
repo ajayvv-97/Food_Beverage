@@ -44,7 +44,7 @@ GO
         Its raw materials are deducted by the order-time sales procedure.
       - FoodPreparationType = 2 (BatchPrepared): deduct ProductType=1 recipe rows.
       - FoodPreparationType = 3 (PartiallyPrepared): deduct ProductType=1 rows
-        where Deductionstage is 0 (Any/Default) or 2 (Advance Preparation).
+        where Deductionstage is 2 (Advance Preparation) only.
         Deductionstage=1 is reserved for order-time deduction.
       - FoodPreparationType = 4 (NotApplicable): do not deduct.
       - Ingredient ProductType=2 (Packing) is NEVER deducted by this procedure.
@@ -172,7 +172,7 @@ BEGIN
                    Validate only recipe ingredients that are deducted at
                    batch approval:
                      - BatchPrepared (2): all raw-material rows.
-                     - PartiallyPrepared (3): stage 0 or 2 rows.
+                     - PartiallyPrepared (3): stage 2 rows only.
                    MadeToOrder (1), NotApplicable (4), and Packing (2)
                    ingredients are intentionally excluded.
                 */
@@ -200,7 +200,7 @@ BEGIN
                            OR
                            (
                                p.FoodPreparationType = 3
-                               AND ISNULL(ing.Deductionstage, 0) IN (0, 2)
+                               AND ISNULL(ing.Deductionstage, 0) = 2
                            )
                        )
                     LEFT JOIN dbo.tblItem i
@@ -294,7 +294,7 @@ BEGIN
 
                    Batch deduction matrix:
                      FoodPreparationType 2: all ProductType=1 ingredients.
-                     FoodPreparationType 3: ProductType=1, Deductionstage 0 or 2.
+                     FoodPreparationType 3: ProductType=1, Deductionstage 2 only.
                      FoodPreparationType 1 or 4: none at batch approval.
                      ProductType=2 (Packing): always excluded.
                 */
@@ -338,7 +338,7 @@ BEGIN
                         OR
                         (
                             product.FoodPreparationType = 3
-                            AND ISNULL(ing.Deductionstage, 0) IN (0, 2)
+                            AND ISNULL(ing.Deductionstage, 0) = 2
                         )
 
                     UNION ALL

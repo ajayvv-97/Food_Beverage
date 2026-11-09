@@ -53,7 +53,8 @@ namespace FoodandBeverage.Forms
                 Select = "p.ProductId AS ItemId, p.Product AS ItemName, " +
                          "CAST(0 AS DECIMAL(18,2)) AS CurrentStock, CAST(1 AS INT) AS ProductType",
                 Table = "tblProduct p",
-                WhereNdGroupBy = "WHERE ISNULL(p.Status,1) <> 0 AND " +
+                WhereNdGroupBy = "WHERE ISNULL(p.Status,1) = 1 " +
+                    "AND ISNULL(p.FoodPreparationType,0) IN (2,3) AND " +
                     "(N'" + escapedSearch + "' = N'' OR p.Product LIKE N'%' + N'" +
                     escapedSearch + "' + N'%')",
                 OrderBy = "ORDER BY p.Product"
@@ -116,6 +117,7 @@ namespace FoodandBeverage.Forms
                          "ELSE ISNULL(i.Conversionfactor,0) END END - ISNULL(d.quantity,0) * " +
                          plannedQuantity + ") AS ProjectedBalance, d.ProductId",
                 Table = "tblIngredientDetails d " +
+                        "INNER JOIN tblProduct p ON p.ProductId = d.ProductId AND p.Status = 1 " +
                         "LEFT JOIN tblItem i ON i.ItemId = d.ItemId " +
                         "LEFT JOIN tblUnit u ON u.UId = d.Unit " +
                         "LEFT JOIN (SELECT ProductId, SUM(ISNULL(QOH,0)) AS QOH " +
@@ -123,7 +125,9 @@ namespace FoodandBeverage.Forms
                         "ON pr.ProductId = d.ItemId",
                 WhereNdGroupBy = "WHERE d.ProductId = " + productId +
                                  " AND ISNULL(d.ProductType,1) = 1 " +
-                                 " AND ISNULL(d.Status,1) <> 0",
+                                 " AND ISNULL(d.Status,1) = 1 " +
+                                 " AND (p.FoodPreparationType = 2 OR " +
+                                 "(p.FoodPreparationType = 3 AND ISNULL(d.Deductionstage,0) = 2))",
                 OrderBy = "ORDER BY d.Ing_DetailsId"
             };
 
@@ -708,7 +712,8 @@ namespace FoodandBeverage.Forms
                          "CAST(0 AS DECIMAL(18,2)) AS CurrentStock, CAST(1 AS INT) AS ProductType",
                 Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON c.Fcid = p.Fcid",
                 WhereNdGroupBy = "WHERE p.ProductId = " + productId +
-                                 " AND p.Status = 1 AND c.Status = 1",
+                                 " AND p.Status = 1 AND c.Status = 1 " +
+                                 " AND ISNULL(p.FoodPreparationType,0) IN (2,3)",
                 OrderBy = ""
             };
 
@@ -749,14 +754,23 @@ namespace FoodandBeverage.Forms
             bool hasSavedRows = _loadedRequestDetails != null &&
                 _loadedRequestDetails.Any(x => x.RequestType == 1 && x.ProductId == productId);
 
+            List<DmnInventoryRequestIngredient> eligibleRecipeIngredients =
+                LoadProductIngredients(productId, plannedQty);
+
             if (hasSavedRows)
             {
+                HashSet<int> eligibleIngredientIds = new HashSet<int>(
+                    eligibleRecipeIngredients.Select(x => x.IngredientDetailId));
+
                 ingredients = _loadedRequestDetails
-                    .Where(x => x.RequestType == 1 && x.ProductId == productId && x.ItemId.HasValue)
+                    .Where(x => x.RequestType == 1 &&
+                                x.ProductId == productId &&
+                                x.ItemId.HasValue &&
+                                eligibleIngredientIds.Contains(Convert.ToInt32(x.RecipeItemId ?? 0)))
                     .OrderBy(x => x.SlNo)
                     .Select(x => new DmnInventoryRequestIngredient
                     {
-                        IngredientDetailId = (int)(x.RecipeItemId ?? 0),
+                        IngredientDetailId = Convert.ToInt32(x.RecipeItemId ?? 0),
                         InventoryRequestDetailId = x.InventoryRequestDetailId,
                         ItemId = Convert.ToInt32(x.ItemId.Value),
                         IngredientName = x.ItemName,
@@ -771,7 +785,7 @@ namespace FoodandBeverage.Forms
             }
             else
             {
-                ingredients = LoadProductIngredients(productId, plannedQty);
+                ingredients = eligibleRecipeIngredients;
             }
 
             _loadingGrid = true;
@@ -1796,7 +1810,9 @@ namespace FoodandBeverage.Forms
                 searchCriteria.Select =
                     "p.ProductId as Id,p.Product as Field1,CAST(p.Price AS VARCHAR(30)) as Field2";
                 searchCriteria.Table = "tblProduct p left join tblCategory_FTI c on p.Fcid=c.Fcid";
-                searchCriteria.WhereNdGroupBy = "WHERE p.Status = 1 AND c.Status = 1";
+                searchCriteria.WhereNdGroupBy =
+                    "WHERE p.Status = 1 AND c.Status = 1 " +
+                    "AND ISNULL(p.FoodPreparationType,0) IN (2,3)";
                 if (!string.IsNullOrWhiteSpace(escapedSearch))
                 {
                     searchCriteria.WhereNdGroupBy +=
