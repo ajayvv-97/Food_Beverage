@@ -232,9 +232,9 @@ BEGIN
                         ON ing.ProductId = requested.ProductId
                        AND ISNULL(ing.ProductType, 1) = 1
                        AND ISNULL(ing.Status, 1) = 1
-                    WHERE ISNULL(ing.Deductionstage, 0) NOT IN (0, 1, 2)
+                    WHERE ISNULL(ing.Deductionstage, 0) NOT IN (1, 2)
                 )
-                    THROW 50220, 'A PartiallyPrepared raw-material ingredient has an invalid Deductionstage. Use 0, 1, or 2.', 1;
+                    THROW 50220, 'A PartiallyPrepared raw-material ingredient has an invalid Deductionstage. Use 1 (OrderTime) or 2 (BatchPreparation).', 1;
 
                 /* Validate direct raw-material request quantities and units. */
                 IF EXISTS
