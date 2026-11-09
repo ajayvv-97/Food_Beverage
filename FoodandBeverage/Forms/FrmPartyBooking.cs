@@ -5772,8 +5772,8 @@ namespace FoodandBeverage
                     int productId = Convert.ToInt32(row.Cells[pProductid].Value ?? 0);
                     int Defaultproduct = Convert.ToInt32(row.Cells[pPartydeafult].Value ?? 0);
 
-                    //if (Defaultproduct == 1)
-                    //    continue;
+                    if (Defaultproduct == 1)
+                        continue;
 
                     //if (productType <= 0)
                     //    continue;
@@ -6215,7 +6215,7 @@ namespace FoodandBeverage
                 search.Table = "tblPartyBooking pb " +
                     "left join tblEventCommonItems e on e.EventItemId=pb.EventType and e.Status = 1 AND EventCategoryType = 1 " +
                     "left join tblPartyPackMaster pm on pm.PartyPackId=pb.PartyPackId and pm.status=1";
-                search.WhereNdGroupBy = "WHERE pb.Status = 1 and pb.refundstatus!=1";
+                search.WhereNdGroupBy = "WHERE pb.Status = 1";// and pb.refundstatus!=1";
                 search.OrderBy = " ORDER BY PartyBookingId DESC";
 
                 var gridSource = new BllSearch<DmnGridFields>().GetSearchData("prdSearch", search);
@@ -7452,6 +7452,7 @@ namespace FoodandBeverage
 
         private void btncakereg_cls_Click(object sender, EventArgs e)
         {
+            HideBlurPopup(pnlcake);
             pnl_cakeregister.Visible = false;
             HideBlurPopup(pnl_cakeregister);
         }
@@ -11176,63 +11177,68 @@ namespace FoodandBeverage
         #endregion
 
         #region Customer fetch
+        #region Customer fetch
         private void btn_customerfetch_Click(object sender, EventArgs e)
         {
             try
             {
-                DmnSearch search = new DmnSearch
-                {
-                    ColumnHeaders = "ID,Customer,Phone No,Email,Address",
-                    Select = "CustomerId AS Id, " +
-                             "ISNULL(CustomerName,'') AS Field1, " +
-                             "ISNULL(Phone,'') AS Field2, " +
-                             "ISNULL(Email,'') AS Field3, " +
-                             "ISNULL(Address,'') AS Field4",
-                    Table = "tblCustomer",
-                    WhereNdGroupBy = "WHERE 1 = 1",
-                    OrderBy = "ORDER BY CustomerId DESC"
-                };
+                int customerId = 0;
+                // 1. Configure customer search
+                DmnSearch search = new DmnSearch();
+                search.ColumnHeaders = "ID,Customer,PhoneNo,Email,Company,GSTNo";
+                search.Select = "CusId AS Id, " +
+                             "FirstName AS Field1, " +
+                             "PhoneNumber AS Field2, " +
+                             "EmailAddress AS Field3, " +
+                             "CompanyName AS Field4, " +
+                             "GSTNo AS Field5";
+                search.Table = "tblCustomer";
+                search.WhereNdGroupBy = "WHERE ISNULL(Status,0) = 1";
+                search.OrderBy = " ORDER BY CusId DESC";
 
-                var customerRows =
-                    new BllSearch<DmnGridFields>().GetSearchData("prdSearch", search);
-
-                if (customerRows == null || customerRows.Count == 0)
+                var gridSource = new BllSearch<DmnGridFields>().GetSearchData("prdSearch", search);
+                if (gridSource.Count == 0)
                 {
-                    CMessageBox.Show("No customer records found.");
+                    CMessageBox.Show("No Records");
                     return;
                 }
-
-                int customerId = 0;
                 using (var frm = new FrmSearch<DmnGridFields>(
-                    search,
-                    SearchMode.FirstCharacter,
-                    this.Width - 300,
-                    this.Height - 300,
-                    this.Location.Y + 50,
-                    this.Location.X + 20,
-                    null))
+                  search,
+                  SearchMode.FirstCharacter,
+                  this.Width - 300,
+                  this.Height - 300,
+                  this.Location.Y + 50,
+                  this.Location.X + 20,
+                  null))
                 {
-                    if (frm.ShowDialog() != DialogResult.OK ||
-                        !int.TryParse(frm._retValue, out customerId) ||
-                        customerId <= 0)
-                    {
+                
+                    if (frm.ShowDialog() != DialogResult.OK)
                         return;
-                    }
+
+                    if (!int.TryParse(frm._retValue, out customerId) || customerId <= 0)
+                        return;
                 }
 
-                // Fetch the selected customer's latest details by ID.
+                // 4. Fetch the selected customer's complete details
                 DmnSearch customerDetailsSearch = new DmnSearch
                 {
-                    Select = "CustomerId AS Id, " +
-                             "ISNULL(CustomerName,'') AS Field1, " +
-                             "ISNULL(Phone,'') AS Field2, " +
-                             "ISNULL(Email,'') AS Field3, " +
-                             "ISNULL(Address,'') AS Field4",
+                    Select = "CusId AS Id, " +
+                             "ISNULL(FirstName,'') AS Field1, " +
+                             "ISNULL(SecondName,'') AS Field2, " +
+                             "ISNULL(Gender,'') AS Field3, " +
+                             "ISNULL(PhoneNumber,'') AS Field4, " +
+                             "ISNULL(EmailAddress,'') AS Field5, " +
+                             "ISNULL(CompanyName,'') AS Field6, " +
+                             "ISNULL(GSTNo,'') AS Field7, " +
+                             "ISNULL(FullAddress,'') AS Field8",
+
                     Table = "tblCustomer",
-                    WhereNdGroupBy = "WHERE CustomerId = " + customerId
+
+                    WhereNdGroupBy = "WHERE CusId = " + customerId +
+                                     " AND ISNULL(Status,0) = 1"
                 };
 
-                DmnGridFields customer =
+                var customer =
                     new BllSearch<DmnGridFields>()
                         .GetSearchData("prdSearch", customerDetailsSearch)
                         .FirstOrDefault();
@@ -11243,14 +11249,27 @@ namespace FoodandBeverage
                     return;
                 }
 
+                // 5. Populate Party Booking customer controls
+                string firstName = customer.Field1 ?? string.Empty;
+                string secondName = customer.Field2 ?? string.Empty;
+                string companyName = customer.Field6 ?? string.Empty;
+
+                string fullName = (firstName + " " + secondName).Trim();
+
+                // Use company name if personal name is not available.
+                if (string.IsNullOrWhiteSpace(fullName))
+                    fullName = companyName;
+
                 _isSettingCustomerDetails = true;
+
                 try
                 {
                     _selectedCustomerId = customerId;
-                    txtname.Text = customer.Field1 ?? string.Empty;
-                    txtph.Text = customer.Field2 ?? string.Empty;
-                    txtemail.Text = customer.Field3 ?? string.Empty;
-                    txtaddress.Text = customer.Field4 ?? string.Empty;
+
+                    txtname.Text = fullName;
+                    txtph.Text = customer.Field4 ?? string.Empty;
+                    txtemail.Text = customer.Field5 ?? string.Empty;
+                    txtaddress.Text = customer.Field8 ?? string.Empty;
                 }
                 finally
                 {
@@ -11267,11 +11286,10 @@ namespace FoodandBeverage
                     Convert.ToInt32(FormType.Partybooking));
             }
         }
+        #endregion
 
         private void CustomerDetails_TextChanged(object sender, EventArgs e)
         {
-            // Manual edits detach the form from the previously selected customer.
-            // Booking loads and customer selection update these fields programmatically.
             if (!_isSettingCustomerDetails && !_isLoadingPartyBooking)
                 _selectedCustomerId = 0;
         }
