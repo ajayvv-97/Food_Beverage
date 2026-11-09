@@ -99,7 +99,7 @@ namespace BLL
             parameters.Add("ProjectedBalance", NormalizeQuantity(objDetails.ProjectedBalance));
 
             parameters.Add("RecipeItemId", objDetails.RecipeItemId);
-            parameters.Add("ItemId", objDetails.ItemId);
+            parameters.Add("ItemId", objDetails.ItemId, DbType.Int64);
             parameters.Add("ProductType", objDetails.ProductType);
             parameters.Add("Unit", objDetails.Unit);
             parameters.Add("PurposeRemarks", objDetails.PurposeRemarks);
@@ -141,7 +141,7 @@ namespace BLL
             parameters.Add("ProjectedBalance", NormalizeQuantity(objDetails.ProjectedBalance));
 
             parameters.Add("RecipeItemId", objDetails.RecipeItemId);
-            parameters.Add("ItemId", objDetails.ItemId);
+            parameters.Add("ItemId", objDetails.ItemId, DbType.Int64);
             parameters.Add("ProductType", objDetails.ProductType);
             parameters.Add("Unit", objDetails.Unit);
             parameters.Add("PurposeRemarks", objDetails.PurposeRemarks);
@@ -172,7 +172,7 @@ namespace BLL
         parameters.Add("RequestDetailId", objDetails.RequestDetailId);
         parameters.Add("RequestId", objDetails.RequestId);
         parameters.Add("RequestType", objDetails.RequestType);
-        parameters.Add("ItemId", objDetails.ItemId);
+        parameters.Add("ItemId", objDetails.ItemId, DbType.Int64);
         parameters.Add("ItemName", objDetails.ItemName);
         parameters.Add("PlannedQty", objDetails.PlannedQty);
         parameters.Add("CurrentStock", objDetails.CurrentStock);
