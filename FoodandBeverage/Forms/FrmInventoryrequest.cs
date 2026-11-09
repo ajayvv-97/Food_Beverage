@@ -73,7 +73,7 @@ namespace FoodandBeverage.Forms
             string escapedSearch = EscapeSearchText(search);
             DmnSearch criteria = new DmnSearch
             {
-                Select = "CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName, " +
+                Select = "i.ItemId AS ItemId, i.Itemname AS ItemName, " +
                          "ISNULL(pr.QOH,0) * CASE WHEN ISNULL(i.Conversionfactor,0) > 0 " +
                          "THEN i.Conversionfactor ELSE 1 END AS CurrentStock, i.Baseunit AS UnitId, " +
                          "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
@@ -646,7 +646,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 HideItemSearchPopup();
-                int productId = ShowAdvancedItemSearch(1, txtsearch_batch.Text.Trim());
+                int productId = checked((int)ShowAdvancedItemSearch(1, txtsearch_batch.Text.Trim()));
                 if (productId > 0)
                 {
                     AddBatchProductById(productId);
@@ -772,7 +772,7 @@ namespace FoodandBeverage.Forms
                     {
                         IngredientDetailId = Convert.ToInt32(x.RecipeItemId ?? 0),
                         InventoryRequestDetailId = x.InventoryRequestDetailId,
-                        ItemId = Convert.ToInt32(x.ItemId.Value),
+                        ItemId = x.ItemId.Value,
                         IngredientName = x.ItemName,
                         PerPortionQty = x.PerPortionQty ?? 0m,
                         TotalRequiredQty = (x.PerPortionQty ?? 0m) * plannedQty,
@@ -889,7 +889,7 @@ namespace FoodandBeverage.Forms
                         {
                             IngredientDetailId = (int)ToDecimal(ingredientRow.Cells[BIing_DetailsIdno].Value),
                             InventoryRequestDetailId = (int)ToDecimal(ingredientRow.Cells[BIInventoryRequestDetailIdno].Value),
-                            ItemId = Convert.ToInt32(ingredientRow.Cells[BIitemidno].Value),
+                            ItemId = Convert.ToInt64(ingredientRow.Cells[BIitemidno].Value),
                             IngredientName = Convert.ToString(ingredientRow.Cells[BIingredientno].Value),
                             PerPortionQty = ToDecimal(ingredientRow.Cells[Biperportionqtyno].Value),
                             TotalRequiredQty = ToDecimal(ingredientRow.Cells[BItotalrequiredqtyno].Value),
@@ -911,7 +911,7 @@ namespace FoodandBeverage.Forms
                         {
                             IngredientDetailId = (int)(x.RecipeItemId ?? 0),
                             InventoryRequestDetailId = x.InventoryRequestDetailId,
-                            ItemId = Convert.ToInt32(x.ItemId.Value),
+                            ItemId = x.ItemId.Value,
                             IngredientName = x.ItemName,
                             PerPortionQty = x.PerPortionQty ?? 0m,
                             TotalRequiredQty = (x.PerPortionQty ?? 0m) * plannedQty,
@@ -1538,7 +1538,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 HideItemSearchPopup();
-                int itemId = ShowAdvancedItemSearch(2, txtsearch_raw.Text.Trim());
+                long itemId = ShowAdvancedItemSearch(2, txtsearch_raw.Text.Trim());
                 if (itemId > 0)
                 {
                     AddRawMaterialById(itemId);
@@ -1551,7 +1551,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void AddRawMaterialById(int itemId)
+        private void AddRawMaterialById(long itemId)
         {
             try
             {
@@ -1564,8 +1564,8 @@ namespace FoodandBeverage.Forms
 
                 foreach (DataGridViewRow existing in dgv_raw.Rows)
                 {
-                    int existingId;
-                    if (int.TryParse(Convert.ToString(existing.Cells[Ritemidno].Value), out existingId) &&
+                    long existingId;
+                    if (long.TryParse(Convert.ToString(existing.Cells[Ritemidno].Value), out existingId) &&
                         existingId == selected.ItemId)
                     {
                         existing.Cells[Rissuedqtyno].Value =
@@ -1600,11 +1600,11 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private DmnInventoryRequestItem LoadRawMaterialById(int itemId)
+        private DmnInventoryRequestItem LoadRawMaterialById(long itemId)
         {
             DmnSearch criteria = new DmnSearch
             {
-                Select = "CAST(i.ItemId AS INT) AS ItemId, i.Itemname AS ItemName, " +
+                Select = "i.ItemId AS ItemId, i.Itemname AS ItemName, " +
                          "ISNULL(pr.QOH,0) * CASE WHEN ISNULL(i.Conversionfactor,0) > 0 " +
                          "THEN i.Conversionfactor ELSE 1 END AS CurrentStock, i.Baseunit AS UnitId, " +
                          "u.UnitName AS UnitName, CAST(2 AS INT) AS ProductType",
@@ -1847,9 +1847,9 @@ namespace FoodandBeverage.Forms
             return bllSearch.GetSearchData("prdSearch", searchCriteria);
         }
 
-        private int ShowAdvancedItemSearch(int requestType, string searchText)
+        private long ShowAdvancedItemSearch(int requestType, string searchText)
         {
-            int returnValue = 0;
+            long returnValue = 0;
             DataTable dtColumnAlign = new DataTable();
             dtColumnAlign.Columns.Add();
 
@@ -1871,7 +1871,7 @@ namespace FoodandBeverage.Forms
             {
                 if (search.ShowDialog(this) == DialogResult.OK)
                 {
-                    int.TryParse(Convert.ToString(search._retValue), out returnValue);
+                    long.TryParse(Convert.ToString(search._retValue), out returnValue);
                 }
             }
 
