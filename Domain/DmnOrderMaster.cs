@@ -41,6 +41,11 @@ namespace Domain
         public int PickupOrderFlag { get; set; }
         public int PkId { get; set; }
 
+        // Daily Pickup / Takeaway token (separate from the legacy Pickup PkId).
+        public int OrderTypeId { get; set; }
+        public int TokenNumber { get; set; }
+        public string TokenDisplay { get; set; }
+
         // ============================
         // NEW CUSTOMER DETAILS (ADDED)
         // ============================

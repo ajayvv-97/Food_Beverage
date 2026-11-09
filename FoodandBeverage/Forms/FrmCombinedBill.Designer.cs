@@ -35,16 +35,16 @@ namespace FoodandBeverage.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnl_complebill_prevbill = new System.Windows.Forms.Panel();
             this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
             this.tlp_control = new System.Windows.Forms.TableLayoutPanel();
@@ -63,19 +63,6 @@ namespace FoodandBeverage.Forms
             this.pnl_previous_bill = new System.Windows.Forms.Panel();
             this.tlp_previous_bill = new System.Windows.Forms.TableLayoutPanel();
             this.dgvorderview = new System.Windows.Forms.DataGridView();
-            this.Slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmAction = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Ordertime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmbTableCode = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.totalqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.netamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Recieviedamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Balanceamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Paymentmethod = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mAction = new System.Windows.Forms.DataGridViewImageColumn();
-            this.cmordermasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cpartybookingid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flp_pre_bill_header = new System.Windows.Forms.FlowLayoutPanel();
             this.btn_serach_prev_bill = new System.Windows.Forms.Button();
             this.flp_billlayout = new System.Windows.Forms.FlowLayoutPanel();
@@ -98,6 +85,21 @@ namespace FoodandBeverage.Forms
             this.lblmsg = new System.Windows.Forms.Label();
             this.CombineBillAutoTimer = new System.Windows.Forms.Timer(this.components);
             this.flp_sidemenu = new System.Windows.Forms.FlowLayoutPanel();
+            this.Slno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmAction = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Ordertime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmbTableCode = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.totalqty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.netamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Recieviedamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Balanceamount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Paymentmethod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mAction = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cmordermasterid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cpartybookingid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ctableidno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prevpickupid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnl_complebill_prevbill.SuspendLayout();
             this.tlp_main.SuspendLayout();
             this.tlp_control.SuspendLayout();
@@ -426,7 +428,9 @@ namespace FoodandBeverage.Forms
             this.Paymentmethod,
             this.mAction,
             this.cmordermasterid,
-            this.cpartybookingid});
+            this.cpartybookingid,
+            this.ctableidno,
+            this.prevpickupid});
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.75F);
@@ -456,145 +460,6 @@ namespace FoodandBeverage.Forms
             this.dgvorderview.TabIndex = 219;
             this.dgvorderview.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvorderview_CellDoubleClick);
             this.dgvorderview.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvorderview_DataError);
-            // 
-            // Slno
-            // 
-            this.Slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
-            this.Slno.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Slno.HeaderText = "Sl.No";
-            this.Slno.MaxInputLength = 100;
-            this.Slno.MinimumWidth = 6;
-            this.Slno.Name = "Slno";
-            this.Slno.ReadOnly = true;
-            this.Slno.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Slno.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Slno.Width = 52;
-            // 
-            // cmAction
-            // 
-            this.cmAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.cmAction.HeaderText = "Action";
-            this.cmAction.MinimumWidth = 6;
-            this.cmAction.Name = "cmAction";
-            this.cmAction.ReadOnly = true;
-            this.cmAction.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.cmAction.Width = 57;
-            // 
-            // Ordertime
-            // 
-            this.Ordertime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Ordertime.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Ordertime.HeaderText = "Order DateTime";
-            this.Ordertime.MinimumWidth = 6;
-            this.Ordertime.Name = "Ordertime";
-            this.Ordertime.ReadOnly = true;
-            this.Ordertime.Width = 144;
-            // 
-            // OrderID
-            // 
-            this.OrderID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.OrderID.DefaultCellStyle = dataGridViewCellStyle4;
-            this.OrderID.HeaderText = "OrderID";
-            this.OrderID.MinimumWidth = 6;
-            this.OrderID.Name = "OrderID";
-            this.OrderID.ReadOnly = true;
-            this.OrderID.Width = 87;
-            // 
-            // cmbTableCode
-            // 
-            this.cmbTableCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.cmbTableCode.DefaultCellStyle = dataGridViewCellStyle5;
-            this.cmbTableCode.HeaderText = "TableCode";
-            this.cmbTableCode.MinimumWidth = 6;
-            this.cmbTableCode.Name = "cmbTableCode";
-            this.cmbTableCode.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.cmbTableCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.cmbTableCode.Width = 111;
-            // 
-            // totalqty
-            // 
-            this.totalqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.totalqty.DefaultCellStyle = dataGridViewCellStyle6;
-            this.totalqty.HeaderText = "Total Quantity";
-            this.totalqty.MinimumWidth = 6;
-            this.totalqty.Name = "totalqty";
-            this.totalqty.ReadOnly = true;
-            this.totalqty.Width = 129;
-            // 
-            // netamount
-            // 
-            this.netamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.netamount.HeaderText = "NetAmount";
-            this.netamount.MinimumWidth = 6;
-            this.netamount.Name = "netamount";
-            this.netamount.ReadOnly = true;
-            this.netamount.Width = 108;
-            // 
-            // Recieviedamount
-            // 
-            this.Recieviedamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Recieviedamount.HeaderText = "RecieviedAmount";
-            this.Recieviedamount.MinimumWidth = 6;
-            this.Recieviedamount.Name = "Recieviedamount";
-            this.Recieviedamount.ReadOnly = true;
-            this.Recieviedamount.Width = 155;
-            // 
-            // Balanceamount
-            // 
-            this.Balanceamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Balanceamount.HeaderText = "Balance Amount";
-            this.Balanceamount.MinimumWidth = 6;
-            this.Balanceamount.Name = "Balanceamount";
-            this.Balanceamount.ReadOnly = true;
-            this.Balanceamount.Width = 145;
-            // 
-            // Paymentmethod
-            // 
-            this.Paymentmethod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Paymentmethod.HeaderText = "PaymentMethod";
-            this.Paymentmethod.MinimumWidth = 6;
-            this.Paymentmethod.Name = "Paymentmethod";
-            this.Paymentmethod.ReadOnly = true;
-            this.Paymentmethod.Width = 144;
-            // 
-            // mAction
-            // 
-            this.mAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.NullValue = null;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(9);
-            this.mAction.DefaultCellStyle = dataGridViewCellStyle7;
-            this.mAction.HeaderText = "Status";
-            this.mAction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.mAction.MinimumWidth = 6;
-            this.mAction.Name = "mAction";
-            this.mAction.ReadOnly = true;
-            this.mAction.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.mAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.mAction.Width = 76;
-            // 
-            // cmordermasterid
-            // 
-            this.cmordermasterid.HeaderText = "ordermasterid";
-            this.cmordermasterid.MinimumWidth = 6;
-            this.cmordermasterid.Name = "cmordermasterid";
-            this.cmordermasterid.Visible = false;
-            this.cmordermasterid.Width = 130;
-            // 
-            // cpartybookingid
-            // 
-            this.cpartybookingid.HeaderText = "PartyBokkingId";
-            this.cpartybookingid.Name = "cpartybookingid";
-            this.cpartybookingid.Visible = false;
-            this.cpartybookingid.Width = 138;
             // 
             // flp_pre_bill_header
             // 
@@ -887,6 +752,159 @@ namespace FoodandBeverage.Forms
             this.flp_sidemenu.TabIndex = 20;
             this.flp_sidemenu.Visible = false;
             // 
+            // Slno
+            // 
+            this.Slno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            this.Slno.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Slno.HeaderText = "Sl.No";
+            this.Slno.MaxInputLength = 100;
+            this.Slno.MinimumWidth = 6;
+            this.Slno.Name = "Slno";
+            this.Slno.ReadOnly = true;
+            this.Slno.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Slno.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Slno.Width = 52;
+            // 
+            // cmAction
+            // 
+            this.cmAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.cmAction.HeaderText = "Action";
+            this.cmAction.MinimumWidth = 6;
+            this.cmAction.Name = "cmAction";
+            this.cmAction.ReadOnly = true;
+            this.cmAction.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.cmAction.Width = 57;
+            // 
+            // Ordertime
+            // 
+            this.Ordertime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Ordertime.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Ordertime.HeaderText = "Order DateTime";
+            this.Ordertime.MinimumWidth = 6;
+            this.Ordertime.Name = "Ordertime";
+            this.Ordertime.ReadOnly = true;
+            this.Ordertime.Width = 144;
+            // 
+            // OrderID
+            // 
+            this.OrderID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.OrderID.DefaultCellStyle = dataGridViewCellStyle4;
+            this.OrderID.HeaderText = "OrderID";
+            this.OrderID.MinimumWidth = 6;
+            this.OrderID.Name = "OrderID";
+            this.OrderID.ReadOnly = true;
+            this.OrderID.Width = 87;
+            // 
+            // cmbTableCode
+            // 
+            this.cmbTableCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cmbTableCode.DefaultCellStyle = dataGridViewCellStyle5;
+            this.cmbTableCode.HeaderText = "TableCode";
+            this.cmbTableCode.MinimumWidth = 6;
+            this.cmbTableCode.Name = "cmbTableCode";
+            this.cmbTableCode.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.cmbTableCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.cmbTableCode.Width = 111;
+            // 
+            // totalqty
+            // 
+            this.totalqty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.totalqty.DefaultCellStyle = dataGridViewCellStyle6;
+            this.totalqty.HeaderText = "Total Quantity";
+            this.totalqty.MinimumWidth = 6;
+            this.totalqty.Name = "totalqty";
+            this.totalqty.ReadOnly = true;
+            this.totalqty.Width = 129;
+            // 
+            // netamount
+            // 
+            this.netamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.netamount.HeaderText = "NetAmount";
+            this.netamount.MinimumWidth = 6;
+            this.netamount.Name = "netamount";
+            this.netamount.ReadOnly = true;
+            this.netamount.Width = 108;
+            // 
+            // Recieviedamount
+            // 
+            this.Recieviedamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Recieviedamount.HeaderText = "RecieviedAmount";
+            this.Recieviedamount.MinimumWidth = 6;
+            this.Recieviedamount.Name = "Recieviedamount";
+            this.Recieviedamount.ReadOnly = true;
+            this.Recieviedamount.Width = 155;
+            // 
+            // Balanceamount
+            // 
+            this.Balanceamount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Balanceamount.HeaderText = "Balance Amount";
+            this.Balanceamount.MinimumWidth = 6;
+            this.Balanceamount.Name = "Balanceamount";
+            this.Balanceamount.ReadOnly = true;
+            this.Balanceamount.Width = 145;
+            // 
+            // Paymentmethod
+            // 
+            this.Paymentmethod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Paymentmethod.HeaderText = "PaymentMethod";
+            this.Paymentmethod.MinimumWidth = 6;
+            this.Paymentmethod.Name = "Paymentmethod";
+            this.Paymentmethod.ReadOnly = true;
+            this.Paymentmethod.Width = 144;
+            // 
+            // mAction
+            // 
+            this.mAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.NullValue = null;
+            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(9);
+            this.mAction.DefaultCellStyle = dataGridViewCellStyle7;
+            this.mAction.HeaderText = "Status";
+            this.mAction.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.mAction.MinimumWidth = 6;
+            this.mAction.Name = "mAction";
+            this.mAction.ReadOnly = true;
+            this.mAction.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.mAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.mAction.Width = 76;
+            // 
+            // cmordermasterid
+            // 
+            this.cmordermasterid.HeaderText = "ordermasterid";
+            this.cmordermasterid.MinimumWidth = 6;
+            this.cmordermasterid.Name = "cmordermasterid";
+            this.cmordermasterid.Visible = false;
+            this.cmordermasterid.Width = 130;
+            // 
+            // cpartybookingid
+            // 
+            this.cpartybookingid.HeaderText = "PartyBokkingId";
+            this.cpartybookingid.Name = "cpartybookingid";
+            this.cpartybookingid.Visible = false;
+            this.cpartybookingid.Width = 138;
+            // 
+            // ctableidno
+            // 
+            this.ctableidno.HeaderText = "Tableid";
+            this.ctableidno.Name = "ctableidno";
+            this.ctableidno.Visible = false;
+            this.ctableidno.Width = 87;
+            // 
+            // prevpickupid
+            // 
+            this.prevpickupid.HeaderText = "Pickupid";
+            this.prevpickupid.Name = "prevpickupid";
+            this.prevpickupid.Visible = false;
+            this.prevpickupid.Width = 93;
+            // 
             // FrmCombinedBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -984,5 +1002,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewImageColumn mAction;
         private System.Windows.Forms.DataGridViewTextBoxColumn cmordermasterid;
         private System.Windows.Forms.DataGridViewTextBoxColumn cpartybookingid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ctableidno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prevpickupid;
     }
 }

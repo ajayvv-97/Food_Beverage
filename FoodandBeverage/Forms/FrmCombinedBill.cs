@@ -11,8 +11,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Windows.Forms;
@@ -24,6 +27,8 @@ namespace FoodandBeverage.Forms
         public FrmCombinedBill()
         {
             InitializeComponent();
+            Resize += FrmCombinedBill_BlurOverlayResize;
+            FormClosed += FrmCombinedBill_BlurOverlayFormClosed;
         }
 
         #region Declaration
@@ -33,6 +38,14 @@ namespace FoodandBeverage.Forms
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
         public int screenHeight = Screen.PrimaryScreen.Bounds.Height;
         ClsGeneral clsgen = new ClsGeneral();
+
+        #region Modal Dialog Blur Overlay
+        private PictureBox _modalBlurOverlay;
+        private Bitmap _modalBlurImage;
+        private bool _isModalBlurVisible;
+        private const int ModalBlurPreviewScale = 4;
+        private const byte ModalBlurDarkOverlayAlpha = 72;
+        #endregion
 
         bool flagDrawerF = false, flagDrawer = false;
 
@@ -76,6 +89,8 @@ namespace FoodandBeverage.Forms
         public  int statusno = 10;
         public int Salemasteridno = 11;
         public int partybookingidno = 12;
+        public int tableidno = 13;
+        public int pickupidno = 14;
 
         public  int sslno = 0;
         public  int spaymentamtno = 1;
@@ -1109,11 +1124,8 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("CombinedBill Page btn_backCompleorder_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
-
-
         }
         private void btn_serach_prev_bill_Click(object sender, EventArgs e)
         {
@@ -1123,42 +1135,68 @@ namespace FoodandBeverage.Forms
                 string returnValue = string.Empty;
                 DataTable dtColumnAlign = new DataTable();
                 dtColumnAlign.Columns.Add();
+
                 DmnSearch _objSearch = new DmnSearch();
-                //_objSearch.ColumnHeaders = "ID,DateTime,Invoice No,Table Code,TotalQuantity,NetAmount,RcvAmnt,BalAmnt,PaymentMode
-                _objSearch.ColumnHeaders = "ID,DateTime,Invoice No,Table Code,PickUp No,NetAmount";
-                //_objSearch.Select = "sm.SalesMasterId ID,sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.NetAmount Field5,sm.RcvAmnt Field6,sm.BalAmnt Field7,g.Caption Field8";
-                _objSearch.Select = "sm.SalesMasterId ID,sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.PkId Field4,sm.NetAmount Field5";
-                _objSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid LEFT JOIN tblGeneralOptions g ON g.GTypeSubId=sm.PaymentMode";
-                _objSearch.WhereNdGroupBy = "where sm.status=1 and  g.GTypeId=2";
-                _objSearch.OrderBy = "order by sm.SalesMasterId DESC";
+                _objSearch.ColumnHeaders = "ID,DateTime,InvoiceNo,TableCode,PickUpNo,NetAmount";//,
+                _objSearch.Select =
+                    "sm.SalesMasterId as Id, " +
+                    "sm.CreatedDateTime as Field1, " +
+                    "sm.EntryNo as Field2, " +
+                    "ti.TableCode as Field3, " +
+                    "sm.PkId as Field4, " +
+                    "sm.NetAmount as Field5";/*"CASE " +
+                    " WHEN COALESCE(sm.Partybookingid,0) > 0 THEN 'Party Booking' " +
+                    " WHEN COALESCE(sm.PkId,0) > 0 THEN 'PKID ' + CAST(sm.PkId AS VARCHAR(20)) " +
+                    " WHEN COALESCE(sm.Tid,0) > 0 THEN COALESCE(ti.TableCode,'') " +
+                    " ELSE 'Multiple Tables' END as Field3, " +*/
+                _objSearch.Table =
+                    "tblSalesMaster sm " +
+                    "LEFT JOIN tblTable_info ti ON ti.tid = sm.Tid " +
+                    "LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode";
+                _objSearch.WhereNdGroupBy = "WHERE sm.Status = 1 AND g.GTypeId = 2";
+                _objSearch.OrderBy = "ORDER BY sm.SalesMasterId DESC";
+
                 var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
-                if (gridSource.Count == 0)
+                if (gridSource == null || gridSource.Count == 0)
                 {
-                   CMessageBox.Show("No Records", "Empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CMessageBox.Show("No Records", "Empty",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
-                else
+
+                using (var search = new FrmSearch<DmnGridFields>(
+                    _objSearch,
+                    SearchMode.FirstCharacter,
+                    this.Width - 150,
+                    this.Height - 150,
+                    this.Location.Y + 50,
+                    this.Location.X + 20,
+                    dtColumnAlign))
                 {
-                    using (var search = new FrmSearch<DmnGridFields>(_objSearch, SearchMode.FirstCharacter, this.Width - 150, (this.Height - 150), this.Location.Y + 50, this.Location.X + 20, dtColumnAlign))
+                    if (search.ShowDialog() == DialogResult.OK)
+                        returnValue = Convert.ToString(search._retValue);
+                }
+
+                if (!string.IsNullOrWhiteSpace(returnValue))
+                {
+                    int saleMasterId;
+                    if (int.TryParse(returnValue, out saleMasterId) && saleMasterId > 0)
                     {
-                        var dialogResult = search.ShowDialog();
-                        if (dialogResult == DialogResult.OK)
-                        {
-                            returnValue = Convert.ToString(search._retValue);
-                        }
-                    }
-                    if (returnValue != "")
-                    {
-                        int oid = Convert.ToInt32(returnValue);
-                        printBill(oid, Convert.ToInt32(BillType.NormalBill));
+                        PrintBillForSaleMaster(saleMasterId);
                     }
                 }
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("CombinedBill Page btn_serach_prev_bill_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+                clsgen.LogException(
+                    "CombinedBill Page btn_serach_prev_bill_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
+
         private void btn_prevbill_Click(object sender, EventArgs e)
         {
             try
@@ -1184,7 +1222,9 @@ namespace FoodandBeverage.Forms
                 #region Fill complete or cancelled order in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
-                dmnSearch.Select = "Top 30 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5,sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11,sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15";
+                dmnSearch.Select = "Top 30 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5," +
+                    "sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11," +
+                    "sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15,sm.tid Field16,sm.Pkid Field17";
                 dmnSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid";
                 dmnSearch.WhereNdGroupBy = "where sm.status=1";
                 dmnSearch.OrderBy = "order by sm.SalesMasterId DESC";
@@ -1202,34 +1242,31 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field1;
                         dgvorderview.Rows[rowIndex].Cells[entryno].Value = gridSource[i].Field2;
 
-                        dgvorderview.Rows[rowIndex].Cells[tablecodeno].Value = gridSource[i].Field3;
+                        int partyBookingId = Convert.ToInt32(gridSource[i].Field15);
+                        int tableId = Convert.ToInt32(gridSource[i].Field16);
+                        int pickupId = Convert.ToInt32(gridSource[i].Field17);
+                        int orderType = Convert.ToInt32(gridSource[i].Field14);
 
-                        #region multiple table code case reservation 
-                        if (Convert.ToInt32(gridSource[i].Field11) == 0)
+                        if (partyBookingId > 0)
                         {
-                            FillTablecode_Comb(rowIndex, Convert.ToInt32(gridSource[i].Field6), Convert.ToInt32(gridSource[i].Field13), Convert.ToInt32(gridSource[i].Field12));
+                            SetTableCodeDisplay(rowIndex, "Party Booking", 0, true);
+                        }
+                        else if (pickupId > 0 || orderType == Convert.ToInt32(OrderType.PickupOrder))
+                        {
+                            SetTableCodeDisplay(rowIndex, "PKID " + pickupId, 0, true);
+                        }
+                        else if (tableId <= 0)
+                        {
+                            FillTablecode_Comb(
+                                rowIndex,
+                                Convert.ToInt32(gridSource[i].Field6),
+                                Convert.ToInt32(gridSource[i].Field13),
+                                Convert.ToInt32(gridSource[i].Field12));
                         }
                         else
                         {
-                            DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
-                            List<ComboBoxItem> comboBoxItems = new List<ComboBoxItem>();
-                            ComboBoxItem comboBoxItem;
-                            if (Convert.ToInt32(gridSource[i].Field14) == Convert.ToInt32(OrderType.PickupOrder))
-                            {
-                                comboBoxItem = new ComboBoxItem(0, "PICKUP ORDER");
-                            }
-                            else
-                            {
-                                comboBoxItem = new ComboBoxItem(Convert.ToInt32(gridSource[i].Field11), gridSource[i].Field3);
-                            }
-                            comboBoxItems.Add(comboBoxItem);
-                            dropDown.DataSource = comboBoxItems;
-                            dropDown.ValueMember = "Id";
-                            dropDown.DisplayMember = "Value";
-                            dropDown.Value = comboBoxItems[0].Id;
-                            dropDown.ReadOnly = true;
+                            SetTableCodeDisplay(rowIndex, Convert.ToString(gridSource[i].Field3), tableId, true);
                         }
-                        #endregion
 
 
                         dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field4;
@@ -1238,6 +1275,8 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[recamountno].Value = gridSource[i].Field8;
                         dgvorderview.Rows[rowIndex].Cells[balamountno].Value = gridSource[i].Field9;
                         dgvorderview.Rows[rowIndex].Cells[partybookingidno].Value = gridSource[i].Field15;
+                        dgvorderview.Rows[rowIndex].Cells[tableidno].Value = gridSource[i].Field16;
+                        dgvorderview.Rows[rowIndex].Cells[pickupidno].Value = gridSource[i].Field17;
 
                         switch (Convert.ToInt32(gridSource[i].Field10))
                         {
@@ -1297,19 +1336,350 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("CombinedBill Page btn_prevbill_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
+        private void SetTableCodeDisplay(int rowIndex, string displayText, long tableId, bool readOnly)
+        {
+            DataGridViewComboBoxCell cell =
+                (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
+
+            List<ComboBoxItem> items = new List<ComboBoxItem>
+            {
+                new ComboBoxItem(tableId, displayText ?? string.Empty)
+            };
+
+            cell.DataSource = items;
+            cell.ValueMember = "Id";
+            cell.DisplayMember = "Value";
+            cell.Value = tableId;
+            cell.ReadOnly = readOnly;
+            dgvorderview.Rows[rowIndex].Cells[tablecodeno].ReadOnly = readOnly;
+        }
+
+        private void PrintBillBySaleType(int saleMasterId, int partyBookingId, int tableId, int pickupId)
+        {
+            if (saleMasterId <= 0)
+                return;
+
+            if (partyBookingId > 0)
+                printBill(saleMasterId, Convert.ToInt32(BillType.Partybill));
+            else if (pickupId > 0)
+                printBill(saleMasterId, Convert.ToInt32(BillType.PickupBill));
+            else
+                printBill(saleMasterId, Convert.ToInt32(BillType.NormalBill));
+        }
+
+        private void PrintBillForSaleMaster(int saleMasterId)
+        {
+            if (saleMasterId <= 0)
+                return;
+
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            DmnSearch search = new DmnSearch
+            {
+                Select = "ISNULL(Partybookingid,0) Field1, ISNULL(Tid,0) Field2, ISNULL(PkId,0) Field3",
+                Table = "tblSalesMaster",
+                WhereNdGroupBy = "WHERE Status = 1 AND SalesMasterId = " + saleMasterId,
+                OrderBy = ""
+            };
+
+            List<DmnGridFields> result = bllSearch.GetSearchData("prdSearch", search);
+            if (result != null && result.Count > 0)
+            {
+                PrintBillBySaleType(
+                    saleMasterId,
+                    Convert.ToInt32(result[0].Field1),
+                    Convert.ToInt32(result[0].Field2),
+                    Convert.ToInt32(result[0].Field3));
+            }
+        }
+
+        #region Modal Dialog Blur Overlay
+
+        /// <summary>
+        /// Opens a child dialog with the current Combined Bill screen blurred behind it.
+        /// </summary>
+        private DialogResult ShowDialogWithBlur(Form dialog)
+        {
+            if (dialog == null || dialog.IsDisposed)
+                return DialogResult.Cancel;
+
+            ShowModalBlurOverlay();
+
+            try
+            {
+                return dialog.ShowDialog(this);
+            }
+            finally
+            {
+                HideModalBlurOverlay();
+            }
+        }
+
+        private void ShowModalBlurOverlay()
+        {
+            if (_isModalBlurVisible)
+                return;
+
+            Bitmap nextBlurImage = null;
+
+            try
+            {
+                using (Bitmap original = CaptureCombinedBillForm())
+                using (Bitmap small = ResizeModalBlurPreview(
+                    original,
+                    Math.Max(1, original.Width / ModalBlurPreviewScale),
+                    Math.Max(1, original.Height / ModalBlurPreviewScale)))
+                {
+                    nextBlurImage = CreateModalDarkBlurPreview(small);
+                }
+
+                EnsureModalBlurPictureBox();
+
+                Bitmap previousImage = _modalBlurImage;
+                _modalBlurImage = nextBlurImage;
+                nextBlurImage = null;
+
+                _modalBlurOverlay.Image = _modalBlurImage;
+                _modalBlurOverlay.Bounds = ClientRectangle;
+                _modalBlurOverlay.Visible = true;
+                _modalBlurOverlay.BringToFront();
+                _isModalBlurVisible = true;
+
+                if (previousImage != null)
+                    previousImage.Dispose();
+            }
+            catch (Exception ex)
+            {
+                if (nextBlurImage != null)
+                    nextBlurImage.Dispose();
+
+                _isModalBlurVisible = false;
+
+                clsgen.LogException(
+                    "CombinedBill ShowModalBlurOverlay()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
+        private void HideModalBlurOverlay()
+        {
+            _isModalBlurVisible = false;
+
+            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+            {
+                _modalBlurOverlay.Visible = false;
+                _modalBlurOverlay.Image = null;
+            }
+
+            if (_modalBlurImage != null)
+            {
+                _modalBlurImage.Dispose();
+                _modalBlurImage = null;
+            }
+        }
+
+        private void EnsureModalBlurPictureBox()
+        {
+            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+                return;
+
+            _modalBlurOverlay = new PictureBox
+            {
+                Name = "picCombinedBillModalBlur",
+                Bounds = ClientRectangle,
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                BackColor = Color.Black,
+                TabStop = false,
+                Visible = false
+            };
+
+            Controls.Add(_modalBlurOverlay);
+        }
+
+        private Bitmap CaptureCombinedBillForm()
+        {
+            int width = Math.Max(1, ClientSize.Width);
+            int height = Math.Max(1, ClientSize.Height);
+            Bitmap captured = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+            try
+            {
+                DrawToBitmap(captured, new Rectangle(0, 0, width, height));
+                return captured;
+            }
+            catch
+            {
+                captured.Dispose();
+                throw;
+            }
+        }
+
+        private Bitmap ResizeModalBlurPreview(Bitmap image, int width, int height)
+        {
+            Bitmap resized = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+            using (Graphics graphics = Graphics.FromImage(resized))
+            {
+                graphics.InterpolationMode = InterpolationMode.Low;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+
+            return resized;
+        }
+
+        private Bitmap CreateModalDarkBlurPreview(Bitmap image)
+        {
+            Bitmap blurred = BlurModalImageFast(image);
+
+            try
+            {
+                using (Graphics graphics = Graphics.FromImage(blurred))
+                using (SolidBrush shade = new SolidBrush(
+                    Color.FromArgb(ModalBlurDarkOverlayAlpha, 0, 0, 0)))
+                {
+                    graphics.CompositingMode = CompositingMode.SourceOver;
+                    graphics.FillRectangle(shade, 0, 0, blurred.Width, blurred.Height);
+                }
+
+                return blurred;
+            }
+            catch
+            {
+                blurred.Dispose();
+                throw;
+            }
+        }
+
+        private Bitmap BlurModalImageFast(Bitmap image)
+        {
+            const int bytesPerPixel = 4;
+            int width = image.Width;
+            int height = image.Height;
+            int rowBytes = width * bytesPerPixel;
+
+            Bitmap blurred = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            BitmapData sourceData = null;
+            BitmapData destinationData = null;
+            bool completed = false;
+
+            try
+            {
+                Rectangle bounds = new Rectangle(0, 0, width, height);
+                sourceData = image.LockBits(bounds, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                destinationData = blurred.LockBits(bounds, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+                byte[] sourcePixels = new byte[rowBytes * height];
+                byte[] resultPixels = new byte[sourcePixels.Length];
+
+                for (int y = 0; y < height; y++)
+                {
+                    IntPtr sourceRow = IntPtr.Add(sourceData.Scan0, y * sourceData.Stride);
+                    Marshal.Copy(sourceRow, sourcePixels, y * rowBytes, rowBytes);
+                }
+
+                Buffer.BlockCopy(sourcePixels, 0, resultPixels, 0, sourcePixels.Length);
+
+                for (int y = 1; y < height - 1; y++)
+                {
+                    for (int x = 1; x < width - 1; x++)
+                    {
+                        int blue = 0;
+                        int green = 0;
+                        int red = 0;
+
+                        for (int fy = -1; fy <= 1; fy++)
+                        {
+                            int rowOffset = (y + fy) * rowBytes;
+
+                            for (int fx = -1; fx <= 1; fx++)
+                            {
+                                int offset = rowOffset + ((x + fx) * bytesPerPixel);
+                                blue += sourcePixels[offset];
+                                green += sourcePixels[offset + 1];
+                                red += sourcePixels[offset + 2];
+                            }
+                        }
+
+                        int targetOffset = (y * rowBytes) + (x * bytesPerPixel);
+                        resultPixels[targetOffset] = (byte)(blue / 9);
+                        resultPixels[targetOffset + 1] = (byte)(green / 9);
+                        resultPixels[targetOffset + 2] = (byte)(red / 9);
+                        resultPixels[targetOffset + 3] = sourcePixels[targetOffset + 3];
+                    }
+                }
+
+                for (int y = 0; y < height; y++)
+                {
+                    IntPtr destinationRow = IntPtr.Add(destinationData.Scan0, y * destinationData.Stride);
+                    Marshal.Copy(resultPixels, y * rowBytes, destinationRow, rowBytes);
+                }
+
+                completed = true;
+                return blurred;
+            }
+            finally
+            {
+                try
+                {
+                    if (destinationData != null)
+                        blurred.UnlockBits(destinationData);
+                }
+                finally
+                {
+                    try
+                    {
+                        if (sourceData != null)
+                            image.UnlockBits(sourceData);
+                    }
+                    finally
+                    {
+                        if (!completed)
+                            blurred.Dispose();
+                    }
+                }
+            }
+        }
+
+        private void FrmCombinedBill_BlurOverlayResize(object sender, EventArgs e)
+        {
+            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+                _modalBlurOverlay.Bounds = ClientRectangle;
+        }
+
+        private void FrmCombinedBill_BlurOverlayFormClosed(object sender, FormClosedEventArgs e)
+        {
+            HideModalBlurOverlay();
+
+            if (_modalBlurOverlay != null)
+            {
+                Controls.Remove(_modalBlurOverlay);
+                _modalBlurOverlay.Dispose();
+                _modalBlurOverlay = null;
+            }
+        }
+
+        #endregion
+
         private void dgvorderview_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
+                if (e.RowIndex < 0 || e.RowIndex >= dgvorderview.Rows.Count)
+                    return;
+
                 if (e.ColumnIndex == actionno)
                 {
                     int sid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[Salemasteridno].Value);
                     int pbkid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[partybookingidno].Value);
-                    if(pbkid>0)
-                        printBill(sid, Convert.ToInt32(BillType.Partybill));
-                    else
-                        printBill(sid, Convert.ToInt32(BillType.NormalBill));
+                    int tidno = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tableidno].Value);
+                    int pickupid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[pickupidno].Value);
 
+                    PrintBillBySaleType(sid, pbkid, tidno, pickupid);
                 }
                 else if (e.ColumnIndex == paytypename)
                 {
@@ -1366,7 +1736,7 @@ namespace FoodandBeverage.Forms
                         using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(oid, Convert.ToInt32(result[0].Field1), 0, btype))
                         {
                             frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                            frmSalesInvoice.ShowDialog();
+                            ShowDialogWithBlur(frmSalesInvoice);
                         }
                     //}
                     //else
@@ -1408,58 +1778,78 @@ namespace FoodandBeverage.Forms
             try
             {
                 BllSearch<DmnComboBox> bllSearch = new BllSearch<DmnComboBox>();
-                DmnSearch objSearch = new DmnSearch();
-                DataGridViewComboBoxCell dropDown = (DataGridViewComboBoxCell)dgvorderview.Rows[rowindex].Cells[tablecodeno];
+                DmnSearch search = new DmnSearch();
+
                 if (ordertype == 0)
                 {
-                    objSearch.Select = "bd.MTID id,bd.Name value";
-                    objSearch.Table = "tblOrderMaster om " +
-                        "left join tblbookMaster bm on om.BookmasterId=bm.BookmasterId " +
-                        "left join tblBookDetails bd on bd.BookmasterId=bm.BookmasterId and bd.Rid=0 ";
-                    objSearch.WhereNdGroupBy = "where om.OrderMasterId=" + ordermasterid;
-                    objSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                    gridSource[0].Id = 0;
-                    gridSource[0].Value = "Show Table";
-                    dropDown.DataSource = gridSource;
-                    dropDown.ValueMember = "Id";
-                    dropDown.DisplayMember = "Value";
-
-                    dropDown.Value = gridSource[0].Id;
-                    dropDown.ReadOnly = false;
-                    dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = false;
+                    search.Select = "bd.MTID id, bd.Name value";
+                    search.Table = "tblOrderMaster om " +
+                                   "LEFT JOIN tblbookMaster bm ON om.BookmasterId = bm.BookmasterId " +
+                                   "LEFT JOIN tblBookDetails bd ON bd.BookmasterId = bm.BookmasterId AND bd.Rid = 0";
+                    search.WhereNdGroupBy = "WHERE om.OrderMasterId = " + ordermasterid;
                 }
                 else
                 {
-                    objSearch.Select = "com.tid id,case when PickupOrderFlag=1 then 'PICK NO '+ CONVERT(varchar, PkId) else ti.TableCode end value";
-                    objSearch.Table = "tblCombinedOrderBill com left join tblTable_info ti on ti.tid=com.Tid";
-                    objSearch.WhereNdGroupBy = "where SalesMasterId =" + salemasterid;
-                    objSearch.OrderBy = "";
-                    var gridSource = bllSearch.GetSearchData("prdComboFill", objSearch);
-                    gridSource[0].Id = 0;
-                    gridSource[0].Value = "Show Table";
-                    dropDown.DataSource = gridSource;
-                    dropDown.ValueMember = "Id";
-                    dropDown.DisplayMember = "Value";
-
-                    dropDown.Value = gridSource[0].Id;
-                    dropDown.ReadOnly = false;
-                    dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = false;
+                    search.Select =
+                        "com.tid id, " +
+                        "CASE WHEN ISNULL(com.PickupOrderFlag,0) = 1 " +
+                        "THEN 'PKID ' + CONVERT(VARCHAR(20),com.PkId) " +
+                        "ELSE ISNULL(ti.TableCode,'') END value";
+                    search.Table = "tblCombinedOrderBill com " +
+                                   "LEFT JOIN tblTable_info ti ON ti.tid = com.Tid";
+                    search.WhereNdGroupBy = "WHERE com.SalesMasterId = " + salemasterid;
                 }
 
+                search.OrderBy = "";
+                List<DmnComboBox> source = bllSearch.GetSearchData("prdComboFill", search)
+                    ?? new List<DmnComboBox>();
+
+                DataGridViewComboBoxCell cell =
+                    (DataGridViewComboBoxCell)dgvorderview.Rows[rowindex].Cells[tablecodeno];
+
+                List<ComboBoxItem> items = new List<ComboBoxItem>();
+
+                if (source.Count == 0)
+                {
+                    items.Add(new ComboBoxItem(0, "N/A"));
+                    cell.ReadOnly = true;
+                }
+                else if (source.Count == 1)
+                {
+                    items.Add(new ComboBoxItem(source[0].Id, source[0].Value));
+                    cell.ReadOnly = true;
+                }
+                else
+                {
+                    items.Add(new ComboBoxItem(0, "Multiple Tables (" + source.Count + ")"));
+                    foreach (DmnComboBox item in source)
+                        items.Add(new ComboBoxItem(item.Id, item.Value));
+
+                    cell.ReadOnly = false;
+                }
+
+                cell.DataSource = items;
+                cell.ValueMember = "Id";
+                cell.DisplayMember = "Value";
+                cell.Value = items[0].Id;
+                dgvorderview.Rows[rowindex].Cells[tablecodeno].ReadOnly = cell.ReadOnly;
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
-                clsgen.LogException("CombinedBill Page FillTablecode_Comb()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+                clsgen.LogException(
+                    "CombinedBill Page FillTablecode_Comb()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
         public class ComboBoxItem
         {
-            public int Id { get; set; }
+            public long Id { get; set; }
             public string Value { get; set; }
 
-            public ComboBoxItem(int id, string value)
+            public ComboBoxItem(long id, string value)
             {
                 Id = id;
                 Value = value;
@@ -1501,7 +1891,7 @@ namespace FoodandBeverage.Forms
                         using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
                         {
                             if (FrmDashboard.XYDalvalue)
-                                frmzout.ShowDialog();
+                                ShowDialogWithBlur(frmzout);
                             else
                                 frmzout.PrintAll();
                         }
@@ -1514,7 +1904,7 @@ namespace FoodandBeverage.Forms
                     using (FoodandBeverage.SaleBill.FrmZout frmzout = new FoodandBeverage.SaleBill.FrmZout(Convert.ToInt32(BillCategory.Yout), Drawerassginstaffid))
                     {
                         if (FrmDashboard.XYDalvalue)
-                            frmzout.ShowDialog();
+                            ShowDialogWithBlur(frmzout);
                         else
                             frmzout.PrintAll();
                     }
@@ -1853,7 +2243,7 @@ namespace FoodandBeverage.Forms
                     {
                         clsgen.TrackZoutLog("POSDashboard", "ZOUT_SHOW_DIALOG_START", "Opening FrmZout.ShowDialog()");
 
-                        frmzout.ShowDialog();
+                        ShowDialogWithBlur(frmzout);
 
                         clsgen.TrackZoutLog("POSDashboard", "ZOUT_SHOW_DIALOG_RETURN", "FrmZout.ShowDialog() returned");
                     }

@@ -32,7 +32,7 @@ namespace Domain
         public int OtherGuestCount { get; set; }
         public int TotalGuestCount { get; set; }
         public int PriorityType { get; set; }
-
+        public string TokenNo { get; set; }
     }
 
 }

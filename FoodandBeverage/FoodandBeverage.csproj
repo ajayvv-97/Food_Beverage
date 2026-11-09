@@ -485,6 +485,13 @@
     <Compile Include="Forms\FrmOrderView.Designer.cs">
       <DependentUpon>FrmOrderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmTakeaway.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmTakeaway.Designer.cs">
+      <DependentUpon>FrmTakeaway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmUpcomingPartyBookings.cs" />
     <Compile Include="Forms\FrmPartyBooking.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -663,6 +670,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CRkitchenbillnokot.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\KitchenBill\CRKitchenBill_Party.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRKitchenBill_Party.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\KitchenBill\CRkitchenbill_Pickup.cs">
@@ -977,6 +990,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\PartyBookingKotSchedulerService.cs" />
+    <Compile Include="Services\KOTWorkstationRegistration.cs" />
     <EmbeddedResource Include="Forms\FrmAddon.resx">
       <DependentUpon>FrmAddon.cs</DependentUpon>
     </EmbeddedResource>
@@ -1094,6 +1109,9 @@
     <EmbeddedResource Include="Forms\FrmTableView.resx">
       <DependentUpon>FrmTableView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmTakeaway.resx">
+      <DependentUpon>FrmTakeaway.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTaxSetting.resx">
       <DependentUpon>FrmTaxSetting.cs</DependentUpon>
     </EmbeddedResource>
@@ -1136,6 +1154,10 @@
     <EmbeddedResource Include="Forms\KitchenBill\CRkitchenbillnokot.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRkitchenbillnokot.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\KitchenBill\CRKitchenBill_Party.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRKitchenBill_Party.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\KitchenBill\CRkitchenbill_Pickup.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2482,6 +2504,7 @@
     <None Include="Resources\reg_certificate icon.png" />
     <None Include="Resources\reg_view icon.png" />
     <None Include="Resources\reg_download icon.png" />
+    <None Include="Database\PartyBookingKOT_Scheduler.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

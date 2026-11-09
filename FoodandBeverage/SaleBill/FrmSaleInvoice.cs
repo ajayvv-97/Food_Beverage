@@ -352,11 +352,36 @@ namespace FoodandBeverage.SaleBill
                    " S.OaAmount, S.OdAmount, S.Remarks, S.PaymentMode, " +
                    " S.PromoDId, S.PromoAmount, S.AdvanceAmount, " +
                    " S.ReservationTotal, S.PkChargeAmount, " +
-                   " S.Rev_Status, S.OrderType, S.PkId ,s.Cusid,s.Gender,s.FirstName,s.SecondName,s.Roundoff";
+                   " S.Rev_Status, S.OrderType, S.PkId ,s.Cusid,s.Gender,s.FirstName,s.SecondName,s.Roundoff, S.OrderMasterId";
 
                 dmnSearchInvoiceBill.Table = " tblSalesMaster AS S";
                 dmnSearchInvoiceBill.WhereNdGroupBy = " WHERE S.SalesMasterId = " + SalesMasterId;
                 var invoiceBillMasters = bllSearchInvoiceBill.GetSearchData("prdSearch", dmnSearchInvoiceBill);
+
+                // Resolve the daily Pickup / Takeaway token from the linked order.
+                // The OrderMasterId is taken from tblSalesMaster above.
+                invoiceBillMasters[0].TokenNo = string.Empty;
+                int orderMasterIdForToken = invoiceBillMasters[0].OrderMasterId;
+                if (orderMasterIdForToken > 0)
+                {
+                    BllSearch<DmnGridFields> bllTokenSearch = new BllSearch<DmnGridFields>();
+                    DmnSearch dmnTokenSearch = new DmnSearch
+                    {
+                        Select = "TokenDisplay AS Field1",
+                        Table = "tblOrderToken",
+                        WhereNdGroupBy = "WHERE OrderMasterId = " + orderMasterIdForToken,
+                        OrderBy = ""
+                    };
+
+                    var tokenRows = bllTokenSearch.GetSearchData("prdSearch", dmnTokenSearch);
+                    if (tokenRows != null && tokenRows.Count > 0)
+                    {
+                        string tokenDisplay = Convert.ToString(tokenRows[0].Field1);
+                        if (!string.IsNullOrWhiteSpace(tokenDisplay) && tokenDisplay.Trim() != "0")
+                            invoiceBillMasters[0].TokenNo = tokenDisplay.Trim();
+                    }
+                }
+
                 netamount_api = invoiceBillMasters[0].NetAmount;
                 invoiceno_api = invoiceBillMasters[0].EntryNo;
                 cusname_api = invoiceBillMasters[0].CusName;
@@ -429,7 +454,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
-                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.MarketPrice as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid,s.VariatiionName VariatiionName";
+                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.SalesRate as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid,s.VariatiionName VariatiionName";
                 dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
 
                 if (splittype == Convert.ToInt32(SplitType.Item))
@@ -591,7 +616,9 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 using (var reader = ObjectReader.Create(invoiceBillMasters, "EntryNo", "EntryDate", "Username", "TotalAmount", "DiscountAmount",
-    "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName", "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount", "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId", "CompanyName", "GSTNo", "Roundoff"))
+                "TotalTax", "TotalCGST", "TotalSGST", "TotalVAT", "TotalQuantity", "NetAmount", "PaidAmount", "BalAmnt", "RcvAmnt", "CusName",
+                "Email", "Telephone", "SalesAddress", "OaAmount", "OdAmount", "Remarks", "TotalDiscount", "PaymentMode", "PromoDId", "PromoAmount",
+                "AdvanceAmount", "ReservationTotal", "PkChargeAmount", "Rev_Status", "OrderType", "PkId", "CompanyName", "GSTNo", "Roundoff", "TokenNo"))
                 {
                     dtSalesMaster.Load(reader);
                 }
@@ -1118,7 +1145,6 @@ namespace FoodandBeverage.SaleBill
                 {
                     reportDocument = nextReportDocument;
                     crvSalesBill.ReportSource = reportDocument;
-                    crvSalesBill.RefreshReport();
                     nextReportDocument = null;
                     _loadedThermalFormat = rb_th.Checked;
 

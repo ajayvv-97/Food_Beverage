@@ -55,6 +55,15 @@ namespace FoodandBeverage.Forms
         public FrmDashboard()
         {
             InitializeComponent();
+            _dashboardBlurOverlay = new BlurPopupOverlay(this,
+                pnlappcolor,
+                panl_msgsettings,
+                pnl_billsetting,
+                pnlgenralsetting,
+                pnl_virtualkeyboard,
+                pnl_datasync,
+                pnl_comple_remove,
+                pnl_PackingTax);
 
             this.AutoScaleMode = AutoScaleMode.Dpi;
             this.AutoScaleDimensions = new SizeF(96F, 96F);
@@ -95,6 +104,11 @@ namespace FoodandBeverage.Forms
         private LoadingGIF_Timer loadingForm;
         public DateTime startTime = DateTime.Now;
         ClsGeneral clsgen = new ClsGeneral();
+        private BlurPopupOverlay _dashboardBlurOverlay;
+        private bool _loadingPackingTaxControls;
+        private PartyBookingKotSchedulerService _partyBookingKotService;
+        private FrmUpcomingPartyBookings _upcomingPartyBookingsPopup;
+        private readonly HashSet<int> _reportedPartyBookingKOTFailures = new HashSet<int>();
 
         /*permission checking for manager and supervisor*/
         public static bool AllowCashDrawer = false;
@@ -308,7 +322,109 @@ namespace FoodandBeverage.Forms
 
             StyleReportMenu();
             virtualkeyboardCheck();
+
+            Taxfill();
+            StartPartyBookingKotScheduler();
         }
+
+        private void StartPartyBookingKotScheduler()
+        {
+            try
+            {
+                // A first-time PC registration defaults to Office (no KOT printing).
+                // The SQL claim procedure independently enforces this role on every print request.
+                FoodandBeverage.Services.KOTWorkstationRegistration.EnsureRegistered(
+                    BranchId, UserId, this);
+
+                if (_partyBookingKotService != null)
+                    _partyBookingKotService.Dispose();
+
+                _partyBookingKotService = new PartyBookingKotSchedulerService(BranchId, UserId);
+                _partyBookingKotService.UpcomingBookingsFound += ShowUpcomingPartyBookings;
+                _partyBookingKotService.UpcomingBookingsUpdated += UpdateUpcomingPartyBookings;
+                _partyBookingKotService.ProcessingFailed += PartyBookingKotProcessingFailed;
+                _partyBookingKotService.Start();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Dashboard StartPartyBookingKotScheduler()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ShowUpcomingPartyBookings(IList<PartyBookingReminder> bookings)
+        {
+            if (IsDisposed || bookings == null || bookings.Count == 0)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<IList<PartyBookingReminder>>(ShowUpcomingPartyBookings), bookings);
+                return;
+            }
+
+            FrmUpcomingPartyBookings openPopup =
+                Application.OpenForms["FrmUpcomingPartyBookings"] as FrmUpcomingPartyBookings;
+
+            if (openPopup == null || openPopup.IsDisposed)
+            {
+                _upcomingPartyBookingsPopup = new FrmUpcomingPartyBookings(bookings);
+                _upcomingPartyBookingsPopup.Show(this);
+            }
+            else
+            {
+                // The update event supplies the full current list immediately
+                // after this notification. Do not replace existing rows with
+                // only the newly discovered booking subset here.
+                openPopup.BringToFront();
+            }
+        }
+
+        private void UpdateUpcomingPartyBookings(IList<PartyBookingReminder> bookings)
+        {
+            if (IsDisposed)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<IList<PartyBookingReminder>>(UpdateUpcomingPartyBookings), bookings);
+                return;
+            }
+
+            FrmUpcomingPartyBookings openPopup =
+                Application.OpenForms["FrmUpcomingPartyBookings"] as FrmUpcomingPartyBookings;
+
+            if (openPopup == null || openPopup.IsDisposed)
+                return;
+
+            openPopup.UpdateBookings(bookings);
+
+            if (bookings == null || bookings.Count == 0)
+            {
+                openPopup.Close();
+                if (ReferenceEquals(_upcomingPartyBookingsPopup, openPopup))
+                    _upcomingPartyBookingsPopup = null;
+            }
+        }
+
+        private void PartyBookingKotProcessingFailed(int bookingId, Exception exception)
+        {
+            try
+            {
+                if (!_reportedPartyBookingKOTFailures.Add(bookingId))
+                    return;
+
+                string bookingText = bookingId > 0 ? "Party booking #" + bookingId : "Party booking KOT service";
+                NS.Raise(bookingText + " could not complete scheduled KOT processing: " + exception.Message,
+                    bookingId, 0, Color.OrangeRed);
+                clsgen.LogException("Dashboard PartyBookingKotProcessingFailed()", exception,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+            catch { }
+        }
+
         private void LoadMainForm()
         {
             try
@@ -530,7 +646,7 @@ namespace FoodandBeverage.Forms
                             {
                                 opbuttoncolor = Color.FromArgb(0x42, 0x67, 0xB2);
                                 pbopbuttoncoloepicker.BackColor = opbuttoncolor;
-                                ib_Category.BackColor = opbuttoncolor;
+                                ib_Category.BackColor = Color.Transparent;
 
                                 //ib_Item.BackColor = opbuttoncolor;
                                 //ib_ingrediant.BackColor = opbuttoncolor;
@@ -603,7 +719,7 @@ namespace FoodandBeverage.Forms
                                 txtoperbuttoncolorname.Text = Convert.ToString(gridSource[0].OperationButtonColor);
                                 txtsid.Text = Convert.ToString(gridSource[0].SId);
 
-                                ib_Category.BackColor = opbuttoncolor;
+                                ib_Category.BackColor = Color.Transparent;
 
                                 //ib_Item.BackColor = opbuttoncolor;
                                 //ib_ingrediant.BackColor = opbuttoncolor;
@@ -866,7 +982,8 @@ namespace FoodandBeverage.Forms
                 ProfilPIC_update();
                 ButtonID = Convert.ToInt32(Menubutton.Menuhome);
                 panelDesktop.Controls.Clear();
-                btn_pickup.Visible = false;
+               ib_pickup.Visible = false;
+                ib_takeaway.Visible = false;
                 if (ChkWritePermission(Convert.ToInt32(formsenum.DashboardCharts)))
                 {
                     if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
@@ -1026,7 +1143,8 @@ namespace FoodandBeverage.Forms
                 panelDesktop.Controls.Add(flp_operabuttons);
                 flp_operabuttons.Dock = DockStyle.Fill;
                 flp_operabuttons.Visible = true;
-                btn_pickup.Visible = false;
+               ib_pickup.Visible = false;
+                ib_takeaway.Visible = false;
 
                 // Resume the parent layout first so Dock=Fill updates the real client size.
                 // The first click previously calculated button widths while panelDesktop
@@ -1077,7 +1195,8 @@ namespace FoodandBeverage.Forms
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
-                btn_pickup.Visible = false;
+               ib_pickup.Visible = false;
+                ib_takeaway.Visible = false;
                
                 if (System.Windows.Forms.Application.OpenForms["FrmDashboardReport"] != null)
                 {
@@ -1168,7 +1287,8 @@ namespace FoodandBeverage.Forms
                 time_syn_lal.Stop();
                 reset_sync.Stop();
                 lblsync.Visible = false;
-                btn_pickup.Visible = false;
+               ib_pickup.Visible = false;
+                ib_takeaway.Visible = false;
 
                 panelDesktop.SuspendLayout();
 
@@ -1264,7 +1384,8 @@ namespace FoodandBeverage.Forms
                     btn_running.Visible = false;
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
-                    btn_pickup.Visible = false;
+                   ib_pickup.Visible = false;
+                    ib_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                 }
                 if (System.Windows.Forms.Application.OpenForms["FrmCombinedBill"] != null)
@@ -1300,7 +1421,8 @@ namespace FoodandBeverage.Forms
                 ButtonID = Convert.ToInt32(Menubutton.Menusetting);
                 reset_sync.Stop();
                 lblsync.Visible = false;
-                btn_pickup.Visible = false;
+               ib_pickup.Visible = false;
+                ib_takeaway.Visible = false;
                 panelDesktop.Controls.Clear();
                 if (menutable_click)
                 {
@@ -2105,6 +2227,24 @@ namespace FoodandBeverage.Forms
         {
             switch (keyData)
             {
+                case Keys.Control | Keys.Shift | Keys.K:
+                    try
+                    {
+                        // Reconfigure the Kitchen / Counter / Office role for this PC.
+                        FoodandBeverage.Services.KOTWorkstationRegistration.ConfigureCurrentMachine(
+                            BranchId, UserId, this);
+                    }
+                    catch (Exception ex)
+                    {
+                        clsgen.LogException(
+                            "Dashboard Configure KOT Workstation",
+                            ex,
+                            FrmLogin.EmployeName,
+                            FrmLogin.Designation,
+                            Convert.ToInt32(FormType.homepage));
+                    }
+                    return true;
+
                 case Keys.Escape:
 
                     if (pnlappcolor.Visible)
@@ -2531,7 +2671,8 @@ namespace FoodandBeverage.Forms
                 flp_empbuttons.Dock = DockStyle.Fill;
                 panelDesktop.Controls.Add(flp_empbuttons);
                 flp_empbuttons.Visible = true;
-                btn_pickup.Visible = false;
+               ib_pickup.Visible = false;
+                ib_takeaway.Visible = false;
 
                 //if (screenWidth > 1367 && screenHeight > 769)
                 //{
@@ -2989,11 +3130,6 @@ namespace FoodandBeverage.Forms
                             ibrequestapproval.Visible = true;
                             Menuoperation.Visible = true;
                         }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.productExportImport) && gridesource[i].Write == 1)
-                        {
-                            ibexportimport.Visible = true;
-                            Menuoperation.Visible = true;
-                        }
                         #endregion
 
                         #region Employee Buttons
@@ -3189,7 +3325,9 @@ namespace FoodandBeverage.Forms
                 if (flp_operabuttons.Visible)
                     flp_operabuttons.Visible = false;
 
-                btn_pickup.Visible = true;
+               ib_pickup.Visible = true;
+
+                ib_takeaway.Visible = true;
 
                 //BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 //DmnSearch objSearch = new DmnSearch();
@@ -3244,7 +3382,7 @@ namespace FoodandBeverage.Forms
                 //}
                 //else
                 //{
-                //    btn_pickup.PerformClick();
+                //   ib_pickup.PerformClick();
                 //}
 
 
@@ -3519,7 +3657,8 @@ namespace FoodandBeverage.Forms
                             btn_running.Visible = true;
                             btn_avial.Visible = true;
                             btntrefresh.Visible = true;
-                            btn_pickup.Visible = true;
+                           ib_pickup.Visible = true;
+                            ib_takeaway.Visible = true;
                             tlp_tablestatus.ResumeLayout();
 
                             _instanceFrmTableView.Visible = true;
@@ -3538,7 +3677,8 @@ namespace FoodandBeverage.Forms
                         btn_running.Visible = true;
                         btn_avial.Visible = true;
                         btntrefresh.Visible = true;
-                        btn_pickup.Visible = true;
+                       ib_pickup.Visible = true;
+                        ib_takeaway.Visible = true;
                         tlp_tablestatus.ResumeLayout();
 
                         FrmTableView _instanceFrmTableView = new FrmTableView(Convert.ToInt32(ButtonType.refresh));
@@ -3633,7 +3773,8 @@ namespace FoodandBeverage.Forms
                         btn_running.Visible = false;
                         btn_avial.Visible = false;
                         btntrefresh.Visible = false;
-                        btn_pickup.Visible = false;
+                       ib_pickup.Visible = false;
+                        ib_takeaway.Visible = false;
                         tlp_tablestatus.ResumeLayout();
 
                         _instanceFrmPickup.Visible = true;
@@ -3653,7 +3794,8 @@ namespace FoodandBeverage.Forms
                     btn_running.Visible = false;
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
-                    btn_pickup.Visible = false;
+                   ib_pickup.Visible = false;
+                    ib_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                     using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
                     {
@@ -3671,7 +3813,109 @@ namespace FoodandBeverage.Forms
             }
             catch (Exception ex)
             {
-                clsgen.LogException("homepage btn_pickup_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+                clsgen.LogException("homepageib_pickup_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btn_takeaway_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AssignDrawerCheck();
+
+                if (FrmDrawer.DrawerID == 0)
+                    return;
+
+                if (menutable_click)
+                {
+                    CloseTableViewPage();
+                }
+
+                ButtonID = Convert.ToInt32(Menubutton.Takeaway);
+
+                if (Application.OpenForms["FrmDashboardReport"] != null)
+                {
+                    FrmDashboardReport report =
+                        Application.OpenForms["FrmDashboardReport"] as FrmDashboardReport;
+
+                    if (report != null)
+                        report.Visible = false;
+                }
+
+                time_syn_lal.Stop();
+                reset_sync.Stop();
+                lblsync.Visible = false;
+
+                panelDesktop.SuspendLayout();
+
+                if (flp_operabuttons.Visible)
+                    flp_operabuttons.Visible = false;
+
+                if (Application.OpenForms["FrmTakeaway"] != null)
+                {
+                    FrmTakeaway instanceFrmTakeaway =
+                        Application.OpenForms["FrmTakeaway"] as FrmTakeaway;
+
+                    if (instanceFrmTakeaway != null)
+                    {
+                        if (instanceFrmTakeaway.WindowState == FormWindowState.Minimized)
+                        {
+                            instanceFrmTakeaway.WindowState =FormWindowState.Maximized;
+                        }
+                        else
+                        {
+                            tlp_tablestatus.SuspendLayout();
+
+                            btn_rev.Visible = false;
+                            btn_running.Visible = false;
+                            btn_avial.Visible = false;
+                            btntrefresh.Visible = false;
+                            ib_pickup.Visible = false;
+                            ib_takeaway.Visible = false;
+
+                            tlp_tablestatus.ResumeLayout();
+
+                            instanceFrmTakeaway.Visible = true;
+                            instanceFrmTakeaway.WindowState = FormWindowState.Maximized;
+
+                            instanceFrmTakeaway.AutoTimer.Start();
+                            instanceFrmTakeaway.BringToFront();
+                        }
+                    }
+                }
+                else
+                {
+                    tlp_tablestatus.SuspendLayout();
+
+                    btn_rev.Visible = false;
+                    btn_running.Visible = false;
+                    btn_avial.Visible = false;
+                    btntrefresh.Visible = false;
+                    ib_pickup.Visible = false;
+                    ib_takeaway.Visible = false;
+
+                    tlp_tablestatus.ResumeLayout();
+
+                    using (FrmTakeaway takeaway = new FrmTakeaway())
+                    {
+                        takeaway.ShowDialog();
+                        takeaway.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
+                }
+
+                clsgen.Memoryrelease();
+
+                menutable_click = true;
+                panelDesktop.ResumeLayout();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "homepage btn_takeaway_Click",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
             }
         }
 
@@ -3716,7 +3960,8 @@ namespace FoodandBeverage.Forms
                         btn_running.Visible = false;
                         btn_avial.Visible = false;
                         btntrefresh.Visible = false;
-                        btn_pickup.Visible = false;
+                       ib_pickup.Visible = false;
+                        ib_takeaway.Visible = false;
                         tlp_tablestatus.ResumeLayout();
 
                         _instanceFrmPickup.Visible = true;
@@ -3736,7 +3981,8 @@ namespace FoodandBeverage.Forms
                     btn_running.Visible = false;
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
-                    btn_pickup.Visible = false;
+                   ib_pickup.Visible = false;
+                    ib_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                     using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
                     {
@@ -3902,8 +4148,28 @@ namespace FoodandBeverage.Forms
                 dmngen.EnableUserPrompt = rtb_userpmpt.Checked;
                 dmngen.EnableCompbillPrompt = rtb_compbillpmpt.Checked;
                 dmngen.ProductpageperCount = Convert.ToInt32(txtorderpagecount.Text);
-                dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;  
+                dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;
                 dmngen.Status = 1;
+
+                dmngen.PackigHsncode = string.IsNullOrWhiteSpace(txt_ptax_hsncode.Text) ? null : txt_ptax_hsncode.Text.Trim(); 
+                dmngen.Tax = string.IsNullOrWhiteSpace(cmbtax.Text) ? null : cmbtax.Text.Trim();
+                dmngen.TaxType = string.IsNullOrWhiteSpace(cmbTaxType.Text) ? null : cmbTaxType.Text.Trim();
+                dmngen.TaxSettingId = GetSelectedPackingTaxSettingId();
+                if (!string.IsNullOrWhiteSpace(dmngen.TaxType) &&
+                    (!string.Equals(dmngen.Tax, "Inclusive", StringComparison.OrdinalIgnoreCase) &&
+                     !string.Equals(dmngen.Tax, "Exclusive", StringComparison.OrdinalIgnoreCase)))
+                {
+                    CMessageBox.Show("Please select Inclusive or Exclusive packing tax mode.", "Packing Tax", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!string.IsNullOrWhiteSpace(dmngen.TaxType) &&
+                    (!dmngen.TaxSettingId.HasValue || dmngen.TaxSettingId.Value <= 0))
+                {
+                    CMessageBox.Show("Please select a packing tax percentage.",
+                        "Packing Tax", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (Save_YZout.Checked == true && string.IsNullOrEmpty(YZPath.Text))
                 {
                     CMessageBox.Show("Bill Pdf Path Should not Be Empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -3921,7 +4187,6 @@ namespace FoodandBeverage.Forms
                         Generalsettingcheck();
                         txtgenid.Text = Convert.ToString(InsertStatus.Gid);
                         FrmLogin.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
-
                     }
                     else
                     {
@@ -3992,9 +4257,10 @@ namespace FoodandBeverage.Forms
                     OrderBy = ""
                 };
                 var gridesource = bllsearchdrawer.GetSearchData("prdSearch", dmnsearckgen);
-                if (gridesource.Count > 0)
+                if (gridesource != null && gridesource.Count > 0)
                 {
                     var settings = gridesource[0];
+                    LoadPackingTaxControls(settings);
 
                     rtb_gen.Checked = settings.printdal;
                     rtb_zyout.Checked = settings.xyprintdal;
@@ -4064,6 +4330,10 @@ namespace FoodandBeverage.Forms
                     rtb_compbillpmpt.Checked = settings.EnableCompbillPrompt;
                     txtorderpagecount.Text=Convert.ToString(settings.ProductpageperCount);
                     chk_comprompt.Checked = settings.EnableCompReasonPrompt;
+                }
+                else
+                {
+                    LoadPackingTaxControls(null);
                 }
             }
             catch (Exception ex)
@@ -4773,43 +5043,44 @@ namespace FoodandBeverage.Forms
 
         private void ib_drawer_Click(object sender, EventArgs e)
         {
+            _dashboardBlurOverlay.ShowOwnerBlur();
             try
             {
                 AssignDrawerCheck();
                 if (FrmDrawer.DrawerID == 0)
-                {
                     return;
+
+                if (System.Windows.Forms.Application.OpenForms["FrmDrawer"] != null)
+                {
+                    FrmDrawer _instanceFrmDrawer = Application.OpenForms["FrmDrawer"] as FrmDrawer;
+                    if (_instanceFrmDrawer.WindowState == FormWindowState.Minimized)
+                        _instanceFrmDrawer.WindowState = FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmDrawer.Visible = true;
+                        _instanceFrmDrawer.Dock = DockStyle.Fill;
+                        ResizeForm(_instanceFrmDrawer);
+                        _instanceFrmDrawer.ShowDialog(this);
+                        _instanceFrmDrawer.BringToFront();
+                    }
                 }
                 else
                 {
-                    if (System.Windows.Forms.Application.OpenForms["FrmDrawer"] != null)
+                    using (FrmDrawer _instanceFrmDrawer = new FrmDrawer())
                     {
-                        FrmDrawer _instanceFrmDrawer = Application.OpenForms["FrmDrawer"] as FrmDrawer;
-                        if (_instanceFrmDrawer.WindowState == FormWindowState.Minimized)
-                            _instanceFrmDrawer.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                        else
-                        {
-                            _instanceFrmDrawer.Visible = true;
-                            _instanceFrmDrawer.Dock = DockStyle.Fill;
-                            ResizeForm(_instanceFrmDrawer);
-                            _instanceFrmDrawer.ShowDialog();
-                            _instanceFrmDrawer.BringToFront();
-                        }
-                    }
-                    else
-                    {
-                        using (FrmDrawer _instanceFrmDrawer = new FrmDrawer())
-                        {
-                            ResizeForm(_instanceFrmDrawer);
-                            _instanceFrmDrawer.BringToFront();
-                            _instanceFrmDrawer.ShowDialog();
-                        }
+                        ResizeForm(_instanceFrmDrawer);
+                        _instanceFrmDrawer.BringToFront();
+                        _instanceFrmDrawer.ShowDialog(this);
                     }
                 }
             }
             catch (Exception ex)
             {
                 clsgen.LogException("homepage page ib_drawer_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
+            }
+            finally
+            {
+                _dashboardBlurOverlay.HideOwnerBlur();
             }
         }
 
@@ -4888,6 +5159,12 @@ namespace FoodandBeverage.Forms
 
             FoodandBeverage.Services.NotificationService.OnNotify
                  -= ShowDashboardNotification;
+
+            if (_partyBookingKotService != null)
+            {
+                _partyBookingKotService.Dispose();
+                _partyBookingKotService = null;
+            }
 
             _notifyIcon?.Dispose();
 
@@ -5601,7 +5878,8 @@ namespace FoodandBeverage.Forms
                         btn_running.Visible = false;
                         btn_avial.Visible = false;
                         btntrefresh.Visible = false;
-                        btn_pickup.Visible = false;
+                       ib_pickup.Visible = false;
+                        ib_takeaway.Visible = false;
                         tlp_tablestatus.ResumeLayout();
 
                         _instanceFrmPickup.Visible = true;
@@ -5621,7 +5899,8 @@ namespace FoodandBeverage.Forms
                     btn_running.Visible = false;
                     btn_avial.Visible = false;
                     btntrefresh.Visible = false;
-                    btn_pickup.Visible = false;
+                   ib_pickup.Visible = false;
+                    ib_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
                     using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
                     {
@@ -6612,50 +6891,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ibexportimport_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                PrepareForSideMenuNavigation();
-
-                if (Application.OpenForms["FrmproductExportImport"] != null)
-                {
-                    FrmproductExportImport _instanceFrmproductExportImport =
-                        Application.OpenForms["FrmproductExportImport"] as FrmproductExportImport;
-
-                    if (_instanceFrmproductExportImport.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmproductExportImport.WindowState =
-                            FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmproductExportImport.Dock = DockStyle.None;
-
-                        ResizeForm(_instanceFrmproductExportImport);
-
-                        panelDesktop.Controls.Add(_instanceFrmproductExportImport);
-
-                        _instanceFrmproductExportImport.Show();
-                        _instanceFrmproductExportImport.BringToFront();
-                    }
-                }
-                else
-                {
-                    UIHelper.OpenDialog(this, new FrmproductExportImport());
-                }
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException(
-                    "Homepage ibexportimport_Click()",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.homepage));
-            }
-        }
-
+    
         private bool ValidateComplimentaryDate()
         {
             try
@@ -6690,6 +6926,9 @@ namespace FoodandBeverage.Forms
                 return false;
             }
         }
+
+
+        
 
         private void LoadComplimentarySales()
         {
@@ -6890,6 +7129,319 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        #endregion
+
+        #region Packing Tax configuration
+        private void btn_packingtax_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadPackingTaxSettingsFromDatabase();
+
+                // Temporarily hide General Settings while the Packing Tax panel is open.
+                pnlgenralsetting.Visible = false;
+
+                pnl_PackingTax.Left = Math.Max(0, (ClientSize.Width - pnl_PackingTax.Width) / 2);
+                pnl_PackingTax.Top = Math.Max(0, (ClientSize.Height - pnl_PackingTax.Height) / 2);
+                pnl_PackingTax.Visible = true;
+                pnl_PackingTax.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage btn_packingtax_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void LoadPackingTaxSettingsFromDatabase()
+        {
+            try
+            {
+                BllSearch<DmnGeneralSetting> bllSearch = new BllSearch<DmnGeneralSetting>();
+                DmnSearch search = new DmnSearch
+                {
+                    Select = "Gid, BranchId, Tax, TaxType, TaxSettingId",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = "WHERE BranchId = " + BranchId + " AND Status = 1",
+                    OrderBy = "ORDER BY Gid DESC"
+                };
+
+                List<DmnGeneralSetting> settings = bllSearch.GetSearchData("prdSearch", search);
+                LoadPackingTaxControls(settings != null && settings.Count > 0 ? settings[0] : null);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage LoadPackingTaxSettingsFromDatabase()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void LoadPackingTaxControls(DmnGeneralSetting settings)
+        {
+            _loadingPackingTaxControls = true;
+            try
+            {
+                Taxfill();
+
+                cmbtax.SelectedIndex = -1;
+                cmbTaxType.SelectedIndex = -1;
+                cmbIgstPrcnt.SelectedIndex = -1;
+                cmbVatPrcnt.SelectedIndex = -1;
+                txtCgstPrcnt.Clear();
+                txtSgstPrcnt.Clear();
+
+                if (settings != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(settings.Tax))
+                        cmbtax.SelectedItem = settings.Tax;
+
+                    if (!string.IsNullOrWhiteSpace(settings.PackigHsncode))
+                        txt_ptax_hsncode.Text = settings.PackigHsncode;
+
+                    if (!string.IsNullOrWhiteSpace(settings.TaxType))
+                        cmbTaxType.SelectedItem = settings.TaxType;
+
+                    if (settings.TaxSettingId.HasValue && settings.TaxSettingId.Value > 0)
+                    {
+                        if (string.Equals(settings.TaxType, "GST", StringComparison.OrdinalIgnoreCase))
+                            cmbIgstPrcnt.SelectedValue =Convert.ToInt64(settings.TaxSettingId.Value);
+                        else if (string.Equals(settings.TaxType, "VAT", StringComparison.OrdinalIgnoreCase))
+                            cmbVatPrcnt.SelectedValue = Convert.ToInt64(settings.TaxSettingId.Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage LoadPackingTaxControls()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+            finally
+            {
+                _loadingPackingTaxControls = false;
+            }
+
+            cmbTaxType_SelectedValueChanged(cmbTaxType, EventArgs.Empty);
+            if (cmbIgstPrcnt.SelectedIndex >= 0)
+                cmbIgstPrcnt_SelectedIndexChanged(cmbIgstPrcnt, EventArgs.Empty);
+        }
+
+        private int? GetSelectedPackingTaxSettingId()
+        {
+            object selectedValue = null;
+
+            if (string.Equals(cmbTaxType.Text, "GST", StringComparison.OrdinalIgnoreCase))
+                selectedValue = cmbIgstPrcnt.SelectedValue;
+            else if (string.Equals(cmbTaxType.Text, "VAT", StringComparison.OrdinalIgnoreCase))
+                selectedValue = cmbVatPrcnt.SelectedValue;
+
+            int settingId;
+            return selectedValue != null &&
+                   selectedValue != DBNull.Value &&
+                   int.TryParse(Convert.ToString(selectedValue), out settingId) &&
+                   settingId > 0
+                ? (int?)settingId
+                : null;
+        }
+
+        private void cmbIgstPrcnt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_loadingPackingTaxControls ||
+                    cmbIgstPrcnt.SelectedIndex < 0 ||
+                    cmbIgstPrcnt.SelectedValue == null ||
+                    cmbIgstPrcnt.SelectedValue == DBNull.Value)
+                {
+                    return;
+                }
+
+                int taxSettingId;
+                if (!int.TryParse(Convert.ToString(cmbIgstPrcnt.SelectedValue), out taxSettingId) ||
+                    taxSettingId <= 0)
+                {
+                    return;
+                }
+
+                BllSearch<DmnTaxSettings> bllSearch = new BllSearch<DmnTaxSettings>();
+                DmnSearch objSearchTax = new DmnSearch
+                {
+                    Select = "TaxSettingsId, SgstPrcnt, CgstPrcnt",
+                    Table = "tblTaxSettings",
+                    WhereNdGroupBy = "WHERE TaxSettingsId = " + taxSettingId + " AND Status = 1",
+                    OrderBy = ""
+                };
+
+                List<DmnTaxSettings> gridSource = bllSearch.GetSearchData("prdSearch", objSearchTax);
+                if (gridSource != null && gridSource.Count > 0)
+                {
+                    txtSgstPrcnt.Text = gridSource[0].SgstPrcnt.ToString("0.##");
+                    txtCgstPrcnt.Text = gridSource[0].CgstPrcnt.ToString("0.##");
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page cmbIgstPrcnt_SelectedIndexChanged()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        public void Taxfill()
+        {
+            try
+            {
+                BllSearch<DmnComboBox> fillGst = new BllSearch<DmnComboBox>();
+                BllSearch<DmnComboBox> fillVat = new BllSearch<DmnComboBox>();
+                DmnSearch gstSearch = new DmnSearch
+                {
+                    Select = "TaxSettingsId as Id, IgstPrcnt as Value",
+                    Table = "tblTaxSettings",
+                    WhereNdGroupBy = "WHERE Status = 1 AND TaxType = 'GST'",
+                    OrderBy = ""
+                };
+
+                DmnSearch vatSearch = new DmnSearch
+                {
+                    Select = "TaxSettingsId as Id, VatPrcnt as Value",
+                    Table = "tblTaxSettings",
+                    WhereNdGroupBy = "WHERE ISNULL(Status,0) = 1 AND TaxType = 'VAT'",
+                    OrderBy = ""
+                };
+
+                List<DmnComboBox> gstRates = fillGst.GetSearchData("prdComboFill", gstSearch);
+                List<DmnComboBox> vatRates = fillVat.GetSearchData("prdComboFill", vatSearch);
+
+                cmbVatPrcnt.DataSource = vatRates ?? new List<DmnComboBox>();
+                cmbVatPrcnt.ValueMember = "Id";
+                cmbVatPrcnt.DisplayMember = "Value";
+
+                cmbIgstPrcnt.DataSource = gstRates ?? new List<DmnComboBox>();
+                cmbIgstPrcnt.ValueMember = "Id";
+                cmbIgstPrcnt.DisplayMember = "Value";
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page Taxfill()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ReturnToGeneralSettingsAfterPackingTax()
+        {
+            // Close the child panel first; the overlay checks all registered
+            // popup panels before deciding whether the dashboard can be restored.
+            pnl_PackingTax.Visible = false;
+
+            pnlgenralsetting.Left = Math.Max(0, (ClientSize.Width - pnlgenralsetting.Width) / 2);
+            pnlgenralsetting.Top = Math.Max(0, (ClientSize.Height - pnlgenralsetting.Height) / 2);
+            pnlgenralsetting.Visible = true;
+            pnlgenralsetting.BringToFront();
+        }
+
+        private void btn_ptax_cancel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadPackingTaxSettingsFromDatabase();
+                ReturnToGeneralSettingsAfterPackingTax();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage btn_ptax_cancel_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void btn_ptax_submit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(cmbTaxType.Text) &&
+                    (string.IsNullOrWhiteSpace(cmbtax.Text) ||
+                     !GetSelectedPackingTaxSettingId().HasValue))
+                {
+                    CMessageBox.Show(
+                        "Select the packing tax mode and tax percentage. Save General Settings to apply these values.",
+                        "Packing Tax", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                ReturnToGeneralSettingsAfterPackingTax();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage btn_ptax_submit_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void cmbTaxType_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_loadingPackingTaxControls)
+                    return;
+
+                int startRow = 1;
+                int endRow = 2;
+                int totalColumns = 4;
+
+                for (int row = startRow; row <= endRow; row++)
+                {
+                    for (int col = 0; col < totalColumns; col++)
+                    {
+                        if ((row == 1 && col == 0) || (row == 1 && col == 1))
+                            continue;
+
+                        Control ctrl = tlp_add_contrl.GetControlFromPosition(col, row);
+                        if (ctrl != null)
+                            tlp_add_contrl.Controls.Remove(ctrl);
+                    }
+                }
+
+                if (string.Equals(cmbTaxType.Text, "GST", StringComparison.OrdinalIgnoreCase))
+                {
+                    lbligst.Dock = DockStyle.Fill;
+                    cmbIgstPrcnt.Dock = DockStyle.Fill;
+                    lblcgst.Dock = DockStyle.Fill;
+                    txtCgstPrcnt.Dock = DockStyle.Top;
+                    lblsgst.Dock = DockStyle.Fill;
+                    txtSgstPrcnt.Dock = DockStyle.Top;
+
+                    tlp_add_contrl.Controls.Add(lbligst, 2, 1);
+                    tlp_add_contrl.Controls.Add(cmbIgstPrcnt, 3, 1);
+                    tlp_add_contrl.Controls.Add(lblcgst, 0, 2);
+                    tlp_add_contrl.Controls.Add(txtCgstPrcnt, 1, 2);
+                    tlp_add_contrl.Controls.Add(lblsgst, 2, 2);
+                    tlp_add_contrl.Controls.Add(txtSgstPrcnt, 3, 2);
+
+                    foreach (TextBox textBox in new TextBox[] { txtCgstPrcnt, txtSgstPrcnt })
+                    {
+                        ApplyRoundedTextBox(textBox, 10);
+                        textBox.BorderStyle = BorderStyle.None;
+                    }
+                }
+                else if (string.Equals(cmbTaxType.Text, "VAT", StringComparison.OrdinalIgnoreCase))
+                {
+                    lblvat.Dock = DockStyle.Fill;
+                    cmbVatPrcnt.Dock = DockStyle.Fill;
+                    tlp_add_contrl.Controls.Add(lblvat, 2, 1);
+                    tlp_add_contrl.Controls.Add(cmbVatPrcnt, 3, 1);
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("homepage page cmbTaxType_SelectedValueChanged()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
         #endregion
 
     }

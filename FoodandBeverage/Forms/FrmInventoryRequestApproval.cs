@@ -160,47 +160,92 @@ namespace FoodandBeverage.Forms
             ApplyApprovalGridFillLayout(dgv_batch);
             ApplyApprovalGridFillLayout(dgv_raw);
 
-            SetApprovalGridFillWeight(dgv_batch, "slno", 8F);
-            SetApprovalGridFillWeight(dgv_batch, "dbmenuite", 42F);
-            SetApprovalGridFillWeight(dgv_batch, "dbplannedqty", 13F);
-            SetApprovalGridFillWeight(dgv_batch, "dbunit", 9F);
-            SetApprovalGridFillWeight(dgv_batch, "brecipengrediant", 21F);
-
-            SetApprovalGridFillWeight(dgv_raw, "dataGridViewTextBoxColumn10", 7F);
-            SetApprovalGridFillWeight(dgv_raw, "dataGridViewTextBoxColumn11", 34F);
-            SetApprovalGridFillWeight(dgv_raw, "dataGridViewTextBoxColumn12", 11F);
-            SetApprovalGridFillWeight(dgv_raw, "rawissuedqty", 11F);
-            SetApprovalGridFillWeight(dgv_raw, "dataGridViewTextBoxColumn13", 9F);
-            SetApprovalGridFillWeight(dgv_raw, "rawprojectedbalance", 12F);
-            SetApprovalGridFillWeight(dgv_raw, "rawpurpoe", 15F);
-
             dgv_batch.Resize += ApprovalGrid_Resize;
             dgv_raw.Resize += ApprovalGrid_Resize;
         }
 
-        private static void ApplyApprovalGridFillLayout(DataGridView grid)
+        private void ApplyApprovalGridFillLayout(DataGridView grid)
         {
             if (grid == null)
                 return;
 
+            // Keep all columns within the grid viewport. Wrap long values and headers
+            // instead of allowing a horizontal scrollbar to hide the last columns.
+            grid.ScrollBars = ScrollBars.Vertical;
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            grid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            grid.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            grid.RowTemplate.Height = 36;
 
             foreach (DataGridViewColumn column in grid.Columns)
             {
-                if (column.Visible)
-                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                if (!column.Visible)
+                    continue;
+
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                column.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
+
+            if (grid == dgv_batch)
+            {
+                ApplyApprovalResponsiveColumnLayout(
+                    grid,
+                    new[] { "slno", "dbmenuite", "dbplannedqty", "dbunit", "brecipengrediant" },
+                    new[] { 7F, 33F, 14F, 9F, 37F },
+                    new[] { 38, 105, 72, 48, 120 });
+            }
+            else if (grid == dgv_raw)
+            {
+                ApplyApprovalResponsiveColumnLayout(
+                    grid,
+                    new[] { "dataGridViewTextBoxColumn10", "dataGridViewTextBoxColumn11",
+                            "dataGridViewTextBoxColumn12", "rawissuedqty",
+                            "dataGridViewTextBoxColumn13", "rawprojectedbalance", "rawpurpoe" },
+                    new[] { 6F, 20F, 14F, 12F, 8F, 17F, 23F },
+                    new[] { 38, 90, 75, 70, 48, 85, 95 });
             }
         }
 
-        private static void SetApprovalGridFillWeight(
-            DataGridView grid, string columnName, float fillWeight)
+        private static void ApplyApprovalResponsiveColumnLayout(
+            DataGridView grid,
+            string[] columnNames,
+            float[] fillWeights,
+            int[] preferredMinimumWidths)
         {
-            if (grid == null || !grid.Columns.Contains(columnName))
+            if (grid == null || columnNames == null || fillWeights == null ||
+                preferredMinimumWidths == null ||
+                columnNames.Length != fillWeights.Length ||
+                columnNames.Length != preferredMinimumWidths.Length)
+            {
                 return;
+            }
 
-            DataGridViewColumn column = grid.Columns[columnName];
-            if (column.Visible)
-                column.FillWeight = fillWeight;
+            int availableWidth = Math.Max(
+                1,
+                grid.ClientSize.Width - SystemInformation.VerticalScrollBarWidth - 8);
+
+            int totalPreferredWidth = preferredMinimumWidths.Sum();
+            double widthScale = totalPreferredWidth > availableWidth && totalPreferredWidth > 0
+                ? (double)availableWidth / totalPreferredWidth
+                : 1D;
+
+            for (int i = 0; i < columnNames.Length; i++)
+            {
+                if (!grid.Columns.Contains(columnNames[i]))
+                    continue;
+
+                DataGridViewColumn column = grid.Columns[columnNames[i]];
+                if (!column.Visible)
+                    continue;
+
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                column.FillWeight = fillWeights[i];
+                column.MinimumWidth = Math.Max(
+                    28,
+                    (int)Math.Floor(preferredMinimumWidths[i] * widthScale));
+            }
         }
 
         private void ApprovalGrid_Resize(object sender, EventArgs e)

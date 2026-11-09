@@ -276,5 +276,98 @@ namespace BLL
             }
         }
 
+        public int FindInventoryRequestDetailId(
+            int requestId,
+            int branchId,
+            DmnInventoryRequestDetail detail)
+        {
+            if (detail == null)
+                return 0;
+
+            const string sql = @"
+SELECT TOP (1) InventoryRequestDetailId
+FROM dbo.tblInventoryRequestDetails
+WHERE InventoryRequestId = @InventoryRequestId
+  AND BranchId = @BranchId
+  AND ISNULL(Status, 1) = 1
+  AND RequestType = @RequestType
+  AND ISNULL(ProductId, 0) = ISNULL(@ProductId, 0)
+  AND ISNULL(RecipeItemId, 0) = ISNULL(@RecipeItemId, 0)
+  AND ISNULL(ItemId, 0) = ISNULL(@ItemId, 0)
+  AND ISNULL(Unit, 0) = ISNULL(@Unit, 0)
+ORDER BY InventoryRequestDetailId DESC;";
+
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                return connection.Query<int>(
+                    sql,
+                    new
+                    {
+                        InventoryRequestId = requestId,
+                        BranchId = branchId,
+                        detail.RequestType,
+                        detail.ProductId,
+                        detail.RecipeItemId,
+                        detail.ItemId,
+                        detail.Unit
+                    }).FirstOrDefault();
+            }
+        }
+
+        public void DeactivateInventoryRequestDetailsNotInIds(
+            int requestId,
+            int branchId,
+            int employeeId,
+            IEnumerable<int> retainedDetailIds)
+        {
+            int[] retainedIds = retainedDetailIds == null
+                ? new int[0]
+                : retainedDetailIds.Where(x => x > 0).Distinct().ToArray();
+
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                const string updateAllSql = @"
+UPDATE dbo.tblInventoryRequestDetails
+SET Status = 0,
+    ModifiedBy = @EmployeeId,
+    ModifiedOn = GETDATE()
+WHERE InventoryRequestId = @InventoryRequestId
+  AND BranchId = @BranchId
+  AND ISNULL(Status, 1) = 1;";
+
+                const string updateExceptSql = @"
+UPDATE dbo.tblInventoryRequestDetails
+SET Status = 0,
+    ModifiedBy = @EmployeeId,
+    ModifiedOn = GETDATE()
+WHERE InventoryRequestId = @InventoryRequestId
+  AND BranchId = @BranchId
+  AND ISNULL(Status, 1) = 1
+  AND InventoryRequestDetailId NOT IN @RetainedIds;";
+
+                var parameters = new
+                {
+                    InventoryRequestId = requestId,
+                    BranchId = branchId,
+                    EmployeeId = employeeId
+                };
+
+                if (retainedIds.Length == 0)
+                    connection.Execute(updateAllSql, parameters);
+                else
+                    connection.Execute(
+                        updateExceptSql,
+                        new
+                        {
+                            parameters.InventoryRequestId,
+                            parameters.BranchId,
+                            parameters.EmployeeId,
+                            RetainedIds = retainedIds
+                        });
+            }
+        }
+
     }
 }

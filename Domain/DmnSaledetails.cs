@@ -55,6 +55,8 @@ namespace Domain
         public int PreparationMode { get; set; }
         public int Pkid { get; set; }
         public int OrderStatus { get; set; }
+        public int FoodPreparationType { get; set; }
+        public int OrderTypeId { get; set; }
         public bool IsStockTracked { get; set; }
         public decimal PreTaxAmt { get; set; }
 

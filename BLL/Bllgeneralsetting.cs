@@ -48,9 +48,16 @@ namespace BLL
             parms.Add("EnableCompbillPrompt", objTestClass.EnableCompbillPrompt);
             parms.Add("ProductpageperCount", objTestClass.ProductpageperCount);
             parms.Add("EnableCompReasonPrompt", objTestClass.EnableCompReasonPrompt);
+
+            parms.Add("PackigHsncode", objTestClass.PackigHsncode);
+            parms.Add("Tax", objTestClass.Tax);
+            parms.Add("TaxType", objTestClass.TaxType);
+            parms.Add("TaxSettingId", objTestClass.TaxSettingId);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+
+
         public DmnGeneralSetting AddEditDataGenConf(string procedureName, DmnGeneralSetting objTestClass)
         {
             DAL.DapperRepository<DmnGeneralSetting> dapperRepository = new DAL.DapperRepository<DmnGeneralSetting>();

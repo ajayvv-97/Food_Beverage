@@ -22,6 +22,7 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmEmployeeShort : Form
     {
+        private BlurPopupOverlay _employeeBlurOverlay;
         ClsDocument clsDocument = new ClsDocument();
         FilterInfoCollection FilterInfoCollection;
         VideoCaptureDevice VideoCaptureDevice;
@@ -51,6 +52,9 @@ namespace FoodandBeverage.Forms
         public FrmEmployeeShort()
         {
             InitializeComponent();
+
+            // Blur and dim the employee form whenever the User Type popup is opened.
+            _employeeBlurOverlay = new BlurPopupOverlay(this, pnlusertype);
         }
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn(
@@ -615,10 +619,21 @@ namespace FoodandBeverage.Forms
 
         private void btnDesgtn_Click(object sender, EventArgs e)
         {
-            FrmDesignation frmDesignation = new FrmDesignation();
-            frmDesignation.StartPosition = FormStartPosition.CenterParent;
-            frmDesignation.ShowDialog();
-            FillCombo1();
+            try
+            {
+                _employeeBlurOverlay.ShowOwnerBlur();
+
+                using (FrmDesignation frmDesignation = new FrmDesignation())
+                {
+                    frmDesignation.StartPosition = FormStartPosition.CenterParent;
+                    frmDesignation.ShowDialog(this);
+                }
+            }
+            finally
+            {
+                _employeeBlurOverlay.HideOwnerBlur();
+                FillCombo1();
+            }
         }
 
         private void txtphone_KeyPress(object sender, KeyPressEventArgs e)
@@ -1993,11 +2008,23 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private void CenterUserTypePopup()
+        {
+            if (pnlusertype == null || pnlusertype.IsDisposed)
+                return;
+
+            int x = Math.Max(0, (this.ClientSize.Width - pnlusertype.Width) / 2);
+            int y = Math.Max(0, (this.ClientSize.Height - pnlusertype.Height) / 2);
+
+            pnlusertype.Location = new Point(x, y);
+        }
+
         private void btnaddusertype_Click(object sender, EventArgs e)
         {
             tlp_main.Enabled = false;
-            pnlusertype.Location = new Point(this.Location.X + 150, this.Location.Y + 75);
-            pnlusertype.Show();
+            CenterUserTypePopup();
+            pnlusertype.Visible = true;
+            pnlusertype.BringToFront();
         }
         private void lblsubcatclose_Click(object sender, EventArgs e)
         {
@@ -2017,10 +2044,7 @@ namespace FoodandBeverage.Forms
                     {
                         if (txtusertype.Text != "")
                         {
-                            foreach (Control control in this.Controls)
-                            {
-                                control.Enabled = true;
-                            }
+                            tlp_main.Enabled = true;
                             DmnUserAccountType dmnUser = new DmnUserAccountType();
                             BllUserAccount bllUser = new BllUserAccount();
                             dmnUser.UserAccountType = txtusertype.Text;
@@ -2062,6 +2086,9 @@ namespace FoodandBeverage.Forms
 
         private void FrmEmployeeShort_Resize(object sender, EventArgs e)
         {
+            if (pnlusertype != null && pnlusertype.Visible)
+                CenterUserTypePopup();
+
             #region setting Corner Round 
 
             UIHelper.RoundCorners(tlp_user_reg, 25, null);
@@ -2124,14 +2151,14 @@ namespace FoodandBeverage.Forms
 
         private void lblsubcatclose_Click_1(object sender, EventArgs e)
         {
-            tlp_main.Enabled = true;
             pnlusertype.Visible = false;
+            tlp_main.Enabled = true;
         }
 
         private void btn_usertype_close_Click(object sender, EventArgs e)
         {
-            tlp_main.Enabled = true;
             pnlusertype.Visible = false;
+            tlp_main.Enabled = true;
         }
 
         private void btnusertype_Click(object sender, EventArgs e)
@@ -2283,10 +2310,21 @@ namespace FoodandBeverage.Forms
 
         private void btn_depart_reg_Click(object sender, EventArgs e)
         {
-            FrmDepartment frmDepartment = new FrmDepartment();
-            frmDepartment.StartPosition = FormStartPosition.CenterParent;
-            frmDepartment.ShowDialog();
-            FillCombo1();
+            try
+            {
+                _employeeBlurOverlay.ShowOwnerBlur();
+
+                using (FrmDepartment frmDepartment = new FrmDepartment())
+                {
+                    frmDepartment.StartPosition = FormStartPosition.CenterParent;
+                    frmDepartment.ShowDialog(this);
+                }
+            }
+            finally
+            {
+                _employeeBlurOverlay.HideOwnerBlur();
+                FillCombo1();
+            }
         }
 
         private void txtemail_Validating(object sender, System.ComponentModel.CancelEventArgs e)

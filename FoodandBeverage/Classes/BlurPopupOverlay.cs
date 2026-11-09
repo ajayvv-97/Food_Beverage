@@ -59,9 +59,43 @@ namespace FoodandBeverage.Classes
         {
             if (_disposed)
                 return;
+
             _ownerBlurRequested = false;
-            if (_activePopups.Count == 0)
+            RemoveHiddenPopups();
+
+            if (!HasVisiblePopup())
                 ScheduleRelease();
+        }
+
+        /// <summary>
+        /// Removes stale popup entries when panels are hidden through other
+        /// dashboard code paths and releases the overlay when none remain visible.
+        /// </summary>
+        private void RemoveHiddenPopups()
+        {
+            _activePopups.RemoveWhere(popup =>
+                popup == null || popup.IsDisposed || !popup.Visible);
+        }
+
+        private bool HasVisiblePopup()
+        {
+            RemoveHiddenPopups();
+
+            foreach (Control popup in _popupControls)
+            {
+                if (popup != null && !popup.IsDisposed && popup.Visible)
+                    return true;
+            }
+
+            return _activePopups.Count > 0;
+        }
+
+        private void ReleaseIfNoPopupIsVisible()
+        {
+            RemoveHiddenPopups();
+
+            if (!_ownerBlurRequested && !HasVisiblePopup())
+                ReleaseImage();
         }
 
         private void Popup_VisibleChanged(object sender, EventArgs e)
@@ -77,7 +111,9 @@ namespace FoodandBeverage.Classes
             else
             {
                 _activePopups.Remove(popup);
-                if (_activePopups.Count == 0 && !_ownerBlurRequested)
+                RemoveHiddenPopups();
+
+                if (!HasVisiblePopup() && !_ownerBlurRequested)
                     ScheduleRelease();
             }
         }
@@ -360,8 +396,7 @@ namespace FoodandBeverage.Classes
                     _releaseScheduled = false;
                     if (_disposed || _owner.IsDisposed || _owner.Disposing)
                         return;
-                    if (_activePopups.Count == 0 && !_ownerBlurRequested)
-                        ReleaseImage();
+                    ReleaseIfNoPopupIsVisible();
                 });
             }
             catch (InvalidOperationException)

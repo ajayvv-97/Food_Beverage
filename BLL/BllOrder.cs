@@ -26,6 +26,8 @@ namespace BLL
             parms.Add("PickupOrderFlag", objTestClass.PickupOrderFlag);
             parms.Add("PkId", objTestClass.PkId);
             parms.Add("Kitchennumber", objTestClass.Kitchennumber);
+            if (string.Equals(procedureName, "prdInsert_Upd_OrderMaster", StringComparison.OrdinalIgnoreCase))
+                parms.Add("OrderTypeId", objTestClass.OrderTypeId);
 
             // ---------------------------
             // NEW CUSTOMER DETAILS (ADDED)
@@ -52,6 +54,17 @@ namespace BLL
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
+
+        public DmnOrderMaster RefreshOrderTokenStatus(string procedureName, int orderMasterId, int modifiedBy)
+        {
+            DAL.DapperRepository<DmnOrderMaster> dapperRepository =
+                new DAL.DapperRepository<DmnOrderMaster>();
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("OrderMasterId", orderMasterId);
+            parms.Add("ModifiedBy", modifiedBy);
+            return dapperRepository.AddandReturnID(procedureName, parms);
+        }
+
         public DmnOrderMaster AddData(string procedureName, DmnOrderMaster objTestClass)
         {
             DAL.DapperRepository<DmnOrderMaster> dapperRepository = new DAL.DapperRepository<DmnOrderMaster>();

@@ -217,6 +217,7 @@ namespace FoodandBeverage
         private readonly HashSet<Panel> _activeBlurPopupPanels = new HashSet<Panel>();
         private bool _isUpdatingBlurPopup;
         private bool _isBlurPopupReleaseScheduled;
+        private bool _isModalDialogBlurVisible;
         private const int BlurPreviewScale = 4;
         private const byte BlurDarkOverlayAlpha = 72;
         #endregion
@@ -230,7 +231,8 @@ namespace FoodandBeverage
         private DateTime? _validatedKotDateTimeForPayment;
         private DateTime? _validatedBookingStartForPayment;
         private bool _loadedConsumedRawMaterialStatus;
-        private bool _loadedKoTPrintStatus;
+        private bool _loadedKoTPrintStatus_counter;
+        private bool _loadedKoTPrintStatus_kitchen;
         private bool _isLoadingPartyBooking;
 
         private int _calendarBookingId;
@@ -352,8 +354,6 @@ namespace FoodandBeverage
             txtitemcode_serach.Enter += PartyMenuSearchTextBox_Enter;
             txtitemcode_serach.Leave += PartyMenuSearchTextBox_Leave;
             LoadPartyBookingVenueOptions();
-
-            // Recalculate once the form is loaded and whenever it is resized.
             Resize += (sender, args) => ConfigureResponsivePartyButtons();
             Shown += (sender, args) => ConfigureResponsivePartyButtons();
 
@@ -502,6 +502,73 @@ namespace FoodandBeverage
         }
 
 
+        /// <summary>
+        /// Shows the existing blurred form snapshot behind a modal child form.
+        /// The same PictureBox and cached blur pipeline used by popup panels are reused.
+        /// </summary>
+        private void ShowBlurForModalDialog()
+        {
+            if (_isModalDialogBlurVisible)
+                return;
+
+            try
+            {
+                // If another in-form popup already owns the blur overlay, keep that
+                // snapshot instead of capturing the already-blurred screen again.
+                if (_activeBlurPopupPanels.Count == 0)
+                {
+                    Bitmap nextBlurImage;
+
+                    using (Bitmap original = CapturePartyBookingForm())
+                    using (Bitmap small = ResizeBlurPreview(
+                        original,
+                        Math.Max(1, original.Width / BlurPreviewScale),
+                        Math.Max(1, original.Height / BlurPreviewScale)))
+                    {
+                        nextBlurImage = CreateDarkBlurPreview(small);
+                    }
+
+                    EnsureBlurPopupPictureBox();
+
+                    Bitmap previousImage = _blurPopupImage;
+                    _blurPopupImage = nextBlurImage;
+                    _blurPopupPictureBox.Image = _blurPopupImage;
+                    _blurPopupPictureBox.Bounds = ClientRectangle;
+                    _blurPopupPictureBox.Visible = true;
+                    _blurPopupPictureBox.BringToFront();
+
+                    if (previousImage != null)
+                        previousImage.Dispose();
+                }
+
+                _isModalDialogBlurVisible = true;
+            }
+            catch (Exception ex)
+            {
+                _isModalDialogBlurVisible = false;
+
+                clsgen.LogException(
+                    "Partybooking page ShowBlurForModalDialog()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+
+                // Do not prevent the calendar from opening if the blur snapshot fails.
+            }
+        }
+
+        /// <summary>
+        /// Removes the modal-dialog blur after the child form and result handling finish.
+        /// </summary>
+        private void HideBlurForModalDialog()
+        {
+            _isModalDialogBlurVisible = false;
+
+            if (_activeBlurPopupPanels.Count == 0)
+                ReleaseBlurPopupImage();
+        }
+
         private void PositionBlurOverlayBehindPopup(Panel popup)
         {
             if (popup == null ||
@@ -527,7 +594,7 @@ namespace FoodandBeverage
 
             _activeBlurPopupPanels.Remove(popup);
 
-            if (_activeBlurPopupPanels.Count == 0)
+            if (_activeBlurPopupPanels.Count == 0 && !_isModalDialogBlurVisible)
                 ScheduleBlurPopupRelease();
         }
 
@@ -544,7 +611,8 @@ namespace FoodandBeverage
             if (!IsHandleCreated || IsDisposed || Disposing)
             {
                 _isBlurPopupReleaseScheduled = false;
-                ReleaseBlurPopupImage();
+                if (!_isModalDialogBlurVisible)
+                    ReleaseBlurPopupImage();
                 return;
             }
 
@@ -557,14 +625,15 @@ namespace FoodandBeverage
                     if (IsDisposed || Disposing)
                         return;
 
-                    if (_activeBlurPopupPanels.Count == 0)
+                    if (_activeBlurPopupPanels.Count == 0 && !_isModalDialogBlurVisible)
                         ReleaseBlurPopupImage();
                 });
             }
             catch (InvalidOperationException)
             {
                 _isBlurPopupReleaseScheduled = false;
-                ReleaseBlurPopupImage();
+                if (!_isModalDialogBlurVisible)
+                    ReleaseBlurPopupImage();
             }
         }
 
@@ -754,6 +823,7 @@ namespace FoodandBeverage
 
         private void FrmPartyBooking_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _isModalDialogBlurVisible = false;
             _activeBlurPopupPanels.Clear();
             ReleaseBlurPopupImage();
 
@@ -767,12 +837,10 @@ namespace FoodandBeverage
 
         #endregion
 
-
         public void SetCalendarBookingStart(DateTime startDateTime)
         {
             SetCalendarBookingInterval(startDateTime, startDateTime);
         }
-
 
         public void SetCalendarBookingInterval(DateTime startDateTime, DateTime endDateTime)
         {
@@ -782,7 +850,6 @@ namespace FoodandBeverage
             ApplyCalendarDateTimeInterval();
             UpdateSelectedDateLabel();
         }
-
         public void LoadBookingFromCalendar(int bookingId)
         {
             if (bookingId <= 0)
@@ -850,7 +917,6 @@ namespace FoodandBeverage
 
         private void InitializeKotDateTimeControls()
         {
-            // KOT date and time must be editable by the booking staff.
             dtp_kotdate.Enabled = true;
             dtp_kottime.Enabled = true;
 
@@ -902,15 +968,13 @@ namespace FoodandBeverage
 
         private void UpdateDefaultKotDateTime(DateTime bookingStart)
         {
-            // A KOT time cannot be generated for a booking that has already passed.
+
             if (bookingStart <= DateTime.Now)
                 return;
 
             DateTime automaticKotTime = bookingStart.AddHours(-DefaultKotLeadTimeHours);
             DateTime earliestAllowedTime = DateTime.Now.AddMinutes(1);
 
-            // For bookings made less than two hours ahead, use the earliest
-            // practical future time instead of generating a KOT time in the past.
             if (automaticKotTime < earliestAllowedTime)
                 automaticKotTime = earliestAllowedTime <= bookingStart
                     ? earliestAllowedTime
@@ -1078,7 +1142,8 @@ namespace FoodandBeverage
                 pnl_foodpacks.Top = (this.ClientSize.Height - pnl_foodpacks.Height) / 2;
 
                 pnl_foodpacks.Visible = true;
-                pnl_foodpacks.Visible = true;ShowBlurPopup(pnl_foodpacks);
+                pnl_foodpacks.Visible = true;
+                ShowBlurPopup(pnl_foodpacks);
                 pnl_foodpacks.BringToFront();
 
                 LoadPartyPacks();
@@ -2019,6 +2084,7 @@ namespace FoodandBeverage
         {
             pnl_pak_detailsitems.Visible = false;
             HideBlurPopup(pnl_pak_detailsitems);
+            ShowBlurPopup(pnl_foodpacks);
         }
         private void btn_enter_paks_cls_Click(object sender, EventArgs e)
         {
@@ -4661,7 +4727,8 @@ namespace FoodandBeverage
                 _hasLoadedKotDateTime = false;
                 _loadedKotDateTime = null;
                 _loadedConsumedRawMaterialStatus = false;
-                _loadedKoTPrintStatus = false;
+                _loadedKoTPrintStatus_counter = false;
+                _loadedKoTPrintStatus_kitchen = false;
 
                 // ===============================
                 // 🔹 Reset Event Info
@@ -5488,7 +5555,8 @@ namespace FoodandBeverage
 
                 booking.KOTDatetime = kotDateTime;
                 booking.ConsumedRawMaterialStatus = _loadedConsumedRawMaterialStatus;
-                booking.KoTPrintStatus = _loadedKoTPrintStatus;
+                booking.KoTPrintStatus_Kitchen = _loadedKoTPrintStatus_kitchen;
+                booking.KoTPrintStatus_counter = _loadedKoTPrintStatus_counter;
 
                 var result = bll.AddEditData("prdInsert_Upd_PartyBooking", booking);
 
@@ -5996,8 +6064,17 @@ namespace FoodandBeverage
                 {
                     using (FoodandBeverage.SaleBill.FrmSaleInvoice frmSalesInvoice = new FoodandBeverage.SaleBill.FrmSaleInvoice(SalesMasterId, PaymentMode, 0, Convert.ToInt32(BillType.Partybill)))
                     {
-                        frmSalesInvoice.StartPosition = FormStartPosition.CenterScreen;
-                        frmSalesInvoice.ShowDialog();
+                        frmSalesInvoice.StartPosition = FormStartPosition.CenterParent;
+
+                        ShowBlurForModalDialog();
+                        try
+                        {
+                            frmSalesInvoice.ShowDialog(this);
+                        }
+                        finally
+                        {
+                            HideBlurForModalDialog();
+                        }
                     }
                 }
                 switch ((PaymentSettlementStatus)PaymentSettleStatusData)
@@ -6023,7 +6100,7 @@ namespace FoodandBeverage
                 _validatedKotDateTimeForPayment = null;
                 _validatedBookingStartForPayment = null;
 
-                //ClearAll();
+                ClearAll();
 
                 #endregion
 
@@ -6447,7 +6524,8 @@ namespace FoodandBeverage
                 txtTotalDiscountAmt.Text = result.DiscountAmount.ToString("0.00");
 
                 _loadedConsumedRawMaterialStatus = result.ConsumedRawMaterialStatus;
-                _loadedKoTPrintStatus = result.KoTPrintStatus;
+                _loadedKoTPrintStatus_counter = result.KoTPrintStatus_counter;
+                _loadedKoTPrintStatus_kitchen = result.KoTPrintStatus_Kitchen;
                 _loadedKotDateTime = result.KOTDatetime;
                 _hasLoadedKotDateTime = result.KOTDatetime.HasValue;
                 _isKotDateTimeManuallySet = false;
@@ -7376,6 +7454,17 @@ namespace FoodandBeverage
         {
             try
             {
+                DialogResult confirm = CMessageBox.Show(
+                    "Are you sure you want to void this party booking?\n\n" +
+                    "Once voided, this booking will be marked as cancelled.",
+                    "Confirm Booking Void",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (confirm != DialogResult.Yes)
+                    return;
+
                 BllPartyBooking bll = new BllPartyBooking();
                 DmnPartyBooking booking = new DmnPartyBooking();
 
@@ -7386,25 +7475,32 @@ namespace FoodandBeverage
 
                 var result = bll.VoidData("prdVoid_PartyBooking", booking);
 
-                if (result.PartyBookingId > 0)
+                if (result != null && result.PartyBookingId > 0)
                 {
                     pnl_bookingcancel.Visible = false;
                     HideBlurPopup(pnl_bookingcancel);
-                    CMessageBox.Show("Booking Voided Successfully");
+
+                    CMessageBox.Show("Party booking has been voided successfully.");
+
                     ClearAll();
                 }
                 else
                 {
-                    CMessageBox.Show("Void Failed");
+                    CMessageBox.Show("Unable to void the party booking. Please try again.");
                 }
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Partybooking page btn_bookingvoid_Click()", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Partybooking));
+                clsgen.LogException(
+                    "Partybooking page btn_bookingvoid_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking)
+                );
             }
         }
+
         #endregion
 
         #region Main Datagridview 
@@ -10375,10 +10471,20 @@ namespace FoodandBeverage
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowInTaskbar = false;
-                if (frm.ShowDialog(this) == DialogResult.OK && frm.SelectedBookingId > 0)
-                    LoadBookingFromCalendar(frm.SelectedBookingId);
-                else
-                    UpdateSelectedDateLabel();
+
+                ShowBlurForModalDialog();
+
+                try
+                {
+                    if (frm.ShowDialog(this) == DialogResult.OK && frm.SelectedBookingId > 0)
+                        LoadBookingFromCalendar(frm.SelectedBookingId);
+                    else
+                        UpdateSelectedDateLabel();
+                }
+                finally
+                {
+                    HideBlurForModalDialog();
+                }
             }
         }
 

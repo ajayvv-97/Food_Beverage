@@ -270,7 +270,8 @@ namespace FoodandBeverage.Forms
                 new BllSearch<DmnInventoryRequestDetail>();
             DmnSearch detailSearch = new DmnSearch
             {
-                Select = "d.DraftDetailId AS InventoryRequestDetailId, " +
+                Select = "CAST(0 AS INT) AS InventoryRequestDetailId, " +
+                         "d.DraftDetailId AS DraftDetailId, " +
                          "d.DraftId AS InventoryRequestId, d.RequestType, d.SlNo, " +
                          "d.ProductId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty, " +
                          "d.TotalRequiredQty, d.ItemId, d.ProductType, d.CurrentStock, " +
@@ -298,6 +299,31 @@ namespace FoodandBeverage.Forms
             btn_deletesaved_draft.Visible = true;
         }
 
+        private List<DmnInventoryRequestDetail> NormalizeLoadedRequestDetails(
+            IEnumerable<DmnInventoryRequestDetail> source)
+        {
+            if (source == null)
+                return new List<DmnInventoryRequestDetail>();
+
+            // Keep the newest persisted row for each logical batch ingredient/raw row.
+            return source
+                .Where(x => x != null)
+                .GroupBy(x => x.RequestType == 1
+                    ? "B|" + Convert.ToString(x.ProductId ?? 0) + "|" +
+                      Convert.ToString(x.RecipeItemId ?? 0) + "|" + Convert.ToString(x.ItemId ?? 0)
+                    : x.RequestType == 2
+                        ? "R|" + Convert.ToString(x.ItemId ?? 0) + "|" + Convert.ToString(x.Unit ?? 0)
+                        : "D|" + Convert.ToString(x.InventoryRequestDetailId))
+                .Select(group => group
+                    .OrderByDescending(x => x.InventoryRequestDetailId)
+                    .ThenByDescending(x => x.ModifiedOn ?? x.CreatedOn ?? DateTime.MinValue)
+                    .First())
+                .OrderBy(x => x.RequestType)
+                .ThenBy(x => x.SlNo ?? int.MaxValue)
+                .ThenBy(x => x.InventoryRequestDetailId)
+                .ToList();
+        }
+
         private void PopulateRequestForm(DmnInventoryRequestMaster master, List<DmnInventoryRequestDetail> details)
         {
             dgv_batch.Rows.Clear();
@@ -305,7 +331,8 @@ namespace FoodandBeverage.Forms
             dgv_raw.Rows.Clear();
             _originalIngredientQuantities.Clear();
             _visibleIngredientProductId = 0;
-            _loadedRequestDetails = details ?? new List<DmnInventoryRequestDetail>();
+            _loadedRequestDetails = NormalizeLoadedRequestDetails(
+                details ?? new List<DmnInventoryRequestDetail>());
 
             txt_reqno.Text = master.RequestNo ?? string.Empty;
             dtp_reqdate.Value = master.RequestDate == DateTime.MinValue ? DateTime.Today : master.RequestDate;
@@ -334,6 +361,10 @@ namespace FoodandBeverage.Forms
                 row.Cells[Brecipeingredientsno].Value = "View ingredients";
                 row.Cells[Bactionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Bitemidno].Value = product.Key;
+                row.Cells[BInventoryRequestDetailIdno].Value = product
+                    .OrderBy(x => x.SlNo ?? int.MaxValue)
+                    .Select(x => x.InventoryRequestDetailId)
+                    .FirstOrDefault();
             }
 
             foreach (DmnInventoryRequestDetail detail in _loadedRequestDetails
@@ -354,6 +385,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Ractionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Ritemidno].Value = detail.ItemId.Value;
                 row.Cells[Rproducttypeno].Value = detail.ProductType ?? 2;
+                row.Cells[RInventoryRequestDetailIdno].Value = detail.InventoryRequestDetailId;
             }
 
             if (dgv_batch.Rows.Count > 0)

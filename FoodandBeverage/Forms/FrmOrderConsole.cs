@@ -30,6 +30,9 @@ namespace FoodandBeverage.Forms
         public int tableId = 0;
         public int Bookingmasterid = 0;
         public int BookingType = 0;
+        public int OrderTypeId = 0;
+        public int StockDeductionOrderTypeId = 0;
+        public const int TakeawayBookingType = 1001;
         public int PageType = 0;
         public int OmId = 0;
         public int sourcepage = 0;
@@ -80,6 +83,12 @@ namespace FoodandBeverage.Forms
 
         private readonly BllSearch<DmnGridFields> _search = new BllSearch<DmnGridFields>();
         private readonly DmnSearch _query = new DmnSearch();
+
+        private bool _packingTaxConfigurationLoaded;
+        private bool _packingTaxConfigured;
+        private string _packingTaxMode;
+        private string _packingTaxType;
+        private decimal _packingTaxPercentage;
 
         #region main product variable
         public int Global_ProductId = 0;
@@ -339,18 +348,25 @@ namespace FoodandBeverage.Forms
         #endregion
 
         #endregion
-        public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype, int cdstatus)
+        public FrmOrderConsole(int tid, int booktype, int bmasterid, List<DmnNameList> checkedtableNames, int Pageno, int Ordermasterid, int sourcepagetype, int cdstatus, int orderTypeId = 0)
         {
             tableId = tid;
             sourcepage = sourcepagetype;
             Bookingmasterid = bmasterid;
             BookingType = booktype;
+            OrderTypeId = orderTypeId > 0
+                ? orderTypeId
+                : booktype == Convert.ToInt32(DashboardTableType.PickupOrder)
+                    ? 1
+                    : booktype == TakeawayBookingType ? 2 : 0;
+            StockDeductionOrderTypeId = OrderTypeId;
             PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
             OmId = Ordermasterid;
             OrderCancelStatus = cdstatus;
 
             InitializeComponent();
+
             InitializeBlurPopupSupport();
             tlp_netalc_buttons.SizeChanged += delegate { ConfigureResponsiveOperationButtons(); };
 
@@ -936,6 +952,19 @@ namespace FoodandBeverage.Forms
                         UIHelper.RoundCorners(tlp_cancelled_list_nav, 25);
                     }
 
+                }
+                else if (BookingType == TakeawayBookingType)
+                {
+                    // Takeaway uses the normal order-detail and billing pipeline, but
+                    // must not load a table order or create a tblPickup row.
+                    Pickup_Status = false;
+                    combined_Pickup_Status = false;
+                    lbltablecode_header.Text = "TAKEAWAY";
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.save));
+                    lblorderid.Visible = false;
+                    label10.Visible = false;
+                    cmb_tblcode.Visible = false;
+                    lbltablecode.Visible = false;
                 }
 
                 #endregion
@@ -1827,7 +1856,8 @@ namespace FoodandBeverage.Forms
                     cmb_tblcode.Visible = false;
                     lbltablecode.Visible = true;
 
-                    lbltablecode.Text = Convert.ToString(gridSourcemaster[0].Kitchennumber);
+                    // Show the daily Pickup token (for example P005), not the kitchen serial number.
+                    lbltablecode.Text = GetOrderTokenDisplay(Convert.ToInt32(gridSourcemaster[0].OrderMasterId));
                     lbltablecode_header.Text = "PICK UP TOCKEN NO ";
 
                     lblorderid.Text = Convert.ToString(gridSourcemaster[0].OrderMasterId);
@@ -3256,7 +3286,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                foreach (TextBox textBox in new TextBox[] { txtRcvdAmnt, txtadvance, txtpkchrge_amt })
+                foreach (TextBox textBox in new TextBox[] { txtRcvdAmnt, txtadvance })
                 {
                     ApplyRoundedTextBox(textBox, 10);
                     textBox.Font = new Font(textBox.Font.FontFamily, 12);
@@ -3464,6 +3494,153 @@ namespace FoodandBeverage.Forms
             return Math.Round(subTotal,2,MidpointRounding.AwayFromZero);
         }
 
+        private bool TryGetPackingTaxConfiguration(
+            out string taxMode, out string taxType, out decimal taxPercentage)
+        {
+            taxMode = string.Empty;
+            taxType = string.Empty;
+            taxPercentage = 0m;
+
+            if (!_packingTaxConfigurationLoaded)
+            {
+                _packingTaxConfigurationLoaded = true;
+                _packingTaxConfigured = false;
+
+                try
+                {
+                    BllSearch<DmnGeneralSetting> generalSearch =
+                        new BllSearch<DmnGeneralSetting>();
+
+                    DmnSearch generalQuery = new DmnSearch
+                    {
+                        Select = "Gid, Tax, TaxType, TaxSettingId",
+                        Table = "tblGeneralSetting",
+                        WhereNdGroupBy = "WHERE BranchId = " + FrmDashboard.BranchId +
+                                         " AND Status = 1",
+                        OrderBy = "ORDER BY Gid DESC"
+                    };
+
+                    List<DmnGeneralSetting> generalSettings =
+                        generalSearch.GetSearchData("prdSearch", generalQuery);
+
+                    if (generalSettings == null || generalSettings.Count == 0)
+                        return false;
+
+                    DmnGeneralSetting setting = generalSettings[0];
+
+                    int taxSettingId = setting.TaxSettingId.GetValueOrDefault();
+                    if (taxSettingId <= 0 ||
+                        string.IsNullOrWhiteSpace(setting.TaxType) ||
+                        string.IsNullOrWhiteSpace(setting.Tax))
+                    {
+                        return false;
+                    }
+
+                    BllSearch<DmnTaxSettings> taxSearch =
+                        new BllSearch<DmnTaxSettings>();
+
+                    DmnSearch taxQuery = new DmnSearch
+                    {
+                        Select = "TaxSettingsId, TaxType, IgstPrcnt, VatPrcnt",
+                        Table = "tblTaxSettings",
+                        WhereNdGroupBy = "WHERE TaxSettingsId = " + taxSettingId +
+                                         " AND Status = 1",
+                        OrderBy = ""
+                    };
+
+                    List<DmnTaxSettings> taxSettings =
+                        taxSearch.GetSearchData("prdSearch", taxQuery);
+
+                    if (taxSettings == null || taxSettings.Count == 0)
+                        return false;
+
+                    DmnTaxSettings selectedTax = taxSettings[0];
+
+                    if (!string.Equals(selectedTax.TaxType, setting.TaxType,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        return false;
+                    }
+
+                    _packingTaxMode = setting.Tax.Trim();
+                    _packingTaxType = setting.TaxType.Trim();
+
+                    if (string.Equals(_packingTaxType, "GST",
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        _packingTaxPercentage = selectedTax.IgstPrcnt;
+                    }
+                    else if (string.Equals(_packingTaxType, "VAT",
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        _packingTaxPercentage = selectedTax.VatPrcnt;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    _packingTaxConfigured = _packingTaxPercentage >= 0m &&
+                        (string.Equals(_packingTaxMode, "Inclusive",
+                            StringComparison.OrdinalIgnoreCase) ||
+                         string.Equals(_packingTaxMode, "Exclusive",
+                            StringComparison.OrdinalIgnoreCase));
+                }
+                catch (Exception ex)
+                {
+                    _packingTaxConfigured = false;
+                    clsgen.LogException(
+                        "Order page TryGetPackingTaxConfiguration()",
+                        ex,
+                        FrmLogin.EmployeName,
+                        FrmLogin.Designation,
+                        Convert.ToInt32(FormType.Order));
+                }
+            }
+
+            taxMode = _packingTaxMode ?? string.Empty;
+            taxType = _packingTaxType ?? string.Empty;
+            taxPercentage = _packingTaxPercentage;
+            return _packingTaxConfigured;
+        }
+
+        private decimal GetPackingTaxAmount(out bool isGst)
+        {
+            isGst = false;
+
+            decimal packingCharge = GetDecimalValue(txtpkchrge_amt);
+            if (packingCharge <= 0m)
+                return 0m;
+
+            string taxMode;
+            string taxType;
+            decimal taxPercentage;
+
+            if (!TryGetPackingTaxConfiguration(out taxMode, out taxType, out taxPercentage))
+                return 0m;
+
+            decimal taxableAmount;
+            decimal taxAmount;
+
+            if (string.Equals(taxMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
+            {
+                taxableAmount = taxPercentage > 0m
+                    ? packingCharge * 100m / (100m + taxPercentage)
+                    : packingCharge;
+
+                taxAmount = packingCharge - taxableAmount;
+            }
+            else
+            {
+                taxableAmount = packingCharge;
+                taxAmount = taxableAmount * taxPercentage / 100m;
+            }
+
+            isGst = string.Equals(taxType, "GST", StringComparison.OrdinalIgnoreCase);
+
+            return Math.Round(taxAmount, 2, MidpointRounding.AwayFromZero);
+        }
+
         public void CalculateNetamount_ALl()
         {
             try
@@ -3526,8 +3703,54 @@ namespace FoodandBeverage.Forms
                 if (rawTaxable < 0m)
                     rawTaxable = 0m;
 
-                //decimal totalTaxable = Math.Round(rawTaxable, 2, MidpointRounding.AwayFromZero);
-                decimal totalTaxable = rawTaxable;
+                // Packing charges are not discounted. If a packing tax is configured,
+                // include its taxable base here; inclusive charges are split into base
+                // and tax, while exclusive charges use the entered amount as the base.
+                decimal packingCharge = GetDecimalValue(txtpkchrge_amt);
+                if (packingCharge < 0m)
+                    packingCharge = 0m;
+
+                decimal packingTaxableAmount = 0m;
+                decimal packingTaxAmount = 0m;
+                decimal packingNonTaxableAmount = packingCharge;
+
+                string packingTaxMode;
+                string packingTaxType;
+                decimal packingTaxPercentage;
+
+                if (packingCharge > 0m &&
+                    TryGetPackingTaxConfiguration(
+                        out packingTaxMode,
+                        out packingTaxType,
+                        out packingTaxPercentage))
+                {
+                    if (string.Equals(packingTaxMode, "Inclusive",
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        packingTaxableAmount = packingTaxPercentage > 0m
+                            ? packingCharge * 100m / (100m + packingTaxPercentage)
+                            : packingCharge;
+
+                        packingTaxAmount = packingCharge - packingTaxableAmount;
+                    }
+                    else
+                    {
+                        packingTaxableAmount = packingCharge;
+                        packingTaxAmount =
+                            packingTaxableAmount * packingTaxPercentage / 100m;
+                    }
+
+                    packingTaxableAmount = Math.Round(
+                        packingTaxableAmount, 2, MidpointRounding.AwayFromZero);
+                    packingTaxAmount = Math.Round(
+                        packingTaxAmount, 2, MidpointRounding.AwayFromZero);
+
+                    // The entered packing amount is already inclusive or exclusive
+                    // according to the saved setting, so it is no longer an untaxed add-on.
+                    packingNonTaxableAmount = 0m;
+                }
+
+                decimal totalTaxable = rawTaxable + packingTaxableAmount;
 
                 decimal discountRatio = subTotal > 0m
                     ? discount / subTotal
@@ -3574,13 +3797,19 @@ namespace FoodandBeverage.Forms
                 }
 
     
-                decimal rawTotalTax = productTax ;
+                decimal rawTotalTax = productTax + packingTaxAmount;
 
-                decimal rawNetAmount = rawTaxable + rawTotalTax;
+                // When no packing tax is configured, retain the packing charge as a
+                // separate amount after tax rather than silently applying a default rate.
+                decimal rawNetAmount =
+                    totalTaxable + rawTotalTax + packingNonTaxableAmount;
 
                 decimal netAmount = Math.Round(rawNetAmount, 2, MidpointRounding.AwayFromZero);
 
-                decimal totalTax = Math.Round(netAmount - totalTaxable, 2, MidpointRounding.AwayFromZero);
+                decimal totalTax = Math.Round(
+                    netAmount - totalTaxable - packingNonTaxableAmount,
+                    2,
+                    MidpointRounding.AwayFromZero);
 
                 lblTotTaxAmnt.Text = totalTax.ToString("N2");
 
@@ -3654,9 +3883,11 @@ namespace FoodandBeverage.Forms
                         btn_print_bill.Visible = false;
                         btn_promo_code.Visible = false;
                         btn_PrintCopy.Visible = false;
-                        if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                        if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage) ||
+                            sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
                         {
-                            //btndirectpaybill.Visible = true;
+                            // Pickup and Takeaway use the same KOT print action.
+                            // Do not show the separate Save KOT button on either page.
                             btn_savekot_print.Visible = true;
                             btn_saveKOT.Visible = false;
                             btn_promo_code.Visible = true;
@@ -7473,15 +7704,31 @@ namespace FoodandBeverage.Forms
                 if (!decimal.TryParse(lblNetAmnt.Text, out netAmount))
                     netAmount = 0;
 
-                decimal discountedTax = TotalTax - (TotalTax * discountPerc / 100m);
-                discountedTax = Math.Round(discountedTax, 2, MidpointRounding.AwayFromZero);
+                // Packing tax is added after the product discount, matching the
+                // order total calculation. Apply the discount only to product tax.
+                bool packingTaxIsGst;
+                decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
 
-                TotalIGST = discountedTax;
-                TotalTax = discountedTax;
-                TotalCGST = Math.Round(discountedTax / 2m, 2, MidpointRounding.AwayFromZero);
-                TotalSGST = Math.Round(discountedTax / 2m, 2, MidpointRounding.AwayFromZero);
+                decimal productIgst = Math.Max(0m, TotalIGST - (packingTaxIsGst ? packingTaxAmount : 0m));
+                decimal productVat = Math.Max(0m, TotalVAT - (!packingTaxIsGst ? packingTaxAmount : 0m));
 
-                TotalPreTaxAmt = Math.Round(netAmount - discountedTax, 2, MidpointRounding.AwayFromZero);
+                productIgst = Math.Round(
+                    productIgst * (1m - discountPerc / 100m),
+                    2,
+                    MidpointRounding.AwayFromZero);
+
+                productVat = Math.Round(
+                    productVat * (1m - discountPerc / 100m),
+                    2,
+                    MidpointRounding.AwayFromZero);
+
+                TotalIGST = productIgst + (packingTaxIsGst ? packingTaxAmount : 0m);
+                TotalVAT = productVat + (!packingTaxIsGst ? packingTaxAmount : 0m);
+                TotalCGST = Math.Round(TotalIGST / 2m, 2, MidpointRounding.AwayFromZero);
+                TotalSGST = Math.Round(TotalIGST / 2m, 2, MidpointRounding.AwayFromZero);
+                TotalTax = TotalIGST + TotalVAT;
+
+                TotalPreTaxAmt = Math.Round(netAmount - TotalTax, 2, MidpointRounding.AwayFromZero);
 
             }
             catch (Exception ex)
@@ -8833,6 +9080,7 @@ namespace FoodandBeverage.Forms
                     dmnordermaster.OtherGuestCount = Convert.ToInt32(txtother.Text);
                     dmnordermaster.TotalGuestCount = Convert.ToInt32(totguests.Text);
 
+                    dmnordermaster.OrderTypeId = OrderTypeId;
                     var InsertStatusP = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                     if (InsertStatusP.OrderMasterId > 0)
                     {
@@ -9013,7 +9261,16 @@ namespace FoodandBeverage.Forms
                             }
                         }
 
-                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Tableorder));
+                        if (!flage && OrderTypeId > 0 && InsertStatusP != null &&
+                            InsertStatusP.OrderMasterId > 0)
+                        {
+                            bll_order.RefreshOrderTokenStatus(
+                                "prdOrderToken_RefreshStatus",
+                                InsertStatusP.OrderMasterId,
+                                FrmDashboard.UserId);
+                        }
+
+                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Tableorder), InsertStatusP != null ? InsertStatusP.OrderMasterId : 0);
                     }
                     if (flage == false)
                     {
@@ -9095,8 +9352,35 @@ namespace FoodandBeverage.Forms
 
             }
         }
-        private void PrintOrderNokot(int btype)
+        private string GetOrderTokenDisplay(int orderMasterId)
         {
+            if (orderMasterId <= 0)
+                return string.Empty;
+
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "TokenDisplay AS Field1";
+                dmnSearch.Table = "tblOrderToken";
+                dmnSearch.WhereNdGroupBy = "WHERE OrderMasterId = " + orderMasterId;
+                dmnSearch.OrderBy = "";
+
+                var tokenRows = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (tokenRows != null && tokenRows.Count > 0)
+                    return Convert.ToString(tokenRows[0].Field1).Trim();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page GetOrderTokenDisplay()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+            }
+
+            return string.Empty;
+        }
+
+        private void PrintOrderNokot(int btype, int orderMasterId = 0)
+        {
+            string tokenDisplay = GetOrderTokenDisplay(orderMasterId);
             ReportDocument reportDocument = new ReportDocument();
 
             try
@@ -9166,6 +9450,7 @@ namespace FoodandBeverage.Forms
                         PriorityType = 1,
                         CounterKotNo = CounterKotNo,
                         Billtype = btype,
+                        TokenNo = tokenDisplay,
                     });
                 }
 
@@ -9190,7 +9475,7 @@ namespace FoodandBeverage.Forms
                         "TableType", "AddonStatus", "MainCategoryCount",
                         "offeritemname", "offerqty", "Kitchennumber",
                         "TotalQTY", "Pkid", "EmployeeName", "Station",
-                        "GuestDetails", "Orderno", "PriorityType", "CounterKotNo", "Billtype"))
+                        "GuestDetails", "Orderno", "PriorityType", "CounterKotNo", "Billtype", "TokenNo"))
                     {
                         dtSalesDetail.Load(reader);
                     }
@@ -9250,7 +9535,7 @@ namespace FoodandBeverage.Forms
             public int PriorityType { get; set; }
             public int CounterKotNo { get; set; }
             public int Billtype { get; set; }
-
+            public string TokenNo { get; set; }
 
         }
         private void btn_refresh_Click(object sender, EventArgs e)
@@ -9348,6 +9633,18 @@ namespace FoodandBeverage.Forms
                     btn_save_promo.Enabled = true;
 
                     Dgv_Selected_Item.Rows.Add();
+                }
+                else if (OrderTypeId == 2)
+                {
+                    // Keep the Takeaway console in its own mode after refresh.
+                    ClearAll();
+                    checksave_refresh();
+                    lbltablecode_header.Text = "TAKEAWAY";
+                    lblorderid.Visible = false;
+                    label10.Visible = false;
+                    cmb_tblcode.Visible = false;
+                    lbltablecode.Visible = false;
+                    btn_cancle_pickup.Visible = false;
                 }
                 else
                 {
@@ -9742,31 +10039,82 @@ namespace FoodandBeverage.Forms
                             TotalPreTaxAmt += Convert.ToDecimal(gridSourcemaster[i].PreTaxAmt);
                         }
                     }
-
-                    TotalTax = TotalIGST + TotalVAT;
                 }
                 else
                 {
-                    TotalTax = 0; TotalIGST = 0; TotalCGST = 0; TotalSGST = 0; TotalVAT = 0; Totaldis = 0; TotalPreTaxAmt = 0;
+                    TotalTax = 0;
+                    TotalIGST = 0;
+                    TotalCGST = 0;
+                    TotalSGST = 0;
+                    TotalVAT = 0;
+                    Totaldis = 0;
+                    TotalPreTaxAmt = 0;
+
                     for (int i = 0; i < Dgv_Selected_Item.Rows.Count; i++)
                     {
                         decimal igstAmt = 0;
                         decimal vatAmt = 0;
                         decimal preAmt = 0;
 
-                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value), out igstAmt);
-                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value), out vatAmt);
-                        decimal.TryParse(Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value), out preAmt);
+                        decimal.TryParse(
+                            Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iigstamtno].Value),
+                            out igstAmt);
+
+                        decimal.TryParse(
+                            Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivatamtno].Value),
+                            out vatAmt);
+
+                        decimal.TryParse(
+                            Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value),
+                            out preAmt);
 
                         TotalIGST += igstAmt;
-                        TotalCGST += igstAmt / 2;
-                        TotalSGST += igstAmt / 2;
+
+                        TotalCGST += Math.Round(
+                            igstAmt / 2m, 2, MidpointRounding.AwayFromZero);
+
+                        TotalSGST += igstAmt - Math.Round(
+                            igstAmt / 2m, 2, MidpointRounding.AwayFromZero);
+
                         TotalVAT += vatAmt;
                         TotalPreTaxAmt += preAmt;
                     }
-                    TotalTax = TotalIGST + TotalVAT;
-
                 }
+
+                // ==========================================
+                // ADD PACKING TAX
+                // ==========================================
+
+                bool packingTaxIsGst;
+                decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
+
+                if (packingTaxAmount > 0)
+                {
+                    if (packingTaxIsGst)
+                    {
+                        TotalIGST += packingTaxAmount;
+
+                        decimal packingCGST = Math.Round(
+                            packingTaxAmount / 2m,
+                            2,
+                            MidpointRounding.AwayFromZero);
+
+                        decimal packingSGST = packingTaxAmount - packingCGST;
+
+                        TotalCGST += packingCGST;
+                        TotalSGST += packingSGST;
+                    }
+                    else
+                    {
+                        TotalVAT += packingTaxAmount;
+                    }
+                }
+
+                // ==========================================
+                // FINAL TOTAL TAX
+                // ==========================================
+
+                TotalTax = TotalIGST + TotalVAT;
             }
             catch (Exception ex)
             {
@@ -9825,6 +10173,7 @@ namespace FoodandBeverage.Forms
                         dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                         dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
                         dmnsalemaster.Roundoff = Convert.ToDecimal(txtroundoff.Text);
+
                         #region Customer Registartion
                         dmnsalemaster.cusid = Convert.ToInt32(txtcusid.Text);
                         dmnsalemaster.FirstName = Convert.ToString(txtfristname.Text).Trim();
@@ -10086,7 +10435,8 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                     dmnsaledetails.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                     dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
-                                    dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                    dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                    dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
 
                                     dmnsaledetails.OrderDetailsId = "0";
                                     dmnsaledetails.SalesDetailsId = 0;
@@ -10166,7 +10516,9 @@ namespace FoodandBeverage.Forms
                         }
                         #endregion
 
-                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder));
+                        int tokenOrderMasterIdForPickup = 0;
+                        int.TryParse(lblorderid.Text, out tokenOrderMasterIdForPickup);
+                        PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder), tokenOrderMasterIdForPickup);
                     }
                     #endregion
 
@@ -10257,6 +10609,20 @@ namespace FoodandBeverage.Forms
                                     //Totaldis = Totaldis + Convert.ToDecimal(dgv_exitsting_product.Rows[i].Cells[pDisAmnt].Value);
                                 }
                             }
+                            bool packingTaxIsGst;
+                            decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
+
+                            if (packingTaxIsGst)
+                            {
+                                TotalIGST += packingTaxAmount;
+                                TotalCGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                                TotalSGST += Math.Round(packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                            }
+                            else
+                            {
+                                TotalVAT += packingTaxAmount;
+                            }
+
                             TotalTax = TotalIGST + TotalVAT;
 
                             //dmnsalemaster.TotalDiscount = Convert.ToDecimal(txtDiscAmnt.Text);
@@ -10458,7 +10824,8 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.AV_id = Convert.ToString(dgv_combined.Rows[i].Cells[CAV_id].Value);
                                             dmnsaledetails.Addoncount = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddoncount].Value);
                                             dmnsaledetails.VariatiionName = Convert.ToString(dgv_combined.Rows[i].Cells[CVariatiionNameno].Value);
-                                            dmnsaledetails.IsStockTracked = Convert.ToBoolean(dgv_combined.Rows[i].Cells[istocktrackno].Value);
+                                            dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                            dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(dgv_combined.Rows[i].Cells[Cpretaxamtno].Value);
 
                                             var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
@@ -10511,17 +10878,18 @@ namespace FoodandBeverage.Forms
                             if (Convert.ToInt32(txtsalemasterid.Text) > 0)
                                 reorderpickupflag = true;
                             int GBL_pkid = 0, GBL_omid = 0;
+                            bool flage = false;
+                            BllOrder bll_order = new BllOrder();
+
                             if (KOT_saleprint_status)
                             {
                                 if (MandatoryCheck_KOT())
                                 {
                                     #region Order Master
                                     setKitchenperfix();
-                                    bool flage = false;
 
                                     DmnOrderMaster dmnordermaster = new DmnOrderMaster();
                                     DmnOrderDetails dmnorderdetail = new DmnOrderDetails();
-                                    BllOrder bll_order = new BllOrder();
                                     dmnordermaster.BookmasterId = Bookingmasterid;
                                     dmnordermaster.OrderMasterId = Convert.ToInt32(txtordermasterid.Text);
                                     dmnordermaster.EntryNo = "";
@@ -10640,6 +11008,7 @@ namespace FoodandBeverage.Forms
                                     else
                                         dmnordermaster.Kitchennumber = Convert.ToString(txtkitchenslrno.Text);
 
+                                    dmnordermaster.OrderTypeId = OrderTypeId;
                                     var InsertStatusor = bll_order.AddEditData("prdInsert_Upd_OrderMaster", dmnordermaster);
                                     #endregion
 
@@ -10839,6 +11208,14 @@ namespace FoodandBeverage.Forms
                             }
                             #endregion
 
+                            if (KOT_saleprint_status && !flage && OrderTypeId > 0 && GBL_omid > 0)
+                            {
+                                bll_order.RefreshOrderTokenStatus(
+                                    "prdOrderToken_RefreshStatus",
+                                    GBL_omid,
+                                    FrmDashboard.UserId);
+                            }
+
                             #region Sale master
                             finaltotalqty();
                             int sum = 0; decimal nettotal = 0;
@@ -11037,6 +11414,7 @@ namespace FoodandBeverage.Forms
                                             var InsertStatus = bllpay.AddEditPayment("prdInsert_Upd_Payment", dmnpayment);
                                         }
                                     }
+
                                     #region To Save partpayment Table 
                                     if (payid == Convert.ToInt32(PaymentType.SPLIT))
                                     {
@@ -11139,7 +11517,8 @@ namespace FoodandBeverage.Forms
 
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                             dmnsaledetails.SalesDetailsId = 0;
-                                            dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                            dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                            dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
 
                                             if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
@@ -11226,7 +11605,7 @@ namespace FoodandBeverage.Forms
                                 #endregion
 
                                 CounterKotNo = dmnsalemaster.PkId;
-                                PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder));
+                                PrintOrderNokot(Convert.ToInt32(KOTbilltype.Pickuporder), GBL_omid);
 
                             }
                             else
@@ -11360,7 +11739,8 @@ namespace FoodandBeverage.Forms
                                                 else
                                                     dmnsaledetails.Cmid = "0";
 
-                                                dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
+                                                dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                                dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
                                                 dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i + 1].Cells[ipretaxamtno].Value);
 
                                                 var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
@@ -14278,32 +14658,20 @@ namespace FoodandBeverage.Forms
             try
             {
                 currentRoundMode = RoundOffMode.Auto;
-
                 originalRoundValue = 0;
                 isRoundValueCaptured = false;
 
-                decimal subTotal = GetDecimalValue(lblsubtotal);   // BASE
-                decimal taxAmt = GetDecimalValue(lblTotTaxAmnt);   // TAX
-                decimal discAmt = GetDecimalValue(txtdis_amt);
-
-                decimal receivedAmt = GetDecimalValue(txtRcvdAmnt);
-
-                // ✅ CORRECT FLOW
-                decimal taxableAmount = subTotal - discAmt;
-                decimal netAmount = taxableAmount + taxAmt;
-
-                // ✅ ROUNDING
-                decimal roundedAmount = Math.Round(netAmount, 0, MidpointRounding.AwayFromZero);
-                decimal roundOffValue = roundedAmount - netAmount;
-
-                txtroundoff.Text = roundOffValue.ToString("N2");
-                lblNetAmnt.Text = roundedAmount.ToString("N2");
-
-                lblBalcAmnt.Text = (roundedAmount - receivedAmt).ToString("N2");
+                // Use the common calculation so packing charges and their tax
+                // are included in the automatic rounded total.
+                CalculateNetamount_ALl();
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Order page AutoRoundOff()",ex,FrmLogin.EmployeName,FrmLogin.Designation,Convert.ToInt32(FormType.Order));
+                clsgen.LogException("Order page AutoRoundOff()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
             }
         }
         private void txtroundoff_Click(object sender, EventArgs e)
@@ -14327,13 +14695,28 @@ namespace FoodandBeverage.Forms
 
                 originalRoundValue = kdata;
 
-                decimal subTotal = GetDecimalValue(lblsubtotal);
-                decimal taxAmt = GetDecimalValue(lblTotTaxAmnt);
-                decimal discAmt = GetDecimalValue(txtdis_amt);
                 decimal receivedAmt = GetDecimalValue(txtRcvdAmnt);
 
-                decimal taxableAmount = subTotal - discAmt;
-                decimal netAmount = taxableAmount + taxAmt;
+                // lbltaxableamt already includes discounted food taxable value and,
+                // when configured, the packing taxable base. Keep an unconfigured
+                // packing charge outside the tax total.
+                decimal packingAddOn = Math.Max(0m, GetDecimalValue(txtpkchrge_amt));
+                string configuredPackingMode;
+                string configuredPackingType;
+                decimal configuredPackingRate;
+
+                if (TryGetPackingTaxConfiguration(
+                    out configuredPackingMode,
+                    out configuredPackingType,
+                    out configuredPackingRate))
+                {
+                    packingAddOn = 0m;
+                }
+
+                decimal netAmount =
+                    GetDecimalValue(lbltaxableamt) +
+                    GetDecimalValue(lblTotTaxAmnt) +
+                    packingAddOn;
 
                 decimal finalAmount = netAmount;
                 decimal roundOffValue = 0;
@@ -14541,6 +14924,46 @@ namespace FoodandBeverage.Forms
                 (IntPtr)HTCAPTION,
                 IntPtr.Zero);
         }
+
+        private void txtpkchrge_amt_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                decimal packingCharge = 0m;
+
+                using (var frm = new Frmnumdiskeypad(
+                    Convert.ToInt32(KeypadType.Roundoff)))
+                {
+                    frm.ShowDialog();
+                    if (!decimal.TryParse(frm.txtkeypadvalue.Text, out packingCharge))
+                        return;
+                }
+
+                if (packingCharge < 0m)
+                {
+                    CMessageBox.Show(
+                        "Packing charge cannot be negative.",
+                        "Invalid Packing Charge",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                txtpkchrge_amt.Text = packingCharge.ToString("0.00");
+                netAmount();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page txtpkchrge_amt_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
+            }
+        }
+
+
+
         private void EnableProductCartDragging()
         {
             // Drag using the Product Cart header or its title.

@@ -18,11 +18,12 @@ using FastMember;
 using FoodandBeverage.Classes;
 using FoodandBeverage.Controls;
 using FoodandBeverage.Interfaces;
+using FoodandBeverage.Services;
 using Microsoft.AspNet.SignalR.Client;
 
 namespace FoodandBeverage.Forms
 {
-    public partial class FrmKitchenView : Form
+    public partial class FrmKitchenView  : Form
     {
         private SoundPlayer soundPlayer;
         ReportDocument reportDocument = new ReportDocument();
@@ -120,7 +121,7 @@ namespace FoodandBeverage.Forms
                 }
                 else if (stype == 2)
                 {
-                    txtsearchData.Text = "Enter Pickup No...";
+                    txtsearchData.Text = "Enter Daily Token No...";
                 }
 
                 if (FrmDashboard.AutoLogoutWhenIdle)
@@ -208,6 +209,7 @@ namespace FoodandBeverage.Forms
             public Label TimeLabel;
             public Label StatusLabel;
             public Label TableCodeLabel;
+            public Label TokenLabel;
             public TextBox Description;
             public PictureBox BtnStart;
             public PictureBox BtnReady;
@@ -366,6 +368,38 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private Tuple<int, string> GetDailyOrderToken(int orderMasterId)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
+                DmnSearch query = new DmnSearch
+                {
+                    Select = "OrderTypeId Field1, TokenDisplay Field2",
+                    Table = "tblOrderToken",
+                    WhereNdGroupBy = "WHERE OrderMasterId = " + orderMasterId,
+                    OrderBy = ""
+                };
+
+                List<DmnGridFields> rows = search.GetSearchData("prdSearch", query);
+                if (rows != null && rows.Count > 0 &&
+                    !string.IsNullOrWhiteSpace(Convert.ToString(rows[0].Field2)))
+                {
+                    return Tuple.Create(
+                        Convert.ToInt32(rows[0].Field1),
+                        Convert.ToString(rows[0].Field2));
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("FrmKitchenView GetDailyOrderToken()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Create a full card (Layout A) for an order and return cache object.
         /// </summary>
@@ -390,7 +424,11 @@ namespace FoodandBeverage.Forms
                 int controlWidth = Math.Max(300, (availableWidth - (columns - 1) * 20) / columns);
                 int controlHeight = Math.Max(230,
                     Math.Min(280, Math.Max(230, flp_order_view.ClientSize.Height - 24) / 2));
-                bool isPickupOrder = Convert.ToInt32(details[0].Field25) > 0;
+                Tuple<int, string> dailyToken = GetDailyOrderToken(Convert.ToInt32(orderId));
+                int dailyOrderTypeId = dailyToken == null ? 0 : dailyToken.Item1;
+                string dailyTokenDisplay = dailyToken == null ? string.Empty : dailyToken.Item2;
+                bool isPickupOrder = Convert.ToInt32(details[0].Field25) > 0 ||
+                    dailyOrderTypeId == 1 || dailyOrderTypeId == 2;
                 int headerHeight = 36;
                 int buttonHeight = 42;
 
@@ -447,10 +485,14 @@ namespace FoodandBeverage.Forms
                 Label token = new Label
                 {
                     Name = "lbl_tokkenno_k_" + orderId + suffix,
-                    // Pickup cards show only the pickup number; regular kitchen cards show their token.
-                    Text = isPickupOrder
-                        ? "PICKUP NO: " + Convert.ToString(details[0].Field25)
-                        : "TOKEN " + Convert.ToString(details[0].Field22),
+                    // The daily token is separate from the legacy tblPickup.PkId.
+                    Text = dailyOrderTypeId == 2
+                        ? "TAKEAWAY: " + dailyTokenDisplay
+                        : dailyOrderTypeId == 1
+                            ? "PICKUP: " + dailyTokenDisplay
+                            : isPickupOrder
+                                ? "PICKUP NO: " + Convert.ToString(details[0].Field25)
+                                : "TOKEN " + Convert.ToString(details[0].Field22),
                     Dock = DockStyle.Fill,
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleCenter,
@@ -468,7 +510,7 @@ namespace FoodandBeverage.Forms
                     Margin = new Padding(4, 5, 4, 5),
                     Font = ModernKitchenOrderCard.StatusFont,
                     ForeColor = Color.FromArgb(44, 96, 163),
-                    Text = isPickupOrder ? "PICKUP" : "NEW",
+                    Text = dailyOrderTypeId == 2 ? "TAKEAWAY" : isPickupOrder ? "PICKUP" : "NEW",
                     Visible = true
                 };
 
@@ -577,6 +619,7 @@ namespace FoodandBeverage.Forms
                 cache.TimeLabel = time;
                 cache.StatusLabel = statusLabel;
                 cache.TableCodeLabel = tableCode;
+                cache.TokenLabel = token;
                 cache.Description = description;
                 cache.DescriptionPanel = description;
                 cache.BtnStart = startButton;
@@ -1338,6 +1381,15 @@ namespace FoodandBeverage.Forms
 
                 foreach (var orders in distinctOrders)
                 {
+                    // Use the same daily Pickup / Takeaway token lookup as the kitchen order card.
+                    Tuple<int, string> dailyOrderToken =
+                        GetDailyOrderToken(Convert.ToInt32(orders.Field1));
+
+                    string dailyTokenDisplay =
+                        dailyOrderToken != null && !string.IsNullOrWhiteSpace(dailyOrderToken.Item2)
+                            ? dailyOrderToken.Item2.Trim()
+                            : string.Empty;
+
                     #region Crystal Report Declaration
                     DataSet dsReport = new DataSet();
                     DataTable dtSalesDetail = new DataTable("DT_kitchenbill");
@@ -1408,6 +1460,12 @@ namespace FoodandBeverage.Forms
                         GuestDetails = item.GuestDetails,
                         Orderno= orders.Field2,
                         PriorityType= item.PriorityType,
+                        TokenNo = !string.IsNullOrWhiteSpace(dailyTokenDisplay)
+                            ? dailyTokenDisplay
+                            : (!string.IsNullOrWhiteSpace(item.TokenNo) &&
+                               item.TokenNo.Trim() != "0"
+                                ? item.TokenNo.Trim()
+                                : string.Empty)
                     }).ToList();
 
                     //if (item.VariatiionNam != null && item.VariatiionNam != "")
@@ -1450,13 +1508,16 @@ namespace FoodandBeverage.Forms
                                   processedItem.GuestDetails,
                                   processedItem.Orderno,
                                   processedItem.PriorityType,
+                                  processedItem.TokenNo,
 
                               })
                         .ToList();
 
                     if (mergedData != null && mergedData.Count > 0)
                     {
-                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType"))
+                        using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId",
+                            "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY",
+                            "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType", "TokenNo"))
                         {
                             dtSalesDetail.Load(reader);
                         }
@@ -2752,7 +2813,7 @@ namespace FoodandBeverage.Forms
                 case 1:
                     return "Enter Table Code...";
                 case 2:
-                    return "Enter Pickup No...";
+                    return "Enter Daily Token No...";
                 default:
                     return "Enter Value...";
             }
@@ -2777,15 +2838,15 @@ namespace FoodandBeverage.Forms
         }
         private void txtorderid_search_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r') // Check for Enter key
+            if (e.KeyChar == '\r')
             {
-                e.Handled = true; // Suppress the Enter key
-            }
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                // If the pressed key is not a digit and not a control key (like backspace), suppress it
                 e.Handled = true;
+                return;
             }
+
+            // Daily tokens include a prefix (P005 / T005), and table codes can be alphanumeric.
+            if (!char.IsControl(e.KeyChar) && !char.IsLetterOrDigit(e.KeyChar))
+                e.Handled = true;
         }
         private void txtorderid_search_KeyDown(object sender, KeyEventArgs e)
         {
@@ -2989,6 +3050,13 @@ namespace FoodandBeverage.Forms
             refreshtimer.Stop();
             try
             {
+                // Party booking Kitchen KOTs are pulled by the Kitchen PC and
+                // printed on this workstation's default kitchen printer.
+                PartyBookingKOTQueuePrinter.ProcessPendingAsync(
+                    FrmDashboard.BranchId,
+                    Convert.ToInt32(KOTRouting.kitchen),
+                    FrmDashboard.UserId);
+
                 FillOrders();
                 PrintOrderAsync();
                 PrintcancelOrder();
@@ -3161,7 +3229,8 @@ namespace FoodandBeverage.Forms
         private void btnsearch_Click(object sender, EventArgs e)
         {
             // Mandatory textbox check
-            if (string.IsNullOrWhiteSpace(txtsearchData.Text))
+            if (string.IsNullOrWhiteSpace(txtsearchData.Text) ||
+                string.Equals(txtsearchData.Text.Trim(), GetPlaceholder(), StringComparison.OrdinalIgnoreCase))
             {
                 CMessageBox.Show("Please enter search text.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtsearchData.Focus();
@@ -3183,7 +3252,7 @@ namespace FoodandBeverage.Forms
             else if (stype == 1)
                 SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByTableCode));
             else if (stype == 2)
-                SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByPkId));
+                SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByDailyToken));
 
         }
         public void SerachTable_Pickup(string sdata,int serachtype)

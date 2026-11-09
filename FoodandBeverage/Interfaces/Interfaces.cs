@@ -311,7 +311,8 @@ namespace FoodandBeverage.Interfaces
         Menureport = 6,
         Menusetting = 7,
         Menulogout = 8,
-        Pickup=9
+        Pickup=9,
+        Takeaway=10
     }
     public enum BillType
     {
@@ -339,7 +340,8 @@ namespace FoodandBeverage.Interfaces
     {
         Tableviewpage = 1,
         Billingpage = 2,
-        Pickuppage = 3
+        Pickuppage = 3,
+        Takeawaypage = 4
     }
     public enum CombinedBillType
     {
@@ -355,6 +357,22 @@ namespace FoodandBeverage.Interfaces
         PickupOrder = 1,
         Combined_pick_normal_Order=2,
         Pickup_DirectSale = 3,
+    }
+
+    // Daily token grouping configuration stored in tblGeneralSetting.DailyTokenMode.
+    public enum DailyTokenGroupingMode
+    {
+        AllOrderTypesCombined = 1,
+        SeparateByOrderType = 2,
+        PickupTakeawayCombined_DeliverySeparate = 3
+    }
+
+    // Stable OrderTypeId values used by tblOrderToken.
+    public enum DailyOrderTokenType
+    {
+        Pickup = 1,
+        Takeaway = 2,
+        Delivery = 3
     }
     public enum ButtonType
     {
@@ -522,10 +540,11 @@ namespace FoodandBeverage.Interfaces
     }
     public enum KitchenSearchType
     {
-        AllOrders = 0,          // status in (1,2) and addon
-        ByTableCode = 1,        // search by table code
-        ByPkId = 2,             // search by PkId
-        ByKitchenNumber = 3     // search by KitchenNumber
+        AllOrders = 0,             // All active kitchen orders
+        ByTableCode = 1,           // Search by table code
+        ByDailyToken = 2,          // Search today's Pickup / Takeaway token (P005 / T005)
+        ByPkId = 2,                // Legacy alias; retained for compatibility
+        ByKitchenNumber = 3        // Search by kitchen serial number
     }
 
     public enum ReserveQtyTabletype
