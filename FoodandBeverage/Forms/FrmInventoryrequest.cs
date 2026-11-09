@@ -54,7 +54,7 @@ namespace FoodandBeverage.Forms
                          "CAST(0 AS DECIMAL(18,2)) AS CurrentStock, CAST(1 AS INT) AS ProductType",
                 Table = "tblProduct p",
                 WhereNdGroupBy = "WHERE ISNULL(p.Status,1) = 1 " +
-                    "AND ISNULL(p.FoodPreparationType,0) IN (2,3) AND " +
+                    "AND ISNULL(p.FoodPreparationType,0) IN (" + (int)FoodPreparationMethod.BatchPrepared + "," + (int)FoodPreparationMethod.PartiallyPrepared + ") AND " +
                     "(N'" + escapedSearch + "' = N'' OR p.Product LIKE N'%' + N'" +
                     escapedSearch + "' + N'%')",
                 OrderBy = "ORDER BY p.Product"
@@ -126,8 +126,8 @@ namespace FoodandBeverage.Forms
                 WhereNdGroupBy = "WHERE d.ProductId = " + productId +
                                  " AND ISNULL(d.ProductType,1) = 1 " +
                                  " AND ISNULL(d.Status,1) = 1 " +
-                                 " AND (p.FoodPreparationType = 2 OR " +
-                                 "(p.FoodPreparationType = 3 AND ISNULL(d.Deductionstage,0) = 2))",
+                                 " AND (p.FoodPreparationType = " + (int)FoodPreparationMethod.BatchPrepared + " OR " +
+                                 "(p.FoodPreparationType = " + (int)FoodPreparationMethod.PartiallyPrepared + " AND ISNULL(d.Deductionstage,0) = " + (int)IngredientDeductionStage.BatchPreparation + "))",
                 OrderBy = "ORDER BY d.Ing_DetailsId"
             };
 
@@ -713,7 +713,7 @@ namespace FoodandBeverage.Forms
                 Table = "tblProduct p LEFT JOIN tblCategory_FTI c ON c.Fcid = p.Fcid",
                 WhereNdGroupBy = "WHERE p.ProductId = " + productId +
                                  " AND p.Status = 1 AND c.Status = 1 " +
-                                 " AND ISNULL(p.FoodPreparationType,0) IN (2,3)",
+                                 " AND ISNULL(p.FoodPreparationType,0) IN (" + (int)FoodPreparationMethod.BatchPrepared + "," + (int)FoodPreparationMethod.PartiallyPrepared + ")",
                 OrderBy = ""
             };
 
