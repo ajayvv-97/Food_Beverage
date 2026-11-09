@@ -32,7 +32,7 @@ namespace Domain
         public int RequestDetailId { get; set; }
         public int RequestId { get; set; }
         public int RequestType { get; set; }
-        public int ItemId { get; set; }
+        public long ItemId { get; set; }
         public string ItemName { get; set; }
         public decimal PlannedQty { get; set; }
         public decimal CurrentStock { get; set; }
@@ -55,7 +55,7 @@ namespace Domain
     {
         public int IngredientDetailId { get; set; }
         public int InventoryRequestDetailId { get; set; }
-        public int ItemId { get; set; }
+        public long ItemId { get; set; }
         public string IngredientName { get; set; }
         public decimal PerPortionQty { get; set; }
         public decimal TotalRequiredQty { get; set; }
