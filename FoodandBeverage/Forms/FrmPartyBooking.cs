@@ -8937,7 +8937,11 @@ namespace FoodandBeverage
 
         private void txtname_TextChanged(object sender, EventArgs e)
         {
-            if (FrmDashboard.Enb_Party_Normal)
+            // Do not open the on-screen keyboard when customer details are loaded
+            // from a selected customer or an existing booking.
+            if (FrmDashboard.Enb_Party_Normal &&
+                !_isSettingCustomerDetails &&
+                !_isLoadingPartyBooking)
             {
                 ShowKeyboard(sender as TextBox, Convert.ToInt32(KeyboardType.Normal));
             }
