@@ -848,24 +848,25 @@ namespace FoodandBeverage.Forms
                    
                     
 
-                        if (prate <= 0)
-                        {
-                            SetError(i, iprate, "Purchase Rate must be > 0");
-                            return false;
-                        }
+                        
 
+                    if (qty <= 0)
+                    {
+                            SetError(i, iqty, "Qty must be > 0");
+                            return false;
+                    }
+                    if (prate <= 0)
+                    {
+                        SetError(i, iprate, "Purchase Rate must be > 0");
+                        return false;
+                    }
+                    if (Convert.ToInt32(row.Cells[isaletypeno].Value) == Convert.ToInt32(Saletype.Sale))
+                    {
                         if (mrp <= 0)
                         {
                             SetError(i, imrp, "MRP must be > 0");
                             return false;
                         }
-
-                        if (qty <= 0)
-                        {
-                            SetError(i, iqty, "Qty must be > 0");
-                            return false;
-                        }
-
                         if (isSaleRateLocked)
                         {
                             decimal rateDiscountPer = GetDecimal(row.Cells[irateperc].Value);
@@ -923,6 +924,10 @@ namespace FoodandBeverage.Forms
                             SetError(i, idisamt, "Discount < Amount");
                             return false;
                         }
+                    }
+                    
+
+                    
 
                     bool expiryValue = Convert.ToBoolean(row.Cells[iisexpiry].Value ?? false);
 
@@ -2645,6 +2650,7 @@ namespace FoodandBeverage.Forms
 
         private void dgvProduct_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
+            btnsave.Enabled = true;
             if (e.ColumnIndex == iname)
             {
                 if (dgvProduct.Rows[dgvProduct.CurrentCell.RowIndex].Cells[iitemid].Value == null)

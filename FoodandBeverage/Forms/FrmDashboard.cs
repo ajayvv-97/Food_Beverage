@@ -2989,6 +2989,11 @@ namespace FoodandBeverage.Forms
                             ibrequestapproval.Visible = true;
                             Menuoperation.Visible = true;
                         }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.productExportImport) && gridesource[i].Write == 1)
+                        {
+                            ibexportimport.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
                         #endregion
 
                         #region Employee Buttons
@@ -6600,6 +6605,50 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException(
                     "Homepage ibrequestapproval_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ibexportimport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+
+                if (Application.OpenForms["FrmproductExportImport"] != null)
+                {
+                    FrmproductExportImport _instanceFrmproductExportImport =
+                        Application.OpenForms["FrmproductExportImport"] as FrmproductExportImport;
+
+                    if (_instanceFrmproductExportImport.WindowState == FormWindowState.Minimized)
+                    {
+                        _instanceFrmproductExportImport.WindowState =
+                            FormWindowState.Maximized;
+                    }
+                    else
+                    {
+                        _instanceFrmproductExportImport.Dock = DockStyle.None;
+
+                        ResizeForm(_instanceFrmproductExportImport);
+
+                        panelDesktop.Controls.Add(_instanceFrmproductExportImport);
+
+                        _instanceFrmproductExportImport.Show();
+                        _instanceFrmproductExportImport.BringToFront();
+                    }
+                }
+                else
+                {
+                    UIHelper.OpenDialog(this, new FrmproductExportImport());
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Homepage ibexportimport_Click()",
                     ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,

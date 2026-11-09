@@ -512,6 +512,12 @@
     <Compile Include="Forms\FrmPickup.Designer.cs">
       <DependentUpon>FrmPickup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmproductExportImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmproductExportImport.Designer.cs">
+      <DependentUpon>FrmproductExportImport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmProductionMapping.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1049,6 +1055,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPickup.resx">
       <DependentUpon>FrmPickup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmproductExportImport.resx">
+      <DependentUpon>FrmproductExportImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmProductionMapping.resx">
       <DependentUpon>FrmProductionMapping.cs</DependentUpon>
