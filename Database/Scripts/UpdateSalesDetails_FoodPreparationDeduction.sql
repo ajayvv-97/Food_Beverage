@@ -71,6 +71,10 @@ BEGIN
     DECLARE @DiscAmt DECIMAL(18,2);
     DECLARE @DeductStock BIT = 0;
     DECLARE @SaleQtyForStock DECIMAL(18,4) = CONVERT(DECIMAL(18,4), ISNULL(@Quantity, 0));
+    DECLARE @PreviousQuantity DECIMAL(18,4) = 0;
+    DECLARE @PreviousItemId INT = NULL;
+    DECLARE @PreviousTableType INT = NULL;
+    DECLARE @IsStockRestock BIT = 0;
     DECLARE @PackagingRequired BIT = 0;
 
     /*
@@ -132,6 +136,29 @@ BEGIN
 
         IF @SalesDetailsId > 0
         BEGIN
+            /*
+               Existing sales detail rows store the final quantity, unlike a new
+               combo/add-on call which adds @Quantity. Reconcile only the delta.
+               Product identity must remain the same for a quantity-only edit so
+               the original recipe is not accidentally replaced during restock.
+            */
+            SELECT
+                @PreviousQuantity = CONVERT(DECIMAL(18,4), ISNULL(Quantity, 0)),
+                @PreviousItemId = ItemId,
+                @PreviousTableType = TableType
+            FROM dbo.tblSalesDetails WITH (UPDLOCK, HOLDLOCK)
+            WHERE SalesDetailsId = @SalesDetailsId;
+
+            IF @@ROWCOUNT = 0
+                THROW 50302, 'The sales detail row was not found for update.', 1;
+
+            IF ISNULL(@PreviousItemId, -1) <> ISNULL(@ItemId, -1)
+               OR ISNULL(@PreviousTableType, -1) <> ISNULL(@TableType, -1)
+                THROW 50313, 'A saved sales detail cannot change its product during quantity reconciliation. Remove the old row and add the new product instead.', 1;
+
+            SET @SaleQtyForStock = ABS(CONVERT(DECIMAL(18,4), @Quantity) - @PreviousQuantity);
+            SET @IsStockRestock = CASE WHEN CONVERT(DECIMAL(18,4), @Quantity) < @PreviousQuantity THEN 1 ELSE 0 END;
+
             UPDATE dbo.tblSalesDetails
             SET
                 SalesMasterId    = @SalesMasterId,
@@ -295,8 +322,9 @@ BEGIN
         END;
 
         /* =========================================================
-           STEP 2: PREPARE PRODUCT(S) FOR INGREDIENT DEDUCTION
-           Deduct @Quantity for this procedure call.
+           STEP 2: PREPARE PRODUCT(S) FOR STOCK RECONCILIATION
+           New rows/additive combo calls use @Quantity. Existing rows use
+           ABS(new quantity - previous quantity).
         ========================================================= */
 
         IF @DeductStock = 1 AND @SaleQtyForStock > 0
@@ -618,7 +646,7 @@ BEGIN
             )
                 THROW 50309, 'No active tblProductRate stock records were found for one or more SaleType = 0 items.', 1;
 
-            IF EXISTS
+            IF @IsStockRestock = 0 AND EXISTS
             (
                 SELECT 1
                 FROM @StockToDeduct
@@ -632,6 +660,35 @@ BEGIN
                QOH remains stored in purchase units.
             ===================================================== */
 
+            IF @IsStockRestock = 1
+            BEGIN
+                /* Return the reduced quantity to the oldest active stock row.
+                   QOH is purchase-unit quantity; RequiredQty is Baseunit quantity. */
+                ;WITH FirstRate AS
+                (
+                    SELECT
+                        PR.Id,
+                        S.RequiredQty,
+                        S.ConversionFactor,
+                        ROW_NUMBER() OVER (PARTITION BY PR.ProductId ORDER BY PR.Id) AS RowNo
+                    FROM dbo.tblProductRate AS PR WITH (UPDLOCK, HOLDLOCK)
+                    INNER JOIN @StockToDeduct AS S
+                        ON S.ItemId = PR.ProductId
+                    WHERE PR.Status = 1
+                )
+                UPDATE PR
+                SET PR.QOH = CONVERT
+                (
+                    DECIMAL(18,4),
+                    ISNULL(PR.QOH, 0) + (F.RequiredQty / NULLIF(F.ConversionFactor, 0))
+                )
+                FROM dbo.tblProductRate AS PR
+                INNER JOIN FirstRate AS F
+                    ON F.Id = PR.Id
+                WHERE F.RowNo = 1;
+            END
+            ELSE
+            BEGIN
             ;WITH RateRows AS
             (
                 SELECT
@@ -701,6 +758,7 @@ BEGIN
             INNER JOIN RateDeductions AS D
                 ON D.Id = PR.Id
             WHERE D.DeductQtyBase > 0;
+            END;
         END;
 
         /* =========================================================
