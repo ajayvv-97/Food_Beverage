@@ -187,6 +187,8 @@ namespace FoodandBeverage
         private string _partyPackHsnCode = string.Empty;
         private bool _fixedPriceStatus;
         private decimal _fixedPackPrice;
+        private int _selectedCustomerId;
+        private bool _isSettingCustomerDetails;
         private const string DefaultCardHsnCode = "8523";
         int PaymentMode = 0;
         bool AdvanceFlag = false;
@@ -333,6 +335,11 @@ namespace FoodandBeverage
         public FrmPartyBooking()
         {
             InitializeComponent();
+            btn_customerfetch.Visible = true;
+            txtname.TextChanged += CustomerDetails_TextChanged;
+            txtph.TextChanged += CustomerDetails_TextChanged;
+            txtemail.TextChanged += CustomerDetails_TextChanged;
+            txtaddress.TextChanged += CustomerDetails_TextChanged;
             InitializeBlurPopupSupport();
             InitializeKotDateTimeControls();
             lbl_Paymentsettled.Text = "Payment Settlement";
@@ -1172,6 +1179,9 @@ namespace FoodandBeverage
         {
             try
             {
+                _fixedPriceStatus = false;
+                _fixedPackPrice = 0m;
+
                 BllSearch<DmnPartyPack> bll = new BllSearch<DmnPartyPack>();
 
                 DmnSearch search = new DmnSearch();
@@ -1432,8 +1442,13 @@ namespace FoodandBeverage
                 decimal.TryParse(txtChildPrice.Text, out childPrice);
                 decimal.TryParse(txtAdultPrice.Text, out adultPrice);
 
-                bool showChild = childPrice > 0m;
-                bool showAdult = adultPrice > 0m;
+                int adultCount = 0;
+                int childCount = 0;
+                int.TryParse(txtAdults.Text, out adultCount);
+                int.TryParse(txtChild.Text, out childCount);
+
+                bool showChild = childPrice > 0m || childCount > 0;
+                bool showAdult = adultPrice > 0m || adultCount > 0;
 
                 if (_fixedPriceStatus)
                 {
@@ -1546,6 +1561,7 @@ namespace FoodandBeverage
                     tlp_adult_child_text.ResumeLayout(true);
                 }
 
+                UpdateTotalGuests();
                 textb_shape();
             }
             catch (Exception ex)
@@ -4718,6 +4734,7 @@ namespace FoodandBeverage
             {
                 _fixedPriceStatus = false;
                 _fixedPackPrice = 0m;
+                _selectedCustomerId = 0;
                 txtAdults.Enabled = true;
                 txtChild.Enabled = true;
                 txtAdults.ReadOnly = false;
@@ -5410,6 +5427,7 @@ namespace FoodandBeverage
 
                 booking.PartyBookingId = GetInt(txtpartybookingid);
                 booking.PartyPackId = Partypackid;
+                booking.CustomerId = _selectedCustomerId;
 
                 // 🔹 CUSTOMER INFO
                 booking.CustomerName = txtname.Text?.Trim();
@@ -6387,24 +6405,11 @@ namespace FoodandBeverage
                 Partypackid = Convert.ToInt32(result.PartyPackId);
                 txtpartybookingid.Text = result.PartyBookingId.ToString();
 
-                BllSearch<DmnPartyPack> bllMaster = new BllSearch<DmnPartyPack>();
-                DmnSearch searchMaster = new DmnSearch
-                {
-                    Select = "PartyPackId, PackName, AdultPrice, ChildPrice, DiscountPer, DiscountAmt, TaxType, Tax,TaxSettingsId,HSNCode",
-                    Table = "tblPartyPackMaster",
-                    WhereNdGroupBy = $"WHERE PartyPackId = {Convert.ToInt32(txtpartpackid.Text)} AND Status = 1"
-                };
-
-                var master = bllMaster.GetSearchData("prdSearch", searchMaster).FirstOrDefault();
-
-                if (master != null)
-                {
-                    txttax.Text = master.Tax;
-                    txtAdultPrice.Text = master.AdultPrice != null ? Convert.ToDecimal(master.AdultPrice).ToString("0.00") : "0.00";
-                    txtChildPrice.Text = master.ChildPrice != null ? Convert.ToDecimal(master.ChildPrice).ToString("0.00") : "0.00";
-                    txtTaxSettingId.Text = Convert.ToString(master.TaxSettingsId);
-                    _partyPackHsnCode = Convert.ToString(master.HSNCode ?? string.Empty);
-                }
+                // Load the package's complete pricing configuration. This sets
+                // _fixedPriceStatus, _fixedPackPrice, prices, tax settings and the
+                // configured guest defaults before the booking's saved counts below.
+                Loadprice(result.PartyPackId);
+                _selectedCustomerId = result.CustomerId;
 
                 txtname.Text = result.CustomerName;
                 txtph.Text = result.Phone;
@@ -11169,7 +11174,102 @@ namespace FoodandBeverage
         #region Customer fetch
         private void btn_customerfetch_Click(object sender, EventArgs e)
         {
+            try
+            {
+                DmnSearch search = new DmnSearch
+                {
+                    ColumnHeaders = "ID,Customer,Phone No,Email,Address",
+                    Select = "CustomerId AS Id, " +
+                             "ISNULL(CustomerName,'') AS Field1, " +
+                             "ISNULL(Phone,'') AS Field2, " +
+                             "ISNULL(Email,'') AS Field3, " +
+                             "ISNULL(Address,'') AS Field4",
+                    Table = "tblCustomer",
+                    WhereNdGroupBy = "WHERE 1 = 1",
+                    OrderBy = "ORDER BY CustomerId DESC"
+                };
 
+                var customerRows =
+                    new BllSearch<DmnGridFields>().GetSearchData("prdSearch", search);
+
+                if (customerRows == null || customerRows.Count == 0)
+                {
+                    CMessageBox.Show("No customer records found.");
+                    return;
+                }
+
+                int customerId = 0;
+                using (var frm = new FrmSearch<DmnGridFields>(
+                    search,
+                    SearchMode.FirstCharacter,
+                    this.Width - 300,
+                    this.Height - 300,
+                    this.Location.Y + 50,
+                    this.Location.X + 20,
+                    null))
+                {
+                    if (frm.ShowDialog() != DialogResult.OK ||
+                        !int.TryParse(frm._retValue, out customerId) ||
+                        customerId <= 0)
+                    {
+                        return;
+                    }
+                }
+
+                // Fetch the selected customer's latest details by ID.
+                DmnSearch customerDetailsSearch = new DmnSearch
+                {
+                    Select = "CustomerId AS Id, " +
+                             "ISNULL(CustomerName,'') AS Field1, " +
+                             "ISNULL(Phone,'') AS Field2, " +
+                             "ISNULL(Email,'') AS Field3, " +
+                             "ISNULL(Address,'') AS Field4",
+                    Table = "tblCustomer",
+                    WhereNdGroupBy = "WHERE CustomerId = " + customerId
+                };
+
+                DmnGridFields customer =
+                    new BllSearch<DmnGridFields>()
+                        .GetSearchData("prdSearch", customerDetailsSearch)
+                        .FirstOrDefault();
+
+                if (customer == null)
+                {
+                    CMessageBox.Show("Selected customer details could not be found.");
+                    return;
+                }
+
+                _isSettingCustomerDetails = true;
+                try
+                {
+                    _selectedCustomerId = customerId;
+                    txtname.Text = customer.Field1 ?? string.Empty;
+                    txtph.Text = customer.Field2 ?? string.Empty;
+                    txtemail.Text = customer.Field3 ?? string.Empty;
+                    txtaddress.Text = customer.Field4 ?? string.Empty;
+                }
+                finally
+                {
+                    _isSettingCustomerDetails = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "Partybooking page btn_customerfetch_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+        }
+
+        private void CustomerDetails_TextChanged(object sender, EventArgs e)
+        {
+            // Manual edits detach the form from the previously selected customer.
+            // Booking loads and customer selection update these fields programmatically.
+            if (!_isSettingCustomerDetails && !_isLoadingPartyBooking)
+                _selectedCustomerId = 0;
         }
         #endregion
 
