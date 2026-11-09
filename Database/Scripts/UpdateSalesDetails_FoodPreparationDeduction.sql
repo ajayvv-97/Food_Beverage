@@ -371,6 +371,24 @@ BEGIN
                 );
             END;
 
+            /*
+               PartiallyPrepared raw-material rows must be assigned to one of
+               the two supported stages. Stage 1 is deducted here at sale;
+               stage 2 is deducted only by inventory-request approval.
+            */
+            IF EXISTS
+            (
+                SELECT 1
+                FROM @ProductPreparation AS P
+                INNER JOIN dbo.tblIngredientDetails AS D
+                    ON D.ProductId = P.ProductId
+                   AND D.ProductType = 1
+                   AND ISNULL(D.Status, 1) = 1
+                WHERE P.FoodPreparationType = 3
+                  AND ISNULL(D.Deductionstage, 0) NOT IN (1, 2)
+            )
+                THROW 50311, 'A PartiallyPrepared raw-material ingredient must use Deductionstage 1 (OrderTime) or 2 (BatchPreparation).', 1;
+
             /* Validate recipe rows that must be deducted. */
             IF EXISTS
             (
@@ -536,6 +554,21 @@ BEGIN
                 ON I.ItemId = R.ItemId
                AND I.Status = 1
                AND I.SaleType = 0;
+
+            /*
+               Do not allow an invalid/inactive/SaleType item to disappear
+               from the stock allocation because the insert above uses an
+               INNER JOIN. Every required ingredient must be represented.
+            */
+            IF EXISTS
+            (
+                SELECT 1
+                FROM @RequiredStock AS R
+                LEFT JOIN @StockToDeduct AS S
+                    ON S.ItemId = R.ItemId
+                WHERE S.ItemId IS NULL
+            )
+                THROW 50312, 'A required raw-material or packaging item is inactive, missing, or not configured as a stock item (SaleType = 0). Sale was cancelled.', 1;
 
             IF EXISTS
             (
