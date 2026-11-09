@@ -2,6 +2,33 @@ using System;
 
 namespace Domain
 {
+    public enum FoodPreparationMethod
+    {
+        MadeToOrder = 1,
+        BatchPrepared = 2,
+        PartiallyPrepared = 3,
+        NotApplicable = 4
+    }
+
+    public enum IngredientDeductionStage
+    {
+        OrderTime = 1,
+        BatchPreparation = 2
+    }
+
+    public enum InventoryIngredientType
+    {
+        RawMaterial = 1,
+        PackagingMaterial = 2
+    }
+
+    public enum InventoryRequestType
+    {
+        BatchPreparation = 1,
+        RawMaterialIssue = 2
+    }
+
+
     public class DmnInventoryRequestMaster
     {
         public int RequestId { get; set; }
