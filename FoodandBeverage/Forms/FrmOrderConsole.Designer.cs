@@ -178,8 +178,8 @@ namespace FoodandBeverage.Forms
             this.opretaxamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.osaledisper = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.osaledisamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ipackingpriceno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ipackingtaxamountno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvPackingPriceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvPackingTaxAmountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flp_sidemenu = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlproductviewmore = new System.Windows.Forms.Panel();
             this.tlp_viewmore = new System.Windows.Forms.TableLayoutPanel();
@@ -1374,8 +1374,8 @@ namespace FoodandBeverage.Forms
             this.opretaxamt,
             this.osaledisper,
             this.osaledisamt,
-            this.ipackingpriceno,
-            this.ipackingtaxamountno});
+            this.dgvPackingPriceColumn,
+            this.dgvPackingTaxAmountColumn});
             dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1966,17 +1966,17 @@ namespace FoodandBeverage.Forms
             // 
             // ipackingpriceno
             // 
-            this.ipackingpriceno.HeaderText = "Packing Price";
-            this.ipackingpriceno.Name = "ipackingpriceno";
-            this.ipackingpriceno.ReadOnly = true;
-            this.ipackingpriceno.Visible = false;
+            this.dgvPackingPriceColumn.HeaderText = "Packing Price";
+            this.dgvPackingPriceColumn.Name = "ipackingpriceno";
+            this.dgvPackingPriceColumn.ReadOnly = true;
+            this.dgvPackingPriceColumn.Visible = false;
             // 
             // ipackingtaxamountno
             // 
-            this.ipackingtaxamountno.HeaderText = "Packing Tax Amount";
-            this.ipackingtaxamountno.Name = "ipackingtaxamountno";
-            this.ipackingtaxamountno.ReadOnly = true;
-            this.ipackingtaxamountno.Visible = false;
+            this.dgvPackingTaxAmountColumn.HeaderText = "Packing Tax Amount";
+            this.dgvPackingTaxAmountColumn.Name = "ipackingtaxamountno";
+            this.dgvPackingTaxAmountColumn.ReadOnly = true;
+            this.dgvPackingTaxAmountColumn.Visible = false;
             // 
             // flp_sidemenu
             // 
@@ -8035,7 +8035,5 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.ComboBox cmb_com_reason;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
         private System.Windows.Forms.Button btn_cancel_comp_rea;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ipackingpriceno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ipackingtaxamountno;
     }
 }

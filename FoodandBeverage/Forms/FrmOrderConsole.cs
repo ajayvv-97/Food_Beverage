@@ -176,6 +176,8 @@ namespace FoodandBeverage.Forms
         public int ipretaxamtno = 49;
         public int iSaledisperno = 50;
         public int isalediamtno = 51;
+        public int ipackingpriceno = 52;
+        public int ipackingtaxamountno = 53;
 
 
         public int Cbarcode = 0;
