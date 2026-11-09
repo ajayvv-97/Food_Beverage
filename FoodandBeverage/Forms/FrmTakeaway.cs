@@ -194,9 +194,12 @@ namespace FoodandBeverage.Forms
 
                 if (string.IsNullOrWhiteSpace(tokenNumber))
                 {
+                    // New OrderMaster records may store IsCustomerInformedCancel as
+                    // BIT 0 instead of NULL. Both values mean the active order has
+                    // not been cancelled by customer notification.
                     whereClause +=
-                        "AND ((om.Status IN (1,2) AND om.IsCustomerInformedCancel IS NULL) " +
-                        "OR (om.Status = 0 AND om.IsCustomerInformedCancel = 1))";
+                        "AND ((om.Status IN (1,2) AND ISNULL(om.IsCustomerInformedCancel, 0) = 0) " +
+                        "OR (om.Status = 0 AND ISNULL(om.IsCustomerInformedCancel, 0) = 1))";
                 }
                 else
                 {
