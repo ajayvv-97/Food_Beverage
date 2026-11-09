@@ -1,4 +1,4 @@
-﻿using BLL;
+using BLL;
 using CrystalDecisions.CrystalReports.Engine;
 using CustomMessageBox;
 using Domain;
@@ -325,6 +325,10 @@ namespace FoodandBeverage.Forms
         RoundOffMode currentRoundMode = RoundOffMode.None;
         decimal originalRoundValue = 0;
         bool isRoundValueCaptured = false;
+
+        // Saved SalesMaster.Roundoff is a signed adjustment, not the final invoice amount.
+        private bool hasRestoredRoundoffAdjustment = false;
+        private decimal restoredRoundoffAdjustment = 0m;
         private readonly string reasonPlaceholder = "Type reason description...";
 
         #region Drag and Drop
@@ -3056,11 +3060,10 @@ namespace FoodandBeverage.Forms
                     }
                     netAmount();
 
+                    // Reload the saved sales-master adjustment after recalculating the base total.
+                    // Do not trigger Auto Roundoff here: that would replace the saved DB value.
                     FillSalesMasterDiscount();
-                    if (Convert.ToDecimal(txtroundoff.Text)>0)
-                    {
-                        btn_auto_roundoff.PerformClick();
-                    }
+                    RestoreSavedRoundoffAdjustment();
                 }
                 else
                 {
@@ -3085,6 +3088,12 @@ namespace FoodandBeverage.Forms
                 {
                     txtdis_per.Text = "0";
                     txtdis_amt.Text = "0";
+                    txtroundoff.Text = "0.00";
+                    hasRestoredRoundoffAdjustment = false;
+                    restoredRoundoffAdjustment = 0m;
+                    currentRoundMode = RoundOffMode.None;
+                    originalRoundValue = 0m;
+                    isRoundValueCaptured = false;
                     return;
                 }
 
@@ -3092,7 +3101,8 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "DiscountPer DisPer,DiscountAmount DisAmnt,Roundoff";
                 dmnSearch.Table = "tblSalesMaster";
-                dmnSearch.WhereNdGroupBy ="WHERE Status=1 AND SalesMasterId=" + salesMasterId;
+                // SalesMasterId is the key; do not filter by Status for checked-out orders.
+                dmnSearch.WhereNdGroupBy ="WHERE SalesMasterId=" + salesMasterId;
                 dmnSearch.OrderBy = "";
                 var result = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 if (result.Count > 0)
@@ -3105,6 +3115,7 @@ namespace FoodandBeverage.Forms
                 {
                     txtdis_per.Text = "0";
                     txtdis_amt.Text = "0";
+                    txtroundoff.Text = "0.00";
                 }
             }
             catch (Exception ex)
@@ -3117,6 +3128,40 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(FormType.Order));
             }
         }
+
+
+
+        private void RestoreSavedRoundoffAdjustment()
+        {
+            try
+            {
+                decimal savedAdjustment = GetDecimalValue(txtroundoff);
+
+                currentRoundMode = RoundOffMode.None;
+                originalRoundValue = 0m;
+                isRoundValueCaptured = false;
+
+                restoredRoundoffAdjustment = savedAdjustment;
+                hasRestoredRoundoffAdjustment = savedAdjustment != 0m;
+
+                if (hasRestoredRoundoffAdjustment)
+                    CalculateNetamount_ALl();
+                else
+                    txtroundoff.Text = "0.00";
+            }
+            catch (Exception ex)
+            {
+                hasRestoredRoundoffAdjustment = false;
+                restoredRoundoffAdjustment = 0m;
+                clsgen.LogException(
+                    "Order page RestoreSavedRoundoffAdjustment()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Order));
+            }
+        }
+
         public void ChecktablekitchenCancel()
         {
             try
@@ -3826,7 +3871,15 @@ namespace FoodandBeverage.Forms
 
                 decimal roundOffValue = 0m;
 
-                if (currentRoundMode == RoundOffMode.Manual && originalRoundValue > 0m)
+                if (hasRestoredRoundoffAdjustment)
+                {
+                    roundOffValue = restoredRoundoffAdjustment;
+                    finalAmount = Math.Round(
+                        netAmount + roundOffValue,
+                        2,
+                        MidpointRounding.AwayFromZero);
+                }
+                else if (currentRoundMode == RoundOffMode.Manual && originalRoundValue > 0m)
                 {
                     finalAmount = originalRoundValue;
 
@@ -9545,6 +9598,8 @@ namespace FoodandBeverage.Forms
                 currentRoundMode = RoundOffMode.None;
                 originalRoundValue = 0;
                 isRoundValueCaptured = false;
+                hasRestoredRoundoffAdjustment = false;
+                restoredRoundoffAdjustment = 0m;
                 txtroundoff.Text = "0.00";
 
                 DiscountApplied = false;
@@ -14657,6 +14712,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                hasRestoredRoundoffAdjustment = false;
+                restoredRoundoffAdjustment = 0m;
                 currentRoundMode = RoundOffMode.Auto;
                 originalRoundValue = 0;
                 isRoundValueCaptured = false;
@@ -14678,6 +14735,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                hasRestoredRoundoffAdjustment = false;
+                restoredRoundoffAdjustment = 0m;
                 currentRoundMode = RoundOffMode.Manual;
 
                 isRoundValueCaptured = false;

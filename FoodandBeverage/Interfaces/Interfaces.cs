@@ -126,7 +126,8 @@ namespace FoodandBeverage.Interfaces
         Complementaryreason = 38,
         Keypad = 39,
         InventoryManagement=40,
-        InventoryApprovals=41
+        InventoryApprovals=41,
+        productExportImport=42
     };
     public enum DashboardTableType
     {
