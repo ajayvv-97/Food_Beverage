@@ -176,6 +176,8 @@ namespace FoodandBeverage.Forms
         public int ipretaxamtno = 49;
         public int iSaledisperno = 50;
         public int isalediamtno = 51;
+        public int ipackingpriceno = 52;
+        public int ipackingtaxamountno = 53;
 
 
         public int Cbarcode = 0;
@@ -370,6 +372,12 @@ namespace FoodandBeverage.Forms
             OrderCancelStatus = cdstatus;
 
             InitializeComponent();
+
+            if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+            {
+                StartPosition = FormStartPosition.CenterScreen;
+                WindowState = FormWindowState.Maximized;
+            }
 
             InitializeBlurPopupSupport();
             tlp_netalc_buttons.SizeChanged += delegate { ConfigureResponsiveOperationButtons(); };
@@ -959,12 +967,24 @@ namespace FoodandBeverage.Forms
                 }
                 else if (BookingType == TakeawayBookingType)
                 {
-                    // Takeaway uses the normal order-detail and billing pipeline, but
-                    // must not load a table order or create a tblPickup row.
-                    Pickup_Status = false;
-                    combined_Pickup_Status = false;
+                    // Existing takeaway KOTs populate the selected-item grid through
+                    // the shared Pickup KOT loader. Stock posting still uses type 2.
                     lbltablecode_header.Text = "TAKEAWAY";
-                    Showprint_Save(Convert.ToInt32(ShowButtonType.save));
+                    if (OmId > 0)
+                    {
+                        Pickup_Status = true;
+                        combined_Pickup_Status = true;
+                        CheckRe_Pickuporder();
+                        CheckPickupkitchenCancel();
+                        lbltablecode_header.Text = "TAKEAWAY";
+                    }
+                    else
+                    {
+                        Pickup_Status = false;
+                        combined_Pickup_Status = false;
+                        Showprint_Save(Convert.ToInt32(ShowButtonType.save));
+                    }
+
                     lblorderid.Visible = false;
                     label10.Visible = false;
                     cmb_tblcode.Visible = false;
@@ -3501,6 +3521,161 @@ namespace FoodandBeverage.Forms
         {
             CalculateNetamount_ALl();
         }
+        private sealed class ProductPackingCost
+        {
+            public decimal UnitCost { get; set; }
+        }
+
+        private readonly Dictionary<int, ProductPackingCost> _productPackingCostCache =
+            new Dictionary<int, ProductPackingCost>();
+
+        private static decimal ToPackingDecimal(object value)
+        {
+            decimal amount;
+            return decimal.TryParse(Convert.ToString(value), out amount) ? amount : 0m;
+        }
+
+        private ProductPackingCost GetProductPackingCost(int productId)
+        {
+            if (productId <= 0)
+                return null;
+
+            ProductPackingCost cached;
+            if (_productPackingCostCache.TryGetValue(productId, out cached))
+                return cached;
+
+            try
+            {
+                BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
+                DmnSearch query = new DmnSearch();
+
+                query.Select =
+                    "ISNULL(SUM(ing.Quantity * rate.Prate * ISNULL(conv.Factor, 1)), 0) AS Field1";
+                query.Table =
+                    "tblProduct p " +
+                    "INNER JOIN tblIngredientDetails ing ON ing.ProductId=p.ProductId " +
+                    "AND ing.Status=1 AND ing.ProductType=2 " +
+                    "INNER JOIN tblItem i ON i.ItemId=ing.ItemId AND i.Status=1 AND i.Saletype=0 " +
+                    "OUTER APPLY (SELECT TOP 1 pr.Prate FROM tblProductRate pr " +
+                    "WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC) rate " +
+                    "LEFT JOIN tblUnitConversion conv ON conv.FromUnit=ing.Unit AND conv.ToUnit=i.Unit";
+                query.WhereNdGroupBy =
+                    "WHERE p.Status=1 AND p.PackagingRequired=1 AND p.ProductId=" +
+                    productId + " AND rate.Prate IS NOT NULL";
+                query.OrderBy = "";
+
+                List<DmnGridFields> result = search.GetSearchData("prdSearch", query);
+                if (result == null || result.Count == 0)
+                    return null;
+
+                decimal cost = ToPackingDecimal(result[0].Field1);
+                if (cost <= 0m)
+                    return null;
+
+                cached = new ProductPackingCost
+                {
+                    UnitCost = Math.Round(cost, 2, MidpointRounding.AwayFromZero)
+                };
+                _productPackingCostCache[productId] = cached;
+                return cached;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Order page GetProductPackingCost()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
+                return null;
+            }
+        }
+
+        private void RefreshProductPackingAmounts()
+        {
+            if (Dgv_Selected_Item == null ||
+                !Dgv_Selected_Item.Columns.Contains("ipackingpriceno"))
+                return;
+
+            foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
+            {
+                if (row.IsNewRow)
+                    continue;
+
+                int productId;
+                int tableType;
+                int addonStatus;
+                int.TryParse(Convert.ToString(row.Cells[iitemid].Value), out productId);
+                int.TryParse(Convert.ToString(row.Cells[itabletype].Value), out tableType);
+                int.TryParse(Convert.ToString(row.Cells[ivaraiationstatusno].Value), out addonStatus);
+
+                bool eligibleOrder = OrderTypeId == 1 || OrderTypeId == 2;
+                bool eligibleProduct =
+                    tableType == Convert.ToInt32(Tabletype.Product) &&
+                    addonStatus == 0 &&
+                    productId > 0;
+
+                if (!eligibleOrder || !eligibleProduct)
+                {
+                    row.Cells[ipackingpriceno].Value = 0m;
+                    row.Cells[ipackingtaxamountno].Value = 0m;
+                    continue;
+                }
+
+                decimal quantity = ToPackingDecimal(row.Cells[iqty].Value);
+                ProductPackingCost packing = GetProductPackingCost(productId);
+                decimal packingPrice = packing == null || quantity <= 0m
+                    ? 0m
+                    : Math.Round(packing.UnitCost * quantity, 2, MidpointRounding.AwayFromZero);
+
+                decimal packingTax = 0m;
+                decimal taxRate;
+                string taxMode;
+                string taxType;
+
+                if (packingPrice > 0m &&
+                    TryGetPackingTaxConfiguration(out taxMode, out taxType, out taxRate) &&
+                    taxRate > 0m)
+                {
+                    if (string.Equals(taxMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
+                    {
+                        decimal taxableAmount = packingPrice * 100m / (100m + taxRate);
+                        packingTax = packingPrice - taxableAmount;
+                    }
+                    else
+                    {
+                        packingTax = packingPrice * taxRate / 100m;
+                    }
+                }
+
+                row.Cells[ipackingpriceno].Value = packingPrice;
+                row.Cells[ipackingtaxamountno].Value =
+                    Math.Round(packingTax, 2, MidpointRounding.AwayFromZero);
+            }
+        }
+
+        private decimal GetGridPackingPrice()
+        {
+            decimal total = 0m;
+            foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
+                if (!row.IsNewRow)
+                    total += ToPackingDecimal(row.Cells[ipackingpriceno].Value);
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal GetGridPackingTax()
+        {
+            decimal total = 0m;
+            foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
+                if (!row.IsNewRow)
+                    total += ToPackingDecimal(row.Cells[ipackingtaxamountno].Value);
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private void SetPackingSaleDetailValues(DmnSaledetails saleDetail, DataGridViewRow row)
+        {
+            saleDetail.TotalPackingPrice = ToPackingDecimal(row.Cells[ipackingpriceno].Value);
+            saleDetail.TotalPackingTax = ToPackingDecimal(row.Cells[ipackingtaxamountno].Value);
+        }
+
         private decimal CalculateSubTotalValue()
         {
             decimal subTotal = 0m;
@@ -3690,6 +3865,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                RefreshProductPackingAmounts();
 
                 decimal productSubTotal = CalculateSubTotalValue();
 
@@ -3795,7 +3971,31 @@ namespace FoodandBeverage.Forms
                     packingNonTaxableAmount = 0m;
                 }
 
-                decimal totalTaxable = rawTaxable + packingTaxableAmount;
+                decimal productPackingPrice = GetGridPackingPrice();
+                decimal productPackingTax = GetGridPackingTax();
+
+                string productPackingMode;
+                string productPackingType;
+                decimal productPackingRate;
+                bool hasProductPackingTax = TryGetPackingTaxConfiguration(
+                    out productPackingMode, out productPackingType, out productPackingRate);
+
+                decimal productPackingTaxableBase = productPackingPrice;
+                decimal productPackingUntaxed = 0m;
+
+                if (hasProductPackingTax &&
+                    string.Equals(productPackingMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
+                {
+                    productPackingTaxableBase = Math.Max(0m, productPackingPrice - productPackingTax);
+                }
+                else if (!hasProductPackingTax)
+                {
+                    productPackingTaxableBase = 0m;
+                    productPackingUntaxed = productPackingPrice;
+                }
+
+                decimal totalTaxable =
+                    rawTaxable + packingTaxableAmount + productPackingTaxableBase;
 
                 decimal discountRatio = subTotal > 0m
                     ? discount / subTotal
@@ -3842,17 +4042,16 @@ namespace FoodandBeverage.Forms
                 }
 
     
-                decimal rawTotalTax = productTax + packingTaxAmount;
+                decimal rawTotalTax = productTax + packingTaxAmount + productPackingTax;
 
-                // When no packing tax is configured, retain the packing charge as a
-                // separate amount after tax rather than silently applying a default rate.
+                // Product-specific packaging is added separately exactly once.
                 decimal rawNetAmount =
-                    totalTaxable + rawTotalTax + packingNonTaxableAmount;
+                    totalTaxable + rawTotalTax + packingNonTaxableAmount + productPackingUntaxed;
 
                 decimal netAmount = Math.Round(rawNetAmount, 2, MidpointRounding.AwayFromZero);
 
                 decimal totalTax = Math.Round(
-                    netAmount - totalTaxable - packingNonTaxableAmount,
+                    netAmount - totalTaxable - packingNonTaxableAmount - productPackingUntaxed,
                     2,
                     MidpointRounding.AwayFromZero);
 
@@ -10165,6 +10364,23 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
+                decimal productPackingTax = GetGridPackingTax();
+                if (productPackingTax > 0m)
+                {
+                    if (string.Equals(_packingTaxType, "GST", StringComparison.OrdinalIgnoreCase))
+                    {
+                        TotalIGST += productPackingTax;
+                        decimal packingCGST = Math.Round(
+                            productPackingTax / 2m, 2, MidpointRounding.AwayFromZero);
+                        TotalCGST += packingCGST;
+                        TotalSGST += productPackingTax - packingCGST;
+                    }
+                    else
+                    {
+                        TotalVAT += productPackingTax;
+                    }
+                }
+
                 // ==========================================
                 // FINAL TOTAL TAX
                 // ==========================================
@@ -10508,6 +10724,7 @@ namespace FoodandBeverage.Forms
                                         dmnsaledetails.Cmid = "0";
 
                                     dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
+                                    SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i]);
 
                                     var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
 
@@ -11241,6 +11458,7 @@ namespace FoodandBeverage.Forms
                                                     dmnorderdetail.PreparationMode = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iPreparationModeno].Value);
                                                     dmnsaledetails.IsStockTracked = Convert.ToBoolean(Dgv_Selected_Item.Rows[i].Cells[istocktrackno].Value);
                                                     dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
+                                            SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i]);
 
                                                     var InsertStatus = bll_order.AddEditDataDet("prdInsert_Upd_OrderDetails", dmnorderdetail);
                                                     if (InsertStatus == null)
@@ -11797,6 +12015,7 @@ namespace FoodandBeverage.Forms
                                                 dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
                                                 dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
                                                 dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i + 1].Cells[ipretaxamtno].Value);
+                                                SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i + 1]);
 
                                                 var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                                 if (InsertStatus == null)

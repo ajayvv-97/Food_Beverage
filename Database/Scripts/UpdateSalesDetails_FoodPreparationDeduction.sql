@@ -1,5 +1,17 @@
 USE [FoodBeverage];
 GO
+
+IF COL_LENGTH(N'dbo.tblSalesDetails', N'TotalPackingPrice') IS NULL
+    ALTER TABLE dbo.tblSalesDetails ADD TotalPackingPrice DECIMAL(18,2) NOT NULL
+        CONSTRAINT DF_tblSalesDetails_TotalPackingPrice DEFAULT (0);
+GO
+IF COL_LENGTH(N'dbo.tblSalesDetails', N'TotalPackingTax') IS NULL
+    ALTER TABLE dbo.tblSalesDetails ADD TotalPackingTax DECIMAL(18,2) NOT NULL
+        CONSTRAINT DF_tblSalesDetails_TotalPackingTax DEFAULT (0);
+GO
+
+USE [FoodBeverage];
+GO
 SET ANSI_NULLS ON;
 GO
 SET QUOTED_IDENTIFIER ON;
@@ -46,7 +58,9 @@ ALTER PROCEDURE [dbo].[prdInsert_Upd_SalesDetails]
     @OrderDetailsId      VARCHAR(MAX),
     @FoodPreparationType INT,
     @PreTaxAmt           DECIMAL(18,2),
-    @OrderTypeId         INT = 0
+    @OrderTypeId         INT = 0,
+    @TotalPackingPrice   DECIMAL(18,2) = 0,
+    @TotalPackingTax     DECIMAL(18,2) = 0
 )
 AS
 BEGIN
@@ -96,7 +110,9 @@ BEGIN
             AV_id            = @AV_id,
             Addoncount       = @Addoncount,
             Cmid             = @Cmid,
-            PreTaxAmt        = @PreTaxAmt
+            PreTaxAmt        = @PreTaxAmt,
+            TotalPackingPrice = @TotalPackingPrice,
+            TotalPackingTax   = @TotalPackingTax
         WHERE SalesDetailsId = @SalesDetailsId;
 
         SET @Id = @SalesDetailsId;
@@ -140,7 +156,9 @@ BEGIN
                     IGSTAmount      = IGSTAmount + @IGSTAmount,
                     CGSTAmount      = CGSTAmount + @CGSTAmount,
                     SGSTAmount      = SGSTAmount + @SGSTAmount,
-                    TaxAmount       = TaxAmount + @TaxAmount
+                    TaxAmount       = TaxAmount + @TaxAmount,
+                    TotalPackingPrice = ISNULL(TotalPackingPrice, 0) + @TotalPackingPrice,
+                    TotalPackingTax   = ISNULL(TotalPackingTax, 0) + @TotalPackingTax
                 WHERE Cmid = @Cmid
                   AND TableType = @TableType
                   AND SalesMasterId = @SalesMasterId
@@ -156,7 +174,9 @@ BEGIN
                     IGSTAmount      = IGSTAmount + @IGSTAmount,
                     CGSTAmount      = CGSTAmount + @CGSTAmount,
                     SGSTAmount      = SGSTAmount + @SGSTAmount,
-                    TaxAmount       = TaxAmount + @TaxAmount
+                    TaxAmount       = TaxAmount + @TaxAmount,
+                    TotalPackingPrice = ISNULL(TotalPackingPrice, 0) + @TotalPackingPrice,
+                    TotalPackingTax   = ISNULL(TotalPackingTax, 0) + @TotalPackingTax
                 WHERE Cmid = @Cmid
                   AND Pavid = @Pavid
                   AND AddonStatus = 2
@@ -174,7 +194,7 @@ BEGIN
                 CreatedBy, CreatedDateTime, Status, ProductType, VatAmount,
                 CusId, ItemName, ItemId, ItemBarcode, Prid, MarketPrice,
                 TableType, Pavid, AddonStatus, AV_id, Addoncount, Cmid,
-                VariatiionName, PreTaxAmt
+                VariatiionName, PreTaxAmt, TotalPackingPrice, TotalPackingTax
             )
             VALUES
             (
@@ -184,7 +204,7 @@ BEGIN
                 @CreatedBy, SYSDATETIME(), @Status, @ProductType, @VatAmount,
                 @CusId, @ItemName, @ItemId, @ItemBarcode, @Prid, @MarketPrice,
                 @TableType, @Pavid, @AddonStatus, @AV_id, @Addoncount, @Cmid,
-                @VariatiionName, @PreTaxAmt
+                @VariatiionName, @PreTaxAmt, @TotalPackingPrice, @TotalPackingTax
             );
 
             SET @Id = SCOPE_IDENTITY();
@@ -214,7 +234,7 @@ BEGIN
 
        OrderTypeId:
          1 = Pickup, 2 = Takeaway, 3 = Delivery
-       Packaging is deducted for Pickup and Delivery; Takeaway is excluded.
+       Packaging is deducted for Pickup, Takeaway and Delivery.
     */
     DECLARE @ProductPreparation TABLE
     (
@@ -301,7 +321,7 @@ BEGIN
             OR
             (
                 D.ProductType = 2
-                AND @OrderTypeId IN (1,3)
+                AND @OrderTypeId IN (1,2,3)
             )
         GROUP BY D.ItemId
     )

@@ -329,6 +329,8 @@ namespace FoodandBeverage.Forms
             this.Controls.Add(this.tlp_main);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmTakeaway";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Text = "FrmTakeaway";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmTakeaway_FormClosing);
             this.Load += new System.EventHandler(this.FrmTakeaway_Load);

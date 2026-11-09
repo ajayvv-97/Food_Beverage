@@ -129,6 +129,8 @@ namespace BLL
             parms.Add("FoodPreparationType", objTestClass.FoodPreparationType);
             parms.Add("PreTaxAmt", objTestClass.PreTaxAmt);
             parms.Add("OrderTypeId", objTestClass.OrderTypeId);
+            parms.Add("TotalPackingPrice", objTestClass.TotalPackingPrice);
+            parms.Add("TotalPackingTax", objTestClass.TotalPackingTax);
             //parms.Add("Pkid", objTestClass.Pkid);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;

@@ -178,6 +178,8 @@ namespace FoodandBeverage.Forms
             this.opretaxamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.osaledisper = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.osaledisamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ipackingpriceno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ipackingtaxamountno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flp_sidemenu = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlproductviewmore = new System.Windows.Forms.Panel();
             this.tlp_viewmore = new System.Windows.Forms.TableLayoutPanel();
@@ -1371,7 +1373,9 @@ namespace FoodandBeverage.Forms
             this.dgvcombotaxamt,
             this.opretaxamt,
             this.osaledisper,
-            this.osaledisamt});
+            this.osaledisamt,
+            this.ipackingpriceno,
+            this.ipackingtaxamountno});
             dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1959,6 +1963,20 @@ namespace FoodandBeverage.Forms
             this.osaledisamt.ReadOnly = true;
             this.osaledisamt.Visible = false;
             this.osaledisamt.Width = 145;
+            // 
+            // ipackingpriceno
+            // 
+            this.ipackingpriceno.HeaderText = "Packing Price";
+            this.ipackingpriceno.Name = "ipackingpriceno";
+            this.ipackingpriceno.ReadOnly = true;
+            this.ipackingpriceno.Visible = false;
+            // 
+            // ipackingtaxamountno
+            // 
+            this.ipackingtaxamountno.HeaderText = "Packing Tax Amount";
+            this.ipackingtaxamountno.Name = "ipackingtaxamountno";
+            this.ipackingtaxamountno.ReadOnly = true;
+            this.ipackingtaxamountno.Visible = false;
             // 
             // flp_sidemenu
             // 
@@ -7997,6 +8015,8 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn opretaxamt;
         private System.Windows.Forms.DataGridViewTextBoxColumn osaledisper;
         private System.Windows.Forms.DataGridViewTextBoxColumn osaledisamt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ipackingpriceno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ipackingtaxamountno;
         private System.Windows.Forms.Button btn_cart;
         private System.Windows.Forms.TableLayoutPanel tlp_productlist;
         private System.Windows.Forms.Panel pnl_productCart;

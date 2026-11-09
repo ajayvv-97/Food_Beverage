@@ -59,6 +59,8 @@ namespace Domain
         public int OrderTypeId { get; set; }
         public bool IsStockTracked { get; set; }
         public decimal PreTaxAmt { get; set; }
+        public decimal TotalPackingPrice { get; set; }
+        public decimal TotalPackingTax { get; set; }
 
         public bool IsPackage { get; set; }
         public string CakeMessage { get; set; }

@@ -543,12 +543,19 @@ namespace FoodandBeverage.Forms
                 if (!int.TryParse(clickedControl.AccessibleName, out cancelOrderStatus))
                     cancelOrderStatus = 0;
 
-                if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
+                FrmOrderConsole existingOrderConsole =
+                    System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
+                if (existingOrderConsole != null)
                 {
-                    // Reuse the existing order console behavior when it is already open.
-                    // The current form's existing modal/navigation flow remains unchanged.
+                    if (existingOrderConsole.WindowState == FormWindowState.Minimized)
+                        existingOrderConsole.WindowState = FormWindowState.Maximized;
+
+                    existingOrderConsole.BringToFront();
+                    existingOrderConsole.Activate();
+                    return;
                 }
-                else if (clickedControl.Tag != null)
+
+                if (clickedControl.Tag != null)
                 {
                     using (FrmOrderConsole orderConsole = new FrmOrderConsole(
                         0,
@@ -561,7 +568,9 @@ namespace FoodandBeverage.Forms
                         cancelOrderStatus,
                         2))
                     {
-                        orderConsole.ShowDialog();
+                        orderConsole.StartPosition = FormStartPosition.CenterScreen;
+                        orderConsole.WindowState = FormWindowState.Maximized;
+                        orderConsole.ShowDialog(this);
                     }
                 }
             }
@@ -581,26 +590,26 @@ namespace FoodandBeverage.Forms
                 AutoTimer.Stop();
                 CheckedtableNames.Clear();
                 Control clickedControl = sender as Control;
-                if (System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] != null)
+                FrmOrderConsole existingOrderConsole =
+                    System.Windows.Forms.Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
+                if (existingOrderConsole != null)
                 {
-                    FrmOrderConsole _instanceFrmOrder = Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
-                    if (_instanceFrmOrder.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmOrder.WindowState = FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmOrder.ShowDialog();
-                        _instanceFrmOrder.BringToFront();
-                    }
+                    if (existingOrderConsole.WindowState == FormWindowState.Minimized)
+                        existingOrderConsole.WindowState = FormWindowState.Maximized;
+
+                    existingOrderConsole.BringToFront();
+                    existingOrderConsole.Activate();
                 }
                 else
                 {
-                    using (FrmOrderConsole frm = new FrmOrderConsole(0, Convert.ToInt32(FrmOrderConsole.TakeawayBookingType), 0,
-                                   CheckedtableNames, Convert.ToInt32(PageType.Billpage),
-                                   0, Convert.ToInt32(SourcepageType.Takeawaypage), 0, 2))
+                    using (FrmOrderConsole frm = new FrmOrderConsole(
+                        0, Convert.ToInt32(FrmOrderConsole.TakeawayBookingType), 0,
+                        CheckedtableNames, Convert.ToInt32(PageType.Billpage),
+                        0, Convert.ToInt32(SourcepageType.Takeawaypage), 0, 2))
                     {
-                        frm.ShowDialog();
+                        frm.StartPosition = FormStartPosition.CenterScreen;
+                        frm.WindowState = FormWindowState.Maximized;
+                        frm.ShowDialog(this);
                     }
                 }
                 clsgen.Memoryrelease();
