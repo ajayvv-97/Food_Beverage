@@ -347,6 +347,7 @@ BEGIN
                       (
                           P.ProductId IS NULL
                           OR ISNULL(P.Status, 0) <> 1
+                          OR P.FoodPreparationType IS NULL
                           OR P.FoodPreparationType NOT IN (1, 2, 3, 4)
                       )
                 )
@@ -389,7 +390,7 @@ BEGIN
                 IF @@ROWCOUNT = 0
                     THROW 50315, 'The sales detail ItemId does not match an active tblProduct.ProductId. Stock was not deducted.', 1;
 
-                IF @FoodPreparationType NOT IN (1, 2, 3, 4)
+                IF ISNULL(@FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
                     THROW 50316, 'The product has an invalid FoodPreparationType. Configure a value from 1 to 4 before billing.', 1;
 
                 INSERT INTO @ProductPreparation
@@ -407,8 +408,9 @@ BEGIN
                     @PackagingRequired
                 );
             END;
+        END;
 
-            /*
+        /*
                PartiallyPrepared raw-material rows must be assigned to one of
                the two supported stages. Stage 1 is deducted here at sale;
                stage 2 is deducted only by inventory-request approval.
