@@ -65,8 +65,13 @@ namespace FoodandBeverage.Forms
                 pnl_comple_remove,
                 pnl_PackingTax);
 
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.AutoScaleDimensions = new SizeF(96F, 96F);
+            // Recalculate menu tiles after FlowLayoutPanels resize or are docked.
+            flp_empbuttons.SizeChanged += DashboardMenuFlow_SizeChanged;
+            flp_operabuttons.SizeChanged += DashboardMenuFlow_SizeChanged;
+            flp_settingbtn.SizeChanged += DashboardMenuFlow_SizeChanged;
+
+            // Keep the Designer-generated AutoScaleMode.Font baseline.
+            // Application DPI handling is configured centrally in App.config.
             this.WindowState = FormWindowState.Maximized;
 
             Instance = this;
@@ -106,6 +111,7 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
         private BlurPopupOverlay _dashboardBlurOverlay;
         private bool _loadingPackingTaxControls;
+        private bool _dashboardMenuLayoutPending;
         private PartyBookingKotSchedulerService _partyBookingKotService;
         private FrmUpcomingPartyBookings _upcomingPartyBookingsPopup;
         private readonly HashSet<int> _reportedPartyBookingKOTFailures = new HashSet<int>();
@@ -2957,25 +2963,46 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void AdjustButtonsToPanel()
+        private void DashboardMenuFlow_SizeChanged(object sender, EventArgs e)
         {
-            // Use a responsive three-column layout at every supported resolution.
-            // The available width determines each button width so longer labels fit
-            // without making buttons unnecessarily large on smaller POS screens.
-            const int buttonHeight = 62;
-            const int marginX = 8;
-            const int marginY = 8;
-            const int fontSize = 12;
-            const int columnCount = 3;
+            if (_dashboardMenuLayoutPending || IsDisposed || !IsHandleCreated)
+                return;
 
-            ResizeButtonsInFlow(flp_empbuttons, buttonHeight, marginX, marginY, fontSize, columnCount);
-            ResizeButtonsInFlow(flp_operabuttons, buttonHeight, marginX, marginY, fontSize, columnCount);
-            ResizeButtonsInFlow(flp_settingbtn, buttonHeight, marginX, marginY, fontSize, columnCount);
+            _dashboardMenuLayoutPending = true;
+            try
+            {
+                BeginInvoke((MethodInvoker)delegate
+                {
+                    _dashboardMenuLayoutPending = false;
+                    if (!IsDisposed)
+                        AdjustButtonsToPanel();
+                });
+            }
+            catch (InvalidOperationException)
+            {
+                _dashboardMenuLayoutPending = false;
+            }
         }
 
-        private void ResizeButtonsInFlow(FlowLayoutPanel flow, int height, int marginX, int marginY, int fontSize, int columnCount)
+        private void AdjustButtonsToPanel()
         {
-            if (flow == null) return;
+            const int marginX = 8;
+            const int columnCount = 3;
+
+            ResizeButtonsInFlow(flp_empbuttons, marginX, columnCount);
+            ResizeButtonsInFlow(flp_operabuttons, marginX, columnCount);
+            ResizeButtonsInFlow(flp_settingbtn, marginX, columnCount);
+        }
+
+        private void ResizeButtonsInFlow(FlowLayoutPanel flow, int marginX, int columnCount)
+        {
+            if (flow == null || flow.IsDisposed)
+                return;
+
+            // Hidden panels can temporarily report a design-time width. Wait
+            // until docking has given the flow panel a real client area.
+            if (flow.ClientSize.Width <= flow.Padding.Horizontal + 80)
+                return;
 
             flow.SuspendLayout();
             try
@@ -2987,23 +3014,44 @@ namespace FoodandBeverage.Forms
                 flow.Dock = DockStyle.Fill;
                 flow.Padding = new Padding(4);
 
-                // Reserve space for panel padding, button margins and the vertical
-                // scrollbar. Recalculate on every dashboard resize.
-                int availableWidth = Math.Max(0, flow.ClientSize.Width - flow.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth);
+                int availableWidth = Math.Max(0,
+                    flow.ClientSize.Width -
+                    flow.Padding.Horizontal -
+                    SystemInformation.VerticalScrollBarWidth);
+
                 int totalMargins = columnCount * marginX * 2;
-                int buttonWidth = Math.Max(160, (availableWidth - totalMargins) / columnCount);
+                int buttonWidth = Math.Max(160,
+                    (availableWidth - totalMargins) / columnCount);
+
+                // Preserve the 1366px POS layout as the baseline. At larger
+                // widths increase button height and font together so image
+                // buttons do not become wide, flattened shapes.
+                const double designButtonWidth = 340.0;
+                const double designButtonHeight = 62.0;
+
+                int buttonHeight = Math.Max(62,
+                    Math.Min(100, (int)Math.Round(
+                        designButtonHeight * buttonWidth / designButtonWidth)));
+
+                int verticalMargin = Math.Max(8,
+                    Math.Min(12, (int)Math.Round(buttonHeight / 8.0)));
+
+                int fontSize = Math.Max(12,
+                    Math.Min(18, (int)Math.Round(
+                        12.0 * buttonHeight / designButtonHeight)));
 
                 foreach (Control ctrl in flow.Controls)
                 {
-                    if (ctrl is Button btn)
-                    {
-                        btn.Size = new Size(buttonWidth, height);
-                        btn.Margin = new Padding(marginX, marginY, marginX, marginY);
-                        btn.Font = AppFonts.GetFont(fontSize);
-                        btn.TextAlign = ContentAlignment.MiddleCenter;
-                        btn.AutoEllipsis = false;
-                        btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    }
+                    Button btn = ctrl as Button;
+                    if (btn == null)
+                        continue;
+
+                    btn.Size = new Size(buttonWidth, buttonHeight);
+                    btn.Margin = new Padding(marginX, verticalMargin, marginX, verticalMargin);
+                    btn.Font = AppFonts.GetFont(fontSize);
+                    btn.TextAlign = ContentAlignment.MiddleCenter;
+                    btn.AutoEllipsis = true;
+                    btn.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 }
             }
             finally
