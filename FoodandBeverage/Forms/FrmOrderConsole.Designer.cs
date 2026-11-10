@@ -8603,7 +8603,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.ComboBox cmb_com_reason;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
         private System.Windows.Forms.Button btn_cancel_comp_rea;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgvPackingPriceColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvPackingTaxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvPackingOrderTypeColumn;
         private System.Windows.Forms.DataGridView dgv_combined;
