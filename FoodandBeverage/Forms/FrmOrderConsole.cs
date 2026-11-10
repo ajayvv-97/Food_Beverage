@@ -3940,8 +3940,25 @@ namespace FoodandBeverage.Forms
             if (dgv_combined == null) return 0m;
 
             foreach (DataGridViewRow row in dgv_combined.Rows)
+            {
                 if (!row.IsNewRow)
                     total += ToPackingDecimal(row.Cells[Cpackingpriceno].Value);
+            }
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal GetCombinedGridProductNetAmount()
+        {
+            decimal total = 0m;
+            if (dgv_combined == null) return 0m;
+
+            foreach (DataGridViewRow row in dgv_combined.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                total += ToPackingDecimal(row.Cells[ctotal].Value);
+            }
 
             return Math.Round(total, 2, MidpointRounding.AwayFromZero);
         }
@@ -11181,14 +11198,19 @@ namespace FoodandBeverage.Forms
                             // stored order-line totals. Add the calculated pickup packaging once
                             // to the invoice amount before saving the sales master.
                             decimal combinedProductPackingPrice = GetCombinedGridPackingPrice();
+                            decimal combinedProductNetAmount = GetCombinedGridProductNetAmount();
                             dmnsalemaster.TotalAmnt =
                                 Convert.ToDecimal(txtGrandTotal.Text) + combinedProductPackingPrice;
                             dmnsalemaster.GrandTot =
                                 Convert.ToDecimal(txtGrandTotal.Text) + combinedProductPackingPrice;
                             dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                             dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
+                            // Use net KOT product totals for the existing order rows,
+                            // then add product-specific pickup packing once. lblNetAmnt
+                            // already contains the ordinary manual packing charge.
                             dmnsalemaster.NetAmount =
-                                Convert.ToDecimal(lblNetAmnt.Text) + combinedProductPackingPrice;
+                                combinedProductNetAmount + combinedProductPackingPrice +
+                                GetDecimalValue(txtpkchrge_amt);
                             dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtRcvdAmnt.Text);
                             dmnsalemaster.BalAmnt = dmnsalemaster.NetAmount - dmnsalemaster.RcvAmnt;
 
