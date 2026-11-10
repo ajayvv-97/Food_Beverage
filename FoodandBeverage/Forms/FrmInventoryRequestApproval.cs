@@ -1219,14 +1219,14 @@ namespace FoodandBeverage.Forms
                 {
                     ColumnHeaders = "ID,Request No,Request Date,Required Date,Department,Requested By",
                     Select = "m.InventoryRequestId AS Id,m.RequestNo AS Field1," +
-                             "CONVERT(VARCHAR(30),m.RequestDate,106) AS Field2," +
-                             "CONVERT(VARCHAR(30),m.RequiredDate,106) AS Field3," +
-                             "ISNULL(d.DepartmentName,'-') AS Field4," +
-                             "ISNULL(e.EmployeeName,'-') AS Field5",
+                             "m.RequestDate AS Field2," +
+                             "m.RequiredDate AS Field3," +
+                             "d.DepartmentName AS Field4," +
+                             "e.EmployeeName AS Field5",
                     Table = "tblInventoryRequestMaster m " +
                             "LEFT JOIN tblDepartment d ON d.DepartmentId = m.DepartmentId " +
                             "LEFT JOIN tblEmployee e ON e.EmployeeId = m.EmployeeId",
-                    WhereNdGroupBy = "WHERE ISNULL(m.Status,1) = 1 AND m.BranchId = " +
+                    WhereNdGroupBy = "WHERE m.Status=1 AND m.BranchId = " +
                                      Convert.ToString(FrmDashboard.BranchId),
                     OrderBy = "ORDER BY m.InventoryRequestId DESC"
                 };
