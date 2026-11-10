@@ -376,9 +376,13 @@ namespace FoodandBeverage.Forms
             BookingType = booktype;
             OrderTypeId = orderTypeId > 0
                 ? orderTypeId
-                : booktype == Convert.ToInt32(DashboardTableType.PickupOrder)
+                : sourcepage == Convert.ToInt32(SourcepageType.Pickuppage)
                     ? 1
-                    : booktype == TakeawayBookingType ? 2 : 0;
+                    : sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage)
+                        ? 2
+                        : booktype == Convert.ToInt32(DashboardTableType.PickupOrder)
+                            ? 1
+                            : booktype == TakeawayBookingType ? 2 : 0;
             StockDeductionOrderTypeId = OrderTypeId;
             PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
@@ -1185,6 +1189,46 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private int ResolveStockOrderTypeId(DmnOrderMaster orderMaster, DmnNameList selectedOrder)
+        {
+            // OrderMaster.OrderTypeId uses stable token values: 1 = Pickup,
+            // 2 = Takeaway, 3 = Delivery. Table orders use 0.
+            if (orderMaster != null &&
+                orderMaster.OrderTypeId >= 1 &&
+                orderMaster.OrderTypeId <= 3)
+                return orderMaster.OrderTypeId;
+
+            // Compatibility for old pickup orders that predate OrderTypeId.
+            if ((orderMaster != null &&
+                 (orderMaster.PickupOrderFlag == 1 || orderMaster.PkId > 0)) ||
+                (selectedOrder != null && selectedOrder.pkid > 0))
+                return 1;
+
+            if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage) ||
+                BookingType == TakeawayBookingType)
+                return 2;
+
+            if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                return 1;
+
+            return 0;
+        }
+
+        private int GetRowOrderTypeId(DataGridViewRow row, int columnIndex, int fallback)
+        {
+            if (row == null || columnIndex < 0 || columnIndex >= row.Cells.Count)
+                return fallback;
+
+            object value = row.Cells[columnIndex].Value;
+            if (value == null || value == DBNull.Value)
+                return fallback;
+
+            int orderTypeId;
+            return int.TryParse(Convert.ToString(value), out orderTypeId)
+                ? orderTypeId
+                : fallback;
+        }
+
         #region Bill Combined 
         public void Combined_Table_Bill()
         {
@@ -1208,6 +1252,16 @@ namespace FoodandBeverage.Forms
                 for (int k = 0; k < checkedtableNames.Count; k++)
                 {
                     int sourceOrderTypeId = checkedtableNames[k].pkid > 0 ? 1 : 0;
+
+                    dmnSearchmaster.Select = "*";
+                    dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
+                    dmnSearchmaster.WhereNdGroupBy = "where om.Status=1 and om.OrderMasterId=" + checkedtableNames[k].Ordermasterid;
+                    dmnSearchmaster.OrderBy = "";
+                    var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
+
+                    if (gridSourcemaster_combined != null && gridSourcemaster_combined.Count > 0)
+                        sourceOrderTypeId = ResolveStockOrderTypeId(gridSourcemaster_combined[0], checkedtableNames[k]);
+
                     lbltablecode.Visible = false;
                     cmb_tblcode.Visible = true;
                     if (checkedtableNames[k].pkid > 0)
@@ -1260,12 +1314,7 @@ namespace FoodandBeverage.Forms
                     r++;
                     #endregion
 
-                    dmnSearchmaster.Select = "*";
-                    dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
-                    dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.OrderMasterId=" + checkedtableNames[k].Ordermasterid;
-                    dmnSearchmaster.OrderBy = "";
-                    var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
-                    if (gridSourcemaster_combined.Count > 0)
+                    if (gridSourcemaster_combined != null && gridSourcemaster_combined.Count > 0)
                     {
                         int orginalCount = gridSourcemaster_combined.Count(item => item.AddonStatus == 1 || item.AddonStatus == 0);
 
@@ -1580,8 +1629,10 @@ namespace FoodandBeverage.Forms
                     dmnSearchmaster.OrderBy = "";
                     var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
 
-                    if (gridSourcemaster_combined.Count > 0)
+                    if (gridSourcemaster_combined != null && gridSourcemaster_combined.Count > 0)
                     {
+                        sourceOrderTypeId = ResolveStockOrderTypeId(gridSourcemaster_combined[0], checkedtableNames[k]);
+
                         for (int i = 0; i < gridSourcemaster_combined.Count; i++)
                         {
                             if (Convert.ToInt32(gridSourcemaster_combined[i].Status) == 3)
