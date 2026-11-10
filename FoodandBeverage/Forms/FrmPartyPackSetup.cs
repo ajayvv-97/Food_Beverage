@@ -1320,7 +1320,7 @@ namespace FoodandBeverage.Forms
                     txtDisPer.Text = data.DiscountPer.ToString();
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
                     cmbTaxType.Text = data.TaxType;
-                    cmbTaxType.Text = data.Tax;
+                    cmbtax.Text = data.Tax;
                     txtDiscAmnt.Text = data.MinimumAdvanceAmount.ToString();
                     txthsncode.Text = data.HSNCode;
 
