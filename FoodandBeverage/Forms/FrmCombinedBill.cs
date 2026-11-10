@@ -1262,7 +1262,7 @@ namespace FoodandBeverage.Forms
 
                             SetTableCodeDisplay(rowIndex, tableDisplay, tableId, true);
                         }
-                        else if (orderType == Convert.ToInt32(OrderType.PickupOrder) || pickupId > 0)
+                        else if (orderType == Convert.ToInt32(OrderType.PickupOrder))
                         {
                             // SalesMaster.OrderType: 1 = Pickup.
                             string pickupDisplay = pickupId > 0
@@ -1273,12 +1273,21 @@ namespace FoodandBeverage.Forms
                         }
                         else if (orderType == Convert.ToInt32(OrderType.Takeaway))
                         {
-                            // SalesMaster.OrderType: 4 = Takeaway (not OrderTypeId=2).
+                            // SalesMaster.OrderType: 4 = Takeaway.
                             SetTableCodeDisplay(rowIndex, "Takeaway Order", 0, true);
                         }
                         else if (orderType == Convert.ToInt32(OrderType.Pickup_DirectSale))
                         {
                             SetTableCodeDisplay(rowIndex, "Pickup Direct Sale", 0, true);
+                        }
+                        else if (pickupId > 0)
+                        {
+                            // Legacy pickup bill where OrderType was not saved.
+                            SetTableCodeDisplay(
+                                rowIndex,
+                                "Pickup Order (P" + pickupId + ")",
+                                0,
+                                true);
                         }
                         else
                         {
