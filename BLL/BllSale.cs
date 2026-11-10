@@ -172,10 +172,16 @@ WHERE p.ProductId = @ProductId
             if (objTestClass == null)
                 throw new ArgumentNullException("objTestClass");
 
-            // Resolve the master value for TableType.Product. The other sale
-            // types have their own stock path and must not resolve as tblProduct.
-            objTestClass.FoodPreparationType =
-                ResolveFoodPreparationTypeForSales(objTestClass);
+            // Resolve only for the food-preparation sales procedure. Other
+            // BllSale detail procedures retain their original parameter behavior.
+            if (string.Equals(
+                procedureName,
+                "prdInsert_Upd_SalesDetails",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                objTestClass.FoodPreparationType =
+                    ResolveFoodPreparationTypeForSales(objTestClass);
+            }
 
             DAL.DapperRepository<DmnSaledetails> dapperRepository = new DAL.DapperRepository<DmnSaledetails>();
             DynamicParameters parms = new DynamicParameters();

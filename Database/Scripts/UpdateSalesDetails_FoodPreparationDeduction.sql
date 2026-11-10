@@ -349,8 +349,18 @@ BEGIN
                       (
                           P.ProductId IS NULL
                           OR ISNULL(P.Status, 0) <> 1
-                          OR P.FoodPreparationType IS NULL
-                          OR ISNULL(P.FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
+                          OR
+                          (
+                              ISNULL(P.FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
+                              AND EXISTS
+                              (
+                                  SELECT 1
+                                  FROM dbo.tblIngredientDetails AS RD
+                                  WHERE RD.ProductId = P.ProductId
+                                    AND RD.ProductType = 1
+                                    AND ISNULL(RD.Status, 1) = 1
+                              )
+                          )
                       )
                 )
                     THROW 50314, 'A combo component is missing, inactive, or has an invalid FoodPreparationType. Stock was not deducted.', 1;
@@ -365,7 +375,11 @@ BEGIN
                 SELECT
                     M.ProductId,
                     @SaleQtyForStock * ISNULL(CONVERT(DECIMAL(18,4), O.Quantity), 1),
-                    P.FoodPreparationType,
+                    CASE
+                        WHEN P.FoodPreparationType IN (1, 2, 3, 4)
+                            THEN P.FoodPreparationType
+                        ELSE 4
+                    END,
                     CONVERT(BIT, ISNULL(P.PackagingRequired, 0))
                 FROM dbo.tblOfferDetails AS O
                 INNER JOIN dbo.tblMenu AS M
