@@ -1739,6 +1739,29 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[COrderDetailsIdno].Value = gridSourcemaster_combined[i].OrderDetailsId;
                                     dgv_combined.Rows[rowIndex].Cells[Cpretaxamtno].Value = gridSourcemaster_combined[i].PreTaxAmt;
                                     dgv_combined.Rows[rowIndex].Cells[Cstocktrackno].Value = gridSourcemaster_combined[i].IsStockTracked;
+
+                                    // Populate the same hidden detail fields used by Dgv_Selected_Item.
+                                    // These values are required when saving combined-table sales rows.
+                                    dgv_combined.Rows[rowIndex].Cells[Cunitidno].Value = gridSourcemaster_combined[i].UnitId;
+                                    dgv_combined.Rows[rowIndex].Cells[Cnotesno].Value = gridSourcemaster_combined[i].Notes;
+                                    dgv_combined.Rows[rowIndex].Cells[Cofferstatusno].Value = 0;
+                                    dgv_combined.Rows[rowIndex].Cells[Csubofferidno].Value = 0;
+                                    dgv_combined.Rows[rowIndex].Cells[Corderdescriptionno].Value = gridSourcemaster_combined[i].MainRemarks;
+                                    dgv_combined.Rows[rowIndex].Cells[Coriginalqtyno].Value =
+                                        gridSourcemaster_combined[i].CurrentQuantity > 0
+                                            ? gridSourcemaster_combined[i].CurrentQuantity
+                                            : gridSourcemaster_combined[i].Quantity;
+                                    dgv_combined.Rows[rowIndex].Cells[CMainProductStatusno].Value =
+                                        Convert.ToInt32(MainProductStatus.Primary);
+                                    dgv_combined.Rows[rowIndex].Cells[Cvariationidno].Value = gridSourcemaster_combined[i].vid;
+                                    dgv_combined.Rows[rowIndex].Cells[CComboTaxamtno].Value = 0m;
+                                    dgv_combined.Rows[rowIndex].Cells[Ccodeno].Value = gridSourcemaster_combined[i].CCode;
+                                    dgv_combined.Rows[rowIndex].Cells[CPreparationModeno].Value = gridSourcemaster_combined[i].PreparationMode;
+                                    dgv_combined.Rows[rowIndex].Cells[COrginalname].Value = gridSourcemaster_combined[i].ItemName;
+                                    dgv_combined.Rows[rowIndex].Cells[Ccombotaxamtno].Value = 0m;
+                                    dgv_combined.Rows[rowIndex].Cells[cSaledisperno].Value = 0m;
+                                    dgv_combined.Rows[rowIndex].Cells[csalediamtno].Value = 0m;
+
                                     txtsalemasterid.Text = Convert.ToString(gridSourcemaster_combined[i].SalesMasterId);
                                 }
                                 #endregion
@@ -1756,7 +1779,15 @@ namespace FoodandBeverage.Forms
                                     updateRow.Cells[cigstamt].Value = Convert.ToDecimal(updateRow.Cells[cigstamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].IGSTAmount);
                                     updateRow.Cells[cvatamt].Value = Convert.ToDecimal(updateRow.Cells[cvatamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].VATAmount);
                                     updateRow.Cells[Cpretaxamtno].Value = Convert.ToDecimal(updateRow.Cells[Cpretaxamtno].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].PreTaxAmt);
-                                    updateRow.Cells[COrderDetailsIdno].Value = updateRow.Cells[COrderDetailsIdno].Value + "," + gridSourcemaster_combined[i].OrderDetailsId;
+                                    int sourceOriginalQty = gridSourcemaster_combined[i].CurrentQuantity > 0
+                                        ? gridSourcemaster_combined[i].CurrentQuantity
+                                        : gridSourcemaster_combined[i].Quantity;
+                                    int existingOriginalQty = 0;
+                                    int.TryParse(Convert.ToString(updateRow.Cells[Coriginalqtyno].Value), out existingOriginalQty);
+                                    updateRow.Cells[Coriginalqtyno].Value = existingOriginalQty + sourceOriginalQty;
+                                    updateRow.Cells[COrderDetailsIdno].Value =
+                                        Convert.ToString(updateRow.Cells[COrderDetailsIdno].Value) + "," +
+                                        gridSourcemaster_combined[i].OrderDetailsId;
                                 }
                                 #endregion
 
