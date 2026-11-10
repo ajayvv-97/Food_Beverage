@@ -1719,8 +1719,8 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-            }
                 RefreshCombinedPackingAmounts();
+            }
             catch (Exception ex)
             {
                 clsgen.LogException("Order page  Combined_Tables()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Order));
