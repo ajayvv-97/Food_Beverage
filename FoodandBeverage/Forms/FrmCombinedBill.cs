@@ -31,7 +31,11 @@ namespace FoodandBeverage.Forms
         }
 
         #region Declaration
-        public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();      
+        public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
+
+        public Color CombinedBillcolor = Color.Wheat;
+        public Color NormalBillingColor = Color.White;
+        public int categoryId = 0;      
 
         public int panelsPerRow = 0;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
@@ -463,6 +467,141 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("CombinedBill Page dgvorderview_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
+        /// <summary>
+        /// Refreshes the combined-bill table cards after an order console closes
+        /// or an order/table status changes.
+        /// </summary>
+        public void BillCombineBill_Update()
+        {
+            bool restartTimer = CombineBillAutoTimer != null && CombineBillAutoTimer.Enabled;
+
+            try
+            {
+                if (CombineBillAutoTimer != null)
+                    CombineBillAutoTimer.Stop();
+
+                BllTableData<DmncombinedBill> searchDetails = new BllTableData<DmncombinedBill>();
+                DmncombinedBill searchData = new DmncombinedBill
+                {
+                    BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell),
+                    Fcid = categoryId
+                };
+
+                var gridSource = searchDetails.serachreport("prdBillData", searchData);
+
+                // Hide the current table cards first. Cards returned by the
+                // stored procedure below will be made visible again.
+                flp_billlayout.SuspendLayout();
+                try
+                {
+                    foreach (Control control in flp_billlayout.Controls)
+                    {
+                        if (control is TableLayoutPanel &&
+                            control.Name.StartsWith("tlp_com", StringComparison.OrdinalIgnoreCase))
+                        {
+                            control.Visible = false;
+                        }
+                    }
+
+                    if (gridSource != null)
+                    {
+                        foreach (var tableData in gridSource)
+                        {
+                            if (tableData == null || Convert.ToInt32(tableData.Tid) <= 0)
+                                continue;
+
+                            string tablePanelName = "tlp_com" + tableData.Tid;
+                            TableLayoutPanel tablePanel =
+                                flp_billlayout.Controls.Find(tablePanelName, true).FirstOrDefault() as TableLayoutPanel;
+
+                            if (tablePanel == null)
+                                continue;
+
+                            if (tableData.BillStatus != 0)
+                            {
+                                tablePanel.Visible = false;
+                                continue;
+                            }
+
+                            tablePanel.Visible = true;
+
+                            string netAmountName = "lb_netamount" + tableData.Tid;
+                            string selectButtonName = "btn_select_com" + tableData.Tid;
+
+                            Label netAmountLabel =
+                                flp_billlayout.Controls.Find(netAmountName, true).FirstOrDefault() as Label;
+                            Button selectButton =
+                                flp_billlayout.Controls.Find(selectButtonName, true).FirstOrDefault() as Button;
+
+                            if (netAmountLabel != null)
+                                netAmountLabel.Text = "\u20B9" + Convert.ToString(tableData.NetAmount);
+
+                            if (tableData.BookmasterId > 0)
+                            {
+                                if (selectButton != null)
+                                    selectButton.Visible = false;
+                            }
+                            else if (Convert.ToInt32(tableData.Cbid) > 0)
+                            {
+                                tablePanel.BackColor = CombinedBillcolor;
+
+                                if (selectButton != null)
+                                    selectButton.Visible = false;
+                            }
+                            else
+                            {
+                                tablePanel.BackColor = NormalBillingColor;
+
+                                if (CheckedtableNames.Count == 0 && selectButton != null)
+                                {
+                                    selectButton.Visible = true;
+                                    selectButton.BackgroundImage = Properties.Resources.Billaddicon;
+                                    selectButton.Tag = Convert.ToInt32(BillSelect.Unselect);
+                                    selectButton.BackgroundImageLayout = ImageLayout.Stretch;
+                                }
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    flp_billlayout.ResumeLayout(true);
+                }
+
+                bool hasVisibleTable = flp_billlayout.Controls
+                    .OfType<TableLayoutPanel>()
+                    .Any(panel => panel.Name.StartsWith("tlp_com", StringComparison.OrdinalIgnoreCase) && panel.Visible);
+
+                if (pnl_empty_msg != null)
+                {
+                    pnl_empty_msg.Visible = !hasVisibleTable;
+
+                    if (!hasVisibleTable)
+                    {
+                        pnl_empty_msg.Anchor = AnchorStyles.None;
+                        pnl_empty_msg.Location = new Point(
+                            Math.Max(0, (flp_billlayout.ClientSize.Width - pnl_empty_msg.Width) / 2),
+                            Math.Max(0, (flp_billlayout.ClientSize.Height - pnl_empty_msg.Height) / 2));
+                        pnl_empty_msg.BringToFront();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "CombinedBill Page BillCombineBill_Update()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+            finally
+            {
+                if (restartTimer && CombineBillAutoTimer != null && !IsDisposed)
+                    CombineBillAutoTimer.Start();
+            }
+        }
+
         public void printBill(int oid,int btype)
         {
             try
