@@ -1814,14 +1814,17 @@ namespace FoodandBeverage.Forms
             foreach (DataGridViewRow row in dgv_combined.Rows)
             {
                 if (row.IsNewRow) continue;
-                int productId, tableType, addonStatus, orderTypeId;
+
+                int productId, tableType, addonStatus;
                 int.TryParse(Convert.ToString(row.Cells[citemid].Value), out productId);
                 int.TryParse(Convert.ToString(row.Cells[Ctabletype].Value), out tableType);
                 int.TryParse(Convert.ToString(row.Cells[CAddonStatus].Value), out addonStatus);
-                int.TryParse(Convert.ToString(row.Cells[COrderTypeIdno].Value), out orderTypeId);
+                int orderTypeId = GetRowOrderTypeId(row, COrderTypeIdno, 0);
 
-                if (orderTypeId != 1 || tableType != Convert.ToInt32(Tabletype.Product) ||
-                    addonStatus != 0 || productId <= 0)
+                if (orderTypeId != 1 ||
+                    tableType != Convert.ToInt32(Tabletype.Product) ||
+                    addonStatus != 0 ||
+                    productId <= 0)
                 {
                     row.Cells[cpackingpriceno.Index].Value = 0m;
                     row.Cells[cpackingtaxamountno.Index].Value = 0m;
@@ -1830,30 +1833,19 @@ namespace FoodandBeverage.Forms
 
                 decimal quantity = ToPackingDecimal(row.Cells[cqty].Value);
                 ProductPackingCost packing = GetProductPackingCost(productId);
-                decimal packingPrice = packing == null || quantity <= 0m ? 0m :
-                    Math.Round(packing.UnitCost * quantity, 2, MidpointRounding.AwayFromZero);
 
-                decimal packingTax = 0m;
-                decimal taxRate;
-                string taxMode, taxType;
-                if (packingPrice > 0m &&
-                    TryGetPackingTaxConfiguration(out taxMode, out taxType, out taxRate) &&
-                    taxRate > 0m)
-                {
-                    if (string.Equals(taxMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
-                    {
-                        decimal taxable = packingPrice * 100m / (100m + taxRate);
-                        packingTax = packingPrice - taxable;
-                    }
-                    else packingTax = packingPrice * taxRate / 100m;
-                }
+                decimal packingPrice = packing == null || quantity <= 0m
+                    ? 0m
+                    : Math.Round(packing.UnitGrossPrice * quantity, 2, MidpointRounding.AwayFromZero);
+
+                decimal packingTax = packing == null || quantity <= 0m
+                    ? 0m
+                    : Math.Round(packing.UnitTaxAmount * quantity, 2, MidpointRounding.AwayFromZero);
 
                 row.Cells[cpackingpriceno.Index].Value = packingPrice;
-                row.Cells[cpackingtaxamountno.Index].Value =
-                    Math.Round(packingTax, 2, MidpointRounding.AwayFromZero);
+                row.Cells[cpackingtaxamountno.Index].Value = packingTax;
             }
         }
-
         #endregion
 
         #region Pickup order
@@ -3680,7 +3672,14 @@ namespace FoodandBeverage.Forms
         }
         private sealed class ProductPackingCost
         {
-            public decimal UnitCost { get; set; }
+            public decimal UnitGrossPrice { get; set; }
+            public decimal UnitGstTaxAmount { get; set; }
+            public decimal UnitVatTaxAmount { get; set; }
+
+            public decimal UnitTaxAmount
+            {
+                get { return UnitGstTaxAmount + UnitVatTaxAmount; }
+            }
         }
 
         private readonly Dictionary<int, ProductPackingCost> _productPackingCostCache =
@@ -3706,33 +3705,61 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
                 DmnSearch query = new DmnSearch();
 
+                // Use the packaging item's own sale rate and tax configuration.
+                // Inclusive rates already contain tax; Exclusive rates receive tax on top.
                 query.Select =
-                    "ISNULL(SUM(ing.Quantity * rate.Prate * ISNULL(conv.Factor, 1)), 0) AS Field1";
+                    "ISNULL(SUM(ing.Quantity * unitFactor.QuantityFactor * " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='EXCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * (1 + (tax.GstRate + tax.VatRate) / 100.0) " +
+                    "ELSE ISNULL(i.Srate,0) END),0) AS Field1, " +
+                    "ISNULL(SUM(ing.Quantity * unitFactor.QuantityFactor * " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='INCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * tax.GstRate / NULLIF(100.0 + tax.GstRate + tax.VatRate,0) " +
+                    "WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='EXCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * tax.GstRate / 100.0 ELSE 0 END),0) AS Field2, " +
+                    "ISNULL(SUM(ing.Quantity * unitFactor.QuantityFactor * " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='INCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * tax.VatRate / NULLIF(100.0 + tax.GstRate + tax.VatRate,0) " +
+                    "WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='EXCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * tax.VatRate / 100.0 ELSE 0 END),0) AS Field3";
                 query.Table =
                     "tblProduct p " +
                     "INNER JOIN tblIngredientDetails ing ON ing.ProductId=p.ProductId " +
                     "AND ing.Status=1 AND ing.ProductType=2 " +
                     "INNER JOIN tblItem i ON i.ItemId=ing.ItemId AND i.Status=1 AND i.Saletype=0 " +
-                    "OUTER APPLY (SELECT TOP 1 pr.Prate FROM tblProductRate pr " +
-                    "WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC) rate " +
-                    "LEFT JOIN tblUnitConversion conv ON conv.FromUnit=ing.Unit AND conv.ToUnit=i.Unit";
+                    "LEFT JOIN tblTaxSettings ts ON ts.TaxSettingsId=i.TaxSettingsId AND ts.Status=1 " +
+                    "LEFT JOIN tblUnitConversion conv ON conv.FromUnit=ing.Unit AND conv.ToUnit=i.Unit " +
+                    "OUTER APPLY (SELECT " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.TaxType,''))))='GST' " +
+                    "THEN ISNULL(ts.IgstPrcnt,0) ELSE 0 END AS GstRate, " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.TaxType,''))))='VAT' " +
+                    "THEN ISNULL(ts.VatPrcnt,0) ELSE 0 END AS VatRate) tax " +
+                    "OUTER APPLY (SELECT CONVERT(DECIMAL(18,8), " +
+                    "CASE WHEN ing.Unit=i.Unit THEN 1.0 " +
+                    "WHEN ing.Unit=i.Baseunit AND i.Baseunit<>i.Unit AND ISNULL(i.Conversionfactor,0)>0 " +
+                    "THEN 1.0/NULLIF(i.Conversionfactor,0) " +
+                    "ELSE ISNULL(conv.Factor,1) END) AS QuantityFactor) unitFactor";
                 query.WhereNdGroupBy =
-                    "WHERE p.Status=1 AND p.PackagingRequired=1 AND p.ProductId=" +
-                    productId + " AND rate.Prate IS NOT NULL";
+                    "WHERE p.Status=1 AND p.PackagingRequired=1 AND p.ProductId=" + productId;
                 query.OrderBy = "";
 
                 List<DmnGridFields> result = search.GetSearchData("prdSearch", query);
                 if (result == null || result.Count == 0)
                     return null;
 
-                decimal cost = ToPackingDecimal(result[0].Field1);
-                if (cost <= 0m)
+                decimal grossPrice = ToPackingDecimal(result[0].Field1);
+                if (grossPrice <= 0m)
                     return null;
 
                 cached = new ProductPackingCost
                 {
-                    UnitCost = Math.Round(cost, 2, MidpointRounding.AwayFromZero)
+                    UnitGrossPrice = Math.Round(grossPrice, 4, MidpointRounding.AwayFromZero),
+                    UnitGstTaxAmount = Math.Round(
+                        ToPackingDecimal(result[0].Field2), 4, MidpointRounding.AwayFromZero),
+                    UnitVatTaxAmount = Math.Round(
+                        ToPackingDecimal(result[0].Field3), 4, MidpointRounding.AwayFromZero)
                 };
+
                 _productPackingCostCache[productId] = cached;
                 return cached;
             }
@@ -3762,11 +3789,8 @@ namespace FoodandBeverage.Forms
                 int.TryParse(Convert.ToString(row.Cells[itabletype].Value), out tableType);
                 int.TryParse(Convert.ToString(row.Cells[ivaraiationstatusno].Value), out addonStatus);
 
-                int rowOrderTypeId = OrderTypeId;
-                int parsedRowOrderTypeId;
-                if (int.TryParse(Convert.ToString(row.Cells[ipackingOrderTypeIdno.Index].Value),
-                    out parsedRowOrderTypeId))
-                    rowOrderTypeId = parsedRowOrderTypeId;
+                int rowOrderTypeId = GetRowOrderTypeId(
+                    row, ipackingOrderTypeIdno.Index, OrderTypeId);
 
                 bool eligibleOrder = rowOrderTypeId == 1;
                 bool eligibleProduct =
@@ -3783,33 +3807,17 @@ namespace FoodandBeverage.Forms
 
                 decimal quantity = ToPackingDecimal(row.Cells[iqty].Value);
                 ProductPackingCost packing = GetProductPackingCost(productId);
+
                 decimal packingPrice = packing == null || quantity <= 0m
                     ? 0m
-                    : Math.Round(packing.UnitCost * quantity, 2, MidpointRounding.AwayFromZero);
+                    : Math.Round(packing.UnitGrossPrice * quantity, 2, MidpointRounding.AwayFromZero);
 
-                decimal packingTax = 0m;
-                decimal taxRate;
-                string taxMode;
-                string taxType;
-
-                if (packingPrice > 0m &&
-                    TryGetPackingTaxConfiguration(out taxMode, out taxType, out taxRate) &&
-                    taxRate > 0m)
-                {
-                    if (string.Equals(taxMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
-                    {
-                        decimal taxableAmount = packingPrice * 100m / (100m + taxRate);
-                        packingTax = packingPrice - taxableAmount;
-                    }
-                    else
-                    {
-                        packingTax = packingPrice * taxRate / 100m;
-                    }
-                }
+                decimal packingTax = packing == null || quantity <= 0m
+                    ? 0m
+                    : Math.Round(packing.UnitTaxAmount * quantity, 2, MidpointRounding.AwayFromZero);
 
                 row.Cells[ipackingpriceno.Index].Value = packingPrice;
-                row.Cells[ipackingtaxamountno.Index].Value =
-                    Math.Round(packingTax, 2, MidpointRounding.AwayFromZero);
+                row.Cells[ipackingtaxamountno.Index].Value = packingTax;
             }
         }
 
@@ -3831,6 +3839,105 @@ namespace FoodandBeverage.Forms
                     total += ToPackingDecimal(row.Cells[ipackingtaxamountno.Index].Value);
 
             return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal GetGridPackingGstTax()
+        {
+            decimal total = 0m;
+            foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                int productId, tableType, addonStatus;
+                int.TryParse(Convert.ToString(row.Cells[iitemid].Value), out productId);
+                int.TryParse(Convert.ToString(row.Cells[itabletype].Value), out tableType);
+                int.TryParse(Convert.ToString(row.Cells[ivaraiationstatusno].Value), out addonStatus);
+                int orderTypeId = GetRowOrderTypeId(row, ipackingOrderTypeIdno.Index, OrderTypeId);
+
+                if (orderTypeId != 1 || tableType != Convert.ToInt32(Tabletype.Product) ||
+                    addonStatus != 0 || productId <= 0)
+                    continue;
+
+                decimal quantity = ToPackingDecimal(row.Cells[iqty].Value);
+                ProductPackingCost packing = GetProductPackingCost(productId);
+                if (packing != null && quantity > 0m)
+                    total += packing.UnitGstTaxAmount * quantity;
+            }
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal GetGridPackingVatTax()
+        {
+            decimal total = 0m;
+            foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                int productId, tableType, addonStatus;
+                int.TryParse(Convert.ToString(row.Cells[iitemid].Value), out productId);
+                int.TryParse(Convert.ToString(row.Cells[itabletype].Value), out tableType);
+                int.TryParse(Convert.ToString(row.Cells[ivaraiationstatusno].Value), out addonStatus);
+                int orderTypeId = GetRowOrderTypeId(row, ipackingOrderTypeIdno.Index, OrderTypeId);
+
+                if (orderTypeId != 1 || tableType != Convert.ToInt32(Tabletype.Product) ||
+                    addonStatus != 0 || productId <= 0)
+                    continue;
+
+                decimal quantity = ToPackingDecimal(row.Cells[iqty].Value);
+                ProductPackingCost packing = GetProductPackingCost(productId);
+                if (packing != null && quantity > 0m)
+                    total += packing.UnitVatTaxAmount * quantity;
+            }
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal GetCombinedGridPackingPrice()
+        {
+            decimal total = 0m;
+            if (dgv_combined == null) return 0m;
+
+            foreach (DataGridViewRow row in dgv_combined.Rows)
+                if (!row.IsNewRow)
+                    total += ToPackingDecimal(row.Cells[cpackingpriceno.Index].Value);
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private void GetCombinedGridPackingTax(out decimal gstTax, out decimal vatTax)
+        {
+            gstTax = 0m;
+            vatTax = 0m;
+
+            if (dgv_combined == null)
+                return;
+
+            foreach (DataGridViewRow row in dgv_combined.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                int productId, tableType, addonStatus;
+                int.TryParse(Convert.ToString(row.Cells[citemid].Value), out productId);
+                int.TryParse(Convert.ToString(row.Cells[Ctabletype].Value), out tableType);
+                int.TryParse(Convert.ToString(row.Cells[CAddonStatus].Value), out addonStatus);
+                int orderTypeId = GetRowOrderTypeId(row, COrderTypeIdno, 0);
+
+                if (orderTypeId != 1 || tableType != Convert.ToInt32(Tabletype.Product) ||
+                    addonStatus != 0 || productId <= 0)
+                    continue;
+
+                decimal quantity = ToPackingDecimal(row.Cells[cqty].Value);
+                ProductPackingCost packing = GetProductPackingCost(productId);
+                if (packing == null || quantity <= 0m)
+                    continue;
+
+                gstTax += packing.UnitGstTaxAmount * quantity;
+                vatTax += packing.UnitVatTaxAmount * quantity;
+            }
+
+            gstTax = Math.Round(gstTax, 2, MidpointRounding.AwayFromZero);
+            vatTax = Math.Round(vatTax, 2, MidpointRounding.AwayFromZero);
         }
 
         private void SetPackingSaleDetailValues(DmnSaledetails saleDetail, DataGridViewRow row)
@@ -4137,25 +4244,10 @@ namespace FoodandBeverage.Forms
                 decimal productPackingPrice = GetGridPackingPrice();
                 decimal productPackingTax = GetGridPackingTax();
 
-                string productPackingMode;
-                string productPackingType;
-                decimal productPackingRate;
-                bool hasProductPackingTax = TryGetPackingTaxConfiguration(
-                    out productPackingMode, out productPackingType, out productPackingRate);
-
-                decimal productPackingTaxableBase = productPackingPrice;
-                decimal productPackingUntaxed = 0m;
-
-                if (hasProductPackingTax &&
-                    string.Equals(productPackingMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
-                {
-                    productPackingTaxableBase = Math.Max(0m, productPackingPrice - productPackingTax);
-                }
-                else if (!hasProductPackingTax)
-                {
-                    productPackingTaxableBase = 0m;
-                    productPackingUntaxed = productPackingPrice;
-                }
+                // Product packing amounts are already gross amounts based on each
+                // tblItem Inclusive/Exclusive setting. Remove their tax to get the base.
+                decimal productPackingTaxableBase =
+                    Math.Max(0m, productPackingPrice - productPackingTax);
 
                 decimal totalTaxable =
                     rawTaxable + packingTaxableAmount + productPackingTaxableBase;
@@ -4207,14 +4299,14 @@ namespace FoodandBeverage.Forms
     
                 decimal rawTotalTax = productTax + packingTaxAmount + productPackingTax;
 
-                // Product-specific packaging is added separately exactly once.
+                // Product-specific packing is already included in the taxable base and tax.
                 decimal rawNetAmount =
-                    totalTaxable + rawTotalTax + packingNonTaxableAmount + productPackingUntaxed;
+                    totalTaxable + rawTotalTax + packingNonTaxableAmount;
 
                 decimal netAmount = Math.Round(rawNetAmount, 2, MidpointRounding.AwayFromZero);
 
                 decimal totalTax = Math.Round(
-                    netAmount - totalTaxable - packingNonTaxableAmount - productPackingUntaxed,
+                    netAmount - totalTaxable - packingNonTaxableAmount,
                     2,
                     MidpointRounding.AwayFromZero);
 
