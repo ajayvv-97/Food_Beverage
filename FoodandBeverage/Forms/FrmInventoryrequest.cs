@@ -124,7 +124,7 @@ namespace FoodandBeverage.Forms
                         "FROM tblProductRate WHERE Status = 1 GROUP BY ProductId) pr " +
                         "ON pr.ProductId = d.ItemId",
                 WhereNdGroupBy = "WHERE d.ProductId = " + productId +
-                                 " AND ISNULL(d.ProductType,1) = 1 " +
+                                 " AND d.ProductType = 1 " +
                                  " AND ISNULL(d.Status,1) = 1 " +
                                  " AND (p.FoodPreparationType = " + (int)FoodPreparationMethod.BatchPrepared + " OR " +
                                  "(p.FoodPreparationType = " + (int)FoodPreparationMethod.PartiallyPrepared + " AND ISNULL(d.Deductionstage,0) = " + (int)IngredientDeductionStage.BatchPreparation + "))",
