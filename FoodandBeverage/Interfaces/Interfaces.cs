@@ -357,6 +357,7 @@ namespace FoodandBeverage.Interfaces
         PickupOrder = 1,
         Combined_pick_normal_Order=2,
         Pickup_DirectSale = 3,
+        Takeaway=4
     }
 
     // Daily token grouping configuration stored in tblGeneralSetting.DailyTokenMode.

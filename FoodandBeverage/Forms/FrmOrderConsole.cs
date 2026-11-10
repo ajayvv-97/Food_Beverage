@@ -8263,6 +8263,8 @@ namespace FoodandBeverage.Forms
                 ResetPickupViewPage();
             else if (sourcepage == Convert.ToInt32(SourcepageType.Billingpage))
                 ResetBillpage();
+            else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                ResetTakeawayViewPage();
 
             clsgen.Memoryrelease();
 
@@ -8295,6 +8297,12 @@ namespace FoodandBeverage.Forms
                 _instanceFrmPickup.Visible = false;
             }
 
+            if (System.Windows.Forms.Application.OpenForms["FrmTakeaway"] != null)
+            {
+                FrmTakeaway _instanceFrmTakeaway = Application.OpenForms["FrmTakeaway"] as FrmTakeaway;
+                _instanceFrmTakeaway.Visible = false;
+            }
+
             if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
             {
                 FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
@@ -8304,12 +8312,38 @@ namespace FoodandBeverage.Forms
 
             }
         }
+        public void ResetTakeawayViewPage()
+        {
+            if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
+            {
+                FrmPickup _instanceFrmPickup = Application.OpenForms["FrmPickup"] as FrmPickup;
+                _instanceFrmPickup.Visible = false;
+            }
+
+            if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
+            {
+                FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
+                _instanceFrmTableView.Visible = false;
+
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmTakeaway"] != null)
+            {
+                FrmTakeaway _instanceFrmTakeaway = Application.OpenForms["FrmTakeaway"] as FrmTakeaway;
+                _instanceFrmTakeaway.Visible = true;
+                _instanceFrmTakeaway.UpdateTakeawayView(0);
+            }
+        }
         public void ResetPickupViewPage()
         {
             if (System.Windows.Forms.Application.OpenForms["FrmTableView"] != null)
             {
                 FrmTableView _instanceFrmTableView = Application.OpenForms["FrmTableView"] as FrmTableView;
                 _instanceFrmTableView.Visible = false;
+            }
+            if (System.Windows.Forms.Application.OpenForms["FrmTakeaway"] != null)
+            {
+                FrmTakeaway _instanceFrmTakeaway = Application.OpenForms["FrmTakeaway"] as FrmTakeaway;
+                _instanceFrmTakeaway.Visible = false;
             }
             if (System.Windows.Forms.Application.OpenForms["FrmPickup"] != null)
             {
@@ -9618,7 +9652,9 @@ namespace FoodandBeverage.Forms
                             ResetTableViewPage();
                         else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                             ResetPickupViewPage();
-
+                        else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                            ResetTakeawayViewPage();
+                        
                         if (FrmDashboard.UserSavePrompt)
                             CMessageBox.Show("Successfuly Saved", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -10849,6 +10885,8 @@ namespace FoodandBeverage.Forms
                                     ResetTableViewPage();
                                 else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                                     ResetPickupViewPage();
+                                else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                                    ResetTakeawayViewPage();
 
                                 ResetBillpage();
                                 this.Close();
@@ -10864,6 +10902,8 @@ namespace FoodandBeverage.Forms
                                     ResetTableViewPage();
                                 else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                                     ResetPickupViewPage();
+                                else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                                    ResetTakeawayViewPage();
                                 ResetBillpage();
 
                                 //ClearAll();
@@ -11227,6 +11267,8 @@ namespace FoodandBeverage.Forms
                                         ResetTableViewPage();
                                     else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                                         ResetPickupViewPage();
+                                    else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                                        ResetTakeawayViewPage();
 
                                     ResetBillpage();
                                     //ClearAll();
@@ -11724,7 +11766,9 @@ namespace FoodandBeverage.Forms
                             dmnsalemaster.CBalance = Convert.ToDecimal(txt_cardbalance.Text);
                             dmnsalemaster.TapType = Convert.ToInt32(TapType.FandBPayment);
 
-                            if (Booking_Status || OrderRunning_Status)
+                            if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                                dmnsalemaster.OrderType = Convert.ToInt32(OrderType.Takeaway);
+                            else if (Booking_Status || OrderRunning_Status)
                                 dmnsalemaster.OrderType = Convert.ToInt32(OrderType.Booking_NormalOrder);
                             else if (KOT_saleprint_status)
                                 dmnsalemaster.OrderType = Convert.ToInt32(OrderType.PickupOrder);
@@ -11817,6 +11861,7 @@ namespace FoodandBeverage.Forms
                                         }
                                     }
                                     #endregion
+
                                     #region Midascard
                                     if (payid == Convert.ToInt32(PaymentType.MidasCard))
                                     {
@@ -11941,6 +11986,8 @@ namespace FoodandBeverage.Forms
                                             ResetTableViewPage();
                                         else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                                             ResetPickupViewPage();
+                                        else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                                            ResetTakeawayViewPage();
 
                                         ResetBillpage();
                                         this.Close();
@@ -11964,6 +12011,8 @@ namespace FoodandBeverage.Forms
                                             ResetTableViewPage();
                                         else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                                             ResetPickupViewPage();
+                                        else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                                            ResetTakeawayViewPage();
                                         ResetBillpage();
 
                                         //ClearAll();
@@ -12156,6 +12205,9 @@ namespace FoodandBeverage.Forms
                                                 ResetTableViewPage();
                                             else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                                                 ResetPickupViewPage();
+                                            else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                                                ResetTakeawayViewPage();
+
                                             ResetBillpage();
                                             this.Close();
                                         }
@@ -12178,6 +12230,9 @@ namespace FoodandBeverage.Forms
                                                 ResetTableViewPage();
                                             else if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
                                                 ResetPickupViewPage();
+                                            else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                                                ResetTakeawayViewPage();
+
                                             ResetBillpage();
 
                                             //ClearAll();
@@ -12378,6 +12433,8 @@ namespace FoodandBeverage.Forms
                     ResetPickupViewPage();
                 else if (sourcepage == Convert.ToInt32(SourcepageType.Billingpage))
                     ResetBillpage();
+                else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                    ResetTakeawayViewPage();
                 this.Close();
             }
             catch (Exception ex)
@@ -12401,6 +12458,8 @@ namespace FoodandBeverage.Forms
                 ResetPickupViewPage();
             else if (sourcepage == Convert.ToInt32(SourcepageType.Billingpage))
                 ResetBillpage();
+            else if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage))
+                ResetTakeawayViewPage();
             this.Close();
         }
 
