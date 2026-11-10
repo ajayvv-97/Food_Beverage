@@ -1320,8 +1320,8 @@ namespace FoodandBeverage.Forms
                 DmnSearch objSearch = new DmnSearch();
                 objSearch.ColumnHeaders = "ID,Request No,Request Date,Required Date,Request Type";
                 objSearch.Select =
-                    "InventoryRequestId as Id,RequestNo as Field1,CAST(RequestDate AS varchar(30)) as Field2," +
-                    "CAST(RequiredDate AS varchar(30)) as Field3,"+
+                    "InventoryRequestId as Id,RequestNo as Field1,RequestDate as Field2," +
+                    "RequiredDate as Field3," +
                     "CASE RequestType WHEN 1 THEN 'Batch Preparation' WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END as Field4";
                 objSearch.Table = "tblInventoryRequestMaster";
                 objSearch.WhereNdGroupBy =
@@ -2834,41 +2834,9 @@ namespace FoodandBeverage.Forms
 
         private void LoadRequestApprovalData()
         {
-            // Detect approval fields through the same BllSearch/prdSearch data-access pattern.
+            // Read optional audit-column names, but keep request dates, employee names,
+            // department names and approval status as native database values.
             BllSearch<DmnGridFields> bllSchemaSearch = new BllSearch<DmnGridFields>();
-            DmnSearch approvalColumnSearch = new DmnSearch
-            {
-                Select = "c.name AS Field1",
-                Table = "sys.columns c",
-                WhereNdGroupBy = "where c.object_id = OBJECT_ID('dbo.tblInventoryRequestMaster') " +
-                                 "AND c.name IN ('ApprovalStatus','ApprovalStatusName','RequestStatus'," +
-                                 "'ApprovalState','IsApproved','IsRejected')",
-                OrderBy = "ORDER BY CASE c.name WHEN 'ApprovalStatus' THEN 1 " +
-                          "WHEN 'ApprovalStatusName' THEN 2 WHEN 'RequestStatus' THEN 3 " +
-                          "WHEN 'ApprovalState' THEN 4 WHEN 'IsApproved' THEN 5 ELSE 6 END"
-            };
-
-            List<DmnGridFields> approvalColumns =
-                bllSchemaSearch.GetSearchData("prdSearch", approvalColumnSearch);
-            string approvalColumn = approvalColumns != null && approvalColumns.Count > 0
-                ? approvalColumns[0].Field1
-                : null;
-
-            string statusExpression = "CAST('Pending' AS NVARCHAR(30))";
-            if (!string.IsNullOrWhiteSpace(approvalColumn))
-            {
-                string col = "[m].[" + approvalColumn.Replace("]", "]]") + "]";
-                statusExpression = approvalColumn == "IsRejected"
-                    ? "CASE WHEN CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Rejected' ELSE 'Pending' END"
-                    : "CASE " +
-                      "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%send back%' OR CONVERT(NVARCHAR(30)," + col + ")='3' THEN 'Sent Back' " +
-                      "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%reject%' OR CONVERT(NVARCHAR(30)," + col + ")='2' THEN 'Rejected' " +
-                      "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%approv%' OR CONVERT(NVARCHAR(30)," + col + ")='1' THEN 'Approved' " +
-                      "WHEN LOWER(CONVERT(NVARCHAR(30)," + col + ")) LIKE '%pend%' OR CONVERT(NVARCHAR(30)," + col + ")='0' THEN 'Pending' " +
-                      "ELSE CONVERT(NVARCHAR(30)," + col + ") END";
-            }
-
-            // Resolve optional audit columns without direct Dapper queries.
             DmnSearch masterSchemaSearch = new DmnSearch
             {
                 Select = "c.name AS Field1",
@@ -2893,28 +2861,27 @@ namespace FoodandBeverage.Forms
                 .FirstOrDefault(masterColumns.Contains);
 
             string approvedBySelect = approvedByColumn == null
-                ? "CAST('-' AS NVARCHAR(200))"
-                : "ISNULL(approver.EmployeeName, CONVERT(NVARCHAR(200),m.[" + approvedByColumn + "]))";
+                ? "CAST(NULL AS NVARCHAR(200))"
+                : "approver.EmployeeName";
             string approvedOnSelect = approvedOnColumn == null
-                ? "CAST(NULL AS NVARCHAR(30))"
-                : "CONVERT(NVARCHAR(30),TRY_CONVERT(DATETIME,m.[" + approvedOnColumn + "]),121)";
+                ? "CAST(NULL AS DATETIME)"
+                : "m.[" + approvedOnColumn + "]";
             string remarksSelect = approvalRemarksColumn == null
-                ? "ISNULL(m.Remarks,'-')"
-                : "ISNULL(NULLIF(CONVERT(NVARCHAR(MAX),m.[" + approvalRemarksColumn + "]),''),ISNULL(m.Remarks,'-'))";
+                ? "m.Remarks"
+                : "m.[" + approvalRemarksColumn + "]";
             string approverJoin = approvedByColumn == null
                 ? ""
-                : " LEFT JOIN tblEmployee approver ON approver.EmployeeId = TRY_CONVERT(INT,m.[" + approvedByColumn + "]) ";
+                : " LEFT JOIN tblEmployee approver ON approver.EmployeeId = TRY_CONVERT(INT,m.[" +
+                  approvedByColumn + "]) ";
 
             DmnSearch requestSearch = new DmnSearch
             {
                 Select = "m.InventoryRequestId AS Id, m.RequestNo AS Field1, " +
-                         "CONVERT(NVARCHAR(30),m.RequestDate,121) AS Field2, " +
-                         "CONVERT(NVARCHAR(30),m.RequiredDate,121) AS Field3, " +
-                         "ISNULL(d.DepartmentName,'-') AS Field4, " +
-                         "ISNULL(e.EmployeeName,'-') AS Field5, " +
+                         "m.RequestDate AS Field2, m.RequiredDate AS Field3, " +
+                         "d.DepartmentName AS Field4, e.EmployeeName AS Field5, " +
                          "CASE m.RequestType WHEN 1 THEN 'Batch Preparation' " +
                          "WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END AS Field6, " +
-                         statusExpression + " AS Field7, " +
+                         "m.ApprovalStatus AS Field7, " +
                          approvedBySelect + " AS Field8, " +
                          approvedOnSelect + " AS Field9, " +
                          remarksSelect + " AS Field10",
@@ -2922,7 +2889,7 @@ namespace FoodandBeverage.Forms
                         "LEFT JOIN tblDepartment d ON d.DepartmentId = m.DepartmentId " +
                         "LEFT JOIN tblEmployee e ON e.EmployeeId = m.EmployeeId " +
                         approverJoin,
-                WhereNdGroupBy = "WHERE ISNULL(m.Status,1) = 1 AND m.BranchId = " +
+                WhereNdGroupBy = "WHERE m.Status = 1 AND m.BranchId = " +
                                  Convert.ToString(FrmDashboard.BranchId),
                 OrderBy = "ORDER BY m.InventoryRequestId DESC"
             };
@@ -2939,6 +2906,7 @@ namespace FoodandBeverage.Forms
             _requestApprovalData.Columns.Add("DepartmentName", typeof(string));
             _requestApprovalData.Columns.Add("EmployeeName", typeof(string));
             _requestApprovalData.Columns.Add("RequestTypeName", typeof(string));
+            _requestApprovalData.Columns.Add("ApprovalStatusCode", typeof(int));
             _requestApprovalData.Columns.Add("ApprovalStatusText", typeof(string));
             _requestApprovalData.Columns.Add("ApprovedByName", typeof(string));
             _requestApprovalData.Columns.Add("ApprovedOn", typeof(DateTime));
@@ -2946,24 +2914,49 @@ namespace FoodandBeverage.Forms
 
             foreach (DmnGridFields source in requestRows ?? new List<DmnGridFields>())
             {
-                DateTime parsedRequestDate;
-                DateTime parsedRequiredDate;
-                DateTime parsedApprovedOn;
-                object requestDate = DateTime.TryParse(source.Field2, CultureInfo.InvariantCulture,
-                    DateTimeStyles.None, out parsedRequestDate) ? (object)parsedRequestDate : DBNull.Value;
-                object requiredDate = DateTime.TryParse(source.Field3, CultureInfo.InvariantCulture,
-                    DateTimeStyles.None, out parsedRequiredDate) ? (object)parsedRequiredDate : DBNull.Value;
-                object approvedOn = DateTime.TryParse(source.Field9, CultureInfo.InvariantCulture,
-                    DateTimeStyles.None, out parsedApprovedOn) ? (object)parsedApprovedOn : DBNull.Value;
+                int approvalStatus = 0;
+                int.TryParse(source.Field7, out approvalStatus);
+
+                DateTime requestDateValue;
+                DateTime requiredDateValue;
+                DateTime approvedOnValue;
+                object requestDate = TryParseApprovalDate(source.Field2, out requestDateValue)
+                    ? (object)requestDateValue : DBNull.Value;
+                object requiredDate = TryParseApprovalDate(source.Field3, out requiredDateValue)
+                    ? (object)requiredDateValue : DBNull.Value;
+                object approvedOn = TryParseApprovalDate(source.Field9, out approvedOnValue)
+                    ? (object)approvedOnValue : DBNull.Value;
 
                 _requestApprovalData.Rows.Add(
                     source.Id, source.Field1 ?? string.Empty, requestDate, requiredDate,
                     source.Field4 ?? "-", source.Field5 ?? "-", source.Field6 ?? "Mixed",
-                    source.Field7 ?? "Pending", source.Field8 ?? "-", approvedOn,
-                    source.Field10 ?? "-");
+                    approvalStatus, GetApprovalStatusText(approvalStatus),
+                    source.Field8 ?? "-", approvedOn, source.Field10 ?? "-");
             }
 
             ApplyApprovalFilterAndPaging();
+        }
+
+        private static bool TryParseApprovalDate(string value, out DateTime date)
+        {
+            if (DateTime.TryParse(value, CultureInfo.CurrentCulture,
+                DateTimeStyles.None, out date))
+                return true;
+
+            return DateTime.TryParse(value, CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out date);
+        }
+
+        private static string GetApprovalStatusText(int status)
+        {
+            switch (status)
+            {
+                case 0: return "Pending";
+                case 1: return "Approved";
+                case 2: return "Rejected";
+                case 3: return "Sent Back";
+                default: return "Unknown";
+            }
         }
 
         private void ApplyApprovalFilterAndPaging()
@@ -3067,10 +3060,23 @@ namespace FoodandBeverage.Forms
 
         private int CountApprovalStatus(string status)
         {
-            if (_requestApprovalData == null || !_requestApprovalData.Columns.Contains("ApprovalStatusText"))
+            if (_requestApprovalData == null ||
+                !_requestApprovalData.Columns.Contains("ApprovalStatusCode"))
                 return 0;
-            return _requestApprovalData.AsEnumerable().Count(r =>
-                string.Equals(Convert.ToString(r["ApprovalStatusText"]), status, StringComparison.OrdinalIgnoreCase));
+
+            int statusCode;
+            switch (status)
+            {
+                case "Pending": statusCode = 0; break;
+                case "Approved": statusCode = 1; break;
+                case "Rejected": statusCode = 2; break;
+                case "Sent Back": statusCode = 3; break;
+                default: return 0;
+            }
+
+            return _requestApprovalData.AsEnumerable().Count(row =>
+                row["ApprovalStatusCode"] != DBNull.Value &&
+                Convert.ToInt32(row["ApprovalStatusCode"]) == statusCode);
         }
 
         private void UpdateApprovalTabAppearance()
@@ -3204,12 +3210,12 @@ namespace FoodandBeverage.Forms
                 {
                     ColumnHeaders = "ID,Request No,Request Date,Required Date,Department,Requested By",
                     Select = "m.InventoryRequestId as Id,m.RequestNo as Field1," +
-                             "CAST(m.RequestDate AS varchar(30)) as Field2," +
-                             "CAST(m.RequiredDate AS varchar(30)) as Field3," +
-                             "ISNULL(d.DepartmentName,'-') as Field4,ISNULL(e.EmployeeName,'-') as Field5",
+                             "m.RequestDate as Field2," +
+                             "m.RequiredDate as Field3," +
+                             "d.DepartmentName as Field4,e.EmployeeName as Field5",
                     Table = "tblInventoryRequestMaster m LEFT JOIN tblDepartment d ON d.DepartmentId=m.DepartmentId " +
                             "LEFT JOIN tblEmployee e ON e.EmployeeId=m.EmployeeId",
-                    WhereNdGroupBy = "WHERE ISNULL(m.Status,1)=1 AND m.BranchId=" + Convert.ToString(FrmDashboard.BranchId),
+                    WhereNdGroupBy = "WHERE m.Status=1 AND m.BranchId=" + Convert.ToString(FrmDashboard.BranchId),
                     OrderBy = " ORDER BY m.InventoryRequestId DESC"
                 };
                 DataTable alignment = new DataTable();
