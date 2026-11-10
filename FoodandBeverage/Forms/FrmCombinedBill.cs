@@ -31,11 +31,7 @@ namespace FoodandBeverage.Forms
         }
 
         #region Declaration
-        public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();
-
-        public Color CombinedBillcolor = Color.Wheat;
-        public Color NormalBillingColor = Color.White;
-        public int categoryId = 0;      
+        public List<DmnNameList> CheckedtableNames = new List<DmnNameList>();      
 
         public int panelsPerRow = 0;
         public int screenWidth = Screen.PrimaryScreen.Bounds.Width;
@@ -43,11 +39,1363 @@ namespace FoodandBeverage.Forms
         ClsGeneral clsgen = new ClsGeneral();
 
         #region Modal Dialog Blur Overlay
+        private PictureBox _modalBlurOverlay;
+        private Bitmap _modalBlurImage;
+        private Form _modalBlurOwner;
+        private bool _isModalBlurVisible;
+        private const int ModalBlurPreviewScale = 4;
+        private const byte ModalBlurDarkOverlayAlpha = 72;
+        #endregion
+
+        bool flagDrawerF = false, flagDrawer = false;
+
+        public bool ListFillFlag = false;
+
+        public Color CombinedBillcolor = Color.Wheat;//System.Drawing.ColorTranslator.FromHtml("#e3dbdb");
+        public Color NormalBillingColor = Color.White;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
+        public Color Netamountcolor = Color.Green;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
+        public Color Description_color = Color.Black;//System.Drawing.ColorTranslator.FromHtml("#9f9a9a");
+
+        public int categoryId = 0;
+
+        private ToolTip menuTooltip = new ToolTip();
+        private Image menuButtonImage = (Image)Properties.Resources.fb_sidemenu.Clone();
+        private readonly Image imgPlus = Properties.Resources.Billaddicon;
+        private readonly Image imgTick = Properties.Resources.button_complete_order;
+
+        #endregion
+
+        /*permission checking for manager and supervisor*/
+        public string Drawerassginstaffname;
+        public string Drawerassginstaffdes;
+        public int Drawerassginid;
+        public int Drawerassginstaffid;
+
+        public string Drawersystemname;
+        FoodandBeverage.Forms.FrmLogin existingLogin = Application.OpenForms.OfType<FoodandBeverage.Forms.FrmLogin>().FirstOrDefault();
+
+        #region Grid Declaration
+        public  int cslno = 0;
+        public  int actionno = 1;
+        public  int orderdatetimeno = 2;
+        public  int entryno = 3;
+        public  int tablecodeno = 4;
+        public  int totalqtyno = 5;
+        public  int netamountno = 6;
+        public  int recamountno = 7;
+
+        public  int balamountno = 8;
+        public  int paytypename = 9;
+        public  int statusno = 10;
+        public int Salemasteridno = 11;
+        public int partybookingidno = 12;
+        public int tableidno = 13;
+        public int pickupidno = 14;
+
+        public  int sslno = 0;
+        public  int spaymentamtno = 1;
+        public  int spaymentmodeno = 2;
+        public  int ssalemasteridno = 3;
+        public  int spayidno = 4;
+        public  int sactionno = 5;
+
+        #endregion
+
+        private void FrmCombinedBill_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (FrmDashboard.AutoLogoutWhenIdle)
+                {
+                    AppSession.RegisterForm(this, (int)LogoutFormList.billing);
+                }
+         
+                dgvorderview.BorderStyle = BorderStyle.None;
+                dgvorderview.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                dgvorderview.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+                dgvorderview.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
+                dgvorderview.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+                dgvorderview.BackgroundColor = Color.White;
+
+                dgvorderview.EnableHeadersVisualStyles = false;
+                dgvorderview.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                dgvorderview.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+                dgvorderview.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                DrawerCheck();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("CombinedBill Page FrmCombinedBill_Load", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+
+        }
+        private void SideMenuClick(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            categoryId = Convert.ToInt32(btn.Tag);
+            flp_sidemenu.Visible = false;
+        }
+
+        #region Optimized Bill Code (LABEL BASED SELECTION)
+
+        /* =========================
+         *  DATA STRUCTURES
+         * ========================= */
+
+        private class TableControls
+        {
+            public ModernCombinedBillCard Card { get; set; }
+        }
+
+        private readonly Dictionary<int, TableControls> tableCache =
+            new Dictionary<int, TableControls>();
+        private readonly HashSet<int> selectedTableIds = new HashSet<int>();
+        private readonly Dictionary<int, string> tableAmountCache =
+            new Dictionary<int, string>();
+
+        private string BuildCombinedBillDescription(
+            int dashboardType,
+            object orderMasterId,
+            object tableId,
+            string tableCode,
+            int bookingMasterId,
+            int pickupId)
+        {
+            return dashboardType + "," + Convert.ToString(orderMasterId) + "," +
+                   Convert.ToString(tableId) + "," + Convert.ToString(tableCode) + "," +
+                   bookingMasterId + "," + pickupId;
+        }
+
+        private string ReadCardAmount(ModernCombinedBillCard card)
+        {
+            if (card == null)
+                return string.Empty;
+
+            int tid;
+            return int.TryParse(card.Name.Replace("tlp_com", string.Empty), out tid) &&
+                   tableAmountCache.TryGetValue(tid, out string amount)
+                ? amount
+                : string.Empty;
+        }
+        private bool isUserSelecting = false;
+
+        #endregion
+
+        private void EnableDoubleBuffer(Control c)
+        {
+            typeof(Control)
+                .GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
+                ?.SetValue(c, true, null);
+        }
+
+        public void Billcomplete_Fill()
+        {
+            try
+            {
+                SuspendLayout();
+                pnl_complebill_prevbill.Visible = true;
+                pnl_empty_msg.Visible = false;
+
+                flp_billlayout.SuspendLayout();
+                flp_billlayout.Controls.Clear();
+                tableCache.Clear();
+                tableAmountCache.Clear();
+                flp_billlayout.Dock = DockStyle.Fill;
+                flp_billlayout.AutoScroll = true;
+                flp_billlayout.FlowDirection = FlowDirection.LeftToRight;
+                flp_billlayout.WrapContents = true;
+                EnableDoubleBuffer(flp_billlayout);
+
+                var gridSource = new BllTableData<DmncombinedBill>()
+                    .serachreport("prdBillData", new DmncombinedBill
+                    {
+                        BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell),
+                        Fcid = categoryId
+                    });
+
+                foreach (var tabledata in gridSource)
+                {
+                    int tid = Convert.ToInt32(tabledata.Tid);
+                    if (tid <= 0)
+                        continue;
+
+                    bool isBooking = tabledata.BookmasterId > 0 ||
+                                     Convert.ToInt32(tabledata.Cbid) > 0;
+                    string description = BuildCombinedBillDescription(
+                        Convert.ToInt32(isBooking
+                            ? DashboardTableType.Reverse_overtime_Cancel
+                            : DashboardTableType.Normalorder),
+                        tabledata.OrderMasterId, tabledata.Tid, tabledata.TableCode,
+                        Convert.ToInt32(tabledata.BookmasterId), Convert.ToInt32(tabledata.pkid));
+
+                    string amount = "₹" + Convert.ToString(tabledata.NetAmount);
+                    tableAmountCache[tid] = amount;
+
+                    ModernCombinedBillCard card = new ModernCombinedBillCard
+                    {
+                        Name = "tlp_com" + tid,
+                        Size = new Size(140, 110),
+                        Margin = new Padding(5),
+                        Visible = tabledata.BillStatus == 0
+                    };
+                    card.SelectRequested += CombinedBillCard_SelectRequested;
+                    card.OpenRequested += CompleteEventHandler;
+                    card.SetBillData(
+                        tabledata.TableCode, amount, description,
+                        Convert.ToInt32(isBooking ? CombinedBillType.BookingBill : CombinedBillType.Normal),
+                        isBooking, selectedTableIds.Contains(tid));
+
+                    tableCache[tid] = new TableControls { Card = card };
+                    flp_billlayout.Controls.Add(card);
+                }
+
+                flp_billlayout.ResumeLayout(true);
+                CombineBillAutoTimer.Start();
+                SetEmptyIcon();
+                ResumeLayout(true);
+            }
+            catch (Exception ex)
+            {
+                flp_billlayout.ResumeLayout(true);
+                clsgen.LogException("Billcomplete_Fill()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
 
         /// <summary>
-        /// Opens a modal dialog with the complete application dashboard blurred behind it.
-        /// FrmCombinedBill is hosted inside FrmDashboard.panelDesktop, so the overlay
-        /// must be attached to FrmDashboard rather than this embedded form.
+        /// Refreshes combined-bill cards after bill data changes.
+        /// Called by FrmOrderConsole, so this method intentionally remains public.
+        /// </summary>
+        public void BillCombineBill_Update()
+        {
+            if (isUserSelecting || IsDisposed || Disposing)
+                return;
+
+            try
+            {
+                var gridSource = new BllTableData<DmncombinedBill>()
+                    .serachreport("prdBillData", new DmncombinedBill
+                    {
+                        BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell),
+                        Fcid = categoryId
+                    });
+
+                flp_billlayout.SuspendLayout();
+
+                foreach (var tabledata in gridSource)
+                {
+                    int tid = Convert.ToInt32(tabledata.Tid);
+                    if (tid <= 0)
+                        continue;
+
+                    if (!tableCache.TryGetValue(tid, out TableControls controls) ||
+                        controls == null || controls.Card == null)
+                        continue;
+
+                    bool isBooking = tabledata.BookmasterId > 0 ||
+                                     Convert.ToInt32(tabledata.Cbid) > 0;
+                    string description = BuildCombinedBillDescription(
+                        Convert.ToInt32(isBooking
+                            ? DashboardTableType.Reverse_overtime_Cancel
+                            : DashboardTableType.Normalorder),
+                        tabledata.OrderMasterId,
+                        tabledata.Tid,
+                        tabledata.TableCode,
+                        Convert.ToInt32(tabledata.BookmasterId),
+                        Convert.ToInt32(tabledata.pkid));
+
+                    string amount = "₹" + Convert.ToString(tabledata.NetAmount);
+                    tableAmountCache[tid] = amount;
+
+                    controls.Card.SetBillData(
+                        tabledata.TableCode,
+                        amount,
+                        description,
+                        Convert.ToInt32(isBooking
+                            ? CombinedBillType.BookingBill
+                            : CombinedBillType.Normal),
+                        isBooking,
+                        selectedTableIds.Contains(tid));
+
+                    controls.Card.Visible = tabledata.BillStatus == 0;
+                }
+
+                flp_billlayout.ResumeLayout(true);
+                SetEmptyIcon();
+            }
+            catch (Exception ex)
+            {
+                flp_billlayout.ResumeLayout(true);
+                clsgen.LogException("BillCombineBill_Update()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
+        /// <summary>
+        /// Timer callback wired by FrmCombinedBill.Designer.cs.
+        /// Refreshes the currently displayed combined-bill cards.
+        /// </summary>
+        private void CombineBillAutoTimer_Tick(object sender, EventArgs e)
+        {
+            BillCombineBill_Update();
+        }
+
+#region old code bill print
+        //public void Billcomplete_Fill()
+        //{
+        //    try
+        //    {
+        //        int rowIndex_cate = 0;
+        //        this.Visible = false;
+        //        this.SuspendLayout();
+        //        ListFillFlag = false;
+        //        this.Controls.Add(pnl_complebill_prevbill);
+        //        pnl_complebill_prevbill.Dock = DockStyle.Fill;
+        //        Control controlToRemove = tlp_control.GetControlFromPosition(0, 1);
+        //        tlp_control.Controls.Remove(controlToRemove);
+        //        tlp_control.Controls.Add(pnl_compelte_bill, 0, 1);
+        //        tlp_control.Dock = DockStyle.Fill;
+
+        //        pnl_empty_msg.Visible = false;
+        //        pnl_complebill_prevbill.Visible = true;
+
+        //        #region old code fetch db to query No use currently use store procedure
+        //        //BllSearch<DmnTableinfo> bllSearch = new BllSearch<DmnTableinfo>();
+        //        //DmnSearch dmnSearch = new DmnSearch();
+        //        //dmnSearch.Select = "ti.* ,c.CategoryName as CategoryName,om.NetAmount ,(select CASE WHEN COUNT(*) = SUM(CASE WHEN Status = 3 THEN 1 ELSE 0 END) THEN 0 ELSE 1 END AS Field1 from tblOrderDetails WHERE status!=0 and AddonStatus in(1,0) and OrderMasterId =ti.OrderMasterId ) BillStatus,cob.Cbid," +
+        //        //    "(select top (1) bd.BookmasterId from tblbookMaster bm  LEFT JOIN tblBookDetails bd on bm.BookmasterId = bd.BookmasterId where bm.Status = 1 and bd.Status = 1 and SYSDATETIME() >= DATEADD(MINUTE," + -Convert.ToDecimal(FrmLogin.BookingInterwell) + ", BookingDateTime) and MTID = ti.tid and rid=0  order by bm.BookingDateTime desc) BookmasterId";
+        //        //dmnSearch.Table = "tblTable_info  ti " +
+        //        //    "LEFT JOIN tblCategory_FTI c on c.Fcid=ti.Fcid " +
+        //        //    "LEFT JOIN tblOrderMaster om on om.OrderMasterId=ti.OrderMasterId and om.Status !=0" +
+        //        //    " LEFT JOIN tblCombinedOrderBill cob on cob.OrderMasterid=ti.OrderMasterId";
+        //        //dmnSearch.WhereNdGroupBy = "where ti.Status=1";
+        //        //dmnSearch.OrderBy = "order by ti.tid";
+        //        //var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+        //        #endregion
+
+        //        BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
+        //        DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
+        //        dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
+        //        dmnSearchtabledata.Fcid = categoryId;
+        //        var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
+        //        //var sortedGridSource = gridSource.OrderBy(item => item.t).ToList();
+        //        pnl_compelte_bill.Controls.Clear();
+        //        flp_billlayout.Controls.Clear();
+        //        flp_billlayout.Dock = DockStyle.Fill;
+        //        flp_billlayout.AutoScroll = true;
+        //        if (gridSource.Count > 0)
+        //        {
+        //            foreach (var tabledata in gridSource)
+        //            {
+        //                if (Convert.ToInt32(tabledata.Tid) > 0)
+        //                {
+        //                    // Configure the TableLayoutPanel for the table
+        //                    TableLayoutPanel tlp_table_inner = new TableLayoutPanel();
+        //                    tlp_table_inner.RowCount = 3;
+        //                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+        //                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+        //                    tlp_table_inner.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33f));
+        //                    tlp_table_inner.Name = "tlp_com" + tabledata.Tid;
+        //                    tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.Normal);
+        //                    tlp_table_inner.BorderStyle = BorderStyle.None;
+        //                    tlp_table_inner.Dock = DockStyle.None;
+        //                    tlp_table_inner.AccessibleDescription = Convert.ToInt32(DashboardTableType.Normalorder) + "," +
+        //                                                            Convert.ToString(tabledata.OrderMasterId) + "," +
+        //                                                            tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
+        //                                                            Convert.ToInt32(tabledata.BookmasterId) + "," +
+        //                                                            Convert.ToInt32(tabledata.pkid);
+        //                    tlp_table_inner.BackColor = Color.White;
+
+        //                    //if (screenWidth > 1366)
+        //                    //{
+        //                    //    tlp_table_inner.Width = 120;
+        //                    //    tlp_table_inner.Height = 80;
+        //                    //    tlp_table_inner.Margin = new Padding(5, 5, 0, 5);
+        //                    //}
+        //                    //else if (screenWidth >= 1024 && screenWidth <= 1366)
+        //                    //{
+        //                    //    tlp_table_inner.Width = 120;
+        //                    //    tlp_table_inner.Height = 80;
+        //                    //    tlp_table_inner.Margin = new Padding(10, 10, 0, 10);
+        //                    //}
+
+        //                    Button btn_select = new Button();
+        //                    btn_select.Name = "btn_select_com" + tabledata.Tid;
+        //                    btn_select.AccessibleDescription = tlp_table_inner.AccessibleDescription;
+        //                    btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
+        //                    btn_select.FlatStyle = FlatStyle.Flat;
+        //                    btn_select.FlatAppearance.BorderSize = 0;
+        //                    btn_select.BackgroundImage = Properties.Resources.Billaddicon;
+        //                    btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+        //                    btn_select.Dock = DockStyle.Fill;
+        //                    btn_select.Margin = new Padding(20, 0, 20, 0);
+        //                    btn_select.Click += new EventHandler(btn_select_Clicked);
+
+        //                    Label lbltablename = new Label();
+        //                    lbltablename.Name = "lb_tablename" + tabledata.Tid;
+        //                    lbltablename.AccessibleDescription = tlp_table_inner.AccessibleDescription;
+        //                    lbltablename.TextAlign = ContentAlignment.MiddleCenter;
+        //                    lbltablename.Tag = Convert.ToInt32(CombinedBillType.Normal);
+        //                    lbltablename.Text = tabledata.TableCode;
+        //                    lbltablename.ForeColor = Description_color;
+        //                    lbltablename.BackColor = Color.Transparent;
+        //                    lbltablename.Font = new Font("Arial", 10, FontStyle.Bold);
+        //                    lbltablename.Dock = DockStyle.Fill;
+
+        //                    Label netamountlabel = new Label();
+        //                    netamountlabel.Name = "lb_netamount" + tabledata.Tid;
+        //                    netamountlabel.AccessibleDescription = tlp_table_inner.AccessibleDescription;
+        //                    netamountlabel.TextAlign = ContentAlignment.MiddleCenter;
+        //                    netamountlabel.Tag = Convert.ToInt32(CombinedBillType.Normal);
+        //                    netamountlabel.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
+        //                    netamountlabel.ForeColor = Netamountcolor;
+        //                    netamountlabel.BackColor = Color.Transparent;
+        //                    netamountlabel.Font = new Font("Arial", 10, FontStyle.Bold);
+        //                    netamountlabel.Dock = DockStyle.Fill;
+
+        //                    tlp_table_inner.Visible = Convert.ToInt32(tabledata.BillStatus) == 0;
+
+        //                    if (tabledata.BookmasterId > 0)
+        //                    {
+        //                        btn_select.Visible = false;
+        //                    }
+        //                    else
+        //                    {
+        //                        if (Convert.ToInt32(tabledata.Cbid) > 0)
+        //                        {
+        //                            tlp_table_inner.BackColor = CombinedBillcolor;
+        //                            btn_select.Visible = false;
+        //                        }
+        //                        else
+        //                        {
+        //                            tlp_table_inner.BackColor = NormalBillingColor;
+        //                            btn_select.Visible = true;
+        //                        }
+        //                    }
+
+        //                    // Size settings
+        //                    if (screenWidth > 1366) { tlp_table_inner.Width = 300; tlp_table_inner.Height = 150; }
+        //                    else if (screenWidth >= 1024) { tlp_table_inner.Width = 120; tlp_table_inner.Height = 100; }
+
+        //                    tlp_table_inner.Controls.Add(btn_select, 0, 0);
+        //                    tlp_table_inner.Controls.Add(lbltablename, 0, 1);
+        //                    tlp_table_inner.Controls.Add(netamountlabel, 0, 2);
+
+        //                    lbltablename.Click += new EventHandler(CompleteEventHandler);
+        //                    netamountlabel.Click += new EventHandler(CompleteEventHandler);
+        //                    tlp_table_inner.Click += new EventHandler(CompleteEventHandler);
+
+        //                    if (Convert.ToInt32(tabledata.BookmasterId) > 0)
+        //                    {
+        //                        tlp_table_inner.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+        //                        lbltablename.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+        //                        netamountlabel.Tag = Convert.ToInt32(CombinedBillType.BookingBill);
+
+        //                        lbltablename.AccessibleDescription = Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel) + "," +
+        //                                                              Convert.ToString(tabledata.OrderMasterId) + "," +
+        //                                                              tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) + "," +
+        //                                                              Convert.ToInt32(tabledata.BookmasterId) + "," +
+        //                                                              Convert.ToInt32(tabledata.pkid);
+        //                        tlp_table_inner.AccessibleDescription = lbltablename.AccessibleDescription;
+        //                        netamountlabel.AccessibleDescription = lbltablename.AccessibleDescription;
+        //                    }
+        //                    UIHelper.RoundCorners(tlp_table_inner, 25, null);
+        //                    flp_billlayout.Controls.Add(tlp_table_inner);
+        //                }
+        //            }
+
+        //            pnl_compelte_bill.Controls.Add(flp_billlayout);
+        //            pnl_compelte_bill.Dock = DockStyle.Fill;
+        //            pnl_compelte_bill.Visible = true;
+        //            CombineBillAutoTimer.Start();
+        //        }
+
+        //        SetEmptyIcon();
+
+        //        this.ResumeLayout();
+        //        this.Visible = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsgen.LogException("CombinedBill Page Billcomplete_Fill()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+        //    }
+        //}
+
+        //public void BillCombineBill_Update()
+        //{
+        //    try
+        //    {
+        //        CombineBillAutoTimer.Stop();
+        //        BllTableData<DmncombinedBill> SearchDetails = new BllTableData<DmncombinedBill>();
+        //        DmncombinedBill dmnSearchtabledata = new DmncombinedBill();
+        //        dmnSearchtabledata.BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell);
+        //        dmnSearchtabledata.Fcid = categoryId;
+        //        var gridSource = SearchDetails.serachreport("prdBillData", dmnSearchtabledata);
+        //        if (gridSource.Count > 0)
+        //        {
+        //            #region Check order status and set visible flase and true
+        //            int rowIndex_cate = 0;
+
+        //            flp_billlayout.SuspendLayout();
+        //            foreach (Control ctrl in flp_billlayout.Controls)
+        //            {
+        //                if (ctrl is TableLayoutPanel && ctrl.Name.StartsWith("tlp_com"))
+        //                {
+        //                    ctrl.Visible = false;
+        //                }
+        //            }
+        //            flp_billlayout.ResumeLayout();
+
+
+        //            foreach (var tabledata in gridSource)
+        //            {
+        //                if (Convert.ToInt32(tabledata.Tid) > 0)
+        //                {
+        //                    #region Normal , Combined ,bokking orders
+        //                    string tlpname = "tlp_com" + tabledata.Tid;
+        //                    TableLayoutPanel tlp_box = flp_billlayout.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
+        //                    if (tlp_box != null)
+        //                    {
+        //                        if (tabledata.BillStatus == 0)
+        //                        {
+        //                            tlp_box.Visible = true;
+        //                            string lblname = "lb_netamount" + tabledata.Tid;
+        //                            string btniaddicon = "btn_select_com" + tabledata.Tid;
+        //                            Button btn_select = flp_billlayout.Controls.Find(btniaddicon, true).FirstOrDefault() as Button;
+        //                            Label lblnet = flp_billlayout.Controls.Find(lblname, true).FirstOrDefault() as Label;
+        //                            if (lblnet != null)
+        //                                lblnet.Text = "\u20B9" + Convert.ToString(tabledata.NetAmount);
+
+        //                            if (tabledata.BookmasterId > 0)//&& tabledata.TableCount > 1 //Bokking order hide plus button
+        //                            {
+        //                                btn_select.Visible = false;
+        //                            }//combined or normal order bill
+        //                            else
+        //                            {
+        //                                if (Convert.ToInt32(tabledata.Cbid) > 0)
+        //                                {
+        //                                    if (btn_select != null)
+        //                                    {
+        //                                        btn_select.Visible = false;
+        //                                        tlp_box.BackColor = CombinedBillcolor;
+        //                                    }
+        //                                }
+        //                                else
+        //                                {
+        //                                    tlp_box.BackColor = NormalBillingColor;
+        //                                    if (CheckedtableNames.Count == 0)
+        //                                        if (btn_select != null)
+        //                                        {
+        //                                            btn_select.Visible = true;
+        //                                            btn_select.BackgroundImage = Properties.Resources.Billaddicon;
+        //                                            btn_select.Tag = Convert.ToInt32(BillSelect.Unselect);
+        //                                            btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+        //                                        }
+        //                                    //DmnNameList itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == omasterid);
+        //                                }
+        //                            }
+        //                            tlp_box.Visible = true;
+        //                        }
+        //                        else
+        //                            tlp_box.Visible = false;
+        //                    }
+        //                    #endregion
+        //                }
+        //            }
+        //            #endregion
+        //        }
+        //        SetEmptyIcon();
+        //        CombineBillAutoTimer.Start();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        clsgen.LogException("CombinedBill Page BillCombineBill_Update()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+        //    }
+        //}
+
+        #endregion
+
+        public void SetEmptyIcon()
+        {
+            try
+            {
+                bool anyVisible = flp_billlayout.Controls.OfType<TableLayoutPanel>().Any(tlp => tlp.Name.StartsWith("tlp_com") && tlp.Visible);
+                if (!anyVisible)
+                {
+                    pnl_empty_msg.Anchor = AnchorStyles.None;
+
+                    int x = (this.Width - pnl_empty_msg.Width) / 2;
+                    int y = (this.Height - pnl_empty_msg.Height) / 2;
+                    pnl_empty_msg.Location = new Point(x, y);
+
+                    pnl_empty_msg.Visible = true;
+                    pnl_empty_msg.BringToFront();
+
+                    //btn_prevbill.PerformClick();
+                }
+                else
+                {
+                    pnl_empty_msg.Visible = false;
+                }
+            }
+            catch(Exception ex)
+            {
+                clsgen.LogException("CombinedBill Page SetEmptyIcon()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+        public class DoubleBufferedFlowLayoutPanel : FlowLayoutPanel
+        {
+            public DoubleBufferedFlowLayoutPanel()
+            {
+                this.DoubleBuffered = true;
+                this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+                this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+                this.UpdateStyles();
+            }
+        }
+
+        public void CheckCombinedOrNot(int Ordermasterid)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "cob.OrderMasterid Field1,cob.tid Field2,ti.TableCode Field3,cob.Cbid Field4";
+                dmnSearch.Table = "tblCombinedOrderBill cob" +
+                                   " left join tblTable_info ti on ti.OrderMasterId = cob.OrderMasterid";
+                dmnSearch.WhereNdGroupBy = "where cob.SalesMasterId = (select SalesMasterId from tblCombinedOrderBill where OrderMasterid=" + Ordermasterid + " )";
+                dmnSearch.OrderBy = "";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    ListFillFlag = true;
+                    CheckedtableNames.Clear();
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        CheckedtableNames.Add(new DmnNameList
+                        {
+                            Id = Convert.ToInt32(gridSource[i].Field2),
+                            Ordermasterid = Convert.ToInt32(gridSource[i].Field1),
+                            Tablecode = Convert.ToString(gridSource[i].Field3),
+                            Cbid = Convert.ToInt32(gridSource[i].Field4)
+                        });
+
+                        string btnname = "btn_select_com" + Convert.ToInt32(gridSource[i].Field2);
+                        Button btn_select = flp_billlayout.Controls.Find(btnname, true).FirstOrDefault() as Button;
+                        if (btn_select != null)
+                        {
+                            btn_select.BackgroundImage = Properties.Resources.billselectedicon;
+                            btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+                            // btn_select.Enabled = false;
+                        }
+                    }
+                    lbl_tbl_totalcount.Text = Convert.ToString(CheckedtableNames.Count);
+                }
+                else
+                {
+                    ListFillFlag = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("CombinedBill Page CheckCombinedOrNot()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+
+        }
+        public void CheckCombinedOrNot_Tid(int tid)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "cob.OrderMasterid Field1,cob.tid Field2,ti.TableCode Field3,cob.Cbid Field4";
+                dmnSearch.Table = " tblCombinedOrderBill cob" +
+                                    " left join tblTable_info ti on ti.OrderMasterId = cob.OrderMasterid" +
+                                    " where SalesMasterId in(Select top(1)co.SalesMasterId from tblCombinedOrderBill co" +
+                                    " left join tblOrderMaster om on om.OrderMasterId = co.OrderMasterid";
+                dmnSearch.WhereNdGroupBy = " where co.Tid=" + tid + " and om.Status=1  ";
+                dmnSearch.OrderBy = " order by cbid desc )";
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    CheckedtableNames.Clear();
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        CheckedtableNames.Add(new DmnNameList
+                        {
+                            Id = Convert.ToInt32(gridSource[i].Field2),
+                            Ordermasterid = Convert.ToInt32(gridSource[i].Field1),
+                            Tablecode = Convert.ToString(gridSource[i].Field3),
+                            Cbid = Convert.ToInt32(gridSource[i].Field4)
+                        });
+
+                        //string btnname = "btn_select_com" + Convert.ToInt32(gridSource[i].Field2);
+                        //Button btn_select = tlp_table_dashboard.Controls.Find(btnname, true).FirstOrDefault() as Button;
+                        //if (btn_select != null)
+                        //{
+                        //    btn_select.BackgroundImage = Properties.Resources.billselectedicon;
+                        //    btn_select.BackgroundImageLayout = ImageLayout.Stretch;
+                        //    // btn_select.Enabled = false;
+                        //}
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("CombinedBill Page CheckCombinedOrNot_Tid()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+
+        }
+        private void btn_select_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                Button button = (Button)sender;
+                //Convert.ToInt32(DashboardTableType.Reverse_Table)+","+Convert.ToString(tabledata.OrderMasterId) + "," + tabledata.Tid + "," + Convert.ToString(tabledata.TableCode) +
+                //"," + Convert.ToInt32(tabledata.BookmasterId) + "," + Convert.ToInt32(tabledata.pkid);
+                string textvalue = button.AccessibleDescription;
+                string[] parts = textvalue.Split(',');
+
+                int Btype = parts.Length > 0 ? Convert.ToInt32(parts[0]) : 0;
+                int OrderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
+                int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
+                string tableCode = parts.Length > 3 ? parts[3] : "";
+                int BmasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
+                int pkid = parts.Length > 4 ? Convert.ToInt32(parts[5]) : 0;
+
+                if (button != null)
+                {
+                    CheckCombinedOrNot(OrderMasterId);
+
+                    //cmb_tbl_names.Items.Add("Table List");
+
+                    if (!ListFillFlag)
+                    {
+                        if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Unselect))
+                        {
+                            CheckedtableNames.Add(new DmnNameList
+                            {
+                                Id = tid,
+                                Ordermasterid = OrderMasterId,
+                                Tablecode = tableCode,
+                                BookingMasterid = BmasterId,
+                                pkid = pkid,
+                            });
+                            button.BackgroundImage = Properties.Resources.billselectedicon;
+                            button.Tag = Convert.ToInt32(BillSelect.Selected);
+                            if (pkid > 0)
+                            {
+                                // Add to the combo box
+                                string comboBoxItem = $"{pkid}";
+                                cmb_tbl_names.Items.Add(comboBoxItem);
+                            }
+                            else
+                            {
+                                // Add to the combo box
+                                string comboBoxItem = $"{tableCode}";
+                                cmb_tbl_names.Items.Add(comboBoxItem);
+                            }
+
+
+                        }
+                        else if (Convert.ToInt32(button.Tag) == Convert.ToInt32(BillSelect.Selected))
+                        {
+                            DmnNameList itemToRemove = CheckedtableNames.FirstOrDefault(item => item.Ordermasterid == OrderMasterId);
+                            if (itemToRemove != null)
+                            {
+                                CheckedtableNames.Remove(itemToRemove);
+                                if (pkid > 0)
+                                {
+                                    // Remove from the combo box
+                                    string comboBoxItemToRemove = $"{pkid}";
+                                    cmb_tbl_names.Items.Remove(comboBoxItemToRemove);
+                                }
+                                else
+                                {
+                                    // Remove from the combo box
+                                    string comboBoxItemToRemove = $"{itemToRemove.Tablecode}";
+                                    cmb_tbl_names.Items.Remove(comboBoxItemToRemove);
+                                }
+                            }
+
+                            button.BackgroundImage = Properties.Resources.Billaddicon;
+                            button.Tag = Convert.ToInt32(BillSelect.Unselect);
+                        }
+
+                        button.BackgroundImageLayout = ImageLayout.Stretch;
+
+                        if (pkid > 0)
+                            lbl_tbl_totalcount.Text = "Pickup Orders : " + Convert.ToString(CheckedtableNames.Count);
+                        else
+                            lbl_tbl_totalcount.Text = "Total Tables : " + Convert.ToString(CheckedtableNames.Count);
+
+                        if (CheckedtableNames.Count > 1)
+                        {
+                            lbl_tbl_totalcount.Visible = true;
+                            cmb_tbl_names.Visible = true;
+                            cmb_tbl_names.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            lbl_tbl_totalcount.Visible = false;
+                            cmb_tbl_names.Visible = false;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("CombinedBill Page btn_select_Clicked", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+        public class CategoryInfo
+        {
+            public int Fcid { get; set; }
+            public string CategoryName { get; set; }
+        }
+        private void CombinedBillCard_SelectRequested(object sender, EventArgs e)
+        {
+            ModernCombinedBillCard card = sender as ModernCombinedBillCard;
+            if (card == null || string.IsNullOrEmpty(card.AccessibleDescription))
+                return;
+
+            try
+            {
+                isUserSelecting = true;
+
+                string[] parts = card.AccessibleDescription.Split(',');
+                int orderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
+                int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
+                string tableCode = parts.Length > 3 ? parts[3] : string.Empty;
+                int bookingMasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
+                int pkid = parts.Length > 5 ? Convert.ToInt32(parts[5]) : 0;
+
+                if (tid <= 0 ||
+                    Convert.ToInt32(card.Tag) == Convert.ToInt32(CombinedBillType.BookingBill))
+                    return;
+
+                CheckCombinedOrNot(orderMasterId);
+
+                if (selectedTableIds.Contains(tid))
+                {
+                    selectedTableIds.Remove(tid);
+                    var existing = CheckedtableNames.FirstOrDefault(x => x.Ordermasterid == orderMasterId);
+                    if (existing != null)
+                        CheckedtableNames.Remove(existing);
+                    cmb_tbl_names.Items.Remove(pkid > 0 ? pkid.ToString() : tableCode);
+                }
+                else
+                {
+                    selectedTableIds.Add(tid);
+                    CheckedtableNames.Add(new DmnNameList
+                    {
+                        Id = tid,
+                        Ordermasterid = orderMasterId,
+                        Tablecode = tableCode,
+                        BookingMasterid = bookingMasterId,
+                        pkid = pkid
+                    });
+
+                    string value = pkid > 0 ? pkid.ToString() : tableCode;
+                    if (!cmb_tbl_names.Items.Contains(value))
+                        cmb_tbl_names.Items.Add(value);
+                }
+
+                string amount = tableAmountCache.TryGetValue(tid, out string currentAmount)
+                    ? currentAmount : string.Empty;
+                card.SetBillData(tableCode, amount, card.AccessibleDescription,
+                    Convert.ToInt32(card.Tag), false, selectedTableIds.Contains(tid));
+                UpdateSelectedCountUI(pkid);
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("CombinedBillCard_SelectRequested()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+            finally
+            {
+                isUserSelecting = false;
+            }
+        }
+
+        private void UpdateSelectedCountUI(int pkid)
+        {
+            int count = CheckedtableNames.Count;
+            if (count > 1)
+            {
+                lbl_tbl_totalcount.Visible = true;
+                cmb_tbl_names.Visible = true;
+                if (cmb_tbl_names.Items.Count > 0 && cmb_tbl_names.SelectedIndex < 0)
+                    cmb_tbl_names.SelectedIndex = 0;
+                lbl_tbl_totalcount.Text = pkid > 0
+                    ? "Pickup Orders : " + count
+                    : "Total Tables : " + count;
+            }
+            else
+            {
+                lbl_tbl_totalcount.Visible = false;
+                cmb_tbl_names.Visible = false;
+            }
+        }
+
+        private void CompleteEventHandler(object sender, EventArgs e)
+        {
+            try
+            {
+                CombineBillAutoTimer.Stop();
+
+                Control clickedControl = sender as Control;
+                if (clickedControl == null ||
+                    string.IsNullOrWhiteSpace(clickedControl.AccessibleDescription))
+                    return;
+
+                string[] parts = clickedControl.AccessibleDescription.Split(',');
+                int billType = Convert.ToInt32(clickedControl.Tag);
+                int orderMasterId = parts.Length > 1 ? Convert.ToInt32(parts[1]) : 0;
+                int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
+                int bookingMasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
+
+                CheckCombinedOrNot_Tid(tid);
+
+                if (CheckedtableNames.Count > 1)
+                {
+                    if (Application.OpenForms["FrmOrderConsole"] == null)
+                    {
+                        using (FrmOrderConsole orderConsole = new FrmOrderConsole(
+                            0,
+                            Convert.ToInt32(DashboardTableType.CombinedOrderBill),
+                            0,
+                            CheckedtableNames,
+                            Convert.ToInt32(PageType.Billpage),
+                            0,
+                            Convert.ToInt32(SourcepageType.Billingpage),
+                            0))
+                        {
+                            orderConsole.WindowState = FormWindowState.Maximized;
+                            orderConsole.Opacity = 0;
+                            orderConsole.Visible = false;
+                            orderConsole.ShowDialog();
+                            orderConsole.BringToFront();
+                        }
+                    }
+
+                    ResetCombinedBillSelection();
+                    return;
+                }
+
+                if (billType == Convert.ToInt32(CombinedBillType.Normal))
+                {
+                    if (Application.OpenForms["FrmOrderConsole"] == null)
+                    {
+                        using (FrmOrderConsole orderConsole = new FrmOrderConsole(
+                            tid,
+                            Convert.ToInt32(DashboardTableType.Normalorder),
+                            0,
+                            CheckedtableNames,
+                            Convert.ToInt32(PageType.Billpage),
+                            0,
+                            Convert.ToInt32(SourcepageType.Billingpage),
+                            0))
+                        {
+                            orderConsole.WindowState = FormWindowState.Maximized;
+                            orderConsole.Opacity = 0;
+                            orderConsole.Visible = false;
+                            orderConsole.ShowDialog();
+                        }
+                    }
+                    else
+                    {
+                        FrmOrderConsole orderConsole =
+                            Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
+                        if (orderConsole != null)
+                        {
+                            if (orderConsole.WindowState == FormWindowState.Minimized)
+                                orderConsole.WindowState = FormWindowState.Maximized;
+                            else
+                                orderConsole.BringToFront();
+                        }
+                    }
+                }
+                else if (billType == Convert.ToInt32(CombinedBillType.BookingBill))
+                {
+                    if (Application.OpenForms["FrmOrderConsole"] == null)
+                    {
+                        using (FrmOrderConsole orderConsole = new FrmOrderConsole(
+                            tid,
+                            Convert.ToInt32(DashboardTableType.Reverse_overtime_Cancel),
+                            bookingMasterId,
+                            CheckedtableNames,
+                            Convert.ToInt32(PageType.Billpage),
+                            0,
+                            Convert.ToInt32(SourcepageType.Billingpage),
+                            0))
+                        {
+                            orderConsole.WindowState = FormWindowState.Maximized;
+                            orderConsole.Opacity = 0;
+                            orderConsole.Visible = false;
+                            orderConsole.Show();
+                            orderConsole.BringToFront();
+                        }
+                    }
+                    else
+                    {
+                        FrmOrderConsole orderConsole =
+                            Application.OpenForms["FrmOrderConsole"] as FrmOrderConsole;
+                        if (orderConsole != null)
+                        {
+                            if (orderConsole.WindowState == FormWindowState.Minimized)
+                                orderConsole.WindowState = FormWindowState.Maximized;
+                            else
+                                orderConsole.BringToFront();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("CombinedBill Page CompleteEventHandler()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+            finally
+            {
+                if (!IsDisposed && !Disposing)
+                    CombineBillAutoTimer.Start();
+            }
+        }
+
+        private void ResetCombinedBillSelection()
+        {
+            CombineBillAutoTimer.Stop();
+            CheckedtableNames.Clear();
+            selectedTableIds.Clear();
+
+            foreach (var entry in tableCache)
+            {
+                ModernCombinedBillCard card = entry.Value?.Card;
+                if (card == null)
+                    continue;
+
+                string[] parts = (card.AccessibleDescription ?? string.Empty).Split(',');
+                string tableCode = parts.Length > 3 ? parts[3] : string.Empty;
+                bool isBooking = Convert.ToInt32(card.Tag) == Convert.ToInt32(CombinedBillType.BookingBill);
+
+                card.SetBillData(
+                    tableCode,
+                    ReadCardAmount(card),
+                    card.AccessibleDescription,
+                    Convert.ToInt32(card.Tag),
+                    isBooking,
+                    false);
+            }
+
+            lbl_tbl_totalcount.Visible = false;
+            cmb_tbl_names.Visible = false;
+            cmb_tbl_names.Items.Clear();
+
+            BillCombineBill_Update();
+            CombineBillAutoTimer.Start();
+        }
+
+
+        private void btn_backCompleorder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tlp_tblcount_namelist.Visible = true;
+                btn_backCompleorder.Visible = false;
+                btn_prevbill.Visible = true;
+
+                pnl_previous_bill.Visible = false;
+                flp_billlayout.Visible = true;
+                flp_billlayout.BringToFront();
+
+                pnl_empty_msg.Visible = false;
+                pnl_complebill_prevbill.Visible = true;
+
+                CombineBillAutoTimer.Start();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("CombinedBill Page btn_backCompleorder_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+        private void btn_serach_prev_bill_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                string returnValue = string.Empty;
+                DataTable dtColumnAlign = new DataTable();
+                dtColumnAlign.Columns.Add();
+
+                DmnSearch _objSearch = new DmnSearch();
+                _objSearch.ColumnHeaders = "ID,DateTime,InvoiceNo,TableCode,PickUpNo,NetAmount";//,
+                _objSearch.Select =
+                    "sm.SalesMasterId as Id, " +
+                    "sm.CreatedDateTime as Field1, " +
+                    "sm.EntryNo as Field2, " +
+                    "ti.TableCode as Field3, " +
+                    "sm.PkId as Field4, " +
+                    "sm.NetAmount as Field5";/*"CASE " +
+                    " WHEN COALESCE(sm.Partybookingid,0) > 0 THEN 'Party Booking' " +
+                    " WHEN COALESCE(sm.PkId,0) > 0 THEN 'PKID ' + CAST(sm.PkId AS VARCHAR(20)) " +
+                    " WHEN COALESCE(sm.Tid,0) > 0 THEN COALESCE(ti.TableCode,'') " +
+                    " ELSE 'Multiple Tables' END as Field3, " +*/
+                _objSearch.Table =
+                    "tblSalesMaster sm " +
+                    "LEFT JOIN tblTable_info ti ON ti.tid = sm.Tid " +
+                    "LEFT JOIN tblGeneralOptions g ON g.GTypeSubId = sm.PaymentMode";
+                _objSearch.WhereNdGroupBy = "WHERE sm.Status = 1 AND g.GTypeId = 2";
+                _objSearch.OrderBy = "ORDER BY sm.SalesMasterId DESC";
+
+                var gridSource = bllSearch.GetSearchData("prdSearch", _objSearch);
+                if (gridSource == null || gridSource.Count == 0)
+                {
+                    CMessageBox.Show("No Records", "Empty",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (var search = new FrmSearch<DmnGridFields>(
+                    _objSearch,
+                    SearchMode.FirstCharacter,
+                    this.Width - 150,
+                    this.Height - 150,
+                    this.Location.Y + 50,
+                    this.Location.X + 20,
+                    dtColumnAlign))
+                {
+                    if (search.ShowDialog() == DialogResult.OK)
+                        returnValue = Convert.ToString(search._retValue);
+                }
+
+                if (!string.IsNullOrWhiteSpace(returnValue))
+                {
+                    int saleMasterId;
+                    if (int.TryParse(returnValue, out saleMasterId) && saleMasterId > 0)
+                    {
+                        PrintBillForSaleMaster(saleMasterId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException(
+                    "CombinedBill Page btn_serach_prev_bill_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+
+        private void btn_prevbill_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tlp_tblcount_namelist.Visible = false;
+                CombineBillAutoTimer.Stop();
+
+                this.Controls.Add(pnl_complebill_prevbill);
+                pnl_complebill_prevbill.Dock = DockStyle.Fill;
+                pnl_complebill_prevbill.BringToFront();
+
+                pnl_previous_bill.Visible = true;
+                flp_billlayout.Visible = false;
+                pnl_previous_bill.BringToFront();
+
+                pnl_previous_bill.Dock = DockStyle.Fill;
+                pnl_previous_bill.Visible = true;
+                pnl_empty_msg.Visible = false;
+
+                btn_backCompleorder.Visible = true;
+                btn_prevbill.Visible = false;
+
+                #region Fill complete or cancelled order in Datagrid
+                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+                DmnSearch dmnSearch = new DmnSearch();
+                dmnSearch.Select = "Top 30 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5," +
+                    "sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11," +
+                    "sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15,sm.tid Field16,sm.Pkid Field17";
+                dmnSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid";
+                dmnSearch.WhereNdGroupBy = "where sm.status=1";
+                dmnSearch.OrderBy = "order by sm.SalesMasterId DESC";
+                dgvorderview.Rows.Clear();
+                int rowIndex = 0;
+                var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
+                if (gridSource.Count > 0)
+                {
+                    int imageSize = 32;
+                    dgvorderview.Rows.Add(gridSource.Count);
+                    int x = dgvorderview.RowCount;
+                    for (int i = 0; i < gridSource.Count; i++)
+                    {
+                        dgvorderview.Rows[rowIndex].Cells[cslno].Value = rowIndex + 1;
+                        dgvorderview.Rows[rowIndex].Cells[orderdatetimeno].Value = gridSource[i].Field1;
+                        dgvorderview.Rows[rowIndex].Cells[entryno].Value = gridSource[i].Field2;
+
+                        int partyBookingId = Convert.ToInt32(gridSource[i].Field15);
+                        int tableId = Convert.ToInt32(gridSource[i].Field16);
+                        int pickupId = Convert.ToInt32(gridSource[i].Field17);
+                        int orderType = Convert.ToInt32(gridSource[i].Field14);
+
+                        if (partyBookingId > 0)
+                        {
+                            SetTableCodeDisplay(rowIndex, "Party Booking", 0, true);
+                        }
+                        else if (pickupId > 0 || orderType == Convert.ToInt32(OrderType.PickupOrder))
+                        {
+                            SetTableCodeDisplay(rowIndex, "PKID " + pickupId, 0, true);
+                        }
+                        else if (tableId <= 0)
+                        {
+                            FillTablecode_Comb(
+                                rowIndex,
+                                Convert.ToInt32(gridSource[i].Field6),
+                                Convert.ToInt32(gridSource[i].Field13),
+                                Convert.ToInt32(gridSource[i].Field12));
+                        }
+                        else
+                        {
+                            SetTableCodeDisplay(rowIndex, Convert.ToString(gridSource[i].Field3), tableId, true);
+                        }
+
+
+                        dgvorderview.Rows[rowIndex].Cells[totalqtyno].Value = gridSource[i].Field4;
+                        dgvorderview.Rows[rowIndex].Cells[Salemasteridno].Value = gridSource[i].Field6;
+                        dgvorderview.Rows[rowIndex].Cells[netamountno].Value = gridSource[i].Field7;
+                        dgvorderview.Rows[rowIndex].Cells[recamountno].Value = gridSource[i].Field8;
+                        dgvorderview.Rows[rowIndex].Cells[balamountno].Value = gridSource[i].Field9;
+                        dgvorderview.Rows[rowIndex].Cells[partybookingidno].Value = gridSource[i].Field15;
+                        dgvorderview.Rows[rowIndex].Cells[tableidno].Value = gridSource[i].Field16;
+                        dgvorderview.Rows[rowIndex].Cells[pickupidno].Value = gridSource[i].Field17;
+
+                        switch (Convert.ToInt32(gridSource[i].Field10))
+                        {
+                            case 1:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "CASH";
+                                break;
+                            case 5:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "DEBITCARD";
+                                break;
+                            case 4:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "UPI";
+                                break;
+                            case 6:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "BANKINGONLINE";
+                                break;
+                            case 3:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "CREDIT";
+                                break;
+                            case 7:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "OTHERS";
+                                break;
+                            case 11:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "MIDAS CARD";
+                                break;
+                            case 12:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "SPLIT";
+                                break;
+                            case 10:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "COMPLEMENTRY";
+                                break;
+                            case 14:
+                                dgvorderview.Rows[rowIndex].Cells[paytypename].Value = "NO CHARGE";
+                                break;
+                        }
+
+                        DataGridViewImageCell cell = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[statusno];
+                        cell.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                        cell.Value = Properties.Resources.orderview_complete;
+
+                        DataGridViewImageCell cell1 = (DataGridViewImageCell)dgvorderview.Rows[rowIndex].Cells[actionno];
+                        cell1.ImageLayout = DataGridViewImageCellLayout.Stretch;
+                        cell1.Value = Properties.Resources.viewbill_billing;
+
+                        rowIndex++;
+                    }
+                }
+                else
+                {
+                    SetEmptyIcon();
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
+                clsgen.LogException("CombinedBill Page btn_prevbill_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
+            }
+        }
+        private void SetTableCodeDisplay(int rowIndex, string displayText, long tableId, bool readOnly)
+        {
+            DataGridViewComboBoxCell cell =
+                (DataGridViewComboBoxCell)dgvorderview.Rows[rowIndex].Cells[tablecodeno];
+
+            List<ComboBoxItem> items = new List<ComboBoxItem>
+            {
+                new ComboBoxItem(tableId, displayText ?? string.Empty)
+            };
+
+            cell.DataSource = items;
+            cell.ValueMember = "Id";
+            cell.DisplayMember = "Value";
+            cell.Value = tableId;
+            cell.ReadOnly = readOnly;
+            dgvorderview.Rows[rowIndex].Cells[tablecodeno].ReadOnly = readOnly;
+        }
+
+        private void PrintBillBySaleType(int saleMasterId, int partyBookingId, int tableId, int pickupId)
+        {
+            if (saleMasterId <= 0)
+                return;
+
+            if (partyBookingId > 0)
+                printBill(saleMasterId, Convert.ToInt32(BillType.Partybill));
+            else if (pickupId > 0)
+                printBill(saleMasterId, Convert.ToInt32(BillType.PickupBill));
+            else
+                printBill(saleMasterId, Convert.ToInt32(BillType.NormalBill));
+        }
+
+        private void PrintBillForSaleMaster(int saleMasterId)
+        {
+            if (saleMasterId <= 0)
+                return;
+
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            DmnSearch search = new DmnSearch
+            {
+                Select = "ISNULL(Partybookingid,0) Field1, ISNULL(Tid,0) Field2, ISNULL(PkId,0) Field3",
+                Table = "tblSalesMaster",
+                WhereNdGroupBy = "WHERE Status = 1 AND SalesMasterId = " + saleMasterId,
+                OrderBy = ""
+            };
+
+            List<DmnGridFields> result = bllSearch.GetSearchData("prdSearch", search);
+            if (result != null && result.Count > 0)
+            {
+                PrintBillBySaleType(
+                    saleMasterId,
+                    Convert.ToInt32(result[0].Field1),
+                    Convert.ToInt32(result[0].Field2),
+                    Convert.ToInt32(result[0].Field3));
+            }
+        }
+
+        #region Modal Dialog Blur Overlay
+
+        /// <summary>
+        /// Opens a child dialog with the current Combined Bill screen blurred behind it.
         /// </summary>
         private DialogResult ShowDialogWithBlur(Form dialog)
         {
@@ -97,7 +1445,6 @@ namespace FoodandBeverage.Forms
                     if (_modalBlurOwner != null)
                     {
                         _modalBlurOwner.Resize -= FrmCombinedBill_BlurOverlayResize;
-
                         if (_modalBlurOwner != this)
                             _modalBlurOwner.FormClosed -= FrmCombinedBill_BlurOverlayFormClosed;
                     }
@@ -212,8 +1559,8 @@ namespace FoodandBeverage.Forms
 
             try
             {
-                // Capture the actual dashboard client area so the side menu,
-                // application header/footer and embedded page are all included.
+                // Capture the full dashboard client area, including navigation,
+                // header, footer and the embedded Combined Bill view.
                 Rectangle screenBounds = owner.RectangleToScreen(owner.ClientRectangle);
 
                 try
@@ -229,8 +1576,6 @@ namespace FoodandBeverage.Forms
                 }
                 catch
                 {
-                    // DrawToBitmap is retained as a fallback for environments
-                    // where screen capture is unavailable.
                     owner.DrawToBitmap(captured, new Rectangle(0, 0, width, height));
                 }
 
@@ -467,141 +1812,6 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("CombinedBill Page dgvorderview_CellDoubleClick()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.CombinedBillpage));
             }
         }
-        /// <summary>
-        /// Refreshes the combined-bill table cards after an order console closes
-        /// or an order/table status changes.
-        /// </summary>
-        public void BillCombineBill_Update()
-        {
-            bool restartTimer = CombineBillAutoTimer != null && CombineBillAutoTimer.Enabled;
-
-            try
-            {
-                if (CombineBillAutoTimer != null)
-                    CombineBillAutoTimer.Stop();
-
-                BllTableData<DmncombinedBill> searchDetails = new BllTableData<DmncombinedBill>();
-                DmncombinedBill searchData = new DmncombinedBill
-                {
-                    BookingInterwell = Convert.ToDecimal(FrmLogin.BookingInterwell),
-                    Fcid = categoryId
-                };
-
-                var gridSource = searchDetails.serachreport("prdBillData", searchData);
-
-                // Hide the current table cards first. Cards returned by the
-                // stored procedure below will be made visible again.
-                flp_billlayout.SuspendLayout();
-                try
-                {
-                    foreach (Control control in flp_billlayout.Controls)
-                    {
-                        if (control is TableLayoutPanel &&
-                            control.Name.StartsWith("tlp_com", StringComparison.OrdinalIgnoreCase))
-                        {
-                            control.Visible = false;
-                        }
-                    }
-
-                    if (gridSource != null)
-                    {
-                        foreach (var tableData in gridSource)
-                        {
-                            if (tableData == null || Convert.ToInt32(tableData.Tid) <= 0)
-                                continue;
-
-                            string tablePanelName = "tlp_com" + tableData.Tid;
-                            TableLayoutPanel tablePanel =
-                                flp_billlayout.Controls.Find(tablePanelName, true).FirstOrDefault() as TableLayoutPanel;
-
-                            if (tablePanel == null)
-                                continue;
-
-                            if (tableData.BillStatus != 0)
-                            {
-                                tablePanel.Visible = false;
-                                continue;
-                            }
-
-                            tablePanel.Visible = true;
-
-                            string netAmountName = "lb_netamount" + tableData.Tid;
-                            string selectButtonName = "btn_select_com" + tableData.Tid;
-
-                            Label netAmountLabel =
-                                flp_billlayout.Controls.Find(netAmountName, true).FirstOrDefault() as Label;
-                            Button selectButton =
-                                flp_billlayout.Controls.Find(selectButtonName, true).FirstOrDefault() as Button;
-
-                            if (netAmountLabel != null)
-                                netAmountLabel.Text = "\u20B9" + Convert.ToString(tableData.NetAmount);
-
-                            if (tableData.BookmasterId > 0)
-                            {
-                                if (selectButton != null)
-                                    selectButton.Visible = false;
-                            }
-                            else if (Convert.ToInt32(tableData.Cbid) > 0)
-                            {
-                                tablePanel.BackColor = CombinedBillcolor;
-
-                                if (selectButton != null)
-                                    selectButton.Visible = false;
-                            }
-                            else
-                            {
-                                tablePanel.BackColor = NormalBillingColor;
-
-                                if (CheckedtableNames.Count == 0 && selectButton != null)
-                                {
-                                    selectButton.Visible = true;
-                                    selectButton.BackgroundImage = Properties.Resources.Billaddicon;
-                                    selectButton.Tag = Convert.ToInt32(BillSelect.Unselect);
-                                    selectButton.BackgroundImageLayout = ImageLayout.Stretch;
-                                }
-                            }
-                        }
-                    }
-                }
-                finally
-                {
-                    flp_billlayout.ResumeLayout(true);
-                }
-
-                bool hasVisibleTable = flp_billlayout.Controls
-                    .OfType<TableLayoutPanel>()
-                    .Any(panel => panel.Name.StartsWith("tlp_com", StringComparison.OrdinalIgnoreCase) && panel.Visible);
-
-                if (pnl_empty_msg != null)
-                {
-                    pnl_empty_msg.Visible = !hasVisibleTable;
-
-                    if (!hasVisibleTable)
-                    {
-                        pnl_empty_msg.Anchor = AnchorStyles.None;
-                        pnl_empty_msg.Location = new Point(
-                            Math.Max(0, (flp_billlayout.ClientSize.Width - pnl_empty_msg.Width) / 2),
-                            Math.Max(0, (flp_billlayout.ClientSize.Height - pnl_empty_msg.Height) / 2));
-                        pnl_empty_msg.BringToFront();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException(
-                    "CombinedBill Page BillCombineBill_Update()",
-                    ex,
-                    FrmLogin.EmployeName,
-                    FrmLogin.Designation,
-                    Convert.ToInt32(FormType.CombinedBillpage));
-            }
-            finally
-            {
-                if (restartTimer && CombineBillAutoTimer != null && !IsDisposed)
-                    CombineBillAutoTimer.Start();
-            }
-        }
-
         public void printBill(int oid,int btype)
         {
             try
