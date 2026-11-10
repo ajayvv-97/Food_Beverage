@@ -11045,7 +11045,7 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.AV_id = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iavid].Value);
                                     dmnsaledetails.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                     dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
-                                    dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                    // BllSale resolves menu-product FoodPreparationType; combo components are resolved by SQL.
                                     dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
 
                                     dmnsaledetails.OrderDetailsId = "0";
@@ -11477,7 +11477,7 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.AV_id = Convert.ToString(dgv_combined.Rows[i].Cells[CAV_id].Value);
                                             dmnsaledetails.Addoncount = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddoncount].Value);
                                             dmnsaledetails.VariatiionName = Convert.ToString(dgv_combined.Rows[i].Cells[CVariatiionNameno].Value);
-                                            dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                            // BllSale resolves menu-product FoodPreparationType; combo components are resolved by SQL.
                                             dmnsaledetails.OrderTypeId = Convert.ToInt32(dgv_combined.Rows[i].Cells[COrderTypeIdno].Value ?? 0);
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(dgv_combined.Rows[i].Cells[Cpretaxamtno].Value);
                                             dmnsaledetails.TotalPackingPrice = ToPackingDecimal(dgv_combined.Rows[i].Cells[cpackingpriceno.Index].Value);
@@ -12178,7 +12178,7 @@ namespace FoodandBeverage.Forms
 
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                             dmnsaledetails.SalesDetailsId = 0;
-                                            dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                            // BllSale resolves menu-product FoodPreparationType; combo components are resolved by SQL.
                                             dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
                                              SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i]);
@@ -12405,7 +12405,7 @@ namespace FoodandBeverage.Forms
                                                 else
                                                     dmnsaledetails.Cmid = "0";
 
-                                                dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
+                                                // BllSale resolves menu-product FoodPreparationType; combo components are resolved by SQL.
                                                 dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i + 1], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
                                                 dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i + 1].Cells[ipretaxamtno].Value);
                                                 SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i + 1]);

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Domain;
 using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,6 +9,88 @@ namespace BLL
 {
     public class BllSale
     {
+        private sealed class ProductPreparationLookup
+        {
+            public int ProductId { get; set; }
+            public string Product { get; set; }
+            public int? FoodPreparationType { get; set; }
+            public int HasActiveRawRecipe { get; set; }
+        }
+
+        /// <summary>
+        /// Resolve preparation type from tblProduct for menu products only.
+        /// DirectSale (TableType=2) uses tblItem stock; Combo (TableType=3)
+        /// is resolved component-by-component by prdInsert_Upd_SalesDetails.
+        /// </summary>
+        private static int ResolveFoodPreparationTypeForSales(DmnSaledetails saleDetail)
+        {
+            const int menuProductTableType = 1;
+
+            if (saleDetail.TableType != menuProductTableType)
+                return 0;
+
+            if (saleDetail.itemid <= 0)
+                throw new InvalidOperationException(
+                    "A valid ProductId is required for a menu-product sales row.");
+
+            using (IDbConnection connection =
+                DAL.DapperRepository<DmnSaledetails>.OpenConnection())
+            {
+                ProductPreparationLookup product =
+                    connection.QueryFirstOrDefault<ProductPreparationLookup>(
+                        @"
+SELECT TOP (1)
+       p.ProductId,
+       p.Product,
+       p.FoodPreparationType,
+       CASE WHEN EXISTS
+       (
+           SELECT 1
+           FROM dbo.tblIngredientDetails d
+           WHERE d.ProductId = p.ProductId
+             AND d.ProductType = 1
+             AND ISNULL(d.Status, 1) = 1
+       ) THEN 1 ELSE 0 END AS HasActiveRawRecipe
+FROM dbo.tblProduct p
+WHERE p.ProductId = @ProductId
+  AND p.Status = 1;",
+                        new { ProductId = saleDetail.itemid });
+
+                if (product == null)
+                {
+                    throw new InvalidOperationException(
+                        "Menu product ProductId " + saleDetail.itemid +
+                        " was not found or is inactive in tblProduct. " +
+                        "Check the selected POS row and its TableType.");
+                }
+
+                int preparationType = product.FoodPreparationType.GetValueOrDefault();
+
+                if (preparationType >= 1 && preparationType <= 4)
+                    return preparationType;
+
+                // If there is no active raw recipe, NotApplicable is safe for
+                // raw-material deduction. Packaging remains controlled separately.
+                if (product.HasActiveRawRecipe == 0)
+                    return 4;
+
+                string productName = String.IsNullOrWhiteSpace(product.Product)
+                    ? String.Empty
+                    : " (" + product.Product + ")";
+
+                string storedValue = product.FoodPreparationType.HasValue
+                    ? product.FoodPreparationType.Value.ToString()
+                    : "NULL";
+
+                throw new InvalidOperationException(
+                    "Menu product ProductId " + product.ProductId + productName +
+                    " has invalid FoodPreparationType=" + storedValue +
+                    " and has active raw-material recipe rows. Open Product Registration, " +
+                    "select MadeToOrder (1), BatchPrepared (2), PartiallyPrepared (3), " +
+                    "or NotApplicable (4), and save the product before billing.");
+            }
+        }
+
         public DmnSalemaster AddEditData(string procedureName, DmnSalemaster objTestClass)
         {
             DAL.DapperRepository<DmnSalemaster> dapperRepository = new DAL.DapperRepository<DmnSalemaster>();
@@ -86,6 +169,14 @@ namespace BLL
         }        
         public DmnSaledetails AddEditDataDet(string procedureName, DmnSaledetails objTestClass)
         {
+            if (objTestClass == null)
+                throw new ArgumentNullException("objTestClass");
+
+            // Resolve the master value for TableType.Product. The other sale
+            // types have their own stock path and must not resolve as tblProduct.
+            objTestClass.FoodPreparationType =
+                ResolveFoodPreparationTypeForSales(objTestClass);
+
             DAL.DapperRepository<DmnSaledetails> dapperRepository = new DAL.DapperRepository<DmnSaledetails>();
             DynamicParameters parms = new DynamicParameters();
             parms.Add("SalesDetailsId", objTestClass.SalesDetailsId);
@@ -112,7 +203,7 @@ namespace BLL
             parms.Add("ItemName", objTestClass.ItemName);
             parms.Add("VatAmount", objTestClass.VatAmount);
             parms.Add("Prid", objTestClass.Prid);
-            parms.Add("itemid", objTestClass.itemid);
+            parms.Add("ItemId", objTestClass.itemid);
             parms.Add("ItemBarcode", objTestClass.ItemBarcode);
             parms.Add("TaxPer", objTestClass.TaxPer);
             parms.Add("TaxAmount", objTestClass.TaxAmount);

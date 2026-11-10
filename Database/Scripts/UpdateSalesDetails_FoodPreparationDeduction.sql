@@ -76,6 +76,8 @@ BEGIN
     DECLARE @PreviousTableType INT = NULL;
     DECLARE @IsStockRestock BIT = 0;
     DECLARE @PackagingRequired BIT = 0;
+    DECLARE @DatabaseFoodPreparationType INT = NULL;
+    DECLARE @DatabaseProductName NVARCHAR(100) = NULL;
 
     /*
         FoodPreparationType:
@@ -362,7 +364,7 @@ BEGIN
                 )
                 SELECT
                     M.ProductId,
-                    @SaleQtyForStock,
+                    @SaleQtyForStock * ISNULL(CONVERT(DECIMAL(18,4), O.Quantity), 1),
                     P.FoodPreparationType,
                     CONVERT(BIT, ISNULL(P.PackagingRequired, 0))
                 FROM dbo.tblOfferDetails AS O
@@ -381,7 +383,8 @@ BEGIN
                 /* Normal product: tblProduct is the authoritative source.
                    Do not silently convert a missing/invalid product to NotApplicable. */
                 SELECT
-                    @FoodPreparationType = P.FoodPreparationType,
+                    @DatabaseFoodPreparationType = P.FoodPreparationType,
+                    @DatabaseProductName = P.Product,
                     @PackagingRequired = CONVERT(BIT, ISNULL(P.PackagingRequired, 0))
                 FROM dbo.tblProduct AS P
                 WHERE P.ProductId = @ItemId
@@ -390,8 +393,26 @@ BEGIN
                 IF @@ROWCOUNT = 0
                     THROW 50315, 'The sales detail ItemId does not match an active tblProduct.ProductId. Stock was not deducted.', 1;
 
-                IF ISNULL(@FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
-                    THROW 50316, 'The product has an invalid FoodPreparationType. Configure a value from 1 to 4 before billing.', 1;
+                /*
+                   Prefer the current product-master value. The BLL fallback is
+                   permitted only when it is valid (1-4). The BLL supplies
+                   NotApplicable=4 only when no active raw-material recipe exists.
+                */
+                IF ISNULL(@DatabaseFoodPreparationType, 0) IN (1, 2, 3, 4)
+                    SET @FoodPreparationType = @DatabaseFoodPreparationType;
+                ELSE IF ISNULL(@FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
+                BEGIN
+                    DECLARE @PreparationTypeError NVARCHAR(2048);
+                    SET @PreparationTypeError =
+                        N'Invalid FoodPreparationType for menu product ProductId ' +
+                        CONVERT(NVARCHAR(20), @ItemId) +
+                        CASE WHEN NULLIF(LTRIM(RTRIM(@DatabaseProductName)), '') IS NULL
+                             THEN N''
+                             ELSE N' (' + @DatabaseProductName + N')'
+                        END +
+                        N'. Configure MadeToOrder=1, BatchPrepared=2, PartiallyPrepared=3, or NotApplicable=4 in Product Registration.';
+                    THROW 50316, @PreparationTypeError, 1;
+                END;
 
                 INSERT INTO @ProductPreparation
                 (
@@ -471,7 +492,11 @@ BEGIN
                         OR
                         (D.ProductType = 2 AND @OrderTypeId = 1 AND P.PackagingRequired = 1)
                     )
-                    AND ISNULL(D.Quantity, 0) <= 0
+                    AND
+                    (
+                        ISNULL(D.Quantity, 0) <= 0
+                        OR D.Unit IS NULL
+                    )
             )
                 THROW 50305, 'An ingredient or packaging recipe quantity is zero, negative, or missing. Stock was not deducted.', 1;
 
@@ -503,7 +528,8 @@ BEGIN
                     (
                         I.ItemId IS NULL
                         OR ISNULL(I.Status, 0) <> 1
-                        OR NULLIF(LTRIM(RTRIM(I.Baseunit)), '') IS NULL
+                        OR I.Baseunit IS NULL
+                        OR (D.Unit <> I.Unit AND D.Unit <> I.Baseunit)
                     )
             )
                 THROW 50306, 'A recipe ingredient has an invalid ItemId or missing Baseunit.', 1;
@@ -532,7 +558,8 @@ BEGIN
                         OR
                         (D.ProductType = 2 AND @OrderTypeId = 1 AND P.PackagingRequired = 1)
                     )
-                    AND I.Baseunit <> I.Unit
+                    AND D.Unit = I.Unit
+                    AND ISNULL(I.Baseunit, I.Unit) <> I.Unit
                     AND ISNULL(I.Conversionfactor, 0) <= 0
             )
                 THROW 50307, 'A recipe ingredient has an invalid Conversionfactor. Stock was not deducted.', 1;
@@ -548,12 +575,23 @@ BEGIN
                 CONVERT
                 (
                     DECIMAL(18,4),
-                    SUM(D.Quantity * P.SaleQuantity)
+                    SUM
+                    (
+                        D.Quantity * P.SaleQuantity *
+                        CASE
+                            WHEN D.Unit = I.Unit
+                             AND ISNULL(I.Baseunit, I.Unit) <> I.Unit
+                                THEN I.Conversionfactor
+                            ELSE 1
+                        END
+                    )
                 ) AS RequiredBaseQty
             FROM @ProductPreparation AS P
             INNER JOIN dbo.tblIngredientDetails AS D
                 ON D.ProductId = P.ProductId
                AND ISNULL(D.Status, 1) = 1
+            INNER JOIN dbo.tblItem AS I
+                ON I.ItemId = D.ItemId
             WHERE
                 (
                     D.ProductType = 1
@@ -567,7 +605,16 @@ BEGIN
                 OR
                 (D.ProductType = 2 AND @OrderTypeId = 1 AND P.PackagingRequired = 1)
             GROUP BY D.ItemId
-            HAVING SUM(D.Quantity * P.SaleQuantity) > 0;
+            HAVING SUM
+            (
+                D.Quantity * P.SaleQuantity *
+                CASE
+                    WHEN D.Unit = I.Unit
+                     AND ISNULL(I.Baseunit, I.Unit) <> I.Unit
+                        THEN I.Conversionfactor
+                    ELSE 1
+                END
+            ) > 0;
 
             /* Convert required base quantities to purchase-unit stock rows. */
             INSERT INTO @StockToDeduct

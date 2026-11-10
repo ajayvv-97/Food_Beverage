@@ -547,6 +547,15 @@ namespace FoodandBeverage.Forms
                     cmbpre_type.Focus();
                     return false;
                 }
+                else if (cmb_FoodPreparationType.SelectedIndex < 0 ||
+                         cmb_FoodPreparationType.SelectedIndex > 3)
+                {
+                    CMessageBox.Show(this,
+                        "Please select a valid Food Preparation Type: MadeToOrder, BatchPrepared, PartiallyPrepared, or NotApplicable.",
+                        "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmb_FoodPreparationType.Focus();
+                    return false;
+                }
                 else if (string.IsNullOrWhiteSpace(cmbtax.Text))
                 {
                     CMessageBox.Show(this, "Please Select Tax", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1052,17 +1061,9 @@ namespace FoodandBeverage.Forms
                     else
                         rb_nonveg.Checked = true;
 
+                    // PreparationMode controls KOT routing (Kitchen/Counter).
+                    // It must never be reused as FoodPreparationType.
                     int foodPreparationType = Convert.ToInt32(gridSource[0].FoodPreparationType);
-                    if (foodPreparationType < Convert.ToInt32(FoodPreparationType.MadetoOrder) ||
-                        foodPreparationType > Convert.ToInt32(FoodPreparationType.NotApplicable))
-                    {
-                        int previousPreparationValue = Convert.ToInt32(gridSource[0].PreparationMode);
-                        if (previousPreparationValue >= Convert.ToInt32(FoodPreparationType.MadetoOrder) &&
-                            previousPreparationValue <= Convert.ToInt32(FoodPreparationType.NotApplicable))
-                        {
-                            foodPreparationType = previousPreparationValue;
-                        }
-                    }
                     SetFoodPreparationTypeSelection(foodPreparationType);
 
                     txthsncode.Text = Convert.ToString(gridSource[0].HSNcode);
@@ -4220,8 +4221,10 @@ namespace FoodandBeverage.Forms
                     cmb_FoodPreparationType.SelectedIndex = 1;
                 else if (preparationType == Convert.ToInt32(FoodPreparationType.PartiallyPrepared))
                     cmb_FoodPreparationType.SelectedIndex = 2;
-                else
+                else if (preparationType == Convert.ToInt32(FoodPreparationType.NotApplicable))
                     cmb_FoodPreparationType.SelectedIndex = 3;
+                else
+                    cmb_FoodPreparationType.SelectedIndex = -1;
 
                 UpdatePreparationStageColumnVisibility();
             }

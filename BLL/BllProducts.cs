@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Domain;
+using System;
 namespace BLL
 {
 	public class BllProducts
@@ -38,7 +39,47 @@ namespace BLL
 			parms.Add("FoodPreparationType", objTestClass.FoodPreparationType);
 			parms.Add("PackagingRequired", objTestClass.PackagingRequired);
 			var lstData = objDapperRepository.AddandReturnID(procedureName, parms);
-			return lstData;
+
+            // Persist the new product settings explicitly as well. This protects
+            // against older deployed prdInsert_Upd_Product definitions that accept
+            // the parameters but do not write these two columns.
+            int savedProductId = lstData != null && lstData.ProductId > 0
+                ? lstData.ProductId
+                : objTestClass.ProductId;
+
+            if (savedProductId > 0)
+            {
+                using (var connection = DAL.DapperRepository<DmnProducts>.OpenConnection())
+                {
+                    int affectedRows = connection.Execute(
+                        @"
+UPDATE dbo.tblProduct
+SET FoodPreparationType = @FoodPreparationType,
+    PackagingRequired = @PackagingRequired
+WHERE ProductId = @ProductId;",
+                        new
+                        {
+                            ProductId = savedProductId,
+                            FoodPreparationType = objTestClass.FoodPreparationType,
+                            PackagingRequired = objTestClass.PackagingRequired
+                        });
+
+                    if (affectedRows <= 0)
+                    {
+                        throw new InvalidOperationException(
+                            "Product was saved, but FoodPreparationType/PackagingRequired " +
+                            "could not be persisted for ProductId " + savedProductId + ".");
+                    }
+                }
+
+                if (lstData != null)
+                {
+                    lstData.FoodPreparationType = objTestClass.FoodPreparationType;
+                    lstData.PackagingRequired = objTestClass.PackagingRequired;
+                }
+            }
+
+            return lstData;
 		}
 		public DmnGridFields AddEditData_fav(string procedureName, DmnGridFields objTestClass)
 		{
