@@ -765,7 +765,7 @@ namespace FoodandBeverage.Forms
                 int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
                 string tableCode = parts.Length > 3 ? parts[3] : "";
                 int BmasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
-                int pkid = parts.Length > 4 ? Convert.ToInt32(parts[5]) : 0;
+                int pkid = parts.Length > 5 ? Convert.ToInt32(parts[5]) : 0;
 
                 if (button != null)
                 {
