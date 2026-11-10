@@ -1181,6 +1181,7 @@ namespace FoodandBeverage.Forms
             dgv_raw.Rows.Clear();
 
             UpdateStatusIndicator(ApprovalPending);
+            lbl_information.Text = "Select an inventory request";
             UpdateDecisionButtons(false);
         }
 
