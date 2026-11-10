@@ -198,6 +198,7 @@ namespace FoodandBeverage.Forms
         public int ctaxtype = 17;
         public int Cmrp = 18;
         public int Comproducttypeno = 3;
+        public int Ctype = 19;
         public int Cbarcode2 = 20;
         public int Ctaxsettingidno = 21;
         public int Cunitidno = 22;
@@ -1756,6 +1757,7 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[Csrate].Value = gridSourcemaster_combined[i].Srate;
                                     dgv_combined.Rows[rowIndex].Cells[Cmrp].Value = gridSourcemaster_combined[i].MRP;
                                     dgv_combined.Rows[rowIndex].Cells[Comproducttypeno].Value = gridSourcemaster_combined[i].TableType;
+                                    dgv_combined.Rows[rowIndex].Cells[Ctype].Value = gridSourcemaster_combined[i].TableType;
                                     dgv_combined.Rows[rowIndex].Cells[cigstamt].Value = gridSourcemaster_combined[i].IGSTAmount;
                                     dgv_combined.Rows[rowIndex].Cells[cvatamt].Value = gridSourcemaster_combined[i].VATAmount;
                                     dgv_combined.Rows[rowIndex].Cells[cmarketprice].Value = gridSourcemaster_combined[i].MarketPrice;
