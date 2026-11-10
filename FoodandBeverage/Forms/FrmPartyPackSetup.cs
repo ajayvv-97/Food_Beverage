@@ -185,6 +185,8 @@ namespace FoodandBeverage.Forms
         private readonly Image Blankimage = Properties.Resources.backspace;
         int selectedVenueId = 0;
         private bool _suppressFixedPriceValueChanged;
+        private bool _suppressFixedPricePopup;
+        private bool _fixedPriceLoadedFromDatabase;
 
         #endregion
 
@@ -216,6 +218,8 @@ namespace FoodandBeverage.Forms
             txt_adultcount.TextChanged += FixedPriceValue_TextChanged;
             txt_childcount.TextChanged += FixedPriceValue_TextChanged;
             txt_fixedprice.TextChanged += FixedPriceValue_TextChanged;
+            chkfixedprice.Click -= chkfixedprice_Click;
+            chkfixedprice.Click += chkfixedprice_Click;
         }
         private void FrmPartyPackSetup_Load(object sender, EventArgs e)
         {
@@ -1115,6 +1119,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 currentPackId = 0;
+                _fixedPriceLoadedFromDatabase = false;
                 txtpackname.Text = "";
                 txtadultprice.Text = "";
                 txtchildprice.Text = "";
@@ -1311,12 +1316,24 @@ namespace FoodandBeverage.Forms
                     txtpackname.Text = data.PackName;
                     txtadultprice.Text = data.AdultPrice.ToString();
                     txtchildprice.Text = data.ChildPrice.ToString();
+                    _fixedPriceLoadedFromDatabase = true;
+                    _suppressFixedPricePopup = true;
                     _suppressFixedPriceValueChanged = true;
-                    txt_fixedprice.Text = data.FixedPrice.ToString();
-                    txt_adultcount.Text = data.AdultCount.ToString();
-                    txt_childcount.Text = data.ChildCount.ToString();
-                    _suppressFixedPriceValueChanged = false;
-                    UpdateFixedPriceCheckboxFromValues();
+                    try
+                    {
+                        txt_fixedprice.Text = data.FixedPrice.ToString();
+                        txt_adultcount.Text = data.AdultCount.ToString();
+                        txt_childcount.Text = data.ChildCount.ToString();
+                        chkfixedprice.Checked = data.FixedPriceStatus;
+                    }
+                    finally
+                    {
+                        _suppressFixedPriceValueChanged = false;
+                        _suppressFixedPricePopup = false;
+                    }
+
+                    txtadultprice.ReadOnly = chkfixedprice.Checked;
+                    txtchildprice.ReadOnly = chkfixedprice.Checked;
                     txtDisPer.Text = data.DiscountPer.ToString();
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
                     cmbTaxType.Text = data.TaxType;
@@ -4667,27 +4684,18 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                // Lock the adult and child price fields whenever fixed price is enabled.
+                // Keep price fields synchronized, but do not open the popup
+                // while saved package values are being loaded.
                 txtadultprice.ReadOnly = chkfixedprice.Checked;
                 txtchildprice.ReadOnly = chkfixedprice.Checked;
 
+                if (_suppressFixedPricePopup)
+                    return;
+
                 if (chkfixedprice.Checked)
-                {
-                    txt_adultcount.ReadOnly = false;
-                    txt_childcount.ReadOnly = false;
-
-                    pnl_fdprice_pack.Left = Math.Max(0, (ClientSize.Width - pnl_fdprice_pack.Width) / 2);
-                    pnl_fdprice_pack.Top = Math.Max(0, (ClientSize.Height - pnl_fdprice_pack.Height) / 2);
-
-                    pnl_fdprice_pack.Visible = true;
-                    pnl_fdprice_pack.BringToFront();
-
-                    txt_adultcount.Focus();
-                }
+                    ShowFixedPricePopup();
                 else
-                {
                     pnl_fdprice_pack.Visible = false;
-                }
             }
             catch (Exception ex)
             {
@@ -4698,6 +4706,55 @@ namespace FoodandBeverage.Forms
                     FrmLogin.Designation,
                     Convert.ToInt32(FormType.Partypacksetup));
             }
+        }
+
+        private void chkfixedprice_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_suppressFixedPricePopup)
+                    return;
+
+                // For an existing fixed-price package, the checkbox is already
+                // checked when the data is loaded. Treat the staff click as an
+                // action to open its settings, not as a request to disable it.
+                if (_fixedPriceLoadedFromDatabase && !chkfixedprice.Checked)
+                {
+                    _suppressFixedPricePopup = true;
+                    chkfixedprice.Checked = true;
+                    _suppressFixedPricePopup = false;
+
+                    txtadultprice.ReadOnly = true;
+                    txtchildprice.ReadOnly = true;
+                }
+
+                if (chkfixedprice.Checked)
+                    ShowFixedPricePopup();
+            }
+            catch (Exception ex)
+            {
+                _suppressFixedPricePopup = false;
+                clsgen.LogException(
+                    "Partypacksetup page chkfixedprice_Click()",
+                    ex,
+                    FrmLogin.EmployeName,
+                    FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partypacksetup));
+            }
+        }
+
+        private void ShowFixedPricePopup()
+        {
+            txt_adultcount.ReadOnly = false;
+            txt_childcount.ReadOnly = false;
+
+            pnl_fdprice_pack.Left = Math.Max(0, (ClientSize.Width - pnl_fdprice_pack.Width) / 2);
+            pnl_fdprice_pack.Top = Math.Max(0, (ClientSize.Height - pnl_fdprice_pack.Height) / 2);
+
+            pnl_fdprice_pack.Visible = true;
+            pnl_fdprice_pack.BringToFront();
+
+            txt_adultcount.Focus();
         }
 
         private void btn_packfdprice_Click(object sender, EventArgs e)
