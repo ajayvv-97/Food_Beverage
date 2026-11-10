@@ -8216,8 +8216,17 @@ namespace FoodandBeverage.Forms
                 bool packingTaxIsGst;
                 decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
 
-                decimal productIgst = Math.Max(0m, TotalIGST - (packingTaxIsGst ? packingTaxAmount : 0m));
-                decimal productVat = Math.Max(0m, TotalVAT - (!packingTaxIsGst ? packingTaxAmount : 0m));
+                decimal productPackingGstTax = GetGridPackingGstTax();
+                decimal productPackingVatTax = GetGridPackingVatTax();
+
+                // Do not discount either the entered packing charge or the
+                // product-specific packaging tax calculated from tblItem.
+                decimal productIgst = Math.Max(
+                    0m,
+                    TotalIGST - (packingTaxIsGst ? packingTaxAmount : 0m) - productPackingGstTax);
+                decimal productVat = Math.Max(
+                    0m,
+                    TotalVAT - (!packingTaxIsGst ? packingTaxAmount : 0m) - productPackingVatTax);
 
                 productIgst = Math.Round(
                     productIgst * (1m - discountPerc / 100m),
@@ -8229,8 +8238,10 @@ namespace FoodandBeverage.Forms
                     2,
                     MidpointRounding.AwayFromZero);
 
-                TotalIGST = productIgst + (packingTaxIsGst ? packingTaxAmount : 0m);
-                TotalVAT = productVat + (!packingTaxIsGst ? packingTaxAmount : 0m);
+                TotalIGST = productIgst +
+                    (packingTaxIsGst ? packingTaxAmount : 0m) + productPackingGstTax;
+                TotalVAT = productVat +
+                    (!packingTaxIsGst ? packingTaxAmount : 0m) + productPackingVatTax;
                 TotalCGST = Math.Round(TotalIGST / 2m, 2, MidpointRounding.AwayFromZero);
                 TotalSGST = Math.Round(TotalIGST / 2m, 2, MidpointRounding.AwayFromZero);
                 TotalTax = TotalIGST + TotalVAT;
@@ -10655,22 +10666,21 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                decimal productPackingTax = GetGridPackingTax();
-                if (productPackingTax > 0m)
+                // Allocate product-specific packing tax using each tblItem tax type.
+                decimal productPackingGstTax = GetGridPackingGstTax();
+                decimal productPackingVatTax = GetGridPackingVatTax();
+
+                if (productPackingGstTax > 0m)
                 {
-                    if (string.Equals(_packingTaxType, "GST", StringComparison.OrdinalIgnoreCase))
-                    {
-                        TotalIGST += productPackingTax;
-                        decimal packingCGST = Math.Round(
-                            productPackingTax / 2m, 2, MidpointRounding.AwayFromZero);
-                        TotalCGST += packingCGST;
-                        TotalSGST += productPackingTax - packingCGST;
-                    }
-                    else
-                    {
-                        TotalVAT += productPackingTax;
-                    }
+                    TotalIGST += productPackingGstTax;
+                    decimal packingCGST = Math.Round(
+                        productPackingGstTax / 2m, 2, MidpointRounding.AwayFromZero);
+                    TotalCGST += packingCGST;
+                    TotalSGST += productPackingGstTax - packingCGST;
                 }
+
+                if (productPackingVatTax > 0m)
+                    TotalVAT += productPackingVatTax;
 
                 // ==========================================
                 // FINAL TOTAL TAX
@@ -11125,13 +11135,25 @@ namespace FoodandBeverage.Forms
 
                             dmnsalemaster.Roundoff = Convert.ToDecimal(txtroundoff.Text);
                             dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
-                            dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
-                            dmnsalemaster.GrandTot = Convert.ToDecimal(txtGrandTotal.Text);
+
+                            // Combined table KOT rows do not include product packaging in their
+                            // stored order-line totals. Add the calculated pickup packaging once
+                            // to the invoice amount before saving the sales master.
+                            decimal combinedProductPackingPrice = GetCombinedGridPackingPrice();
+                            dmnsalemaster.TotalAmnt =
+                                Convert.ToDecimal(txtGrandTotal.Text) + combinedProductPackingPrice;
+                            dmnsalemaster.GrandTot =
+                                Convert.ToDecimal(txtGrandTotal.Text) + combinedProductPackingPrice;
                             dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                             dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
-                            dmnsalemaster.NetAmount = Convert.ToDecimal(lblNetAmnt.Text);
+                            dmnsalemaster.NetAmount =
+                                Convert.ToDecimal(lblNetAmnt.Text) + combinedProductPackingPrice;
                             dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtRcvdAmnt.Text);
-                            dmnsalemaster.BalAmnt = Convert.ToDecimal(lblBalcAmnt.Text);
+                            dmnsalemaster.BalAmnt = dmnsalemaster.NetAmount - dmnsalemaster.RcvAmnt;
+
+                            txtGrandTotal.Text = dmnsalemaster.TotalAmnt.ToString("N2");
+                            lblNetAmnt.Text = dmnsalemaster.NetAmount.ToString("N2");
+                            lblBalcAmnt.Text = dmnsalemaster.BalAmnt.ToString("N2");
                             dmnsalemaster.OrderMasterid = Convert.ToInt32(0);//lblorderid.Text
                             dmnsalemaster.PromoAmount = Convert.ToDecimal(txtdiscountamt_promo.Text);
                             dmnsalemaster.AdvanceAmount = Convert.ToDecimal(txtadvance.Text);
@@ -11181,23 +11203,40 @@ namespace FoodandBeverage.Forms
                             bool packingTaxIsGst;
                             decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
 
-                            decimal combinedProductPackingTax = 0m;
-                            for (int i = 0; i < dgv_combined.RowCount; i++)
-                                combinedProductPackingTax += ToPackingDecimal(
-                                    dgv_combined.Rows[i].Cells[cpackingtaxamountno.Index].Value);
+                            // The manually entered packing charge uses branch settings.
+                            // Product packaging uses each ingredient item's own GST/VAT setup.
+                            if (packingTaxAmount > 0m)
+                            {
+                                if (packingTaxIsGst)
+                                {
+                                    TotalIGST += packingTaxAmount;
+                                    decimal packingCgst = Math.Round(
+                                        packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                                    TotalCGST += packingCgst;
+                                    TotalSGST += packingTaxAmount - packingCgst;
+                                }
+                                else
+                                {
+                                    TotalVAT += packingTaxAmount;
+                                }
+                            }
 
-                            if (packingTaxIsGst)
+                            decimal combinedProductPackingGstTax;
+                            decimal combinedProductPackingVatTax;
+                            GetCombinedGridPackingTax(
+                                out combinedProductPackingGstTax,
+                                out combinedProductPackingVatTax);
+
+                            if (combinedProductPackingGstTax > 0m)
                             {
-                                decimal allPackingTax = packingTaxAmount + combinedProductPackingTax;
-                                TotalIGST += allPackingTax;
-                                decimal packingCgst = Math.Round(allPackingTax / 2m, 2, MidpointRounding.AwayFromZero);
+                                TotalIGST += combinedProductPackingGstTax;
+                                decimal packingCgst = Math.Round(
+                                    combinedProductPackingGstTax / 2m, 2, MidpointRounding.AwayFromZero);
                                 TotalCGST += packingCgst;
-                                TotalSGST += allPackingTax - packingCgst;
+                                TotalSGST += combinedProductPackingGstTax - packingCgst;
                             }
-                            else
-                            {
-                                TotalVAT += packingTaxAmount + combinedProductPackingTax;
-                            }
+
+                            TotalVAT += combinedProductPackingVatTax;
 
                             TotalTax = TotalIGST + TotalVAT;
 
