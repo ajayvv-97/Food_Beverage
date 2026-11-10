@@ -157,6 +157,8 @@ namespace FoodandBeverage.Forms
         public static bool PrintDalvalue = false, XYDalvalue = false, DalDalvalue = false;
         public static bool AutoLogoutWhenIdle = false;
         public static bool UserSavePrompt = false;
+        public static bool IsPartyBookingKOTEnabled { get; private set; } = false;
+        private int _generalSettingsPage = 1;
         private bool isMenuCollapsed = false;
         private int originalMenuWidth;
 
@@ -331,15 +333,38 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                // Party Booking KOT scheduling is opt-in for each branch.
+                if (!IsPartyBookingKOTEnabled)
+                {
+                    if (_partyBookingKotService != null)
+                    {
+                        _partyBookingKotService.Dispose();
+                        _partyBookingKotService = null;
+                    }
+
+                    if (_upcomingPartyBookingsPopup != null &&
+                        !_upcomingPartyBookingsPopup.IsDisposed)
+                    {
+                        _upcomingPartyBookingsPopup.Close();
+                        _upcomingPartyBookingsPopup = null;
+                    }
+
+                    return;
+                }
+
                 // A first-time PC registration defaults to Office (no KOT printing).
                 // The SQL claim procedure independently enforces this role on every print request.
                 FoodandBeverage.Services.KOTWorkstationRegistration.EnsureRegistered(
                     BranchId, UserId, this);
 
                 if (_partyBookingKotService != null)
+                {
                     _partyBookingKotService.Dispose();
+                    _partyBookingKotService = null;
+                }
 
-                _partyBookingKotService = new PartyBookingKotSchedulerService(BranchId, UserId);
+                _partyBookingKotService = new PartyBookingKotSchedulerService(
+                    BranchId, UserId, IsPartyBookingKOTEnabled);
                 _partyBookingKotService.UpcomingBookingsFound += ShowUpcomingPartyBookings;
                 _partyBookingKotService.UpcomingBookingsUpdated += UpdateUpcomingPartyBookings;
                 _partyBookingKotService.ProcessingFailed += PartyBookingKotProcessingFailed;
@@ -4149,6 +4174,7 @@ namespace FoodandBeverage.Forms
                 dmngen.EnableCompbillPrompt = rtb_compbillpmpt.Checked;
                 dmngen.ProductpageperCount = Convert.ToInt32(txtorderpagecount.Text);
                 dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;
+                dmngen.EnablePartyBookingKOT = chk_partybook_KOT.Checked;
                 dmngen.Status = 1;
 
                 dmngen.PackigHsncode = string.IsNullOrWhiteSpace(txt_ptax_hsncode.Text) ? null : txt_ptax_hsncode.Text.Trim(); 
@@ -4183,10 +4209,21 @@ namespace FoodandBeverage.Forms
                     var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen); 
                     if (InsertStatus.Gid > 0)
                     {
-                        CMessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        dmngen.Gid = InsertStatus.Gid;
+                        DmnGeneralSetting partyKotStatus =
+                            bllgen.UpdatePartyBookingKOT("prdUpdateGeneralSettingPartyBookingKOT", dmngen);
+
+                        if (partyKotStatus == null || partyKotStatus.Gid <= 0)
+                            throw new InvalidOperationException(
+                                "General settings were saved, but Party Booking KOT configuration could not be saved.");
+
+                        IsPartyBookingKOTEnabled = dmngen.EnablePartyBookingKOT;
                         Generalsettingcheck();
                         txtgenid.Text = Convert.ToString(InsertStatus.Gid);
                         FrmLogin.AutoLogoutIdleTimeoutMinutes = Convert.ToDecimal(txtlogouttime.Text);
+                        StartPartyBookingKotScheduler();
+
+                        CMessageBox.Show("Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
@@ -4205,6 +4242,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                IsPartyBookingKOTEnabled = false;
                 BllSearch<DmnGeneralSetting> bllsearchdrawer = new BllSearch<DmnGeneralSetting>();
                 DmnSearch dmnsearckgen = new DmnSearch
                 {
@@ -4226,6 +4264,7 @@ namespace FoodandBeverage.Forms
 
                     logoutformsno = settings.LogoutFormscustom;
                     UserSavePrompt = settings.EnableUserPrompt;
+                    IsPartyBookingKOTEnabled = settings.EnablePartyBookingKOT;
                 }
             }
             catch (Exception ex)
@@ -4237,6 +4276,8 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                IsPartyBookingKOTEnabled = false;
+                chk_partybook_KOT.Checked = false;
                 tlp_timoutforms.Visible = false;
                 btn_cle_logoutpages.PerformClick();
 
@@ -4330,6 +4371,8 @@ namespace FoodandBeverage.Forms
                     rtb_compbillpmpt.Checked = settings.EnableCompbillPrompt;
                     txtorderpagecount.Text=Convert.ToString(settings.ProductpageperCount);
                     chk_comprompt.Checked = settings.EnableCompReasonPrompt;
+                    chk_partybook_KOT.Checked = settings.EnablePartyBookingKOT;
+                    IsPartyBookingKOTEnabled = settings.EnablePartyBookingKOT;
                 }
                 else
                 {
@@ -4703,26 +4746,31 @@ namespace FoodandBeverage.Forms
         }
 
         #region previous and next
+        private void ShowGeneralSettingsPage(int pageNumber)
+        {
+            _generalSettingsPage = Math.Max(1, Math.Min(3, pageNumber));
+
+            tlp_Fristpage.Visible = _generalSettingsPage == 1;
+            tlp_secondpage.Visible = _generalSettingsPage == 2;
+            tlp_thridpage.Visible = _generalSettingsPage == 3;
+
+            btn_previous.Visible = _generalSettingsPage > 1;
+            btn_next.Visible = _generalSettingsPage < 3;
+        }
+
         private void btn_previous_Click(object sender, EventArgs e)
         {
-            previouspage();
+            ShowGeneralSettingsPage(_generalSettingsPage - 1);
         }
 
         public void previouspage()
         {
-            btn_previous.Visible = false;
-            btn_next.Visible = true;
-
-            tlp_Fristpage.Visible = true;
-            tlp_secondpage.Visible = false;
+            ShowGeneralSettingsPage(1);
         }
+
         private void btn_next_Click(object sender, EventArgs e)
         {
-            btn_previous.Visible = true;
-            btn_next.Visible = false;
-
-            tlp_Fristpage.Visible = false;
-            tlp_secondpage.Visible = true;
+            ShowGeneralSettingsPage(_generalSettingsPage + 1);
         }
 
         #endregion

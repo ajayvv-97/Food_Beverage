@@ -53,6 +53,7 @@ namespace FoodandBeverage.Services
     {
         private readonly int _branchId;
         private readonly int _employeeId;
+        private readonly bool _enabled;
         private readonly System.Windows.Forms.Timer _timer;
         private readonly HashSet<int> _remindedBookingIds = new HashSet<int>();
         private bool _isProcessing;
@@ -62,10 +63,11 @@ namespace FoodandBeverage.Services
         public event Action<IList<PartyBookingReminder>> UpcomingBookingsUpdated;
         public event Action<int, Exception> ProcessingFailed;
 
-        public PartyBookingKotSchedulerService(int branchId, int employeeId)
+        public PartyBookingKotSchedulerService(int branchId, int employeeId, bool enabled)
         {
             _branchId = branchId;
             _employeeId = employeeId;
+            _enabled = enabled;
             _timer = new System.Windows.Forms.Timer();
             _timer.Interval = 30000;
             _timer.Tick += Timer_Tick;
@@ -73,7 +75,7 @@ namespace FoodandBeverage.Services
 
         public void Start()
         {
-            if (_disposed || _branchId <= 0)
+            if (_disposed || !_enabled || _branchId <= 0)
                 return;
 
             if (!_timer.Enabled)
@@ -90,7 +92,7 @@ namespace FoodandBeverage.Services
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
-            if (_disposed || _isProcessing)
+            if (_disposed || !_enabled || _isProcessing)
                 return;
 
             _isProcessing = true;

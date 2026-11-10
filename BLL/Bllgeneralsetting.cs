@@ -58,6 +58,20 @@ namespace BLL
         }
 
 
+        public DmnGeneralSetting UpdatePartyBookingKOT(string procedureName, DmnGeneralSetting objTestClass)
+        {
+            DAL.DapperRepository<DmnGeneralSetting> dapperRepository =
+                new DAL.DapperRepository<DmnGeneralSetting>();
+            DynamicParameters parms = new DynamicParameters();
+
+            parms.Add("Gid", objTestClass.Gid);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("EnablePartyBookingKOT", objTestClass.EnablePartyBookingKOT);
+            parms.Add("ModifiedBy", objTestClass.CreatedBy);
+
+            return dapperRepository.AddandReturnID(procedureName, parms);
+        }
+
         public DmnGeneralSetting AddEditDataGenConf(string procedureName, DmnGeneralSetting objTestClass)
         {
             DAL.DapperRepository<DmnGeneralSetting> dapperRepository = new DAL.DapperRepository<DmnGeneralSetting>();

@@ -225,6 +225,7 @@ namespace FoodandBeverage
         #endregion
 
         private const int DefaultKotLeadTimeHours = 2;
+        private bool _enablePartyBookingKOT;
         private bool _isProgrammaticallySettingKotDateTime;
         private bool _isKotDateTimeManuallySet;
         private bool _hasLoadedKotDateTime;
@@ -922,6 +923,40 @@ namespace FoodandBeverage
             return picker == null ? (DateTime?)null : picker.Value;
         }
 
+        public void CheckGeneralSetting()
+        {
+            try
+            {
+                _enablePartyBookingKOT = false;
+
+                BllSearch<DmnGeneralSetting> bllSearch =
+                    new BllSearch<DmnGeneralSetting>();
+                DmnSearch search = new DmnSearch
+                {
+                    Select = "ISNULL(EnablePartyBookingKOT, 0) AS EnablePartyBookingKOT",
+                    Table = "dbo.tblGeneralSetting",
+                    WhereNdGroupBy = "WHERE BranchId = " + FrmDashboard.BranchId + " AND Status = 1",
+                    OrderBy = "ORDER BY Gid DESC"
+                };
+
+                var settings = bllSearch.GetSearchData("prdSearch", search);
+                if (settings != null && settings.Count > 0)
+                    _enablePartyBookingKOT = settings[0].EnablePartyBookingKOT;
+            }
+            catch (Exception ex)
+            {
+                // Fail closed: without a confirmed opt-in, do not require KOT
+                // date/time or create scheduled KOT work from this form.
+                _enablePartyBookingKOT = false;
+                clsgen.LogException("Partybooking CheckGeneralSetting()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Partybooking));
+            }
+
+            lblkot.Visible = _enablePartyBookingKOT;
+            tlp_kotdatetime.Visible = _enablePartyBookingKOT;
+        }
+
         private void InitializeKotDateTimeControls()
         {
             dtp_kotdate.Enabled = true;
@@ -1005,6 +1040,10 @@ namespace FoodandBeverage
         {
             kotDateTime = null;
 
+            // KOT date/time is optional when this branch setting is disabled.
+            if (!_enablePartyBookingKOT)
+                return true;
+
             // Keep a previously saved KOT time when the staff member has not
             // changed it. This also allows old bookings with a historical KOT time
             // to be edited without treating the existing value as a new selection.
@@ -1064,6 +1103,7 @@ namespace FoodandBeverage
         {
             try
             {
+                CheckGeneralSetting();
                 lblNetAmt.ForeColor = Color.DarkBlue;
                 lbladvamtdata.ForeColor = Color.SeaGreen;
                 txtRcvAmt.ForeColor = Color.Black;
@@ -5441,19 +5481,24 @@ namespace FoodandBeverage
 
                 // 🔹 DATEtime
 
-                if (!_hasValidatedKotDateTimeForPayment ||
-                    !_validatedBookingStartForPayment.HasValue)
+                if (_enablePartyBookingKOT &&
+                    (!_hasValidatedKotDateTimeForPayment ||
+                     !_validatedBookingStartForPayment.HasValue))
                 {
-                    // All payment routes must originate from btn_paynow_Click,
-                    // where booking/KOT date validation is displayed to staff.
+                    // When KOT is enabled, payment must follow the KOT validation
+                    // performed by btn_paynow_Click.
                     throw new InvalidOperationException(
-                        "Booking time validation has not been completed. Click Pay Now before selecting a payment method.");
+                        "Booking/KOT time validation has not been completed. Click Pay Now before selecting a payment method.");
                 }
 
-                // Use the exact date/time that was validated before payment options
-                // were opened, so the saved booking cannot drift from its KOT check.
-                DateTime bookingStart = _validatedBookingStartForPayment.Value;
-                DateTime? kotDateTime = _validatedKotDateTimeForPayment;
+                // Preserve the actual party booking time; KOTDatetime is saved only
+                // when Party Booking KOT is enabled for the branch.
+                DateTime bookingStart = _validatedBookingStartForPayment.HasValue
+                    ? _validatedBookingStartForPayment.Value
+                    : GetPartyBookingStartDateTime();
+                DateTime? kotDateTime = _enablePartyBookingKOT
+                    ? _validatedKotDateTimeForPayment
+                    : (DateTime?)null;
 
                 DateTime? bookingEndDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
                 DateTime? bookingEndTime = GetOptionalDateTimePickerValue("dtpEventTime_To");
@@ -6538,7 +6583,7 @@ namespace FoodandBeverage
 
                 if (_loadedKotDateTime.HasValue)
                     SetKotDateTimePickerValue(_loadedKotDateTime.Value);
-                else if (result.BookingDateTime != DateTime.MinValue)
+                else if (_enablePartyBookingKOT && result.BookingDateTime != DateTime.MinValue)
                     UpdateDefaultKotDateTime(result.BookingDateTime);
 
                 PriceChangecalculation();
