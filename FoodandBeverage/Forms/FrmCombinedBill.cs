@@ -1222,6 +1222,8 @@ namespace FoodandBeverage.Forms
                 #region Fill complete or cancelled order in Datagrid
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
                 DmnSearch dmnSearch = new DmnSearch();
+                // SalesMaster order codes: 1 = Pickup, 4 = Takeaway.
+                // A positive Tid has priority and identifies a table order.
                 dmnSearch.Select = "Top 30 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5," +
                     "sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11," +
                     "sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15,sm.tid Field16,sm.Pkid Field17";
