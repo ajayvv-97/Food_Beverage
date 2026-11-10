@@ -2675,6 +2675,8 @@ namespace FoodandBeverage.Forms
             AddApprovalGridColumn("RequestNo", "Request No", 230);
             AddApprovalGridColumn("RequestDate", "Request Date", 120);
             AddApprovalGridColumn("RequiredDate", "Required Date", 120);
+            dgv_req_app.Columns["RequestDate"].DefaultCellStyle.Format = "dd MMM yyyy";
+            dgv_req_app.Columns["RequiredDate"].DefaultCellStyle.Format = "dd MMM yyyy";
             AddApprovalGridColumn("DepartmentName", "Department", 135);
             AddApprovalGridColumn("EmployeeName", "Requested By", 130);
             AddApprovalGridColumn("RequestTypeName", "Type", 200);
