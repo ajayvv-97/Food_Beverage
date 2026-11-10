@@ -1247,25 +1247,43 @@ namespace FoodandBeverage.Forms
                         int pickupId = Convert.ToInt32(gridSource[i].Field17);
                         int orderType = Convert.ToInt32(gridSource[i].Field14);
 
+                        // Show a clear order type in the Table Code column. Pickup and
+                        // Takeaway both use the daily token system, but are distinct types.
                         if (partyBookingId > 0)
                         {
                             SetTableCodeDisplay(rowIndex, "Party Booking", 0, true);
                         }
-                        else if (pickupId > 0 || orderType == Convert.ToInt32(OrderType.PickupOrder))
+                        else if (orderType == 1 || pickupId > 0)
                         {
-                            SetTableCodeDisplay(rowIndex, "PKID " + pickupId, 0, true);
+                            // Legacy pickup rows may not have OrderType populated.
+                            SetTableCodeDisplay(
+                                rowIndex,
+                                pickupId > 0 ? "Pickup (P" + pickupId + ")" : "Pickup",
+                                0,
+                                true);
                         }
-                        else if (tableId <= 0)
+                        else if (orderType == 2)
                         {
+                            SetTableCodeDisplay(rowIndex, "Takeaway", 0, true);
+                        }
+                        else if (orderType == 3)
+                        {
+                            SetTableCodeDisplay(rowIndex, "Delivery", 0, true);
+                        }
+                        else if (tableId > 0)
+                        {
+                            SetTableCodeDisplay(rowIndex, Convert.ToString(gridSource[i].Field3), tableId, true);
+                        }
+                        else
+                        {
+                            // Dine-in / combined orders resolve their table names from
+                            // the linked order records. Multiple linked tables are shown
+                            // as "Multiple Tables (n)" by FillTablecode_Comb.
                             FillTablecode_Comb(
                                 rowIndex,
                                 Convert.ToInt32(gridSource[i].Field6),
                                 Convert.ToInt32(gridSource[i].Field13),
                                 Convert.ToInt32(gridSource[i].Field12));
-                        }
-                        else
-                        {
-                            SetTableCodeDisplay(rowIndex, Convert.ToString(gridSource[i].Field3), tableId, true);
                         }
 
 
