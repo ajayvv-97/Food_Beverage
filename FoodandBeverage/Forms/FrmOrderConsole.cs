@@ -1191,17 +1191,26 @@ namespace FoodandBeverage.Forms
 
         private int ResolveStockOrderTypeId(DmnOrderMaster orderMaster, DmnNameList selectedOrder)
         {
-            // OrderMaster.OrderTypeId uses stable token values: 1 = Pickup,
-            // 2 = Takeaway, 3 = Delivery. Table orders use 0.
+            // A positive Tid always means a dine-in/table order. It takes priority
+            // over legacy token flags because the table identity is authoritative.
+            if ((orderMaster != null && orderMaster.Tid > 0) ||
+                (selectedOrder != null && selectedOrder.Id > 0 && selectedOrder.pkid <= 0))
+                return 0;
+
+            // Pickup orders from the pickup list are always Pickup.
+            if (selectedOrder != null && selectedOrder.pkid > 0)
+                return 1;
+
+            // OrderMaster.OrderTypeId is the daily-token type:
+            // 1 = Pickup, 2 = Takeaway, 3 = Delivery. Table orders use 0.
             if (orderMaster != null &&
                 orderMaster.OrderTypeId >= 1 &&
                 orderMaster.OrderTypeId <= 3)
                 return orderMaster.OrderTypeId;
 
             // Compatibility for old pickup orders that predate OrderTypeId.
-            if ((orderMaster != null &&
-                 (orderMaster.PickupOrderFlag == 1 || orderMaster.PkId > 0)) ||
-                (selectedOrder != null && selectedOrder.pkid > 0))
+            if (orderMaster != null &&
+                (orderMaster.PickupOrderFlag == 1 || orderMaster.PkId > 0))
                 return 1;
 
             if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage) ||
@@ -1254,7 +1263,9 @@ namespace FoodandBeverage.Forms
                     int sourceOrderTypeId = checkedtableNames[k].pkid > 0 ? 1 : 0;
 
                     dmnSearchmaster.Select = "*";
-                    dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
+                    dmnSearchmaster.Table = "tblOrderMaster om " +
+                        "LEFT JOIN tblOrderDetails od ON od.OrderMasterId = om.OrderMasterId " +
+                        "LEFT JOIN tblUnit u ON u.UId = od.UnitId";
                     dmnSearchmaster.WhereNdGroupBy = "where om.Status=1 and om.OrderMasterId=" + checkedtableNames[k].Ordermasterid;
                     dmnSearchmaster.OrderBy = "";
                     var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
@@ -1703,11 +1714,16 @@ namespace FoodandBeverage.Forms
                                 if (!valueExists)
                                 {
                                     int rowIndex = dgv_combined.Rows.Add();
+                                    dgv_combined.Rows[rowIndex].Cells[1].Value = rowIndex + 1; // SlNo
                                     dgv_combined.Rows[rowIndex].Cells[COrderTypeIdno].Value = sourceOrderTypeId;
                                     dgv_combined.Rows[rowIndex].Cells[cpackingpriceno.Index].Value = 0m;
                                     dgv_combined.Rows[rowIndex].Cells[cpackingtaxamountno.Index].Value = 0m;
                                     dgv_combined.Rows[rowIndex].Cells[vname].Value = gridSourcemaster_combined[i].ItemName;
-                                    dgv_combined.Rows[rowIndex].Cells[ciunit].Value = gridSourcemaster_combined[i].UnitId;
+                                    dgv_combined.Rows[rowIndex].Cells[ciunit].Value =
+                                        string.IsNullOrWhiteSpace(gridSourcemaster_combined[i].UnitName)
+                                            ? Convert.ToString(gridSourcemaster_combined[i].UnitId)
+                                            : gridSourcemaster_combined[i].UnitName;
+                                    dgv_combined.Rows[rowIndex].Cells[cprate].Value = gridSourcemaster_combined[i].PurchaseRate;
                                     dgv_combined.Rows[rowIndex].Cells[cqty].Value = gridSourcemaster_combined[i].Quantity;
                                     dgv_combined.Rows[rowIndex].Cells[cdisper].Value = gridSourcemaster_combined[i].DiscountPer;
                                     dgv_combined.Rows[rowIndex].Cells[cdisamt].Value = gridSourcemaster_combined[i].DiscountAmount;
@@ -1726,6 +1742,9 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[cvatamt].Value = gridSourcemaster_combined[i].VATAmount;
                                     dgv_combined.Rows[rowIndex].Cells[cmarketprice].Value = gridSourcemaster_combined[i].MarketPrice;
                                     dgv_combined.Rows[rowIndex].Cells[Cbarcode].Value = gridSourcemaster_combined[i].ItemBarCode;
+                                    dgv_combined.Rows[rowIndex].Cells[Cbarcode2].Value = gridSourcemaster_combined[i].ItemBarCode;
+                                    dgv_combined.Rows[rowIndex].Cells[Ctaxsettingidno].Value = 0;
+                                    dgv_combined.Rows[rowIndex].Cells[Cunitidno].Value = gridSourcemaster_combined[i].UnitId;
                                     dgv_combined.Rows[rowIndex].Cells[Ctabletype].Value = gridSourcemaster_combined[i].TableType;
 
                                     dgv_combined.Rows[rowIndex].Cells[CPavid].Value = gridSourcemaster_combined[i].Pavid;
@@ -1742,7 +1761,6 @@ namespace FoodandBeverage.Forms
 
                                     // Populate the same hidden detail fields used by Dgv_Selected_Item.
                                     // These values are required when saving combined-table sales rows.
-                                    dgv_combined.Rows[rowIndex].Cells[Cunitidno].Value = gridSourcemaster_combined[i].UnitId;
                                     dgv_combined.Rows[rowIndex].Cells[Cnotesno].Value = gridSourcemaster_combined[i].Notes;
                                     dgv_combined.Rows[rowIndex].Cells[Cofferstatusno].Value = 0;
                                     dgv_combined.Rows[rowIndex].Cells[Csubofferidno].Value = 0;
@@ -11408,7 +11426,7 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.SalesRate = Convert.ToDecimal(dgv_combined.Rows[i].Cells[Csrate].Value);
                                             dmnsaledetails.ItemBarcode = Convert.ToString(dgv_combined.Rows[i].Cells[Cbarcode].Value);
                                             dmnsaledetails.ItemName = Convert.ToString(dgv_combined.Rows[i].Cells[vname].Value);
-                                            dmnsaledetails.UnitId = Convert.ToInt32(dgv_combined.Rows[i].Cells[ciunit].Value);
+                                            dmnsaledetails.UnitId = Convert.ToInt32(dgv_combined.Rows[i].Cells[Cunitidno].Value);
                                             dmnsaledetails.Quantity = Convert.ToInt32(dgv_combined.Rows[i].Cells[cqty].Value);
                                             dmnsaledetails.DiscountPer = Convert.ToDecimal(dgv_combined.Rows[i].Cells[cdisper].Value);
                                             dmnsaledetails.DiscountAmount = Convert.ToDecimal(dgv_combined.Rows[i].Cells[cdisamt].Value);
