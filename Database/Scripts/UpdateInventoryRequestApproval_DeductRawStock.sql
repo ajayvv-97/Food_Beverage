@@ -192,7 +192,7 @@ BEGIN
                         ON p.ProductId = requested.ProductId
                     INNER JOIN dbo.tblIngredientDetails ing
                         ON ing.ProductId = requested.ProductId
-                       AND ISNULL(ing.ProductType, 1) = 1
+                       AND ing.ProductType = 1
                        AND ISNULL(ing.Status, 1) = 1
                        AND
                        (
@@ -230,7 +230,7 @@ BEGIN
                        AND p.FoodPreparationType = 3
                     INNER JOIN dbo.tblIngredientDetails ing
                         ON ing.ProductId = requested.ProductId
-                       AND ISNULL(ing.ProductType, 1) = 1
+                       AND ing.ProductType = 1
                        AND ISNULL(ing.Status, 1) = 1
                     WHERE ISNULL(ing.Deductionstage, 0) NOT IN (1, 2)
                 )
@@ -329,7 +329,7 @@ BEGIN
                         ON product.ProductId = requested.ProductId
                     INNER JOIN dbo.tblIngredientDetails ing
                         ON ing.ProductId = requested.ProductId
-                       AND ISNULL(ing.ProductType, 1) = 1
+                       AND ing.ProductType = 1
                        AND ISNULL(ing.Status, 1) = 1
                     INNER JOIN dbo.tblItem i
                         ON i.ItemId = ing.ItemId

@@ -13,6 +13,7 @@ namespace Domain
         public string ItemName { get; set; }
         public string ItemBarCode { get; set; }
         public int UnitId { get; set; }
+        public string UnitName { get; set; }
         public int Quantity { get; set; }
         public int CurrentQuantity { get; set; }
         public decimal PurchaseRate { get; set; }

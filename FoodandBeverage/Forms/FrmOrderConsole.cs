@@ -170,18 +170,17 @@ namespace FoodandBeverage.Forms
         public int iVariatiionNameno = 43;
         public int iPreparationModeno = 44;
         public int isaledetailsidno = 45;
-        public int istocktrackno = 46;
-        public int iorgname = 47;
-        public int icombotaxamt = 48;
+        public int iorgname = 46;
+        public int icombotaxamt = 47;
+        public int istocktrackno = 48;
         public int ipretaxamtno = 49;
         public int iSaledisperno = 50;
         public int isalediamtno = 51;
-        public int ipackingpriceno = 52;
-        public int ipackingtaxamountno = 53;
-        public int ipackingOrderTypeIdno = 54;
 
 
         // Combined grid column indexes match Dgv_Selected_Item.
+        public int Caction = 0;
+        public int Cslno = 1;
         public int Cbarcode = 2;
         public int vname = 4;
         public int ciunit = 5;
@@ -199,6 +198,7 @@ namespace FoodandBeverage.Forms
         public int ctaxtype = 17;
         public int Cmrp = 18;
         public int Comproducttypeno = 3;
+        public int Ctype = 19;
         public int Cbarcode2 = 20;
         public int Ctaxsettingidno = 21;
         public int Cunitidno = 22;
@@ -226,14 +226,12 @@ namespace FoodandBeverage.Forms
         public int CVariatiionNameno = 43;
         public int CPreparationModeno = 44;
         public int CSalesDetailsIdno = 45;
-        public int Cstocktrackno = 46;
-        public int COrginalname = 47;
-        public int Ccombotaxamtno = 48;
+        public int COrginalname = 46;
+        public int Ccombotaxamtno = 47;
+        public int Cstocktrackno = 48;
         public int Cpretaxamtno = 49;
         public int cSaledisperno = 50;
         public int csalediamtno = 51;
-        public int cpackingpriceno = 52;
-        public int cpackingtaxamountno = 53;
         public int COrderTypeIdno = 54;
 
         public int tslno = 0;
@@ -381,9 +379,13 @@ namespace FoodandBeverage.Forms
             BookingType = booktype;
             OrderTypeId = orderTypeId > 0
                 ? orderTypeId
-                : booktype == Convert.ToInt32(DashboardTableType.PickupOrder)
+                : sourcepage == Convert.ToInt32(SourcepageType.Pickuppage)
                     ? 1
-                    : booktype == TakeawayBookingType ? 2 : 0;
+                    : sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage)
+                        ? 2
+                        : booktype == Convert.ToInt32(DashboardTableType.PickupOrder)
+                            ? 1
+                            : booktype == TakeawayBookingType ? 2 : 0;
             StockDeductionOrderTypeId = OrderTypeId;
             PageType = Pageno;
             this.checkedtableNames = checkedtableNames;
@@ -1190,6 +1192,55 @@ namespace FoodandBeverage.Forms
             }
         }
 
+        private int ResolveStockOrderTypeId(DmnOrderMaster orderMaster, DmnNameList selectedOrder)
+        {
+            // A positive Tid always means a dine-in/table order. It takes priority
+            // over legacy token flags because the table identity is authoritative.
+            if ((orderMaster != null && orderMaster.Tid > 0) ||
+                (selectedOrder != null && selectedOrder.Id > 0 && selectedOrder.pkid <= 0))
+                return 0;
+
+            // Pickup orders from the pickup list are always Pickup.
+            if (selectedOrder != null && selectedOrder.pkid > 0)
+                return 1;
+
+            // OrderMaster.OrderTypeId is the daily-token type:
+            // 1 = Pickup, 2 = Takeaway, 3 = Delivery. Table orders use 0.
+            if (orderMaster != null &&
+                orderMaster.OrderTypeId >= 1 &&
+                orderMaster.OrderTypeId <= 3)
+                return orderMaster.OrderTypeId;
+
+            // Compatibility for old pickup orders that predate OrderTypeId.
+            if (orderMaster != null &&
+                (orderMaster.PickupOrderFlag == 1 || orderMaster.PkId > 0))
+                return 1;
+
+            if (sourcepage == Convert.ToInt32(SourcepageType.Takeawaypage) ||
+                BookingType == TakeawayBookingType)
+                return 2;
+
+            if (sourcepage == Convert.ToInt32(SourcepageType.Pickuppage))
+                return 1;
+
+            return 0;
+        }
+
+        private int GetRowOrderTypeId(DataGridViewRow row, int columnIndex, int fallback)
+        {
+            if (row == null || columnIndex < 0 || columnIndex >= row.Cells.Count)
+                return fallback;
+
+            object value = row.Cells[columnIndex].Value;
+            if (value == null || value == DBNull.Value)
+                return fallback;
+
+            int orderTypeId;
+            return int.TryParse(Convert.ToString(value), out orderTypeId)
+                ? orderTypeId
+                : fallback;
+        }
+
         #region Bill Combined 
         public void Combined_Table_Bill()
         {
@@ -1213,6 +1264,18 @@ namespace FoodandBeverage.Forms
                 for (int k = 0; k < checkedtableNames.Count; k++)
                 {
                     int sourceOrderTypeId = checkedtableNames[k].pkid > 0 ? 1 : 0;
+
+                    dmnSearchmaster.Select = "*";
+                    dmnSearchmaster.Table = "tblOrderMaster om " +
+                        "LEFT JOIN tblOrderDetails od ON od.OrderMasterId = om.OrderMasterId " +
+                        "LEFT JOIN tblUnit u ON u.UId = od.UnitId";
+                    dmnSearchmaster.WhereNdGroupBy = "where om.Status=1 and om.OrderMasterId=" + checkedtableNames[k].Ordermasterid;
+                    dmnSearchmaster.OrderBy = "";
+                    var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
+
+                    if (gridSourcemaster_combined != null && gridSourcemaster_combined.Count > 0)
+                        sourceOrderTypeId = ResolveStockOrderTypeId(gridSourcemaster_combined[0], checkedtableNames[k]);
+
                     lbltablecode.Visible = false;
                     cmb_tblcode.Visible = true;
                     if (checkedtableNames[k].pkid > 0)
@@ -1237,7 +1300,7 @@ namespace FoodandBeverage.Forms
                     if (checkedtableNames[k].pkid > 0)
                     {
                         Dgv_Selected_Item.Rows.Add();
-                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno].Value = sourceOrderTypeId;
+                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno.Index].Value = sourceOrderTypeId;
                         bannerText = "Pickup NO : " + checkedtableNames[k].pkid;
                         DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)Dgv_Selected_Item.Rows[r].Cells[iaction];
                         cellcolumntype.Value = imgTime;
@@ -1251,7 +1314,7 @@ namespace FoodandBeverage.Forms
                     else
                     {
                         Dgv_Selected_Item.Rows.Add();
-                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno].Value = sourceOrderTypeId;
+                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno.Index].Value = sourceOrderTypeId;
                         bannerText = "Table : " + checkedtableNames[k].Tablecode;
                         DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)Dgv_Selected_Item.Rows[r].Cells[iaction];
                         cellcolumntype.Value = imgTime;
@@ -1265,12 +1328,7 @@ namespace FoodandBeverage.Forms
                     r++;
                     #endregion
 
-                    dmnSearchmaster.Select = "*";
-                    dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
-                    dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.OrderMasterId=" + checkedtableNames[k].Ordermasterid;
-                    dmnSearchmaster.OrderBy = "";
-                    var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
-                    if (gridSourcemaster_combined.Count > 0)
+                    if (gridSourcemaster_combined != null && gridSourcemaster_combined.Count > 0)
                     {
                         int orginalCount = gridSourcemaster_combined.Count(item => item.AddonStatus == 1 || item.AddonStatus == 0);
 
@@ -1289,8 +1347,8 @@ namespace FoodandBeverage.Forms
                         {
                             BllSearch<DmnOrderDetails> bllSearch = new BllSearch<DmnOrderDetails>();
                             DmnSearch dmnSearch = new DmnSearch();
-                            dmnSearch.Select = "*";
-                            dmnSearch.Table = "tblOrderDetails";
+                            dmnSearch.Select = "od.*, u.UnitName AS UnitName";
+                            dmnSearch.Table = "tblOrderDetails od LEFT JOIN tblUnit u ON u.UId = od.UnitId";
                             dmnSearch.WhereNdGroupBy = "where OrderMasterId= " + gridSourcemaster_combined[j].OrderMasterId + " and Status IN (1, 2, 3) and Orderno=" + orderNo;
                             dmnSearch.OrderBy = "";
                             var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1299,7 +1357,7 @@ namespace FoodandBeverage.Forms
 
                                 #region Order Add to the Top
                                 Dgv_Selected_Item.Rows.Add();
-                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno].Value = sourceOrderTypeId;
+                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno.Index].Value = sourceOrderTypeId;
                                 bannerText = "Order ID : " + checkedtableNames[k].Ordermasterid + "[" + gridSource[0].CreatedDateTime + "]";
                                 DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)Dgv_Selected_Item.Rows[r].Cells[iaction];
                                 cellcolumntype.Value = imgTime;
@@ -1325,7 +1383,7 @@ namespace FoodandBeverage.Forms
                                     {
                                         #region Grid Inseration product
                                         Dgv_Selected_Item.Rows.Add();
-                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno].Value = sourceOrderTypeId;
+                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno.Index].Value = sourceOrderTypeId;
                                         var currentFont = Dgv_Selected_Item.Rows[r].Cells[islno].Style.Font ?? Dgv_Selected_Item.Font;
                                         if (gridSource[i].AddonStatus == 0 || gridSource[i].AddonStatus == (int)Product_Addon_Variation_Type.Variation)
                                         {
@@ -1367,6 +1425,11 @@ namespace FoodandBeverage.Forms
                                         else
                                             Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
 
+                                        Dgv_Selected_Item.Rows[r].Cells[iunit].Value =
+                                            string.IsNullOrWhiteSpace(gridSource[i].UnitName)
+                                                ? Convert.ToString(gridSource[i].UnitId)
+                                                : gridSource[i].UnitName;
+                                        Dgv_Selected_Item.Rows[r].Cells[iunitid].Value = gridSource[i].UnitId;
                                         Dgv_Selected_Item.Rows[r].Cells[iqty].Value = Convert.ToInt32(gridSource[i].Quantity);
                                         Dgv_Selected_Item.Rows[r].Cells[iprate].Value = Convert.ToDecimal(gridSource[i].PurchaseRate);
                                         Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(gridSource[i].Srate);
@@ -1414,7 +1477,7 @@ namespace FoodandBeverage.Forms
                                         #region Grid Inseration multiple 
                                         SL_Main++;
                                         Dgv_Selected_Item.Rows.Add();
-                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno].Value = sourceOrderTypeId;
+                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno.Index].Value = sourceOrderTypeId;
                                         Dgv_Selected_Item.Rows[r].Cells[islno].Value = SL_Main;
                                         var currentFont = Dgv_Selected_Item.Rows[r].Cells[islno].Style.Font ?? Dgv_Selected_Item.Font;
                                         Dgv_Selected_Item.Rows[r].Cells[islno].Style.Font = new Font(currentFont, FontStyle.Bold);
@@ -1426,6 +1489,10 @@ namespace FoodandBeverage.Forms
                                         currentFont = Dgv_Selected_Item.Rows[r].Cells[iname].Style.Font ?? Dgv_Selected_Item.Font;
                                         Dgv_Selected_Item.Rows[r].Cells[iname].Style.Font = new Font(currentFont, FontStyle.Bold);
 
+                                        Dgv_Selected_Item.Rows[r].Cells[iunit].Value =
+                                            string.IsNullOrWhiteSpace(gridSource[i].UnitName)
+                                                ? Convert.ToString(gridSource[i].UnitId)
+                                                : gridSource[i].UnitName;
                                         Dgv_Selected_Item.Rows[r].Cells[iunitid].Value = gridSource[i].UnitId;
                                         Dgv_Selected_Item.Rows[r].Cells[iqty].Value = "1";
                                         Dgv_Selected_Item.Rows[r].Cells[iprate].Value = gridSource[i].PurchaseRate;
@@ -1479,7 +1546,7 @@ namespace FoodandBeverage.Forms
                                             {
                                                 SL_Main++;
                                                 Dgv_Selected_Item.Rows.Add();
-                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno].Value = sourceOrderTypeId;
+                        Dgv_Selected_Item.Rows[Dgv_Selected_Item.Rows.Count - 1].Cells[ipackingOrderTypeIdno.Index].Value = sourceOrderTypeId;
                                                 Dgv_Selected_Item.Rows[r].Cells[islno].Value = SL_Main;
                                                 Dgv_Selected_Item.Rows[r].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                                                 var currentFont = Dgv_Selected_Item.Rows[r].Cells[islno].Style.Font ?? Dgv_Selected_Item.Font;
@@ -1490,6 +1557,11 @@ namespace FoodandBeverage.Forms
                                                 Dgv_Selected_Item.Rows[r].Cells[iname].Style.Font = new Font(currentFont, FontStyle.Bold);
 
                                                 Dgv_Selected_Item.Rows[r].Cells[iproducttypeno].Value = Convert.ToString(offerDetails[0].Field1);
+                                                Dgv_Selected_Item.Rows[r].Cells[iunit].Value =
+                                                    string.IsNullOrWhiteSpace(gridSource[i].UnitName)
+                                                        ? Convert.ToString(gridSource[i].UnitId)
+                                                        : gridSource[i].UnitName;
+                                                Dgv_Selected_Item.Rows[r].Cells[iunitid].Value = gridSource[i].UnitId;
                                                 Dgv_Selected_Item.Rows[r].Cells[iqty].Value = gridSource[i].Quantity;
                                                 Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(offerDetails[0].Field2);
                                                 Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = Convert.ToString(offerDetails[0].Field3);
@@ -1580,13 +1652,17 @@ namespace FoodandBeverage.Forms
                     int sourceOrderTypeId = checkedtableNames[k].pkid > 0 ? 1 : 0;
 
                     dmnSearchmaster.Select = "*";
-                    dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
+                    dmnSearchmaster.Table = "tblOrderMaster om " +
+                        "LEFT JOIN tblOrderDetails od ON od.OrderMasterId = om.OrderMasterId " +
+                        "LEFT JOIN tblUnit u ON u.UId = od.UnitId";
                     dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.OrderMasterId=" + checkedtableNames[k].Ordermasterid;
                     dmnSearchmaster.OrderBy = "";
                     var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
 
-                    if (gridSourcemaster_combined.Count > 0)
+                    if (gridSourcemaster_combined != null && gridSourcemaster_combined.Count > 0)
                     {
+                        sourceOrderTypeId = ResolveStockOrderTypeId(gridSourcemaster_combined[0], checkedtableNames[k]);
+
                         for (int i = 0; i < gridSourcemaster_combined.Count; i++)
                         {
                             if (Convert.ToInt32(gridSourcemaster_combined[i].Status) == 3)
@@ -1657,11 +1733,16 @@ namespace FoodandBeverage.Forms
                                 if (!valueExists)
                                 {
                                     int rowIndex = dgv_combined.Rows.Add();
+                                    dgv_combined.Rows[rowIndex].Cells[Cslno].Value = rowIndex + 1; // SlNo
                                     dgv_combined.Rows[rowIndex].Cells[COrderTypeIdno].Value = sourceOrderTypeId;
-                                    dgv_combined.Rows[rowIndex].Cells[cpackingpriceno].Value = 0m;
-                                    dgv_combined.Rows[rowIndex].Cells[cpackingtaxamountno].Value = 0m;
+                                    dgv_combined.Rows[rowIndex].Cells[cpackingpriceno.Index].Value = 0m;
+                                    dgv_combined.Rows[rowIndex].Cells[cpackingtaxamountno.Index].Value = 0m;
                                     dgv_combined.Rows[rowIndex].Cells[vname].Value = gridSourcemaster_combined[i].ItemName;
-                                    dgv_combined.Rows[rowIndex].Cells[ciunit].Value = gridSourcemaster_combined[i].UnitId;
+                                    dgv_combined.Rows[rowIndex].Cells[ciunit].Value =
+                                        string.IsNullOrWhiteSpace(gridSourcemaster_combined[i].UnitName)
+                                            ? Convert.ToString(gridSourcemaster_combined[i].UnitId)
+                                            : gridSourcemaster_combined[i].UnitName;
+                                    dgv_combined.Rows[rowIndex].Cells[cprate].Value = gridSourcemaster_combined[i].PurchaseRate;
                                     dgv_combined.Rows[rowIndex].Cells[cqty].Value = gridSourcemaster_combined[i].Quantity;
                                     dgv_combined.Rows[rowIndex].Cells[cdisper].Value = gridSourcemaster_combined[i].DiscountPer;
                                     dgv_combined.Rows[rowIndex].Cells[cdisamt].Value = gridSourcemaster_combined[i].DiscountAmount;
@@ -1676,10 +1757,14 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[Csrate].Value = gridSourcemaster_combined[i].Srate;
                                     dgv_combined.Rows[rowIndex].Cells[Cmrp].Value = gridSourcemaster_combined[i].MRP;
                                     dgv_combined.Rows[rowIndex].Cells[Comproducttypeno].Value = gridSourcemaster_combined[i].TableType;
+                                    dgv_combined.Rows[rowIndex].Cells[Ctype].Value = gridSourcemaster_combined[i].TableType;
                                     dgv_combined.Rows[rowIndex].Cells[cigstamt].Value = gridSourcemaster_combined[i].IGSTAmount;
                                     dgv_combined.Rows[rowIndex].Cells[cvatamt].Value = gridSourcemaster_combined[i].VATAmount;
                                     dgv_combined.Rows[rowIndex].Cells[cmarketprice].Value = gridSourcemaster_combined[i].MarketPrice;
                                     dgv_combined.Rows[rowIndex].Cells[Cbarcode].Value = gridSourcemaster_combined[i].ItemBarCode;
+                                    dgv_combined.Rows[rowIndex].Cells[Cbarcode2].Value = gridSourcemaster_combined[i].ItemBarCode;
+                                    dgv_combined.Rows[rowIndex].Cells[Ctaxsettingidno].Value = 0;
+                                    dgv_combined.Rows[rowIndex].Cells[Cunitidno].Value = gridSourcemaster_combined[i].UnitId;
                                     dgv_combined.Rows[rowIndex].Cells[Ctabletype].Value = gridSourcemaster_combined[i].TableType;
 
                                     dgv_combined.Rows[rowIndex].Cells[CPavid].Value = gridSourcemaster_combined[i].Pavid;
@@ -1693,6 +1778,28 @@ namespace FoodandBeverage.Forms
                                     dgv_combined.Rows[rowIndex].Cells[COrderDetailsIdno].Value = gridSourcemaster_combined[i].OrderDetailsId;
                                     dgv_combined.Rows[rowIndex].Cells[Cpretaxamtno].Value = gridSourcemaster_combined[i].PreTaxAmt;
                                     dgv_combined.Rows[rowIndex].Cells[Cstocktrackno].Value = gridSourcemaster_combined[i].IsStockTracked;
+
+                                    // Populate the same hidden detail fields used by Dgv_Selected_Item.
+                                    // These values are required when saving combined-table sales rows.
+                                    dgv_combined.Rows[rowIndex].Cells[Cnotesno].Value = gridSourcemaster_combined[i].Notes;
+                                    dgv_combined.Rows[rowIndex].Cells[Cofferstatusno].Value = 0;
+                                    dgv_combined.Rows[rowIndex].Cells[Csubofferidno].Value = 0;
+                                    dgv_combined.Rows[rowIndex].Cells[Corderdescriptionno].Value = gridSourcemaster_combined[i].MainRemarks;
+                                    dgv_combined.Rows[rowIndex].Cells[Coriginalqtyno].Value =
+                                        gridSourcemaster_combined[i].CurrentQuantity > 0
+                                            ? gridSourcemaster_combined[i].CurrentQuantity
+                                            : gridSourcemaster_combined[i].Quantity;
+                                    dgv_combined.Rows[rowIndex].Cells[CMainProductStatusno].Value =
+                                        Convert.ToInt32(MainProductStatus.Primary);
+                                    dgv_combined.Rows[rowIndex].Cells[Cvariationidno].Value = gridSourcemaster_combined[i].vid;
+                                    dgv_combined.Rows[rowIndex].Cells[CComboTaxamtno].Value = 0m;
+                                    dgv_combined.Rows[rowIndex].Cells[Ccodeno].Value = gridSourcemaster_combined[i].CCode;
+                                    dgv_combined.Rows[rowIndex].Cells[CPreparationModeno].Value = gridSourcemaster_combined[i].PreparationMode;
+                                    dgv_combined.Rows[rowIndex].Cells[COrginalname].Value = gridSourcemaster_combined[i].ItemName;
+                                    dgv_combined.Rows[rowIndex].Cells[Ccombotaxamtno].Value = 0m;
+                                    dgv_combined.Rows[rowIndex].Cells[cSaledisperno].Value = 0m;
+                                    dgv_combined.Rows[rowIndex].Cells[csalediamtno].Value = 0m;
+
                                     txtsalemasterid.Text = Convert.ToString(gridSourcemaster_combined[i].SalesMasterId);
                                 }
                                 #endregion
@@ -1710,7 +1817,15 @@ namespace FoodandBeverage.Forms
                                     updateRow.Cells[cigstamt].Value = Convert.ToDecimal(updateRow.Cells[cigstamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].IGSTAmount);
                                     updateRow.Cells[cvatamt].Value = Convert.ToDecimal(updateRow.Cells[cvatamt].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].VATAmount);
                                     updateRow.Cells[Cpretaxamtno].Value = Convert.ToDecimal(updateRow.Cells[Cpretaxamtno].Value) + Convert.ToDecimal(gridSourcemaster_combined[i].PreTaxAmt);
-                                    updateRow.Cells[COrderDetailsIdno].Value = updateRow.Cells[COrderDetailsIdno].Value + "," + gridSourcemaster_combined[i].OrderDetailsId;
+                                    int sourceOriginalQty = gridSourcemaster_combined[i].CurrentQuantity > 0
+                                        ? gridSourcemaster_combined[i].CurrentQuantity
+                                        : gridSourcemaster_combined[i].Quantity;
+                                    int existingOriginalQty = 0;
+                                    int.TryParse(Convert.ToString(updateRow.Cells[Coriginalqtyno].Value), out existingOriginalQty);
+                                    updateRow.Cells[Coriginalqtyno].Value = existingOriginalQty + sourceOriginalQty;
+                                    updateRow.Cells[COrderDetailsIdno].Value =
+                                        Convert.ToString(updateRow.Cells[COrderDetailsIdno].Value) + "," +
+                                        gridSourcemaster_combined[i].OrderDetailsId;
                                 }
                                 #endregion
 
@@ -1737,46 +1852,38 @@ namespace FoodandBeverage.Forms
             foreach (DataGridViewRow row in dgv_combined.Rows)
             {
                 if (row.IsNewRow) continue;
-                int productId, tableType, addonStatus, orderTypeId;
+
+                int productId, tableType, addonStatus;
                 int.TryParse(Convert.ToString(row.Cells[citemid].Value), out productId);
                 int.TryParse(Convert.ToString(row.Cells[Ctabletype].Value), out tableType);
                 int.TryParse(Convert.ToString(row.Cells[CAddonStatus].Value), out addonStatus);
-                int.TryParse(Convert.ToString(row.Cells[COrderTypeIdno].Value), out orderTypeId);
+                int orderTypeId = GetRowOrderTypeId(row, COrderTypeIdno, 0);
 
-                if (orderTypeId != 1 || tableType != Convert.ToInt32(Tabletype.Product) ||
-                    addonStatus != 0 || productId <= 0)
+                if (orderTypeId != 1 ||
+                    tableType != Convert.ToInt32(Tabletype.Product) ||
+                    addonStatus != 0 ||
+                    productId <= 0)
                 {
-                    row.Cells[cpackingpriceno].Value = 0m;
-                    row.Cells[cpackingtaxamountno].Value = 0m;
+                    row.Cells[cpackingpriceno.Index].Value = 0m;
+                    row.Cells[cpackingtaxamountno.Index].Value = 0m;
                     continue;
                 }
 
                 decimal quantity = ToPackingDecimal(row.Cells[cqty].Value);
                 ProductPackingCost packing = GetProductPackingCost(productId);
-                decimal packingPrice = packing == null || quantity <= 0m ? 0m :
-                    Math.Round(packing.UnitCost * quantity, 2, MidpointRounding.AwayFromZero);
 
-                decimal packingTax = 0m;
-                decimal taxRate;
-                string taxMode, taxType;
-                if (packingPrice > 0m &&
-                    TryGetPackingTaxConfiguration(out taxMode, out taxType, out taxRate) &&
-                    taxRate > 0m)
-                {
-                    if (string.Equals(taxMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
-                    {
-                        decimal taxable = packingPrice * 100m / (100m + taxRate);
-                        packingTax = packingPrice - taxable;
-                    }
-                    else packingTax = packingPrice * taxRate / 100m;
-                }
+                decimal packingPrice = packing == null || quantity <= 0m
+                    ? 0m
+                    : Math.Round(packing.UnitGrossPrice * quantity, 2, MidpointRounding.AwayFromZero);
 
-                row.Cells[cpackingpriceno].Value = packingPrice;
-                row.Cells[cpackingtaxamountno].Value =
-                    Math.Round(packingTax, 2, MidpointRounding.AwayFromZero);
+                decimal packingTax = packing == null || quantity <= 0m
+                    ? 0m
+                    : Math.Round(packing.UnitTaxAmount * quantity, 2, MidpointRounding.AwayFromZero);
+
+                row.Cells[cpackingpriceno.Index].Value = packingPrice;
+                row.Cells[cpackingtaxamountno.Index].Value = packingTax;
             }
         }
-
         #endregion
 
         #region Pickup order
@@ -3603,7 +3710,14 @@ namespace FoodandBeverage.Forms
         }
         private sealed class ProductPackingCost
         {
-            public decimal UnitCost { get; set; }
+            public decimal UnitGrossPrice { get; set; }
+            public decimal UnitGstTaxAmount { get; set; }
+            public decimal UnitVatTaxAmount { get; set; }
+
+            public decimal UnitTaxAmount
+            {
+                get { return UnitGstTaxAmount + UnitVatTaxAmount; }
+            }
         }
 
         private readonly Dictionary<int, ProductPackingCost> _productPackingCostCache =
@@ -3629,33 +3743,61 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
                 DmnSearch query = new DmnSearch();
 
+                // Use the packaging item's own sale rate and tax configuration.
+                // Inclusive rates already contain tax; Exclusive rates receive tax on top.
                 query.Select =
-                    "ISNULL(SUM(ing.Quantity * rate.Prate * ISNULL(conv.Factor, 1)), 0) AS Field1";
+                    "ISNULL(SUM(ing.Quantity * unitFactor.QuantityFactor * " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='EXCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * (1 + (tax.GstRate + tax.VatRate) / 100.0) " +
+                    "ELSE ISNULL(i.Srate,0) END),0) AS Field1, " +
+                    "ISNULL(SUM(ing.Quantity * unitFactor.QuantityFactor * " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='INCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * tax.GstRate / NULLIF(100.0 + tax.GstRate + tax.VatRate,0) " +
+                    "WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='EXCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * tax.GstRate / 100.0 ELSE 0 END),0) AS Field2, " +
+                    "ISNULL(SUM(ing.Quantity * unitFactor.QuantityFactor * " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='INCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * tax.VatRate / NULLIF(100.0 + tax.GstRate + tax.VatRate,0) " +
+                    "WHEN UPPER(LTRIM(RTRIM(ISNULL(i.Tax,''))))='EXCLUSIVE' " +
+                    "THEN ISNULL(i.Srate,0) * tax.VatRate / 100.0 ELSE 0 END),0) AS Field3";
                 query.Table =
                     "tblProduct p " +
                     "INNER JOIN tblIngredientDetails ing ON ing.ProductId=p.ProductId " +
                     "AND ing.Status=1 AND ing.ProductType=2 " +
                     "INNER JOIN tblItem i ON i.ItemId=ing.ItemId AND i.Status=1 AND i.Saletype=0 " +
-                    "OUTER APPLY (SELECT TOP 1 pr.Prate FROM tblProductRate pr " +
-                    "WHERE pr.ProductId=i.ItemId AND pr.Status=1 ORDER BY pr.Id DESC) rate " +
-                    "LEFT JOIN tblUnitConversion conv ON conv.FromUnit=ing.Unit AND conv.ToUnit=i.Unit";
+                    "LEFT JOIN tblTaxSettings ts ON ts.TaxSettingsId=i.TaxSettingsId AND ts.Status=1 " +
+                    "LEFT JOIN tblUnitConversion conv ON conv.FromUnit=ing.Unit AND conv.ToUnit=i.Unit " +
+                    "OUTER APPLY (SELECT " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.TaxType,''))))='GST' " +
+                    "THEN ISNULL(ts.IgstPrcnt,0) ELSE 0 END AS GstRate, " +
+                    "CASE WHEN UPPER(LTRIM(RTRIM(ISNULL(i.TaxType,''))))='VAT' " +
+                    "THEN ISNULL(ts.VatPrcnt,0) ELSE 0 END AS VatRate) tax " +
+                    "OUTER APPLY (SELECT CONVERT(DECIMAL(18,8), " +
+                    "CASE WHEN ing.Unit=i.Unit THEN 1.0 " +
+                    "WHEN ing.Unit=i.Baseunit AND i.Baseunit<>i.Unit AND ISNULL(i.Conversionfactor,0)>0 " +
+                    "THEN 1.0/NULLIF(i.Conversionfactor,0) " +
+                    "ELSE ISNULL(conv.Factor,1) END) AS QuantityFactor) unitFactor";
                 query.WhereNdGroupBy =
-                    "WHERE p.Status=1 AND p.PackagingRequired=1 AND p.ProductId=" +
-                    productId + " AND rate.Prate IS NOT NULL";
+                    "WHERE p.Status=1 AND p.PackagingRequired=1 AND p.ProductId=" + productId;
                 query.OrderBy = "";
 
                 List<DmnGridFields> result = search.GetSearchData("prdSearch", query);
                 if (result == null || result.Count == 0)
                     return null;
 
-                decimal cost = ToPackingDecimal(result[0].Field1);
-                if (cost <= 0m)
+                decimal grossPrice = ToPackingDecimal(result[0].Field1);
+                if (grossPrice <= 0m)
                     return null;
 
                 cached = new ProductPackingCost
                 {
-                    UnitCost = Math.Round(cost, 2, MidpointRounding.AwayFromZero)
+                    UnitGrossPrice = Math.Round(grossPrice, 4, MidpointRounding.AwayFromZero),
+                    UnitGstTaxAmount = Math.Round(
+                        ToPackingDecimal(result[0].Field2), 4, MidpointRounding.AwayFromZero),
+                    UnitVatTaxAmount = Math.Round(
+                        ToPackingDecimal(result[0].Field3), 4, MidpointRounding.AwayFromZero)
                 };
+
                 _productPackingCostCache[productId] = cached;
                 return cached;
             }
@@ -3685,11 +3827,8 @@ namespace FoodandBeverage.Forms
                 int.TryParse(Convert.ToString(row.Cells[itabletype].Value), out tableType);
                 int.TryParse(Convert.ToString(row.Cells[ivaraiationstatusno].Value), out addonStatus);
 
-                int rowOrderTypeId = OrderTypeId;
-                int parsedRowOrderTypeId;
-                if (int.TryParse(Convert.ToString(row.Cells[ipackingOrderTypeIdno].Value),
-                    out parsedRowOrderTypeId))
-                    rowOrderTypeId = parsedRowOrderTypeId;
+                int rowOrderTypeId = GetRowOrderTypeId(
+                    row, ipackingOrderTypeIdno.Index, OrderTypeId);
 
                 bool eligibleOrder = rowOrderTypeId == 1;
                 bool eligibleProduct =
@@ -3699,40 +3838,24 @@ namespace FoodandBeverage.Forms
 
                 if (!eligibleOrder || !eligibleProduct)
                 {
-                    row.Cells[ipackingpriceno].Value = 0m;
-                    row.Cells[ipackingtaxamountno].Value = 0m;
+                    row.Cells[ipackingpriceno.Index].Value = 0m;
+                    row.Cells[ipackingtaxamountno.Index].Value = 0m;
                     continue;
                 }
 
                 decimal quantity = ToPackingDecimal(row.Cells[iqty].Value);
                 ProductPackingCost packing = GetProductPackingCost(productId);
+
                 decimal packingPrice = packing == null || quantity <= 0m
                     ? 0m
-                    : Math.Round(packing.UnitCost * quantity, 2, MidpointRounding.AwayFromZero);
+                    : Math.Round(packing.UnitGrossPrice * quantity, 2, MidpointRounding.AwayFromZero);
 
-                decimal packingTax = 0m;
-                decimal taxRate;
-                string taxMode;
-                string taxType;
+                decimal packingTax = packing == null || quantity <= 0m
+                    ? 0m
+                    : Math.Round(packing.UnitTaxAmount * quantity, 2, MidpointRounding.AwayFromZero);
 
-                if (packingPrice > 0m &&
-                    TryGetPackingTaxConfiguration(out taxMode, out taxType, out taxRate) &&
-                    taxRate > 0m)
-                {
-                    if (string.Equals(taxMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
-                    {
-                        decimal taxableAmount = packingPrice * 100m / (100m + taxRate);
-                        packingTax = packingPrice - taxableAmount;
-                    }
-                    else
-                    {
-                        packingTax = packingPrice * taxRate / 100m;
-                    }
-                }
-
-                row.Cells[ipackingpriceno].Value = packingPrice;
-                row.Cells[ipackingtaxamountno].Value =
-                    Math.Round(packingTax, 2, MidpointRounding.AwayFromZero);
+                row.Cells[ipackingpriceno.Index].Value = packingPrice;
+                row.Cells[ipackingtaxamountno.Index].Value = packingTax;
             }
         }
 
@@ -3741,7 +3864,7 @@ namespace FoodandBeverage.Forms
             decimal total = 0m;
             foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
                 if (!row.IsNewRow)
-                    total += ToPackingDecimal(row.Cells[ipackingpriceno].Value);
+                    total += ToPackingDecimal(row.Cells[ipackingpriceno.Index].Value);
 
             return Math.Round(total, 2, MidpointRounding.AwayFromZero);
         }
@@ -3751,15 +3874,114 @@ namespace FoodandBeverage.Forms
             decimal total = 0m;
             foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
                 if (!row.IsNewRow)
-                    total += ToPackingDecimal(row.Cells[ipackingtaxamountno].Value);
+                    total += ToPackingDecimal(row.Cells[ipackingtaxamountno.Index].Value);
 
             return Math.Round(total, 2, MidpointRounding.AwayFromZero);
         }
 
+        private decimal GetGridPackingGstTax()
+        {
+            decimal total = 0m;
+            foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                int productId, tableType, addonStatus;
+                int.TryParse(Convert.ToString(row.Cells[iitemid].Value), out productId);
+                int.TryParse(Convert.ToString(row.Cells[itabletype].Value), out tableType);
+                int.TryParse(Convert.ToString(row.Cells[ivaraiationstatusno].Value), out addonStatus);
+                int orderTypeId = GetRowOrderTypeId(row, ipackingOrderTypeIdno.Index, OrderTypeId);
+
+                if (orderTypeId != 1 || tableType != Convert.ToInt32(Tabletype.Product) ||
+                    addonStatus != 0 || productId <= 0)
+                    continue;
+
+                decimal quantity = ToPackingDecimal(row.Cells[iqty].Value);
+                ProductPackingCost packing = GetProductPackingCost(productId);
+                if (packing != null && quantity > 0m)
+                    total += packing.UnitGstTaxAmount * quantity;
+            }
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal GetGridPackingVatTax()
+        {
+            decimal total = 0m;
+            foreach (DataGridViewRow row in Dgv_Selected_Item.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                int productId, tableType, addonStatus;
+                int.TryParse(Convert.ToString(row.Cells[iitemid].Value), out productId);
+                int.TryParse(Convert.ToString(row.Cells[itabletype].Value), out tableType);
+                int.TryParse(Convert.ToString(row.Cells[ivaraiationstatusno].Value), out addonStatus);
+                int orderTypeId = GetRowOrderTypeId(row, ipackingOrderTypeIdno.Index, OrderTypeId);
+
+                if (orderTypeId != 1 || tableType != Convert.ToInt32(Tabletype.Product) ||
+                    addonStatus != 0 || productId <= 0)
+                    continue;
+
+                decimal quantity = ToPackingDecimal(row.Cells[iqty].Value);
+                ProductPackingCost packing = GetProductPackingCost(productId);
+                if (packing != null && quantity > 0m)
+                    total += packing.UnitVatTaxAmount * quantity;
+            }
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal GetCombinedGridPackingPrice()
+        {
+            decimal total = 0m;
+            if (dgv_combined == null) return 0m;
+
+            foreach (DataGridViewRow row in dgv_combined.Rows)
+                if (!row.IsNewRow)
+                    total += ToPackingDecimal(row.Cells[cpackingpriceno.Index].Value);
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private void GetCombinedGridPackingTax(out decimal gstTax, out decimal vatTax)
+        {
+            gstTax = 0m;
+            vatTax = 0m;
+
+            if (dgv_combined == null)
+                return;
+
+            foreach (DataGridViewRow row in dgv_combined.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                int productId, tableType, addonStatus;
+                int.TryParse(Convert.ToString(row.Cells[citemid].Value), out productId);
+                int.TryParse(Convert.ToString(row.Cells[Ctabletype].Value), out tableType);
+                int.TryParse(Convert.ToString(row.Cells[CAddonStatus].Value), out addonStatus);
+                int orderTypeId = GetRowOrderTypeId(row, COrderTypeIdno, 0);
+
+                if (orderTypeId != 1 || tableType != Convert.ToInt32(Tabletype.Product) ||
+                    addonStatus != 0 || productId <= 0)
+                    continue;
+
+                decimal quantity = ToPackingDecimal(row.Cells[cqty].Value);
+                ProductPackingCost packing = GetProductPackingCost(productId);
+                if (packing == null || quantity <= 0m)
+                    continue;
+
+                gstTax += packing.UnitGstTaxAmount * quantity;
+                vatTax += packing.UnitVatTaxAmount * quantity;
+            }
+
+            gstTax = Math.Round(gstTax, 2, MidpointRounding.AwayFromZero);
+            vatTax = Math.Round(vatTax, 2, MidpointRounding.AwayFromZero);
+        }
+
         private void SetPackingSaleDetailValues(DmnSaledetails saleDetail, DataGridViewRow row)
         {
-            saleDetail.TotalPackingPrice = ToPackingDecimal(row.Cells[ipackingpriceno].Value);
-            saleDetail.TotalPackingTax = ToPackingDecimal(row.Cells[ipackingtaxamountno].Value);
+            saleDetail.TotalPackingPrice = ToPackingDecimal(row.Cells[ipackingpriceno.Index].Value);
+            saleDetail.TotalPackingTax = ToPackingDecimal(row.Cells[ipackingtaxamountno.Index].Value);
         }
 
         private decimal CalculateSubTotalValue()
@@ -4060,25 +4282,10 @@ namespace FoodandBeverage.Forms
                 decimal productPackingPrice = GetGridPackingPrice();
                 decimal productPackingTax = GetGridPackingTax();
 
-                string productPackingMode;
-                string productPackingType;
-                decimal productPackingRate;
-                bool hasProductPackingTax = TryGetPackingTaxConfiguration(
-                    out productPackingMode, out productPackingType, out productPackingRate);
-
-                decimal productPackingTaxableBase = productPackingPrice;
-                decimal productPackingUntaxed = 0m;
-
-                if (hasProductPackingTax &&
-                    string.Equals(productPackingMode, "Inclusive", StringComparison.OrdinalIgnoreCase))
-                {
-                    productPackingTaxableBase = Math.Max(0m, productPackingPrice - productPackingTax);
-                }
-                else if (!hasProductPackingTax)
-                {
-                    productPackingTaxableBase = 0m;
-                    productPackingUntaxed = productPackingPrice;
-                }
+                // Product packing amounts are already gross amounts based on each
+                // tblItem Inclusive/Exclusive setting. Remove their tax to get the base.
+                decimal productPackingTaxableBase =
+                    Math.Max(0m, productPackingPrice - productPackingTax);
 
                 decimal totalTaxable =
                     rawTaxable + packingTaxableAmount + productPackingTaxableBase;
@@ -4130,14 +4337,14 @@ namespace FoodandBeverage.Forms
     
                 decimal rawTotalTax = productTax + packingTaxAmount + productPackingTax;
 
-                // Product-specific packaging is added separately exactly once.
+                // Product-specific packing is already included in the taxable base and tax.
                 decimal rawNetAmount =
-                    totalTaxable + rawTotalTax + packingNonTaxableAmount + productPackingUntaxed;
+                    totalTaxable + rawTotalTax + packingNonTaxableAmount;
 
                 decimal netAmount = Math.Round(rawNetAmount, 2, MidpointRounding.AwayFromZero);
 
                 decimal totalTax = Math.Round(
-                    netAmount - totalTaxable - packingNonTaxableAmount - productPackingUntaxed,
+                    netAmount - totalTaxable - packingNonTaxableAmount,
                     2,
                     MidpointRounding.AwayFromZero);
 
@@ -8047,8 +8254,17 @@ namespace FoodandBeverage.Forms
                 bool packingTaxIsGst;
                 decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
 
-                decimal productIgst = Math.Max(0m, TotalIGST - (packingTaxIsGst ? packingTaxAmount : 0m));
-                decimal productVat = Math.Max(0m, TotalVAT - (!packingTaxIsGst ? packingTaxAmount : 0m));
+                decimal productPackingGstTax = GetGridPackingGstTax();
+                decimal productPackingVatTax = GetGridPackingVatTax();
+
+                // Do not discount either the entered packing charge or the
+                // product-specific packaging tax calculated from tblItem.
+                decimal productIgst = Math.Max(
+                    0m,
+                    TotalIGST - (packingTaxIsGst ? packingTaxAmount : 0m) - productPackingGstTax);
+                decimal productVat = Math.Max(
+                    0m,
+                    TotalVAT - (!packingTaxIsGst ? packingTaxAmount : 0m) - productPackingVatTax);
 
                 productIgst = Math.Round(
                     productIgst * (1m - discountPerc / 100m),
@@ -8060,8 +8276,10 @@ namespace FoodandBeverage.Forms
                     2,
                     MidpointRounding.AwayFromZero);
 
-                TotalIGST = productIgst + (packingTaxIsGst ? packingTaxAmount : 0m);
-                TotalVAT = productVat + (!packingTaxIsGst ? packingTaxAmount : 0m);
+                TotalIGST = productIgst +
+                    (packingTaxIsGst ? packingTaxAmount : 0m) + productPackingGstTax;
+                TotalVAT = productVat +
+                    (!packingTaxIsGst ? packingTaxAmount : 0m) + productPackingVatTax;
                 TotalCGST = Math.Round(TotalIGST / 2m, 2, MidpointRounding.AwayFromZero);
                 TotalSGST = Math.Round(TotalIGST / 2m, 2, MidpointRounding.AwayFromZero);
                 TotalTax = TotalIGST + TotalVAT;
@@ -10486,22 +10704,21 @@ namespace FoodandBeverage.Forms
                     }
                 }
 
-                decimal productPackingTax = GetGridPackingTax();
-                if (productPackingTax > 0m)
+                // Allocate product-specific packing tax using each tblItem tax type.
+                decimal productPackingGstTax = GetGridPackingGstTax();
+                decimal productPackingVatTax = GetGridPackingVatTax();
+
+                if (productPackingGstTax > 0m)
                 {
-                    if (string.Equals(_packingTaxType, "GST", StringComparison.OrdinalIgnoreCase))
-                    {
-                        TotalIGST += productPackingTax;
-                        decimal packingCGST = Math.Round(
-                            productPackingTax / 2m, 2, MidpointRounding.AwayFromZero);
-                        TotalCGST += packingCGST;
-                        TotalSGST += productPackingTax - packingCGST;
-                    }
-                    else
-                    {
-                        TotalVAT += productPackingTax;
-                    }
+                    TotalIGST += productPackingGstTax;
+                    decimal packingCGST = Math.Round(
+                        productPackingGstTax / 2m, 2, MidpointRounding.AwayFromZero);
+                    TotalCGST += packingCGST;
+                    TotalSGST += productPackingGstTax - packingCGST;
                 }
+
+                if (productPackingVatTax > 0m)
+                    TotalVAT += productPackingVatTax;
 
                 // ==========================================
                 // FINAL TOTAL TAX
@@ -10829,7 +11046,7 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                     dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
                                     dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
-                                    dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
+                                    dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
 
                                     dmnsaledetails.OrderDetailsId = "0";
                                     dmnsaledetails.SalesDetailsId = 0;
@@ -10956,13 +11173,25 @@ namespace FoodandBeverage.Forms
 
                             dmnsalemaster.Roundoff = Convert.ToDecimal(txtroundoff.Text);
                             dmnsalemaster.TotQty = Convert.ToDecimal(finalqty);
-                            dmnsalemaster.TotalAmnt = Convert.ToDecimal(txtGrandTotal.Text);
-                            dmnsalemaster.GrandTot = Convert.ToDecimal(txtGrandTotal.Text);
+
+                            // Combined table KOT rows do not include product packaging in their
+                            // stored order-line totals. Add the calculated pickup packaging once
+                            // to the invoice amount before saving the sales master.
+                            decimal combinedProductPackingPrice = GetCombinedGridPackingPrice();
+                            dmnsalemaster.TotalAmnt =
+                                Convert.ToDecimal(txtGrandTotal.Text) + combinedProductPackingPrice;
+                            dmnsalemaster.GrandTot =
+                                Convert.ToDecimal(txtGrandTotal.Text) + combinedProductPackingPrice;
                             dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                             dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
-                            dmnsalemaster.NetAmount = Convert.ToDecimal(lblNetAmnt.Text);
+                            dmnsalemaster.NetAmount =
+                                Convert.ToDecimal(lblNetAmnt.Text) + combinedProductPackingPrice;
                             dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtRcvdAmnt.Text);
-                            dmnsalemaster.BalAmnt = Convert.ToDecimal(lblBalcAmnt.Text);
+                            dmnsalemaster.BalAmnt = dmnsalemaster.NetAmount - dmnsalemaster.RcvAmnt;
+
+                            txtGrandTotal.Text = dmnsalemaster.TotalAmnt.ToString("N2");
+                            lblNetAmnt.Text = dmnsalemaster.NetAmount.ToString("N2");
+                            lblBalcAmnt.Text = dmnsalemaster.BalAmnt.ToString("N2");
                             dmnsalemaster.OrderMasterid = Convert.ToInt32(0);//lblorderid.Text
                             dmnsalemaster.PromoAmount = Convert.ToDecimal(txtdiscountamt_promo.Text);
                             dmnsalemaster.AdvanceAmount = Convert.ToDecimal(txtadvance.Text);
@@ -11012,23 +11241,40 @@ namespace FoodandBeverage.Forms
                             bool packingTaxIsGst;
                             decimal packingTaxAmount = GetPackingTaxAmount(out packingTaxIsGst);
 
-                            decimal combinedProductPackingTax = 0m;
-                            for (int i = 0; i < dgv_combined.RowCount; i++)
-                                combinedProductPackingTax += ToPackingDecimal(
-                                    dgv_combined.Rows[i].Cells[cpackingtaxamountno].Value);
+                            // The manually entered packing charge uses branch settings.
+                            // Product packaging uses each ingredient item's own GST/VAT setup.
+                            if (packingTaxAmount > 0m)
+                            {
+                                if (packingTaxIsGst)
+                                {
+                                    TotalIGST += packingTaxAmount;
+                                    decimal packingCgst = Math.Round(
+                                        packingTaxAmount / 2m, 2, MidpointRounding.AwayFromZero);
+                                    TotalCGST += packingCgst;
+                                    TotalSGST += packingTaxAmount - packingCgst;
+                                }
+                                else
+                                {
+                                    TotalVAT += packingTaxAmount;
+                                }
+                            }
 
-                            if (packingTaxIsGst)
+                            decimal combinedProductPackingGstTax;
+                            decimal combinedProductPackingVatTax;
+                            GetCombinedGridPackingTax(
+                                out combinedProductPackingGstTax,
+                                out combinedProductPackingVatTax);
+
+                            if (combinedProductPackingGstTax > 0m)
                             {
-                                decimal allPackingTax = packingTaxAmount + combinedProductPackingTax;
-                                TotalIGST += allPackingTax;
-                                decimal packingCgst = Math.Round(allPackingTax / 2m, 2, MidpointRounding.AwayFromZero);
+                                TotalIGST += combinedProductPackingGstTax;
+                                decimal packingCgst = Math.Round(
+                                    combinedProductPackingGstTax / 2m, 2, MidpointRounding.AwayFromZero);
                                 TotalCGST += packingCgst;
-                                TotalSGST += allPackingTax - packingCgst;
+                                TotalSGST += combinedProductPackingGstTax - packingCgst;
                             }
-                            else
-                            {
-                                TotalVAT += packingTaxAmount + combinedProductPackingTax;
-                            }
+
+                            TotalVAT += combinedProductPackingVatTax;
 
                             TotalTax = TotalIGST + TotalVAT;
 
@@ -11200,7 +11446,7 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.SalesRate = Convert.ToDecimal(dgv_combined.Rows[i].Cells[Csrate].Value);
                                             dmnsaledetails.ItemBarcode = Convert.ToString(dgv_combined.Rows[i].Cells[Cbarcode].Value);
                                             dmnsaledetails.ItemName = Convert.ToString(dgv_combined.Rows[i].Cells[vname].Value);
-                                            dmnsaledetails.UnitId = Convert.ToInt32(dgv_combined.Rows[i].Cells[ciunit].Value);
+                                            dmnsaledetails.UnitId = Convert.ToInt32(dgv_combined.Rows[i].Cells[Cunitidno].Value);
                                             dmnsaledetails.Quantity = Convert.ToInt32(dgv_combined.Rows[i].Cells[cqty].Value);
                                             dmnsaledetails.DiscountPer = Convert.ToDecimal(dgv_combined.Rows[i].Cells[cdisper].Value);
                                             dmnsaledetails.DiscountAmount = Convert.ToDecimal(dgv_combined.Rows[i].Cells[cdisamt].Value);
@@ -11234,8 +11480,8 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
                                             dmnsaledetails.OrderTypeId = Convert.ToInt32(dgv_combined.Rows[i].Cells[COrderTypeIdno].Value ?? 0);
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(dgv_combined.Rows[i].Cells[Cpretaxamtno].Value);
-                                            dmnsaledetails.TotalPackingPrice = ToPackingDecimal(dgv_combined.Rows[i].Cells[cpackingpriceno].Value);
-                                            dmnsaledetails.TotalPackingTax = ToPackingDecimal(dgv_combined.Rows[i].Cells[cpackingtaxamountno].Value);
+                                            dmnsaledetails.TotalPackingPrice = ToPackingDecimal(dgv_combined.Rows[i].Cells[cpackingpriceno.Index].Value);
+                                            dmnsaledetails.TotalPackingTax = ToPackingDecimal(dgv_combined.Rows[i].Cells[cpackingtaxamountno.Index].Value);
 
                                             var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                             if (InsertStatus == null)
@@ -11933,8 +12179,9 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                             dmnsaledetails.SalesDetailsId = 0;
                                             dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
-                                            dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
+                                            dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
+                                             SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i]);
 
                                             if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
                                                 dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
@@ -12159,7 +12406,7 @@ namespace FoodandBeverage.Forms
                                                     dmnsaledetails.Cmid = "0";
 
                                                 dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
-                                                dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
+                                                dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i + 1], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
                                                 dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i + 1].Cells[ipretaxamtno].Value);
                                                 SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i + 1]);
 

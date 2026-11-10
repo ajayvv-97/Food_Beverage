@@ -100,6 +100,7 @@ namespace FoodandBeverage.Forms
             this.cpartybookingid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ctableidno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.prevpickupid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvordertype = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnl_complebill_prevbill.SuspendLayout();
             this.tlp_main.SuspendLayout();
             this.tlp_control.SuspendLayout();
@@ -430,7 +431,8 @@ namespace FoodandBeverage.Forms
             this.cmordermasterid,
             this.cpartybookingid,
             this.ctableidno,
-            this.prevpickupid});
+            this.prevpickupid,
+            this.dgvordertype});
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.75F);
@@ -905,6 +907,13 @@ namespace FoodandBeverage.Forms
             this.prevpickupid.Visible = false;
             this.prevpickupid.Width = 93;
             // 
+            // dgvordertype
+            // 
+            this.dgvordertype.HeaderText = "Ordertype";
+            this.dgvordertype.Name = "dgvordertype";
+            this.dgvordertype.Visible = false;
+            this.dgvordertype.Width = 102;
+            // 
             // FrmCombinedBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1004,5 +1013,6 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn cpartybookingid;
         private System.Windows.Forms.DataGridViewTextBoxColumn ctableidno;
         private System.Windows.Forms.DataGridViewTextBoxColumn prevpickupid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvordertype;
     }
 }

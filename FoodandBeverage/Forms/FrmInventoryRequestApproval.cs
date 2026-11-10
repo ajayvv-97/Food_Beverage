@@ -70,7 +70,8 @@ namespace FoodandBeverage.Forms
             txtremarks.Multiline = true;
             txtremarks.ScrollBars = ScrollBars.Vertical;
             txtremarks.MaxLength = 2000;
-            txtremarks.ReadOnly = true;
+            txtremarks.ReadOnly = false;
+            txtremarks.TabStop = true;
             txtremarks.Enter += txtremarks_Enter;
             txtremarks.Leave += txtremarks_Leave;
             ShowRemarksPlaceholder();
@@ -550,12 +551,49 @@ namespace FoodandBeverage.Forms
         private int CountApprovalStatus(string status)
         {
             if (_requestApprovalData == null ||
-                !_requestApprovalData.Columns.Contains("StatusText"))
+                !_requestApprovalData.Columns.Contains("ApprovalStatusCode"))
+                return 0;
+
+            int statusCode = GetApprovalStatusCode(status);
+            if (statusCode < 0)
                 return 0;
 
             return _requestApprovalData.Rows.Cast<DataRow>().Count(row =>
-                string.Equals(Convert.ToString(row["StatusText"]), status,
-                    StringComparison.OrdinalIgnoreCase));
+                row["ApprovalStatusCode"] != DBNull.Value &&
+                Convert.ToInt32(row["ApprovalStatusCode"]) == statusCode);
+        }
+
+        private static int GetApprovalStatusCode(string status)
+        {
+            switch ((status ?? string.Empty).Trim())
+            {
+                case "Pending": return ApprovalPending;
+                case "Approved": return ApprovalApproved;
+                case "Rejected": return ApprovalRejected;
+                case "Sent Back": return ApprovalSentBack;
+                default: return -1;
+            }
+        }
+
+        private static string GetApprovalStatusText(int status)
+        {
+            switch (status)
+            {
+                case ApprovalApproved: return "Approved";
+                case ApprovalRejected: return "Rejected";
+                case ApprovalSentBack: return "Sent Back";
+                case ApprovalPending: return "Pending";
+                default: return "Unknown";
+            }
+        }
+
+        private static string FormatRequestListDate(string value)
+        {
+            DateTime date;
+            if (DateTime.TryParse(value, out date))
+                return date.ToString("dd MMM yyyy");
+
+            return string.Empty;
         }
 
         private void CenterRequestApprovalPopup()
@@ -577,20 +615,15 @@ namespace FoodandBeverage.Forms
             {
                 Select =
                     "m.InventoryRequestId AS Id, m.RequestNo AS Field1, " +
-                    "CONVERT(NVARCHAR(30),m.RequestDate,106) AS Field2, " +
-                    "CONVERT(NVARCHAR(30),m.RequiredDate,106) AS Field3, " +
-                    "ISNULL(d.DepartmentName,'-') AS Field4, " +
-                    "ISNULL(e.EmployeeName,'-') AS Field5, " +
+                    "m.RequestDate AS Field2, m.RequiredDate AS Field3, " +
+                    "d.DepartmentName AS Field4, e.EmployeeName AS Field5, " +
                     "CASE m.RequestType WHEN 1 THEN 'Batch Preparation' " +
                     "WHEN 2 THEN 'Raw Material' ELSE 'Mixed' END AS Field6, " +
-                    "CASE ISNULL(m.ApprovalStatus,0) WHEN 0 THEN 'Pending' " +
-                    "WHEN 1 THEN 'Approved' WHEN 2 THEN 'Rejected' " +
-                    "WHEN 3 THEN 'Sent Back' ELSE 'Unknown' END AS Field7, " +
-                    "ISNULL(NULLIF(m.ApprovalRemarks,''),'-') AS Field8",
+                    "m.ApprovalStatus AS Field7, m.ApprovalRemarks AS Field8",
                 Table = "tblInventoryRequestMaster m " +
                         "LEFT JOIN tblDepartment d ON d.DepartmentId = m.DepartmentId " +
                         "LEFT JOIN tblEmployee e ON e.EmployeeId = m.EmployeeId",
-                WhereNdGroupBy = "WHERE ISNULL(m.Status,1)=1 AND m.BranchId=" +
+                WhereNdGroupBy = "WHERE m.Status=1 AND m.BranchId=" +
                                  Convert.ToString(FrmDashboard.BranchId),
                 OrderBy = "ORDER BY m.InventoryRequestId DESC"
             };
@@ -607,20 +640,23 @@ namespace FoodandBeverage.Forms
             _requestApprovalData.Columns.Add("DepartmentName", typeof(string));
             _requestApprovalData.Columns.Add("EmployeeName", typeof(string));
             _requestApprovalData.Columns.Add("RequestTypeName", typeof(string));
+            _requestApprovalData.Columns.Add("ApprovalStatusCode", typeof(int));
             _requestApprovalData.Columns.Add("StatusText", typeof(string));
             _requestApprovalData.Columns.Add("ApprovalRemarks", typeof(string));
 
             foreach (DmnGridFields row in rows)
             {
+                int approvalStatus = ToInt(row.Field7, ApprovalPending);
                 _requestApprovalData.Rows.Add(
                     Convert.ToInt64(row.Id),
                     row.Field1 ?? string.Empty,
-                    row.Field2 ?? string.Empty,
-                    row.Field3 ?? string.Empty,
+                    FormatRequestListDate(row.Field2),
+                    FormatRequestListDate(row.Field3),
                     row.Field4 ?? "-",
                     row.Field5 ?? "-",
                     row.Field6 ?? "Mixed",
-                    row.Field7 ?? "Pending",
+                    approvalStatus,
+                    GetApprovalStatusText(approvalStatus),
                     row.Field8 ?? "-");
             }
 
@@ -814,17 +850,15 @@ namespace FoodandBeverage.Forms
             {
                 Select =
                     "m.InventoryRequestId AS Id, m.RequestNo AS Field1, " +
-                    "CONVERT(NVARCHAR(30),m.RequestDate,121) AS Field2, " +
-                    "CONVERT(NVARCHAR(30),m.RequiredDate,121) AS Field3, " +
-                    "m.RequestType AS Field4, ISNULL(m.ApprovalStatus,0) AS Field5, " +
-                    "ISNULL(m.ApprovalRemarks,'') AS Field6, ISNULL(m.Remarks,'') AS Field7, " +
-                    "ISNULL(d.DepartmentName,'-') AS Field8, " +
-                    "ISNULL(e.EmployeeName,'-') AS Field9",
+                    "m.RequestDate AS Field2, m.RequiredDate AS Field3, " +
+                    "m.RequestType AS Field4, m.ApprovalStatus AS Field5, " +
+                    "m.ApprovalRemarks AS Field6, m.Remarks AS Field7, " +
+                    "d.DepartmentName AS Field8, e.EmployeeName AS Field9",
                 Table = "tblInventoryRequestMaster m " +
                         "LEFT JOIN tblDepartment d ON d.DepartmentId=m.DepartmentId " +
                         "LEFT JOIN tblEmployee e ON e.EmployeeId=m.EmployeeId",
                 WhereNdGroupBy = "WHERE m.InventoryRequestId=" + requestId +
-                    " AND ISNULL(m.Status,1)=1 AND m.BranchId=" +
+                    " AND m.Status=1 AND m.BranchId=" +
                     Convert.ToString(FrmDashboard.BranchId),
                 OrderBy = ""
             };
@@ -851,7 +885,7 @@ namespace FoodandBeverage.Forms
                         "LEFT JOIN tblItem i ON i.ItemId=d.ItemId " +
                         "LEFT JOIN tblUnit u ON u.UId=d.Unit",
                 WhereNdGroupBy = "WHERE d.InventoryRequestId=" + requestId +
-                                 " AND ISNULL(d.Status,1)=1",
+                                 " AND d.Status=1",
                 OrderBy = "ORDER BY d.RequestType,d.SlNo,d.InventoryRequestDetailId"
             };
 
@@ -1067,8 +1101,10 @@ namespace FoodandBeverage.Forms
                     string.IsNullOrWhiteSpace(remarks))
                 {
                     ShowApprovalError(decision == ApprovalRejected
-                        ? "Enter a reason before rejecting this request."
-                        : "Enter the correction required before sending this request back.");
+                        ? "Please enter remarks before rejecting this request."
+                        : "Please enter remarks explaining the required correction before sending this request back.");
+                    txtremarks.ReadOnly = false;
+                    txtremarks.Enabled = true;
                     txtremarks.Focus();
                     return;
                 }
@@ -1111,7 +1147,7 @@ namespace FoodandBeverage.Forms
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-                LoadApprovalRequest(requestId);
+                ClearSelectedRequest();
                 LoadApprovalRequests();
             }
             catch (Exception ex)
@@ -1145,6 +1181,7 @@ namespace FoodandBeverage.Forms
             dgv_raw.Rows.Clear();
 
             UpdateStatusIndicator(ApprovalPending);
+            lbl_information.Text = "Select an inventory request";
             UpdateDecisionButtons(false);
         }
 
@@ -1183,14 +1220,14 @@ namespace FoodandBeverage.Forms
                 {
                     ColumnHeaders = "ID,Request No,Request Date,Required Date,Department,Requested By",
                     Select = "m.InventoryRequestId AS Id,m.RequestNo AS Field1," +
-                             "CONVERT(VARCHAR(30),m.RequestDate,106) AS Field2," +
-                             "CONVERT(VARCHAR(30),m.RequiredDate,106) AS Field3," +
-                             "ISNULL(d.DepartmentName,'-') AS Field4," +
-                             "ISNULL(e.EmployeeName,'-') AS Field5",
+                             "m.RequestDate AS Field2," +
+                             "m.RequiredDate AS Field3," +
+                             "d.DepartmentName AS Field4," +
+                             "e.EmployeeName AS Field5",
                     Table = "tblInventoryRequestMaster m " +
                             "LEFT JOIN tblDepartment d ON d.DepartmentId = m.DepartmentId " +
                             "LEFT JOIN tblEmployee e ON e.EmployeeId = m.EmployeeId",
-                    WhereNdGroupBy = "WHERE ISNULL(m.Status,1) = 1 AND m.BranchId = " +
+                    WhereNdGroupBy = "WHERE m.Status=1 AND m.BranchId = " +
                                      Convert.ToString(FrmDashboard.BranchId),
                     OrderBy = "ORDER BY m.InventoryRequestId DESC"
                 };

@@ -27,7 +27,6 @@ namespace FoodandBeverage.Forms
         public FrmCombinedBill()
         {
             InitializeComponent();
-            Resize += FrmCombinedBill_BlurOverlayResize;
             FormClosed += FrmCombinedBill_BlurOverlayFormClosed;
         }
 
@@ -42,6 +41,7 @@ namespace FoodandBeverage.Forms
         #region Modal Dialog Blur Overlay
         private PictureBox _modalBlurOverlay;
         private Bitmap _modalBlurImage;
+        private Form _modalBlurOwner;
         private bool _isModalBlurVisible;
         private const int ModalBlurPreviewScale = 4;
         private const byte ModalBlurDarkOverlayAlpha = 72;
@@ -91,6 +91,7 @@ namespace FoodandBeverage.Forms
         public int partybookingidno = 12;
         public int tableidno = 13;
         public int pickupidno = 14;
+        public int ordertypeno = 15;
 
         public  int sslno = 0;
         public  int spaymentamtno = 1;
@@ -765,7 +766,7 @@ namespace FoodandBeverage.Forms
                 int tid = parts.Length > 2 ? Convert.ToInt32(parts[2]) : 0;
                 string tableCode = parts.Length > 3 ? parts[3] : "";
                 int BmasterId = parts.Length > 4 ? Convert.ToInt32(parts[4]) : 0;
-                int pkid = parts.Length > 4 ? Convert.ToInt32(parts[5]) : 0;
+                int pkid = parts.Length > 5 ? Convert.ToInt32(parts[5]) : 0;
 
                 if (button != null)
                 {
@@ -1224,7 +1225,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "Top 30 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5," +
                     "sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11," +
-                    "sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15,sm.tid Field16,sm.Pkid Field17";
+                    "sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15,sm.tid Field16,sm.Pkid Field17,sm.Ordertype Field18";
                 dmnSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid";
                 dmnSearch.WhereNdGroupBy = "where sm.status=1";
                 dmnSearch.OrderBy = "order by sm.SalesMasterId DESC";
@@ -1247,25 +1248,57 @@ namespace FoodandBeverage.Forms
                         int pickupId = Convert.ToInt32(gridSource[i].Field17);
                         int orderType = Convert.ToInt32(gridSource[i].Field14);
 
+                        // Show a clear order type in the Table Code column. Pickup and
+                        // Takeaway both use the daily token system, but are distinct types.
                         if (partyBookingId > 0)
                         {
                             SetTableCodeDisplay(rowIndex, "Party Booking", 0, true);
                         }
-                        else if (pickupId > 0 || orderType == Convert.ToInt32(OrderType.PickupOrder))
+                        else if (tableId > 0)
                         {
-                            SetTableCodeDisplay(rowIndex, "PKID " + pickupId, 0, true);
+                            // A positive SalesMaster.Tid always identifies a table order.
+                            string tableDisplay = Convert.ToString(gridSource[i].Field3);
+                            if (string.IsNullOrWhiteSpace(tableDisplay))
+                                tableDisplay = "Table Order";
+
+                            SetTableCodeDisplay(rowIndex, tableDisplay, tableId, true);
                         }
-                        else if (tableId <= 0)
+                        else if (orderType == Convert.ToInt32(OrderType.PickupOrder))
                         {
+                            // SalesMaster.OrderType: 1 = Pickup.
+                            string pickupDisplay = pickupId > 0
+                                ? "Pickup Order (P" + pickupId + ")"
+                                : "Pickup Order";
+
+                            SetTableCodeDisplay(rowIndex, pickupDisplay, 0, true);
+                        }
+                        else if (orderType == Convert.ToInt32(OrderType.Takeaway))
+                        {
+                            // SalesMaster.OrderType: 4 = Takeaway.
+                            SetTableCodeDisplay(rowIndex, "Takeaway Order", 0, true);
+                        }
+                        else if (orderType == Convert.ToInt32(OrderType.Pickup_DirectSale))
+                        {
+                            SetTableCodeDisplay(rowIndex, "Pickup Direct Sale", 0, true);
+                        }
+                        else if (pickupId > 0)
+                        {
+                            // Legacy pickup bill where OrderType was not saved.
+                            SetTableCodeDisplay(
+                                rowIndex,
+                                "Pickup Order (P" + pickupId + ")",
+                                0,
+                                true);
+                        }
+                        else
+                        {
+                            // Combined dine-in rows resolve their linked table names.
+                            // More than one linked table is summarized as Multiple Tables (n).
                             FillTablecode_Comb(
                                 rowIndex,
                                 Convert.ToInt32(gridSource[i].Field6),
                                 Convert.ToInt32(gridSource[i].Field13),
                                 Convert.ToInt32(gridSource[i].Field12));
-                        }
-                        else
-                        {
-                            SetTableCodeDisplay(rowIndex, Convert.ToString(gridSource[i].Field3), tableId, true);
                         }
 
 
@@ -1277,7 +1310,8 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[partybookingidno].Value = gridSource[i].Field15;
                         dgvorderview.Rows[rowIndex].Cells[tableidno].Value = gridSource[i].Field16;
                         dgvorderview.Rows[rowIndex].Cells[pickupidno].Value = gridSource[i].Field17;
-
+                        dgvorderview.Rows[rowIndex].Cells[ordertypeno].Value = gridSource[i].Field18;
+                        
                         switch (Convert.ToInt32(gridSource[i].Field10))
                         {
                             case 1:
@@ -1354,14 +1388,14 @@ namespace FoodandBeverage.Forms
             dgvorderview.Rows[rowIndex].Cells[tablecodeno].ReadOnly = readOnly;
         }
 
-        private void PrintBillBySaleType(int saleMasterId, int partyBookingId, int tableId, int pickupId)
+        private void PrintBillBySaleType(int saleMasterId, int partyBookingId, int tableId, int pickupId,int ordertype)
         {
             if (saleMasterId <= 0)
                 return;
 
             if (partyBookingId > 0)
                 printBill(saleMasterId, Convert.ToInt32(BillType.Partybill));
-            else if (pickupId > 0)
+            else if (pickupId > 0 || ordertype== Convert.ToInt32(OrderType.Takeaway))
                 printBill(saleMasterId, Convert.ToInt32(BillType.PickupBill));
             else
                 printBill(saleMasterId, Convert.ToInt32(BillType.NormalBill));
@@ -1375,7 +1409,7 @@ namespace FoodandBeverage.Forms
             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
             DmnSearch search = new DmnSearch
             {
-                Select = "ISNULL(Partybookingid,0) Field1, ISNULL(Tid,0) Field2, ISNULL(PkId,0) Field3",
+                Select = "ISNULL(Partybookingid,0) Field1, ISNULL(Tid,0) Field2, ISNULL(PkId,0) Field3, ISNULL(Ordertype,0) Field4",
                 Table = "tblSalesMaster",
                 WhereNdGroupBy = "WHERE Status = 1 AND SalesMasterId = " + saleMasterId,
                 OrderBy = ""
@@ -1388,7 +1422,8 @@ namespace FoodandBeverage.Forms
                     saleMasterId,
                     Convert.ToInt32(result[0].Field1),
                     Convert.ToInt32(result[0].Field2),
-                    Convert.ToInt32(result[0].Field3));
+                    Convert.ToInt32(result[0].Field3),
+                    Convert.ToInt32(result[0].Field4));
             }
         }
 
@@ -1404,14 +1439,29 @@ namespace FoodandBeverage.Forms
 
             ShowModalBlurOverlay();
 
+            Form dialogOwner = (_modalBlurOwner != null &&
+                !_modalBlurOwner.IsDisposed && !_modalBlurOwner.Disposing)
+                ? _modalBlurOwner
+                : this;
+
             try
             {
-                return dialog.ShowDialog(this);
+                return dialog.ShowDialog(dialogOwner);
             }
             finally
             {
                 HideModalBlurOverlay();
             }
+        }
+
+        private Form ResolveModalBlurOwner()
+        {
+            FrmDashboard dashboard = FrmDashboard.Instance;
+
+            if (dashboard != null && !dashboard.IsDisposed && !dashboard.Disposing)
+                return dashboard;
+
+            return this;
         }
 
         private void ShowModalBlurOverlay()
@@ -1423,7 +1473,30 @@ namespace FoodandBeverage.Forms
 
             try
             {
-                using (Bitmap original = CaptureCombinedBillForm())
+                Form owner = ResolveModalBlurOwner();
+
+                if (_modalBlurOwner != owner)
+                {
+                    if (_modalBlurOwner != null)
+                    {
+                        _modalBlurOwner.Resize -= FrmCombinedBill_BlurOverlayResize;
+                        if (_modalBlurOwner != this)
+                            _modalBlurOwner.FormClosed -= FrmCombinedBill_BlurOverlayFormClosed;
+                    }
+
+                    _modalBlurOwner = owner;
+                }
+
+                _modalBlurOwner.Resize -= FrmCombinedBill_BlurOverlayResize;
+                _modalBlurOwner.Resize += FrmCombinedBill_BlurOverlayResize;
+
+                if (_modalBlurOwner != this)
+                {
+                    _modalBlurOwner.FormClosed -= FrmCombinedBill_BlurOverlayFormClosed;
+                    _modalBlurOwner.FormClosed += FrmCombinedBill_BlurOverlayFormClosed;
+                }
+
+                using (Bitmap original = CaptureCombinedBillForm(_modalBlurOwner))
                 using (Bitmap small = ResizeModalBlurPreview(
                     original,
                     Math.Max(1, original.Width / ModalBlurPreviewScale),
@@ -1439,7 +1512,7 @@ namespace FoodandBeverage.Forms
                 nextBlurImage = null;
 
                 _modalBlurOverlay.Image = _modalBlurImage;
-                _modalBlurOverlay.Bounds = ClientRectangle;
+                _modalBlurOverlay.Bounds = _modalBlurOwner.ClientRectangle;
                 _modalBlurOverlay.Visible = true;
                 _modalBlurOverlay.BringToFront();
                 _isModalBlurVisible = true;
@@ -1482,32 +1555,65 @@ namespace FoodandBeverage.Forms
 
         private void EnsureModalBlurPictureBox()
         {
-            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+            if (_modalBlurOwner == null || _modalBlurOwner.IsDisposed)
                 return;
+
+            if (_modalBlurOverlay != null &&
+                !_modalBlurOverlay.IsDisposed &&
+                _modalBlurOverlay.Parent == _modalBlurOwner)
+                return;
+
+            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+            {
+                if (_modalBlurOverlay.Parent != null)
+                    _modalBlurOverlay.Parent.Controls.Remove(_modalBlurOverlay);
+
+                _modalBlurOverlay.Dispose();
+            }
 
             _modalBlurOverlay = new PictureBox
             {
                 Name = "picCombinedBillModalBlur",
-                Bounds = ClientRectangle,
+                Bounds = _modalBlurOwner.ClientRectangle,
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 BackColor = Color.Black,
                 TabStop = false,
+                Enabled = false,
                 Visible = false
             };
 
-            Controls.Add(_modalBlurOverlay);
+            _modalBlurOwner.Controls.Add(_modalBlurOverlay);
         }
 
-        private Bitmap CaptureCombinedBillForm()
+        private Bitmap CaptureCombinedBillForm(Form owner)
         {
-            int width = Math.Max(1, ClientSize.Width);
-            int height = Math.Max(1, ClientSize.Height);
+            int width = Math.Max(1, owner.ClientSize.Width);
+            int height = Math.Max(1, owner.ClientSize.Height);
             Bitmap captured = new Bitmap(width, height, PixelFormat.Format32bppArgb);
 
             try
             {
-                DrawToBitmap(captured, new Rectangle(0, 0, width, height));
+                // Capture the full dashboard client area, including navigation,
+                // header, footer and the embedded Combined Bill view.
+                Rectangle screenBounds = owner.RectangleToScreen(owner.ClientRectangle);
+
+                try
+                {
+                    using (Graphics graphics = Graphics.FromImage(captured))
+                    {
+                        graphics.CopyFromScreen(
+                            screenBounds.Location,
+                            Point.Empty,
+                            screenBounds.Size,
+                            CopyPixelOperation.SourceCopy);
+                    }
+                }
+                catch
+                {
+                    owner.DrawToBitmap(captured, new Rectangle(0, 0, width, height));
+                }
+
                 return captured;
             }
             catch
@@ -1647,20 +1753,43 @@ namespace FoodandBeverage.Forms
 
         private void FrmCombinedBill_BlurOverlayResize(object sender, EventArgs e)
         {
-            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
-                _modalBlurOverlay.Bounds = ClientRectangle;
+            if (_modalBlurOwner != null &&
+                !_modalBlurOwner.IsDisposed &&
+                _modalBlurOverlay != null &&
+                !_modalBlurOverlay.IsDisposed)
+            {
+                _modalBlurOverlay.Bounds = _modalBlurOwner.ClientRectangle;
+            }
         }
 
         private void FrmCombinedBill_BlurOverlayFormClosed(object sender, FormClosedEventArgs e)
         {
             HideModalBlurOverlay();
 
-            if (_modalBlurOverlay != null)
+            Form owner = _modalBlurOwner;
+            if (owner != null)
             {
-                Controls.Remove(_modalBlurOverlay);
+                owner.Resize -= FrmCombinedBill_BlurOverlayResize;
+
+                if (owner != this)
+                    owner.FormClosed -= FrmCombinedBill_BlurOverlayFormClosed;
+
+                if (!owner.IsDisposed &&
+                    _modalBlurOverlay != null &&
+                    !_modalBlurOverlay.IsDisposed &&
+                    owner.Controls.Contains(_modalBlurOverlay))
+                {
+                    owner.Controls.Remove(_modalBlurOverlay);
+                }
+            }
+
+            if (_modalBlurOverlay != null && !_modalBlurOverlay.IsDisposed)
+            {
                 _modalBlurOverlay.Dispose();
                 _modalBlurOverlay = null;
             }
+
+            _modalBlurOwner = null;
         }
 
         #endregion
@@ -1678,8 +1807,9 @@ namespace FoodandBeverage.Forms
                     int pbkid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[partybookingidno].Value);
                     int tidno = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tableidno].Value);
                     int pickupid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[pickupidno].Value);
+                    int ordertype = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[ordertypeno].Value);
 
-                    PrintBillBySaleType(sid, pbkid, tidno, pickupid);
+                    PrintBillBySaleType(sid, pbkid, tidno, pickupid, ordertype);
                 }
                 else if (e.ColumnIndex == paytypename)
                 {
@@ -1884,7 +2014,7 @@ namespace FoodandBeverage.Forms
                 {
 
                     frmExtraAccessChk frm = new frmExtraAccessChk(Convert.ToInt32(RolePermission.YOut));
-                    frm.ShowDialog();
+                    ShowDialogWithBlur(frm);
                     if (frmExtraAccessChk.access == true)
                     {
                         DrawerCheck();
@@ -2125,7 +2255,7 @@ namespace FoodandBeverage.Forms
 
                     clsgen.TrackZoutLog("POSDashboard", "EXTRA_ACCESS_FORM_OPEN", "Opening extra access check form");
 
-                    frm.ShowDialog();
+                    ShowDialogWithBlur(frm);
 
                     clsgen.TrackZoutLog("POSDashboard", "EXTRA_ACCESS_FORM_CLOSED", "Extra access form closed. Access=" + frmExtraAccessChk.access);
 

@@ -327,11 +327,32 @@ BEGIN
            ABS(new quantity - previous quantity).
         ========================================================= */
 
-        IF @DeductStock = 1 AND @SaleQtyForStock > 0
+        IF @DeductStock = 1
+           AND @SaleQtyForStock > 0
+           AND @TableType IN (1, 3)
         BEGIN
             IF @TableType = 3
             BEGIN
-                /* Combo: each component uses its own FoodPreparationType. */
+                /* Combo: every component must resolve to an active configured product. */
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM dbo.tblOfferDetails AS O
+                    INNER JOIN dbo.tblMenu AS M
+                        ON M.ProductId = O.ProductId
+                    LEFT JOIN dbo.tblProduct AS P
+                        ON P.ProductId = M.ProductId
+                    WHERE O.Omid = @ItemId
+                      AND
+                      (
+                          P.ProductId IS NULL
+                          OR ISNULL(P.Status, 0) <> 1
+                          OR P.FoodPreparationType IS NULL
+                          OR ISNULL(P.FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
+                      )
+                )
+                    THROW 50314, 'A combo component is missing, inactive, or has an invalid FoodPreparationType. Stock was not deducted.', 1;
+
                 INSERT INTO @ProductPreparation
                 (
                     ProductId,
@@ -342,46 +363,35 @@ BEGIN
                 SELECT
                     M.ProductId,
                     @SaleQtyForStock,
-                    CASE
-                        WHEN P.FoodPreparationType IN (1,2,3,4)
-                            THEN P.FoodPreparationType
-                        WHEN @FoodPreparationType IN (1,2,3,4)
-                            THEN @FoodPreparationType
-                        ELSE 4
-                    END,
-                    CONVERT(BIT, ISNULL(P.PackagingRequired,0))
+                    P.FoodPreparationType,
+                    CONVERT(BIT, ISNULL(P.PackagingRequired, 0))
                 FROM dbo.tblOfferDetails AS O
                 INNER JOIN dbo.tblMenu AS M
                     ON M.ProductId = O.ProductId
-                LEFT JOIN dbo.tblProduct AS P
+                INNER JOIN dbo.tblProduct AS P
                     ON P.ProductId = M.ProductId
+                   AND P.Status = 1
                 WHERE O.Omid = @ItemId;
 
                 IF NOT EXISTS (SELECT 1 FROM @ProductPreparation)
-                    THROW 50303, 'No component products were found for this combo. Stock was not deducted.', 1;
+                    THROW 50303, 'No active component products were found for this combo. Stock was not deducted.', 1;
             END
             ELSE
             BEGIN
-                /* Normal product: database value is authoritative. */
+                /* Normal product: tblProduct is the authoritative source.
+                   Do not silently convert a missing/invalid product to NotApplicable. */
                 SELECT
-                    @FoodPreparationType =
-                        CASE
-                            WHEN P.FoodPreparationType IN (1,2,3,4)
-                                THEN P.FoodPreparationType
-                            WHEN @FoodPreparationType IN (1,2,3,4)
-                                THEN @FoodPreparationType
-                            ELSE 4
-                        END,
-                    @PackagingRequired = CONVERT(BIT, ISNULL(P.PackagingRequired,0))
+                    @FoodPreparationType = P.FoodPreparationType,
+                    @PackagingRequired = CONVERT(BIT, ISNULL(P.PackagingRequired, 0))
                 FROM dbo.tblProduct AS P
-                WHERE P.ProductId = @ItemId;
+                WHERE P.ProductId = @ItemId
+                  AND P.Status = 1;
 
-                SET @FoodPreparationType =
-                    CASE
-                        WHEN @FoodPreparationType IN (1,2,3,4)
-                            THEN @FoodPreparationType
-                        ELSE 4
-                    END;
+                IF @@ROWCOUNT = 0
+                    THROW 50315, 'The sales detail ItemId does not match an active tblProduct.ProductId. Stock was not deducted.', 1;
+
+                IF ISNULL(@FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
+                    THROW 50316, 'The product has an invalid FoodPreparationType. Configure a value from 1 to 4 before billing.', 1;
 
                 INSERT INTO @ProductPreparation
                 (
@@ -399,7 +409,7 @@ BEGIN
                 );
             END;
 
-            /*
+        /*
                PartiallyPrepared raw-material rows must be assigned to one of
                the two supported stages. Stage 1 is deducted here at sale;
                stage 2 is deducted only by inventory-request approval.
