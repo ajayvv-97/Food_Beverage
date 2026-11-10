@@ -1253,32 +1253,37 @@ namespace FoodandBeverage.Forms
                         {
                             SetTableCodeDisplay(rowIndex, "Party Booking", 0, true);
                         }
-                        else if (orderType == 1 || pickupId > 0)
-                        {
-                            // Legacy pickup rows may not have OrderType populated.
-                            SetTableCodeDisplay(
-                                rowIndex,
-                                pickupId > 0 ? "Pickup (P" + pickupId + ")" : "Pickup",
-                                0,
-                                true);
-                        }
-                        else if (orderType == 2)
-                        {
-                            SetTableCodeDisplay(rowIndex, "Takeaway", 0, true);
-                        }
-                        else if (orderType == 3)
-                        {
-                            SetTableCodeDisplay(rowIndex, "Delivery", 0, true);
-                        }
                         else if (tableId > 0)
                         {
-                            SetTableCodeDisplay(rowIndex, Convert.ToString(gridSource[i].Field3), tableId, true);
+                            // A positive SalesMaster.Tid always identifies a table order.
+                            string tableDisplay = Convert.ToString(gridSource[i].Field3);
+                            if (string.IsNullOrWhiteSpace(tableDisplay))
+                                tableDisplay = "Table Order";
+
+                            SetTableCodeDisplay(rowIndex, tableDisplay, tableId, true);
+                        }
+                        else if (orderType == Convert.ToInt32(OrderType.PickupOrder) || pickupId > 0)
+                        {
+                            // SalesMaster.OrderType: 1 = Pickup.
+                            string pickupDisplay = pickupId > 0
+                                ? "Pickup Order (P" + pickupId + ")"
+                                : "Pickup Order";
+
+                            SetTableCodeDisplay(rowIndex, pickupDisplay, 0, true);
+                        }
+                        else if (orderType == Convert.ToInt32(OrderType.Takeaway))
+                        {
+                            // SalesMaster.OrderType: 4 = Takeaway (not OrderTypeId=2).
+                            SetTableCodeDisplay(rowIndex, "Takeaway Order", 0, true);
+                        }
+                        else if (orderType == Convert.ToInt32(OrderType.Pickup_DirectSale))
+                        {
+                            SetTableCodeDisplay(rowIndex, "Pickup Direct Sale", 0, true);
                         }
                         else
                         {
-                            // Dine-in / combined orders resolve their table names from
-                            // the linked order records. Multiple linked tables are shown
-                            // as "Multiple Tables (n)" by FillTablecode_Comb.
+                            // Combined dine-in rows resolve their linked table names.
+                            // More than one linked table is summarized as Multiple Tables (n).
                             FillTablecode_Comb(
                                 rowIndex,
                                 Convert.ToInt32(gridSource[i].Field6),
