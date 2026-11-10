@@ -91,6 +91,7 @@ namespace FoodandBeverage.Forms
         public int partybookingidno = 12;
         public int tableidno = 13;
         public int pickupidno = 14;
+        public int ordertypeno = 15;
 
         public  int sslno = 0;
         public  int spaymentamtno = 1;
@@ -1224,7 +1225,7 @@ namespace FoodandBeverage.Forms
                 DmnSearch dmnSearch = new DmnSearch();
                 dmnSearch.Select = "Top 30 sm.CreatedDateTime Field1,sm.EntryNo Field2,ti.TableCode Field3,sm.TotalQuantity Field4,sm.Status Field5," +
                     "sm.SalesMasterId Field6 ,sm.NetAmount Field7,sm.RcvAmnt Field8,sm.BalAmnt Field9,sm.PaymentMode Field10,sm.Tid Field11," +
-                    "sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15,sm.tid Field16,sm.Pkid Field17";
+                    "sm.CombinedOrderBill_TYPE Field12,sm.OrderMasterid Field13,sm.OrderType Field14,sm.Partybookingid Field15,sm.tid Field16,sm.Pkid Field17,sm.Ordertype Field18";
                 dmnSearch.Table = "tblSalesMaster sm LEFT JOIN tblTable_info ti on ti.tid=sm.Tid";
                 dmnSearch.WhereNdGroupBy = "where sm.status=1";
                 dmnSearch.OrderBy = "order by sm.SalesMasterId DESC";
@@ -1309,7 +1310,8 @@ namespace FoodandBeverage.Forms
                         dgvorderview.Rows[rowIndex].Cells[partybookingidno].Value = gridSource[i].Field15;
                         dgvorderview.Rows[rowIndex].Cells[tableidno].Value = gridSource[i].Field16;
                         dgvorderview.Rows[rowIndex].Cells[pickupidno].Value = gridSource[i].Field17;
-
+                        dgvorderview.Rows[rowIndex].Cells[ordertypeno].Value = gridSource[i].Field18;
+                        
                         switch (Convert.ToInt32(gridSource[i].Field10))
                         {
                             case 1:
@@ -1386,14 +1388,14 @@ namespace FoodandBeverage.Forms
             dgvorderview.Rows[rowIndex].Cells[tablecodeno].ReadOnly = readOnly;
         }
 
-        private void PrintBillBySaleType(int saleMasterId, int partyBookingId, int tableId, int pickupId)
+        private void PrintBillBySaleType(int saleMasterId, int partyBookingId, int tableId, int pickupId,int ordertype)
         {
             if (saleMasterId <= 0)
                 return;
 
             if (partyBookingId > 0)
                 printBill(saleMasterId, Convert.ToInt32(BillType.Partybill));
-            else if (pickupId > 0)
+            else if (pickupId > 0 || ordertype== Convert.ToInt32(OrderType.Takeaway))
                 printBill(saleMasterId, Convert.ToInt32(BillType.PickupBill));
             else
                 printBill(saleMasterId, Convert.ToInt32(BillType.NormalBill));
@@ -1407,7 +1409,7 @@ namespace FoodandBeverage.Forms
             BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
             DmnSearch search = new DmnSearch
             {
-                Select = "ISNULL(Partybookingid,0) Field1, ISNULL(Tid,0) Field2, ISNULL(PkId,0) Field3",
+                Select = "ISNULL(Partybookingid,0) Field1, ISNULL(Tid,0) Field2, ISNULL(PkId,0) Field3, ISNULL(Ordertype,0) Field4",
                 Table = "tblSalesMaster",
                 WhereNdGroupBy = "WHERE Status = 1 AND SalesMasterId = " + saleMasterId,
                 OrderBy = ""
@@ -1420,7 +1422,8 @@ namespace FoodandBeverage.Forms
                     saleMasterId,
                     Convert.ToInt32(result[0].Field1),
                     Convert.ToInt32(result[0].Field2),
-                    Convert.ToInt32(result[0].Field3));
+                    Convert.ToInt32(result[0].Field3),
+                    Convert.ToInt32(result[0].Field4));
             }
         }
 
@@ -1804,8 +1807,9 @@ namespace FoodandBeverage.Forms
                     int pbkid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[partybookingidno].Value);
                     int tidno = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[tableidno].Value);
                     int pickupid = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[pickupidno].Value);
+                    int ordertype = Convert.ToInt32(dgvorderview.Rows[e.RowIndex].Cells[ordertypeno].Value);
 
-                    PrintBillBySaleType(sid, pbkid, tidno, pickupid);
+                    PrintBillBySaleType(sid, pbkid, tidno, pickupid, ordertype);
                 }
                 else if (e.ColumnIndex == paytypename)
                 {
