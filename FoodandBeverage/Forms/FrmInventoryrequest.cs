@@ -1806,13 +1806,17 @@ namespace FoodandBeverage.Forms
 
             if (requestType == 1)
             {
+                // Only BatchPrepared (2) and PartiallyPrepared (3) products
+                // can be requested from the batch preparation tab.
                 searchCriteria.ColumnHeaders = "ID,Product,Price";
                 searchCriteria.Select =
                     "p.ProductId as Id,p.Product as Field1,CAST(p.Price AS VARCHAR(30)) as Field2";
-                searchCriteria.Table = "tblProduct p left join tblCategory_FTI c on p.Fcid=c.Fcid";
+                searchCriteria.Table = "tblProduct p INNER JOIN tblCategory_FTI c ON p.Fcid=c.Fcid";
                 searchCriteria.WhereNdGroupBy =
-                    "WHERE p.Status = 1 AND c.Status = 1 " +
-                    "AND ISNULL(p.FoodPreparationType,0) IN (2,3)";
+                    "WHERE ISNULL(p.Status,1) = 1 AND ISNULL(c.Status,1) = 1 " +
+                    "AND ISNULL(p.FoodPreparationType,0) IN (" +
+                    (int)FoodPreparationMethod.BatchPrepared + "," +
+                    (int)FoodPreparationMethod.PartiallyPrepared + ")";
                 if (!string.IsNullOrWhiteSpace(escapedSearch))
                 {
                     searchCriteria.WhereNdGroupBy +=

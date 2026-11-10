@@ -232,6 +232,9 @@ namespace FoodandBeverage.Forms
         public int Cpretaxamtno = 49;
         public int cSaledisperno = 50;
         public int csalediamtno = 51;
+        // Keep the final three combined-grid fields aligned with Dgv_Selected_Item.
+        public int Cpackingpriceno = 52;
+        public int Cpackingtaxamountno = 53;
         public int COrderTypeIdno = 54;
 
         public int tslno = 0;
@@ -1864,8 +1867,8 @@ namespace FoodandBeverage.Forms
                     addonStatus != 0 ||
                     productId <= 0)
                 {
-                    row.Cells[cpackingpriceno.Index].Value = 0m;
-                    row.Cells[cpackingtaxamountno.Index].Value = 0m;
+                    row.Cells[Cpackingpriceno].Value = 0m;
+                    row.Cells[Cpackingtaxamountno].Value = 0m;
                     continue;
                 }
 
@@ -1880,8 +1883,8 @@ namespace FoodandBeverage.Forms
                     ? 0m
                     : Math.Round(packing.UnitTaxAmount * quantity, 2, MidpointRounding.AwayFromZero);
 
-                row.Cells[cpackingpriceno.Index].Value = packingPrice;
-                row.Cells[cpackingtaxamountno.Index].Value = packingTax;
+                row.Cells[Cpackingpriceno].Value = packingPrice;
+                row.Cells[Cpackingtaxamountno].Value = packingTax;
             }
         }
         #endregion
@@ -3937,8 +3940,25 @@ namespace FoodandBeverage.Forms
             if (dgv_combined == null) return 0m;
 
             foreach (DataGridViewRow row in dgv_combined.Rows)
+            {
                 if (!row.IsNewRow)
-                    total += ToPackingDecimal(row.Cells[cpackingpriceno.Index].Value);
+                    total += ToPackingDecimal(row.Cells[Cpackingpriceno].Value);
+            }
+
+            return Math.Round(total, 2, MidpointRounding.AwayFromZero);
+        }
+
+        private decimal GetCombinedGridProductNetAmount()
+        {
+            decimal total = 0m;
+            if (dgv_combined == null) return 0m;
+
+            foreach (DataGridViewRow row in dgv_combined.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                total += ToPackingDecimal(row.Cells[ctotal].Value);
+            }
 
             return Math.Round(total, 2, MidpointRounding.AwayFromZero);
         }
@@ -11178,14 +11198,19 @@ namespace FoodandBeverage.Forms
                             // stored order-line totals. Add the calculated pickup packaging once
                             // to the invoice amount before saving the sales master.
                             decimal combinedProductPackingPrice = GetCombinedGridPackingPrice();
+                            decimal combinedProductNetAmount = GetCombinedGridProductNetAmount();
                             dmnsalemaster.TotalAmnt =
                                 Convert.ToDecimal(txtGrandTotal.Text) + combinedProductPackingPrice;
                             dmnsalemaster.GrandTot =
                                 Convert.ToDecimal(txtGrandTotal.Text) + combinedProductPackingPrice;
                             dmnsalemaster.DisPer = Convert.ToDecimal(txtdis_per.Text);
                             dmnsalemaster.DisAmnt = Convert.ToDecimal(txtdis_amt.Text);
+                            // Use net KOT product totals for the existing order rows,
+                            // then add product-specific pickup packing once. lblNetAmnt
+                            // already contains the ordinary manual packing charge.
                             dmnsalemaster.NetAmount =
-                                Convert.ToDecimal(lblNetAmnt.Text) + combinedProductPackingPrice;
+                                combinedProductNetAmount + combinedProductPackingPrice +
+                                GetDecimalValue(txtpkchrge_amt);
                             dmnsalemaster.RcvAmnt = Convert.ToDecimal(txtRcvdAmnt.Text);
                             dmnsalemaster.BalAmnt = dmnsalemaster.NetAmount - dmnsalemaster.RcvAmnt;
 
@@ -11478,10 +11503,13 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.Addoncount = Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddoncount].Value);
                                             dmnsaledetails.VariatiionName = Convert.ToString(dgv_combined.Rows[i].Cells[CVariatiionNameno].Value);
                                             dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
-                                            dmnsaledetails.OrderTypeId = Convert.ToInt32(dgv_combined.Rows[i].Cells[COrderTypeIdno].Value ?? 0);
+                                            dmnsaledetails.OrderTypeId = GetRowOrderTypeId(
+                                                dgv_combined.Rows[i],
+                                                COrderTypeIdno,
+                                                this.StockDeductionOrderTypeId);
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(dgv_combined.Rows[i].Cells[Cpretaxamtno].Value);
-                                            dmnsaledetails.TotalPackingPrice = ToPackingDecimal(dgv_combined.Rows[i].Cells[cpackingpriceno.Index].Value);
-                                            dmnsaledetails.TotalPackingTax = ToPackingDecimal(dgv_combined.Rows[i].Cells[cpackingtaxamountno.Index].Value);
+                                            dmnsaledetails.TotalPackingPrice = ToPackingDecimal(dgv_combined.Rows[i].Cells[Cpackingpriceno].Value);
+                                            dmnsaledetails.TotalPackingTax = ToPackingDecimal(dgv_combined.Rows[i].Cells[Cpackingtaxamountno].Value);
 
                                             var InsertStatus = bllSales.AddEditDataDet("prdInsert_Upd_SalesDetails", dmnsaledetails);
                                             if (InsertStatus == null)
