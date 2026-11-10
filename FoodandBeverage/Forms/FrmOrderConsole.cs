@@ -10906,7 +10906,7 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.Addoncount = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[iAddoncountno].Value);
                                     dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
                                     dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
-                                    dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
+                                    dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
 
                                     dmnsaledetails.OrderDetailsId = "0";
                                     dmnsaledetails.SalesDetailsId = 0;
@@ -12010,8 +12010,9 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
                                             dmnsaledetails.SalesDetailsId = 0;
                                             dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
-                                            dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
+                                            dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
                                             dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i].Cells[ipretaxamtno].Value);
+                                             SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i]);
 
                                             if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
                                                 dmnsaledetails.Cmid = Convert.ToString(dmnsaledetails.AV_id);
@@ -12236,7 +12237,7 @@ namespace FoodandBeverage.Forms
                                                     dmnsaledetails.Cmid = "0";
 
                                                 dmnsaledetails.FoodPreparationType = 0; // Resolved from tblProduct by the stored procedure.
-                                                dmnsaledetails.OrderTypeId = this.StockDeductionOrderTypeId;
+                                                dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i + 1], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
                                                 dmnsaledetails.PreTaxAmt = Convert.ToDecimal(Dgv_Selected_Item.Rows[i + 1].Cells[ipretaxamtno].Value);
                                                 SetPackingSaleDetailValues(dmnsaledetails, Dgv_Selected_Item.Rows[i + 1]);
 
