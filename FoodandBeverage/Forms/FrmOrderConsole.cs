@@ -1346,8 +1346,8 @@ namespace FoodandBeverage.Forms
                         {
                             BllSearch<DmnOrderDetails> bllSearch = new BllSearch<DmnOrderDetails>();
                             DmnSearch dmnSearch = new DmnSearch();
-                            dmnSearch.Select = "*";
-                            dmnSearch.Table = "tblOrderDetails";
+                            dmnSearch.Select = "od.*, u.UnitName AS UnitName";
+                            dmnSearch.Table = "tblOrderDetails od LEFT JOIN tblUnit u ON u.UId = od.UnitId";
                             dmnSearch.WhereNdGroupBy = "where OrderMasterId= " + gridSourcemaster_combined[j].OrderMasterId + " and Status IN (1, 2, 3) and Orderno=" + orderNo;
                             dmnSearch.OrderBy = "";
                             var gridSource = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -1424,6 +1424,11 @@ namespace FoodandBeverage.Forms
                                         else
                                             Dgv_Selected_Item.Rows[r].Cells[iname].Value = Convert.ToString(gridSource[i].ItemName);
 
+                                        Dgv_Selected_Item.Rows[r].Cells[iunit].Value =
+                                            string.IsNullOrWhiteSpace(gridSource[i].UnitName)
+                                                ? Convert.ToString(gridSource[i].UnitId)
+                                                : gridSource[i].UnitName;
+                                        Dgv_Selected_Item.Rows[r].Cells[iunitid].Value = gridSource[i].UnitId;
                                         Dgv_Selected_Item.Rows[r].Cells[iqty].Value = Convert.ToInt32(gridSource[i].Quantity);
                                         Dgv_Selected_Item.Rows[r].Cells[iprate].Value = Convert.ToDecimal(gridSource[i].PurchaseRate);
                                         Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(gridSource[i].Srate);
@@ -1483,6 +1488,10 @@ namespace FoodandBeverage.Forms
                                         currentFont = Dgv_Selected_Item.Rows[r].Cells[iname].Style.Font ?? Dgv_Selected_Item.Font;
                                         Dgv_Selected_Item.Rows[r].Cells[iname].Style.Font = new Font(currentFont, FontStyle.Bold);
 
+                                        Dgv_Selected_Item.Rows[r].Cells[iunit].Value =
+                                            string.IsNullOrWhiteSpace(gridSource[i].UnitName)
+                                                ? Convert.ToString(gridSource[i].UnitId)
+                                                : gridSource[i].UnitName;
                                         Dgv_Selected_Item.Rows[r].Cells[iunitid].Value = gridSource[i].UnitId;
                                         Dgv_Selected_Item.Rows[r].Cells[iqty].Value = "1";
                                         Dgv_Selected_Item.Rows[r].Cells[iprate].Value = gridSource[i].PurchaseRate;
@@ -1547,6 +1556,11 @@ namespace FoodandBeverage.Forms
                                                 Dgv_Selected_Item.Rows[r].Cells[iname].Style.Font = new Font(currentFont, FontStyle.Bold);
 
                                                 Dgv_Selected_Item.Rows[r].Cells[iproducttypeno].Value = Convert.ToString(offerDetails[0].Field1);
+                                                Dgv_Selected_Item.Rows[r].Cells[iunit].Value =
+                                                    string.IsNullOrWhiteSpace(gridSource[i].UnitName)
+                                                        ? Convert.ToString(gridSource[i].UnitId)
+                                                        : gridSource[i].UnitName;
+                                                Dgv_Selected_Item.Rows[r].Cells[iunitid].Value = gridSource[i].UnitId;
                                                 Dgv_Selected_Item.Rows[r].Cells[iqty].Value = gridSource[i].Quantity;
                                                 Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(offerDetails[0].Field2);
                                                 Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = Convert.ToString(offerDetails[0].Field3);
@@ -1637,7 +1651,9 @@ namespace FoodandBeverage.Forms
                     int sourceOrderTypeId = checkedtableNames[k].pkid > 0 ? 1 : 0;
 
                     dmnSearchmaster.Select = "*";
-                    dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId";
+                    dmnSearchmaster.Table = "tblOrderMaster om " +
+                        "LEFT JOIN tblOrderDetails od ON od.OrderMasterId = om.OrderMasterId " +
+                        "LEFT JOIN tblUnit u ON u.UId = od.UnitId";
                     dmnSearchmaster.WhereNdGroupBy = "where  om.Status=1 and om.OrderMasterId=" + checkedtableNames[k].Ordermasterid;
                     dmnSearchmaster.OrderBy = "";
                     var gridSourcemaster_combined = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
