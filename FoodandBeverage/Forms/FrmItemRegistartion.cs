@@ -416,14 +416,18 @@ namespace FoodandBeverage.Forms
                 dgvprDetails.Rows.Add(itemSource.Count);
                 for (int i = 0; i < itemSource.Count; i++)
                 {
-                    dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
-                    dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
-                    dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
-                    dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
-                    dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
-                    dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
-                    dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].QOH;
-                    dgvprDetails.Rows[i].Cells[iprPtype].Value = itemSource[i].Fcid;
+                    if(itemSource[i].QOH >0)
+                    {
+                        dgvprDetails.Rows[i].Cells[iprslno].Value = i + 1;
+                        dgvprDetails.Rows[i].Cells[iprId].Value = itemSource[i].PrId;
+                        dgvprDetails.Rows[i].Cells[iprproduct].Value = itemSource[i].Itemname;
+                        dgvprDetails.Rows[i].Cells[iprprate].Value = itemSource[i].Prate;
+                        dgvprDetails.Rows[i].Cells[iprsrate].Value = itemSource[i].Srate;
+                        dgvprDetails.Rows[i].Cells[iprmrp].Value = itemSource[i].MRP;
+                        dgvprDetails.Rows[i].Cells[iprqoh].Value = itemSource[i].QOH;
+                        dgvprDetails.Rows[i].Cells[iprPtype].Value = itemSource[i].Fcid;
+                    }
+                    
                 }
                 dgvprDetails.Focus();
             }
