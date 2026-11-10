@@ -433,10 +433,6 @@ BEGIN
 
     DECLARE @CurrentApprovalStatus INT = NULL;
 
-    /*
-        RequiredQty and AvailableBaseQty are calculated in Base Units.
-        ConversionFactor converts each rate row's Purchase Unit QOH to Base Units.
-    */
     DECLARE @StockToDeduct TABLE
     (
         ItemId BIGINT NOT NULL PRIMARY KEY,
@@ -455,11 +451,6 @@ BEGIN
         IF ISNULL(@EmployeeId, 0) <= 0
             THROW 50205, 'A valid employee ID is required for this action.', 1;
 
-        /*
-            Lock the request master row before checking its status.
-            This prevents two users from approving the same request and
-            deducting its stock more than once.
-        */
         SELECT @CurrentApprovalStatus = ISNULL(ApprovalStatus, 0)
         FROM dbo.tblInventoryRequestMaster WITH (UPDLOCK, HOLDLOCK)
         WHERE InventoryRequestId = @InventoryRequestId
@@ -469,7 +460,7 @@ BEGIN
         IF @CurrentApprovalStatus IS NULL
             THROW 50207, 'The active inventory request was not found for this branch.', 1;
 
-        /* Status 0 = resubmit a request that was previously sent back. */
+        /* Resubmit a request previously sent back. */
         IF @ApprovalStatus = 0
         BEGIN
             IF @CurrentApprovalStatus <> 3
@@ -488,10 +479,7 @@ BEGIN
 
             IF @@ROWCOUNT = 0
                 THROW 50201, 'Only an active Sent Back request can be resubmitted.', 1;
-
-            /* Keep ApprovalRemarks so the requester can still see the send-back reason. */
         END
-        /* Status 1 = Approved, 2 = Rejected, 3 = Sent Back. */
         ELSE IF @ApprovalStatus IN (1, 2, 3)
         BEGIN
             IF @CurrentApprovalStatus <> 0
@@ -499,65 +487,136 @@ BEGIN
 
             IF @ApprovalStatus IN (2, 3)
                AND NULLIF(LTRIM(RTRIM(@ApprovalRemarks)), '') IS NULL
-            BEGIN
                 THROW 50206, 'Remarks are required when rejecting or sending back a request.', 1;
-            END;
 
-            /*
-                Deduct stock only when approving.
-
-                tblItem.unit       = purchase unit
-                tblItem.Baseunit   = stock/base conversion unit
-                tblItem.Conversionfactor = quantity of Baseunit in one purchase unit
-
-                If the inventory request detail Unit is the purchase unit,
-                RequiredQty is multiplied by Conversionfactor.
-                If it is already Baseunit, it is deducted without conversion.
-
-                The request form stores direct raw-material rows in Baseunit.
-                Batch ingredient rows retain the Unit selected in the recipe.
-            */
             IF @ApprovalStatus = 1
             BEGIN
-                /* Prevent negative stock requirements. */
+                /* Validate product quantities. */
                 IF EXISTS
                 (
                     SELECT 1
-                    FROM dbo.tblInventoryRequestDetails AS d WITH (UPDLOCK, HOLDLOCK)
+                    FROM dbo.tblInventoryRequestDetails d WITH (UPDLOCK, HOLDLOCK)
                     WHERE d.InventoryRequestId = @InventoryRequestId
                       AND ISNULL(d.Status, 1) = 1
-                      AND
-                      (
-                          (d.RequestType = 1 AND ISNULL(d.TotalRequiredQty, 0) < 0)
-                          OR
-                          (d.RequestType = 2 AND ISNULL(d.IssuedQty, 0) < 0)
-                      )
+                      AND d.RequestType = 1
+                      AND (ISNULL(d.ProductId, 0) <= 0 OR ISNULL(d.PlannedQty, 0) < 0)
                 )
-                BEGIN
-                    THROW 50208, 'A raw-material quantity cannot be negative. Stock was not deducted.', 1;
-                END;
+                    THROW 50208, 'A product request contains an invalid product or negative planned quantity.', 1;
 
                 /*
-                    A stock-bearing detail must reference a valid item and use
-                    either that item's purchase unit or Baseunit. Do not guess
-                    a conversion for an unrelated unit.
+                   FoodPreparationType must be configured before a product
+                   request is approved. Unknown values must not silently skip
+                   stock deduction.
                 */
                 IF EXISTS
                 (
                     SELECT 1
-                    FROM dbo.tblInventoryRequestDetails AS d WITH (UPDLOCK, HOLDLOCK)
-                    LEFT JOIN dbo.tblItem AS i
-                        ON i.ItemId = d.ItemId
+                    FROM
+                    (
+                        SELECT DISTINCT ProductId
+                        FROM dbo.tblInventoryRequestDetails
+                        WHERE InventoryRequestId = @InventoryRequestId
+                          AND ISNULL(Status, 1) = 1
+                          AND RequestType = 1
+                          AND ISNULL(PlannedQty, 0) > 0
+                    ) requested
+                    LEFT JOIN dbo.tblProduct p
+                        ON p.ProductId = requested.ProductId
+                    WHERE p.ProductId IS NULL
+                       OR ISNULL(p.FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
+                )
+                    THROW 50219, 'A requested product has an invalid or missing FoodPreparationType (1-4). Approval was cancelled.', 1;
+
+                /*
+                   Validate only recipe ingredients that are deducted at
+                   batch approval:
+                     - BatchPrepared (2): all raw-material rows.
+                     - PartiallyPrepared (3): stage 2 rows only.
+                   MadeToOrder (1), NotApplicable (4), and Packing (2)
+                   ingredients are intentionally excluded.
+                */
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM
+                    (
+                        SELECT DISTINCT ProductId, PlannedQty
+                        FROM dbo.tblInventoryRequestDetails
+                        WHERE InventoryRequestId = @InventoryRequestId
+                          AND ISNULL(Status, 1) = 1
+                          AND RequestType = 1
+                          AND ISNULL(PlannedQty, 0) > 0
+                    ) requested
+                    INNER JOIN dbo.tblProduct p
+                        ON p.ProductId = requested.ProductId
+                    INNER JOIN dbo.tblIngredientDetails ing
+                        ON ing.ProductId = requested.ProductId
+                       AND ing.ProductType = 1
+                       AND ISNULL(ing.Status, 1) = 1
+                       AND
+                       (
+                           p.FoodPreparationType = 2
+                           OR
+                           (
+                               p.FoodPreparationType = 3
+                               AND ISNULL(ing.Deductionstage, 0) = 2
+                           )
+                       )
+                    LEFT JOIN dbo.tblItem i
+                        ON i.ItemId = ing.ItemId
+                    WHERE ISNULL(ing.Quantity, 0) <= 0
+                       OR i.ItemId IS NULL
+                       OR i.Baseunit IS NULL
+                       OR ISNULL(i.Baseunit, '') = ''
+                )
+                    THROW 50215, 'A batch-deduction recipe ingredient has an invalid quantity, ItemId, or Baseunit.', 1;
+
+                /* PartiallyPrepared ingredients must use a known deduction stage. */
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM
+                    (
+                        SELECT DISTINCT ProductId
+                        FROM dbo.tblInventoryRequestDetails
+                        WHERE InventoryRequestId = @InventoryRequestId
+                          AND ISNULL(Status, 1) = 1
+                          AND RequestType = 1
+                          AND ISNULL(PlannedQty, 0) > 0
+                    ) requested
+                    INNER JOIN dbo.tblProduct p
+                        ON p.ProductId = requested.ProductId
+                       AND p.FoodPreparationType = 3
+                    INNER JOIN dbo.tblIngredientDetails ing
+                        ON ing.ProductId = requested.ProductId
+                       AND ing.ProductType = 1
+                       AND ISNULL(ing.Status, 1) = 1
+                    WHERE ISNULL(ing.Deductionstage, 0) NOT IN (1, 2)
+                )
+                    THROW 50220, 'A PartiallyPrepared raw-material ingredient has an invalid Deductionstage. Use 1 (OrderTime) or 2 (BatchPreparation).', 1;
+
+                /* Validate direct raw-material request quantities and units. */
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM dbo.tblInventoryRequestDetails d WITH (UPDLOCK, HOLDLOCK)
+                    LEFT JOIN dbo.tblItem i ON i.ItemId = d.ItemId
                     WHERE d.InventoryRequestId = @InventoryRequestId
                       AND ISNULL(d.Status, 1) = 1
-                      AND d.RequestType IN (1, 2)
-                      AND d.ItemId IS NOT NULL
-                      AND
-                      (
-                          (d.RequestType = 1 AND ISNULL(d.TotalRequiredQty, 0) > 0)
-                          OR
-                          (d.RequestType = 2 AND ISNULL(d.IssuedQty, 0) > 0)
-                      )
+                      AND d.RequestType = 2
+                      AND ISNULL(d.IssuedQty, 0) < 0
+                )
+                    THROW 50218, 'A direct raw-material issued quantity cannot be negative.', 1;
+
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM dbo.tblInventoryRequestDetails d WITH (UPDLOCK, HOLDLOCK)
+                    LEFT JOIN dbo.tblItem i ON i.ItemId = d.ItemId
+                    WHERE d.InventoryRequestId = @InventoryRequestId
+                      AND ISNULL(d.Status, 1) = 1
+                      AND d.RequestType = 2
+                      AND ISNULL(d.IssuedQty, 0) > 0
                       AND
                       (
                           i.ItemId IS NULL
@@ -569,43 +628,102 @@ BEGIN
                           )
                       )
                 )
-                BEGIN
-                    THROW 50211, 'A request detail has an invalid unit. The unit must match the item purchase unit or Baseunit.', 1;
-                END;
+                    THROW 50211, 'A direct raw-material request has an invalid unit. Use the purchase unit or Baseunit.', 1;
 
-                /*
-                    Conversionfactor must be positive whenever a detail is
-                    entered in the purchase unit and Baseunit is different.
-                */
                 IF EXISTS
                 (
                     SELECT 1
-                    FROM dbo.tblInventoryRequestDetails AS d WITH (UPDLOCK, HOLDLOCK)
-                    INNER JOIN dbo.tblItem AS i
-                        ON i.ItemId = d.ItemId
+                    FROM dbo.tblInventoryRequestDetails d
+                    INNER JOIN dbo.tblItem i ON i.ItemId = d.ItemId
                     WHERE d.InventoryRequestId = @InventoryRequestId
                       AND ISNULL(d.Status, 1) = 1
-                      AND d.RequestType IN (1, 2)
+                      AND d.RequestType = 2
+                      AND ISNULL(d.IssuedQty, 0) > 0
                       AND d.Unit = i.unit
                       AND i.Baseunit IS NOT NULL
                       AND i.Baseunit <> i.unit
                       AND ISNULL(i.Conversionfactor, 0) <= 0
-                      AND
-                      (
-                          (d.RequestType = 1 AND ISNULL(d.TotalRequiredQty, 0) > 0)
-                          OR
-                          (d.RequestType = 2 AND ISNULL(d.IssuedQty, 0) > 0)
-                      )
                 )
-                BEGIN
-                    THROW 50212, 'The item has an invalid Conversionfactor. Stock was not deducted.', 1;
-                END;
+                    THROW 50212, 'A direct raw material has an invalid Conversionfactor.', 1;
 
                 /*
-                    Calculate all required stock in Baseunit and group by ItemId.
-                    This also combines an item if it is used by both a batch
-                    product recipe and the direct raw-material section.
+                   The form stores a RequestType=1 detail row for every recipe
+                   ingredient, repeating ProductId and PlannedQty. Deduplicate
+                   ProductId + PlannedQty before expanding the ingredient list.
+
+                   Batch deduction matrix:
+                     FoodPreparationType 2: all ProductType=1 ingredients.
+                     FoodPreparationType 3: ProductType=1, Deductionstage 2 only.
+                     FoodPreparationType 1 or 4: none at batch approval.
+                     ProductType=2 (Packing): always excluded.
                 */
+                ;WITH ProductRequests AS
+                (
+                    SELECT ProductId, PlannedQty
+                    FROM dbo.tblInventoryRequestDetails
+                    WHERE InventoryRequestId = @InventoryRequestId
+                      AND ISNULL(Status, 1) = 1
+                      AND RequestType = 1
+                      AND ISNULL(PlannedQty, 0) > 0
+                    GROUP BY ProductId, PlannedQty
+                ),
+                RequiredRawMaterials AS
+                (
+                    /* Batch request: include only ingredients due at batch stage. */
+                    SELECT
+                        ing.ItemId,
+                        CONVERT
+                        (
+                            DECIMAL(18,4),
+                            requested.PlannedQty * ing.Quantity *
+                            CASE
+                                WHEN ing.Unit = i.unit
+                                 AND ISNULL(i.Baseunit, i.unit) <> i.unit
+                                    THEN i.Conversionfactor
+                                ELSE 1
+                            END
+                        ) AS RequiredBaseQty
+                    FROM ProductRequests requested
+                    INNER JOIN dbo.tblProduct product
+                        ON product.ProductId = requested.ProductId
+                    INNER JOIN dbo.tblIngredientDetails ing
+                        ON ing.ProductId = requested.ProductId
+                       AND ing.ProductType = 1
+                       AND ISNULL(ing.Status, 1) = 1
+                    INNER JOIN dbo.tblItem i
+                        ON i.ItemId = ing.ItemId
+                    WHERE
+                        product.FoodPreparationType = 2
+                        OR
+                        (
+                            product.FoodPreparationType = 3
+                            AND ISNULL(ing.Deductionstage, 0) = 2
+                        )
+
+                    UNION ALL
+
+                    /* Direct raw-material issue: always deduct on approval. */
+                    SELECT
+                        d.ItemId,
+                        CONVERT
+                        (
+                            DECIMAL(18,4),
+                            d.IssuedQty *
+                            CASE
+                                WHEN d.Unit = i.unit
+                                 AND ISNULL(i.Baseunit, i.unit) <> i.unit
+                                    THEN i.Conversionfactor
+                                ELSE 1
+                            END
+                        ) AS RequiredBaseQty
+                    FROM dbo.tblInventoryRequestDetails d
+                    INNER JOIN dbo.tblItem i
+                        ON i.ItemId = d.ItemId
+                    WHERE d.InventoryRequestId = @InventoryRequestId
+                      AND ISNULL(d.Status, 1) = 1
+                      AND d.RequestType = 2
+                      AND ISNULL(d.IssuedQty, 0) > 0
+                )
                 INSERT INTO @StockToDeduct
                 (
                     ItemId,
@@ -613,112 +731,66 @@ BEGIN
                     ConversionFactor
                 )
                 SELECT
-                    d.ItemId,
-                    SUM
-                    (
-                        CONVERT
-                        (
-                            DECIMAL(18,4),
-                            CASE
-                                WHEN d.RequestType = 1 THEN
-                                    ISNULL(d.TotalRequiredQty, 0) *
-                                    CASE
-                                        WHEN d.Unit = i.unit
-                                         AND ISNULL(i.Baseunit,i.unit) <> i.unit
-                                            THEN i.Conversionfactor
-                                        ELSE 1
-                                    END
-                                WHEN d.RequestType = 2 THEN
-                                    ISNULL(d.IssuedQty, 0) *
-                                    CASE
-                                        WHEN d.Unit = i.unit
-                                         AND ISNULL(i.Baseunit,i.unit) <> i.unit
-                                            THEN i.Conversionfactor
-                                        ELSE 1
-                                    END
-                                ELSE 0
-                            END
-                        )
-                    ) AS RequiredQty,
+                    r.ItemId,
+                    CONVERT(DECIMAL(18,4), SUM(r.RequiredBaseQty)),
                     MAX
                     (
                         CASE
-                            WHEN ISNULL(i.Baseunit,i.unit) = i.unit THEN 1
+                            WHEN ISNULL(i.Baseunit, i.unit) = i.unit THEN 1
                             ELSE i.Conversionfactor
                         END
-                    ) AS ConversionFactor
-                FROM dbo.tblInventoryRequestDetails AS d WITH (UPDLOCK, HOLDLOCK)
-                INNER JOIN dbo.tblItem AS i
-                    ON i.ItemId = d.ItemId
-                WHERE d.InventoryRequestId = @InventoryRequestId
-                  AND ISNULL(d.Status, 1) = 1
-                  AND d.RequestType IN (1, 2)
-                  AND d.ItemId IS NOT NULL
-                GROUP BY d.ItemId
-                HAVING SUM
-                (
-                    CASE
-                        WHEN d.RequestType = 1 THEN ISNULL(d.TotalRequiredQty, 0)
-                        WHEN d.RequestType = 2 THEN ISNULL(d.IssuedQty, 0)
-                        ELSE 0
-                    END
-                ) > 0;
+                    )
+                FROM RequiredRawMaterials r
+                INNER JOIN dbo.tblItem i ON i.ItemId = r.ItemId
+                GROUP BY r.ItemId
+                HAVING SUM(r.RequiredBaseQty) > 0;
 
-                /*
-                    QOH is stored in Purchase Units. Convert every active rate row
-                    to Base Units before checking total available stock.
-                */
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM @StockToDeduct
+                    WHERE ISNULL(ConversionFactor, 0) <= 0
+                )
+                    THROW 50217, 'A raw material has an invalid stock conversion factor.', 1;
+
+                /* Sum all active purchase-unit QOH and convert to Baseunit. */
                 UPDATE stock
-                SET
-                    ActiveRateCount = rate.RateCount,
-                    AvailableBaseQty = CONVERT(DECIMAL(18,4), ISNULL(rate.AvailableBaseQty, 0))
-                FROM @StockToDeduct AS stock
+                SET ActiveRateCount = rates.RateCount,
+                    AvailableBaseQty =
+                        CONVERT(DECIMAL(18,4), ISNULL(rates.AvailablePurchaseQty, 0)
+                            * stock.ConversionFactor)
+                FROM @StockToDeduct stock
                 OUTER APPLY
                 (
                     SELECT
                         COUNT(*) AS RateCount,
                         SUM
                         (
-                            CONVERT
-                            (
-                                DECIMAL(18,4),
-                                CASE
-                                    WHEN ISNULL(pr.QOH, 0) > 0
-                                        THEN ISNULL(pr.QOH, 0) * stock.ConversionFactor
-                                    ELSE 0
-                                END
-                            )
-                        ) AS AvailableBaseQty
-                    FROM dbo.tblProductRate AS pr WITH (UPDLOCK, HOLDLOCK)
+                            CASE WHEN ISNULL(pr.QOH, 0) > 0
+                                 THEN CONVERT(DECIMAL(18,4), pr.QOH)
+                                 ELSE CONVERT(DECIMAL(18,4), 0)
+                            END
+                        ) AS AvailablePurchaseQty
+                    FROM dbo.tblProductRate pr WITH (UPDLOCK, HOLDLOCK)
                     WHERE pr.ProductId = stock.ItemId
                       AND pr.Status = 1
-                ) AS rate;
+                ) rates;
 
                 IF EXISTS
                 (
-                    SELECT 1
-                    FROM @StockToDeduct
+                    SELECT 1 FROM @StockToDeduct
                     WHERE ISNULL(ActiveRateCount, 0) = 0
                 )
-                BEGIN
-                    THROW 50209, 'No active stock records were found in tblProductRate for one or more raw materials. Approval was cancelled.', 1;
-                END;
+                    THROW 50209, 'No active stock records were found for one or more raw materials.', 1;
 
                 IF EXISTS
                 (
-                    SELECT 1
-                    FROM @StockToDeduct
+                    SELECT 1 FROM @StockToDeduct
                     WHERE ISNULL(AvailableBaseQty, 0) < RequiredQty
                 )
-                BEGIN
-                    THROW 50210, 'Insufficient total stock across active tblProductRate rows after unit conversion. Approval was cancelled.', 1;
-                END;
+                    THROW 50210, 'Insufficient raw-material stock. Approval was cancelled.', 1;
 
-                /*
-                    Allocate the requested Base Units across active price rows
-                    in FIFO order (oldest Id first). Convert each row's remaining
-                    Base Units back to Purchase Units before saving QOH.
-                */
+                /* FIFO deduction: oldest tblProductRate.Id first. */
                 ;WITH RateRows AS
                 (
                     SELECT
@@ -727,10 +799,9 @@ BEGIN
                         CONVERT
                         (
                             DECIMAL(18,4),
-                            CASE
-                                WHEN ISNULL(pr.QOH, 0) > 0
-                                    THEN ISNULL(pr.QOH, 0) * stock.ConversionFactor
-                                ELSE 0
+                            CASE WHEN ISNULL(pr.QOH, 0) > 0
+                                 THEN pr.QOH * stock.ConversionFactor
+                                 ELSE 0
                             END
                         ) AS RowQtyBase,
                         stock.RequiredQty,
@@ -741,10 +812,9 @@ BEGIN
                                 CONVERT
                                 (
                                     DECIMAL(18,4),
-                                    CASE
-                                        WHEN ISNULL(pr.QOH, 0) > 0
-                                            THEN ISNULL(pr.QOH, 0) * stock.ConversionFactor
-                                        ELSE 0
+                                    CASE WHEN ISNULL(pr.QOH, 0) > 0
+                                         THEN pr.QOH * stock.ConversionFactor
+                                         ELSE 0
                                     END
                                 )
                             ) OVER
@@ -755,8 +825,8 @@ BEGIN
                             ),
                             0
                         ) AS QtyBeforeBase
-                    FROM dbo.tblProductRate AS pr WITH (UPDLOCK, HOLDLOCK)
-                    INNER JOIN @StockToDeduct AS stock
+                    FROM dbo.tblProductRate pr WITH (UPDLOCK, HOLDLOCK)
+                    INNER JOIN @StockToDeduct stock
                         ON stock.ItemId = pr.ProductId
                     WHERE pr.Status = 1
                 ),
@@ -780,21 +850,17 @@ BEGIN
                     (
                         DECIMAL(18,4),
                         (
-                            (CONVERT(DECIMAL(18,8), ISNULL(pr.QOH, 0)) *
-                             deduction.ConversionFactor) -
-                            deduction.DeductQtyBase
+                            CONVERT(DECIMAL(18,8), ISNULL(pr.QOH, 0))
+                            * deduction.ConversionFactor
+                            - deduction.DeductQtyBase
                         ) / NULLIF(deduction.ConversionFactor, 0)
                     )
-                FROM dbo.tblProductRate AS pr
-                INNER JOIN RateDeductions AS deduction
+                FROM dbo.tblProductRate pr
+                INNER JOIN RateDeductions deduction
                     ON deduction.Id = pr.Id
                 WHERE deduction.DeductQtyBase > 0;
             END;
 
-            /*
-                Update approval only after stock validation and deduction.
-                Any error rolls back both stock changes and approval status.
-            */
             UPDATE dbo.tblInventoryRequestMaster
             SET ApprovalStatus = @ApprovalStatus,
                 ApprovedBy = @EmployeeId,
@@ -811,16 +877,13 @@ BEGIN
                 THROW 50202, 'Only an active Pending request can be approved, rejected, or sent back.', 1;
         END
         ELSE
-        BEGIN
             THROW 50203, 'Invalid inventory request approval status.', 1;
-        END;
 
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0
             ROLLBACK TRANSACTION;
-
         THROW;
     END CATCH;
 END;
