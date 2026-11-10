@@ -1334,6 +1334,7 @@ namespace FoodandBeverage.Forms
 
                     txtadultprice.ReadOnly = chkfixedprice.Checked;
                     txtchildprice.ReadOnly = chkfixedprice.Checked;
+                    pnl_fdprice_pack.Visible = false;
                     txtDisPer.Text = data.DiscountPer.ToString();
                     txtDiscAmnt.Text = data.DiscountAmt.ToString();
                     cmbTaxType.Text = data.TaxType;
