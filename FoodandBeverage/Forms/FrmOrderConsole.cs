@@ -170,15 +170,17 @@ namespace FoodandBeverage.Forms
         public int iVariatiionNameno = 43;
         public int iPreparationModeno = 44;
         public int isaledetailsidno = 45;
-        public int istocktrackno = 46;
-        public int iorgname = 47;
-        public int icombotaxamt = 48;
+        public int iorgname = 46;
+        public int icombotaxamt = 47;
+        public int istocktrackno = 48;
         public int ipretaxamtno = 49;
         public int iSaledisperno = 50;
         public int isalediamtno = 51;
 
 
         // Combined grid column indexes match Dgv_Selected_Item.
+        public int Caction = 0;
+        public int Cslno = 1;
         public int Cbarcode = 2;
         public int vname = 4;
         public int ciunit = 5;
@@ -223,9 +225,9 @@ namespace FoodandBeverage.Forms
         public int CVariatiionNameno = 43;
         public int CPreparationModeno = 44;
         public int CSalesDetailsIdno = 45;
-        public int Cstocktrackno = 46;
-        public int COrginalname = 47;
-        public int Ccombotaxamtno = 48;
+        public int COrginalname = 46;
+        public int Ccombotaxamtno = 47;
+        public int Cstocktrackno = 48;
         public int Cpretaxamtno = 49;
         public int cSaledisperno = 50;
         public int csalediamtno = 51;
@@ -1714,7 +1716,7 @@ namespace FoodandBeverage.Forms
                                 if (!valueExists)
                                 {
                                     int rowIndex = dgv_combined.Rows.Add();
-                                    dgv_combined.Rows[rowIndex].Cells[1].Value = rowIndex + 1; // SlNo
+                                    dgv_combined.Rows[rowIndex].Cells[Cslno].Value = rowIndex + 1; // SlNo
                                     dgv_combined.Rows[rowIndex].Cells[COrderTypeIdno].Value = sourceOrderTypeId;
                                     dgv_combined.Rows[rowIndex].Cells[cpackingpriceno.Index].Value = 0m;
                                     dgv_combined.Rows[rowIndex].Cells[cpackingtaxamountno.Index].Value = 0m;
