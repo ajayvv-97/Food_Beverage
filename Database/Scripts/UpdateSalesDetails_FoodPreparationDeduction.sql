@@ -348,7 +348,7 @@ BEGIN
                           P.ProductId IS NULL
                           OR ISNULL(P.Status, 0) <> 1
                           OR P.FoodPreparationType IS NULL
-                          OR P.FoodPreparationType NOT IN (1, 2, 3, 4)
+                          OR ISNULL(P.FoodPreparationType, 0) NOT IN (1, 2, 3, 4)
                       )
                 )
                     THROW 50314, 'A combo component is missing, inactive, or has an invalid FoodPreparationType. Stock was not deducted.', 1;
@@ -408,7 +408,6 @@ BEGIN
                     @PackagingRequired
                 );
             END;
-        END;
 
         /*
                PartiallyPrepared raw-material rows must be assigned to one of
