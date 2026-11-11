@@ -2110,6 +2110,7 @@ namespace FoodandBeverage.Forms
                     " from tblkitchenOrder ko " +
                         " Left Join tblOrderDetails od on od.OrderDetailsId=ko.OrderDetailsId " +
                         " Left Join tblOrderMaster om on om.OrderMasterId=ko.OrderMasterId " +
+                        " Left Join tblSalesMaster sm on sm.SalesMasterId=om.SalesMasterId " +
                         " Left Join tblTable_info ti on ti.Tid=ko.Tid " +
                         " Left Join tblEmployee e  on e.EmployeeId = om.CreatedBy " +
                     " where om.status=1 and ko.OrderMasterId=" + ordermid + " and ko.OrderNo=" + orderno + " and od.TableType!=" + Convert.ToInt32(Tabletype.ComboProduct) + " and ko.status in(1,2)" +
@@ -2216,11 +2217,18 @@ namespace FoodandBeverage.Forms
 
                         //MessageBox.Show(RPTPath + "crkitchenbill.rpt.rpt" + 2);
                         //textBox2.Text = RPTPath + "CRkitchenbill_Pickup.rpt";
-                        // Pickup and Takeaway are different SalesMaster.OrderType
-                        // values, but both use the same Pickup kitchen report.
+                        // Pickup (OrderType 1) and Takeaway (OrderType 4) share the
+                        // Pickup kitchen report. Keep Pkid and daily-token fallbacks for
+                        // older orders where SalesMaster.OrderType may be null or zero.
+                        Tuple<int, string> dailyOrderToken = GetDailyOrderToken(ordermid);
+                        int salesOrderType = Convert.ToInt32(BillDetails[0].OrderType);
+                        int dailyOrderTypeId = dailyOrderToken == null ? 0 : dailyOrderToken.Item1;
                         bool isPickupOrTakeaway =
                             Convert.ToInt32(BillDetails[0].Pkid) > 0 ||
-                            Convert.ToInt32(BillDetails[0].OrderType) == 4;
+                            salesOrderType == 1 ||
+                            salesOrderType == 4 ||
+                            dailyOrderTypeId == 1 ||
+                            dailyOrderTypeId == 2;
 
                         string reportPath = isPickupOrTakeaway
                             ? RPTPath + "CRkitchenbill_Pickup.rpt"
