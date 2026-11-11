@@ -1485,7 +1485,7 @@ namespace FoodandBeverage.Forms
                     //dmnSearchDetails.OrderBy = "order by AddonStatus";
 
                     dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName," +
-                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + orders.Field1 + " and OrderNo=" + orders.Field2 + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,om.OrderType OrderType,'' as Station,e.EmployeeName,(" +
+                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + orders.Field1 + " and OrderNo=" + orders.Field2 + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,ISNULL(sm.OrderType,0) OrderType,'' as Station,e.EmployeeName,(" +
                         " 'PAX : ' + CAST(om.TotalGuestCount AS VARCHAR) + " +
                         " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
                         " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
@@ -1494,6 +1494,7 @@ namespace FoodandBeverage.Forms
                     dmnSearchDetails.Table = "tblkitchenOrder ko " +
                         "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                         "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
+                        "Left Join tblSalesMaster sm on sm.SalesMasterId=om.SalesMasterId " +
                         "Left Join tblTable_info  ti on ti.Tid=ko.Tid" +
                         " Left Join tblOfferMaster ofm  on od.ItemId = ofm.Omid and od.TableType = 3" +
                         " Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid" +
