@@ -148,33 +148,44 @@ namespace FoodandBeverage.Controls
 
             accentColor = Color.FromArgb(125, 82, 190);
             foreach (Control control in Controls)
-            {
-                Label label = control as Label;
-                if (label == null)
-                    continue;
+                ApplyKitchenStateToChild(control, statusBack, statusFore, statusText);
 
+            Invalidate();
+        }
+
+        private static void ApplyKitchenStateToChild(Control control, Color statusBack, Color statusFore, string statusText)
+        {
+            if (control == null)
+                return;
+
+            Label label = control as Label;
+            if (label != null)
+            {
                 if (label.Name.StartsWith("lbl_status_K_", StringComparison.Ordinal))
                 {
                     label.BackColor = statusBack;
                     label.ForeColor = statusFore;
                     label.Text = statusText;
                 }
-                else if (label.Name.StartsWith("lbl_kot_title_", StringComparison.Ordinal))
+                else if (label.Name.StartsWith("lbl_kot_title_", StringComparison.Ordinal) ||
+                         label.Name.StartsWith("lbl_kot_subtitle_", StringComparison.Ordinal))
                 {
-                    label.BackColor = TicketPurple;
+                    label.BackColor = Color.Transparent;
                     label.ForeColor = Color.White;
                 }
-                else if (label.Name.StartsWith("lbl_tablecod_k_", StringComparison.Ordinal) ||
-                         label.Name.StartsWith("lbl_tokkenno_k_", StringComparison.Ordinal) ||
-                         label.Name.StartsWith("lbl_order_type_k_", StringComparison.Ordinal) ||
+                else if (label.Name.StartsWith("lbl_tokkenno_k_", StringComparison.Ordinal))
+                {
+                    label.ForeColor = TicketPurple;
+                }
+                else if (label.Name.StartsWith("lbl_order_type_k_", StringComparison.Ordinal) ||
                          label.Name.StartsWith("lbl_time_K_", StringComparison.Ordinal))
                 {
-                    label.BackColor = Color.FromArgb(244, 239, 251);
-                    label.ForeColor = Color.FromArgb(49, 31, 83);
+                    label.ForeColor = Color.FromArgb(22, 20, 48);
                 }
             }
 
-            Invalidate();
+            foreach (Control child in control.Controls)
+                ApplyKitchenStateToChild(child, statusBack, statusFore, statusText);
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -211,7 +222,7 @@ namespace FoodandBeverage.Controls
             using (GraphicsPath path = CreateRoundedPath(bounds, 15F))
             using (Pen border = new Pen(Color.FromArgb(220, 210, 236), 1F))
             using (Pen accent = new Pen(accentColor, 2F))
-            using (Pen separator = new Pen(Color.FromArgb(137, 98, 190), 1F))
+            using (Pen separator = new Pen(Color.FromArgb(125, 82, 190), 1.5F))
             {
                 separator.DashStyle = DashStyle.Dash;
                 e.Graphics.DrawPath(border, path);
@@ -220,12 +231,27 @@ namespace FoodandBeverage.Controls
                 e.Graphics.DrawLine(accent, 15F, 2.5F, Math.Max(15F, Width - 16F), 2.5F);
 
                 int[] rowHeights = GetRowHeights();
-                if (rowHeights != null && rowHeights.Length >= 4)
+                if (rowHeights != null && rowHeights.Length >= 5)
                 {
-                    int metaBottom = rowHeights[0] + rowHeights[1] + Padding.Top;
-                    e.Graphics.DrawLine(separator, 14, metaBottom, Width - 14, metaBottom);
-                    int notesTop = metaBottom + rowHeights[2];
-                    e.Graphics.DrawLine(separator, 14, notesTop, Width - 14, notesTop);
+                    int metadataBottom = Padding.Top + rowHeights[0] + rowHeights[1];
+                    e.Graphics.DrawLine(separator, 14, metadataBottom, Width - 14, metadataBottom);
+
+                    int footerTop = Padding.Top + rowHeights[0] + rowHeights[1] +
+                        rowHeights[2] + rowHeights[3] + rowHeights[4];
+                    int centerY = footerTop + 1;
+                    e.Graphics.DrawLine(separator, 14, centerY, Math.Max(14, Width / 2 - 25), centerY);
+                    e.Graphics.DrawLine(separator, Math.Min(Width - 14, Width / 2 + 25), centerY, Width - 14, centerY);
+                }
+
+                // Vector receipt serration avoids one image/control per paper tooth.
+                using (Pen cut = new Pen(Color.FromArgb(190, 158, 222), 2F))
+                {
+                    int baseY = Height - 5;
+                    for (int x = 10; x < Width - 15; x += 14)
+                    {
+                        e.Graphics.DrawLine(cut, x, baseY - 5, x + 7, baseY);
+                        e.Graphics.DrawLine(cut, x + 7, baseY, x + 14, baseY - 5);
+                    }
                 }
             }
         }
