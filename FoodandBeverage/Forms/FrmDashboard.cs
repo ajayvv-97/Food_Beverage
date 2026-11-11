@@ -6892,7 +6892,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ib_InventoryManagement_Click(object sender, EventArgs e)
+        private void ib_InventoryManagement_Click(object sender, EventArgs e) 
         {
             try
             {
@@ -6936,7 +6936,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ibrequestapproval_Click(object sender, EventArgs e)
+        private void ibrequestapproval_Click(object sender, EventArgs e) 
         {
             try
             {

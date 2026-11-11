@@ -459,6 +459,8 @@ namespace FoodandBeverage.Forms
             this.lbligst = new System.Windows.Forms.Label();
             this.cmbVatPrcnt = new System.Windows.Forms.ComboBox();
             this.cmbIgstPrcnt = new System.Windows.Forms.ComboBox();
+            this.pnl_kitchenorderBill = new System.Windows.Forms.Panel();
+            this.crvkitchenbill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.pnl_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_appicon)).BeginInit();
             this.pnl_hidecntrl.SuspendLayout();
@@ -567,6 +569,7 @@ namespace FoodandBeverage.Forms
             this.tlp_ec_contrl.SuspendLayout();
             this.tableLayoutPanel47.SuspendLayout();
             this.pnl_controls.SuspendLayout();
+            this.pnl_kitchenorderBill.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_header
@@ -6780,11 +6783,43 @@ namespace FoodandBeverage.Forms
             this.cmbIgstPrcnt.TabIndex = 347;
             this.cmbIgstPrcnt.SelectedIndexChanged += new System.EventHandler(this.cmbIgstPrcnt_SelectedIndexChanged);
             // 
+            // pnl_kitchenorderBill
+            // 
+            this.pnl_kitchenorderBill.Controls.Add(this.crvkitchenbill);
+            this.pnl_kitchenorderBill.Location = new System.Drawing.Point(327, 201);
+            this.pnl_kitchenorderBill.Name = "pnl_kitchenorderBill";
+            this.pnl_kitchenorderBill.Padding = new System.Windows.Forms.Padding(10, 30, 10, 10);
+            this.pnl_kitchenorderBill.Size = new System.Drawing.Size(341, 238);
+            this.pnl_kitchenorderBill.TabIndex = 339;
+            this.pnl_kitchenorderBill.Visible = false;
+            // 
+            // crvkitchenbill
+            // 
+            this.crvkitchenbill.ActiveViewIndex = -1;
+            this.crvkitchenbill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.crvkitchenbill.Cursor = System.Windows.Forms.Cursors.Default;
+            this.crvkitchenbill.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.crvkitchenbill.Location = new System.Drawing.Point(10, 30);
+            this.crvkitchenbill.Name = "crvkitchenbill";
+            this.crvkitchenbill.ShowCloseButton = false;
+            this.crvkitchenbill.ShowCopyButton = false;
+            this.crvkitchenbill.ShowGotoPageButton = false;
+            this.crvkitchenbill.ShowGroupTreeButton = false;
+            this.crvkitchenbill.ShowLogo = false;
+            this.crvkitchenbill.ShowPageNavigateButtons = false;
+            this.crvkitchenbill.ShowParameterPanelButton = false;
+            this.crvkitchenbill.ShowTextSearchButton = false;
+            this.crvkitchenbill.ShowZoomButton = false;
+            this.crvkitchenbill.Size = new System.Drawing.Size(321, 198);
+            this.crvkitchenbill.TabIndex = 0;
+            this.crvkitchenbill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
+            // 
             // FrmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(994, 640);
+            this.Controls.Add(this.pnl_kitchenorderBill);
             this.Controls.Add(this.flp_operabuttons);
             this.Controls.Add(this.pnlgenralsetting);
             this.Controls.Add(this.pnl_controls);
@@ -6977,6 +7012,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel47.PerformLayout();
             this.pnl_controls.ResumeLayout(false);
             this.pnl_controls.PerformLayout();
+            this.pnl_kitchenorderBill.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -7410,5 +7446,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel48;
         private System.Windows.Forms.CheckBox chk_partybook_KOT;
         private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.Panel pnl_kitchenorderBill;
+        private CrystalDecisions.Windows.Forms.CrystalReportViewer crvkitchenbill;
     }
 }
