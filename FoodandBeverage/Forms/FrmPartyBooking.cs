@@ -224,6 +224,8 @@ namespace FoodandBeverage
         private const byte BlurDarkOverlayAlpha = 72;
         #endregion
 
+        // Default send time is two hours before the party when possible;
+        // if that time has passed, KOT defaults to now + 1 minute.
         private const int DefaultKotLeadTimeHours = 2;
         private bool _enablePartyBookingKOT;
         private bool _isProgrammaticallySettingKotDateTime;
@@ -1010,17 +1012,21 @@ namespace FoodandBeverage
 
         private void UpdateDefaultKotDateTime(DateTime bookingStart)
         {
-
-            if (bookingStart <= DateTime.Now)
-                return;
-
-            DateTime automaticKotTime = bookingStart.AddHours(-DefaultKotLeadTimeHours);
-            DateTime earliestAllowedTime = DateTime.Now.AddMinutes(1);
+            // Keep the existing two-hour preparation lead when it is still
+            // available. For a same-day booking whose lead time has passed,
+            // automatically schedule KOT from the current time instead of
+            // leaving the DateTimePickers with an unrelated/stale value.
+            DateTime currentTime = DateTime.Now;
+            DateTime earliestAllowedTime = currentTime.AddMinutes(1);
+            DateTime automaticKotTime =
+                bookingStart.AddHours(-DefaultKotLeadTimeHours);
 
             if (automaticKotTime < earliestAllowedTime)
-                automaticKotTime = earliestAllowedTime <= bookingStart
-                    ? earliestAllowedTime
-                    : bookingStart;
+                automaticKotTime = earliestAllowedTime;
+
+            DateTime bookingEnd = GetPartyBookingEndDateTime();
+            if (automaticKotTime > bookingEnd)
+                automaticKotTime = bookingEnd;
 
             SetKotDateTimePickerValue(automaticKotTime);
         }
@@ -1036,6 +1042,23 @@ namespace FoodandBeverage
             return date.Date + time.TimeOfDay;
         }
 
+        private DateTime GetPartyBookingEndDateTime()
+        {
+            DateTime? bookingDate = GetOptionalDateTimePickerValue("dtpEventDate_To");
+            DateTime? bookingTime = GetOptionalDateTimePickerValue("dtpEventTime_To");
+
+            if (bookingDate.HasValue)
+            {
+                DateTime endTime = bookingTime ?? dtpEventTime_From.Value;
+                return bookingDate.Value.Date + endTime.TimeOfDay;
+            }
+
+            if (_calendarBookingEnd.HasValue)
+                return _calendarBookingEnd.Value;
+
+            return GetPartyBookingStartDateTime();
+        }
+
         private bool TryGetKotDateTimeForSave(DateTime bookingStart, out DateTime? kotDateTime)
         {
             kotDateTime = null;
@@ -1045,83 +1068,56 @@ namespace FoodandBeverage
                 return true;
 
             DateTime currentTime = DateTime.Now;
+            DateTime bookingEnd = GetPartyBookingEndDateTime();
 
-            // Preserve an already-loaded KOT date/time when editing an existing booking.
+            // Preserve a saved KOT time when it belongs to the current party
+            // time window. An old invalid value (for example, next day after
+            // the party end) is automatically replaced with a valid default.
             if (_hasLoadedKotDateTime &&
                 !_isKotDateTimeManuallySet &&
                 _loadedKotDateTime.HasValue)
             {
-                if (_loadedKotDateTime.Value > bookingStart)
+                if (_loadedKotDateTime.Value <= bookingEnd)
                 {
-                    CMessageBox.Show(
-                        "The KOT date and time cannot be later than the party booking time. Please update the KOT time.");
-
-                    dtp_kotdate.Focus();
-                    return false;
+                    kotDateTime = _loadedKotDateTime.Value;
+                    return true;
                 }
 
-                kotDateTime = _loadedKotDateTime.Value;
-                return true;
+                _hasLoadedKotDateTime = false;
+                _loadedKotDateTime = null;
             }
 
-            // Automatically assign KOT time two hours before booking.
+            // For a new booking or an invalid old KOT value, assign the time
+            // automatically. Staff do not need to confirm or save a second time.
             if (!_isKotDateTimeManuallySet && !_hasLoadedKotDateTime)
-            {
-                if (bookingStart <= currentTime)
-                {
-                    if (GetInt(txtpartybookingid) > 0)
-                        return true;
-
-                    CMessageBox.Show(
-                        "The party booking time has already passed. Please select a future booking time.");
-
-                    dtpEventDate_From.Focus();
-                    return false;
-                }
-
-                DateTime automaticKotTime =
-                    bookingStart.AddHours(-DefaultKotLeadTimeHours);
-
-                // If the automatic two-hour-before time has already passed,
-                // set KOT time to the current time and ask staff to review it.
-                if (automaticKotTime <= currentTime)
-                {
-                    DateTime suggestedKotTime = currentTime.AddMinutes(1);
-
-                    // UpdateDefaultKotDateTime subtracts DefaultKotLeadTimeHours.
-                    UpdateDefaultKotDateTime(
-                        suggestedKotTime.AddHours(DefaultKotLeadTimeHours));
-
-                    // Prevent the automatic time from being recalculated on the next save.
-                    _isKotDateTimeManuallySet = true;
-
-                    CMessageBox.Show(
-                        "The automatic KOT time (2 hours before the booking) has already passed. " +
-                        "KOT time has been set to the current time. Please review or change the KOT printing time, then click Save again.");
-
-                    dtp_kotdate.Focus();
-                    return false;
-                }
-
                 UpdateDefaultKotDateTime(bookingStart);
+
+            if (bookingEnd < currentTime)
+            {
+                CMessageBox.Show(
+                    "The party end time has already passed. Please update the party booking end time before scheduling KOT.");
+
+                dtpEventDate_To.Focus();
+                return false;
             }
 
             DateTime selectedKotDateTime = GetSelectedKotDateTime();
 
-            // Allow the current minute because DateTimePicker may not retain seconds.
-            if (selectedKotDateTime < DateTime.Now.AddMinutes(-1))
+            // A manually selected KOT must be at or after the current time.
+            // It may be after the party start, but it cannot exceed party end.
+            if (selectedKotDateTime < currentTime)
             {
                 CMessageBox.Show(
-                    "KOT date and time cannot be in the past. Please select the current or a future date and time.");
+                    "KOT time cannot be before the current time. Please select a time from now until the party end time.");
 
                 dtp_kotdate.Focus();
                 return false;
             }
 
-            if (selectedKotDateTime > bookingStart)
+            if (selectedKotDateTime > bookingEnd)
             {
                 CMessageBox.Show(
-                    "KOT date and time cannot be later than the party booking time. Please choose an earlier KOT time.");
+                    "KOT time cannot be later than the party end time. Please select a time between the current time and party end time.");
 
                 dtp_kotdate.Focus();
                 return false;
