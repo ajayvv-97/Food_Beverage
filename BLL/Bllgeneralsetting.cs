@@ -54,6 +54,8 @@ namespace BLL
             parms.Add("TaxType", objTestClass.TaxType);
             parms.Add("TaxSettingId", objTestClass.TaxSettingId);
             parms.Add("EnablePartyBookingKOT", objTestClass.EnablePartyBookingKOT);
+            parms.Add("EnableKitchenKOTOnly", objTestClass.EnableKitchenKOTOnly);
+            parms.Add("DailyTokenMode", objTestClass.DailyTokenMode);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }
