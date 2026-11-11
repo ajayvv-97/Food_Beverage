@@ -1101,7 +1101,7 @@ namespace FoodandBeverage.SaleBill
                 DmnSearch dmnSearchProduct = new DmnSearch();
                 dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,d.ItemName as Itemname, CAST(SUM(d.DiscountAmount) AS decimal(18,2)) AS TotalDiscount, CAST(sum(d.NetAmount) AS decimal(18,2)) TotalAmount,g.Caption as ProductType,d.ProductType as ProductId,CAST(sum(d.TaxAmount) AS decimal(18,2)) as Totaltax ";
                 dmnSearchProduct.Table = "tblSalesDetails d " +
-                   " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.PartyBookingId>0 and m.Status=1 " + " and M.PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and M.PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
+                   " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and isnull(m.PartyBookingId,0)=0 and m.Status=1 " + " and M.PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and M.PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                    " LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
                 dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.PaymentMode!= 0 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  d.ItemName ,g.Caption,d.ProductType";
                 var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
@@ -1357,7 +1357,7 @@ namespace FoodandBeverage.SaleBill
                 DmnSearch dmnSearchProduct = new DmnSearch();
                 dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,d.ItemName as Itemname, CAST(SUM(d.DiscountAmount) AS decimal(18,2)) AS TotalDiscount, CAST(sum(d.NetAmount) AS decimal(18,2)) TotalAmount,g.Caption as ProductType,d.ProductType as ProductId,CAST(sum(d.TaxAmount) AS decimal(18,2)) as Totaltax ";
                 dmnSearchProduct.Table = "tblSalesDetails d " +
-                    " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 and m.PartyBookingId > 0 and PaymentMode!= " + Convert.ToInt32(PaymentType.Nocharge) + " and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY)+
+                    " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 and isnull(m.PartyBookingId,0)=0 and PaymentMode!= " + Convert.ToInt32(PaymentType.Nocharge) + " and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY)+
                     " LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
                 dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and m.PaymentMode!= 0 and d.Status= 1 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY  d.ItemName ,g.Caption,d.ProductType";
                 var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);

@@ -600,7 +600,7 @@ namespace FoodandBeverage.Services
                     : (printContext.EmployeeName ?? string.Empty);
                 data["Station"] = station;
                 data["GuestDetails"] =
-                    " | PAX A:" + row.NoOfAdults + " C:" + row.NoOfChildren;
+                    "PAX Adult :" + row.NoOfAdults + " Child :" + row.NoOfChildren;
                 data["Orderno"] = "PB-" + row.PartyBookingId;
                 data["PriorityType"] = 1;
                 data["CounterKotNo"] = row.PartyBookingId;
