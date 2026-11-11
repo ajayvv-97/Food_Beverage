@@ -273,6 +273,7 @@ namespace FoodandBeverage.SaleBill
             this.btn_gmail.Size = new System.Drawing.Size(110, 48);
             this.btn_gmail.TabIndex = 56;
             this.btn_gmail.UseVisualStyleBackColor = true;
+            this.btn_gmail.Visible = false;
             this.btn_gmail.Click += new System.EventHandler(this.btn_gmail_Click);
             // 
             // btn_whatsup
@@ -290,6 +291,7 @@ namespace FoodandBeverage.SaleBill
             this.btn_whatsup.Size = new System.Drawing.Size(110, 48);
             this.btn_whatsup.TabIndex = 57;
             this.btn_whatsup.UseVisualStyleBackColor = true;
+            this.btn_whatsup.Visible = false;
             this.btn_whatsup.Click += new System.EventHandler(this.btn_whatsup_Click);
             // 
             // btn_cancel
