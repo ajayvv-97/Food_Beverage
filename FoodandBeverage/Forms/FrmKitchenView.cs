@@ -306,11 +306,12 @@ namespace FoodandBeverage.Forms
             if (flp_order_view.ClientSize.Width <= 0)
                 return;
 
-            int availableWidth = Math.Max(285, flp_order_view.ClientSize.Width -
+            int availableWidth = Math.Max(320, flp_order_view.ClientSize.Width -
                 flp_order_view.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 12);
-            int columns = availableWidth >= 1250 ? 3 : availableWidth >= 820 ? 2 : 1;
-            int cardWidth = Math.Max(285, (availableWidth - (columns - 1) * 14) / columns);
-            int cardHeight = Math.Max(220, Math.Min(260, (flp_order_view.ClientSize.Height - 18) / 2));
+            int columns = availableWidth >= 1530 ? 3 : availableWidth >= 760 ? 2 : 1;
+            int cardWidth = Math.Max(320, (availableWidth - (columns - 1) * 18) / columns);
+            int cardHeight = FrmDashboard.IsKitchenKOTOnlyEnabled ? 380 : 420;
+            cardHeight = Math.Max(340, Math.Min(440, cardHeight));
 
             foreach (OrderCardCache cache in KitchenCardCache.Values)
             {
@@ -333,6 +334,7 @@ namespace FoodandBeverage.Forms
             public Label StatusLabel;
             public Label TableCodeLabel;
             public Label TokenLabel;
+            public Label OrderTypeLabel;
             public TextBox Description;
             public PictureBox BtnStart;
             public PictureBox BtnReady;
@@ -524,7 +526,8 @@ namespace FoodandBeverage.Forms
         }
 
         /// <summary>
-        /// Create a full card (Layout A) for an order and return cache object.
+        /// Builds one reusable KOT-style ticket. The product grid remains the same
+        /// DataGridView used by the existing cancel, combo/add-on and order-status flows.
         /// </summary>
         private OrderCardCache BuildOrderCard(DmnGridFields orders, List<Dmnkitchendetails> details)
         {
@@ -541,88 +544,77 @@ namespace FoodandBeverage.Forms
                 int hostWidth = flp_order_view.ClientSize.Width > 0
                     ? flp_order_view.ClientSize.Width
                     : ClientSize.Width;
-                int availableWidth = Math.Max(300, hostWidth - flp_order_view.Padding.Horizontal -
+                int availableWidth = Math.Max(320, hostWidth - flp_order_view.Padding.Horizontal -
                     SystemInformation.VerticalScrollBarWidth - 18);
-                int columns = availableWidth >= 1250 ? 3 : availableWidth >= 820 ? 2 : 1;
-                int controlWidth = Math.Max(300, (availableWidth - (columns - 1) * 20) / columns);
-                int controlHeight = Math.Max(230,
-                    Math.Min(280, Math.Max(230, flp_order_view.ClientSize.Height - 24) / 2));
+                int columns = availableWidth >= 1530 ? 3 : availableWidth >= 760 ? 2 : 1;
+                int controlWidth = Math.Max(320, (availableWidth - (columns - 1) * 18) / columns);
+                bool kotOnlyMode = FrmDashboard.IsKitchenKOTOnlyEnabled;
+                int controlHeight = kotOnlyMode ? 380 : 420;
+
                 Tuple<int, string> dailyToken = GetDailyOrderToken(Convert.ToInt32(orderId));
                 int dailyOrderTypeId = dailyToken == null ? 0 : dailyToken.Item1;
                 string dailyTokenDisplay = dailyToken == null ? string.Empty : dailyToken.Item2;
                 bool isPickupOrder = Convert.ToInt32(details[0].Field25) > 0 ||
                     dailyOrderTypeId == 1 || dailyOrderTypeId == 2;
-                int headerHeight = 36;
-                int buttonHeight = 42;
 
+                string orderNumber = !string.IsNullOrWhiteSpace(dailyTokenDisplay)
+                    ? dailyTokenDisplay
+                    : isPickupOrder
+                        ? Convert.ToString(details[0].Field25)
+                        : Convert.ToString(details[0].Field22);
+                if (string.IsNullOrWhiteSpace(orderNumber))
+                    orderNumber = Convert.ToString(details[0].Field17);
+
+                string orderType = dailyOrderTypeId == 2
+                    ? "TAKEAWAY"
+                    : dailyOrderTypeId == 1 || isPickupOrder
+                        ? "PICKUP"
+                        : "DINE IN";
+                string tableCodeText = string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field2))
+                    ? "—"
+                    : Convert.ToString(details[0].Field2);
+
+                int actionRowHeight = kotOnlyMode ? 62 : 104;
                 ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
                     Name = cardName,
                     Size = new Size(controlWidth, controlHeight),
-                    MinimumSize = new Size(300, 220),
+                    MinimumSize = new Size(320, 340),
                     Margin = new Padding(8, 8, 8, 8),
+                    Padding = new Padding(7),
                     BackColor = Color.White,
                     Visible = true,
-                    RowCount = 4,
+                    RowCount = 5,
                     ColumnCount = 4
                 };
 
                 card.ColumnStyles.Clear();
-                if (isPickupOrder)
-                {
-                    // Give the pickup number a wider header area and remove the redundant label.
-                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27F));
-                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28F));
-                }
-                else
-                {
-                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
+                for (int column = 0; column < 4; column++)
                     card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                    card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 26F));
-                }
+
                 card.RowStyles.Clear();
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, headerHeight));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 66F));
                 card.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, buttonHeight));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 52F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, actionRowHeight));
                 card.SuspendLayout();
 
-                Label tableCode = new Label
+                Label titleLabel = new Label
                 {
-                    Name = "lbl_tablecod_k_" + orderId + suffix,
-                    Text = isPickupOrder
-                        ? string.Empty
-                        : Convert.ToString(details[0].Field2),
-                    Dock = DockStyle.Fill,
-                    AutoSize = false,
-                    TextAlign = ContentAlignment.MiddleLeft,
-                    Padding = new Padding(8, 0, 2, 0),
-                    Margin = Padding.Empty,
-                    Font = ModernKitchenOrderCard.TableCodeFont,
-                    ForeColor = Color.White
-                };
-
-                Label token = new Label
-                {
-                    Name = "lbl_tokkenno_k_" + orderId + suffix,
-                    // The daily token is separate from the legacy tblPickup.PkId.
-                    Text = dailyOrderTypeId == 2
-                        ? "TAKEAWAY: " + dailyTokenDisplay
-                        : dailyOrderTypeId == 1
-                            ? "PICKUP: " + dailyTokenDisplay
-                            : isPickupOrder
-                                ? "PICKUP NO: " + Convert.ToString(details[0].Field25)
-                                : "TOKEN " + Convert.ToString(details[0].Field22),
+                    Name = "lbl_kot_title_" + orderId + suffix,
+                    Text = "KITCHEN ORDER TICKET (KOT)",
                     Dock = DockStyle.Fill,
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleCenter,
+                    Padding = new Padding(8, 0, 8, 0),
                     Margin = Padding.Empty,
-                    Font = ModernKitchenOrderCard.TokenFont,
-                    ForeColor = Color.White
+                    Font = ModernKitchenOrderCard.HeaderFont,
+                    ForeColor = Color.White,
+                    BackColor = ModernKitchenOrderCard.TicketPurple
                 };
+                card.Controls.Add(titleLabel, 0, 0);
+                card.SetColumnSpan(titleLabel, 3);
 
                 ModernKitchenStatusLabel statusLabel = new ModernKitchenStatusLabel
                 {
@@ -630,75 +622,71 @@ namespace FoodandBeverage.Forms
                     Dock = DockStyle.Fill,
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Margin = new Padding(4, 5, 4, 5),
+                    Margin = new Padding(4, 7, 4, 7),
                     Font = ModernKitchenOrderCard.StatusFont,
-                    ForeColor = Color.FromArgb(44, 96, 163),
-                    Text = dailyOrderTypeId == 2 ? "TAKEAWAY" : isPickupOrder ? "PICKUP" : "NEW",
+                    ForeColor = Color.FromArgb(76, 45, 128),
+                    BackColor = Color.FromArgb(238, 230, 250),
+                    Text = "NEW",
                     Visible = true
                 };
+                card.Controls.Add(statusLabel, 3, 0);
 
-                TimeSpan elapsed = DateTime.Now - details[0].Fielddatetime;
-                Label time = new Label
-                {
-                    Name = "lbl_time_K_" + orderId + suffix,
-                    Text = FormatKitchenElapsed(elapsed),
-                    Dock = DockStyle.Fill,
-                    AutoSize = false,
-                    TextAlign = ContentAlignment.MiddleRight,
-                    Padding = new Padding(0, 0, 8, 0),
-                    Margin = Padding.Empty,
-                    Font = ModernKitchenOrderCard.TimeFont,
-                    ForeColor = Color.White
-                };
+                Label orderNoLabel = CreateKitchenMetaLabel(
+                    "lbl_tokkenno_k_" + orderId + suffix,
+                    "ORDER NO.", orderNumber);
+                Label orderTypeLabel = CreateKitchenMetaLabel(
+                    "lbl_order_type_k_" + orderId + suffix,
+                    "ORDER TYPE", orderType);
+                Label tableCodeLabel = CreateKitchenMetaLabel(
+                    "lbl_tablecod_k_" + orderId + suffix,
+                    "TABLE", tableCodeText);
+                Label timeLabel = CreateKitchenMetaLabel(
+                    "lbl_time_K_" + orderId + suffix,
+                    "ORDER TIME",
+                    FormatKitchenOrderTime(details[0].Fielddatetime, DateTime.Now));
 
-                if (isPickupOrder)
-                {
-                    // The pickup number spans the first two header columns for breathing room.
-                    card.Controls.Add(token, 0, 0);
-                    card.SetColumnSpan(token, 2);
-                }
-                else
-                {
-                    card.Controls.Add(tableCode, 0, 0);
-                    card.Controls.Add(token, 1, 0);
-                }
-                card.Controls.Add(statusLabel, 2, 0);
-                card.Controls.Add(time, 3, 0);
+                card.Controls.Add(orderNoLabel, 0, 1);
+                card.Controls.Add(orderTypeLabel, 1, 1);
+                card.Controls.Add(tableCodeLabel, 2, 1);
+                card.Controls.Add(timeLabel, 3, 1);
 
                 DataGridView grid = BuildProductGrid(orders, details);
                 grid.Dock = DockStyle.Fill;
-                grid.Margin = Padding.Empty;
-                card.Controls.Add(grid, 0, 1);
+                grid.Margin = new Padding(5, 2, 5, 2);
+                card.Controls.Add(grid, 0, 2);
                 card.SetColumnSpan(grid, 4);
 
                 TextBox description = BuildDescription(orders, details);
                 description.Name = "txt_Description_k_" + orderId + suffix;
                 description.Dock = DockStyle.Fill;
-                description.Margin = new Padding(8, 4, 8, 4);
-                description.BackColor = Color.White;
-                description.ForeColor = Color.FromArgb(55, 65, 81);
-                description.Visible = !string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16));
-                card.Controls.Add(description, 0, 2);
+                description.Margin = new Padding(5, 3, 5, 3);
+                description.BackColor = Color.FromArgb(244, 239, 251);
+                description.ForeColor = Color.FromArgb(76, 45, 128);
+                description.Font = ModernKitchenOrderCard.MetaFont;
+                description.ReadOnly = true;
+                description.Multiline = true;
+                description.ScrollBars = ScrollBars.None;
+                description.BorderStyle = BorderStyle.None;
+                description.Visible = true;
+                description.Text = BuildKitchenNotesText(details[0]);
+                card.Controls.Add(description, 0, 3);
                 card.SetColumnSpan(description, 4);
 
-                PictureBox startButton, readyButton, cancelButton, reprintButton;
-                startButton = CreateKitchenActionButton(
-                    "pb_start_k_" + orderId + suffix, Properties.Resources.start,
+                PictureBox startButton = CreateKitchenActionButton(
+                    "pb_start_k_" + orderId + suffix, "START", KitchenActionStyle.Start,
                     suffix, orderId, pbstart_Click);
-                bool kotOnlyMode = FrmDashboard.IsKitchenKOTOnlyEnabled;
-                readyButton = CreateKitchenActionButton(
+                PictureBox readyButton = CreateKitchenActionButton(
                     "pb_ready_k_" + orderId + suffix,
-                    kotOnlyMode ? Properties.Resources.N_okay : Properties.Resources.ready_button,
+                    kotOnlyMode ? "OKAY" : "READY",
+                    kotOnlyMode ? KitchenActionStyle.Okay : KitchenActionStyle.Ready,
                     suffix, orderId, pbreadyfood_Click);
-                cancelButton = CreateKitchenActionButton(
-                    "pictureBoxRemove_k_" + orderId + suffix, Properties.Resources.Kitchen_Ordercancel,
-                    suffix, orderId, pbcancelfood_Click);
-                reprintButton = CreateKitchenActionButton(
-                    "reprintbutton_k_" + orderId + suffix, Properties.Resources.reprint,
-                    suffix, orderId, reprintbutton_Click);
+                PictureBox cancelButton = CreateKitchenActionButton(
+                    "pictureBoxRemove_k_" + orderId + suffix, "CANCEL ORDER",
+                    KitchenActionStyle.Cancel, suffix, orderId, pbcancelfood_Click);
+                PictureBox reprintButton = CreateKitchenActionButton(
+                    "reprintbutton_k_" + orderId + suffix, "REPRINT",
+                    KitchenActionStyle.Reprint, suffix, orderId, reprintbutton_Click);
 
-                // KOT-only mode keeps just OK and Reprint. Normal mode retains
-                // the existing Start / Ready, Cancel and Reprint workflow.
                 TableLayoutPanel actionStrip = new TableLayoutPanel
                 {
                     Name = "pnl_actions_k_" + orderId + suffix,
@@ -706,29 +694,24 @@ namespace FoodandBeverage.Forms
                     AutoSize = false,
                     GrowStyle = TableLayoutPanelGrowStyle.FixedSize,
                     CellBorderStyle = TableLayoutPanelCellBorderStyle.None,
-                    Margin = new Padding(4, 2, 4, 3),
+                    Margin = new Padding(2, 3, 2, 2),
                     Padding = Padding.Empty,
                     BackColor = Color.White,
-                    ColumnCount = kotOnlyMode ? 2 : 3,
-                    RowCount = 1
+                    ColumnCount = 2,
+                    RowCount = kotOnlyMode ? 1 : 2
                 };
 
                 actionStrip.ColumnStyles.Clear();
+                actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                actionStrip.RowStyles.Clear();
                 if (kotOnlyMode)
-                {
-                    // Each KOT-only action owns exactly half of the available width.
-                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-                    readyButton.AutoSize = true;
-                    reprintButton.AutoSize = true;
-                }
+                    actionStrip.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
                 else
                 {
-                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.333F));
-                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.333F));
-                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.334F));
+                    actionStrip.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+                    actionStrip.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
                 }
-                actionStrip.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
                 foreach (PictureBox actionButton in new[]
                     { startButton, readyButton, cancelButton, reprintButton })
@@ -736,8 +719,7 @@ namespace FoodandBeverage.Forms
                     actionButton.Dock = DockStyle.Fill;
                     actionButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom |
                         AnchorStyles.Left | AnchorStyles.Right;
-                    actionButton.SizeMode = PictureBoxSizeMode.StretchImage;
-                    actionButton.Margin = new Padding(4, 2, 4, 2);
+                    actionButton.Margin = new Padding(4, 3, 4, 3);
                 }
 
                 if (kotOnlyMode)
@@ -748,33 +730,33 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     actionStrip.Controls.Add(startButton, 0, 0);
-                    actionStrip.Controls.Add(readyButton, 0, 0);
-                    actionStrip.Controls.Add(cancelButton, 1, 0);
-                    actionStrip.Controls.Add(reprintButton, 2, 0);
+                    actionStrip.Controls.Add(readyButton, 1, 0);
+                    actionStrip.Controls.Add(cancelButton, 0, 1);
+                    actionStrip.Controls.Add(reprintButton, 1, 1);
                 }
-                card.Controls.Add(actionStrip, 0, 3);
+
+                card.Controls.Add(actionStrip, 0, 4);
                 card.SetColumnSpan(actionStrip, 4);
 
                 bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
                 bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
-                startButton.Visible = !kotOnlyMode && hasPendingStart && !waitingForCustomer;
-                readyButton.Visible = kotOnlyMode
-                    ? !waitingForCustomer
-                    : !hasPendingStart && hasInProgress && !waitingForCustomer;
-                cancelButton.Visible = !kotOnlyMode &&
-                    (hasPendingStart || hasInProgress) && !waitingForCustomer;
-                reprintButton.Visible = !waitingForCustomer;
 
-                card.SetKitchenState(GetKitchenVisualState(waitingForCustomer, details));
-                card.ResumeLayout(true);
+                startButton.Visible = !kotOnlyMode && !waitingForCustomer;
+                startButton.Enabled = hasPendingStart;
+                readyButton.Visible = !waitingForCustomer;
+                readyButton.Enabled = kotOnlyMode || (hasInProgress && !hasPendingStart);
+                cancelButton.Visible = !kotOnlyMode && !waitingForCustomer;
+                cancelButton.Enabled = hasPendingStart || hasInProgress;
+                reprintButton.Visible = !waitingForCustomer;
 
                 cache.CardPanel = card;
                 cache.Grid = grid;
-                cache.TimeLabel = time;
+                cache.TimeLabel = timeLabel;
                 cache.StatusLabel = statusLabel;
-                cache.TableCodeLabel = tableCode;
-                cache.TokenLabel = token;
+                cache.TableCodeLabel = tableCodeLabel;
+                cache.TokenLabel = orderNoLabel;
+                cache.OrderTypeLabel = orderTypeLabel;
                 cache.Description = description;
                 cache.DescriptionPanel = description;
                 cache.BtnStart = startButton;
@@ -783,6 +765,8 @@ namespace FoodandBeverage.Forms
                 cache.BtnReprint = reprintButton;
                 cache.CreatedTime = details[0].Fielddatetime;
                 cache.CancelStatus = Convert.ToInt32(details[0].Field27);
+
+                card.SetKitchenState(GetKitchenVisualState(waitingForCustomer, details));
 
                 orderbox.RemoveAll(x => string.Equals(
                     x.datagridviewname, grid.Name, StringComparison.OrdinalIgnoreCase));
@@ -795,31 +779,16 @@ namespace FoodandBeverage.Forms
 
                 UpdateGridFull(grid, details);
                 if (waitingForCustomer)
-                {
-                    description.Text = "Waiting for customer confirmation.";
-                    description.Visible = true;
-                    cache.BtnStart.Visible = false;
-                    cache.BtnReady.Visible = false;
-                    cache.BtnCancel.Visible = false;
-                    cache.BtnReprint.Visible = false;
-                    ToggleDescriptionRow(card, true);
-                }
-                else
-                {
-                    description.Text = string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16))
-                        ? string.Empty
-                        : "Note: " + Convert.ToString(details[0].Field16);
-                    bool hasDescription = !string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16));
-                    ToggleDescriptionRow(card, hasDescription);
-                }
+                    description.Text = "WAITING FOR CUSTOMER" + Environment.NewLine +
+                        "Confirmation is required before kitchen actions.";
 
-                if (System.Windows.Forms.Application.OpenForms["FrmDashboard"] != null)
-                {
-                    FrmDashboard dashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
-                    if (dashboard != null)
-                        card.Enabled = dashboard.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View));
-                }
+                ToggleDescriptionRow(card, true);
 
+                FrmDashboard dashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
+                if (dashboard != null)
+                    card.Enabled = dashboard.ChkWritePermission(Convert.ToInt32(formsenum.Kitchen_View));
+
+                card.ResumeLayout(true);
                 return cache;
             }
             catch (Exception ex)
@@ -831,167 +800,164 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private DataGridView BuildProductGrid(DmnGridFields orders, List<Dmnkitchendetails> details)
+        private Label CreateKitchenMetaLabel(string name, string caption, string value)
         {
-            DataGridView dgv_product_details = new DataGridView();
-            string suffix = Convert.ToString(details[0].Field17);
-
-            dgv_product_details.Name = "dgv_product_details_k_" + orders.Field1 + suffix;
-            dgv_product_details.Tag = orders.Field1 + suffix;
-            dgv_product_details.CellClick += dgv_product_details_CellClick;
-            dgv_product_details.AllowUserToAddRows = false;
-            dgv_product_details.AllowUserToDeleteRows = true;
-            dgv_product_details.RowHeadersVisible = false;
-            dgv_product_details.BorderStyle = BorderStyle.None;
-            dgv_product_details.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
-            dgv_product_details.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv_product_details.DefaultCellStyle.SelectionBackColor = Color.DarkTurquoise;
-            dgv_product_details.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
-            dgv_product_details.BackgroundColor = Color.White;
-            dgv_product_details.EnableHeadersVisualStyles = false;
-            dgv_product_details.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv_product_details.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
-            dgv_product_details.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgv_product_details.AllowUserToResizeRows = false;
-
-            if (screenWidth > 1367 && screenHeight > 769)
+            return new Label
             {
-                dgv_product_details.ColumnHeadersHeight = 50;
-                dgv_product_details.RowTemplate.Height = 50;
-            }
-            else
-            {
-                dgv_product_details.ColumnHeadersHeight = 30;
-                dgv_product_details.RowTemplate.Height = 30;
-            }
-
-            // create columns in same order as your indices
-            dgv_product_details.Columns.Clear();
-
-            // 0 - Slno (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Slno", HeaderText = "Slno" });
-
-            // 1 - Action (image)
-            dgv_product_details.Columns.Add(new DataGridViewImageColumn() { Name = "Action", HeaderText = "Action" });
-
-            // 2 - PType (image)
-            dgv_product_details.Columns.Add(new DataGridViewImageColumn() { Name = "PType", HeaderText = "PType" });
-
-            // 3 - Item Name
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "ItemName", HeaderText = "Item Name" });
-
-            // 4 - Qty
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Qty", HeaderText = "Qty" });
-
-            // 5 - Notes
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Notes", HeaderText = "Notes" });
-
-            // 6 - Remove Notes
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "RemoveNotes", HeaderText = "Remove Notes" });
-
-            // 7 - orderdetailsid (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "orderdetailsid", HeaderText = "orderdetailsid" });
-
-            // 8 - koid (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "koid", HeaderText = "koid" });
-
-            // 9 - tid (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "tid", HeaderText = "tid" });
-
-            // 10 - Ordermasterid (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Ordermasterid", HeaderText = "Ordermasterid" });
-
-            // 11 - datetime (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "datetime", HeaderText = "datetime" });
-
-            // 12 - status (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "status", HeaderText = "status" });
-
-            // 13 - itemid (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "itemid", HeaderText = "itemid" });
-
-            // 14 - tabletype (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "tabletype", HeaderText = "tabletype" });
-
-            // 15 - orderno (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "orderno", HeaderText = "orderno" });
-
-            // 16 - AddonStatus (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "AddonStatus", HeaderText = "AddonStatus" });
-
-            // 17 - AVID (hidden)
-            dgv_product_details.Columns.Add(new DataGridViewTextBoxColumn() { Name = "AVID", HeaderText = "AVID" });
-
-            // Hide backend columns
-            //dgv_product_details.Columns[0].Visible = false; // Slno
-            for (int i = 7; i <= 17; i++)
-            {
-                dgv_product_details.Columns[i].Visible = false;
-                dgv_product_details.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dgv_product_details.Columns[i].Width = 1;
-            }
-
-            // fix widths
-            dgv_product_details.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            dgv_product_details.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            dgv_product_details.ScrollBars = ScrollBars.Both;
-            dgv_product_details.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
-
-            // item name wide
-            dgv_product_details.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dgv_product_details.Columns[3].Width = 260;
-
-            // image columns width
-            dgv_product_details.Columns[1].Width = 60;
-            dgv_product_details.Columns[2].Width = 80;
-
-            dgv_product_details.AllowUserToResizeColumns = false;
-
-            return dgv_product_details;
+                Name = name,
+                Text = caption + Environment.NewLine +
+                    (string.IsNullOrWhiteSpace(value) ? "—" : value),
+                Dock = DockStyle.Fill,
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Padding = new Padding(3, 2, 3, 2),
+                Margin = new Padding(3, 4, 3, 4),
+                Font = ModernKitchenOrderCard.MetaFont,
+                ForeColor = Color.FromArgb(49, 31, 83),
+                BackColor = Color.FromArgb(244, 239, 251)
+            };
         }
 
-        /// <summary>
-        /// Build description textbox
-        /// </summary>
+        private static string BuildKitchenNotesText(Dmnkitchendetails details)
+        {
+            string note = details == null ? string.Empty : Convert.ToString(details.Field16);
+            return "NOTES" + Environment.NewLine +
+                (string.IsNullOrWhiteSpace(note) ? "—" : note.Trim());
+        }
+
+        private DataGridView BuildProductGrid(DmnGridFields orders, List<Dmnkitchendetails> details)
+        {
+            DataGridView grid = new DataGridView();
+            string suffix = Convert.ToString(details[0].Field17);
+
+            grid.Name = "dgv_product_details_k_" + orders.Field1 + suffix;
+            grid.Tag = orders.Field1 + suffix;
+            grid.CellClick += dgv_product_details_CellClick;
+            grid.AllowUserToAddRows = false;
+            grid.AllowUserToDeleteRows = true;
+            grid.AllowUserToResizeRows = false;
+            grid.AllowUserToResizeColumns = false;
+            grid.RowHeadersVisible = false;
+            grid.BorderStyle = BorderStyle.None;
+            grid.BackgroundColor = Color.White;
+            grid.GridColor = Color.FromArgb(226, 218, 239);
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grid.EnableHeadersVisualStyles = false;
+            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(88, 48, 143);
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.ColumnHeadersDefaultCellStyle.Padding = new Padding(6, 0, 4, 0);
+            grid.ColumnHeadersHeight = 34;
+            grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            grid.DefaultCellStyle.BackColor = Color.White;
+            grid.DefaultCellStyle.ForeColor = Color.FromArgb(29, 25, 45);
+            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(235, 226, 247);
+            grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(40, 27, 65);
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            grid.DefaultCellStyle.Padding = new Padding(4, 2, 4, 2);
+            grid.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 248, 253);
+            grid.RowTemplate.Height = screenHeight > 850 ? 36 : 32;
+            grid.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            grid.ScrollBars = ScrollBars.Vertical;
+            grid.MultiSelect = false;
+            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            grid.Columns.Clear();
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Slno", HeaderText = "#" });
+            grid.Columns.Add(new DataGridViewImageColumn { Name = "Action", HeaderText = "" });
+            grid.Columns.Add(new DataGridViewImageColumn { Name = "PType", HeaderText = "" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "ItemName", HeaderText = "Item Name" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Qty", HeaderText = "Qty" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Notes", HeaderText = "Notes" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "RemoveNotes", HeaderText = "Remove Notes" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "orderdetailsid", HeaderText = "orderdetailsid" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "koid", HeaderText = "koid" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "tid", HeaderText = "tid" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Ordermasterid", HeaderText = "Ordermasterid" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "datetime", HeaderText = "datetime" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "status", HeaderText = "status" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "itemid", HeaderText = "itemid" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "tabletype", HeaderText = "tabletype" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "orderno", HeaderText = "orderno" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "AddonStatus", HeaderText = "AddonStatus" });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "AVID", HeaderText = "AVID" });
+
+            // Preserve every original cell index used by row cancellation and addon/combos.
+            for (int index = 6; index < grid.Columns.Count; index++)
+            {
+                grid.Columns[index].Visible = false;
+                grid.Columns[index].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                grid.Columns[index].Width = 1;
+            }
+
+            grid.Columns[0].Width = 34;
+            grid.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.Columns[1].Width = 38;
+            grid.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.Columns[1].DefaultCellStyle.Padding = new Padding(2);
+            grid.Columns[2].Width = 38;
+            grid.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.Columns[2].DefaultCellStyle.Padding = new Padding(2);
+            grid.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            grid.Columns[3].FillWeight = 220F;
+            grid.Columns[4].Width = 48;
+            grid.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            grid.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            grid.Columns[5].FillWeight = 95F;
+
+            return grid;
+        }
 
         private TextBox BuildDescription(DmnGridFields orders, List<Dmnkitchendetails> details)
         {
-            TextBox txt_Description = new TextBox();
-            txt_Description.Text = "Note :   " + Convert.ToString(details[0].Field16);
-            txt_Description.Name = "txt_Description_k_" + orders.Field1 + details[0].Field17;
-            txt_Description.Dock = DockStyle.Fill;
-            txt_Description.ForeColor = Color.FromArgb(55, 65, 81);
-            txt_Description.BackColor = Color.White;
-            txt_Description.ReadOnly = true;
-            txt_Description.Multiline = true;
-            txt_Description.ScrollBars = ScrollBars.Vertical;
-            txt_Description.BorderStyle = BorderStyle.None;
-            txt_Description.Visible = !string.IsNullOrEmpty(Convert.ToString(details[0].Field16));
-            txt_Description.Font = ModernKitchenOrderCard.TokenFont;
-            return txt_Description;
+            return new TextBox
+            {
+                Name = "txt_Description_k_" + orders.Field1 + details[0].Field17,
+                Text = BuildKitchenNotesText(details[0]),
+                Dock = DockStyle.Fill,
+                ForeColor = Color.FromArgb(76, 45, 128),
+                BackColor = Color.FromArgb(244, 239, 251),
+                ReadOnly = true,
+                Multiline = true,
+                ScrollBars = ScrollBars.None,
+                BorderStyle = BorderStyle.None,
+                Font = ModernKitchenOrderCard.MetaFont,
+                Margin = new Padding(4),
+                Padding = new Padding(8),
+                Visible = true,
+                TabStop = false
+            };
         }
 
-        /// <summary>
-        /// Build bottom buttons and return panel; out parameters for buttons.
-        /// </summary>
-
         private PictureBox CreateKitchenActionButton(
-            string name, Image image, object suffix, object orderMasterId,
-            EventHandler clickHandler)
+            string name, string text, KitchenActionStyle style, object suffix,
+            object orderMasterId, EventHandler clickHandler)
         {
-            PictureBox button = new PictureBox
+            ModernKitchenActionButton button = new ModernKitchenActionButton
             {
                 Name = name,
-                Image = image,
-                SizeMode = PictureBoxSizeMode.StretchImage,
+                ButtonText = text,
+                ActionStyle = style,
+                SizeMode = PictureBoxSizeMode.Normal,
                 Dock = DockStyle.Fill,
-                Margin = new Padding(3, 2, 3, 2),
+                Margin = new Padding(4, 3, 4, 3),
                 Tag = suffix,
                 AccessibleDescription = Convert.ToString(orderMasterId),
                 Cursor = Cursors.Hand
             };
             button.Click += clickHandler;
             return button;
+        }
+
+        private static string FormatKitchenElapsed        private static string FormatKitchenOrderTime(DateTime orderTime, DateTime now)
+        {
+            return orderTime.ToString("hh:mm tt") + Environment.NewLine +
+                FormatKitchenElapsed(now - orderTime);
         }
 
         private static string FormatKitchenElapsed(TimeSpan elapsed)
@@ -1028,9 +994,12 @@ namespace FoodandBeverage.Forms
                     cache.Grid == null || details == null || details.Count == 0)
                     return;
 
-                TimeSpan elapsed = DateTime.Now - details[0].Fielddatetime;
+                cache.CreatedTime = details[0].Fielddatetime;
                 if (cache.TimeLabel != null)
-                    cache.TimeLabel.Text = FormatKitchenElapsed(elapsed);
+                {
+                    cache.TimeLabel.Text = "ORDER TIME" + Environment.NewLine +
+                        FormatKitchenOrderTime(cache.CreatedTime, DateTime.Now);
+                }
 
                 if (cache.Grid.Rows.Count == details.Count)
                     UpdateGridLight(cache.Grid, details);
@@ -1040,7 +1009,7 @@ namespace FoodandBeverage.Forms
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
                 bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
                 bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
-                bool hasDescription = !string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field16));
+                bool kotOnlyMode = FrmDashboard.IsKitchenKOTOnlyEnabled;
 
                 if (waitingForCustomer)
                 {
@@ -1051,44 +1020,49 @@ namespace FoodandBeverage.Forms
 
                     if (cache.Description != null)
                     {
-                        cache.Description.Text = "Waiting for customer confirmation.";
+                        cache.Description.Text = "WAITING FOR CUSTOMER" + Environment.NewLine +
+                            "Confirmation is required before kitchen actions.";
                         cache.Description.Visible = true;
                     }
-                    if (cache.DescriptionPanel != null)
-                        cache.DescriptionPanel.Visible = true;
-
-                    ToggleDescriptionRow(cache.CardPanel, true);
                 }
                 else
                 {
-                    // Start and Ready share a slot but must never be visible together.
                     if (cache.BtnStart != null)
-                        cache.BtnStart.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled && hasPendingStart;
+                    {
+                        cache.BtnStart.Visible = !kotOnlyMode;
+                        cache.BtnStart.Enabled = hasPendingStart;
+                    }
+
                     if (cache.BtnReady != null)
                     {
-                        cache.BtnReady.Image = FrmDashboard.IsKitchenKOTOnlyEnabled
-                            ? Properties.Resources.N_okay
-                            : Properties.Resources.ready_button;
-                        cache.BtnReady.Visible = FrmDashboard.IsKitchenKOTOnlyEnabled ||
-                            (!hasPendingStart && hasInProgress);
+                        cache.BtnReady.Visible = true;
+                        cache.BtnReady.Enabled = kotOnlyMode ||
+                            (hasInProgress && !hasPendingStart);
                     }
+
                     if (cache.BtnCancel != null)
-                        cache.BtnCancel.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
-                            (hasPendingStart || hasInProgress);
-                    if (cache.BtnReprint != null) cache.BtnReprint.Visible = true;
+                    {
+                        cache.BtnCancel.Visible = !kotOnlyMode;
+                        cache.BtnCancel.Enabled = hasPendingStart || hasInProgress;
+                    }
+
+                    if (cache.BtnReprint != null)
+                    {
+                        cache.BtnReprint.Visible = true;
+                        cache.BtnReprint.Enabled = true;
+                    }
 
                     if (cache.Description != null)
                     {
-                        cache.Description.Text = hasDescription
-                            ? "Note: " + Convert.ToString(details[0].Field16)
-                            : string.Empty;
-                        cache.Description.Visible = hasDescription;
+                        cache.Description.Text = BuildKitchenNotesText(details[0]);
+                        cache.Description.Visible = true;
                     }
-                    if (cache.DescriptionPanel != null)
-                        cache.DescriptionPanel.Visible = hasDescription;
-
-                    ToggleDescriptionRow(cache.CardPanel, hasDescription);
                 }
+
+                if (cache.DescriptionPanel != null)
+                    cache.DescriptionPanel.Visible = true;
+
+                ToggleDescriptionRow(cache.CardPanel, true);
 
                 KitchenOrderVisualState nextVisualState =
                     GetKitchenVisualState(waitingForCustomer, details);
@@ -1098,6 +1072,7 @@ namespace FoodandBeverage.Forms
                     cache.CardPanel.Tag = nextVisualState;
                     cache.CardPanel.SetKitchenState(nextVisualState);
                 }
+
                 cache.CancelStatus = Convert.ToInt32(details[0].Field27);
             }
             catch (Exception ex)
@@ -1108,37 +1083,33 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ToggleDescriptionRow(TableLayoutPanel card, bool show)
+        private void ToggleDescriptionRow        private void ToggleDescriptionRow(TableLayoutPanel card, bool show)
         {
-            if (card == null || card.RowStyles.Count < 4) return;
+            // The ticket always reserves a notes band; empty notes display an em dash.
+            if (card == null || card.RowStyles.Count < 5)
+                return;
 
             card.SuspendLayout();
+            card.RowStyles[2].SizeType = SizeType.Percent;
+            card.RowStyles[2].Height = 100F;
+            card.RowStyles[3].SizeType = SizeType.Absolute;
+            card.RowStyles[3].Height = 52F;
 
-            if (show)
+            foreach (Control control in card.Controls)
             {
-                // SHOW description
-                card.RowStyles[2].SizeType = SizeType.AutoSize;
-                card.RowStyles[2].Height = 0;
-
-                // Grid normal
-                card.RowStyles[1].SizeType = SizeType.Percent;
-                card.RowStyles[1].Height = 100;
-            }
-            else
-            {
-                // HIDE description COMPLETELY
-                card.RowStyles[2].SizeType = SizeType.Absolute;
-                card.RowStyles[2].Height = 0;
-
-                // Grid must take FULL SPACE
-                card.RowStyles[1].SizeType = SizeType.Percent;
-                card.RowStyles[1].Height = 100;
+                TextBox notes = control as TextBox;
+                if (notes != null && notes.Name.StartsWith("txt_Description_k_", StringComparison.Ordinal))
+                {
+                    notes.Visible = true;
+                    break;
+                }
             }
 
             card.ResumeLayout(true);
-            card.PerformLayout();
         }
+
         /// <summary>
+        /// UpdateGrid with blinking canceled rows logic.        /// <summary>
         /// UpdateGrid with blinking canceled rows logic.
         /// Uses KOID (Field8) as unique row key; falls back to orderdetailsid (Field9)
         /// </summary>
@@ -3130,9 +3101,10 @@ namespace FoodandBeverage.Forms
                     if (cache == null || cache.TimeLabel == null || cache.TimeLabel.IsDisposed)
                         continue;
 
-                    string elapsedText = FormatKitchenElapsed(now - cache.CreatedTime);
-                    if (!string.Equals(cache.TimeLabel.Text, elapsedText, StringComparison.Ordinal))
-                        cache.TimeLabel.Text = elapsedText;
+                    string timeText = "ORDER TIME" + Environment.NewLine +
+                        FormatKitchenOrderTime(cache.CreatedTime, now);
+                    if (!string.Equals(cache.TimeLabel.Text, timeText, StringComparison.Ordinal))
+                        cache.TimeLabel.Text = timeText;
                 }
             }
             catch (Exception ex)
@@ -3599,312 +3571,112 @@ namespace FoodandBeverage.Forms
                 SerachTable_Pickup(searchText, Convert.ToInt32(KitchenSearchType.ByDailyToken));
 
         }
-        public void SerachTable_Pickup(string sdata,int serachtype)
+        public void SerachTable_Pickup(string sdata, int serachtype)
         {
             try
             {
                 refreshtimer.Stop();
-
-                // Empty state is updated after matching order cards are reconciled.
-                #region Fill Orders in Datagrid
                 txt_product_remove_des.Text = "Reason type here .....";
-                int countpendingorder = 0;
 
-                BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                BllSearch<DmnGridFields> bllSearch_details = new BllSearch<DmnGridFields>();
-                DmnSearch dmnSearch = new DmnSearch();
-                BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
-                DmnGridFields dmnSearchKitchendata = new DmnGridFields();
-                dmnSearchKitchendata.Searchtype =serachtype;
-                dmnSearchKitchendata.Field30 = sdata;
-                var gridSourcemaster = SearchDetails.serachreport("prdKitchenData", dmnSearchKitchendata);
-                if (gridSourcemaster.Count > 0)
+                BllKitchenData<DmnGridFields> searchDetails = new BllKitchenData<DmnGridFields>();
+                DmnGridFields searchKitchenData = new DmnGridFields
                 {
-                    //pnl_empty_msg.Visible = false;
-                    //flp_order_view.Visible = false;
-                    var distinctOrders = gridSourcemaster
-                       .GroupBy(order => new { order.Field1, order.Field2 })
-                       .Select(group => group.First())
-                       .OrderBy(order => order.Field1)
-                       .ThenBy(order => order.Field2)
-                       .ToList();
+                    Searchtype = serachtype,
+                    Field30 = sdata
+                };
 
-                    btntotalorders.Text = Convert.ToString(distinctOrders.Count);
-
-                    countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
-                    btnprintcount.Text = Convert.ToString(countpendingorder);
-
-                    var preserveNames = distinctOrders.Select(orders => "tlp_product_box_k_" + orders.Field1 + orders.Field2);
-                    HashSet<string> preserveNameSet = new HashSet<string>(preserveNames);
-                    foreach (string cacheKey in KitchenCardCache.Keys.ToList())
-                    {
-                        OrderCardCache cachedCard;
-                        if (!KitchenCardCache.TryGetValue(cacheKey, out cachedCard) ||
-                            cachedCard == null || cachedCard.CardPanel == null ||
-                            !preserveNameSet.Contains(cachedCard.CardPanel.Name))
-                        {
-                            if (cachedCard != null && cachedCard.Grid != null)
-                                orderbox.RemoveAll(x => string.Equals(
-                                    x.datagridviewname, cachedCard.Grid.Name, StringComparison.OrdinalIgnoreCase));
-                            KitchenCardCache.Remove(cacheKey);
-                        }
-                    }
-
-                    int l = 0;
-                    foreach (Control control in flp_order_view.Controls.Cast<Control>().ToArray())
-                    {
-                        if (control is TableLayoutPanel tlp && !preserveNames.Contains(tlp.Name))
-                        {
-                            flp_order_view.Controls.Remove(control);
-                            control.Dispose();
-                        }
-                        l = l + 1;
-                    }
-                    int rowCountDisplay = 0;
-                    //flp_order_view.Controls.Clear();
-                    foreach (var orders in distinctOrders)
-                    {
-                        bool flagstart_ready = false;
-
-                        BllkitchenDataDetails<Dmnkitchendetails> KtDetails = new BllkitchenDataDetails<Dmnkitchendetails>();
-                        Dmnkitchendetails dmnSearchtabledata = new Dmnkitchendetails();
-                        dmnSearchtabledata.OrderNo = Convert.ToInt32(orders.Field2);
-                        dmnSearchtabledata.OrderMasterId = Convert.ToInt32(orders.Field1);
-                        var gridSourcedetails = KtDetails.serachData("prdKitchendetails", dmnSearchtabledata);
-                        if (gridSourcedetails.Count > 0)
-                        {
-                            string tlpname = "tlp_product_box_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                            TableLayoutPanel tlp_sele = this.Controls.Find(tlpname, true).FirstOrDefault() as TableLayoutPanel;
-                            if (tlp_sele != null)
-                            {
-                                flp_order_view.SuspendLayout();
-                                string dgvname = "dgv_product_details_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                string startbuttonname = "pb_start_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                string readybuttonname = "pb_ready_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                string cancelfoodbuttonname = "pictureBoxRemove_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-                                string rprint = "reprintbutton_k_" + orders.Field1 + gridSourcedetails[0].Field17;
-
-                                // ---------------- FIND ALL CONTROLS ----------------
-
-                                // Start button
-                                PictureBox btn_start = this.Controls
-                                    .Find(startbuttonname, true)
-                                    .FirstOrDefault() as PictureBox;
-
-                                // Ready button
-                                PictureBox btn_ready = this.Controls
-                                    .Find(readybuttonname, true)
-                                    .FirstOrDefault() as PictureBox;
-
-                                // Cancel food button
-                                PictureBox btn_cancelfood = this.Controls
-                                    .Find(cancelfoodbuttonname, true)
-                                    .FirstOrDefault() as PictureBox;
-
-                                // Reprint button
-                                PictureBox pbrprint = this.Controls
-                                    .Find(rprint, true)
-                                    .FirstOrDefault() as PictureBox;
-
-                                // The modern kitchen card keeps its description textbox as a direct child.
-                                TextBox txtdes = this.Controls
-                                    .Find("txt_Description_k_" + orders.Field1 + gridSourcedetails[0].Field17, true)
-                                    .OfType<TextBox>()
-                                    .FirstOrDefault();
-
-                                // DataGridView
-                                DataGridView dgv_product_details = this.Controls
-                                    .Find(dgvname, true)
-                                    .FirstOrDefault() as DataGridView;
-
-
-                                ModernKitchenOrderCard modernCard = tlp_sele as ModernKitchenOrderCard;
-                                bool waitingForCustomer = Convert.ToInt32(gridSourcedetails[0].Field26) == 1;
-                                bool hasPendingStart = gridSourcedetails.Any(d => Convert.ToInt32(d.Field12) == 1);
-                                if (modernCard != null)
-                                    modernCard.SetKitchenState(GetKitchenVisualState(waitingForCustomer, gridSourcedetails));
-
-                                if (waitingForCustomer)
-                                {
-                                    if (btn_ready != null) btn_ready.Visible = false;
-                                    if (btn_start != null) btn_start.Visible = false;
-                                    if (btn_cancelfood != null) btn_cancelfood.Visible = false;
-                                    if (pbrprint != null) pbrprint.Visible = false;
-
-                                    if (txtdes != null)
-                                    {
-                                        txtdes.Visible = true;
-                                        txtdes.Text = "Waiting for customer confirmation.";
-                                    }
-                                    ToggleDescriptionRow(tlp_sele, true);
-                                }
-                                else
-                                {
-                                    bool hasDescription = !string.IsNullOrWhiteSpace(Convert.ToString(gridSourcedetails[0].Field16));
-                                    if (txtdes != null)
-                                    {
-                                        txtdes.Text = hasDescription
-                                            ? "Note: " + Convert.ToString(gridSourcedetails[0].Field16)
-                                            : string.Empty;
-                                        txtdes.Visible = hasDescription;
-                                    }
-                                    ToggleDescriptionRow(tlp_sele, hasDescription);
-
-                                    #region Grid Edit Cancel  product
-
-                                    for (int k = 0; k < gridSourcedetails.Count; k++)
-                                    {
-                                        if (Convert.ToInt32(gridSourcedetails[k].Field12) == 1)
-                                            flagstart_ready = true;
-                                        else if (Convert.ToInt32(gridSourcedetails[k].Field12) == 2)
-                                            flagstart_ready = false;
-
-                                        dgv_product_details.Rows[k].Cells[dactionno].Value = Properties.Resources.close_price_change;
-                                        dgv_product_details.Rows[k].Cells[dAVIDno].Value = gridSourcedetails[k].Field20;
-                                        dgv_product_details.Rows[k].Cells[dstatusno].Value = gridSourcedetails[k].Field12;
-
-                                        DataGridViewImageCell cell = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dactionno];
-                                        if (Convert.ToInt32(gridSourcedetails[k].Field12) == 0)
-                                        {
-                                            var row = dgv_product_details.Rows[k];
-
-                                            // Create a unique key for this row (e.g., using order ID + product ID)
-                                            string rowKey = gridSourcedetails[k].Field1 + "_" + gridSourcedetails[k].Field11;
-
-                                            // UI setup (can be repeated safely)
-                                            row.ReadOnly = true;
-                                            row.Cells[dremnoteno].Value = gridSourcedetails[k].Field11;
-                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                            cell.Value = Properties.Resources.orderview_cancelled;
-
-                                            // Initialize counter and color state if not exists
-                                            if (!rowCounters.ContainsKey(rowKey))
-                                                rowCounters[rowKey] = 0;
-                                            if (!rowColorState.ContainsKey(rowKey))
-                                                rowColorState[rowKey] = false; // start with white
-
-                                            // Increment counter
-                                            rowCounters[rowKey]++;
-
-                                            // Toggle color when counter reaches blinkPeriod
-                                            if (rowCounters[rowKey] >= blinkPeriod)
-                                            {
-                                                rowColorState[rowKey] = !rowColorState[rowKey];
-                                                row.DefaultCellStyle.BackColor = rowColorState[rowKey] ? Color.LightCoral : Color.White;
-
-                                                // Reset counter
-                                                rowCounters[rowKey] = 0;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            cell.Value = Properties.Resources.kitchenfood_cancel_icon;
-                                            cell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                        }
-
-                                        DataGridViewImageCell cellcolumntype = (DataGridViewImageCell)dgv_product_details.Rows[k].Cells[dptypeno];
-                                        cellcolumntype.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                                        cellcolumntype.ToolTipText = gridSourcedetails[k].Field4;
-                                        if (Convert.ToInt32(gridSourcedetails[k].Field13) == Convert.ToInt32(Tabletype.ComboProduct))
-                                        {
-                                            cellcolumntype.Value = Properties.Resources.kitchengridcomboicon;
-                                        }
-                                        else if (Convert.ToInt32(gridSourcedetails[k].Field23) >= 1)
-                                        {
-                                            cellcolumntype.Value = Properties.Resources.addonbutton;
-                                            cellcolumntype.ToolTipText = "Addon [clcik view more...]";
-                                        }
-                                        else
-                                        {
-                                            if (Convert.ToInt32(k) % 2 == 0)
-                                                cellcolumntype.Value = Properties.Resources.orderview_blank;
-                                            else
-                                                cellcolumntype.Value = Properties.Resources.orderview_blank_2;
-                                        }
-
-                                    }
-                                    #endregion
-
-                                    #region Edit Ready and Close Button 
-                                    if (FrmDashboard.IsKitchenKOTOnlyEnabled)
-                                    {
-                                        // Keep the printed order on screen until OK is clicked.
-                                        // The Ready-slot image is replaced with the OK resource
-                                        // when the card is created in KOT-only mode.
-                                        if (btn_start != null) btn_start.Visible = false;
-                                        if (btn_ready != null)
-                                        {
-                                            btn_ready.Image = Properties.Resources.N_okay;
-                                            btn_ready.Visible = !waitingForCustomer;
-                                        }
-                                        if (btn_cancelfood != null) btn_cancelfood.Visible = false;
-                                    }
-                                    else if (flagstart_ready)
-                                    {
-                                        if (btn_start != null) btn_start.Visible = true;
-                                        if (btn_cancelfood != null) btn_cancelfood.Visible = true;
-                                        if (btn_ready != null) btn_ready.Visible = false;
-                                    }
-                                    else
-                                    {
-                                        if (btn_start != null) btn_start.Visible = false;
-                                        if (btn_ready != null) btn_ready.Visible = true;
-                                        if (btn_cancelfood != null) btn_cancelfood.Visible = false;
-                                    }
-                                    #endregion
-                                }
-
-                                flp_order_view.ResumeLayout();
-                            }
-                            else
-                            {
-                                // Use the same rounded modern kitchen card as normal refresh.
-                                flp_order_view.SuspendLayout();
-                                try
-                                {
-                                    refreshtimer.Stop();
-
-                                    OrderCardCache newCache = BuildOrderCard(orders, gridSourcedetails);
-                                    if (newCache != null && newCache.CardPanel != null)
-                                    {
-                                        string cacheKey = Convert.ToString(orders.Field1) + "_" +
-                                                          Convert.ToString(gridSourcedetails[0].Field17);
-                                        KitchenCardCache[cacheKey] = newCache;
-                                        flp_order_view.Controls.Add(newCache.CardPanel);
-                                    }
-                                }
-                                finally
-                                {
-                                    flp_order_view.ResumeLayout(true);
-                                }
-                            }
-                            rowCountDisplay++;
-                        }
-                    }
-
-                    //timer1.Start();
-                    //refreshtimer.Start();
-                }
-                else
+                var gridSourceMaster = searchDetails.serachreport("prdKitchenData", searchKitchenData);
+                if (gridSourceMaster == null || gridSourceMaster.Count == 0)
                 {
                     btntotalorders.Text = "0";
                     btnprintcount.Text = "0";
                     ClearKitchenUI();
                     SetEmptyIcon();
+                    return;
                 }
 
-                // Do not toggle the empty panel on each search-refresh pass.
-                // The empty result branch above updates it only when there are no records.
+                var distinctOrders = gridSourceMaster
+                    .GroupBy(order => new { order.Field1, order.Field2 })
+                    .Select(group => group.First())
+                    .OrderBy(order => order.Field1)
+                    .ThenBy(order => order.Field2)
+                    .ToList();
 
-                #endregion
+                btntotalorders.Text = Convert.ToString(distinctOrders.Count);
+                btnprintcount.Text = Convert.ToString(
+                    distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1));
+
+                HashSet<string> visibleKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                BllkitchenDataDetails<Dmnkitchendetails> detailsService =
+                    new BllkitchenDataDetails<Dmnkitchendetails>();
+
+                foreach (var order in distinctOrders)
+                {
+                    Dmnkitchendetails query = new Dmnkitchendetails
+                    {
+                        OrderNo = Convert.ToInt32(order.Field2),
+                        OrderMasterId = Convert.ToInt32(order.Field1)
+                    };
+
+                    List<Dmnkitchendetails> details =
+                        detailsService.serachData("prdKitchendetails", query);
+                    if (details == null || details.Count == 0)
+                        continue;
+
+                    string key = Convert.ToString(order.Field1) + "_" +
+                        Convert.ToString(details[0].Field17);
+                    visibleKeys.Add(key);
+
+                    OrderCardCache cache;
+                    if (!KitchenCardCache.TryGetValue(key, out cache) ||
+                        cache == null || cache.CardPanel == null || cache.CardPanel.IsDisposed)
+                    {
+                        cache = BuildOrderCard(order, details);
+                        if (cache != null && cache.CardPanel != null)
+                        {
+                            KitchenCardCache[key] = cache;
+                            flp_order_view.Controls.Add(cache.CardPanel);
+                        }
+                    }
+                    else
+                    {
+                        UpdateOrderCard(cache, order, details);
+                    }
+                }
+
+                foreach (string oldKey in KitchenCardCache.Keys.ToList())
+                {
+                    if (visibleKeys.Contains(oldKey))
+                        continue;
+
+                    OrderCardCache oldCache = KitchenCardCache[oldKey];
+                    if (oldCache != null && oldCache.CardPanel != null)
+                    {
+                        flp_order_view.Controls.Remove(oldCache.CardPanel);
+                        if (oldCache.Grid != null)
+                        {
+                            orderbox.RemoveAll(x => string.Equals(
+                                x.datagridviewname, oldCache.Grid.Name,
+                                StringComparison.OrdinalIgnoreCase));
+                        }
+                        oldCache.CardPanel.Dispose();
+                    }
+                    KitchenCardCache.Remove(oldKey);
+                }
+
+                flp_order_view_ResponsiveResize(flp_order_view, EventArgs.Empty);
+                SetEmptyIcon();
+                // Keep periodic all-orders refresh paused while the search result is displayed.
             }
             catch (Exception ex)
             {
-                clsgen.LogException("Kitchen_View Page SerachTable_Pickup()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
+                clsgen.LogException("Kitchen_View Page SerachTable_Pickup()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
             }
         }
 
-        private void cmbserachtype_SelectionChangeCommitted(object sender, EventArgs e)
+        private void cmbserachtype_SelectionChangeCommitted        private void cmbserachtype_SelectionChangeCommitted(object sender, EventArgs e)
         {
             txtsearchData.Text = GetPlaceholder();
             txtsearchData.ForeColor = Color.DarkGray;
