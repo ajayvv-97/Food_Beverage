@@ -570,7 +570,8 @@ namespace FoodandBeverage.Forms
                     : dailyOrderTypeId == 1 || isPickupOrder
                         ? "PICKUP"
                         : "DINE IN";
-                string tableCodeText = string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field2))
+                string tableCodeText = isPickupOrder ||
+                    string.IsNullOrWhiteSpace(Convert.ToString(details[0].Field2))
                     ? "—"
                     : Convert.ToString(details[0].Field2);
 
@@ -846,7 +847,7 @@ namespace FoodandBeverage.Forms
             grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(88, 48, 143);
             grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Font = ModernKitchenOrderCard.GridHeaderFont;
             grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             grid.ColumnHeadersDefaultCellStyle.Padding = new Padding(6, 0, 4, 0);
             grid.ColumnHeadersHeight = 34;
@@ -855,7 +856,7 @@ namespace FoodandBeverage.Forms
             grid.DefaultCellStyle.ForeColor = Color.FromArgb(29, 25, 45);
             grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(235, 226, 247);
             grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(40, 27, 65);
-            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            grid.DefaultCellStyle.Font = ModernKitchenOrderCard.GridFont;
             grid.DefaultCellStyle.Padding = new Padding(4, 2, 4, 2);
             grid.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
             grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 248, 253);
@@ -954,7 +955,7 @@ namespace FoodandBeverage.Forms
             return button;
         }
 
-        private static string FormatKitchenElapsed        private static string FormatKitchenOrderTime(DateTime orderTime, DateTime now)
+        private static string FormatKitchenOrderTime(DateTime orderTime, DateTime now)
         {
             return orderTime.ToString("hh:mm tt") + Environment.NewLine +
                 FormatKitchenElapsed(now - orderTime);
@@ -1083,7 +1084,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ToggleDescriptionRow        private void ToggleDescriptionRow(TableLayoutPanel card, bool show)
+        private void ToggleDescriptionRow(TableLayoutPanel card, bool show)
         {
             // The ticket always reserves a notes band; empty notes display an em dash.
             if (card == null || card.RowStyles.Count < 5)
@@ -1109,7 +1110,6 @@ namespace FoodandBeverage.Forms
         }
 
         /// <summary>
-        /// UpdateGrid with blinking canceled rows logic.        /// <summary>
         /// UpdateGrid with blinking canceled rows logic.
         /// Uses KOID (Field8) as unique row key; falls back to orderdetailsid (Field9)
         /// </summary>
@@ -3676,7 +3676,7 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void cmbserachtype_SelectionChangeCommitted        private void cmbserachtype_SelectionChangeCommitted(object sender, EventArgs e)
+        private void cmbserachtype_SelectionChangeCommitted(object sender, EventArgs e)
         {
             txtsearchData.Text = GetPlaceholder();
             txtsearchData.ForeColor = Color.DarkGray;
