@@ -382,7 +382,7 @@ namespace FoodandBeverage.Services
                 data["Pkid"] = 0;
                 data["EmployeeName"] = "Party Booking";
                 data["Station"] = station;
-                data["GuestDetails"] = "PARTY #" + row.PartyBookingId +
+                data["GuestDetails"] = 
                     " | " + (row.CustomerName ?? string.Empty) +
                     " | PAX A:" + row.NoOfAdults + " C:" + row.NoOfChildren +
                     " | " + (row.Phone ?? string.Empty);
