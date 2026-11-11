@@ -127,6 +127,19 @@ namespace FoodandBeverage.Services
                         using (IDbConnection connection =
                             DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
                         {
+                            // Re-open an already printed KOT when the saved schedule
+                            // was changed and the corresponding print flag is reset.
+                            // This procedure only updates the print queue; it never
+                            // changes raw-material stock or the stock deduction log.
+                            connection.Execute(
+                                "dbo.prdPartyBookingKOT_RequeueResetRoutes",
+                                new
+                                {
+                                    PartyBookingId = bookingId,
+                                    BranchId = _branchId
+                                },
+                                commandType: CommandType.StoredProcedure);
+
                             connection.Execute(
                                 "dbo.prdPartyBooking_ProcessScheduledKOT",
                                 new
@@ -164,21 +177,33 @@ namespace FoodandBeverage.Services
         private IList<PartyBookingReminder> LoadUpcomingBookings()
         {
             const string sql = @"
-                SELECT PartyBookingId, CustomerName, Phone, EventDescription, BookingDateTime,
-                       KOTDatetime, ISNULL(NoOfAdults, 0) AS NoOfAdults,
-                       ISNULL(NoOfChildren, 0) AS NoOfChildren
-                FROM dbo.tblPartyBooking
-                WHERE BranchId = @BranchId
-                  AND Status = 1
-                  AND KOTDatetime IS NOT NULL
-                  AND KOTDatetime >= GETDATE()
-                  AND KOTDatetime < DATEADD(MINUTE, 45, GETDATE())
+                SELECT
+                    p.PartyBookingId,
+                    p.CustomerName,
+                    p.Phone,
+                    COALESCE(
+                        NULLIF(LTRIM(RTRIM(e.ItemName)), ''),
+                        NULLIF(LTRIM(RTRIM(p.EventDescription)), ''),
+                        '') AS EventDescription,
+                    p.BookingDateTime,
+                    p.KOTDatetime,
+                    ISNULL(p.NoOfAdults, 0) AS NoOfAdults,
+                    ISNULL(p.NoOfChildren, 0) AS NoOfChildren
+                FROM dbo.tblPartyBooking p
+                LEFT JOIN dbo.tblEventCommonItems e
+                    ON e.EventItemId = p.EventType
+                   AND e.Status = 1
+                WHERE p.BranchId = @BranchId
+                  AND p.Status = 1
+                  AND p.KOTDatetime IS NOT NULL
+                  AND p.KOTDatetime >= GETDATE()
+                  AND p.KOTDatetime < DATEADD(MINUTE, 45, GETDATE())
                   AND
                   (
-                      ISNULL(KoTPrintStatus_Kitchen, 0) = 0
-                      OR ISNULL(KoTPrintStatus_counter, 0) = 0
+                      ISNULL(p.KoTPrintStatus_Kitchen, 0) = 0
+                      OR ISNULL(p.KoTPrintStatus_counter, 0) = 0
                   )
-                ORDER BY KOTDatetime;";
+                ORDER BY p.KOTDatetime;";
 
             using (IDbConnection connection =
                 DAL.DapperRepository<PartyBookingReminder>.OpenConnection())

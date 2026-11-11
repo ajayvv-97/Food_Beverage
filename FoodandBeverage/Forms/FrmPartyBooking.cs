@@ -5649,10 +5649,40 @@ namespace FoodandBeverage
                 booking.AdditionalChargeAmt = GetDecimal(txtaddcharge);
                 booking.AdditionalChargeDescription = txtextracharge_des.Text;
 
+                // A manually changed KOT schedule must be printed again.
+                // Compare at second precision because the WinForms time picker
+                // and SQL DATETIME values can contain different sub-second parts.
+                DateTime? oldKotTimeForCompare = _loadedKotDateTime.HasValue
+                    ? (DateTime?)new DateTime(
+                        _loadedKotDateTime.Value.Year,
+                        _loadedKotDateTime.Value.Month,
+                        _loadedKotDateTime.Value.Day,
+                        _loadedKotDateTime.Value.Hour,
+                        _loadedKotDateTime.Value.Minute,
+                        _loadedKotDateTime.Value.Second)
+                    : null;
+
+                DateTime? newKotTimeForCompare = kotDateTime.HasValue
+                    ? (DateTime?)new DateTime(
+                        kotDateTime.Value.Year,
+                        kotDateTime.Value.Month,
+                        kotDateTime.Value.Day,
+                        kotDateTime.Value.Hour,
+                        kotDateTime.Value.Minute,
+                        kotDateTime.Value.Second)
+                    : null;
+
+                bool kotScheduleChanged = booking.PartyBookingId > 0 &&
+                    !Nullable.Equals(oldKotTimeForCompare, newKotTimeForCompare);
+
                 booking.KOTDatetime = kotDateTime;
                 booking.ConsumedRawMaterialStatus = _loadedConsumedRawMaterialStatus;
-                booking.KoTPrintStatus_Kitchen = _loadedKoTPrintStatus_kitchen;
-                booking.KoTPrintStatus_counter = _loadedKoTPrintStatus_counter;
+                booking.KoTPrintStatus_Kitchen = kotScheduleChanged
+                    ? false
+                    : _loadedKoTPrintStatus_kitchen;
+                booking.KoTPrintStatus_counter = kotScheduleChanged
+                    ? false
+                    : _loadedKoTPrintStatus_counter;
 
                 var result = bll.AddEditData("prdInsert_Upd_PartyBooking", booking);
 
@@ -5663,6 +5693,10 @@ namespace FoodandBeverage
                 }
 
                 bookingId = result.PartyBookingId;
+
+                // Keep the in-memory state aligned with the flags saved to SQL.
+                _loadedKoTPrintStatus_kitchen = booking.KoTPrintStatus_Kitchen;
+                _loadedKoTPrintStatus_counter = booking.KoTPrintStatus_counter;
 
                 // Retain the saved values for any subsequent save in this form.
                 _loadedKotDateTime = kotDateTime;
