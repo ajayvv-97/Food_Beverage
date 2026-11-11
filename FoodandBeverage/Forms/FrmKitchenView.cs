@@ -1727,10 +1727,6 @@ namespace FoodandBeverage.Forms
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
                    
-                    if (this.IsHandleCreated)
-                    {
-                        this.Invoke(new Action(() => refreshtimer.Start()));
-                    }
                     return;
                 }
                 int omid = gridSourcemaster[0].OrderMasterId;
@@ -1790,13 +1786,7 @@ namespace FoodandBeverage.Forms
                 }
 
                 if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        blinkTimer.Stop();
-                        refreshtimer.Start();
-                    }));
-                }
+                    this.Invoke(new Action(() => blinkTimer.Stop()));
             }
             catch (Exception ex)
             {
@@ -1846,10 +1836,6 @@ namespace FoodandBeverage.Forms
 
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
-                    if (this.IsHandleCreated)
-                    {
-                        this.Invoke(new Action(() => refreshtimer.Start()));
-                    }
                     return;
                 }
 
@@ -1904,13 +1890,7 @@ namespace FoodandBeverage.Forms
                 }
 
                 if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        blinkTimer.Stop();
-                        refreshtimer.Start();
-                    }));
-                }
+                    this.Invoke(new Action(() => blinkTimer.Stop()));
             }
             catch (Exception ex)
             {
