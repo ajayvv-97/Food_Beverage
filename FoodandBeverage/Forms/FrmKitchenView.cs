@@ -364,11 +364,9 @@ namespace FoodandBeverage.Forms
 
                 txt_product_remove_des.Text = "Reason type here .....";
 
-                // single master fetch
-                BllKitchenData<DmnGridFields> SearchDetails = new BllKitchenData<DmnGridFields>();
-                DmnGridFields dmnSearchKitchendata = new DmnGridFields();
-                dmnSearchKitchendata.Searchtype = Convert.ToInt32(KitchenSearchType.AllOrders);
-                var gridSourcemaster = SearchDetails.serachreport("prdKitchenData", dmnSearchKitchendata);
+                // Query active kitchen tickets directly. Older databases may still have a
+                // prdKitchenData version that excludes legacy NULL/0 route values.
+                List<DmnGridFields> gridSourcemaster = GetKitchenMasterOrders();
 
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
@@ -410,11 +408,7 @@ namespace FoodandBeverage.Forms
                 {
                     //if (rowCountDisplay >= KitchenDisplayCount) break;
 
-                    BllkitchenDataDetails<Dmnkitchendetails> KtDetails = new BllkitchenDataDetails<Dmnkitchendetails>();
-                    Dmnkitchendetails dmnSearchtabledata = new Dmnkitchendetails();
-                    dmnSearchtabledata.OrderNo = Convert.ToInt32(orders.Field2); // fallback; real token/order no used below
-                    dmnSearchtabledata.OrderMasterId = Convert.ToInt32(orders.Field1);
-                    var gridSourcedetails = KtDetails.serachData("prdKitchendetails", dmnSearchtabledata);
+                    List<Dmnkitchendetails> gridSourcedetails = GetKitchenOrderDetails(orders);
 
                     if (gridSourcedetails == null || gridSourcedetails.Count == 0)
                         continue;
@@ -491,6 +485,166 @@ namespace FoodandBeverage.Forms
             {
                 clsgen.LogException("Kitchen_View Page FillOrdersAsync()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Kitchen_View));
             }
+        }
+
+        /// <summary>
+        /// Returns active Kitchen-routed KOT masters without depending on the deployed
+        /// prdKitchenData version. NULL/0 route values are treated as legacy Kitchen;
+        /// Counter (2) tickets are always excluded.
+        /// </summary>
+        private List<DmnGridFields> GetKitchenMasterOrders()
+        {
+            try
+            {
+                BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
+                DmnSearch query = new DmnSearch
+                {
+                    Select = "ko.OrderMasterId AS Field1, ko.OrderNo AS Field2, ISNULL(ko.KOTPrintStatus, 1) AS Field3",
+                    Table = "tblkitchenOrder ko",
+                    WhereNdGroupBy =
+                        "WHERE ko.Status IN (1, 2) " +
+                        "AND ISNULL(ko.AddonStatus, 0) IN (0, 1) " +
+                        "AND ISNULL(NULLIF(ko.PreparationMode, 0), 1) = " +
+                        Convert.ToInt32(KOTRouting.kitchen),
+                    OrderBy = "ORDER BY ko.Koid DESC"
+                };
+
+                List<DmnGridFields> rows = search.GetSearchData("prdSearch", query);
+                if (rows != null && rows.Count > 0)
+                    return rows;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("FrmKitchenView GetKitchenMasterOrders direct query", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
+            }
+
+            // Older installations may not have all of the columns used by the direct
+            // compatibility query. Keep the deployed stored procedure as a fallback.
+            try
+            {
+                BllKitchenData<DmnGridFields> legacySearch = new BllKitchenData<DmnGridFields>();
+                DmnGridFields parameters = new DmnGridFields
+                {
+                    Searchtype = Convert.ToInt32(KitchenSearchType.AllOrders)
+                };
+                return legacySearch.serachreport("prdKitchenData", parameters) ??
+                    new List<DmnGridFields>();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("FrmKitchenView GetKitchenMasterOrders procedure fallback", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
+                return new List<DmnGridFields>();
+            }
+        }
+
+        /// <summary>
+        /// Reads details through the installed procedure first. If that procedure still
+        /// filters out legacy route values, fetch the visible KOT lines directly.
+        /// </summary>
+        private List<Dmnkitchendetails> GetKitchenOrderDetails(DmnGridFields order)
+        {
+            if (order == null)
+                return new List<Dmnkitchendetails>();
+
+            int orderMasterId;
+            if (!int.TryParse(Convert.ToString(order.Field1), out orderMasterId) ||
+                orderMasterId <= 0)
+                return new List<Dmnkitchendetails>();
+
+            int orderNo;
+            bool hasOrderNo = int.TryParse(Convert.ToString(order.Field2), out orderNo);
+
+            if (hasOrderNo)
+            {
+                try
+                {
+                    BllkitchenDataDetails<Dmnkitchendetails> detailsService =
+                        new BllkitchenDataDetails<Dmnkitchendetails>();
+                    Dmnkitchendetails parameters = new Dmnkitchendetails
+                    {
+                        OrderMasterId = orderMasterId,
+                        OrderNo = orderNo
+                    };
+
+                    List<Dmnkitchendetails> details =
+                        detailsService.serachData("prdKitchendetails", parameters);
+                    if (details != null && details.Count > 0)
+                        return details;
+                }
+                catch (Exception ex)
+                {
+                    clsgen.LogException("FrmKitchenView GetKitchenOrderDetails procedure", ex,
+                        FrmLogin.EmployeName, FrmLogin.Designation,
+                        Convert.ToInt32(FormType.Kitchen_View));
+                }
+            }
+
+            try
+            {
+                BllSearch<Dmnkitchendetails> search = new BllSearch<Dmnkitchendetails>();
+                DmnSearch query = new DmnSearch
+                {
+                    Select =
+                        "ko.OrderMasterId AS Field1, " +
+                        "ISNULL(tb.TableCode, '') AS Field2, " +
+                        "'' AS Field3, " +
+                        "od.ItemName AS Field4, " +
+                        "od.Quantity AS Field5, " +
+                        "ISNULL(od.Notes, '') AS Field6, " +
+                        "'' AS Field7, " +
+                        "ko.Koid AS Field8, " +
+                        "od.OrderDetailsId AS Field9, " +
+                        "ko.Tid AS Field10, " +
+                        "ISNULL(od.RemoveNotes, '') AS Field11, " +
+                        "ISNULL(od.Status, 1) AS Field12, " +
+                        "od.TableType AS Field13, " +
+                        "od.ItemId AS Field14, " +
+                        "od.TableType AS Field15, " +
+                        "ISNULL(od.MainRemarks, '') AS Field16, " +
+                        "ko.OrderNo AS Field17, " +
+                        "0 AS Field18, " +
+                        "ISNULL(od.AddonStatus, 0) AS Field19, " +
+                        "ISNULL(od.AV_id, '') AS Field20, " +
+                        "0 AS Field21, " +
+                        "ko.OrderNo AS Field22, " +
+                        "ISNULL(od.Addoncount, 0) AS Field23, " +
+                        "ISNULL(od.VariatiionName, '') AS Field24, " +
+                        "ISNULL(om.Pkid, 0) AS Field25, " +
+                        "0 AS Field26, " +
+                        "0 AS Field27, " +
+                        "od.CreatedDateTime AS Fielddatetime",
+                    Table =
+                        "tblkitchenOrder ko " +
+                        "INNER JOIN tblOrderDetails od ON od.OrderDetailsId = ko.OrderDetailsId " +
+                        "LEFT JOIN tblOrderMaster om ON om.OrderMasterId = ko.OrderMasterId " +
+                        "LEFT JOIN tblTable_info tb ON tb.Tid = ko.Tid",
+                    WhereNdGroupBy =
+                        "WHERE ko.OrderMasterId = " + orderMasterId +
+                        (hasOrderNo ? " AND ko.OrderNo = " + orderNo : string.Empty) +
+                        " AND ko.Status IN (1, 2) " +
+                        "AND ISNULL(ko.AddonStatus, 0) IN (0, 1) " +
+                        "AND ISNULL(NULLIF(ko.PreparationMode, 0), 1) = " +
+                        Convert.ToInt32(KOTRouting.kitchen),
+                    OrderBy = "ORDER BY ko.Koid, od.OrderDetailsId"
+                };
+
+                List<Dmnkitchendetails> fallback =
+                    search.GetSearchData("prdSearch", query);
+                if (fallback != null && fallback.Count > 0)
+                    return fallback;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("FrmKitchenView GetKitchenOrderDetails direct fallback", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
+            }
+
+            return new List<Dmnkitchendetails>();
         }
 
         private Tuple<int, string> GetDailyOrderToken(int orderMasterId)
