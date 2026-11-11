@@ -26,7 +26,7 @@ using NS = FoodandBeverage.Services.NotificationService;
 
 namespace FoodandBeverage.Forms
 {
-    public partial class FrmDashboard : Form
+    public partial class FrmDashboard  : Form
     {
         #region Delcaration
         public static int BranchId = 0;
