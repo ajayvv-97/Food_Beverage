@@ -148,12 +148,16 @@ namespace FoodandBeverage.Services
                 Size = new Size(270, 30),
                 Font = new Font("Segoe UI", 9F, FontStyle.Regular)
             };
+            // Do not silently register a new printer PC as Office. A role
+            // must be selected explicitly so KOT printing is not disabled by
+            // accepting a preselected default.
+            _cmbStation.Items.Add(new StationOption(0, "-- Select workstation type --"));
             _cmbStation.Items.Add(new StationOption(
-                KOTWorkstationRegistration.Office, "Office (no KOT printing)"));
+                KOTWorkstationRegistration.Kitchen, "Kitchen printer"));
             _cmbStation.Items.Add(new StationOption(
                 KOTWorkstationRegistration.Counter, "Counter printer"));
             _cmbStation.Items.Add(new StationOption(
-                KOTWorkstationRegistration.Kitchen, "Kitchen printer"));
+                KOTWorkstationRegistration.Office, "Office (no KOT printing)"));
 
             for (int i = 0; i < _cmbStation.Items.Count; i++)
             {
@@ -209,11 +213,11 @@ namespace FoodandBeverage.Services
             try
             {
                 StationOption selected = _cmbStation.SelectedItem as StationOption;
-                if (selected == null)
+                if (selected == null || selected.Value == 0)
                 {
                     MessageBox.Show(
                         this,
-                        "Please select a workstation type.",
+                        "Please select Kitchen, Counter, or Office before registering this PC.",
                         "KOT Workstation",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
