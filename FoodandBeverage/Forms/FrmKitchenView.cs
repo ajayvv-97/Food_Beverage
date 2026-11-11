@@ -1598,7 +1598,7 @@ namespace FoodandBeverage.Forms
                     }
 
                     // Pickup bills use Pkid > 0. Takeaway orders use
-                    // tblOrderMaster.OrderType = 4 and share the same Pickup RPT.
+                    // tblSalesMaster.OrderType = 4 and share the same Pickup RPT.
                     bool isPickupOrTakeaway =
                         Convert.ToInt32(BillDetails[0].Pkid) > 0 ||
                         Convert.ToInt32(BillDetails[0].OrderType) == 4 ||
