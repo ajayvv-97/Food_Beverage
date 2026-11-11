@@ -1388,7 +1388,6 @@ namespace FoodandBeverage.Forms
         {
             if (isOrderPrintingRunning) return;
             isOrderPrintingRunning = true;
-            ReportDocument reportDocument = new ReportDocument();
             try
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
@@ -1407,14 +1406,8 @@ namespace FoodandBeverage.Forms
                     }
                     return;
                 }
-                if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        blinkTimer.Start();
-                        refreshtimer.Stop();
-                    }));
-                }
+                // The loading indicator is started only after pending tickets
+                // are counted below. The outer refresh-timer handler owns timer state.
                 var distinctOrders = gridSourcemaster
                     .GroupBy(order => new { order.Field1, order.Field2 })
                     .Select(group => group.First())
@@ -1671,14 +1664,6 @@ namespace FoodandBeverage.Forms
 
                 }
 
-                if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        blinkTimer.Stop();
-                        refreshtimer.Start();
-                    }));
-                }
             }
             catch (Exception ex)
             {
