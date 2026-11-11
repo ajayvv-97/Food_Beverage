@@ -935,8 +935,13 @@ namespace FoodandBeverage.Forms
                     if (cache.BtnStart != null)
                         cache.BtnStart.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled && hasPendingStart;
                     if (cache.BtnReady != null)
+                    {
+                        cache.BtnReady.Image = FrmDashboard.IsKitchenKOTOnlyEnabled
+                            ? Properties.Resources.N_okay
+                            : Properties.Resources.ready_button;
                         cache.BtnReady.Visible = FrmDashboard.IsKitchenKOTOnlyEnabled ||
                             (!hasPendingStart && hasInProgress);
+                    }
                     if (cache.BtnCancel != null)
                         cache.BtnCancel.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
                             (hasPendingStart || hasInProgress);
@@ -3697,7 +3702,11 @@ namespace FoodandBeverage.Forms
                                         // The Ready-slot image is replaced with the OK resource
                                         // when the card is created in KOT-only mode.
                                         if (btn_start != null) btn_start.Visible = false;
-                                        if (btn_ready != null) btn_ready.Visible = !waitingForCustomer;
+                                        if (btn_ready != null)
+                                        {
+                                            btn_ready.Image = Properties.Resources.N_okay;
+                                            btn_ready.Visible = !waitingForCustomer;
+                                        }
                                         if (btn_cancelfood != null) btn_cancelfood.Visible = false;
                                     }
                                     else if (flagstart_ready)
