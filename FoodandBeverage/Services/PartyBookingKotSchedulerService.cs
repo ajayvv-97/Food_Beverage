@@ -1,7 +1,4 @@
 using CrystalDecisions.CrystalReports.Engine;
-using CrystalDecisions.Windows.Forms;
-using System.Drawing;
-using System.Windows.Forms;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -57,6 +54,7 @@ namespace FoodandBeverage.Services
         private readonly int _branchId;
         private readonly int _employeeId;
         private readonly bool _enabled;
+        private readonly int _workstationRole;
         private readonly System.Windows.Forms.Timer _timer;
         private readonly HashSet<int> _remindedBookingIds = new HashSet<int>();
         private bool _isProcessing;
@@ -67,10 +65,17 @@ namespace FoodandBeverage.Services
         public event Action<int, Exception> ProcessingFailed;
 
         public PartyBookingKotSchedulerService(int branchId, int employeeId, bool enabled)
+            : this(branchId, employeeId, enabled, 0)
+        {
+        }
+
+        public PartyBookingKotSchedulerService(
+            int branchId, int employeeId, bool enabled, int workstationRole)
         {
             _branchId = branchId;
             _employeeId = employeeId;
             _enabled = enabled;
+            _workstationRole = workstationRole;
             _timer = new System.Windows.Forms.Timer();
             _timer.Interval = 30000;
             _timer.Tick += Timer_Tick;
@@ -135,17 +140,11 @@ namespace FoodandBeverage.Services
                         using (IDbConnection connection =
                             DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
                         {
-                            // If a previously printed route was explicitly reset
-                            // (for example, after changing the KOT schedule), reopen
-                            // only that route. This procedure never deducts stock.
-                            connection.Execute(
-                                "dbo.prdPartyBookingKOT_RequeueResetRoutes",
-                                new
-                                {
-                                    PartyBookingId = bookingId,
-                                    BranchId = _branchId
-                                },
-                                commandType: CommandType.StoredProcedure);
+                            // Re-open a previously printed route when its print flag
+                            // was reset after rescheduling. Older databases may not yet
+                            // contain the optional upgrade procedure, so use the same
+                            // stock-neutral update as a fallback.
+                            RequeueResetRoutes(connection, bookingId);
 
                             // Ensure stock processing and any missing KOT queue rows
                             // exist before the printer claims pending tickets.
@@ -166,18 +165,28 @@ namespace FoodandBeverage.Services
                     }
                 }
 
-                // Printing is attempted after catch-up processing on every tick.
-                // SQL claim logic enforces station registration, due time and
-                // print-status=0, so each workstation prints only its own route.
-                PartyBookingKOTQueuePrinter.ProcessPendingAsync(
-                    _branchId,
-                    Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.Kitchen),
-                    _employeeId);
+                // A workstation has exactly one registered role. Process only
+                // that route; Office workstations continue to show reminders but
+                // must be reconfigured as Kitchen or Counter to print KOTs.
+                if (_workstationRole == KOTWorkstationRegistration.Kitchen ||
+                    _workstationRole == 0)
+                {
+                    PartyBookingKOTQueuePrinter.ProcessPendingAsync(
+                        _branchId,
+                        Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.kitchen),
+                        _employeeId,
+                        RaiseProcessingFailed);
+                }
 
-                PartyBookingKOTQueuePrinter.ProcessPendingAsync(
-                    _branchId,
-                    Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.Counter),
-                    _employeeId);
+                if (_workstationRole == KOTWorkstationRegistration.Counter ||
+                    _workstationRole == 0)
+                {
+                    PartyBookingKOTQueuePrinter.ProcessPendingAsync(
+                        _branchId,
+                        Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.Counter),
+                        _employeeId,
+                        RaiseProcessingFailed);
+                }
             }
             catch (Exception ex)
             {
@@ -261,6 +270,91 @@ namespace FoodandBeverage.Services
             }
         }
 
+        private void RequeueResetRoutes(IDbConnection connection, int bookingId)
+        {
+            const string procedureExistsSql = @"
+                SELECT CASE
+                    WHEN OBJECT_ID(N'dbo.prdPartyBookingKOT_RequeueResetRoutes', N'P') IS NULL
+                        THEN 0
+                    ELSE 1
+                END;";
+
+            int procedureExists = connection.ExecuteScalar<int>(procedureExistsSql);
+            if (procedureExists == 1)
+            {
+                connection.Execute(
+                    "dbo.prdPartyBookingKOT_RequeueResetRoutes",
+                    new
+                    {
+                        PartyBookingId = bookingId,
+                        BranchId = _branchId
+                    },
+                    commandType: CommandType.StoredProcedure);
+                return;
+            }
+
+            // Compatibility fallback for databases where the manual-reschedule
+            // upgrade script has not been applied yet. This only reopens print
+            // queue rows; it never changes stock or stock-deduction status.
+            const string fallbackSql = @"
+                UPDATE q
+                SET
+                    q.ProductName = LEFT(CONVERT(NVARCHAR(250),
+                        COALESCE(
+                            NULLIF(LTRIM(RTRIM(bd.Product)), N''),
+                            NULLIF(LTRIM(RTRIM(p.Product)), N''), N'')), 250),
+                    q.Quantity = CONVERT(DECIMAL(18,3), bd.Qty),
+                    q.TableType = ISNULL(bd.TableType, 0),
+                    q.CategoryName = bd.CategoryName,
+                    q.CustomerName = b.CustomerName,
+                    q.Phone = b.Phone,
+                    q.EventDescription = b.EventDescription,
+                    q.BookingDateTime = b.BookingDateTime,
+                    q.KOTDatetime = b.KOTDatetime,
+                    q.NoOfAdults = ISNULL(b.NoOfAdults, 0),
+                    q.NoOfChildren = ISNULL(b.NoOfChildren, 0),
+                    q.Status = 0,
+                    q.ClaimedOn = NULL,
+                    q.PrintedOn = NULL,
+                    q.PrintedBy = NULL,
+                    q.PrintMachine = NULL,
+                    q.LastError = NULL
+                FROM dbo.tblPartyBookingKOTQueue q
+                INNER JOIN dbo.tblPartyBooking b
+                    ON b.PartyBookingId = q.PartyBookingId
+                   AND b.BranchId = q.BranchId
+                INNER JOIN dbo.tblPartyBookingDetails bd
+                    ON bd.PartyBookingId = q.PartyBookingId
+                   AND bd.PartyBookingDetailsId = q.PartyBookingDetailsId
+                   AND bd.BranchId = q.BranchId
+                   AND bd.Status = 1
+                   AND bd.ProductType = 9
+                   AND ISNULL(bd.Qty, 0) > 0
+                INNER JOIN dbo.tblProduct p
+                    ON p.ProductId = bd.ProductId
+                   AND p.Status = 1
+                   AND p.PreparationMode = q.PreparationMode
+                WHERE q.PartyBookingId = @PartyBookingId
+                  AND q.BranchId = @BranchId
+                  AND q.Status IN (0, 2)
+                  AND b.Status = 1
+                  AND b.KOTDatetime IS NOT NULL
+                  AND
+                  (
+                      (q.PreparationMode = 1 AND ISNULL(b.KoTPrintStatus_Kitchen, 0) = 0)
+                      OR
+                      (q.PreparationMode = 2 AND ISNULL(b.KoTPrintStatus_counter, 0) = 0)
+                  );";
+
+            connection.Execute(
+                fallbackSql,
+                new
+                {
+                    PartyBookingId = bookingId,
+                    BranchId = _branchId
+                });
+        }
+
         private void RaiseProcessingFailed(int bookingId, Exception exception)
         {
             Action<int, Exception> handler = ProcessingFailed;
@@ -297,7 +391,11 @@ namespace FoodandBeverage.Services
             public string EmployeeName { get; set; }
         }
 
-        public static void ProcessPendingAsync(int branchId, int preparationMode, int employeeId)
+        public static void ProcessPendingAsync(
+            int branchId,
+            int preparationMode,
+            int employeeId,
+            Action<int, Exception> processingFailed = null)
         {
             if (preparationMode != 1 && preparationMode != 2)
                 return;
@@ -310,7 +408,7 @@ namespace FoodandBeverage.Services
             {
                 try
                 {
-                    ProcessPending(branchId, preparationMode, employeeId);
+                    ProcessPending(branchId, preparationMode, employeeId, processingFailed);
                 }
                 finally
                 {
@@ -320,6 +418,15 @@ namespace FoodandBeverage.Services
         }
 
         public static void ProcessPending(int branchId, int preparationMode, int employeeId)
+        {
+            ProcessPending(branchId, preparationMode, employeeId, null);
+        }
+
+        private static void ProcessPending(
+            int branchId,
+            int preparationMode,
+            int employeeId,
+            Action<int, Exception> processingFailed)
         {
             if (branchId <= 0 || (preparationMode != 1 && preparationMode != 2))
                 return;
@@ -361,18 +468,33 @@ namespace FoodandBeverage.Services
                     }
                     catch (Exception ex)
                     {
-                        MarkTicketFailed(
-                            rows[0].PartyBookingId,
-                            rows[0].BranchId,
-                            preparationMode,
-                            Environment.MachineName,
-                            ex.Message);
+                        try
+                        {
+                            MarkTicketFailed(
+                                rows[0].PartyBookingId,
+                                rows[0].BranchId,
+                                preparationMode,
+                                Environment.MachineName,
+                                ex.Message);
+                        }
+                        catch (Exception markFailedException)
+                        {
+                            Trace.TraceError(
+                                "Unable to reset failed Party Booking KOT queue. Booking={0}. {1}",
+                                rows[0].PartyBookingId,
+                                markFailedException);
+                        }
 
                         Trace.TraceError(
                             "Party booking KOT print failed. Booking={0}, Station={1}, Machine={2}. {3}",
                             rows[0].PartyBookingId,
                             preparationMode == 1 ? "KITCHEN" : "COUNTER",
                             Environment.MachineName,
+                            ex);
+
+                        NotifyProcessingFailed(
+                            processingFailed,
+                            rows[0].PartyBookingId,
                             ex);
                     }
                 }
@@ -382,6 +504,26 @@ namespace FoodandBeverage.Services
                 Trace.TraceError(
                     "Party booking KOT worker failed. Branch={0}, PreparationMode={1}, Machine={2}. {3}",
                     branchId, preparationMode, Environment.MachineName, ex);
+
+                NotifyProcessingFailed(processingFailed, 0, ex);
+            }
+        }
+
+        private static void NotifyProcessingFailed(
+            Action<int, Exception> processingFailed,
+            int bookingId,
+            Exception exception)
+        {
+            if (processingFailed == null)
+                return;
+
+            try
+            {
+                processingFailed(bookingId, exception);
+            }
+            catch (Exception callbackException)
+            {
+                Trace.TraceError("Party Booking KOT error callback failed. {0}", callbackException);
             }
         }
 
@@ -467,83 +609,37 @@ namespace FoodandBeverage.Services
                 table.Rows.Add(data);
             }
 
-            // Kitchen station uses FrmKitchenView.crvkitchenbill directly.
-            FoodandBeverage.Forms.FrmKitchenView kitchenView =
-                preparationMode == 1
-                    ? FoodandBeverage.Forms.FrmKitchenView.ActiveInstance
-                    : null;
-
-            if (kitchenView != null &&
-                !kitchenView.IsDisposed &&
-                kitchenView.IsHandleCreated)
-            {
-                kitchenView.PrintPartyBookingKOT(
-                    table,
-                    printContext == null ? string.Empty : printContext.EventType);
-                return;
-            }
-
-            // Counter stations (and Kitchen stations with no open Kitchen View)
-            // load the same Party Crystal report through an isolated viewer control.
-            PrintThroughCrystalViewerHost(
+            // Print directly through Crystal Reports. Do not depend on the
+            // Kitchen View form being open and do not display a report preview.
+            PrintCrystalReportDirectly(
                 table,
                 printContext == null ? string.Empty : printContext.EventType);
         }
 
-        private static void PrintThroughCrystalViewerHost(
+        private static void PrintCrystalReportDirectly(
             DataTable ticketTable,
             string eventType)
         {
             Exception printException = null;
+
+            // Crystal Reports printing is executed on a dedicated STA thread.
+            // A CrystalReportViewer/Form is not required for PrintToPrinter and
+            // can display a preview window instead of silently printing the KOT.
             Thread printThread = new Thread(() =>
             {
                 ReportDocument report = null;
-                Form host = null;
-                CrystalReportViewer crvkitchenbill = null;
                 DataSet reportData = null;
 
                 try
                 {
-                    host = new Form
-                    {
-                        Name = "PartyBookingKOTCrystalPrintHost",
-                        FormBorderStyle = FormBorderStyle.None,
-                        StartPosition = FormStartPosition.Manual,
-                        Location = new Point(-32000, -32000),
-                        Size = new Size(900, 650),
-                        ShowInTaskbar = false,
-                        Opacity = 0
-                    };
-
-                    crvkitchenbill = new CrystalReportViewer
-                    {
-                        Name = "crvkitchenbill",
-                        Dock = DockStyle.Fill,
-                        ShowCloseButton = false,
-                        ShowCopyButton = false,
-                        ShowGotoPageButton = false,
-                        ShowGroupTreeButton = false,
-                        ShowLogo = false,
-                        ShowPageNavigateButtons = false,
-                        ShowParameterPanelButton = false,
-                        ShowTextSearchButton = false
-                    };
-
-                    host.Controls.Add(crvkitchenbill);
-                    host.Show();
-                    host.Hide();
-                    host.CreateControl();
-                    crvkitchenbill.CreateControl();
-
                     report = new FoodandBeverage.Forms.KitchenBill.CRKitchenBill_Party();
                     reportData = new DataSet();
                     reportData.Tables.Add(ticketTable.Copy());
+
                     report.SetDataSource(reportData);
                     report.SetParameterValue("Eventtype", eventType ?? string.Empty);
 
-                    crvkitchenbill.ReportSource = report;
-                    crvkitchenbill.RefreshReport();
-                    Application.DoEvents();
+                    // Uses the Windows default printer configured on this PC.
                     report.PrintToPrinter(1, false, 0, 0);
                 }
                 catch (Exception ex)
@@ -552,37 +648,28 @@ namespace FoodandBeverage.Services
                 }
                 finally
                 {
-                    try
-                    {
-                        if (crvkitchenbill != null)
-                            crvkitchenbill.ReportSource = null;
-                    }
-                    catch { }
-
                     if (report != null)
                     {
                         try { report.Close(); } catch { }
-                        report.Dispose();
+                        try { report.Dispose(); } catch { }
                     }
 
                     if (reportData != null)
-                        reportData.Dispose();
-
-                    if (host != null)
                     {
-                        try { host.Close(); } catch { }
-                        host.Dispose();
+                        try { reportData.Dispose(); } catch { }
                     }
                 }
             });
 
+            printThread.IsBackground = true;
             printThread.SetApartmentState(ApartmentState.STA);
             printThread.Start();
             printThread.Join();
 
             if (printException != null)
                 throw new InvalidOperationException(
-                    "Unable to load or print the Party Booking KOT Crystal Report.", printException);
+                    "Unable to send the Party Booking KOT to the Windows default printer.",
+                    printException);
         }
 
         private static DataTable CreatePartyKitchenBillTable()
