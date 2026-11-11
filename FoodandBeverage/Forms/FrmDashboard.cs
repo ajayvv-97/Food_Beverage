@@ -358,10 +358,46 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
-                // A first-time PC registration defaults to Office (no KOT printing).
-                // The SQL claim procedure independently enforces this role on every print request.
-                FoodandBeverage.Services.KOTWorkstationRegistration.EnsureRegistered(
-                    BranchId, UserId, this);
+                // SQL allows a workstation to print only its registered route.
+                // Office workstations can display reminders but cannot claim KOT jobs.
+                int workstationRole =
+                    FoodandBeverage.Services.KOTWorkstationRegistration.EnsureRegistered(
+                        BranchId, UserId, this);
+
+                if (workstationRole == FoodandBeverage.Services.KOTWorkstationRegistration.Office)
+                {
+                    DialogResult configureResult = MessageBox.Show(
+                        this,
+                        "This PC is registered as OFFICE, so it cannot print Kitchen or Counter KOTs.\r\n\r\n" +
+                        "Do you want to configure this PC as a Kitchen or Counter printer now?",
+                        "KOT Printer Setup",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (configureResult == DialogResult.Yes &&
+                        FoodandBeverage.Services.KOTWorkstationRegistration.ConfigureCurrentMachine(
+                            BranchId, UserId, this))
+                    {
+                        workstationRole =
+                            FoodandBeverage.Services.KOTWorkstationRegistration.EnsureRegistered(
+                                BranchId, UserId, this);
+                    }
+                }
+
+                if (workstationRole == 0)
+                {
+                    NS.Raise(
+                        "Party Booking KOT printing is not active because this PC is not registered as a Kitchen or Counter workstation.",
+                        0, 0, Color.OrangeRed);
+                    return;
+                }
+
+                if (workstationRole == FoodandBeverage.Services.KOTWorkstationRegistration.Office)
+                {
+                    NS.Raise(
+                        "KOT reminders are enabled, but automatic printing is disabled on this OFFICE workstation. Configure it as Kitchen or Counter to print KOTs.",
+                        0, 0, Color.OrangeRed);
+                }
 
                 if (_partyBookingKotService != null)
                 {
@@ -370,7 +406,7 @@ namespace FoodandBeverage.Forms
                 }
 
                 _partyBookingKotService = new PartyBookingKotSchedulerService(
-                    BranchId, UserId, IsPartyBookingKOTEnabled);
+                    BranchId, UserId, IsPartyBookingKOTEnabled, workstationRole);
                 _partyBookingKotService.UpcomingBookingsFound += ShowUpcomingPartyBookings;
                 _partyBookingKotService.UpcomingBookingsUpdated += UpdateUpcomingPartyBookings;
                 _partyBookingKotService.ProcessingFailed += PartyBookingKotProcessingFailed;
@@ -443,12 +479,27 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (IsDisposed || Disposing)
+                    return;
+
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new Action<int, Exception>(
+                        PartyBookingKotProcessingFailed), bookingId, exception);
+                    return;
+                }
+
                 if (!_reportedPartyBookingKOTFailures.Add(bookingId))
                     return;
 
-                string bookingText = bookingId > 0 ? "Party booking #" + bookingId : "Party booking KOT service";
-                NS.Raise(bookingText + " could not complete scheduled KOT processing: " + exception.Message,
+                string bookingText = bookingId > 0
+                    ? "Party booking #" + bookingId
+                    : "Party booking KOT service";
+
+                NS.Raise(
+                    bookingText + " could not print/process KOT: " + exception.Message,
                     bookingId, 0, Color.OrangeRed);
+
                 clsgen.LogException("Dashboard PartyBookingKotProcessingFailed()", exception,
                     FrmLogin.EmployeName, FrmLogin.Designation,
                     Convert.ToInt32(FormType.homepage));
