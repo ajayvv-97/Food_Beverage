@@ -6369,33 +6369,34 @@ namespace FoodandBeverage.Forms
         }
 
 
+        private void OpenMaximizedDashboardDialog<TForm>(Func<TForm> createForm)
+            where TForm : Form
+        {
+            TForm existing = Application.OpenForms.OfType<TForm>().FirstOrDefault();
+
+            if (existing != null && !existing.IsDisposed)
+            {
+                existing.WindowState = FormWindowState.Maximized;
+                if (!existing.Visible)
+                    existing.Show();
+                existing.BringToFront();
+                return;
+            }
+
+            using (TForm form = createForm())
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.WindowState = FormWindowState.Maximized;
+                form.ShowDialog(this);
+            }
+        }
+
         private void ibfoodpremapping_Click(object sender, EventArgs e)
         {
             try
             {
                 PrepareForSideMenuNavigation();
-
-                var frm = Application.OpenForms.OfType<FrmProductionMapping>().FirstOrDefault();
-
-                if (frm != null)
-                {
-                    if (frm.WindowState == FormWindowState.Minimized)
-                    {
-                        frm.WindowState = FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        frm.Dock = DockStyle.None;
-                        ResizeForm(frm);
-                        panelDesktop.Controls.Add(frm);
-                        frm.Show();
-                        frm.BringToFront();
-                    }
-                }
-                else
-                {
-                    UIHelper.OpenDialog(this, new FrmProductionMapping());
-                }
+                OpenMaximizedDashboardDialog(() => new FrmProductionMapping());
             }
             catch (Exception ex)
             {
@@ -6404,8 +6405,7 @@ namespace FoodandBeverage.Forms
                     ex,
                     FrmLogin.EmployeName,
                     FrmLogin.Designation,
-                    Convert.ToInt32(FormType.homepage)
-                );
+                    Convert.ToInt32(FormType.homepage));
             }
         }
 
@@ -6892,38 +6892,12 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ib_InventoryManagement_Click(object sender, EventArgs e) 
+        private void ib_InventoryManagement_Click(object sender, EventArgs e)
         {
             try
             {
                 PrepareForSideMenuNavigation();
-
-                if (Application.OpenForms["FrmInventoryrequest"] != null)
-                {
-                    FrmInventoryrequest _instanceFrmInventoryrequest =
-                        Application.OpenForms["FrmInventoryrequest"] as FrmInventoryrequest;
-
-                    if (_instanceFrmInventoryrequest.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmInventoryrequest.WindowState =
-                            FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmInventoryrequest.Dock = DockStyle.None;
-
-                        ResizeForm(_instanceFrmInventoryrequest);
-
-                        panelDesktop.Controls.Add(_instanceFrmInventoryrequest);
-
-                        _instanceFrmInventoryrequest.Show();
-                        _instanceFrmInventoryrequest.BringToFront();
-                    }
-                }
-                else
-                {
-                    UIHelper.OpenDialog(this, new FrmInventoryrequest());
-                }
+                OpenMaximizedDashboardDialog(() => new FrmInventoryrequest());
             }
             catch (Exception ex)
             {
@@ -6936,38 +6910,12 @@ namespace FoodandBeverage.Forms
             }
         }
 
-        private void ibrequestapproval_Click(object sender, EventArgs e) 
+        private void ibrequestapproval_Click(object sender, EventArgs e)
         {
             try
             {
                 PrepareForSideMenuNavigation();
-
-                if (Application.OpenForms["FrmInventoryRequestApproval"] != null)
-                {
-                    FrmInventoryRequestApproval _instanceFrmInventoryRequestApproval =
-                        Application.OpenForms["FrmInventoryRequestApproval"] as FrmInventoryRequestApproval;
-
-                    if (_instanceFrmInventoryRequestApproval.WindowState == FormWindowState.Minimized)
-                    {
-                        _instanceFrmInventoryRequestApproval.WindowState =
-                            FormWindowState.Maximized;
-                    }
-                    else
-                    {
-                        _instanceFrmInventoryRequestApproval.Dock = DockStyle.None;
-
-                        ResizeForm(_instanceFrmInventoryRequestApproval);
-
-                        panelDesktop.Controls.Add(_instanceFrmInventoryRequestApproval);
-
-                        _instanceFrmInventoryRequestApproval.Show();
-                        _instanceFrmInventoryRequestApproval.BringToFront();
-                    }
-                }
-                else
-                {
-                    UIHelper.OpenDialog(this, new FrmInventoryRequestApproval());
-                }
+                OpenMaximizedDashboardDialog(() => new FrmInventoryRequestApproval());
             }
             catch (Exception ex)
             {

@@ -25,6 +25,8 @@ namespace FoodandBeverage.Forms
 {
     public partial class FrmKitchenView  : Form
     {
+        public static FrmKitchenView ActiveInstance { get; private set; }
+
         private SoundPlayer soundPlayer;
         ReportDocument reportDocument = new ReportDocument();
         private BlurPopupOverlay _blurPopupOverlay;
@@ -32,6 +34,7 @@ namespace FoodandBeverage.Forms
         public FrmKitchenView()
         {
             InitializeComponent();
+            ActiveInstance = this;
             _blurPopupOverlay = new BlurPopupOverlay(this,
                 pnl_products_rem_descr,
                 pnlproductviewmore,
@@ -1335,6 +1338,46 @@ namespace FoodandBeverage.Forms
         public void InitTimer()
         {
             refreshtimer.Start();
+        }
+
+        public void PrintPartyBookingKOT(DataTable ticketTable)
+        {
+            if (ticketTable == null || ticketTable.Rows.Count == 0)
+                return;
+
+            if (IsDisposed || Disposing)
+                throw new ObjectDisposedException("FrmKitchenView");
+
+            if (InvokeRequired)
+            {
+                Invoke(new Action<DataTable>(PrintPartyBookingKOT), ticketTable.Copy());
+                return;
+            }
+
+            ReportDocument partyReport = null;
+            DataSet reportData = null;
+            try
+            {
+                partyReport = new FoodandBeverage.Forms.KitchenBill.CRKitchenBill_Party();
+                reportData = new DataSet();
+                reportData.Tables.Add(ticketTable.Copy());
+                partyReport.SetDataSource(reportData);
+
+                crvkitchenbill.ReportSource = partyReport;
+                crvkitchenbill.RefreshReport();
+                partyReport.PrintToPrinter(1, false, 0, 0);
+            }
+            finally
+            {
+                try { crvkitchenbill.ReportSource = null; } catch { }
+                if (partyReport != null)
+                {
+                    try { partyReport.Close(); } catch { }
+                    partyReport.Dispose();
+                }
+                if (reportData != null)
+                    reportData.Dispose();
+            }
         }
 
         private void PrintOrderAsync()
@@ -2966,6 +3009,9 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                if (ReferenceEquals(ActiveInstance, this))
+                    ActiveInstance = null;
+
                 if (FrmDashboard.AutoLogoutWhenIdle)
                 {
                     AppSession.UnregisterForm(this);

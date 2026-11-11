@@ -1,4 +1,7 @@
 using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Windows.Forms;
+using System.Drawing;
+using System.Windows.Forms;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -328,7 +331,6 @@ ORDER BY KOTDatetime, PartyBookingId;";
                 return;
 
             string station = preparationMode == 1 ? "KITCHEN" : "COUNTER";
-
             DataTable table = CreatePartyKitchenBillTable();
             decimal totalQuantity = rows.Sum(x => x.Quantity);
 
@@ -344,8 +346,7 @@ ORDER BY KOTDatetime, PartyBookingId;";
                 data["AddonStatus"] = 0;
                 data["AV_id"] = string.Empty;
                 data["MainCategory"] = Convert.ToString(row.ProductId);
-                data["MainCategoryCount"] =
-                    rows.Count(x => x.ProductId == row.ProductId);
+                data["MainCategoryCount"] = rows.Count(x => x.ProductId == row.ProductId);
                 data["offeritemname"] = string.Empty;
                 data["offerqty"] = 0;
                 data["TableType"] = row.TableType;
@@ -368,16 +369,76 @@ ORDER BY KOTDatetime, PartyBookingId;";
                 table.Rows.Add(data);
             }
 
+            // Kitchen station uses FrmKitchenView.crvkitchenbill directly.
+            FoodandBeverage.Forms.FrmKitchenView kitchenView =
+                preparationMode == 1
+                    ? FoodandBeverage.Forms.FrmKitchenView.ActiveInstance
+                    : null;
+
+            if (kitchenView != null &&
+                !kitchenView.IsDisposed &&
+                kitchenView.IsHandleCreated)
+            {
+                kitchenView.PrintPartyBookingKOT(table);
+                return;
+            }
+
+            // Counter stations (and Kitchen stations with no open Kitchen View)
+            // load the same Party Crystal report through an isolated viewer control.
+            PrintThroughCrystalViewerHost(table);
+        }
+
+        private static void PrintThroughCrystalViewerHost(DataTable ticketTable)
+        {
             Exception printException = null;
             Thread printThread = new Thread(() =>
             {
-                ReportDocument report =
-                    new FoodandBeverage.Forms.KitchenBill.CRKitchenBill_Party();
+                ReportDocument report = null;
+                Form host = null;
+                CrystalReportViewer crvkitchenbill = null;
+                DataSet reportData = null;
+
                 try
                 {
-                    DataSet dataSet = new DataSet();
-                    dataSet.Tables.Add(table.Copy());
-                    report.SetDataSource(dataSet);
+                    host = new Form
+                    {
+                        Name = "PartyBookingKOTCrystalPrintHost",
+                        FormBorderStyle = FormBorderStyle.None,
+                        StartPosition = FormStartPosition.Manual,
+                        Location = new Point(-32000, -32000),
+                        Size = new Size(900, 650),
+                        ShowInTaskbar = false,
+                        Opacity = 0
+                    };
+
+                    crvkitchenbill = new CrystalReportViewer
+                    {
+                        Name = "crvkitchenbill",
+                        Dock = DockStyle.Fill,
+                        ShowCloseButton = false,
+                        ShowCopyButton = false,
+                        ShowGotoPageButton = false,
+                        ShowGroupTreeButton = false,
+                        ShowLogo = false,
+                        ShowPageNavigateButtons = false,
+                        ShowParameterPanelButton = false,
+                        ShowTextSearchButton = false
+                    };
+
+                    host.Controls.Add(crvkitchenbill);
+                    host.Show();
+                    host.Hide();
+                    host.CreateControl();
+                    crvkitchenbill.CreateControl();
+
+                    report = new FoodandBeverage.Forms.KitchenBill.CRKitchenBill_Party();
+                    reportData = new DataSet();
+                    reportData.Tables.Add(ticketTable.Copy());
+                    report.SetDataSource(reportData);
+
+                    crvkitchenbill.ReportSource = report;
+                    crvkitchenbill.RefreshReport();
+                    Application.DoEvents();
                     report.PrintToPrinter(1, false, 0, 0);
                 }
                 catch (Exception ex)
@@ -386,8 +447,27 @@ ORDER BY KOTDatetime, PartyBookingId;";
                 }
                 finally
                 {
-                    try { report.Close(); } catch { }
-                    report.Dispose();
+                    try
+                    {
+                        if (crvkitchenbill != null)
+                            crvkitchenbill.ReportSource = null;
+                    }
+                    catch { }
+
+                    if (report != null)
+                    {
+                        try { report.Close(); } catch { }
+                        report.Dispose();
+                    }
+
+                    if (reportData != null)
+                        reportData.Dispose();
+
+                    if (host != null)
+                    {
+                        try { host.Close(); } catch { }
+                        host.Dispose();
+                    }
                 }
             });
 
@@ -396,11 +476,8 @@ ORDER BY KOTDatetime, PartyBookingId;";
             printThread.Join();
 
             if (printException != null)
-            {
                 throw new InvalidOperationException(
-                    "Unable to print party booking KOT on the " + station +
-                    " workstation default printer.", printException);
-            }
+                    "Unable to load or print the Party Booking KOT Crystal Report.", printException);
         }
 
         private static DataTable CreatePartyKitchenBillTable()
