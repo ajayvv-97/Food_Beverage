@@ -80,6 +80,8 @@ namespace FoodandBeverage.Controls
 
         internal static readonly Font HeaderFont = new Font("Segoe UI", 11F, FontStyle.Bold);
         internal static readonly Font MetaFont = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+        internal static readonly Font GridHeaderFont = new Font("Segoe UI", 9F, FontStyle.Bold);
+        internal static readonly Font GridFont = new Font("Segoe UI", 9F, FontStyle.Regular);
         internal static readonly Font StatusFont = new Font("Segoe UI", 8F, FontStyle.Bold);
         internal static readonly Font DetailFont = new Font("Segoe UI", 9F, FontStyle.Regular);
 
@@ -293,7 +295,8 @@ namespace FoodandBeverage.Controls
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw,
+                ControlStyles.ResizeRedraw |
+                ControlStyles.SupportsTransparentBackColor,
                 true);
             BackColor = Color.Transparent;
             SizeMode = PictureBoxSizeMode.Normal;
