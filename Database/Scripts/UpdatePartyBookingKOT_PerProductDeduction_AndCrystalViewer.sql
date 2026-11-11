@@ -651,7 +651,7 @@ BEGIN
             b.PartyBookingId,
             bd.PartyBookingDetailsId,
             bd.ProductId,
-            COALESCE(NULLIF(bd.Product, N''), p.Product),
+            LEFT(CONVERT(NVARCHAR(250), COALESCE(NULLIF(bd.Product, N''), p.Product)), 250),
             CONVERT(DECIMAL(18,3), bd.Qty),
             p.PreparationMode,
             ISNULL(bd.TableType, 0),

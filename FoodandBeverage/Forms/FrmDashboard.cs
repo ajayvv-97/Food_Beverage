@@ -6376,6 +6376,17 @@ namespace FoodandBeverage.Forms
 
             if (existing != null && !existing.IsDisposed)
             {
+                // Older navigation code could leave the form embedded in panelDesktop.
+                // Restore it as a top-level maximized window before bringing it forward.
+                if (!existing.TopLevel)
+                {
+                    existing.Hide();
+                    if (existing.Parent != null)
+                        existing.Parent.Controls.Remove(existing);
+                    existing.TopLevel = true;
+                    existing.Dock = DockStyle.None;
+                }
+
                 existing.WindowState = FormWindowState.Maximized;
                 if (!existing.Visible)
                     existing.Show();
