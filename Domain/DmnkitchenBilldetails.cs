@@ -34,7 +34,6 @@ namespace Domain
         public int TotalGuestCount { get; set; }
         public int PriorityType { get; set; }
         public string TokenNo { get; set; }
-        public int  OrderType { get; set; }
     }
 
 }
