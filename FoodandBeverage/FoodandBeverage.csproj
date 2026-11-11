@@ -2307,6 +2307,12 @@
     <None Include="Resources\Invapp_OpenRequest.png" />
     <None Include="Resources\Invapp_Status_Approved.png" />
     <None Include="Resources\Invapp_Status_Rejected.png" />
+    <None Include="Resources\KOT_ChefHat.png" />
+    <None Include="Resources\KOT_CrossedCutlery.png" />
+    <None Include="Resources\KOT_KitchenCopyChefHat.png" />
+    <None Include="Resources\KOT_NotesClipboard.png" />
+    <None Include="Resources\KOT_OrderTimeClock.png" />
+    <None Include="Resources\KOT_OrderTypeUtensils.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />
