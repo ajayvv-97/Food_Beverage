@@ -1490,7 +1490,7 @@ namespace FoodandBeverage.Forms
                         " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
                         " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
                         " ' O:' + CAST(om.OtherGuestCount AS VARCHAR) + ')'" +
-                        ") AS GuestDetails,ko.PriorityType";
+                        ") AS GuestDetails,ko.PriorityType,";
                     dmnSearchDetails.Table = "tblkitchenOrder ko " +
                         "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                         "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -1532,7 +1532,8 @@ namespace FoodandBeverage.Forms
                         Station = item.Station,
                         GuestDetails = item.GuestDetails,
                         Orderno= orders.Field2,
-                        PriorityType= item.PriorityType,
+                        PriorityType = item.PriorityType,
+                        OrderType = item.OrderType,
                         TokenNo = !string.IsNullOrWhiteSpace(dailyTokenDisplay)
                             ? dailyTokenDisplay
                             : (!string.IsNullOrWhiteSpace(item.TokenNo) &&
@@ -1582,6 +1583,7 @@ namespace FoodandBeverage.Forms
                                   processedItem.Orderno,
                                   processedItem.PriorityType,
                                   processedItem.TokenNo,
+                                  processedItem.OrderType,
 
                               })
                         .ToList();
@@ -1590,7 +1592,7 @@ namespace FoodandBeverage.Forms
                     {
                         using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId",
                             "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY",
-                            "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType", "TokenNo"))
+                            "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType", "TokenNo", "OrderType"))
                         {
                             dtSalesDetail.Load(reader);
                         }
