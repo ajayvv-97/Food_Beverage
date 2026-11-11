@@ -53,6 +53,7 @@ namespace BLL
             parms.Add("Tax", objTestClass.Tax);
             parms.Add("TaxType", objTestClass.TaxType);
             parms.Add("TaxSettingId", objTestClass.TaxSettingId);
+            parms.Add("EnablePartyBookingKOT", objTestClass.EnablePartyBookingKOT);
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
         }

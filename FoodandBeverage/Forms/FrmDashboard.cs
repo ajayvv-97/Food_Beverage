@@ -2461,15 +2461,16 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    FrmKitchenView _instanceFrmKitchenView = new FrmKitchenView();
-                    _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    _instanceFrmKitchenView.Show();
-                    _instanceFrmKitchenView.BringToFront();
+                    using (FrmKitchenView _instanceFrmKitchenView = new FrmKitchenView())
+                    {
+                        _instanceFrmKitchenView.ShowDialog();
+                        _instanceFrmKitchenView.BringToFront();
+                        _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK);
                 clsgen.LogException("Homepage ib_kitchenview_Click", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
 
@@ -4257,14 +4258,6 @@ namespace FoodandBeverage.Forms
                     var InsertStatus = bllgen.AddEditDataGen("prdInsertGeneralsetting", dmngen); 
                     if (InsertStatus.Gid > 0)
                     {
-                        dmngen.Gid = InsertStatus.Gid;
-                        DmnGeneralSetting partyKotStatus =
-                            bllgen.UpdatePartyBookingKOT("prdUpdateGeneralSettingPartyBookingKOT", dmngen);
-
-                        if (partyKotStatus == null || partyKotStatus.Gid <= 0)
-                            throw new InvalidOperationException(
-                                "General settings were saved, but Party Booking KOT configuration could not be saved.");
-
                         IsPartyBookingKOTEnabled = dmngen.EnablePartyBookingKOT;
                         Generalsettingcheck();
                         txtgenid.Text = Convert.ToString(InsertStatus.Gid);
