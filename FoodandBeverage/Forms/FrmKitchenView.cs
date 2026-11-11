@@ -1490,7 +1490,7 @@ namespace FoodandBeverage.Forms
                         " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
                         " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
                         " ' O:' + CAST(om.OtherGuestCount AS VARCHAR) + ')'" +
-                        ") AS GuestDetails,ko.PriorityType,";
+                        ") AS GuestDetails,ko.PriorityType";
                     dmnSearchDetails.Table = "tblkitchenOrder ko " +
                         "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                         "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
@@ -2100,7 +2100,7 @@ namespace FoodandBeverage.Forms
                     BllSearch<DmnkitchenBilldetails> bllSearchDetails = new BllSearch<DmnkitchenBilldetails>();
                     DmnSearch dmnSearchDetails = new DmnSearch();
                     dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType,'' offeritemname, 0 offerqty, od.PrId PrId, ko.Kitchennumber,od.VariatiionName VariatiionName,'' as Station,e.EmployeeName," +
-                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + ordermid + " and OrderNo=" + orderno + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,'' as Station,e.EmployeeName,(" +
+                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + ordermid + " and OrderNo=" + orderno + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,ISNULL(sm.OrderType,0) OrderType,'' as Station,e.EmployeeName,(" +
                         " 'PAX : ' + CAST(om.TotalGuestCount AS VARCHAR) + " +
                         " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
                         " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
@@ -2114,7 +2114,7 @@ namespace FoodandBeverage.Forms
                         " Left Join tblEmployee e  on e.EmployeeId = om.CreatedBy " +
                     " where om.status=1 and ko.OrderMasterId=" + ordermid + " and ko.OrderNo=" + orderno + " and od.TableType!=" + Convert.ToInt32(Tabletype.ComboProduct) + " and ko.status in(1,2)" +
                     " union select od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName,'' as Station,e.EmployeeName," +
-                         "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + ordermid + " and OrderNo=" + orderno + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,'' as Station,e.EmployeeName,(" +
+                         "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + ordermid + " and OrderNo=" + orderno + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,ISNULL(sm.OrderType,0) OrderType,'' as Station,e.EmployeeName,(" +
                         " 'PAX : ' + CAST(om.TotalGuestCount AS VARCHAR) + " +
                         " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
                         " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
@@ -2123,6 +2123,7 @@ namespace FoodandBeverage.Forms
                     dmnSearchDetails.Table = " tblkitchenOrder ko" +
                                             " Left Join tblOrderDetails od on od.OrderDetailsId = ko.OrderDetailsId" +
                                             " Left Join tblOrderMaster om on om.OrderMasterId = ko.OrderMasterId" +
+                                            " Left Join tblSalesMaster sm on sm.SalesMasterId = om.SalesMasterId" +
                                             " Left Join tblTable_info ti on ti.Tid = ko.Tid" +
                                             " Left Join tblOfferMaster ofm on ofm.Omid = od.ItemId" +
                                             " Left Join tblOfferDetails ofd on ofd.Omid = ofm.Omid"+
@@ -2156,6 +2157,7 @@ namespace FoodandBeverage.Forms
                             GuestDetails = item.GuestDetails,
                             Orderno = orderno,
                             PriorityType = item.PriorityType,
+                            OrderType = item.OrderType,
                         }).ToList();
 
                         //if (item.VariatiionNam != null && item.VariatiionNam != "")
@@ -2198,13 +2200,14 @@ namespace FoodandBeverage.Forms
                                       processedItem.GuestDetails,
                                       processedItem.Orderno,
                                       processedItem.PriorityType,
+                                      processedItem.OrderType,
 
                                   })
                             .ToList();
 
                         if (mergedData != null && mergedData.Count > 0)
                         {
-                            using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType"))
+                            using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId", "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY", "Pkid", "EmployeeName", "Station", "GuestDetails", "Orderno", "PriorityType", "OrderType"))
                             {
                                 dtSalesDetail.Load(reader);
                             }
@@ -2213,11 +2216,15 @@ namespace FoodandBeverage.Forms
 
                         //MessageBox.Show(RPTPath + "crkitchenbill.rpt.rpt" + 2);
                         //textBox2.Text = RPTPath + "CRkitchenbill_Pickup.rpt";
-                        string reportPath = "";
-                        if (Convert.ToInt32(BillDetails[0].Pkid) > 0)
-                            reportPath = RPTPath + "CRkitchenbill_Pickup.rpt";
-                        else
-                            reportPath = RPTPath + "crkitchenbill.rpt";
+                        // Pickup and Takeaway are different SalesMaster.OrderType
+                        // values, but both use the same Pickup kitchen report.
+                        bool isPickupOrTakeaway =
+                            Convert.ToInt32(BillDetails[0].Pkid) > 0 ||
+                            Convert.ToInt32(BillDetails[0].OrderType) == 4;
+
+                        string reportPath = isPickupOrTakeaway
+                            ? RPTPath + "CRkitchenbill_Pickup.rpt"
+                            : RPTPath + "crkitchenbill.rpt";
 
                         if (!File.Exists(reportPath))
                         {
