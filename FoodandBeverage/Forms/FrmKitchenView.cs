@@ -673,7 +673,7 @@ namespace FoodandBeverage.Forms
                 card.Controls.Add(description, 0, 3);
                 card.SetColumnSpan(description, 4);
 
-                PictureBox startButton = CreateKitchenActionButton(
+                PictureBox startButton = kotOnlyMode ? null : CreateKitchenActionButton(
                     "pb_start_k_" + orderId + suffix, "START", KitchenActionStyle.Start,
                     suffix, orderId, pbstart_Click);
                 PictureBox readyButton = CreateKitchenActionButton(
@@ -681,7 +681,7 @@ namespace FoodandBeverage.Forms
                     kotOnlyMode ? "OKAY" : "READY",
                     kotOnlyMode ? KitchenActionStyle.Okay : KitchenActionStyle.Ready,
                     suffix, orderId, pbreadyfood_Click);
-                PictureBox cancelButton = CreateKitchenActionButton(
+                PictureBox cancelButton = kotOnlyMode ? null : CreateKitchenActionButton(
                     "pictureBoxRemove_k_" + orderId + suffix, "CANCEL ORDER",
                     KitchenActionStyle.Cancel, suffix, orderId, pbcancelfood_Click);
                 PictureBox reprintButton = CreateKitchenActionButton(
@@ -717,6 +717,9 @@ namespace FoodandBeverage.Forms
                 foreach (PictureBox actionButton in new[]
                     { startButton, readyButton, cancelButton, reprintButton })
                 {
+                    if (actionButton == null)
+                        continue;
+
                     actionButton.Dock = DockStyle.Fill;
                     actionButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom |
                         AnchorStyles.Left | AnchorStyles.Right;
@@ -743,12 +746,18 @@ namespace FoodandBeverage.Forms
                 bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
 
-                startButton.Visible = !kotOnlyMode && !waitingForCustomer;
-                startButton.Enabled = hasPendingStart;
+                if (startButton != null)
+                {
+                    startButton.Visible = !waitingForCustomer;
+                    startButton.Enabled = hasPendingStart;
+                }
                 readyButton.Visible = !waitingForCustomer;
                 readyButton.Enabled = kotOnlyMode || (hasInProgress && !hasPendingStart);
-                cancelButton.Visible = !kotOnlyMode && !waitingForCustomer;
-                cancelButton.Enabled = hasPendingStart || hasInProgress;
+                if (cancelButton != null)
+                {
+                    cancelButton.Visible = !waitingForCustomer;
+                    cancelButton.Enabled = hasPendingStart || hasInProgress;
+                }
                 reprintButton.Visible = !waitingForCustomer;
 
                 cache.CardPanel = card;
