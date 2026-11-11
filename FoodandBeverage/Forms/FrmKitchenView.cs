@@ -1388,7 +1388,6 @@ namespace FoodandBeverage.Forms
         {
             if (isOrderPrintingRunning) return;
             isOrderPrintingRunning = true;
-            ReportDocument reportDocument = new ReportDocument();
             try
             {
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
@@ -1399,17 +1398,16 @@ namespace FoodandBeverage.Forms
                 var gridSourcemaster = SearchDetails.serachreport("prdPrintOrder", dmnSearchKitchendata);
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
-                    btntotalorders.Text = "0";
+                    if (this.IsHandleCreated && !this.IsDisposed)
+                    {
+                        Action clearPendingCount = () => btnprintcount.Text = "0";
+                        if (this.InvokeRequired) this.Invoke(clearPendingCount);
+                        else clearPendingCount();
+                    }
                     return;
                 }
-                if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        blinkTimer.Start();
-                        refreshtimer.Stop();
-                    }));
-                }
+                // The loading indicator is started only after pending tickets
+                // are counted below. The outer refresh-timer handler owns timer state.
                 var distinctOrders = gridSourcemaster
                     .GroupBy(order => new { order.Field1, order.Field2 })
                     .Select(group => group.First())
@@ -1417,17 +1415,44 @@ namespace FoodandBeverage.Forms
                     .ThenBy(order => order.Field2)
                     .ToList();
 
-                int countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
-                if (this.IsHandleCreated)
+                int countpendingorder = distinctOrders.Count(
+                    order => Convert.ToInt32(order.Field3) == 1);
+                int remainingPendingCount = countpendingorder;
+
+                if (this.IsHandleCreated && !this.IsDisposed)
                 {
-                    this.Invoke(new Action(() =>
+                    Action updatePrintStatus = () =>
                     {
-                        btnprintcount.Text = Convert.ToString(countpendingorder);
-                    }));
+                        btnprintcount.Text = remainingPendingCount.ToString();
+
+                        if (remainingPendingCount > 0)
+                        {
+                            if (string.IsNullOrWhiteSpace(Convert.ToString(lblprintloading.Tag)))
+                                lblprintloading.Tag = "Printing.....";
+
+                            lblprintloading.Text = Convert.ToString(lblprintloading.Tag);
+                            lblprintloading.Visible = true;
+                            if (!blinkTimer.Enabled)
+                                blinkTimer.Start();
+                        }
+                        else
+                        {
+                            blinkTimer.Stop();
+                            lblprintloading.Visible = false;
+                            lblprintloading.Text = Convert.ToString(lblprintloading.Tag);
+                        }
+                    };
+
+                    if (this.InvokeRequired) this.Invoke(updatePrintStatus);
+                    else updatePrintStatus();
                 }
 
                 foreach (var orders in distinctOrders)
                 {
+                    // Only status 1 rows are waiting for printing. Do not reprint
+                    // already-printed rows if the procedure returns mixed statuses.
+                    if (Convert.ToInt32(orders.Field3) != 1)
+                        continue;
                     // Use the same daily Pickup / Takeaway token lookup as the kitchen order card.
                     Tuple<int, string> dailyOrderToken =
                         GetDailyOrderToken(Convert.ToInt32(orders.Field1));
@@ -1460,7 +1485,7 @@ namespace FoodandBeverage.Forms
                     //dmnSearchDetails.OrderBy = "order by AddonStatus";
 
                     dmnSearchDetails.Select = "od.itemName ItemName, od.Quantity Quantity, od.Notes Notes, od.MainRemarks Description, ti.TableCode TableCode, om.OrderMasterId OrderMasterId, od.AddonStatus AddonStatus, od.AV_id AV_id, od.TableType TableType, ofd.Productname offeritemname, ofd.Quantity offerqty, od.PrId PrId, ko.Kitchennumber, od.VariatiionName VariatiionName," +
-                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + orders.Field1 + " and OrderNo=" + orders.Field2 + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,'' as Station,e.EmployeeName,(" +
+                        "( select sum(Quantity) from  tblOrderDetails  where status in(1,2) and OrderMasterId=" + orders.Field1 + " and OrderNo=" + orders.Field2 + " and AddonStatus in(0,1)) as TotalQTY,om.pkid Pkid,ISNULL(sm.OrderType,0) OrderType,'' as Station,e.EmployeeName,(" +
                         " 'PAX : ' + CAST(om.TotalGuestCount AS VARCHAR) + " +
                         " ' (A:' + CAST(om.AdultCount AS VARCHAR) + " +
                         " ' C:' + CAST(om.ChildCount AS VARCHAR) + " +
@@ -1469,6 +1494,7 @@ namespace FoodandBeverage.Forms
                     dmnSearchDetails.Table = "tblkitchenOrder ko " +
                         "Left Join tblOrderDetails od  on od.OrderDetailsId=ko.OrderDetailsId " +
                         "Left Join tblOrderMaster om  on om.OrderMasterId=ko.OrderMasterId " +
+                        "Left Join tblSalesMaster sm on sm.SalesMasterId=om.SalesMasterId " +
                         "Left Join tblTable_info  ti on ti.Tid=ko.Tid" +
                         " Left Join tblOfferMaster ofm  on od.ItemId = ofm.Omid and od.TableType = 3" +
                         " Left Join tblOfferDetails ofd  on ofd.Omid = ofm.Omid" +
@@ -1571,29 +1597,47 @@ namespace FoodandBeverage.Forms
                         dsReport.Tables.Add(dtSalesDetail);
                     }
 
-                    if (this.IsHandleCreated)
+                    // Pickup bills use Pkid > 0. Takeaway orders use
+                    // tblSalesMaster.OrderType = 4 and share the same Pickup RPT.
+                    bool isPickupOrTakeaway =
+                        Convert.ToInt32(BillDetails[0].Pkid) > 0 ||
+                        Convert.ToInt32(BillDetails[0].OrderType) == 4 ||
+                        (dailyOrderToken != null && dailyOrderToken.Item1 == 2);
+
+                    string reportPath = isPickupOrTakeaway
+                        ? RPTPath + "CRkitchenbill_Pickup.rpt"
+                        : RPTPath + "crkitchenbill.rpt";
+
+                    if (!File.Exists(reportPath))
+                        throw new FileNotFoundException("Report file not found.", reportPath);
+
+                    Action printTicket = () =>
                     {
-                        this.Invoke(new Action(() =>
+                        ReportDocument ticketReport = null;
+                        try
                         {
-                            string reportPath = "";
-                            //MessageBox.Show(RPTPath + "CRkitchenbill_Pickup.rpt");
-                            //textBox2.Text = RPTPath + "CRkitchenbill_Pickup.rpt";
-                            if (Convert.ToInt32(BillDetails[0].Pkid) > 0)
-                                reportPath = RPTPath + "CRkitchenbill_Pickup.rpt";
-                            else
-                                reportPath = RPTPath + "crkitchenbill.rpt";
-
-                            if (!File.Exists(reportPath))
+                            ticketReport = new ReportDocument();
+                            ticketReport.Load(reportPath);
+                            ticketReport.SetDataSource(dsReport);
+                            ticketReport.PrintToPrinter(1, false, 0, 0);
+                        }
+                        finally
+                        {
+                            if (ticketReport != null)
                             {
-                                throw new FileNotFoundException("Report file not found.", reportPath);
+                                try { ticketReport.Close(); } catch { }
+                                ticketReport.Dispose();
                             }
-                            reportDocument.Load(reportPath);
+                        }
+                    };
 
-                            reportDocument.SetDataSource(dsReport);
-                            crvkitchenbill.ReportSource = reportDocument;
-                            reportDocument.PrintToPrinter(1, false, 0, 0);
-                        }));
-                    }
+                    if (!this.IsHandleCreated || this.IsDisposed)
+                        throw new ObjectDisposedException("FrmKitchenView");
+
+                    if (this.InvokeRequired)
+                        this.Invoke(printTicket);
+                    else
+                        printTicket();
                     #endregion
 
                     #region Update Print Status to 2
@@ -1614,24 +1658,13 @@ namespace FoodandBeverage.Forms
                         this.Invoke(new Action(() =>
                         {
                             PlaySound();
-                            int c = Convert.ToInt32(btnprintcount.Text) - 1;
-                            if (c < 0)
-                                btnprintcount.Text = "0";
-                            else
-                                btnprintcount.Text = Convert.ToString(c);
+                            remainingPendingCount = Math.Max(0, remainingPendingCount - 1);
+                            btnprintcount.Text = remainingPendingCount.ToString();
                         }));
                     }
 
                 }
 
-                if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        blinkTimer.Stop();
-                        refreshtimer.Start();
-                    }));
-                }
             }
             catch (Exception ex)
             {
@@ -1647,15 +1680,26 @@ namespace FoodandBeverage.Forms
             }
             finally
             {
-                this.Invoke(new Action(() =>
+                if (this.IsHandleCreated && !this.IsDisposed)
                 {
-                    lblprintloading.Visible = false;
-                }));
-                isOrderPrintingRunning = false;
-                reportDocument.Close();
-                reportDocument.Dispose();
-                GC.WaitForPendingFinalizers();
+                    Action finishPrintUi = () =>
+                    {
+                        blinkTimer.Stop();
+                        lblprintloading.Visible = false;
+                        lblprintloading.Text = Convert.ToString(lblprintloading.Tag);
+                    };
 
+                    try
+                    {
+                        if (this.InvokeRequired) this.Invoke(finishPrintUi);
+                        else finishPrintUi();
+                    }
+                    catch (ObjectDisposedException) { }
+                    catch (InvalidOperationException) { }
+                }
+
+                isOrderPrintingRunning = false;
+                GC.WaitForPendingFinalizers();
             }
         }
 
@@ -1683,10 +1727,6 @@ namespace FoodandBeverage.Forms
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
                    
-                    if (this.IsHandleCreated)
-                    {
-                        this.Invoke(new Action(() => refreshtimer.Start()));
-                    }
                     return;
                 }
                 int omid = gridSourcemaster[0].OrderMasterId;
@@ -1746,13 +1786,7 @@ namespace FoodandBeverage.Forms
                 }
 
                 if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        blinkTimer.Stop();
-                        refreshtimer.Start();
-                    }));
-                }
+                    this.Invoke(new Action(() => blinkTimer.Stop()));
             }
             catch (Exception ex)
             {
@@ -1802,10 +1836,6 @@ namespace FoodandBeverage.Forms
 
                 if (gridSourcemaster == null || gridSourcemaster.Count == 0)
                 {
-                    if (this.IsHandleCreated)
-                    {
-                        this.Invoke(new Action(() => refreshtimer.Start()));
-                    }
                     return;
                 }
 
@@ -1860,13 +1890,7 @@ namespace FoodandBeverage.Forms
                 }
 
                 if (this.IsHandleCreated)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        blinkTimer.Stop();
-                        refreshtimer.Start();
-                    }));
-                }
+                    this.Invoke(new Action(() => blinkTimer.Stop()));
             }
             catch (Exception ex)
             {
@@ -3107,14 +3131,18 @@ namespace FoodandBeverage.Forms
                     Convert.ToInt32(KOTRouting.kitchen),
                     FrmDashboard.UserId);
 
-                FillOrders();
+                // Print pending orders/cancellations first. Refresh cards and both
+                // counters afterward so the displayed totals reflect committed print
+                // status changes rather than the pre-print snapshot.
                 PrintOrderAsync();
                 PrintcancelOrder();
                 Printcancelitems();
+                FillOrders();
             }
             finally
             {
-                refreshtimer.Start();
+                if (!IsDisposed && !refreshtimer.Enabled)
+                    refreshtimer.Start();
             }
         }
 

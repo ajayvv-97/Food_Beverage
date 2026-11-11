@@ -24,6 +24,7 @@ namespace Domain
         public string VariatiionName { get; set; }
         public decimal TotalQTY { get; set; }
         public int Pkid { get; set; }
+        public int OrderType { get; set; }
         public string EmployeeName { get; set; }
         public string Station { get; set; }
         public string GuestDetails { get; set; }
