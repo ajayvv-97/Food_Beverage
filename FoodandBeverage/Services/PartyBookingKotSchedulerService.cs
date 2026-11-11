@@ -47,10 +47,10 @@ namespace FoodandBeverage.Services
     }
 
     /// <summary>
-    /// Scheduler runs on the POS dashboard. It processes the booking once at its
-    /// scheduled KOT time: raw-material deduction and creation of route-specific
-    /// Kitchen/Counter tickets happen in one SQL transaction. Printing is handled
-    /// only by a workstation registered for the corresponding station role.
+    /// Scheduler runs on the POS dashboard. It catches up all overdue bookings
+    /// after startup/restart, processes stock and missing queue rows idempotently,
+    /// and prints only the unfinished route assigned to the current workstation.
+    /// Queue claiming and print-status updates are enforced by SQL.
     /// </summary>
     public sealed class PartyBookingKotSchedulerService : IDisposable
     {
@@ -119,6 +119,14 @@ namespace FoodandBeverage.Services
                 if (updatedHandler != null)
                     updatedHandler(upcoming);
 
+                // Process every due booking that still has an unfinished stock or
+                // KOT route. This is intentionally not limited to the upcoming
+                // reminder window: when the PC/application starts late (for example,
+                // after a power failure), overdue KOTs are recovered immediately.
+                //
+                // prdPartyBooking_ProcessScheduledKOT is idempotent for stock:
+                // ConsumedRawMaterialStatus prevents a second raw-material deduction,
+                // while its queue insert creates only missing detail/route rows.
                 List<int> dueBookingIds = await Task.Run(() => LoadDueBookingIds());
                 foreach (int bookingId in dueBookingIds)
                 {
@@ -127,10 +135,9 @@ namespace FoodandBeverage.Services
                         using (IDbConnection connection =
                             DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
                         {
-                            // Re-open an already printed KOT when the saved schedule
-                            // was changed and the corresponding print flag is reset.
-                            // This procedure only updates the print queue; it never
-                            // changes raw-material stock or the stock deduction log.
+                            // If a previously printed route was explicitly reset
+                            // (for example, after changing the KOT schedule), reopen
+                            // only that route. This procedure never deducts stock.
                             connection.Execute(
                                 "dbo.prdPartyBookingKOT_RequeueResetRoutes",
                                 new
@@ -140,6 +147,8 @@ namespace FoodandBeverage.Services
                                 },
                                 commandType: CommandType.StoredProcedure);
 
+                            // Ensure stock processing and any missing KOT queue rows
+                            // exist before the printer claims pending tickets.
                             connection.Execute(
                                 "dbo.prdPartyBooking_ProcessScheduledKOT",
                                 new
@@ -157,8 +166,14 @@ namespace FoodandBeverage.Services
                     }
                 }
 
-                // Any dashboard may run the scheduler, but only the registered
-                // Counter workstation can claim Counter tickets in SQL.
+                // Printing is attempted after catch-up processing on every tick.
+                // SQL claim logic enforces station registration, due time and
+                // print-status=0, so each workstation prints only its own route.
+                PartyBookingKOTQueuePrinter.ProcessPendingAsync(
+                    _branchId,
+                    Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.Kitchen),
+                    _employeeId);
+
                 PartyBookingKOTQueuePrinter.ProcessPendingAsync(
                     _branchId,
                     Convert.ToInt32(FoodandBeverage.Interfaces.KOTRouting.Counter),
@@ -227,6 +242,15 @@ namespace FoodandBeverage.Services
                       ISNULL(ConsumedRawMaterialStatus, 0) = 0
                       OR ISNULL(KoTPrintStatus_Kitchen, 0) = 0
                       OR ISNULL(KoTPrintStatus_counter, 0) = 0
+                      OR EXISTS
+                      (
+                          SELECT 1
+                          FROM dbo.tblPartyBookingKOTQueue q
+                          WHERE q.PartyBookingId = tblPartyBooking.PartyBookingId
+                            AND q.BranchId = tblPartyBooking.BranchId
+                            AND q.KOTDatetime = tblPartyBooking.KOTDatetime
+                            AND q.Status IN (0, 1)
+                      )
                   )
                 ORDER BY KOTDatetime, PartyBookingId;";
 
