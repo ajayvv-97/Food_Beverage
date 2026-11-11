@@ -149,6 +149,7 @@ namespace FoodandBeverage.Forms
                 tlp_order_col.Dock = DockStyle.Fill;
 
                 ConfigureKitchenCardHost();
+                ConfigureKitchenDetailPopup();
                 InitTimer();
 
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
@@ -179,6 +180,125 @@ namespace FoodandBeverage.Forms
             flp_order_view.Margin = Padding.Empty;
             flp_order_view.Resize -= flp_order_view_ResponsiveResize;
             flp_order_view.Resize += flp_order_view_ResponsiveResize;
+        }
+
+        /// <summary>
+        /// Applies a consistent modern layout to the combo/add-on order details popup.
+        /// The existing grid columns and click handlers are retained.
+        /// </summary>
+        private void ConfigureKitchenDetailPopup()
+        {
+            if (pnlproductviewmore == null || tlp_viewmore == null ||
+                dgv_viewmore == null || tlp_header_viewmore == null)
+                return;
+
+            int popupWidth = Math.Min(920, Math.Max(620, (int)(ClientSize.Width * 0.68)));
+            int popupHeight = Math.Min(560, Math.Max(380, (int)(ClientSize.Height * 0.68)));
+            if (ClientSize.Width > 40)
+                popupWidth = Math.Min(popupWidth, ClientSize.Width - 32);
+            if (ClientSize.Height > 40)
+                popupHeight = Math.Min(popupHeight, ClientSize.Height - 32);
+
+            pnlproductviewmore.SuspendLayout();
+            pnlproductviewmore.BackColor = Color.White;
+            pnlproductviewmore.BorderStyle = BorderStyle.FixedSingle;
+            pnlproductviewmore.Padding = new Padding(8);
+            pnlproductviewmore.Size = new Size(Math.Max(320, popupWidth), Math.Max(260, popupHeight));
+
+            tlp_viewmore.SuspendLayout();
+            tlp_viewmore.SetColumn(dgv_viewmore, 0);
+            tlp_viewmore.SetColumn(tlp_header_viewmore, 0);
+            tlp_viewmore.SetColumn(label9, 0);
+            tlp_viewmore.ColumnCount = 1;
+            tlp_viewmore.ColumnStyles.Clear();
+            tlp_viewmore.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlp_viewmore.RowCount = 3;
+            tlp_viewmore.RowStyles.Clear();
+            tlp_viewmore.RowStyles.Add(new RowStyle(SizeType.Absolute, 52F));
+            tlp_viewmore.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlp_viewmore.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            tlp_viewmore.BackColor = Color.White;
+            tlp_viewmore.Margin = Padding.Empty;
+            tlp_viewmore.Padding = Padding.Empty;
+
+            tlp_header_viewmore.SuspendLayout();
+            tlp_header_viewmore.SetColumn(lblviewmore, 0);
+            tlp_header_viewmore.SetColumn(btn_close_viewmore, 1);
+            tlp_header_viewmore.ColumnCount = 2;
+            tlp_header_viewmore.ColumnStyles.Clear();
+            tlp_header_viewmore.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlp_header_viewmore.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 48F));
+            tlp_header_viewmore.RowStyles.Clear();
+            tlp_header_viewmore.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlp_header_viewmore.BackColor = Color.FromArgb(76, 45, 128);
+            tlp_header_viewmore.Margin = Padding.Empty;
+            tlp_header_viewmore.Padding = new Padding(8, 4, 8, 4);
+
+            lblviewmore.AutoSize = false;
+            lblviewmore.Dock = DockStyle.Fill;
+            lblviewmore.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblviewmore.ForeColor = Color.White;
+            lblviewmore.Padding = new Padding(12, 0, 4, 0);
+            lblviewmore.TextAlign = ContentAlignment.MiddleLeft;
+
+            btn_close_viewmore.AutoSize = true;
+            btn_close_viewmore.Dock = DockStyle.Fill;
+            btn_close_viewmore.Text = "×";
+            btn_close_viewmore.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            btn_close_viewmore.ForeColor = Color.White;
+            btn_close_viewmore.BackColor = Color.FromArgb(92, 57, 148);
+            btn_close_viewmore.BackgroundImage = null;
+            btn_close_viewmore.FlatStyle = FlatStyle.Flat;
+            btn_close_viewmore.FlatAppearance.BorderSize = 0;
+            btn_close_viewmore.FlatAppearance.MouseOverBackColor = Color.FromArgb(115, 76, 174);
+            btn_close_viewmore.UseVisualStyleBackColor = false;
+            btn_close_viewmore.Margin = new Padding(2);
+
+            dgv_viewmore.SuspendLayout();
+            dgv_viewmore.BorderStyle = BorderStyle.None;
+            dgv_viewmore.BackgroundColor = Color.White;
+            dgv_viewmore.GridColor = Color.FromArgb(230, 225, 239);
+            dgv_viewmore.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv_viewmore.EnableHeadersVisualStyles = false;
+            dgv_viewmore.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv_viewmore.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(244, 239, 251);
+            dgv_viewmore.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(76, 45, 128);
+            dgv_viewmore.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dgv_viewmore.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv_viewmore.ColumnHeadersDefaultCellStyle.Padding = new Padding(10, 0, 6, 0);
+            dgv_viewmore.ColumnHeadersHeight = 46;
+            dgv_viewmore.DefaultCellStyle.BackColor = Color.White;
+            dgv_viewmore.DefaultCellStyle.ForeColor = Color.FromArgb(38, 43, 55);
+            dgv_viewmore.DefaultCellStyle.SelectionBackColor = Color.FromArgb(235, 226, 249);
+            dgv_viewmore.DefaultCellStyle.SelectionForeColor = Color.FromArgb(49, 33, 77);
+            dgv_viewmore.DefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+            dgv_viewmore.DefaultCellStyle.Padding = new Padding(8, 4, 8, 4);
+            dgv_viewmore.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv_viewmore.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 248, 253);
+            dgv_viewmore.RowTemplate.Height = 44;
+            dgv_viewmore.RowHeadersVisible = false;
+            dgv_viewmore.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv_viewmore.MultiSelect = false;
+            dgv_viewmore.ResumeLayout(true);
+
+            if (dgv_viewmore.Columns.Contains("vslno"))
+                dgv_viewmore.Columns["vslno"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            if (dgv_viewmore.Columns.Contains("vqty"))
+                dgv_viewmore.Columns["vqty"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            if (dgv_viewmore.Columns.Contains("addaction"))
+                dgv_viewmore.Columns["addaction"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            label9.AutoSize = false;
+            label9.Dock = DockStyle.Fill;
+            label9.Font = new Font("Segoe UI", 8.5F, FontStyle.Regular);
+            label9.ForeColor = Color.FromArgb(112, 105, 124);
+            label9.Text = "ESC  •  Close";
+            label9.TextAlign = ContentAlignment.MiddleLeft;
+            label9.Padding = new Padding(8, 0, 0, 0);
+
+            tlp_header_viewmore.ResumeLayout(true);
+            tlp_viewmore.ResumeLayout(true);
+            pnlproductviewmore.ResumeLayout(true);
         }
 
         private void flp_order_view_ResponsiveResize(object sender, EventArgs e)
@@ -583,6 +703,9 @@ namespace FoodandBeverage.Forms
                 {
                     Name = "pnl_actions_k_" + orderId + suffix,
                     Dock = DockStyle.Fill,
+                    AutoSize = false,
+                    GrowStyle = TableLayoutPanelGrowStyle.FixedSize,
+                    CellBorderStyle = TableLayoutPanelCellBorderStyle.None,
                     Margin = new Padding(4, 2, 4, 3),
                     Padding = Padding.Empty,
                     BackColor = Color.White,
@@ -590,10 +713,14 @@ namespace FoodandBeverage.Forms
                     RowCount = 1
                 };
 
+                actionStrip.ColumnStyles.Clear();
                 if (kotOnlyMode)
                 {
+                    // Each KOT-only action owns exactly half of the available width.
                     actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
                     actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                    readyButton.AutoSize = true;
+                    reprintButton.AutoSize = true;
                 }
                 else
                 {
@@ -607,6 +734,9 @@ namespace FoodandBeverage.Forms
                     { startButton, readyButton, cancelButton, reprintButton })
                 {
                     actionButton.Dock = DockStyle.Fill;
+                    actionButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom |
+                        AnchorStyles.Left | AnchorStyles.Right;
+                    actionButton.SizeMode = PictureBoxSizeMode.StretchImage;
                     actionButton.Margin = new Padding(4, 2, 4, 2);
                 }
 
