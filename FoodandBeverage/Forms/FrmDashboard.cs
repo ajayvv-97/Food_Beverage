@@ -164,6 +164,8 @@ namespace FoodandBeverage.Forms
         public static bool AutoLogoutWhenIdle = false;
         public static bool UserSavePrompt = false;
         public static bool IsPartyBookingKOTEnabled { get; private set; } = false;
+        public static bool IsKitchenKOTOnlyEnabled { get; private set; } = false;
+        public static int DailyTokenMode { get; private set; } = 2;
         private int _generalSettingsPage = 1;
         private bool isMenuCollapsed = false;
         private int originalMenuWidth;
@@ -4275,6 +4277,8 @@ namespace FoodandBeverage.Forms
                 dmngen.ProductpageperCount = Convert.ToInt32(txtorderpagecount.Text);
                 dmngen.EnableCompReasonPrompt = chk_comprompt.Checked;
                 dmngen.EnablePartyBookingKOT = chk_partybook_KOT.Checked;
+                dmngen.EnableKitchenKOTOnly = chk_kitchen_KOTonly.Checked;
+                dmngen.DailyTokenMode = cmb_pickup_takeaway.SelectedIndex == 0 ? 1 : 2;
                 dmngen.Status = 1;
 
                 dmngen.PackigHsncode = string.IsNullOrWhiteSpace(txt_ptax_hsncode.Text) ? null : txt_ptax_hsncode.Text.Trim(); 
@@ -4335,6 +4339,8 @@ namespace FoodandBeverage.Forms
             try
             {
                 IsPartyBookingKOTEnabled = false;
+                IsKitchenKOTOnlyEnabled = false;
+                DailyTokenMode = 2;
                 BllSearch<DmnGeneralSetting> bllsearchdrawer = new BllSearch<DmnGeneralSetting>();
                 DmnSearch dmnsearckgen = new DmnSearch
                 {
@@ -4357,6 +4363,8 @@ namespace FoodandBeverage.Forms
                     logoutformsno = settings.LogoutFormscustom;
                     UserSavePrompt = settings.EnableUserPrompt;
                     IsPartyBookingKOTEnabled = settings.EnablePartyBookingKOT;
+                    IsKitchenKOTOnlyEnabled = settings.EnableKitchenKOTOnly;
+                    DailyTokenMode = settings.DailyTokenMode == 1 ? 1 : 2;
                 }
             }
             catch (Exception ex)
@@ -4370,6 +4378,10 @@ namespace FoodandBeverage.Forms
             {
                 IsPartyBookingKOTEnabled = false;
                 chk_partybook_KOT.Checked = false;
+                chk_kitchen_KOTonly.Checked = false;
+                cmb_pickup_takeaway.SelectedIndex = 1;
+                IsKitchenKOTOnlyEnabled = false;
+                DailyTokenMode = 2;
                 tlp_timoutforms.Visible = false;
                 btn_cle_logoutpages.PerformClick();
 
@@ -4465,6 +4477,10 @@ namespace FoodandBeverage.Forms
                     chk_comprompt.Checked = settings.EnableCompReasonPrompt;
                     chk_partybook_KOT.Checked = settings.EnablePartyBookingKOT;
                     IsPartyBookingKOTEnabled = settings.EnablePartyBookingKOT;
+                    chk_kitchen_KOTonly.Checked = settings.EnableKitchenKOTOnly;
+                    IsKitchenKOTOnlyEnabled = settings.EnableKitchenKOTOnly;
+                    DailyTokenMode = settings.DailyTokenMode == 1 ? 1 : 2;
+                    cmb_pickup_takeaway.SelectedIndex = DailyTokenMode == 1 ? 0 : 1;
                 }
                 else
                 {

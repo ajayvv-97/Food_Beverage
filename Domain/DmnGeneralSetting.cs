@@ -60,6 +60,7 @@ namespace Domain
         public int ProductpageperCount { get; set; }
         public bool EnableCompReasonPrompt { get; set; }
         public bool EnablePartyBookingKOT { get; set; }
+        public bool EnableKitchenKOTOnly { get; set; }
         public string Tax { get; set; }
         public string TaxType { get; set; }
         public int? TaxSettingId { get; set; }

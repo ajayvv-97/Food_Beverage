@@ -609,8 +609,10 @@ namespace FoodandBeverage.Forms
                 bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
                 bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
-                startButton.Visible = hasPendingStart && !waitingForCustomer;
-                readyButton.Visible = !hasPendingStart && hasInProgress && !waitingForCustomer;
+                startButton.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
+                    hasPendingStart && !waitingForCustomer;
+                readyButton.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
+                    !hasPendingStart && hasInProgress && !waitingForCustomer;
                 cancelButton.Visible = (hasPendingStart || hasInProgress) && !waitingForCustomer;
                 reprintButton.Visible = !waitingForCustomer;
 
@@ -910,8 +912,11 @@ namespace FoodandBeverage.Forms
                 else
                 {
                     // Start and Ready share a slot but must never be visible together.
-                    if (cache.BtnStart != null) cache.BtnStart.Visible = hasPendingStart;
-                    if (cache.BtnReady != null) cache.BtnReady.Visible = !hasPendingStart && hasInProgress;
+                    if (cache.BtnStart != null)
+                        cache.BtnStart.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled && hasPendingStart;
+                    if (cache.BtnReady != null)
+                        cache.BtnReady.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
+                            !hasPendingStart && hasInProgress;
                     if (cache.BtnCancel != null) cache.BtnCancel.Visible = hasPendingStart || hasInProgress;
                     if (cache.BtnReprint != null) cache.BtnReprint.Visible = true;
 
@@ -1653,6 +1658,22 @@ namespace FoodandBeverage.Forms
                         BranchId = FrmDashboard.BranchId
                     };
                     var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
+                    if (FrmDashboard.IsKitchenKOTOnlyEnabled)
+                    {
+                        // In KOT-only mode, successful printing is also the kitchen
+                        // completion action: move pending/started lines directly to Ready.
+                        bool markedReady = MarkKitchenOrderReadyAfterKOTPrint(
+                            Convert.ToInt32(orders.Field1),
+                            Convert.ToInt32(orders.Field2));
+
+                        if (!markedReady)
+                        {
+                            System.Diagnostics.Debug.WriteLine(
+                                "KOT-only: no active kitchen rows were marked Ready for OrderMasterId " +
+                                Convert.ToString(orders.Field1) + ", OrderNo " +
+                                Convert.ToString(orders.Field2) + ".");
+                        }
+                    }
                     #endregion
 
                     if (this.IsHandleCreated)
@@ -2462,6 +2483,101 @@ namespace FoodandBeverage.Forms
             }
 
             return foundEligibleRow && allUpdatesSucceeded;
+        }
+
+        private bool MarkKitchenOrderReadyAfterKOTPrint(int orderMasterId, int orderNo)
+        {
+            try
+            {
+                BllkitchenDataDetails<Dmnkitchendetails> kitchenDetailsSearch =
+                    new BllkitchenDataDetails<Dmnkitchendetails>();
+                Dmnkitchendetails searchDetails = new Dmnkitchendetails
+                {
+                    OrderMasterId = orderMasterId,
+                    OrderNo = orderNo
+                };
+
+                List<Dmnkitchendetails> details =
+                    kitchenDetailsSearch.serachData("prdKitchendetails", searchDetails);
+
+                if (details == null || details.Count == 0)
+                    return false;
+
+                // Do not auto-complete orders waiting for customer confirmation.
+                if (details.Any(item =>
+                {
+                    int waitingStatus;
+                    return int.TryParse(Convert.ToString(item.Field27), out waitingStatus) &&
+                           waitingStatus == 1;
+                }))
+                    return false;
+
+                BllOrder orderService = new BllOrder();
+                HashSet<string> processedRows =
+                    new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                bool foundActiveRows = false;
+                bool allUpdatesSucceeded = true;
+
+                foreach (Dmnkitchendetails detail in details)
+                {
+                    int currentStatus;
+                    if (!int.TryParse(Convert.ToString(detail.Field12), out currentStatus) ||
+                        (currentStatus != 1 && currentStatus != 2))
+                        continue;
+
+                    int orderDetailsId;
+                    int koid;
+                    int addonStatus;
+                    if (!int.TryParse(Convert.ToString(detail.Field9), out orderDetailsId) ||
+                        !int.TryParse(Convert.ToString(detail.Field8), out koid) ||
+                        orderDetailsId <= 0 || koid <= 0)
+                        continue;
+
+                    int.TryParse(Convert.ToString(detail.Field19), out addonStatus);
+                    string avid = Convert.ToString(detail.Field20) ?? string.Empty;
+                    string rowKey = koid + "|" + addonStatus + "|" + avid;
+                    if (!processedRows.Add(rowKey))
+                        continue;
+
+                    foundActiveRows = true;
+                    DmnOrderMaster update = new DmnOrderMaster
+                    {
+                        OrderDetailsId = orderDetailsId,
+                        koid = koid,
+                        OrderMasterId = orderMasterId,
+                        OrderNo = orderNo,
+                        AddonStatus = addonStatus,
+                        AV_id = avid,
+                        CreatedBy = FrmDashboard.UserId,
+                        BranchId = FrmDashboard.BranchId,
+                        Status = 3
+                    };
+
+                    try
+                    {
+                        DmnOrderMaster result = orderService.Remove_order_KitchenOrder_Start_Rady(
+                            "prd_KitchenOrder_Updates", update);
+                        if (result == null || result.Status != 1)
+                            allUpdatesSucceeded = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        allUpdatesSucceeded = false;
+                        clsgen.LogException("Kitchen_View MarkKitchenOrderReadyAfterKOTPrint", ex,
+                            FrmLogin.EmployeName, FrmLogin.Designation,
+                            Convert.ToInt32(FormType.Kitchen_View));
+                    }
+                }
+
+                return foundActiveRows && allUpdatesSucceeded;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Kitchen_View MarkKitchenOrderReadyAfterKOTPrint", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
+                return false;
+            }
         }
 
         private void txt_product_remove_des_Enter(object sender, EventArgs e)
@@ -3577,7 +3693,18 @@ namespace FoodandBeverage.Forms
                                     #endregion
 
                                     #region Edit Ready and Close Button 
-                                    if (flagstart_ready)
+                                    if (FrmDashboard.IsKitchenKOTOnlyEnabled)
+                                    {
+                                        // KOT-only mode automatically completes tickets after
+                                        // their KOT is printed; manual Start / Ready is disabled.
+                                        if (btn_start != null) btn_start.Visible = false;
+                                        if (btn_ready != null) btn_ready.Visible = false;
+                                        if (btn_cancelfood != null)
+                                            btn_cancelfood.Visible = gridSourcedetails.Any(d =>
+                                                Convert.ToInt32(d.Field12) == 1 ||
+                                                Convert.ToInt32(d.Field12) == 2);
+                                    }
+                                    else if (flagstart_ready)
                                     {
                                         if (btn_start != null) btn_start.Visible = true;
                                         if (btn_cancelfood != null) btn_cancelfood.Visible = true;
