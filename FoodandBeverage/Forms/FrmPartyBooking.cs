@@ -1040,18 +1040,22 @@ namespace FoodandBeverage
         {
             kotDateTime = null;
 
-            // KOT date/time is optional when this branch setting is disabled.
+            // KOT date/time is optional when Party Booking KOT is disabled.
             if (!_enablePartyBookingKOT)
                 return true;
 
-            // Keep a previously saved KOT time when the staff member has not
-            // changed it. This also allows old bookings with a historical KOT time
-            // to be edited without treating the existing value as a new selection.
-            if (_hasLoadedKotDateTime && !_isKotDateTimeManuallySet && _loadedKotDateTime.HasValue)
+            DateTime currentTime = DateTime.Now;
+
+            // Preserve an already-loaded KOT date/time when editing an existing booking.
+            if (_hasLoadedKotDateTime &&
+                !_isKotDateTimeManuallySet &&
+                _loadedKotDateTime.HasValue)
             {
                 if (_loadedKotDateTime.Value > bookingStart)
                 {
-                    CMessageBox.Show("The KOT date and time cannot be later than the party booking time. Please update the KOT time.");
+                    CMessageBox.Show(
+                        "The KOT date and time cannot be later than the party booking time. Please update the KOT time.");
+
                     dtp_kotdate.Focus();
                     return false;
                 }
@@ -1060,19 +1064,42 @@ namespace FoodandBeverage
                 return true;
             }
 
-            // Automatically assign a KOT time two hours before the booking when
-            // staff have not selected one manually.
+            // Automatically assign KOT time two hours before booking.
             if (!_isKotDateTimeManuallySet && !_hasLoadedKotDateTime)
             {
-                if (bookingStart <= DateTime.Now)
+                if (bookingStart <= currentTime)
                 {
-                    // Keep a legacy NULL for an already-past booking. A new booking
-                    // must have a future booking time to generate a valid KOT time.
                     if (GetInt(txtpartybookingid) > 0)
                         return true;
 
-                    CMessageBox.Show("The party booking time has already passed. Please select a future booking time so the KOT time can be set automatically.");
+                    CMessageBox.Show(
+                        "The party booking time has already passed. Please select a future booking time.");
+
                     dtpEventDate_From.Focus();
+                    return false;
+                }
+
+                DateTime automaticKotTime =
+                    bookingStart.AddHours(-DefaultKotLeadTimeHours);
+
+                // If the automatic two-hour-before time has already passed,
+                // set KOT time to the current time and ask staff to review it.
+                if (automaticKotTime <= currentTime)
+                {
+                    DateTime suggestedKotTime = currentTime.AddMinutes(1);
+
+                    // UpdateDefaultKotDateTime subtracts DefaultKotLeadTimeHours.
+                    UpdateDefaultKotDateTime(
+                        suggestedKotTime.AddHours(DefaultKotLeadTimeHours));
+
+                    // Prevent the automatic time from being recalculated on the next save.
+                    _isKotDateTimeManuallySet = true;
+
+                    CMessageBox.Show(
+                        "The automatic KOT time (2 hours before the booking) has already passed. " +
+                        "KOT time has been set to the current time. Please review or change the KOT printing time, then click Save again.");
+
+                    dtp_kotdate.Focus();
                     return false;
                 }
 
@@ -1081,16 +1108,21 @@ namespace FoodandBeverage
 
             DateTime selectedKotDateTime = GetSelectedKotDateTime();
 
-            if (selectedKotDateTime < DateTime.Now)
+            // Allow the current minute because DateTimePicker may not retain seconds.
+            if (selectedKotDateTime < DateTime.Now.AddMinutes(-1))
             {
-                CMessageBox.Show("KOT date and time cannot be in the past. Please select the current or a future date and time.");
+                CMessageBox.Show(
+                    "KOT date and time cannot be in the past. Please select the current or a future date and time.");
+
                 dtp_kotdate.Focus();
                 return false;
             }
 
             if (selectedKotDateTime > bookingStart)
             {
-                CMessageBox.Show("KOT date and time cannot be later than the party booking time. Please choose an earlier KOT time.");
+                CMessageBox.Show(
+                    "KOT date and time cannot be later than the party booking time. Please choose an earlier KOT time.");
+
                 dtp_kotdate.Focus();
                 return false;
             }

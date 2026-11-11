@@ -164,21 +164,21 @@ namespace FoodandBeverage.Services
         private IList<PartyBookingReminder> LoadUpcomingBookings()
         {
             const string sql = @"
-SELECT PartyBookingId, CustomerName, Phone, EventDescription, BookingDateTime,
-       KOTDatetime, ISNULL(NoOfAdults, 0) AS NoOfAdults,
-       ISNULL(NoOfChildren, 0) AS NoOfChildren
-FROM dbo.tblPartyBooking
-WHERE BranchId = @BranchId
-  AND Status = 1
-  AND KOTDatetime IS NOT NULL
-  AND KOTDatetime >= GETDATE()
-  AND KOTDatetime < DATEADD(MINUTE, 45, GETDATE())
-  AND
-  (
-      ISNULL(KoTPrintStatus_Kitchen, 0) = 0
-      OR ISNULL(KoTPrintStatus_counter, 0) = 0
-  )
-ORDER BY KOTDatetime;";
+                SELECT PartyBookingId, CustomerName, Phone, EventDescription, BookingDateTime,
+                       KOTDatetime, ISNULL(NoOfAdults, 0) AS NoOfAdults,
+                       ISNULL(NoOfChildren, 0) AS NoOfChildren
+                FROM dbo.tblPartyBooking
+                WHERE BranchId = @BranchId
+                  AND Status = 1
+                  AND KOTDatetime IS NOT NULL
+                  AND KOTDatetime >= GETDATE()
+                  AND KOTDatetime < DATEADD(MINUTE, 45, GETDATE())
+                  AND
+                  (
+                      ISNULL(KoTPrintStatus_Kitchen, 0) = 0
+                      OR ISNULL(KoTPrintStatus_counter, 0) = 0
+                  )
+                ORDER BY KOTDatetime;";
 
             using (IDbConnection connection =
                 DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
@@ -191,19 +191,19 @@ ORDER BY KOTDatetime;";
         private List<int> LoadDueBookingIds()
         {
             const string sql = @"
-SELECT PartyBookingId
-FROM dbo.tblPartyBooking
-WHERE BranchId = @BranchId
-  AND Status = 1
-  AND KOTDatetime IS NOT NULL
-  AND KOTDatetime <= GETDATE()
-  AND
-  (
-      ISNULL(ConsumedRawMaterialStatus, 0) = 0
-      OR ISNULL(KoTPrintStatus_Kitchen, 0) = 0
-      OR ISNULL(KoTPrintStatus_counter, 0) = 0
-  )
-ORDER BY KOTDatetime, PartyBookingId;";
+                SELECT PartyBookingId
+                FROM dbo.tblPartyBooking
+                WHERE BranchId = @BranchId
+                  AND Status = 1
+                  AND KOTDatetime IS NOT NULL
+                  AND KOTDatetime <= GETDATE()
+                  AND
+                  (
+                      ISNULL(ConsumedRawMaterialStatus, 0) = 0
+                      OR ISNULL(KoTPrintStatus_Kitchen, 0) = 0
+                      OR ISNULL(KoTPrintStatus_counter, 0) = 0
+                  )
+                ORDER BY KOTDatetime, PartyBookingId;";
 
             using (IDbConnection connection =
                 DAL.DapperRepository<PartyBookingReminder>.OpenConnection())
