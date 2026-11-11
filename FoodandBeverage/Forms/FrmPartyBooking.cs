@@ -886,6 +886,16 @@ namespace FoodandBeverage
                 SetOptionalDateTimePicker("dtpEventDate_To", end.Date);
                 SetOptionalDateTimePicker("dtpEventTime_To", DateTime.Today.Add(end.TimeOfDay));
             }
+
+            // The From controls can fire ValueChanged before the To controls
+            // are populated. Recalculate once the complete party interval is
+            // available, but never overwrite a saved or manually selected KOT.
+            if (!_isLoadingPartyBooking &&
+                !_isKotDateTimeManuallySet &&
+                !_hasLoadedKotDateTime)
+            {
+                UpdateDefaultKotDateTime(GetPartyBookingStartDateTime());
+            }
         }
 
         private void UpdateSelectedDateLabel()
