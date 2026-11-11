@@ -7,8 +7,8 @@ using System.Windows.Forms;
 namespace FoodandBeverage.Services
 {
     /// <summary>
-    /// Registers a Windows PC against the branch. Office is the safe default:
-    /// an unconfigured workstation cannot accidentally claim Kitchen or Counter KOT.
+    /// Registers a Windows PC against the branch. New workstations must select
+    /// their role explicitly so a printer PC is not accidentally registered as Office.
     /// </summary>
     public static class KOTWorkstationRegistration
     {
@@ -40,7 +40,7 @@ namespace FoodandBeverage.Services
             }
 
             using (KOTWorkstationSetupForm form =
-                new KOTWorkstationSetupForm(branchId, employeeId, Office))
+                new KOTWorkstationSetupForm(branchId, employeeId, 0))
             {
                 return form.ShowDialog(owner) == DialogResult.OK
                     ? form.SavedStationType
