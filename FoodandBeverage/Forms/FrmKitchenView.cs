@@ -565,8 +565,10 @@ namespace FoodandBeverage.Forms
                 startButton = CreateKitchenActionButton(
                     "pb_start_k_" + orderId + suffix, Properties.Resources.start,
                     suffix, orderId, pbstart_Click);
+                bool kotOnlyMode = FrmDashboard.IsKitchenKOTOnlyEnabled;
                 readyButton = CreateKitchenActionButton(
-                    "pb_ready_k_" + orderId + suffix, Properties.Resources.ready_button,
+                    "pb_ready_k_" + orderId + suffix,
+                    kotOnlyMode ? Properties.Resources.N_okay : Properties.Resources.ready_button,
                     suffix, orderId, pbreadyfood_Click);
                 cancelButton = CreateKitchenActionButton(
                     "pictureBoxRemove_k_" + orderId + suffix, Properties.Resources.Kitchen_Ordercancel,
@@ -575,8 +577,8 @@ namespace FoodandBeverage.Forms
                     "reprintbutton_k_" + orderId + suffix, Properties.Resources.reprint,
                     suffix, orderId, reprintbutton_Click);
 
-                // Use a dedicated three-column action strip so Start/Ready, Cancel,
-                // and Reprint all receive exactly the same width and height.
+                // KOT-only mode keeps just OK and Reprint. Normal mode retains
+                // the existing Start / Ready, Cancel and Reprint workflow.
                 TableLayoutPanel actionStrip = new TableLayoutPanel
                 {
                     Name = "pnl_actions_k_" + orderId + suffix,
@@ -584,12 +586,21 @@ namespace FoodandBeverage.Forms
                     Margin = new Padding(4, 2, 4, 3),
                     Padding = Padding.Empty,
                     BackColor = Color.White,
-                    ColumnCount = 3,
+                    ColumnCount = kotOnlyMode ? 2 : 3,
                     RowCount = 1
                 };
-                actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.333F));
-                actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.333F));
-                actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.334F));
+
+                if (kotOnlyMode)
+                {
+                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                }
+                else
+                {
+                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.333F));
+                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.333F));
+                    actionStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.334F));
+                }
                 actionStrip.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 
                 foreach (PictureBox actionButton in new[]
@@ -599,21 +610,30 @@ namespace FoodandBeverage.Forms
                     actionButton.Margin = new Padding(4, 2, 4, 2);
                 }
 
-                actionStrip.Controls.Add(startButton, 0, 0);
-                actionStrip.Controls.Add(readyButton, 0, 0);
-                actionStrip.Controls.Add(cancelButton, 1, 0);
-                actionStrip.Controls.Add(reprintButton, 2, 0);
+                if (kotOnlyMode)
+                {
+                    actionStrip.Controls.Add(readyButton, 0, 0);
+                    actionStrip.Controls.Add(reprintButton, 1, 0);
+                }
+                else
+                {
+                    actionStrip.Controls.Add(startButton, 0, 0);
+                    actionStrip.Controls.Add(readyButton, 0, 0);
+                    actionStrip.Controls.Add(cancelButton, 1, 0);
+                    actionStrip.Controls.Add(reprintButton, 2, 0);
+                }
                 card.Controls.Add(actionStrip, 0, 3);
                 card.SetColumnSpan(actionStrip, 4);
 
                 bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
                 bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
-                startButton.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
-                    hasPendingStart && !waitingForCustomer;
-                readyButton.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
-                    !hasPendingStart && hasInProgress && !waitingForCustomer;
-                cancelButton.Visible = (hasPendingStart || hasInProgress) && !waitingForCustomer;
+                startButton.Visible = !kotOnlyMode && hasPendingStart && !waitingForCustomer;
+                readyButton.Visible = kotOnlyMode
+                    ? !waitingForCustomer
+                    : !hasPendingStart && hasInProgress && !waitingForCustomer;
+                cancelButton.Visible = !kotOnlyMode &&
+                    (hasPendingStart || hasInProgress) && !waitingForCustomer;
                 reprintButton.Visible = !waitingForCustomer;
 
                 card.SetKitchenState(GetKitchenVisualState(waitingForCustomer, details));
@@ -915,9 +935,11 @@ namespace FoodandBeverage.Forms
                     if (cache.BtnStart != null)
                         cache.BtnStart.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled && hasPendingStart;
                     if (cache.BtnReady != null)
-                        cache.BtnReady.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
-                            !hasPendingStart && hasInProgress;
-                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = hasPendingStart || hasInProgress;
+                        cache.BtnReady.Visible = FrmDashboard.IsKitchenKOTOnlyEnabled ||
+                            (!hasPendingStart && hasInProgress);
+                    if (cache.BtnCancel != null)
+                        cache.BtnCancel.Visible = !FrmDashboard.IsKitchenKOTOnlyEnabled &&
+                            (hasPendingStart || hasInProgress);
                     if (cache.BtnReprint != null) cache.BtnReprint.Visible = true;
 
                     if (cache.Description != null)
@@ -1658,22 +1680,6 @@ namespace FoodandBeverage.Forms
                         BranchId = FrmDashboard.BranchId
                     };
                     var InsertStatus = bllkitchen.Kitchen_statusupdate("prd_updateKitchenorderstatus", dmnkitchen);
-                    if (FrmDashboard.IsKitchenKOTOnlyEnabled)
-                    {
-                        // In KOT-only mode, successful printing is also the kitchen
-                        // completion action: move pending/started lines directly to Ready.
-                        bool markedReady = MarkKitchenOrderReadyAfterKOTPrint(
-                            Convert.ToInt32(orders.Field1),
-                            Convert.ToInt32(orders.Field2));
-
-                        if (!markedReady)
-                        {
-                            System.Diagnostics.Debug.WriteLine(
-                                "KOT-only: no active kitchen rows were marked Ready for OrderMasterId " +
-                                Convert.ToString(orders.Field1) + ", OrderNo " +
-                                Convert.ToString(orders.Field2) + ".");
-                        }
-                    }
                     #endregion
 
                     if (this.IsHandleCreated)
@@ -2400,13 +2406,26 @@ namespace FoodandBeverage.Forms
                 DataGridView grid = this.Controls.Find(gridName, true).FirstOrDefault() as DataGridView;
                 if (grid == null) return;
 
-                // Mark every in-progress line ready together, rather than completing only
-                // the first product and allowing the same ticket to reappear on refresh.
-                bool updated = UpdateKitchenOrderRows(grid, 2, 3);
-                FillOrders();
+                bool updated;
+                if (FrmDashboard.IsKitchenKOTOnlyEnabled)
+                {
+                    // In KOT-only mode, OK is the only completion action.
+                    // Complete both pending (1) and started (2) lines together.
+                    updated = CompleteKitchenOrderRows(grid);
+                    if (!updated)
+                        System.Diagnostics.Debug.WriteLine(
+                            "Kitchen OK: no active order rows were completed.");
+                }
+                else
+                {
+                    // Keep the normal kitchen workflow unchanged.
+                    updated = UpdateKitchenOrderRows(grid, 2, 3);
+                    if (!updated)
+                        System.Diagnostics.Debug.WriteLine(
+                            "Kitchen Ready: no in-progress rows were updated.");
+                }
 
-                if (!updated)
-                    System.Diagnostics.Debug.WriteLine("Kitchen Ready: no in-progress rows were updated.");
+                FillOrders();
 
                 if (Application.OpenForms["FrmOrderView"] is FrmOrderView orderView)
                     orderView.FillOrders();
@@ -2421,6 +2440,80 @@ namespace FoodandBeverage.Forms
                 if (!IsDisposed && !refreshtimer.Enabled)
                     refreshtimer.Start();
             }
+        }
+
+        private bool CompleteKitchenOrderRows(DataGridView grid)
+        {
+            if (grid == null || grid.IsDisposed || grid.Rows.Count == 0)
+                return false;
+
+            BllOrder orderService = new BllOrder();
+            HashSet<string> processedRows =
+                new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            bool foundActiveRows = false;
+            bool allUpdatesSucceeded = true;
+
+            for (int i = 0; i < grid.Rows.Count; i++)
+            {
+                DataGridViewRow row = grid.Rows[i];
+                if (row.IsNewRow || row.Cells[dstatusno].Value == null)
+                    continue;
+
+                int currentStatus;
+                if (!int.TryParse(Convert.ToString(row.Cells[dstatusno].Value), out currentStatus) ||
+                    (currentStatus != 1 && currentStatus != 2))
+                    continue;
+
+                int orderDetailsId;
+                int koid;
+                int orderMasterId;
+                int orderNo;
+                int addonStatus;
+
+                if (!int.TryParse(Convert.ToString(row.Cells[ddetailsidno].Value), out orderDetailsId) ||
+                    !int.TryParse(Convert.ToString(row.Cells[dkoidno].Value), out koid) ||
+                    !int.TryParse(Convert.ToString(row.Cells[dordermasteridno].Value), out orderMasterId) ||
+                    !int.TryParse(Convert.ToString(row.Cells[dorderno].Value), out orderNo) ||
+                    orderDetailsId <= 0 || koid <= 0)
+                    continue;
+
+                int.TryParse(Convert.ToString(row.Cells[dAddonStatusno].Value), out addonStatus);
+                string avid = Convert.ToString(row.Cells[dAVIDno].Value) ?? string.Empty;
+                string rowKey = koid + "|" + addonStatus + "|" + avid;
+                if (!processedRows.Add(rowKey))
+                    continue;
+
+                foundActiveRows = true;
+                DmnOrderMaster update = new DmnOrderMaster
+                {
+                    OrderDetailsId = orderDetailsId,
+                    koid = koid,
+                    OrderMasterId = orderMasterId,
+                    OrderNo = orderNo,
+                    AddonStatus = addonStatus,
+                    AV_id = avid,
+                    CreatedBy = FrmDashboard.UserId,
+                    BranchId = FrmDashboard.BranchId,
+                    Status = 3
+                };
+
+                try
+                {
+                    DmnOrderMaster result = orderService.Remove_order_KitchenOrder_Start_Rady(
+                        "prd_KitchenOrder_Updates", update);
+                    if (result == null || result.Status != 1)
+                        allUpdatesSucceeded = false;
+                }
+                catch (Exception ex)
+                {
+                    allUpdatesSucceeded = false;
+                    clsgen.LogException("Kitchen_View CompleteKitchenOrderRows", ex,
+                        FrmLogin.EmployeName, FrmLogin.Designation,
+                        Convert.ToInt32(FormType.Kitchen_View));
+                }
+            }
+
+            return foundActiveRows && allUpdatesSucceeded;
         }
 
         private bool UpdateKitchenOrderRows(DataGridView grid, int expectedStatus, int newStatus)
@@ -2483,101 +2576,6 @@ namespace FoodandBeverage.Forms
             }
 
             return foundEligibleRow && allUpdatesSucceeded;
-        }
-
-        private bool MarkKitchenOrderReadyAfterKOTPrint(int orderMasterId, int orderNo)
-        {
-            try
-            {
-                BllkitchenDataDetails<Dmnkitchendetails> kitchenDetailsSearch =
-                    new BllkitchenDataDetails<Dmnkitchendetails>();
-                Dmnkitchendetails searchDetails = new Dmnkitchendetails
-                {
-                    OrderMasterId = orderMasterId,
-                    OrderNo = orderNo
-                };
-
-                List<Dmnkitchendetails> details =
-                    kitchenDetailsSearch.serachData("prdKitchendetails", searchDetails);
-
-                if (details == null || details.Count == 0)
-                    return false;
-
-                // Do not auto-complete orders waiting for customer confirmation.
-                if (details.Any(item =>
-                {
-                    int waitingStatus;
-                    return int.TryParse(Convert.ToString(item.Field27), out waitingStatus) &&
-                           waitingStatus == 1;
-                }))
-                    return false;
-
-                BllOrder orderService = new BllOrder();
-                HashSet<string> processedRows =
-                    new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                bool foundActiveRows = false;
-                bool allUpdatesSucceeded = true;
-
-                foreach (Dmnkitchendetails detail in details)
-                {
-                    int currentStatus;
-                    if (!int.TryParse(Convert.ToString(detail.Field12), out currentStatus) ||
-                        (currentStatus != 1 && currentStatus != 2))
-                        continue;
-
-                    int orderDetailsId;
-                    int koid;
-                    int addonStatus;
-                    if (!int.TryParse(Convert.ToString(detail.Field9), out orderDetailsId) ||
-                        !int.TryParse(Convert.ToString(detail.Field8), out koid) ||
-                        orderDetailsId <= 0 || koid <= 0)
-                        continue;
-
-                    int.TryParse(Convert.ToString(detail.Field19), out addonStatus);
-                    string avid = Convert.ToString(detail.Field20) ?? string.Empty;
-                    string rowKey = koid + "|" + addonStatus + "|" + avid;
-                    if (!processedRows.Add(rowKey))
-                        continue;
-
-                    foundActiveRows = true;
-                    DmnOrderMaster update = new DmnOrderMaster
-                    {
-                        OrderDetailsId = orderDetailsId,
-                        koid = koid,
-                        OrderMasterId = orderMasterId,
-                        OrderNo = orderNo,
-                        AddonStatus = addonStatus,
-                        AV_id = avid,
-                        CreatedBy = FrmDashboard.UserId,
-                        BranchId = FrmDashboard.BranchId,
-                        Status = 3
-                    };
-
-                    try
-                    {
-                        DmnOrderMaster result = orderService.Remove_order_KitchenOrder_Start_Rady(
-                            "prd_KitchenOrder_Updates", update);
-                        if (result == null || result.Status != 1)
-                            allUpdatesSucceeded = false;
-                    }
-                    catch (Exception ex)
-                    {
-                        allUpdatesSucceeded = false;
-                        clsgen.LogException("Kitchen_View MarkKitchenOrderReadyAfterKOTPrint", ex,
-                            FrmLogin.EmployeName, FrmLogin.Designation,
-                            Convert.ToInt32(FormType.Kitchen_View));
-                    }
-                }
-
-                return foundActiveRows && allUpdatesSucceeded;
-            }
-            catch (Exception ex)
-            {
-                clsgen.LogException("Kitchen_View MarkKitchenOrderReadyAfterKOTPrint", ex,
-                    FrmLogin.EmployeName, FrmLogin.Designation,
-                    Convert.ToInt32(FormType.Kitchen_View));
-                return false;
-            }
         }
 
         private void txt_product_remove_des_Enter(object sender, EventArgs e)
@@ -3695,14 +3693,12 @@ namespace FoodandBeverage.Forms
                                     #region Edit Ready and Close Button 
                                     if (FrmDashboard.IsKitchenKOTOnlyEnabled)
                                     {
-                                        // KOT-only mode automatically completes tickets after
-                                        // their KOT is printed; manual Start / Ready is disabled.
+                                        // Keep the printed order on screen until OK is clicked.
+                                        // The Ready-slot image is replaced with the OK resource
+                                        // when the card is created in KOT-only mode.
                                         if (btn_start != null) btn_start.Visible = false;
-                                        if (btn_ready != null) btn_ready.Visible = false;
-                                        if (btn_cancelfood != null)
-                                            btn_cancelfood.Visible = gridSourcedetails.Any(d =>
-                                                Convert.ToInt32(d.Field12) == 1 ||
-                                                Convert.ToInt32(d.Field12) == 2);
+                                        if (btn_ready != null) btn_ready.Visible = !waitingForCustomer;
+                                        if (btn_cancelfood != null) btn_cancelfood.Visible = false;
                                     }
                                     else if (flagstart_ready)
                                     {
