@@ -1588,7 +1588,7 @@ namespace FoodandBeverage.Forms
                               })
                         .ToList();
 
-                    if (mergedData != null && mergedData.Count > 0)
+                    if (mergedData != null && mergedData.Any())
                     {
                         using (var reader = ObjectReader.Create(mergedData, "ItemName", "Quantity", "Notes", "Description", "TableCode", "OrderMasterId",
                             "MainCategory", "TableType", "AddonStatus", "MainCategoryCount", "offeritemname", "offerqty", "Kitchennumber", "TotalQTY",
