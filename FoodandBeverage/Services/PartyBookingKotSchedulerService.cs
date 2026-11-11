@@ -267,6 +267,12 @@ namespace FoodandBeverage.Services
         private static readonly SemaphoreSlim CounterGate = new SemaphoreSlim(1, 1);
         private static readonly SemaphoreSlim KitchenGate = new SemaphoreSlim(1, 1);
 
+        private sealed class PartyBookingKOTPrintContext
+        {
+            public string EventType { get; set; }
+            public string EmployeeName { get; set; }
+        }
+
         public static void ProcessPendingAsync(int branchId, int preparationMode, int employeeId)
         {
             if (preparationMode != 1 && preparationMode != 2)
@@ -317,7 +323,12 @@ namespace FoodandBeverage.Services
                     List<PartyBookingKOTQueueItem> rows = ticket.ToList();
                     try
                     {
-                        PrintTicket(rows, preparationMode);
+                        PartyBookingKOTPrintContext printContext =
+                            LoadPartyBookingKOTPrintContext(
+                                rows[0].PartyBookingId,
+                                rows[0].BranchId);
+
+                        PrintTicket(rows, preparationMode, printContext);
                         MarkTicketPrinted(
                             rows[0].PartyBookingId,
                             rows[0].BranchId,
@@ -350,7 +361,45 @@ namespace FoodandBeverage.Services
             }
         }
 
-        private static void PrintTicket(IList<PartyBookingKOTQueueItem> rows, int preparationMode)
+        private static PartyBookingKOTPrintContext LoadPartyBookingKOTPrintContext(
+            int partyBookingId,
+            int branchId)
+        {
+            const string sql = @"
+                SELECT
+                    COALESCE(NULLIF(LTRIM(RTRIM(e.ItemName)), ''), '') AS EventType,
+                    COALESCE(NULLIF(LTRIM(RTRIM(emp.EmployeeName)), ''), '') AS EmployeeName
+                FROM dbo.tblPartyBooking b
+                LEFT JOIN dbo.tblEventCommonItems e
+                    ON e.EventItemId = b.EventType
+                   AND e.Status = 1
+                LEFT JOIN dbo.tblEmployee emp
+                    ON emp.EmployeeId = b.CreatedBy
+                   AND emp.BranchId = b.BranchId
+                WHERE b.PartyBookingId = @PartyBookingId
+                  AND b.BranchId = @BranchId;";
+
+            using (IDbConnection connection =
+                DAL.DapperRepository<PartyBookingKOTPrintContext>.OpenConnection())
+            {
+                return connection.Query<PartyBookingKOTPrintContext>(
+                    sql,
+                    new
+                    {
+                        PartyBookingId = partyBookingId,
+                        BranchId = branchId
+                    }).FirstOrDefault() ?? new PartyBookingKOTPrintContext
+                    {
+                        EventType = string.Empty,
+                        EmployeeName = string.Empty
+                    };
+            }
+        }
+
+        private static void PrintTicket(
+            IList<PartyBookingKOTQueueItem> rows,
+            int preparationMode,
+            PartyBookingKOTPrintContext printContext)
         {
             if (rows == null || rows.Count == 0)
                 return;
@@ -380,12 +429,12 @@ namespace FoodandBeverage.Services
                 data["KitchenNumber"] = string.Empty;
                 data["TotalQTY"] = totalQuantity;
                 data["Pkid"] = 0;
-                data["EmployeeName"] = "Party Booking";
+                data["EmployeeName"] = printContext == null
+                    ? string.Empty
+                    : (printContext.EmployeeName ?? string.Empty);
                 data["Station"] = station;
-                data["GuestDetails"] = 
-                    " | " + (row.CustomerName ?? string.Empty) +
-                    " | PAX A:" + row.NoOfAdults + " C:" + row.NoOfChildren +
-                    " | " + (row.Phone ?? string.Empty);
+                data["GuestDetails"] =
+                    " | PAX A:" + row.NoOfAdults + " C:" + row.NoOfChildren;
                 data["Orderno"] = "PB-" + row.PartyBookingId;
                 data["PriorityType"] = 1;
                 data["CounterKotNo"] = row.PartyBookingId;
@@ -404,16 +453,22 @@ namespace FoodandBeverage.Services
                 !kitchenView.IsDisposed &&
                 kitchenView.IsHandleCreated)
             {
-                kitchenView.PrintPartyBookingKOT(table);
+                kitchenView.PrintPartyBookingKOT(
+                    table,
+                    printContext == null ? string.Empty : printContext.EventType);
                 return;
             }
 
             // Counter stations (and Kitchen stations with no open Kitchen View)
             // load the same Party Crystal report through an isolated viewer control.
-            PrintThroughCrystalViewerHost(table);
+            PrintThroughCrystalViewerHost(
+                table,
+                printContext == null ? string.Empty : printContext.EventType);
         }
 
-        private static void PrintThroughCrystalViewerHost(DataTable ticketTable)
+        private static void PrintThroughCrystalViewerHost(
+            DataTable ticketTable,
+            string eventType)
         {
             Exception printException = null;
             Thread printThread = new Thread(() =>
@@ -460,6 +515,7 @@ namespace FoodandBeverage.Services
                     reportData = new DataSet();
                     reportData.Tables.Add(ticketTable.Copy());
                     report.SetDataSource(reportData);
+                    report.SetParameterValue("Eventtype", eventType ?? string.Empty);
 
                     crvkitchenbill.ReportSource = report;
                     crvkitchenbill.RefreshReport();

@@ -1340,7 +1340,7 @@ namespace FoodandBeverage.Forms
             refreshtimer.Start();
         }
 
-        public void PrintPartyBookingKOT(DataTable ticketTable)
+        public void PrintPartyBookingKOT(DataTable ticketTable, string eventType)
         {
             if (ticketTable == null || ticketTable.Rows.Count == 0)
                 return;
@@ -1350,7 +1350,10 @@ namespace FoodandBeverage.Forms
 
             if (InvokeRequired)
             {
-                Invoke(new Action<DataTable>(PrintPartyBookingKOT), ticketTable.Copy());
+                Invoke(
+                    new Action<DataTable, string>(PrintPartyBookingKOT),
+                    ticketTable.Copy(),
+                    eventType);
                 return;
             }
 
@@ -1362,6 +1365,7 @@ namespace FoodandBeverage.Forms
                 reportData = new DataSet();
                 reportData.Tables.Add(ticketTable.Copy());
                 partyReport.SetDataSource(reportData);
+                partyReport.SetParameterValue("Eventtype", eventType ?? string.Empty);
 
                 crvkitchenbill.ReportSource = partyReport;
                 crvkitchenbill.RefreshReport();
