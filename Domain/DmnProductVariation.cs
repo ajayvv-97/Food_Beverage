@@ -11,7 +11,7 @@ namespace Domain
         public int ProductId { get; set; }
 
         public string VariationName { get; set; }
-        public int VariationTypeId { get; set; }
+        public int? VariationTypeId { get; set; }
         public decimal Price { get; set; }
 
         public decimal DiscountAmt { get; set; }
