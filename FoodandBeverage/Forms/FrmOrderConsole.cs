@@ -3304,6 +3304,22 @@ namespace FoodandBeverage.Forms
                     FillSalesMasterDiscount();
                     RestoreSavedRoundoffAdjustment();
                 }
+                else if (OmId > 0)
+                {
+                    // Never turn a table carrying an existing checkout OrderMasterId
+                    // into a fresh order when its saved detail rows cannot be loaded.
+                    OrderRunning_Status = true;
+                    Showprint_Save(Convert.ToInt32(ShowButtonType.Nnone));
+                    lblorderid.Text = Convert.ToString(OmId);
+                    lblorderid.Visible = true;
+                    label10.Visible = true;
+
+                    CMessageBox.Show(
+                        "The existing checkout order could not be loaded. Please refresh the table view and try again.",
+                        "Checkout Order Not Found",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
                 else
                 {
                     OrderRunning_Status = false;
