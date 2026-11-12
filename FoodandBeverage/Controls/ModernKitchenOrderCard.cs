@@ -595,4 +595,64 @@ namespace FoodandBeverage.Controls
             return path;
         }
     }
+
+    /// <summary>
+    /// Rounded, clipped KOT item grid. Keeps the standard DataGridView API so the
+    /// existing grid binding, row indexes and click handlers remain unchanged.
+    /// </summary>
+    public sealed class RoundedKitchenGridView : DataGridView
+    {
+        private Region roundedRegion;
+
+        public RoundedKitchenGridView()
+        {
+            BorderStyle = BorderStyle.None;
+            SetStyle(ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer, true);
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            UpdateRoundedRegion();
+        }
+
+        private void UpdateRoundedRegion()
+        {
+            if (Width <= 2 || Height <= 2)
+                return;
+
+            int radius = Math.Min(9, Math.Min(Width, Height) / 2);
+            int diameter = radius * 2;
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.AddArc(0, 0, diameter, diameter, 180F, 90F);
+                path.AddArc(Width - diameter, 0, diameter, diameter, 270F, 90F);
+                path.AddArc(Width - diameter, Height - diameter, diameter, diameter, 0F, 90F);
+                path.AddArc(0, Height - diameter, diameter, diameter, 90F, 90F);
+                path.CloseFigure();
+
+                Region next = new Region(path);
+                Region old = Region;
+                Region = next;
+                if (roundedRegion != null)
+                    roundedRegion.Dispose();
+                roundedRegion = next;
+                if (old != null && !ReferenceEquals(old, roundedRegion))
+                    old.Dispose();
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && roundedRegion != null)
+            {
+                if (ReferenceEquals(Region, roundedRegion))
+                    Region = null;
+                roundedRegion.Dispose();
+                roundedRegion = null;
+            }
+            base.Dispose(disposing);
+        }
+    }
+
 }
