@@ -2918,7 +2918,7 @@ namespace FoodandBeverage.Forms
                 // Reopen that exact order even when its master status is no longer 1.
                 // Only use the active-order lookup for genuinely new/unlinked tables.
                 dmnSearchmaster.WhereNdGroupBy = OmId > 0
-                    ? "WHERE om.OrderMasterId = " + OmId + " AND om.Tid = " + tableId
+                    ? "WHERE om.OrderMasterId = " + OmId
                     : "WHERE om.Tid = " + tableId + " AND om.Status = 1";
 
                 dmnSearchmaster.OrderBy = " ORDER BY od.OrderNo, od.OrderDetailsId ";
