@@ -1014,7 +1014,8 @@ namespace FoodandBeverage.Forms
 
                 #endregion
 
-                if (tableId > 0 && OrderRunning_Status == false && Pickup_Status == false && OrderCancelStatus != 1)
+                if (tableId > 0 && OmId <= 0 && OrderRunning_Status == false &&
+                    Pickup_Status == false && OrderCancelStatus != 1)
                 {
                     UIHelper.CenterAndResize(pnl_Guests, 35, 50);
                     UIHelper.RoundCorners(pnl_Guests, 25);
@@ -2908,9 +2909,19 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnOrderMaster> bllSearchmaster = new BllSearch<DmnOrderMaster>();
                 DmnSearch dmnSearchmaster = new DmnSearch();
                 dmnSearchmaster.Select = "*";
-                dmnSearchmaster.Table = "tblOrderMaster om left join tblOrderDetails od on od.OrderMasterId = om.OrderMasterId and od.Status IN (1, 2, 3) ";
-                dmnSearchmaster.WhereNdGroupBy = "where om.tid= " + tableId + " and om.Status IN (1)";
-                dmnSearchmaster.OrderBy = " order by OrderNo ";
+                dmnSearchmaster.Table =
+                    "tblOrderMaster om " +
+                    "LEFT JOIN tblOrderDetails od ON od.OrderMasterId = om.OrderMasterId " +
+                    "AND od.Status IN (1, 2, 3) ";
+
+                // Checkout tables already have an OrderMasterId in tblTable_info.
+                // Reopen that exact order even when its master status is no longer 1.
+                // Only use the active-order lookup for genuinely new/unlinked tables.
+                dmnSearchmaster.WhereNdGroupBy = OmId > 0
+                    ? "WHERE om.OrderMasterId = " + OmId + " AND om.Tid = " + tableId
+                    : "WHERE om.Tid = " + tableId + " AND om.Status = 1";
+
+                dmnSearchmaster.OrderBy = " ORDER BY od.OrderNo, od.OrderDetailsId ";
                 gridSourcemaster = bllSearchmaster.GetSearchData("prdSearch", dmnSearchmaster);
                 if (gridSourcemaster.Count > 0)
                 {
