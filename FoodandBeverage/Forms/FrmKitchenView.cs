@@ -102,6 +102,19 @@ namespace FoodandBeverage.Forms
         private bool emptyStateVisibilityInitialized = false;
         private bool emptyStateShouldBeVisible = false;
 
+        private bool _enableKitchenKOTOnly;
+        private bool _hasLoadedKitchenKOTOnlySetting;
+
+        private bool IsKitchenKOTOnlyMode
+        {
+            get
+            {
+                return _hasLoadedKitchenKOTOnlySetting
+                    ? _enableKitchenKOTOnly
+                    : FrmDashboard.IsKitchenKOTOnlyEnabled;
+            }
+        }
+
         Dictionary<string, int> rowCounters = new Dictionary<string, int>(); 
         Dictionary<string, bool> rowColorState = new Dictionary<string, bool>(); 
         int blinkPeriod = 1; 
@@ -150,6 +163,7 @@ namespace FoodandBeverage.Forms
 
                 ConfigureKitchenCardHost();
                 ConfigureKitchenDetailPopup();
+                RefreshKitchenKOTOnlySetting();
                 InitTimer();
 
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
@@ -165,6 +179,119 @@ namespace FoodandBeverage.Forms
             refreshtimer.Stop();
             this.Close();
             this.Dispose();
+        }
+
+
+        /// <summary>
+        /// Reads the Kitchen KOT-only switch for this branch. Dashboard's cached
+        /// value is retained as a safe fallback if the settings row cannot be read.
+        /// </summary>
+        private void RefreshKitchenKOTOnlySetting()
+        {
+            bool fallbackValue = FrmDashboard.IsKitchenKOTOnlyEnabled;
+            _enableKitchenKOTOnly = fallbackValue;
+            _hasLoadedKitchenKOTOnlySetting = true;
+
+            try
+            {
+                BllSearch<DmnGeneralSetting> search = new BllSearch<DmnGeneralSetting>();
+                DmnSearch query = new DmnSearch
+                {
+                    Select = "ISNULL(EnableKitchenKOTOnly, 0) AS EnableKitchenKOTOnly",
+                    Table = "tblGeneralSetting",
+                    WhereNdGroupBy = "WHERE BranchId = " + FrmDashboard.BranchId + " AND Status = 1",
+                    OrderBy = "ORDER BY Gid DESC"
+                };
+
+                List<DmnGeneralSetting> settings =
+                    search.GetSearchData("prdSearch", query);
+
+                if (settings != null && settings.Count > 0)
+                    _enableKitchenKOTOnly = settings[0].EnableKitchenKOTOnly;
+            }
+            catch (Exception ex)
+            {
+                _enableKitchenKOTOnly = fallbackValue;
+                clsgen.LogException("Kitchen_View RefreshKitchenKOTOnlySetting", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Kitchen_View));
+            }
+        }
+
+        private static bool HasKitchenLineStatus(
+            List<Dmnkitchendetails> details, int requiredStatus)
+        {
+            if (details == null)
+                return false;
+
+            foreach (Dmnkitchendetails detail in details)
+            {
+                int status;
+                if (detail != null &&
+                    int.TryParse(Convert.ToString(detail.Field12), out status) &&
+                    status == requiredStatus)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// KOT-only mode has OKAY + REPRINT.
+        /// Normal mode swaps START for READY after the ticket is started;
+        /// CANCEL and REPRINT remain available while the order is active.
+        /// Reprint is never hidden by the optional customer-wait flag.
+        /// </summary>
+        private void ApplyKitchenActionVisibility(
+            OrderCardCache cache, List<Dmnkitchendetails> details)
+        {
+            if (cache == null || details == null)
+                return;
+
+            bool kotOnlyMode = IsKitchenKOTOnlyMode;
+            bool hasPendingStart = HasKitchenLineStatus(details, 1);
+            bool hasInProgress = HasKitchenLineStatus(details, 2);
+            bool hasActiveRows = hasPendingStart || hasInProgress;
+
+            if (cache.BtnStart != null)
+            {
+                cache.BtnStart.Visible = !kotOnlyMode && hasPendingStart;
+                cache.BtnStart.Enabled = !kotOnlyMode && hasPendingStart;
+            }
+
+            if (cache.BtnReady != null)
+            {
+                ModernKitchenActionButton readyButton =
+                    cache.BtnReady as ModernKitchenActionButton;
+
+                if (readyButton != null)
+                {
+                    readyButton.ActionStyle = kotOnlyMode
+                        ? KitchenActionStyle.Okay
+                        : KitchenActionStyle.Ready;
+                    readyButton.ButtonText = kotOnlyMode ? "OKAY" : "READY";
+                    readyButton.Invalidate();
+                }
+
+                bool canComplete = kotOnlyMode
+                    ? hasActiveRows
+                    : (!hasPendingStart && hasInProgress);
+
+                cache.BtnReady.Visible = canComplete;
+                cache.BtnReady.Enabled = canComplete;
+            }
+
+            if (cache.BtnCancel != null)
+            {
+                cache.BtnCancel.Visible = !kotOnlyMode && hasActiveRows;
+                cache.BtnCancel.Enabled = !kotOnlyMode && hasActiveRows;
+            }
+
+            if (cache.BtnReprint != null)
+            {
+                cache.BtnReprint.Visible = true;
+                cache.BtnReprint.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -310,7 +437,7 @@ namespace FoodandBeverage.Forms
                 flp_order_view.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 12);
             int columns = availableWidth >= 1530 ? 3 : availableWidth >= 760 ? 2 : 1;
             int cardWidth = Math.Max(320, (availableWidth - (columns - 1) * 18) / columns);
-            int cardHeight = FrmDashboard.IsKitchenKOTOnlyEnabled ? 420 : 490;
+            int cardHeight = IsKitchenKOTOnlyMode ? 420 : 490;
             cardHeight = Math.Max(390, Math.Min(500, cardHeight));
 
             foreach (OrderCardCache cache in KitchenCardCache.Values)
@@ -702,7 +829,7 @@ namespace FoodandBeverage.Forms
                     SystemInformation.VerticalScrollBarWidth - 18);
                 int columns = availableWidth >= 1530 ? 3 : availableWidth >= 760 ? 2 : 1;
                 int controlWidth = Math.Max(320, (availableWidth - (columns - 1) * 18) / columns);
-                bool kotOnlyMode = FrmDashboard.IsKitchenKOTOnlyEnabled;
+                bool kotOnlyMode = IsKitchenKOTOnlyMode;
                 int controlHeight = kotOnlyMode ? 380 : 420;
 
                 Tuple<int, string> dailyToken = GetDailyOrderToken(Convert.ToInt32(orderId));
@@ -1084,23 +1211,7 @@ namespace FoodandBeverage.Forms
                 card.Controls.Add(receiptFooter, 0, 5);
                 card.SetColumnSpan(receiptFooter, 4);
 
-                bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
-                bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
-
-                if (startButton != null)
-                {
-                    startButton.Visible = !waitingForCustomer;
-                    startButton.Enabled = hasPendingStart;
-                }
-                readyButton.Visible = !waitingForCustomer;
-                readyButton.Enabled = kotOnlyMode || (hasInProgress && !hasPendingStart);
-                if (cancelButton != null)
-                {
-                    cancelButton.Visible = !waitingForCustomer;
-                    cancelButton.Enabled = hasPendingStart || hasInProgress;
-                }
-                reprintButton.Visible = !waitingForCustomer;
 
                 cache.CardPanel = card;
                 cache.Grid = grid;
@@ -1118,6 +1229,7 @@ namespace FoodandBeverage.Forms
                 cache.CreatedTime = details[0].Fielddatetime;
                 cache.CancelStatus = Convert.ToInt32(details[0].Field27);
 
+                ApplyKitchenActionVisibility(cache, details);
                 card.SetKitchenState(GetKitchenVisualState(waitingForCustomer, details));
 
                 orderbox.RemoveAll(x => string.Equals(
@@ -1483,57 +1595,20 @@ namespace FoodandBeverage.Forms
                     UpdateGridFull(cache.Grid, details);
 
                 bool waitingForCustomer = Convert.ToInt32(details[0].Field27) == 1;
-                bool hasPendingStart = details.Any(d => Convert.ToInt32(d.Field12) == 1);
-                bool hasInProgress = details.Any(d => Convert.ToInt32(d.Field12) == 2);
-                bool kotOnlyMode = FrmDashboard.IsKitchenKOTOnlyEnabled;
 
-                if (waitingForCustomer)
+                if (cache.Description != null)
                 {
-                    if (cache.BtnStart != null) cache.BtnStart.Visible = false;
-                    if (cache.BtnReady != null) cache.BtnReady.Visible = false;
-                    if (cache.BtnCancel != null) cache.BtnCancel.Visible = false;
-                    if (cache.BtnReprint != null) cache.BtnReprint.Visible = false;
-
-                    if (cache.Description != null)
-                    {
+                    if (waitingForCustomer)
                         cache.Description.Text = "WAITING FOR CUSTOMER";
-                        cache.Description.Visible = true;
-                    }
-                }
-                else
-                {
-                    if (cache.BtnStart != null)
-                    {
-                        cache.BtnStart.Visible = !kotOnlyMode;
-                        cache.BtnStart.Enabled = hasPendingStart;
-                    }
-
-                    if (cache.BtnReady != null)
-                    {
-                        cache.BtnReady.Visible = true;
-                        cache.BtnReady.Enabled = kotOnlyMode ||
-                            (hasInProgress && !hasPendingStart);
-                    }
-
-                    if (cache.BtnCancel != null)
-                    {
-                        cache.BtnCancel.Visible = !kotOnlyMode;
-                        cache.BtnCancel.Enabled = hasPendingStart || hasInProgress;
-                    }
-
-                    if (cache.BtnReprint != null)
-                    {
-                        cache.BtnReprint.Visible = true;
-                        cache.BtnReprint.Enabled = true;
-                    }
-
-                    if (cache.Description != null)
+                    else
                     {
                         string note = Convert.ToString(details[0].Field16);
                         cache.Description.Text = string.IsNullOrWhiteSpace(note) ? "—" : note.Trim();
-                        cache.Description.Visible = true;
                     }
+                    cache.Description.Visible = true;
                 }
+
+                ApplyKitchenActionVisibility(cache, details);
 
                 if (cache.DescriptionPanel != null)
                     cache.DescriptionPanel.Visible = true;
@@ -2982,7 +3057,7 @@ namespace FoodandBeverage.Forms
                 if (grid == null) return;
 
                 bool updated;
-                if (FrmDashboard.IsKitchenKOTOnlyEnabled)
+                if (IsKitchenKOTOnlyMode)
                 {
                     // In KOT-only mode, OK is the only completion action.
                     // Complete both pending (1) and started (2) lines together.
@@ -3644,6 +3719,7 @@ namespace FoodandBeverage.Forms
             try
             {
                 refreshtimer.Stop();
+                RefreshKitchenKOTOnlySetting();
                 cmbserachtype.SelectedIndex = 0;
                 KitchenDisplayCount = FrmLogin.KitchenDisplayCount;
                 //btn_viewmore_order.Visible = true;
