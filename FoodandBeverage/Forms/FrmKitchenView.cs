@@ -274,9 +274,11 @@ namespace FoodandBeverage.Forms
                 }
 
                 bool canComplete = kotOnlyMode
-                    ? hasActiveRows
+                    ? true
                     : (!hasPendingStart && hasInProgress);
 
+                // Normal mode is a strict one-step-at-a-time flow:
+                // first START, then READY after the START update is persisted.
                 cache.BtnReady.Visible = canComplete;
                 cache.BtnReady.Enabled = canComplete;
             }
@@ -435,10 +437,10 @@ namespace FoodandBeverage.Forms
 
             int availableWidth = Math.Max(320, flp_order_view.ClientSize.Width -
                 flp_order_view.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 12);
-            int columns = availableWidth >= 1530 ? 3 : availableWidth >= 760 ? 2 : 1;
+            int columns = availableWidth >= 1120 ? 3 : availableWidth >= 760 ? 2 : 1;
             int cardWidth = Math.Max(320, (availableWidth - (columns - 1) * 18) / columns);
-            int cardHeight = IsKitchenKOTOnlyMode ? 420 : 490;
-            cardHeight = Math.Max(390, Math.Min(500, cardHeight));
+            int cardHeight = IsKitchenKOTOnlyMode ? 470 : 520;
+            cardHeight = Math.Max(440, Math.Min(530, cardHeight));
 
             foreach (OrderCardCache cache in KitchenCardCache.Values)
             {
@@ -827,10 +829,9 @@ namespace FoodandBeverage.Forms
                     : ClientSize.Width;
                 int availableWidth = Math.Max(320, hostWidth - flp_order_view.Padding.Horizontal -
                     SystemInformation.VerticalScrollBarWidth - 18);
-                int columns = availableWidth >= 1530 ? 3 : availableWidth >= 760 ? 2 : 1;
+                int columns = availableWidth >= 1120 ? 3 : availableWidth >= 760 ? 2 : 1;
                 int controlWidth = Math.Max(320, (availableWidth - (columns - 1) * 18) / columns);
                 bool kotOnlyMode = IsKitchenKOTOnlyMode;
-                int controlHeight = kotOnlyMode ? 380 : 420;
 
                 Tuple<int, string> dailyToken = GetDailyOrderToken(Convert.ToInt32(orderId));
                 int dailyOrderTypeId = dailyToken == null ? 0 : dailyToken.Item1;
@@ -857,7 +858,7 @@ namespace FoodandBeverage.Forms
                     : Convert.ToString(details[0].Field2);
 
 
-                int controlHeight = kotOnlyMode ? 420 : 490;
+                int controlHeight = kotOnlyMode ? 470 : 520;
 
                 ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
@@ -879,12 +880,12 @@ namespace FoodandBeverage.Forms
                 card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
 
                 card.RowStyles.Clear();
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 72F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 88F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 66F));
                 card.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, kotOnlyMode ? 60F : 104F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 54F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, kotOnlyMode ? 52F : 96F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
                 card.SuspendLayout();
 
                 // Purple ticket masthead with chef-hat artwork.
@@ -897,7 +898,7 @@ namespace FoodandBeverage.Forms
                     Padding = new Padding(8, 4, 8, 4)
                 };
                 PictureBox chefHat = CreateKitchenIcon(
-                    "KOT_ChefHat.png", "pb_kot_chefhat_" + orderId + suffix, new Size(48, 48));
+                    "KOT_ChefHat.png", "pb_kot_chefhat_" + orderId + suffix, new Size(40, 40));
                 TableLayoutPanel mastheadText = new TableLayoutPanel
                 {
                     Dock = DockStyle.Fill,
@@ -907,17 +908,18 @@ namespace FoodandBeverage.Forms
                     Padding = Padding.Empty,
                     BackColor = Color.Transparent
                 };
-                mastheadText.RowStyles.Add(new RowStyle(SizeType.Percent, 58F));
-                mastheadText.RowStyles.Add(new RowStyle(SizeType.Percent, 42F));
+                mastheadText.RowStyles.Add(new RowStyle(SizeType.Percent, 56F));
+                mastheadText.RowStyles.Add(new RowStyle(SizeType.Percent, 44F));
                 Label titleLabel = new Label
                 {
                     Name = "lbl_kot_title_" + orderId + suffix,
                     Text = "KITCHEN ORDER TICKET (KOT)",
                     Dock = DockStyle.Fill,
                     AutoSize = false,
-                    TextAlign = ContentAlignment.BottomCenter,
+                    TextAlign = ContentAlignment.MiddleCenter,
                     Margin = Padding.Empty,
-                    Font = new Font("Segoe UI", 13F, FontStyle.Bold),
+                    Font = new Font("Segoe UI", 11F, FontStyle.Bold),
+                    AutoEllipsis = true,
                     ForeColor = Color.White,
                     BackColor = Color.Transparent
                 };
@@ -927,9 +929,10 @@ namespace FoodandBeverage.Forms
                     Text = "Elen Mall – Food & Beverage",
                     Dock = DockStyle.Fill,
                     AutoSize = false,
-                    TextAlign = ContentAlignment.TopCenter,
+                    TextAlign = ContentAlignment.MiddleCenter,
                     Margin = Padding.Empty,
-                    Font = new Font("Segoe UI", 9.5F, FontStyle.Regular),
+                    Font = new Font("Segoe UI", 8F, FontStyle.Regular),
+                    AutoEllipsis = true,
                     ForeColor = Color.White,
                     BackColor = Color.Transparent
                 };
@@ -944,7 +947,7 @@ namespace FoodandBeverage.Forms
                     Padding = Padding.Empty,
                     BackColor = Color.Transparent
                 };
-                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 58F));
+                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 48F));
                 mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
                 mastheadLayout.Controls.Add(chefHat, 0, 0);
                 mastheadLayout.Controls.Add(mastheadText, 1, 0);
@@ -963,9 +966,9 @@ namespace FoodandBeverage.Forms
                     Margin = Padding.Empty,
                     BackColor = Color.White
                 };
+                orderMeta.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32F));
                 orderMeta.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34F));
-                orderMeta.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33F));
-                orderMeta.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33F));
+                orderMeta.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34F));
 
                 Panel orderNoPanel = new Panel
                 {
@@ -1004,7 +1007,7 @@ namespace FoodandBeverage.Forms
                     Dock = DockStyle.Fill,
                     AutoSize = false,
                     TextAlign = ContentAlignment.TopCenter,
-                    Font = new Font("Segoe UI", 24F, FontStyle.Bold),
+                    Font = new Font("Segoe UI", 21F, FontStyle.Bold),
                     ForeColor = ModernKitchenOrderCard.TicketPurple,
                     BackColor = Color.Transparent,
                     Margin = Padding.Empty,
@@ -1020,14 +1023,14 @@ namespace FoodandBeverage.Forms
                     "Order Type",
                     orderType,
                     "lbl_order_type_k_" + orderId + suffix,
-                    30);
+                    24);
                 Panel timePanel = CreateKitchenMetaIconPanel(
                     "pnl_kot_time_" + orderId + suffix,
                     "KOT_OrderTimeClock.png",
                     "Order Time",
                     FormatKitchenOrderTime(details[0].Fielddatetime, DateTime.Now),
                     "lbl_time_K_" + orderId + suffix,
-                    30);
+                    24);
                 orderMeta.Controls.Add(orderNoPanel, 0, 0);
                 orderMeta.Controls.Add(typePanel, 1, 0);
                 orderMeta.Controls.Add(timePanel, 2, 0);
@@ -1077,7 +1080,7 @@ namespace FoodandBeverage.Forms
                         ? "—" : Convert.ToString(details[0].Field16).Trim(),
                     Dock = DockStyle.Fill,
                     ForeColor = Color.FromArgb(35, 30, 55),
-                    BackColor = Color.Transparent,
+                    BackColor = notesPanel.BackColor,
                     ReadOnly = true,
                     Multiline = false,
                     ScrollBars = ScrollBars.None,
@@ -1116,6 +1119,7 @@ namespace FoodandBeverage.Forms
                     kotOnlyMode ? "OKAY" : "READY",
                     kotOnlyMode ? KitchenActionStyle.Okay : KitchenActionStyle.Ready,
                     suffix, orderId, pbreadyfood_Click);
+                readyButton.Visible = kotOnlyMode;
                 PictureBox cancelButton = kotOnlyMode ? null : CreateKitchenActionButton(
                     "pictureBoxRemove_k_" + orderId + suffix, "CANCEL ORDER",
                     KitchenActionStyle.Cancel, suffix, orderId, pbcancelfood_Click);
@@ -1182,14 +1186,14 @@ namespace FoodandBeverage.Forms
                 PictureBox copyHat = CreateKitchenIcon(
                     "KOT_KitchenCopyChefHat.png",
                     "pb_kot_copy_hat_" + orderId + suffix,
-                    new Size(34, 34));
+                    new Size(28, 28));
                 Label copyLabel = new Label
                 {
                     Name = "lbl_kot_copy_" + orderId + suffix,
                     Text = "KITCHEN COPY",
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                     ForeColor = Color.FromArgb(20, 20, 48),
                     BackColor = Color.White,
                     Margin = Padding.Empty
@@ -1203,7 +1207,7 @@ namespace FoodandBeverage.Forms
                     Padding = Padding.Empty,
                     BackColor = Color.White
                 };
-                footerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 33F));
+                footerLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
                 footerLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
                 footerLayout.Controls.Add(copyHat, 0, 0);
                 footerLayout.Controls.Add(copyLabel, 0, 1);
@@ -1221,7 +1225,7 @@ namespace FoodandBeverage.Forms
                 cache.TokenLabel = orderNoLabel;
                 cache.OrderTypeLabel = typePanel.Controls.Find("lbl_order_type_k_" + orderId + suffix, true).FirstOrDefault() as Label;
                 cache.Description = description;
-                cache.DescriptionPanel = description;
+                cache.DescriptionPanel = notesPanel;
                 cache.BtnStart = startButton;
                 cache.BtnReady = readyButton;
                 cache.BtnCancel = cancelButton;
@@ -1243,10 +1247,9 @@ namespace FoodandBeverage.Forms
 
                 UpdateGridFull(grid, details);
                 if (waitingForCustomer)
-                    description.Text = "WAITING FOR CUSTOMER" + Environment.NewLine +
-                        "Confirmation is required before kitchen actions.";
+                    description.Text = "WAITING FOR CUSTOMER";
 
-                ToggleDescriptionRow(card, true);
+                ToggleDescriptionRow(card, !string.IsNullOrWhiteSpace(description.Text));
 
                 FrmDashboard dashboard = Application.OpenForms["FrmDashboard"] as FrmDashboard;
                 if (dashboard != null)
@@ -1598,22 +1601,18 @@ namespace FoodandBeverage.Forms
 
                 if (cache.Description != null)
                 {
-                    if (waitingForCustomer)
-                        cache.Description.Text = "WAITING FOR CUSTOMER";
-                    else
-                    {
-                        string note = Convert.ToString(details[0].Field16);
-                        cache.Description.Text = string.IsNullOrWhiteSpace(note) ? "—" : note.Trim();
-                    }
-                    cache.Description.Visible = true;
+                    string note = waitingForCustomer
+                        ? "WAITING FOR CUSTOMER"
+                        : (Convert.ToString(details[0].Field16) ?? string.Empty).Trim();
+
+                    cache.Description.Text = note;
                 }
 
                 ApplyKitchenActionVisibility(cache, details);
 
-                if (cache.DescriptionPanel != null)
-                    cache.DescriptionPanel.Visible = true;
-
-                ToggleDescriptionRow(cache.CardPanel, true);
+                bool showNotes = cache.Description != null &&
+                    !string.IsNullOrWhiteSpace(cache.Description.Text);
+                ToggleDescriptionRow(cache.CardPanel, showNotes);
 
                 KitchenOrderVisualState nextVisualState =
                     GetKitchenVisualState(waitingForCustomer, details);
@@ -1636,21 +1635,33 @@ namespace FoodandBeverage.Forms
 
         private void ToggleDescriptionRow(TableLayoutPanel card, bool show)
         {
-            // The ticket always reserves a notes band; empty notes display an em dash.
-            if (card == null || card.RowStyles.Count < 6)
+            if (card == null || card.IsDisposed || card.RowStyles.Count < 6)
                 return;
 
             card.SuspendLayout();
-            card.RowStyles[2].SizeType = SizeType.Percent;
-            card.RowStyles[2].Height = 100F;
-            card.RowStyles[3].SizeType = SizeType.Absolute;
-            card.RowStyles[3].Height = 62F;
+            try
+            {
+                // A hidden notes band gives its full height back to the product grid.
+                card.RowStyles[2].SizeType = SizeType.Percent;
+                card.RowStyles[2].Height = 100F;
+                card.RowStyles[3].SizeType = SizeType.Absolute;
+                card.RowStyles[3].Height = show ? 44F : 0F;
 
-            TextBox notes = FindNotesTextBox(card);
-            if (notes != null)
-                notes.Visible = true;
+                Control notesPanel = card.Controls.Cast<Control>()
+                    .FirstOrDefault(control => control.Name.StartsWith(
+                        "pnl_kot_notes_", StringComparison.Ordinal));
 
-            card.ResumeLayout(true);
+                if (notesPanel != null)
+                    notesPanel.Visible = show;
+
+                TextBox notes = FindNotesTextBox(card);
+                if (notes != null)
+                    notes.Visible = show;
+            }
+            finally
+            {
+                card.ResumeLayout(true);
+            }
         }
 
         /// <summary>
