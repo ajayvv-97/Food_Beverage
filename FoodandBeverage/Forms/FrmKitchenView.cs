@@ -439,7 +439,7 @@ namespace FoodandBeverage.Forms
                 flp_order_view.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 12);
             int columns = availableWidth >= 1120 ? 3 : availableWidth >= 760 ? 2 : 1;
             int cardWidth = Math.Max(320, (availableWidth - (columns - 1) * 18) / columns);
-            int cardHeight = IsKitchenKOTOnlyMode ? 480 : 530;
+            int cardHeight = IsKitchenKOTOnlyMode ? 460 : 500;
             cardHeight = Math.Max(440, Math.Min(530, cardHeight));
 
             foreach (OrderCardCache cache in KitchenCardCache.Values)
@@ -478,6 +478,7 @@ namespace FoodandBeverage.Forms
             public int CancelStatus { get; set; } = -1;
 
         }
+        private const int MaxVisibleKitchenOrderCards = 10;
         private Dictionary<string, OrderCardCache> KitchenCardCache = new Dictionary<string, OrderCardCache>();
         private Dictionary<string, int> RowBlinkCounter = new Dictionary<string, int>();
         private Dictionary<string, bool> RowBlinkState = new Dictionary<string, bool>();
@@ -509,17 +510,24 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
-                // distinct orders grouping
-                var distinctOrders = gridSourcemaster
-                   .GroupBy(order => new { order.Field1, order.Field2 })
-                   .Select(group => group.First())
-                   .OrderBy(order => order.Field1)
-                   .ThenBy(order => order.Field2)
-                   .ToList();
+                // Keep the complete counters, but only create a bounded number of
+                // heavyweight card/grid controls. Completed orders are placed last.
+                var allDistinctOrders = gridSourcemaster
+                    .GroupBy(order => new { order.Field1, order.Field2 })
+                    .Select(group => group.First())
+                    .ToList();
 
-                btntotalorders.Text = Convert.ToString(distinctOrders.Count);
-                int countpendingorder = distinctOrders.Count(order => Convert.ToInt32(order.Field3) == 1);
+                btntotalorders.Text = Convert.ToString(allDistinctOrders.Count);
+                int countpendingorder = allDistinctOrders.Count(order =>
+                    Convert.ToInt32(order.Field3) == 1);
                 btnprintcount.Text = Convert.ToString(countpendingorder);
+
+                var distinctOrders = allDistinctOrders
+                    .OrderBy(order => Convert.ToString(order.Field4) == "1" ? 1 : 0)
+                    .ThenByDescending(order => ParseKitchenOrderNumber(order.Field1))
+                    .ThenByDescending(order => ParseKitchenOrderNumber(order.Field2))
+                    .Take(MaxVisibleKitchenOrderCards)
+                    .ToList();
 
 
                 HashSet<string> currentKeys = new HashSet<string>();
@@ -531,10 +539,9 @@ namespace FoodandBeverage.Forms
                     // For removal, compute keys from existing cache and then check existence after creating keys list below.
                 }
                 List<string> newKeysInOrder = new List<string>();
+                List<string> displayOrderKeys = new List<string>();
                 Dictionary<string, (DmnGridFields Header, List<Dmnkitchendetails> Details)> orderDataMap =
                     new Dictionary<string, (DmnGridFields, List<Dmnkitchendetails>)>();
-
-                int rowCountDisplay = 0;
                 foreach (var orders in distinctOrders)
                 {
                     //if (rowCountDisplay >= KitchenDisplayCount) break;
@@ -548,10 +555,11 @@ namespace FoodandBeverage.Forms
                     string orderNoSuffix = Convert.ToString(gridSourcedetails[0].Field17);
                     string key = orders.Field1 + "_" + orderNoSuffix;
 
+                    if (!orderDataMap.ContainsKey(key))
+                        displayOrderKeys.Add(key);
+
                     newKeysInOrder.Add(key);
                     orderDataMap[key] = (orders, gridSourcedetails);
-
-                    rowCountDisplay++;
                 }
 
                 // Remove cached cards that are no longer present
@@ -582,17 +590,17 @@ namespace FoodandBeverage.Forms
                     KitchenCardCache.Remove(rem);
                 }
 
-                // Add or update cards
-                foreach (var kv in orderDataMap)
+                // Add/update in display priority order so active tickets stay on top.
+                for (int displayIndex = 0; displayIndex < displayOrderKeys.Count; displayIndex++)
                 {
-                    string key = kv.Key;
-                    DmnGridFields header = kv.Value.Header;
-                    List<Dmnkitchendetails> details = kv.Value.Details;
+                    string key = displayOrderKeys[displayIndex];
+                    var orderData = orderDataMap[key];
+                    DmnGridFields header = orderData.Header;
+                    List<Dmnkitchendetails> details = orderData.Details;
 
                     OrderCardCache cache;
                     if (!KitchenCardCache.TryGetValue(key, out cache))
                     {
-                        // create new card (build and add)
                         cache = BuildOrderCard(header, details);
                         if (cache != null && cache.CardPanel != null)
                         {
@@ -602,8 +610,14 @@ namespace FoodandBeverage.Forms
                     }
                     else
                     {
-                        // update existing
                         UpdateOrderCard(cache, header, details);
+                    }
+
+                    if (cache != null && cache.CardPanel != null &&
+                        flp_order_view.Controls.Contains(cache.CardPanel))
+                    {
+                        int targetIndex = Math.Min(displayIndex, flp_order_view.Controls.Count - 1);
+                        flp_order_view.Controls.SetChildIndex(cache.CardPanel, targetIndex);
                     }
                 }
 
@@ -623,6 +637,12 @@ namespace FoodandBeverage.Forms
         /// prdKitchenData version. NULL/0 route values are treated as legacy Kitchen;
         /// Counter (2) tickets are always excluded.
         /// </summary>
+        private static int ParseKitchenOrderNumber(object value)
+        {
+            int parsed;
+            return int.TryParse(Convert.ToString(value), out parsed) ? parsed : 0;
+        }
+
         private List<DmnGridFields> GetKitchenMasterOrders()
         {
             try
@@ -630,14 +650,20 @@ namespace FoodandBeverage.Forms
                 BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
                 DmnSearch query = new DmnSearch
                 {
-                    Select = "ko.OrderMasterId AS Field1, ko.OrderNo AS Field2, ISNULL(ko.KOTPrintStatus, 1) AS Field3",
+                    Select =
+                        "ko.OrderMasterId AS Field1, " +
+                        "ko.OrderNo AS Field2, " +
+                        "MAX(ISNULL(ko.KOTPrintStatus, 1)) AS Field3, " +
+                        "CASE WHEN MAX(CASE WHEN ko.Status IN (1, 2) THEN 1 ELSE 0 END) = 1 " +
+                        "THEN 0 ELSE 1 END AS Field4",
                     Table = "tblkitchenOrder ko",
                     WhereNdGroupBy =
-                        "WHERE ko.Status IN (1, 2) " +
+                        "WHERE ko.Status IN (1, 2, 3) " +
                         "AND ISNULL(ko.AddonStatus, 0) IN (0, 1) " +
                         "AND ISNULL(NULLIF(ko.PreparationMode, 0), 1) = " +
-                        Convert.ToInt32(KOTRouting.kitchen),
-                    OrderBy = "ORDER BY ko.Koid DESC"
+                        Convert.ToInt32(KOTRouting.kitchen) +
+                        " GROUP BY ko.OrderMasterId, ko.OrderNo",
+                    OrderBy = "ORDER BY Field4 ASC, MAX(ko.Koid) DESC"
                 };
 
                 List<DmnGridFields> rows = search.GetSearchData("prdSearch", query);
@@ -674,10 +700,10 @@ namespace FoodandBeverage.Forms
         }
 
         /// <summary>
-        /// Explicit detail status 0 means cancelled and must never be shown on a KOT.
-        /// NULL/blank legacy statuses keep the previous default-active behavior.
+        /// Cancelled line status 0 is excluded. Completed status 3 remains visible as
+        /// a read-only ticket so finished KOTs can be kept at the bottom of the view.
         /// </summary>
-        private static bool IsActiveKitchenDetail(Dmnkitchendetails detail)
+        private static bool IsVisibleKitchenDetail(Dmnkitchendetails detail)
         {
             if (detail == null)
                 return false;
@@ -687,12 +713,13 @@ namespace FoodandBeverage.Forms
                 return true;
 
             int status;
-            return int.TryParse(value, out status) && (status == 1 || status == 2);
+            return int.TryParse(value, out status) &&
+                (status == 1 || status == 2 || status == 3);
         }
 
         /// <summary>
-        /// Reads details through the installed procedure first. If that procedure still
-        /// filters out legacy route values, fetch the visible KOT lines directly.
+        /// Direct query is preferred so StartDate and EndDate are loaded from the
+        /// KOT record. The installed procedure remains as a compatibility fallback.
         /// </summary>
         private List<Dmnkitchendetails> GetKitchenOrderDetails(DmnGridFields order)
         {
@@ -706,36 +733,6 @@ namespace FoodandBeverage.Forms
 
             int orderNo;
             bool hasOrderNo = int.TryParse(Convert.ToString(order.Field2), out orderNo);
-
-            if (hasOrderNo)
-            {
-                try
-                {
-                    BllkitchenDataDetails<Dmnkitchendetails> detailsService =
-                        new BllkitchenDataDetails<Dmnkitchendetails>();
-                    Dmnkitchendetails parameters = new Dmnkitchendetails
-                    {
-                        OrderMasterId = orderMasterId,
-                        OrderNo = orderNo
-                    };
-
-                    List<Dmnkitchendetails> details =
-                        detailsService.serachData("prdKitchendetails", parameters);
-                    if (details != null && details.Count > 0)
-                    {
-                        List<Dmnkitchendetails> activeDetails =
-                            details.Where(IsActiveKitchenDetail).ToList();
-                        if (activeDetails.Count > 0)
-                            return activeDetails;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    clsgen.LogException("FrmKitchenView GetKitchenOrderDetails procedure", ex,
-                        FrmLogin.EmployeName, FrmLogin.Designation,
-                        Convert.ToInt32(FormType.Kitchen_View));
-                }
-            }
 
             try
             {
@@ -770,7 +767,9 @@ namespace FoodandBeverage.Forms
                         "ISNULL(om.Pkid, 0) AS Field25, " +
                         "0 AS Field26, " +
                         "0 AS Field27, " +
-                        "od.CreatedDateTime AS Fielddatetime",
+                        "od.CreatedDateTime AS Fielddatetime, " +
+                        "ko.StartDate AS StartDate, " +
+                        "ko.EndDate AS EndDate",
                     Table =
                         "tblkitchenOrder ko " +
                         "INNER JOIN tblOrderDetails od ON od.OrderDetailsId = ko.OrderDetailsId " +
@@ -779,24 +778,59 @@ namespace FoodandBeverage.Forms
                     WhereNdGroupBy =
                         "WHERE ko.OrderMasterId = " + orderMasterId +
                         (hasOrderNo ? " AND ko.OrderNo = " + orderNo : string.Empty) +
-                        " AND ko.Status IN (1, 2) " +
-                        "AND ISNULL(od.Status, 1) IN (1, 2) " +
+                        " AND ko.Status IN (1, 2, 3) " +
+                        "AND ISNULL(od.Status, 1) IN (1, 2, 3) " +
                         "AND ISNULL(ko.AddonStatus, 0) IN (0, 1) " +
                         "AND ISNULL(NULLIF(ko.PreparationMode, 0), 1) = " +
                         Convert.ToInt32(KOTRouting.kitchen),
                     OrderBy = "ORDER BY ko.Koid, od.OrderDetailsId"
                 };
 
-                List<Dmnkitchendetails> fallback =
+                List<Dmnkitchendetails> directDetails =
                     search.GetSearchData("prdSearch", query);
-                if (fallback != null && fallback.Count > 0)
-                    return fallback;
+                if (directDetails != null && directDetails.Count > 0)
+                {
+                    List<Dmnkitchendetails> visibleDetails =
+                        directDetails.Where(IsVisibleKitchenDetail).ToList();
+                    if (visibleDetails.Count > 0)
+                        return visibleDetails;
+                }
             }
             catch (Exception ex)
             {
-                clsgen.LogException("FrmKitchenView GetKitchenOrderDetails direct fallback", ex,
+                clsgen.LogException("FrmKitchenView GetKitchenOrderDetails direct query", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation,
                     Convert.ToInt32(FormType.Kitchen_View));
+            }
+
+            if (hasOrderNo)
+            {
+                try
+                {
+                    BllkitchenDataDetails<Dmnkitchendetails> detailsService =
+                        new BllkitchenDataDetails<Dmnkitchendetails>();
+                    Dmnkitchendetails parameters = new Dmnkitchendetails
+                    {
+                        OrderMasterId = orderMasterId,
+                        OrderNo = orderNo
+                    };
+                    List<Dmnkitchendetails> details =
+                        detailsService.serachData("prdKitchendetails", parameters);
+
+                    if (details != null)
+                    {
+                        List<Dmnkitchendetails> visibleDetails =
+                            details.Where(IsVisibleKitchenDetail).ToList();
+                        if (visibleDetails.Count > 0)
+                            return visibleDetails;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    clsgen.LogException("FrmKitchenView GetKitchenOrderDetails procedure fallback", ex,
+                        FrmLogin.EmployeName, FrmLogin.Designation,
+                        Convert.ToInt32(FormType.Kitchen_View));
+                }
             }
 
             return new List<Dmnkitchendetails>();
@@ -884,7 +918,7 @@ namespace FoodandBeverage.Forms
                     : Convert.ToString(details[0].Field2);
 
 
-                int controlHeight = kotOnlyMode ? 480 : 530;
+                int controlHeight = kotOnlyMode ? 460 : 500;
 
                 ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
@@ -1048,7 +1082,8 @@ namespace FoodandBeverage.Forms
                     "pnl_kot_time_" + orderId + suffix,
                     orderId + suffix,
                     details[0].Fielddatetime,
-                    GetKitchenStartTime(details));
+                    GetKitchenStartTime(details),
+                    GetKitchenEndTime(details));
                 orderMeta.Controls.Add(orderNoPanel, 0, 0);
                 orderMeta.Controls.Add(typePanel, 1, 0);
                 orderMeta.Controls.Add(timePanel, 2, 0);
@@ -1420,7 +1455,8 @@ namespace FoodandBeverage.Forms
         }
 
         private Panel CreateKitchenTimePanel(
-            string name, string suffix, DateTime orderTime, DateTime? startTime)
+            string name, string suffix, DateTime orderTime, DateTime? startTime,
+            DateTime? endTime)
         {
             Panel panel = new Panel
             {
@@ -1482,7 +1518,7 @@ namespace FoodandBeverage.Forms
                 ? FormatKitchenOrderTime(startTime.Value, DateTime.Now) : "—",
                 "lbl_start_time_K_" + suffix, false);
             AddTimeInfoRow(layout, 3, "Elapsed", startTime.HasValue
-                ? FormatKitchenElapsed(DateTime.Now - startTime.Value) : "Not started",
+                ? FormatKitchenElapsed((endTime ?? DateTime.Now) - startTime.Value) : "Not started",
                 "lbl_elapsed_time_K_" + suffix, true);
 
             panel.Controls.Add(layout);
@@ -1542,6 +1578,30 @@ namespace FoodandBeverage.Forms
             }
 
             return firstStart;
+        }
+
+        private static DateTime? GetKitchenEndTime(IEnumerable<Dmnkitchendetails> details)
+        {
+            if (details == null)
+                return null;
+
+            List<Dmnkitchendetails> lines = details.Where(item => item != null).ToList();
+            if (lines.Count == 0 || lines.Any(item =>
+                !string.Equals(Convert.ToString(item.Field12), "3", StringComparison.Ordinal)))
+                return null;
+
+            DateTime? lastEnd = null;
+            foreach (Dmnkitchendetails detail in lines)
+            {
+                DateTime value = detail.EndDate;
+                if (value == DateTime.MinValue || value.Year < 2000)
+                    continue;
+
+                if (!lastEnd.HasValue || value > lastEnd.Value)
+                    lastEnd = value;
+            }
+
+            return lastEnd;
         }
 
         private static TextBox FindNotesTextBox(Control parent)
@@ -1769,6 +1829,7 @@ namespace FoodandBeverage.Forms
                 cache.CreatedTime = details[0].Fielddatetime;
                 DateTime now = DateTime.Now;
                 DateTime? startTime = GetKitchenStartTime(details);
+                DateTime? endTime = GetKitchenEndTime(details);
 
                 if (cache.TimeLabel != null)
                     cache.TimeLabel.Text = FormatKitchenOrderTime(cache.CreatedTime, now);
@@ -1780,7 +1841,7 @@ namespace FoodandBeverage.Forms
 
                 if (cache.ElapsedTimeLabel != null)
                     cache.ElapsedTimeLabel.Text = startTime.HasValue
-                        ? FormatKitchenElapsed(now - startTime.Value)
+                        ? FormatKitchenElapsed((endTime ?? now) - startTime.Value)
                         : "Not started";
 
                 if (cache.Grid.Rows.Count == details.Count)
@@ -3354,7 +3415,25 @@ namespace FoodandBeverage.Forms
                     DmnOrderMaster result = orderService.Remove_order_KitchenOrder_Start_Rady(
                         "prd_KitchenOrder_Updates", update);
                     if (result == null || result.Status != 1)
+                    {
                         allUpdatesSucceeded = false;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            BllKitchenorder kitchenService = new BllKitchenorder();
+                            if (!kitchenService.UpdateKitchenOrderTimestamp(update.koid, 3))
+                                allUpdatesSucceeded = false;
+                        }
+                        catch (Exception timestampException)
+                        {
+                            allUpdatesSucceeded = false;
+                            clsgen.LogException("Kitchen_View Save completed KOT timestamp",
+                                timestampException, FrmLogin.EmployeName, FrmLogin.Designation,
+                                Convert.ToInt32(FormType.Kitchen_View));
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -3416,7 +3495,25 @@ namespace FoodandBeverage.Forms
                     var result = orderService.Remove_order_KitchenOrder_Start_Rady(
                         "prd_KitchenOrder_Updates", update);
                     if (result == null || result.Status != 1)
+                    {
                         allUpdatesSucceeded = false;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            BllKitchenorder kitchenService = new BllKitchenorder();
+                            if (!kitchenService.UpdateKitchenOrderTimestamp(update.koid, newStatus))
+                                allUpdatesSucceeded = false;
+                        }
+                        catch (Exception timestampException)
+                        {
+                            allUpdatesSucceeded = false;
+                            clsgen.LogException("Kitchen_View Save KOT start/end timestamp",
+                                timestampException, FrmLogin.EmployeName, FrmLogin.Designation,
+                                Convert.ToInt32(FormType.Kitchen_View));
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
