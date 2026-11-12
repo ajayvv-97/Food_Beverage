@@ -460,6 +460,8 @@ namespace FoodandBeverage.Forms
             public ModernKitchenOrderCard CardPanel;
             public DataGridView Grid;
             public Label TimeLabel;
+            public Label StartTimeLabel;
+            public Label ElapsedTimeLabel;
             public Label StatusLabel;
             public Label TableCodeLabel;
             public Label TokenLabel;
@@ -905,7 +907,7 @@ namespace FoodandBeverage.Forms
 
                 card.RowStyles.Clear();
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 84F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 98F));
                 card.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, kotOnlyMode ? 52F : 96F));
@@ -1042,13 +1044,11 @@ namespace FoodandBeverage.Forms
                     orderType,
                     "lbl_order_type_k_" + orderId + suffix,
                     24);
-                Panel timePanel = CreateKitchenMetaIconPanel(
+                Panel timePanel = CreateKitchenTimePanel(
                     "pnl_kot_time_" + orderId + suffix,
-                    "KOT_OrderTimeClock.png",
-                    "Order Time",
-                    FormatKitchenOrderTime(details[0].Fielddatetime, DateTime.Now),
-                    "lbl_time_K_" + orderId + suffix,
-                    24);
+                    orderId + suffix,
+                    details[0].Fielddatetime,
+                    GetKitchenStartTime(details));
                 orderMeta.Controls.Add(orderNoPanel, 0, 0);
                 orderMeta.Controls.Add(typePanel, 1, 0);
                 orderMeta.Controls.Add(timePanel, 2, 0);
@@ -1260,6 +1260,8 @@ namespace FoodandBeverage.Forms
                 cache.CardPanel = card;
                 cache.Grid = grid;
                 cache.TimeLabel = timePanel.Controls.Find("lbl_time_K_" + orderId + suffix, true).FirstOrDefault() as Label;
+                cache.StartTimeLabel = timePanel.Controls.Find("lbl_start_time_K_" + orderId + suffix, true).FirstOrDefault() as Label;
+                cache.ElapsedTimeLabel = timePanel.Controls.Find("lbl_elapsed_time_K_" + orderId + suffix, true).FirstOrDefault() as Label;
                 cache.StatusLabel = null;
                 cache.TableCodeLabel = null;
                 cache.TokenLabel = orderNoLabel;
@@ -1359,60 +1361,187 @@ namespace FoodandBeverage.Forms
                 Name = name,
                 Dock = DockStyle.Fill,
                 BackColor = Color.White,
-                Margin = new Padding(1, 1, 1, 1),
-                Padding = new Padding(2, 1, 1, 1)
+                Margin = new Padding(3, 2, 3, 2),
+                Padding = new Padding(2, 2, 2, 2)
             };
+
             TableLayoutPanel layout = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 2,
-                RowCount = 1,
-                Margin = Padding.Empty,
-                Padding = Padding.Empty,
-                BackColor = Color.Transparent
-            };
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, iconWidth));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            PictureBox icon = CreateKitchenIcon(iconFile, name + "_icon", new Size(iconWidth - 3, iconWidth - 3));
-            TableLayoutPanel textLayout = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 1,
                 RowCount = 2,
                 Margin = Padding.Empty,
                 Padding = Padding.Empty,
                 BackColor = Color.Transparent
             };
-            textLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 44F));
-            textLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 56F));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, Math.Max(22, iconWidth)));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+
+            PictureBox icon = CreateKitchenIcon(
+                iconFile, name + "_icon", new Size(19, 19));
+            icon.Dock = DockStyle.None;
+            icon.Anchor = AnchorStyles.None;
+            icon.Size = new Size(19, 19);
+            icon.Margin = Padding.Empty;
+
             Label captionLabel = new Label
             {
                 Text = caption,
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleLeft,
-                Font = new Font("Segoe UI", 8F, FontStyle.Regular),
-                ForeColor = Color.FromArgb(46, 42, 61),
+                Font = new Font("Segoe UI", 8F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(86, 65, 117),
                 BackColor = Color.Transparent,
-                Margin = Padding.Empty
+                Margin = new Padding(1, 0, 0, 0),
+                AutoEllipsis = true
             };
+
             Label valueLabel = new Label
             {
                 Name = valueLabelName,
                 Text = string.IsNullOrWhiteSpace(value) ? "—" : value,
                 Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleLeft,
+                TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
-                ForeColor = Color.FromArgb(22, 20, 48),
+                ForeColor = Color.FromArgb(35, 26, 64),
                 BackColor = Color.Transparent,
                 Margin = Padding.Empty,
                 AutoEllipsis = true
             };
-            textLayout.Controls.Add(captionLabel, 0, 0);
-            textLayout.Controls.Add(valueLabel, 0, 1);
+
             layout.Controls.Add(icon, 0, 0);
-            layout.Controls.Add(textLayout, 1, 0);
+            layout.Controls.Add(captionLabel, 1, 0);
+            layout.Controls.Add(valueLabel, 0, 1);
+            layout.SetColumnSpan(valueLabel, 2);
             panel.Controls.Add(layout);
             return panel;
+        }
+
+        private Panel CreateKitchenTimePanel(
+            string name, string suffix, DateTime orderTime, DateTime? startTime)
+        {
+            Panel panel = new Panel
+            {
+                Name = name,
+                Dock = DockStyle.Fill,
+                BackColor = Color.White,
+                Margin = new Padding(3, 2, 3, 2),
+                Padding = new Padding(2, 1, 2, 1)
+            };
+
+            TableLayoutPanel layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 4,
+                Margin = Padding.Empty,
+                Padding = Padding.Empty,
+                BackColor = Color.Transparent
+            };
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 43F));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 57F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 26F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 26F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 48F));
+
+            FlowLayoutPanel heading = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Margin = Padding.Empty,
+                Padding = Padding.Empty,
+                BackColor = Color.Transparent
+            };
+            PictureBox clock = CreateKitchenIcon(
+                "KOT_OrderTimeClock.png", "pb_kot_time_icon_" + suffix, new Size(17, 17));
+            clock.Dock = DockStyle.None;
+            clock.Size = new Size(17, 17);
+            clock.Margin = new Padding(0, 1, 4, 0);
+            Label headingLabel = new Label
+            {
+                Text = "TIME DETAILS",
+                AutoSize = true,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Segoe UI", 8F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(86, 65, 117),
+                BackColor = Color.Transparent,
+                Margin = new Padding(0, 2, 0, 0)
+            };
+            heading.Controls.Add(clock);
+            heading.Controls.Add(headingLabel);
+            layout.Controls.Add(heading, 0, 0);
+            layout.SetColumnSpan(heading, 2);
+
+            AddTimeInfoRow(layout, 1, "Order", FormatKitchenOrderTime(orderTime, DateTime.Now),
+                "lbl_time_K_" + suffix, false);
+            AddTimeInfoRow(layout, 2, "Started", startTime.HasValue
+                ? FormatKitchenOrderTime(startTime.Value, DateTime.Now) : "—",
+                "lbl_start_time_K_" + suffix, false);
+            AddTimeInfoRow(layout, 3, "Elapsed", startTime.HasValue
+                ? FormatKitchenElapsed(DateTime.Now - startTime.Value) : "Not started",
+                "lbl_elapsed_time_K_" + suffix, true);
+
+            panel.Controls.Add(layout);
+            return panel;
+        }
+
+        private static void AddTimeInfoRow(
+            TableLayoutPanel layout, int row, string caption, string value,
+            string valueName, bool highlight)
+        {
+            Label captionLabel = new Label
+            {
+                Text = caption,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Segoe UI", 7.5F, FontStyle.Regular),
+                ForeColor = Color.FromArgb(102, 91, 119),
+                BackColor = Color.Transparent,
+                Margin = new Padding(2, 0, 0, 0),
+                AutoEllipsis = true
+            };
+            Label valueLabel = new Label
+            {
+                Name = valueName,
+                Text = value,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleRight,
+                Font = new Font("Segoe UI", 8F, FontStyle.Bold),
+                ForeColor = highlight
+                    ? Color.FromArgb(77, 43, 135)
+                    : Color.FromArgb(35, 26, 64),
+                BackColor = Color.Transparent,
+                Margin = new Padding(0, 0, 2, 0),
+                AutoEllipsis = true
+            };
+            layout.Controls.Add(captionLabel, 0, row);
+            layout.Controls.Add(valueLabel, 1, row);
+        }
+
+        private static DateTime? GetKitchenStartTime(IEnumerable<Dmnkitchendetails> details)
+        {
+            if (details == null)
+                return null;
+
+            DateTime? firstStart = null;
+            foreach (Dmnkitchendetails detail in details)
+            {
+                if (detail == null)
+                    continue;
+
+                DateTime value = detail.StartDate;
+                if (value == DateTime.MinValue || value.Year < 2000)
+                    continue;
+
+                if (!firstStart.HasValue || value < firstStart.Value)
+                    firstStart = value;
+            }
+
+            return firstStart;
         }
 
         private static TextBox FindNotesTextBox(Control parent)
@@ -1595,8 +1724,18 @@ namespace FoodandBeverage.Forms
 
         private static string FormatKitchenElapsed(TimeSpan elapsed)
         {
-            int hours = Math.Max(0, (int)elapsed.TotalHours);
-            return hours + " h, " + elapsed.Minutes + " min " + elapsed.Seconds + " s";
+            if (elapsed < TimeSpan.Zero)
+                elapsed = TimeSpan.Zero;
+
+            if (elapsed.TotalHours >= 1)
+                return ((int)elapsed.TotalHours).ToString("00") + "h " +
+                    elapsed.Minutes.ToString("00") + "m";
+
+            if (elapsed.TotalMinutes >= 1)
+                return elapsed.Minutes.ToString("00") + "m " +
+                    elapsed.Seconds.ToString("00") + "s";
+
+            return elapsed.Seconds.ToString("00") + "s";
         }
 
         private static KitchenOrderVisualState GetKitchenVisualState(
@@ -1628,10 +1767,21 @@ namespace FoodandBeverage.Forms
                     return;
 
                 cache.CreatedTime = details[0].Fielddatetime;
+                DateTime now = DateTime.Now;
+                DateTime? startTime = GetKitchenStartTime(details);
+
                 if (cache.TimeLabel != null)
-                {
-                    cache.TimeLabel.Text = FormatKitchenOrderTime(cache.CreatedTime, DateTime.Now);
-                }
+                    cache.TimeLabel.Text = FormatKitchenOrderTime(cache.CreatedTime, now);
+
+                if (cache.StartTimeLabel != null)
+                    cache.StartTimeLabel.Text = startTime.HasValue
+                        ? FormatKitchenOrderTime(startTime.Value, now)
+                        : "—";
+
+                if (cache.ElapsedTimeLabel != null)
+                    cache.ElapsedTimeLabel.Text = startTime.HasValue
+                        ? FormatKitchenElapsed(now - startTime.Value)
+                        : "Not started";
 
                 if (cache.Grid.Rows.Count == details.Count)
                     UpdateGridLight(cache.Grid, details);
