@@ -536,8 +536,6 @@ namespace FoodandBeverage.Forms
                     new Dictionary<string, (DmnGridFields, List<Dmnkitchendetails>)>();
                 foreach (var orders in distinctOrders)
                 {
-                    //if (rowCountDisplay >= KitchenDisplayCount) break;
-
                     List<Dmnkitchendetails> gridSourcedetails = GetKitchenOrderDetails(orders);
 
                     if (gridSourcedetails == null || gridSourcedetails.Count == 0)
@@ -625,9 +623,9 @@ namespace FoodandBeverage.Forms
         }
 
         /// <summary>
-        /// Returns active Kitchen-routed KOT masters without depending on the deployed
-        /// prdKitchenData version. NULL/0 route values are treated as legacy Kitchen;
-        /// Counter (2) tickets are always excluded.
+        /// Returns active and completed Kitchen-routed KOT masters without depending
+        /// on the deployed prdKitchenData version. NULL/0 route values are treated as
+        /// legacy Kitchen; Counter (2) tickets are always excluded.
         /// </summary>
         private static int ParseKitchenOrderNumber(object value)
         {
