@@ -10277,7 +10277,8 @@ namespace FoodandBeverage.Forms
                     ClearAll();
                     checksave_refresh();
                 }
-                if (tableId > 0 && OrderRunning_Status == false && Pickup_Status == false && OrderCancelStatus != 1)
+                if (tableId > 0 && OmId <= 0 && OrderRunning_Status == false &&
+                    Pickup_Status == false && OrderCancelStatus != 1)
                 {
                     UIHelper.CenterAndResize(pnl_Guests, 35, 50);
                     UIHelper.RoundCorners(pnl_Guests, 25);
