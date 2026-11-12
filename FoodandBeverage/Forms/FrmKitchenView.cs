@@ -671,6 +671,23 @@ namespace FoodandBeverage.Forms
         }
 
         /// <summary>
+        /// Explicit detail status 0 means cancelled and must never be shown on a KOT.
+        /// NULL/blank legacy statuses keep the previous default-active behavior.
+        /// </summary>
+        private static bool IsActiveKitchenDetail(Dmnkitchendetails detail)
+        {
+            if (detail == null)
+                return false;
+
+            string value = Convert.ToString(detail.Field12);
+            if (string.IsNullOrWhiteSpace(value))
+                return true;
+
+            int status;
+            return int.TryParse(value, out status) && (status == 1 || status == 2);
+        }
+
+        /// <summary>
         /// Reads details through the installed procedure first. If that procedure still
         /// filters out legacy route values, fetch the visible KOT lines directly.
         /// </summary>
@@ -702,7 +719,12 @@ namespace FoodandBeverage.Forms
                     List<Dmnkitchendetails> details =
                         detailsService.serachData("prdKitchendetails", parameters);
                     if (details != null && details.Count > 0)
-                        return details;
+                    {
+                        List<Dmnkitchendetails> activeDetails =
+                            details.Where(IsActiveKitchenDetail).ToList();
+                        if (activeDetails.Count > 0)
+                            return activeDetails;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -755,6 +777,7 @@ namespace FoodandBeverage.Forms
                         "WHERE ko.OrderMasterId = " + orderMasterId +
                         (hasOrderNo ? " AND ko.OrderNo = " + orderNo : string.Empty) +
                         " AND ko.Status IN (1, 2) " +
+                        "AND ISNULL(od.Status, 1) IN (1, 2) " +
                         "AND ISNULL(ko.AddonStatus, 0) IN (0, 1) " +
                         "AND ISNULL(NULLIF(ko.PreparationMode, 0), 1) = " +
                         Convert.ToInt32(KOTRouting.kitchen),
@@ -880,8 +903,8 @@ namespace FoodandBeverage.Forms
                 card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
 
                 card.RowStyles.Clear();
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 94F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 84F));
                 card.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, kotOnlyMode ? 52F : 96F));
@@ -900,39 +923,38 @@ namespace FoodandBeverage.Forms
                 };
 
                 PictureBox chefHat = CreateKitchenIcon(
-                    "KOT_ChefHat.png", "pb_kot_chefhat_" + orderId + suffix, new Size(34, 34));
-                chefHat.Dock = DockStyle.None;
-                chefHat.Anchor = AnchorStyles.None;
-                chefHat.Size = new Size(34, 34);
+                    "KOT_ChefHat.png", "pb_kot_chefhat_" + orderId + suffix, new Size(27, 27));
+                chefHat.Size = new Size(27, 27);
                 chefHat.SizeMode = PictureBoxSizeMode.Zoom;
+                chefHat.Margin = new Padding(0, 0, 7, 0);
 
                 Label titleLabel = new Label
                 {
                     Name = "lbl_kot_title_" + orderId + suffix,
                     Text = "KITCHEN ORDER TICKET (KOT)",
-                    Dock = DockStyle.Fill,
-                    AutoSize = false,
-                    TextAlign = ContentAlignment.MiddleCenter,
+                    AutoSize = true,
+                    TextAlign = ContentAlignment.MiddleLeft,
                     Margin = Padding.Empty,
-                    Font = new Font("Segoe UI", 10.5F, FontStyle.Bold),
+                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                     AutoEllipsis = true,
                     ForeColor = Color.White,
                     BackColor = Color.Transparent
                 };
 
-                TableLayoutPanel mastheadLayout = new TableLayoutPanel
+                FlowLayoutPanel mastheadLayout = new FlowLayoutPanel
                 {
                     Dock = DockStyle.Fill,
-                    ColumnCount = 2,
-                    RowCount = 1,
+                    FlowDirection = FlowDirection.LeftToRight,
+                    WrapContents = false,
+                    AutoSize = false,
+                    AutoScroll = false,
+                    Anchor = AnchorStyles.None,
                     Margin = Padding.Empty,
                     Padding = Padding.Empty,
                     BackColor = Color.Transparent
                 };
-                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 44F));
-                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-                mastheadLayout.Controls.Add(chefHat, 0, 0);
-                mastheadLayout.Controls.Add(titleLabel, 1, 0);
+                mastheadLayout.Controls.Add(chefHat);
+                mastheadLayout.Controls.Add(titleLabel);
                 masthead.Controls.Add(mastheadLayout);
                 card.Controls.Add(masthead, 0, 0);
                 card.SetColumnSpan(masthead, 4);
@@ -1424,7 +1446,7 @@ namespace FoodandBeverage.Forms
 
         private DataGridView BuildProductGrid(DmnGridFields orders, List<Dmnkitchendetails> details)
         {
-            DataGridView grid = new DataGridView();
+            DataGridView grid = new RoundedKitchenGridView();
             string suffix = Convert.ToString(details[0].Field17);
 
             grid.Name = "dgv_product_details_k_" + orders.Field1 + suffix;
@@ -1437,6 +1459,7 @@ namespace FoodandBeverage.Forms
             grid.RowHeadersVisible = false;
             grid.BorderStyle = BorderStyle.None;
             grid.BackgroundColor = Color.White;
+            grid.Margin = new Padding(5, 6, 5, 5);
             grid.GridColor = Color.FromArgb(226, 218, 239);
             grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             grid.EnableHeadersVisualStyles = false;
