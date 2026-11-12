@@ -523,9 +523,7 @@ namespace FoodandBeverage.Forms
                 btnprintcount.Text = Convert.ToString(countpendingorder);
 
                 var distinctOrders = allDistinctOrders
-                    .OrderBy(order => Convert.ToString(order.Field4) == "1" ? 1 : 0)
-                    .ThenByDescending(order => ParseKitchenOrderNumber(order.Field1))
-                    .ThenByDescending(order => ParseKitchenOrderNumber(order.Field2))
+                    .OrderByDescending(order => ParseKitchenOrderNumber(order.Field4))
                     .Take(MaxVisibleKitchenOrderCards)
                     .ToList();
 
@@ -644,16 +642,15 @@ namespace FoodandBeverage.Forms
                         "ko.OrderMasterId AS Field1, " +
                         "ko.OrderNo AS Field2, " +
                         "MIN(CAST(ISNULL(ko.KOTPrintStatus, 1) AS INT)) AS Field3, " +
-                        "CASE WHEN MAX(CASE WHEN ko.Status IN (1, 2) THEN 1 ELSE 0 END) = 1 " +
-                        "THEN '0' ELSE '1' END AS Field4",
+                        "MAX(ko.Koid) AS Field4",
                     Table = "tblkitchenOrder ko",
                     WhereNdGroupBy =
-                        "WHERE ko.Status IN (1, 2, 3) " +
+                        "WHERE ko.Status IN (1, 2) " +
                         "AND ISNULL(ko.AddonStatus, 0) IN (0, 1) " +
                         "AND ISNULL(NULLIF(ko.PreparationMode, 0), 1) = " +
                         Convert.ToInt32(KOTRouting.kitchen) +
                         " GROUP BY ko.OrderMasterId, ko.OrderNo",
-                    OrderBy = "ORDER BY Field4 ASC, MAX(ko.Koid) DESC"
+                    OrderBy = "ORDER BY MAX(ko.Koid) DESC"
                 };
 
                 List<DmnGridFields> rows = search.GetSearchData("prdSearch", query);
@@ -690,8 +687,8 @@ namespace FoodandBeverage.Forms
         }
 
         /// <summary>
-        /// Cancelled line status 0 is excluded. Completed status 3 remains visible as
-        /// a read-only ticket so finished KOTs can be kept at the bottom of the view.
+        /// Only active kitchen lines are shown. Cancelled (0), completed (3), and
+        /// other inactive detail statuses are excluded from Kitchen View.
         /// </summary>
         private static bool IsVisibleKitchenDetail(Dmnkitchendetails detail)
         {
@@ -703,8 +700,7 @@ namespace FoodandBeverage.Forms
                 return true;
 
             int status;
-            return int.TryParse(value, out status) &&
-                (status == 1 || status == 2 || status == 3);
+            return int.TryParse(value, out status) && (status == 1 || status == 2);
         }
 
         /// <summary>
@@ -768,8 +764,8 @@ namespace FoodandBeverage.Forms
                     WhereNdGroupBy =
                         "WHERE ko.OrderMasterId = " + orderMasterId +
                         (hasOrderNo ? " AND ko.OrderNo = " + orderNo : string.Empty) +
-                        " AND ko.Status IN (1, 2, 3) " +
-                        "AND ISNULL(od.Status, 1) IN (1, 2, 3) " +
+                        " AND ko.Status IN (1, 2) " +
+                        "AND ISNULL(od.Status, 1) IN (1, 2) " +
                         "AND ISNULL(ko.AddonStatus, 0) IN (0, 1) " +
                         "AND ISNULL(NULLIF(ko.PreparationMode, 0), 1) = " +
                         Convert.ToInt32(KOTRouting.kitchen),
