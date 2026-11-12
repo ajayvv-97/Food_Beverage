@@ -2233,15 +2233,21 @@ namespace FoodandBeverage.Forms
                                     Dgv_Selected_Item.Rows[r].Cells[iname].Style.Font = new Font(currentFont, FontStyle.Bold);
 
                                     Dgv_Selected_Item.Rows[r].Cells[iunitid].Value = gridSource[i].UnitId;
-                                    Dgv_Selected_Item.Rows[r].Cells[iqty].Value = "1";
+                                    Dgv_Selected_Item.Rows[r].Cells[iqty].Value = gridSource[i].Quantity;
                                     Dgv_Selected_Item.Rows[r].Cells[iprate].Value = gridSource[i].PurchaseRate;
                                     Dgv_Selected_Item.Rows[r].Cells[israte].Value = gridSource[i].Srate;
+                                    Dgv_Selected_Item.Rows[r].Cells[iamount].Value = gridSource[i].Amount;
                                     Dgv_Selected_Item.Rows[r].Cells[imrp].Value = gridSource[i].MRP;
-                                    Dgv_Selected_Item.Rows[r].Cells[idisamt].Value = "0";
+                                    Dgv_Selected_Item.Rows[r].Cells[idisper].Value = gridSource[i].DiscountPer;
+                                    Dgv_Selected_Item.Rows[r].Cells[idisamt].Value = gridSource[i].DiscountAmount;
                                     Dgv_Selected_Item.Rows[r].Cells[iitemid].Value = gridSource[i].ItemId;
+                                    Dgv_Selected_Item.Rows[r].Cells[itaxper].Value = gridSource[i].TaxPer;
+                                    Dgv_Selected_Item.Rows[r].Cells[itaxamt].Value = gridSource[i].TaxAmount;
                                     Dgv_Selected_Item.Rows[r].Cells[itax].Value = gridSource[i].Tax;
                                     Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = gridSource[i].TaxType;
                                     Dgv_Selected_Item.Rows[r].Cells[itype].Value = gridSource[i].TableType;
+                                    Dgv_Selected_Item.Rows[r].Cells[itotal].Value = gridSource[i].NetAmount;
+                                    Dgv_Selected_Item.Rows[r].Cells[ioriginalprice].Value = gridSource[i].NetAmount;
                                     Dgv_Selected_Item.Rows[r].Cells[ipridno].Value = gridSource[i].PrId;
                                     Dgv_Selected_Item.Rows[r].Cells[istatusno].Value = 0;
                                     Dgv_Selected_Item.Rows[r].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
@@ -2293,12 +2299,20 @@ namespace FoodandBeverage.Forms
 
                                         Dgv_Selected_Item.Rows[r].Cells[iproducttypeno].Value = Convert.ToString(offerDetails[0].Field1);
                                         Dgv_Selected_Item.Rows[r].Cells[iqty].Value = gridSource[i].Quantity;
-                                        Dgv_Selected_Item.Rows[r].Cells[israte].Value = Convert.ToDecimal(offerDetails[0].Field2);
-                                        Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = Convert.ToString(offerDetails[0].Field3);
-                                        Dgv_Selected_Item.Rows[r].Cells[itax].Value = Convert.ToString(offerDetails[0].Field4);
+                                        Dgv_Selected_Item.Rows[r].Cells[iprate].Value = gridSource[i].PurchaseRate;
+                                        Dgv_Selected_Item.Rows[r].Cells[israte].Value = gridSource[i].Srate;
+                                        Dgv_Selected_Item.Rows[r].Cells[iamount].Value = gridSource[i].Amount;
+                                        Dgv_Selected_Item.Rows[r].Cells[imrp].Value = gridSource[i].MRP;
+                                        Dgv_Selected_Item.Rows[r].Cells[itaxper].Value = gridSource[i].TaxPer;
+                                        Dgv_Selected_Item.Rows[r].Cells[itaxamt].Value = gridSource[i].TaxAmount;
+                                        Dgv_Selected_Item.Rows[r].Cells[itaxtype].Value = gridSource[i].TaxType;
+                                        Dgv_Selected_Item.Rows[r].Cells[itax].Value = gridSource[i].Tax;
                                         Dgv_Selected_Item.Rows[r].Cells[itaxsettingid].Value = Convert.ToInt32(offerDetails[0].Field5);
-                                        Dgv_Selected_Item.Rows[r].Cells[idisper].Value = Convert.ToDecimal(offerDetails[0].Field6);
+                                        Dgv_Selected_Item.Rows[r].Cells[idisper].Value = gridSource[i].DiscountPer;
+                                        Dgv_Selected_Item.Rows[r].Cells[idisamt].Value = gridSource[i].DiscountAmount;
                                         Dgv_Selected_Item.Rows[r].Cells[iitemid].Value = Convert.ToInt32(gridSource[i].ItemId);
+                                        Dgv_Selected_Item.Rows[r].Cells[itotal].Value = gridSource[i].NetAmount;
+                                        Dgv_Selected_Item.Rows[r].Cells[ioriginalprice].Value = gridSource[i].NetAmount;
                                         Dgv_Selected_Item.Rows[r].Cells[iproducttypeno].Style.Font = new Font("Arial", 12, FontStyle.Bold);
                                         Dgv_Selected_Item.Rows[r].Cells[iMainProductStatusno].Value = Convert.ToInt32(MainProductStatus.Primary);
                                         Dgv_Selected_Item.Rows[r].Cells[istatusno].Value = 0;
@@ -2352,7 +2366,14 @@ namespace FoodandBeverage.Forms
                         }
                         j = j + 1;
                     }
-                    //txtGrandTotal.Text = Convert.ToString(gtotal);
+                    // Rebuild the invoice total and tax/packing calculations from the
+                    // saved KOT detail values for both Pickup and Takeaway reopen flows.
+                    txtGrandTotal.Text = gtotal.ToString("0.00");
+                    FillSalesMasterDiscount();
+                    RecalculateGridTotal();
+                    netAmount();
+                    FillSalesMasterDiscount();
+                    RestoreSavedRoundoffAdjustment();
 
                     //if (ordercount == orginalCount && PageType == Convert.ToInt32(FoodandBeverage.Interfaces.PageType.Billpage))
                     //{
