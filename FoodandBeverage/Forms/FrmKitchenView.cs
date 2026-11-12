@@ -639,10 +639,9 @@ namespace FoodandBeverage.Forms
                 };
 
                 List<DmnGridFields> rows = search.GetSearchData("prdSearch", query);
-                // An empty result is authoritative: do not fall through to an older
+                // An empty/null result is authoritative: do not fall through to an older
                 // stored procedure that may still return inactive Status = 0 tickets.
-                if (rows != null)
-                    return rows;
+                return rows ?? new List<DmnGridFields>();
             }
             catch (Exception ex)
             {
