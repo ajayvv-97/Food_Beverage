@@ -23,11 +23,15 @@ namespace BLL
 UPDATE dbo.tblkitchenOrder
 SET
     StartDate = CASE
-        WHEN @Status = 2 THEN ISNULL(StartDate, GETDATE())
+        WHEN @Status IN (2, 3) AND
+             (StartDate IS NULL OR StartDate < CONVERT(DATETIME, '20000101', 112))
+            THEN GETDATE()
         ELSE StartDate
     END,
     EndDate = CASE
-        WHEN @Status = 3 THEN ISNULL(EndDate, GETDATE())
+        WHEN @Status = 3 AND
+             (EndDate IS NULL OR EndDate < CONVERT(DATETIME, '20000101', 112))
+            THEN GETDATE()
         ELSE EndDate
     END
 WHERE Koid = @Koid;";
