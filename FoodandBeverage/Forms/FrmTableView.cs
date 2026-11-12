@@ -216,7 +216,7 @@ namespace FoodandBeverage.Forms
 
             // One grouped status query for all active tables. Never issue an individual SELECT from the UI loop.
             dmn.Select =
-                "MAX(od.OrderMasterId) AS Field1, " +
+                "MAX(ti.OrderMasterId) AS Field1, " +
                 "COUNT(od.OrderDetailsId) AS Field2, " +
                 "SUM(CASE WHEN od.Status IN (1,2) THEN 1 ELSE 0 END) AS Field3, " +
                 "SUM(CASE WHEN od.Status = 0 AND od.CancelNotifyStatus = 1 THEN 1 ELSE 0 END) AS Field4, " +
@@ -876,7 +876,22 @@ namespace FoodandBeverage.Forms
                         {
                             if (clickedControl.Tag != null)
                             {
-                                using (FrmOrderConsole memtest = new FrmOrderConsole(clickedTableId, Convert.ToInt32(DashboardTableType.Normalorder), 0, CheckedtableNames, Convert.ToInt32(PageType.OrderPage), 0, Convert.ToInt32(SourcepageType.Tableviewpage), Cancelorderstatus))
+                                // A checkout card is an existing order, not a fresh table.
+                                // Pass its exact OrderMasterId so Order Console reopens the saved KOT.
+                                int existingOrderMasterId = 0;
+                                TableOrderStatus tableOrder;
+                                if (orderStatusCache.TryGetValue(clickedTableId, out tableOrder))
+                                    existingOrderMasterId = tableOrder.Ordermid;
+
+                                using (FrmOrderConsole memtest = new FrmOrderConsole(
+                                    clickedTableId,
+                                    Convert.ToInt32(DashboardTableType.Normalorder),
+                                    0,
+                                    CheckedtableNames,
+                                    Convert.ToInt32(PageType.OrderPage),
+                                    existingOrderMasterId,
+                                    Convert.ToInt32(SourcepageType.Tableviewpage),
+                                    Cancelorderstatus))
                                 {
                                     memtest.ShowDialog();
                                 }
