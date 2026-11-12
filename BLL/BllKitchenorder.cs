@@ -10,6 +10,38 @@ namespace BLL
 {
     public class BllKitchenorder 
     {
+        /// <summary>
+        /// Persists the first kitchen start time and the completion time for a KOT line.
+        /// The start time is not overwritten on subsequent refreshes or updates.
+        /// </summary>
+        public bool UpdateKitchenOrderTimestamp(int kitchenOrderId, int status)
+        {
+            if (kitchenOrderId <= 0 || (status != 2 && status != 3))
+                return false;
+
+            const string sql = @"
+UPDATE dbo.tblkitchenOrder
+SET
+    StartDate = CASE
+        WHEN @Status = 2 THEN ISNULL(StartDate, GETDATE())
+        ELSE StartDate
+    END,
+    EndDate = CASE
+        WHEN @Status = 3 THEN ISNULL(EndDate, GETDATE())
+        ELSE EndDate
+    END
+WHERE Koid = @Koid;";
+
+            DAL.DapperRepository<DmnOrderMaster> repository =
+                new DAL.DapperRepository<DmnOrderMaster>();
+
+            return repository.ExecuteText(sql, new
+            {
+                Koid = kitchenOrderId,
+                Status = status
+            }) > 0;
+        }
+
         public Dmnkitchen Kitchen_statusupdate(string procedureName, Dmnkitchen objTestClass)
         {
             DAL.DapperRepository<Dmnkitchen> objDapperRepository = new DAL.DapperRepository<Dmnkitchen>();
