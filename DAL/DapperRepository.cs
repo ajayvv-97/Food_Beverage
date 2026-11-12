@@ -294,6 +294,20 @@ namespace DAL
         }
         #endregion ExecuteSpC:\inetpub\wwwroot\AYJSoftWebServicepppppppp,k
 
+                /// <summary>
+        /// Executes a parameterized text command using the application's configured database.
+        /// </summary>
+        public int ExecuteText(string sql, object parameters)
+        {
+            if (string.IsNullOrWhiteSpace(sql))
+                throw new ArgumentException("SQL command cannot be empty.", "sql");
+
+            using (IDbConnection connection = OpenConnection())
+            {
+                return connection.Execute(sql, parameters, commandType: CommandType.Text);
+            }
+        }
+
         #region OpenConnection
         /// <summary>
         /// OpenConnection
