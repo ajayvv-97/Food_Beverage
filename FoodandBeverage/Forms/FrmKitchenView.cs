@@ -926,6 +926,7 @@ namespace FoodandBeverage.Forms
 
                 PictureBox chefHat = CreateKitchenIcon(
                     "KOT_ChefHat.png", "pb_kot_chefhat_" + orderId + suffix, new Size(27, 27));
+                chefHat.Dock = DockStyle.None;
                 chefHat.Size = new Size(27, 27);
                 chefHat.SizeMode = PictureBoxSizeMode.Zoom;
                 chefHat.Margin = new Padding(0, 0, 7, 0);
