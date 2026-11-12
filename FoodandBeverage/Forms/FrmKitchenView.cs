@@ -941,20 +941,32 @@ namespace FoodandBeverage.Forms
                     BackColor = Color.Transparent
                 };
 
-                FlowLayoutPanel mastheadLayout = new FlowLayoutPanel
+                FlowLayoutPanel titleGroup = new FlowLayoutPanel
                 {
-                    Dock = DockStyle.Fill,
+                    AutoSize = true,
+                    AutoSizeMode = AutoSizeMode.GrowAndShrink,
                     FlowDirection = FlowDirection.LeftToRight,
                     WrapContents = false,
-                    AutoSize = false,
-                    AutoScroll = false,
-                    Anchor = AnchorStyles.None,
                     Margin = Padding.Empty,
                     Padding = Padding.Empty,
                     BackColor = Color.Transparent
                 };
-                mastheadLayout.Controls.Add(chefHat);
-                mastheadLayout.Controls.Add(titleLabel);
+                titleGroup.Controls.Add(chefHat);
+                titleGroup.Controls.Add(titleLabel);
+
+                TableLayoutPanel mastheadLayout = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    ColumnCount = 3,
+                    RowCount = 1,
+                    Margin = Padding.Empty,
+                    Padding = Padding.Empty,
+                    BackColor = Color.Transparent
+                };
+                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                mastheadLayout.Controls.Add(titleGroup, 1, 0);
                 masthead.Controls.Add(mastheadLayout);
                 card.Controls.Add(masthead, 0, 0);
                 card.SetColumnSpan(masthead, 4);
