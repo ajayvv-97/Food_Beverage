@@ -1166,7 +1166,6 @@ if (FrmDashboard.DefaultTaxType != "")
                     LoadProductVariations(Pid);
                     if (dgv_variation.Rows.Count == 0) AddProductVariationRow();
                     #endregion
-                    #endregion
                 }
             }
             catch (Exception ex)
@@ -3545,47 +3544,6 @@ if (FrmDashboard.DefaultTaxType != "")
             }
         }
 
-        private void btnvaria_cls_Click(object sender, EventArgs e)
-        {
-            pnlvariation.Visible = false;
-        }
-
-        private void btn_vari_submit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                pnlvariation.Visible = false;
-                if (dgv_variation.Rows.Count > 0)
-                {
-                    bool hasData = false;
-
-                    foreach (DataGridViewRow row in dgv_variation.Rows)
-                    {
-                        if (!row.IsNewRow &&
-                            row.Cells[vvariationno].Value != null &&
-                            row.Cells[vpriceno].Value != null)
-                        {
-                            hasData = true;
-                            break;
-                        }
-                    }
-
-                    if (hasData)
-                    {
-                        txtitemcode.ReadOnly = true;
-                        txtDiscAmnt.ReadOnly = true;
-                        txtDisPer.ReadOnly = true;
-                        txtprice.ReadOnly = true;
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-
-            }
-        }
-
-
         private void btn_addon_submit_Click(object sender, EventArgs e)
         {
             pnl_addon.Visible = false;
@@ -3725,6 +3683,22 @@ if (FrmDashboard.DefaultTaxType != "")
                     FrmLogin.EmployeName, FrmLogin.Designation,
                     Convert.ToInt32(FormType.Product));
             }
+        }
+
+        // Designer event adapters retained for the existing WinForms event wiring.
+        private void dgv_variation_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ProductVariationGrid_CellClick(sender, e);
+        }
+
+        private void dgv_variation_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Editing is handled by the grid's normal cell-edit behavior.
+        }
+
+        private void dgv_variation_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            ProductVariationGrid_EditingControlShowing(sender, e);
         }
 
         // Legacy variation-type master registration and its stored-procedure UI have been removed.
