@@ -645,7 +645,7 @@ namespace FoodandBeverage.Forms
                         "ko.OrderNo AS Field2, " +
                         "MIN(ISNULL(ko.KOTPrintStatus, 1)) AS Field3, " +
                         "CASE WHEN MAX(CASE WHEN ko.Status IN (1, 2) THEN 1 ELSE 0 END) = 1 " +
-                        "THEN 0 ELSE 1 END AS Field4",
+                        "THEN '0' ELSE '1' END AS Field4",
                     Table = "tblkitchenOrder ko",
                     WhereNdGroupBy =
                         "WHERE ko.Status IN (1, 2, 3) " +
