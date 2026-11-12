@@ -402,9 +402,13 @@ namespace FoodandBeverage.Controls
                     top = Color.FromArgb(74, 78, 94);
                     bottom = Color.FromArgb(39, 43, 57);
                     break;
+                case KitchenActionStyle.Start:
+                    top = Color.FromArgb(91, 105, 204);
+                    bottom = Color.FromArgb(57, 67, 153);
+                    break;
                 case KitchenActionStyle.Ready:
-                    top = Color.FromArgb(117, 66, 180);
-                    bottom = Color.FromArgb(76, 34, 132);
+                    top = Color.FromArgb(43, 164, 111);
+                    bottom = Color.FromArgb(25, 119, 78);
                     break;
                 case KitchenActionStyle.Okay:
                     top = Color.FromArgb(119, 62, 190);

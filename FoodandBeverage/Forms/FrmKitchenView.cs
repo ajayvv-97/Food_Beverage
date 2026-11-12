@@ -439,7 +439,7 @@ namespace FoodandBeverage.Forms
                 flp_order_view.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 12);
             int columns = availableWidth >= 1120 ? 3 : availableWidth >= 760 ? 2 : 1;
             int cardWidth = Math.Max(320, (availableWidth - (columns - 1) * 18) / columns);
-            int cardHeight = IsKitchenKOTOnlyMode ? 470 : 520;
+            int cardHeight = IsKitchenKOTOnlyMode ? 480 : 530;
             cardHeight = Math.Max(440, Math.Min(530, cardHeight));
 
             foreach (OrderCardCache cache in KitchenCardCache.Values)
@@ -858,7 +858,7 @@ namespace FoodandBeverage.Forms
                     : Convert.ToString(details[0].Field2);
 
 
-                int controlHeight = kotOnlyMode ? 470 : 520;
+                int controlHeight = kotOnlyMode ? 480 : 530;
 
                 ModernKitchenOrderCard card = new ModernKitchenOrderCard
                 {
@@ -880,8 +880,8 @@ namespace FoodandBeverage.Forms
                 card.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
 
                 card.RowStyles.Clear();
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
-                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 66F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 68F));
+                card.RowStyles.Add(new RowStyle(SizeType.Absolute, 82F));
                 card.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
                 card.RowStyles.Add(new RowStyle(SizeType.Absolute, kotOnlyMode ? 52F : 96F));
@@ -895,10 +895,14 @@ namespace FoodandBeverage.Forms
                     Dock = DockStyle.Fill,
                     BackColor = ModernKitchenOrderCard.TicketPurple,
                     Margin = Padding.Empty,
-                    Padding = new Padding(8, 4, 8, 4)
+                    Padding = new Padding(3, 2, 3, 2)
                 };
                 PictureBox chefHat = CreateKitchenIcon(
-                    "KOT_ChefHat.png", "pb_kot_chefhat_" + orderId + suffix, new Size(40, 40));
+                    "KOT_ChefHat.png", "pb_kot_chefhat_" + orderId + suffix, new Size(42, 42));
+                chefHat.Dock = DockStyle.None;
+                chefHat.Anchor = AnchorStyles.None;
+                chefHat.Size = new Size(42, 42);
+                chefHat.SizeMode = PictureBoxSizeMode.Zoom;
                 TableLayoutPanel mastheadText = new TableLayoutPanel
                 {
                     Dock = DockStyle.Fill,
@@ -947,7 +951,7 @@ namespace FoodandBeverage.Forms
                     Padding = Padding.Empty,
                     BackColor = Color.Transparent
                 };
-                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 48F));
+                mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
                 mastheadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
                 mastheadLayout.Controls.Add(chefHat, 0, 0);
                 mastheadLayout.Controls.Add(mastheadText, 1, 0);
@@ -962,7 +966,7 @@ namespace FoodandBeverage.Forms
                     Dock = DockStyle.Fill,
                     ColumnCount = 3,
                     RowCount = 1,
-                    Padding = new Padding(5, 5, 5, 4),
+                    Padding = new Padding(3, 2, 3, 2),
                     Margin = Padding.Empty,
                     BackColor = Color.White
                 };
@@ -975,8 +979,8 @@ namespace FoodandBeverage.Forms
                     Name = "pnl_kot_orderno_" + orderId + suffix,
                     Dock = DockStyle.Fill,
                     BackColor = Color.FromArgb(244, 239, 251),
-                    Margin = new Padding(2, 3, 7, 3),
-                    Padding = new Padding(4)
+                    Margin = new Padding(1, 1, 5, 1),
+                    Padding = new Padding(2)
                 };
                 TableLayoutPanel orderNoLayout = new TableLayoutPanel
                 {
@@ -987,15 +991,15 @@ namespace FoodandBeverage.Forms
                     Padding = Padding.Empty,
                     BackColor = Color.Transparent
                 };
-                orderNoLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 38F));
-                orderNoLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 62F));
+                orderNoLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 42F));
+                orderNoLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 58F));
                 Label orderCaption = new Label
                 {
                     Name = "lbl_tokkenno_caption_k_" + orderId + suffix,
                     Text = "Order No.",
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.BottomCenter,
-                    Font = new Font("Segoe UI", 9F, FontStyle.Bold),
+                    Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
                     ForeColor = ModernKitchenOrderCard.TicketPurple,
                     BackColor = Color.Transparent,
                     Margin = Padding.Empty
@@ -1006,8 +1010,8 @@ namespace FoodandBeverage.Forms
                     Text = orderNumber,
                     Dock = DockStyle.Fill,
                     AutoSize = false,
-                    TextAlign = ContentAlignment.TopCenter,
-                    Font = new Font("Segoe UI", 21F, FontStyle.Bold),
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font("Segoe UI", 19F, FontStyle.Bold),
                     ForeColor = ModernKitchenOrderCard.TicketPurple,
                     BackColor = Color.Transparent,
                     Margin = Padding.Empty,
@@ -1159,15 +1163,35 @@ namespace FoodandBeverage.Forms
                     actionButton.Margin = new Padding(4, 3, 4, 3);
                 }
 
+                Panel startReadySlot = new Panel
+                {
+                    Name = "pnl_start_ready_slot_" + orderId + suffix,
+                    Dock = DockStyle.Fill,
+                    BackColor = Color.White,
+                    Margin = new Padding(4, 3, 4, 3),
+                    Padding = Padding.Empty
+                };
+
+                if (startButton != null)
+                {
+                    startButton.Dock = DockStyle.Fill;
+                    startButton.Margin = Padding.Empty;
+                    startReadySlot.Controls.Add(startButton);
+                }
+
+                readyButton.Dock = DockStyle.Fill;
+                readyButton.Margin = Padding.Empty;
+                startReadySlot.Controls.Add(readyButton);
+
+                // START and READY are layered in one slot; only one is visible at a time.
+                actionStrip.Controls.Add(startReadySlot, 0, 0);
+
                 if (kotOnlyMode)
                 {
-                    actionStrip.Controls.Add(readyButton, 0, 0);
                     actionStrip.Controls.Add(reprintButton, 1, 0);
                 }
                 else
                 {
-                    actionStrip.Controls.Add(startButton, 0, 0);
-                    actionStrip.Controls.Add(readyButton, 1, 0);
                     actionStrip.Controls.Add(cancelButton, 0, 1);
                     actionStrip.Controls.Add(reprintButton, 1, 1);
                 }
@@ -1319,8 +1343,8 @@ namespace FoodandBeverage.Forms
                 Name = name,
                 Dock = DockStyle.Fill,
                 BackColor = Color.White,
-                Margin = new Padding(2, 3, 2, 3),
-                Padding = new Padding(4, 2, 2, 2)
+                Margin = new Padding(1, 1, 1, 1),
+                Padding = new Padding(2, 1, 1, 1)
             };
             TableLayoutPanel layout = new TableLayoutPanel
             {
@@ -1343,14 +1367,14 @@ namespace FoodandBeverage.Forms
                 Padding = Padding.Empty,
                 BackColor = Color.Transparent
             };
-            textLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 44F));
-            textLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 56F));
+            textLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 48F));
+            textLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
             Label captionLabel = new Label
             {
                 Text = caption,
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.BottomLeft,
-                Font = new Font("Segoe UI", 8.5F, FontStyle.Regular),
+                Font = new Font("Segoe UI", 8F, FontStyle.Regular),
                 ForeColor = Color.FromArgb(46, 42, 61),
                 BackColor = Color.Transparent,
                 Margin = Padding.Empty
@@ -1360,8 +1384,8 @@ namespace FoodandBeverage.Forms
                 Name = valueLabelName,
                 Text = string.IsNullOrWhiteSpace(value) ? "—" : value,
                 Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.TopLeft,
-                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(22, 20, 48),
                 BackColor = Color.Transparent,
                 Margin = Padding.Empty,
