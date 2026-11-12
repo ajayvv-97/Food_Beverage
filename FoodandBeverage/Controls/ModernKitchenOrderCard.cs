@@ -69,6 +69,83 @@ namespace FoodandBeverage.Controls
     }
 
     /// <summary>
+    /// Compact rounded KOT header; child controls are clipped to the rounded region.
+    /// </summary>
+    public sealed class RoundedKitchenHeaderPanel : Panel
+    {
+        private int cornerRadius = 10;
+
+        public int CornerRadius
+        {
+            get { return cornerRadius; }
+            set
+            {
+                cornerRadius = Math.Max(0, value);
+                UpdateRoundedRegion();
+            }
+        }
+
+        public RoundedKitchenHeaderPanel()
+        {
+            SetStyle(
+                ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw,
+                true);
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            UpdateRoundedRegion();
+        }
+
+        private void UpdateRoundedRegion()
+        {
+            if (Width <= 0 || Height <= 0)
+                return;
+
+            int radius = Math.Min(cornerRadius, Math.Min(Width, Height) / 2);
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                if (radius <= 0)
+                {
+                    path.AddRectangle(new Rectangle(0, 0, Width, Height));
+                }
+                else
+                {
+                    int diameter = radius * 2;
+                    path.AddArc(0, 0, diameter, diameter, 180F, 90F);
+                    path.AddArc(Width - diameter, 0, diameter, diameter, 270F, 90F);
+                    path.AddArc(Width - diameter, Height - diameter, diameter, diameter, 0F, 90F);
+                    path.AddArc(0, Height - diameter, diameter, diameter, 90F, 90F);
+                    path.CloseFigure();
+                }
+
+                Region nextRegion = new Region(path);
+                Region oldRegion = Region;
+                Region = nextRegion;
+                if (oldRegion != null)
+                    oldRegion.Dispose();
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Region oldRegion = Region;
+                Region = null;
+                if (oldRegion != null)
+                    oldRegion.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+    }
+
+    /// <summary>
     /// Ticket-style KOT container. It remains a TableLayoutPanel so existing
     /// Controls.Find, grid lookup and cached-card workflows keep working.
     /// </summary>
