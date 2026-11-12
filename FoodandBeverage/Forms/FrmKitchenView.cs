@@ -530,14 +530,6 @@ namespace FoodandBeverage.Forms
                     .ToList();
 
 
-                HashSet<string> currentKeys = new HashSet<string>();
-                foreach (var od in distinctOrders)
-                {
-                    // unique key: Field1 (OrderMasterId) + '_' + Field17 (OrderNo will be fetched later with details, but use Field2? we will fetch details soon)
-                    // We'll use Field1 + "_" + Field2 initially; after fetching details we will actually use Field1 + "_" + Field17.
-                    // To keep consistent, we'll fetch details below and compute the real key.
-                    // For removal, compute keys from existing cache and then check existence after creating keys list below.
-                }
                 List<string> newKeysInOrder = new List<string>();
                 List<string> displayOrderKeys = new List<string>();
                 Dictionary<string, (DmnGridFields Header, List<Dmnkitchendetails> Details)> orderDataMap =
@@ -653,7 +645,7 @@ namespace FoodandBeverage.Forms
                     Select =
                         "ko.OrderMasterId AS Field1, " +
                         "ko.OrderNo AS Field2, " +
-                        "MAX(ISNULL(ko.KOTPrintStatus, 1)) AS Field3, " +
+                        "MIN(ISNULL(ko.KOTPrintStatus, 1)) AS Field3, " +
                         "CASE WHEN MAX(CASE WHEN ko.Status IN (1, 2) THEN 1 ELSE 0 END) = 1 " +
                         "THEN 0 ELSE 1 END AS Field4",
                     Table = "tblkitchenOrder ko",
