@@ -96,6 +96,7 @@ namespace FoodandBeverage.Forms
         private bool isLoadingColor = false;
         private bool isChangingIngredientVariation = false;
         private int currentIngredientVariationId = 0;
+        private int nextTemporaryIngredientVariationId = -1;
         private readonly Dictionary<int, List<IngredientRecipeDraft>> ingredientVariationDrafts =
             new Dictionary<int, List<IngredientRecipeDraft>>();
         private readonly HashSet<int> legacyRecipeFallbacks = new HashSet<int>();
@@ -349,6 +350,7 @@ namespace FoodandBeverage.Forms
                 ingredientVariationDrafts.Clear();
                 legacyRecipeFallbacks.Clear();
                 currentIngredientVariationId = 0;
+                nextTemporaryIngredientVariationId = -1;
                 isChangingIngredientVariation = true;
                 cmb_variation.DataSource = null;
                 cmb_variation.Items.Clear();
@@ -4370,8 +4372,16 @@ if (FrmDashboard.DefaultTaxType != "")
                 if (selected == null) selected = options[0];
                 cmb_variation.SelectedValue = selected.Id;
                 currentIngredientVariationId = selected.Id;
-                if (loadFromDatabase)
-                    LoadIngredientRecipe(productId, selected.Id, selected.Id > 0);
+                if (!loadFromDatabase && selected.Id != 0 &&
+                    !ingredientVariationDrafts.ContainsKey(selected.Id) &&
+                    ingredientVariationDrafts.ContainsKey(0))
+                {
+                    ingredientVariationDrafts[selected.Id] = ingredientVariationDrafts[0];
+                    ingredientVariationDrafts.Remove(0);
+                }
+
+                if (loadFromDatabase && selected.Id > 0)
+                    LoadIngredientRecipe(productId, selected.Id, IsDefaultIngredientVariation(selected.Id));
                 else
                     LoadIngredientRecipeFromDraftOrEmpty(selected.Id);
             }
@@ -4542,7 +4552,9 @@ if (FrmDashboard.DefaultTaxType != "")
                 int savedId;
                 if (!int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out savedId) ||
                     savedId <= 0) continue;
-                int temporaryId = -(i + 1);
+                int temporaryId = row.Tag is int && (int)row.Tag < 0
+                    ? (int)row.Tag
+                    : -(i + 1);
                 List<IngredientRecipeDraft> draft;
                 if (ingredientVariationDrafts.TryGetValue(temporaryId, out draft))
                 {
