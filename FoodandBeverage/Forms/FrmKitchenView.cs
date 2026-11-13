@@ -1576,9 +1576,12 @@ namespace FoodandBeverage.Forms
                 if (detail == null)
                     continue;
 
-                DateTime value = detail.StartDate;
-                if (value == DateTime.MinValue || value.Year < 2000)
+                DateTime? startValue = detail.StartDate;
+                if (!startValue.HasValue || startValue.Value == DateTime.MinValue ||
+                    startValue.Value.Year < 2000)
                     continue;
+
+                DateTime value = startValue.Value;
 
                 if (!firstStart.HasValue || value < firstStart.Value)
                     firstStart = value;
@@ -1600,9 +1603,12 @@ namespace FoodandBeverage.Forms
             DateTime? lastEnd = null;
             foreach (Dmnkitchendetails detail in lines)
             {
-                DateTime value = detail.EndDate;
-                if (value == DateTime.MinValue || value.Year < 2000)
+                DateTime? endValue = detail.EndDate;
+                if (!endValue.HasValue || endValue.Value == DateTime.MinValue ||
+                    endValue.Value.Year < 2000)
                     continue;
+
+                DateTime value = endValue.Value;
 
                 if (!lastEnd.HasValue || value > lastEnd.Value)
                     lastEnd = value;
