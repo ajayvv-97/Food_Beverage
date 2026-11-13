@@ -3660,7 +3660,7 @@ if (FrmDashboard.DefaultTaxType != "")
             {
                 dgv_variation.EndEdit();
                 if (!ValidateProductVariationRows()) return;
-                pnlvariation.Visible = false;
+                CloseProductVariationPopup();
             }
             catch (Exception ex)
             {
