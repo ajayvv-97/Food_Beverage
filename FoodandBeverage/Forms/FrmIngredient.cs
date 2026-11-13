@@ -3155,6 +3155,8 @@ if (FrmDashboard.DefaultTaxType != "")
 
             dgv_variation.CellClick -= ProductVariationGrid_CellClick;
             dgv_variation.CellClick += ProductVariationGrid_CellClick;
+            dgv_variation.CellEndEdit -= dgv_variation_CellEndEdit;
+            dgv_variation.CellEndEdit += dgv_variation_CellEndEdit;
             dgv_variation.EditingControlShowing -= ProductVariationGrid_EditingControlShowing;
             dgv_variation.EditingControlShowing += ProductVariationGrid_EditingControlShowing;
 
@@ -3305,9 +3307,17 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void ProductVariationGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0 ||
-                dgv_variation.Columns[e.ColumnIndex].Name != "VariationAction")
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            string columnName = dgv_variation.Columns[e.ColumnIndex].Name;
+            if (columnName == "VariationDefault")
+            {
+                for (int i = 0; i < dgv_variation.Rows.Count; i++)
+                    dgv_variation.Rows[i].Cells["VariationDefault"].Value = (i == e.RowIndex);
                 return;
+            }
+
+            if (columnName != "VariationAction") return;
 
             DataGridViewRow row = dgv_variation.Rows[e.RowIndex];
             int id;
@@ -3319,6 +3329,10 @@ if (FrmDashboard.DefaultTaxType != "")
             RefreshProductVariationSlNo();
             if (dgv_variation.Rows.Count == 0)
                 AddProductVariationRow();
+            else if (!dgv_variation.Rows.Cast<DataGridViewRow>()
+                .Any(r => r.Cells["VariationDefault"].Value != null &&
+                          Convert.ToBoolean(r.Cells["VariationDefault"].Value)))
+                dgv_variation.Rows[0].Cells["VariationDefault"].Value = true;
         }
 
         private void ProductVariationGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -3352,12 +3366,16 @@ if (FrmDashboard.DefaultTaxType != "")
         private bool ValidateProductVariationRows()
         {
             HashSet<string> names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            int defaultCount = 0;
             foreach (DataGridViewRow row in dgv_variation.Rows)
             {
                 if (row.IsNewRow) continue;
                 string name = Convert.ToString(row.Cells["VariationName"].Value).Trim();
                 string priceText = Convert.ToString(row.Cells["VariationPriceAddOn"].Value).Trim();
                 if (name.Length == 0 && priceText.Length == 0) continue;
+
+                if (row.Cells["VariationDefault"].Value != null &&
+                    Convert.ToBoolean(row.Cells["VariationDefault"].Value)) defaultCount++;
 
                 decimal price, discountPer, discountAmt;
                 if (name.Length == 0 || !decimal.TryParse(priceText, out price) || price < 0)
@@ -3381,6 +3399,12 @@ if (FrmDashboard.DefaultTaxType != "")
                         "Product Variation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
+            }
+            if (names.Count > 0 && defaultCount != 1)
+            {
+                CMessageBox.Show(this, "Select exactly one default variation.",
+                    "Product Variation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
             }
             return true;
         }
@@ -3719,23 +3743,11 @@ if (FrmDashboard.DefaultTaxType != "")
         {
             try
             {
-                int lastRowIndex = dgv_variation.Rows.Count - 1;
-
-                // 🔹 Only check last row
-                if (e.RowIndex == lastRowIndex)
-                {
-                    DataGridViewRow row = dgv_variation.Rows[lastRowIndex];
-
-                    string variation = Convert.ToString(row.Cells[vvariationno].Value);
-                    decimal price = 0;
-                    decimal.TryParse(Convert.ToString(row.Cells[vpriceno].Value), out price);
-
-                    // 🔹 If valid → add new row
-                    if (!string.IsNullOrWhiteSpace(variation) && price > 0)
-                    {
-                        AddNewVariationRow();
-                    }
-                }
+                if (e.RowIndex < 0 || e.RowIndex >= dgv_variation.Rows.Count) return;
+                DataGridViewRow row = dgv_variation.Rows[e.RowIndex];
+                decimal addOn;
+                decimal.TryParse(Convert.ToString(row.Cells["VariationPriceAddOn"].Value), out addOn);
+                row.Cells["VariationFinalPrice"].Value = GetProductBasePrice() + addOn;
             }
             catch (Exception ex)
             {
