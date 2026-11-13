@@ -145,6 +145,36 @@ BEGIN
                     THROW 50208, 'A product request contains an invalid product or negative planned quantity.', 1;
 
                 /*
+                   Inventory Request currently stores ProductId + PlannedQty, not VariationId.
+                   Stop here rather than deducting every active variation recipe for one batch.
+                   The request form needs a variation selector before batch-prepared variations
+                   can be approved safely.
+                */
+                IF EXISTS
+                (
+                    SELECT 1
+                    FROM
+                    (
+                        SELECT DISTINCT ProductId, PlannedQty
+                        FROM dbo.tblInventoryRequestDetails
+                        WHERE InventoryRequestId = @InventoryRequestId
+                          AND ISNULL(Status, 1) = 1
+                          AND RequestType = 1
+                          AND ISNULL(PlannedQty, 0) > 0
+                    ) requested
+                    INNER JOIN dbo.tblProduct p
+                        ON p.ProductId = requested.ProductId
+                    INNER JOIN dbo.tblIngredientDetails ing
+                        ON ing.ProductId = requested.ProductId
+                       AND ISNULL(ing.VariationId, 0) > 0
+                       AND ing.ProductType = 1
+                       AND ISNULL(ing.Status, 1) = 1
+                    WHERE p.FoodPreparationType = 2
+                       OR (p.FoodPreparationType = 3 AND ISNULL(ing.Deductionstage, 0) = 2)
+                )
+                    THROW 50221, 'This product has variation-specific batch ingredients. Inventory Request must select a variation before batch stock can be deducted. No stock was changed.', 1;
+
+                /*
                    FoodPreparationType must be configured before a product
                    request is approved. Unknown values must not silently skip
                    stock deduction.
