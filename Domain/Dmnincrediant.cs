@@ -31,6 +31,7 @@ namespace Domain
         public int ProductId { get; set; }
         public int Deductionstage { get; set; }
         public int ProductType { get; set; }
+        public int VariationId { get; set; }
         
 
     }
