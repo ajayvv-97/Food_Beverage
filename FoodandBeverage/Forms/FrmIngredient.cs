@@ -4378,5 +4378,10 @@ if (FrmDashboard.DefaultTaxType != "")
         {
             UpdatePreparationStageColumnVisibility();
         }
+
+        private void cmb_variation_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+        }
     }
 }
