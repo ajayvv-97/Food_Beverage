@@ -6147,11 +6147,81 @@ namespace FoodandBeverage.Forms
         }
         #endregion
 
+        // Product variation chooser controls are created at runtime so the popup
+        // remains self-contained and does not depend on missing Designer fields.
+        private FlowLayoutPanel flp_variations;
+        private Button btncls_variation;
+        private Label label52;
+        private TableLayoutPanel tableLayoutPanel5;
+        private TableLayoutPanel tableLayoutPanel7;
+
+        private void EnsureVariationPopupControls()
+        {
+            if (flp_variations != null && !flp_variations.IsDisposed) return;
+
+            pnl_variation.SuspendLayout();
+            pnl_variation.Controls.Clear();
+            pnl_variation.BackColor = Color.FromArgb(242, 246, 252);
+            pnl_variation.Padding = new Padding(10);
+            pnl_variation.BorderStyle = BorderStyle.None;
+
+            tableLayoutPanel5 = new TableLayoutPanel();
+            tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.ColumnCount = 1;
+            tableLayoutPanel5.RowCount = 2;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.BackColor = Color.White;
+
+            tableLayoutPanel7 = new TableLayoutPanel();
+            tableLayoutPanel7.Dock = DockStyle.Fill;
+            tableLayoutPanel7.ColumnCount = 2;
+            tableLayoutPanel7.RowCount = 1;
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 46F));
+            tableLayoutPanel7.BackColor = Color.FromArgb(15, 52, 105);
+
+            label52 = new Label();
+            label52.Dock = DockStyle.Fill;
+            label52.TextAlign = ContentAlignment.MiddleLeft;
+            label52.Padding = new Padding(12, 0, 4, 0);
+            label52.ForeColor = Color.White;
+            label52.Font = new Font("Poppins", 11F, FontStyle.Bold);
+
+            btncls_variation = new Button();
+            btncls_variation.Dock = DockStyle.Fill;
+            btncls_variation.Text = "×";
+            btncls_variation.Font = new Font("Segoe UI", 18F, FontStyle.Regular);
+            btncls_variation.FlatStyle = FlatStyle.Flat;
+            btncls_variation.FlatAppearance.BorderSize = 0;
+            btncls_variation.BackColor = Color.White;
+            btncls_variation.ForeColor = Color.FromArgb(190, 35, 55);
+            btncls_variation.Cursor = Cursors.Hand;
+            btncls_variation.Click += (sender, args) => pnl_variation.Visible = false;
+
+            tableLayoutPanel7.Controls.Add(label52, 0, 0);
+            tableLayoutPanel7.Controls.Add(btncls_variation, 1, 0);
+
+            flp_variations = new FlowLayoutPanel();
+            flp_variations.Dock = DockStyle.Fill;
+            flp_variations.AutoScroll = true;
+            flp_variations.WrapContents = true;
+            flp_variations.Padding = new Padding(10);
+            flp_variations.BackColor = Color.FromArgb(245, 248, 253);
+
+            tableLayoutPanel5.Controls.Add(tableLayoutPanel7, 0, 0);
+            tableLayoutPanel5.Controls.Add(flp_variations, 0, 1);
+            pnl_variation.Controls.Add(tableLayoutPanel5);
+            pnl_variation.ResumeLayout(true);
+        }
+
         #region Variation Product
         private void ShowVariation(int productId)
         {
             try
             {
+                EnsureVariationPopupControls();
                 BllSearch<DmnGridFields> productSearch = new BllSearch<DmnGridFields>();
                 DmnSearch productQuery = new DmnSearch
                 {
