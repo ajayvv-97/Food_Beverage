@@ -4627,7 +4627,8 @@ if (FrmDashboard.DefaultTaxType != "")
                         };
                         Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
                         if (saved == null || saved.Ing_DetailsId <= 0) return false;
-                        ingredientBll.SetIngredientVariation(saved.Ing_DetailsId, variationId);
+                        if (ingredientBll.SetIngredientVariation(saved.Ing_DetailsId, variationId) <= 0)
+                    throw new InvalidOperationException("Unable to link ingredient row to its selected variation.");
                     }
 
                     if (legacyRecipeFallbacks.Contains(variationId))
@@ -4655,9 +4656,18 @@ if (FrmDashboard.DefaultTaxType != "")
             try
             {
                 dgv_registartion.EndEdit();
+                int previousVariationId = currentIngredientVariationId;
+                if (!ValidateIngredientGrid())
+                {
+                    isChangingIngredientVariation = true;
+                    cmb_variation.SelectedValue = previousVariationId;
+                    isChangingIngredientVariation = false;
+                    return;
+                }
+
                 // SelectionChangeCommitted fires after the ComboBox value changes.
                 // Store the visible grid against the previously active variation ID.
-                ingredientVariationDrafts[currentIngredientVariationId] = CaptureIngredientGrid();
+                ingredientVariationDrafts[previousVariationId] = CaptureIngredientGrid();
                 int selectedVariationId;
                 if (!int.TryParse(Convert.ToString(cmb_variation.SelectedValue), out selectedVariationId))
                     return;
