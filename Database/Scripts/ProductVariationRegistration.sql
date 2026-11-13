@@ -96,3 +96,126 @@ GO
 IF COL_LENGTH(N'dbo.tblProduct', N'HasVariation') IS NULL
  ALTER TABLE dbo.tblProduct ADD HasVariation BIT NULL;
 GO
+
+
+/* =========================================================
+   BLL-compatible variation save procedure.
+   New parameters are optional so existing restaurant callers
+   using the legacy parameter list continue to work.
+   ========================================================= */
+IF OBJECT_ID(N'dbo.prdInsert_upd_ProductVariation', N'P') IS NULL
+    EXEC(N'CREATE PROCEDURE dbo.prdInsert_upd_ProductVariation AS BEGIN SET NOCOUNT ON; END');
+GO
+
+ALTER PROCEDURE dbo.prdInsert_upd_ProductVariation
+    @VariationId BIGINT,
+    @VariationName VARCHAR(200),
+    @VariationTypeId INT,
+    @Price DECIMAL(18,2),
+    @DiscountAmt DECIMAL(18,2),
+    @DiscountPer DECIMAL(18,2),
+    @QOH INT,
+    @IsUnlimited BIT,
+    @ProductId BIGINT,
+    @BranchId BIGINT,
+    @CreatedBy BIGINT,
+    @Status INT,
+    @PriceAddOn DECIMAL(18,2) = NULL,
+    @IsDefault BIT = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    DECLARE @SavedVariationId BIGINT;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        IF ISNULL(@IsDefault, 0) = 1
+        BEGIN
+            UPDATE dbo.tblProductVariation
+            SET IsDefault = 0
+            WHERE ProductId = @ProductId
+              AND BranchId = @BranchId
+              AND Status = 1
+              AND VariationId <> ISNULL(@VariationId, 0);
+        END;
+
+        IF ISNULL(@VariationId, 0) > 0
+        BEGIN
+            UPDATE dbo.tblProductVariation
+            SET VariationName = @VariationName,
+                VariationTypeId = @VariationTypeId,
+                Price = @Price,
+                PriceAddOn = ISNULL(@PriceAddOn, PriceAddOn),
+                DiscountAmt = @DiscountAmt,
+                DiscountPer = @DiscountPer,
+                QOH = CASE WHEN @IsUnlimited = 1 THEN NULL ELSE @QOH END,
+                IsUnlimited = @IsUnlimited,
+                IsDefault = ISNULL(@IsDefault, IsDefault),
+                ModifiedBy = @CreatedBy,
+                ModifiedDateTime = SYSDATETIME(),
+                Status = @Status
+            WHERE VariationId = @VariationId
+              AND ProductId = @ProductId
+              AND BranchId = @BranchId;
+
+            SET @SavedVariationId = @VariationId;
+        END
+        ELSE
+        BEGIN
+            INSERT INTO dbo.tblProductVariation
+            (
+                VariationName, VariationTypeId, Price, PriceAddOn,
+                DiscountAmt, DiscountPer, QOH, IsUnlimited, IsDefault,
+                ProductId, BranchId, CreatedBy, CreatedDateTime, Status
+            )
+            VALUES
+            (
+                @VariationName, @VariationTypeId, @Price, ISNULL(@PriceAddOn, 0),
+                @DiscountAmt, @DiscountPer,
+                CASE WHEN @IsUnlimited = 1 THEN NULL ELSE @QOH END,
+                @IsUnlimited, ISNULL(@IsDefault, 0),
+                @ProductId, @BranchId, @CreatedBy, SYSDATETIME(), @Status
+            );
+
+            SET @SavedVariationId = SCOPE_IDENTITY();
+        END;
+
+        COMMIT TRANSACTION;
+        SELECT @SavedVariationId AS VariationId;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH;
+END;
+GO
+
+/* Soft-delete procedure used by BllProductVariation. */
+IF OBJECT_ID(N'dbo.prdDelete_ProductVariation', N'P') IS NULL
+    EXEC(N'CREATE PROCEDURE dbo.prdDelete_ProductVariation AS BEGIN SET NOCOUNT ON; END');
+GO
+
+ALTER PROCEDURE dbo.prdDelete_ProductVariation
+    @VariationId BIGINT,
+    @ProductId BIGINT,
+    @BranchId BIGINT,
+    @CreatedBy BIGINT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE dbo.tblProductVariation
+    SET Status = 0,
+        IsDefault = 0,
+        ModifiedBy = @CreatedBy,
+        ModifiedDateTime = SYSDATETIME()
+    WHERE VariationId = @VariationId
+      AND ProductId = @ProductId
+      AND BranchId = @BranchId;
+
+    SELECT @VariationId AS VariationId;
+END;
+GO
