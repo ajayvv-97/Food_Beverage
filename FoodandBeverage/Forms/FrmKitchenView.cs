@@ -27,6 +27,23 @@ namespace FoodandBeverage.Forms
     {
         public static FrmKitchenView ActiveInstance { get; private set; }
 
+        private static string FormatKitchenItemName(string itemName, string variationName)
+        {
+            itemName = (itemName ?? string.Empty).Trim();
+            variationName = (variationName ?? string.Empty).Trim();
+
+            if (string.IsNullOrWhiteSpace(variationName))
+                return itemName;
+
+            // Some existing orders already persist the variation in ItemName.
+            // Avoid rendering the same variation twice on Kitchen View/KOT.
+            string suffix = "(" + variationName + ")";
+            if (itemName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                return itemName;
+
+            return itemName + " (" + variationName + ")";
+        }
+
         private SoundPlayer soundPlayer;
         ReportDocument reportDocument = new ReportDocument();
         private BlurPopupOverlay _blurPopupOverlay;
@@ -1965,9 +1982,7 @@ namespace FoodandBeverage.Forms
                 string variant = Convert.ToString(rowObj.Field24);
                 string itemName = Convert.ToString(rowObj.Field4);
                 dgv_product_details.Rows[k].Cells[ditemno].Value =
-                    !string.IsNullOrEmpty(variant)
-                        ? itemName + " ( " + variant + " )"
-                        : itemName;
+                    FormatKitchenItemName(itemName, variant);
 
                 // PType icon
                 DataGridViewImageCell typeCell =
@@ -2094,9 +2109,7 @@ namespace FoodandBeverage.Forms
                 // Keep the displayed product and backend values synchronized without rebuilding rows.
                 string itemName = Convert.ToString(rowObj.Field4);
                 string variant = Convert.ToString(rowObj.Field24);
-                row.Cells[ditemno].Value = string.IsNullOrWhiteSpace(variant)
-                    ? itemName
-                    : itemName + " ( " + variant + " )";
+                row.Cells[ditemno].Value = FormatKitchenItemName(itemName, variant);
 
                 decimal quantity;
                 decimal.TryParse(Convert.ToString(rowObj.Field5), out quantity);
@@ -2437,9 +2450,7 @@ namespace FoodandBeverage.Forms
 
                     var processedData = BillDetails.Select(item => new
                     {
-                        ItemName = !string.IsNullOrEmpty(item.ItemName)
-                                   ? item.ItemName + (!string.IsNullOrEmpty(item.VariatiionName) ? " (" + item.VariatiionName + ")" : string.Empty)
-                                   : item.ItemName,
+                        ItemName = FormatKitchenItemName(item.ItemName, item.VariatiionName),
                         Quantity = item.Quantity,
                         Notes = item.Notes,
                         Description = item.Description,
