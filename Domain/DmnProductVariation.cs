@@ -13,6 +13,8 @@ namespace Domain
         public string VariationName { get; set; }
         public int? VariationTypeId { get; set; }
         public decimal Price { get; set; }
+        public decimal PriceAddOn { get; set; }
+        public bool IsDefault { get; set; }
 
         public decimal DiscountAmt { get; set; }
         public decimal DiscountPer { get; set; }
