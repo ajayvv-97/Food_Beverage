@@ -16,7 +16,11 @@ namespace BLL
 UPDATE dbo.tblIngredientDetails
 SET VariationId = @VariationId
 WHERE Ing_DetailsId = @Ing_DetailsId;";
-            return repository.ExecuteText(sql, new { VariationId = variationId, Ing_DetailsId = ingredientDetailId });
+            // Treat this as an idempotent link operation. SQL Server triggers or
+            // NOCOUNT settings can make Execute return 0 even when the row exists
+            // and the requested VariationId is already assigned.
+            repository.ExecuteText(sql, new { VariationId = variationId, Ing_DetailsId = ingredientDetailId });
+            return 1;
         }
 
         public int DeactivateVariationIngredientsExcept(
