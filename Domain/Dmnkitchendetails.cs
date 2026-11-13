@@ -40,8 +40,8 @@ namespace Domain
         public string Field30 { get; set; }
         public DateTime Fielddatetime { get; set; }
 
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public int SearchData { get; set; }
         public int OrderMasterId { get; set; }
