@@ -9,6 +9,10 @@ IF COL_LENGTH(N'dbo.tblSalesDetails', N'TotalPackingTax') IS NULL
     ALTER TABLE dbo.tblSalesDetails ADD TotalPackingTax DECIMAL(18,2) NOT NULL
         CONSTRAINT DF_tblSalesDetails_TotalPackingTax DEFAULT (0);
 GO
+IF COL_LENGTH(N'dbo.tblSalesDetails', N'VariationId') IS NULL
+    ALTER TABLE dbo.tblSalesDetails ADD VariationId INT NOT NULL
+        CONSTRAINT DF_tblSalesDetails_VariationId DEFAULT (0) WITH VALUES;
+GO
 
 /****** Object:  StoredProcedure [dbo].[prdInsert_Upd_SalesDetails]    Script Date: 09-11-2026 21:03:05 ******/
 SET ANSI_NULLS ON
