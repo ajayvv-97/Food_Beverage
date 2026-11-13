@@ -3074,7 +3074,7 @@ if (FrmDashboard.DefaultTaxType != "")
                 pnlvariation.AutoSize = false;
                 pnlvariation.BorderStyle = BorderStyle.None;
                 pnlvariation.BackColor = Color.White;
-                pnlvariation.Size = new Size(Math.Min(920, ClientSize.Width - 32), Math.Min(520, ClientSize.Height - 32));
+                pnlvariation.Size = new Size(Math.Min(1160, ClientSize.Width - 32), Math.Min(440, ClientSize.Height - 32));
                 pnlvariation.Left = (ClientSize.Width - pnlvariation.Width) / 2;
                 pnlvariation.Top = (ClientSize.Height - pnlvariation.Height) / 2;
 
@@ -3169,7 +3169,7 @@ if (FrmDashboard.DefaultTaxType != "")
             tlp_vari_nav.Controls.Clear();
 
             Label title = new Label();
-            title.Text = "Product Variations";
+            title.Text = "Product Variations - " + Convert.ToString(txtproductname.Text).Trim();
             title.Dock = DockStyle.Fill;
             title.ForeColor = Color.White;
             title.Font = new Font("Poppins", 12F, FontStyle.Bold);
@@ -3232,9 +3232,20 @@ if (FrmDashboard.DefaultTaxType != "")
             addRowButton.ForeColor = Color.FromArgb(20, 75, 160);
             addRowButton.Click += (sender, args) => AddProductVariationRow();
 
+            Button cancelButton = new Button();
+            cancelButton.Text = "Cancel";
+            cancelButton.Width = 110;
+            cancelButton.Height = 40;
+            cancelButton.Dock = DockStyle.Right;
+            cancelButton.FlatStyle = FlatStyle.Flat;
+            cancelButton.FlatAppearance.BorderColor = Color.FromArgb(210, 45, 55);
+            cancelButton.ForeColor = Color.FromArgb(190, 35, 45);
+            cancelButton.Click += (sender, args) => { pnlvariation.Visible = false; };
+
             Panel footerPanel = new Panel();
             footerPanel.Dock = DockStyle.Fill;
             footerPanel.Padding = new Padding(0, 5, 0, 5);
+            footerPanel.Controls.Add(cancelButton);
             footerPanel.Controls.Add(btn_vari_submit);
             footerPanel.Controls.Add(addRowButton);
 
