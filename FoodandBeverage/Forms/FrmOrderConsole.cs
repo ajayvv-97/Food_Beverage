@@ -12618,9 +12618,8 @@ namespace FoodandBeverage.Forms
 
                                                 dmnsaledetails.OrderDetailsId = Convert.ToString(gridSourcemaster[i].OrderDetailsId);
                                                 dmnsaledetails.VariationId =
-                                                    Convert.ToInt32(Dgv_Selected_Item.Rows[i + 1].Cells[ivaraiationstatusno].Value ?? 0) ==
-                                                    Convert.ToInt32(Product_Addon_Variation_Type.Variation)
-                                                        ? Convert.ToInt32(Dgv_Selected_Item.Rows[i + 1].Cells[ividno].Value ?? 0)
+                                                    dmnsaledetails.AddonStatus == Convert.ToInt32(Product_Addon_Variation_Type.Variation)
+                                                        ? Convert.ToInt32(gridSourcemaster[i].vid)
                                                         : 0;
 
                                                 dmnsaledetails.SalesDetailsId = Convert.ToInt32(gridSourcemaster[i].SalesDetailsId);
