@@ -137,8 +137,7 @@ namespace FoodandBeverage.Forms
                     dmnproduct.Fcid = Convert.ToInt32(CmbCategory.SelectedValue);
                     dmnproduct.PackagingRequired = chk_PackagingRequired.Checked;
 
-                    bool hasVar = HasProductVariations();
-                    dmnproduct.HasVariation = hasVar;
+                    dmnproduct.HasVariation = variationEnabled;
 
                     dmnproduct.PreparationMode = cmbpre_type.SelectedIndex == 0
                         ? Convert.ToInt32(KOTRouting.kitchen)
@@ -376,9 +375,14 @@ namespace FoodandBeverage.Forms
                 Prev_rowindex = 0;
                 Mandatory_Rowindex = 0;
 
-                #region Clear Variation   
+                #region Clear Variation
                 dgv_variation.Rows.Clear();
                 dgv_variation.Refresh();
+                pendingVariationDeletes.Clear();
+                loadedVariationProductId = -1;
+                variationEnabled = false;
+                if (chkVariationEnabled != null)
+                    chkVariationEnabled.Checked = false;
 
                 pnlvariation.Visible = false;
                 pnl_addon.Visible = false;
@@ -1162,9 +1166,13 @@ if (FrmDashboard.DefaultTaxType != "")
                     }
 
                     #region Fill Product Variation Data
+                    variationEnabled = gridSource[0].HasVariation;
                     ConfigureProductVariationGrid();
                     LoadProductVariations(Pid);
-                    if (dgv_variation.Rows.Count == 0) AddProductVariationRow();
+                    loadedVariationProductId = Pid;
+                    if (variationEnabled && dgv_variation.Rows.Count == 0)
+                        AddProductVariationRow();
+                    SetVariationEditorEnabled(variationEnabled);
                     #endregion
                 }
             }
@@ -2957,6 +2965,9 @@ if (FrmDashboard.DefaultTaxType != "")
         {
             try
             {
+                if (!variationEnabled)
+                    return true;
+
                 return ValidateProductVariationRows();
             }
             catch (Exception ex)
@@ -3057,6 +3068,10 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private List<int> pendingVariationDeletes = new List<int>();
         private PictureBox variationBackdrop;
+        private CheckBox chkVariationEnabled;
+        private Button variationAddRowButton;
+        private int loadedVariationProductId = -1;
+        private bool variationEnabled = false;
 
         private void ShowVariationBackdrop()
         {
@@ -3127,16 +3142,29 @@ if (FrmDashboard.DefaultTaxType != "")
                 pnlvariation.Left = (ClientSize.Width - pnlvariation.Width) / 2;
                 pnlvariation.Top = (ClientSize.Height - pnlvariation.Height) / 2;
 
-                ConfigureProductVariationGrid();
-                pendingVariationDeletes.Clear();
-                dgv_variation.Rows.Clear();
-
                 int productId;
-                if (int.TryParse(txtpid.Text, out productId) && productId > 0)
-                    LoadProductVariations(productId);
+                int.TryParse(txtpid.Text, out productId);
 
-                if (dgv_variation.Rows.Count == 0)
+                if (!dgv_variation.Columns.Contains("VariationName"))
+                    ConfigureProductVariationGrid();
+
+                // Load a saved product once. Reopening the popup must preserve
+                // unsaved grid edits and pending deletes until the main Save button.
+                if (loadedVariationProductId != productId)
+                {
+                    dgv_variation.Rows.Clear();
+                    pendingVariationDeletes.Clear();
+                    if (productId > 0)
+                        LoadProductVariations(productId);
+                    loadedVariationProductId = productId;
+                }
+
+                if (variationEnabled && dgv_variation.Rows.Count == 0)
                     AddProductVariationRow();
+
+                if (chkVariationEnabled != null)
+                    chkVariationEnabled.Checked = variationEnabled;
+                SetVariationEditorEnabled(variationEnabled);
             }
             catch (Exception ex)
             {
@@ -3273,11 +3301,22 @@ if (FrmDashboard.DefaultTaxType != "")
             formulaLabel.Font = new Font("Poppins", 9F, FontStyle.Regular);
             formulaLabel.Text = "Variation Price = Base Price + Price Add On";
 
+            chkVariationEnabled = new CheckBox();
+            chkVariationEnabled.Name = "chkVariationEnabled";
+            chkVariationEnabled.Text = "Has Variation";
+            chkVariationEnabled.Width = 145;
+            chkVariationEnabled.Dock = DockStyle.Right;
+            chkVariationEnabled.Font = new Font("Poppins", 9F, FontStyle.Bold);
+            chkVariationEnabled.ForeColor = Color.FromArgb(20, 55, 100);
+            chkVariationEnabled.Checked = variationEnabled;
+            chkVariationEnabled.CheckedChanged += VariationEnabled_CheckedChanged;
+
             Panel infoPanel = new Panel();
             infoPanel.Dock = DockStyle.Fill;
             infoPanel.BackColor = Color.FromArgb(238, 246, 255);
             infoPanel.Padding = new Padding(12, 4, 12, 4);
             infoPanel.Controls.Add(formulaLabel);
+            infoPanel.Controls.Add(chkVariationEnabled);
             infoPanel.Controls.Add(basePriceLabel);
 
             Button addRowButton = new Button();
@@ -3289,6 +3328,7 @@ if (FrmDashboard.DefaultTaxType != "")
             addRowButton.FlatAppearance.BorderColor = Color.FromArgb(35, 115, 220);
             addRowButton.ForeColor = Color.FromArgb(20, 75, 160);
             addRowButton.Click += (sender, args) => AddProductVariationRow();
+            variationAddRowButton = addRowButton;
 
             Button cancelButton = new Button();
             cancelButton.Text = "Cancel";
@@ -3322,6 +3362,25 @@ if (FrmDashboard.DefaultTaxType != "")
             dgv_variation.Dock = DockStyle.Fill;
             tlp_grid_main.ResumeLayout(true);
             dgv_variation.ResumeLayout(true);
+            SetVariationEditorEnabled(variationEnabled);
+        }
+
+        private void VariationEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            variationEnabled = chkVariationEnabled != null && chkVariationEnabled.Checked;
+            if (variationEnabled && dgv_variation.Rows.Count == 0)
+                AddProductVariationRow();
+            SetVariationEditorEnabled(variationEnabled);
+        }
+
+        private void SetVariationEditorEnabled(bool enabled)
+        {
+            if (dgv_variation != null)
+                dgv_variation.Enabled = enabled;
+            if (variationAddRowButton != null)
+                variationAddRowButton.Enabled = enabled;
+            if (chkVariationEnabled != null)
+                chkVariationEnabled.Enabled = true;
         }
 
         private void VariationSaveButton_MouseEnter(object sender, EventArgs e)
@@ -3505,6 +3564,12 @@ if (FrmDashboard.DefaultTaxType != "")
                     return false;
                 }
             }
+            if (variationEnabled && names.Count == 0)
+            {
+                CMessageBox.Show(this, "Add at least one variation or turn off Has Variation.",
+                    "Product Variation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
             if (names.Count > 0 && defaultCount != 1)
             {
                 CMessageBox.Show(this, "Select exactly one default variation.",
@@ -3516,7 +3581,7 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private bool HasProductVariations()
         {
-            if (!dgv_variation.Columns.Contains("VariationName")) return false;
+            if (!variationEnabled || !dgv_variation.Columns.Contains("VariationName")) return false;
             foreach (DataGridViewRow row in dgv_variation.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -3532,6 +3597,39 @@ if (FrmDashboard.DefaultTaxType != "")
         private void SaveProductVariations(int productId)
         {
             BllProductVariation bllVariation = new BllProductVariation();
+
+            // When Has Variation is turned off, soft-delete every previously saved
+            // variation only after the product master has been saved successfully.
+            if (!variationEnabled)
+            {
+                HashSet<int> deleteIds = new HashSet<int>(pendingVariationDeletes);
+                foreach (DataGridViewRow existingRow in dgv_variation.Rows)
+                {
+                    if (existingRow.IsNewRow) continue;
+                    int existingId;
+                    if (int.TryParse(Convert.ToString(existingRow.Cells["VariationRowId"].Value), out existingId) &&
+                        existingId > 0)
+                        deleteIds.Add(existingId);
+                }
+
+                foreach (int variationId in deleteIds)
+                {
+                    DmnProductVariation deletedVariation = new DmnProductVariation();
+                    deletedVariation.VariationId = variationId;
+                    deletedVariation.ProductId = productId;
+                    deletedVariation.BranchId = FrmDashboard.BranchId;
+                    deletedVariation.CreatedBy = FrmDashboard.UserId;
+                    deletedVariation.Status = 0;
+                    bllVariation.DeleteVariation("prdDelete_ProductVariation", deletedVariation);
+                }
+
+                pendingVariationDeletes.Clear();
+                txtitemcode.ReadOnly = false;
+                txtDiscAmnt.ReadOnly = false;
+                txtDisPer.ReadOnly = false;
+                txtprice.ReadOnly = false;
+                return;
+            }
 
             foreach (int variationId in pendingVariationDeletes)
             {
@@ -3609,7 +3707,7 @@ if (FrmDashboard.DefaultTaxType != "")
             try
             {
                 dgv_variation.EndEdit();
-                if (!ValidateProductVariationRows()) return;
+                if (variationEnabled && !ValidateProductVariationRows()) return;
                 CloseProductVariationPopup();
             }
             catch (Exception ex)
