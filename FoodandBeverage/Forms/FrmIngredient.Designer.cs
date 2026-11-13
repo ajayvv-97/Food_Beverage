@@ -2296,9 +2296,7 @@ namespace FoodandBeverage.Forms
             this.cmb_variation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmb_variation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.cmb_variation.FormattingEnabled = true;
-            this.cmb_variation.Items.AddRange(new object[] {
-            "GST",
-            "VAT"});
+            this.cmb_variation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_variation.Location = new System.Drawing.Point(3, 351);
             this.cmb_variation.Name = "cmb_variation";
             this.cmb_variation.Size = new System.Drawing.Size(248, 28);
