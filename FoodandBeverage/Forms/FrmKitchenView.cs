@@ -729,7 +729,8 @@ namespace FoodandBeverage.Forms
                         "ko.OrderMasterId AS Field1, " +
                         "ISNULL(tb.TableCode, '') AS Field2, " +
                         "'' AS Field3, " +
-                        "od.ItemName AS Field4, " +
+                        "CASE WHEN NULLIF(LTRIM(RTRIM(ISNULL(od.VariatiionName, ''))), '') IS NOT NULL " +
+                        "THEN od.ItemName + ' (' + od.VariatiionName + ')' ELSE od.ItemName END AS Field4, " +
                         "od.Quantity AS Field5, " +
                         "ISNULL(od.Notes, '') AS Field6, " +
                         "'' AS Field7, " +
