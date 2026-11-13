@@ -94,6 +94,28 @@ namespace FoodandBeverage.Forms
         public int tileW = Convert.ToInt32(ConfigurationManager.AppSettings["Productwidth"]);
         public int Productcorner = Convert.ToInt32(ConfigurationManager.AppSettings["CornerRadius"]);
         private bool isLoadingColor = false;
+        private bool isChangingIngredientVariation = false;
+        private int currentIngredientVariationId = 0;
+        private readonly Dictionary<int, List<IngredientRecipeDraft>> ingredientVariationDrafts =
+            new Dictionary<int, List<IngredientRecipeDraft>>();
+        private readonly HashSet<int> legacyRecipeFallbacks = new HashSet<int>();
+
+        private sealed class IngredientVariationOption
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        private sealed class IngredientRecipeDraft
+        {
+            public int DetailId { get; set; }
+            public int ItemId { get; set; }
+            public string ItemName { get; set; }
+            public string Quantity { get; set; }
+            public int UnitId { get; set; }
+            public int CategoryId { get; set; }
+            public int DeductionStageId { get; set; }
+        }
         #endregion
 
         private void btnsave_Click(object sender, EventArgs e)
@@ -182,46 +204,14 @@ namespace FoodandBeverage.Forms
                     dmnproduct.BackColor = backHex;
 
                     prostatus = bllProduct.AddEditData("prdInsert_Upd_Product", dmnproduct);
-                    int statuscount = 0,gridcount=0,varia_count=0;
+                    bool ingredientSaveSuccess = false;
                     if (prostatus.ProductId > 0)
                     {
-                        #region Ingrediant Details Inseration DB
-                        for (int i = 0; i < dgv_registartion.RowCount; i++)
-                        {
-                            if (((dgv_registartion.Rows[i].Cells[Ritemidno].Value) != null && (dgv_registartion.Rows[i].Cells[Ritemidno].Value) != "") &&
-                                ((dgv_registartion.Rows[i].Cells[Rqtyno].Value) != "" && (Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value)) > 0)
-                                )
-                            {
-                                gridcount++;
-                                dmnincr.ProductId = Convert.ToInt32(prostatus.ProductId);
-                                dmnincr.Ing_DetailsId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[RIng_DetailsIdno].Value);
-                                dmnincr.ItemId = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Ritemidno].Value);
-                                dmnincr.quantity = Convert.ToDecimal(dgv_registartion.Rows[i].Cells[Rqtyno].Value);
-                                dmnincr.unit = Convert.ToInt32(dgv_registartion.Rows[i].Cells[Runitno].Value);
-                                dmnincr.ProductType = chk_PackagingRequired.Checked
-                                    ? GetInventoryItemCategoryId(dgv_registartion.Rows[i].Cells[RCategorytypeno].Value)
-                                    : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
-                                dmnincr.Deductionstage = cmb_FoodPreparationType.SelectedIndex == 2
-                                    ? GetDeductionStageId(dgv_registartion.Rows[i].Cells[RDeductionstageno].Value)
-                                    : 0;
-                                // dmnincr.Mid = Convert.ToInt32(cmb_menu.SelectedValue);
-                                dmnincr.CreatedBy = FrmDashboard.UserId;
-                                dmnincr.BranchId = FrmDashboard.BranchId;
-
-                                if (chb_active.Checked)
-                                    dmnincr.Status = 1;
-                                else
-                                    dmnincr.Status = 0;
-
-                                status = bllincr.AddData("prdInsert_upd_Incrediant", dmnincr);
-                                if (status.Ing_DetailsId > 0)
-                                    statuscount++;
-                            }
-                        }
-                        #endregion
-
-                        #region Product Variation Persistence
+                        #region Product Variation and Ingredient Recipe Persistence
+                        CaptureCurrentIngredientDraft();
                         SaveProductVariations(prostatus.ProductId);
+                        RemapIngredientVariationDraftsToSavedIds();
+                        ingredientSaveSuccess = SaveIngredientRecipes(prostatus.ProductId);
                         #endregion
 
                         #region  Addon Table Inseration DB
@@ -252,7 +242,7 @@ namespace FoodandBeverage.Forms
                         #endregion
                     }
 
-                    if (statuscount == gridcount)
+                    if (ingredientSaveSuccess)
                     {
                         if (pb_view_pic.BackgroundImage != null)
                         {
@@ -359,6 +349,15 @@ namespace FoodandBeverage.Forms
                 cmbIgstPrcnt.SelectedIndex = 0;
                 CmbCategory.SelectedIndex = 0;
                 cmbTaxType.SelectedIndex = 0;
+                ingredientVariationDrafts.Clear();
+                legacyRecipeFallbacks.Clear();
+                currentIngredientVariationId = 0;
+                isChangingIngredientVariation = true;
+                cmb_variation.DataSource = null;
+                cmb_variation.Items.Clear();
+                cmb_variation.Visible = false;
+                isChangingIngredientVariation = false;
+
                 dgv_registartion.Rows.Clear();
                 dgv_registartion.Rows.Add();
                 btn_del_ingre.Visible = false;
@@ -1097,74 +1096,7 @@ if (FrmDashboard.DefaultTaxType != "")
                     else
                         chb_active.Checked = false;
 
-                    BllSearch<DmnGridFields> bllSearchdetails = new BllSearch<DmnGridFields>();
-                    DmnSearch objSearchDetails = new DmnSearch();
-                    objSearchDetails.Select = "id.ItemId Field1,i.Itemname Field2,id.quantity Field3,u.uid Field4,id.Ing_DetailsId Field5,id.status Field6,id.Deductionstage Field7,id.ProductType Field8 ";
-                    objSearchDetails.Table = "tblProduct p LEFT JOIN tblIngredientDetails id on id.ProductId=p.ProductId left join tblUnit u on u.UId=id.Unit left join tblItem i on i.ItemId=id.ItemId";
-                    objSearchDetails.WhereNdGroupBy = "where p.status=1 and  p.ProductId= " + Pid;
-                    objSearchDetails.OrderBy = "";
-                    var gridSource_pro = bllSearchdetails.GetSearchData("prdSearch", objSearchDetails);
                     dgv_registartion.Rows.Clear();
-
-                    // Use the actual grid row returned by Rows.Add(). The source list can contain
-                    // inactive detail rows, so its index is not the same as the visible grid index.
-                    for (int i = 0; i < gridSource_pro.Count; i++)
-                    {
-                        var ingredient = gridSource_pro[i];
-                        if (!IsActiveIngredientStatus(ingredient.Field6))
-                            continue;
-
-                        int itemId;
-                        if (!int.TryParse(Convert.ToString(ingredient.Field1), out itemId) || itemId <= 0)
-                            continue;
-
-                        int rowIndex = dgv_registartion.Rows.Add();
-                        DataGridViewRow row = dgv_registartion.Rows[rowIndex];
-
-                        row.Cells[Ritemidno].Value = itemId;
-                        row.Cells[Ritemno].Value = Convert.ToString(ingredient.Field2);
-                        row.Cells[Rqtyno].Value = ingredient.Field3 == null
-                            ? (object)null
-                            : Convert.ToString(ingredient.Field3);
-
-                        long unitId;
-                        if (long.TryParse(Convert.ToString(ingredient.Field4), out unitId) && unitId > 0)
-                            row.Cells[Runitno].Value = unitId;
-
-                        int detailId;
-                        if (int.TryParse(Convert.ToString(ingredient.Field5), out detailId))
-                            row.Cells[RIng_DetailsIdno].Value = detailId;
-
-                        row.Cells[RCategorytypeno].Value = chk_PackagingRequired.Checked
-                            ? GetInventoryItemCategoryId(ingredient.Field8)
-                            : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial);
-
-                        int deductionStageId = GetDeductionStageId(ingredient.Field7);
-                        if (cmb_FoodPreparationType.SelectedIndex == 2)
-                            row.Cells[RDeductionstageno].Value = deductionStageId;
-
-                        DataGridViewImageCell deleteCell = row.Cells[Raction] as DataGridViewImageCell;
-                        if (deleteCell != null)
-                        {
-                            deleteCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                            deleteCell.Value = Properties.Resources.delete;
-                        }
-                    }
-
-                    // Keep one empty row at the end for adding the next ingredient.
-                    int addRowIndex = dgv_registartion.Rows.Add();
-                    dgv_registartion.Rows[addRowIndex].Cells[Rslno].Value = addRowIndex + 1;
-
-                    rearrange_slno();
-
-                    DataGridViewImageCell addCell =
-                        dgv_registartion.Rows[addRowIndex].Cells[Raction] as DataGridViewImageCell;
-                    if (addCell != null)
-                    {
-                        addCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                        addCell.Value = Properties.Resources.add_row;
-                    }
-
                     #region Fill Product Variation Data
                     variationEnabled = gridSource[0].HasVariation;
                     ConfigureProductVariationGrid();
@@ -1173,6 +1105,7 @@ if (FrmDashboard.DefaultTaxType != "")
                     if (variationEnabled && dgv_variation.Rows.Count == 0)
                         AddProductVariationRow();
                     SetVariationEditorEnabled(variationEnabled);
+                    ConfigureIngredientVariationSelector(Pid, true);
                     #endregion
                 }
             }
@@ -3372,10 +3305,13 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void VariationEnabled_CheckedChanged(object sender, EventArgs e)
         {
+            CaptureCurrentIngredientDraft();
             variationEnabled = chkVariationEnabled != null && chkVariationEnabled.Checked;
             if (variationEnabled && dgv_variation.Rows.Count == 0)
                 AddProductVariationRow();
             SetVariationEditorEnabled(variationEnabled);
+            ConfigureIngredientVariationSelector(
+                Convert.ToInt32(string.IsNullOrWhiteSpace(txtpid.Text) ? "0" : txtpid.Text), false);
         }
 
         private void SetVariationEditorEnabled(bool enabled)
@@ -3696,7 +3632,11 @@ if (FrmDashboard.DefaultTaxType != "")
                 variation.CreatedBy = FrmDashboard.UserId;
                 variation.Status = 1;
 
-                bllVariation.AddEditData("prdInsert_upd_ProductVariation", variation);
+                DmnProductVariation savedVariation =
+                    bllVariation.AddEditData("prdInsert_upd_ProductVariation", variation);
+                if (savedVariation == null || savedVariation.VariationId <= 0)
+                    throw new InvalidOperationException("Unable to save product variation '" + name + "'.");
+                row.Cells["VariationRowId"].Value = savedVariation.VariationId;
             }
 
             int activeCount = dgv_variation.Rows.Cast<DataGridViewRow>()
@@ -3728,6 +3668,9 @@ if (FrmDashboard.DefaultTaxType != "")
             {
                 dgv_variation.EndEdit();
                 if (variationEnabled && !ValidateProductVariationRows()) return;
+                CaptureCurrentIngredientDraft();
+                ConfigureIngredientVariationSelector(
+                    Convert.ToInt32(string.IsNullOrWhiteSpace(txtpid.Text) ? "0" : txtpid.Text), false);
                 CloseProductVariationPopup();
             }
             catch (Exception ex)
@@ -4379,9 +4322,346 @@ if (FrmDashboard.DefaultTaxType != "")
             UpdatePreparationStageColumnVisibility();
         }
 
+        private void ConfigureIngredientVariationSelector(int productId, bool loadFromDatabase)
+        {
+            try
+            {
+                isChangingIngredientVariation = true;
+                List<IngredientVariationOption> options = new List<IngredientVariationOption>();
+                if (variationEnabled)
+                {
+                    for (int i = 0; i < dgv_variation.Rows.Count; i++)
+                    {
+                        DataGridViewRow row = dgv_variation.Rows[i];
+                        if (row.IsNewRow) continue;
+                        string name = Convert.ToString(row.Cells["VariationName"].Value).Trim();
+                        if (string.IsNullOrWhiteSpace(name)) continue;
+                        int variationId;
+                        if (!int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out variationId) ||
+                            variationId <= 0)
+                            variationId = -(i + 1);
+                        options.Add(new IngredientVariationOption { Id = variationId, Name = name });
+                    }
+                }
+
+                cmb_variation.DataSource = null;
+                cmb_variation.Items.Clear();
+                cmb_variation.Visible = options.Count > 0;
+                cmb_variation.Enabled = options.Count > 0;
+                if (options.Count == 0)
+                {
+                    currentIngredientVariationId = 0;
+                    if (loadFromDatabase) LoadIngredientRecipe(productId, 0, false);
+                    return;
+                }
+
+                cmb_variation.DisplayMember = "Name";
+                cmb_variation.ValueMember = "Id";
+                cmb_variation.DataSource = options;
+                IngredientVariationOption selected = null;
+                for (int i = 0; i < dgv_variation.Rows.Count; i++)
+                {
+                    DataGridViewRow row = dgv_variation.Rows[i];
+                    if (row.IsNewRow || row.Cells["VariationDefault"].Value == null ||
+                        !Convert.ToBoolean(row.Cells["VariationDefault"].Value)) continue;
+                    selected = options.FirstOrDefault(option =>
+                        string.Equals(option.Name,
+                            Convert.ToString(row.Cells["VariationName"].Value).Trim(),
+                            StringComparison.OrdinalIgnoreCase));
+                    if (selected != null) break;
+                }
+                if (selected == null) selected = options[0];
+                cmb_variation.SelectedValue = selected.Id;
+                currentIngredientVariationId = selected.Id;
+                if (loadFromDatabase)
+                    LoadIngredientRecipe(productId, selected.Id, selected.Id > 0);
+                else
+                    LoadIngredientRecipeFromDraftOrEmpty(selected.Id);
+            }
+            finally { isChangingIngredientVariation = false; }
+        }
+
+        private bool IsDefaultIngredientVariation(int variationId)
+        {
+            foreach (DataGridViewRow row in dgv_variation.Rows)
+            {
+                if (row.IsNewRow || row.Cells["VariationDefault"].Value == null ||
+                    !Convert.ToBoolean(row.Cells["VariationDefault"].Value)) continue;
+                int id;
+                if (int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out id) &&
+                    id == variationId) return true;
+            }
+            return false;
+        }
+
+        private List<IngredientRecipeDraft> CaptureIngredientGrid()
+        {
+            List<IngredientRecipeDraft> rows = new List<IngredientRecipeDraft>();
+            dgv_registartion.EndEdit();
+            foreach (DataGridViewRow row in dgv_registartion.Rows)
+            {
+                if (row.IsNewRow) continue;
+                int itemId;
+                int.TryParse(Convert.ToString(row.Cells[Ritemidno].Value), out itemId);
+                string itemName = Convert.ToString(row.Cells[Ritemno].Value);
+                string quantity = Convert.ToString(row.Cells[Rqtyno].Value);
+                if (itemId <= 0 && string.IsNullOrWhiteSpace(itemName) &&
+                    string.IsNullOrWhiteSpace(quantity)) continue;
+                int detailId, unitId;
+                int.TryParse(Convert.ToString(row.Cells[RIng_DetailsIdno].Value), out detailId);
+                int.TryParse(Convert.ToString(row.Cells[Runitno].Value), out unitId);
+                rows.Add(new IngredientRecipeDraft
+                {
+                    DetailId = detailId,
+                    ItemId = itemId,
+                    ItemName = itemName,
+                    Quantity = quantity,
+                    UnitId = unitId,
+                    CategoryId = GetInventoryItemCategoryId(row.Cells[RCategorytypeno].Value),
+                    DeductionStageId = GetDeductionStageId(row.Cells[RDeductionstageno].Value)
+                });
+            }
+            return rows;
+        }
+
+        private void CaptureCurrentIngredientDraft()
+        {
+            if (variationEnabled && cmb_variation.SelectedValue != null)
+            {
+                int selectedId;
+                if (int.TryParse(Convert.ToString(cmb_variation.SelectedValue), out selectedId))
+                    currentIngredientVariationId = selectedId;
+            }
+            ingredientVariationDrafts[currentIngredientVariationId] = CaptureIngredientGrid();
+        }
+
+        private void LoadIngredientRecipeFromDraftOrEmpty(int variationId)
+        {
+            List<IngredientRecipeDraft> draft;
+            PopulateIngredientGrid(ingredientVariationDrafts.TryGetValue(variationId, out draft)
+                ? draft : new List<IngredientRecipeDraft>());
+        }
+
+        private void LoadIngredientRecipe(int productId, int variationId, bool allowLegacyFallback)
+        {
+            List<IngredientRecipeDraft> draft;
+            if (ingredientVariationDrafts.TryGetValue(variationId, out draft))
+            {
+                PopulateIngredientGrid(draft);
+                return;
+            }
+            List<IngredientRecipeDraft> savedRows = LoadIngredientRecipeRows(productId, variationId);
+            if (savedRows.Count == 0 && allowLegacyFallback && variationId != 0)
+            {
+                savedRows = LoadIngredientRecipeRows(productId, 0);
+                if (savedRows.Count > 0)
+                    legacyRecipeFallbacks.Add(variationId);
+            }
+            ingredientVariationDrafts[variationId] = savedRows;
+            PopulateIngredientGrid(savedRows);
+        }
+
+        private List<IngredientRecipeDraft> LoadIngredientRecipeRows(int productId, int variationId)
+        {
+            List<IngredientRecipeDraft> result = new List<IngredientRecipeDraft>();
+            if (productId <= 0) return result;
+            BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
+            DmnSearch query = new DmnSearch
+            {
+                Select = "id.ItemId Field1, i.Itemname Field2, id.quantity Field3, u.UId Field4, " +
+                         "id.Ing_DetailsId Field5, id.status Field6, id.Deductionstage Field7, " +
+                         "id.ProductType Field8, ISNULL(id.VariationId,0) Field9",
+                Table = "tblProduct p LEFT JOIN tblIngredientDetails id ON id.ProductId=p.ProductId " +
+                        "LEFT JOIN tblUnit u ON u.UId=id.Unit LEFT JOIN tblItem i ON i.ItemId=id.ItemId",
+                WhereNdGroupBy = "WHERE p.Status=1 AND p.ProductId=" + productId +
+                                 " AND ISNULL(id.VariationId,0)=" + variationId +
+                                 " AND id.BranchId=" + FrmDashboard.BranchId,
+                OrderBy = "ORDER BY id.Ing_DetailsId"
+            };
+            List<DmnGridFields> source = search.GetSearchData("prdSearch", query);
+            foreach (DmnGridFields item in source)
+            {
+                if (!IsActiveIngredientStatus(item.Field6)) continue;
+                int itemId, detailId, unitId;
+                if (!int.TryParse(Convert.ToString(item.Field1), out itemId) || itemId <= 0) continue;
+                int.TryParse(Convert.ToString(item.Field5), out detailId);
+                int.TryParse(Convert.ToString(item.Field4), out unitId);
+                result.Add(new IngredientRecipeDraft
+                {
+                    DetailId = detailId,
+                    ItemId = itemId,
+                    ItemName = Convert.ToString(item.Field2),
+                    Quantity = Convert.ToString(item.Field3),
+                    UnitId = unitId,
+                    CategoryId = GetInventoryItemCategoryId(item.Field8),
+                    DeductionStageId = GetDeductionStageId(item.Field7)
+                });
+            }
+            return result;
+        }
+
+        private void PopulateIngredientGrid(List<IngredientRecipeDraft> rows)
+        {
+            dgv_registartion.Rows.Clear();
+            foreach (IngredientRecipeDraft ingredient in rows)
+            {
+                int rowIndex = dgv_registartion.Rows.Add();
+                DataGridViewRow row = dgv_registartion.Rows[rowIndex];
+                row.Cells[Rslno].Value = rowIndex + 1;
+                row.Cells[Ritemidno].Value = ingredient.ItemId;
+                row.Cells[Ritemno].Value = ingredient.ItemName;
+                row.Cells[Rqtyno].Value = ingredient.Quantity;
+                if (ingredient.UnitId > 0) row.Cells[Runitno].Value = ingredient.UnitId;
+                row.Cells[RDeductionstageno].Value = ingredient.DeductionStageId;
+                row.Cells[RCategorytypeno].Value = ingredient.CategoryId;
+                row.Cells[RIng_DetailsIdno].Value = ingredient.DetailId > 0 ? (object)ingredient.DetailId : null;
+                DataGridViewImageCell deleteCell = row.Cells[Raction] as DataGridViewImageCell;
+                if (deleteCell != null)
+                {
+                    deleteCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    deleteCell.Value = Properties.Resources.delete;
+                }
+            }
+            int addRowIndex = dgv_registartion.Rows.Add();
+            dgv_registartion.Rows[addRowIndex].Cells[Rslno].Value = addRowIndex + 1;
+            DataGridViewImageCell addCell = dgv_registartion.Rows[addRowIndex].Cells[Raction] as DataGridViewImageCell;
+            if (addCell != null)
+            {
+                addCell.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                addCell.Value = Properties.Resources.add_row;
+            }
+            rearrange_slno();
+            UpdateInventoryItemCategoryColumnVisibility();
+            UpdatePreparationStageColumnVisibility();
+        }
+
+        private void RemapIngredientVariationDraftsToSavedIds()
+        {
+            if (!variationEnabled) return;
+            for (int i = 0; i < dgv_variation.Rows.Count; i++)
+            {
+                DataGridViewRow row = dgv_variation.Rows[i];
+                if (row.IsNewRow) continue;
+                int savedId;
+                if (!int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out savedId) ||
+                    savedId <= 0) continue;
+                int temporaryId = -(i + 1);
+                List<IngredientRecipeDraft> draft;
+                if (ingredientVariationDrafts.TryGetValue(temporaryId, out draft))
+                {
+                    ingredientVariationDrafts.Remove(temporaryId);
+                    ingredientVariationDrafts[savedId] = draft;
+                }
+                if (currentIngredientVariationId == temporaryId)
+                    currentIngredientVariationId = savedId;
+            }
+            ConfigureIngredientVariationSelector(Convert.ToInt32(txtpid.Text), false);
+            if (cmb_variation.SelectedValue != null)
+            {
+                int selectedId;
+                if (int.TryParse(Convert.ToString(cmb_variation.SelectedValue), out selectedId))
+                {
+                    currentIngredientVariationId = selectedId;
+                    LoadIngredientRecipeFromDraftOrEmpty(selectedId);
+                }
+            }
+        }
+
+        private bool SaveIngredientRecipes(int productId)
+        {
+            try
+            {
+                CaptureCurrentIngredientDraft();
+                Bllincrediant ingredientBll = new Bllincrediant();
+                HashSet<int> activeVariationIds = new HashSet<int>();
+                if (variationEnabled)
+                {
+                    foreach (DataGridViewRow row in dgv_variation.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+                        int id;
+                        if (int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out id) && id > 0)
+                            activeVariationIds.Add(id);
+                    }
+                }
+
+                foreach (KeyValuePair<int, List<IngredientRecipeDraft>> recipe in ingredientVariationDrafts.ToList())
+                {
+                    int variationId = recipe.Key;
+                    if (variationEnabled && (variationId <= 0 || !activeVariationIds.Contains(variationId)))
+                        continue;
+                    if (!variationEnabled && variationId != 0)
+                        continue;
+
+                    ingredientBll.DeactivateVariationIngredients(productId, variationId, FrmDashboard.BranchId);
+                    foreach (IngredientRecipeDraft ingredient in recipe.Value)
+                    {
+                        decimal quantity;
+                        if (ingredient.ItemId <= 0 ||
+                            !decimal.TryParse(ingredient.Quantity, out quantity) || quantity <= 0)
+                            continue;
+                        Dmnincrediant entity = new Dmnincrediant
+                        {
+                            ProductId = productId,
+                            Ing_DetailsId = ingredient.DetailId,
+                            ItemId = ingredient.ItemId,
+                            quantity = quantity,
+                            unit = ingredient.UnitId,
+                            ProductType = chk_PackagingRequired.Checked
+                                ? ingredient.CategoryId
+                                : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial),
+                            Deductionstage = cmb_FoodPreparationType.SelectedIndex == 2
+                                ? ingredient.DeductionStageId : 0,
+                            CreatedBy = FrmDashboard.UserId,
+                            BranchId = FrmDashboard.BranchId,
+                            Status = chb_active.Checked ? 1 : 0
+                        };
+                        Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
+                        if (saved == null || saved.Ing_DetailsId <= 0) return false;
+                        ingredientBll.SetIngredientVariation(saved.Ing_DetailsId, variationId);
+                    }
+
+                    if (legacyRecipeFallbacks.Contains(variationId))
+                    {
+                        ingredientBll.DeactivateVariationIngredients(productId, 0, FrmDashboard.BranchId);
+                        legacyRecipeFallbacks.Remove(variationId);
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page SaveIngredientRecipes()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                CMessageBox.Show(this, "Unable to save ingredient consumption for one or more variations.",
+                    "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
         private void cmb_variation_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
+            if (isChangingIngredientVariation || cmb_variation.SelectedValue == null)
+                return;
+            try
+            {
+                dgv_registartion.EndEdit();
+                CaptureCurrentIngredientDraft();
+                int selectedVariationId;
+                if (!int.TryParse(Convert.ToString(cmb_variation.SelectedValue), out selectedVariationId))
+                    return;
+                currentIngredientVariationId = selectedVariationId;
+                int productId;
+                int.TryParse(txtpid.Text, out productId);
+                LoadIngredientRecipe(productId, selectedVariationId, IsDefaultIngredientVariation(selectedVariationId));
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page cmb_variation_SelectionChangeCommitted()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                CMessageBox.Show(this, "Unable to load ingredients for the selected variation.",
+                    "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
