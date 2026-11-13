@@ -300,7 +300,7 @@ BEGIN
                     CreatedBy, CreatedDateTime, Status, ProductType, VatAmount,
                     CusId, ItemName, ItemId, ItemBarcode, Prid, MarketPrice,
                     TableType, Pavid, AddonStatus, AV_id, Addoncount, Cmid,
-                    VariatiionName, PreTaxAmt, TotalPackingPrice, TotalPackingTax
+                    VariatiionName, PreTaxAmt, TotalPackingPrice, TotalPackingTax, VariationId
                 )
                 VALUES
                 (
@@ -310,7 +310,7 @@ BEGIN
                     @CreatedBy, SYSDATETIME(), @Status, @ProductType, @VatAmount,
                     @CusId, @ItemName, @ItemId, @ItemBarcode, @Prid, @MarketPrice,
                     @TableType, @Pavid, @AddonStatus, @AV_id, @Addoncount, @Cmid,
-                    @VariatiionName, @PreTaxAmt, @TotalPackingPrice, @TotalPackingTax
+                    @VariatiionName, @PreTaxAmt, @TotalPackingPrice, @TotalPackingTax, ISNULL(@VariationId, 0)
                 );
 
                 SET @Id = SCOPE_IDENTITY();
