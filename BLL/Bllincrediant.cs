@@ -19,6 +19,40 @@ WHERE Ing_DetailsId = @Ing_DetailsId;";
             return repository.ExecuteText(sql, new { VariationId = variationId, Ing_DetailsId = ingredientDetailId });
         }
 
+        public int DeactivateVariationIngredientsExcept(
+            int productId, int variationId, int branchId, string retainedIngredientIds)
+        {
+            if (productId <= 0 || variationId < 0)
+                return 0;
+
+            DAL.DapperRepository<Dmnincrediant> repository =
+                new DAL.DapperRepository<Dmnincrediant>();
+            const string sql = @"
+UPDATE dbo.tblIngredientDetails
+SET Status = 0
+WHERE ProductId = @ProductId
+  AND BranchId = @BranchId
+  AND ISNULL(VariationId, 0) = @VariationId
+  AND Status = 1
+  AND
+  (
+      ISNULL(@RetainedIds, '') = ''
+      OR Ing_DetailsId NOT IN
+      (
+          SELECT TRY_CAST(value AS INT)
+          FROM STRING_SPLIT(@RetainedIds, ',')
+          WHERE TRY_CAST(value AS INT) IS NOT NULL
+      )
+  );";
+            return repository.ExecuteText(sql, new
+            {
+                ProductId = productId,
+                BranchId = branchId,
+                VariationId = variationId,
+                RetainedIds = retainedIngredientIds ?? string.Empty
+            });
+        }
+
         public int DeactivateVariationIngredients(int productId, int variationId, int branchId)
         {
             if (productId <= 0 || variationId < 0) return 0;
