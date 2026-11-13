@@ -1,3 +1,6 @@
+USE [FoodBeverage];
+GO
+
 /*
     Product variation-wise ingredient consumption.
     Existing ingredient records remain intact and are assigned to VariationId = 0
