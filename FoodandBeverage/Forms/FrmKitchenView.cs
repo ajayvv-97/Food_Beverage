@@ -3958,27 +3958,6 @@ namespace FoodandBeverage.Forms
                     DateTime? startedAt = cache.StartedAt;
                     DateTime? endedAt = cache.EndedAt;
 
-                    // Pull persisted timestamps with the card's current order so the
-                    // display also recovers if the start click refreshed before the
-                    // cached ticket had received the updated StartDate values.
-                    DateTime? latestStart = null;
-                    DateTime? latestEnd = null;
-                    if (cache.Grid != null && !cache.Grid.IsDisposed)
-                    {
-                        foreach (DataGridViewRow row in cache.Grid.Rows)
-                        {
-                            if (row.IsNewRow)
-                                continue;
-
-                            int koid;
-                            if (!int.TryParse(Convert.ToString(row.Cells[dkoidno].Value), out koid))
-                                continue;
-
-                            // Each card is refreshed from its data query after the Start
-                            // action; keep the timestamp from the last successful query.
-                        }
-                    }
-
                     if (cache.StartTimeLabel != null && !cache.StartTimeLabel.IsDisposed)
                         cache.StartTimeLabel.Text = startedAt.HasValue
                             ? FormatKitchenOrderTime(startedAt.Value, now)
