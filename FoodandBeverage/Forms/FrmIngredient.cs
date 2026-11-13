@@ -3661,7 +3661,7 @@ if (FrmDashboard.DefaultTaxType != "")
             BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
             DmnSearch query = new DmnSearch
             {
-                Select = "TOP 1 VariationId Field1",
+                Select = "VariationId Field1",
                 Table = "tblProductVariation",
                 WhereNdGroupBy = "WHERE ProductId = " + productId +
                     " AND BranchId = " + FrmDashboard.BranchId +
