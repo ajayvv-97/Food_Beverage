@@ -6152,12 +6152,31 @@ namespace FoodandBeverage.Forms
         {
             try
             {
+                pnl_variation.Size = new Size(760, 460);
+                pnl_variation.BackColor = Color.White;
+                pnl_variation.Padding = new Padding(10);
+                tableLayoutPanel5.BackColor = Color.White;
+                tableLayoutPanel7.BackColor = Color.FromArgb(48, 79, 139);
+                tableLayoutPanel7.Height = 48;
+                label52.Text = "Choose a variation";
+                label52.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+                label52.ForeColor = Color.White;
+                label52.TextAlign = ContentAlignment.MiddleLeft;
+                label52.Dock = DockStyle.Fill;
+                btncls_variation.BackColor = Color.FromArgb(48, 79, 139);
+                btncls_variation.ForeColor = Color.White;
+                btncls_variation.FlatAppearance.MouseOverBackColor = Color.FromArgb(66, 99, 158);
+                btncls_variation.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+                flp_variations.BackColor = Color.FromArgb(245, 247, 252);
+                flp_variations.Padding = new Padding(12);
+                flp_variations.WrapContents = true;
+                flp_variations.AutoScroll = true;
+
                 pnl_variation.Visible = true;
                 ShowBlurPopup(pnl_variation);
                 pnl_variation.BringToFront();
-
-                pnl_variation.Left = (this.Width - pnl_variation.Width) / 2;
-                pnl_variation.Top = (this.Height - pnl_variation.Height) / 2;
+                pnl_variation.Left = (this.ClientSize.Width - pnl_variation.Width) / 2;
+                pnl_variation.Top = (this.ClientSize.Height - pnl_variation.Height) / 2;
 
                 GenerateVariationProduct(productId);
             }
@@ -6175,7 +6194,7 @@ namespace FoodandBeverage.Forms
 
                 DmnSearch dmnSearch = new DmnSearch();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                dmnSearch.Select = "VariationId Field1, VariationName Field2";
+                dmnSearch.Select = "VariationId Field1, VariationName Field2, Price Field3";
                 dmnSearch.Table = "tblProductVariation";
                 dmnSearch.WhereNdGroupBy = " WHERE Status = 1 AND ProductId = " + productId;
                 var variationList = bllSearch.GetSearchData("prdSearch", dmnSearch);
@@ -6185,42 +6204,60 @@ namespace FoodandBeverage.Forms
                     int variationId = Convert.ToInt32(item.Field1);
 
                     Panel tile = new Panel();
-                    tile.Width = tileW;
-                    tile.Height = tileH;
+                    tile.Width = 190;
+                    tile.Height = 112;
                     tile.BackColor = Color.White;
-                    tile.Margin = new Padding(spacing);
+                    tile.BorderStyle = BorderStyle.None;
+                    tile.Margin = new Padding(8);
+                    tile.Padding = new Padding(6);
                     tile.Tag = variationId;
-
 
                     TableLayoutPanel tlpMain = new TableLayoutPanel();
                     tlpMain.Parent = tile;
-                    tlpMain.RowCount = 1;
+                    tlpMain.RowCount = 2;
                     tlpMain.ColumnCount = 1;
                     tlpMain.Dock = DockStyle.Fill;
+                    tlpMain.BackColor = Color.White;
+                    tlpMain.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
                     tlpMain.Tag = variationId;
-
                     tlpMain.RowStyles.Clear();
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 58F));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 42F));
 
                     Label lblName = new Label();
                     lblName.Text = variationName;
-                    lblName.TextAlign = ContentAlignment.MiddleCenter;
+                    lblName.TextAlign = ContentAlignment.BottomCenter;
                     lblName.Dock = DockStyle.Fill;
-                    lblName.Padding = new Padding(5);
-                    lblName.ForeColor = Color.Black;
+                    lblName.Padding = new Padding(5, 2, 5, 4);
+                    lblName.ForeColor = Color.FromArgb(38, 48, 66);
                     lblName.BackColor = Color.Transparent;
                     lblName.AutoEllipsis = true;
+                    lblName.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
 
-                    Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
-                    lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
+                    Label lblPrice = new Label();
+                    decimal variationPrice = 0m;
+                    decimal.TryParse(Convert.ToString(item.Field3), out variationPrice);
+                    lblPrice.Text = "₹ " + variationPrice.ToString("0.00");
+                    lblPrice.TextAlign = ContentAlignment.TopCenter;
+                    lblPrice.Dock = DockStyle.Fill;
+                    lblPrice.Padding = new Padding(4, 3, 4, 2);
+                    lblPrice.ForeColor = Color.FromArgb(20, 145, 92);
+                    lblPrice.BackColor = Color.Transparent;
+                    lblPrice.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
 
                     tlpMain.Controls.Add(lblName, 0, 0);
+                    tlpMain.Controls.Add(lblPrice, 0, 1);
 
                     tlpMain.Click += (s, ev) => VariationClick(productId, variationId);
                     tile.Click += (s, ev) => VariationClick(productId, variationId);
                     lblName.Click += (s, ev) => VariationClick(productId, variationId);
 
-                    UIHelper.RoundCorners(tile, Productcorner, null);
+                    UIHelper.RoundCorners(tile, 14, null);
+                    tile.Cursor = Cursors.Hand;
+                    tlpMain.Cursor = Cursors.Hand;
+                    lblName.Cursor = Cursors.Hand;
+                    lblPrice.Cursor = Cursors.Hand;
+                    lblPrice.Click += (s, ev) => VariationClick(productId, variationId);
 
                     flp_variations.Controls.Add(tile);
                 }
