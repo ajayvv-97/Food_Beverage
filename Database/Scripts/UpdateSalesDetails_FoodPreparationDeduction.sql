@@ -78,6 +78,7 @@ BEGIN
     DECLARE @PackagingRequired BIT = 0;
     DECLARE @DatabaseFoodPreparationType INT = NULL;
     DECLARE @DatabaseProductName NVARCHAR(100) = NULL;
+    DECLARE @SelectedVariationId INT = 0;
 
     /*
         FoodPreparationType:
@@ -106,6 +107,7 @@ BEGIN
     DECLARE @ProductPreparation TABLE
     (
         ProductId INT NOT NULL,
+        VariationId INT NOT NULL,
         SaleQuantity DECIMAL(18,4) NOT NULL,
         FoodPreparationType INT NOT NULL,
         PackagingRequired BIT NOT NULL
@@ -368,12 +370,14 @@ BEGIN
                 INSERT INTO @ProductPreparation
                 (
                     ProductId,
+                    VariationId,
                     SaleQuantity,
                     FoodPreparationType,
                     PackagingRequired
                 )
                 SELECT
                     M.ProductId,
+                    0,
                     @SaleQtyForStock * ISNULL(CONVERT(DECIMAL(18,4), O.Quantity), 1),
                     CASE
                         WHEN P.FoodPreparationType IN (1, 2, 3, 4)
@@ -428,9 +432,27 @@ BEGIN
                     THROW 50316, @PreparationTypeError, 1;
                 END;
 
+                /* Resolve the selected product variation from the order detail row.
+                   Older/non-variation orders have vid = 0 and continue using the base recipe. */
+                SELECT TOP (1)
+                    @SelectedVariationId = ISNULL(OD.vid, 0)
+                FROM dbo.tblOrderDetails AS OD
+                WHERE
+                    (
+                        OD.OrderDetailsId IN
+                        (
+                            SELECT TRY_CAST(value AS INT)
+                            FROM STRING_SPLIT(ISNULL(@OrderDetailsId, ''), ',')
+                            WHERE TRY_CAST(value AS INT) IS NOT NULL
+                        )
+                        OR (@SalesDetailsId > 0 AND OD.SalesDetailsId = @SalesDetailsId)
+                    )
+                ORDER BY OD.OrderDetailsId DESC;
+
                 INSERT INTO @ProductPreparation
                 (
                     ProductId,
+                    VariationId,
                     SaleQuantity,
                     FoodPreparationType,
                     PackagingRequired
@@ -438,6 +460,7 @@ BEGIN
                 VALUES
                 (
                     @ItemId,
+                    @SelectedVariationId,
                     @SaleQtyForStock,
                     @FoodPreparationType,
                     @PackagingRequired
@@ -455,6 +478,7 @@ BEGIN
                 FROM @ProductPreparation AS P
                 INNER JOIN dbo.tblIngredientDetails AS D
                     ON D.ProductId = P.ProductId
+                   AND ISNULL(D.VariationId, 0) = P.VariationId
                    AND D.ProductType = 1
                    AND ISNULL(D.Status, 1) = 1
                 WHERE P.FoodPreparationType = 3
@@ -473,6 +497,7 @@ BEGIN
                       SELECT 1
                       FROM dbo.tblIngredientDetails AS D
                       WHERE D.ProductId = P.ProductId
+                        AND ISNULL(D.VariationId, 0) = P.VariationId
                         AND D.ProductType = 1
                         AND ISNULL(D.Status, 1) = 1
                         AND
@@ -491,6 +516,7 @@ BEGIN
                 FROM @ProductPreparation AS P
                 INNER JOIN dbo.tblIngredientDetails AS D
                     ON D.ProductId = P.ProductId
+                   AND ISNULL(D.VariationId, 0) = P.VariationId
                    AND ISNULL(D.Status, 1) = 1
                 WHERE
                     (
@@ -521,6 +547,7 @@ BEGIN
                 FROM @ProductPreparation AS P
                 INNER JOIN dbo.tblIngredientDetails AS D
                     ON D.ProductId = P.ProductId
+                   AND ISNULL(D.VariationId, 0) = P.VariationId
                    AND ISNULL(D.Status, 1) = 1
                 LEFT JOIN dbo.tblItem AS I
                     ON I.ItemId = D.ItemId
@@ -555,6 +582,7 @@ BEGIN
                 FROM @ProductPreparation AS P
                 INNER JOIN dbo.tblIngredientDetails AS D
                     ON D.ProductId = P.ProductId
+                   AND ISNULL(D.VariationId, 0) = P.VariationId
                    AND ISNULL(D.Status, 1) = 1
                 INNER JOIN dbo.tblItem AS I
                     ON I.ItemId = D.ItemId
@@ -603,6 +631,7 @@ BEGIN
             FROM @ProductPreparation AS P
             INNER JOIN dbo.tblIngredientDetails AS D
                 ON D.ProductId = P.ProductId
+                   AND ISNULL(D.VariationId, 0) = P.VariationId
                AND ISNULL(D.Status, 1) = 1
             INNER JOIN dbo.tblItem AS I
                 ON I.ItemId = D.ItemId
