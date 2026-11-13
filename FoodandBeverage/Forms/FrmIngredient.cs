@@ -125,10 +125,7 @@ namespace FoodandBeverage.Forms
                 dgv_registartion.EndEdit();
                 if (MandatoryCheck() && ValidateIngredientGrid() && MandatoryCheck_variation())
                 {
-                    Dmnincrediant status = new Dmnincrediant();
                     DmnProducts prostatus = new DmnProducts();
-                    Dmnincrediant dmnincr = new Dmnincrediant();
-                    Bllincrediant bllincr = new Bllincrediant();
 
                     DmnProducts dmnproduct = new DmnProducts();
                     BllProducts bllProduct = new BllProducts();
@@ -4646,7 +4643,9 @@ if (FrmDashboard.DefaultTaxType != "")
             try
             {
                 dgv_registartion.EndEdit();
-                CaptureCurrentIngredientDraft();
+                // SelectionChangeCommitted fires after the ComboBox value changes.
+                // Store the visible grid against the previously active variation ID.
+                ingredientVariationDrafts[currentIngredientVariationId] = CaptureIngredientGrid();
                 int selectedVariationId;
                 if (!int.TryParse(Convert.ToString(cmb_variation.SelectedValue), out selectedVariationId))
                     return;
