@@ -174,10 +174,12 @@ WHERE p.ProductId = @ProductId
 
             // Resolve only for the food-preparation sales procedure. Other
             // BllSale detail procedures retain their original parameter behavior.
-            if (string.Equals(
+            bool isVariationAwareSalesProcedure = string.Equals(
                 procedureName,
                 "prdInsert_Upd_SalesDetails",
-                StringComparison.OrdinalIgnoreCase))
+                StringComparison.OrdinalIgnoreCase);
+
+            if (isVariationAwareSalesProcedure)
             {
                 objTestClass.FoodPreparationType =
                     ResolveFoodPreparationTypeForSales(objTestClass);
@@ -222,6 +224,8 @@ WHERE p.ProductId = @ProductId
             parms.Add("Addoncount", objTestClass.Addoncount);
             parms.Add("Cmid", objTestClass.Cmid);
             parms.Add("VariatiionName", objTestClass.VariatiionName);
+            if (isVariationAwareSalesProcedure)
+                parms.Add("VariationId", objTestClass.VariationId);
             parms.Add("OrderDetailsId", objTestClass.OrderDetailsId);
             parms.Add("FoodPreparationType", objTestClass.FoodPreparationType);
             parms.Add("PreTaxAmt", objTestClass.PreTaxAmt);
