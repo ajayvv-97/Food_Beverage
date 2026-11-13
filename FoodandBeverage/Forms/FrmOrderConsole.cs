@@ -6152,13 +6152,42 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                pnl_variation.Visible = true;
+                BllSearch<DmnGridFields> productSearch = new BllSearch<DmnGridFields>();
+                DmnSearch productQuery = new DmnSearch
+                {
+                    Select = "Product Field1, Price Field2",
+                    Table = "tblProduct",
+                    WhereNdGroupBy = "WHERE Status = 1 AND ProductId = " + productId,
+                    OrderBy = ""
+                };
+                var productInfo = productSearch.GetSearchData("prdSearch", productQuery);
+                string productName = productInfo.Count > 0 ? Convert.ToString(productInfo[0].Field1) : "Product";
+                decimal basePrice = 0m;
+                if (productInfo.Count > 0)
+                    decimal.TryParse(Convert.ToString(productInfo[0].Field2), out basePrice);
+
+                label52.Text = "Choose Variation - " + productName + "    |    Base Price: " + basePrice.ToString("N2");
+                pnl_variation.Size = new Size(Math.Min(760, Math.Max(560, ClientSize.Width - 80)),
+                    Math.Min(460, Math.Max(340, ClientSize.Height - 80)));
+                pnl_variation.BackColor = Color.White;
+                pnl_variation.Left = (ClientSize.Width - pnl_variation.Width) / 2;
+                pnl_variation.Top = (ClientSize.Height - pnl_variation.Height) / 2;
+                tableLayoutPanel5.BackColor = Color.White;
+                tableLayoutPanel7.Height = 48;
+                tableLayoutPanel7.BackColor = Color.FromArgb(15, 52, 105);
+                label52.ForeColor = Color.White;
+                label52.Font = new Font("Poppins", 11F, FontStyle.Bold);
+                label52.TextAlign = ContentAlignment.MiddleLeft;
+                label52.Dock = DockStyle.Fill;
+                btncls_variation.FlatAppearance.BorderSize = 0;
+                btncls_variation.BackColor = Color.White;
+                btncls_variation.ForeColor = Color.FromArgb(190, 35, 55);
+                flp_variations.BackColor = Color.FromArgb(245, 248, 253);
+                flp_variations.Padding = new Padding(12);
+                flp_variations.AutoScroll = true;
+
                 ShowBlurPopup(pnl_variation);
                 pnl_variation.BringToFront();
-
-                pnl_variation.Left = (this.Width - pnl_variation.Width) / 2;
-                pnl_variation.Top = (this.Height - pnl_variation.Height) / 2;
-
                 GenerateVariationProduct(productId);
             }
             catch (Exception ex)
@@ -6175,53 +6204,97 @@ namespace FoodandBeverage.Forms
 
                 DmnSearch dmnSearch = new DmnSearch();
                 BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
-                dmnSearch.Select = "VariationId Field1, VariationName Field2";
+                dmnSearch.Select = "VariationId Field1, VariationName Field2, Price Field3, ISNULL(PriceAddOn,0) Field4, ISNULL(DiscountPer,0) Field5, ISNULL(DiscountAmt,0) Field6, ISNULL(IsDefault,0) Field7";
                 dmnSearch.Table = "tblProductVariation";
                 dmnSearch.WhereNdGroupBy = " WHERE Status = 1 AND ProductId = " + productId;
+                dmnSearch.OrderBy = "ORDER BY ISNULL(IsDefault,0) DESC, VariationId";
                 var variationList = bllSearch.GetSearchData("prdSearch", dmnSearch);
                 foreach (var item in variationList)
                 {
-                    string variationName = item.Field2;
+                    string variationName = Convert.ToString(item.Field2);
                     int variationId = Convert.ToInt32(item.Field1);
+                    decimal finalPrice = 0m;
+                    decimal priceAddOn = 0m;
+                    decimal discountPer = 0m;
+                    decimal discountAmount = 0m;
+                    int isDefault = 0;
+                    decimal.TryParse(Convert.ToString(item.Field3), out finalPrice);
+                    decimal.TryParse(Convert.ToString(item.Field4), out priceAddOn);
+                    decimal.TryParse(Convert.ToString(item.Field5), out discountPer);
+                    decimal.TryParse(Convert.ToString(item.Field6), out discountAmount);
+                    int.TryParse(Convert.ToString(item.Field7), out isDefault);
 
                     Panel tile = new Panel();
-                    tile.Width = tileW;
-                    tile.Height = tileH;
+                    tile.Width = 190;
+                    tile.Height = 112;
                     tile.BackColor = Color.White;
-                    tile.Margin = new Padding(spacing);
+                    tile.Margin = new Padding(9);
+                    tile.Padding = new Padding(8);
                     tile.Tag = variationId;
-
+                    tile.Cursor = Cursors.Hand;
+                    tile.BorderStyle = BorderStyle.FixedSingle;
 
                     TableLayoutPanel tlpMain = new TableLayoutPanel();
                     tlpMain.Parent = tile;
-                    tlpMain.RowCount = 1;
+                    tlpMain.RowCount = 3;
                     tlpMain.ColumnCount = 1;
                     tlpMain.Dock = DockStyle.Fill;
                     tlpMain.Tag = variationId;
-
+                    tlpMain.BackColor = Color.Transparent;
                     tlpMain.RowStyles.Clear();
-                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 43F));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 34F));
+                    tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 23F));
 
-                    Label lblName = new Label();
-                    lblName.Text = variationName;
-                    lblName.TextAlign = ContentAlignment.MiddleCenter;
-                    lblName.Dock = DockStyle.Fill;
-                    lblName.Padding = new Padding(5);
-                    lblName.ForeColor = Color.Black;
-                    lblName.BackColor = Color.Transparent;
-                    lblName.AutoEllipsis = true;
-
-                    Size textSize = TextRenderer.MeasureText(lblName.Text, f11);
-                    lblName.Font = (textSize.Width <= tileW - 10) ? f11 : f9;
+                    Label lblName = new Label
+                    {
+                        Text = variationName,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Fill,
+                        Padding = new Padding(3),
+                        ForeColor = Color.FromArgb(25, 43, 70),
+                        BackColor = Color.Transparent,
+                        Font = new Font("Poppins", 10F, FontStyle.Bold),
+                        AutoEllipsis = true
+                    };
+                    Label lblPrice = new Label
+                    {
+                        Text = "₹ " + finalPrice.ToString("N2"),
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Fill,
+                        ForeColor = Color.FromArgb(0, 125, 65),
+                        BackColor = Color.Transparent,
+                        Font = new Font("Poppins", 11F, FontStyle.Bold)
+                    };
+                    string discountText = discountPer > 0
+                        ? discountPer.ToString("0.##") + "% OFF"
+                        : discountAmount > 0 ? "Save ₹ " + discountAmount.ToString("0.00")
+                        : priceAddOn > 0 ? "Add-on ₹ " + priceAddOn.ToString("0.00") : "Standard price";
+                    Label lblDiscount = new Label
+                    {
+                        Text = isDefault == 1 ? "★ DEFAULT  •  " + discountText : discountText,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Fill,
+                        ForeColor = isDefault == 1 ? Color.FromArgb(15, 85, 160) : Color.FromArgb(105, 115, 130),
+                        BackColor = Color.Transparent,
+                        Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
+                        AutoEllipsis = true
+                    };
 
                     tlpMain.Controls.Add(lblName, 0, 0);
+                    tlpMain.Controls.Add(lblPrice, 0, 1);
+                    tlpMain.Controls.Add(lblDiscount, 0, 2);
 
-                    tlpMain.Click += (s, ev) => VariationClick(productId, variationId);
-                    tile.Click += (s, ev) => VariationClick(productId, variationId);
-                    lblName.Click += (s, ev) => VariationClick(productId, variationId);
+                    EventHandler chooseVariation = (s, ev) => VariationClick(productId, variationId);
+                    tlpMain.Click += chooseVariation;
+                    tile.Click += chooseVariation;
+                    lblName.Click += chooseVariation;
+                    lblPrice.Click += chooseVariation;
+                    lblDiscount.Click += chooseVariation;
 
-                    UIHelper.RoundCorners(tile, Productcorner, null);
-
+                    tile.MouseEnter += (s, ev) => tile.BackColor = Color.FromArgb(235, 244, 255);
+                    tile.MouseLeave += (s, ev) => tile.BackColor = Color.White;
+                    UIHelper.RoundCorners(tile, 12, null);
                     flp_variations.Controls.Add(tile);
                 }
 
@@ -6256,18 +6329,22 @@ namespace FoodandBeverage.Forms
                 dmnSearch.Select = @"
                                     p.ItemCode as Field1,
                                     p.Product as Field2,
-                                    v.Price as Field3,             
-                                    0 as Field4,               
+                                    v.Price as Field3,
+                                    p.MRP as Field4,
                                     p.ProductId as Field5,
                                     p.Tax as Field6,
                                     p.TaxType as Field7,
                                     p.Fcid as Field8,
                                     p.TaxSettingsId as Field9,
-                                    q.Discountper as Field10,
+                                    ISNULL(q.Discountper,0) as Field10,
                                     q.offertype as Field11,
-                                    p.DiscountPer as Field12,
+                                    ISNULL(p.DiscountPer,0) as Field12,
                                     p.PreparationMode as Field13,
-                                    v.VariationId as Field14       
+                                    v.VariationId as Field14,
+                                    ISNULL(v.DiscountPer,0) as Field15,
+                                    ISNULL(v.DiscountAmt,0) as Field16,
+                                    ISNULL(v.PriceAddOn,0) as Field17,
+                                    ISNULL(v.IsDefault,0) as Field18       
                                 ";
 
                 dmnSearch.Table = @"
@@ -6384,7 +6461,14 @@ namespace FoodandBeverage.Forms
                     Dgv_Selected_Item.Rows[r1].Cells[israte].Value = Convert.ToDecimal(gridSource[0].Field3);
                     Dgv_Selected_Item.Rows[r1].Cells[imrp].Value = Convert.ToDecimal(gridSource[0].Field4);
 
-                    if (Convert.ToDecimal(gridSource[0].Field10) > 0)
+                    decimal variationDiscountPer = Convert.ToDecimal(gridSource[0].Field15);
+                    decimal variationDiscountAmount = Convert.ToDecimal(gridSource[0].Field16);
+                    if (variationDiscountPer > 0)
+                        Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = variationDiscountPer;
+                    else if (variationDiscountAmount > 0 && Convert.ToDecimal(gridSource[0].Field3) > 0)
+                        Dgv_Selected_Item.Rows[r1].Cells[idisper].Value =
+                            (variationDiscountAmount / Convert.ToDecimal(gridSource[0].Field3)) * 100m;
+                    else if (Convert.ToDecimal(gridSource[0].Field10) > 0)
                         Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = Convert.ToDecimal(gridSource[0].Field10);
                     else
                         Dgv_Selected_Item.Rows[r1].Cells[idisper].Value = Convert.ToDecimal(gridSource[0].Field12);
