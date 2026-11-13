@@ -6252,7 +6252,7 @@ namespace FoodandBeverage.Forms
                     tile.Click += (s, ev) => VariationClick(productId, variationId);
                     lblName.Click += (s, ev) => VariationClick(productId, variationId);
 
-                    UIHelper.RoundCorners(tile, 14, null);
+                    // Keep variation tiles completely borderless for a cleaner POS selector.
                     tile.Cursor = Cursors.Hand;
                     tlpMain.Cursor = Cursors.Hand;
                     lblName.Cursor = Cursors.Hand;
