@@ -79,7 +79,7 @@ BEGIN
     DECLARE @PackagingRequired BIT = 0;
     DECLARE @DatabaseFoodPreparationType INT = NULL;
     DECLARE @DatabaseProductName NVARCHAR(100) = NULL;
-    DECLARE @SelectedVariationId INT = 0;
+    DECLARE @SelectedVariationId INT = ISNULL(@VariationId, 0);
 
     /*
         FoodPreparationType:
@@ -438,9 +438,11 @@ BEGIN
 
                 /* Resolve the selected product variation from the order detail row.
                    Older/non-variation orders have vid = 0 and continue using the base recipe. */
-                SELECT TOP (1)
-                    @SelectedVariationId = ISNULL(OD.vid, 0)
-                FROM dbo.tblOrderDetails AS OD
+                IF ISNULL(@SelectedVariationId, 0) = 0
+                BEGIN
+                    SELECT TOP (1)
+                        @SelectedVariationId = ISNULL(OD.vid, 0)
+                    FROM dbo.tblOrderDetails AS OD
                 WHERE
                     (
                         OD.OrderDetailsId IN
@@ -451,7 +453,16 @@ BEGIN
                         )
                         OR (@SalesDetailsId > 0 AND OD.SalesDetailsId = @SalesDetailsId)
                     )
-                ORDER BY OD.OrderDetailsId DESC;
+                    ORDER BY OD.OrderDetailsId DESC;
+                END;
+
+                IF ISNULL(@SelectedVariationId, 0) > 0
+                BEGIN
+                    UPDATE dbo.tblSalesDetails
+                    SET VariationId = @SelectedVariationId
+                    WHERE SalesDetailsId = @Id
+                      AND ISNULL(VariationId, 0) = 0;
+                END;
 
                 INSERT INTO @ProductPreparation
                 (
