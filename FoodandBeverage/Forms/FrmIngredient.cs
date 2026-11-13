@@ -4656,14 +4656,24 @@ if (FrmDashboard.DefaultTaxType != "")
                             BranchId = FrmDashboard.BranchId,
                             Status = chb_active.Checked ? 1 : 0
                         };
-                        Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
-                        if (saved == null || saved.Ing_DetailsId <= 0) return false;
-                        if (ingredientBll.SetIngredientVariation(saved.Ing_DetailsId, variationId) <= 0)
+                        int savedIngredientId;
+                        if (ingredient.DetailId > 0)
                         {
-                            throw new InvalidOperationException(
-                                "Unable to link ingredient row to its selected variation.");
+                            if (ingredientBll.UpdateVariationIngredient(entity, variationId) <= 0)
+                                return false;
+                            savedIngredientId = ingredient.DetailId;
                         }
-                        retainedIngredientIds.Add(saved.Ing_DetailsId);
+                        else
+                        {
+                            Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
+                            if (saved == null || saved.Ing_DetailsId <= 0) return false;
+                            savedIngredientId = saved.Ing_DetailsId;
+                            if (ingredientBll.SetIngredientVariation(savedIngredientId, variationId) <= 0)
+                                throw new InvalidOperationException(
+                                    "Unable to link the new ingredient row to its selected variation.");
+                        }
+                        retainedIngredientIds.Add(savedIngredientId);
+                        ingredient.DetailId = savedIngredientId;
                     }
 
                     ingredientBll.DeactivateVariationIngredientsExcept(
@@ -4727,16 +4737,26 @@ if (FrmDashboard.DefaultTaxType != "")
                         Status = chb_active.Checked ? 1 : 0
                     };
 
-                    Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
-                    if (saved == null || saved.Ing_DetailsId <= 0)
-                        throw new InvalidOperationException("Unable to save an ingredient row.");
+                    int savedIngredientId;
+                    if (ingredient.DetailId > 0)
+                    {
+                        if (ingredientBll.UpdateVariationIngredient(entity, variationId) <= 0)
+                            throw new InvalidOperationException("Unable to update an existing ingredient row.");
+                        savedIngredientId = ingredient.DetailId;
+                    }
+                    else
+                    {
+                        Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
+                        if (saved == null || saved.Ing_DetailsId <= 0)
+                            throw new InvalidOperationException("Unable to insert a new ingredient row.");
+                        savedIngredientId = saved.Ing_DetailsId;
+                        if (ingredientBll.SetIngredientVariation(savedIngredientId, variationId) <= 0)
+                            throw new InvalidOperationException(
+                                "Unable to link the new ingredient row to its selected variation.");
+                    }
 
-                    if (ingredientBll.SetIngredientVariation(saved.Ing_DetailsId, variationId) <= 0)
-                        throw new InvalidOperationException(
-                            "Unable to link an ingredient row to its selected variation.");
-
-                    retainedIngredientIds.Add(saved.Ing_DetailsId);
-                    ingredient.DetailId = saved.Ing_DetailsId;
+                    retainedIngredientIds.Add(savedIngredientId);
+                    ingredient.DetailId = savedIngredientId;
                 }
 
                 ingredientBll.DeactivateVariationIngredientsExcept(
