@@ -8,6 +8,42 @@ namespace BLL
 {
     public class Bllincrediant
     {
+        public int UpdateVariationIngredient(Dmnincrediant ingredient, int variationId)
+        {
+            if (ingredient == null || ingredient.Ing_DetailsId <= 0 ||
+                ingredient.ProductId <= 0 || variationId <= 0)
+                return 0;
+
+            DAL.DapperRepository<Dmnincrediant> repository =
+                new DAL.DapperRepository<Dmnincrediant>();
+            const string sql = @"
+UPDATE dbo.tblIngredientDetails
+SET ItemId = @ItemId,
+    quantity = @Quantity,
+    Unit = @Unit,
+    ProductType = @ProductType,
+    Deductionstage = @Deductionstage,
+    Status = @Status,
+    VariationId = @VariationId
+WHERE Ing_DetailsId = @Ing_DetailsId
+  AND ProductId = @ProductId
+  AND BranchId = @BranchId;";
+            repository.ExecuteText(sql, new
+            {
+                ingredient.ItemId,
+                Quantity = ingredient.quantity,
+                Unit = ingredient.unit,
+                ingredient.ProductType,
+                ingredient.Deductionstage,
+                ingredient.Status,
+                VariationId = variationId,
+                ingredient.Ing_DetailsId,
+                ingredient.ProductId,
+                ingredient.BranchId
+            });
+            return 1;
+        }
+
         public int SetIngredientVariation(int ingredientDetailId, int variationId)
         {
             if (ingredientDetailId <= 0 || variationId < 0) return 0;
