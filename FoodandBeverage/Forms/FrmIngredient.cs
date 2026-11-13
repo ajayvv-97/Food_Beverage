@@ -3267,7 +3267,7 @@ if (FrmDashboard.DefaultTaxType != "")
             close.Click += (s, e) => CloseProductVariationPopup();
             tlp_vari_nav.Controls.Add(close, 2, 0);
 
-            btn_vari_submit.Text = "Save Variations";
+            btn_vari_submit.Text = "Submit";
             btn_vari_submit.BackgroundImage = null;
             btn_vari_submit.BackColor = Color.FromArgb(0, 140, 45);
             btn_vari_submit.ForeColor = Color.White;
