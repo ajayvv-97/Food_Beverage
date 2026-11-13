@@ -43,6 +43,14 @@ IF COL_LENGTH(N'dbo.tblProductVariation', N'IsDefault') IS NULL
   CONSTRAINT DF_tblProductVariation_IsDefault_Migration DEFAULT (0) WITH VALUES;
 GO
 
+/* Backfill add-ons for legacy rows where Price previously stored the full variation price. */
+UPDATE v
+ SET PriceAddOn = CASE WHEN v.Price > p.Price THEN v.Price - p.Price ELSE 0 END
+FROM dbo.tblProductVariation v
+INNER JOIN dbo.tblProduct p ON p.ProductId = v.ProductId
+WHERE ISNULL(v.PriceAddOn, 0) = 0;
+GO
+
 IF NOT EXISTS
 (
  SELECT 1 FROM sys.indexes
