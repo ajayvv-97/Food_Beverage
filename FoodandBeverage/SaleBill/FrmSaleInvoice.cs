@@ -469,7 +469,7 @@ namespace FoodandBeverage.SaleBill
                 var processedData = invoiceBillDetails.Select(item => new
                 {
                     ItemName = !string.IsNullOrEmpty(item.ItemName)
-                                   ? item.ItemName + (!string.IsNullOrEmpty(item.VariatiionName) ? " (" + item.VariatiionName + ")" : string.Empty)
+                                   ? item.ItemName + (!string.IsNullOrWhiteSpace(item.VariatiionName) ? " (" + item.VariatiionName.Trim() + ")" : string.Empty)
                                    : item.ItemName,
                     Quantity = item.Quantity,
                     SalesRate = item.SalesRate,
