@@ -3155,6 +3155,10 @@ if (FrmDashboard.DefaultTaxType != "")
 
             dgv_variation.CellClick -= ProductVariationGrid_CellClick;
             dgv_variation.CellClick += ProductVariationGrid_CellClick;
+            dgv_variation.CellValueChanged -= ProductVariationGrid_CellValueChanged;
+            dgv_variation.CellValueChanged += ProductVariationGrid_CellValueChanged;
+            dgv_variation.CurrentCellDirtyStateChanged -= ProductVariationGrid_CurrentCellDirtyStateChanged;
+            dgv_variation.CurrentCellDirtyStateChanged += ProductVariationGrid_CurrentCellDirtyStateChanged;
             dgv_variation.CellEndEdit -= dgv_variation_CellEndEdit;
             dgv_variation.CellEndEdit += dgv_variation_CellEndEdit;
             dgv_variation.EditingControlShowing -= ProductVariationGrid_EditingControlShowing;
@@ -3310,13 +3314,6 @@ if (FrmDashboard.DefaultTaxType != "")
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
             string columnName = dgv_variation.Columns[e.ColumnIndex].Name;
-            if (columnName == "VariationDefault")
-            {
-                for (int i = 0; i < dgv_variation.Rows.Count; i++)
-                    dgv_variation.Rows[i].Cells["VariationDefault"].Value = (i == e.RowIndex);
-                return;
-            }
-
             if (columnName != "VariationAction") return;
 
             DataGridViewRow row = dgv_variation.Rows[e.RowIndex];
@@ -3333,6 +3330,27 @@ if (FrmDashboard.DefaultTaxType != "")
                 .Any(r => r.Cells["VariationDefault"].Value != null &&
                           Convert.ToBoolean(r.Cells["VariationDefault"].Value)))
                 dgv_variation.Rows[0].Cells["VariationDefault"].Value = true;
+        }
+
+        private void ProductVariationGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dgv_variation.IsCurrentCellDirty)
+                dgv_variation.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
+
+        private void ProductVariationGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 ||
+                dgv_variation.Columns[e.ColumnIndex].Name != "VariationDefault")
+                return;
+
+            object selected = dgv_variation.Rows[e.RowIndex].Cells["VariationDefault"].Value;
+            if (selected != null && Convert.ToBoolean(selected))
+            {
+                for (int i = 0; i < dgv_variation.Rows.Count; i++)
+                    if (i != e.RowIndex)
+                        dgv_variation.Rows[i].Cells["VariationDefault"].Value = false;
+            }
         }
 
         private void ProductVariationGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -3431,6 +3449,11 @@ if (FrmDashboard.DefaultTaxType != "")
             {
                 try
                 {
+                    connection.Execute(
+                        @"UPDATE dbo.tblProductVariation SET IsDefault = 0
+                          WHERE ProductId = @ProductId AND BranchId = @BranchId AND Status = 1;",
+                        new { ProductId = productId, BranchId = FrmDashboard.BranchId }, transaction);
+
                     foreach (int variationId in pendingVariationDeletes)
                         connection.Execute(
                             @"UPDATE dbo.tblProductVariation
