@@ -6307,7 +6307,7 @@ namespace FoodandBeverage.Forms
                     tile.Padding = new Padding(8);
                     tile.Tag = variationId;
                     tile.Cursor = Cursors.Hand;
-                    tile.BorderStyle = BorderStyle.FixedSingle;
+                    tile.BorderStyle = BorderStyle.None;
 
                     TableLayoutPanel tlpMain = new TableLayoutPanel();
                     tlpMain.Parent = tile;
