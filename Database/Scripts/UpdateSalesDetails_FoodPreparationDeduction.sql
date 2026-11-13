@@ -455,7 +455,8 @@ BEGIN
                     SELECT TOP (1)
                         @SelectedVariationId = ISNULL(OD.vid, 0)
                     FROM dbo.tblOrderDetails AS OD
-                WHERE
+                WHERE @AddonStatus = 1
+                  AND
                     (
                         OD.OrderDetailsId IN
                         (
