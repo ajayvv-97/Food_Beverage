@@ -6529,7 +6529,12 @@ namespace FoodandBeverage.Forms
                     Dgv_Selected_Item.Rows[r1].Cells[islno].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     Dgv_Selected_Item.Rows[r1].Cells[ibarcode].Value = Convert.ToString(gridSource[0].Field1);
                     Dgv_Selected_Item.Rows[r1].Cells[ibarcode2].Value = Convert.ToString(gridSource[0].Field1);
-                    Dgv_Selected_Item.Rows[r1].Cells[iname].Value = Convert.ToString(gridSource[0].Field2) + "(" + GetVariationName(variationId) + ")";
+                    string selectedVariationName = GetVariationName(variationId);
+                    string selectedProductName = Convert.ToString(gridSource[0].Field2);
+                    Dgv_Selected_Item.Rows[r1].Cells[iname].Value =
+                        selectedProductName.EndsWith("(" + selectedVariationName + ")", StringComparison.OrdinalIgnoreCase)
+                            ? selectedProductName
+                            : selectedProductName + " (" + selectedVariationName + ")";
                     Dgv_Selected_Item.Rows[r1].Cells[iname].Style.Font = new Font(Dgv_Selected_Item.Font, FontStyle.Bold);
                     Dgv_Selected_Item.Rows[r1].Cells[iqty].Value = "1";
                     Dgv_Selected_Item.Rows[r1].Cells[iprate].Value = Convert.ToDecimal(gridSource[0].Field3);
