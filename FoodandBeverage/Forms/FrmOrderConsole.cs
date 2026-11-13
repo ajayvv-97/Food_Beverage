@@ -6186,9 +6186,14 @@ namespace FoodandBeverage.Forms
                 flp_variations.Padding = new Padding(12);
                 flp_variations.AutoScroll = true;
 
-                ShowBlurPopup(pnl_variation);
-                pnl_variation.BringToFront();
+                // Make the popup visible first. Its VisibleChanged event is already
+                // registered by InitializeBlurPopupSupport and creates the blur overlay.
+                // Calling ShowBlurPopup while the panel is hidden captures the form but
+                // restores Visible=false, leaving only the blurred background on screen.
                 GenerateVariationProduct(productId);
+
+                pnl_variation.Visible = true;
+                pnl_variation.BringToFront();
             }
             catch (Exception ex)
             {
