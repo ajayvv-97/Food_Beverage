@@ -359,6 +359,7 @@ BEGIN
                                   SELECT 1
                                   FROM dbo.tblIngredientDetails AS RD
                                   WHERE RD.ProductId = P.ProductId
+                                    AND ISNULL(RD.VariationId, 0) = 0
                                     AND RD.ProductType = 1
                                     AND ISNULL(RD.Status, 1) = 1
                               )
