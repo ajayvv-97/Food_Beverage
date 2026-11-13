@@ -4554,9 +4554,9 @@ if (FrmDashboard.DefaultTaxType != "")
                     savedId <= 0) continue;
                 int temporaryId = row.Tag is int && (int)row.Tag < 0
                     ? (int)row.Tag
-                    : -(i + 1);
+                    : 0;
                 List<IngredientRecipeDraft> draft;
-                if (ingredientVariationDrafts.TryGetValue(temporaryId, out draft))
+                if (temporaryId < 0 && ingredientVariationDrafts.TryGetValue(temporaryId, out draft))
                 {
                     ingredientVariationDrafts.Remove(temporaryId);
                     ingredientVariationDrafts[savedId] = draft;
