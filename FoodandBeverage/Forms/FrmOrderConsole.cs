@@ -11262,7 +11262,10 @@ namespace FoodandBeverage.Forms
                                     dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
 
                                     dmnsaledetails.OrderDetailsId = "0";
-                                    dmnsaledetails.VariationId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value ?? 0);
+                                    dmnsaledetails.VariationId =
+                                        dmnsaledetails.AddonStatus == Convert.ToInt32(Product_Addon_Variation_Type.Variation)
+                                            ? Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value ?? 0)
+                                            : 0;
                                     dmnsaledetails.SalesDetailsId = 0;
 
                                     if (dmnsaledetails.TableType == Convert.ToInt32(Tabletype.Product) && (dmnsaledetails.AddonStatus == 1 || dmnsaledetails.AddonStatus == 2))
@@ -11684,7 +11687,11 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.CreatedBy = FrmDashboard.UserId;
                                             dmnsaledetails.Status = 1;
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(dgv_combined.Rows[i].Cells[COrderDetailsIdno].Value);
-                                            dmnsaledetails.VariationId = Convert.ToInt32(dgv_combined.Rows[i].Cells[Cvariationidno].Value ?? 0);
+                                            dmnsaledetails.VariationId =
+                                                Convert.ToInt32(dgv_combined.Rows[i].Cells[CAddonStatus].Value ?? 0) ==
+                                                Convert.ToInt32(Product_Addon_Variation_Type.Variation)
+                                                    ? Convert.ToInt32(dgv_combined.Rows[i].Cells[Cvariationidno].Value ?? 0)
+                                                    : 0;
                                             dmnsaledetails.SalesDetailsId = Convert.ToInt32(dgv_combined.Rows[i].Cells[CSalesDetailsIdno].Value);
 
                                             dmnsaledetails.Pavid = Convert.ToInt32(dgv_combined.Rows[i].Cells[CPavid].Value);
@@ -12392,7 +12399,10 @@ namespace FoodandBeverage.Forms
                                             dmnsaledetails.VariatiionName = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[ivaraiationstatusno].Value);
 
                                             dmnsaledetails.OrderDetailsId = Convert.ToString(Dgv_Selected_Item.Rows[i].Cells[iorderdetailsidno].Value);
-                                            dmnsaledetails.VariationId = Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value ?? 0);
+                                            dmnsaledetails.VariationId =
+                                                dmnsaledetails.AddonStatus == Convert.ToInt32(Product_Addon_Variation_Type.Variation)
+                                                    ? Convert.ToInt32(Dgv_Selected_Item.Rows[i].Cells[ividno].Value ?? 0)
+                                                    : 0;
                                             dmnsaledetails.SalesDetailsId = 0;
                                             // BllSale resolves menu-product FoodPreparationType; combo components are resolved by SQL.
                                             dmnsaledetails.OrderTypeId = GetRowOrderTypeId(Dgv_Selected_Item.Rows[i], ipackingOrderTypeIdno.Index, this.StockDeductionOrderTypeId);
@@ -12607,7 +12617,11 @@ namespace FoodandBeverage.Forms
                                                 dmnsaledetails.VariatiionName = Convert.ToString(gridSourcemaster[i].VariatiionName);
 
                                                 dmnsaledetails.OrderDetailsId = Convert.ToString(gridSourcemaster[i].OrderDetailsId);
-                                                dmnsaledetails.VariationId = Convert.ToInt32(Dgv_Selected_Item.Rows[i + 1].Cells[ividno].Value ?? 0);
+                                                dmnsaledetails.VariationId =
+                                                    Convert.ToInt32(Dgv_Selected_Item.Rows[i + 1].Cells[ivaraiationstatusno].Value ?? 0) ==
+                                                    Convert.ToInt32(Product_Addon_Variation_Type.Variation)
+                                                        ? Convert.ToInt32(Dgv_Selected_Item.Rows[i + 1].Cells[ividno].Value ?? 0)
+                                                        : 0;
 
                                                 dmnsaledetails.SalesDetailsId = Convert.ToInt32(gridSourcemaster[i].SalesDetailsId);
 
