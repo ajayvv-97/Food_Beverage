@@ -4606,7 +4606,7 @@ if (FrmDashboard.DefaultTaxType != "")
                     if (!variationEnabled && variationId != 0)
                         continue;
 
-                    ingredientBll.DeactivateVariationIngredients(productId, variationId, FrmDashboard.BranchId);
+                    List<int> retainedIngredientIds = new List<int>();
                     foreach (IngredientRecipeDraft ingredient in recipe.Value)
                     {
                         decimal quantity;
@@ -4636,7 +4636,12 @@ if (FrmDashboard.DefaultTaxType != "")
                             throw new InvalidOperationException(
                                 "Unable to link ingredient row to its selected variation.");
                         }
+                        retainedIngredientIds.Add(saved.Ing_DetailsId);
                     }
+
+                    ingredientBll.DeactivateVariationIngredientsExcept(
+                        productId, variationId, FrmDashboard.BranchId,
+                        string.Join(",", retainedIngredientIds));
 
                     if (legacyRecipeFallbacks.Contains(variationId))
                     {
