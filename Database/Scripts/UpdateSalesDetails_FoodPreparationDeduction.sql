@@ -440,6 +440,14 @@ BEGIN
                     THROW 50316, @PreparationTypeError, 1;
                 END;
 
+                /* Preserve the saved variation on quantity edits when older callers omit @VariationId. */
+                IF ISNULL(@SelectedVariationId, 0) = 0 AND @SalesDetailsId > 0
+                BEGIN
+                    SELECT @SelectedVariationId = ISNULL(VariationId, 0)
+                    FROM dbo.tblSalesDetails
+                    WHERE SalesDetailsId = @SalesDetailsId;
+                END;
+
                 /* Resolve the selected product variation from the order detail row.
                    Older/non-variation orders have vid = 0 and continue using the base recipe. */
                 IF ISNULL(@SelectedVariationId, 0) = 0
