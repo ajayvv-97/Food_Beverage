@@ -3379,6 +3379,10 @@ if (FrmDashboard.DefaultTaxType != "")
                 dgv_variation.Enabled = enabled;
             if (variationAddRowButton != null)
                 variationAddRowButton.Enabled = enabled;
+            // When variation is off, the popup is read-only and only its close
+            // actions remain available. Submit is enabled after the checkbox is ticked.
+            if (btn_vari_submit != null)
+                btn_vari_submit.Enabled = enabled;
             if (chkVariationEnabled != null)
                 chkVariationEnabled.Enabled = true;
         }
