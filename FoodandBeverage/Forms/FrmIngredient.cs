@@ -3231,6 +3231,11 @@ if (FrmDashboard.DefaultTaxType != "")
             rowId.Visible = false;
             dgv_variation.Columns.Add(rowId);
 
+            // The Designer already wires dgv_variation_CellClick, which is an
+            // adapter to ProductVariationGrid_CellClick. Remove that adapter before
+            // attaching the handler directly; otherwise one Remove click is processed
+            // twice and can remove the replacement row unexpectedly.
+            dgv_variation.CellClick -= dgv_variation_CellClick;
             dgv_variation.CellClick -= ProductVariationGrid_CellClick;
             dgv_variation.CellClick += ProductVariationGrid_CellClick;
             dgv_variation.CellValueChanged -= ProductVariationGrid_CellValueChanged;
@@ -3461,25 +3466,36 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void ProductVariationGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (!variationEnabled || e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (e.RowIndex >= dgv_variation.Rows.Count ||
+                dgv_variation.Columns[e.ColumnIndex].Name != "VariationAction") return;
 
-            string columnName = dgv_variation.Columns[e.ColumnIndex].Name;
-            if (columnName != "VariationAction") return;
+            try
+            {
+                DataGridViewRow row = dgv_variation.Rows[e.RowIndex];
+                int id;
+                if (int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out id) &&
+                    id > 0 && !pendingVariationDeletes.Contains(id))
+                    pendingVariationDeletes.Add(id);
 
-            DataGridViewRow row = dgv_variation.Rows[e.RowIndex];
-            int id;
-            if (int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out id) &&
-                id > 0 && !pendingVariationDeletes.Contains(id))
-                pendingVariationDeletes.Add(id);
+                dgv_variation.Rows.RemoveAt(e.RowIndex);
+                RefreshProductVariationSlNo();
 
-            dgv_variation.Rows.RemoveAt(e.RowIndex);
-            RefreshProductVariationSlNo();
-            if (dgv_variation.Rows.Count == 0)
-                AddProductVariationRow();
-            else if (!dgv_variation.Rows.Cast<DataGridViewRow>()
-                .Any(r => r.Cells["VariationDefault"].Value != null &&
-                          Convert.ToBoolean(r.Cells["VariationDefault"].Value)))
-                dgv_variation.Rows[0].Cells["VariationDefault"].Value = true;
+                if (dgv_variation.Rows.Count == 0)
+                    AddProductVariationRow();
+                else if (!dgv_variation.Rows.Cast<DataGridViewRow>()
+                    .Any(r => r.Cells["VariationDefault"].Value != null &&
+                              Convert.ToBoolean(r.Cells["VariationDefault"].Value)))
+                    dgv_variation.Rows[0].Cells["VariationDefault"].Value = true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Remove product variation row", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation,
+                    Convert.ToInt32(FormType.Product));
+                CMessageBox.Show(this, "Unable to remove this variation. Please try again.",
+                    "Product Variation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void ProductVariationGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
