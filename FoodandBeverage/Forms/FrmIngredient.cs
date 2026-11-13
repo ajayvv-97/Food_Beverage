@@ -4338,7 +4338,11 @@ if (FrmDashboard.DefaultTaxType != "")
                         int variationId;
                         if (!int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out variationId) ||
                             variationId <= 0)
-                            variationId = -(i + 1);
+                        {
+                            if (!(row.Tag is int) || (int)row.Tag >= 0)
+                                row.Tag = nextTemporaryIngredientVariationId--;
+                            variationId = (int)row.Tag;
+                        }
                         options.Add(new IngredientVariationOption { Id = variationId, Name = name });
                     }
                 }
@@ -4561,7 +4565,7 @@ if (FrmDashboard.DefaultTaxType != "")
                     ingredientVariationDrafts.Remove(temporaryId);
                     ingredientVariationDrafts[savedId] = draft;
                 }
-                if (currentIngredientVariationId == temporaryId)
+                if (temporaryId < 0 && currentIngredientVariationId == temporaryId)
                     currentIngredientVariationId = savedId;
             }
             ConfigureIngredientVariationSelector(Convert.ToInt32(txtpid.Text), false);
