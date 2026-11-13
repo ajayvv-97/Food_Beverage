@@ -3951,8 +3951,53 @@ namespace FoodandBeverage.Forms
                     if (!string.Equals(cache.TimeLabel.Text, timeText, StringComparison.Ordinal))
                         cache.TimeLabel.Text = timeText;
 
-                    DateTime? startedAt = cache.StartedAt;
-                    DateTime? endedAt = cache.EndedAt;
+                    // Read timing fields directly from the order grid. This ensures the
+                    // one-second display timer never relies on an old cached timestamp.
+                    DateTime? startedAt = null;
+                    DateTime? endedAt = null;
+                    if (cache.Grid != null && !cache.Grid.IsDisposed)
+                    {
+                        List<int> koids = new List<int>();
+                        foreach (DataGridViewRow row in cache.Grid.Rows)
+                        {
+                            if (row.IsNewRow)
+                                continue;
+
+                            int koid;
+                            if (int.TryParse(Convert.ToString(row.Cells[dkoidno].Value), out koid) &&
+                                koid > 0 && !koids.Contains(koid))
+                                koids.Add(koid);
+                        }
+
+                        if (koids.Count > 0)
+                        {
+                            BllSearch<Dmnkitchendetails> timeSearch = new BllSearch<Dmnkitchendetails>();
+                            DmnSearch timeQuery = new DmnSearch
+                            {
+                                Select = "MIN(StartDate) AS StartDate, MAX(EndDate) AS EndDate",
+                                Table = "tblkitchenOrder",
+                                WhereNdGroupBy = "WHERE Koid IN (" + string.Join(",", koids) + ")",
+                                OrderBy = ""
+                            };
+
+                            List<Dmnkitchendetails> timeRows =
+                                timeSearch.GetSearchData("prdSearch", timeQuery);
+                            if (timeRows != null && timeRows.Count > 0)
+                            {
+                                DateTime parsed;
+                                if (DateTime.TryParse(Convert.ToString(timeRows[0].StartDate), out parsed) &&
+                                    parsed.Year >= 2000)
+                                    startedAt = parsed;
+
+                                if (DateTime.TryParse(Convert.ToString(timeRows[0].EndDate), out parsed) &&
+                                    parsed.Year >= 2000)
+                                    endedAt = parsed;
+                            }
+                        }
+                    }
+
+                    cache.StartedAt = startedAt;
+                    cache.EndedAt = endedAt;
 
                     if (cache.StartTimeLabel != null && !cache.StartTimeLabel.IsDisposed)
                         cache.StartTimeLabel.Text = startedAt.HasValue
