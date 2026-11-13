@@ -59,7 +59,8 @@ ALTER PROCEDURE [dbo].[prdInsert_Upd_SalesDetails]
     @PreTaxAmt           DECIMAL(18,2),
     @TotalPackingPrice   DECIMAL(18,2) = 0,
     @TotalPackingTax     DECIMAL(18,2) = 0,
-    @OrderTypeId         INT = 0
+    @OrderTypeId         INT = 0,
+     @VariationId         INT = 0
 )
 AS
 BEGIN
@@ -202,7 +203,9 @@ BEGIN
                 Cmid             = @Cmid,
                 PreTaxAmt        = @PreTaxAmt,
                 TotalPackingPrice = @TotalPackingPrice,
-                TotalPackingTax   = @TotalPackingTax
+                TotalPackingTax   = @TotalPackingTax,
+                VariationId       = CASE WHEN ISNULL(@VariationId, 0) > 0
+                                          THEN @VariationId ELSE ISNULL(VariationId, 0) END
             WHERE SalesDetailsId = @SalesDetailsId;
 
             IF @@ROWCOUNT = 0
