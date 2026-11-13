@@ -23,18 +23,18 @@ namespace BLL
 UPDATE dbo.tblkitchenOrder
 SET
     StartDate = CASE
-        WHEN @Status IN (2, 3) AND
+        WHEN @Status = 2 AND
              (StartDate IS NULL OR StartDate < CONVERT(DATETIME, '20000101', 112))
             THEN GETDATE()
         ELSE StartDate
     END,
     EndDate = CASE
-        WHEN @Status = 3 AND
-             (EndDate IS NULL OR EndDate < CONVERT(DATETIME, '20000101', 112))
+        WHEN @Status = 3
             THEN GETDATE()
         ELSE EndDate
     END
 WHERE Koid = @Koid;";
+
 
             DAL.DapperRepository<DmnOrderMaster> repository =
                 new DAL.DapperRepository<DmnOrderMaster>();
