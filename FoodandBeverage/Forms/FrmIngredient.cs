@@ -3633,9 +3633,12 @@ if (FrmDashboard.DefaultTaxType != "")
 
                 DmnProductVariation savedVariation =
                     bllVariation.AddEditData("prdInsert_upd_ProductVariation", variation);
-                if (savedVariation == null || savedVariation.VariationId <= 0)
+                int savedVariationId = savedVariation != null ? savedVariation.VariationId : 0;
+                if (savedVariationId <= 0)
+                    savedVariationId = GetSavedProductVariationId(productId, name);
+                if (savedVariationId <= 0)
                     throw new InvalidOperationException("Unable to save product variation '" + name + "'.");
-                row.Cells["VariationRowId"].Value = savedVariation.VariationId;
+                row.Cells["VariationRowId"].Value = savedVariationId;
             }
 
             int activeCount = dgv_variation.Rows.Cast<DataGridViewRow>()
@@ -3648,6 +3651,30 @@ if (FrmDashboard.DefaultTaxType != "")
             txtprice.ReadOnly = false;
 
             pendingVariationDeletes.Clear();
+        }
+
+        private int GetSavedProductVariationId(int productId, string variationName)
+        {
+            if (productId <= 0 || string.IsNullOrWhiteSpace(variationName))
+                return 0;
+
+            BllSearch<DmnGridFields> search = new BllSearch<DmnGridFields>();
+            DmnSearch query = new DmnSearch
+            {
+                Select = "TOP 1 VariationId Field1",
+                Table = "tblProductVariation",
+                WhereNdGroupBy = "WHERE ProductId = " + productId +
+                    " AND BranchId = " + FrmDashboard.BranchId +
+                    " AND Status = 1 AND VariationName = N'" +
+                    variationName.Replace("'", "''") + "'",
+                OrderBy = "ORDER BY VariationId DESC"
+            };
+
+            List<DmnGridFields> rows = search.GetSearchData("prdSearch", query);
+            int variationId;
+            return rows != null && rows.Count > 0 &&
+                int.TryParse(Convert.ToString(rows[0].Field1), out variationId)
+                ? variationId : 0;
         }
 
         private decimal GetProductBasePrice()
