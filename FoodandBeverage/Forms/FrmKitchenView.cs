@@ -1576,15 +1576,30 @@ namespace FoodandBeverage.Forms
                 if (detail == null)
                     continue;
 
-                DateTime? startValue = detail.StartDate;
-                if (!startValue.HasValue || startValue.Value == DateTime.MinValue ||
-                    startValue.Value.Year < 2000)
-                    continue;
-
-                DateTime value = startValue.Value;
-
-                if (!firstStart.HasValue || value < firstStart.Value)
+                DateTime? value = detail.StartDate;
+                if (value.HasValue && value.Value != DateTime.MinValue &&
+                    value.Value.Year >= 2000 &&
+                    (!firstStart.HasValue || value.Value < firstStart.Value))
                     firstStart = value;
+            }
+
+            // Some older records have a valid StartDate on the row while the
+            // DTO projection may have been created before the field was selected.
+            if (!firstStart.HasValue)
+            {
+                foreach (Dmnkitchendetails detail in details)
+                {
+                    if (detail == null)
+                        continue;
+
+                    DateTime value;
+                    if (DateTime.TryParse(Convert.ToString(detail.StartDate), out value) &&
+                        value != DateTime.MinValue && value.Year >= 2000)
+                    {
+                        if (!firstStart.HasValue || value < firstStart.Value)
+                            firstStart = value;
+                    }
+                }
             }
 
             return firstStart;
