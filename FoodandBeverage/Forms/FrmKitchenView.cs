@@ -3073,9 +3073,7 @@ namespace FoodandBeverage.Forms
                     {
                         var processedData = BillDetails.Select(item => new
                         {
-                            ItemName = !string.IsNullOrEmpty(item.ItemName)
-                                  ? item.ItemName + (!string.IsNullOrEmpty(item.VariatiionName) ? " (" + item.VariatiionName + ")" : string.Empty)
-                                  : item.ItemName,
+                            ItemName = FormatKitchenItemName(item.ItemName, item.VariatiionName),
                             Quantity = item.Quantity,
                             Notes = item.Notes,
                             Description = item.Description,
