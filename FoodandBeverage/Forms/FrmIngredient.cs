@@ -4688,6 +4688,80 @@ if (FrmDashboard.DefaultTaxType != "")
             }
         }
 
+        /// <summary>
+        /// Saves one variation recipe without waiting for the main Product Save button.
+        /// A retained-ID list is used to deactivate only rows removed from this variation.
+        /// </summary>
+        private bool SaveIngredientVariationRecipe(int productId, int variationId,
+            List<IngredientRecipeDraft> recipeRows)
+        {
+            if (productId <= 0 || variationId <= 0)
+                return true; // New products/variations are saved by SaveIngredientRecipes.
+
+            try
+            {
+                Bllincrediant ingredientBll = new Bllincrediant();
+                List<int> retainedIngredientIds = new List<int>();
+
+                foreach (IngredientRecipeDraft ingredient in recipeRows)
+                {
+                    decimal quantity;
+                    if (ingredient.ItemId <= 0 ||
+                        !decimal.TryParse(ingredient.Quantity, out quantity) || quantity <= 0)
+                        continue;
+
+                    Dmnincrediant entity = new Dmnincrediant
+                    {
+                        ProductId = productId,
+                        Ing_DetailsId = ingredient.DetailId,
+                        ItemId = ingredient.ItemId,
+                        quantity = quantity,
+                        unit = ingredient.UnitId,
+                        ProductType = chk_PackagingRequired.Checked
+                            ? ingredient.CategoryId
+                            : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial),
+                        Deductionstage = cmb_FoodPreparationType.SelectedIndex == 2
+                            ? ingredient.DeductionStageId : 0,
+                        CreatedBy = FrmDashboard.UserId,
+                        BranchId = FrmDashboard.BranchId,
+                        Status = chb_active.Checked ? 1 : 0
+                    };
+
+                    Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
+                    if (saved == null || saved.Ing_DetailsId <= 0)
+                        throw new InvalidOperationException("Unable to save an ingredient row.");
+
+                    if (ingredientBll.SetIngredientVariation(saved.Ing_DetailsId, variationId) <= 0)
+                        throw new InvalidOperationException(
+                            "Unable to link an ingredient row to its selected variation.");
+
+                    retainedIngredientIds.Add(saved.Ing_DetailsId);
+                    ingredient.DetailId = saved.Ing_DetailsId;
+                }
+
+                ingredientBll.DeactivateVariationIngredientsExcept(
+                    productId, variationId, FrmDashboard.BranchId,
+                    string.Join(",", retainedIngredientIds));
+
+                if (legacyRecipeFallbacks.Contains(variationId))
+                {
+                    ingredientBll.DeactivateVariationIngredients(productId, 0, FrmDashboard.BranchId);
+                    legacyRecipeFallbacks.Remove(variationId);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page SaveIngredientVariationRecipe()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                CMessageBox.Show(this,
+                    "Unable to save the previous variation's ingredients. The variation was not changed.",
+                    "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+        }
+
         private void cmb_variation_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (isChangingIngredientVariation || cmb_variation.SelectedValue == null)
@@ -4704,16 +4778,32 @@ if (FrmDashboard.DefaultTaxType != "")
                     return;
                 }
 
-                // SelectionChangeCommitted fires after the ComboBox value changes.
-                // Store the visible grid against the previously active variation ID.
-                ingredientVariationDrafts[previousVariationId] = CaptureIngredientGrid();
+                // Capture the recipe before changing the active variation. Existing products
+                // persist this variation immediately, so switching away and returning (or
+                // reopening the product) always reads the latest recipe from the database.
+                List<IngredientRecipeDraft> previousRecipe = CaptureIngredientGrid();
+                ingredientVariationDrafts[previousVariationId] = previousRecipe;
+
+                int productId;
+                int.TryParse(txtpid.Text, out productId);
+                if (productId > 0 && previousVariationId > 0)
+                {
+                    if (!SaveIngredientVariationRecipe(productId, previousVariationId, previousRecipe))
+                    {
+                        isChangingIngredientVariation = true;
+                        cmb_variation.SelectedValue = previousVariationId;
+                        isChangingIngredientVariation = false;
+                        return;
+                    }
+                }
+
                 int selectedVariationId;
                 if (!int.TryParse(Convert.ToString(cmb_variation.SelectedValue), out selectedVariationId))
                     return;
+
                 currentIngredientVariationId = selectedVariationId;
-                int productId;
-                int.TryParse(txtpid.Text, out productId);
-                LoadIngredientRecipe(productId, selectedVariationId, IsDefaultIngredientVariation(selectedVariationId));
+                LoadIngredientRecipe(productId, selectedVariationId,
+                    IsDefaultIngredientVariation(selectedVariationId));
             }
             catch (Exception ex)
             {
