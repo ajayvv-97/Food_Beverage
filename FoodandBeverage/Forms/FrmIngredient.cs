@@ -3058,17 +3058,6 @@ if (FrmDashboard.DefaultTaxType != "")
         private List<int> pendingVariationDeletes = new List<int>();
         private PictureBox variationBackdrop;
 
-        private bool IsProductVariationSchemaReady()
-        {
-            using (var connection = DAL.DapperRepository<DmnProductVariation>.OpenConnection())
-            {
-                return connection.ExecuteScalar<int>(
-                    @"SELECT CASE WHEN COL_LENGTH('dbo.tblProductVariation', 'PriceAddOn') IS NOT NULL
-                                      AND COL_LENGTH('dbo.tblProductVariation', 'IsDefault') IS NOT NULL
-                                  THEN 1 ELSE 0 END;") == 1;
-            }
-        }
-
         private void ShowVariationBackdrop()
         {
             RemoveVariationBackdrop();
@@ -3120,14 +3109,6 @@ if (FrmDashboard.DefaultTaxType != "")
         {
             try
             {
-                if (!IsProductVariationSchemaReady())
-                {
-                    CMessageBox.Show(this,
-                        "Product variation database columns are missing. Please execute Database/Scripts/ProductVariationRegistration.sql and reopen this page.",
-                        "Database Update Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
                 if (string.IsNullOrWhiteSpace(txtproductname.Text))
                 {
                     CMessageBox.Show(this, "Enter the product name before adding variations.",
@@ -3368,31 +3349,37 @@ if (FrmDashboard.DefaultTaxType != "")
         private void LoadProductVariations(int productId)
         {
             dgv_variation.Rows.Clear();
-            using (var connection = DAL.DapperRepository<DmnProductVariation>.OpenConnection())
-            {
-                var variations = connection.Query<DmnProductVariation>(
-                    @"SELECT VariationId, ProductId, VariationName, Price,
-                             PriceAddOn, DiscountAmt, DiscountPer, IsDefault
-                      FROM dbo.tblProductVariation
-                      WHERE ProductId = @ProductId
-                        AND BranchId = @BranchId
-                        AND Status = 1
-                      ORDER BY VariationId;",
-                    new { ProductId = productId, BranchId = FrmDashboard.BranchId }).ToList();
 
-                foreach (DmnProductVariation variation in variations)
-                {
-                    int index = dgv_variation.Rows.Add();
-                    DataGridViewRow row = dgv_variation.Rows[index];
-                    row.Cells["VariationSlNo"].Value = index + 1;
-                    row.Cells["VariationName"].Value = variation.VariationName;
-                    row.Cells["VariationPriceAddOn"].Value = variation.PriceAddOn;
-                    row.Cells["VariationFinalPrice"].Value = GetProductBasePrice() + variation.PriceAddOn;
-                    row.Cells["VariationDiscountPer"].Value = variation.DiscountPer;
-                    row.Cells["VariationDiscountAmt"].Value = variation.DiscountAmt;
-                    row.Cells["VariationDefault"].Value = variation.IsDefault;
-                    row.Cells["VariationRowId"].Value = variation.VariationId;
-                }
+            BllSearch<DmnGridFields> bllSearch = new BllSearch<DmnGridFields>();
+            DmnSearch objSearch = new DmnSearch();
+            objSearch.Select = @"
+                t.VariationId Id,
+                t.VariationName Field1,
+                t.PriceAddOn Field2,
+                t.Price Field3,
+                t.DiscountPer Field4,
+                t.DiscountAmt Field5,
+                t.IsDefault Field6";
+            objSearch.Table = "tblProductVariation t";
+            objSearch.WhereNdGroupBy = "WHERE t.ProductId = " + productId +
+                " AND t.BranchId = " + FrmDashboard.BranchId + " AND t.Status = 1";
+            objSearch.OrderBy = "ORDER BY t.VariationId";
+
+            List<DmnGridFields> variations = bllSearch.GetSearchData("prdSearch", objSearch);
+            foreach (DmnGridFields variation in variations)
+            {
+                int index = dgv_variation.Rows.Add();
+                DataGridViewRow row = dgv_variation.Rows[index];
+                row.Cells["VariationSlNo"].Value = index + 1;
+                row.Cells["VariationName"].Value = variation.Field1;
+                row.Cells["VariationPriceAddOn"].Value = Convert.ToDecimal(variation.Field2);
+                row.Cells["VariationFinalPrice"].Value = Convert.ToDecimal(variation.Field3);
+                row.Cells["VariationDiscountPer"].Value = Convert.ToDecimal(variation.Field4);
+                row.Cells["VariationDiscountAmt"].Value = Convert.ToDecimal(variation.Field5);
+                row.Cells["VariationDefault"].Value =
+                    Convert.ToString(variation.Field6) == "True" ||
+                    Convert.ToString(variation.Field6) == "1";
+                row.Cells["VariationRowId"].Value = variation.Id;
             }
         }
 
@@ -3544,101 +3531,64 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void SaveProductVariations(int productId)
         {
-            if (!IsProductVariationSchemaReady())
-                throw new InvalidOperationException(
-                    "Product variation database columns are missing. Execute Database/Scripts/ProductVariationRegistration.sql before saving.");
+            BllProductVariation bllVariation = new BllProductVariation();
 
-            using (var connection = DAL.DapperRepository<DmnProductVariation>.OpenConnection())
-            using (var transaction = connection.BeginTransaction())
+            foreach (int variationId in pendingVariationDeletes)
             {
-                try
-                {
-                    connection.Execute(
-                        @"UPDATE dbo.tblProductVariation SET IsDefault = 0
-                          WHERE ProductId = @ProductId AND BranchId = @BranchId AND Status = 1;",
-                        new { ProductId = productId, BranchId = FrmDashboard.BranchId }, transaction);
-
-                    foreach (int variationId in pendingVariationDeletes)
-                        connection.Execute(
-                            @"UPDATE dbo.tblProductVariation
-                              SET Status = 0, ModifiedBy = @ModifiedBy, ModifiedDateTime = GETDATE()
-                              WHERE VariationId = @VariationId AND ProductId = @ProductId AND BranchId = @BranchId;",
-                            new { VariationId = variationId, ProductId = productId,
-                                BranchId = FrmDashboard.BranchId, ModifiedBy = FrmDashboard.UserId }, transaction);
-
-                    foreach (DataGridViewRow row in dgv_variation.Rows)
-                    {
-                        if (row.IsNewRow) continue;
-                        string name = Convert.ToString(row.Cells["VariationName"].Value).Trim();
-                        string priceText = Convert.ToString(row.Cells["VariationPriceAddOn"].Value).Trim();
-                        if (name.Length == 0 && priceText.Length == 0) continue;
-
-                        decimal priceAddOn = Convert.ToDecimal(priceText);
-                        decimal finalPrice = GetProductBasePrice() + priceAddOn;
-                        decimal discountPer, discountAmt;
-                        decimal.TryParse(Convert.ToString(row.Cells["VariationDiscountPer"].Value), out discountPer);
-                        decimal.TryParse(Convert.ToString(row.Cells["VariationDiscountAmt"].Value), out discountAmt);
-                        bool isDefault = row.Cells["VariationDefault"].Value != null &&
-                            Convert.ToBoolean(row.Cells["VariationDefault"].Value);
-                        int variationId;
-                        int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out variationId);
-
-                        if (variationId > 0)
-                        {
-                            connection.Execute(
-                                @"UPDATE dbo.tblProductVariation
-                                  SET VariationName = @VariationName, VariationTypeId = NULL,
-                                      Price = @FinalPrice, PriceAddOn = @PriceAddOn,
-                                      DiscountPer = @DiscountPer, DiscountAmt = @DiscountAmt,
-                                      IsDefault = @IsDefault, ModifiedBy = @ModifiedBy,
-                                      ModifiedDateTime = GETDATE(), Status = 1
-                                  WHERE VariationId = @VariationId AND ProductId = @ProductId AND BranchId = @BranchId;",
-                                new { VariationId = variationId, ProductId = productId, BranchId = FrmDashboard.BranchId,
-                                    VariationName = name, FinalPrice = finalPrice, PriceAddOn = priceAddOn,
-                                    DiscountPer = discountPer, DiscountAmt = discountAmt,
-                                    IsDefault = isDefault, ModifiedBy = FrmDashboard.UserId }, transaction);
-                        }
-                        else
-                        {
-                            connection.Execute(
-                                @"INSERT INTO dbo.tblProductVariation
-                                    (ProductId, VariationName, VariationTypeId, Price, PriceAddOn,
-                                     DiscountAmt, DiscountPer, IsDefault, QOH, IsUnlimited,
-                                     BranchId, CreatedBy, CreatedDateTime, Status)
-                                  VALUES
-                                    (@ProductId, @VariationName, NULL, @FinalPrice, @PriceAddOn,
-                                     @DiscountAmt, @DiscountPer, @IsDefault, 0, 1,
-                                     @BranchId, @CreatedBy, GETDATE(), 1);",
-                                new { ProductId = productId, VariationName = name, FinalPrice = finalPrice,
-                                    PriceAddOn = priceAddOn, DiscountAmt = discountAmt, DiscountPer = discountPer,
-                                    IsDefault = isDefault, BranchId = FrmDashboard.BranchId,
-                                    CreatedBy = FrmDashboard.UserId }, transaction);
-                        }
-                    }
-
-                    transaction.Commit();
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    throw;
-                }
+                DmnProductVariation deletedVariation = new DmnProductVariation();
+                deletedVariation.VariationId = variationId;
+                deletedVariation.ProductId = productId;
+                deletedVariation.BranchId = FrmDashboard.BranchId;
+                deletedVariation.CreatedBy = FrmDashboard.UserId;
+                deletedVariation.Status = 0;
+                bllVariation.DeleteVariation("prdDelete_ProductVariation", deletedVariation);
             }
 
-            using (var connection = DAL.DapperRepository<DmnProductVariation>.OpenConnection())
+            foreach (DataGridViewRow row in dgv_variation.Rows)
             {
-                int count = connection.ExecuteScalar<int>(
-                    @"SELECT COUNT(1) FROM dbo.tblProductVariation
-                      WHERE ProductId = @ProductId AND BranchId = @BranchId AND Status = 1;",
-                    new { ProductId = productId, BranchId = FrmDashboard.BranchId });
-                connection.Execute(
-                    @"UPDATE dbo.tblProduct SET HasVariation = @HasVariation WHERE ProductId = @ProductId;",
-                    new { HasVariation = count > 0, ProductId = productId });
-                txtitemcode.ReadOnly = count > 0;
-                txtDiscAmnt.ReadOnly = count > 0;
-                txtDisPer.ReadOnly = count > 0;
-                txtprice.ReadOnly = false;
+                if (row.IsNewRow) continue;
+
+                string name = Convert.ToString(row.Cells["VariationName"].Value).Trim();
+                string priceText = Convert.ToString(row.Cells["VariationPriceAddOn"].Value).Trim();
+                if (name.Length == 0 && priceText.Length == 0) continue;
+
+                decimal priceAddOn = Convert.ToDecimal(priceText);
+                decimal finalPrice = GetProductBasePrice() + priceAddOn;
+                decimal discountPer, discountAmt;
+                decimal.TryParse(Convert.ToString(row.Cells["VariationDiscountPer"].Value), out discountPer);
+                decimal.TryParse(Convert.ToString(row.Cells["VariationDiscountAmt"].Value), out discountAmt);
+
+                int variationId;
+                int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out variationId);
+
+                DmnProductVariation variation = new DmnProductVariation();
+                variation.VariationId = variationId;
+                variation.ProductId = productId;
+                variation.VariationName = name;
+                variation.VariationTypeId = null;
+                variation.Price = finalPrice;
+                variation.PriceAddOn = priceAddOn;
+                variation.DiscountPer = discountPer;
+                variation.DiscountAmt = discountAmt;
+                variation.IsDefault = row.Cells["VariationDefault"].Value != null &&
+                    Convert.ToBoolean(row.Cells["VariationDefault"].Value);
+                variation.QOH = 0;
+                variation.IsUnlimited = true;
+                variation.BranchId = FrmDashboard.BranchId;
+                variation.CreatedBy = FrmDashboard.UserId;
+                variation.Status = 1;
+
+                bllVariation.AddEditData("prdInsert_upd_ProductVariation", variation);
             }
+
+            int activeCount = dgv_variation.Rows.Cast<DataGridViewRow>()
+                .Count(row => !row.IsNewRow &&
+                    !string.IsNullOrWhiteSpace(Convert.ToString(row.Cells["VariationName"].Value)));
+
+            txtitemcode.ReadOnly = activeCount > 0;
+            txtDiscAmnt.ReadOnly = activeCount > 0;
+            txtDisPer.ReadOnly = activeCount > 0;
+            txtprice.ReadOnly = false;
 
             pendingVariationDeletes.Clear();
         }
@@ -3651,7 +3601,7 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void btnvaria_cls_Click(object sender, EventArgs e)
         {
-            pnlvariation.Visible = false;
+            CloseProductVariationPopup();
         }
 
         private void btn_vari_submit_Click(object sender, EventArgs e)
