@@ -3137,16 +3137,16 @@ if (FrmDashboard.DefaultTaxType != "")
             name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgv_variation.Columns.Add(name);
 
-            AddVariationTextColumn("VariationPrice", "Price", 105, false);
-            AddVariationTextColumn("VariationQOH", "Stock Qty", 95, false);
+            AddVariationTextColumn("VariationPriceAddOn", "Price Add On", 115, false);
+            AddVariationTextColumn("VariationFinalPrice", "Final Price", 110, true);
             AddVariationTextColumn("VariationDiscountPer", "Discount %", 100, false);
-            AddVariationTextColumn("VariationDiscountAmt", "Discount Amt", 110, false);
+            AddVariationTextColumn("VariationDiscountAmt", "Discount Amount", 130, false);
 
-            DataGridViewCheckBoxColumn unlimited = new DataGridViewCheckBoxColumn();
-            unlimited.Name = "VariationUnlimited";
-            unlimited.HeaderText = "Unlimited";
-            unlimited.Width = 85;
-            dgv_variation.Columns.Add(unlimited);
+            DataGridViewCheckBoxColumn defaultColumn = new DataGridViewCheckBoxColumn();
+            defaultColumn.Name = "VariationDefault";
+            defaultColumn.HeaderText = "Default";
+            defaultColumn.Width = 75;
+            dgv_variation.Columns.Add(defaultColumn);
 
             DataGridViewTextBoxColumn rowId = new DataGridViewTextBoxColumn();
             rowId.Name = "VariationRowId";
@@ -3158,8 +3158,8 @@ if (FrmDashboard.DefaultTaxType != "")
             dgv_variation.EditingControlShowing -= ProductVariationGrid_EditingControlShowing;
             dgv_variation.EditingControlShowing += ProductVariationGrid_EditingControlShowing;
 
-            pnl_titlebar.BackColor = Color.FromArgb(101, 80, 185);
-            tlp_vari_nav.BackColor = Color.FromArgb(101, 80, 185);
+            pnl_titlebar.BackColor = Color.FromArgb(15, 52, 105);
+            tlp_vari_nav.BackColor = Color.FromArgb(15, 52, 105);
             tlp_vari_nav.Controls.Clear();
 
             Label title = new Label();
@@ -3183,18 +3183,69 @@ if (FrmDashboard.DefaultTaxType != "")
             close.Click += (s, e) => { pnlvariation.Visible = false; };
             tlp_vari_nav.Controls.Add(close, 2, 0);
 
-            btn_vari_submit.Text = "DONE";
+            btn_vari_submit.Text = "Save Variations";
             btn_vari_submit.BackgroundImage = null;
-            btn_vari_submit.BackColor = Color.FromArgb(101, 80, 185);
+            btn_vari_submit.BackColor = Color.FromArgb(0, 140, 45);
             btn_vari_submit.ForeColor = Color.White;
             btn_vari_submit.Font = new Font("Poppins", 9F, FontStyle.Bold);
             btn_vari_submit.FlatStyle = FlatStyle.Flat;
             btn_vari_submit.FlatAppearance.BorderSize = 0;
+            btn_vari_submit.Width = 180;
+            btn_vari_submit.Height = 40;
+            btn_vari_submit.Dock = DockStyle.Right;
 
+            Label basePriceLabel = new Label();
+            basePriceLabel.Name = "lblVariationBasePrice";
+            basePriceLabel.Dock = DockStyle.Left;
+            basePriceLabel.Width = 230;
+            basePriceLabel.TextAlign = ContentAlignment.MiddleLeft;
+            basePriceLabel.Font = new Font("Poppins", 10F, FontStyle.Bold);
+            basePriceLabel.ForeColor = Color.FromArgb(20, 40, 65);
+            basePriceLabel.Text = "Base Price : " + GetProductBasePrice().ToString("0.00");
+
+            Label formulaLabel = new Label();
+            formulaLabel.Dock = DockStyle.Fill;
+            formulaLabel.TextAlign = ContentAlignment.MiddleCenter;
+            formulaLabel.Font = new Font("Poppins", 9F, FontStyle.Regular);
+            formulaLabel.Text = "Variation Price = Base Price + Price Add On";
+
+            Panel infoPanel = new Panel();
+            infoPanel.Dock = DockStyle.Fill;
+            infoPanel.BackColor = Color.FromArgb(238, 246, 255);
+            infoPanel.Padding = new Padding(12, 4, 12, 4);
+            infoPanel.Controls.Add(formulaLabel);
+            infoPanel.Controls.Add(basePriceLabel);
+
+            Button addRowButton = new Button();
+            addRowButton.Text = "+ Add Variation";
+            addRowButton.Width = 150;
+            addRowButton.Height = 40;
+            addRowButton.Dock = DockStyle.Left;
+            addRowButton.FlatStyle = FlatStyle.Flat;
+            addRowButton.FlatAppearance.BorderColor = Color.FromArgb(35, 115, 220);
+            addRowButton.ForeColor = Color.FromArgb(20, 75, 160);
+            addRowButton.Click += (sender, args) => AddProductVariationRow();
+
+            Panel footerPanel = new Panel();
+            footerPanel.Dock = DockStyle.Fill;
+            footerPanel.Padding = new Padding(0, 5, 0, 5);
+            footerPanel.Controls.Add(btn_vari_submit);
+            footerPanel.Controls.Add(addRowButton);
+
+            tlp_grid_main.SuspendLayout();
+            tlp_grid_main.Controls.Clear();
+            tlp_grid_main.RowCount = 4;
             tlp_grid_main.RowStyles.Clear();
-            tlp_grid_main.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            tlp_grid_main.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+            tlp_grid_main.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
             tlp_grid_main.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlp_grid_main.RowStyles.Add(new RowStyle(SizeType.Absolute, 54F));
+            tlp_grid_main.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
+            tlp_grid_main.Controls.Add(pnl_titlebar, 0, 0);
+            tlp_grid_main.Controls.Add(infoPanel, 0, 1);
+            tlp_grid_main.Controls.Add(dgv_variation, 0, 2);
+            tlp_grid_main.Controls.Add(footerPanel, 0, 3);
+            dgv_variation.Dock = DockStyle.Fill;
+            tlp_grid_main.ResumeLayout(true);
             dgv_variation.ResumeLayout(true);
         }
 
@@ -3215,7 +3266,7 @@ if (FrmDashboard.DefaultTaxType != "")
             {
                 var variations = connection.Query<DmnProductVariation>(
                     @"SELECT VariationId, ProductId, VariationName, Price,
-                             DiscountAmt, DiscountPer, QOH, IsUnlimited
+                             PriceAddOn, DiscountAmt, DiscountPer, IsDefault
                       FROM dbo.tblProductVariation
                       WHERE ProductId = @ProductId
                         AND BranchId = @BranchId
@@ -3229,11 +3280,11 @@ if (FrmDashboard.DefaultTaxType != "")
                     DataGridViewRow row = dgv_variation.Rows[index];
                     row.Cells["VariationSlNo"].Value = index + 1;
                     row.Cells["VariationName"].Value = variation.VariationName;
-                    row.Cells["VariationPrice"].Value = variation.Price;
-                    row.Cells["VariationQOH"].Value = variation.QOH ?? 0;
+                    row.Cells["VariationPriceAddOn"].Value = variation.PriceAddOn;
+                    row.Cells["VariationFinalPrice"].Value = GetProductBasePrice() + variation.PriceAddOn;
                     row.Cells["VariationDiscountPer"].Value = variation.DiscountPer;
                     row.Cells["VariationDiscountAmt"].Value = variation.DiscountAmt;
-                    row.Cells["VariationUnlimited"].Value = variation.IsUnlimited;
+                    row.Cells["VariationDefault"].Value = variation.IsDefault;
                     row.Cells["VariationRowId"].Value = variation.VariationId;
                 }
             }
@@ -3244,10 +3295,11 @@ if (FrmDashboard.DefaultTaxType != "")
             int index = dgv_variation.Rows.Add();
             DataGridViewRow row = dgv_variation.Rows[index];
             row.Cells["VariationSlNo"].Value = index + 1;
-            row.Cells["VariationQOH"].Value = 0;
+            row.Cells["VariationPriceAddOn"].Value = 0m;
+            row.Cells["VariationFinalPrice"].Value = GetProductBasePrice();
             row.Cells["VariationDiscountPer"].Value = 0m;
             row.Cells["VariationDiscountAmt"].Value = 0m;
-            row.Cells["VariationUnlimited"].Value = true;
+            row.Cells["VariationDefault"].Value = dgv_variation.Rows.Count == 1;
             row.Cells["VariationRowId"].Value = 0;
         }
 
@@ -3277,7 +3329,7 @@ if (FrmDashboard.DefaultTaxType != "")
 
             textBox.KeyPress -= ProductVariationDecimal_KeyPress;
             string columnName = dgv_variation.CurrentCell.OwningColumn.Name;
-            if (columnName == "VariationPrice" || columnName == "VariationQOH" ||
+            if (columnName == "VariationPriceAddOn" ||
                 columnName == "VariationDiscountPer" || columnName == "VariationDiscountAmt")
                 textBox.KeyPress += ProductVariationDecimal_KeyPress;
         }
@@ -3304,10 +3356,10 @@ if (FrmDashboard.DefaultTaxType != "")
             {
                 if (row.IsNewRow) continue;
                 string name = Convert.ToString(row.Cells["VariationName"].Value).Trim();
-                string priceText = Convert.ToString(row.Cells["VariationPrice"].Value).Trim();
+                string priceText = Convert.ToString(row.Cells["VariationPriceAddOn"].Value).Trim();
                 if (name.Length == 0 && priceText.Length == 0) continue;
 
-                decimal price, discountPer, discountAmt, quantity;
+                decimal price, discountPer, discountAmt;
                 if (name.Length == 0 || !decimal.TryParse(priceText, out price) || price < 0)
                 {
                     CMessageBox.Show(this, "Enter a variation name and a valid price.",
@@ -3323,8 +3375,7 @@ if (FrmDashboard.DefaultTaxType != "")
 
                 decimal.TryParse(Convert.ToString(row.Cells["VariationDiscountPer"].Value), out discountPer);
                 decimal.TryParse(Convert.ToString(row.Cells["VariationDiscountAmt"].Value), out discountAmt);
-                decimal.TryParse(Convert.ToString(row.Cells["VariationQOH"].Value), out quantity);
-                if (discountPer < 0 || discountPer > 100 || discountAmt < 0 || quantity < 0)
+                if (discountPer < 0 || discountPer > 100 || discountAmt < 0)
                 {
                     CMessageBox.Show(this, "Discount and quantity values are invalid.",
                         "Product Variation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -3341,7 +3392,7 @@ if (FrmDashboard.DefaultTaxType != "")
             {
                 if (row.IsNewRow) continue;
                 string name = Convert.ToString(row.Cells["VariationName"].Value).Trim();
-                string priceText = Convert.ToString(row.Cells["VariationPrice"].Value).Trim();
+                string priceText = Convert.ToString(row.Cells["VariationPriceAddOn"].Value).Trim();
                 decimal price;
                 if (name.Length > 0 && decimal.TryParse(priceText, out price) && price >= 0)
                     return true;
@@ -3368,16 +3419,16 @@ if (FrmDashboard.DefaultTaxType != "")
                     {
                         if (row.IsNewRow) continue;
                         string name = Convert.ToString(row.Cells["VariationName"].Value).Trim();
-                        string priceText = Convert.ToString(row.Cells["VariationPrice"].Value).Trim();
+                        string priceText = Convert.ToString(row.Cells["VariationPriceAddOn"].Value).Trim();
                         if (name.Length == 0 && priceText.Length == 0) continue;
 
-                        decimal price = Convert.ToDecimal(priceText);
-                        decimal discountPer, discountAmt, quantity;
+                        decimal priceAddOn = Convert.ToDecimal(priceText);
+                        decimal finalPrice = GetProductBasePrice() + priceAddOn;
+                        decimal discountPer, discountAmt;
                         decimal.TryParse(Convert.ToString(row.Cells["VariationDiscountPer"].Value), out discountPer);
                         decimal.TryParse(Convert.ToString(row.Cells["VariationDiscountAmt"].Value), out discountAmt);
-                        decimal.TryParse(Convert.ToString(row.Cells["VariationQOH"].Value), out quantity);
-                        bool unlimited = row.Cells["VariationUnlimited"].Value != null &&
-                            Convert.ToBoolean(row.Cells["VariationUnlimited"].Value);
+                        bool isDefault = row.Cells["VariationDefault"].Value != null &&
+                            Convert.ToBoolean(row.Cells["VariationDefault"].Value);
                         int variationId;
                         int.TryParse(Convert.ToString(row.Cells["VariationRowId"].Value), out variationId);
 
@@ -3386,28 +3437,31 @@ if (FrmDashboard.DefaultTaxType != "")
                             connection.Execute(
                                 @"UPDATE dbo.tblProductVariation
                                   SET VariationName = @VariationName, VariationTypeId = NULL,
-                                      Price = @Price, DiscountPer = @DiscountPer, DiscountAmt = @DiscountAmt,
-                                      QOH = @QOH, IsUnlimited = @IsUnlimited, ModifiedBy = @ModifiedBy,
+                                      Price = @FinalPrice, PriceAddOn = @PriceAddOn,
+                                      DiscountPer = @DiscountPer, DiscountAmt = @DiscountAmt,
+                                      IsDefault = @IsDefault, ModifiedBy = @ModifiedBy,
                                       ModifiedDateTime = GETDATE(), Status = 1
                                   WHERE VariationId = @VariationId AND ProductId = @ProductId AND BranchId = @BranchId;",
                                 new { VariationId = variationId, ProductId = productId, BranchId = FrmDashboard.BranchId,
-                                    VariationName = name, Price = price, DiscountPer = discountPer,
-                                    DiscountAmt = discountAmt, QOH = unlimited ? 0 : (int)quantity,
-                                    IsUnlimited = unlimited, ModifiedBy = FrmDashboard.UserId }, transaction);
+                                    VariationName = name, FinalPrice = finalPrice, PriceAddOn = priceAddOn,
+                                    DiscountPer = discountPer, DiscountAmt = discountAmt,
+                                    IsDefault = isDefault, ModifiedBy = FrmDashboard.UserId }, transaction);
                         }
                         else
                         {
                             connection.Execute(
                                 @"INSERT INTO dbo.tblProductVariation
-                                    (ProductId, VariationName, VariationTypeId, Price, DiscountAmt, DiscountPer,
-                                     QOH, IsUnlimited, BranchId, CreatedBy, CreatedDateTime, Status)
+                                    (ProductId, VariationName, VariationTypeId, Price, PriceAddOn,
+                                     DiscountAmt, DiscountPer, IsDefault, QOH, IsUnlimited,
+                                     BranchId, CreatedBy, CreatedDateTime, Status)
                                   VALUES
-                                    (@ProductId, @VariationName, NULL, @Price, @DiscountAmt, @DiscountPer,
-                                     @QOH, @IsUnlimited, @BranchId, @CreatedBy, GETDATE(), 1);",
-                                new { ProductId = productId, VariationName = name, Price = price,
-                                    DiscountAmt = discountAmt, DiscountPer = discountPer,
-                                    QOH = unlimited ? 0 : (int)quantity, IsUnlimited = unlimited,
-                                    BranchId = FrmDashboard.BranchId, CreatedBy = FrmDashboard.UserId }, transaction);
+                                    (@ProductId, @VariationName, NULL, @FinalPrice, @PriceAddOn,
+                                     @DiscountAmt, @DiscountPer, @IsDefault, 0, 1,
+                                     @BranchId, @CreatedBy, GETDATE(), 1);",
+                                new { ProductId = productId, VariationName = name, FinalPrice = finalPrice,
+                                    PriceAddOn = priceAddOn, DiscountAmt = discountAmt, DiscountPer = discountPer,
+                                    IsDefault = isDefault, BranchId = FrmDashboard.BranchId,
+                                    CreatedBy = FrmDashboard.UserId }, transaction);
                         }
                     }
 
@@ -3432,10 +3486,16 @@ if (FrmDashboard.DefaultTaxType != "")
                 txtitemcode.ReadOnly = count > 0;
                 txtDiscAmnt.ReadOnly = count > 0;
                 txtDisPer.ReadOnly = count > 0;
-                txtprice.ReadOnly = count > 0;
+                txtprice.ReadOnly = false;
             }
 
             pendingVariationDeletes.Clear();
+        }
+
+        private decimal GetProductBasePrice()
+        {
+            decimal basePrice;
+            return decimal.TryParse(Convert.ToString(txtprice.Text), out basePrice) ? basePrice : 0m;
         }
 
         private void btnvaria_cls_Click(object sender, EventArgs e)
