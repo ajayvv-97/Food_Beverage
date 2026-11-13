@@ -4628,7 +4628,10 @@ if (FrmDashboard.DefaultTaxType != "")
                         Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
                         if (saved == null || saved.Ing_DetailsId <= 0) return false;
                         if (ingredientBll.SetIngredientVariation(saved.Ing_DetailsId, variationId) <= 0)
-                    throw new InvalidOperationException("Unable to link ingredient row to its selected variation.");
+                        {
+                            throw new InvalidOperationException(
+                                "Unable to link ingredient row to its selected variation.");
+                        }
                     }
 
                     if (legacyRecipeFallbacks.Contains(variationId))
