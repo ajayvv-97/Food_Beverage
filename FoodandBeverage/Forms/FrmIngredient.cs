@@ -3056,11 +3056,78 @@ if (FrmDashboard.DefaultTaxType != "")
         }
 
         private List<int> pendingVariationDeletes = new List<int>();
+        private PictureBox variationBackdrop;
+
+        private bool IsProductVariationSchemaReady()
+        {
+            using (var connection = DAL.DapperRepository<DmnProductVariation>.OpenConnection())
+            {
+                return connection.ExecuteScalar<int>(
+                    @"SELECT CASE WHEN COL_LENGTH('dbo.tblProductVariation', 'PriceAddOn') IS NOT NULL
+                                      AND COL_LENGTH('dbo.tblProductVariation', 'IsDefault') IS NOT NULL
+                                  THEN 1 ELSE 0 END;") == 1;
+            }
+        }
+
+        private void ShowVariationBackdrop()
+        {
+            RemoveVariationBackdrop();
+
+            Bitmap captured = new Bitmap(ClientSize.Width, ClientSize.Height);
+            DrawToBitmap(captured, new Rectangle(Point.Empty, ClientSize));
+
+            int smallWidth = Math.Max(1, captured.Width / 18);
+            int smallHeight = Math.Max(1, captured.Height / 18);
+            using (Bitmap small = new Bitmap(smallWidth, smallHeight))
+            using (Graphics g = Graphics.FromImage(small))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
+                g.DrawImage(captured, new Rectangle(0, 0, smallWidth, smallHeight));
+                using (Graphics g2 = Graphics.FromImage(captured))
+                {
+                    g2.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
+                    g2.DrawImage(small, new Rectangle(0, 0, captured.Width, captured.Height));
+                }
+            }
+
+            variationBackdrop = new PictureBox();
+            variationBackdrop.Name = "variationBackdrop";
+            variationBackdrop.Dock = DockStyle.Fill;
+            variationBackdrop.Image = captured;
+            variationBackdrop.SizeMode = PictureBoxSizeMode.StretchImage;
+            variationBackdrop.TabStop = false;
+            Controls.Add(variationBackdrop);
+            Controls.SetChildIndex(variationBackdrop, 0);
+        }
+
+        private void RemoveVariationBackdrop()
+        {
+            if (variationBackdrop == null) return;
+            Image image = variationBackdrop.Image;
+            Controls.Remove(variationBackdrop);
+            variationBackdrop.Dispose();
+            if (image != null) image.Dispose();
+            variationBackdrop = null;
+        }
+
+        private void CloseProductVariationPopup()
+        {
+            pnlvariation.Visible = false;
+            RemoveVariationBackdrop();
+        }
 
         private void btnvariation_Click(object sender, EventArgs e)
         {
             try
             {
+                if (!IsProductVariationSchemaReady())
+                {
+                    CMessageBox.Show(this,
+                        "Product variation database columns are missing. Please execute Database/Scripts/ProductVariationRegistration.sql and reopen this page.",
+                        "Database Update Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (string.IsNullOrWhiteSpace(txtproductname.Text))
                 {
                     CMessageBox.Show(this, "Enter the product name before adding variations.",
@@ -3069,6 +3136,7 @@ if (FrmDashboard.DefaultTaxType != "")
                     return;
                 }
 
+                ShowVariationBackdrop();
                 pnlvariation.Visible = true;
                 pnlvariation.BringToFront();
                 pnlvariation.AutoSize = false;
@@ -3094,6 +3162,7 @@ if (FrmDashboard.DefaultTaxType != "")
                 clsgen.LogException("Open product variation popup", ex, FrmLogin.EmployeName,
                     FrmLogin.Designation, Convert.ToInt32(FormType.Product));
                 CMessageBox.Show(this, ex.Message, "Product Variation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CloseProductVariationPopup();
             }
         }
 
@@ -3186,7 +3255,7 @@ if (FrmDashboard.DefaultTaxType != "")
             close.BackColor = Color.White;
             close.ForeColor = Color.FromArgb(190, 35, 55);
             close.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            close.Click += (s, e) => { pnlvariation.Visible = false; };
+            close.Click += (s, e) => CloseProductVariationPopup();
             tlp_vari_nav.Controls.Add(close, 2, 0);
 
             btn_vari_submit.Text = "Save Variations";
@@ -3196,6 +3265,14 @@ if (FrmDashboard.DefaultTaxType != "")
             btn_vari_submit.Font = new Font("Poppins", 9F, FontStyle.Bold);
             btn_vari_submit.FlatStyle = FlatStyle.Flat;
             btn_vari_submit.FlatAppearance.BorderSize = 0;
+            btn_vari_submit.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 105, 35);
+            btn_vari_submit.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 80, 28);
+            btn_vari_submit.UseVisualStyleBackColor = false;
+            btn_vari_submit.Cursor = Cursors.Hand;
+            btn_vari_submit.MouseEnter -= VariationSaveButton_MouseEnter;
+            btn_vari_submit.MouseEnter += VariationSaveButton_MouseEnter;
+            btn_vari_submit.MouseLeave -= VariationSaveButton_MouseLeave;
+            btn_vari_submit.MouseLeave += VariationSaveButton_MouseLeave;
             btn_vari_submit.Width = 180;
             btn_vari_submit.Height = 40;
             btn_vari_submit.Dock = DockStyle.Right;
@@ -3240,7 +3317,7 @@ if (FrmDashboard.DefaultTaxType != "")
             cancelButton.FlatStyle = FlatStyle.Flat;
             cancelButton.FlatAppearance.BorderColor = Color.FromArgb(210, 45, 55);
             cancelButton.ForeColor = Color.FromArgb(190, 35, 45);
-            cancelButton.Click += (sender, args) => { pnlvariation.Visible = false; };
+            cancelButton.Click += (sender, args) => CloseProductVariationPopup();
 
             Panel footerPanel = new Panel();
             footerPanel.Dock = DockStyle.Fill;
@@ -3264,6 +3341,18 @@ if (FrmDashboard.DefaultTaxType != "")
             dgv_variation.Dock = DockStyle.Fill;
             tlp_grid_main.ResumeLayout(true);
             dgv_variation.ResumeLayout(true);
+        }
+
+        private void VariationSaveButton_MouseEnter(object sender, EventArgs e)
+        {
+            btn_vari_submit.BackColor = Color.FromArgb(0, 105, 35);
+            btn_vari_submit.ForeColor = Color.White;
+        }
+
+        private void VariationSaveButton_MouseLeave(object sender, EventArgs e)
+        {
+            btn_vari_submit.BackColor = Color.FromArgb(0, 140, 45);
+            btn_vari_submit.ForeColor = Color.White;
         }
 
         private void AddVariationTextColumn(string name, string header, int width, bool readOnly)
@@ -3455,6 +3544,10 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void SaveProductVariations(int productId)
         {
+            if (!IsProductVariationSchemaReady())
+                throw new InvalidOperationException(
+                    "Product variation database columns are missing. Execute Database/Scripts/ProductVariationRegistration.sql before saving.");
+
             using (var connection = DAL.DapperRepository<DmnProductVariation>.OpenConnection())
             using (var transaction = connection.BeginTransaction())
             {
