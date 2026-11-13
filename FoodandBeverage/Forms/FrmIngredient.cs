@@ -4802,6 +4802,13 @@ if (FrmDashboard.DefaultTaxType != "")
                     return;
 
                 currentIngredientVariationId = selectedVariationId;
+
+                // For persisted variations, always reload from tblIngredientDetails.
+                // Temporary variations (negative IDs) remain in the in-memory draft
+                // until the product and its variations receive database IDs.
+                if (selectedVariationId > 0)
+                    ingredientVariationDrafts.Remove(selectedVariationId);
+
                 LoadIngredientRecipe(productId, selectedVariationId,
                     IsDefaultIngredientVariation(selectedVariationId));
             }
