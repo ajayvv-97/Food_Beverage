@@ -93,8 +93,32 @@ BEGIN
 END;
 GO
 
+/* Product master flag is the source of truth for whether variations are enabled. */
 IF COL_LENGTH(N'dbo.tblProduct', N'HasVariation') IS NULL
- ALTER TABLE dbo.tblProduct ADD HasVariation BIT NULL;
+BEGIN
+ ALTER TABLE dbo.tblProduct
+ ADD HasVariation BIT NOT NULL
+     CONSTRAINT DF_tblProduct_HasVariation DEFAULT (0) WITH VALUES;
+END
+ELSE
+BEGIN
+ UPDATE dbo.tblProduct SET HasVariation = 0 WHERE HasVariation IS NULL;
+
+ IF NOT EXISTS
+ (
+     SELECT 1
+     FROM sys.default_constraints dc
+     INNER JOIN sys.columns c
+         ON c.object_id = dc.parent_object_id
+        AND c.column_id = dc.parent_column_id
+     WHERE dc.parent_object_id = OBJECT_ID(N'dbo.tblProduct')
+       AND c.name = N'HasVariation'
+ )
+ BEGIN
+     ALTER TABLE dbo.tblProduct
+     ADD CONSTRAINT DF_tblProduct_HasVariation DEFAULT (0) FOR HasVariation;
+ END;
+END;
 GO
 
 
