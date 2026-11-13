@@ -489,6 +489,8 @@ namespace FoodandBeverage.Forms
             public PictureBox BtnCancel;
             public PictureBox BtnReprint;
             public DateTime CreatedTime;
+            public DateTime? StartedAt;
+            public DateTime? EndedAt;
 
             // DescriptionPanel remains a Control reference for the existing status/update path.
             public Control DescriptionPanel;
@@ -746,8 +748,7 @@ namespace FoodandBeverage.Forms
                         "ko.OrderMasterId AS Field1, " +
                         "ISNULL(tb.TableCode, '') AS Field2, " +
                         "'' AS Field3, " +
-                        "CASE WHEN NULLIF(LTRIM(RTRIM(ISNULL(od.VariatiionName, ''))), '') IS NOT NULL " +
-                        "THEN od.ItemName + ' (' + od.VariatiionName + ')' ELSE od.ItemName END AS Field4, " +
+                        "od.ItemName AS Field4, " +
                         "od.Quantity AS Field5, " +
                         "ISNULL(od.Notes, '') AS Field6, " +
                         "'' AS Field7, " +
@@ -1312,6 +1313,8 @@ namespace FoodandBeverage.Forms
                 cache.BtnCancel = cancelButton;
                 cache.BtnReprint = reprintButton;
                 cache.CreatedTime = details[0].Fielddatetime;
+                cache.StartedAt = GetKitchenStartTime(details);
+                cache.EndedAt = GetKitchenEndTime(details);
                 cache.CancelStatus = Convert.ToInt32(details[0].Field27);
 
                 ApplyKitchenActionVisibility(cache, details);
@@ -1834,6 +1837,8 @@ namespace FoodandBeverage.Forms
                 DateTime now = DateTime.Now;
                 DateTime? startTime = GetKitchenStartTime(details);
                 DateTime? endTime = GetKitchenEndTime(details);
+                cache.StartedAt = startTime;
+                cache.EndedAt = endTime;
 
                 if (cache.TimeLabel != null)
                     cache.TimeLabel.Text = FormatKitchenOrderTime(cache.CreatedTime, now);
@@ -3943,6 +3948,19 @@ namespace FoodandBeverage.Forms
                     string timeText = FormatKitchenOrderTime(cache.CreatedTime, now);
                     if (!string.Equals(cache.TimeLabel.Text, timeText, StringComparison.Ordinal))
                         cache.TimeLabel.Text = timeText;
+
+                    DateTime? startedAt = cache.StartedAt;
+                    DateTime? endedAt = cache.EndedAt;
+
+                    if (cache.StartTimeLabel != null && !cache.StartTimeLabel.IsDisposed)
+                        cache.StartTimeLabel.Text = startedAt.HasValue
+                            ? FormatKitchenOrderTime(startedAt.Value, now)
+                            : "—";
+
+                    if (cache.ElapsedTimeLabel != null && !cache.ElapsedTimeLabel.IsDisposed)
+                        cache.ElapsedTimeLabel.Text = startedAt.HasValue
+                            ? FormatKitchenElapsed((endedAt ?? now) - startedAt.Value)
+                            : "Not started";
                 }
             }
             catch (Exception ex)
