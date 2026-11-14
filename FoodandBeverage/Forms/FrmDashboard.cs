@@ -6047,11 +6047,7 @@ namespace FoodandBeverage.Forms
                    ib_pickup.Visible = false;
                     ib_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
-                    using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
-                    {
-                        _instanceFrmPickup.ShowDialog();
-                        _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
+                    OpenFullSizeDashboardDialog(new FrmPickup(Convert.ToInt32(ButtonType.pickup)));
 
 
                 }
