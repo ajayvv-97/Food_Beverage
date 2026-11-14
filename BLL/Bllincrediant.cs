@@ -8,6 +8,38 @@ namespace BLL
 {
     public class Bllincrediant
     {
+        public int InsertVariationIngredient(Dmnincrediant ingredient, int variationId)
+        {
+            if (ingredient == null || ingredient.ProductId <= 0 || ingredient.ItemId <= 0 ||
+                variationId < 0)
+                return 0;
+
+            DAL.DapperRepository<Dmnincrediant> repository =
+                new DAL.DapperRepository<Dmnincrediant>();
+            const string sql = @"
+INSERT INTO dbo.tblIngredientDetails
+    (ItemId, quantity, Unit, ProductId, BranchId, CreatedBy, Status,
+     Deductionstage, ProductType, VariationId)
+OUTPUT INSERTED.Ing_DetailsId
+VALUES
+    (@ItemId, @Quantity, @Unit, @ProductId, @BranchId, @CreatedBy, @Status,
+     @Deductionstage, @ProductType, @VariationId);";
+
+            return repository.ExecuteScalarText<int>(sql, new
+            {
+                ingredient.ItemId,
+                Quantity = ingredient.quantity,
+                Unit = ingredient.unit,
+                ingredient.ProductId,
+                ingredient.BranchId,
+                ingredient.CreatedBy,
+                ingredient.Status,
+                ingredient.Deductionstage,
+                ingredient.ProductType,
+                VariationId = variationId
+            });
+        }
+
         public int UpdateVariationIngredient(Dmnincrediant ingredient, int variationId)
         {
             // VariationId = 0 is the valid legacy/base recipe for products
@@ -30,7 +62,7 @@ SET ItemId = @ItemId,
 WHERE Ing_DetailsId = @Ing_DetailsId
   AND ProductId = @ProductId
   AND BranchId = @BranchId;";
-            repository.ExecuteText(sql, new
+            return repository.ExecuteText(sql, new
             {
                 ingredient.ItemId,
                 Quantity = ingredient.quantity,
@@ -43,7 +75,6 @@ WHERE Ing_DetailsId = @Ing_DetailsId
                 ingredient.ProductId,
                 ingredient.BranchId
             });
-            return 1;
         }
 
         public int SetIngredientVariation(int ingredientDetailId, int variationId)
