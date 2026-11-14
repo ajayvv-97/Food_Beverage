@@ -2784,10 +2784,14 @@ if (FrmDashboard.DefaultTaxType != "")
                         foreach (var item in itemSource)
                         {
                             CheckBox checkbox = new CheckBox();
-                            checkbox.Text = item.Field2;
+                            decimal addonPrice = 0m;
+                            decimal.TryParse(Convert.ToString(item.Field3), out addonPrice);
+                            checkbox.Text = Convert.ToString(item.Field2) +
+                                (addonPrice <= 0m ? " (FREE)" : " (₹" + addonPrice.ToString("0.##") + ")");
+                            checkbox.AccessibleName = Convert.ToString(item.Field2);
                             checkbox.Name = "chkaddon_" + item.Field1;
                             checkbox.Tag = item.Field1;
-                            checkbox.AccessibleDescription = item.Field3;
+                            checkbox.AccessibleDescription = Convert.ToString(item.Field3);
                             checkbox.Font = new System.Drawing.Font("Arial", 13, System.Drawing.FontStyle.Regular);
                            // checkbox.BackColor = Color.Yellow;
                             checkbox.Margin = new Padding(10, 20, 0, 20);
@@ -2827,7 +2831,8 @@ if (FrmDashboard.DefaultTaxType != "")
                         {
                             Id = Convert.ToInt32(clickedCheckBox.Tag),
                             Pavid = 0,
-                            Cnames = clickedCheckBox.Text,
+                            Cnames = string.IsNullOrWhiteSpace(clickedCheckBox.AccessibleName)
+                                ? clickedCheckBox.Text : clickedCheckBox.AccessibleName,
                             price = Convert.ToDecimal(clickedCheckBox.AccessibleDescription),
                             Status = 1
                         });
