@@ -4554,6 +4554,7 @@ if (FrmDashboard.DefaultTaxType != "")
                 row.Cells[RDeductionstageno].Value = ingredient.DeductionStageId;
                 row.Cells[RCategorytypeno].Value = ingredient.CategoryId;
                 row.Cells[RIng_DetailsIdno].Value = ingredient.DetailId > 0 ? (object)ingredient.DetailId : null;
+                row.Cells[RVariationidno].Value = currentIngredientVariationId;
                 DataGridViewImageCell deleteCell = row.Cells[Raction] as DataGridViewImageCell;
                 if (deleteCell != null)
                 {
@@ -4644,6 +4645,7 @@ if (FrmDashboard.DefaultTaxType != "")
                         Dmnincrediant entity = new Dmnincrediant
                         {
                             ProductId = productId,
+                            VariationId = variationId,
                             Ing_DetailsId = ingredient.DetailId,
                             ItemId = ingredient.ItemId,
                             quantity = quantity,
@@ -4744,7 +4746,13 @@ if (FrmDashboard.DefaultTaxType != "")
             {
                 clsgen.LogException("Product page cmb_variation_SelectionChangeCommitted()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
-                CMessageBox.Show(this, "Unable to load ingredients for the selected variation.",
+                isChangingIngredientVariation = true;
+                int previousVariationId = currentIngredientVariationId;
+                if (cmb_variation.Items.Count > 0)
+                    cmb_variation.SelectedValue = previousVariationId;
+                isChangingIngredientVariation = false;
+                CMessageBox.Show(this,
+                    "Unable to load ingredients for the selected variation. " + ex.Message,
                     "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
