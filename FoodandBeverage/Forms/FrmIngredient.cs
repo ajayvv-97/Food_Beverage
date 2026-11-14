@@ -4655,7 +4655,7 @@ if (FrmDashboard.DefaultTaxType != "")
                             Ing_DetailsId = ingredient.DetailId,
                             ItemId = ingredient.ItemId,
                             quantity = quantity,
-                            unit = ingredient.UnitId,
+                            unit =Convert.ToInt32(ingredient.UnitId),
                             ProductType = chk_PackagingRequired.Checked
                                 ? ingredient.CategoryId
                                 : Convert.ToInt32(Interfaces.InventoryItemCategory.RawMaterial),
