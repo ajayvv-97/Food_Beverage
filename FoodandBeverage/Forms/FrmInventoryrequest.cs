@@ -914,6 +914,9 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                 long itemId;
                 long recipeItemId;
                 int inventoryRequestDetailId;
+                long currentVariationId = 0L;
+                if (dgv_batch.CurrentRow != null)
+                    long.TryParse(Convert.ToString(dgv_batch.CurrentRow.Cells[Bvariationidno].Value), out currentVariationId);
                 if (!long.TryParse(Convert.ToString(row.Cells[BIitemidno].Value), out itemId)) continue;
                 long.TryParse(Convert.ToString(row.Cells[BIing_DetailsIdno].Value), out recipeItemId);
                 int.TryParse(Convert.ToString(row.Cells[BIInventoryRequestDetailIdno].Value), out inventoryRequestDetailId);
@@ -922,7 +925,7 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                     ? _loadedRequestDetails.FirstOrDefault(x => x.InventoryRequestDetailId == inventoryRequestDetailId)
                     : _loadedRequestDetails.FirstOrDefault(x =>
                         x.RequestType == 1 && x.ProductId == _visibleIngredientProductId &&
-                        (x.VariationId ?? 0L) == Convert.ToInt64(dgv_batch.CurrentRow.Cells[Bvariationidno].Value ?? 0) &&
+                        (x.VariationId ?? 0L) == currentVariationId &&
                         x.ItemId == itemId && x.RecipeItemId == recipeItemId);
 
                 if (saved == null)
@@ -931,7 +934,7 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                     {
                         InventoryRequestDetailId = inventoryRequestDetailId,
                         RequestType = 1, ProductId = _visibleIngredientProductId,
-                        VariationId = ToNullableLong(dgv_batch.CurrentRow == null ? null : dgv_batch.CurrentRow.Cells[Bvariationidno].Value),
+                        VariationId = currentVariationId,
                         ItemId = itemId, RecipeItemId = recipeItemId, ProductType = 1, Status = 1
                     };
                     _loadedRequestDetails.Add(saved);
@@ -945,7 +948,7 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                 saved.Unit = ToNullableInt(row.Cells[BIunitidno].Value);
                 saved.UnitName = Convert.ToString(row.Cells[BIunitno].Value);
                 saved.ItemName = Convert.ToString(row.Cells[BIingredientno].Value);
-                saved.VariationId = ToNullableLong(dgv_batch.CurrentRow == null ? null : dgv_batch.CurrentRow.Cells[Bvariationidno].Value);
+                saved.VariationId = currentVariationId;
             }
         }
 
@@ -982,7 +985,8 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                             UnitName = Convert.ToString(ingredientRow.Cells[BIunitno].Value),
                             CurrentStock = ToDecimal(ingredientRow.Cells[BIcurrentstockno].Value),
                             ProjectedBalance = ToDecimal(ingredientRow.Cells[BIprojectedbalanceno].Value),
-                            ProductId = productId
+                            ProductId = productId,
+                            VariationId = variationId
                         });
                     }
                 }
