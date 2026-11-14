@@ -1386,37 +1386,8 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void pb_menupic_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if ((empImgExt != "" && empImgExt != null) || Convert.ToInt32(txtPpid.Text) > 0)
-                {
-                    pnl_menupic.Visible = true;
-                    pnl_menupic.Location = new Point(this.ClientSize.Width / 2 - pnl_menupic.Size.Width / 2, this.ClientSize.Height / 2 - pnl_menupic.Size.Height / 2);
-                }
-                else
-                {
-                    OpenFileDialog openFileDialog = new OpenFileDialog();
-                    openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                    DialogResult dialogResult = openFileDialog.ShowDialog();
-                    if (openFileDialog.FileName != "")
-                    {
-                        empImgExt = openFileDialog.FileName;
-                        pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                        pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
-
-                        //pb_menupic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                        //pb_menupic.BackgroundImageLayout = ImageLayout.Stretch;
-                        //pb_menupic.Image = null;
-
-                        pb_view_pic.Image = null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Product page pb_menupic_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
-            }
+            // Route the old product-photo shortcut to the new unified Images settings page.
+            btn_iamgeview_Click(sender, e);
         }
 
 
@@ -1439,26 +1410,7 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void btn_change_pic_Click(object sender, EventArgs e)
         {
-            try
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Images only.| *.jpeg;*.jpg;*.png;*.gif;";
-                DialogResult dialogResult = openFileDialog.ShowDialog();
-                if (openFileDialog.FileName != "")
-                {
-                    empImgExt = openFileDialog.FileName;
-                    pb_view_pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                    pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
-                    pb_view_pic.Image = null;
-                    Bitmap bitmap = new Bitmap(Image.FromFile(openFileDialog.FileName));
-                    bitmap.Save(Compressedimg + "\\Image.jpeg");
-                }
-            }
-            catch (Exception ex)
-            {
-                //CMessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                clsgen.LogException("Product page btn_change_pic_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
-            }
+            ProductImageBrowse_Click(sender, e);
         }
 
         #region gallery creation
@@ -4713,7 +4665,7 @@ if (FrmDashboard.DefaultTaxType != "")
             pnl_menupic.Visible = false;
 
             if (pnl_common.Controls.Contains(productImagePage))
-                pnl_common.Controls.Controls.Remove(productImagePage);
+                pnl_common.Controls.Remove(productImagePage);
 
             if (!pnl_common.Controls.Contains(dgv_registartion))
                 pnl_common.Controls.Add(dgv_registartion);
