@@ -343,6 +343,7 @@ WHERE VariationId = @VariationId;", new { VariationId = variationId }).FirstOrDe
             dgv_raw.Rows.Clear();
             _originalIngredientQuantities.Clear();
             _visibleIngredientProductId = 0;
+            _visibleIngredientVariationId = 0L;
             _loadedRequestDetails = NormalizeLoadedRequestDetails(
                 details ?? new List<DmnInventoryRequestDetail>());
 
