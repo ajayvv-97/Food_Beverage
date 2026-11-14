@@ -143,8 +143,11 @@ namespace FoodandBeverage.Forms
                 WhereNdGroupBy = "WHERE d.ProductId = " + productId +
                                  " AND d.ProductType = 1 " +
                                  " AND ISNULL(d.Status,1) = 1 " +
-                                 " AND ISNULL(d.VariationId,0) = " + variationId +
-                                 " AND (p.FoodPreparationType = " + (int)FoodPreparationMethod.BatchPrepared + " OR " +
+                                 " AND (ISNULL(d.VariationId,0) = " + variationId +
+                                 (variationId > 0
+                                     ? " OR (ISNULL(d.VariationId,0) = 0 AND NOT EXISTS (SELECT 1 FROM tblIngredientDetails dx WHERE dx.ProductId = d.ProductId AND ISNULL(dx.VariationId,0) = " + variationId + " AND dx.ProductType = 1 AND ISNULL(dx.Status,1) = 1))"
+                                     : string.Empty) +
+                                 ") AND (p.FoodPreparationType = " + (int)FoodPreparationMethod.BatchPrepared + " OR " +
                                  "(p.FoodPreparationType = " + (int)FoodPreparationMethod.PartiallyPrepared + " AND ISNULL(d.Deductionstage,0) = " + (int)IngredientDeductionStage.BatchPreparation + "))",
                 OrderBy = "ORDER BY d.Ing_DetailsId"
             };
