@@ -114,7 +114,7 @@ namespace FoodandBeverage.Forms
             public int ItemId { get; set; }
             public string ItemName { get; set; }
             public string Quantity { get; set; }
-            public int UnitId { get; set; }
+            public long UnitId { get; set; }
             public int CategoryId { get; set; }
             public int DeductionStageId { get; set; }
             public int VariationId { get; set; }
@@ -859,9 +859,9 @@ if (FrmDashboard.DefaultTaxType != "")
                 bool hasQuantity = decimal.TryParse(
                     Convert.ToString(row.Cells[Rqtyno].Value), out quantity);
 
-                int unitId = 0;
-                bool hasUnit = int.TryParse(
-                    Convert.ToString(row.Cells[Runitno].Value), out unitId) && unitId > 0;
+                long unitId = 0L;
+                bool hasUnit = long.TryParse(
+                    Convert.ToString(row.Cells[Runitno].Value), out unitId) && unitId > 0L;
 
                 bool quantityEntered = !string.IsNullOrWhiteSpace(Convert.ToString(row.Cells[Rqtyno].Value));
                 bool unitEntered = !string.IsNullOrWhiteSpace(Convert.ToString(row.Cells[Runitno].Value));
@@ -4448,9 +4448,10 @@ if (FrmDashboard.DefaultTaxType != "")
                 string quantity = Convert.ToString(row.Cells[Rqtyno].Value);
                 if (itemId <= 0 && string.IsNullOrWhiteSpace(itemName) &&
                     string.IsNullOrWhiteSpace(quantity)) continue;
-                int detailId, unitId;
+                int detailId;
+                long unitId;
                 int.TryParse(Convert.ToString(row.Cells[RIng_DetailsIdno].Value), out detailId);
-                int.TryParse(Convert.ToString(row.Cells[Runitno].Value), out unitId);
+                long.TryParse(Convert.ToString(row.Cells[Runitno].Value), out unitId);
                 rows.Add(new IngredientRecipeDraft
                 {
                     DetailId = detailId,
@@ -4524,10 +4525,11 @@ if (FrmDashboard.DefaultTaxType != "")
             foreach (DmnGridFields item in source)
             {
                 if (!IsActiveIngredientStatus(item.Field6)) continue;
-                int itemId, detailId, unitId;
+                int itemId, detailId;
+                long unitId;
                 if (!int.TryParse(Convert.ToString(item.Field1), out itemId) || itemId <= 0) continue;
                 int.TryParse(Convert.ToString(item.Field5), out detailId);
-                int.TryParse(Convert.ToString(item.Field4), out unitId);
+                long.TryParse(Convert.ToString(item.Field4), out unitId);
                 result.Add(new IngredientRecipeDraft
                 {
                     DetailId = detailId,
