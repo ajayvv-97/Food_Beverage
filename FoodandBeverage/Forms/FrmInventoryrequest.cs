@@ -35,6 +35,7 @@ namespace FoodandBeverage.Forms
         private int _currentApprovalStatus; // 0 Pending, 1 Approved, 2 Rejected, 3 Sent Back
         private string _currentDraftNo;
         private int _visibleIngredientProductId;
+        private long _visibleIngredientVariationId;
         private List<DmnInventoryRequestDetail> _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
 
         private sealed class BatchVariationOption
@@ -711,7 +712,10 @@ namespace FoodandBeverage.Forms
                 int rowIndex = dgv_batch.Rows.Add();
                 DataGridViewRow row = dgv_batch.Rows[rowIndex];
                 row.Cells[Bslno].Value = rowIndex + 1;
-                row.Cells[Bmenuitemno].Value = selected.ItemName;
+                string variationName = GetBatchVariationName(productId, selectedVariationId.Value);
+                row.Cells[Bmenuitemno].Value = string.IsNullOrWhiteSpace(variationName)
+                    ? selected.ItemName
+                    : selected.ItemName + " (" + variationName + ")";
                 row.Cells[Bplannedqtyno].Value = 1m;
                 row.Cells[Bunitno].Value = string.Empty;
                 row.Cells[Brecipeingredientsno].Value = "View ingredients";
@@ -726,6 +730,19 @@ namespace FoodandBeverage.Forms
             {
                 LogInventoryException("FrmInventoryrequest AddBatchProductById", ex);
                 ShowError("Unable to load the selected product. " + ex.Message);
+            }
+        }
+
+        private string GetBatchVariationName(int productId, long variationId)
+        {
+            if (variationId <= 0) return string.Empty;
+            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                return connection.QueryFirstOrDefault<string>(@"
+SELECT VariationName
+FROM dbo.tblProductVariation
+WHERE ProductId = @ProductId AND VariationId = @VariationId AND ISNULL(Status,1) = 1;",
+                    new { ProductId = productId, VariationId = variationId }) ?? string.Empty;
             }
         }
 
@@ -896,6 +913,7 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                     _originalIngredientQuantities[ingredient.IngredientDetailId] = ingredient.PerPortionQty;
                 }
                 _visibleIngredientProductId = productId;
+                _visibleIngredientVariationId = variationId;
             }
             finally
             {
@@ -917,9 +935,7 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                 long itemId;
                 long recipeItemId;
                 int inventoryRequestDetailId;
-                long currentVariationId = 0L;
-                if (dgv_batch.CurrentRow != null)
-                    long.TryParse(Convert.ToString(dgv_batch.CurrentRow.Cells[Bvariationidno].Value), out currentVariationId);
+                long currentVariationId = _visibleIngredientVariationId;
                 if (!long.TryParse(Convert.ToString(row.Cells[BIitemidno].Value), out itemId)) continue;
                 long.TryParse(Convert.ToString(row.Cells[BIing_DetailsIdno].Value), out recipeItemId);
                 int.TryParse(Convert.ToString(row.Cells[BIInventoryRequestDetailIdno].Value), out inventoryRequestDetailId);
@@ -970,8 +986,7 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                 decimal plannedQty = ToDecimal(productRow.Cells[Bplannedqtyno].Value);
                 List<DmnInventoryRequestIngredient> ingredients = new List<DmnInventoryRequestIngredient>();
 
-                if (productId == _visibleIngredientProductId &&
-                    (dgv_batch.CurrentRow == null || Convert.ToInt64(dgv_batch.CurrentRow.Cells[Bvariationidno].Value ?? 0) == variationId))
+                if (productId == _visibleIngredientProductId && variationId == _visibleIngredientVariationId)
                 {
                     foreach (DataGridViewRow ingredientRow in dgv_batch_ingrediant.Rows)
                     {
@@ -1084,6 +1099,8 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
 
                 DataGridViewRow row = dgv_batch.Rows[e.RowIndex];
                 int productId = Convert.ToInt32(row.Cells[Bitemidno].Value);
+                long variationId = 0L;
+                long.TryParse(Convert.ToString(row.Cells[Bvariationidno].Value), out variationId);
 
                 if (!ConfirmInventoryRowRemoval())
                     return;
@@ -1091,12 +1108,13 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                 CacheVisibleIngredientRows();
                 dgv_batch.Rows.RemoveAt(e.RowIndex);
                 if (_loadedRequestDetails != null)
-                    _loadedRequestDetails.RemoveAll(x => x.RequestType == 1 && x.ProductId == productId);
+                    _loadedRequestDetails.RemoveAll(x => x.RequestType == 1 && x.ProductId == productId && (x.VariationId ?? 0L) == variationId);
 
                 RenumberRows(dgv_batch, Bslno);
                 dgv_batch_ingrediant.Rows.Clear();
                 _originalIngredientQuantities.Clear();
                 _visibleIngredientProductId = 0;
+                _visibleIngredientVariationId = 0L;
                 UpdateRequestTotals();
                 return;
             }
