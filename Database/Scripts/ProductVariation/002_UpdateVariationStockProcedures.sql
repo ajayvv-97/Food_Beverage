@@ -283,6 +283,7 @@ BEGIN
                         SELECT 1
                         FROM dbo.tblIngredientDetails AS ing WITH (UPDLOCK, HOLDLOCK)
                         WHERE ing.ProductId = requestedProduct.ProductId
+                          AND ISNULL(ing.VariationId, 0) = requestedProduct.VariationId
                           AND ing.ProductType = 1
                           AND ISNULL(ing.Status, 1) = 1
                     )
