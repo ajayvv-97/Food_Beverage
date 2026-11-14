@@ -1,6 +1,5 @@
 USE [FoodBeverage];
 GO
-GO
 /****** Object:  StoredProcedure [dbo].[prdUpdate_InventoryRequestApproval]    Script Date: 09-11-2026 21:02:19 ******/
 SET ANSI_NULLS ON
 GO
@@ -1460,5 +1459,4 @@ BEGIN
         THROW;
     END CATCH;
 END;
-GO
 GO
