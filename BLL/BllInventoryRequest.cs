@@ -295,6 +295,7 @@ WHERE InventoryRequestId = @InventoryRequestId
   AND RequestType = @RequestType
   AND ISNULL(ProductId, 0) = ISNULL(@ProductId, 0)
   AND ISNULL(RecipeItemId, 0) = ISNULL(@RecipeItemId, 0)
+  AND ISNULL(VariationId, 0) = ISNULL(@VariationId, 0)
   AND ISNULL(ItemId, 0) = ISNULL(@ItemId, 0)
   AND ISNULL(Unit, 0) = ISNULL(@Unit, 0)
 ORDER BY InventoryRequestDetailId DESC;";
@@ -310,6 +311,7 @@ ORDER BY InventoryRequestDetailId DESC;";
                         BranchId = branchId,
                         detail.RequestType,
                         detail.ProductId,
+                        VariationId = detail.VariationId ?? 0L,
                         detail.RecipeItemId,
                         detail.ItemId,
                         detail.Unit
