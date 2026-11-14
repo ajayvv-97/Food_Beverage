@@ -308,6 +308,20 @@ namespace DAL
             }
         }
 
+        /// <summary>
+        /// Executes a parameterized text command and returns its scalar result.
+        /// </summary>
+        public TResult ExecuteScalarText<TResult>(string sql, object parameters)
+        {
+            if (string.IsNullOrWhiteSpace(sql))
+                throw new ArgumentException("SQL command cannot be empty.", "sql");
+
+            using (IDbConnection connection = OpenConnection())
+            {
+                return connection.ExecuteScalar<TResult>(sql, parameters, commandType: CommandType.Text);
+            }
+        }
+
         #region OpenConnection
         /// <summary>
         /// OpenConnection
