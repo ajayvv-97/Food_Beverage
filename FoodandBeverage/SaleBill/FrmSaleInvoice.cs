@@ -482,7 +482,8 @@ namespace FoodandBeverage.SaleBill
                     // must remain separate sales-detail rows on the printed bill.
                     MainCategory = (string.IsNullOrEmpty(item.AV_id)
                         ? $"{item.ItemName}{item.SalesMasterId}{item.Prid}"
-                        : item.AV_id) + "|V" + item.VariationId,
+                        : item.AV_id) + "|V" + item.VariationId +
+                        "|N" + (item.VariatiionName ?? string.Empty).Trim(),
                     MainCategoryCount = invoiceBillDetails.Count(b => b.MainCategory == item.MainCategory)
                 }).ToList();
 
