@@ -170,6 +170,7 @@ namespace FoodandBeverage.Forms
             this.dbaction = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dbitemid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.batchInventoryRequestDetailId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.batchVariationId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_main.SuspendLayout();
             this.tlp_inner_main.SuspendLayout();
             this.pnl_view.SuspendLayout();
@@ -593,7 +594,8 @@ namespace FoodandBeverage.Forms
             this.brecipengrediant,
             this.dbaction,
             this.dbitemid,
-            this.batchInventoryRequestDetailId});
+            this.batchInventoryRequestDetailId,
+            this.batchVariationId});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2169,6 +2171,12 @@ namespace FoodandBeverage.Forms
             this.batchInventoryRequestDetailId.Name = "batchInventoryRequestDetailId";
             this.batchInventoryRequestDetailId.Visible = false;
             // 
+            // batchVariationId
+            // 
+            this.batchVariationId.HeaderText = "VariationId";
+            this.batchVariationId.Name = "batchVariationId";
+            this.batchVariationId.Visible = false;
+            // 
             // FrmInventoryrequest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2370,6 +2378,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.DataGridViewButtonColumn dbaction;
         private System.Windows.Forms.DataGridViewTextBoxColumn dbitemid;
         private System.Windows.Forms.DataGridViewTextBoxColumn batchInventoryRequestDetailId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn batchVariationId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
