@@ -7108,7 +7108,10 @@ namespace FoodandBeverage.Forms
 
                             // Item Button
                             Button Button_Item = new Button();
-                            Button_Item.Text = item.Field2;
+                            decimal addonUnitPrice = 0m;
+                            decimal.TryParse(Convert.ToString(item.Field5), out addonUnitPrice);
+                            Button_Item.Text = Convert.ToString(item.Field2) +
+                                (addonUnitPrice <= 0m ? "  (FREE)" : "  (₹" + addonUnitPrice.ToString("0.##") + ")");
                             Button_Item.Name = "btn_addon_" + item.Field8 + "_" + item.Field1;
                             Button_Item.Tag = item.Field8 + "_" + item.Field1;
                             Button_Item.AccessibleDescription = item.Field5;
