@@ -2947,6 +2947,11 @@ if (FrmDashboard.DefaultTaxType != "")
             RemoveVariationBackdrop();
         }
 
+        private void CloseCommonSettingsPopup()
+        {
+            CloseCommonSettingsPopup();
+        }
+
         private void btnvariation_Click(object sender, EventArgs e)
         {
             try
@@ -3690,6 +3695,7 @@ if (FrmDashboard.DefaultTaxType != "")
         private void btn_addon_submit_Click(object sender, EventArgs e)
         {
             pnl_addon.Visible = false;
+            RemoveVariationBackdrop();
         }
         
         public void UploadImage_Database(Bitmap bitmap, int Pid, int inseration_type, int Id, int Emp_branchid, int status, int Emp_userid)
@@ -4662,6 +4668,7 @@ if (FrmDashboard.DefaultTaxType != "")
             if (productImagePage != null)
                 productImagePage.Visible = false;
             dgv_registartion.Visible = true;
+            RemoveVariationBackdrop();
         }
 
         private void btn_ingrediantview_Click(object sender, EventArgs e)
@@ -4679,7 +4686,9 @@ if (FrmDashboard.DefaultTaxType != "")
             dgv_registartion.Dock = DockStyle.Fill;
             dgv_registartion.Visible = true;
             dgv_registartion.BringToFront();
-            ShowCommonSettingPanel(745, 225);
+
+            // The ingredient grid needs a taller workspace to show its full rows and columns.
+            ShowCommonSettingPanel(1100, 440);
         }
 
         private void btn_variationview_Click(object sender, EventArgs e)
@@ -4712,6 +4721,7 @@ if (FrmDashboard.DefaultTaxType != "")
         {
             pnl_common_setting.Visible = false;
             CloseProductVariationPopup();
+            ShowVariationBackdrop();
             btnaddon_Click(sender, e);
             pnl_addon.Visible = true;
             pnl_addon.BringToFront();
@@ -4726,6 +4736,9 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void ShowCommonSettingPanel(int width, int height)
         {
+            // Capture the current form and place a blurred layer behind every settings popup.
+            ShowVariationBackdrop();
+
             pnl_common_setting.AutoSize = false;
             tableLayoutPanel5.AutoSize = false;
             pnl_common_setting.Size = new Size(
