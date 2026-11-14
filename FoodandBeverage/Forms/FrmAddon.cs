@@ -238,8 +238,8 @@ namespace FoodandBeverage.Forms
                 if (string.IsNullOrWhiteSpace(txtprice.Text))
                     txtprice.Text = "0";
 
-                decimal addonPrice;
-                if (!decimal.TryParse(txtprice.Text, out addonPrice) || addonPrice < 0)
+                int addonPrice;
+                if (!int.TryParse(txtprice.Text, out addonPrice) || addonPrice < 0)
                 {
                     CMessageBox.Show("Enter a valid add-on price. Enter 0 for a free add-on.", "Invalid Price", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtprice.Focus();
