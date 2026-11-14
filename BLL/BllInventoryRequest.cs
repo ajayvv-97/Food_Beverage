@@ -90,6 +90,7 @@ namespace BLL
             parameters.Add("RequestType", objDetails.RequestType);
             parameters.Add("SlNo", objDetails.SlNo);
             parameters.Add("ProductId", objDetails.ProductId);
+            parameters.Add("VariationId", objDetails.VariationId);
 
             parameters.Add("PlannedQty", NormalizeQuantity(objDetails.PlannedQty));
             parameters.Add("PerPortionQty", NormalizeQuantity(objDetails.PerPortionQty));
@@ -132,6 +133,7 @@ namespace BLL
             parameters.Add("RequestType", objDetails.RequestType);
             parameters.Add("SlNo", objDetails.SlNo);
             parameters.Add("ProductId", objDetails.ProductId);
+            parameters.Add("VariationId", objDetails.VariationId);
 
             parameters.Add("PlannedQty", NormalizeQuantity(objDetails.PlannedQty));
             parameters.Add("PerPortionQty", NormalizeQuantity(objDetails.PerPortionQty));
