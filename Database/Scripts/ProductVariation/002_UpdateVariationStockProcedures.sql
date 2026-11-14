@@ -957,6 +957,7 @@ BEGIN
                     WHERE Cmid = @Cmid
                       AND TableType = @TableType
                       AND SalesMasterId = @SalesMasterId
+                      AND ISNULL(VariationId, 0) = ISNULL(@VariationId, 0)
                       AND AddonStatus IN (0,1);
                 END
                 ELSE IF @AddonStatus = 2
@@ -989,6 +990,7 @@ BEGIN
                     WHERE Cmid = @Cmid
                       AND TableType = @TableType
                       AND SalesMasterId = @SalesMasterId
+                      AND ISNULL(VariationId, 0) = ISNULL(@VariationId, 0)
                       AND AddonStatus IN (0,1);
                 END
                 ELSE IF @AddonStatus = 2
@@ -1014,6 +1016,7 @@ BEGIN
                 WHERE SalesMasterId = @SalesMasterId
                   AND Cmid = @Cmid
                   AND TableType = @TableType
+                  AND ISNULL(VariationId, 0) = ISNULL(@VariationId, 0)
                 ORDER BY SalesDetailsId DESC;
 
                 SET @DeductStock = 1;
