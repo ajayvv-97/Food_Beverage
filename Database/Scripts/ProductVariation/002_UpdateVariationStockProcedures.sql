@@ -1190,6 +1190,7 @@ BEGIN
                 FROM @ProductPreparation AS P
                 INNER JOIN dbo.tblIngredientDetails AS D
                     ON D.ProductId = P.ProductId
+                   AND ISNULL(D.VariationId, 0) = P.VariationId
                    AND ISNULL(D.Status, 1) = 1
                 LEFT JOIN dbo.tblItem AS I
                     ON I.ItemId = D.ItemId
@@ -1223,6 +1224,7 @@ BEGIN
                 FROM @ProductPreparation AS P
                 INNER JOIN dbo.tblIngredientDetails AS D
                     ON D.ProductId = P.ProductId
+                   AND ISNULL(D.VariationId, 0) = P.VariationId
                    AND ISNULL(D.Status, 1) = 1
                 INNER JOIN dbo.tblItem AS I
                     ON I.ItemId = D.ItemId
@@ -1261,6 +1263,7 @@ BEGIN
             FROM @ProductPreparation AS P
             INNER JOIN dbo.tblIngredientDetails AS D
                 ON D.ProductId = P.ProductId
+               AND ISNULL(D.VariationId, 0) = P.VariationId
                AND ISNULL(D.Status, 1) = 1
             WHERE
                 (
