@@ -214,31 +214,32 @@ namespace FoodandBeverage.Forms
                         ingredientSaveSuccess = SaveIngredientRecipes(prostatus.ProductId);
                         #endregion
 
-                        #region  Addon Table Inseration DB
-                        //if (Checked_Addon_List.Count>0)
-                        //{
-                        //    foreach (CAddonlist Listdata in Checked_Addon_List)
-                        //    {
-                        //        DmnAddonVariation dmnvariation = new DmnAddonVariation();
-                        //        BllVariation blladdon = new BllVariation();
-                        //        dmnvariation.Pavid = Listdata.Pavid;
-                        //        dmnvariation.Caption = Listdata.Cnames;
-                        //        dmnvariation.VariationCode = "";
-                        //        dmnvariation.Aid = Listdata.Id;
-                        //        dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Addon);
-                        //        dmnvariation.Price = Listdata.price;
-                        //        dmnvariation.ProductId = Convert.ToInt32(prostatus.ProductId);
-                        //        dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
-                        //        dmnvariation.CreatedBy = FrmDashboard.UserId;
-                        //        dmnvariation.BranchId = FrmDashboard.BranchId;
-                        //        dmnvariation.Status = Listdata.Status;
-                        //        var usertype = blladdon.AddData("prdInsert_upd_AddonVariation", dmnvariation);
-                        //        if (usertype.Pavid > 0)
-                        //        {
-                        //            varia_count = varia_count + 1;
-                        //        }
-                        //    }
-                        //}
+                        #region Product Add-on Assignment Persistence
+                        // Keep the existing Product_Addon_Variation relationship. A zero
+                        // assignment price represents a free add-on; its recipe is still
+                        // maintained independently in tblAddonIngredientDetails.
+                        if (Checked_Addon_List != null && Checked_Addon_List.Count > 0)
+                        {
+                            BllVariation blladdon = new BllVariation();
+                            foreach (CAddonlist Listdata in Checked_Addon_List)
+                            {
+                                DmnAddonVariation dmnvariation = new DmnAddonVariation();
+                                dmnvariation.Pavid = Listdata.Pavid;
+                                dmnvariation.Caption = Listdata.Cnames;
+                                dmnvariation.VariationCode = "";
+                                dmnvariation.Aid = Listdata.Id;
+                                dmnvariation.Type = Convert.ToInt32(Product_Addon_Variation_Type.Addon);
+                                dmnvariation.Price = Listdata.price;
+                                dmnvariation.ProductId = Convert.ToInt32(prostatus.ProductId);
+                                dmnvariation.ItemCode_UPC = Convert.ToString(txtitemcode.Text);
+                                dmnvariation.CreatedBy = FrmDashboard.UserId;
+                                dmnvariation.BranchId = FrmDashboard.BranchId;
+                                dmnvariation.Status = Listdata.Status;
+                                var savedAddon = blladdon.AddData("prdInsert_upd_AddonVariation", dmnvariation);
+                                if (savedAddon == null || savedAddon.Pavid <= 0)
+                                    throw new InvalidOperationException("Unable to save add-on '" + Listdata.Cnames + "'.");
+                            }
+                        }
                         #endregion
                     }
 
@@ -2835,14 +2836,12 @@ if (FrmDashboard.DefaultTaxType != "")
                 else
                 {
                     CAddonlist itemToRemove = Checked_Addon_List.FirstOrDefault(item => item.Id == Convert.ToInt32(clickedCheckBox.Tag));
-                    int indexToRemove = Checked_Addon_List.IndexOf(itemToRemove);
-                    if (Convert.ToInt32( Checked_Addon_List[indexToRemove].Pavid)>0 && itemToRemove != null)
+                    if (itemToRemove != null)
                     {
-                        Checked_Addon_List[indexToRemove].Status = 0;
-                    }
-                    else
-                    {
-                        Checked_Addon_List.Remove(itemToRemove);
+                        if (itemToRemove.Pavid > 0)
+                            itemToRemove.Status = 0;
+                        else
+                            Checked_Addon_List.Remove(itemToRemove);
                     }
                 }
             }
