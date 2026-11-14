@@ -39,7 +39,7 @@ namespace FoodandBeverage
                     Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
                     if (config.AppSettings.Settings["GameDB"] != null)
-                        config.AppSettings.Settings["GameDB"].Value = "Prime_old";
+                        config.AppSettings.Settings["GameDB"].Value = "Midas";
                     else
                         config.AppSettings.Settings.Add("GameDB", "Prime_old");
 
