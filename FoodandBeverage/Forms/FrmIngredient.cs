@@ -28,6 +28,7 @@ namespace FoodandBeverage.Forms
             InitializeComponent();
             ConfigureInventoryItemCategoryColumn();
             ConfigureIngredientUnitColumn();
+            InitializeProductImagePage();
             chk_PackagingRequired.CheckedChanged += chk_PackagingRequired_CheckedChanged;
             dgv_registartion.RowsAdded += dgv_registartion_RowsAdded;
             dgv_registartion.CellClick += dgv_registartion_ItemCellClick;
@@ -96,6 +97,10 @@ namespace FoodandBeverage.Forms
         public int Productcorner = Convert.ToInt32(ConfigurationManager.AppSettings["CornerRadius"]);
         private bool isLoadingColor = false;
         private bool isChangingIngredientVariation = false;
+        private bool productImageChanged = false;
+        private Panel productImagePage;
+        private PictureBox productImagePreview;
+        private Label productImageHint;
         private int currentIngredientVariationId = 0;
         private int nextTemporaryIngredientVariationId = -1;
         private readonly Dictionary<int, List<IngredientRecipeDraft>> ingredientVariationDrafts =
@@ -245,63 +250,10 @@ namespace FoodandBeverage.Forms
 
                     if (ingredientSaveSuccess)
                     {
-                        if (pb_view_pic.BackgroundImage != null)
-                        {
-                            if (!Directory.Exists(Compressedimg))
-                            {
-                                Directory.CreateDirectory(Compressedimg);
-                                DirectoryInfo dInfo = new DirectoryInfo(Compressedimg);
-                                DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                                dInfo.SetAccessControl(dSecurity);
-                            }
-                            else
-                            {
-                                foreach (string file in Directory.GetFiles(Compressedimg))
-                                {
-                                    System.GC.Collect();
-                                    System.GC.WaitForPendingFinalizers();
-                                    File.Delete(file);
-                                }
-                            }
-                            ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
+                        // Only upload when the employee has selected/replaced the product photo.
+                        // Existing photos are left untouched when the image was not changed.
+                        SaveProductImage(Convert.ToInt32(prostatus.ProductId));
 
-                            if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
-                            {
-                                #region  Employee photo upload in Database
-                                if (pb_view_pic.BackgroundImage != null)
-                                {
-                                    Bitmap bitmap = new Bitmap(Compressedimg + "\\Image.jpeg");
-                                    int pPid = Convert.ToInt32(txtPpid.Text);
-                                    int Emp_branchid = Convert.ToInt32(FrmDashboard.BranchId);
-                                    int Upstatus = Convert.ToInt32(1);
-                                    int Emp_userid = Convert.ToInt32(FrmLogin.UserId);
-                                    int ins_type = Convert.ToInt32(Interfaces.Inseration_Type.Product_Photo);
-                                    clsDocument.UploadImage_Database(bitmap, pPid, ins_type, Convert.ToInt32(prostatus.ProductId), Emp_branchid, Upstatus, Emp_userid);
-                                }
-                                #endregion
-                            }                            
-                            else
-                            {
-                                if (File.Exists(Compressedimg + "\\Image.jpeg"))
-                                {
-                                    bool statuspic = clsDocument.CopyFile(Compressedimg + "\\Image.jpeg", Convert.ToString(prostatus.ProductId) + ".jpeg", DocumentType.FoodPhoto);
-                                    //if (status == false)
-                                    //{
-                                    //    MessageBox.Show(this, "Unable To Upload Image Please Try Again ", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-                                    //}
-                                }
-                            }
-                        }
-                        else
-                        {
-                            bool imageExist = clsDocument.FileExistOrNot(Convert.ToString(prostatus.ProductId) + ".jpeg", DocumentType.FoodPhoto);
-                            if (imageExist)
-                            {
-                                clsDocument.DeleteImage(Convert.ToString(prostatus.ProductId) + ".jpeg", DocumentType.FoodPhoto);
-                            }
-
-                        }
                         if (Convert.ToUInt32(txtpid.Text) > 0)
                             CMessageBox.Show("Update Successfully saved");
                         else
@@ -329,12 +281,14 @@ namespace FoodandBeverage.Forms
                 txtsearch.Text = "Food Name.....";
                 txtsearch.ForeColor = Color.Gray;
 
-                pb_view_pic.BackgroundImage = null;
+                SetProductImageStorage(null);
+                productImageChanged = false;
 
                 //pb_menupic.BackgroundImage = null;
                 //pb_menupic.BackgroundImage = Properties.Resources.FoodPic;
                 txthsncode.Text = "";
                 empImgExt = "";
+                productImageChanged = false;
                 txtqty.Text = "";
                 txtitemcode.Text = "";
                 txtpid.Text = "0";
@@ -1056,30 +1010,7 @@ if (FrmDashboard.DefaultTaxType != "")
                     #endregion
 
 
-                    //string imageName = Convert.ToString(gridSource[0].ProductId) + ".jpeg";
-                    //bool imageExist, brLogoExist;
-                    //if (imageName != "" && imageName != null)
-                    //{
-                    //    if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.FTP))
-                    //    {
-                    //        imageExist = clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto);
-                    //        if (imageExist)
-                    //        {
-                    //            pb_view_pic.BackgroundImage = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
-                    //            pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
-                    //            pb_view_pic.Image = null;
-                    //            empImgExt = imageName;
-                    //        }
-                    //    }
-                    //    else if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
-                    //    {
-                    //        int pPid = Convert.ToInt32(txtPpid.Text);
-                    //        int ins_type = Convert.ToInt32(Inseration_Type.Product_Photo);
-                    //        pb_view_pic.Image = clsDocument.DownloadImageDatabase(ins_type,pPid);
-                    //        //pb_menupic.Image = clsDocument.DownloadImageDatabase(ins_type, pPid);
-                    //    }
-
-                    //}
+                    LoadProductImage(Pid);
 
                     if (Convert.ToInt32(gridSource[0].PreparationMode) == Convert.ToInt32(KOTRouting.kitchen))
                         cmbpre_type.SelectedIndex = 0;
@@ -4769,32 +4700,336 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void btn_setting_close_Click(object sender, EventArgs e)
         {
-            pnl_common_setting.Visible = true;
+            pnl_common_setting.Visible = false;
+            if (productImagePage != null)
+                productImagePage.Visible = false;
+            dgv_registartion.Visible = true;
         }
 
         private void btn_ingrediantview_Click(object sender, EventArgs e)
         {
+            pnlvariation.Visible = false;
+            pnl_addon.Visible = false;
+            pnl_menupic.Visible = false;
 
+            if (pnl_common.Controls.Contains(productImagePage))
+                pnl_common.Controls.Controls.Remove(productImagePage);
+
+            if (!pnl_common.Controls.Contains(dgv_registartion))
+                pnl_common.Controls.Add(dgv_registartion);
+
+            dgv_registartion.Dock = DockStyle.Fill;
+            dgv_registartion.Visible = true;
+            dgv_registartion.BringToFront();
+            ShowCommonSettingPanel(745, 225);
         }
 
         private void btn_variationview_Click(object sender, EventArgs e)
         {
-
+            pnl_common_setting.Visible = false;
+            pnl_addon.Visible = false;
+            btnvariation_Click(sender, e);
         }
 
         private void btn_iamgeview_Click(object sender, EventArgs e)
         {
+            pnlvariation.Visible = false;
+            pnl_addon.Visible = false;
+            pnl_menupic.Visible = false;
 
+            if (!pnl_common.Controls.Contains(productImagePage))
+            {
+                pnl_common.Controls.Clear();
+                pnl_common.Controls.Add(productImagePage);
+            }
+
+            productImagePage.Dock = DockStyle.Fill;
+            productImagePage.Visible = true;
+            RefreshProductImagePreview();
+            ShowCommonSettingPanel(745, 430);
+            productImagePage.BringToFront();
         }
 
         private void btn_addon_view_Click(object sender, EventArgs e)
         {
-
+            pnl_common_setting.Visible = false;
+            pnlvariation.Visible = false;
+            btnaddon_Click(sender, e);
+            pnl_addon.Visible = true;
+            pnl_addon.BringToFront();
         }
 
         private void btn_othersettingview_Click(object sender, EventArgs e)
         {
+            pnl_common_setting.Visible = false;
+            CMessageBox.Show(this, "Other settings will be available soon.",
+                "Product Settings", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
+        private void ShowCommonSettingPanel(int width, int height)
+        {
+            pnl_common_setting.AutoSize = false;
+            tableLayoutPanel5.AutoSize = false;
+            pnl_common_setting.Size = new Size(
+                Math.Min(width, ClientSize.Width - 24),
+                Math.Min(height, ClientSize.Height - 70));
+
+            tableLayoutPanel5.Size = new Size(
+                pnl_common_setting.ClientSize.Width - pnl_common_setting.Padding.Horizontal,
+                pnl_common_setting.ClientSize.Height - pnl_common_setting.Padding.Vertical);
+
+            if (tableLayoutPanel5.RowStyles.Count > 1)
+            {
+                tableLayoutPanel5.RowStyles[0].SizeType = SizeType.Absolute;
+                tableLayoutPanel5.RowStyles[0].Height = 36F;
+                tableLayoutPanel5.RowStyles[1].SizeType = SizeType.Percent;
+                tableLayoutPanel5.RowStyles[1].Height = 100F;
+            }
+
+            pnl_common_setting.Left = (ClientSize.Width - pnl_common_setting.Width) / 2;
+            pnl_common_setting.Top = (ClientSize.Height - pnl_common_setting.Height) / 2;
+            pnl_common_setting.Visible = true;
+            pnl_common_setting.BringToFront();
+            pnl_common_setting.PerformLayout();
+        }
+
+        private void InitializeProductImagePage()
+        {
+            productImagePage = new Panel();
+            productImagePage.Name = "pnlProductImagePage";
+            productImagePage.Dock = DockStyle.Fill;
+            productImagePage.BackColor = Color.White;
+            productImagePage.Padding = new Padding(18);
+
+            Label title = new Label();
+            title.Text = "Product Image";
+            title.Font = new Font("Microsoft Sans Serif", 15F, FontStyle.Bold);
+            title.ForeColor = Color.FromArgb(55, 35, 125);
+            title.Location = new Point(18, 12);
+            title.Size = new Size(300, 30);
+
+            Label description = new Label();
+            description.Text = "Choose a clear photo to display this product in the POS menu.";
+            description.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular);
+            description.ForeColor = Color.DimGray;
+            description.Location = new Point(20, 43);
+            description.Size = new Size(650, 24);
+
+            Panel previewCard = new Panel();
+            previewCard.Name = "pnlProductImagePreview";
+            previewCard.BackColor = Color.FromArgb(246, 242, 255);
+            previewCard.BorderStyle = BorderStyle.FixedSingle;
+            previewCard.Location = new Point(22, 78);
+            previewCard.Size = new Size(300, 250);
+            previewCard.Padding = new Padding(8);
+
+            productImagePreview = new PictureBox();
+            productImagePreview.Name = "pbProductImagePreview";
+            productImagePreview.Dock = DockStyle.Fill;
+            productImagePreview.BackColor = Color.FromArgb(239, 233, 250);
+            productImagePreview.SizeMode = PictureBoxSizeMode.Zoom;
+            productImagePreview.Image = FoodandBeverage.Properties.Resources.no_pictures;
+            previewCard.Controls.Add(productImagePreview);
+
+            Label photoTitle = new Label();
+            photoTitle.Text = "Product photo";
+            photoTitle.Font = new Font("Microsoft Sans Serif", 11F, FontStyle.Bold);
+            photoTitle.ForeColor = Color.FromArgb(55, 35, 125);
+            photoTitle.Location = new Point(350, 105);
+            photoTitle.Size = new Size(300, 26);
+
+            productImageHint = new Label();
+            productImageHint.Text = "No photo selected. Browse to choose an image.";
+            productImageHint.Font = new Font("Microsoft Sans Serif", 9F);
+            productImageHint.ForeColor = Color.DimGray;
+            productImageHint.Location = new Point(350, 140);
+            productImageHint.Size = new Size(330, 48);
+
+            Button browseButton = new Button();
+            browseButton.Text = "Browse / Change Photo";
+            browseButton.Location = new Point(350, 202);
+            browseButton.Size = new Size(230, 46);
+            browseButton.BackColor = Color.FromArgb(101, 80, 185);
+            browseButton.ForeColor = Color.White;
+            browseButton.FlatStyle = FlatStyle.Flat;
+            browseButton.FlatAppearance.BorderSize = 0;
+            browseButton.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            browseButton.Cursor = Cursors.Hand;
+            browseButton.Click += ProductImageBrowse_Click;
+
+            Label fileHint = new Label();
+            fileHint.Text = "Supported formats: JPG, JPEG, PNG, BMP";
+            fileHint.Location = new Point(350, 258);
+            fileHint.Size = new Size(330, 24);
+            fileHint.Font = new Font("Microsoft Sans Serif", 8.5F);
+            fileHint.ForeColor = Color.Gray;
+
+            productImagePage.Controls.Add(title);
+            productImagePage.Controls.Add(description);
+            productImagePage.Controls.Add(previewCard);
+            productImagePage.Controls.Add(photoTitle);
+            productImagePage.Controls.Add(productImageHint);
+            productImagePage.Controls.Add(browseButton);
+            productImagePage.Controls.Add(fileHint);
+        }
+
+        private void ProductImageBrowse_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog dialog = new OpenFileDialog())
+                {
+                    dialog.Title = "Choose Product Photo";
+                    dialog.Filter = "Image files|*.jpg;*.jpeg;*.png;*.bmp";
+                    dialog.CheckFileExists = true;
+                    dialog.Multiselect = false;
+
+                    if (dialog.ShowDialog(this) != DialogResult.OK)
+                        return;
+
+                    using (Image source = Image.FromFile(dialog.FileName))
+                    {
+                        SetProductImageStorage(new Bitmap(source));
+                    }
+
+                    empImgExt = dialog.FileName;
+                    productImageChanged = true;
+                    productImageHint.Text = "Photo selected. It will be saved when you click Save.";
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page ProductImageBrowse_Click()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+                CMessageBox.Show(this, "Unable to open this image. Please choose another file.",
+                    "Product Image", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void SetProductImageStorage(Image image)
+        {
+            if (pb_view_pic.BackgroundImage != null)
+            {
+                Image oldImage = pb_view_pic.BackgroundImage;
+                pb_view_pic.BackgroundImage = null;
+                oldImage.Dispose();
+            }
+
+            if (image != null)
+                pb_view_pic.BackgroundImage = new Bitmap(image);
+
+            pb_view_pic.BackgroundImageLayout = ImageLayout.Stretch;
+            pb_view_pic.Image = null;
+            RefreshProductImagePreview();
+        }
+
+        private void RefreshProductImagePreview()
+        {
+            if (productImagePreview == null)
+                return;
+
+            Image currentImage = pb_view_pic.BackgroundImage;
+            Image oldPreview = productImagePreview.Image;
+            if (oldPreview != null &&
+                !Object.ReferenceEquals(oldPreview, FoodandBeverage.Properties.Resources.no_pictures))
+            {
+                productImagePreview.Image = null;
+                oldPreview.Dispose();
+            }
+
+            productImagePreview.Image = currentImage == null
+                ? FoodandBeverage.Properties.Resources.no_pictures
+                : new Bitmap(currentImage);
+
+            if (productImageHint != null && !productImageChanged)
+                productImageHint.Text = currentImage == null
+                    ? "No photo selected. Browse to choose an image."
+                    : "Existing product photo. Browse to replace it.";
+        }
+
+        private void LoadProductImage(int productId)
+        {
+            try
+            {
+                empImgExt = "";
+                productImageChanged = false;
+                Image loadedImage = null;
+
+                if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+                {
+                    int photoId;
+                    if (int.TryParse(txtPpid.Text, out photoId) && photoId > 0)
+                    {
+                        loadedImage = clsDocument.DownloadImageDatabase(
+                            Convert.ToInt32(Interfaces.Inseration_Type.Product_Photo), photoId);
+                    }
+                }
+                else
+                {
+                    string imageName = productId.ToString() + ".jpeg";
+                    if (clsDocument.FileExistOrNot(imageName, DocumentType.FoodPhoto))
+                        loadedImage = clsDocument.DownloadImage(imageName, DocumentType.FoodPhoto);
+                }
+
+                SetProductImageStorage(loadedImage);
+                if (loadedImage != null)
+                    loadedImage.Dispose();
+
+                productImageChanged = false;
+                empImgExt = "";
+                RefreshProductImagePreview();
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Product page LoadProductImage()", ex,
+                    FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
+            }
+        }
+
+        private void SaveProductImage(int productId)
+        {
+            if (!productImageChanged || pb_view_pic.BackgroundImage == null)
+                return;
+
+            if (string.IsNullOrWhiteSpace(empImgExt) || !File.Exists(empImgExt))
+                throw new InvalidOperationException("Please browse and select the product photo again.");
+
+            if (!Directory.Exists(Compressedimg))
+                Directory.CreateDirectory(Compressedimg);
+
+            string compressedPath = Path.Combine(Compressedimg, "Image.jpeg");
+            if (File.Exists(compressedPath))
+                File.Delete(compressedPath);
+
+            ClsImgComprossor.CompressImage(empImgExt, Compressedimg, 30);
+            if (!File.Exists(compressedPath))
+                throw new FileNotFoundException("The compressed product photo was not created.", compressedPath);
+
+            if (FrmDashboard.downloadServiceValue == Convert.ToInt32(Interfaces.DownloadService_Type.DB))
+            {
+                using (Bitmap bitmap = new Bitmap(compressedPath))
+                {
+                    int photoId = 0;
+                    int.TryParse(txtPpid.Text, out photoId);
+                    clsDocument.UploadImage_Database(
+                        bitmap,
+                        photoId,
+                        Convert.ToInt32(Interfaces.Inseration_Type.Product_Photo),
+                        productId,
+                        Convert.ToInt32(FrmDashboard.BranchId),
+                        1,
+                        Convert.ToInt32(FrmLogin.UserId));
+                }
+            }
+            else
+            {
+                if (!clsDocument.CopyFile(compressedPath, productId.ToString() + ".jpeg", DocumentType.FoodPhoto))
+                    throw new InvalidOperationException("Unable to upload the product photo.");
+            }
+
+            productImageChanged = false;
+            empImgExt = "";
+            RefreshProductImagePreview();
         }
     }
 }
