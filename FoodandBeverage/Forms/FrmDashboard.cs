@@ -6453,12 +6453,13 @@ namespace FoodandBeverage.Forms
         private void OpenMaximizedDashboardDialog<TForm>(Func<TForm> createForm)
             where TForm : Form
         {
+            // These operation screens should fill the Food & Beverage dashboard
+            // client area, not maximize across the entire Windows desktop.
+            Rectangle dashboardBounds = RectangleToScreen(ClientRectangle);
             TForm existing = Application.OpenForms.OfType<TForm>().FirstOrDefault();
 
             if (existing != null && !existing.IsDisposed)
             {
-                // Older navigation code could leave the form embedded in panelDesktop.
-                // Restore it as a top-level maximized window before bringing it forward.
                 if (!existing.TopLevel)
                 {
                     existing.Hide();
@@ -6468,7 +6469,10 @@ namespace FoodandBeverage.Forms
                     existing.Dock = DockStyle.None;
                 }
 
-                existing.WindowState = FormWindowState.Maximized;
+                existing.StartPosition = FormStartPosition.Manual;
+                existing.WindowState = FormWindowState.Normal;
+                existing.MinimumSize = Size.Empty;
+                existing.Bounds = dashboardBounds;
                 if (!existing.Visible)
                     existing.Show();
                 existing.BringToFront();
@@ -6477,9 +6481,20 @@ namespace FoodandBeverage.Forms
 
             using (TForm form = createForm())
             {
-                form.StartPosition = FormStartPosition.CenterParent;
-                form.WindowState = FormWindowState.Maximized;
-                form.ShowDialog(this);
+                form.StartPosition = FormStartPosition.Manual;
+                form.WindowState = FormWindowState.Normal;
+                form.MinimumSize = Size.Empty;
+                form.Bounds = dashboardBounds;
+                Opacity = 0.70;
+                try
+                {
+                    form.ShowDialog(this);
+                    form.BringToFront();
+                }
+                finally
+                {
+                    Opacity = 1.0;
+                }
             }
         }
 

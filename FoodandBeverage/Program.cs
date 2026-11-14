@@ -26,7 +26,6 @@ namespace FoodandBeverage
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    FoodandBeverage.Classes.FormDisplayManager.Start();
 
                     string crystalValue = "0";
                     crystalValue = ConfigurationManager.AppSettings["CrystalInstalled"];
