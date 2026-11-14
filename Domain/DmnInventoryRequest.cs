@@ -91,6 +91,7 @@ namespace Domain
         public decimal CurrentStock { get; set; }
         public decimal ProjectedBalance { get; set; }
         public int ProductId { get; set; }
+        public long VariationId { get; set; }
     }
 
     // Detail row matching dbo.tblInventoryRequestDetails.
@@ -105,6 +106,7 @@ namespace Domain
         public int RequestType { get; set; }
         public int? SlNo { get; set; }
         public int? ProductId { get; set; }
+        public long? VariationId { get; set; }
         public decimal? PlannedQty { get; set; }
         public long? RecipeItemId { get; set; }
         public decimal? PerPortionQty { get; set; }
