@@ -4441,6 +4441,7 @@ if (FrmDashboard.DefaultTaxType != "")
             foreach (DataGridViewRow row in dgv_registartion.Rows)
             {
                 if (row.IsNewRow) continue;
+                row.Cells[RVariationidno].Value = currentIngredientVariationId;
                 int itemId;
                 int.TryParse(Convert.ToString(row.Cells[Ritemidno].Value), out itemId);
                 string itemName = Convert.ToString(row.Cells[Ritemno].Value);
