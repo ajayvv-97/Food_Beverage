@@ -1860,7 +1860,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmFTICategory());
+                    OpenFullSizeDashboardDialog(new FrmFTICategory());
                 }
             }
             catch (Exception ex)
@@ -1893,7 +1893,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmItemRegistartion());
+                    OpenFullSizeDashboardDialog(new FrmItemRegistartion());
                 }
             }
             catch (Exception ex)
@@ -1935,7 +1935,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmMenu());
+                    OpenFullSizeDashboardDialog(new FrmMenu());
                 }
             }
             catch (Exception ex)
@@ -1968,7 +1968,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmIngredient());
+                    OpenFullSizeDashboardDialog(new FrmIngredient());
                 }
             }
             catch (Exception ex)
@@ -1999,7 +1999,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmUnit());
+                    OpenFullSizeDashboardDialog(new FrmUnit());
                 }
             }
             catch (Exception ex)
@@ -2030,7 +2030,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmTableInfo());
+                    OpenFullSizeDashboardDialog(new FrmTableInfo());
                 }
             }
             catch (Exception ex)
@@ -2060,7 +2060,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmPurchase());
+                    OpenFullSizeDashboardDialog(new FrmPurchase());
                 }
             }
             catch (Exception ex)
@@ -2090,7 +2090,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmPurchaseReturn());
+                    OpenFullSizeDashboardDialog(new FrmPurchaseReturn());
                 }
             }
             catch (Exception ex)
@@ -2120,7 +2120,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmTaxSetting());
+                    OpenFullSizeDashboardDialog(new FrmTaxSetting());
                 }
             }
             catch (Exception ex)
@@ -2296,7 +2296,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmVendor());
+                    OpenFullSizeDashboardDialog(new FrmVendor());
                 }
             }
             catch (Exception ex)
@@ -2411,7 +2411,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmOfferDiscount());
+                    OpenFullSizeDashboardDialog(new FrmOfferDiscount());
                 }
             }
             catch (Exception ex)
@@ -2443,7 +2443,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmExpence());
+                    OpenFullSizeDashboardDialog(new FrmExpence());
                 }
             }
             catch (Exception ex)
@@ -2550,7 +2550,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmPromo());
+                    OpenFullSizeDashboardDialog(new FrmPromo());
                 }
             }
             catch (Exception ex)
@@ -2725,7 +2725,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmRegistration());
+                    OpenFullSizeDashboardDialog(new FrmRegistration());
                 }
             }
             catch (Exception ex)
@@ -2811,7 +2811,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmEmployeeShort());
+                    OpenFullSizeDashboardDialog(new FrmEmployeeShort());
                 }
             }
             catch (Exception ex)
@@ -2845,7 +2845,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmDepartment());
+                    OpenFullSizeDashboardDialog(new FrmDepartment());
                 }
             }
             catch (Exception ex)
@@ -2876,7 +2876,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmDesignation());
+                    OpenFullSizeDashboardDialog(new FrmDesignation());
                 }
             }
             catch (Exception ex)
@@ -2907,7 +2907,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmUserAccount());
+                    OpenFullSizeDashboardDialog(new FrmUserAccount());
                 }
             }
             catch (Exception ex)
@@ -2978,7 +2978,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmUserPermission());
+                    OpenFullSizeDashboardDialog(new FrmUserPermission());
                 }
             }
             catch (Exception ex)
@@ -3555,7 +3555,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmAddon());
+                    OpenFullSizeDashboardDialog(new FrmAddon());
                 }
             }
             catch (Exception ex)
@@ -3926,8 +3926,11 @@ namespace FoodandBeverage.Forms
                     tlp_tablestatus.ResumeLayout();
                     using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
                     {
-                        _instanceFrmPickup.ShowDialog();
-                        _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                        Rectangle dashboardBounds = RectangleToScreen(ClientRectangle);
+                        _instanceFrmPickup.StartPosition = FormStartPosition.Manual;
+                        _instanceFrmPickup.WindowState = FormWindowState.Normal;
+                        _instanceFrmPickup.Bounds = dashboardBounds;
+                        _instanceFrmPickup.ShowDialog(this);
                     }
 
 
@@ -5459,7 +5462,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmRefund());
+                    OpenFullSizeDashboardDialog(new FrmRefund());
                 }
             }
             catch (Exception ex)
@@ -6101,7 +6104,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new Frmvoidsale());
+                    OpenFullSizeDashboardDialog(new Frmvoidsale());
                 }
             }
             catch (Exception ex)
@@ -6137,7 +6140,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmUnitConversion());
+                    OpenFullSizeDashboardDialog(new FrmUnitConversion());
                 }
             }
             catch (Exception ex)
@@ -6385,7 +6388,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                        UIHelper.OpenDialog(this, new FrmTMpanel());
+                        OpenFullSizeDashboardDialog(new FrmTMpanel());
                 }
             }
             catch (Exception ex)
@@ -6420,7 +6423,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmPartyPackSetup());
+                    OpenFullSizeDashboardDialog(new FrmPartyPackSetup());
                 }
             }
             catch (Exception ex)
@@ -6435,6 +6438,35 @@ namespace FoodandBeverage.Forms
             }
         }
 
+
+        /// <summary>
+        /// Opens dashboard master/operation forms at the full available dashboard size.
+        /// Unlike UIHelper.OpenDialog, this does not impose a fixed 1366x768 limit.
+        /// </summary>
+        private void OpenFullSizeDashboardDialog(Form child)
+        {
+            if (child == null)
+                return;
+
+            try
+            {
+                Rectangle dashboardBounds = RectangleToScreen(ClientRectangle);
+                child.StartPosition = FormStartPosition.Manual;
+                child.WindowState = FormWindowState.Normal;
+                child.Bounds = dashboardBounds;
+                child.MinimumSize = Size.Empty;
+
+                Opacity = 0.70;
+                child.ShowDialog(this);
+                child.BringToFront();
+            }
+            finally
+            {
+                Opacity = 1.0;
+                if (child != null && !child.IsDisposed)
+                    child.Dispose();
+            }
+        }
 
         private void OpenMaximizedDashboardDialog<TForm>(Func<TForm> createForm)
             where TForm : Form
@@ -6517,7 +6549,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmPartyBooking());
+                    OpenFullSizeDashboardDialog(new FrmPartyBooking());
                 }
             }
             catch (Exception ex)
@@ -6956,7 +6988,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    UIHelper.OpenDialog(this, new FrmReason());
+                    OpenFullSizeDashboardDialog(new FrmReason());
                 }
             }
             catch (Exception ex)
