@@ -234,7 +234,8 @@ BEGIN
     WHERE d.Aid = @Aid
       AND d.BranchId = @BranchId
       AND d.Status = 1
-      AND a.Status = 1
-      AND a.TrackInventory = 1;
+      AND a.Status = 1;
+    -- An active recipe is the inventory-tracking switch. This keeps legacy
+    -- add-ons without recipe rows out of stock deduction automatically.
 END;
 GO
