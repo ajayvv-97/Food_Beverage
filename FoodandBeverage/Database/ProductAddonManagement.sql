@@ -21,6 +21,25 @@ IF COL_LENGTH('dbo.tblAddon', 'IsFree') IS NULL
         CONSTRAINT DF_tblAddon_IsFree DEFAULT (0) WITH VALUES;
 GO
 
+/* Legacy add-on registration stores the customer price in tblAddon.Price.
+   Keep the explicit flag synchronized so existing save procedures continue
+   to support free add-ons without changing the shared BLL/DmnAddon assembly. */
+CREATE OR ALTER TRIGGER dbo.trg_tblAddon_SyncIsFree
+ON dbo.tblAddon
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF TRIGGER_NESTLEVEL() > 1 RETURN;
+
+    UPDATE a
+       SET IsFree = CASE WHEN ISNULL(a.Price, 0) = 0 THEN 1 ELSE 0 END
+    FROM dbo.tblAddon a
+    INNER JOIN inserted i ON i.Aid = a.Aid;
+END;
+GO
+
 IF COL_LENGTH('dbo.tblAddon', 'TrackInventory') IS NULL
     ALTER TABLE dbo.tblAddon ADD TrackInventory bit NOT NULL
         CONSTRAINT DF_tblAddon_TrackInventory DEFAULT (0) WITH VALUES;
