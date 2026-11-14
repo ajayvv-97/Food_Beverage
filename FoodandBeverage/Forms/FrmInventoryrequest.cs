@@ -43,10 +43,13 @@ namespace FoodandBeverage.Forms
             public string VariationName { get; set; }
             public int? VariationTypeId { get; set; }
             public decimal Price { get; set; }
-            public override string ToString()
+            public string DisplayName
             {
-                return VariationName + (VariationTypeId.HasValue
-                    ? "  (Type " + VariationTypeId.Value + ")" : string.Empty);
+                get
+                {
+                    return VariationName + (VariationTypeId.HasValue
+                        ? "  (Type " + VariationTypeId.Value + ")" : string.Empty);
+                }
             }
         }
 
@@ -759,7 +762,7 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                 heading.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
                 heading.SetBounds(16, 14, 348, 28);
                 list.DataSource = variations;
-                list.DisplayMember = "VariationName";
+                list.DisplayMember = "DisplayName";
                 list.ValueMember = "VariationId";
                 list.Font = new Font("Segoe UI", 10F);
                 list.SetBounds(16, 50, 348, 185);
