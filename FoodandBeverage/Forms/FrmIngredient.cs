@@ -209,6 +209,9 @@ namespace FoodandBeverage.Forms
                     dmnproduct.BackColor = backHex;
 
                     prostatus = bllProduct.AddEditData("prdInsert_Upd_Product", dmnproduct);
+                    if (prostatus != null && prostatus.Ppid > 0)
+                        txtPpid.Text = Convert.ToString(prostatus.Ppid);
+
                     bool ingredientSaveSuccess = false;
                     if (prostatus.ProductId > 0)
                     {
