@@ -238,16 +238,18 @@ namespace FoodandBeverage.Forms
                 if (string.IsNullOrWhiteSpace(txtprice.Text))
                     txtprice.Text = "0";
 
-                if (txtcaption.Text == "" || txtcaption.Text == null)
+                decimal addonPrice;
+                if (!decimal.TryParse(txtprice.Text, out addonPrice) || addonPrice < 0)
+                {
+                    CMessageBox.Show("Enter a valid add-on price. Enter 0 for a free add-on.", "Invalid Price", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtprice.Focus();
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtcaption.Text))
                 {
                     CMessageBox.Show("Please Enter Caption", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtcaption.Focus();
-                    return false;
-                }
-                else if (Convert.ToDecimal(txtprice.Text) == 0)
-                {
-                    CMessageBox.Show("Please Enter Table Price", "Mandatory Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtprice.Focus();
                     return false;
                 }
                 else if (Convert.ToInt32(cmb_category.SelectedValue) == -1)
