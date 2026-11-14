@@ -454,8 +454,8 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
-                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.SalesRate as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid,s.VariatiionName VariatiionName,ISNULL(s.VariationId,0) AS VariationId";
-                dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
+                dmnSearchInvoiceDetails.Select = "CASE WHEN NULLIF(LTRIM(RTRIM(pv.VariationName)), '') IS NOT NULL AND RIGHT(RTRIM(ISNULL(S.ItemName,'')), LEN(' (' + pv.VariationName + ')')) = ' (' + pv.VariationName + ')' THEN LEFT(RTRIM(S.ItemName), LEN(RTRIM(S.ItemName)) - LEN(' (' + pv.VariationName + ')')) ELSE S.ItemName END AS ItemName, S.Quantity,S.MRP,S.SalesRate as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid,COALESCE(NULLIF(LTRIM(RTRIM(pv.VariationName)),''),NULLIF(LTRIM(RTRIM(S.VariatiionName)),'')) AS VariatiionName,ISNULL(s.VariationId,0) AS VariationId";
+                dmnSearchInvoiceDetails.Table = "tblSalesDetails as S LEFT JOIN tblProductVariation pv ON pv.VariationId = ISNULL(S.VariationId,0)";
 
                 if (splittype == Convert.ToInt32(SplitType.Item))
                     dmnSearchInvoiceDetails.WhereNdGroupBy = " where S.SalesDetailsId IN (" + orderdetailsids.TrimEnd(',') + ")";
@@ -814,22 +814,28 @@ namespace FoodandBeverage.SaleBill
                 string detailQuery = @"
                 SELECT
                     CASE
-                        WHEN NULLIF(LTRIM(RTRIM(ISNULL(VariatiionName,''))), '') IS NOT NULL
-                            THEN ItemName + ' (' + LTRIM(RTRIM(VariatiionName)) + ')'
-                        ELSE ItemName
+                        WHEN NULLIF(LTRIM(RTRIM(pv.VariationName)), '') IS NOT NULL
+                            THEN
+                                CASE
+                                    WHEN RIGHT(RTRIM(ISNULL(sd.ItemName,'')), LEN(' (' + pv.VariationName + ')')) = ' (' + pv.VariationName + ')'
+                                        THEN LEFT(RTRIM(sd.ItemName), LEN(RTRIM(sd.ItemName)) - LEN(' (' + pv.VariationName + ')'))
+                                    ELSE sd.ItemName
+                                END + ' (' + LTRIM(RTRIM(pv.VariationName)) + ')'
+                        ELSE sd.ItemName
                     END AS ItemName,
-                    Quantity,
-                    SalesRate,
-                    NetAmount,
-                    DiscountAmount,
-                    Amount,
-                    Taxper,
-                    PartyBookingId,
-                    PackageType,
-                    TaxAmount,
-                    HSNCode
-                FROM tblSalesDetails
-                WHERE SalesMasterId = " + SalesMasterId;
+                    sd.Quantity,
+                    sd.SalesRate,
+                    sd.NetAmount,
+                    sd.DiscountAmount,
+                    sd.Amount,
+                    sd.Taxper,
+                    sd.PartyBookingId,
+                    sd.PackageType,
+                    sd.TaxAmount,
+                    sd.HSNCode
+                FROM tblSalesDetails sd
+                LEFT JOIN tblProductVariation pv ON pv.VariationId = ISNULL(sd.VariationId,0)
+                WHERE sd.SalesMasterId = " + SalesMasterId;
 
                 var detailSearch = new DmnSearch
                 {
