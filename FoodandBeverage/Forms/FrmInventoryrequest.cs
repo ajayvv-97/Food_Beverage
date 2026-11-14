@@ -37,6 +37,19 @@ namespace FoodandBeverage.Forms
         private int _visibleIngredientProductId;
         private List<DmnInventoryRequestDetail> _loadedRequestDetails = new List<DmnInventoryRequestDetail>();
 
+        private sealed class BatchVariationOption
+        {
+            public long VariationId { get; set; }
+            public string VariationName { get; set; }
+            public int? VariationTypeId { get; set; }
+            public decimal Price { get; set; }
+            public override string ToString()
+            {
+                return VariationName + (VariationTypeId.HasValue
+                    ? "  (Type " + VariationTypeId.Value + ")" : string.Empty);
+            }
+        }
+
         ClsGeneral clsgen = new ClsGeneral();
 
         #region Database Search Helpers
@@ -96,7 +109,7 @@ namespace FoodandBeverage.Forms
             return results ?? new List<DmnInventoryRequestItem>();
         }
 
-        private List<DmnInventoryRequestIngredient> LoadProductIngredients(int productId, decimal plannedQty)
+        private List<DmnInventoryRequestIngredient> LoadProductIngredients(int productId, decimal plannedQty, long variationId)
         {
             string plannedQuantity = plannedQty.ToString(CultureInfo.InvariantCulture);
             DmnSearch criteria = new DmnSearch
@@ -115,7 +128,7 @@ namespace FoodandBeverage.Forms
                          "ELSE ISNULL(pr.QOH,0) * CASE " +
                          "WHEN ISNULL(i.Baseunit,i.unit) = i.unit THEN 1 " +
                          "ELSE ISNULL(i.Conversionfactor,0) END END - ISNULL(d.quantity,0) * " +
-                         plannedQuantity + ") AS ProjectedBalance, d.ProductId",
+                         plannedQuantity + ") AS ProjectedBalance, d.ProductId, ISNULL(d.VariationId,0) AS VariationId",
                 Table = "tblIngredientDetails d " +
                         "INNER JOIN tblProduct p ON p.ProductId = d.ProductId AND p.Status = 1 " +
                         "LEFT JOIN tblItem i ON i.ItemId = d.ItemId " +
@@ -126,6 +139,7 @@ namespace FoodandBeverage.Forms
                 WhereNdGroupBy = "WHERE d.ProductId = " + productId +
                                  " AND d.ProductType = 1 " +
                                  " AND ISNULL(d.Status,1) = 1 " +
+                                 " AND ISNULL(d.VariationId,0) = " + variationId +
                                  " AND (p.FoodPreparationType = " + (int)FoodPreparationMethod.BatchPrepared + " OR " +
                                  "(p.FoodPreparationType = " + (int)FoodPreparationMethod.PartiallyPrepared + " AND ISNULL(d.Deductionstage,0) = " + (int)IngredientDeductionStage.BatchPreparation + "))",
                 OrderBy = "ORDER BY d.Ing_DetailsId"
@@ -150,6 +164,7 @@ namespace FoodandBeverage.Forms
         public int Bactionno = 5;
         public int Bitemidno = 6;
         public int BInventoryRequestDetailIdno = 7;
+        public int Bvariationidno = 8;
 
         // Batch ingredient grid
         public int BIslno = 0;
@@ -670,11 +685,17 @@ namespace FoodandBeverage.Forms
                     return;
                 }
 
+                long? selectedVariationId = SelectBatchVariation(productId, selected.ItemName);
+                if (!selectedVariationId.HasValue)
+                    return;
+
                 foreach (DataGridViewRow existing in dgv_batch.Rows)
                 {
                     int existingId;
+                    long existingVariationId;
+                    long.TryParse(Convert.ToString(existing.Cells[Bvariationidno].Value), out existingVariationId);
                     if (int.TryParse(Convert.ToString(existing.Cells[Bitemidno].Value), out existingId) &&
-                        existingId == selected.ItemId)
+                        existingId == selected.ItemId && existingVariationId == selectedVariationId.Value)
                     {
                         existing.Cells[Bplannedqtyno].Value =
                             Math.Max(1m, ToDecimal(existing.Cells[Bplannedqtyno].Value) + 1m);
@@ -694,6 +715,7 @@ namespace FoodandBeverage.Forms
                 row.Cells[Bactionno].Value = Properties.Resources.food_cancel_icon;
                 row.Cells[Bitemidno].Value = selected.ItemId;
                 row.Cells[BInventoryRequestDetailIdno].Value = 0;
+                row.Cells[Bvariationidno].Value = selectedVariationId.Value;
                 dgv_batch.CurrentCell = row.Cells[Bmenuitemno];
                 LoadIngredientsForRow(row);
             }
@@ -701,6 +723,59 @@ namespace FoodandBeverage.Forms
             {
                 LogInventoryException("FrmInventoryrequest AddBatchProductById", ex);
                 ShowError("Unable to load the selected product. " + ex.Message);
+            }
+        }
+
+        private long? SelectBatchVariation(int productId, string productName)
+        {
+            List<BatchVariationOption> variations;
+            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                variations = connection.Query<BatchVariationOption>(@"
+SELECT VariationId, VariationName, VariationTypeId, Price
+FROM dbo.tblProductVariation
+WHERE ProductId = @ProductId AND ISNULL(Status,1) = 1
+ORDER BY VariationId;", new { ProductId = productId }).ToList();
+            }
+
+            if (variations.Count == 0)
+                return 0L;
+
+            using (Form popup = new Form())
+            using (Label heading = new Label())
+            using (ListBox list = new ListBox())
+            using (Button select = new Button())
+            using (Button cancel = new Button())
+            {
+                popup.Text = "Select Product Variation";
+                popup.StartPosition = FormStartPosition.CenterParent;
+                popup.FormBorderStyle = FormBorderStyle.FixedDialog;
+                popup.MinimizeBox = false;
+                popup.MaximizeBox = false;
+                popup.ShowInTaskbar = false;
+                popup.ClientSize = new Size(380, 300);
+                popup.BackColor = Color.FromArgb(245, 239, 250);
+                heading.Text = "Select variation for " + productName;
+                heading.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+                heading.SetBounds(16, 14, 348, 28);
+                list.DataSource = variations;
+                list.DisplayMember = "VariationName";
+                list.ValueMember = "VariationId";
+                list.Font = new Font("Segoe UI", 10F);
+                list.SetBounds(16, 50, 348, 185);
+                if (list.Items.Count > 0) list.SelectedIndex = 0;
+                select.Text = "Select";
+                select.DialogResult = DialogResult.OK;
+                select.SetBounds(174, 250, 90, 32);
+                cancel.Text = "Cancel";
+                cancel.DialogResult = DialogResult.Cancel;
+                cancel.SetBounds(274, 250, 90, 32);
+                popup.Controls.AddRange(new Control[] { heading, list, select, cancel });
+                popup.AcceptButton = select;
+                popup.CancelButton = cancel;
+                if (popup.ShowDialog(this) != DialogResult.OK || list.SelectedItem == null)
+                    return null;
+                return ((BatchVariationOption)list.SelectedItem).VariationId;
             }
         }
 
@@ -748,14 +823,16 @@ namespace FoodandBeverage.Forms
 
             CacheVisibleIngredientRows();
             int productId = Convert.ToInt32(productRow.Cells[Bitemidno].Value);
+            long variationId = 0L;
+            long.TryParse(Convert.ToString(productRow.Cells[Bvariationidno].Value), out variationId);
             decimal plannedQty = Math.Max(0m, ToDecimal(productRow.Cells[Bplannedqtyno].Value));
             List<DmnInventoryRequestIngredient> ingredients;
 
             bool hasSavedRows = _loadedRequestDetails != null &&
-                _loadedRequestDetails.Any(x => x.RequestType == 1 && x.ProductId == productId);
+                _loadedRequestDetails.Any(x => x.RequestType == 1 && x.ProductId == productId && (x.VariationId ?? 0L) == variationId);
 
             List<DmnInventoryRequestIngredient> eligibleRecipeIngredients =
-                LoadProductIngredients(productId, plannedQty);
+                LoadProductIngredients(productId, plannedQty, variationId);
 
             if (hasSavedRows)
             {
@@ -765,6 +842,7 @@ namespace FoodandBeverage.Forms
                 ingredients = _loadedRequestDetails
                     .Where(x => x.RequestType == 1 &&
                                 x.ProductId == productId &&
+                                (x.VariationId ?? 0L) == variationId &&
                                 x.ItemId.HasValue &&
                                 eligibleIngredientIds.Contains(Convert.ToInt32(x.RecipeItemId ?? 0)))
                     .OrderBy(x => x.SlNo)
@@ -780,7 +858,8 @@ namespace FoodandBeverage.Forms
                         UnitName = x.UnitName,
                         CurrentStock = x.CurrentStock ?? 0m,
                         ProjectedBalance = (x.CurrentStock ?? 0m) - ((x.PerPortionQty ?? 0m) * plannedQty),
-                        ProductId = productId
+                        ProductId = productId,
+                        VariationId = variationId
                     }).ToList();
             }
             else
@@ -843,6 +922,7 @@ namespace FoodandBeverage.Forms
                     ? _loadedRequestDetails.FirstOrDefault(x => x.InventoryRequestDetailId == inventoryRequestDetailId)
                     : _loadedRequestDetails.FirstOrDefault(x =>
                         x.RequestType == 1 && x.ProductId == _visibleIngredientProductId &&
+                        (x.VariationId ?? 0L) == Convert.ToInt64(dgv_batch.CurrentRow.Cells[Bvariationidno].Value ?? 0) &&
                         x.ItemId == itemId && x.RecipeItemId == recipeItemId);
 
                 if (saved == null)
@@ -851,6 +931,7 @@ namespace FoodandBeverage.Forms
                     {
                         InventoryRequestDetailId = inventoryRequestDetailId,
                         RequestType = 1, ProductId = _visibleIngredientProductId,
+                        VariationId = ToNullableLong(dgv_batch.CurrentRow == null ? null : dgv_batch.CurrentRow.Cells[Bvariationidno].Value),
                         ItemId = itemId, RecipeItemId = recipeItemId, ProductType = 1, Status = 1
                     };
                     _loadedRequestDetails.Add(saved);
@@ -864,6 +945,7 @@ namespace FoodandBeverage.Forms
                 saved.Unit = ToNullableInt(row.Cells[BIunitidno].Value);
                 saved.UnitName = Convert.ToString(row.Cells[BIunitno].Value);
                 saved.ItemName = Convert.ToString(row.Cells[BIingredientno].Value);
+                saved.VariationId = ToNullableLong(dgv_batch.CurrentRow == null ? null : dgv_batch.CurrentRow.Cells[Bvariationidno].Value);
             }
         }
 
@@ -877,10 +959,13 @@ namespace FoodandBeverage.Forms
             {
                 if (productRow.IsNewRow || productRow.Cells[Bitemidno].Value == null) continue;
                 int productId = Convert.ToInt32(productRow.Cells[Bitemidno].Value);
+                long variationId = 0L;
+                long.TryParse(Convert.ToString(productRow.Cells[Bvariationidno].Value), out variationId);
                 decimal plannedQty = ToDecimal(productRow.Cells[Bplannedqtyno].Value);
                 List<DmnInventoryRequestIngredient> ingredients = new List<DmnInventoryRequestIngredient>();
 
-                if (productId == _visibleIngredientProductId)
+                if (productId == _visibleIngredientProductId &&
+                    (dgv_batch.CurrentRow == null || Convert.ToInt64(dgv_batch.CurrentRow.Cells[Bvariationidno].Value ?? 0) == variationId))
                 {
                     foreach (DataGridViewRow ingredientRow in dgv_batch_ingrediant.Rows)
                     {
@@ -902,10 +987,10 @@ namespace FoodandBeverage.Forms
                     }
                 }
                 else if (_loadedRequestDetails != null &&
-                    _loadedRequestDetails.Any(x => x.RequestType == 1 && x.ProductId == productId))
+                    _loadedRequestDetails.Any(x => x.RequestType == 1 && x.ProductId == productId && (x.VariationId ?? 0L) == variationId))
                 {
                     ingredients = _loadedRequestDetails
-                        .Where(x => x.RequestType == 1 && x.ProductId == productId && x.ItemId.HasValue)
+                        .Where(x => x.RequestType == 1 && x.ProductId == productId && (x.VariationId ?? 0L) == variationId && x.ItemId.HasValue)
                         .OrderBy(x => x.SlNo)
                         .Select(x => new DmnInventoryRequestIngredient
                         {
@@ -919,12 +1004,13 @@ namespace FoodandBeverage.Forms
                             UnitName = x.UnitName,
                             CurrentStock = x.CurrentStock ?? 0m,
                             ProjectedBalance = (x.CurrentStock ?? 0m) - ((x.PerPortionQty ?? 0m) * plannedQty),
-                            ProductId = productId
+                            ProductId = productId,
+                            VariationId = variationId
                         }).ToList();
                 }
                 else
                 {
-                    ingredients = LoadProductIngredients(productId, plannedQty);
+                    ingredients = LoadProductIngredients(productId, plannedQty, variationId);
                 }
 
                 if (ingredients.Count == 0)
@@ -933,7 +1019,7 @@ namespace FoodandBeverage.Forms
                     {
                         InventoryRequestDetailId = (int)ToDecimal(productRow.Cells[BInventoryRequestDetailIdno].Value),
                         RequestType = 1, SlNo = slNo++, ProductId = productId,
-                        PlannedQty = plannedQty, ProductType = 1, CreatedBy = FrmLogin.UserId,
+                        VariationId = variationId, PlannedQty = plannedQty, ProductType = 1, CreatedBy = FrmLogin.UserId,
                         CreatedOn = DateTime.Now, BranchId = FrmDashboard.BranchId, Status = 1
                     });
                     continue;
@@ -945,7 +1031,7 @@ namespace FoodandBeverage.Forms
                     {
                         InventoryRequestDetailId = ingredient.InventoryRequestDetailId,
                         RequestType = 1, SlNo = slNo++, ProductId = productId,
-                        PlannedQty = plannedQty, RecipeItemId = ingredient.IngredientDetailId,
+                        VariationId = variationId, PlannedQty = plannedQty, RecipeItemId = ingredient.IngredientDetailId,
                         PerPortionQty = ingredient.PerPortionQty,
                         TotalRequiredQty = ingredient.PerPortionQty * plannedQty,
                         ItemId = ingredient.ItemId, ProductType = 1,
