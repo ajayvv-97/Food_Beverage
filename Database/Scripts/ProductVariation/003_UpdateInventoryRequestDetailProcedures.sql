@@ -6,7 +6,7 @@ SET QUOTED_IDENTIFIER ON;
 GO
 
 /* Recreate the two inventory request detail procedures with variation support. */
-CREATE   PROCEDURE [dbo].[prdInsert_Upd_InventoryRequestDetails]
+CREATE OR ALTER PROCEDURE [dbo].[prdInsert_Upd_InventoryRequestDetails]
     @InventoryRequestDetailId INT,
     @InventoryRequestId INT,
     @RequestType INT,
@@ -120,7 +120,7 @@ GO
    4. INVENTORY REQUEST DRAFT DETAILS - INSERT / UPDATE
    Procedure: prdInsert_Upd_InventoryRequestDraftDetails
    ============================================================ */
-CREATE   PROCEDURE [dbo].[prdInsert_Upd_InventoryRequestDraftDetails]
+CREATE OR ALTER PROCEDURE [dbo].[prdInsert_Upd_InventoryRequestDraftDetails]
     @DraftDetailId INT,
     @DraftId INT,
     @RequestType INT,
