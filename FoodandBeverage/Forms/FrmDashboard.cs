@@ -2480,12 +2480,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    using (FrmOrderView _instanceFrmorderview = new FrmOrderView())
-                    {
-                        _instanceFrmorderview.ShowDialog();
-                        _instanceFrmorderview.BringToFront();
-                        _instanceFrmorderview.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
+                    OpenFullSizeDashboardDialog(new FrmOrderView());
                 }
             }
             catch (Exception ex)
@@ -2514,12 +2509,7 @@ namespace FoodandBeverage.Forms
                 }
                 else
                 {
-                    using (FrmKitchenView _instanceFrmKitchenView = new FrmKitchenView())
-                    {
-                        _instanceFrmKitchenView.ShowDialog();
-                        _instanceFrmKitchenView.BringToFront();
-                        _instanceFrmKitchenView.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
+                    OpenFullSizeDashboardDialog(new FrmKitchenView());
                 }
             }
             catch (Exception ex)
@@ -4114,11 +4104,7 @@ namespace FoodandBeverage.Forms
                    ib_pickup.Visible = false;
                     ib_takeaway.Visible = false;
                     tlp_tablestatus.ResumeLayout();
-                    using (FrmPickup _instanceFrmPickup = new FrmPickup(Convert.ToInt32(ButtonType.pickup)))
-                    {
-                        _instanceFrmPickup.ShowDialog();
-                        _instanceFrmPickup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-                    }
+                    OpenFullSizeDashboardDialog(new FrmPickup(Convert.ToInt32(ButtonType.pickup)));
 
 
                 }
@@ -6572,11 +6558,7 @@ namespace FoodandBeverage.Forms
         {
             try
             {
-                using (FrmOrderDesignCustom frm = new FrmOrderDesignCustom())
-                {
-                    frm.WindowState = FormWindowState.Maximized;
-                    frm.ShowDialog();
-                }
+                OpenFullSizeDashboardDialog(new FrmOrderDesignCustom());
             }
             catch (Exception ex)
             {
