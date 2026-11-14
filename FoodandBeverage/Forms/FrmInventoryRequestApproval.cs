@@ -958,7 +958,31 @@ namespace FoodandBeverage.Forms
 
                 foreach (DmnInventoryRequestDetail detail in details.Where(
                     item => item.RequestType == 1 && item.ProductId == productId))
-                    detail.ProductName = productName;
+                {
+                    string variationName = string.Empty;
+                    long variationId = detail.VariationId ?? 0L;
+                    if (variationId > 0)
+                    {
+                        BllSearch<DmnGridFields> variationSearch = new BllSearch<DmnGridFields>();
+                        DmnSearch variationCriteria = new DmnSearch
+                        {
+                            Select = "VariationName AS Field1",
+                            Table = "tblProductVariation",
+                            WhereNdGroupBy = "WHERE ProductId = " + productId +
+                                             " AND VariationId = " + variationId +
+                                             " AND ISNULL(Status,1) = 1",
+                            OrderBy = ""
+                        };
+                        List<DmnGridFields> variationRows =
+                            variationSearch.GetSearchData("prdSearch", variationCriteria);
+                        if (variationRows != null && variationRows.Count > 0)
+                            variationName = variationRows[0].Field1 ?? string.Empty;
+                    }
+
+                    detail.ProductName = string.IsNullOrWhiteSpace(variationName)
+                        ? productName
+                        : productName + " (" + variationName + ")";
+                }
             }
         }
 
@@ -967,9 +991,13 @@ namespace FoodandBeverage.Forms
             dgv_batch.Rows.Clear();
             dgv_raw.Rows.Clear();
 
-            List<IGrouping<int, DmnInventoryRequestDetail>> products = details
+            var products = details
                 .Where(item => item.RequestType == 1 && item.ProductId.HasValue)
-                .GroupBy(item => item.ProductId.Value)
+                .GroupBy(item => new
+                {
+                    ProductId = item.ProductId.Value,
+                    VariationId = item.VariationId ?? 0L
+                })
                 .OrderBy(group => group.Min(item => item.SlNo ?? int.MaxValue))
                 .ToList();
 
@@ -982,13 +1010,13 @@ namespace FoodandBeverage.Forms
 
                 row.Cells["slno"].Value = slNo++;
                 row.Cells["dbmenuite"].Value = string.IsNullOrWhiteSpace(first.ProductName)
-                    ? "Product " + product.Key
+                    ? "Product " + product.Key.ProductId
                     : first.ProductName;
                 row.Cells["dbplannedqty"].Value = first.PlannedQty ?? 0m;
                 row.Cells["dbunit"].Value = first.UnitName ?? string.Empty;
                 row.Cells["brecipengrediant"].Value =
                     product.Count() + (product.Count() == 1 ? " ingredient" : " ingredients");
-                row.Cells["dbitemid"].Value = product.Key;
+                row.Cells["dbitemid"].Value = product.Key.ProductId;
             }
 
             slNo = 1;
@@ -1014,9 +1042,13 @@ namespace FoodandBeverage.Forms
 
         private void UpdateApprovalSummary()
         {
-            List<IGrouping<int, DmnInventoryRequestDetail>> products = _loadedRequestDetails
+            var products = _loadedRequestDetails
                 .Where(item => item.RequestType == 1 && item.ProductId.HasValue)
-                .GroupBy(item => item.ProductId.Value)
+                .GroupBy(item => new
+                {
+                    ProductId = item.ProductId.Value,
+                    VariationId = item.VariationId ?? 0L
+                })
                 .ToList();
 
             decimal batchFoodQty = products.Sum(group =>
