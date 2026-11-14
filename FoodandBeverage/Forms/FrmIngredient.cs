@@ -4659,7 +4659,7 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void btn_ingrediantview_Click(object sender, EventArgs e)
         {
-            pnlvariation.Visible = false;
+            CloseProductVariationPopup();
             pnl_addon.Visible = false;
             pnl_menupic.Visible = false;
 
@@ -4684,7 +4684,7 @@ if (FrmDashboard.DefaultTaxType != "")
 
         private void btn_iamgeview_Click(object sender, EventArgs e)
         {
-            pnlvariation.Visible = false;
+            CloseProductVariationPopup();
             pnl_addon.Visible = false;
             pnl_menupic.Visible = false;
 
@@ -4704,7 +4704,7 @@ if (FrmDashboard.DefaultTaxType != "")
         private void btn_addon_view_Click(object sender, EventArgs e)
         {
             pnl_common_setting.Visible = false;
-            pnlvariation.Visible = false;
+            CloseProductVariationPopup();
             btnaddon_Click(sender, e);
             pnl_addon.Visible = true;
             pnl_addon.BringToFront();
