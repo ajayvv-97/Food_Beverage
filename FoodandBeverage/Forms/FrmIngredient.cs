@@ -45,7 +45,8 @@ namespace FoodandBeverage.Forms
         public int Raction = 6;
         public int RIng_DetailsIdno = 7;
         public int Ritemidno = 8;
-
+        public int RVariationidno = 9;
+        
         public int Vslno = 0;
         public int Vactionno = 1;
         public int vvariationno = 2;
