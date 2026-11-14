@@ -2221,6 +2221,12 @@ ORDER BY VariationId;", new { ProductId = productId }).ToList();
                 : null;
         }
 
+        private static long? ToNullableLong(object value)
+        {
+            long result;
+            return long.TryParse(Convert.ToString(value), out result) ? (long?)result : null;
+        }
+
         private static decimal ToDecimal(object value)
         {
             decimal result;
