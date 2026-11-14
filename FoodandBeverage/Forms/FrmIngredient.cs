@@ -4665,12 +4665,14 @@ if (FrmDashboard.DefaultTaxType != "")
                         }
                         else
                         {
-                            Dmnincrediant saved = ingredientBll.AddData("prdInsert_upd_Incrediant", entity);
-                            if (saved == null || saved.Ing_DetailsId <= 0) return false;
-                            savedIngredientId = saved.Ing_DetailsId;
-                            if (ingredientBll.SetIngredientVariation(savedIngredientId, variationId) <= 0)
+                            // Insert the new recipe row with its VariationId in one SQL
+                            // statement. Do not depend on the legacy procedure returning
+                            // an identity row (it may return null for procedure variants).
+                            savedIngredientId = ingredientBll.InsertVariationIngredient(entity, variationId);
+                            if (savedIngredientId <= 0)
                                 throw new InvalidOperationException(
-                                    "Unable to link the new ingredient row to its selected variation.");
+                                    "Database did not return an ingredient detail ID for item '" +
+                                    ingredient.ItemName + "' (variation ID " + variationId + ").");
                         }
                         retainedIngredientIds.Add(savedIngredientId);
                         ingredient.DetailId = savedIngredientId;
@@ -4692,7 +4694,8 @@ if (FrmDashboard.DefaultTaxType != "")
             {
                 clsgen.LogException("Product page SaveIngredientRecipes()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.Product));
-                CMessageBox.Show(this, "Unable to save ingredient consumption for one or more variations.",
+                CMessageBox.Show(this,
+                    "Unable to save ingredient consumption. " + ex.Message,
                     "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
