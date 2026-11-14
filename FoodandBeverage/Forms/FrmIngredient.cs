@@ -4766,5 +4766,35 @@ if (FrmDashboard.DefaultTaxType != "")
                     "Ingredient Details", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void btn_setting_close_Click(object sender, EventArgs e)
+        {
+            pnl_common_setting.Visible = true;
+        }
+
+        private void btn_ingrediantview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_variationview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_iamgeview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_addon_view_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_othersettingview_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
