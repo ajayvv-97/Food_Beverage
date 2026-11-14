@@ -741,7 +741,7 @@
       <DependentUpon>FrmSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Interfaces.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Classes\\FormDisplayManager.cs" />\n    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
