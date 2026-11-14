@@ -609,7 +609,7 @@ namespace FoodandBeverage.SaleBill
                 DmnSearch dmnSearchProduct = new DmnSearch();
                 dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,CASE WHEN NULLIF(LTRIM(RTRIM(pv.VariationName)), '') IS NOT NULL THEN CASE WHEN RIGHT(RTRIM(ISNULL(d.ItemName,'')), LEN(' (' + pv.VariationName + ')')) = ' (' + pv.VariationName + ')' THEN LEFT(RTRIM(d.ItemName), LEN(RTRIM(d.ItemName)) - LEN(' (' + pv.VariationName + ')')) ELSE d.ItemName END + ' (' + LTRIM(RTRIM(pv.VariationName)) + ')' ELSE d.ItemName END as Itemname, CAST(SUM(d.DiscountAmount) AS decimal(18,2)) AS TotalDiscount, CAST(sum(d.NetAmount) AS decimal(18,2)) TotalAmount,g.Caption as ProductType,d.ProductType as ProductId,CAST(sum(d.TaxAmount) AS decimal(18,2)) as Totaltax ";
                 dmnSearchProduct.Table = "tblSalesDetails d LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 LEFT JOIN tblProductVariation pv ON pv.VariationId = ISNULL(d.VariationId,0) LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
-                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.CreatedDateTime >= '" + dt + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemName, d.VariatiionName, ISNULL(d.VariationId,0), g.Caption, d.ProductType";
+                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.CreatedDateTime >= '" + dt + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemName, pv.VariationName, ISNULL(d.VariationId,0), g.Caption, d.ProductType";
                 var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
                 using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax", "ProductType", "ProductId"))
                 {
@@ -861,7 +861,7 @@ namespace FoodandBeverage.SaleBill
                     DmnSearch dmnSearchProduct = new DmnSearch();
                     dmnSearchProduct.Select = "SUM(d.Quantity) AS TotalQuantity,CASE WHEN NULLIF(LTRIM(RTRIM(pv.VariationName)), '') IS NOT NULL THEN CASE WHEN RIGHT(RTRIM(ISNULL(d.ItemName,'')), LEN(' (' + pv.VariationName + ')')) = ' (' + pv.VariationName + ')' THEN LEFT(RTRIM(d.ItemName), LEN(RTRIM(d.ItemName)) - LEN(' (' + pv.VariationName + ')')) ELSE d.ItemName END + ' (' + LTRIM(RTRIM(pv.VariationName)) + ')' ELSE d.ItemName END as Itemname, CAST(SUM(d.DiscountAmount) AS decimal(18,2)) AS TotalDiscount, CAST(sum(d.NetAmount) AS decimal(18,2)) TotalAmount,g.Caption as ProductType,d.ProductType as ProductId,CAST(sum(d.TaxAmount) AS decimal(18,2)) as Totaltax ";
                     dmnSearchProduct.Table = "tblSalesDetails d LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 LEFT JOIN tblProductVariation pv ON pv.VariationId = ISNULL(d.VariationId,0) LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
-                    dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.CreatedBy = " + Staffid + " and  m.CreatedDateTime >= '" + dt + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemName, d.VariatiionName, ISNULL(d.VariationId,0), g.Caption, d.ProductType";
+                    dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.CreatedBy = " + Staffid + " and  m.CreatedDateTime >= '" + dt + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemName, pv.VariationName, ISNULL(d.VariationId,0), g.Caption, d.ProductType";
                     var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
                     using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax", "ProductType", "ProductId"))
                     {
@@ -1105,7 +1105,7 @@ namespace FoodandBeverage.SaleBill
                 dmnSearchProduct.Table = "tblSalesDetails d " +
                    " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and isnull(m.PartyBookingId,0)=0 and m.Status=1 " + " and M.PaymentMode != " + Convert.ToInt32(PaymentType.Nocharge) + " and M.PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY) +
                    " LEFT JOIN tblProductVariation pv ON pv.VariationId = ISNULL(d.VariationId,0) LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
-                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.PaymentMode!= 0 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemName, d.VariatiionName, ISNULL(d.VariationId,0), g.Caption, d.ProductType";
+                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and d.Status= 1 and m.PaymentMode!= 0 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemName, pv.VariationName, ISNULL(d.VariationId,0), g.Caption, d.ProductType";
                 var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
                 using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax", "ProductType", "ProductId"))
                 {
@@ -1361,7 +1361,7 @@ namespace FoodandBeverage.SaleBill
                 dmnSearchProduct.Table = "tblSalesDetails d " +
                     " LEFT JOIN tblSalesMaster m ON d.SalesMasterId = m.SalesMasterId and m.Status=1 and isnull(m.PartyBookingId,0)=0 and PaymentMode!= " + Convert.ToInt32(PaymentType.Nocharge) + " and PaymentMode!= " + Convert.ToInt32(PaymentType.COMPLEMENTRY)+
                     " LEFT JOIN tblProductVariation pv ON pv.VariationId = ISNULL(d.VariationId,0) LEFT JOIN tblGeneralOptions g ON d.ProductType =g.GTypeSubValue1 and GTypeId=53";
-                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and m.PaymentMode!= 0 and d.Status= 1 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemName, d.VariatiionName, ISNULL(d.VariationId,0), g.Caption, d.ProductType";
+                dmnSearchProduct.WhereNdGroupBy = " WHERE m.BranchId = " + BranchId + " and m.PaymentMode!= 0 and d.Status= 1 and m.CreatedBy=" + UserId + " and m.CreatedDateTime >= '" + Drawerassigntime + "' AND m.CreatedDateTime <= SYSDATETIME() GROUP BY d.ItemName, pv.VariationName, ISNULL(d.VariationId,0), g.Caption, d.ProductType";
                 var ProductSaleResult = bllProducts.GetSearchData("prdSearch", dmnSearchProduct);
                 using (var reader = ObjectReader.Create(ProductSaleResult, "TotalQuantity", "Itemname", "TotalDiscount", "TotalAmount", "Totaltax", "ProductType", "ProductId"))
                 {
