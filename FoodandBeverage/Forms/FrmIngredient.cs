@@ -281,7 +281,11 @@ namespace FoodandBeverage.Forms
                 txtsearch.Text = "Food Name.....";
                 txtsearch.ForeColor = Color.Gray;
 
+                productImageChanged = false;
+                empImgExt = "";
                 SetProductImageStorage(null);
+                pnl_common_setting.Visible = false;
+                pnl_menupic.Visible = false;
 
                 //pb_menupic.BackgroundImage = null;
                 //pb_menupic.BackgroundImage = Properties.Resources.FoodPic;
