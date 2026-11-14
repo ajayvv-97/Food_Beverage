@@ -40,6 +40,11 @@ BEGIN
 END;
 GO
 
+UPDATE dbo.tblAddon
+   SET IsFree = CASE WHEN ISNULL(Price, 0) = 0 THEN 1 ELSE 0 END
+ WHERE IsFree <> CASE WHEN ISNULL(Price, 0) = 0 THEN 1 ELSE 0 END;
+GO
+
 IF COL_LENGTH('dbo.tblAddon', 'TrackInventory') IS NULL
     ALTER TABLE dbo.tblAddon ADD TrackInventory bit NOT NULL
         CONSTRAINT DF_tblAddon_TrackInventory DEFAULT (0) WITH VALUES;
