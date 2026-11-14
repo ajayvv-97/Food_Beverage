@@ -454,7 +454,7 @@ namespace FoodandBeverage.SaleBill
                 #endregion
 
                 DmnSearch dmnSearchInvoiceDetails = new DmnSearch();
-                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.SalesRate as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid,s.VariatiionName VariatiionName";
+                dmnSearchInvoiceDetails.Select = "S.ItemName ,S.Quantity,S.MRP,S.SalesRate as SalesRate,S.NetAmount,S.Amount,S.TaxPer,s.DiscountAmount,s.TaxAmount as TotalTax,s.CGSTAmount TotalCGST,s.SGSTAmount TotalSGST,s.VatAmount as TotalVAT,s.SalesMasterId SalesMasterId,s.AV_id AV_id,s.AddonStatus AddonStatus,s.Prid Prid,s.VariatiionName VariatiionName,ISNULL(s.VariationId,0) AS VariationId";
                 dmnSearchInvoiceDetails.Table = "tblSalesDetails as S";
 
                 if (splittype == Convert.ToInt32(SplitType.Item))
@@ -478,7 +478,11 @@ namespace FoodandBeverage.SaleBill
                     Amount = item.Amount,
                     Taxper = item.Taxper,
                     AddonStatus = item.AddonStatus,
-                    MainCategory = string.IsNullOrEmpty(item.AV_id) ? $"{item.ItemName}{item.SalesMasterId}{item.Prid}" : item.AV_id,
+                    // Variation ID is part of the merge key. Regular and Large
+                    // must remain separate sales-detail rows on the printed bill.
+                    MainCategory = (string.IsNullOrEmpty(item.AV_id)
+                        ? $"{item.ItemName}{item.SalesMasterId}{item.Prid}"
+                        : item.AV_id) + "|V" + item.VariationId,
                     MainCategoryCount = invoiceBillDetails.Count(b => b.MainCategory == item.MainCategory)
                 }).ToList();
 
@@ -809,7 +813,11 @@ namespace FoodandBeverage.SaleBill
 
                 string detailQuery = @"
                 SELECT
-                    ItemName,
+                    CASE
+                        WHEN NULLIF(LTRIM(RTRIM(ISNULL(VariatiionName,''))), '') IS NOT NULL
+                            THEN ItemName + ' (' + LTRIM(RTRIM(VariatiionName)) + ')'
+                        ELSE ItemName
+                    END AS ItemName,
                     Quantity,
                     SalesRate,
                     NetAmount,
