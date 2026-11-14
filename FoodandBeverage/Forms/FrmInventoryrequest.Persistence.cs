@@ -178,7 +178,7 @@ namespace FoodandBeverage.Forms
             DmnSearch detailSearch = new DmnSearch
             {
                 Select = "d.InventoryRequestDetailId, d.InventoryRequestId, d.RequestType, d.SlNo, " +
-                         "d.ProductId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty, " +
+                         "d.ProductId, ISNULL(d.VariationId,0) AS VariationId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty, " +
                          "d.TotalRequiredQty, d.ItemId, d.ProductType, d.CurrentStock, " +
                          "d.IssuedQty, d.ProjectedBalance, d.Unit, d.PurposeRemarks, " +
                          "d.CreatedBy, d.CreatedOn, d.ModifiedBy, d.ModifiedOn, d.BranchId, d.Status, " +
@@ -273,7 +273,7 @@ namespace FoodandBeverage.Forms
                 Select = "CAST(0 AS INT) AS InventoryRequestDetailId, " +
                          "d.DraftDetailId AS DraftDetailId, " +
                          "d.DraftId AS InventoryRequestId, d.RequestType, d.SlNo, " +
-                         "d.ProductId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty, " +
+                         "d.ProductId, ISNULL(d.VariationId,0) AS VariationId, d.PlannedQty, d.RecipeItemId, d.PerPortionQty, " +
                          "d.TotalRequiredQty, d.ItemId, d.ProductType, d.CurrentStock, " +
                          "d.IssuedQty, d.ProjectedBalance, d.Unit, d.PurposeRemarks, " +
                          "d.CreatedBy, d.CreatedOn, d.ModifiedBy, d.ModifiedOn, d.BranchId, d.Status, " +
@@ -310,6 +310,7 @@ namespace FoodandBeverage.Forms
                 .Where(x => x != null)
                 .GroupBy(x => x.RequestType == 1
                     ? "B|" + Convert.ToString(x.ProductId ?? 0) + "|" +
+                      Convert.ToString(x.VariationId ?? 0L) + "|" +
                       Convert.ToString(x.RecipeItemId ?? 0) + "|" + Convert.ToString(x.ItemId ?? 0)
                     : x.RequestType == 2
                         ? "R|" + Convert.ToString(x.ItemId ?? 0) + "|" + Convert.ToString(x.Unit ?? 0)
@@ -322,6 +323,17 @@ namespace FoodandBeverage.Forms
                 .ThenBy(x => x.SlNo ?? int.MaxValue)
                 .ThenBy(x => x.InventoryRequestDetailId)
                 .ToList();
+        }
+
+        private string GetBatchVariationName(long variationId)
+        {
+            using (IDbConnection connection = DAL.DapperRepository<DmnInventoryRequestDetail>.OpenConnection())
+            {
+                return connection.Query<string>(@"
+SELECT TOP (1) VariationName
+FROM dbo.tblProductVariation
+WHERE VariationId = @VariationId;", new { VariationId = variationId }).FirstOrDefault();
+            }
         }
 
         private void PopulateRequestForm(DmnInventoryRequestMaster master, List<DmnInventoryRequestDetail> details)
@@ -344,7 +356,11 @@ namespace FoodandBeverage.Forms
 
             var products = _loadedRequestDetails
                 .Where(x => x.RequestType == 1 && x.ProductId.HasValue)
-                .GroupBy(x => x.ProductId.Value)
+                .GroupBy(x => new
+                {
+                    ProductId = x.ProductId.Value,
+                    VariationId = x.VariationId ?? 0L
+                })
                 .OrderBy(x => x.Min(y => y.SlNo ?? int.MaxValue))
                 .ToList();
 
@@ -355,12 +371,20 @@ namespace FoodandBeverage.Forms
                 DataGridViewRow row = dgv_batch.Rows[index];
                 row.Cells[Bslno].Value = index + 1;
                 row.Cells[Bmenuitemno].Value = string.IsNullOrWhiteSpace(first.ProductName)
-                    ? "Product " + product.Key : first.ProductName;
+                    ? "Product " + product.Key.ProductId : first.ProductName;
+                if (product.Key.VariationId > 0)
+                {
+                    string variationName = GetBatchVariationName(product.Key.VariationId);
+                    if (!string.IsNullOrWhiteSpace(variationName))
+                        row.Cells[Bmenuitemno].Value = Convert.ToString(row.Cells[Bmenuitemno].Value) +
+                            " (" + variationName + ")";
+                }
                 row.Cells[Bplannedqtyno].Value = first.PlannedQty ?? 0m;
                 row.Cells[Bunitno].Value = string.Empty;
                 row.Cells[Brecipeingredientsno].Value = "View ingredients";
                 row.Cells[Bactionno].Value = Properties.Resources.food_cancel_icon;
-                row.Cells[Bitemidno].Value = product.Key;
+                row.Cells[Bitemidno].Value = product.Key.ProductId;
+                row.Cells[Bvariationidno].Value = product.Key.VariationId;
                 row.Cells[BInventoryRequestDetailIdno].Value = product
                     .OrderBy(x => x.SlNo ?? int.MaxValue)
                     .Select(x => x.InventoryRequestDetailId)
