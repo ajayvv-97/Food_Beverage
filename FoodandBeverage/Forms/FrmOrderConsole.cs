@@ -7109,12 +7109,12 @@ namespace FoodandBeverage.Forms
                             // Item Button
                             Button Button_Item = new Button();
                             decimal addonUnitPrice = 0m;
-                            decimal.TryParse(Convert.ToString(item.Field5), out addonUnitPrice);
+                            decimal.TryParse(Convert.ToString(item.Field3), out addonUnitPrice);
                             Button_Item.Text = Convert.ToString(item.Field2) +
                                 (addonUnitPrice <= 0m ? "  (FREE)" : "  (₹" + addonUnitPrice.ToString("0.##") + ")");
                             Button_Item.Name = "btn_addon_" + item.Field8 + "_" + item.Field1;
                             Button_Item.Tag = item.Field8 + "_" + item.Field1;
-                            Button_Item.AccessibleDescription = item.Field5;
+                            Button_Item.AccessibleDescription = Convert.ToString(item.Field3);
                             Button_Item.AutoSize = true;
                             Button_Item.Height = 20;
                             Button_Item.FlatAppearance.BorderSize = 0;
@@ -7141,7 +7141,7 @@ namespace FoodandBeverage.Forms
                             Button Button_Remove = new Button();
                             Button_Remove.Text = "-";
                             Button_Remove.Name = "btn_addon_remqty_" + item.Field8 + "_" + item.Field1;
-                            Button_Remove.AccessibleDescription = item.Field5;
+                            Button_Remove.AccessibleDescription = Convert.ToString(item.Field3);
                             Button_Remove.Tag = item.Field8 + "_" + item.Field1;
                             Button_Remove.AutoSize = true;
                             Button_Remove.Height = 30;
