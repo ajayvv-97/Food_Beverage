@@ -1002,7 +1002,7 @@ namespace FoodandBeverage.Forms
                 .ToList();
 
             int slNo = 1;
-            foreach (IGrouping<int, DmnInventoryRequestDetail> product in products)
+            foreach (var product in products)
             {
                 DmnInventoryRequestDetail first = product.First();
                 int rowIndex = dgv_batch.Rows.Add();
