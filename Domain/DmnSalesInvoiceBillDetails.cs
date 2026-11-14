@@ -30,6 +30,7 @@ namespace Domain
         public int AddonStatus { get; set; }
         public int Prid { get; set; }
         public string VariatiionName { get; set; }
+        public long VariationId { get; set; }
         public int PartyBookingId { get; set; }
         public int PackageType { get; set; }
         public decimal TaxAmount { get; set; }
