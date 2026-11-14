@@ -230,9 +230,9 @@ WHERE p.ProductId = @ProductId
             parms.Add("FoodPreparationType", objTestClass.FoodPreparationType);
             parms.Add("PreTaxAmt", objTestClass.PreTaxAmt);
             parms.Add("OrderTypeId", objTestClass.OrderTypeId);
-            parms.Add("TotalPackingPrice", objTestClass.TotalPackingPrice);
-            parms.Add("TotalPackingTax", objTestClass.TotalPackingTax);
-            //parms.Add("Pkid", objTestClass.Pkid);
+            // TotalPackingPrice, TotalPackingTax and Pkid are not parameters
+            // of prdInsert_Upd_SalesDetails. Keep this call aligned with the
+            // deployed stored-procedure signature to avoid "too many arguments".
             var lstData = dapperRepository.AddandReturnID(procedureName, parms);
             return lstData;
 
