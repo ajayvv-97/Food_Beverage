@@ -4745,9 +4745,17 @@ if (FrmDashboard.DefaultTaxType != "")
                 Math.Min(width, ClientSize.Width - 24),
                 Math.Min(height, ClientSize.Height - 70));
 
+            tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.AutoSize = false;
             tableLayoutPanel5.Size = new Size(
-                pnl_common_setting.ClientSize.Width - pnl_common_setting.Padding.Horizontal,
-                pnl_common_setting.ClientSize.Height - pnl_common_setting.Padding.Vertical);
+                pnl_common_setting.ClientSize.Width,
+                pnl_common_setting.ClientSize.Height);
+
+            if (tableLayoutPanel5.ColumnStyles.Count > 0)
+            {
+                tableLayoutPanel5.ColumnStyles[0].SizeType = SizeType.Percent;
+                tableLayoutPanel5.ColumnStyles[0].Width = 100F;
+            }
 
             if (tableLayoutPanel5.RowStyles.Count > 1)
             {
@@ -4757,11 +4765,27 @@ if (FrmDashboard.DefaultTaxType != "")
                 tableLayoutPanel5.RowStyles[1].Height = 100F;
             }
 
+            // Force the content host and its grid to use the entire available popup width.
+            pnl_common.Dock = DockStyle.Fill;
+            pnl_common.AutoSize = false;
+            pnl_common.MinimumSize = Size.Empty;
+            dgv_registartion.Dock = DockStyle.Fill;
+
+            tableLayoutPanel5.PerformLayout();
+            pnl_common.PerformLayout();
+            dgv_registartion.PerformLayout();
+
             pnl_common_setting.Left = (ClientSize.Width - pnl_common_setting.Width) / 2;
             pnl_common_setting.Top = (ClientSize.Height - pnl_common_setting.Height) / 2;
             pnl_common_setting.Visible = true;
             pnl_common_setting.BringToFront();
             pnl_common_setting.PerformLayout();
+
+            // Re-apply fill after the parent panel has completed its layout pass.
+            tableLayoutPanel5.PerformLayout();
+            pnl_common.PerformLayout();
+            dgv_registartion.Dock = DockStyle.Fill;
+            dgv_registartion.BringToFront();
         }
 
         private void InitializeProductImagePage()
