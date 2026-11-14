@@ -282,7 +282,6 @@ namespace FoodandBeverage.Forms
                 txtsearch.ForeColor = Color.Gray;
 
                 SetProductImageStorage(null);
-                productImageChanged = false;
 
                 //pb_menupic.BackgroundImage = null;
                 //pb_menupic.BackgroundImage = Properties.Resources.FoodPic;
@@ -4840,8 +4839,9 @@ if (FrmDashboard.DefaultTaxType != "")
                         return;
 
                     using (Image source = Image.FromFile(dialog.FileName))
+                    using (Bitmap selectedImage = new Bitmap(source))
                     {
-                        SetProductImageStorage(new Bitmap(source));
+                        SetProductImageStorage(selectedImage);
                     }
 
                     empImgExt = dialog.FileName;
