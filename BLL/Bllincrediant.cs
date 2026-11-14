@@ -10,8 +10,10 @@ namespace BLL
     {
         public int UpdateVariationIngredient(Dmnincrediant ingredient, int variationId)
         {
+            // VariationId = 0 is the valid legacy/base recipe for products
+            // without configured variations. Only negative temporary IDs are invalid.
             if (ingredient == null || ingredient.Ing_DetailsId <= 0 ||
-                ingredient.ProductId <= 0 || variationId <= 0)
+                ingredient.ProductId <= 0 || variationId < 0)
                 return 0;
 
             DAL.DapperRepository<Dmnincrediant> repository =
