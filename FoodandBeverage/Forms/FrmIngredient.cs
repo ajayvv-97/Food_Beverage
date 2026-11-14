@@ -117,6 +117,7 @@ namespace FoodandBeverage.Forms
             public int UnitId { get; set; }
             public int CategoryId { get; set; }
             public int DeductionStageId { get; set; }
+            public int VariationId { get; set; }
         }
         #endregion
 
@@ -4457,7 +4458,8 @@ if (FrmDashboard.DefaultTaxType != "")
                     Quantity = quantity,
                     UnitId = unitId,
                     CategoryId = GetInventoryItemCategoryId(row.Cells[RCategorytypeno].Value),
-                    DeductionStageId = GetDeductionStageId(row.Cells[RDeductionstageno].Value)
+                    DeductionStageId = GetDeductionStageId(row.Cells[RDeductionstageno].Value),
+                    VariationId = currentIngredientVariationId
                 });
             }
             return rows;
@@ -4533,7 +4535,8 @@ if (FrmDashboard.DefaultTaxType != "")
                     Quantity = Convert.ToString(item.Field3),
                     UnitId = unitId,
                     CategoryId = GetInventoryItemCategoryId(item.Field8),
-                    DeductionStageId = GetDeductionStageId(item.Field7)
+                    DeductionStageId = GetDeductionStageId(item.Field7),
+                    VariationId = Convert.ToInt32(item.Field9)
                 });
             }
             return result;
@@ -4554,7 +4557,7 @@ if (FrmDashboard.DefaultTaxType != "")
                 row.Cells[RDeductionstageno].Value = ingredient.DeductionStageId;
                 row.Cells[RCategorytypeno].Value = ingredient.CategoryId;
                 row.Cells[RIng_DetailsIdno].Value = ingredient.DetailId > 0 ? (object)ingredient.DetailId : null;
-                row.Cells[RVariationidno].Value = currentIngredientVariationId;
+                row.Cells[RVariationidno].Value = ingredient.VariationId;
                 DataGridViewImageCell deleteCell = row.Cells[Raction] as DataGridViewImageCell;
                 if (deleteCell != null)
                 {
