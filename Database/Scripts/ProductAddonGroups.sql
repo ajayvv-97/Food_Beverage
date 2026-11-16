@@ -1,9 +1,8 @@
 /*
-  Add-on Group master/detail schema and save/update procedure.
-  Product foreign key uses dbo.tblProduct(ProductId).
+    Add-on Group tables and three separate insert/update procedures.
+    Run this script in the FoodBeverage database after dbo.tblProduct exists.
 */
 SET NOCOUNT ON;
-SET XACT_ABORT ON;
 GO
 
 IF OBJECT_ID(N'dbo.tblProduct', N'U') IS NULL
@@ -52,6 +51,8 @@ BEGIN
         Status BIT NOT NULL CONSTRAINT DF_tblAddonGroupDetail_Status DEFAULT (1),
         CreatedBy BIGINT NULL,
         CreatedDateTime DATETIME2 NOT NULL CONSTRAINT DF_tblAddonGroupDetail_CreatedDateTime DEFAULT (SYSDATETIME()),
+        ModifiedBy BIGINT NULL,
+        ModifiedDateTime DATETIME2 NULL,
         CONSTRAINT FK_tblAddonGroupDetail_Group FOREIGN KEY (GroupId) REFERENCES dbo.tblAddonGroup(GroupId),
         CONSTRAINT FK_tblAddonGroupDetail_Product FOREIGN KEY (ProductId) REFERENCES dbo.tblProduct(ProductId)
     );
@@ -75,6 +76,8 @@ BEGIN
         Status BIT NOT NULL CONSTRAINT DF_tblProductAddonGroup_Status DEFAULT (1),
         CreatedBy BIGINT NULL,
         CreatedDateTime DATETIME2 NOT NULL CONSTRAINT DF_tblProductAddonGroup_CreatedDateTime DEFAULT (SYSDATETIME()),
+        ModifiedBy BIGINT NULL,
+        ModifiedDateTime DATETIME2 NULL,
         CONSTRAINT FK_tblProductAddonGroup_Product FOREIGN KEY (ProductId) REFERENCES dbo.tblProduct(ProductId),
         CONSTRAINT FK_tblProductAddonGroup_Group FOREIGN KEY (GroupId) REFERENCES dbo.tblAddonGroup(GroupId)
     );
@@ -86,10 +89,14 @@ IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id=OBJECT_ID(N'dbo.tblProd
         ON dbo.tblProductAddonGroup(ProductId, GroupId, BranchId);
 GO
 
-CREATE OR ALTER PROCEDURE dbo.prdInsert_upd_AddonGroup
+/* 1. Master: dbo.tblAddonGroup */
+IF OBJECT_ID(N'dbo.prdInsertAddonGroup', N'P') IS NULL
+    EXEC('CREATE PROCEDURE dbo.prdInsertAddonGroup AS BEGIN SET NOCOUNT ON; END');
+GO
+ALTER PROCEDURE dbo.prdInsertAddonGroup
     @GroupId INT,
     @GroupName NVARCHAR(120),
-    @Description NVARCHAR(500) = NULL,
+    @Description NVARCHAR(500),
     @SelectionMode TINYINT,
     @MinSelection INT,
     @MaxSelection INT,
@@ -97,135 +104,205 @@ CREATE OR ALTER PROCEDURE dbo.prdInsert_upd_AddonGroup
     @Status BIT,
     @BranchId INT,
     @CreatedBy BIGINT,
-    @ModifiedBy BIGINT,
-    @ProductsXml XML
+    @ModifiedBy BIGINT
 AS
 BEGIN
     SET NOCOUNT ON;
-    SET XACT_ABORT ON;
+
+    DECLARE @Id INT;
 
     IF NULLIF(LTRIM(RTRIM(@GroupName)), '') IS NULL
         THROW 51101, 'Group name is required.', 1;
 
     IF @SelectionMode NOT IN (1,2)
-        THROW 51102, 'Selection mode must be Single or Multiple.', 1;
+       OR @MinSelection < 0
+       OR @MaxSelection < 1
+       OR @MinSelection > @MaxSelection
+       OR (@SelectionMode = 1 AND @MaxSelection <> 1)
+       OR (@IsRequired = 1 AND @MinSelection < 1)
+        THROW 51102, 'Invalid add-on group selection settings.', 1;
 
-    IF @MinSelection < 0 OR @MaxSelection < 1 OR @MinSelection > @MaxSelection
-        THROW 51103, 'Invalid minimum or maximum selection.', 1;
+    IF @GroupId > 0
+    BEGIN
+        UPDATE dbo.tblAddonGroup
+        SET GroupName = @GroupName,
+            Description = @Description,
+            SelectionMode = @SelectionMode,
+            MinSelection = @MinSelection,
+            MaxSelection = @MaxSelection,
+            IsRequired = @IsRequired,
+            Status = @Status,
+            ModifiedBy = @ModifiedBy,
+            ModifiedDateTime = SYSDATETIME()
+        WHERE GroupId = @GroupId AND BranchId = @BranchId;
 
-    IF @SelectionMode = 1 AND @MaxSelection <> 1
-        THROW 51104, 'Single selection groups must have maximum selection 1.', 1;
+        IF @@ROWCOUNT = 0
+            THROW 51103, 'Add-on group not found for this branch.', 1;
 
-    IF @IsRequired = 1 AND @MinSelection < 1
-        THROW 51105, 'Required groups must have minimum selection at least 1.', 1;
+        SET @Id = @GroupId;
+    END
+    ELSE
+    BEGIN
+        INSERT INTO dbo.tblAddonGroup
+        (GroupName, Description, SelectionMode, MinSelection, MaxSelection,
+         IsRequired, Status, BranchId, CreatedBy, CreatedDateTime)
+        VALUES
+        (@GroupName, @Description, @SelectionMode, @MinSelection, @MaxSelection,
+         @IsRequired, @Status, @BranchId, @CreatedBy, SYSDATETIME());
 
-    IF @ProductsXml IS NULL OR @ProductsXml.exist('/Products/Product[1]') = 0
-        THROW 51106, 'Select at least one product for this group.', 1;
+        SET @Id = CONVERT(INT, SCOPE_IDENTITY());
+    END
 
-    IF EXISTS
-    (
-        SELECT ProductId
-        FROM
-        (
-            SELECT N.X.value('@ProductId','INT') AS ProductId
-            FROM @ProductsXml.nodes('/Products/Product') AS N(X)
-        ) AS Selected
-        GROUP BY ProductId
-        HAVING COUNT(1) > 1
-    )
-        THROW 51107, 'Duplicate products are not allowed in a group.', 1;
-
-    DECLARE @SelectedProducts TABLE
-    (
-        ProductId INT NOT NULL PRIMARY KEY,
-        DisplayOrder INT NOT NULL
-    );
-
-    INSERT INTO @SelectedProducts (ProductId, DisplayOrder)
-    SELECT N.X.value('@ProductId','INT'),
-           N.X.value('@DisplayOrder','INT')
-    FROM @ProductsXml.nodes('/Products/Product') AS N(X);
-
-
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        DECLARE @SavedGroupId INT;
-
-        IF ISNULL(@GroupId, 0) > 0
-        BEGIN
-            UPDATE dbo.tblAddonGroup
-            SET GroupName = @GroupName,
-                Description = @Description,
-                SelectionMode = @SelectionMode,
-                MinSelection = @MinSelection,
-                MaxSelection = @MaxSelection,
-                IsRequired = @IsRequired,
-                Status = @Status,
-                ModifiedBy = @ModifiedBy,
-                ModifiedDateTime = SYSDATETIME()
-            WHERE GroupId = @GroupId
-              AND BranchId = @BranchId;
-
-            IF @@ROWCOUNT = 0
-                THROW 51108, 'Add-on group not found for this branch.', 1;
-
-            SET @SavedGroupId = @GroupId;
-        END
-        ELSE
-        BEGIN
-            INSERT INTO dbo.tblAddonGroup
-                (GroupName, Description, SelectionMode, MinSelection, MaxSelection,
-                 IsRequired, Status, BranchId, CreatedBy, CreatedDateTime)
-            VALUES
-                (@GroupName, @Description, @SelectionMode, @MinSelection, @MaxSelection,
-                 @IsRequired, @Status, @BranchId, @CreatedBy, SYSDATETIME());
-
-            SET @SavedGroupId = CONVERT(INT, SCOPE_IDENTITY());
-        END;
-
-        -- Synchronize the selected products: remove deselected rows and insert
-        -- new rows while preserving the selected order.
-        DELETE D
-        FROM dbo.tblAddonGroupDetail D
-        WHERE D.GroupId = @SavedGroupId
-          AND NOT EXISTS
-          (
-              SELECT 1
-              FROM @SelectedProducts S
-              WHERE S.ProductId = D.ProductId
-          );
-
-        UPDATE D
-        SET D.DisplayOrder = S.DisplayOrder,
-            D.Status = 1
-        FROM dbo.tblAddonGroupDetail D
-        INNER JOIN @SelectedProducts S ON S.ProductId = D.ProductId
-        WHERE D.GroupId = @SavedGroupId;
-
-        INSERT INTO dbo.tblAddonGroupDetail
-            (GroupId, ProductId, DisplayOrder, Status, CreatedBy, CreatedDateTime)
-        SELECT @SavedGroupId, S.ProductId, S.DisplayOrder,
-               1, @CreatedBy, SYSDATETIME()
-        FROM @SelectedProducts S
-        WHERE NOT EXISTS
-        (
-            SELECT 1 FROM dbo.tblAddonGroupDetail D
-            WHERE D.GroupId = @SavedGroupId
-              AND D.ProductId = S.ProductId
-        );
-
-        COMMIT TRANSACTION;
-
-        SELECT @SavedGroupId AS GroupId;
-    END TRY
-    BEGIN CATCH
-        IF @@TRANCOUNT > 0
-            ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH
+    SELECT @Id AS GroupId;
 END;
 GO
 
-PRINT 'Add-on group schema and save/update procedure created/verified.';
+/* 2. Group products: dbo.tblAddonGroupDetail.
+   Set @ResetGroup=1 once before saving the selected product rows.
+   Then call again for every selected product with @ResetGroup=0. */
+IF OBJECT_ID(N'dbo.prdInsertAddonGroupDetail', N'P') IS NULL
+    EXEC('CREATE PROCEDURE dbo.prdInsertAddonGroupDetail AS BEGIN SET NOCOUNT ON; END');
+GO
+ALTER PROCEDURE dbo.prdInsertAddonGroupDetail
+    @GroupDetailId BIGINT,
+    @GroupId INT,
+    @ProductId INT,
+    @DisplayOrder INT,
+    @Status BIT,
+    @CreatedBy BIGINT,
+    @ResetGroup BIT = 0
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Id BIGINT;
+
+    IF @ResetGroup = 1
+    BEGIN
+        UPDATE dbo.tblAddonGroupDetail
+        SET Status = 0,
+            ModifiedBy = @CreatedBy,
+            ModifiedDateTime = SYSDATETIME()
+        WHERE GroupId = @GroupId;
+
+        SELECT CAST(0 AS BIGINT) AS GroupDetailId;
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM dbo.tblAddonGroup WHERE GroupId = @GroupId)
+        THROW 51104, 'Add-on group does not exist.', 1;
+
+    IF NOT EXISTS (SELECT 1 FROM dbo.tblProduct WHERE ProductId = @ProductId)
+        THROW 51105, 'Selected product does not exist.', 1;
+
+    IF @GroupDetailId > 0
+    BEGIN
+        UPDATE dbo.tblAddonGroupDetail
+        SET GroupId = @GroupId,
+            ProductId = @ProductId,
+            DisplayOrder = @DisplayOrder,
+            Status = @Status,
+            ModifiedBy = @CreatedBy,
+            ModifiedDateTime = SYSDATETIME()
+        WHERE GroupDetailId = @GroupDetailId;
+
+        IF @@ROWCOUNT = 0
+            THROW 51106, 'Add-on group detail not found.', 1;
+
+        SET @Id = @GroupDetailId;
+    END
+    ELSE
+    BEGIN
+        UPDATE dbo.tblAddonGroupDetail
+        SET DisplayOrder = @DisplayOrder,
+            Status = @Status,
+            ModifiedBy = @CreatedBy,
+            ModifiedDateTime = SYSDATETIME()
+        WHERE GroupId = @GroupId AND ProductId = @ProductId;
+
+        IF @@ROWCOUNT > 0
+            SELECT @Id = GroupDetailId
+            FROM dbo.tblAddonGroupDetail
+            WHERE GroupId = @GroupId AND ProductId = @ProductId;
+        ELSE
+        BEGIN
+            INSERT INTO dbo.tblAddonGroupDetail
+            (GroupId, ProductId, DisplayOrder, Status, CreatedBy, CreatedDateTime)
+            VALUES
+            (@GroupId, @ProductId, @DisplayOrder, @Status, @CreatedBy, SYSDATETIME());
+
+            SET @Id = SCOPE_IDENTITY();
+        END
+    END
+
+    SELECT @Id AS GroupDetailId;
+END;
+GO
+
+/* 3. Parent product to add-on group mapping: dbo.tblProductAddonGroup */
+IF OBJECT_ID(N'dbo.prdInsertProductAddonGroup', N'P') IS NULL
+    EXEC('CREATE PROCEDURE dbo.prdInsertProductAddonGroup AS BEGIN SET NOCOUNT ON; END');
+GO
+ALTER PROCEDURE dbo.prdInsertProductAddonGroup
+    @ProductAddonGroupId BIGINT,
+    @ProductId INT,
+    @GroupId INT,
+    @BranchId INT,
+    @DisplayOrder INT,
+    @Status BIT,
+    @CreatedBy BIGINT,
+    @ModifiedBy BIGINT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Id BIGINT;
+
+    IF @ProductAddonGroupId > 0
+    BEGIN
+        UPDATE dbo.tblProductAddonGroup
+        SET ProductId = @ProductId,
+            GroupId = @GroupId,
+            BranchId = @BranchId,
+            DisplayOrder = @DisplayOrder,
+            Status = @Status,
+            ModifiedBy = @ModifiedBy,
+            ModifiedDateTime = SYSDATETIME()
+        WHERE ProductAddonGroupId = @ProductAddonGroupId;
+
+        IF @@ROWCOUNT = 0
+            THROW 51107, 'Product add-on group mapping not found.', 1;
+
+        SET @Id = @ProductAddonGroupId;
+    END
+    ELSE
+    BEGIN
+        UPDATE dbo.tblProductAddonGroup
+        SET DisplayOrder = @DisplayOrder,
+            Status = @Status,
+            ModifiedBy = @ModifiedBy,
+            ModifiedDateTime = SYSDATETIME()
+        WHERE ProductId = @ProductId
+          AND GroupId = @GroupId
+          AND BranchId = @BranchId;
+
+        IF @@ROWCOUNT > 0
+            SELECT @Id = ProductAddonGroupId
+            FROM dbo.tblProductAddonGroup
+            WHERE ProductId = @ProductId
+              AND GroupId = @GroupId
+              AND BranchId = @BranchId;
+        ELSE
+        BEGIN
+            INSERT INTO dbo.tblProductAddonGroup
+            (ProductId, GroupId, BranchId, DisplayOrder, Status, CreatedBy, CreatedDateTime)
+            VALUES
+            (@ProductId, @GroupId, @BranchId, @DisplayOrder, @Status, @CreatedBy, SYSDATETIME());
+
+            SET @Id = SCOPE_IDENTITY();
+        END
+    END
+
+    SELECT @Id AS ProductAddonGroupId;
+END;
 GO
