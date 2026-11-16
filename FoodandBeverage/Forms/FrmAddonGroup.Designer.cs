@@ -78,7 +78,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flp_groups = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_addgroup = new System.Windows.Forms.Button();
             this.txtsearch_groups = new System.Windows.Forms.TextBox();
@@ -766,7 +766,7 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.lbl_groups_info, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.flp_groups, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.txtsearch_groups, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -807,13 +807,13 @@ namespace FoodandBeverage.Forms
             this.label3.TabIndex = 11;
             this.label3.Text = "Addon On Groups";
             // 
-            // flowLayoutPanel1
+            // flp_groups
             // 
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 110);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(229, 369);
-            this.flowLayoutPanel1.TabIndex = 18;
+            this.flp_groups.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flp_groups.Location = new System.Drawing.Point(3, 110);
+            this.flp_groups.Name = "flp_groups";
+            this.flp_groups.Size = new System.Drawing.Size(229, 369);
+            this.flp_groups.TabIndex = 18;
             // 
             // tableLayoutPanel7
             // 
@@ -1095,7 +1095,7 @@ namespace FoodandBeverage.Forms
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flp_groups;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.Button btn_addgroup;
         private System.Windows.Forms.TextBox txtsearch_groups;
