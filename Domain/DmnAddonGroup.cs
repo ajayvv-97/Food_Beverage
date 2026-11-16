@@ -13,10 +13,32 @@ namespace Domain
         public bool IsRequired { get; set; }
         public bool Status { get; set; }
         public int BranchId { get; set; }
-        public int CreatedBy { get; set; }
-        public int ModifiedBy { get; set; }
+        public long CreatedBy { get; set; }
+        public long ModifiedBy { get; set; }
         public int ProductCount { get; set; }
-        public string ProductsXml { get; set; }
+    }
+
+    public class DmnAddonGroupDetail
+    {
+        public long GroupDetailId { get; set; }
+        public int GroupId { get; set; }
+        public int ProductId { get; set; }
+        public int DisplayOrder { get; set; }
+        public bool Status { get; set; }
+        public long CreatedBy { get; set; }
+        public bool ResetGroup { get; set; }
+    }
+
+    public class DmnProductAddonGroup
+    {
+        public long ProductAddonGroupId { get; set; }
+        public int ProductId { get; set; }
+        public int GroupId { get; set; }
+        public int BranchId { get; set; }
+        public int DisplayOrder { get; set; }
+        public bool Status { get; set; }
+        public long CreatedBy { get; set; }
+        public long ModifiedBy { get; set; }
     }
 
     public class DmnAddonGroupProduct
