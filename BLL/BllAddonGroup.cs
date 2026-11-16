@@ -5,8 +5,7 @@ namespace BLL
 {
     public class BllAddonGroup
     {
-        // Insert or update the group and its selected products through one
-        // stored procedure, following the same pattern as Blldrawer.
+        // tblAddonGroup - Insert / Update
         public DmnAddonGroup AddEditData(string procedureName, DmnAddonGroup objTestClass)
         {
             DAL.DapperRepository<DmnAddonGroup> dapperRepository =
@@ -24,10 +23,48 @@ namespace BLL
             parms.Add("BranchId", objTestClass.BranchId);
             parms.Add("CreatedBy", objTestClass.CreatedBy);
             parms.Add("ModifiedBy", objTestClass.ModifiedBy);
-            parms.Add("ProductsXml", objTestClass.ProductsXml);
 
-            var result = dapperRepository.AddandReturnID(procedureName, parms);
-            return result;
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+
+        // tblAddonGroupDetail - Insert / Update
+        public DmnAddonGroupDetail AddEditDataDetail(string procedureName, DmnAddonGroupDetail objTestClass)
+        {
+            DAL.DapperRepository<DmnAddonGroupDetail> dapperRepository =
+                new DAL.DapperRepository<DmnAddonGroupDetail>();
+
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("GroupDetailId", objTestClass.GroupDetailId);
+            parms.Add("GroupId", objTestClass.GroupId);
+            parms.Add("ProductId", objTestClass.ProductId);
+            parms.Add("DisplayOrder", objTestClass.DisplayOrder);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("ResetGroup", objTestClass.ResetGroup);
+
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
+        }
+
+        // tblProductAddonGroup - Insert / Update
+        public DmnProductAddonGroup AddEditProductAddonGroup(string procedureName, DmnProductAddonGroup objTestClass)
+        {
+            DAL.DapperRepository<DmnProductAddonGroup> dapperRepository =
+                new DAL.DapperRepository<DmnProductAddonGroup>();
+
+            DynamicParameters parms = new DynamicParameters();
+            parms.Add("ProductAddonGroupId", objTestClass.ProductAddonGroupId);
+            parms.Add("ProductId", objTestClass.ProductId);
+            parms.Add("GroupId", objTestClass.GroupId);
+            parms.Add("BranchId", objTestClass.BranchId);
+            parms.Add("DisplayOrder", objTestClass.DisplayOrder);
+            parms.Add("Status", objTestClass.Status);
+            parms.Add("CreatedBy", objTestClass.CreatedBy);
+            parms.Add("ModifiedBy", objTestClass.ModifiedBy);
+
+            var lstData = dapperRepository.AddandReturnID(procedureName, parms);
+            return lstData;
         }
     }
 }
