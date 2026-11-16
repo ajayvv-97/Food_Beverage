@@ -124,13 +124,28 @@ BEGIN
 
     IF EXISTS
     (
-        SELECT X.ProductId
-        FROM @ProductsXml.nodes('/Products/Product') AS N(X)
-        CROSS APPLY (SELECT N.X.value('@ProductId','INT') AS ProductId) X
-        GROUP BY X.ProductId
+        SELECT ProductId
+        FROM
+        (
+            SELECT N.X.value('@ProductId','INT') AS ProductId
+            FROM @ProductsXml.nodes('/Products/Product') AS N(X)
+        ) AS Selected
+        GROUP BY ProductId
         HAVING COUNT(1) > 1
     )
         THROW 51107, 'Duplicate products are not allowed in a group.', 1;
+
+    DECLARE @SelectedProducts TABLE
+    (
+        ProductId INT NOT NULL PRIMARY KEY,
+        DisplayOrder INT NOT NULL
+    );
+
+    INSERT INTO @SelectedProducts (ProductId, DisplayOrder)
+    SELECT N.X.value('@ProductId','INT'),
+           N.X.value('@DisplayOrder','INT')
+    FROM @ProductsXml.nodes('/Products/Product') AS N(X);
+
 
     BEGIN TRY
         BEGIN TRANSACTION;
@@ -177,30 +192,27 @@ BEGIN
           AND NOT EXISTS
           (
               SELECT 1
-              FROM @ProductsXml.nodes('/Products/Product') AS N(X)
-              WHERE N.X.value('@ProductId','INT') = D.ProductId
+              FROM @SelectedProducts S
+              WHERE S.ProductId = D.ProductId
           );
 
         UPDATE D
-        SET D.DisplayOrder = N.X.value('@DisplayOrder','INT'),
+        SET D.DisplayOrder = S.DisplayOrder,
             D.Status = 1
         FROM dbo.tblAddonGroupDetail D
-        INNER JOIN @ProductsXml.nodes('/Products/Product') AS N(X)
-            ON N.X.value('@ProductId','INT') = D.ProductId
+        INNER JOIN @SelectedProducts S ON S.ProductId = D.ProductId
         WHERE D.GroupId = @SavedGroupId;
 
         INSERT INTO dbo.tblAddonGroupDetail
             (GroupId, ProductId, DisplayOrder, Status, CreatedBy, CreatedDateTime)
-        SELECT @SavedGroupId,
-               N.X.value('@ProductId','INT'),
-               N.X.value('@DisplayOrder','INT'),
+        SELECT @SavedGroupId, S.ProductId, S.DisplayOrder,
                1, @CreatedBy, SYSDATETIME()
-        FROM @ProductsXml.nodes('/Products/Product') AS N(X)
+        FROM @SelectedProducts S
         WHERE NOT EXISTS
         (
             SELECT 1 FROM dbo.tblAddonGroupDetail D
             WHERE D.GroupId = @SavedGroupId
-              AND D.ProductId = N.X.value('@ProductId','INT')
+              AND D.ProductId = S.ProductId
         );
 
         COMMIT TRANSACTION;
