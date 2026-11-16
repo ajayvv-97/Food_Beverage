@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Xml.Linq;
 using System.Windows.Forms;
 
 namespace FoodandBeverage.Forms
@@ -12,7 +11,6 @@ namespace FoodandBeverage.Forms
     public partial class FrmAddonGroup : Form
     {
         #region Grid column indexes
-        // Available products grid
         private const int iproduct_slno = 0;
         private const int iproduct_name = 1;
         private const int iproduct_itemcode = 2;
@@ -20,7 +18,6 @@ namespace FoodandBeverage.Forms
         private const int iproduct_category = 4;
         private const int iproduct_id = 5;
 
-        // Selected products grid
         private const int iselected_slno = 0;
         private const int iselected_name = 1;
         private const int iselected_itemcode = 2;
@@ -55,11 +52,9 @@ namespace FoodandBeverage.Forms
                 _loading = true;
                 if (cmb_categtype.Items.Count > 0 && cmb_categtype.SelectedIndex < 0)
                     cmb_categtype.SelectedIndex = 0;
-
                 chk_req_selection.Visible = true;
                 if (num_maxselection.Value < 1)
                     num_maxselection.Value = 1;
-
                 ConfigureSelectedProductsGrid();
                 _loading = false;
                 LoadGroups();
@@ -86,21 +81,13 @@ namespace FoodandBeverage.Forms
                 removeColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 dgv_addongroup_products.Columns.Add(removeColumn);
             }
-
             dgv_addongroup_products.Columns[iselected_productid].Visible = false;
             dgv_addongroup_products.Columns[iselected_groupid].Visible = false;
             dgv_addongroup_products.Columns[iselected_remove].ReadOnly = true;
         }
 
-        private int CurrentBranchId
-        {
-            get { return FrmDashboard.BranchId; }
-        }
-
-        private int CurrentEmployeeId
-        {
-            get { return FrmDashboard.UserId; }
-        }
+        private int CurrentBranchId { get { return FrmDashboard.BranchId; } }
+        private int CurrentEmployeeId { get { return FrmDashboard.UserId; } }
 
         private void LoadGroups()
         {
@@ -128,38 +115,26 @@ namespace FoodandBeverage.Forms
                     groupButton.FlatStyle = FlatStyle.Flat;
                     groupButton.FlatAppearance.BorderColor = Color.FromArgb(150, 120, 210);
                     groupButton.BackColor = group.GroupId == _selectedGroupId
-                        ? Color.FromArgb(215, 194, 247)
-                        : Color.FromArgb(246, 241, 252);
+                        ? Color.FromArgb(215, 194, 247) : Color.FromArgb(246, 241, 252);
                     groupButton.ForeColor = Color.FromArgb(48, 30, 95);
                     groupButton.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Bold);
-                    groupButton.Text = group.GroupName + Environment.NewLine +
-                        group.ProductCount + " products  |  " +
-                        (group.SelectionMode == 1 ? "Single Select" : "Multiple Select") +
+                    groupButton.Text = group.GroupName + Environment.NewLine + group.ProductCount +
+                        " products  |  " + (group.SelectionMode == 1 ? "Single Select" : "Multiple Select") +
                         (group.Status ? "  |  Active" : "  |  Inactive");
                     groupButton.Tag = group.GroupId;
                     groupButton.Click += GroupButton_Click;
                     flp_groups.Controls.Add(groupButton);
                 }
-
                 lbl_groups_info.Text = "Total Groups: " + groups.Count;
             }
-            finally
-            {
-                flp_groups.ResumeLayout();
-            }
+            finally { flp_groups.ResumeLayout(); }
         }
 
         private void GroupButton_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            if (button == null || button.Tag == null)
-                return;
-
-            try
-            {
-                LoadGroup(Convert.ToInt32(button.Tag));
-                LoadGroups();
-            }
+            if (button == null || button.Tag == null) return;
+            try { LoadGroup(Convert.ToInt32(button.Tag)); LoadGroups(); }
             catch (Exception ex)
             {
                 SetSaveInfo(ex.Message, true);
@@ -177,8 +152,7 @@ namespace FoodandBeverage.Forms
             DmnAddonGroup group = _groupSearch.GetSearchData("prdComboFill", search).FirstOrDefault();
             if (group == null)
             {
-                MessageBox.Show("Selected group was not found.", "Add-on Group",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Selected group was not found.", "Add-on Group", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -191,13 +165,11 @@ namespace FoodandBeverage.Forms
                 chk_status.Checked = group.Status;
                 rd_singleselect.Checked = group.SelectionMode == 1;
                 rb_multiselect.Checked = group.SelectionMode == 2;
-                num_miniselection.Value = Math.Min(num_miniselection.Maximum,
-                    Math.Max(num_miniselection.Minimum, group.MinSelection));
-                num_maxselection.Value = Math.Min(num_maxselection.Maximum,
-                    Math.Max(num_maxselection.Minimum, group.MaxSelection));
+                num_miniselection.Value = Math.Min(num_miniselection.Maximum, Math.Max(num_miniselection.Minimum, group.MinSelection));
+                num_maxselection.Value = Math.Min(num_maxselection.Maximum, Math.Max(num_maxselection.Minimum, group.MaxSelection));
                 chk_req_selection.Checked = group.IsRequired;
-
                 dgv_addongroup_products.Rows.Clear();
+
                 DmnSearch productSearch = new DmnSearch();
                 productSearch.Select = @"p.ProductId, p.Product AS ProductName, ISNULL(p.ItemCode,'') AS ItemCode,
                     ISNULL(p.Price,0) AS Price, ISNULL(c.CategoryName,'') AS CategoryName,
@@ -206,23 +178,15 @@ namespace FoodandBeverage.Forms
                 productSearch.WhereNdGroupBy = "WHERE d.GroupId=" + group.GroupId + " AND g.BranchId=" + CurrentBranchId + " AND d.Status=1 AND p.Status=1";
                 productSearch.OrderBy = "ORDER BY d.DisplayOrder, p.Product";
                 List<DmnAddonGroupProduct> products = new BllSearch<DmnAddonGroupProduct>().GetSearchData("prdComboFill", productSearch);
-
-                foreach (DmnAddonGroupProduct product in products)
-                    AddSelectedProduct(product, false);
-
+                foreach (DmnAddonGroupProduct product in products) AddSelectedProduct(product, false);
                 SetSaveInfo("Editing group: " + group.GroupName, false);
             }
-            finally
-            {
-                _loading = false;
-            }
+            finally { _loading = false; }
         }
 
         private void LoadAvailableProducts()
         {
-            if (_loading)
-                return;
-
+            if (_loading) return;
             int categoryType = cmb_categtype.SelectedIndex;
             string searchText = txtsearch_products.Text.Trim().Replace("'", "''");
             DmnSearch productSearch = new DmnSearch();
@@ -234,51 +198,33 @@ namespace FoodandBeverage.Forms
                 "%' OR ISNULL(p.ItemCode,'') LIKE '%" + searchText + "%')";
             productSearch.OrderBy = "ORDER BY p.Product";
             List<DmnAddonGroupProduct> products = _productSearch.GetSearchData("prdComboFill", productSearch);
-
             dgv_products.Rows.Clear();
             int rowNumber = 1;
             foreach (DmnAddonGroupProduct product in products)
-            {
-                dgv_products.Rows.Add(rowNumber++, product.ProductName, product.ItemCode,
-                    product.Price, product.CategoryName, product.ProductId);
-            }
+                dgv_products.Rows.Add(rowNumber++, product.ProductName, product.ItemCode, product.Price, product.CategoryName, product.ProductId);
         }
 
         private void AddSelectedProduct(DmnAddonGroupProduct product, bool showMessage)
         {
-            if (product == null || product.ProductId <= 0)
-                return;
-
+            if (product == null || product.ProductId <= 0) return;
             foreach (DataGridViewRow row in dgv_addongroup_products.Rows)
             {
                 if (Convert.ToInt32(row.Cells[iselected_productid].Value) == product.ProductId)
                 {
-                    if (showMessage)
-                        SetSaveInfo("This product is already included in the group.", true);
+                    if (showMessage) SetSaveInfo("This product is already included in the group.", true);
                     return;
                 }
             }
-
             int displayOrder = dgv_addongroup_products.Rows.Count + 1;
-            int rowIndex = dgv_addongroup_products.Rows.Add(
-                displayOrder,
-                product.ProductName,
-                product.ItemCode,
-                product.Price,
-                displayOrder,
-                product.ProductId,
-                _selectedGroupId);
-
+            int rowIndex = dgv_addongroup_products.Rows.Add(displayOrder, product.ProductName, product.ItemCode,
+                product.Price, displayOrder, product.ProductId, _selectedGroupId);
             dgv_addongroup_products.Rows[rowIndex].Cells[iselected_displayorder].Value = displayOrder;
-            if (showMessage)
-                SetSaveInfo(product.ProductName + " added to this group.", false);
+            if (showMessage) SetSaveInfo(product.ProductName + " added to this group.", false);
         }
 
         private DmnAddonGroupProduct GetProductFromAvailableRow(DataGridViewRow row)
         {
-            if (row == null || row.IsNewRow)
-                return null;
-
+            if (row == null || row.IsNewRow) return null;
             return new DmnAddonGroupProduct
             {
                 ProductId = Convert.ToInt32(row.Cells[iproduct_id].Value),
@@ -292,13 +238,9 @@ namespace FoodandBeverage.Forms
         private List<DmnAddonGroupProduct> CollectSelectedProducts()
         {
             List<DmnAddonGroupProduct> products = new List<DmnAddonGroupProduct>();
-            int displayOrder = 1;
-
             foreach (DataGridViewRow row in dgv_addongroup_products.Rows)
             {
-                if (row.IsNewRow)
-                    continue;
-
+                if (row.IsNewRow) continue;
                 products.Add(new DmnAddonGroupProduct
                 {
                     ProductId = Convert.ToInt32(row.Cells[iselected_productid].Value),
@@ -308,9 +250,7 @@ namespace FoodandBeverage.Forms
                     DisplayOrder = Convert.ToInt32(row.Cells[iselected_displayorder].Value),
                     AddonGroupID = _selectedGroupId
                 });
-                displayOrder++;
             }
-
             return products;
         }
 
@@ -318,62 +258,40 @@ namespace FoodandBeverage.Forms
         {
             if (string.IsNullOrWhiteSpace(txtgroupname.Text))
             {
-                MessageBox.Show("Enter the add-on group name.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtgroupname.Focus();
-                return false;
+                MessageBox.Show("Enter the add-on group name.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtgroupname.Focus(); return false;
             }
-
             if (dgv_addongroup_products.Rows.Count == 0)
             {
-                MessageBox.Show("Select at least one product for this group.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Select at least one product for this group.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-
             int minimum = Convert.ToInt32(num_miniselection.Value);
             int maximum = Convert.ToInt32(num_maxselection.Value);
             int selectionMode = rd_singleselect.Checked ? 1 : 2;
-
             if (selectionMode == 1 && maximum != 1)
             {
-                MessageBox.Show("Single Select groups must have a maximum selection of 1.",
-                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                num_maxselection.Value = 1;
-                return false;
+                MessageBox.Show("Single Select groups must have a maximum selection of 1.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                num_maxselection.Value = 1; return false;
             }
-
             if (chk_req_selection.Checked && minimum < 1)
             {
-                MessageBox.Show("Required Selection must have a minimum selection of at least 1.",
-                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                num_miniselection.Value = 1;
-                return false;
+                MessageBox.Show("Required Selection must have a minimum selection of at least 1.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                num_miniselection.Value = 1; return false;
             }
-
             if (minimum > maximum || maximum > dgv_addongroup_products.Rows.Count)
             {
-                MessageBox.Show("Check the minimum and maximum selections. Maximum cannot exceed the products in this group.",
-                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Check the minimum and maximum selections. Maximum cannot exceed the products in this group.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-
-            if (selectionMode == 1 && dgv_addongroup_products.Rows.Count < 1)
-                return false;
-
             return true;
         }
 
-        private void btnsave_Click(object sender, EventArgs e)
-        {
-            SaveGroup();
-        }
+        private void btnsave_Click(object sender, EventArgs e) { SaveGroup(); }
 
         private void SaveGroup()
         {
-            if (!ValidateGroup())
-                return;
-
+            if (!ValidateGroup()) return;
             try
             {
                 DmnAddonGroup group = new DmnAddonGroup
@@ -391,27 +309,46 @@ namespace FoodandBeverage.Forms
                     ModifiedBy = CurrentEmployeeId
                 };
 
-                XElement productsXml = new XElement("Products",
-                    CollectSelectedProducts().Select(p => new XElement("Product",
-                        new XAttribute("ProductId", p.ProductId),
-                        new XAttribute("DisplayOrder", p.DisplayOrder))));
-                group.ProductsXml = productsXml.ToString(SaveOptions.DisableFormatting);
-                DmnAddonGroup savedGroup = _addonGroupBll.AddEditData("prdInsert_upd_AddonGroup", group);
+                DmnAddonGroup savedGroup = _addonGroupBll.AddEditData("prdInsertAddonGroup", group);
                 if (savedGroup == null || savedGroup.GroupId <= 0)
                     throw new InvalidOperationException("Add-on group could not be saved.");
+
                 int savedGroupId = savedGroup.GroupId;
+
+                // Mark existing detail rows inactive, then insert/update the current selection.
+                _addonGroupBll.AddEditDataDetail("prdInsertAddonGroupDetail",
+                    new DmnAddonGroupDetail
+                    {
+                        GroupId = savedGroupId,
+                        Status = false,
+                        CreatedBy = CurrentEmployeeId,
+                        ResetGroup = true
+                    });
+
+                List<DmnAddonGroupProduct> selectedProducts = CollectSelectedProducts();
+                foreach (DmnAddonGroupProduct product in selectedProducts)
+                {
+                    _addonGroupBll.AddEditDataDetail("prdInsertAddonGroupDetail",
+                        new DmnAddonGroupDetail
+                        {
+                            GroupId = savedGroupId,
+                            ProductId = product.ProductId,
+                            DisplayOrder = product.DisplayOrder,
+                            Status = true,
+                            CreatedBy = CurrentEmployeeId
+                        });
+                }
+
                 _selectedGroupId = savedGroupId;
                 LoadGroups();
                 LoadGroup(savedGroupId);
                 SetSaveInfo("Add-on group saved successfully.", false);
-                MessageBox.Show("Add-on group saved successfully.", "Saved",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Add-on group saved successfully.", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 SetSaveInfo(ex.Message, true);
-                MessageBox.Show(ex.Message, "Add-on Group",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Add-on Group", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -439,47 +376,31 @@ namespace FoodandBeverage.Forms
                 LoadGroups();
                 SetSaveInfo("New add-on group. Select products and save.", false);
             }
-            finally
-            {
-                _loading = false;
-            }
+            finally { _loading = false; }
         }
 
-        private void btn_addgroup_Click(object sender, EventArgs e)
-        {
-            ClearGroup();
-            txtgroupname.Focus();
-        }
+        private void btn_addgroup_Click(object sender, EventArgs e) { ClearGroup(); txtgroupname.Focus(); }
 
         private void btn_addproductsgroup_Click(object sender, EventArgs e)
         {
             if (dgv_products.SelectedRows.Count > 0)
             {
-                foreach (DataGridViewRow row in dgv_products.SelectedRows
-                    .Cast<DataGridViewRow>().OrderBy(r => r.Index).ToList())
+                foreach (DataGridViewRow row in dgv_products.SelectedRows.Cast<DataGridViewRow>().OrderBy(r => r.Index).ToList())
                     AddSelectedProduct(GetProductFromAvailableRow(row), true);
             }
             else if (dgv_products.CurrentRow != null)
-            {
                 AddSelectedProduct(GetProductFromAvailableRow(dgv_products.CurrentRow), true);
-            }
         }
 
         private void dgv_products_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.RowIndex >= dgv_products.Rows.Count)
-                return;
-
-            // Clicking a product adds it directly. The Add button also supports
-            // adding multiple selected rows together.
-            AddSelectedProduct(GetProductFromAvailableRow(dgv_products.Rows[e.RowIndex]), true);
+            if (e.RowIndex >= 0 && e.RowIndex < dgv_products.Rows.Count)
+                AddSelectedProduct(GetProductFromAvailableRow(dgv_products.Rows[e.RowIndex]), true);
         }
 
         private void dgv_addongroup_products_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex != iselected_remove)
-                return;
-
+            if (e.RowIndex < 0 || e.ColumnIndex != iselected_remove) return;
             dgv_addongroup_products.Rows.RemoveAt(e.RowIndex);
             for (int i = 0; i < dgv_addongroup_products.Rows.Count; i++)
             {
@@ -489,22 +410,9 @@ namespace FoodandBeverage.Forms
             SetSaveInfo("Product removed from this group. Save to apply changes.", false);
         }
 
-        private void txtsearch_groups_TextChanged(object sender, EventArgs e)
-        {
-            if (!_loading)
-                LoadGroups();
-        }
-
-        private void txtsearch_products_TextChanged(object sender, EventArgs e)
-        {
-            if (!_loading)
-                LoadAvailableProducts();
-        }
-
-        private void cmb_categtype_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            LoadAvailableProducts();
-        }
+        private void txtsearch_groups_TextChanged(object sender, EventArgs e) { if (!_loading) LoadGroups(); }
+        private void txtsearch_products_TextChanged(object sender, EventArgs e) { if (!_loading) LoadAvailableProducts(); }
+        private void cmb_categtype_SelectionChangeCommitted(object sender, EventArgs e) { LoadAvailableProducts(); }
 
         private void btnrefresh_Click(object sender, EventArgs e)
         {
@@ -513,32 +421,16 @@ namespace FoodandBeverage.Forms
             {
                 txtsearch_groups.Clear();
                 txtsearch_products.Clear();
-                if (cmb_categtype.Items.Count > 0)
-                    cmb_categtype.SelectedIndex = 0;
+                if (cmb_categtype.Items.Count > 0) cmb_categtype.SelectedIndex = 0;
             }
-            finally
-            {
-                _loading = false;
-            }
+            finally { _loading = false; }
             ClearGroup();
             LoadAvailableProducts();
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            LoadGroups();
-            LoadAvailableProducts();
-        }
-
-        private void btnclose_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void btncolse_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void btnSearch_Click(object sender, EventArgs e) { LoadGroups(); LoadAvailableProducts(); }
+        private void btnclose_Click(object sender, EventArgs e) { Close(); }
+        private void btncolse_Click(object sender, EventArgs e) { Close(); }
 
         private void FrmAddonGroup_Resize(object sender, EventArgs e)
         {
