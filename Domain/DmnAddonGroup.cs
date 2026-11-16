@@ -16,6 +16,7 @@ namespace Domain
         public int CreatedBy { get; set; }
         public int ModifiedBy { get; set; }
         public int ProductCount { get; set; }
+        public string ProductsXml { get; set; }
     }
 
     public class DmnAddonGroupProduct

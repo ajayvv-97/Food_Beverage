@@ -1,7 +1,6 @@
 /*
-  Add-on Group Setup schema for Food & Beverage
-  Product references use dbo.tblProduct.ProductId.
-  Run against a BACKUP/TEST database first.
+  Add-on Group master/detail schema and save/update procedure.
+  Product foreign key uses dbo.tblProduct(ProductId).
 */
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
@@ -24,10 +23,10 @@ BEGIN
         IsRequired BIT NOT NULL CONSTRAINT DF_tblAddonGroup_IsRequired DEFAULT (0),
         BranchId INT NOT NULL,
         Status BIT NOT NULL CONSTRAINT DF_tblAddonGroup_Status DEFAULT (1),
-        CreatedBy INT NULL,
-        CreatedDateTime DATETIME NOT NULL CONSTRAINT DF_tblAddonGroup_CreatedDateTime DEFAULT (GETDATE()),
-        ModifiedBy INT NULL,
-        ModifiedDateTime DATETIME NULL,
+        CreatedBy BIGINT NULL,
+        CreatedDateTime DATETIME2 NOT NULL CONSTRAINT DF_tblAddonGroup_CreatedDateTime DEFAULT (SYSDATETIME()),
+        ModifiedBy BIGINT NULL,
+        ModifiedDateTime DATETIME2 NULL,
         CONSTRAINT CK_tblAddonGroup_SelectionMode CHECK (SelectionMode IN (1,2)),
         CONSTRAINT CK_tblAddonGroup_SelectionRange CHECK
             (MinSelection >= 0 AND MaxSelection >= 1 AND MinSelection <= MaxSelection),
@@ -51,8 +50,8 @@ BEGIN
         ProductId INT NOT NULL,
         DisplayOrder INT NOT NULL CONSTRAINT DF_tblAddonGroupDetail_DisplayOrder DEFAULT (0),
         Status BIT NOT NULL CONSTRAINT DF_tblAddonGroupDetail_Status DEFAULT (1),
-        CreatedBy INT NULL,
-        CreatedDateTime DATETIME NOT NULL CONSTRAINT DF_tblAddonGroupDetail_CreatedDateTime DEFAULT (GETDATE()),
+        CreatedBy BIGINT NULL,
+        CreatedDateTime DATETIME2 NOT NULL CONSTRAINT DF_tblAddonGroupDetail_CreatedDateTime DEFAULT (SYSDATETIME()),
         CONSTRAINT FK_tblAddonGroupDetail_Group FOREIGN KEY (GroupId) REFERENCES dbo.tblAddonGroup(GroupId),
         CONSTRAINT FK_tblAddonGroupDetail_Product FOREIGN KEY (ProductId) REFERENCES dbo.tblProduct(ProductId)
     );
@@ -74,8 +73,8 @@ BEGIN
         BranchId INT NOT NULL,
         DisplayOrder INT NOT NULL CONSTRAINT DF_tblProductAddonGroup_DisplayOrder DEFAULT (0),
         Status BIT NOT NULL CONSTRAINT DF_tblProductAddonGroup_Status DEFAULT (1),
-        CreatedBy INT NULL,
-        CreatedDateTime DATETIME NOT NULL CONSTRAINT DF_tblProductAddonGroup_CreatedDateTime DEFAULT (GETDATE()),
+        CreatedBy BIGINT NULL,
+        CreatedDateTime DATETIME2 NOT NULL CONSTRAINT DF_tblProductAddonGroup_CreatedDateTime DEFAULT (SYSDATETIME()),
         CONSTRAINT FK_tblProductAddonGroup_Product FOREIGN KEY (ProductId) REFERENCES dbo.tblProduct(ProductId),
         CONSTRAINT FK_tblProductAddonGroup_Group FOREIGN KEY (GroupId) REFERENCES dbo.tblAddonGroup(GroupId)
     );
@@ -87,5 +86,134 @@ IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id=OBJECT_ID(N'dbo.tblProd
         ON dbo.tblProductAddonGroup(ProductId, GroupId, BranchId);
 GO
 
-PRINT 'Add-on group schema created/verified.';
+CREATE OR ALTER PROCEDURE dbo.prdInsert_upd_AddonGroup
+    @GroupId INT,
+    @GroupName NVARCHAR(120),
+    @Description NVARCHAR(500) = NULL,
+    @SelectionMode TINYINT,
+    @MinSelection INT,
+    @MaxSelection INT,
+    @IsRequired BIT,
+    @Status BIT,
+    @BranchId INT,
+    @CreatedBy BIGINT,
+    @ModifiedBy BIGINT,
+    @ProductsXml XML
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    IF NULLIF(LTRIM(RTRIM(@GroupName)), '') IS NULL
+        THROW 51101, 'Group name is required.', 1;
+
+    IF @SelectionMode NOT IN (1,2)
+        THROW 51102, 'Selection mode must be Single or Multiple.', 1;
+
+    IF @MinSelection < 0 OR @MaxSelection < 1 OR @MinSelection > @MaxSelection
+        THROW 51103, 'Invalid minimum or maximum selection.', 1;
+
+    IF @SelectionMode = 1 AND @MaxSelection <> 1
+        THROW 51104, 'Single selection groups must have maximum selection 1.', 1;
+
+    IF @IsRequired = 1 AND @MinSelection < 1
+        THROW 51105, 'Required groups must have minimum selection at least 1.', 1;
+
+    IF @ProductsXml IS NULL OR @ProductsXml.exist('/Products/Product[1]') = 0
+        THROW 51106, 'Select at least one product for this group.', 1;
+
+    IF EXISTS
+    (
+        SELECT X.ProductId
+        FROM @ProductsXml.nodes('/Products/Product') AS N(X)
+        CROSS APPLY (SELECT N.X.value('@ProductId','INT') AS ProductId) X
+        GROUP BY X.ProductId
+        HAVING COUNT(1) > 1
+    )
+        THROW 51107, 'Duplicate products are not allowed in a group.', 1;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        DECLARE @SavedGroupId INT;
+
+        IF ISNULL(@GroupId, 0) > 0
+        BEGIN
+            UPDATE dbo.tblAddonGroup
+            SET GroupName = @GroupName,
+                Description = @Description,
+                SelectionMode = @SelectionMode,
+                MinSelection = @MinSelection,
+                MaxSelection = @MaxSelection,
+                IsRequired = @IsRequired,
+                Status = @Status,
+                ModifiedBy = @ModifiedBy,
+                ModifiedDateTime = SYSDATETIME()
+            WHERE GroupId = @GroupId
+              AND BranchId = @BranchId;
+
+            IF @@ROWCOUNT = 0
+                THROW 51108, 'Add-on group not found for this branch.', 1;
+
+            SET @SavedGroupId = @GroupId;
+        END
+        ELSE
+        BEGIN
+            INSERT INTO dbo.tblAddonGroup
+                (GroupName, Description, SelectionMode, MinSelection, MaxSelection,
+                 IsRequired, Status, BranchId, CreatedBy, CreatedDateTime)
+            VALUES
+                (@GroupName, @Description, @SelectionMode, @MinSelection, @MaxSelection,
+                 @IsRequired, @Status, @BranchId, @CreatedBy, SYSDATETIME());
+
+            SET @SavedGroupId = CONVERT(INT, SCOPE_IDENTITY());
+        END;
+
+        -- Synchronize the selected products: remove deselected rows and insert
+        -- new rows while preserving the selected order.
+        DELETE D
+        FROM dbo.tblAddonGroupDetail D
+        WHERE D.GroupId = @SavedGroupId
+          AND NOT EXISTS
+          (
+              SELECT 1
+              FROM @ProductsXml.nodes('/Products/Product') AS N(X)
+              WHERE N.X.value('@ProductId','INT') = D.ProductId
+          );
+
+        UPDATE D
+        SET D.DisplayOrder = N.X.value('@DisplayOrder','INT'),
+            D.Status = 1
+        FROM dbo.tblAddonGroupDetail D
+        INNER JOIN @ProductsXml.nodes('/Products/Product') AS N(X)
+            ON N.X.value('@ProductId','INT') = D.ProductId
+        WHERE D.GroupId = @SavedGroupId;
+
+        INSERT INTO dbo.tblAddonGroupDetail
+            (GroupId, ProductId, DisplayOrder, Status, CreatedBy, CreatedDateTime)
+        SELECT @SavedGroupId,
+               N.X.value('@ProductId','INT'),
+               N.X.value('@DisplayOrder','INT'),
+               1, @CreatedBy, SYSDATETIME()
+        FROM @ProductsXml.nodes('/Products/Product') AS N(X)
+        WHERE NOT EXISTS
+        (
+            SELECT 1 FROM dbo.tblAddonGroupDetail D
+            WHERE D.GroupId = @SavedGroupId
+              AND D.ProductId = N.X.value('@ProductId','INT')
+        );
+
+        COMMIT TRANSACTION;
+
+        SELECT @SavedGroupId AS GroupId;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
+END;
+GO
+
+PRINT 'Add-on group schema and save/update procedure created/verified.';
 GO

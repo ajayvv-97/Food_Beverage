@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Xml.Linq;
 using System.Windows.Forms;
 
 namespace FoodandBeverage.Forms
@@ -31,6 +32,8 @@ namespace FoodandBeverage.Forms
         #endregion
 
         private readonly BllAddonGroup _addonGroupBll = new BllAddonGroup();
+        private readonly BllSearch<DmnAddonGroup> _groupSearch = new BllSearch<DmnAddonGroup>();
+        private readonly BllSearch<DmnAddonGroupProduct> _productSearch = new BllSearch<DmnAddonGroupProduct>();
         private int _selectedGroupId;
         private bool _loading;
 
@@ -101,7 +104,16 @@ namespace FoodandBeverage.Forms
 
         private void LoadGroups()
         {
-            List<DmnAddonGroup> groups = _addonGroupBll.GetGroups(CurrentBranchId, txtsearch_groups.Text.Trim());
+            DmnSearch search = new DmnSearch();
+            search.Select = @"g.GroupId, g.GroupName, ISNULL(g.Description,'') AS Description,
+                g.SelectionMode, g.MinSelection, g.MaxSelection, g.IsRequired, g.Status, g.BranchId,
+                (SELECT COUNT(1) FROM dbo.tblAddonGroupDetail d WHERE d.GroupId=g.GroupId AND d.Status=1) AS ProductCount";
+            search.Table = "dbo.tblAddonGroup g";
+            search.WhereNdGroupBy = "WHERE g.BranchId=" + CurrentBranchId +
+                " AND ('" + txtsearch_groups.Text.Trim().Replace("'", "''") + "'='' OR g.GroupName LIKE '%" +
+                txtsearch_groups.Text.Trim().Replace("'", "''") + "%')";
+            search.OrderBy = "ORDER BY g.GroupName";
+            List<DmnAddonGroup> groups = _groupSearch.GetSearchData("prdComboFill", search);
             flp_groups.SuspendLayout();
             try
             {
@@ -157,7 +169,12 @@ namespace FoodandBeverage.Forms
 
         private void LoadGroup(int groupId)
         {
-            DmnAddonGroup group = _addonGroupBll.GetGroup(groupId, CurrentBranchId);
+            DmnSearch search = new DmnSearch();
+            search.Select = "GroupId, GroupName, ISNULL(Description,'') AS Description, SelectionMode, MinSelection, MaxSelection, IsRequired, Status, BranchId";
+            search.Table = "dbo.tblAddonGroup";
+            search.WhereNdGroupBy = "WHERE GroupId=" + groupId + " AND BranchId=" + CurrentBranchId;
+            search.OrderBy = "";
+            DmnAddonGroup group = _groupSearch.GetSearchData("prdComboFill", search).FirstOrDefault();
             if (group == null)
             {
                 MessageBox.Show("Selected group was not found.", "Add-on Group",
@@ -181,8 +198,14 @@ namespace FoodandBeverage.Forms
                 chk_req_selection.Checked = group.IsRequired;
 
                 dgv_addongroup_products.Rows.Clear();
-                List<DmnAddonGroupProduct> products =
-                    _addonGroupBll.GetGroupProducts(group.GroupId, CurrentBranchId);
+                DmnSearch productSearch = new DmnSearch();
+                productSearch.Select = @"p.ProductId, p.Product AS ProductName, ISNULL(p.ItemCode,'') AS ItemCode,
+                    ISNULL(p.Price,0) AS Price, ISNULL(c.CategoryName,'') AS CategoryName,
+                    d.DisplayOrder, d.GroupId AS AddonGroupID";
+                productSearch.Table = "dbo.tblAddonGroupDetail d INNER JOIN dbo.tblAddonGroup g ON g.GroupId=d.GroupId INNER JOIN dbo.tblProduct p ON p.ProductId=d.ProductId LEFT JOIN dbo.tblCategory_FTI c ON c.Fcid=p.Fcid";
+                productSearch.WhereNdGroupBy = "WHERE d.GroupId=" + group.GroupId + " AND g.BranchId=" + CurrentBranchId + " AND d.Status=1 AND p.Status=1";
+                productSearch.OrderBy = "ORDER BY d.DisplayOrder, p.Product";
+                List<DmnAddonGroupProduct> products = new BllSearch<DmnAddonGroupProduct>().GetSearchData("prdComboFill", productSearch);
 
                 foreach (DmnAddonGroupProduct product in products)
                     AddSelectedProduct(product, false);
@@ -201,8 +224,16 @@ namespace FoodandBeverage.Forms
                 return;
 
             int categoryType = cmb_categtype.SelectedIndex;
-            List<DmnAddonGroupProduct> products = _addonGroupBll.SearchProducts(
-                CurrentBranchId, categoryType, txtsearch_products.Text.Trim());
+            string searchText = txtsearch_products.Text.Trim().Replace("'", "''");
+            DmnSearch productSearch = new DmnSearch();
+            productSearch.Select = @"p.ProductId, p.Product AS ProductName, ISNULL(p.ItemCode,'') AS ItemCode,
+                ISNULL(p.Price,0) AS Price, ISNULL(c.CategoryName,'') AS CategoryName";
+            productSearch.Table = "dbo.tblProduct p LEFT JOIN dbo.tblCategory_FTI c ON c.Fcid=p.Fcid";
+            productSearch.WhereNdGroupBy = "WHERE p.BranchId=" + CurrentBranchId + " AND p.Status=1 AND ISNULL(c.CategoryType,0)=" +
+                categoryType + " AND ('" + searchText + "'='' OR p.Product LIKE '%" + searchText +
+                "%' OR ISNULL(p.ItemCode,'') LIKE '%" + searchText + "%')";
+            productSearch.OrderBy = "ORDER BY p.Product";
+            List<DmnAddonGroupProduct> products = _productSearch.GetSearchData("prdComboFill", productSearch);
 
             dgv_products.Rows.Clear();
             int rowNumber = 1;
@@ -360,7 +391,15 @@ namespace FoodandBeverage.Forms
                     ModifiedBy = CurrentEmployeeId
                 };
 
-                int savedGroupId = _addonGroupBll.SaveGroup(group, CollectSelectedProducts());
+                XElement productsXml = new XElement("Products",
+                    CollectSelectedProducts().Select(p => new XElement("Product",
+                        new XAttribute("ProductId", p.ProductId),
+                        new XAttribute("DisplayOrder", p.DisplayOrder))));
+                group.ProductsXml = productsXml.ToString(SaveOptions.DisableFormatting);
+                DmnAddonGroup savedGroup = _addonGroupBll.AddEditData("prdInsert_upd_AddonGroup", group);
+                if (savedGroup == null || savedGroup.GroupId <= 0)
+                    throw new InvalidOperationException("Add-on group could not be saved.");
+                int savedGroupId = savedGroup.GroupId;
                 _selectedGroupId = savedGroupId;
                 LoadGroups();
                 LoadGroup(savedGroupId);
