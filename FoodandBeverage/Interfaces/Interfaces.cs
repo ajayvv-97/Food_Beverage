@@ -127,7 +127,8 @@ namespace FoodandBeverage.Interfaces
         Keypad = 39,
         InventoryManagement=40,
         InventoryApprovals=41,
-        productExportImport=42
+        productExportImport = 42,
+        AddonGroup = 43
     };
     public enum DashboardTableType
     {

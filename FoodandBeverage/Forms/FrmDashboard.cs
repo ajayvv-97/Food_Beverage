@@ -3247,6 +3247,11 @@ namespace FoodandBeverage.Forms
                             ibrequestapproval.Visible = true;
                             Menuoperation.Visible = true;
                         }
+                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.AddonGroup) && gridesource[i].Write == 1)
+                        {
+                            ib_addon.Visible = true;
+                            Menuoperation.Visible = true;
+                        }
                         #endregion
 
                         #region Employee Buttons
@@ -7467,6 +7472,36 @@ namespace FoodandBeverage.Forms
                 clsgen.LogException("homepage page Taxfill()", ex,
                     FrmLogin.EmployeName, FrmLogin.Designation,
                     Convert.ToInt32(FormType.homepage));
+            }
+        }
+
+        private void ib_addongroup_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrepareForSideMenuNavigation();
+                if (System.Windows.Forms.Application.OpenForms["FrmAddonGroup"] != null)
+                {
+                    FrmAddonGroup _instanceFrmAddonGroup = Application.OpenForms["FrmAddonGroup"] as FrmAddonGroup;
+                    if (_instanceFrmAddonGroup.WindowState == FormWindowState.Minimized)
+                        _instanceFrmAddonGroup.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                    else
+                    {
+                        _instanceFrmAddonGroup.Dock = DockStyle.None;
+                        ResizeForm(_instanceFrmAddonGroup);
+                        panelDesktop.Controls.Add(_instanceFrmAddonGroup);
+                        _instanceFrmAddonGroup.Show();
+                        _instanceFrmAddonGroup.BringToFront();
+                    }
+                }
+                else
+                {
+                    OpenFullSizeDashboardDialog(new FrmAddonGroup());
+                }
+            }
+            catch (Exception ex)
+            {
+                clsgen.LogException("Homepage ib_addongroup_Click()", ex, FrmLogin.EmployeName, FrmLogin.Designation, Convert.ToInt32(FormType.homepage));
             }
         }
 
