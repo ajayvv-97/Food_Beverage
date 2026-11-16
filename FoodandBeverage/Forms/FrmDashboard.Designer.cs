@@ -110,6 +110,12 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel48 = new System.Windows.Forms.TableLayoutPanel();
             this.chk_partybook_KOT = new System.Windows.Forms.CheckBox();
             this.label61 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel49 = new System.Windows.Forms.TableLayoutPanel();
+            this.cmb_pickup_takeaway = new System.Windows.Forms.ComboBox();
+            this.label66 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel50 = new System.Windows.Forms.TableLayoutPanel();
+            this.chk_kitchen_KOTonly = new System.Windows.Forms.CheckBox();
+            this.label69 = new System.Windows.Forms.Label();
             this.tlp_secondpage = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel43 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_packingtax = new System.Windows.Forms.Button();
@@ -461,12 +467,6 @@ namespace FoodandBeverage.Forms
             this.cmbIgstPrcnt = new System.Windows.Forms.ComboBox();
             this.pnl_kitchenorderBill = new System.Windows.Forms.Panel();
             this.crvkitchenbill = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
-            this.tableLayoutPanel49 = new System.Windows.Forms.TableLayoutPanel();
-            this.label66 = new System.Windows.Forms.Label();
-            this.cmb_pickup_takeaway = new System.Windows.Forms.ComboBox();
-            this.tableLayoutPanel50 = new System.Windows.Forms.TableLayoutPanel();
-            this.chk_kitchen_KOTonly = new System.Windows.Forms.CheckBox();
-            this.label69 = new System.Windows.Forms.Label();
             this.pnl_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_appicon)).BeginInit();
             this.pnl_hidecntrl.SuspendLayout();
@@ -499,6 +499,8 @@ namespace FoodandBeverage.Forms
             this.pnl_gen_main.SuspendLayout();
             this.tlp_thridpage.SuspendLayout();
             this.tableLayoutPanel48.SuspendLayout();
+            this.tableLayoutPanel49.SuspendLayout();
+            this.tableLayoutPanel50.SuspendLayout();
             this.tlp_secondpage.SuspendLayout();
             this.tableLayoutPanel43.SuspendLayout();
             this.tlp_midaspay_keypad.SuspendLayout();
@@ -576,8 +578,6 @@ namespace FoodandBeverage.Forms
             this.tableLayoutPanel47.SuspendLayout();
             this.pnl_controls.SuspendLayout();
             this.pnl_kitchenorderBill.SuspendLayout();
-            this.tableLayoutPanel49.SuspendLayout();
-            this.tableLayoutPanel50.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_header
@@ -1102,7 +1102,7 @@ namespace FoodandBeverage.Forms
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.77076F));
             this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.22924F));
-            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 227F));
+            this.tbl_Sub.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 228F));
             this.tbl_Sub.Controls.Add(this.txtgid, 3, 1);
             this.tbl_Sub.Controls.Add(this.txtimgpath, 3, 0);
             this.tbl_Sub.Controls.Add(this.label46, 1, 2);
@@ -1124,7 +1124,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtgid
             // 
-            this.txtgid.Location = new System.Drawing.Point(345, 47);
+            this.txtgid.Location = new System.Drawing.Point(344, 47);
             this.txtgid.Name = "txtgid";
             this.txtgid.Size = new System.Drawing.Size(20, 20);
             this.txtgid.TabIndex = 220;
@@ -1133,7 +1133,7 @@ namespace FoodandBeverage.Forms
             // 
             // txtimgpath
             // 
-            this.txtimgpath.Location = new System.Drawing.Point(345, 3);
+            this.txtimgpath.Location = new System.Drawing.Point(344, 3);
             this.txtimgpath.Name = "txtimgpath";
             this.txtimgpath.Size = new System.Drawing.Size(20, 20);
             this.txtimgpath.TabIndex = 221;
@@ -1147,7 +1147,7 @@ namespace FoodandBeverage.Forms
             this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label46.Location = new System.Drawing.Point(27, 88);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(124, 44);
+            this.label46.Size = new System.Drawing.Size(123, 44);
             this.label46.TabIndex = 260;
             this.label46.Text = "Bill Footer Content (Arabic)";
             this.label46.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1159,7 +1159,7 @@ namespace FoodandBeverage.Forms
             this.label47.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label47.Location = new System.Drawing.Point(27, 44);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(124, 44);
+            this.label47.Size = new System.Drawing.Size(123, 44);
             this.label47.TabIndex = 258;
             this.label47.Text = "Company Address (Arabic)";
             this.label47.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1171,7 +1171,7 @@ namespace FoodandBeverage.Forms
             this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label48.Location = new System.Drawing.Point(27, 0);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(124, 44);
+            this.label48.Size = new System.Drawing.Size(123, 44);
             this.label48.TabIndex = 0;
             this.label48.Text = "Company Name (Arabic)";
             this.label48.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1180,7 +1180,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_cmpname.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpname.Location = new System.Drawing.Point(157, 3);
+            this.txt_cmpname.Location = new System.Drawing.Point(156, 3);
             this.txt_cmpname.Multiline = true;
             this.txt_cmpname.Name = "txt_cmpname";
             this.txt_cmpname.Size = new System.Drawing.Size(182, 38);
@@ -1190,7 +1190,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_cmpaddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_cmpaddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_cmpaddress.Location = new System.Drawing.Point(157, 47);
+            this.txt_cmpaddress.Location = new System.Drawing.Point(156, 47);
             this.txt_cmpaddress.Multiline = true;
             this.txt_cmpaddress.Name = "txt_cmpaddress";
             this.txt_cmpaddress.Size = new System.Drawing.Size(182, 38);
@@ -1200,7 +1200,7 @@ namespace FoodandBeverage.Forms
             // 
             this.txt_footer_lang.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_footer_lang.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.txt_footer_lang.Location = new System.Drawing.Point(157, 91);
+            this.txt_footer_lang.Location = new System.Drawing.Point(156, 91);
             this.txt_footer_lang.Multiline = true;
             this.txt_footer_lang.Name = "txt_footer_lang";
             this.txt_footer_lang.Size = new System.Drawing.Size(182, 38);
@@ -1652,6 +1652,88 @@ namespace FoodandBeverage.Forms
             this.label61.Text = "Party Booking KOT Enable";
             this.label61.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tableLayoutPanel49
+            // 
+            this.tableLayoutPanel49.ColumnCount = 2;
+            this.tableLayoutPanel49.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.26316F));
+            this.tableLayoutPanel49.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.73684F));
+            this.tableLayoutPanel49.Controls.Add(this.cmb_pickup_takeaway, 0, 0);
+            this.tableLayoutPanel49.Controls.Add(this.label66, 0, 0);
+            this.tableLayoutPanel49.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel49.Location = new System.Drawing.Point(4, 55);
+            this.tableLayoutPanel49.Name = "tableLayoutPanel49";
+            this.tableLayoutPanel49.RowCount = 1;
+            this.tableLayoutPanel49.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel49.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel49.Size = new System.Drawing.Size(475, 33);
+            this.tableLayoutPanel49.TabIndex = 284;
+            // 
+            // cmb_pickup_takeaway
+            // 
+            this.cmb_pickup_takeaway.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
+            this.cmb_pickup_takeaway.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmb_pickup_takeaway.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_pickup_takeaway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmb_pickup_takeaway.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
+            this.cmb_pickup_takeaway.FormattingEnabled = true;
+            this.cmb_pickup_takeaway.Items.AddRange(new object[] {
+            "Combined Token",
+            "Seperate  Token"});
+            this.cmb_pickup_takeaway.Location = new System.Drawing.Point(294, 3);
+            this.cmb_pickup_takeaway.Name = "cmb_pickup_takeaway";
+            this.cmb_pickup_takeaway.Size = new System.Drawing.Size(178, 28);
+            this.cmb_pickup_takeaway.TabIndex = 20;
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label66.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label66.Location = new System.Drawing.Point(3, 0);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(285, 34);
+            this.label66.TabIndex = 19;
+            this.label66.Text = "Pickup / Takeaway Token System";
+            this.label66.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel50
+            // 
+            this.tableLayoutPanel50.ColumnCount = 2;
+            this.tableLayoutPanel50.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.95901F));
+            this.tableLayoutPanel50.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.04098F));
+            this.tableLayoutPanel50.Controls.Add(this.chk_kitchen_KOTonly, 1, 0);
+            this.tableLayoutPanel50.Controls.Add(this.label69, 0, 0);
+            this.tableLayoutPanel50.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel50.Location = new System.Drawing.Point(4, 95);
+            this.tableLayoutPanel50.Name = "tableLayoutPanel50";
+            this.tableLayoutPanel50.RowCount = 1;
+            this.tableLayoutPanel50.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel50.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel50.Size = new System.Drawing.Size(475, 32);
+            this.tableLayoutPanel50.TabIndex = 285;
+            // 
+            // chk_kitchen_KOTonly
+            // 
+            this.chk_kitchen_KOTonly.AutoSize = true;
+            this.chk_kitchen_KOTonly.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chk_kitchen_KOTonly.Location = new System.Drawing.Point(430, 3);
+            this.chk_kitchen_KOTonly.Name = "chk_kitchen_KOTonly";
+            this.chk_kitchen_KOTonly.Size = new System.Drawing.Size(42, 26);
+            this.chk_kitchen_KOTonly.TabIndex = 1;
+            this.chk_kitchen_KOTonly.UseVisualStyleBackColor = true;
+            // 
+            // label69
+            // 
+            this.label69.AutoSize = true;
+            this.label69.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label69.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label69.Location = new System.Drawing.Point(3, 0);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(421, 32);
+            this.label69.TabIndex = 19;
+            this.label69.Text = "Kitchen KOT Print Only (No start /Ready)";
+            this.label69.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // tlp_secondpage
             // 
             this.tlp_secondpage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(220)))), ((int)(((byte)(244)))));
@@ -1774,7 +1856,7 @@ namespace FoodandBeverage.Forms
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.85714F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.09824F));
             this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.10579F));
-            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 267F));
+            this.tlp_autologout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 268F));
             this.tlp_autologout.Controls.Add(this.label56, 0, 0);
             this.tlp_autologout.Controls.Add(this.rtb_logouttime, 1, 0);
             this.tlp_autologout.Controls.Add(this.txtlogouttime, 2, 0);
@@ -1794,7 +1876,7 @@ namespace FoodandBeverage.Forms
             this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label56.Location = new System.Drawing.Point(3, 0);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(145, 39);
+            this.label56.Size = new System.Drawing.Size(144, 39);
             this.label56.TabIndex = 7;
             this.label56.Text = "Auto Logout When Idle";
             this.label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1803,7 +1885,7 @@ namespace FoodandBeverage.Forms
             // 
             this.rtb_logouttime.AutoSize = true;
             this.rtb_logouttime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtb_logouttime.Location = new System.Drawing.Point(154, 3);
+            this.rtb_logouttime.Location = new System.Drawing.Point(153, 3);
             this.rtb_logouttime.Name = "rtb_logouttime";
             this.rtb_logouttime.Size = new System.Drawing.Size(21, 33);
             this.rtb_logouttime.TabIndex = 0;
@@ -1813,7 +1895,7 @@ namespace FoodandBeverage.Forms
             // txtlogouttime
             // 
             this.txtlogouttime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtlogouttime.Location = new System.Drawing.Point(181, 3);
+            this.txtlogouttime.Location = new System.Drawing.Point(180, 3);
             this.txtlogouttime.Multiline = true;
             this.txtlogouttime.Name = "txtlogouttime";
             this.txtlogouttime.Size = new System.Drawing.Size(23, 20);
@@ -1832,7 +1914,7 @@ namespace FoodandBeverage.Forms
             this.btn_adv_idlelogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_adv_idlelogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_adv_idlelogout.ForeColor = System.Drawing.Color.White;
-            this.btn_adv_idlelogout.Location = new System.Drawing.Point(210, 3);
+            this.btn_adv_idlelogout.Location = new System.Drawing.Point(209, 3);
             this.btn_adv_idlelogout.Name = "btn_adv_idlelogout";
             this.btn_adv_idlelogout.Size = new System.Drawing.Size(72, 23);
             this.btn_adv_idlelogout.TabIndex = 10;
@@ -6825,88 +6907,6 @@ namespace FoodandBeverage.Forms
             this.crvkitchenbill.TabIndex = 0;
             this.crvkitchenbill.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 
-            // tableLayoutPanel49
-            // 
-            this.tableLayoutPanel49.ColumnCount = 2;
-            this.tableLayoutPanel49.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.26316F));
-            this.tableLayoutPanel49.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.73684F));
-            this.tableLayoutPanel49.Controls.Add(this.cmb_pickup_takeaway, 0, 0);
-            this.tableLayoutPanel49.Controls.Add(this.label66, 0, 0);
-            this.tableLayoutPanel49.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel49.Location = new System.Drawing.Point(4, 55);
-            this.tableLayoutPanel49.Name = "tableLayoutPanel49";
-            this.tableLayoutPanel49.RowCount = 1;
-            this.tableLayoutPanel49.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel49.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tableLayoutPanel49.Size = new System.Drawing.Size(475, 33);
-            this.tableLayoutPanel49.TabIndex = 284;
-            // 
-            // label66
-            // 
-            this.label66.AutoSize = true;
-            this.label66.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label66.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label66.Location = new System.Drawing.Point(3, 0);
-            this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(284, 34);
-            this.label66.TabIndex = 19;
-            this.label66.Text = "Pickup / Takeaway Token System";
-            this.label66.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cmb_pickup_takeaway
-            // 
-            this.cmb_pickup_takeaway.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(209)))), ((int)(((byte)(234)))));
-            this.cmb_pickup_takeaway.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmb_pickup_takeaway.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmb_pickup_takeaway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmb_pickup_takeaway.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
-            this.cmb_pickup_takeaway.FormattingEnabled = true;
-            this.cmb_pickup_takeaway.Items.AddRange(new object[] {
-            "Combined Token",
-            "Seperate  Token"});
-            this.cmb_pickup_takeaway.Location = new System.Drawing.Point(293, 3);
-            this.cmb_pickup_takeaway.Name = "cmb_pickup_takeaway";
-            this.cmb_pickup_takeaway.Size = new System.Drawing.Size(179, 28);
-            this.cmb_pickup_takeaway.TabIndex = 20;
-            // 
-            // tableLayoutPanel50
-            // 
-            this.tableLayoutPanel50.ColumnCount = 2;
-            this.tableLayoutPanel50.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.95901F));
-            this.tableLayoutPanel50.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.04098F));
-            this.tableLayoutPanel50.Controls.Add(this.chk_kitchen_KOTonly, 1, 0);
-            this.tableLayoutPanel50.Controls.Add(this.label69, 0, 0);
-            this.tableLayoutPanel50.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel50.Location = new System.Drawing.Point(4, 95);
-            this.tableLayoutPanel50.Name = "tableLayoutPanel50";
-            this.tableLayoutPanel50.RowCount = 1;
-            this.tableLayoutPanel50.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel50.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tableLayoutPanel50.Size = new System.Drawing.Size(475, 32);
-            this.tableLayoutPanel50.TabIndex = 285;
-            // 
-            // chk_kitchen_KOTonly
-            // 
-            this.chk_kitchen_KOTonly.AutoSize = true;
-            this.chk_kitchen_KOTonly.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chk_kitchen_KOTonly.Location = new System.Drawing.Point(430, 3);
-            this.chk_kitchen_KOTonly.Name = "chk_kitchen_KOTonly";
-            this.chk_kitchen_KOTonly.Size = new System.Drawing.Size(42, 26);
-            this.chk_kitchen_KOTonly.TabIndex = 1;
-            this.chk_kitchen_KOTonly.UseVisualStyleBackColor = true;
-            // 
-            // label69
-            // 
-            this.label69.AutoSize = true;
-            this.label69.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label69.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label69.Location = new System.Drawing.Point(3, 0);
-            this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(421, 32);
-            this.label69.TabIndex = 19;
-            this.label69.Text = "Kitchen KOT Print Only (No start /Ready)";
-            this.label69.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // FrmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6982,6 +6982,10 @@ namespace FoodandBeverage.Forms
             this.tlp_thridpage.ResumeLayout(false);
             this.tableLayoutPanel48.ResumeLayout(false);
             this.tableLayoutPanel48.PerformLayout();
+            this.tableLayoutPanel49.ResumeLayout(false);
+            this.tableLayoutPanel49.PerformLayout();
+            this.tableLayoutPanel50.ResumeLayout(false);
+            this.tableLayoutPanel50.PerformLayout();
             this.tlp_secondpage.ResumeLayout(false);
             this.tableLayoutPanel43.ResumeLayout(false);
             this.tableLayoutPanel43.PerformLayout();
@@ -7106,10 +7110,6 @@ namespace FoodandBeverage.Forms
             this.pnl_controls.ResumeLayout(false);
             this.pnl_controls.PerformLayout();
             this.pnl_kitchenorderBill.ResumeLayout(false);
-            this.tableLayoutPanel49.ResumeLayout(false);
-            this.tableLayoutPanel49.PerformLayout();
-            this.tableLayoutPanel50.ResumeLayout(false);
-            this.tableLayoutPanel50.PerformLayout();
             this.ResumeLayout(false);
 
         }
