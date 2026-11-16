@@ -16,6 +16,8 @@ namespace Domain
         public long CreatedBy { get; set; }
         public long ModifiedBy { get; set; }
         public int ProductCount { get; set; }
+        // Kept for compatibility with any existing caller still using XML-based save.
+        public string ProductsXml { get; set; }
     }
 
     public class DmnAddonGroupDetail
