@@ -3157,11 +3157,11 @@ namespace FoodandBeverage.Forms
                             ib_unit.Visible = true;
                             Menuoperation.Visible = true;
                         }
-                        else if (gridesource[i].Form == Convert.ToInt32(formsenum.UnitConversion) && gridesource[i].Write == 1)
-                        {
-                            ib_unitConversion.Visible = true;
-                            Menuoperation.Visible = true;
-                        }
+                        //else if (gridesource[i].Form == Convert.ToInt32(formsenum.UnitConversion) && gridesource[i].Write == 1)
+                        //{
+                        //    ib_unitConversion.Visible = true;
+                        //    Menuoperation.Visible = true;
+                        //}
                         else if (gridesource[i].Form == Convert.ToInt32(formsenum.Table) && gridesource[i].Write == 1)
                         {
                             ib_table.Visible = true;
@@ -3249,7 +3249,7 @@ namespace FoodandBeverage.Forms
                         }
                         else if (gridesource[i].Form == Convert.ToInt32(formsenum.AddonGroup) && gridesource[i].Write == 1)
                         {
-                            ib_addon.Visible = true;
+                            ib_addongroup.Visible = true;
                             Menuoperation.Visible = true;
                         }
                         #endregion

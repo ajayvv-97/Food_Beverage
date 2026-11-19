@@ -2316,6 +2316,8 @@
     <None Include="Resources\Invapp_OpenRequest.png" />
     <None Include="Resources\Invapp_Status_Approved.png" />
     <None Include="Resources\Invapp_Status_Rejected.png" />
+    <None Include="Resources\Add_to_Group.png" />
+    <None Include="Resources\addonSearch.png" />
     <Content Include="Resources\KOT_ChefHat.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2337,6 +2339,7 @@
     <None Include="Resources\pro_ingredients.png" />
     <None Include="Resources\pro_other_settings.png" />
     <None Include="Resources\pro_variation.png" />
+    <None Include="Resources\New_Group.png" />
     <Content Include="RestaurantLogo.ico" />
     <Content Include="RestaurantLogo_256.ico" />
     <None Include="Resources\Loginbox.png" />

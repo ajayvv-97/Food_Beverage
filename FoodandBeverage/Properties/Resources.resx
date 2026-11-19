@@ -1576,4 +1576,13 @@
   <data name="pro_variation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pro_variation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="addonSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\addonSearch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Add_to_Group" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Add_to_Group.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="New_Group" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\New_Group.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
